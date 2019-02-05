@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gep-dev-system-entry
+  namespace: gep-dev-201902
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gep-dev-system-entry
+    spec:
+      containers:
+        - name: nginx-container
+          imagePullPolicy: IfNotPresent
+          image: ram2010/gep-dev-grapesjs:1.0
+          ports:
+            - name: http-port
+              containerPort: 80
