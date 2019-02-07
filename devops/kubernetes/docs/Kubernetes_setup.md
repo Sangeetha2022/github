@@ -6,7 +6,7 @@
 # Content
 1. [Prerequisites](#prerequisites)
 1. [Kubernetes Setup](#kubernetes-setup)
-1. [Local Pods Setup](https://github.com/TharaniRajan/Geppetto-local-K8s/blob/master/docs/local_pods.md)
+1. [Local Pods Setup](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/docs/local_pods.md)
 
 
 # Prerequisites<br/> 
