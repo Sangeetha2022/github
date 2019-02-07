@@ -1,0 +1,29 @@
+﻿{
+    "application_title": "Geppetto Builder",
+    "create_project": "Create project",
+    "name":"Name",
+    "label":"Label",
+    "app_context":"App Context",
+    "description":"Description",
+    "primary_language":"Prmiary Language",
+    "secondary_language":"Secondary Language",
+    "cancel":"Cancel",
+    "create":"Create",
+    "placeholder_name":"Enter Name",
+    "placeholder_appContext":"Enter App Context",
+    "placeholder_description":"Enter Description",
+    "select_primary":"select primary language",   
+    "select_secondary":"select secondary language",
+    "require_name":"Name is required", 
+    "require_label":"Label is required", 
+    "require_primaryLanguage":"Primary language is required", 
+    "require_secondaryLanguage":"Secondary language is required",
+    "require_appContext":"App Context is required",
+    "require_description":"description is required",
+    "placeholder_label":"Enter Label",
+    "_languages": {
+        "en": "English",
+        "ta": "தமிழ்",
+        "es": "Español"
+    }
+}

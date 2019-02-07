@@ -1,0 +1,162 @@
+<div class="container-fluid">
+  <h1 style="text-align: center;"> <u>Flow Manager</u> </h1>
+  <div class="row row-button">
+    <button mat-raised-button color="primary" (click)=openAddModal()>Create</button>
+    <button mat-raised-button>Update</button>
+    <button mat-raised-button color="warn">Delete</button>
+  </div>
+
+  <div class="col-md-12" style="margin-top: 50px">
+    <div>
+      <button class="btn btn-primary" [routerLink]="['/flow-manager']">Back</button>
+      <label>Selected Flow:</label>
+      <span>{{message}}</span>
+    </div>
+
+    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
+      [animateRows]="true" class="ag-theme-balham" [columnDefs]="columnDefs" [rowData]="data" [rowSelection]="rowSelection"
+      (selectionChanged)="onSelectionChange()" (gridReady)="onGridReady($event)"></ag-grid-angular>
+  </div>
+
+  <div *ngIf="showMicroFlow" style="padding:100px">
+    <div class="row row-button">
+      <button mat-raised-button color="primary" (click)=openAddMFModal()>Create</button>
+      <button mat-raised-button>Update</button>
+      <button mat-raised-button color="warn">Delete</button>
+    </div>
+    <div class="row">
+
+      <div class="col-md-12">
+        <div *ngIf="showMicroFlow">
+          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
+            [animateRows]="true" class="ag-theme-balham" [columnDefs]="microColDef" [rowData]="microFlow" (gridReady)="onGridMicroFlowReady($event)"></ag-grid-angular>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addModel}">
+  <div class="modal-dialog modal-md" role="dialog">
+    <div class="modal-content">
+      <div class="container">
+        <form class="m-3" [formGroup]="createFlowForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">{{ 'name' | i18next }}</label>
+                <input type="text" class="form-control" placeholder="{{'placeholder_name' | i18next}}" id="name"
+                  formControlName="name" [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
+                <div *ngIf="submitted && form_control.name.errors" class="invalid-feedback">
+                  <div *ngIf="form_control.name.errors.required">{{'require_name' | i18next}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="label">{{ 'label' | i18next }}</label>
+                <input type="text" class="form-control" placeholder="{{'placeholder_label' | i18next}}" id="label"
+                  formControlName="label" [ngClass]="{ 'is-invalid': submitted && form_control.label.errors }">
+                <div *ngIf="submitted && form_control.label.errors" class="invalid-feedback">
+                  <div *ngIf="form_control.label.errors.required">{{'require_label' | i18next}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="description">{{ 'description' | i18next }}</label>
+                <textarea class="form-control" rows="1" id="description" placeholder="{{'placeholder_description' | i18next}}"
+                  formControlName="description" [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }"></textarea>
+                <div *ngIf="submitted && form_control.description.errors" class="invalid-feedback">
+                  <div *ngIf="form_control.description.errors.required">{{'require_description' | i18next}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="action">Action</label>
+                <input type="text" class="form-control" placeholder="enter your action" id="action" formControlName="action_on_data"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.action_on_data.errors }">
+                <div *ngIf="submitted && form_control.action_on_data.errors" class="invalid-feedback">
+                  <div *ngIf="form_control.action_on_data.errors.required">should not be empty</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group">
+          <button type="button" class="btn button-create" (click)="createFlowModel()">{{ 'create' | i18next }}</button>
+          <button type="button" class="btn button-close" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addMFModel}">
+  <div class="modal-dialog modal-md" role="dialog">
+    <div class="modal-content">
+      <div class="container">
+        Add Sequence for : {{selectedFlow[0]?.component_name}}
+        <form class="m-3" [formGroup]="createMFlowForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">{{ 'name' | i18next }}</label>
+                <input type="text" class="form-control" placeholder="{{'placeholder_name' | i18next}}" id="name"
+                  formControlName="name" [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
+                <div *ngIf="submitted && form_control.name.errors" class="invalid-feedback">
+                  <div *ngIf="form_control.name.errors.required">{{'require_name' | i18next}}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="label">{{ 'label' | i18next }}</label>
+                <input type="text" class="form-control" placeholder="{{'placeholder_label' | i18next}}" id="label"
+                  formControlName="label" [ngClass]="{ 'is-invalid': submitted && form_control.label.errors }">
+                <div *ngIf="submitted && form_control.label.errors" class="invalid-feedback">
+                  <div *ngIf="form_control.label.errors.required">{{'require_label' | i18next}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="description">{{ 'description' | i18next }}</label>
+                <textarea class="form-control" rows="1" id="description" placeholder="{{'placeholder_description' | i18next}}"
+                  formControlName="description" [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }"></textarea>
+                <div *ngIf="submitted && form_control.description.errors" class="invalid-feedback">
+                  <div *ngIf="form_control.description.errors.required">{{'require_description' | i18next}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="action">Action</label>
+                <input type="text" class="form-control" placeholder="enter your action" id="action" formControlName="action_on_data"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.action_on_data.errors }">
+                <div *ngIf="submitted && form_control.action_on_data.errors" class="invalid-feedback">
+                  <div *ngIf="form_control.action_on_data.errors.required">should not be empty</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group">
+          <button type="button" class="btn button-create" (click)="createFlowModel()">{{ 'create' | i18next }}</button>
+          <button type="button" class="btn button-close" (click)="onCloseMFHandled()">{{ 'cancel' | i18next }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
