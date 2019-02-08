@@ -1,0 +1,114 @@
+{
+  "microflow": [
+    {
+      "sequence_id": 1,
+      "component_name": "GpExpressController",
+      "micro_flow_step_name": "GpStart"
+    },
+    {
+      "sequence_id": 2,
+      "component_name": "GpExpressController",
+      "micro_flow_step_name": "GpVariable_statement"
+    },
+    {
+      "sequence_id": 3,
+      "component_name": "GpExpressController",
+      "micro_flow_step_name": "GpService_call"
+    },
+    {
+      "sequence_id": 4,
+      "component_name": "GpExpressController",
+      "micro_flow_step_name": "GpReturn"
+    },
+    {
+      "sequence_id": 5,
+      "component_name": "GpExpressController",
+      "micro_flow_step_name": "GpEnd"
+    },
+    {
+      "sequence_id": 1,
+      "component_name": "GpExpressService",
+      "micro_flow_step_name": "GpStart"      
+    },
+    {
+      "sequence_id": 2,
+      "component_name": "GpExpressService",
+      "micro_flow_step_name": "GpDaoCall"      
+    },
+    {
+      "sequence_id": 3,
+      "component_name": "GpExpressService",
+      "micro_flow_step_name": "GpReturn"
+    },
+    {
+      "sequence_id": 4,
+      "component_name": "GpExpressService",
+      "micro_flow_step_name": "GpEnd"
+    },
+    {
+      "sequence_id": 1,
+      "component_name": "GpExpressDao",
+      "micro_flow_step_name": "GpStart"
+    },
+    {
+      "sequence_id": 2,
+      "component_name": "GpExpressDao",
+      "micro_flow_step_name": "GpVerbKey"
+    },
+    {
+      "sequence_id": 3,
+      "component_name": "GpExpressDao",
+      "micro_flow_step_name": "GpSqlQuery"
+    },
+    {
+      "sequence_id": 4,
+      "component_name": "GpExpressDao",
+      "micro_flow_step_name": "GpReturn"
+    },
+    {
+      "component_name": "GpExpressDao",
+      "micro_flow_step_name": "GpEnd",
+      "sequence_id": 5
+    },
+    {
+      "component_name": "GpAngularComponent",
+      "micro_flow_step_name": "GpHeaders",
+      "sequence_id": 1
+    },
+    {
+      "component_name": "GpAngularComponent",
+      "micro_flow_step_name": "GpOptons",
+      "sequence_id": 2
+    },
+    {
+      "component_name": "GpAngularComponent",
+      "micro_flow_step_name": "GpCodeToAdd",
+      "sequence_id": 3
+    },
+    {
+      "component_name": "GpAngularComponent",
+      "micro_flow_step_name": "GpRequest",
+      "sequence_id": 4      
+    },
+    {
+      "component_name": "GpAngularService",
+      "micro_flow_step_name": "GpHeaders",
+      "sequence_id": 1      
+    },
+    {
+      "component_name": "GpAngularService",
+      "micro_flow_step_name": "GpOptons",
+      "sequence_id": 2
+    },
+    {
+      "component_name": "GpAngularService",
+      "micro_flow_step_name": "GpCodeToAdd",
+      "sequence_id": 3
+    },
+    {
+      "component_name": "GpAngularService",
+      "micro_flow_step_name": "GpRequest",
+      "sequence_id": 4
+    }
+  ]
+}

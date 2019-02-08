@@ -1,0 +1,49 @@
+{
+    "flow_components": [
+        {
+            "name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application"
+        },
+        {
+            "name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application"
+        },
+        {
+            "name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application"
+        },
+        {
+            "name": "GpAngularComponent",
+            "label": "angular 7 component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop"
+        },
+        {
+            "name": "GpAngularService",
+            "label": "angular 7 service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop"
+        }
+    ]
+}

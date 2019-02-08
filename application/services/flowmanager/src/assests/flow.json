@@ -1,0 +1,144 @@
+{
+    "flow": [
+        {
+            "name": "GpCreate",
+            "label": "Save",
+            "description": "creates a noun",
+            "action_on_data": "GpCreate",
+            "create_with_default_activity": 1
+        },
+        {
+            "name": "GpUpdate",
+            "label": "Update",
+            "description": "updates a noun",
+            "action_on_data": "GpUpdate",
+            "create_with_default_activity": 1
+        },
+        {
+            "name": "GpDelete",
+            "label": "Delete",
+            "description": "deletes a noun",
+            "action_on_data": "GpDelete",
+            "create_with_default_activity": 1
+        },
+        {
+            "name": "GpSearch",
+            "label": "Search",
+            "description": "searches a noun",
+            "action_on_data": "GpSearch",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpSearchForUpdate",
+            "label": "Search for update",
+            "description": "special search for locking a noun",
+            "action_on_data": "GpSearchForUpdate",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpGetAllValues",
+            "label": "Get All Records",
+            "description": "special search that gets all values",
+            "action_on_data": "GpGetAllValues",
+            "create_with_default_activity": 1
+        },
+        {
+            "name": "GpGetNounById",
+            "label": "Gets by ID",
+            "description": "special search that fetches one value",
+            "action_on_data": "GpGetNounById",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpCustom",
+            "label": "Custom Verb",
+            "description": "user defined verb",
+            "action_on_data": "GpCustom",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpGetNounByParentId",
+            "label": "Get by parent id",
+            "description": "get noun by parent id",
+            "action_on_data": "GpGetNounByParentId",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpDeleteByParentId",
+            "label": "Delete by parent id",
+            "description": "delete noun by parent id",
+            "action_on_data": "GpDeleteByParentId",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpTakePhoto",
+            "label": "Take photo",
+            "description": "takes photo",
+            "action_on_data": "GpTakePhoto",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpRecordVideo",
+            "label": "Take video",
+            "description": "takes video",
+            "action_on_data": "GpRecordVideo",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpCancel",
+            "label": "Cancel",
+            "description": "back to previous page",
+            "action_on_data": "GpCancel",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpSearchDetail",
+            "label": "Search Detail",
+            "description": "special search for locking a noun details",
+            "action_on_data": "GpSearchDetail",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpCreateRelationship",
+            "label": "Create Relationship",
+            "description": "Create With Multiple Select Dropdown",
+            "action_on_data": "GpCreateRelationship",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpGetNounFromRelation",
+            "label": "GpGetNounFromRelation",
+            "description": "Get the noun through relation for multiselect",
+            "action_on_data": "GpGetNounFromRelation",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpDeleteNounByRelation",
+            "label": "GpDeleteNounByRelation",
+            "description": "Delete the noun by parent relaion",
+            "action_on_data": "GpDeleteNounByRelation",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpDeleteNounRelationship",
+            "label": "GpDeleteNounRelationship",
+            "description": "Delete the noun Relationship",
+            "action_on_data": "GpDeleteNounRelationship",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpGetNounByRelationship",
+            "label": "GpGetNounByRelationship",
+            "description": "Get noun by relationship",
+            "action_on_data": "GpGetNounByRelationship",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpGridExportCSV",
+            "label": "GpGridExportCSV",
+            "description": "To exportbtable content",
+            "action_on_data": "GpGridExportCSV",
+            "create_with_default_activity": 0
+        }
+    ]
+}

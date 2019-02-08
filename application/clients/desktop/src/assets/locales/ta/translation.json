@@ -1,0 +1,29 @@
+﻿{
+    "application_title": "Geppetto Builder",
+    "create_project": "திட்டத்தை உருவாக்கவும்",
+    "name":"பெயர்",
+    "label":"விவரத்துணுக்கு",
+    "app_context":"பயன்பாட்டு சூழல்",
+    "description":"விளக்கம்",
+    "primary_language":"முதன்மை மொழி",
+    "secondary_language":"இரண்டாம் மொழி",
+    "cancel":"ரத்துசெய்",
+    "create":"உருவாக்கு",
+    "placeholder_name":"பெயரை உள்ளிடவும்",
+    "placeholder_appContext":"பயன்பாட்டு சூழலில் உள்ளிடவும்",
+    "placeholder_description":"விளக்கத்தை உள்ளிடவும்",
+    "select_primary":"முதன்மை மொழியைத் தேர்ந்தெடுக்கவும்",   
+    "select_secondary":"இரண்டாம் மொழி தேர்ந்தெடுக்கவும்", 
+    "require_name":"பெயர் தேவைப்படுகிறது", 
+    "require_label":"விவரத்துணுக்கு தேவைப்படுகிறது", 
+    "require_primaryLanguage":"முதன்மை மொழி தேவைப்படுகிறது", 
+    "require_secondaryLanguage":"இரண்டாம் மொழி தேவைப்படுகிறது",
+    "require_appContext":"App Context is required",
+    "require_description":"விளக்கம் தேவைப்படுகிறது",
+    "placeholder_label":"விவரத்துணுக்கை உள்ளிடவும்",
+    "_languages": {
+        "en": "English",
+        "ta": "தமிழ்",
+        "es": "Español"
+    }
+}
