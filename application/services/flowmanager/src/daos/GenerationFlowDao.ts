@@ -44,39 +44,14 @@ export class GenerationFlowDao {
             if (err) {
                 callback(err);
             } else {
-                let genFLowToSend = generationFlow
-                let data = false
-                // generationFlow['flow_comp_seq'].map((cname, index) => {
-                //     // console.log("hvjhvjhfjhh", cname)
-                //     FlowComponent.findOne({ name: cname.component_name }, (err, compDetails) => {
-                //         if (err) {
-                //         } else {
-                //             // console.log("----No data available-11111--> . ", index)
-                //             console.log("----No data available-11111--> . ", compDetails)
-                //             // genFLowToSend['flow_comp_seq'].push({
-                //             //     comp_details: compDetails
-                //             // })
-                //             genFLowToSend['flow_comp_seq'][index].comp_details = compDetails
-
-                //             console.log("----No data available-2222222--> . ", genFLowToSend)
-                //         }
-                //     });
-                //     if(index ===  generationFlow['flow_comp_seq'].length -1){
-                //         data = true
-                //     }   
-                // })
-                // if(data){
-                //     console.log("- - - - - -  -  -> ", data)
-                    callback(generationFlow);
-
-                // }
-                // console.log("----No data available--333333-> . ", genFLowToSend)
+                callback(generationFlow);
             }
         });
     }
 
     public updateGenerationFlow(req: Request, callback: CallableFunction) {
-        GenerationFlow.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, generationFlow) => {
+        console.log( "  = = = == = = = = = = == = = = = = = = = =  > ", req.body)
+        GenerationFlow.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, generationFlow) => {
             if (err) {
                 callback(err);
             } else {

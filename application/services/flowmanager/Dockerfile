@@ -1,6 +1,6 @@
 From node:10.14.2
-COPY . /flowmanager
-WORKDIR /flowmanager 
+COPY . /flow-service
+WORKDIR /flow-service 
+RUN npm i -g ts-node
 RUN npm install
-RUN npm install -g ts-node
-CMD npm run prod
+CMD npm run dev

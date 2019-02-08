@@ -2,7 +2,7 @@
   <h1 style="text-align: center;"> <u>Flows</u> </h1>
   <div class="row row-button">
     <button mat-raised-button color="primary" (click)=openModal()>Create</button>
-    <button mat-raised-button>Update</button>
+    <button mat-raised-button (click)="updateRow()">Update</button>
     <button mat-raised-button color="warn" (click)="deleteRow()">Delete</button>
   </div>
   <div class="flowTable">
@@ -23,7 +23,7 @@
               <div class="form-group">
                 <label for="name">{{ 'name' | i18next }}</label>
                 <input type="text" class="form-control" placeholder="{{'placeholder_name' | i18next}}" id="name"
-                  formControlName="name" [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
+                  formControlName="name" [(ngModel)]="flow.name" [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
                 <div *ngIf="submitted && form_control.name.errors" class="invalid-feedback">
                   <div *ngIf="form_control.name.errors.required">{{'require_name' | i18next}}</div>
                 </div>
@@ -34,7 +34,7 @@
               <div class="form-group">
                 <label for="label">{{ 'label' | i18next }}</label>
                 <input type="text" class="form-control" placeholder="{{'placeholder_label' | i18next}}" id="label"
-                  formControlName="label" [ngClass]="{ 'is-invalid': submitted && form_control.label.errors }">
+                  formControlName="label" [(ngModel)]="flow.label" [ngClass]="{ 'is-invalid': submitted && form_control.label.errors }">
                 <div *ngIf="submitted && form_control.label.errors" class="invalid-feedback">
                   <div *ngIf="form_control.label.errors.required">{{'require_label' | i18next}}</div>
                 </div>
@@ -47,7 +47,7 @@
               <div class="form-group">
                 <label for="description">{{ 'description' | i18next }}</label>
                 <textarea class="form-control" rows="1" id="description" placeholder="{{'placeholder_description' | i18next}}"
-                  formControlName="description" [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }"></textarea>
+                  formControlName="description" [(ngModel)]="flow.description" [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }"></textarea>
                 <div *ngIf="submitted && form_control.description.errors" class="invalid-feedback">
                   <div *ngIf="form_control.description.errors.required">{{'require_description' | i18next}}</div>
                 </div>
@@ -57,7 +57,7 @@
               <div class="form-group">
                 <label for="action">Action</label>
                 <input type="text" class="form-control" placeholder="enter your action" id="action" formControlName="action_on_data"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.action_on_data.errors }">
+                  [(ngModel)]="flow.action_on_data" [ngClass]="{ 'is-invalid': submitted && form_control.action_on_data.errors }">
                 <div *ngIf="submitted && form_control.action_on_data.errors" class="invalid-feedback">
                   <div *ngIf="form_control.action_on_data.errors.required">should not be empty</div>
                 </div>
@@ -67,8 +67,12 @@
         </form>
       </div>
       <div class="modal-footer">
-        <div class="form-group">
+        <div class="form-group" *ngIf="isCreateModel">
           <button type="button" class="btn button-create" (click)="createFlowModel()">{{ 'create' | i18next }}</button>
+          <button type="button" class="btn button-close" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
+        </div>
+        <div class="form-group" *ngIf="!isCreateModel">
+          <button type="button" class="btn button-create" (click)="updateFlowModel()">update</button>
           <button type="button" class="btn button-close" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
         </div>
       </div>

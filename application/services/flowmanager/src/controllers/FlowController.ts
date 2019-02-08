@@ -33,4 +33,11 @@ export class FlowController {
         })
     }
 
+    public updateFlow(req: Request, res: Response) {
+        flowService.updateFlow(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
 }

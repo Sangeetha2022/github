@@ -39,6 +39,7 @@ class App {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(express.static('public'));
+        this.app.use(cors({ credentials: true, origin: true }))
 
         // logger configuration
         this.app.use(expressWinston.logger({
@@ -116,10 +117,10 @@ class App {
     }
 
     private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mConfig = new MongoConfig();
-        // mConfig.mongoConfig();
+        // mongoose.Promise = global.Promise;
+        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        let mConfig = new MongoConfig();
+        mConfig.mongoConfig();
     }
 
 }

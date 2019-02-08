@@ -7,7 +7,8 @@
             "sequence_id": 1,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "controller for a NodeJs server application"
+            "description": "controller for a NodeJs server application",
+            "connector": false
         },
         {
             "name": "GpExpressService",
@@ -16,7 +17,8 @@
             "sequence_id": 2,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "service component for a NodeJS based application"
+            "description": "service component for a NodeJS based application",
+            "connector": true
         },
         {
             "name": "GpExpressDao",
@@ -25,7 +27,8 @@
             "sequence_id": 3,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "dao component for a NodeJs based application"
+            "description": "dao component for a NodeJs based application",
+            "connector": false
         },
         {
             "name": "GpAngularComponent",
@@ -34,7 +37,8 @@
             "sequence_id": 1,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "component for Angular desktop"
+            "description": "component for Angular desktop",
+            "connector": false
         },
         {
             "name": "GpAngularService",
@@ -43,7 +47,8 @@
             "sequence_id": 2,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "service for Angular desktop"
+            "description": "service for Angular desktop",
+            "connector": false
         }
     ]
 }

@@ -26,6 +26,7 @@ import { ComponentFlowsService } from './component-flows/component-flows.service
 
 import {MatButtonModule} from '@angular/material/button';
 import { FlowManagerComponent } from './flow-manager/flow-manager.component';
+import { SharedService } from 'src/shared/shared.service';
 
 
 const i18nextOptions = {
@@ -107,6 +108,7 @@ export const I18N_PROVIDERS = [
     ProjectsService,
     ComponentFlowsService,
     I18N_PROVIDERS,
+    SharedService
   ],
   bootstrap: [AppComponent]
 })

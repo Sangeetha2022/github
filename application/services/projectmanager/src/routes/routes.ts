@@ -7,12 +7,11 @@ export class Routes {
 
     public routes(app): void {
 
-        app.route('/')
-            .get((req: Request, res: Response) => {
-                res.status(200).send({
-                    message: 'Ok.'
-                })
+        app.route('/health/project-service').get((req: Request, res: Response) => {
+            res.status(200).send({
+                status: 'up'
             })
+        })
 
         app.route('/add')
             .post(this.projectController.addProject);

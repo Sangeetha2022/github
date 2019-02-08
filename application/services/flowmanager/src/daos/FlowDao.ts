@@ -44,4 +44,29 @@ export class FlowDao {
             callback(error);
         })
     }
+
+    public updateFlow(flowObject, callback: CallableFunction) {
+        console.log('before update ----- ', flowObject);
+        const flow = {
+            name: flowObject.name,
+            label: flowObject.label,
+            description: flowObject.description,
+            action_on_data: flowObject.action_on_data
+        }
+        Flow.findOneAndUpdate(
+            {
+                _id: flowObject._id  // search query
+            },
+            {
+                $set:flow   // field:values to update
+            },
+            {
+                new: true,                       // return updated doc
+                runValidators: true              // validate before update
+            }).then((result) => {
+                callback(result);
+            }).catch((error) => {
+                console.log('error in flow update -- ', error);
+            })
+    }
 }

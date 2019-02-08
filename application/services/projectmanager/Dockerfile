@@ -1,6 +1,6 @@
 From node:10.14.2
-COPY . /projectmanager
-WORKDIR /projectmanager 
+COPY . /project-service
+WORKDIR /project-service 
 RUN npm install
-RUN npm install -g ts-node
-CMD npm run prod
+RUN npm i -g ts-node
+CMD npm run dev

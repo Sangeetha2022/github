@@ -32,4 +32,11 @@ export class FlowService {
         })
     }
 
+    public updateFlow(req: Request, callback: CallableFunction) {
+        const flowObject = req.body;
+        flowDao.updateFlow(flowObject, (response) => {
+            callback(response);
+        })
+    }
+
 }

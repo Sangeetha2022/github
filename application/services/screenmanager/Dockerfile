@@ -1,6 +1,6 @@
 From node:10.14.2
-COPY . /screenmanager
-WORKDIR /screenmanager 
+COPY . /screen-service
+WORKDIR /screen-service 
 RUN npm install
-RUN npm install -g ts-node
-CMD npm run prod
+RUN npm i -g ts-node
+CMD npm run dev

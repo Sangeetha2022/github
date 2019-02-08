@@ -1,6 +1,6 @@
 From node:10.14.2
-COPY . /microflowmanager
-WORKDIR /microflowmanager 
+COPY . /micro-flow-service
+WORKDIR /micro-flow-service 
 RUN npm install
-RUN npm install -g ts-node
-CMD npm run prod
+RUN npm i -g ts-node
+CMD npm run dev

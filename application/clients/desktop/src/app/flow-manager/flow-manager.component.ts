@@ -3,6 +3,7 @@ import { IGenerateFlow } from './interface/generationFlow';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FlowManagerService } from './flow-manager.service';
 import { Router } from '@angular/router';
+import { IFlow } from './interface/flow';
 
 @Component({
   selector: 'app-flow-manager',
@@ -15,6 +16,14 @@ export class FlowManagerComponent implements OnInit {
     flow_name: '',
     flow_sequence: [],
   };
+
+  flow: IFlow = {
+    name: '',
+    label: '',
+    description: '',
+    action_on_data: '',
+  };
+
   gridApi;
   gridColumnApi;
   getGenFlow: any;
@@ -30,6 +39,8 @@ export class FlowManagerComponent implements OnInit {
 
   displayModel: String = 'none';
   createFlowForm: FormGroup;
+
+  isCreateModel: Boolean = true;
 
   constructor(private formBuilder: FormBuilder,
     private flowManagerService: FlowManagerService, private router: Router) {
@@ -126,10 +137,7 @@ export class FlowManagerComponent implements OnInit {
       .subscribe(
         (data) => {
           console.log('successfully added gen flow -- ', data);
-          this.displayModel = 'none';
-          // this.submitted = false;
-          this.createFlowForm.clearValidators();
-          this.createFlowForm.reset();
+          this.onCloseHandled();
           this.getAllGenFlow();
         },
         (error) => {
@@ -150,6 +158,24 @@ export class FlowManagerComponent implements OnInit {
     this.flowManagerService.deleteFlow(this.selectedFlow[0]._id).subscribe(
       (data) => {
         console.log('delete flow manager -- ', data);
+        this.getAllGenFlow();
+      },
+      (error) => {
+        console.log('error delete flow manager --- ', error);
+      }
+    );
+  }
+
+  updateRow() {
+    this.isCreateModel = false;
+    this.flow = this.selectedFlow[0];
+    this.openModal();
+  }
+
+  updateFlowModel() {
+    this.flowManagerService.updateFlow(this.flow).subscribe(
+      (data) => {
+        this.onCloseHandled();
         this.getAllGenFlow();
       },
       (error) => {

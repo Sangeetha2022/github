@@ -5,17 +5,11 @@ import { map, catchError, tap } from 'rxjs/operators';
 import { IGenerateFlow } from './interface/generationFlow';
 import { IFlow } from './interface/flow';
 import { IFlowComponent } from './interface/flowComponent';
+import { SharedService } from 'src/shared/shared.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
-const flowUrl = 'http://localhost:3001/flow/getall';
-const flowServiceURL = 'http://localhost:3001/flow/';
-const compUrl = 'http://localhost:3001/flow_component/getall';
-const addGenFlow = 'http://localhost:3001/generation_flow/add';
-const getGenFlow = 'http://localhost:3001/generation_flow/getall';
-const getCompByName = 'http://localhost:3001/generation_flow/getbyname';
-const getMFByName = 'http://localhost:3002/microflow/getbycomp';
 
 @Injectable({
   providedIn: 'root'
@@ -32,12 +26,12 @@ export class FlowManagerService {
   };
 
   currentMessage = this.messageSource.asObservable();
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private restapi:SharedService) {
   }
 
 
   saveFlow(flowObject: IFlow): Observable<IFlow> {
-    return this.http.post<IFlow>(flowServiceURL + 'save', flowObject)
+    return this.http.post<IFlow>(this.restapi.flowbaseUrl + '/flow/save', flowObject)
       .pipe(
         tap(heroes => console.log('fetched projects')),
         catchError(this.handleError('getprojects', this.flow))
@@ -45,7 +39,7 @@ export class FlowManagerService {
   }
 
   deleteFlow(flowID: String): Observable<any> {
-    return this.http.delete(flowServiceURL + `delete/${flowID}`)
+    return this.http.delete(this.restapi.flowbaseUrl + `/flow/delete/${flowID}`)
       .pipe(
         tap(heroes => console.log('fetched projects')),
         catchError(this.handleError('getprojects', this.flow))
@@ -53,14 +47,9 @@ export class FlowManagerService {
   }
 
 
-
-
-
-
-
-
-
-
+  updateFlow(flowObject: IFlow): Observable<any> {
+    return this.http.put(this.restapi.flowbaseUrl + '/flow/update', flowObject);
+  }
 
   changeMessage(message: string) {
     this.messageSource.next(message);
@@ -76,14 +65,14 @@ export class FlowManagerService {
     };
   }
   getFlows(): Observable<IFlow[]> {
-    return this.http.get<IFlow[]>(flowUrl)
+    return this.http.get<IFlow[]>(this.restapi.flowbaseUrl + '/flow/getall')
       .pipe(
         tap(heroes => console.log('fetched projects')),
         catchError(this.handleError('getprojects', []))
       );
   }
   getFlowComponents(): Observable<IFlowComponent[]> {
-    return this.http.get<IFlowComponent[]>(compUrl)
+    return this.http.get<IFlowComponent[]>(this.restapi.flowbaseUrl+'/flow_component/getall')
       .pipe(
         tap(heroes => console.log('fetched projects')),
         catchError(this.handleError('getprojects', []))
@@ -91,7 +80,7 @@ export class FlowManagerService {
   }
 
   getGenFlow(): Observable<IGenerateFlow[]> {
-    return this.http.get<IGenerateFlow[]>(getGenFlow)
+    return this.http.get<IGenerateFlow[]>(this.restapi.flowbaseUrl+ '/generation_flow/getall')
       .pipe(
         tap(heroes => console.log('fetched projects')),
         catchError(this.handleError('IGenerateFlow', []))
@@ -100,7 +89,7 @@ export class FlowManagerService {
 
   addGenFlow(flowObject): Observable<IGenerateFlow> {
     console.log('i am in service');
-    return this.http.post<IGenerateFlow>(addGenFlow, flowObject, httpOptions).pipe(
+    return this.http.post<IGenerateFlow>(this.restapi.flowbaseUrl+'/generation_flow/add', flowObject, httpOptions).pipe(
       tap((tapFlowObject: IGenerateFlow) => console.log(`added project w/ id=${tapFlowObject}`)),
       catchError(this.handleError<IGenerateFlow>('addGenFlow'))
     );
@@ -108,7 +97,7 @@ export class FlowManagerService {
 
   getFlowComponentByName(name: string): Observable<IGenerateFlow> {
 
-    const url = `${getCompByName}/${name}`;
+    const url = `${this.restapi.flowbaseUrl}/generation_flow/getbyname/${name}`;
     return this.http.get<IGenerateFlow>(url).pipe(
       tap(_ => console.log(`fetched project flow component=${name}`)),
       catchError(this.handleError<IGenerateFlow>(`getFlowComp name=${name}`))
@@ -117,7 +106,7 @@ export class FlowManagerService {
 
   getMicroFlowByName(name: string): Observable<IGenerateFlow> {
 
-    const url = `${getMFByName}/${name}`;
+    const url = `${this.restapi.mflowbaseUrl}/microflow/getbycomp/${name}`;
     return this.http.get<IGenerateFlow>(url).pipe(
       tap(_ => console.log(`fetched project flow component=${name}`)),
       catchError(this.handleError<IGenerateFlow>(`getFlowComp name=${name}`))

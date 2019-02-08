@@ -3,20 +3,18 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
 import { project } from '../projects/project.model'
+import { SharedService } from 'src/shared/shared.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
-const apiUrl = "http://localhost:3003/add";
-const getMyAllProjUrl = "http://localhost:3003/getall";
-const delMyAllProjUrl = "http://localhost:3003/delete";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private restapi:SharedService) { }
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
@@ -29,7 +27,7 @@ export class ProjectsService {
   }
 
   getMyAllProjects(): Observable<project[]> {
-    return this.http.get<project[]>(getMyAllProjUrl).pipe(
+    return this.http.get<project[]>(this.restapi.projbaseUrl+'/getall').pipe(
       tap(heroes => console.log('fetched projects')),
       catchError(this.handleError('getprojects', []))
     );
@@ -44,7 +42,7 @@ export class ProjectsService {
   // }
 
   addProject(project): Observable<project> {
-    return this.http.post<project>(apiUrl, project, httpOptions).pipe(
+    return this.http.post<project>(this.restapi.projbaseUrl+'/add', project, httpOptions).pipe(
       tap((project: project) => console.log(`added project w/ id=${project}`)),
       catchError(this.handleError<project>('addproject'))
     );
@@ -59,7 +57,7 @@ export class ProjectsService {
   // }
 
   deleteProject (id): Observable<project> {
-    const url = `${delMyAllProjUrl}/${id}`;
+    const url = `${this.restapi.projbaseUrl}/delete/${id}`;
 
     return this.http.delete<project>(url, httpOptions).pipe(
       tap(_ => console.log(`deleted project id=${id}`)),

@@ -9,7 +9,7 @@ import * as expressWinston from 'express-winston';
 const winston = require('winston');
 require('winston-daily-rotate-file')
 
-const PORT = 3002;
+const PORT = 3004;
 const logDir = 'log';
 
 class App {
@@ -109,11 +109,10 @@ class App {
     }
 
     private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mongoConfig = new MongoConfig();
-        // mongoConfig.mongoConfig();
-
+        // mongoose.Promise = global.Promise;
+        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        let mongoConfig = new MongoConfig();
+        mongoConfig.mongoConfig();
     }
 
     private mongoSeedData(): void {
