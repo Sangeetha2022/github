@@ -23,7 +23,7 @@ export class Routes {
         app.route('/flow/getall').get(this.flowController.getAllFlow);
         app.route('/flow/getbyid/:id').get(this.flowController.getFlowByID);
         app.route('/flow/delete/:id').delete(this.flowController.deleteFlow);
-        app.route('/flow/update').put(this.flowController.updateFlow);
+        app.route('/flow/update/:id').put(this.flowController.updateFlow);
 
         // flowComponent routes
         app.route('/flow_component/save').post(this.flowComponentController.saveFlowComonents);

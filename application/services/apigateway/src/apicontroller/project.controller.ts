@@ -2,7 +2,7 @@
 import * as express from "express";
 import { Request, Response } from 'express';
 import * as Constants from '../config/Constants';
-import { ApiAdaptar } from '../config/apiAdaptar';
+import { ApiAdaptar } from '../config/ApiAdaptar';
 import Controller from '../interfaces/controller.interface';
 
 class ProjectController implements Controller {
@@ -15,10 +15,10 @@ class ProjectController implements Controller {
 
     private initializeRoutes() {
         this.router.post('/projects/my/add', this.addProject);
-        this.router.put('/projects/my/:id/update', this.addProject);
+        this.router.put('/projects/my/:id/update', this.updateProject);
         this.router.get('/projects/my/getall', this.getAllMyProject);
         this.router.get('/projects/my/:id/get', this.getByProjectId);
-        this.router.delete('/projects/my/:id/delete', this.addProject);
+        this.router.delete('/projects/my/:id/delete', this.deleteProject);
     }
 
     public addProject(req: Request, res: Response) {
@@ -58,7 +58,6 @@ class ProjectController implements Controller {
             req.baseUrl === '/mobile' ? res.send(proj) :
             req.baseUrl === '/desktop' ? res.send(proj) : res.send(null)
         }).catch(err => {
-            console.log("=errr===>> ", err)
             res.send(err);
         });
     }
