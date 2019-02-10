@@ -2,11 +2,14 @@ import * as mongoose from 'mongoose';
 import { FlowSchema } from './models/Flow';
 import { FlowComponentSchema } from './models/FlowComponents'
 import { GenerationFlowSchema } from './models/GenerationFlows'
+import { ConnectorSchema } from './models/Connector'
 import * as flowjson from './assests/flow.json';
 import * as flowComponentjson from './assests/flowcomponent.json'
 import * as generationflowjson from './assests/generationflow.json'
+import * as connectorflowjson from './assests/connector.json'
 
 const Flow = mongoose.model('Flow', FlowSchema);
+const Connector = mongoose.model('connector', ConnectorSchema);
 const FlowComponent = mongoose.model('flowcomponents', FlowComponentSchema);
 const GenerationFlow = mongoose.model('flow_comp_sequence', GenerationFlowSchema);
 
@@ -44,6 +47,17 @@ export class FeedSeedData {
                     }
                     let newFlowComp = new GenerationFlow(dataToSave);
                     newFlowComp.save();
+                }
+            });
+        })
+    }
+
+    public seedConnectorData(): void {
+        connectorflowjson.connector.map((cont) => {
+            FlowComponent.findOneAndUpdate({ name: cont['name'] }, cont, { new: true }, (err, data) => {
+                if (data === null) {
+                    let newConnector = new Connector(cont);
+                    newConnector.save();
                 }
             });
         })

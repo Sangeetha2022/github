@@ -1,0 +1,14 @@
+{
+    "connector": [
+        {
+            "name": "Github",
+            "description": "Code Management",
+            "url": "http://www.github.com"
+        },
+        {
+            "name": "Bitbucket",
+            "description": "Code Management",
+            "url": "http://www.bitbucket.com"
+        }
+    ]
+}

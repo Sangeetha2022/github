@@ -18,7 +18,7 @@ export class MicroFlowDao {
     }
 
     public updateMicroFlow(req: Request, callback: CallableFunction) {
-        MicroFlow.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, generationFlow) => {
+        MicroFlow.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, generationFlow) => {
             if (err) {
                 callback(err);
             } else {

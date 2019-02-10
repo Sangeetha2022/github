@@ -1,53 +1,60 @@
+import * as fs from 'fs';
+import * as cors from 'cors';
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import { Routes } from "./routes/routes";
-import * as mongoose from "mongoose";
-import * as fs from 'fs';
 import * as expressWinston from 'express-winston';
-import * as cors from 'cors';
-import { MongoConfig } from './config/MongoConfig'
-const winston = require('winston');
-require('winston-daily-rotate-file')
+import Controller from './interfaces/controller.interface';
+import { ProjectController } from './apicontroller';
 
-const PORT = 3003;
+const winston = require('winston');
+require('winston-daily-rotate-file');
+
+const PORT = 3010;
 const logDir = 'log';
 
 class App {
 
     public app: express.Application = express();
-    public routePrv: Routes = new Routes();
-    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
 
-    constructor() {
+    constructor(controllers: Controller[]) {
         this.setupLogger();
-        this.config();
-        this.mongoSetup();
-        this.routePrv.routes(this.app);
+        this.configureWinston();
+        this.initializeMiddlewares();
+        this.initializeControllers(controllers);
+    }
+
+    private initializeMiddlewares() {
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(cors({ credentials: true, origin: true }))
+    }
+
+    private initializeControllers(controllers: Controller[]) {
+        controllers.forEach((controller) => {
+            this.app.route('/health/apigateway').get((req: express.Request, res: express.Response) => {
+                res.status(200).send({
+                    status: 'up'
+                })
+            })
+            this.app.use('/mobile', controller.router);
+            this.app.use('/desktop', controller.router);
+        });
     }
 
     private setupLogger(): void {
         if (!fs.existsSync(logDir)) {
             fs.mkdirSync(logDir);
         }
-
         expressWinston.requestWhitelist.push('body');
         expressWinston.responseWhitelist.push('body');
-
     }
 
-    private config(): void {
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.use(express.static('public'));
-        this.app.use(cors({ credentials: true, origin: true }))
-
-        // logger configuration
+    private configureWinston(): void {
         this.app.use(expressWinston.logger({
             format: winston.format.combine(
                 winston.format.label({ label: 'gep-dev-node-api' }),
                 winston.format.colorize(),
                 winston.format.json()
-
             ),
             transports: [
                 new winston.transports.Console(),
@@ -62,7 +69,7 @@ class App {
                     colorize: false,
                 }),
             ],
-            statusLevels: false, // default value
+            statusLevels: false,
             level: function (req, res) {
                 var level = '';
                 if (res.statusCode >= 100) {
@@ -116,15 +123,12 @@ class App {
         }));
     }
 
-    private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mConfig = new MongoConfig();
-        // mConfig.mongoConfig();
-    }
-
 }
 
-new App().app.listen(PORT, () => {
+let allApis = [
+    new ProjectController()
+]
+
+new App(allApis).app.listen(PORT, () => {
     console.log('Express server listening on port ' + PORT);
 })

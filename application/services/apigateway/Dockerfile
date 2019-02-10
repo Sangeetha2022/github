@@ -1,5 +1,6 @@
 From node:10.14.2
-COPY . /api-gateway
-WORKDIR /api-gateway 
+COPY . /apigateway
+WORKDIR /apigateway
 RUN npm install
+RUN npm i -g ts-node
 CMD npm run prod

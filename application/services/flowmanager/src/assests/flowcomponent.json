@@ -49,6 +49,26 @@
             "dev_framework": "Angular",
             "description": "service for Angular desktop",
             "connector": false
+        },
+        {
+            "name": "GpIonicAngularComponent",
+            "label": "angular 7 component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "name": "GpIonicAngularService",
+            "label": "angular 7 service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
         }
     ]
 }
