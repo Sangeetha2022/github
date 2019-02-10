@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ProjectController } from "../controllers/ProjectController";
+import { ProjectController } from "../controllers/project.controller";
 
 export class Routes {
 

@@ -1,9 +1,9 @@
 import * as mongoose from 'mongoose';
-import { FlowSchema } from '../models/ProjectModel';
+import { ProjectSchema } from '../models/project.model';
 import { Request, Response } from 'express';
-import { ProjectService } from '../services/ProjectService';
+import { ProjectService } from '../services/project.service';
 
-const Project = mongoose.model('Project', FlowSchema);
+const Project = mongoose.model('Project', ProjectSchema);
 let projectService = new ProjectService()
 
 export class ProjectController {

@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-export const FlowSchema = new Schema({
+export const ProjectSchema = new Schema({
     name: { type: String, required: 'Enter a project name' },
     label: { type: String, required: 'Enter a project label' },
     description: { type: String },

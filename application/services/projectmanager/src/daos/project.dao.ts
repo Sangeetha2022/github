@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
-import { FlowSchema } from '../models/ProjectModel';
-import { Request, Response } from 'express';
+import { ProjectSchema } from '../models/project.model';
+import { Request } from 'express';
 
-const Project = mongoose.model('Projects', FlowSchema);
+const Project = mongoose.model('Projects', ProjectSchema);
 
 export class ProjectDao{
 
@@ -20,7 +20,6 @@ export class ProjectDao{
 
     public getAllProject (req: Request, callback: CallableFunction) {           
         Project.find({}, (err, project) => {
-            console.log(" = = = = = = =  = > > . ", project)
             if(err){
                 callback(err);
             } else {

@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { ProjectDao } from '../daos/ProjectDao';
+import { ProjectDao } from '../daos/project.dao';
 
 let projectDao = new ProjectDao()
 
