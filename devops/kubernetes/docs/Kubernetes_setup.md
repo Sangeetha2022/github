@@ -64,7 +64,7 @@
    
       $ docker run -d --restart=unless-stopped -p 7080:80 -p 7443:443 rancher/rancher:latest
       
-   ![minikube](https://github.com/TharaniRajan/Geppetto-local-K8s/blob/master/docs/images/minikube.png?raw=true"minikube")  
+   ![minikube](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/docs/images/minikube.png?raw=true"minikube")  
       
    Test it by https://"minikube-ip":7080 in your browser.(Get your minikube ip using "minikube ip" command)
    
@@ -73,25 +73,27 @@
    Enter into the rancher with setting up new password.Click "Add Cluster" and select "Import" to import existing cluster.
    And then create cluster name and click create.
    
-   ![Importcluster](https://github.com/TharaniRajan/Geppetto-local-K8s/blob/master/docs/images/importcluster.png?raw=true"Importcluster")
+   ![Importcluster](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/docs/images/importcluster.png?raw=true"Importcluster")
    
    Then you will see the window it provide the yaml file.
    
-   ![cluster](https://github.com/TharaniRajan/Geppetto-local-K8s/blob/master/docs/images/cluster.png?raw=true"cluster")
+   ![cluster](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/docs/images/cluster.png?raw=true"cluster")
    
    Copy that command and run it in your terminal.Your cattle-system namespace is created.
    
    Now your rancher is successfully connected with your minikube.You can check by creating container in minikube it can accessible from rancher ui.
    
-   Check it by running this kubectl command to run nginx, [system-entry-deployment.yaml](https://github.com/TharaniRajan/Geppetto-local-K8s/blob/master/system-entry-pod/system-entry-deployment.yaml)
+   To check rancher is configured correctly:
+   
+   Check it by running this kubectl command to run nginx, [system-entry-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/system-entry-pod/system-entry-deployment.yaml)
    
        $ kubectl create -f system-entry-deployment.yaml
        
-   And then run its service, [system-entry-service.yaml](https://github.com/TharaniRajan/Geppetto-local-K8s/blob/master/system-entry-pod/system-entry-service.yaml)
+   And then run its service, [system-entry-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/system-entry-pod/system-entry-service.yaml)
    
       $ kubectl create -f system-entry-service.yaml
    
-   ![rancher-cluster](https://github.com/TharaniRajan/Geppetto-local-K8s/blob/master/docs/images/rancher%20cluster.png?raw=true"rancher-cluster")
+   ![rancher-cluster](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/docs/images/rancher%20cluster.png?raw=true"rancher-cluster")
    
    Now, you can access your container from rancher.
  
