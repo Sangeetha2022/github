@@ -6,7 +6,7 @@ metadata:
  name: gep-dev-app-db
  namespace: gep-dev-201902
 spec:
- type: LoadBalancer
+ type: NodePort
  ports:
  - name: mongo-db
    port: 27017

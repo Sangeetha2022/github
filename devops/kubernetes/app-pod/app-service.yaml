@@ -4,7 +4,7 @@ metadata:
   name: gep-dev-app
   namespace: gep-dev-201902
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - name: node-app
     port: 3000
