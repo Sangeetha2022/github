@@ -4,8 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProjectsComponent } from './projects/projects.component';
-import { I18NEXT_SERVICE, I18NextLoadResult, I18NextModule, ITranslationService, defaultInterpolationFormat,
-I18NEXT_NAMESPACE } from 'angular-i18next';
+import {
+  I18NEXT_SERVICE, I18NextLoadResult, I18NextModule, ITranslationService, defaultInterpolationFormat,
+  I18NEXT_NAMESPACE
+} from 'angular-i18next';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -18,13 +20,12 @@ import { HeaderLanguageComponent } from './header-controls/header.language.compo
 import sprintf from 'i18next-sprintf-postprocessor';
 import { ProjectsService } from './projects/projects.service';
 import { AppComponentService } from './app.component.service';
-// import { FlowManagerComponent } from './flow-manager/flow-manager.component';
-import {AgGridModule} from 'ag-grid-angular';
-// import { GeneratonFlowsService } from './generation-flows/generaton-flows.service';
+import { AgGridModule } from "ag-grid-angular";
 import { ComponentFlowsComponent } from './component-flows/component-flows.component';
 import { ComponentFlowsService } from './component-flows/component-flows.service';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { MatButtonModule, MatExpansionModule, MatFormFieldModule } from '@angular/material';
 
-import {MatButtonModule} from '@angular/material/button';
 import { FlowManagerComponent } from './flow-manager/flow-manager.component';
 import { SharedService } from 'src/shared/shared.service';
 import { AppInterceptor } from './app.interceptor';
@@ -44,11 +45,11 @@ const i18nextOptions = {
     'error'
   ],
   interpolation: {
-  format: I18NextModule.interpolationFormat(defaultInterpolationFormat)
+    format: I18NextModule.interpolationFormat(defaultInterpolationFormat)
   },
- // backend plugin options
+  // backend plugin options
   backend: {
-  allowMultiLoading: true,
+    allowMultiLoading: true,
     loadPath: function (langs, ns) {
       return 'assets/locales/{{lng}}/{{ns}}.json';
     }
@@ -95,6 +96,7 @@ export const I18N_PROVIDERS = [
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AgGridModule.withComponents([]),
     AppRoutingModule,
     FormsModule,
@@ -107,6 +109,8 @@ export const I18N_PROVIDERS = [
     MatButtonModule,
     ScreenDesignerModule,
     I18NextValidationMessageModule,
+    MatExpansionModule,
+    MatFormFieldModule
   ],
   providers: [
     ApiService,

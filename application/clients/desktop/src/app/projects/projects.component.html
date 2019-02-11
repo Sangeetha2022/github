@@ -1,30 +1,45 @@
-<div class="toppane">
-  <button type="button" i18n="@@createProjectBtn" (click)=openModal() class="btn btn-info btn-sm pull-right">
-    <i class="fa fa-plus plus-icon"></i>{{ 'create_project' | i18next }}
-  </button>
-</div>
-<div class="leftpane">
-  <h4>Geppetto Sample Apps</h4>
-</div>
-<div class="middlepane">
-  <h4>My Projects</h4>
-  <div class="row" style="margin: 0px;">
-    <div class="col-md-4" style="margin-bottom: 10px" *ngFor="let proj of myAllProjects; let i = index">
-      <div class="card">
-        <div class="card-header">{{proj.name}}</div>
-        <div class="card-body">
-          <div><span>{{proj.description}}</span></div>
-          <button type="button" class="btn btn-primary btn-space pull-right">Edit</button>
-          <button type="button" (click)="openDeleteModel(proj)" class="btn btn-danger btn-space pull-right">Delete</button>
-        </div>
+<div class="container">
+  <div class="row" style="margin-top: 50px;">
+    <div class="col-md-12">
+      <div class="row-button">
+        <button mat-raised-button color="primary" (click)=openModal()>{{ 'create_project' | i18next }}</button>
       </div>
     </div>
   </div>
-</div>
-<div class="rightpane">
-  <h4>Shared Apps</h4>
-</div>
+  <div style="height: 50px;"></div>
+  <!-- <div class="row"> -->
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> My Application</mat-panel-title>
+        <div class="row" style="margin: 0px;">
+          <div class="col-md-4" style="margin-bottom: 10px" *ngFor="let proj of myAllProjects; let i = index">
+            <div class="card">
+              <div class="card-header">{{proj.name}}</div>
+              <div class="card-body">
+                <div><span>{{proj.description}}</span></div>
+                <button type="button" class="btn btn-primary btn-space pull-right">Edit</button>
+                <button type="button" (click)="openDeleteModel(proj)" class="btn btn-danger btn-space pull-right">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Geppetto Sample Application</mat-panel-title>
+      </mat-expansion-panel-header>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> Shared Applications </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>I'm visible because I am open</p>
+    </mat-expansion-panel>
+  </mat-accordion>
 
+</div>
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModel}">
   <div class="modal-dialog modal-lg" role="dialog">
     <div class="modal-content">

@@ -11,7 +11,7 @@ import { project } from '../projects/project.model';
 })
 @Injectable()
 export class ProjectsComponent implements OnInit {
-
+  panelOpenState = false;
   displayModel: String = 'none';
   delmodal: String = 'none';
   idToDelete: String = null;

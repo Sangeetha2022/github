@@ -1,6 +1,6 @@
 'use strict'
 import * as mongoose from 'mongoose';
-import { UserTemplateSchema } from '../models/UserTemplate';
+import { UserTemplateSchema } from '../models/usertemplate.model';
 
 const UserTemplateModel = mongoose.model('UserTemplate', UserTemplateSchema);
 
