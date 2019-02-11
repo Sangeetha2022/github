@@ -6,7 +6,7 @@ metadata:
   name: gep-dev-ops-db
   namespace: gep-dev-201902
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - name: sonar-postgres
       port: 5432

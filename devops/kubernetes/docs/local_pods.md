@@ -3,19 +3,41 @@
 
 # Content
 1. [Prerequisites](#prerequisites)
-1. [DevOps](#devops)
 1. [DevOps-DB](#devops-db)
-1. [Telemetry](#prerequisites)
+1. [DevOps](#devops)
+1. [Telemetry](#telemetry)
 
 
 # Prerequisites<br/> 
   [Kubernetes Setup](https://github.com/TharaniRajan/Geppetto-local-K8s/blob/master/docs/Kubernetes_setup.md) <br/> 
   Knowledge on Dev-Ops, Docker, containers.
   
+  
+# DevOps-DB<br/> 
+   The DevOps DB Pod consists of Database needed for the DevOps, currently it has Postgres DB for the SonarQube.
+   
+   To Deploy the DevOps DB:
+   
+   createe PersistanceVolume for the DB
+   
+     $ kubectl create -f sonar-pv-postgres.yaml
+   
+   create deployment:
+   
+     $ kubectl create -f dev-ops-db-deployment.yaml
+ 
+   create service:
+   
+     $ kubectl create -f dev-ops-db-service.yaml
+      
+   Now the DevOps DB Pod is up and running.   
+  
+  
 # DevOps<br/> 
   DevOps is a software development methodology that combines software development with information technology operations to shorten the systems development life cycle while delivering features, fixes, and updates frequently in close alignment with business objectives.
   
   The DevOps Pod consists of number of containers: Jenkins, Nexus, Sonarqube, Rancher and Jmeter.
+  
   NOTE: Before DevOps we need to setup DevOps DB.
   
  ### Jenkins:
@@ -38,22 +60,84 @@
   
   Now the DevOps will be up and running in our kubernetes Cluster.
   
+  To check services in browser(or you can get the services directly through rancher):
   
- # DevOps-DB<br/> 
-   The DevOps DB Pod consists of Database needed for the DevOps, currently it has Postgres DB for the SonarQube.
+     $ kubectl get svc --namespace=gep-dev-201902
+  
+  this command will get the services from the kubernetes and note the port of your service you wanted to access.
+  
+     $ minikube ip
+  
+  if you use the ip with the port you can access the services in the browser.
+
+
+# Telemetry<br/> 
+   The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and Prometheus.
    
-   To Deploy the DevOps DB:
+   To create a namespace for this telemetry pods run this file [kube-logging.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/EFK/kube-logging.yaml)
    
-   createe PersistanceVolume for the DB
+     $ kubectl create -f kube-logging.yaml     
+         
+   You can then confirm that the Namespace was successfully created:
    
-     $ kubectl create -f sonar-pv-postgres.yaml
+     $ kubectl get namespaces
+         
+   # EFK  
    
-   create deployment:
+   Elasticsearch is a real-time, distributed, and scalable search engine which allows for full-text and structured search, as well as analytics. It is commonly used to index and search through large volumes of log data, but can also be used to search many different kinds of documents.
    
-     $ kubectl create -f dev-ops-db-deployment.yaml
- 
-   create service:
+   Elasticsearch is commonly deployed alongside Kibana, a powerful data visualization frontend and dashboard for Elasticsearch. Kibana allows you to explore your Elasticsearch log data through a web interface, and build dashboards and queries to quickly answer questions and gain insight into your Kubernetes applications.
    
-     $ kubectl create -f dev-ops-db-service.yaml
+   Fluentd to collect, transform, and ship log data to the Elasticsearch backend. Fluentd is a popular open-source data collector that we'll set up on our Kubernetes nodes to tail container log files, filter and transform the log data, and deliver it to the Elasticsearch cluster, where it will be indexed and stored.
+         
+   To create the persistent volume run this file [elasticsearch_pv.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/EFK/elasticsearch_pv.yaml)
+   
+     $ kubectl create -f elasticsearch_pv.yaml
+         
+   Run this file is to create elasticsearch deployment [elasticsearch_stateset.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/EFK/elasticsearch_statefulset.yaml)
+   
+     $ kubectl create -f elasticsearch_stateset.yaml
+             
+   Run this file to create elasticsearch service [elasticsearch_svc.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/EFK/elasticsearch_svc.yaml)
+   
+     $ kubectl create -f elasticsearch_svc.yaml
+    
+   To deploy the Kibana, run this file [kibana.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/EFK/kibana.yaml)
+   
+     $ kubectl create -f kibana.yaml
+     
+   After elasticsearch and kibana is set need to connect to fluentd for container logs,
+
+   To deploy the fluentd,run this file [fluentd.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/EFK/fluentd.yaml)
+   
+     $ kubectl create -f fluentd.yaml
+     
+   ![Kibana](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/docs/images/kibana.png?raw=true"Kibana")   
+   
+   Now,EFK is up and running.
+  
+   # Prometheus
+   
+   An open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.
+   
+   To create clusterRole config [prometheus-clusterRole.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/prometheus-clusterRole.yaml)
+   
+     $ kubectl create -f prometheus-clusterRole.yaml
+     
+   To create a config Map [prometheus-config-map.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/prometheus-config-Map.yaml)
+   
+     $ kubectl create -f prometheus-config-map.yaml
+   
+   # Vault
+   
+   Vault is a tool for securely accessing secrets. A secret is anything that you want to tightly control access to, such as API keys, passwords, certificates, and more. Vault provides a unified interface to any secret while providing tight access control and recording a detailed audit log.
+   
+   ![Vault](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/docs/images/Vault.png?raw=true"Vault")
+   
+   Run this file to create deployment for vault [telemetry-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/telemetry-deployment.yaml)
+   
+      $ kubectl create -f telemetry-deployment.yaml
       
-   Now the DevOps DB Pod is up and running. 
+   Run this file to create the service [telemetry-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/telimetry-service.yaml)
+       
+      $ kubectl create -f telimetry-service.yaml
