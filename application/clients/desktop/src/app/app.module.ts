@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { I18NEXT_SERVICE, I18NextLoadResult, I18NextModule, ITranslationService, defaultInterpolationFormat,
-I18NEXT_NAMESPACE } from 'angular-i18next'
+I18NEXT_NAMESPACE } from 'angular-i18next';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -19,7 +19,7 @@ import sprintf from 'i18next-sprintf-postprocessor';
 import { ProjectsService } from './projects/projects.service';
 import { AppComponentService } from './app.component.service';
 // import { FlowManagerComponent } from './flow-manager/flow-manager.component';
-import {AgGridModule} from "ag-grid-angular";
+import {AgGridModule} from 'ag-grid-angular';
 // import { GeneratonFlowsService } from './generation-flows/generaton-flows.service';
 import { ComponentFlowsComponent } from './component-flows/component-flows.component';
 import { ComponentFlowsService } from './component-flows/component-flows.service';
@@ -30,6 +30,7 @@ import { SharedService } from 'src/shared/shared.service';
 import { AppInterceptor } from './app.interceptor';
 import { ApiService } from './config/api.service';
 import { FlowManagerService } from './flow-manager/flow-manager.service';
+import { ScreenDesignerModule } from './screen-designer/screen-designer.module';
 
 
 const i18nextOptions = {
@@ -104,6 +105,7 @@ export const I18N_PROVIDERS = [
     NgMultiSelectDropDownModule.forRoot(),
     HttpClientModule,
     MatButtonModule,
+    ScreenDesignerModule,
     I18NextValidationMessageModule,
   ],
   providers: [

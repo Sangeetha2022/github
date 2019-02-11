@@ -1,5 +1,6 @@
 import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
+import { DataService } from '../../shared/data.service';
 
 @Component({
   selector: 'app-header-language',
@@ -11,9 +12,19 @@ export class HeaderLanguageComponent implements OnInit {
 
   language = 'en';
   languages = ['en', 'ta', 'es'];
+  private subscription: any = <any> {
+    name: '',
+    label: '',
+    appContext: '',
+    description: '',
+    defaultLanguage: 'en',
+    primaryLanguage: '',
+    secondaryLanguage: '',
+};
 
   constructor(
-    @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService
+    @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
+    private dataService: DataService
   ) {}
 
   ngOnInit() {
@@ -36,6 +47,8 @@ export class HeaderLanguageComponent implements OnInit {
 
   private updateState(lang: string) {
     this.language = lang;
+    this.subscription.defaultLanguage = lang;
+    this.dataService.changeProjectInfo(this.subscription);
   }
 
 }

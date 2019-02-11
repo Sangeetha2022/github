@@ -14,7 +14,7 @@
     "build": "ng build --aot --output-path dist/en --base-href /en/",
     "build:es": "ng build --aot --output-path dist/es --base-href /es/ --i18nFile=src/locale/messages.es.xlf --i18nFormat=xlf --i18n-locale=es"
   },
-  "private": true, 
+  "private": true,
   "dependencies": {
     "@angular/animations": "^7.1.4",
     "@angular/cdk": "^7.3.1",
@@ -34,7 +34,6 @@
     "bootstrap": "^4.2.1",
     "core-js": "^2.5.4",
     "detect-browser": "^4.0.4",
-    "font-awesome": "^4.7.0",
     "i18next": "^14.0.1",
     "i18next-browser-languagedetector": "^2.2.4",
     "i18next-sprintf-postprocessor": "^0.2.2",
