@@ -23,7 +23,7 @@ export class FlowManagerComponent implements OnInit {
     description: '',
     action_on_data: '',
   };
-
+  flowAfterCancel:any;
   gridApi;
   gridColumnApi;
   getGenFlow: any;
@@ -31,7 +31,9 @@ export class FlowManagerComponent implements OnInit {
   dataFlowComponent: any;
   selectedFlow: any = [];
   rowSelection;
+  isDisableFlow: boolean;
   rowData: any;
+  checkUpdate: boolean = true;
   columnDefs;
   message: string;
   defaultColDef;
@@ -97,7 +99,19 @@ export class FlowManagerComponent implements OnInit {
     }
   }
 
+  onRowSelected(event) {
+    this.isDisableFlow = event.node.selected;
+    if(this.isDisableFlow=== false){
+      console.log("i my darling")
+      this.createFlowForm.clearValidators();
+      this.createFlowForm.reset();
+    }
+  }
+
   openModal() {
+    if (this.isCreateModel !== false) {
+      this.checkUpdate = true;
+    }
     this.displayModel = 'block';
   }
 
@@ -106,8 +120,12 @@ export class FlowManagerComponent implements OnInit {
     this.createFlowForm.clearValidators();
     this.createFlowForm.reset();
   }
-
+  onCloseHandledForUpdate() {
+    this.isCreateModel = true;
+    this.displayModel = 'none';
+  }
   createFlowModel() {
+    console.log("i am the one", this.createFlowForm)
     this.flowManagerService.saveFlow(this.createFlowForm.getRawValue())
       .subscribe(
         (data) => {
@@ -135,7 +153,13 @@ export class FlowManagerComponent implements OnInit {
 
   updateRow() {
     this.isCreateModel = false;
+    console.log("i am the one", this.checkUpdate)
     this.flow = this.selectedFlow[0];
+    this.flowAfterCancel = this.selectedFlow[0];
+    if (this.checkUpdate === true) {
+      console.log(this.flow)
+      this.flow = this.selectedFlow[0]
+    }
     this.openModal();
   }
 

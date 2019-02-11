@@ -56,6 +56,7 @@ export class ComponentFlowsComponent implements OnInit {
   isUpdateMF: Boolean = false;
   isUpdateConnector: Boolean = false;
   microColDef;
+  isDisableFlowComp: boolean;
   connectorColDef;
   flow_component_sequence: any = [];
   selectedFlow: any = [];
@@ -157,6 +158,9 @@ export class ComponentFlowsComponent implements OnInit {
     this.createFlowComponentModel.reset();
     this.addModel = 'none';
   }
+  onCloseHandledUpdate() {
+    this.addModel = 'none';
+  }
 
   onCloseMFHandled() {
     this.addToMicroFlow = null
@@ -165,12 +169,27 @@ export class ComponentFlowsComponent implements OnInit {
     this.createMFlowForm.reset();
     this.addMFModel = 'none';
   }
+  onCloseMFHandledUpdate() {
+    this.addMFModel = 'none';
+  }
 
   onCloseConnectorHandled() {
     this.isUpdateConnector = false;
     this.createMFlowForm.clearValidators();
     this.createMFlowForm.reset();
     this.addConnectorModel = 'none';
+  }
+  onCloseConnectorHandledUpdate() {
+    this.addConnectorModel = 'none';
+  }
+  
+  onRowSelectedFlowComp(event) {
+    this.isDisableFlowComp = event.node.selected;
+    if(this.isDisableFlowComp=== false){
+      console.log("i my darling")
+      this.createFlowComponentModel.clearValidators();
+      this.createFlowComponentModel.reset();
+    }
   }
 
   getFlowComponentByName() {

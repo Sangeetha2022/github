@@ -1,14 +1,14 @@
 <div class="container-fluid">
   <h1 style="text-align: center;"> <u>Flows</u> </h1>
   <div class="row row-button">
-    <button mat-raised-button color="primary" (click)=openModal()>Create</button>
-    <button mat-raised-button (click)="updateRow()">Update</button>
-    <button mat-raised-button color="warn" (click)="deleteRow()">Delete</button>
+    <button mat-raised-button color="primary" [disabled]="isDisableFlow" (click)=openModal()>Create</button>
+    <button mat-raised-button [disabled]="!isDisableFlow" (click)="updateRow()">Update</button>
+    <button mat-raised-button color="warn" [disabled]="!isDisableFlow" (click)="deleteRow()">Delete</button>
   </div>
   <div class="flowTable">
     <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnDefs"
-      [rowSelection]="rowSelection" [rowData]="rowData" [animateRows]="true" [defaultColDef]="defaultColDef"
-      (cellDoubleClicked)="routeNextPage()" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
+      [rowSelection]="rowSelection"  [rowData]="rowData" [animateRows]="true" [defaultColDef]="defaultColDef"
+      (cellDoubleClicked)="routeNextPage()" (rowSelected)="onRowSelected($event)" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
     </ag-grid-angular>
   </div>
 </div>
@@ -73,7 +73,7 @@
         </div>
         <div class="form-group" *ngIf="!isCreateModel">
           <button type="button" class="btn button-create" (click)="updateFlowModel()">update</button>
-          <button type="button" class="btn button-close" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
+          <button type="button" class="btn button-close" (click)="onCloseHandledForUpdate()">{{ 'cancel' | i18next }}</button>
         </div>
       </div>
     </div>
