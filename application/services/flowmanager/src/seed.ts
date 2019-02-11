@@ -37,13 +37,13 @@ export class FeedSeedData {
 
     seedGenFlowComponentData = async () => {
         Object.keys(generationflowjson).map(async (key, index) => {
-            const data = await this.connector.findOne({ flow_name: key });
+            const data = await this.genFlow.findOne({ flow_name: key });
             if (data === null) {
                 let dataToSave = {
                     flow_name: key,
                     flow_comp_seq: generationflowjson[key]
                 }
-                const createdGenFlow = new this.connector(dataToSave);
+                const createdGenFlow = new this.genFlow(dataToSave);
                 createdGenFlow.save();
             }
         })

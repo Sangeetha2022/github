@@ -6,6 +6,6 @@ const generationFlowSchema = new mongoose.Schema({
     flow_comp_seq: Array
 });
 
-const GenFlowModel = mongoose.model<IGenFlowModel & mongoose.Document>('flow_component', generationFlowSchema);
+const GenFlowModel = mongoose.model<IGenFlowModel & mongoose.Document>('flomanager_sequence', generationFlowSchema);
 
 export default GenFlowModel;

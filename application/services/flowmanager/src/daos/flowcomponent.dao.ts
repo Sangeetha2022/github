@@ -45,7 +45,7 @@ export class FlowComponentDao {
 
     getFlowComponentsByName = async (req: Request, next, callback: CallableFunction) => {
         const name = req.params.name;
-        const data = await this.flowcomponent.findOne(name);
+        const data = await this.flowcomponent.findOne({ name: name });
         if (data) {
             callback(data);
         } else {
