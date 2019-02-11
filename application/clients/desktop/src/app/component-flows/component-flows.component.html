@@ -1,9 +1,9 @@
 <div class="container-fluid">
   <h1 style="text-align: center;"> <u>Flow Components</u> </h1>
   <div class="row row-button">
-    <button mat-raised-button color="primary" [disabled]="!isDisableFlowComp" (click)=openAddModal()>Create</button>
-    <button mat-raised-button [disabled]="isDisableFlowComp" (click)=updateRow()>Update</button>
-    <button mat-raised-button color="warn" [disabled]="isDisableFlowComp" (click)="deleteRowComponent()">Delete</button>
+    <button mat-raised-button color="primary" [disabled]="isDisableFlowComp" (click)=openAddModal()>Create</button>
+    <button mat-raised-button [disabled]="!isDisableFlowComp" (click)=updateRow()>Update</button>
+    <button mat-raised-button color="warn" [disabled]="!isDisableFlowComp" (click)="deleteRowComponent()">Delete</button>
   </div>
 
   <div class="col-md-12" style="margin-top: 50px">
@@ -13,22 +13,22 @@
       <span>{{message}}</span>
     </div>
     <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
-      [animateRows]="true" class="ag-theme-balham" [columnDefs]="columnDefs" [rowData]="data" [rowSelection]="rowSelection"
-      (selectionChanged)="onSelectionChange()" (rowSelected)="onRowSelectedFlowComp($event)" (gridReady)="onGridReady($event)"></ag-grid-angular>
+      [animateRows]="true" class="ag-theme-balham" [columnDefs]="columnDefs" [rowData]="data" (rowSelected)="onRowSelectedFlowComp($event)" [rowSelection]="rowSelection"
+      (selectionChanged)="onSelectionChange()" (gridReady)="onGridReady($event)"></ag-grid-angular>
   </div>
 
   <div *ngIf="showConnectors" style="padding:100px">
     <div>
       <h1 style="text-align: center;"> <u>Available Connectors</u> </h1>
     </div>
-    <div *ngIf="isDisableFlowComp">
+    <div *ngIf="!isDisableFlowComp">
     <div class="row row-button">
       <button mat-raised-button color="primary" (click)=openAddConnectorModal()>Create</button>
       <button mat-raised-button (click)=updateRowConnector()>Update</button>
       <button mat-raised-button color="warn" (click)="deleteConnector()">Delete</button>
     </div>
     </div>
-    <div *ngIf="isDisableFlowComp">
+    <div *ngIf="!isDisableFlowComp">
     <div class="row">
 
       <div class="col-md-12">
@@ -163,11 +163,11 @@
         </form>
       </div>
       <div class="modal-footer">
-        <div class="form-group" *ngIf="!isCreateModel">
+        <div class="form-group" *ngIf="!isDisableFlowComp">
           <button type="button" class="btn button-create" (click)="createFlowComponent()">{{ 'create' | i18next }}</button>
           <button type="button" class="btn button-close" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
         </div>
-        <div class="form-group" *ngIf="isCreateModel">
+        <div class="form-group" *ngIf="isDisableFlowComp">
           <button type="button" class="btn button-create" (click)="updateFlowCompModel()">update</button>
           <button type="button" class="btn button-close" (click)="onCloseHandledUpdate()">{{ 'cancel' | i18next }}</button>
         </div>

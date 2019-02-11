@@ -68,7 +68,6 @@ export class ComponentFlowsComponent implements OnInit {
   createFlowComponentModel: FormGroup;
   createMFlowForm: FormGroup;
   createConnectorForm: FormGroup;
-  isCreateModel: Boolean = false;
   showConnectors: boolean;
   gridOptions;
   addToMicroFlow: Boolean = null;
@@ -99,6 +98,7 @@ export class ComponentFlowsComponent implements OnInit {
       enableValue: true,
       resizable: true
     };
+    console.log("i am unwanted one in con",this.isDisableFlowComp)
   }
 
   ngOnInit() {
@@ -106,6 +106,7 @@ export class ComponentFlowsComponent implements OnInit {
     this.getFlowComponentByName();
     this.getAllConnector();
     this.generateForms();
+    console.log("i am unwanted one",this.isDisableFlowComp)
   }
 
   generateForms(){
@@ -153,7 +154,6 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   onCloseHandled() {
-    this.isCreateModel = false;
     this.createFlowComponentModel.clearValidators();
     this.createFlowComponentModel.reset();
     this.addModel = 'none';
@@ -185,6 +185,7 @@ export class ComponentFlowsComponent implements OnInit {
   
   onRowSelectedFlowComp(event) {
     this.isDisableFlowComp = event.node.selected;
+    console.log("i am needed one",this.isDisableFlowComp)
     if(this.isDisableFlowComp=== false){
       console.log("i my darling")
       this.createFlowComponentModel.clearValidators();
@@ -246,7 +247,6 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   updateRow() {
-    this.isCreateModel = true;
     this.iFlowComponent = this.selectedFlow[0];
     this.openAddModal();
   }
@@ -393,8 +393,9 @@ export class ComponentFlowsComponent implements OnInit {
   onSelectionChange() {
     let selectedRows = this.flowCompGrid.getSelectedRows();
     this.selectedFlow = selectedRows;
-    console.log("i am the connector",this.selectedFlow[0].connector)
+    if(this.isDisableFlowComp===true){
     this.showConnectors = this.selectedFlow[0].connector
+    }
     console.log(" [   = =  =  > > >", this.selectedFlow)
     this.microFlowView();
   }
