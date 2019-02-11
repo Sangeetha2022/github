@@ -1,7 +1,7 @@
-import { FlowController } from "../controllers/FlowController";
-import { FlowComponentController } from "../controllers/FlowComponentController";
-import { GenerationFlowController } from "../controllers/GenerationFlowController";
-import { ConnectorController } from "../controllers/ConnectorController";
+import { FlowController } from "../controllers/flow.controller";
+import { FlowComponentController } from "../controllers/flowcomponent.controller";
+import { GenerationFlowController } from "../controllers/generationflow.controller";
+import { ConnectorController } from "../controllers/connector.controller";
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {
@@ -27,21 +27,21 @@ export class Routes {
 
         // flowComponent routes
         app.route('/flow_component/save').post(this.flowComponentController.saveFlowComonents);
-        app.route('/flow_component/update').put(this.flowComponentController.updateFlowComponent);
+        app.route('/flow_component/update/:id').put(this.flowComponentController.updateFlowComponent);
         app.route('/flow_component/getall').get(this.flowComponentController.getAllFlowComponents);
         app.route('/flow_component/getbyid/:id').get(this.flowComponentController.getFlowComponentsByID);
         app.route('/flow_component/getbyname/:name').get(this.flowComponentController.getFlowComponentsByName);
         
         //microFlow
         app.route('/generation_flow/add').post(this.generationFlow.addGenerationFlow);
-        app.route('/generation_flow/update').put(this.generationFlow.updateGenerationFlow);
+        app.route('/generation_flow/update/:id').put(this.generationFlow.updateGenerationFlow);
         app.route('/generation_flow/getall').get(this.generationFlow.getAllGenerationFlow);
         app.route('/generation_flow/getbyid/:id').get(this.generationFlow.getGenerationFlowByID);
         app.route('/generation_flow/getbyname/:name').get(this.generationFlow.getGenerationFlowByName);
 
         //connector
         app.route('/connector/add').post(this.connector.saveConnector);
-        app.route('/connector/update').put(this.connector.updateConnector);
+        app.route('/connector/update/:id').put(this.connector.updateConnector);
         app.route('/connector/getall').get(this.connector.getAllConnector);
         app.route('/connector/getbyid/:id').get(this.connector.getConnectorByID);
         app.route('/connector/delete/:id').delete(this.connector.deleteConnector);

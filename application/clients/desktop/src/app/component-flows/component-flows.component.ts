@@ -4,6 +4,7 @@ import { ComponentFlowsService } from './component-flows.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IMicroFlow } from './interface/microFlow';
 import { IFlowComponent } from './interface/flowComponents';
+import { Connector } from './interface/connector';
 import { IGenerateFlow } from '../flow-manager/interface/generationFlow';
 
 
@@ -15,14 +16,17 @@ import { IGenerateFlow } from '../flow-manager/interface/generationFlow';
 })
 export class ComponentFlowsComponent implements OnInit {
   iMicroFlow: IMicroFlow = {
+    _id:'',
     sequence_id: '',
     component_name: '',
     micro_flow_step_name: '',
   }
-  private generateFlow: IGenerateFlow = {
-    flow_name: '',
-    flow_sequence: [],
-  };
+  connector: Connector={
+    id:'',
+    name:'',
+    description:'',
+    url:'',
+  }
   iFlowComponent: IFlowComponent = {
     component_name: '',
     label: '',
@@ -31,6 +35,7 @@ export class ComponentFlowsComponent implements OnInit {
     dev_language: '',
     dev_framework: '',
     description: '',
+    connector: false,
   }
   columnDefs;
   getFlowCompName: string;
@@ -40,21 +45,32 @@ export class ComponentFlowsComponent implements OnInit {
   defaultColDef;
   flowCompGrid;
   microFlowGrid;
+  connectorFlowGrid;
+  selectedConnector;
+  microFlowDatatoUpdate: any = [];
   data: any = [];
   microFlow: any = [];
+  connectorData: any = [];
   gridColumnApi;
+  addConnectorModel;
+  microFlowId;
   showMicroFlow: Boolean = false;
-  isRemoveModel: Boolean;
+  isUpdateMF: Boolean = false;
+  isUpdateConnector: Boolean = false;
   microColDef;
+  connectorColDef;
   flow_component_sequence: any = [];
   selectedFlow: any = [];
+  selectedMFlow: any=[];
   flowCompSeq: any = [];
   message: string;
   addModel: String = 'none';
   addMFModel: String = 'none';
   createFlowComponentModel: FormGroup;
   createMFlowForm: FormGroup;
-  isCreateModel: Boolean = true;
+  createConnectorForm: FormGroup;
+  isCreateModel: Boolean = false;
+  showConnectors: boolean;
   gridOptions;
   addToMicroFlow: Boolean = null;
 
@@ -68,8 +84,14 @@ export class ComponentFlowsComponent implements OnInit {
       { headerName: 'Label', field: 'label' },
       { headerName: 'Description', field: 'description' },
     ];
+    this.connectorColDef = [
+      { headerName: 'Name', field: 'name', checkboxSelection: true },
+      { headerName: 'Description', field: 'description' },
+      { headerName: 'URL', field: 'url' },
+      
+    ]
     this.microColDef = [
-      { headerName: 'sequence_id', field: 'sequence_id', sort: 'asc' },
+      { headerName: 'sequence_id', field: 'sequence_id', sort: 'asc', checkboxSelection: true },
       { headerName: 'component_name', field: 'component_name' },
       { headerName: 'micro_flow_step_name', field: 'micro_flow_step_name' }
     ];
@@ -83,6 +105,11 @@ export class ComponentFlowsComponent implements OnInit {
   ngOnInit() {
     this.getDataFromFlowService();
     this.getFlowComponentByName();
+    this.getAllConnector();
+    this.generateForms();
+  }
+
+  generateForms(){
     this.createFlowComponentModel = this.formBuilder.group({
       component_name: '',
       label: '',
@@ -91,12 +118,19 @@ export class ComponentFlowsComponent implements OnInit {
       dev_language: '',
       dev_framework: '',
       description: '',
+      connector: '',
     });
     this.createMFlowForm = this.formBuilder.group({
       sequence_id: '',
       component_name: '',
       micro_flow_step_name: '',
     });
+
+    this.createConnectorForm = this.formBuilder.group({
+      name:'',
+      description:'',
+      url:'',
+    })
   }
 
   getDataFromFlowService() {
@@ -112,11 +146,15 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   openAddMFModal() {
-    this.addToMicroFlow = true
     this.addMFModel = 'block'
   }
 
+  openAddConnectorModal() {
+    this.addConnectorModel = 'block'
+  }
+
   onCloseHandled() {
+    this.isCreateModel = false;
     this.createFlowComponentModel.clearValidators();
     this.createFlowComponentModel.reset();
     this.addModel = 'none';
@@ -124,23 +162,34 @@ export class ComponentFlowsComponent implements OnInit {
 
   onCloseMFHandled() {
     this.addToMicroFlow = null
+    this.isUpdateMF = false;
     this.createMFlowForm.clearValidators();
     this.createMFlowForm.reset();
     this.addMFModel = 'none';
   }
 
+  onCloseConnectorHandled() {
+    this.isUpdateConnector = false;
+    this.createMFlowForm.clearValidators();
+    this.createMFlowForm.reset();
+    this.addConnectorModel = 'none';
+  }
+
   getFlowComponentByName() {
-    this.flowManagerService.getFlowComponentByName(this.message).subscribe((data) => {
+    console.log("asodhofhso",this.message)
+    this.componentFlowsService.getFlowGenComponentByName(this.message).subscribe((data) => {
+      console.log("i need u dr",data)
       this.rowData = data;
+      console.log(this.rowData);
       this.data = this.rowData.flow_comp_seq;
-      console.log(this.rowData.flow_comp_seq);
     });
   }
 
   createFlowComponent() {
-    this.componentFlowsService.addFlowComp(this.createFlowComponentModel.getRawValue()).subscribe((data) => {
+    console.log(this.createFlowComponentModel.getRawValue().connector);
+    this.componentFlowsService.saveFlowComponent(this.createFlowComponentModel.getRawValue()).subscribe((data) => {
       this.rowData.flow_comp_seq.push(this.createFlowComponentModel.getRawValue())
-      this.addGenFlow();
+      this.updateGenFlow();
       this.onCloseHandled();
     },
       (error) => {
@@ -148,38 +197,40 @@ export class ComponentFlowsComponent implements OnInit {
       } 
     );
   }
-  deleteRowComponent() {
 
+  getAllConnector(){
+    this.componentFlowsService.getAllConnector().subscribe(data => {
+      this.connectorData = data;
+      console.log("i am the connector",data)
+    })
+  }
+
+  deleteRowComponent() {
+    console.log("i am in delete")
+    this.getFlowCompName = this.selectedFlow[0].component_name;
     this.rowData.flow_comp_seq.forEach((data,index)=>{
       if(this.getFlowCompName === data.component_name){
-        this.rowData.flow_comp_seq.splice(this.rowData.flow_comp_seq[index]); 
-        this.updataFLowComp();
+        this.rowData.flow_comp_seq.splice(index,1)
+        this.updateGenFlow();
         return
       }
     })
 
   }
 
-  createFlowModel() {
-    let dataToSave = this.createMFlowForm.getRawValue()
-    dataToSave.component_name = this.selectedFlow[0].component_name
-    this.componentFlowsService.updateFlowComp(dataToSave).subscribe((data) => {
-      
-    },
-      (error) => {
-        console.log('add gen flow error --- ', error);
-      }
-    );
-  }
+  // openAddConnectorModal(){
 
-  updateRowMicro() {
-    this.isRemoveModel = false;
+  // }
+
+  updateRowConnector(){
+    this.isUpdateConnector = true;
+    this.connector = this.selectedConnector[0]
+    this.openAddConnectorModal();
   }
 
   updateRow() {
-    this.isCreateModel = false;
+    this.isCreateModel = true;
     this.iFlowComponent = this.selectedFlow[0];
-    console.log(this.createFlowComponentModel)
     this.openAddModal();
   }
 
@@ -188,27 +239,16 @@ export class ComponentFlowsComponent implements OnInit {
     this.rowData.flow_comp_seq.forEach((data,index)=>{
       if(this.getFlowCompName === data.component_name){
         this.rowData.flow_comp_seq[index] = this.createFlowComponentModel.getRawValue()
-        this.updataFLowComp();
+        this.updateGenFlow();
+        this.onCloseHandled();
         return
       }
     })
     console.log("in update flow",)
-    // this.rowData.flow_comp_seq.push(this.createFlowComponentModel.getRawValue())
-    // this.addGenFlow();
-    // console.log("======> > >  > >  ")
-    // this.componentFlowsService.updateFlowComp(this.createFlowComponentModel.getRawValue()).subscribe(data => {
-    //   console.log("hello", data)
-    //   this.onCloseHandled();
-    //   this.getFlowComponentByName();
-    // },
-    //   (error) => {
-    //     console.log('error delete flow manager --- ', error);
-    //   }
-    // );
   }
 
-  addGenFlow() {
-    this.componentFlowsService.addGenFlow(this.rowData).subscribe(data => {
+  updateGenFlow() {
+    this.componentFlowsService.updateGenFlow(this.rowData).subscribe(data => {
       console.log("i am in generation", data)
       this.getFlowComponentByName();
     }, error => {
@@ -216,12 +256,14 @@ export class ComponentFlowsComponent implements OnInit {
     })
   }
   updataFLowComp(){
-    this.componentFlowsService.addGenFlow(this.rowData).subscribe(data => {
+    console.log("i am in updateflow comp",this.rowData)
+    this.componentFlowsService.updateFlowComponent(this.rowData).subscribe(data => {
       console.log("i am in generation", data)
       this.getFlowComponentByName();
     }, error => {
       console.log("===got an error r===")
     })
+    this.onCloseHandled();
   }
 
   onGridReady(params) {
@@ -229,6 +271,14 @@ export class ComponentFlowsComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
     this.flowCompGrid.sizeColumnsToFit();
   }
+
+  onGridConnectorReady(params) {
+    this.connectorFlowGrid = params.api;
+    this.gridColumnApi = params.columnApi;
+    this.connectorFlowGrid.sizeColumnsToFit();
+    console.log("----------v-v->", this.connectorFlowGrid)
+  }
+
   onGridMicroFlowReady(params) {
     this.microFlowGrid = params.api;
     this.gridColumnApi = params.columnApi;
@@ -240,7 +290,7 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   getMicroFlowName(component) {
-    this.componentFlowsService.getMicroFlowByName(component).subscribe(data => {
+    this.componentFlowsService.getMicroFlowByCompName(component).subscribe(data => {
       console.log("selected data____+++++++++ ", data)
       if (data) {
         this.showMicroFlow = true;
@@ -251,13 +301,96 @@ export class ComponentFlowsComponent implements OnInit {
     })
   }
   microFlowView() {
+    if(this.selectedFlow.length!=0){
     this.getMicroFlowName(this.selectedFlow[0].component_name);
+    }
+  }
+
+  createMicroFLow() {
+    let dataToSave = this.createMFlowForm.getRawValue()
+    dataToSave.component_name = this.selectedFlow[0].component_name
+    this.componentFlowsService.saveMicroFlow(dataToSave).subscribe((data) => {
+      console.log("i am in add micro flow",data)
+      this.onCloseHandled();
+
+    },
+      (error) => {
+        console.log('add gen flow error --- ', error);
+      }
+    );
+  }
+
+  createConnector(){
+  this.componentFlowsService.saveConnector(this.createConnectorForm.getRawValue()).subscribe(data =>{
+      console.log("i am the data u r expected",data)
+
+   })
+   this.onCloseConnectorHandled();
+  }
+
+  updateConnector(){
+    this.componentFlowsService.updateConnector(this.connector).subscribe(data =>{
+      console.log("i am the data u r expected",data)
+
+   })
+   this.onCloseConnectorHandled();
+  }
+  deleteConnector(){
+    this.componentFlowsService.deleteConnector(this.connector.id).subscribe(data=>{
+      console.log(data)
+    })
+   this.onCloseConnectorHandled();
+
+  }
+  updateRowMicro() {
+    console.log("u need this id",this.selectedMFlow[0])
+    this.iMicroFlow = this.selectedMFlow[0];
+    console.log("u need this id",this.iMicroFlow)
+    this.isUpdateMF = true;
+    this.openAddMFModal();
+  }
+  updateMicroFlow(){
+    this.microFlowDatatoUpdate = this.createMFlowForm.getRawValue();
+    if(this.iMicroFlow.component_name === this.microFlowDatatoUpdate.component_name){
+      this.iMicroFlow.component_name = this.microFlowDatatoUpdate.component_name
+      this.iMicroFlow.sequence_id = this.microFlowDatatoUpdate.sequence_id
+      this.iMicroFlow.micro_flow_step_name = this.microFlowDatatoUpdate.micro_flow_step_name
+    }
+    this.updateMicroFlowService();
+  }
+  updateMicroFlowService(){
+    console.log("i am the one your looking for",this.iMicroFlow)
+    this.componentFlowsService.updateMicroFlow(this.iMicroFlow).subscribe(data=>{
+      console.log("i am in data",data)
+    })
+    this.onCloseHandled();
+  }
+  deleteMicroFlow(){
+    console.log("i am the id ur needed",this.selectedMFlow[0]._id)
+    this.componentFlowsService.deleteMicroFlow(this.selectedMFlow[0]._id).subscribe(data=>{
+      console.log(data)
+    }), (error) => {
+      console.log(error)
+     }
   }
   onSelectionChange() {
     let selectedRows = this.flowCompGrid.getSelectedRows();
     this.selectedFlow = selectedRows;
+    console.log("i am the connector",this.selectedFlow[0].connector)
+    this.showConnectors = this.selectedFlow[0].connector
     console.log(" [   = =  =  > > >", this.selectedFlow)
     this.microFlowView();
+  }
+  onSelectionConnectorChange(){
+    let selectedConnectorRows = this.connectorFlowGrid.getSelectedRows();
+    this.selectedConnector = selectedConnectorRows;
+    this.connector.id = this.selectedConnector[0]._id;
+    console.log("i am the selected one", this.connector.id)
+  }
+  onSelectionMFChange(){
+    let selectedMFRows = this.microFlowGrid.getSelectedRows();
+    this.selectedMFlow = selectedMFRows;
+    console.log(" [   = =  =  > > >", this.selectedMFlow)
   }
 
 }

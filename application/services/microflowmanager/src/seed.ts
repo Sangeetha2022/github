@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { MicroFlowSchema } from './models/MicroFlow';
+import { MicroFlowSchema } from './models/microflow.model';
 import * as microflowjson from './assests/microflow.json';
 
 const MicroFlow = mongoose.model('MicroFlow', MicroFlowSchema);

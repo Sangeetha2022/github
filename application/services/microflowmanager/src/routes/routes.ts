@@ -1,4 +1,4 @@
-import { MicroFlowController } from "../controllers/MicroFlowController";
+import { MicroFlowController } from "../controllers/microflow.controller";
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {

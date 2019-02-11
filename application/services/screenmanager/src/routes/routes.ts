@@ -1,5 +1,5 @@
 
-import { UserTemplateController } from '../controllers/UserTemplateController';
+import { UserTemplateController } from '../controllers/usertemplate.controller';
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {

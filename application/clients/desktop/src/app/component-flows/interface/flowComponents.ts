@@ -6,4 +6,5 @@ export interface IFlowComponent {
     dev_language: string;
     dev_framework: string;
     description: string;
+    connector: Boolean;
 }

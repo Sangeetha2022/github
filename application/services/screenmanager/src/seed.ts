@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { PrimaryTemplateSchema } from './models/PrimaryTemplate';
+import { PrimaryTemplateSchema } from './models/primarytemplate.model';
 import { primaryTemplate } from './assets/primaryTemplate';
 
 const PrimaryTemplate = mongoose.model('PrimaryTemplate', PrimaryTemplateSchema);
