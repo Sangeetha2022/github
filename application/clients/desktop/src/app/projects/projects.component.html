@@ -7,35 +7,38 @@
     </div>
   </div>
   <div style="height: 50px;"></div>
-  <!-- <div class="row"> -->
   <mat-accordion>
-    <mat-expansion-panel>
+    <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
         <mat-panel-title> My Application</mat-panel-title>
-        <div class="row" style="margin: 0px;">
-          <div class="col-md-4" style="margin-bottom: 10px" *ngFor="let proj of myAllProjects; let i = index">
-            <div class="card">
-              <div class="card-header">{{proj.name}}</div>
-              <div class="card-body">
-                <div><span>{{proj.description}}</span></div>
-                <button type="button" class="btn btn-primary btn-space pull-right">Edit</button>
-                <button type="button" (click)="openDeleteModel(proj)" class="btn btn-danger btn-space pull-right">Delete</button>
-              </div>
+      </mat-expansion-panel-header>
+      <div class="row" style="margin: 0px;">
+        <div class="col-md-4" *ngFor="let proj of myAllProjects; let i = index">
+          <div class="card">
+            <div class="card-header">{{proj.name}}</div>
+            <div class="card-body">
+              <div><span>{{proj.description}}</span></div>
+              <button type="button" class="btn btn-primary btn-space pull-right">Edit</button>
+              <button type="button" (click)="openDeleteModel(proj)" class="btn btn-danger btn-space pull-right">Delete</button>
             </div>
           </div>
         </div>
-      </mat-expansion-panel-header>
+        <div class="col-md-4" *ngIf="myAllProjects.length === 0">
+          No Projects Available.
+        </div>
+      </div>
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title> Geppetto Sample Application</mat-panel-title>
       </mat-expansion-panel-header>
+      <p>No Projects Available.</p>
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title> Shared Applications </mat-panel-title>
       </mat-expansion-panel-header>
-      <p>I'm visible because I am open</p>
+      <p>No Projects Available.</p>
     </mat-expansion-panel>
   </mat-accordion>
 

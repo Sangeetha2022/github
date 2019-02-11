@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
 export class Constants {
 
     // project apis 
-    public static get addProjectUrl(): string { return '/add'; }
-    public static get deleteMyProjectUrl(): string { return '/delete/'; }
-    public static get getAllMyProjecturl(): string { return '/getall'; }
+    public static get addProjectUrl(): string { return '/projects/my/add'; }
+    public static get deleteMyProjectUrl(): string { return '/projects/my/delete/'; }
+    public static get getAllMyProjecturl(): string { return '/projects/my/getall'; }
 
     // Flow apis
     public static get addFlowUrl(): string { return '/flow/save'; }

@@ -1,12 +1,11 @@
-<div>
-    <ng-template ngFor let-lang [ngForOf]="languages" let-i="index">
-        <a *ngIf="language !== lang" href="javascript:void(0)" class="link lang-item {{lang}} space" (click)="changeLanguage(lang)">{{
-            '_languages.' + lang | i18nextCap }}</a>
-        <span *ngIf="language === lang" class="current lang-item {{lang}} space">{{ '_languages.' + lang | i18nextCap
-            }}</span>
-    </ng-template>
-    
-        <a [routerLink]="['/flow-manager']">Flow Manager</a>
-        &nbsp;
-        <a [routerLink]="['/desktopscreen']">Desktop Screen</a>
+<div class="lang-main-div">
+    <div class="lang-head">
+        <ng-template ngFor let-lang [ngForOf]="languages" let-i="index">
+            <a *ngIf="language !== lang" href="javascript:void(0)" class="link lang-item {{lang}} space" (click)="changeLanguage(lang)">{{
+                '_languages.' + lang | i18nextCap }}</a>
+            <span *ngIf="language === lang" class="current lang-item {{lang}} space">{{ '_languages.' + lang |
+                i18nextCap
+                }}</span>
+        </ng-template>
+    </div>
 </div>

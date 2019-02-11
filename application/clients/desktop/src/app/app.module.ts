@@ -8,6 +8,7 @@ import {
   I18NEXT_SERVICE, I18NextLoadResult, I18NextModule, ITranslationService, defaultInterpolationFormat,
   I18NEXT_NAMESPACE
 } from 'angular-i18next';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -24,7 +25,7 @@ import { AgGridModule } from "ag-grid-angular";
 import { ComponentFlowsComponent } from './component-flows/component-flows.component';
 import { ComponentFlowsService } from './component-flows/component-flows.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MatButtonModule, MatExpansionModule, MatFormFieldModule } from '@angular/material';
+import { MatButtonModule, MatExpansionModule, MatFormFieldModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatTabsModule } from '@angular/material';
 
 import { FlowManagerComponent } from './flow-manager/flow-manager.component';
 import { SharedService } from 'src/shared/shared.service';
@@ -32,6 +33,8 @@ import { AppInterceptor } from './app.interceptor';
 import { ApiService } from './config/api.service';
 import { FlowManagerService } from './flow-manager/flow-manager.service';
 import { ScreenDesignerModule } from './screen-designer/screen-designer.module';
+import { HeaderComponent } from './navigation/header/header.component';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 
 const i18nextOptions = {
@@ -93,6 +96,7 @@ export const I18N_PROVIDERS = [
     HeaderLanguageComponent,
     ComponentFlowsComponent,
     FlowManagerComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,6 +104,7 @@ export const I18N_PROVIDERS = [
     AgGridModule.withComponents([]),
     AppRoutingModule,
     FormsModule,
+    FlexLayoutModule,
     ReactiveFormsModule,
     I18NextModule.forRoot(),
     ValidationMessageModule,
@@ -107,6 +112,10 @@ export const I18N_PROVIDERS = [
     NgMultiSelectDropDownModule.forRoot(),
     HttpClientModule,
     MatButtonModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatTabsModule,
+    MatSidenavModule,
     ScreenDesignerModule,
     I18NextValidationMessageModule,
     MatExpansionModule,
@@ -126,8 +135,10 @@ export const I18N_PROVIDERS = [
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
+
 export class AppModule {
   constructor(public appRef: ApplicationRef) { }
 }

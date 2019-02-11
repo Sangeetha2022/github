@@ -8,10 +8,7 @@
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 
-body,
-html,
-#app {
-    height: 100%;
+html, body { 
     margin: 0;
-    padding: 0;
+    height: 100%;
 }

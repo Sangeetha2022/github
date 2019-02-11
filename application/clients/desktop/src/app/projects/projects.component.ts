@@ -2,16 +2,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, Injectable } from '@angular/core';
 import { AppComponentService } from '../app.component.service';
 import { ProjectsService } from '../projects/projects.service';
-import { project } from '../projects/project.model';
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
 })
+
 @Injectable()
 export class ProjectsComponent implements OnInit {
-  panelOpenState = false;
   displayModel: String = 'none';
   delmodal: String = 'none';
   idToDelete: String = null;

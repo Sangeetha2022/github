@@ -53,7 +53,6 @@ export class ComponentFlowsService {
     return this.api.delete(this.restapi.flowbaseUrl + Constants.deleteConnector + id);
   }
 
-
   deleteMicroFlow(id): Observable<any> {
     return this.api.delete(this.restapi.mflowbaseUrl + Constants.deleteMicroFlowUrl + id);
   }

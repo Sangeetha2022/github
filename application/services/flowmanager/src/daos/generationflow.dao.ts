@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import GenFlowModel from '../models/generationflow/generationflow.model';
 import IGenFlow from '../models/generationflow/generationflow.interface';
-import GenFlowDto from '../models/generationFlow/generationflow.dto';
+import GenFlowDto from '../models/generationflow/generationflow.dto';
 import PostNotFoundException from '../exceptions/PostNotFoundException';
 
 export class GenerationFlowDao {

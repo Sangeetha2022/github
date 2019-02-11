@@ -1,5 +1,13 @@
-<app-header-language></app-header-language>
-<div class="container-fluid" style="height: 86vh; padding:0%">
-  <router-outlet></router-outlet>
-</div>
-
+<app-layout>
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav role="navigation">
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <app-header-language></app-header-language>
+      <app-header (sidenavToggle)="sidenav.toggle()"></app-header>
+      <main style="margin-top: 100px;">
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</app-layout>

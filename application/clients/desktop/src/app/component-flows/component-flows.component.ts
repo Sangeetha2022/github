@@ -7,8 +7,6 @@ import { IFlowComponent } from './interface/flowComponents';
 import { Connector } from './interface/connector';
 import { IGenerateFlow } from '../flow-manager/interface/generationFlow';
 
-
-
 @Component({
   selector: 'app-component-flows',
   templateUrl: './component-flows.component.html',
