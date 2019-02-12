@@ -1,10 +1,9 @@
 <div class="container-fluid">
   <h1 style="text-align: center;"> <u>Flows Components</u> </h1>
   <div class="row row-button">
-    <button mat-raised-button color="primary" [disabled]="isDisableFlowComp" (click)=openAddModal()>Create</button>
-    <button mat-raised-button [disabled]="!isDisableFlowComp" (click)=updateRow()>Update</button>
-    <button mat-raised-button color="warn" [disabled]="!isDisableFlowComp"
-      (click)="deleteRowComponent()">Delete</button>
+    <button mat-raised-button color="primary" (click)=openAddModal()>Create</button>
+    <button mat-raised-button (click)=updateRow()>Update</button>
+    <button mat-raised-button color="warn" (click)="deleteRowComponent()">Delete</button>
   </div>
   <div class="flowTable">
     <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
@@ -14,17 +13,18 @@
   </div>
 
 
-  <h1 style="text-align: center;"> <u>Available Connectors</u> </h1>
-  <div class="row row-button">
+  <h1 style="text-align: center;" *ngIf="selectedFlow[0]?.connector"> <u>Available Connectors</u> </h1>
+  <div class="row row-button" *ngIf="selectedFlow[0]?.connector">
     <button mat-raised-button color="primary" (click)=openAddConnectorModal()>Create</button>
     <button mat-raised-button (click)=updateRowConnector()>Update</button>
     <button mat-raised-button color="warn" (click)="deleteConnector()">Delete</button>
   </div>
-  <div class="flowTable">
-    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
+  <div class="flowTable" *ngIf="selectedFlow[0]?.connector">
+    <ag-grid-angular #agGrid style=" width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
       (selectionChanged)="onSelectionConnectorChange()" [rowSelection]="rowSelection" [animateRows]="true"
       class="ag-theme-balham" [columnDefs]="connectorColDef" [rowData]="connectorData"
-      (gridReady)="onGridConnectorReady($event)"></ag-grid-angular>
+      (gridReady)="onGridConnectorReady($event)">
+    </ag-grid-angular>
   </div>
 
 
