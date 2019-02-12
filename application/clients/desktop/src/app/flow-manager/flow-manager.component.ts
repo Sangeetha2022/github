@@ -101,8 +101,9 @@ export class FlowManagerComponent implements OnInit {
 
   onRowSelected(event) {
     this.isDisableFlow = event.node.selected;
-    if(this.isDisableFlow=== false){
-      console.log("i my darling")
+    console.log("i my darling",this.isDisableFlow)
+    if(this.isDisableFlow === false){
+      console.log("i my darling in false",this.isDisableFlow)
       this.createFlowForm.clearValidators();
       this.createFlowForm.reset();
     }

@@ -42,7 +42,7 @@
     </div>
   </div>
 
-
+  <div *ngIf="!isDisableFlowComp">
   <div *ngIf="showMicroFlow" style="padding:100px">
     <div>
       <h1 style="text-align: center;"> <u>Micro Flow</u> </h1>
@@ -62,6 +62,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </div>
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addModel}">
