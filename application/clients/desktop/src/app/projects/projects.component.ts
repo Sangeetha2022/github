@@ -37,6 +37,7 @@ export class ProjectsComponent implements OnInit {
   }
   onCloseHandled() {
     this.displayModel = 'none';
+    this.delmodal = 'none';
     this.submitted = false;
     this.createProject.clearValidators();
     this.createProject.reset();
@@ -52,6 +53,7 @@ export class ProjectsComponent implements OnInit {
       console.log('Check the browser console to see more info.', 'Error!');
     });
   }
+
   openDeleteModel(proj) {
     this.idToDelete = proj._id;
     this.delmodal = 'block'
@@ -60,7 +62,8 @@ export class ProjectsComponent implements OnInit {
   deleteMyProjects() {
     this.projectsService.deleteProject(this.idToDelete).subscribe(data => {
       console.log("data", data);
-      this.delmodal = 'none'
+      this.delmodal = 'none';
+      this.getAllMyProjects();
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });

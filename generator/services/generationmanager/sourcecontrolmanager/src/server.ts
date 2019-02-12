@@ -4,9 +4,8 @@ import { Routes } from "./routes/routes";
 import * as cors from 'cors';
 import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
-import { FeedSeedData } from './seed';
 
-const PORT = 3004;
+const PORT = 4001;
 
 class App {
 
@@ -21,7 +20,6 @@ class App {
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
         this.mongoSetup();
-        this.mongoSeedData();
         this.routePrv.routes(this.app);
     }
 
@@ -38,10 +36,6 @@ class App {
         mConfig.mongoConfig();
     }
 
-    private mongoSeedData(): void {
-        let seedData = new FeedSeedData();
-        seedData.primaryTemplateData();
-    }
 }
 
 new App().app.listen(PORT, () => {

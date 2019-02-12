@@ -1,16 +1,13 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import { Routes } from "./routes/routes";
-import * as mongoose from "mongoose";
 import { FeedSeedData } from './seed';
-import * as expressWinston from 'express-winston';
 import * as cors from 'cors';
 import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
-
+import * as mongoose from "mongoose";
 
 const PORT = 3001;
-const logDir = 'log';
 
 class App {
 
@@ -20,7 +17,7 @@ class App {
     
     public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
 
-    constructor() {
+    constructor() { 
         this.logger.setupLogger();
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();

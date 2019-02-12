@@ -1,15 +1,12 @@
 .space {
+    float: right;
     margin-right: 30px;
 }
 
-.lang-main-div {
-    background-color: green;
-    z-index: 999;
-}
-
 .lang-head {
+    width: 100%;
+    background-color: #b1b1b1 ;
     position: fixed;
     top: 0px;
-    right: 0px;
     z-index: 999;
 }
