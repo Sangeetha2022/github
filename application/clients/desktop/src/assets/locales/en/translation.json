@@ -35,6 +35,14 @@
     "componentName":"Component Name",
     "type":"Type",
     "sequenceId":"Sequence Id",
-    "devLang":"Development Language"
+    "devLang":"Development Language",
+    "devFramework":"Development Framework",
+    "url":"URL",
+    "apiKey":"Api Key",
+    "secretKey":"Secret Key",
+    "addForSeq":"Add Sequence for",
+    "microFlowName":"Micro Flow Name",
+    "action":"Action",
+    "connector":"Connector"
 
 }

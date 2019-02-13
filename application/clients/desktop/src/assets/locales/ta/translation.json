@@ -35,6 +35,17 @@
     "componentName":"கூறு பெயர்",
     "type":"வகை",
     "sequenceId":"வரிசை ஐடி",
-    "devLang":"மேம்பாட்டு மொழி"
+    "devLang":"மேம்பாட்டு மொழி",
+    "devFramework":"வளர்ச்சி கட்டமைப்பு",
+    "url":"URL",
+    "apiKey":"Api திறவுகோல்",
+    "secretKey":"இரகசிய திறவுகோல்",
+    "addForSeq":"வரிசைமுறை சேர்க்கவும்",
+    "microFlowName":"நுண் ஓட்டப் பெயர்",
+    "action":"செயல்",
+    "connector":"இணைப்பான்"
+
+
+
 
 }

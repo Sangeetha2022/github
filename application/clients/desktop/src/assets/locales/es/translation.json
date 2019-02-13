@@ -35,6 +35,20 @@
     "componentName":"Nombre del componente",
     "type":"Tipo",
     "sequenceId":"ID de secuencia",
-    "devLang":"Lenguaje de desarrollo"
+    "devLang":"Lenguaje de desarrollo",
+    "devFramework":"Marco de desarrollo",
+    "url":"URL",
+    "apiKey":"Clave API",
+    "secretKey":"Llave secreta",
+    "addForSeq":"Añadir secuencia para",
+    "microFlowName":"nombre de micro flujo",
+    "action":"Acción",
+    "connector":"Conectores"
+
+
+
+
+
+
 
 }

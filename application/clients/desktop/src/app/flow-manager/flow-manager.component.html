@@ -55,7 +55,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="action">Action</label>
+                <label for="action">{{ 'action' | i18next }}</label>
                 <input type="text" class="form-control" placeholder="enter your action" id="action" formControlName="action_on_data"
                   [(ngModel)]="flow.action_on_data" [ngClass]="{ 'is-invalid': submitted && form_control.action_on_data.errors }">
                 <div *ngIf="submitted && form_control.action_on_data.errors" class="invalid-feedback">
