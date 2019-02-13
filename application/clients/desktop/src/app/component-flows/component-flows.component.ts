@@ -24,6 +24,10 @@ export class ComponentFlowsComponent implements OnInit {
     name: '',
     description: '',
     url: '',
+    properties:{
+      apiKey: "",
+      secretKey:""
+    }
   }
   iFlowComponent: IFlowComponent = {
     component_name: '',
@@ -76,6 +80,8 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.connector.properties.apiKey)
+    console.log(this.connector.properties.secretKey)
     this.setupAgGrid();
     this.getDataFromFlowService();
     // this.getAllConnector();
@@ -133,7 +139,10 @@ export class ComponentFlowsComponent implements OnInit {
     if(type==='create'){
       console.log("i am here")
       this.isDisplayConnector = true;
-      this.connector = {description:'',name:'',id:'',url:''}
+      this.connector = {description:'',name:'',id:'',url:'', properties:{
+      apiKey: "",
+      secretKey:""
+    }}
       this.addConnectorModel = 'block'
       }
       if(type==='update'){
@@ -264,6 +273,7 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   updateConnector() {
+    console.log("i am the connector",this.connector)
     this.componentFlowsService.updateConnector(this.connector).subscribe(data => {
       console.log("i am the data u r expected", data)
 
@@ -330,7 +340,7 @@ export class ComponentFlowsComponent implements OnInit {
     let selectedConnectorRows = this.connectorFlowGrid.getSelectedRows();
     this.selectedConnector = selectedConnectorRows;
     this.connector.id = this.selectedConnector[0]._id;
-    console.log("i am the selected one", this.connector.id)
+    console.log("i am the selected one", this.selectedConnector[0])
   }
 
   onSelectionMFChange() {
@@ -353,12 +363,14 @@ export class ComponentFlowsComponent implements OnInit {
       { headerName: 'Name', field: 'name', checkboxSelection: true },
       { headerName: 'Description', field: 'description' },
       { headerName: 'URL', field: 'url' },
+      { headerName: 'Api key', field: 'properties.apiKey' },
+      { headerName: 'Secret Key', field: 'properties.secretKey' },
 
     ]
     this.microColDef = [
-      { headerName: 'sequence_id', field: 'sequence_id', sort: 'asc', checkboxSelection: true },
-      { headerName: 'component_name', field: 'component_name' },
-      { headerName: 'micro_flow_step_name', field: 'micro_flow_step_name' }
+      { headerName: 'Sequence Id', field: 'sequence_id', sort: 'asc', checkboxSelection: true },
+      { headerName: 'Component Name', field: 'component_name' },
+      { headerName: 'Micro Flow Step Name', field: 'micro_flow_step_name' }
     ];
     this.rowSelection = 'single';
     this.defaultColDef = {
@@ -389,6 +401,10 @@ export class ComponentFlowsComponent implements OnInit {
       name: '',
       description: '',
       url: '',
+      properties:this.formBuilder.group({
+        apiKey:'',
+        secretKey:''
+      })
     })
   }
 

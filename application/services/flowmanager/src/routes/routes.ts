@@ -41,7 +41,7 @@ export class Routes {
 
         //connector
         app.route('/connector/add').post(this.connector.saveConnector);
-        app.route('/connector/update/:id').put(this.connector.updateConnector);
+        app.route('/connector/update').put(this.connector.updateConnector);
         app.route('/connector/getall').get(this.connector.getAllConnector);
         app.route('/connector/getbyid/:id').get(this.connector.getConnectorByID);
         app.route('/connector/delete/:id').delete(this.connector.deleteConnector);

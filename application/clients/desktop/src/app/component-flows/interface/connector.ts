@@ -3,4 +3,8 @@ id:string;
 name: string;
 description: string;
 url: string;
+properties:{
+    apiKey: "",
+    secretKey:""
+  }
 }

@@ -47,7 +47,7 @@ export class ConnectorDao {
     }
 
     updateConnector = async (req: Request, next, callback: CallableFunction) => {
-        const id = req.params.id;
+        const id = req.body._id;
         const postData: IConnector = req.body;
         const post = await this.connector.findByIdAndUpdate(id, postData, { new: true });
         if (post) {

@@ -9,6 +9,8 @@
     "secondary_language":"இரண்டாம் மொழி",
     "cancel":"ரத்துசெய்",
     "create":"உருவாக்கு",
+    "update":"மேம்படுத்து",
+    "delete":"நீக்கு",
     "placeholder_name":"பெயரை உள்ளிடவும்",
     "placeholder_appContext":"பயன்பாட்டு சூழலில் உள்ளிடவும்",
     "placeholder_description":"விளக்கத்தை உள்ளிடவும்",
@@ -25,5 +27,14 @@
         "en": "English",
         "ta": "தமிழ்",
         "es": "Español"
-    }
+    },
+    "flows":"ஓட்டங்கள்",
+    "flowComponents": "ஓட்டக் கூறுகள்",
+    "microFlows":"நுண் ஓட்டங்கள்",
+    "availableConnectors":"கிடைக்கக்கூடிய இணைப்பான்",
+    "componentName":"கூறு பெயர்",
+    "type":"வகை",
+    "sequenceId":"வரிசை ஐடி",
+    "devLang":"மேம்பாட்டு மொழி"
+
 }

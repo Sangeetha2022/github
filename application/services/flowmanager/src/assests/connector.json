@@ -3,12 +3,20 @@
         {
             "name": "Github",
             "description": "Code Management",
-            "url": "http://www.github.com"
+            "url": "http://www.github.com",
+            "properties":{
+                "apiKey":"",
+                "secretKey":""
+            }
         },
         {
             "name": "Bitbucket",
             "description": "Code Management",
-            "url": "http://www.bitbucket.com"
+            "url": "http://www.bitbucket.com",
+            "properties":{
+                "apiKey":"",
+                "secretKey":""
+            }
         }
     ]
 }

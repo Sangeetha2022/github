@@ -9,6 +9,8 @@
     "secondary_language":"lengua secundaria",
     "cancel":"cancelar",
     "create":"crear",
+    "update":"actualizar",
+    "delete":"Borrar",
     "placeholder_name":"Ingrese su nombre",
     "placeholder_appContext":"ingrese el contexto de la aplicación",
     "placeholder_description":"introducir descripción",
@@ -25,5 +27,14 @@
         "en": "English",
         "ta": "தமிழ்",
         "es": "Español"
-    }
+    },
+    "flows":"fluye",
+    "flowComponents": "componentes de flujo",
+    "microFlows":"micro flujos",
+    "availableConnectors":"conectores disponibles",
+    "componentName":"Nombre del componente",
+    "type":"Tipo",
+    "sequenceId":"ID de secuencia",
+    "devLang":"Lenguaje de desarrollo"
+
 }

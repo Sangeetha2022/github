@@ -1,9 +1,9 @@
 <div class="container-fluid">
-  <h1 style="text-align: center;"> <u>Flows Components</u> </h1>
+  <h1 style="text-align: center;"> <u>{{ 'flowComponents' | i18next }}</u> </h1>
   <div class="row row-button">
-    <button mat-raised-button color="primary" (click)="openAddModal('create')">Create</button>
-    <button mat-raised-button (click)="openAddModal('update')">Update</button>
-    <button mat-raised-button color="warn" (click)="deleteRowComponent()">Delete</button>
+    <button mat-raised-button color="primary" (click)="openAddModal('create')">{{ 'create' | i18next }}</button>
+    <button mat-raised-button (click)="openAddModal('update')">{{ 'update' | i18next }}</button>
+    <button mat-raised-button color="warn" (click)="deleteRowComponent()">{{ 'delete' | i18next }}</button>
   </div>
   <div class="flowTable">
     <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
@@ -12,11 +12,11 @@
   </div>
 
 
-  <h1 style="text-align: center;" *ngIf="selectedFlow[0]?.connector"> <u>Available Connectors</u> </h1>
+  <h1 style="text-align: center;" *ngIf="selectedFlow[0]?.connector"> <u>{{ 'availableConnectors' | i18next }}</u> </h1>
   <div class="row row-button" *ngIf="selectedFlow[0]?.connector">
-    <button mat-raised-button color="primary" (click)="openAddConnectorModal('create')">Create</button>
-    <button mat-raised-button (click)="openAddConnectorModal('update')">Update</button>
-    <button mat-raised-button color="warn" (click)="deleteConnector()">Delete</button>
+    <button mat-raised-button color="primary" (click)="openAddConnectorModal('create')">{{ 'create' | i18next }}</button>
+    <button mat-raised-button (click)="openAddConnectorModal('update')">{{ 'update' | i18next }}</button>
+    <button mat-raised-button color="warn" (click)="deleteConnector()">{{ 'delete' | i18next }}</button>
   </div>
   <div class="flowTable" *ngIf="selectedFlow[0]?.connector">
     <ag-grid-angular #agGrid style=" width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
@@ -26,11 +26,11 @@
   </div>
 
   <div *ngIf="showMicroFlow">
-    <h1 style="text-align: center;"> <u>Micro Flows</u> </h1>
+    <h1 style="text-align: center;"> <u>{{'microFlows'|i18next}}</u> </h1>
     <div class="row row-button">
-      <button mat-raised-button color="primary" (click)="openAddMFModal('create')">Create</button>
-      <button mat-raised-button (click)="openAddMFModal('update')">Update</button>
-      <button mat-raised-button color="warn" (click)="deleteMicroFlow()">Delete</button>
+      <button mat-raised-button color="primary" (click)="openAddMFModal('create')">{{ 'create' | i18next }}</button>
+      <button mat-raised-button (click)="openAddMFModal('update')">{{ 'update' | i18next }}</button>
+      <button mat-raised-button color="warn" (click)="deleteMicroFlow()">{{ 'delete' | i18next }}</button>
     </div>
     <div class="flowTable">
       <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
@@ -48,7 +48,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="component_name">Component Name</label>
+                <label for="component_name">{{'componentName' | i18next}}</label>
                 <input type="text" class="form-control" placeholder="Enter component name" id="component_name"
                   formControlName="component_name" [(ngModel)]="iFlowComponent.component_name" [ngClass]="{ 'is-invalid': submitted && form_control.component_name.errors }">
                 <div *ngIf="submitted && form_control.component_name.errors" class="invalid-feedback">
@@ -59,7 +59,7 @@
 
             <div class="col-md-6">
               <div class="form-group">
-                <label for="label">Label</label>
+                <label for="label">{{'label'| i18next}}</label>
                 <input type="text" class="form-control" placeholder="{{'placeholder_label' | i18next}}" id="label"
                   formControlName="label" [(ngModel)]="iFlowComponent.label" [ngClass]="{ 'is-invalid': submitted && form_control.label.errors }">
                 <div *ngIf="submitted && form_control.label.errors" class="invalid-feedback">
@@ -72,7 +72,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="type">Type</label>
+                <label for="type">{{'type'| i18next}}</label>
                 <input class="form-control" id="type" placeholder="Enter Type" formControlName="type" [(ngModel)]="iFlowComponent.type"
                   [ngClass]="{ 'is-invalid': submitted && form_control.type.errors }">
                 <div *ngIf="submitted && form_control.type.errors" class="invalid-feedback">
@@ -82,7 +82,7 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="sequence_id">Sequence Id</label>
+                <label for="sequence_id">{{'sequenceId'| i18next}}</label>
                 <input type="text" class="form-control" placeholder="Enter Sequence Id" id="sequence_id" [(ngModel)]="iFlowComponent.sequence_id"
                   formControlName="sequence_id" [ngClass]="{ 'is-invalid': submitted && form_control.sequence_id.errors }">
                 <div *ngIf="submitted && form_control.sequence_id.errors" class="invalid-feedback">
@@ -144,7 +144,7 @@
           <button type="button" class="btn button-close" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
         </div>
         <div class="form-group" *ngIf="!isDisableFlowComp">
-          <button type="button" class="btn button-create" (click)="updateFlowCompModel()">update</button>
+          <button type="button" class="btn button-create" (click)="updateFlowCompModel()">{{ 'update' | i18next }}</button>
           <button type="button" class="btn button-close" (click)="onCloseHandledUpdate()">{{ 'cancel' | i18next }}</button>
         </div>
       </div>
@@ -195,6 +195,30 @@
               </div>
             </div>
           </div>
+          <div class="form-group" formGroupName="properties"> 
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="url">Api Key</label>
+                    <input class="form-control" id="url" placeholder="Enter URL" formControlName="apiKey" [(ngModel)]="connector.properties.apiKey"
+                      [ngClass]="{ 'is-invalid': submitted && form_control.url.errors }">
+                    <div *ngIf="submitted && form_control.url.errors" class="invalid-feedback">
+                      <div *ngIf="form_control.url.errors.required">{{'require_description' | i18next}}</div>
+                    </div>
+                  </div>
+                </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="url">Secret Key</label>
+                <input class="form-control" id="url" placeholder="Enter URL" formControlName="secretKey" [(ngModel)]="connector.properties.secretKey"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.url.errors }">
+                <div *ngIf="submitted && form_control.url.errors" class="invalid-feedback">
+                  <div *ngIf="form_control.url.errors.required">{{'require_description' | i18next}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -203,7 +227,7 @@
           <button type="button" class="btn button-close" (click)="onCloseConnectorHandled()">{{ 'cancel' | i18next }}</button>
         </div>
         <div class="form-group" *ngIf="!isDisplayConnector">
-          <button type="button" class="btn button-create" (click)="updateConnector()">update</button>
+          <button type="button" class="btn button-create" (click)="updateConnector()">{{ 'update' | i18next }}</button>
           <button type="button" class="btn button-close" (click)="onCloseConnectorHandledUpdate()">{{ 'cancel' |
             i18next }}</button>
         </div>
@@ -265,7 +289,7 @@
           <button type="button" class="btn button-close" (click)="onCloseMFHandled()">{{ 'cancel' | i18next }}</button>
         </div>
         <div class="form-group" *ngIf="!isDisplayMicroFlow">
-          <button type="button" class="btn button-create" (click)="updateMicroFlow()">update</button>
+          <button type="button" class="btn button-create" (click)="updateMicroFlow()">{{ 'update' | i18next }}</button>
           <button type="button" class="btn button-close" (click)="onCloseMFHandledUpdate()">{{ 'cancel' | i18next }}</button>
         </div>
       </div>
