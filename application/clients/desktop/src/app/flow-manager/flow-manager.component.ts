@@ -23,7 +23,7 @@ export class FlowManagerComponent implements OnInit {
     description: '',
     action_on_data: '',
   };
-  flowAfterCancel:any;
+  flowAfterCancel: any;
   gridApi;
   gridColumnApi;
   getGenFlow: any;
@@ -33,7 +33,7 @@ export class FlowManagerComponent implements OnInit {
   rowSelection;
   isDisableFlow: boolean;
   rowData: any;
-  checkUpdate: boolean = true;
+  checkUpdate: boolean;
   columnDefs;
   message: string;
   defaultColDef;
@@ -41,8 +41,6 @@ export class FlowManagerComponent implements OnInit {
 
   displayModel: String = 'none';
   createFlowForm: FormGroup;
-
-  isCreateModel: Boolean = true;
 
   constructor(private formBuilder: FormBuilder,
     private flowManagerService: FlowManagerService, private router: Router) {
@@ -99,21 +97,17 @@ export class FlowManagerComponent implements OnInit {
     }
   }
 
-  onRowSelected(event) {
-    this.isDisableFlow = event.node.selected;
-    console.log("i my darling",this.isDisableFlow)
-    if(this.isDisableFlow === false){
-      console.log("i my darling in false",this.isDisableFlow)
-      this.createFlowForm.clearValidators();
-      this.createFlowForm.reset();
-    }
-  }
-
-  openModal() {
-    if (this.isCreateModel !== false) {
+  openModal(type) {
+    if (type === 'create') {
       this.checkUpdate = true;
+      this.flow = {name:'',action_on_data:'',description:'',label:''};
+      this.displayModel = 'block';
     }
-    this.displayModel = 'block';
+    if (type === 'update') {
+      this.checkUpdate = false;
+      this.flow = this.selectedFlow[0];
+      this.displayModel = 'block';
+    }
   }
 
   onCloseHandled() {
@@ -122,11 +116,9 @@ export class FlowManagerComponent implements OnInit {
     this.createFlowForm.reset();
   }
   onCloseHandledForUpdate() {
-    this.isCreateModel = true;
     this.displayModel = 'none';
   }
   createFlowModel() {
-    console.log("i am the one", this.createFlowForm)
     this.flowManagerService.saveFlow(this.createFlowForm.getRawValue())
       .subscribe(
         (data) => {
@@ -150,18 +142,6 @@ export class FlowManagerComponent implements OnInit {
         console.log('error delete flow manager --- ', error);
       }
     );
-  }
-
-  updateRow() {
-    this.isCreateModel = false;
-    console.log("i am the one", this.checkUpdate)
-    this.flow = this.selectedFlow[0];
-    this.flowAfterCancel = this.selectedFlow[0];
-    if (this.checkUpdate === true) {
-      console.log(this.flow)
-      this.flow = this.selectedFlow[0]
-    }
-    this.openModal();
   }
 
   updateFlowModel() {

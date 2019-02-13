@@ -53,10 +53,10 @@ export class ComponentFlowsComponent implements OnInit {
   addConnectorModel;
   microFlowId;
   showMicroFlow: Boolean = false;
-  isUpdateMF: Boolean = false;
-  isUpdateConnector: Boolean = false;
+  isDisplayMicroFlow: Boolean;
   microColDef;
   isDisableFlowComp: boolean;
+  isDisplayConnector: boolean;
   connectorColDef;
   flow_component_sequence: any = [];
   selectedFlow: any = [];
@@ -70,7 +70,6 @@ export class ComponentFlowsComponent implements OnInit {
   createConnectorForm: FormGroup;
   showConnectors: boolean;
   gridOptions;
-  addToMicroFlow: Boolean = null;
 
   constructor(private formBuilder: FormBuilder, private flowManagerService: FlowManagerService, private componentFlowsService: ComponentFlowsService) {
     console.log("i am unwanted one in con", this.isDisableFlowComp)
@@ -104,17 +103,47 @@ export class ComponentFlowsComponent implements OnInit {
     });
   }
 
-  openAddModal() {
+  openAddModal(type) {
+    if(type === 'create'){
+      this.isDisableFlowComp = true;
+      this.iFlowComponent={label:'',description:'',component_name:'',connector:false,dev_framework:'',dev_language:'',sequence_id:'',type:''}
     this.addModel = 'block'
+    }
+    if(type === 'update'){
+      this.isDisableFlowComp = false;
+      this.iFlowComponent = this.selectedFlow[0];
+    this.addModel = 'block'
+    }
   }
 
-  openAddMFModal() {
+  openAddMFModal(type) {
+    if(type==='create'){
+    this.isDisplayMicroFlow = true;
+    this.iMicroFlow = {sequence_id:'',component_name:'',_id:'',micro_flow_step_name:''}
     this.addMFModel = 'block'
+    }
+    if(type==='update'){
+      this.isDisplayMicroFlow = false;
+      this.iMicroFlow = this.selectedMFlow[0];
+      this.addMFModel = 'block'
+      }
   }
 
-  openAddConnectorModal() {
-    this.addConnectorModel = 'block'
-  }
+  openAddConnectorModal(type) {
+    if(type==='create'){
+      console.log("i am here")
+      this.isDisplayConnector = true;
+      this.connector = {description:'',name:'',id:'',url:''}
+      this.addConnectorModel = 'block'
+      }
+      if(type==='update'){
+        this.isDisplayConnector = false;
+        this.connector = this.selectedConnector[0]
+        console.log(this.connector)
+        this.addConnectorModel = 'block'
+        }  
+      
+      }
 
   onCloseHandled() {
     this.createFlowComponentModel.clearValidators();
@@ -126,8 +155,6 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   onCloseMFHandled() {
-    this.addToMicroFlow = null
-    this.isUpdateMF = false;
     this.createMFlowForm.clearValidators();
     this.createMFlowForm.reset();
     this.addMFModel = 'none';
@@ -137,7 +164,6 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   onCloseConnectorHandled() {
-    this.isUpdateConnector = false;
     this.createMFlowForm.clearValidators();
     this.createMFlowForm.reset();
     this.addConnectorModel = 'none';
@@ -147,13 +173,8 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   onRowSelectedFlowComp(event) {
-    // this.isDisableFlowComp = event.node.selected;
-    // console.log("i am needed one", this.isDisableFlowComp)
-    // if (this.isDisableFlowComp === false) {
-    // console.log("i my darling")
     this.createFlowComponentModel.clearValidators();
     this.createFlowComponentModel.reset();
-    // }
   }
 
   createFlowComponent() {
@@ -179,17 +200,6 @@ export class ComponentFlowsComponent implements OnInit {
         return
       }
     })
-  }
-
-  updateRowConnector() {
-    this.isUpdateConnector = true;
-    this.connector = this.selectedConnector[0]
-    this.openAddConnectorModal();
-  }
-
-  updateRow() {
-    this.iFlowComponent = this.selectedFlow[0];
-    this.openAddModal();
   }
 
   updateFlowCompModel() {
@@ -267,13 +277,6 @@ export class ComponentFlowsComponent implements OnInit {
     this.onCloseConnectorHandled();
 
   }
-  updateRowMicro() {
-    console.log("u need this id", this.selectedMFlow[0])
-    this.iMicroFlow = this.selectedMFlow[0];
-    console.log("u need this id", this.iMicroFlow)
-    this.isUpdateMF = true;
-    this.openAddMFModal();
-  }
   updateMicroFlow() {
     this.microFlowDatatoUpdate = this.createMFlowForm.getRawValue();
     if (this.iMicroFlow.component_name === this.microFlowDatatoUpdate.component_name) {
@@ -299,6 +302,10 @@ export class ComponentFlowsComponent implements OnInit {
   onSelectionChange() {
     let selectedRows = this.flowCompGrid.getSelectedRows();
     this.selectedFlow = selectedRows;
+    console.log("this.selectedFlow[0].component_name.length",this.selectedFlow[0].component_name)
+    if(this.selectedFlow[0].component_name.length!==null){
+      this.showMicroFlow= true;
+    }
     this.getMicroFlowName(this.selectedFlow[0].component_name);
     if (this.selectedFlow[0].connector) {
       this.getAllConnector();
@@ -307,10 +314,6 @@ export class ComponentFlowsComponent implements OnInit {
 
   getMicroFlowName(component) {
     this.componentFlowsService.getMicroFlowByCompName(component).subscribe(data => {
-      console.log("selected data____+++++++++ ", data)
-      if (data) {
-        this.showMicroFlow = true;
-      }
       this.microFlow = data;
     }, error => {
       console.log("==== ==  ? ? ", error)
