@@ -13,7 +13,7 @@ export class Routes {
             })
         })
 
-        app.route('/sourcecontrol/deploy/repo/:proj_id').post(this.projectController.deployCodeToRepository);
+        app.route('/sourcecontrol/deploy/project/:proj_id').post(this.projectController.deployToSourceRepositories);
 
     }
 }

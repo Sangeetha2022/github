@@ -8,7 +8,7 @@ let sourceControlDto = new SourceControlDto()
 
 export class ProjectController {
 
-    public deployCodeToRepository(req: Request, res: Response) {
+    public deployToSourceRepositories(req: Request, res: Response) {
         const data = {
             username: "tibrahul",
             password: "Rahul6243",
@@ -20,7 +20,7 @@ export class ProjectController {
         sourceControlDto.setDescription(data.description)
         sourceControlDto.setUrl(data.url)
 
-        sourceControlService.deployCodeToRepository(req, (user) => {
+        sourceControlService.checkIfRepoExist(req, sourceControlDto, (user) => {
             res.status(200); // status for the response
             res.json(user);
         })
