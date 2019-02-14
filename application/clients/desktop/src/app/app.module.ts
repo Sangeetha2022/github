@@ -35,6 +35,7 @@ import { FlowManagerService } from './flow-manager/flow-manager.service';
 import { ScreenDesignerModule } from './screen-designer/screen-designer.module';
 import { HeaderComponent } from './navigation/header/header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { EntityManagerModule } from './entity-manager/entity-manager.module';
 
 
 const i18nextOptions = {
@@ -105,6 +106,7 @@ export const I18N_PROVIDERS = [
     AppRoutingModule,
     FormsModule,
     FlexLayoutModule,
+    EntityManagerModule,
     ReactiveFormsModule,
     I18NextModule.forRoot(),
     ValidationMessageModule,

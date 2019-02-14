@@ -4,12 +4,16 @@ import { ProjectsComponent } from './projects/projects.component';
 import { FlowManagerComponent } from './flow-manager/flow-manager.component';
 import { ComponentFlowsComponent } from './component-flows/component-flows.component';
 import { DesktopScreenComponent } from './screen-designer/desktop-screen/desktop-screen.component';
+import { EntityManagerComponent } from './entity-manager/entity-manager.component';
+import { EntityFieldComponent } from './entity-manager/entity-field/entity-field.component';
 
 const routes: Routes = [
   { path: 'project', component: ProjectsComponent },
   { path: 'flow-component', component: ComponentFlowsComponent },
   { path: 'flow-manager', component: FlowManagerComponent },
   { path: 'desktopscreen', component: DesktopScreenComponent },
+  { path: 'entity', component: EntityManagerComponent },
+  { path: 'entity-field', component: EntityFieldComponent },
   { path: '', redirectTo: 'project', pathMatch: 'full' },
   { path: '**', redirectTo: 'project', pathMatch: 'full' },
 ];
@@ -19,4 +23,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule {
- }
+}

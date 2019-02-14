@@ -1,0 +1,89 @@
+<div class="container">
+  <br/>
+  <div>
+    <button class="createEntityButton goToButton" mat-raised-button  [routerLink]="['/desktopscreen']">Go To Screen Designer</button>
+  </div>
+  <br/>
+<br/>
+  <div>
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            My Entity
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div style="padding-right: 20px;">
+            <button class="createEntityButton" mat-raised-button color="primary" (click)="openDialog()">Create Entity</button>
+          </div>
+        <div class="row" style="margin: 0px;">
+          <div class="col-md-4" *ngFor="let entity of allEntity; let i = index">
+            <div class="card">
+              <div class="card-header">{{entity.name}}</div>
+              <div class="card-body">
+                <div><span>{{entity.description}}</span></div>
+                <br/>
+                <button mat-raised-button color="primary" (click)="editEntityField(entity)">Edit</button>
+                &nbsp;
+                <button mat-raised-button color="warn"  (click)="openDeleteModel(entity)">Delete</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4" *ngIf="allEntity.length === 0">
+            No Entity Available.
+          </div>
+        </div>
+        <!--  
+        <mat-card *ngFor="let entity of allEntity" class="entity-card">
+          <mat-card-header>
+            <mat-card-title>{{entity.name}}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              {{entity.description}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" [routerLink]="['/entity-field']">Edit</button>
+            <button mat-raised-button color="warn" (click)="deleteEntity(entity._id)">Delete</button>
+          </mat-card-actions>
+        </mat-card> -->
+
+      </mat-expansion-panel>
+
+      <!--   
+  <mat-expansion-panel (opened)="panelOpenState = true"
+                       (closed)="panelOpenState = false">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Self aware panel
+      </mat-panel-title>
+      <mat-panel-description>
+        Currently I am {{panelOpenState ? 'open' : 'closed'}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>I'm visible because I am open</p>
+  </mat-expansion-panel> -->
+    </mat-accordion>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deletePopup}">
+  <div class="modal-dialog modal-sm" role="dialog">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
+        <h6 class="modal-title">Delete</h6>
+        <button type="button" class="close">&times;</button>
+      </div> -->
+      <div class="modal-body">
+        <p>Please click confirm to delete this project ? </p>
+      </div>
+      <div class="modal-footer" style="padding: 5px">
+        <button type="button" class="btn btn-default"  (click)="deleteEntity()">Confirm</button>
+        &nbsp;
+        <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+</div>
