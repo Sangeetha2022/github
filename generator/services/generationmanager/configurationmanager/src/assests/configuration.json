@@ -1,0 +1,1266 @@
+{
+    "GpCancel": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpCreate": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpCustom": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpCreateRelationship": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        }
+    ],
+    "GpDelete": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpDeleteByParentId": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        }
+    ],
+    "GpDeleteNounRelationship": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        }
+    ],
+    "GpDeleteNounByRelation": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        }
+    ],
+    "GpGetAllValues": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpGetNounById": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpGetNounByParentId": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        }
+    ],
+    "GpGetNounByRelation": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        }
+    ],
+    "GpGetNounByRelationship": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        }
+    ],
+    "GpGetNounFromRelation": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        }
+    ],
+    "GpRecordVideo": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpSearch": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpSearchDetail": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpSearchForUpdate": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpTakePhoto": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpUpdate": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpFileUpload": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ],
+    "GpAppStartup": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": false
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": false
+        },
+        {
+            "component_name": "GpIonicAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": false
+        }
+    ]
+}
