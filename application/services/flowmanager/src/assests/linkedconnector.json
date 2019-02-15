@@ -1,0 +1,58 @@
+{
+    "GpExpressController": [
+        {
+            "name": "GpExpressService",
+            "description": "default",
+            "url": "",
+            "properties": []
+        }
+    ],
+    "GpExpressService": [
+        {
+            "name": "GpExpressDao",
+            "description": "default",
+            "url": "",
+            "properties": []
+        }
+    ],
+    "GpExpressDao": [
+        {
+            "name": "",
+            "description": "default",
+            "url": "",
+            "properties": []
+        }
+    ],
+    "GpAngularComponent": [
+        {
+            "name": "GpAngularService",
+            "description": "default",
+            "url": "",
+            "properties": []
+        }
+    ],
+    "GpAngularService": [
+        {
+            "name": "GpExpressController",
+            "description": "default",
+            "url": "",
+            "properties": []
+        }
+    ],
+    "GpIonicAngularComponent": [
+        {
+            "name": "GpIonicAngularService",
+            "description": "default",
+            "url": "",
+            "properties": []
+        }
+    ],
+    "GpIonicAngularService": [
+        {
+            "name": "GpExpressController",
+            "description": "default",
+            "url": "",
+            "properties": []
+        }
+    ]
+}

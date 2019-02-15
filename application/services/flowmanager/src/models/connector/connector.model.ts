@@ -5,10 +5,7 @@ const connectorSchema = new mongoose.Schema({
   name: String,
   url: String,
   description: String,
-  properties: {
-    apiKey: String,
-    secretKey: String,
-  }
+  properties: Array
 });
 
 const ConnectorModel = mongoose.model<IConnector & mongoose.Document>('connector', connectorSchema);

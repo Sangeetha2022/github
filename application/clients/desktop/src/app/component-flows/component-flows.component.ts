@@ -1,4 +1,4 @@
-import { Component, OnInit, ɵConsole } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FlowManagerService } from '../flow-manager/flow-manager.service';
 import { ComponentFlowsService } from './component-flows.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -24,10 +24,7 @@ export class ComponentFlowsComponent implements OnInit {
     name: '',
     description: '',
     url: '',
-    properties:{
-      apiKey: "",
-      secretKey:""
-    }
+    properties: []
   }
   iFlowComponent: IFlowComponent = {
     component_name: '',
@@ -38,8 +35,11 @@ export class ComponentFlowsComponent implements OnInit {
     dev_framework: '',
     description: '',
     connector: false,
-  }
+  };
+  private test;
+  private fieldArray: Array<any> = [];
   columnDefs;
+  tableArr: any = [];
   getFlowCompName: string;
   icons;
   rowData;
@@ -55,13 +55,14 @@ export class ComponentFlowsComponent implements OnInit {
   connectorData: any = [];
   gridColumnApi;
   addConnectorModel;
+  connectorColDef;
   microFlowId;
   showMicroFlow: Boolean = false;
   isDisplayMicroFlow: Boolean;
   microColDef;
   isDisableFlowComp: boolean;
   isDisplayConnector: boolean;
-  connectorColDef;
+  connectorolDef;
   flow_component_sequence: any = [];
   selectedFlow: any = [];
   selectedMFlow: any = [];
@@ -75,17 +76,15 @@ export class ComponentFlowsComponent implements OnInit {
   showConnectors: boolean;
   gridOptions;
 
-  constructor(private formBuilder: FormBuilder, private flowManagerService: FlowManagerService, private componentFlowsService: ComponentFlowsService) {
-    console.log("i am unwanted one in con", this.isDisableFlowComp)
+  constructor(private formBuilder: FormBuilder, private flowManagerService: FlowManagerService, private componentFlowsService: ComponentFlowsService, private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    console.log(this.connector.properties.apiKey)
-    console.log(this.connector.properties.secretKey)
     this.setupAgGrid();
     this.getDataFromFlowService();
     // this.getAllConnector();
     this.generateForms();
+    this.test = "ram"
   }
 
 
@@ -110,49 +109,58 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   openAddModal(type) {
-    if(type === 'create'){
+    if (type === 'create') {
       this.isDisableFlowComp = true;
-      this.iFlowComponent={label:'',description:'',component_name:'',connector:false,dev_framework:'',dev_language:'',sequence_id:'',type:''}
-    this.addModel = 'block'
+      this.iFlowComponent = { label: '', description: '', component_name: '', connector: false, dev_framework: '', dev_language: '', sequence_id: '', type: '' }
+      this.addModel = 'block'
     }
-    if(type === 'update'){
+    if (type === 'update') {
       this.isDisableFlowComp = false;
       this.iFlowComponent = this.selectedFlow[0];
-    this.addModel = 'block'
+      this.addModel = 'block'
     }
   }
 
   openAddMFModal(type) {
-    if(type==='create'){
-    this.isDisplayMicroFlow = true;
-    this.iMicroFlow = {sequence_id:'',component_name:'',_id:'',micro_flow_step_name:''}
-    this.addMFModel = 'block'
+    if (type === 'create') {
+      this.isDisplayMicroFlow = true;
+      this.iMicroFlow = { sequence_id: '', component_name: '', _id: '', micro_flow_step_name: '' }
+      this.addMFModel = 'block'
     }
-    if(type==='update'){
+    if (type === 'update') {
       this.isDisplayMicroFlow = false;
       this.iMicroFlow = this.selectedMFlow[0];
       this.addMFModel = 'block'
-      }
+    }
+  }
+
+  addFieldValue() {
+    this.fieldArray.push({
+      key: '',
+      value: ''
+    });
+    this.connector.properties = this.fieldArray;
+  }
+
+  deleteFieldValue(index) {
+    this.fieldArray.splice(index, 1);
   }
 
   openAddConnectorModal(type) {
-    if(type==='create'){
+    if (type === 'create') {
       console.log("i am here")
       this.isDisplayConnector = true;
-      this.connector = {description:'',name:'',id:'',url:'', properties:{
-      apiKey: "",
-      secretKey:""
-    }}
+      this.connector = { description: '', name: '', id: '', url: '', properties: [] }
       this.addConnectorModel = 'block'
-      }
-      if(type==='update'){
-        this.isDisplayConnector = false;
-        this.connector = this.selectedConnector[0]
-        console.log(this.connector)
-        this.addConnectorModel = 'block'
-        }  
-      
-      }
+    }
+    if (type === 'update') {
+      this.isDisplayConnector = false;
+      this.connector = this.selectedConnector[0]
+      console.log(this.connector)
+      this.addConnectorModel = 'block'
+    }
+
+  }
 
   onCloseHandled() {
     this.createFlowComponentModel.clearValidators();
@@ -273,7 +281,7 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   updateConnector() {
-    console.log("i am the connector",this.connector)
+    console.log("i am the connector", this.connector)
     this.componentFlowsService.updateConnector(this.connector).subscribe(data => {
       console.log("i am the data u r expected", data)
 
@@ -312,9 +320,9 @@ export class ComponentFlowsComponent implements OnInit {
   onSelectionChange() {
     let selectedRows = this.flowCompGrid.getSelectedRows();
     this.selectedFlow = selectedRows;
-    console.log("this.selectedFlow[0].component_name.length",this.selectedFlow[0].component_name)
-    if(this.selectedFlow[0].component_name.length!==null){
-      this.showMicroFlow= true;
+    console.log("this.selectedFlow[0].component_name.length", this.selectedFlow[0].component_name)
+    if (this.selectedFlow[0].component_name.length !== null) {
+      this.showMicroFlow = true;
     }
     this.getMicroFlowName(this.selectedFlow[0].component_name);
     if (this.selectedFlow[0].connector) {
@@ -334,6 +342,11 @@ export class ComponentFlowsComponent implements OnInit {
     this.componentFlowsService.getAllConnector().subscribe(data => {
       this.connectorData = data;
     })
+    this.getProperties();
+  }
+
+  getProperties() {
+    console.log("hello udhayaa", this.connectorData)
   }
 
   onSelectionConnectorChange() {
@@ -363,8 +376,8 @@ export class ComponentFlowsComponent implements OnInit {
       { headerName: 'Name', field: 'name', checkboxSelection: true },
       { headerName: 'Description', field: 'description' },
       { headerName: 'URL', field: 'url' },
-      { headerName: 'Api key', field: 'properties.apiKey' },
-      { headerName: 'Secret Key', field: 'properties.secretKey' },
+      // { headerName: 'Api key', field: 'properties.apiKey' },
+      // { headerName: 'Secret Key', field: 'properties.secretKey' },
 
     ]
     this.microColDef = [
@@ -401,9 +414,8 @@ export class ComponentFlowsComponent implements OnInit {
       name: '',
       description: '',
       url: '',
-      properties:this.formBuilder.group({
-        apiKey:'',
-        secretKey:''
+      properties: this.formBuilder.group({
+
       })
     })
   }

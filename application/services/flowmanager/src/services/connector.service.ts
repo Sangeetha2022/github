@@ -16,9 +16,15 @@ export class ConnectorService {
             callback(connector);
         })
     }
-
+    
     public getConnectorByID(req: Request, next, callback: CallableFunction) {
         connectorDao.getConnectorByID(req, next, (connector) => {
+            callback(connector);
+        })
+    }
+
+    public getConnectorByName(req: Request, next, callback: CallableFunction) {
+        connectorDao.getConnectorByName(req, next, (connector) => {
             callback(connector);
         })
     }

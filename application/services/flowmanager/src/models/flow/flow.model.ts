@@ -7,7 +7,9 @@ const flowSchema = new mongoose.Schema({
   description: String,
   action_on_data: String,
   type: String,
-  create_with_default_activity: Number
+  create_with_default_activity: Number,
+  created_date: Date,
+  updated_date: Date,
 });
 
 const FlowModel = mongoose.model<User & mongoose.Document>('flow', flowSchema);

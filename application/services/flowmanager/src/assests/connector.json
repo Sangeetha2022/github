@@ -4,19 +4,13 @@
             "name": "Github",
             "description": "Code Management",
             "url": "http://www.github.com",
-            "properties":{
-                "apiKey":"",
-                "secretKey":""
-            }
+            "properties":[]
         },
         {
             "name": "Bitbucket",
             "description": "Code Management",
             "url": "http://www.bitbucket.com",
-            "properties":{
-                "apiKey":"",
-                "secretKey":""
-            }
+            "properties":[]
         }
     ]
 }

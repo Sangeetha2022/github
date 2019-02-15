@@ -24,6 +24,34 @@
       [columnDefs]="connectorColDef" [rowData]="connectorData" (gridReady)="onGridConnectorReady($event)">
     </ag-grid-angular>
   </div>
+  <!-- <div>
+      <table class="table table-striped table-bordered">
+          <thead>
+              <tr>
+                  <th>Key</th>
+                  <th>value</th>
+              </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let field of fieldArray; let i = index">
+              <td>
+                {{}}
+                <input class="form-control" id="url" placeholder="Enter URL" name="key-{{i}}" [(ngModel)]="field.key">
+              </td>
+              <td>
+                <input class="form-control" id="url" placeholder="Enter URL" name="value-{{i}}" [(ngModel)]="field.value">
+              </td>
+
+              <td>
+                <button class="btn btn-default" type="button" (click)="deleteFieldValue(i)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+  </div> -->
+  <!-- <div class="flowTable" *ngIf="selectedFlow[0]?.connector">
+    
+  </div> -->
 
   <div *ngIf="showMicroFlow">
     <h1 style="text-align: center;"> <u>{{'microFlows'|i18next}}</u> </h1>
@@ -158,27 +186,20 @@
   <div class="modal-dialog modal-md" role="dialog">
     <div class="modal-content">
       <div class="container">
-        <form class="m-3" [formGroup]="createConnectorForm">
+        <form class="m-3">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="name">{{'name'| i18next}}</label>
-                <input type="text" class="form-control" placeholder="Enter Name" id="name" formControlName="name"
-                  [(ngModel)]="connector.name" [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
-                <div *ngIf="submitted && form_control.name.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.name.errors.required">{{'require_name' | i18next}}</div>
-                </div>
+                <input type="text" class="form-control" placeholder="Enter Name" id="name" name="name" [(ngModel)]="connector.name">
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group">
                 <label for="description">{{'description'| i18next}}</label>
-                <input type="text" class="form-control" placeholder="Enter Description" id="description"
-                  formControlName="description" [(ngModel)]="connector.description" [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }">
-                <div *ngIf="submitted && form_control.description.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.description.errors.required">{{'require_label' | i18next}}</div>
-                </div>
+                <input type="text" class="form-control" placeholder="Enter Description" id="description" name="description"
+                  [(ngModel)]="connector.description">
               </div>
             </div>
           </div>
@@ -187,21 +208,43 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="url">{{'url'| i18next}}</label>
-                <input class="form-control" id="url" placeholder="Enter URL" formControlName="url" [(ngModel)]="connector.url"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.url.errors }">
-                <div *ngIf="submitted && form_control.url.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.url.errors.required">{{'require_description' | i18next}}</div>
+                <input class="form-control" id="url" placeholder="Enter URL" name="url" [(ngModel)]="connector.url">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <button class="btn btn-primary" type="button" (click)="addFieldValue()">Add</button>
+                  <span class="msgSpace">Click to add a properties</span>
+                  <table class="table table-striped table-bordered">
+                    <tbody>
+                      <tr *ngFor="let field of fieldArray; let i = index">
+                        <td>
+                          <input class="form-control" id="url" placeholder="Enter URL" name="key-{{i}}" [(ngModel)]="field.key">
+                        </td>
+                        <td>
+                          <input class="form-control" id="url" placeholder="Enter URL" name="value-{{i}}" [(ngModel)]="field.value">
+                        </td>
+
+                        <td>
+                          <button class="btn btn-danger" type="button" (click)="deleteFieldValue(i)">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
-          <div class="form-group" formGroupName="properties">
+          <!-- <div class="form-group" formGroupName="properties">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="apiKey">{{'apiKey'| i18next}}</label>
                   <input class="form-control" id="apiKey" placeholder="Enter Api Key" formControlName="apiKey"
-                    [(ngModel)]="connector.properties.apiKey" [ngClass]="{ 'is-invalid': submitted && form_control.apiKey.errors }">
+                    [(ngModel)]="connector.properties" [ngClass]="{ 'is-invalid': submitted && form_control.apiKey.errors }">
                   <div *ngIf="submitted && form_control.apiKey.errors" class="invalid-feedback">
                     <div *ngIf="form_control.apiKey.errors.required">{{'require_description' | i18next}}</div>
                   </div>
@@ -218,7 +261,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </form>
       </div>
       <div class="modal-footer">

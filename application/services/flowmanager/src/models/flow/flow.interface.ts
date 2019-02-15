@@ -5,7 +5,9 @@ interface IFlow {
   description: string,
   action_on_data: string,
   type: string,
-  create_with_default_activity: number
+  create_with_default_activity: number,
+  created_date: Date,
+  updated_date: Date
 }
 
 export default IFlow;

@@ -11,7 +11,8 @@ export class FlowDao {
     saveFlow = async (flow, callback: CallableFunction) => {
         const flowData: FlowDto = flow;
         const createdFlow = new this.flow({
-            ...flowData
+            ...flowData,
+            created_date: new Date
         });
         const savedFlow = await createdFlow.save();
         callback(savedFlow);
@@ -45,6 +46,7 @@ export class FlowDao {
     updateFlow = async (req, next, callback: CallableFunction) => {
         const id = req.params.id;
         const postData: IFlow = req.body;
+        postData.updated_date = new Date
         const post = await this.flow.findByIdAndUpdate(id, postData, { new: true });
         if (post) {
             callback(post);

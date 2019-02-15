@@ -8,7 +8,7 @@
             "dev_language": "Node.js",
             "dev_framework": "Express",
             "description": "controller for a NodeJs server application",
-            "connector": false
+            "connector": true
         },
         {
             "name": "GpExpressService",
@@ -28,7 +28,7 @@
             "dev_language": "Node.js",
             "dev_framework": "Express",
             "description": "dao component for a NodeJs based application",
-            "connector": false
+            "connector": true
         },
         {
             "name": "GpAngularComponent",
@@ -38,7 +38,7 @@
             "dev_language": "java_script",
             "dev_framework": "Angular",
             "description": "component for Angular desktop",
-            "connector": false
+            "connector": true
         },
         {
             "name": "GpAngularService",
@@ -48,7 +48,7 @@
             "dev_language": "java_script",
             "dev_framework": "Angular",
             "description": "service for Angular desktop",
-            "connector": false
+            "connector": true
         },
         {
             "name": "GpIonicAngularComponent",
@@ -58,7 +58,7 @@
             "dev_language": "java_script",
             "dev_framework": "Ionic Angular",
             "description": "component for ionic Angular mobile",
-            "connector": false
+            "connector": true
         },
         {
             "name": "GpIonicAngularService",
@@ -68,7 +68,7 @@
             "dev_language": "java_script",
             "dev_framework": "Ionic Angular",
             "description": "service for ionic Angular mobile",
-            "connector": false
+            "connector": true
         }
     ]
 }

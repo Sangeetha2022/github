@@ -50,11 +50,15 @@ export class FeedSeedData {
     }
 
     public seedConnectorData(): void {
-        connectorflowjson.connector.map(async (cont) => {
-            const data = await this.connector.findOneAndUpdate({ name: cont['name'] }, cont, { new: true });
+        Object.keys(connectorflowjson).map(async (key, index) => {
+            const data = await this.connector.findOne({ flow_name: key });
             if (data === null) {
-                const createdConnector = new this.connector(cont);
-                createdConnector.save();
+                let dataToSave = {
+                    name: key,
+                    connector: connectorflowjson[key]
+                }
+                const createdGenFlow = new this.genFlow(dataToSave);
+                createdGenFlow.save();
             }
         })
     }

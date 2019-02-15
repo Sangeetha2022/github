@@ -36,6 +36,16 @@ export class ConnectorDao {
         }
     }
 
+    getConnectorByName = async (req: Request, next, callback: CallableFunction) => {
+        const name = req.params.name;
+        const data = await this.connector.findOne({ name: name });
+        if (data) {
+            callback(data);
+        } else {
+            next(new PostNotFoundException(name));
+        }
+    }
+
     deleteConnector = async (connectorID, next, callback: CallableFunction) => {
         const id = connectorID;
         const successResponse = await this.connector.findByIdAndDelete(id);

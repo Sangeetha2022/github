@@ -13,6 +13,7 @@ import { ProjectsService } from '../projects/projects.service';
 export class ProjectsComponent implements OnInit {
   displayModel: String = 'none';
   delmodal: String = 'none';
+  displayGenratorModel: String = 'none'
   idToDelete: String = null;
   createProject: FormGroup;
   languages: string[] = ['English', 'Tamil', 'Spanish'];
@@ -42,7 +43,13 @@ export class ProjectsComponent implements OnInit {
     this.createProject.clearValidators();
     this.createProject.reset();
   }
+  openGeneratorModal() {
+    this.displayGenratorModel = 'block';
+  }
 
+  onCloseHandledGen(){
+    this.displayGenratorModel = 'none';
+  }
   get form_control() { return this.createProject.controls; }
 
   getAllMyProjects() {

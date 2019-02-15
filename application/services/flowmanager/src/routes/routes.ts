@@ -44,6 +44,7 @@ export class Routes {
         app.route('/connector/update').put(this.connector.updateConnector);
         app.route('/connector/getall').get(this.connector.getAllConnector);
         app.route('/connector/getbyid/:id').get(this.connector.getConnectorByID);
+        app.route('/connector/getbyname/:name').get(this.connector.getConnectorByName);
         app.route('/connector/delete/:id').delete(this.connector.deleteConnector);
     }
 }

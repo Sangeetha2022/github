@@ -38,11 +38,11 @@
     "devLang":"Development Language",
     "devFramework":"Development Framework",
     "url":"URL",
-    "apiKey":"Api Key",
-    "secretKey":"Secret Key",
     "addForSeq":"Add Sequence for",
     "microFlowName":"Micro Flow Name",
     "action":"Action",
-    "connector":"Connector"
+    "connector":"Connector",
+    "project":"Project",
+    "flowManager":"Flow Manager"
 
 }
