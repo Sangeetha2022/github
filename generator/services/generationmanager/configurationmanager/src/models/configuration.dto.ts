@@ -1,11 +1,23 @@
 import { IsString, IsArray } from 'class-validator';
 
-class GenFlowDto {
+class GpConfigDto {
   @IsString()
-  public flow_name: string
+  public name: string
 
-  @IsArray()
-  public flow_comp_seq: any
+  @IsString()
+  public label: string
+
+  @IsString()
+  public description: string
+
+  @IsString()
+  public value: string
+
+  @IsString()
+  public type: string
+
+  @IsString()
+  public sub_type: string
 }
 
-export default GenFlowDto;
+export default GpConfigDto;

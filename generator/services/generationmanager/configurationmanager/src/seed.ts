@@ -1,23 +1,19 @@
 import GenFlowModel from './models/configuration.model';
 
-import * as generationflowjson from './assests/configuration.json'
+import * as configjson from './assests/configuration.json'
 
 export class FeedSeedData {
 
     private genFlow = GenFlowModel;
 
     seedGenFlowComponentData = async () => {
-        Object.keys(generationflowjson).map(async (key, index) => {
-            const data = await this.genFlow.findOne({ flow_name: key });
+        configjson.base_config.map(async (flowObj) => {
+            const data = await this.genFlow.findOneAndUpdate({ name: flowObj['name'] }, flowObj, { new: true });
             if (data === null) {
-                let dataToSave = {
-                    flow_name: key,
-                    flow_comp_seq: generationflowjson[key]
-                }
-                const createdGenFlow = new this.genFlow(dataToSave);
-                createdGenFlow.save();
+                const createdFlow = new this.genFlow(flowObj);
+                createdFlow.save();
             }
         })
     }
-    
+
 }

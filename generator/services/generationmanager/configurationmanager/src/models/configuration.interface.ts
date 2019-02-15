@@ -1,7 +1,11 @@
-interface IGenFlowModel {
+interface IGpConfigModel {
   _id: string
-  flow_name: string,
-  flow_comp_seq: any
+  name: string,
+  label: string,
+  description: string,
+  value: string,
+  type: string,
+  sub_type: string
 }
 
-export default IGenFlowModel;
+export default IGpConfigModel;
