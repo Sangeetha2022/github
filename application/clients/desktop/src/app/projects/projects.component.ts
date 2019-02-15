@@ -2,6 +2,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, Injectable } from '@angular/core';
 import { AppComponentService } from '../app.component.service';
 import { ProjectsService } from '../projects/projects.service';
+import { DataService } from '../../shared/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-projects',
@@ -20,7 +22,13 @@ export class ProjectsComponent implements OnInit {
   submitted = false;
   myAllProjects: Array<Object> = [];
 
-  constructor(private formBuilder: FormBuilder, private data: AppComponentService, private projectsService: ProjectsService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private data: AppComponentService,
+    private projectsService: ProjectsService,
+    private dataService: DataService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.getAllMyProjects();
@@ -63,17 +71,23 @@ export class ProjectsComponent implements OnInit {
 
   openDeleteModel(proj) {
     this.idToDelete = proj._id;
-    this.delmodal = 'block'
+    this.delmodal = 'block';
   }
 
   deleteMyProjects() {
     this.projectsService.deleteProject(this.idToDelete).subscribe(data => {
-      console.log("data", data);
+      console.log('data', data);
       this.delmodal = 'none';
       this.getAllMyProjects();
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });
+  }
+
+  editProject(project) {
+    console.log('edit project are --------- ', project);
+    this.dataService.setProjectInfo(project);
+    this.router.navigate(['/entity']);
   }
 
   projectCreate() {

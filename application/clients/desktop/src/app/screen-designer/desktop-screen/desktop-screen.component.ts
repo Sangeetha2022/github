@@ -47,8 +47,8 @@ export class DesktopScreenComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.saveTemplateURL = this.sharedService.screenUrl + 'user_template/save';
-        this.saveChildURL = this.sharedService.screenUrl + 'childTemplate/save';
+        this.saveTemplateURL = this.sharedService.screenUrl + '/user_template/save';
+        this.saveChildURL = this.sharedService.screenUrl + '/childTemplate/save';
         const addStyles = [];
         const plugins = ['gjs-grapedrop-preset'];
         const updateParams = {
@@ -165,10 +165,9 @@ export class DesktopScreenComponent implements OnInit {
     }
 
     getProjectDetails() {
-        this.dataService.currentProjectInfo.subscribe(
+        this.dataService.currentDefaultLanguage.subscribe(
             data => {
-                console.log('data services are -------- ', data);
-                this.defaultLanguage = data.defaultLanguage;
+                this.defaultLanguage = data;
             },
             error => {
                 console.error('error occurred: cannot get project Details ', error);
@@ -193,21 +192,6 @@ export class DesktopScreenComponent implements OnInit {
             }
         });
         this.languageService.setBlockLanguage(this.editor, langArray);
-        // this.screenDesignerService.getProjectDetails().subscribe(
-        //   data => {
-        //     let langArray = langConstant['Blocks-English'];
-        //     langConstant['different-languages'].forEach(element => {
-        //       if (data['primarylanguage'].toLowerCase() === element.name) {
-        //         langArray = langConstant['default'][element.field];
-        //         this.blocksOption = element.options;
-        //       }
-        //     });
-        //     this.languageService.setBlockLanguage(this.editor, langArray);
-        //   },
-        //   error => {
-        //     console.log('error');
-        //   }
-        // );
     }
     styleManager() {
         this.styleService.addStyleManager(this.editor, this.stylesOption);

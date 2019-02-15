@@ -3,6 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { ApiService } from '../config/api.service';
 import { SharedService } from '../../shared/shared.service';
 import { IEntity } from './interface/Entity';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,10 @@ export class EntityManagerService {
   private entity: IEntity = <IEntity>{
     name: '',
     description: '',
+    project_id: '',
+    created_by: '',
+    last_modified_by: '',
+    updated_at: new Date(),
     field: []
   };
 
@@ -36,6 +41,10 @@ export class EntityManagerService {
   }
   getAllEntity(): Observable<any> {
     return this.api.get(this.restapi.entityUrl + '/entity/getall');
+  }
+
+  getAllEntityType(): Observable<any> {
+    return this.api.get(this.restapi.entityUrl + '/entity_type/get');
   }
 
   // data sharing

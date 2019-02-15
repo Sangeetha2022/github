@@ -11,7 +11,7 @@ export class CommandService {
   ) { }
 
   addSaveCommand(commandName, editor, saveURL) {
-
+console.log('entering into add save command' , saveURL)
     editor.Commands.add(commandName, {
       run: function (e, n) {
         editor.StorageManager.get('remote').set({ urlStore: saveURL });

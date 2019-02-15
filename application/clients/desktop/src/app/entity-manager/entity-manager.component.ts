@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { PopupModelComponent } from './popup-model/popup-model.component';
 import { EntityManagerService } from './entity-manager.service';
+import { DataService } from '../../shared/data.service';
 import { IEntity } from './interface/Entity';
 import { Router } from '@angular/router';
 
@@ -16,18 +17,25 @@ export class EntityManagerComponent implements OnInit {
   public entity: IEntity = {
     name: '',
     description: '',
+    project_id: '',
+    created_by: '',
+    last_modified_by: '',
+    updated_at: new Date(),
     field: []
   };
   public allEntity: IEntity[] = [];
   public deletePopup: String = 'none';
   public selectedEntityId: any;
+  selectedProject: any;
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private entityManagerService: EntityManagerService
+    private entityManagerService: EntityManagerService,
+    private dataService: DataService
   ) { }
 
   ngOnInit() {
+    this.getSelectedProject();
     this.getAllEntity();
   }
 
@@ -38,7 +46,6 @@ export class EntityManagerComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(entityData => {
-      console.log('The dialog was closed -- ', entityData);
       if (entityData !== undefined) {
         this.saveEntity(entityData);
       }
@@ -48,6 +55,8 @@ export class EntityManagerComponent implements OnInit {
   saveEntity(entityData) {
     this.entity.name = entityData.name;
     this.entity.description = entityData.description;
+    this.entity.project_id = this.selectedProject._id;
+    this.entity.updated_at = new Date();
     this.entityManagerService.createEntity(this.entity).subscribe(
       (data) => {
         this.getAllEntity();
@@ -60,7 +69,6 @@ export class EntityManagerComponent implements OnInit {
   getAllEntity() {
     this.entityManagerService.getAllEntity().subscribe(
       (data) => {
-        console.log('get all entity data ----- ', data);
         this.allEntity = data;
       },
       (error) => {
@@ -80,7 +88,6 @@ export class EntityManagerComponent implements OnInit {
     this.router.navigate(['/entity-field']);
   }
   deleteEntity() {
-    console.log('delete entity id are ---- ', this.selectedEntityId);
     this.deletePopup = 'none';
     this.entityManagerService.deleteEntity(this.selectedEntityId).subscribe(
       (data) => {
@@ -90,5 +97,16 @@ export class EntityManagerComponent implements OnInit {
 
       }
     );
+  }
+  getSelectedProject() {
+    this.dataService.currentProjectInfo.subscribe(
+      (data) => {
+        this.selectedProject = data;
+      }
+    );
+  }
+  GoToDesigner() {
+    this.dataService.setAllEntity(this.allEntity);
+    this.router.navigate(['/desktopscreen']);
   }
 }
