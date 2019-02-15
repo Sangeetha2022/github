@@ -14,13 +14,14 @@
     "build": "ng build --aot --output-path dist/en --base-href /en/",
     "build:es": "ng build --aot --output-path dist/es --base-href /es/ --i18nFile=src/locale/messages.es.xlf --i18nFormat=xlf --i18n-locale=es"
   },
-  "private": true, 
+  "private": true,
   "dependencies": {
     "@angular/animations": "^7.1.4",
     "@angular/cdk": "^7.3.1",
     "@angular/common": "~7.1.0",
     "@angular/compiler": "~7.1.0",
     "@angular/core": "~7.1.0",
+    "@angular/flex-layout": "^7.0.0-beta.23",
     "@angular/forms": "~7.1.0",
     "@angular/material": "^7.3.1",
     "@angular/platform-browser": "~7.1.0",
@@ -34,18 +35,17 @@
     "bootstrap": "^4.2.1",
     "core-js": "^2.5.4",
     "detect-browser": "^4.0.4",
-    "font-awesome": "^4.7.0",
     "i18next": "^14.0.1",
     "i18next-browser-languagedetector": "^2.2.4",
     "i18next-sprintf-postprocessor": "^0.2.2",
     "i18next-xhr-backend": "^1.5.1",
     "ng-multiselect-dropdown": "^0.2.3",
     "rxjs": "~6.3.3",
-    "tslib": "^1.9.0",
+    "rxjs-compat": "^6.4.0",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.11.0",
+    "@angular-devkit/build-angular": "^0.13.1",
     "@angular-devkit/build-ng-packagr": "~0.11.0",
     "@angular/cli": "~7.1.4",
     "@angular/compiler-cli": "~7.1.0",
@@ -65,7 +65,7 @@
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tsickle": ">=0.29.0",
-    "tslib": "^1.9.0",
+    "tslib": "^1.9.3",
     "tslint": "~5.11.0",
     "typescript": "~3.1.6"
   }

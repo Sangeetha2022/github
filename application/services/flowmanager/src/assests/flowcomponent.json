@@ -7,7 +7,8 @@
             "sequence_id": 1,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "controller for a NodeJs server application"
+            "description": "controller for a NodeJs server application",
+            "connector": true
         },
         {
             "name": "GpExpressService",
@@ -16,7 +17,8 @@
             "sequence_id": 2,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "service component for a NodeJS based application"
+            "description": "service component for a NodeJS based application",
+            "connector": true
         },
         {
             "name": "GpExpressDao",
@@ -25,7 +27,8 @@
             "sequence_id": 3,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "dao component for a NodeJs based application"
+            "description": "dao component for a NodeJs based application",
+            "connector": true
         },
         {
             "name": "GpAngularComponent",
@@ -34,7 +37,8 @@
             "sequence_id": 1,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "component for Angular desktop"
+            "description": "component for Angular desktop",
+            "connector": true
         },
         {
             "name": "GpAngularService",
@@ -43,7 +47,28 @@
             "sequence_id": 2,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "service for Angular desktop"
+            "description": "service for Angular desktop",
+            "connector": true
+        },
+        {
+            "name": "GpIonicAngularComponent",
+            "label": "angular 7 component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "component for ionic Angular mobile",
+            "connector": true
+        },
+        {
+            "name": "GpIonicAngularService",
+            "label": "angular 7 service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Ionic Angular",
+            "description": "service for ionic Angular mobile",
+            "connector": true
         }
     ]
 }

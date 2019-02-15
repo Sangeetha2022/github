@@ -5,6 +5,7 @@
             "label": "Save",
             "description": "creates a noun",
             "action_on_data": "GpCreate",
+            "type": "basic",
             "create_with_default_activity": 1
         },
         {
@@ -12,6 +13,7 @@
             "label": "Update",
             "description": "updates a noun",
             "action_on_data": "GpUpdate",
+            "type": "basic",
             "create_with_default_activity": 1
         },
         {
@@ -19,6 +21,7 @@
             "label": "Delete",
             "description": "deletes a noun",
             "action_on_data": "GpDelete",
+            "type": "basic",
             "create_with_default_activity": 1
         },
         {
@@ -26,6 +29,7 @@
             "label": "Search",
             "description": "searches a noun",
             "action_on_data": "GpSearch",
+            "type": "basic",
             "create_with_default_activity": 0
         },
         {
@@ -33,6 +37,7 @@
             "label": "Search for update",
             "description": "special search for locking a noun",
             "action_on_data": "GpSearchForUpdate",
+            "type": "basic",
             "create_with_default_activity": 0
         },
         {
@@ -40,6 +45,7 @@
             "label": "Get All Records",
             "description": "special search that gets all values",
             "action_on_data": "GpGetAllValues",
+            "type": "basic",
             "create_with_default_activity": 1
         },
         {
@@ -47,6 +53,7 @@
             "label": "Gets by ID",
             "description": "special search that fetches one value",
             "action_on_data": "GpGetNounById",
+            "type": "basic",
             "create_with_default_activity": 0
         },
         {
@@ -54,6 +61,7 @@
             "label": "Custom Verb",
             "description": "user defined verb",
             "action_on_data": "GpCustom",
+            "type": "basic",
             "create_with_default_activity": 0
         },
         {
@@ -61,6 +69,7 @@
             "label": "Get by parent id",
             "description": "get noun by parent id",
             "action_on_data": "GpGetNounByParentId",
+            "type": "basic",
             "create_with_default_activity": 0
         },
         {
@@ -68,20 +77,39 @@
             "label": "Delete by parent id",
             "description": "delete noun by parent id",
             "action_on_data": "GpDeleteByParentId",
+            "type": "basic",
             "create_with_default_activity": 0
         },
         {
             "name": "GpTakePhoto",
             "label": "Take photo",
-            "description": "takes photo",
+            "description": "use to take a pictutre - need device that supports camera",
             "action_on_data": "GpTakePhoto",
+            "type": "complex",
             "create_with_default_activity": 0
         },
         {
             "name": "GpRecordVideo",
             "label": "Take video",
-            "description": "takes video",
+            "description": "use to record a video - need device that supports camera",
             "action_on_data": "GpRecordVideo",
+            "type": "complex",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpFileUpload",
+            "label": "Upload Files",
+            "description": "upload file to server or database",
+            "action_on_data": "GpFileUpload",
+            "type": "complex",
+            "create_with_default_activity": 0
+        },
+        {
+            "name": "GpAppStartup",
+            "label": "While App Open",
+            "description": "when happen when you open your app",
+            "action_on_data": "GpAppStartup",
+            "type": "complex",
             "create_with_default_activity": 0
         },
         {
@@ -89,6 +117,7 @@
             "label": "Cancel",
             "description": "back to previous page",
             "action_on_data": "GpCancel",
+            "type": "basic",
             "create_with_default_activity": 0
         },
         {
@@ -96,6 +125,7 @@
             "label": "Search Detail",
             "description": "special search for locking a noun details",
             "action_on_data": "GpSearchDetail",
+            "type": "basic",
             "create_with_default_activity": 0
         },
         {
@@ -103,6 +133,7 @@
             "label": "Create Relationship",
             "description": "Create With Multiple Select Dropdown",
             "action_on_data": "GpCreateRelationship",
+            "type": "complex",
             "create_with_default_activity": 0
         },
         {
@@ -110,6 +141,7 @@
             "label": "GpGetNounFromRelation",
             "description": "Get the noun through relation for multiselect",
             "action_on_data": "GpGetNounFromRelation",
+            "type": "complex",
             "create_with_default_activity": 0
         },
         {
@@ -117,6 +149,7 @@
             "label": "GpDeleteNounByRelation",
             "description": "Delete the noun by parent relaion",
             "action_on_data": "GpDeleteNounByRelation",
+            "type": "complex",
             "create_with_default_activity": 0
         },
         {
@@ -124,6 +157,7 @@
             "label": "GpDeleteNounRelationship",
             "description": "Delete the noun Relationship",
             "action_on_data": "GpDeleteNounRelationship",
+            "type": "complex",
             "create_with_default_activity": 0
         },
         {
@@ -131,6 +165,7 @@
             "label": "GpGetNounByRelationship",
             "description": "Get noun by relationship",
             "action_on_data": "GpGetNounByRelationship",
+            "type": "complex",
             "create_with_default_activity": 0
         },
         {
@@ -138,6 +173,7 @@
             "label": "GpGridExportCSV",
             "description": "To exportbtable content",
             "action_on_data": "GpGridExportCSV",
+            "type": "complex",
             "create_with_default_activity": 0
         }
     ]

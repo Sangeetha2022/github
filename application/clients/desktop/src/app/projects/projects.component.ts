@@ -2,18 +2,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit, Injectable } from '@angular/core';
 import { AppComponentService } from '../app.component.service';
 import { ProjectsService } from '../projects/projects.service';
-import { project } from '../projects/project.model';
 
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
 })
+
 @Injectable()
 export class ProjectsComponent implements OnInit {
-
   displayModel: String = 'none';
   delmodal: String = 'none';
+  displayGenratorModel: String = 'none'
   idToDelete: String = null;
   createProject: FormGroup;
   languages: string[] = ['English', 'Tamil', 'Spanish'];
@@ -38,11 +38,18 @@ export class ProjectsComponent implements OnInit {
   }
   onCloseHandled() {
     this.displayModel = 'none';
+    this.delmodal = 'none';
     this.submitted = false;
     this.createProject.clearValidators();
     this.createProject.reset();
   }
+  openGeneratorModal() {
+    this.displayGenratorModel = 'block';
+  }
 
+  onCloseHandledGen(){
+    this.displayGenratorModel = 'none';
+  }
   get form_control() { return this.createProject.controls; }
 
   getAllMyProjects() {
@@ -53,6 +60,7 @@ export class ProjectsComponent implements OnInit {
       console.log('Check the browser console to see more info.', 'Error!');
     });
   }
+
   openDeleteModel(proj) {
     this.idToDelete = proj._id;
     this.delmodal = 'block'
@@ -61,7 +69,8 @@ export class ProjectsComponent implements OnInit {
   deleteMyProjects() {
     this.projectsService.deleteProject(this.idToDelete).subscribe(data => {
       console.log("data", data);
-      this.delmodal = 'none'
+      this.delmodal = 'none';
+      this.getAllMyProjects();
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });

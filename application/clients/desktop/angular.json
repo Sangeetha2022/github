@@ -27,13 +27,22 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/font-awesome/css/font-awesome.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ag-grid-community/dist/styles/ag-grid.css",
               "node_modules/ag-grid-community/dist/styles/ag-theme-balham.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/feather.js",
+              "src/assets/js/toastr.min.js",
+              "src/assets/js/ckeditor.js",
+              "src/assets/js/grapes.min.js",
+              "src/assets/js/gjs-grapedrop-preset.js",
+              "src/assets/js/editor.js",
+              "src/assets/js/analytics.js",
+              "src/assets/js/customjs/unsplash.js",
+              "src/assets/js/customjs/assetIcons.js",
+              "src/assets/js/app.js"
+            ]
           },
           "configurations": {
             "production": {

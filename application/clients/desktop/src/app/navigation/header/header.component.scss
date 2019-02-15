@@ -1,0 +1,38 @@
+a {
+    text-decoration: none;
+    color: white;
+}
+ 
+a:hover, a:active{
+    color: lightgray;
+}
+ 
+.navigation-items{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+ 
+mat-toolbar{
+    border-radius: 3px;
+}
+
+.mat-toolbar{
+    position: fixed;
+    top: 20px;
+    z-index: 999;
+}
+
+.mat-toolbar.mat-primary{
+    background: grey;
+}
+
+.dropdown-item {
+    color: black;
+}
+ 
+@media(max-width: 959px){
+    mat-toolbar{
+        border-radius: 0px;
+    }
+}

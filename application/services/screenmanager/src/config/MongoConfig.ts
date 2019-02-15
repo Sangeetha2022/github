@@ -1,4 +1,4 @@
-var vault = require("node-vault")({ apiVersion: 'v1', endpoint: 'http://vault.default.svc.cluster.local:8200', token: 'vault-root-token' });
+var vault = require("node-vault")({ apiVersion: 'v1', endpoint: 'http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200', token: 'vault-root-token' });
 import * as mongoose from "mongoose";
 
 export class MongoConfig {

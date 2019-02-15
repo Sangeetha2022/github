@@ -1,19 +1,18 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { detect } from 'detect-browser';
 import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
-import {AppComponentService} from '../app/app.component.service'
+import { AppComponentService } from '../app/app.component.service'
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  // title = 'GeppettoBuilder';
-  message = "hello";
   loading = true;
   start = 0;
-  constructor(
-    @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService) { }
+
+  constructor(@Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService) { }
+
   ngOnInit() {
     const browser = detect();
     if (browser.name !== 'chrome') {
