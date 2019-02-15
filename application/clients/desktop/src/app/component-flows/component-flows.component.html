@@ -11,7 +11,6 @@
       [rowSelection]="rowSelection" (selectionChanged)="onSelectionChange()" (gridReady)="onGridReady($event)"></ag-grid-angular>
   </div>
 
-
   <h1 class="flowTable" style="text-align: center;" *ngIf="selectedFlow[0]?.connector"> <u>{{ 'defaultConnectors' | i18next }}</u> </h1>
   <!-- <div class="row row-button" *ngIf="selectedFlow[0]?.connector">
     <button mat-raised-button color="primary" (click)="openAddConnectorModal('create')">{{ 'create' | i18next }}</button>
