@@ -1,6 +1,6 @@
 import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
-import { DataService } from '../../shared/data.service';
+import { DataService } from 'src/shared/data.service';
 
 @Component({
   selector: 'app-header-language',

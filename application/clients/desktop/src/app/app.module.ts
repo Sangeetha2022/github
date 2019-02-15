@@ -17,7 +17,6 @@ import * as i18nextXHRBackend from 'i18next-xhr-backend';
 import * as i18nextLanguageDetector from 'i18next-browser-languagedetector';
 import { ValidationMessageModule } from 'angular-validation-message';
 import { I18NextValidationMessageModule } from 'angular-validation-message-i18next';
-import { HeaderLanguageComponent } from './header-controls/header.language.component';
 import sprintf from 'i18next-sprintf-postprocessor';
 import { ProjectsService } from './projects/projects.service';
 import { AppComponentService } from './app.component.service';
@@ -33,9 +32,10 @@ import { AppInterceptor } from './app.interceptor';
 import { ApiService } from './config/api.service';
 import { FlowManagerService } from './flow-manager/flow-manager.service';
 import { ScreenDesignerModule } from './screen-designer/screen-designer.module';
-import { HeaderComponent } from './navigation/header/header.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { EntityManagerModule } from './entity-manager/entity-manager.module';
+import { ConfigManagerModule } from './config-manager/config-manager.module';
+import { NavigationModule } from './navigation/navigation.module';
 
 
 const i18nextOptions = {
@@ -94,10 +94,8 @@ export const I18N_PROVIDERS = [
   declarations: [
     AppComponent,
     ProjectsComponent,
-    HeaderLanguageComponent,
     ComponentFlowsComponent,
     FlowManagerComponent,
-    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -105,7 +103,6 @@ export const I18N_PROVIDERS = [
     AgGridModule.withComponents([]),
     AppRoutingModule,
     FormsModule,
-    FlexLayoutModule,
     EntityManagerModule,
     ReactiveFormsModule,
     I18NextModule.forRoot(),
@@ -114,14 +111,14 @@ export const I18N_PROVIDERS = [
     NgMultiSelectDropDownModule.forRoot(),
     HttpClientModule,
     MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
     MatTabsModule,
     MatSidenavModule,
     ScreenDesignerModule,
     I18NextValidationMessageModule,
     MatExpansionModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    ConfigManagerModule,
+    NavigationModule
   ],
   providers: [
     ApiService,
