@@ -8,6 +8,6 @@ const connectorSchema = new mongoose.Schema({
   properties: Array
 });
 
-const ConnectorModel = mongoose.model<IConnector & mongoose.Document>('connector', connectorSchema);
+const ConnectorModel = mongoose.model<IConnector & mongoose.Document>('available_connectors', connectorSchema);
 
 export default ConnectorModel;

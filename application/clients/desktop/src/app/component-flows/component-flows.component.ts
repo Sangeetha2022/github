@@ -53,9 +53,11 @@ export class ComponentFlowsComponent implements OnInit {
   data: any = [];
   microFlow: any = [];
   connectorData: any = [];
+  linkedConnectorData: any = [];
   gridColumnApi;
   addConnectorModel;
   connectorColDef;
+  linkedConnectorColDef;
   microFlowId;
   showMicroFlow: Boolean = false;
   isDisplayMicroFlow: Boolean;
@@ -325,6 +327,7 @@ export class ComponentFlowsComponent implements OnInit {
       this.showMicroFlow = true;
     }
     this.getMicroFlowName(this.selectedFlow[0].component_name);
+    this.getLinkedConnectorByName(this.selectedFlow[0].component_name);
     if (this.selectedFlow[0].connector) {
       this.getAllConnector();
     }
@@ -342,14 +345,25 @@ export class ComponentFlowsComponent implements OnInit {
     this.componentFlowsService.getAllConnector().subscribe(data => {
       this.connectorData = data;
     })
-    this.getProperties();
   }
 
-  getProperties() {
-    console.log("hello udhayaa", this.connectorData)
+  getLinkedConnectorByName(component) {
+    console.log("hello udhaya i am",component)
+    this.componentFlowsService.getLinkedConnectorByName(component).subscribe(data => {
+      console.log("i am the default connector",data)
+      this.linkedConnectorData = data;
+      console.log("i am the linked connector",this.linkedConnectorData )
+    })
   }
 
   onSelectionConnectorChange() {
+    let selectedConnectorRows = this.connectorFlowGrid.getSelectedRows();
+    this.selectedConnector = selectedConnectorRows;
+    this.connector.id = this.selectedConnector[0]._id;
+    console.log("i am the selected one", this.selectedConnector[0])
+  }
+
+  onSelectionLinkedConnectorChange() {
     let selectedConnectorRows = this.connectorFlowGrid.getSelectedRows();
     this.selectedConnector = selectedConnectorRows;
     this.connector.id = this.selectedConnector[0]._id;
@@ -373,6 +387,15 @@ export class ComponentFlowsComponent implements OnInit {
       { headerName: 'Description', field: 'description' },
     ];
     this.connectorColDef = [
+      { headerName: 'Name', field: 'name', checkboxSelection: true },
+      { headerName: 'Description', field: 'description' },
+      { headerName: 'URL', field: 'url' },
+      // { headerName: 'Api key', field: 'properties.apiKey' },
+      // { headerName: 'Secret Key', field: 'properties.secretKey' },
+
+    ]
+
+    this.linkedConnectorColDef = [
       { headerName: 'Name', field: 'name', checkboxSelection: true },
       { headerName: 'Description', field: 'description' },
       { headerName: 'URL', field: 'url' },
@@ -432,7 +455,12 @@ export class ComponentFlowsComponent implements OnInit {
     this.connectorFlowGrid.sizeColumnsToFit();
     console.log("----------v-v->", this.connectorFlowGrid)
   }
-
+  onGridLinkedConnectorReady(params) {
+    this.connectorFlowGrid = params.api;
+    // this.gridColumnApi = params.columnApi;
+    this.connectorFlowGrid.sizeColumnsToFit();
+    console.log("----------v-v->", this.connectorFlowGrid)
+  }
   onGridMicroFlowReady(params) {
     this.microFlowGrid = params.api;
     // this.gridColumnApi = params.columnApi;

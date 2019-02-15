@@ -3,10 +3,12 @@ import FlowModel from './models/flow/flow.model';
 import FlowCompModel from './models/flowcomponent/flowcomponent.model';
 import ConnectorModel from './models/connector/connector.model';
 import GenFlowModel from './models/generationflow/generationflow.model';
+import linkedConnectorSchema from './models/linkedconnector/linkedconnector.model'
 
 import * as flowComponentjson from './assests/flowcomponent.json'
 import * as generationflowjson from './assests/generationflow.json'
 import * as connectorflowjson from './assests/connector.json'
+import * as linkedconnectorflowjson from './assests/linkedconnector.json'
 
 export class FeedSeedData {
 
@@ -14,6 +16,7 @@ export class FeedSeedData {
     private flowComp = FlowCompModel;
     private connector = ConnectorModel;
     private genFlow = GenFlowModel;
+    private linkedConnectorFlow = linkedConnectorSchema
 
     seedFlowData = async () => {
         flowjson.flow.map(async (flowObj) => {
@@ -50,15 +53,28 @@ export class FeedSeedData {
     }
 
     public seedConnectorData(): void {
-        Object.keys(connectorflowjson).map(async (key, index) => {
-            const data = await this.connector.findOne({ flow_name: key });
+        connectorflowjson.available_connectors.map(async (available_connectors) => {
+            const data = await this.connector.findOneAndUpdate({ name: available_connectors['name'] }, available_connectors, { new: true });
+            if (data === null) {
+                const createdFlowComp = new this.connector(available_connectors);
+                createdFlowComp.save();
+            }
+        })
+    }
+
+    seedLinkedConnectorData = async () => {
+        Object.keys(linkedconnectorflowjson).map(async (key, index) => {
+            const data = await this.linkedConnectorFlow.findOne({ comp_name: key });
             if (data === null) {
                 let dataToSave = {
-                    name: key,
-                    connector: connectorflowjson[key]
+                    name: linkedconnectorflowjson[key].name,
+                    comp_name: key,
+                    description: linkedconnectorflowjson[key].description,
+                    url: linkedconnectorflowjson[key].url,
+                    properties: linkedconnectorflowjson[key].properties,
                 }
-                const createdGenFlow = new this.genFlow(dataToSave);
-                createdGenFlow.save();
+                const createdlinkedConnectorFlow = new this.linkedConnectorFlow(dataToSave);
+                createdlinkedConnectorFlow.save();
             }
         })
     }

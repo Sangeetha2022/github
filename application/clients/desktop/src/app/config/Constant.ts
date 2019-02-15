@@ -37,6 +37,13 @@ export class Constants {
     public static get addConnector(): string { return '/connector/add' ;}
     public static get upadateConnector(): string { return '/connector/update' ;}
     public static get deleteConnector(): string { return '/connector/delete/' ;}
+
+
+    //LinkedConnector
+    public static get getLinkedConnectorByName(): string { return '/linked_connector/getbyname/' ;}
+    // public static get addConnector(): string { return '/connector/add' ;}
+    // public static get upadateConnector(): string { return '/connector/update' ;}
+    // public static get deleteConnector(): string { return '/connector/delete/' ;}
     
     
     

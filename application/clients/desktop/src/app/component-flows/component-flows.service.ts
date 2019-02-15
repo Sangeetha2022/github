@@ -64,6 +64,11 @@ export class ComponentFlowsService {
   getMicroFlowByCompName(name): Observable<any> {
     return this.api.get(this.restapi.mflowbaseUrl + Constants.getMicroFlowsByCompNameUrl + name);
   }
+
+  getLinkedConnectorByName(name): Observable<any> {
+    console.log("i am in the name service",name)
+    return this.api.get(this.restapi.flowbaseUrl + Constants.getLinkedConnectorByName + name);
+  }
   
   getAllConnector(): Observable<any> {
     return this.api.get(this.restapi.flowbaseUrl + Constants.getAllConnector);

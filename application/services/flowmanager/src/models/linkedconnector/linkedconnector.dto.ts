@@ -1,6 +1,6 @@
 import { IsString, IsArray } from 'class-validator';
 
-class ConnectorDto {
+class LinkedConnectorDto {
   @IsString()
   public name: string
 
@@ -9,9 +9,8 @@ class ConnectorDto {
   
   @IsString()
   public description: string
-
   @IsArray()
   public properties: Array<any>
 }
 
-export default ConnectorDto;
+export default LinkedConnectorDto;

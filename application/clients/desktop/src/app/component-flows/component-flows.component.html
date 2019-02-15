@@ -24,6 +24,19 @@
       [columnDefs]="connectorColDef" [rowData]="connectorData" (gridReady)="onGridConnectorReady($event)">
     </ag-grid-angular>
   </div>
+
+  <h1 style="text-align: center;" *ngIf="selectedFlow[0]?.connector"> <u>{{ 'defaultConnectors' | i18next }}</u> </h1>
+  <div class="row row-button" *ngIf="selectedFlow[0]?.connector">
+    <button mat-raised-button color="primary" (click)="openAddConnectorModal('create')">{{ 'create' | i18next }}</button>
+    <button mat-raised-button (click)="openAddConnectorModal('update')">{{ 'update' | i18next }}</button>
+    <button mat-raised-button color="warn" (click)="deleteConnector()">{{ 'delete' | i18next }}</button>
+  </div>
+  <div class="flowTable" *ngIf="selectedFlow[0]?.connector">
+    <ag-grid-angular #agGrid style=" width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
+      (selectionChanged)="onSelectionLinkedConnectorChange()" [rowSelection]="rowSelection" [animateRows]="true" class="ag-theme-balham"
+      [columnDefs]="linkedConnectorColDef" [rowData]="linkedConnectorData" (gridReady)="onGridLinkedConnectorReady($event)">
+    </ag-grid-angular>
+  </div>
   <!-- <div>
       <table class="table table-striped table-bordered">
           <thead>

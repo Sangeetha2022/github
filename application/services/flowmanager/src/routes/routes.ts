@@ -2,6 +2,7 @@ import { FlowController } from "../controllers/flow.controller";
 import { FlowComponentController } from "../controllers/flowcomponent.controller";
 import { GenerationFlowController } from "../controllers/generationflow.controller";
 import { ConnectorController } from "../controllers/connector.controller";
+import {LinkConnectorController} from "../controllers/linkedconnector.controller"
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {
@@ -10,6 +11,7 @@ export class Routes {
     public flowController: FlowController = new FlowController()
     public generationFlow: GenerationFlowController = new GenerationFlowController()
     public connector: ConnectorController = new ConnectorController()
+    public linkConnector: LinkConnectorController = new LinkConnectorController()
 
 
     public routes(app): void {
@@ -46,5 +48,13 @@ export class Routes {
         app.route('/connector/getbyid/:id').get(this.connector.getConnectorByID);
         app.route('/connector/getbyname/:name').get(this.connector.getConnectorByName);
         app.route('/connector/delete/:id').delete(this.connector.deleteConnector);
+
+        //linkConnector
+        app.route('/linked_connector/add').post(this.linkConnector.saveLinkedConnector);
+        app.route('/linked_connector/update').put(this.linkConnector.updateLinkedConnector);
+        app.route('/linked_connector/getall').get(this.linkConnector.getAllLinkedConnector);
+        app.route('/linked_connector/getbyid/:id').get(this.linkConnector.getLinkedConnectorByID);
+        app.route('/linked_connector/getbyname/:name').get(this.linkConnector.getLinkedConnectorByName);
+        app.route('/linked_connector/delete/:id').delete(this.linkConnector.deleteLinkedConnector);
     }
 }

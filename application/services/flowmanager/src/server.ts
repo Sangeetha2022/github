@@ -45,6 +45,7 @@ class App {
         seedData.seedFlowComponentData();
         seedData.seedGenFlowComponentData();
         seedData.seedConnectorData();
+        seedData.seedLinkedConnectorData();
     }
 
 }
