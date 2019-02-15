@@ -9,6 +9,6 @@ const linkedConnectorSchema = new mongoose.Schema({
   properties: Array
 });
 
-const linkedConnectorModel = mongoose.model<ILinkedConnector & mongoose.Document>('linked_connectors', linkedConnectorSchema);
+const LinkedConnectorModel = mongoose.model<ILinkedConnector & mongoose.Document>('linked_connectors', linkedConnectorSchema);
 
-export default linkedConnectorModel;
+export default LinkedConnectorModel;

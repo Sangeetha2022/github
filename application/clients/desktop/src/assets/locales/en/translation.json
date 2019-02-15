@@ -44,6 +44,6 @@
     "connector":"Connector",
     "project":"Project",
     "flowManager":"Flow Manager",
-    "defaultConnectors": "Deafult Connectors"
+    "defaultConnectors": "Deafult Connector"
 
 }

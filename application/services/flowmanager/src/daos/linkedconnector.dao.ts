@@ -1,16 +1,13 @@
 import * as mongoose from 'mongoose';
-// import { ConnectorSchema } from '../models/Connector';
 import { Request, Response } from 'express';
-import linkedconnector from '../models/linkedconnector/linkedconnector.model';
+import LinkedConnectorModel from '../models/linkedconnector/linkedconnector.model';
 import ILinkedConnector from '../models/linkedconnector/linkedconnector.interface';
 import LinkedConnectorDto from '../models/linkedconnector/linkedconnector.dto';
 import PostNotFoundException from '../exceptions/PostNotFoundException';
 
-// const Connector = mongoose.model('connector', ConnectorSchema);
-
 export class LinkedConnectorDao {
 
-    private linkedConnector = linkedconnector;
+    private linkedConnector = LinkedConnectorModel;
 
     saveLinkedConnector = async (req, callback: CallableFunction) => {
         const connectorData: LinkedConnectorDto = req.body;
@@ -38,7 +35,7 @@ export class LinkedConnectorDao {
 
     getLinkedConnectorByName = async (req: Request, next, callback: CallableFunction) => {
         const name = req.params.name;
-        const data = await this.linkedConnector.findOne({ name: name });
+        const data = await this.linkedConnector.findOne({ comp_name: name });
         if (data) {
             callback(data);
         } else {

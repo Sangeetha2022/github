@@ -169,6 +169,7 @@ export class ComponentFlowsComponent implements OnInit {
     this.createFlowComponentModel.reset();
     this.addModel = 'none';
   }
+  
   onCloseHandledUpdate() {
     this.addModel = 'none';
   }
@@ -187,6 +188,7 @@ export class ComponentFlowsComponent implements OnInit {
     this.createMFlowForm.reset();
     this.addConnectorModel = 'none';
   }
+
   onCloseConnectorHandledUpdate() {
     this.addConnectorModel = 'none';
   }

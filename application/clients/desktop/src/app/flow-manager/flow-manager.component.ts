@@ -115,9 +115,11 @@ export class FlowManagerComponent implements OnInit {
     this.createFlowForm.clearValidators();
     this.createFlowForm.reset();
   }
+  
   onCloseHandledForUpdate() {
     this.displayModel = 'none';
   }
+  
   createFlowModel() {
     this.flowManagerService.saveFlow(this.createFlowForm.getRawValue())
       .subscribe(
