@@ -4,7 +4,7 @@ import { Routes } from "./routes/routes";
 import * as cors from 'cors';
 import { WinstonLogger } from './config/WinstonLogger';
 
-const PORT = 4001;
+const PORT = 5002;
 
 class App {
 

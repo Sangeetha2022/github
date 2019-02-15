@@ -26,6 +26,10 @@ mat-toolbar{
 .mat-toolbar.mat-primary{
     background: grey;
 }
+
+.dropdown-item {
+    color: black;
+}
  
 @media(max-width: 959px){
     mat-toolbar{

@@ -111,7 +111,7 @@ export class SourceControlService {
         }).then(() => {
             return git.addConfig('user.email', 'rahul.tiberwal@10decoders.in')
         }).then(() => {
-            return git.commit("updated Github code")
+            return git.commit("updated generated code")
         }).then(() => {
             return git.push('origin', 'master');
         }).then((status) => {

@@ -1,20 +1,26 @@
 <mat-toolbar color="primary">
-  <div fxHide.gt-xs>
+  <!-- TODO: Below commented code is for mobile compatibility -->
+  <!-- <div fxHide.gt-xs>
     <button mat-icon-button (click)="onToggleSidenav()">
       <mat-icon>menu</mat-icon>
     </button>
-  </div>
+  </div> -->
   <div>
-    <img src = "../../../assets/img/GeppettoSoftware.png" />
+    <img src="../../../assets/img/GeppettoSoftware.png" />
   </div>
   <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-      <li>
-        <a [routerLink]="['/project']">{{'project' | i18next}}</a>
-      </li>
-      <li>
-        <a routerLink="/flow-manager">{{'flowManager' | i18next}}</a>
-      </li>
+      <a class="btn btn-secondary" [routerLink]="['/project']">{{'project' | i18next}}</a>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Administrator
+        </button>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" routerLink="/flow-manager">{{'flowManager' | i18next}}</a>
+          <a class="dropdown-item" routerLink="/config-manager">Configuration</a>
+        </div>
+      </div>
     </ul>
   </div>
 </mat-toolbar>
