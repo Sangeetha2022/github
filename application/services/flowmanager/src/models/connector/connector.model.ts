@@ -1,13 +1,25 @@
 import * as mongoose from 'mongoose';
-import IConnector from './connector.interface';
+import * as uuid from 'uuid';
 
-const connectorSchema = new mongoose.Schema({
+let connectorSchema = mongoose.Schema({
+  _id: {
+    type: String,
+    default: uuid.v1
+  },
   name: String,
   url: String,
   description: String,
-  properties: Array
+  properties: Array,
+  created_date: {
+    type: Date,
+    default: Date.now
+  },
+  updated_date: {
+    type: Date,
+    default: null
+  }
 });
 
-const ConnectorModel = mongoose.model<IConnector & mongoose.Document>('available_connectors', connectorSchema);
+const ConnectorModel = mongoose.model('available_connectors', connectorSchema);
 
 export default ConnectorModel;

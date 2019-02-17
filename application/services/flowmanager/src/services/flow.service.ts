@@ -31,8 +31,38 @@ export class FlowService {
         })
     }
 
-    public updateFlow(req: Request, next: NextFunction, callback: CallableFunction) {
+    updateFlow = (req: Request, next: NextFunction, callback: CallableFunction) => {
         flowDao.updateFlow(req, next, (response) => {
+            callback(response);
+        })
+    }
+
+    getFlowDetails = (req: Request, next: NextFunction, callback: CallableFunction) => {
+        flowDao.getFlowDetails(req, next, (response) => {
+            callback(response);
+        })
+    }
+
+    updateFlowComponent = (req: Request, next: NextFunction, callback: CallableFunction) => {
+        flowDao.updateFlowComponent(req, next, (response) => {
+            callback(response);
+        })
+    }
+
+    updateLinkedConnector = (req: Request, next: NextFunction, callback: CallableFunction) => {
+        flowDao.updateLinkedConnector(req, next, (response) => {
+            callback(response);
+        })
+    }
+
+    addFlowComponent = (req: Request, next: NextFunction, callback: CallableFunction) => {
+        flowDao.addFlowComponent(req, next, (response) => {
+            callback(response);
+        })
+    }
+
+    addLinkedConnector = (req: Request, next: NextFunction, callback: CallableFunction) => {
+        flowDao.addLinkedConnector(req, next, (response) => {
             callback(response);
         })
     }

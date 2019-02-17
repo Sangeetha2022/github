@@ -93,7 +93,7 @@ export class FlowManagerComponent implements OnInit {
   onSelectionChanged() {
     this.selectedFlow = this.gridApi.getSelectedRows();
     if (this.selectedFlow.length != 0) {
-      this.flowManagerService.changeMessage(this.selectedFlow[0].name);
+      this.flowManagerService.changeMessage(this.selectedFlow[0]._id);
     }
   }
 
@@ -147,7 +147,8 @@ export class FlowManagerComponent implements OnInit {
   }
 
   updateFlowModel() {
-    this.flowManagerService.updateFlow(this.flow).subscribe(
+    console.log("= = >> ", this.flow)
+    this.flowManagerService.updateFlow(this.flow, this.flow['_id']).subscribe(
       (data) => {
         this.onCloseHandled();
         this.getAllFlows();

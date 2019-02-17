@@ -28,9 +28,9 @@ export class FlowManagerService {
   deleteFlow(id): Observable<any> {
     return this.api.delete(this.restapi.flowbaseUrl + Constants.deleteFlowUrl + id);
   }
-
-  updateFlow(flow): Observable<any> {
-    return this.api.put(this.restapi.flowbaseUrl + Constants.updateFlowUrl, flow);
+  
+  updateFlow(flow, id): Observable<any> {
+    return this.api.put(this.restapi.flowbaseUrl + Constants.updateFlowUrl + id, flow);
   }
 
   getAllFlows(): Observable<any> { 

@@ -20,6 +20,7 @@ export class FlowComponentDao {
     updateFlowComponent = async (req: Request, next, callback: CallableFunction) => {
         const id = req.params.id;
         const postData: IFlowComponent = req.body;
+        postData.updated_date = new Date();
         const post = await this.flowcomponent.findByIdAndUpdate(id, postData, { new: true });
         if (post) {
             callback(post);

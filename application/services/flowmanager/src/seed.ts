@@ -3,7 +3,6 @@ import FlowModel from './models/flow/flow.model';
 import FlowCompModel from './models/flowcomponent/flowcomponent.model';
 import ConnectorModel from './models/connector/connector.model';
 import GenFlowModel from './models/generationflow/generationflow.model';
-import linkedConnectorSchema from './models/linkedconnector/linkedconnector.model'
 
 import * as flowComponentjson from './assests/flowcomponent.json'
 import * as generationflowjson from './assests/generationflow.json'
@@ -16,21 +15,28 @@ export class FeedSeedData {
     private flowComp = FlowCompModel;
     private connector = ConnectorModel;
     private genFlow = GenFlowModel;
-    private linkedConnectorFlow = linkedConnectorSchema
 
     seedFlowData = async () => {
         flowjson.flow.map(async (flowObj) => {
-            const data = await this.flow.findOneAndUpdate({ name: flowObj['name'] }, flowObj, { new: true });
-            if (data === null) {
-                const createdFlow = new this.flow(flowObj);
-                createdFlow.save();
-            }
+            await this.flow.findOne({ name: flowObj['name'] }).then(async data => {
+                if (data === null) {
+                    const createdFlow = new this.flow(flowObj);
+                    let cdata = await createdFlow.save();
+                    return cdata;
+                } else {
+                    return null;
+                }
+            }).then(async flow => {
+                if (flow !== null) {
+                    await this.seedGenFlowComponentData(flow);
+                }
+            })
         })
     }
 
     seedFlowComponentData = async () => {
         flowComponentjson.flow_components.map(async (flow_components) => {
-            const data = await this.flowComp.findOneAndUpdate({ name: flow_components['name'] }, flow_components, { new: true });
+            const data = await this.flowComp.findOne({ name: flow_components['name'] });
             if (data === null) {
                 const createdFlowComp = new this.flowComp(flow_components);
                 createdFlowComp.save();
@@ -38,23 +44,9 @@ export class FeedSeedData {
         })
     }
 
-    seedGenFlowComponentData = async () => {
-        Object.keys(generationflowjson).map(async (key, index) => {
-            const data = await this.genFlow.findOne({ flow_name: key });
-            if (data === null) {
-                let dataToSave = {
-                    flow_name: key,
-                    flow_comp_seq: generationflowjson[key]
-                }
-                const createdGenFlow = new this.genFlow(dataToSave);
-                createdGenFlow.save();
-            }
-        })
-    }
-
-    public seedConnectorData(): void {
+    seedConnectorData = () => {
         connectorflowjson.available_connectors.map(async (available_connectors) => {
-            const data = await this.connector.findOneAndUpdate({ name: available_connectors['name'] }, available_connectors, { new: true });
+            const data = await this.connector.findOne({ name: available_connectors['name'] });
             if (data === null) {
                 const createdFlowComp = new this.connector(available_connectors);
                 createdFlowComp.save();
@@ -62,20 +54,45 @@ export class FeedSeedData {
         })
     }
 
-    seedLinkedConnectorData = async () => {
-        Object.keys(linkedconnectorflowjson).map(async (key, index) => {
-            const data = await this.linkedConnectorFlow.findOne({ comp_name: key });
+    private seedGenFlowComponentData = async (flow) => {
+        this.genFlow.findOne({ flow_name: flow['name'] }).then(async data => {
             if (data === null) {
-                let dataToSave = {
-                    name: linkedconnectorflowjson[key].name,
-                    comp_name: key,
-                    description: linkedconnectorflowjson[key].description,
-                    url: linkedconnectorflowjson[key].url,
-                    properties: linkedconnectorflowjson[key].properties,
-                }
-                const createdlinkedConnectorFlow = new this.linkedConnectorFlow(dataToSave);
-                createdlinkedConnectorFlow.save();
+                console.log("=====>> . ", flow)
+                let flow_seq = await this.modifyFlowSeq(flow);
+                return flow_seq;
+            } else {
+                return null;
             }
+        }).then(async flow_seq => {
+            let dataToSave = {
+                flow: flow['_id'],
+                flow_comp_seq: flow_seq
+            }
+            const createdGenFlow = new this.genFlow(dataToSave);
+            await createdGenFlow.save();
+        }).catch(err => {
+            console.log("=== == =    ?? ?   ? ", err)
         })
     }
+
+    private modifyFlowSeq = async (flow) => {
+        let flow_seq = [];
+        let flow_comp_seq = generationflowjson[flow['name']];
+        let promises = flow_comp_seq.map(element => {
+            if(linkedconnectorflowjson[element.component_name]) {
+                element['linked_connector'] = {
+                    name: linkedconnectorflowjson[element.component_name].name,
+                    comp_name: element.component_name,
+                    description: linkedconnectorflowjson[element.component_name].description,
+                    url: linkedconnectorflowjson[element.component_name].url,
+                    properties: linkedconnectorflowjson[element.component_name].properties,
+                }
+            }
+            flow_seq.push(element)
+        })
+        await Promise.all(promises);
+        return flow_seq;
+
+    }
+
 }

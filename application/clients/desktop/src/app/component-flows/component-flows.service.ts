@@ -33,6 +33,22 @@ export class ComponentFlowsService {
     return this.api.post(this.restapi.flowbaseUrl + Constants.addFlowCompUrl, flow);
   }
 
+  addFlowCompToFlow(id, flow): Observable<any> {
+    return this.api.post(this.restapi.flowbaseUrl + Constants.flow + id + Constants.addFlowCompToFlowUrl, flow);
+  }
+
+  updateFlowCompToFlow(id, flow): Observable<any> {
+    return this.api.put(this.restapi.flowbaseUrl + Constants.flow + id + Constants.updateFlowCompToFlowUrl, flow);
+  }
+
+  addDefaultConnector(id, name, conn): Observable<any> {
+    return this.api.post(this.restapi.flowbaseUrl + Constants.flow + id + '/' + name + Constants.addDConnectorToFlowUrl, conn);
+  }
+
+  updateDefaultConnector(id, name, conn): Observable<any> {
+    return this.api.post(this.restapi.flowbaseUrl + Constants.flow + id + '/' + name + Constants.updateDConnectorToFlowUrl, conn);
+  }
+
   updateMicroFlow(flow): Observable<any> {
     return this.api.put(this.restapi.mflowbaseUrl + Constants.updateMicroFlowUrl, flow);
   }
@@ -61,15 +77,19 @@ export class ComponentFlowsService {
     return this.api.get(this.restapi.flowbaseUrl + Constants.getGenFlowsByCompNameUrl + name);
   }
 
+  getFlowSequence(id): Observable<any> {
+    return this.api.get(this.restapi.flowbaseUrl + Constants.getFlowByIDUrl + id + Constants.details);
+  }
+
   getMicroFlowByCompName(name): Observable<any> {
     return this.api.get(this.restapi.mflowbaseUrl + Constants.getMicroFlowsByCompNameUrl + name);
   }
 
   getLinkedConnectorByName(name): Observable<any> {
-    console.log("i am in the name service",name)
+    console.log("i am in the name service", name)
     return this.api.get(this.restapi.flowbaseUrl + Constants.getLinkedConnectorByName + name);
   }
-  
+
   getAllConnector(): Observable<any> {
     return this.api.get(this.restapi.flowbaseUrl + Constants.getAllConnector);
   }
