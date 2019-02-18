@@ -4,6 +4,7 @@ import { AppComponentService } from '../app.component.service';
 import { ProjectsService } from '../projects/projects.service';
 import { DataService } from '../../shared/data.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-projects',
@@ -20,14 +21,17 @@ export class ProjectsComponent implements OnInit {
   createProject: FormGroup;
   languages: string[] = ['English', 'Tamil', 'Spanish'];
   submitted = false;
-  myAllProjects: Array<Object> = [];
+  myAllProjects: any = [];
+
+  genNotifyArr: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private data: AppComponentService,
     private projectsService: ProjectsService,
     private dataService: DataService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -40,6 +44,13 @@ export class ProjectsComponent implements OnInit {
       primaryLanguage: ['', Validators.required],
       secondaryLanguage: [''],
     });
+
+    //socket
+    this.initSocket();
+    this.onEvent();
+    if (this.myAllProjects.length !== 0) {
+      this.getProjectNotify(this.myAllProjects[0]._id)
+    }
   }
   openModal() {
     this.displayModel = 'block';
@@ -151,6 +162,85 @@ export class ProjectsComponent implements OnInit {
     });
     this.onCloseHandled();
     this.getAllMyProjects();
+  }
+
+
+
+  //generation
+  generateProject(project) {
+    console.log("project-------->", project);
+    //this.displayGenratorModel = 'block';
+
+    const projectgen = {
+      project_id: project._id,
+      project_name: project.name,
+      user_id: "123",
+      user_name: "tharani",
+      status: "gen_requested",
+      status_message: "generation requested",
+      stack_trace: "gen_processing",
+      claimed: "t",
+      parent_gen_id: "0"
+    }
+    
+
+    this.projectsService.generateProject(projectgen).subscribe(data => {
+      console.log('data', data);
+      //this.getAllMyProjects();
+    }, error => {
+      this.toastr.error("Failed!", 'Operation', {
+        closeButton:true,
+        disableTimeOut:true
+      });
+      console.log('Check the browser console to see more info.', 'Error!');
+    });
+  }
+
+  //socket 
+  initSocket() {
+    this.projectsService.initSocket();
+  }
+
+  onEvent() {
+    this.projectsService.onEvent("connect");
+  }
+
+  disconnect() {
+    this.projectsService.onEvent("disconnect")
+  }
+
+  //socket get notify
+  getProjectNotify(project_id) {
+    this.projectsService.getProjectNotify(project_id).subscribe(data => {
+      console.log("socket data---->", data)
+      let notifyArr: any;
+      notifyArr = data;
+      if (notifyArr.length !== 0) {
+        this.genNotifyArr.push(notifyArr[notifyArr.length - 1])
+        this.toastr.success(notifyArr[notifyArr.length - 1].status_message, 'Notification!', {
+          closeButton:true,
+          disableTimeOut:true
+        });
+      }
+    },
+      error => {
+        this.toastr.error("Failed!", 'Operation', {
+          closeButton:true,
+          disableTimeOut:true
+        });
+        console.log('Check the browser console to see more info.', 'Error!');
+      });
+
+  }
+
+  getAllNotifyByProject(project_id) {
+    this.projectsService.getAllNotifyProject(project_id).subscribe(data => {
+      this.genNotifyArr = data;
+    },
+      error => {
+        console.log('Check the browser console to see more info.', 'Error!');
+      });
+
   }
 
 }

@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+//toaster
+//@import '~ngx-toastr/toastr-bs4-alert';
+@import '~ngx-toastr/toastr.css';
+
+
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
@@ -7,6 +12,29 @@
 
 
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
+
+
+
+
+// for toaster
+.toast-success {
+    background-color: #51a351!important
+  }
+  
+  .toast-error {
+    background-color: #bd362f
+  }
+  
+  .toast-info {
+    background-color: #2f96b4
+  }
+  
+  .toast-warning {
+    background-color: #f89406
+  }
+ //-- 
+
+
 
 body,
 html,
