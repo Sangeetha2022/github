@@ -37,6 +37,7 @@ import { EntityManagerModule } from './entity-manager/entity-manager.module';
 import { ConfigManagerModule } from './config-manager/config-manager.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { ToastrModule } from 'ngx-toastr';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 
 const i18nextOptions = {
@@ -120,7 +121,8 @@ export const I18N_PROVIDERS = [
     MatFormFieldModule,
     ConfigManagerModule,
     NavigationModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    CKEditorModule,
   ],
   providers: [
     ApiService,
