@@ -62,7 +62,11 @@ export class ProjectsService {
   }
 
   getAllNotifyProject(project_id) {
-    return this.http.get(this.restapi.genmanagerUrl + '/getnotify/' + project_id);
+    return this.http.get(this.restapi.genmanagerUrl + '/projectgen/project/' + project_id);
+  }
+
+  getAllUserNotify(user_id) {
+    return this.http.get(this.restapi.genmanagerUrl + '/projectgen/user/'+user_id);
   }
 
 
