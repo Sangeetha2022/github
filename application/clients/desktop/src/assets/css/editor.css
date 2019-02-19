@@ -1,4 +1,4 @@
-.toast-title {
+/* .toast-title {
   font-weight: 700
 }
 
@@ -220,7 +220,9 @@ button.toast-close-button {
     padding: 15px 15px 15px 50px;
     width: 25em
   }
-}
+} */
+
+
 
 .no-user-select,
 .qrcode {
@@ -870,7 +872,9 @@ input:checked+.form-switch:after {
   color: #fff
 }
 
-#toast-container {
+/* toast */
+
+/* #toast-container {
   font-size: 13px;
   font-weight: lighter
 }
@@ -889,7 +893,7 @@ input:checked+.form-switch:after {
   -webkit-box-shadow: 0 0 12px rgba(0, 0, 0, .1);
   box-shadow: 0 0 12px rgba(0, 0, 0, .1);
   font-family: Helvetica, sans-serif
-}
+} */
 
 .spinner {
   -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, .015);
