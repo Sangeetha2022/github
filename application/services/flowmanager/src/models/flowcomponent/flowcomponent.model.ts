@@ -1,16 +1,29 @@
 import * as mongoose from 'mongoose';
-import IFlowComponent from './flowcomponent.interface';
+import * as uuid from 'uuid';
 
-const flowCompSchema = new mongoose.Schema({
+let flowCompSchema = mongoose.Schema({
+  _id: {
+    type: String,
+    default: uuid.v1
+  },
   name: String,
   label: String,
   type: String,
   sequence_id: String,
   dev_language: String,
   dev_framework: String,
-  description: String
+  description: String,
+  create_with_default_activity: Number,
+  created_date: {
+    type: Date,
+    default: Date.now
+  },
+  updated_date: {
+    type: Date,
+    default: null
+  }
 });
 
-const FlowCompModel = mongoose.model<IFlowComponent & mongoose.Document>('flow_component', flowCompSchema);
+const FlowCompModel = mongoose.model('flow_component', flowCompSchema);
 
 export default FlowCompModel;

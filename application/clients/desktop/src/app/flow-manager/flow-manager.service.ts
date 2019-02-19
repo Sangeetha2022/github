@@ -22,19 +22,19 @@ export class FlowManagerService {
   }
 
   saveFlow(proj): Observable<any> {
-    return this.api.post(this.restapi.flowbaseUrl + Constants.addFlowUrl, proj);
+    return this.api.post(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.saveUrl, proj);
   }
 
   deleteFlow(id): Observable<any> {
-    return this.api.delete(this.restapi.flowbaseUrl + Constants.deleteFlowUrl + id);
+    return this.api.delete(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.deleteUrl + id);
   }
 
-  updateFlow(flow): Observable<any> {
-    return this.api.put(this.restapi.flowbaseUrl + Constants.updateFlowUrl, flow);
+  updateFlow(flow, id): Observable<any> {
+    return this.api.put(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.updateUrl + id, flow);
   }
 
-  getAllFlows(): Observable<any> { 
-    return this.api.get(this.restapi.flowbaseUrl + Constants.getAllFlowsUrl);
+  getAllFlows(): Observable<any> {
+    return this.api.get(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.getAllUrl);
   }
 
 }

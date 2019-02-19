@@ -1,17 +1,27 @@
 import * as mongoose from 'mongoose';
-import User from './flow.interface';
+import * as uuid from 'uuid';
 
-const flowSchema = new mongoose.Schema({
+let flowSchema = mongoose.Schema({
+  _id: {
+    type: String,
+    default: uuid.v1
+  },
   name: String,
   label: String,
   description: String,
   action_on_data: String,
   type: String,
   create_with_default_activity: Number,
-  created_date: Date,
-  updated_date: Date,
+  created_date: {
+    type: Date,
+    default: Date.now
+  },
+  updated_date: {
+    type: Date,
+    default: null
+  }
 });
 
-const FlowModel = mongoose.model<User & mongoose.Document>('flow', flowSchema);
+const FlowModel = mongoose.model('flows', flowSchema);
 
 export default FlowModel;

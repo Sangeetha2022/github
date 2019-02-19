@@ -43,9 +43,7 @@ class App {
         let seedData = new FeedSeedData()
         seedData.seedFlowData();
         seedData.seedFlowComponentData();
-        seedData.seedGenFlowComponentData();
         seedData.seedConnectorData();
-        seedData.seedLinkedConnectorData();
     }
 
 }
