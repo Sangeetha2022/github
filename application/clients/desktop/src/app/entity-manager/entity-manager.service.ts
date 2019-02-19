@@ -20,8 +20,7 @@ export class EntityManagerService {
     field: []
   };
 
-  private entityInfoSource = new BehaviorSubject(this.entity);
-  currentEntityInfo = this.entityInfoSource.asObservable();
+
 
   constructor(
     private api: ApiService, private restapi: SharedService
@@ -47,8 +46,5 @@ export class EntityManagerService {
     return this.api.get(this.restapi.entityUrl + '/entity_type/get');
   }
 
-  // data sharing
-  setEntity(entity: any) {
-    this.entityInfoSource.next(entity);
-  }
+
 }

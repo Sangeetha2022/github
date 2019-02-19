@@ -162,7 +162,8 @@ export class EntityManagerComponent implements OnInit {
     this.deletePopup = 'none';
   }
   editEntityField(entity: IEntity) {
-    this.entityManagerService.setEntity(entity);
+    this.dataService.setEntity(entity);
+    this.dataService.setAllEntity(this.allEntity);
     this.router.navigate(['/entity-field']);
   }
   deleteEntity() {

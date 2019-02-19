@@ -4,6 +4,10 @@ import { EntityManagerService } from '../entity-manager.service';
 import { IEntity } from '../interface/Entity';
 import { Router } from '@angular/router';
 import { ValueParserParams } from 'ag-grid-community';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { DataService } from '../../../shared/data.service';
+import { MatDialog } from '@angular/material';
+import { FieldPopupModalComponent } from './field-popup-modal/field-popup-modal.component';
 
 @Component({
   selector: 'app-entity-field',
@@ -34,10 +38,20 @@ export class EntityFieldComponent implements OnInit {
   public test: String = '';
   public isValid: Boolean = true;
   // public entity: any;
+  createProject: FormGroup;
+  selectNounType: FormGroup;
+  selectListType: FormGroup;
+  testvalues: String = 'testfine';
+  allEntity: IEntity[];
+  selectCellRenderedValue: String;
+  selectedCellRowIndex: any;
 
   constructor(
     private entityManagerService: EntityManagerService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder,
+    private dataService: DataService
   ) {
     this.frameworkComponents = {
       buttonRenderer: ButtonRendererComponent,
@@ -45,7 +59,25 @@ export class EntityFieldComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.createProject = this.formBuilder.group({
+      name: ['', Validators.required],
+      label: ['', Validators.required],
+      appContext: '',
+      description: '',
+      primaryLanguage: ['', Validators.required],
+      secondaryLanguage: [''],
+    });
+    this.selectNounType = new FormGroup({
+      allEntity: new FormControl(null)
+    });
+    this.selectListType = new FormGroup({
+      entity: new FormControl(null),
+      standard: new FormControl(null)
+    });
     // this.agGridInitialization();
+    this.selectNounType.controls['allEntity'].setValue('', { onlySelf: true });
+    this.selectListType.controls['entity'].setValue('', { onlySelf: true });
+    this.selectListType.controls['standard'].setValue('', { onlySelf: true });
     this.getEntityType();
     // this.getEntity();
   }
@@ -76,11 +108,13 @@ export class EntityFieldComponent implements OnInit {
       {
         headerName: 'Type',
         field: 'Type',
-        // editable: true,
         cellEditor: 'agSelectCellEditor',
+        // singleClickEdit: true,
         cellEditorParams: {
-          values: this.getEntityTypeValue
-        }
+          values: this.getEntityTypeValue,
+        },
+        cellRenderer: this.openModal.bind(this)
+
       },
       {
         headerName: 'Description',
@@ -100,7 +134,12 @@ export class EntityFieldComponent implements OnInit {
       {
         Name: 'Enter Name',
         Type: 'Text',
-        Description: 'Description'
+        Description: 'Description',
+        isEntityType: false,
+        isListType: false,
+        ListType: '',
+        ListId: '',
+        EntityId: ''
       }
     ];
     // this.rowSelection = 'multiple';
@@ -113,7 +152,7 @@ export class EntityFieldComponent implements OnInit {
   }
 
   getEntity() {
-    this.entityManagerService.currentEntityInfo.subscribe(
+    this.dataService.currentSelectedEntityInfo.subscribe(
       (data) => {
         this.entity = data;
         console.log('entity valuesa re --------------', data, this.entity.field.length);
@@ -122,6 +161,67 @@ export class EntityFieldComponent implements OnInit {
         }
       },
       (error) => { });
+    this.getAllEntity();
+  }
+
+  getAllEntity() {
+    this.dataService.currentAllEntityInfo.subscribe(
+      (data) => {
+        this.allEntity = data;
+      }
+    );
+  }
+
+  openModal(e) {
+    if (this.selectCellRenderedValue !== e.value
+      || this.selectedCellRowIndex !== e.rowIndex) {
+      this.selectCellRenderedValue = e.value;
+      this.selectedCellRowIndex = e.rowIndex;
+      if (this.selectCellRenderedValue === 'Noun') {
+        this.openDialog(this.allEntity, null, e);
+      } else if (e.value === 'List') {
+        this.openDialog(this.allEntity, this.getEntityTypeValue, e);
+      } else {
+        e.data.isEntityType = false;
+        e.data.isListType = false;
+        e.data.ListType = '';
+        e.data.ListId = '';
+        e.data.EntityId = '';
+      }
+    }
+    return e.value;
+  }
+
+  openDialog(entityValue, standardValue, e): void {
+    const dialogRef = this.dialog.open(FieldPopupModalComponent, {
+      width: '250px',
+      data: {
+        allEntity: entityValue,
+        standard: standardValue,
+        currentObj: this.entity
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(entityData => {
+      if (standardValue === null) {
+        e.data.isEntityType = true;
+        e.data.isListType = false;
+        e.data.EntityId = entityData.entity;
+        e.data.ListType = '';
+        e.data.ListId = '';
+      } else {
+        e.data.isListType = true;
+        e.data.isEntityType = false;
+        e.data.EntityId = entityData.entity;
+        if (entityData.standard !== undefined) {
+          e.data.ListType = 'standard';
+          e.data.ListId = entityData.standard;
+        } else if (entityData.entity !== undefined) {
+          e.data.ListType = 'entity';
+          e.data.ListId = entityData.entity;
+        }
+      }
+    });
   }
 
   saveField() {
@@ -142,6 +242,9 @@ export class EntityFieldComponent implements OnInit {
       (data) => { },
       (error) => { });
   }
+  // get() {
+  //   console.log('get row data in entity field are --------- ', this.getRowData());
+  // }
 
   getRowData() {
     const rowData = [];
@@ -175,7 +278,6 @@ export class EntityFieldComponent implements OnInit {
     setDivStyle('none');
     return true;
   }
-
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
@@ -187,7 +289,12 @@ function createNewRowData() {
   const newData = {
     Name: 'Enter Name',
     Type: 'Text',
-    Description: 'Description'
+    Description: 'Description',
+    isEntityType: false,
+    isListType: false,
+    ListType: '',
+    ListId: '',
+    EntityId: ''
   };
   return newData;
 }
@@ -196,4 +303,3 @@ function setDivStyle(styleValue) {
   const errorDiv = document.getElementsByClassName('errorField')[0] as HTMLElement;
   errorDiv.style.display = styleValue;
 }
-

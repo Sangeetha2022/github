@@ -1,0 +1,40 @@
+<h1 mat-dialog-title>Details:</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <mat-select [(ngModel)]="popupData.entity">
+      <mat-option [value]="">-- None --</mat-option>
+      <ng-container *ngFor="let entity of passedValue.allEntity">
+        <mat-option *ngIf="passedValue.currentObj._id != entity._id" [value]="entity._id">
+          {{entity.name}}
+        </mat-option>
+      </ng-container>
+    </mat-select>
+    <mat-label>Select Entity</mat-label>
+  </mat-form-field>
+  <div *ngIf="passedValue.standard != null">
+    <b>or</b>
+  </div>
+  <mat-form-field *ngIf="passedValue.standard != null">
+    <mat-select [(ngModel)]="popupData.standard">
+      <mat-option [value]=''>-- None --</mat-option>
+      <ng-container *ngFor="let standard of passedValue.standard">
+        <mat-option *ngIf="standard!='Rich Text' && standard!='File Attachement'" [value]="standard">
+          {{standard}}
+        </mat-option>
+      </ng-container>
+    </mat-select>
+    <mat-label>Select standard</mat-label>
+  </mat-form-field>
+  <br />
+  <ul style="color: red;
+    font-size: 12px; font-style: italic;" *ngIf="(popupData.entity != undefined && popupData.standard != undefined)">
+    <li>Please Select Only One Type!</li>
+  </ul>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+  <!-- <button mat-raised-button color="warn" (click)="get()">get</button> -->
+  <button mat-raised-button color="primary" [disabled]="popupData.entity != undefined && popupData.standard != undefined"
+    [mat-dialog-close]="popupData">Ok</button>
+</div>
