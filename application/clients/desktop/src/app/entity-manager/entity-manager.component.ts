@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { PopupModelComponent } from './popup-model/popup-model.component';
 import { EntityManagerService } from './entity-manager.service';
 import { DataService } from '../../shared/data.service';
 import { IEntity } from './interface/Entity';
+import { IFeature } from './interface/Feature';
 import { Router } from '@angular/router';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
   selector: 'app-entity-manager',
@@ -13,7 +15,37 @@ import { Router } from '@angular/router';
 })
 
 export class EntityManagerComponent implements OnInit {
+  public Editor = ClassicEditor;
+  selectFeature: Boolean = true;
+  selectedExistingFeature: String;
+  public existingFeature: any[] = [{
+    "id": '1',
+    "name": 'First',
+    "description": 'I am the 1st',
+  }, {
+    "id": '2',
+    "name": 'Second',
+    "description": 'I am the 2st',
+  }, {
+    "id": '3',
+    "name": 'Third',
+    "description": 'I am the 3st',
+  }, {
+    "id": '4',
+    "name": 'Fourth',
+    "description": 'I am the 4st',
+  }, {
+    "id": '5',
+    "name": 'Fifth',
+    "description": 'I am the 5st',
+  },]
+  public features: IFeature = {
+    name: '',
+    description: '',
+    // explanation:'',
+  };
   panelOpenState = false;
+  displayFeatureModel: string = 'none';
   public entity: IEntity = {
     name: '',
     description: '',
@@ -32,11 +64,18 @@ export class EntityManagerComponent implements OnInit {
     private router: Router,
     private entityManagerService: EntityManagerService,
     private dataService: DataService
-  ) { }
+  ) {
+
+    if (this.selectFeature === true) {
+      console.log("i am the one")
+      this.features = { description: '', name: '' }
+    }
+  }
 
   ngOnInit() {
     this.getSelectedProject();
     this.getAllEntity();
+    console.log("selectFeature", this.selectFeature)
   }
 
   openDialog(): void {
@@ -50,6 +89,45 @@ export class EntityManagerComponent implements OnInit {
         this.saveEntity(entityData);
       }
     });
+  }
+  onChangeRadio(selected) {
+    console.log(selected)
+    if(selected==="on"){
+      this.features = { description: '', name: '' }
+    }
+  }
+
+  onChange(selected) {
+    if (selected) {
+      this.existingFeature.map((data, index) => {
+        if (data.name === selected) {
+          this.features.name = data.name
+          this.features.description = data.description
+          console.log("i am the new one", data)
+          return;
+        }
+      });
+    }
+    console.log("i am the selected one", selected)
+  }
+
+  createFeature() {
+    console.log(this.features)
+
+  }
+  openFeatureDialog(): void {
+
+    this.displayFeatureModel = 'block';
+  }
+
+  closeFeatureCreateModel() {
+    console.log("i am the create")
+    this.displayFeatureModel = 'none';
+    this.features = { description: '', name: '' }
+  }
+  closeFeatureExistingModel() {
+    console.log("i am the Existing")
+    this.displayFeatureModel = 'none';
   }
 
   saveEntity(entityData) {

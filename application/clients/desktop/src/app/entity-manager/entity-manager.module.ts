@@ -14,6 +14,8 @@ import { MatButtonModule, MatFormFieldModule, MatInputModule, MatCardModule, Mat
 import { RouterModule } from '@angular/router';
 import { ButtonRendererComponent } from './entity-field/rendered/button-renderer/button-renderer.component';
 import { PopupModelComponent } from './popup-model/popup-model.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import { PopupModelComponent } from './popup-model/popup-model.component';
     MatButtonModule,
     MatInputModule,
     MatCardModule,
+    CKEditorModule,
     MatFormFieldModule,
     ReactiveFormsModule,
     MatDialogModule,
