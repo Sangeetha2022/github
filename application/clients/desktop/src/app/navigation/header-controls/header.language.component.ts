@@ -37,6 +37,7 @@ export class HeaderLanguageComponent implements OnInit {
   }
 
   private updateState(lang: string) {
+    this.language = lang;
     this.dataService.setDefaultLanguage(lang);
   }
 
