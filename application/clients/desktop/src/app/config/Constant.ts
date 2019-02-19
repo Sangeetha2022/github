@@ -3,8 +3,17 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class Constants {
 
-    public static get details(): string { return '/details' };
-    public static get flow(): string { return '/flow/' };
+    public static get saveUrl(): string { return '/save'; }
+    public static get updateUrl(): string { return '/update/'; }
+    public static get getAllUrl(): string { return 'getall'; }
+    public static get getByIdUrl(): string { return 'getbyid/'; }
+    public static get deleteUrl(): string { return '/delete/' };
+    public static get detailsUrl(): string { return '/details' };
+
+    public static get flowUrl(): string { return '/flow/' };
+    public static get flowCompUrl(): string { return '/flow/flow_comp/' };
+    public static get flowCompentUrl(): string { return '/flow_comp/' };
+    public static get addDConnectorUrl(): string { return '/add/dconnector' };
 
     // project apis 
     public static get addProjectUrl(): string { return '/projects/my/add'; }
@@ -12,15 +21,11 @@ export class Constants {
     public static get getAllMyProjecturl(): string { return '/projects/my/getall'; }
 
     // Flow apis
-    public static get addFlowUrl(): string { return this.flow + '/save'; }
     public static get addFlowCompToFlowUrl(): string { return '/add/flow_comp'; }
     public static get addDConnectorToFlowUrl(): string { return '/add/lconnector'; }
     public static get updateDConnectorToFlowUrl(): string { return '/update/lconnector'; }
     public static get updateFlowCompToFlowUrl(): string { return '/update/flow_comp'; }
-    public static get deleteFlowUrl(): string { return this.flow + '/delete/'; }
-    public static get updateFlowUrl(): string { return this.flow + '/update/'; }
-    public static get getAllFlowsUrl(): string { return this.flow + 'getall'; }
-    public static get getFlowByIDUrl(): string { return this.flow + 'getbyid/'; }
+    // public static get deleteFlowUrl(): string { return this.flow + '/delete/'; }
 
     // Flow Componets apis
     public static get addFlowCompUrl(): string { return '/flow_component/save'; }

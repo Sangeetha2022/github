@@ -24,10 +24,12 @@ export class Routes {
         app.route('/flow/update/:id').put(this.flowController.updateFlow);
 
         app.route('/flow/:id/add/flow_comp').post(this.flowController.addFlowComponent);
-        app.route('/flow/:id/update/flow_comp').put(this.flowController.updateFlowComponent);
+        app.route('/flow/flow_comp/:id/update').put(this.flowController.updateFlowComponent);
+        app.route('/flow/flow_comp/:id/remove').delete(this.flowController.updateFlowComponent);
 
-        app.route('/flow/:id/:cname/add/lconnector').post(this.flowController.addLinkedConnector);
-        app.route('/flow/:id/:cname/update/lconnector').put(this.flowController.updateLinkedConnector);
+        app.route('/flow_comp/:id/add/dconnector').post(this.flowController.addLinkedConnector);
+        app.route('/flow_comp/:id/update/dconnector').put(this.flowController.updateLinkedConnector);
+        app.route('/flow_comp/:id/remove/dconnector').delete(this.flowController.updateLinkedConnector);
 
         // flowComponent routes
         app.route('/flow_component/save').post(this.flowComponentController.saveFlowComonents);

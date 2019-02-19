@@ -57,7 +57,6 @@ export class FeedSeedData {
     private seedGenFlowComponentData = async (flow) => {
         this.genFlow.findOne({ flow_name: flow['name'] }).then(async data => {
             if (data === null) {
-                console.log("=====>> . ", flow)
                 let flow_seq = await this.modifyFlowSeq(flow);
                 return flow_seq;
             } else {
@@ -79,20 +78,19 @@ export class FeedSeedData {
         let flow_seq = [];
         let flow_comp_seq = generationflowjson[flow['name']];
         let promises = flow_comp_seq.map(element => {
-            if(linkedconnectorflowjson[element.component_name]) {
-                element['linked_connector'] = {
+            if (linkedconnectorflowjson[element.component_name]) {
+                element['default_connector'] = [{
                     name: linkedconnectorflowjson[element.component_name].name,
                     comp_name: element.component_name,
                     description: linkedconnectorflowjson[element.component_name].description,
                     url: linkedconnectorflowjson[element.component_name].url,
                     properties: linkedconnectorflowjson[element.component_name].properties,
-                }
+                }]
             }
             flow_seq.push(element)
         })
         await Promise.all(promises);
         return flow_seq;
-
     }
 
 }

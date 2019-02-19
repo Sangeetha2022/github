@@ -65,7 +65,7 @@ export class ComponentFlowsComponent implements OnInit {
   // isDisplayConnector: boolean;
   // connectorolDef;
   // flow_component_sequence: any = [];
-  // selectedFlow: any = [];
+  // selectedFlowCmpnt: any = [];
   // selectedMFlow: any = [];
   // flowCompSeq: any = [];
   // message: string;
@@ -110,7 +110,7 @@ export class ComponentFlowsComponent implements OnInit {
   default_connector: any = null;
   connectorData: any = [];
   microFlow: any = [];
-  selectedFlow: any = [];
+  selectedFlowCmpnt: any = [];
   isDisableFlowComp: boolean = true;
   addModel: String = 'none';
   addDConnector: String = 'none';
@@ -146,13 +146,13 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   selectFlowComponent() {
-    this.selectedFlow = this.flowCompGrid.getSelectedRows();
-    if (this.selectedFlow[0].linked_connector) {
-      this.default_connector = [this.selectedFlow[0].linked_connector];
-    } else {
-      this.default_connector = null
-    }
-    this.getMicroFlowName(this.selectedFlow[0].component_name);
+    this.selectedFlowCmpnt = this.flowCompGrid.getSelectedRows();
+    // if (this.selectedFlowCmpnt[0].default_connector) {
+      this.default_connector = this.selectedFlowCmpnt[0].default_connector;
+    // } else {
+    //   this.default_connector = null
+    // }
+    this.getMicroFlowName(this.selectedFlowCmpnt[0].component_name);
   }
 
   selectDefaultConnector() {
@@ -162,7 +162,7 @@ export class ComponentFlowsComponent implements OnInit {
 
   // selectAvaConnector() {
   //   let selectedRows = this.connectorFlowGrid.getSelectedRows();
-  //   console.log("this.selectedFlow[0].component_name.length", selectedRows)
+  //   console.log("this.selectedFlowCmpnt[0].component_name.length", selectedRows)
   // }
   // onFCSelectionChanged(event) {
   //   console.log("selection changed, " , event.api.getSelectedNodes());
@@ -250,10 +250,10 @@ export class ComponentFlowsComponent implements OnInit {
       this.iFlowComponent = { label: '', description: '', component_name: '', connector: false, dev_framework: '', dev_language: '', sequence_id: '', type: '' }
       this.addModel = 'block'
     }
-    if (type === 'update' && this.selectedFlow.length > 0) {
+    if (type === 'update' && this.selectedFlowCmpnt.length > 0) {
       this.isDisableFlowComp = false;
       this.createFlowComponentForm.controls['component_name'].disable();
-      this.iFlowComponent = this.selectedFlow[0];
+      this.iFlowComponent = this.selectedFlowCmpnt[0];
       this.addModel = 'block'
     }
   }
@@ -281,7 +281,7 @@ export class ComponentFlowsComponent implements OnInit {
 
   updateFlowCompModel() {
     let flow_comp = this.createFlowComponentForm.getRawValue();
-    this.componentFlowsService.updateFlowCompToFlow(this.flow_id, flow_comp).subscribe(data => {
+    this.componentFlowsService.updateFlowCompToFlow(this.selectedFlowCmpnt[0]._id, flow_comp).subscribe(data => {
       this.getFlowSequence(this.flow_id);
       this.onCloseHandled();
     }, error => {
@@ -306,14 +306,14 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   addDefaultConnector() {
-    let flow_comp = this.createConnectorForm.getRawValue();
-    // this.componentFlowsService.addFlowCompToFlow(this.flow_id, flow_comp).subscribe(data => {
+    let dconnector = this.createDConnectorForm.getRawValue();
+    this.componentFlowsService.addDefaultConnector(this.selectedFlowCmpnt[0]._id, dconnector).subscribe(data => {
     //   console.log("i am in generation", data)
-    //   this.getFlowSequence(this.flow_id);
-    //   this.onCloseHandled();
-    // }, error => {
-    //   console.log("===got an error r===")
-    // })
+      this.getFlowSequence(this.flow_id);
+      this.onCloseHandled();
+    }, error => {
+      console.log("===got an error r===")
+    })
   }
 
   updateDefaultConnector() {
@@ -328,7 +328,7 @@ export class ComponentFlowsComponent implements OnInit {
 
   // deleteRowComponent() {
   //   console.log("i am in delete")
-  //   this.getFlowCompName = this.selectedFlow[0].component_name;
+  //   this.getFlowCompName = this.selectedFlowCmpnt[0].component_name;
   //   this.rowData.flow_comp_seq.forEach((data, index) => {
   //     if (this.getFlowCompName === data.component_name) {
   //       this.rowData.flow_comp_seq.splice(index, 1)
@@ -351,14 +351,14 @@ export class ComponentFlowsComponent implements OnInit {
 
 
   // microFlowView() {
-  //   if (this.selectedFlow.length != 0) {
-  //     this.getMicroFlowName(this.selectedFlow[0].component_name);
+  //   if (this.selectedFlowCmpnt.length != 0) {
+  //     this.getMicroFlowName(this.selectedFlowCmpnt[0].component_name);
   //   }
   // }
 
   // createMicroFLow() {
   //   let dataToSave = this.createMFlowForm.getRawValue()
-  //   dataToSave.component_name = this.selectedFlow[0].component_name
+  //   dataToSave.component_name = this.selectedFlowCmpnt[0].component_name
   //   this.componentFlowsService.saveMicroFlow(dataToSave).subscribe((data) => {
   //     console.log("i am in add micro flow", data)
   //     this.onCloseHandled();
@@ -417,14 +417,14 @@ export class ComponentFlowsComponent implements OnInit {
 
   // onSelectionChange() {
   //   let selectedRows = this.flowCompGrid.getSelectedRows();
-  //   this.selectedFlow = selectedRows;
-  //   console.log("this.selectedFlow[0].component_name.length", this.selectedFlow[0].component_name)
-  //   if (this.selectedFlow[0].component_name.length !== null) {
+  //   this.selectedFlowCmpnt = selectedRows;
+  //   console.log("this.selectedFlowCmpnt[0].component_name.length", this.selectedFlowCmpnt[0].component_name)
+  //   if (this.selectedFlowCmpnt[0].component_name.length !== null) {
   //     this.showMicroFlow = true;
   //   }
-  //   this.getMicroFlowName(this.selectedFlow[0].component_name);
-  //   this.getLinkedConnectorByName(this.selectedFlow[0].component_name);
-  //   if (this.selectedFlow[0].connector) {
+  //   this.getMicroFlowName(this.selectedFlowCmpnt[0].component_name);
+  //   this.getLinkedConnectorByName(this.selectedFlowCmpnt[0].component_name);
+  //   if (this.selectedFlowCmpnt[0].connector) {
   //     this.getAllConnector();
   //   }
   // }
