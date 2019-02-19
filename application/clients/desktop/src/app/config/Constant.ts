@@ -14,6 +14,7 @@ export class Constants {
     public static get flowCompUrl(): string { return '/flow/flow_comp/' };
     public static get flowCompentUrl(): string { return '/flow_comp/' };
     public static get addDConnectorUrl(): string { return '/add/dconnector' };
+    public static get updateDConnectorUrl(): string { return '/update/dconnector' };
 
     // project apis 
     public static get addProjectUrl(): string { return '/projects/my/add'; }

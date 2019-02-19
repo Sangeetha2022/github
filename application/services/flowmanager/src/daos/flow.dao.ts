@@ -92,7 +92,7 @@ export class FlowDao {
 
     updateLinkedConnector = async (req, next, callback: CallableFunction) => {
         const dcid = req.params.id;
-
+        console.log("======? ? ? ", req.body)
         await this.genFlow.update(
             {
                 // flow: id,
@@ -101,7 +101,6 @@ export class FlowDao {
             {
                 $set: {
                     "flow_comp_seq.$.default_connector.$[j].name": req.body.name,
-                    "flow_comp_seq.$.default_connector.$[j].comp_name": req.body.comp_name,
                     "flow_comp_seq.$.default_connector.$[j].description": req.body.description,
                     "flow_comp_seq.$.default_connector.$[j].url": req.body.url,
                     "flow_comp_seq.$.default_connector.$[j].properties": req.body.properties,
@@ -110,7 +109,7 @@ export class FlowDao {
             },
             {
                 arrayFilters: [{
-                    "j._id": 'e073c6f0-33b2-11e9-b32a-1d692aa78f47'
+                    "j._id": dcid
                 }]
             }
         ).then(res => {
@@ -118,6 +117,8 @@ export class FlowDao {
                 status: 200,
                 message: "flow component updated successfully."
             });
+        }).catch(err=> {
+            console.log(" - = ===e=r=r=r=rr=r> > ", err)
         });
 
     }

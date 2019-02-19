@@ -45,6 +45,10 @@ export class ComponentFlowsService {
     return this.api.post(this.restapi.flowbaseUrl + Constants.flowCompentUrl + id + Constants.addDConnectorUrl, connector);
   }
 
+  updateDefaultConnector(id, connector): Observable<any> {
+    return this.api.put(this.restapi.flowbaseUrl + Constants.flowCompentUrl + id + Constants.updateDConnectorUrl, connector);
+  }
+
   // addDefaultConnector(id, name, conn): Observable<any> {
   //   return this.api.post(this.restapi.flowbaseUrl + Constants.flow + id + '/' + name + Constants.addDConnectorToFlowUrl, conn);
   // }

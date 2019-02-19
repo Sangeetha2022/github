@@ -70,6 +70,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="component_name">{{'componentName' | i18next}}</label>
+                <input type="text" class="form-control" placeholder="enter Dev Framework" hidden id="_id"
+                  [(ngModel)]="dconnector._id" formControlName="_id" >
                 <input type="text" class="form-control" placeholder="Enter component name" id="component_name"
                   formControlName="component_name" [(ngModel)]="iFlowComponent.component_name"
                   [ngClass]="{ 'is-invalid': submitted && form_control.component_name.errors }">

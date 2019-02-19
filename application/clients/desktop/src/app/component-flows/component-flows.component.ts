@@ -20,7 +20,7 @@ export class ComponentFlowsComponent implements OnInit {
   //   micro_flow_step_name: '',
   // }
   connector: Connector = {
-    id: '',
+    _id: '',
     name: '',
     description: '',
     url: '',
@@ -28,7 +28,7 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   dconnector: Connector = {
-    id: '',
+    _id: '',
     name: '',
     description: '',
     url: '',
@@ -293,7 +293,7 @@ export class ComponentFlowsComponent implements OnInit {
     if (type === 'create') {
       console.log("i am here")
       this.isDisplayDConnector = true;
-      this.dconnector = { description: '', name: '', id: '', url: '', properties: [] }
+      this.dconnector = { description: '', name: '', _id: '', url: '', properties: [] }
       this.addDConnector = 'block'
     }
     if (type === 'update' && this.selectedDConnector.length > 0) {
@@ -308,7 +308,6 @@ export class ComponentFlowsComponent implements OnInit {
   addDefaultConnector() {
     let dconnector = this.createDConnectorForm.getRawValue();
     this.componentFlowsService.addDefaultConnector(this.selectedFlowCmpnt[0]._id, dconnector).subscribe(data => {
-    //   console.log("i am in generation", data)
       this.getFlowSequence(this.flow_id);
       this.onCloseHandled();
     }, error => {
@@ -317,8 +316,8 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   updateDefaultConnector() {
-    let flow_comp = this.createConnectorForm.getRawValue();
-    this.componentFlowsService.updateFlowCompToFlow(this.flow_id, flow_comp).subscribe(data => {
+    let dconnector = this.createDConnectorForm.getRawValue();
+    this.componentFlowsService.updateDefaultConnector(this.selectedDConnector[0]._id, dconnector).subscribe(data => {
       this.getFlowSequence(this.flow_id);
       this.onCloseHandled();
     }, error => {
