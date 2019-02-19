@@ -1,73 +1,79 @@
 import { Injectable } from '@angular/core';
+import { DataService } from '../../../../../shared/data.service';
+import { IEntity } from '../../../../entity-manager/interface/Entity';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TraitsService {
 
-  // var comps = editor.DomComponents;
-  // var defaultType = comps.getType('default');
-  // var defaultModel = defaultType.model;
-  // var defaultView = defaultType.view;
-  public secondaryNounOption: Object[] = [
-    { value: 'supermarket', name: 'supermarket' },
-    { value: 'student', name: 'student' }
-  ];
-  constructor() { }
+  public entityOptions: any[] = [];
+  public allEntity: IEntity[] = [];
+  constructor(
+    private dataService: DataService
+  ) {
+    this.dataService.currentAllEntityInfo.subscribe(
+      (data) => {
+        this.allEntity = data;
+        data.forEach((element) => {
+          const temp = {
+            value: element.name,
+            name: element.name
+          };
+          this.entityOptions.push(temp);
+        });
+      }
+    );
+  }
 
   addSpecialButtonTraits(editor, buttonName) {
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
     const defaultView = defaultType.view;
-
-    // The `input` will be the Component type ID
+    const allEntityTemp = this.allEntity;
     comps.addType(buttonName, {
-      // Define the Model
       model: defaultModel.extend({
-        // Extend default properties
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          // Can be dropped only inside `form` elements
           draggable: '*',
-          // Can't drop other elements inside it
           droppable: false,
-          // Traits (Settings)
           traits: [{
-            // Change the type of the input (text, password, email, etc.)
             type: 'select',
-            label: 'secondary-noun',
-            name: 'secondary-noun',
+            label: 'entities',
+            name: 'entities',
             changeProp: 1,
-            options: this.secondaryNounOption,
+            options: this.entityOptions,
           }, {
             type: 'select',
             label: 'attributes',
-            name: 'nounattributes',
+            name: 'entityattributes',
             changeProp: 1,
-            options: [],			// Tried this but didn't worked!
+            options: [],
           }],
 
         }),
         init() {
-          this.listenTo(this, 'change:secondary-noun', this.noun);
-          this.listenTo(this, 'change:nounattributes', this.attributeVal); // listen for active event
+          this.listenTo(this, 'change:entities', this.entity);
+          this.listenTo(this, 'change:entityattributes', this.attributeVal); // listen for active event
         },
-        noun() {
-          const nounTrait = this.get('traits').where({ name: 'nounattributes' })[0];
-          const changedValue = this.changed['secondary-noun'];
-          console.log('changed value are --- ', changedValue);
+        entity() {
+          const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
+          const changedValue = this.changed['entities'];
           const options = [];
-          if (changedValue === 'student') {
-            options.push({ value: 'name', name: 'name' },
-              { value: 'age', name: 'age' },
-              { value: 'marks', name: 'marks' });
-          } else if (changedValue === 'supermarket') {
-            options.push({ value: 'category', name: 'category' },
-              { value: 'price', name: 'price' },
-              { value: 'quantity', name: 'quantity' });
+          if (allEntityTemp.length > 0) {
+            allEntityTemp.forEach(element => {
+              if (element.name === changedValue) {
+                element.field.forEach(childElement => {
+                  const temp = {
+                    value: childElement.Name,
+                    name: childElement.Name
+                  };
+                  options.push(temp);
+                });
+              }
+            });
           }
-          nounTrait.set('options', options);
-          // editor.trigger('change:selectedComponent');
+          entityTrait.set('options', options);
           editor.TraitManager.getTraitsViewer().render();
         },
         attributeVal() {
@@ -92,63 +98,55 @@ export class TraitsService {
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
     const defaultView = defaultType.view;
+    const allEntityTemp = this.allEntity;
 
-    // The `input` will be the Component type ID
     comps.addType(buttonName, {
-      // Define the Model
       model: defaultModel.extend({
-        // Extend default properties
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          // Can be dropped only inside `form` elements
           draggable: '*',
-          // Can't drop other elements inside it
           droppable: false,
-          // Traits (Settings)
           traits: [{
-            // Change the type of the input (text, password, email, etc.)
             type: 'select',
-            label: 'secondary-noun',
-            name: 'secondary-noun',
+            label: 'entities',
+            name: 'entities',
             changeProp: 1,
-            options: this.secondaryNounOption,
+            options: this.entityOptions,
           }, {
             type: 'select',
             label: 'attributes',
-            name: 'nounattributes',
+            name: 'entityattributes',
             changeProp: 1,
-            options: [],			// Tried this but didn't worked!
+            options: [],
           }],
 
         }),
         init() {
-          this.listenTo(this, 'change:secondary-noun', this.noun);
-          this.listenTo(this, 'change:nounattributes', this.attributeVal); // listen for active event
+          this.listenTo(this, 'change:entities', this.entity);
+          this.listenTo(this, 'change:entityattributes', this.attributeVal); // listen for active event
         },
-        noun() {
-          const nounTrait = this.get('traits').where({ name: 'nounattributes' })[0];
-          const changedValue = this.changed['secondary-noun'];
-          console.log('changed value are --- ', changedValue);
+        entity() {
+          const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
+          const changedValue = this.changed['entities'];
           const options = [];
-          if (changedValue === 'student') {
-            options.push({ value: 'name', name: 'name' },
-              { value: 'age', name: 'age' },
-              { value: 'marks', name: 'marks' });
-          } else if (changedValue === 'supermarket') {
-            options.push({ value: 'category', name: 'category' },
-              { value: 'price', name: 'price' },
-              { value: 'quantity', name: 'quantity' });
+          if (allEntityTemp.length > 0) {
+            allEntityTemp.forEach(element => {
+              if (element.name === changedValue) {
+                element.field.forEach(childElement => {
+                  const temp = {
+                    value: childElement.Name,
+                    name: childElement.Name
+                  };
+                  options.push(temp);
+                });
+              }
+            });
           }
-          nounTrait.set('options', options);
-          // editor.trigger('change:selectedComponent');
+          entityTrait.set('options', options);
           editor.TraitManager.getTraitsViewer().render();
         },
         attributeVal() {
         }
       },
-        // The second argument of .extend are static methods and we'll put inside our
-        // isComponent() method. As you're putting a new Component type on top of the stack,
-        // not declaring isComponent() might probably break stuff, especially if you extend
-        // the default one.
         {
           isComponent: function (el) {
             if (el.tagName === buttonName) {
@@ -159,7 +157,6 @@ export class TraitsService {
           },
         }),
 
-      // Define the View
       view: defaultType.view,
     });
   }

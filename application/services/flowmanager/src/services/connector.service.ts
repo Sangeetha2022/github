@@ -23,12 +23,6 @@ export class ConnectorService {
         })
     }
 
-    public getConnectorByName(req: Request, next, callback: CallableFunction) {
-        connectorDao.getConnectorByName(req, next, (connector) => {
-            callback(connector);
-        })
-    }
-
     public deleteConnector(req: Request, next, callback: CallableFunction) {
         const connectorID = req.params.id;
         connectorDao.deleteConnector(connectorID, next, (response) => {

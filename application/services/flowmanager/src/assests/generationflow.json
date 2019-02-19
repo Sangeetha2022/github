@@ -1262,5 +1262,37 @@
             "description": "service for ionic Angular mobile",
             "connector": true
         }
+    ],
+    "GpGridExportCSV": [
+        {
+            "component_name": "GpExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "GpExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        }
     ]
 }

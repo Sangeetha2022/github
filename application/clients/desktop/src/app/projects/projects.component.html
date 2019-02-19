@@ -17,10 +17,9 @@
           <div class="card">
             <div class="card-header">{{proj.name}}</div>
             <div class="card-body">
-              <div><span>{{proj.description}}</span>
-                </div>
-                <button type="button" class="btn btn-primary btn-space" (click)="openGeneratorModal()">Genrator</button>
-              <button type="button" [routerLink]="['/desktopscreen']" class="btn btn-primary btn-space pull-right">Edit</button>
+              <div><span>{{proj.description}}</span></div>
+              <button type="button" (click)="generateProject(proj)" class="btn btn-primary btn-space">Genrator</button>
+              <button type="button" (click)="editProject(proj)" class="btn btn-primary btn-space pull-right">Edit</button>
               <button type="button" (click)="openDeleteModel(proj)" class="btn btn-danger btn-space pull-right">Delete</button>
             </div>
           </div>
@@ -163,19 +162,19 @@
 
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':displayGenratorModel}">
-    <div class="modal-dialog modal-sm" role="dialog">
-      <div class="modal-content">
-        <!-- <div class="modal-header">
+  <div class="modal-dialog modal-sm" role="dialog">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
           <h6 class="modal-title">Delete</h6>
           <button type="button" class="close">&times;</button>
         </div> -->
-        <div class="modal-body">
-          <p>Generating </p>
-        </div>
-        <div class="modal-footer" style="padding: 5px">
-           <button type="button" (click)="onCloseHandledGen()" class="btn btn-default">{{ 'cancel' | i18next }}</button>
-        </div>
+      <div class="modal-body">
+        <p>Generating </p>
       </div>
-  
+      <div class="modal-footer" style="padding: 5px">
+        <button type="button" (click)="onCloseHandledGen()" class="btn btn-default">{{ 'cancel' | i18next }}</button>
+      </div>
     </div>
+
   </div>
+</div>

@@ -1,4 +1,4 @@
-import { IsString } from 'class-validator';
+import { IsString, IsArray } from 'class-validator';
 
 class ConnectorDto {
   @IsString()
@@ -9,6 +9,9 @@ class ConnectorDto {
   
   @IsString()
   public description: string
+
+  @IsArray()
+  public properties: Array<any>
 }
 
 export default ConnectorDto;

@@ -1,5 +1,5 @@
 {
-    "connector": [
+    "available_connectors": [
         {
             "name": "Github",
             "description": "Code Management",

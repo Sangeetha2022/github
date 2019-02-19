@@ -43,6 +43,7 @@
     "action":"Action",
     "connector":"Connector",
     "project":"Project",
-    "flowManager":"Flow Manager"
+    "flowManager":"Flow Manager",
+    "defaultConnectors": "Deafult Connector"
 
 }

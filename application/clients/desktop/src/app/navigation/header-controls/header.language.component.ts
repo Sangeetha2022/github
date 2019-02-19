@@ -12,26 +12,17 @@ export class HeaderLanguageComponent implements OnInit {
 
   language = 'en';
   languages = ['en', 'ta', 'es'];
-  private subscription: any = <any> {
-    name: '',
-    label: '',
-    appContext: '',
-    description: '',
-    defaultLanguage: 'en',
-    primaryLanguage: '',
-    secondaryLanguage: '',
-};
 
   constructor(
     @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
     private dataService: DataService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.i18NextService.events.initialized.subscribe((e) => {
       if (e) {
         this.updateState(this.i18NextService.language);
-     }
+      }
     });
   }
 
@@ -46,9 +37,7 @@ export class HeaderLanguageComponent implements OnInit {
   }
 
   private updateState(lang: string) {
-    this.language = lang;
-    this.subscription.defaultLanguage = lang;
-    this.dataService.changeProjectInfo(this.subscription);
+    this.dataService.setDefaultLanguage(lang);
   }
 
 }

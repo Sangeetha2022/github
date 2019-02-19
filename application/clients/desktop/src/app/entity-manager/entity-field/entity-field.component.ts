@@ -21,9 +21,14 @@ export class EntityFieldComponent implements OnInit {
   defaultColDef: { editable: boolean; sortable: boolean; filter: boolean; };
   frameworkComponents: { buttonRenderer: any; };
 
+  public getEntityTypeValue: any[] = [];
   public entity: IEntity = {
     name: '',
     description: '',
+    project_id: '',
+    created_by: '',
+    last_modified_by: '',
+    updated_at: new Date(),
     field: []
   };
   public test: String = '';
@@ -40,8 +45,24 @@ export class EntityFieldComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.agGridInitialization();
-    this.getEntity();
+    // this.agGridInitialization();
+    this.getEntityType();
+    // this.getEntity();
+  }
+
+  getEntityType() {
+    this.entityManagerService.getAllEntityType().subscribe(
+      (data) => {
+        data.forEach(element => {
+          this.getEntityTypeValue.push(element.typename);
+        });
+        this.agGridInitialization();
+      },
+      (error) => {
+        this.getEntityTypeValue = [];
+        this.agGridInitialization();
+      }
+    );
   }
 
   agGridInitialization() {
@@ -49,7 +70,8 @@ export class EntityFieldComponent implements OnInit {
       {
         headerName: 'Name',
         field: 'Name',
-        valueSetter: this.nameValueSetter
+        valueSetter: this.nameValueSetter,
+        suppressSizeToFit: false
       },
       {
         headerName: 'Type',
@@ -57,20 +79,7 @@ export class EntityFieldComponent implements OnInit {
         // editable: true,
         cellEditor: 'agSelectCellEditor',
         cellEditorParams: {
-          values: [
-            'Text',
-            'Number',
-            'Decimal',
-            'Date',
-            'Boolean',
-            'Picture',
-            'Sound',
-            'Video',
-            'Noun',
-            'List',
-            'File_Attachement',
-            'Rich_Text'
-          ]
+          values: this.getEntityTypeValue
         }
       },
       {
@@ -100,12 +109,14 @@ export class EntityFieldComponent implements OnInit {
       sortable: true,
       filter: true
     };
+    this.getEntity();
   }
 
   getEntity() {
     this.entityManagerService.currentEntityInfo.subscribe(
       (data) => {
         this.entity = data;
+        console.log('entity valuesa re --------------', data, this.entity.field.length);
         if (this.entity.field.length > 0) {
           this.rowData = this.entity.field;
         }

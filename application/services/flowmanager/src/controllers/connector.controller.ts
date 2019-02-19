@@ -26,13 +26,6 @@ export class ConnectorController {
         })
     }
 
-    public getConnectorByName(req: Request, res: Response, next: NextFunction) {
-        connectorService.getConnectorByName(req, next, (user) => {
-            res.status(200); // status for the response
-            res.json(user);
-        })
-    }
-
     public deleteConnector(req: Request, res: Response, next: NextFunction) {
         connectorService.deleteConnector(req, next, (response) => {
             res.status(200);

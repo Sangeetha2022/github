@@ -36,16 +36,6 @@ export class ConnectorDao {
         }
     }
 
-    getConnectorByName = async (req: Request, next, callback: CallableFunction) => {
-        const name = req.params.name;
-        const data = await this.connector.findOne({ name: name });
-        if (data) {
-            callback(data);
-        } else {
-            next(new PostNotFoundException(name));
-        }
-    }
-
     deleteConnector = async (connectorID, next, callback: CallableFunction) => {
         const id = connectorID;
         const successResponse = await this.connector.findByIdAndDelete(id);
@@ -57,8 +47,9 @@ export class ConnectorDao {
     }
 
     updateConnector = async (req: Request, next, callback: CallableFunction) => {
-        const id = req.body._id;
+        const id = req.params.id;
         const postData: IConnector = req.body;
+        postData.updated_date = new Date();
         const post = await this.connector.findByIdAndUpdate(id, postData, { new: true });
         if (post) {
             callback(post);
