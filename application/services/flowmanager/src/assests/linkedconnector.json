@@ -11,12 +11,6 @@
         "url": null,
         "properties": null
     },
-    "GpExpressDao": {
-        "name": "",
-        "description": "default flow component",
-        "url": null,
-        "properties": null
-    },
     "GpAngularComponent": {
         "name": "GpAngularService",
         "description": "default flow component",

@@ -162,6 +162,11 @@
     },
     {
       "component_name": "GpIonicAngularService",
+      "micro_flow_step_name": "GpHeaders",
+      "sequence_id": 1      
+    },
+    {
+      "component_name": "GpIonicAngularService",
       "micro_flow_step_name": "GpOptons",
       "sequence_id": 2
     },

@@ -6,7 +6,9 @@ interface IFlowComponent {
   sequence_id: string,
   dev_language: string,
   dev_framework: string,
-  description: string
+  description: string,
+  created_date: Date,
+  updated_date: Date
 }
 
 export default IFlowComponent;

@@ -25,6 +25,9 @@ export class ProjectsComponent implements OnInit {
 
   genNotifyArr: any = [];
 
+  userNotifyArr: any = [];
+
+
   constructor(
     private formBuilder: FormBuilder,
     private data: AppComponentService,
@@ -48,9 +51,12 @@ export class ProjectsComponent implements OnInit {
     //socket
     this.initSocket();
     this.onEvent();
-    if (this.myAllProjects.length !== 0) {
-      this.getProjectNotify(this.myAllProjects[0]._id)
+    let user_id = "123"
+    if(!sessionStorage.getItem('onNotify')){
+    this.getAllUserNotify(user_id);
+    sessionStorage.setItem('onNotify','off')
     }
+   
   }
   openModal() {
     this.displayModel = 'block';
@@ -74,7 +80,6 @@ export class ProjectsComponent implements OnInit {
   getAllMyProjects() {
     this.projectsService.getMyAllProjects().subscribe(data => {
       this.myAllProjects = data;
-      console.log('data', this.myAllProjects);
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });
@@ -187,6 +192,11 @@ export class ProjectsComponent implements OnInit {
     this.projectsService.generateProject(projectgen).subscribe(data => {
       console.log('data', data);
       //this.getAllMyProjects();
+      this.getProjectNotify(projectgen.project_id)
+      this.toastr.success('project: '+projectgen.project_name, 'generation requested!', {
+        closeButton:true,
+        disableTimeOut:true
+      });
     }, error => {
       this.toastr.error("Failed!", 'Operation', {
         closeButton:true,
@@ -213,18 +223,18 @@ export class ProjectsComponent implements OnInit {
   getProjectNotify(project_id) {
     this.projectsService.getProjectNotify(project_id).subscribe(data => {
       console.log("socket data---->", data)
-      let notifyArr: any;
-      notifyArr = data;
-      if (notifyArr.length !== 0) {
-        this.genNotifyArr.push(notifyArr[notifyArr.length - 1])
-        this.toastr.success(notifyArr[notifyArr.length - 1].status_message, 'Notification!', {
+      this.genNotifyArr.push(data);
+      let currentNotify :any;
+      currentNotify = data;
+      if (currentNotify.project_id!==undefined) {
+        this.toastr.success('project: '+currentNotify.project_name, currentNotify.status_message, {
           closeButton:true,
           disableTimeOut:true
         });
       }
     },
       error => {
-        this.toastr.error("Failed!", 'Operation', {
+        this.toastr.error('Failed', 'Operation!', {
           closeButton:true,
           disableTimeOut:true
         });
@@ -241,6 +251,23 @@ export class ProjectsComponent implements OnInit {
         console.log('Check the browser console to see more info.', 'Error!');
       });
 
+  }
+
+  getAllUserNotify(user_id){
+    this.projectsService.getAllUserNotify(user_id).subscribe(data => {
+      this.userNotifyArr = data;
+      console.log('userNotifydata:', data);
+      if (this.userNotifyArr.length !== 0) {
+        this.toastr.info('project: '+this.userNotifyArr[this.userNotifyArr.length-1].project_name, this.userNotifyArr[this.userNotifyArr.length-1].status_message, {
+          closeButton:true,
+          disableTimeOut:true
+        });
+        this.getProjectNotify(this.userNotifyArr[this.userNotifyArr.length-1].project_id)
+      }
+    },
+      error => {
+        console.log('Check the browser console to see more info.', 'Error!');
+      });
   }
 
 }
