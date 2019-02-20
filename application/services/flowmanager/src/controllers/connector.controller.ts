@@ -9,6 +9,8 @@ export class ConnectorController {
         connectorService.saveConnector(req, (response) => {
             res.status(200);
             res.json(response);
+            console.log("i am in controller",response)
+
         })
     }
 

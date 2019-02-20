@@ -65,17 +65,18 @@ export class ComponentFlowsService {
   //   return this.api.post(this.restapi.mflowbaseUrl + Constants.addMicroFlowUrl, proj);
   // }
 
-  // saveConnector(connector): Observable<any> {
-  //   return this.api.post(this.restapi.flowbaseUrl + Constants.addConnector, connector);
-  // }
+  saveConnector(connector): Observable<any> {
+    return this.api.post(this.restapi.flowbaseUrl + Constants.addConnector, connector);
+  }
 
-  // updateConnector(connector): Observable<any> {
-  //   return this.api.put(this.restapi.flowbaseUrl + Constants.upadateConnector, connector);
-  // }
+  updateConnector(connector): Observable<any> {
+    let id = connector._id;
+    return this.api.put(this.restapi.flowbaseUrl + Constants.upadateConnector + id, connector);
+  }
 
-  // deleteConnector(id): Observable<any> {
-  //   return this.api.delete(this.restapi.flowbaseUrl + Constants.deleteConnector + id);
-  // }
+  deleteConnector(id): Observable<any> {
+    return this.api.delete(this.restapi.flowbaseUrl + Constants.deleteConnector + id);
+  }
 
   // deleteMicroFlow(id): Observable<any> {
   //   return this.api.delete(this.restapi.mflowbaseUrl + Constants.deleteMicroFlowUrl + id);

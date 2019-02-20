@@ -12,7 +12,7 @@ export class Routes {
             })
         })
         app.route('/feature/save').post(this.featureController.saveFeature);
-        app.route('/feature/update').put(this.featureController.updateFeature);
+        app.route('/feature/update/:id').put(this.featureController.updateFeature);
         app.route('/feature/getall').get(this.featureController.getAllFeature);
         app.route('/feature/getbyid/:id').get(this.featureController.getFeatureByID);
         app.route('/feature/delete/:id').delete(this.featureController.deleteFeature);

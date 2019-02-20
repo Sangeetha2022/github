@@ -8,6 +8,7 @@ export class ConnectorService {
     public saveConnector(req: Request, callback: CallableFunction) {
         connectorDao.saveConnector(req, (response) => {
             callback(response);
+            console.log("i am in service",response)
         })
     }
 

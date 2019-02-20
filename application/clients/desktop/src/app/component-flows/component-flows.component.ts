@@ -20,7 +20,7 @@ export class ComponentFlowsComponent implements OnInit {
   //   micro_flow_step_name: '',
   // }
   connector: Connector = {
-    _id: '',
+    id:'',
     name: '',
     description: '',
     url: '',
@@ -28,7 +28,7 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   dconnector: Connector = {
-    _id: '',
+    id:'',
     name: '',
     description: '',
     url: '',
@@ -46,23 +46,23 @@ export class ComponentFlowsComponent implements OnInit {
     connector: false,
   };
   // private test;
-  // private fieldArray: Array<any> = [];
+  private fieldArray: Array<any> = [];
   // columnDefs;
   // tableArr: any = [];
   // getFlowCompName: string;
   // icons;
   // rowData;
-  // selectedConnector;
+  selectedAvaConnector: any = [];
   // microFlowDatatoUpdate: any = [];
   // data: any = [];
   // linkedConnectorData: any = [];
   // gridColumnApi;
-  // addConnectorModel;
+  addConnectorModel;
   // microFlowId;
   // showMicroFlow: Boolean = false;
   // isDisplayMicroFlow: Boolean;
 
-  // isDisplayConnector: boolean;
+  isDisplayConnector: boolean;
   // connectorolDef;
   // flow_component_sequence: any = [];
   // selectedFlowCmpnt: any = [];
@@ -160,10 +160,11 @@ export class ComponentFlowsComponent implements OnInit {
     console.log("================>>>>", this.selectedDConnector);
   }
 
-  // selectAvaConnector() {
-  //   let selectedRows = this.connectorFlowGrid.getSelectedRows();
-  //   console.log("this.selectedFlowCmpnt[0].component_name.length", selectedRows)
-  // }
+  selectAvaConnector() {
+    this.selectedAvaConnector = this.connectorFlowGrid.getSelectedRows();
+    this.connector.id = this.selectedAvaConnector[0]._id;
+    console.log("this.selectedFlowCmpnt[0].component_name.length", this.selectedAvaConnector[0]._id)
+  }
   // onFCSelectionChanged(event) {
   //   console.log("selection changed, " , event.api.getSelectedNodes());
   // }
@@ -181,33 +182,33 @@ export class ComponentFlowsComponent implements OnInit {
   //   }
   // }
 
-  // addFieldValue() {
-  //   this.fieldArray.push({
-  //     key: '',
-  //     value: ''
-  //   });
-  //   this.connector.properties = this.fieldArray;
-  // }
+  addFieldValue() {
+    this.fieldArray.push({
+      key: '',
+      value: ''
+    });
+    this.connector.properties = this.fieldArray;
+  }
 
-  // deleteFieldValue(index) {
-  //   this.fieldArray.splice(index, 1);
-  // }
+  deleteFieldValue(index) {
+    this.fieldArray.splice(index, 1);
+  }
 
-  // openAddConnectorModal(type) {
-  //   if (type === 'create') {
-  //     console.log("i am here")
-  //     this.isDisplayConnector = true;
-  //     this.connector = { description: '', name: '', id: '', url: '', properties: [] }
-  //     this.addConnectorModel = 'block'
-  //   }
-  //   if (type === 'update') {
-  //     this.isDisplayConnector = false;
-  //     this.connector = this.selectedConnector[0]
-  //     console.log(this.connector)
-  //     this.addConnectorModel = 'block'
-  //   }
+  openAddConnectorModal(type) {
+    if (type === 'create') {
+      console.log("i am here")
+      this.isDisplayConnector = true;
+      this.connector = { description: '', name: '',id:'', url: '', properties: [] }
+      this.addConnectorModel = 'block'
+    }
+    if (type === 'update') {
+      this.isDisplayConnector = false;
+      this.connector = this.selectedAvaConnector[0]
+      console.log(this.connector)
+      this.addConnectorModel = 'block'
+    }
 
-  // }
+  }
 
   onCloseHandled() {
     this.createFlowComponentForm.clearValidators();
@@ -233,15 +234,15 @@ export class ComponentFlowsComponent implements OnInit {
   //   this.addMFModel = 'none';
   // }
 
-  // onCloseConnectorHandled() {
-  //   this.createMFlowForm.clearValidators();
-  //   this.createMFlowForm.reset();
-  //   this.addConnectorModel = 'none';
-  // }
+  onCloseConnectorHandled() {
+    this.createConnectorForm.clearValidators();
+    this.createConnectorForm.reset();
+    this.addConnectorModel = 'none';
+  }
 
-  // onCloseConnectorHandledUpdate() {
-  //   this.addConnectorModel = 'none';
-  // }
+  onCloseConnectorHandledUpdate() {
+    this.addConnectorModel = 'none';
+  }
 
   openAddFlowModal(type) {
     if (type === 'create') {
@@ -293,7 +294,7 @@ export class ComponentFlowsComponent implements OnInit {
     if (type === 'create') {
       console.log("i am here")
       this.isDisplayDConnector = true;
-      this.dconnector = { description: '', name: '', _id: '', url: '', properties: [] }
+      this.dconnector = { description: '', name: '', id: '', url: '', properties: [] }
       this.addDConnector = 'block'
     }
     if (type === 'update' && this.selectedDConnector.length > 0) {
@@ -369,29 +370,32 @@ export class ComponentFlowsComponent implements OnInit {
   //   );
   // }
 
-  // createConnector() {
-  //   this.componentFlowsService.saveConnector(this.createConnectorForm.getRawValue()).subscribe(data => {
-  //     console.log("i am the data u r expected", data)
+  createConnector() {
+    this.componentFlowsService.saveConnector(this.connector).subscribe(data => {
+      console.log("i am the data u r expected", data)
 
-  //   })
-  //   this.onCloseConnectorHandled();
-  // }
+    })
+    this.onCloseConnectorHandled();
+    this.getAllConnector();
+  }
 
-  // updateConnector() {
-  //   console.log("i am the connector", this.connector)
-  //   this.componentFlowsService.updateConnector(this.connector).subscribe(data => {
-  //     console.log("i am the data u r expected", data)
+  updateConnector() {
+    console.log("i am the connector id", this.connector)
+    this.componentFlowsService.updateConnector(this.connector).subscribe(data => {
+      console.log("i am the data u r expected", data)
 
-  //   })
-  //   this.onCloseConnectorHandled();
-  // }
-  // deleteConnector() {
-  //   this.componentFlowsService.deleteConnector(this.connector.id).subscribe(data => {
-  //     console.log(data)
-  //   })
-  //   this.onCloseConnectorHandled();
+    })
+    this.onCloseConnectorHandledUpdate();
+    this.getAllConnector();
+  }
+  deleteConnector() {
+    this.componentFlowsService.deleteConnector(this.connector.id).subscribe(data => {
+      console.log(data)
+    })
+    this.onCloseConnectorHandled();
+    this.getAllConnector();
 
-  // }
+  }
   // updateMicroFlow() {
   //   this.microFlowDatatoUpdate = this.createMFlowForm.getRawValue();
   //   if (this.iMicroFlow.component_name === this.microFlowDatatoUpdate.component_name) {
@@ -439,6 +443,7 @@ export class ComponentFlowsComponent implements OnInit {
   getAllConnector() {
     this.componentFlowsService.getAllConnector().subscribe(data => {
       this.connectorData = data;
+      console.log("this is the data",this.connectorData)
     })
   }
 
@@ -512,6 +517,7 @@ export class ComponentFlowsComponent implements OnInit {
 
   generateForms() {
     this.createFlowComponentForm = this.formBuilder.group({
+      _id:'',
       component_name: '',
       label: '',
       type: '',

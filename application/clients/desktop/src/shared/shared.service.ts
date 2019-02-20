@@ -7,6 +7,8 @@ export class SharedService {
     public projbaseUrl: String = 'http://localhost:3003';
     public screenUrl: String = 'http://localhost:3004';
     public entityUrl: String = 'http://localhost:3005';
+    public featureUrl: String = 'http://localhost:3006';
+
 
     // public flowbaseUrl: string = "http://a1ff91813313a11e99f1a12c401c6936-1399345860.us-east-1.elb.amazonaws.com:3001";
     public mflowbaseUrl: string = "http://a1ff91813313a11e99f1a12c401c6936-1399345860.us-east-1.elb.amazonaws.com:3002";

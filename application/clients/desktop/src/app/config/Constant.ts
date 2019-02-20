@@ -5,14 +5,14 @@ export class Constants {
 
     public static get saveUrl(): string { return '/save'; }
     public static get updateUrl(): string { return '/update/'; }
-    public static get getAllUrl(): string { return 'getall'; }
-    public static get getByIdUrl(): string { return 'getbyid/'; }
+    public static get getAllUrl(): string { return '/getall'; }
+    public static get getByIdUrl(): string { return '/getbyid/'; }
     public static get deleteUrl(): string { return '/delete/' };
     public static get detailsUrl(): string { return '/details' };
 
-    public static get flowUrl(): string { return '/flow/' };
-    public static get flowCompUrl(): string { return '/flow/flow_comp/' };
-    public static get flowCompentUrl(): string { return '/flow_comp/' };
+    public static get flowUrl(): string { return '/flow' };
+    public static get flowCompUrl(): string { return '/flow/flow_comp' };
+    public static get flowCompentUrl(): string { return '/flow_comp' };
     public static get addDConnectorUrl(): string { return '/add/dconnector' };
     public static get updateDConnectorUrl(): string { return '/update/dconnector' };
 
@@ -49,7 +49,7 @@ export class Constants {
     //Connector
     public static get getAllConnector(): string { return '/connector/getall'; }
     public static get addConnector(): string { return '/connector/add'; }
-    public static get upadateConnector(): string { return '/connector/update'; }
+    public static get upadateConnector(): string { return '/connector/update/'; }
     public static get deleteConnector(): string { return '/connector/delete/'; }
 
 
@@ -59,11 +59,7 @@ export class Constants {
     // public static get upadateConnector(): string { return '/connector/update' ;}
     // public static get deleteConnector(): string { return '/connector/delete/' ;}
 
-
-
-
-
-
-
+    //Feature
+    public static get feature(): string { return '/feature'; }
 
 }

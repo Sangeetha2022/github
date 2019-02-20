@@ -13,10 +13,10 @@
     </ag-grid-angular>
   </div>
 
-  <h1 class="flowTable" style="text-align: center;">
+  <h1 class="flowTable" style="text-align: center;" *ngIf="default_connector">
     <u>{{ 'defaultConnectors' | i18next }}</u> </h1>
 
-  <div class="row row-button">
+  <div class="row row-button" *ngIf="default_connector">
     <button mat-raised-button color="primary" (click)="openAddDConnectorModal('create')"> {{ 'create' | i18next }}
     </button>
     <button mat-raised-button (click)="openAddDConnectorModal('update')">{{ 'update' | i18next }}</button>
@@ -46,8 +46,8 @@
   </div>
 
   <div class="flowTable">
-    <h1 style="text-align: center;"> <u>{{'microFlows'|i18next}}</u> </h1>
-    <div class="row row-button">
+    <h1 style="text-align: center;" *ngIf="microFlow.length > 0"> <u>{{'microFlows'|i18next}}</u> </h1>
+    <div class="row row-button" *ngIf="microFlow.length > 0">
       <button mat-raised-button color="primary" (click)="openAddMFModal('create')">{{ 'create' | i18next }}</button>
       <button mat-raised-button (click)="openAddMFModal('update')">{{ 'update' | i18next }}</button>
       <button mat-raised-button color="warn" (click)="deleteMicroFlow()">{{ 'delete' | i18next }}</button>
@@ -267,7 +267,7 @@
 </div>
 
 
-<!-- 
+ 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addConnectorModel}">
   <div class="modal-dialog modal-md" role="dialog">
     <div class="modal-content">
@@ -345,8 +345,7 @@
   </div>
 </div>
 
-
-
+<!--
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addMFModel}">
   <div class="modal-dialog modal-md" role="dialog">
     <div class="modal-content">

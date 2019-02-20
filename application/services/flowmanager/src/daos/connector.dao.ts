@@ -19,6 +19,7 @@ export class ConnectorDao {
         });
         const savedConnector = await createdConnector.save();
         callback(savedConnector);
+        console.log("i am in dao",savedConnector)
     }
 
     getAllConnector = async (req: Request, callback: CallableFunction) => {
