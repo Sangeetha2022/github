@@ -148,7 +148,7 @@ export class EntityFieldComponent implements OnInit {
   }
 
   getAllEntity() {
-   
+
     this.dataService.currentAllEntityInfo.subscribe(
       (data) => {
         this.allEntity = data;
@@ -162,10 +162,10 @@ export class EntityFieldComponent implements OnInit {
       || this.selectedCellRowIndex !== e.rowIndex) {
       this.selectCellRenderedValue = e.value;
       this.selectedCellRowIndex = e.rowIndex;
-      if (this.selectCellRenderedValue === 'Noun' && !this.isGridInit) {
+      if (this.selectCellRenderedValue === 'Noun') {
         console.log('open modal noun values are  &&---------- ', e);
         this.openDialog(this.allEntity, null, e);
-      } else if (this.selectCellRenderedValue === 'List'  && !this.isGridInit) {
+      } else if (this.selectCellRenderedValue === 'List') {
         console.log('open modal list values are ---------- ', e);
         this.openDialog(this.allEntity, this.getEntityTypeValue, e);
       } else {
