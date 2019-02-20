@@ -21,8 +21,7 @@ export class EntityManagerService {
     field: []
   };
 
-  private entityInfoSource = new BehaviorSubject(this.entity);
-  currentEntityInfo = this.entityInfoSource.asObservable();
+
 
   constructor(
     private api: ApiService, private restapi: SharedService
@@ -42,6 +41,10 @@ export class EntityManagerService {
   }
   getAllEntity(): Observable<any> {
     return this.api.get(this.restapi.entityUrl + '/entity/getall');
+  }
+
+  updateEntityField(entity: any): Observable<any> {
+    return this.api.put(this.restapi.entityUrl + '/entity/field/update', entity);
   }
 
   getAllEntityType(): Observable<any> {
@@ -74,4 +77,5 @@ export class EntityManagerService {
     console.log("hello feature",feature)
     return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + id,feature)
   }
+
 }

@@ -10,7 +10,11 @@
 
 # Prerequisites<br/> 
   [Kubernetes Setup](https://github.com/TharaniRajan/Geppetto-local-K8s/blob/master/docs/Kubernetes_setup.md) <br/> 
-  Knowledge on Dev-Ops, Docker, containers.
+  Knowledge on Dev-Ops, Docker, containers. <br/> 
+  Download the repo and have the YAML files in your working directry. <br/> 
+  Create Namespace for kubernetes to maintain the resources in seperate namespace.
+  
+        $ kubectl create namespace gep-dev-201902
   
   
 # DevOps-DB<br/> 
@@ -18,15 +22,15 @@
    
    To Deploy the DevOps DB:
    
-   createe PersistanceVolume for the DB
+   createe PersistanceVolume for the DB [sonar-pv-postgres.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/dev-ops-db/sonar-pv-postgres.yaml)
    
-     $ kubectl create -f sonar-pv-postgres.yaml
+     $ kubectl create -f sonar-pv-postgres.yaml 
    
-   create deployment:
+   create deployment:[dev-ops-db-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/dev-ops-db/dev-ops-db-deployment.yaml)
    
      $ kubectl create -f dev-ops-db-deployment.yaml
  
-   create service:
+   create service:[dev-ops-db-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/dev-ops-db/dev-ops-db-service.yaml)
    
      $ kubectl create -f dev-ops-db-service.yaml
       

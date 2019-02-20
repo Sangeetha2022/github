@@ -21,6 +21,9 @@ export class Routes {
         app.route('/entity/get/:id').get(this.entityController.getByEntityId);
         app.route('/entity/getall').get(this.entityController.getAllEntity);
 
+        // entity field
+        app.route('/entity/field/update').put(this.entityController.updateEntityField);
+        
         // entity types
         app.route('/entity_type/get').get(this.entityTypeController.getAllEntity);
     }

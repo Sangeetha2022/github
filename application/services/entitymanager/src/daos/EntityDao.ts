@@ -19,12 +19,27 @@ export class EntityDao {
     }
 
     public updateEntity(entityData, callback) {
-        entityModel.findOneAndUpdate({ _id: entityData._id }, entityData, { new: true })
+        entityModel.findOneAndUpdate({ _id: entityData._id },
+             entityData,
+            { new: true })
             .then((result) => {
                 console.log('update entity result ----- ', result);
                 callback(result);
             }).catch((error) => {
                 console.log('update entity error -----  ', error);
+                callback(error);
+            });
+    }
+
+    public upateEntityField(entityData, callback) {
+        entityModel.update({ _id: entityData._id },
+            { $set: { 'field': entityData.field }},
+            { new: true })
+            .then((result) => {
+                console.log('update entity field result ----- ', result);
+                callback(result);
+            }).catch((error) => {
+                console.log('update entity field error -----  ', error);
                 callback(error);
             });
     }
