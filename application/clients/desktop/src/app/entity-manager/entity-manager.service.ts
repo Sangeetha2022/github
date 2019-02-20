@@ -21,6 +21,7 @@ export class EntityManagerService {
     field: []
   };
 
+  entityInfoSource = null;
 
 
   constructor(
