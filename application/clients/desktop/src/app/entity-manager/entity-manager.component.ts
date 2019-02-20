@@ -97,8 +97,12 @@ export class EntityManagerComponent implements OnInit {
     console.log(this.features)
 
   }
-  openFeatureDialog(): void {
-
+  openFeatureDialog(create): void {
+    if(create==='create'){
+      console.log("sandsldsnlanlsnd")
+      this.showUpdateFeature = false;
+      this.features = { id:'', description: '', name: '' }
+    }
     this.displayFeatureModel = 'block';
   }
 
@@ -201,9 +205,9 @@ export class EntityManagerComponent implements OnInit {
   getAllFeature(){
     this.entityManagerService.getAllFeature().subscribe(data=>{
       this.featureData = data;
-      var content = this.featureData[0].description;
-      var plainText = content.replace(/<[^>]*>/g, '');
-
+      this.featureData.map((data,index)=>{
+        this.featureData[index].description = data.description.replace(/<[^>]*>/g, '');
+      })
     })
   }
 
@@ -221,6 +225,6 @@ export class EntityManagerComponent implements OnInit {
     this.features.id = feature._id;
     this.features.name = feature.name;
     this.features.description = feature.description;
-    this.openFeatureDialog();
+    this.openFeatureDialog('');
   }  
 }

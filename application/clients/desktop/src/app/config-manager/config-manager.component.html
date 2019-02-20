@@ -2,23 +2,34 @@
   <h1 style="text-align: center;"> <u>GpConfig Manager</u> </h1>
   <div class="row row-button">
     <button mat-raised-button color="primary" (click)="openModal('create')">{{ 'create' | i18next }}</button>
-    <button mat-raised-button  (click)="openModal('update')">{{ 'update' | i18next }}</button>
+    <button mat-raised-button (click)="openModal('update')">{{ 'update' | i18next }}</button>
     <button mat-raised-button color="warn" (click)="deleteRow()">{{ 'delete' | i18next }}</button>
   </div>
   <div class="flowTable">
+    <div class="test-header">
+      Page Size:
+      <select (change)="onPageSizeChanged($event.target.value)" id="page-size">
+        <option value="10" selected="">10</option>
+        <option value="100">100</option>
+        <option value="500">500</option>
+        <option value="1000">1000</option>
+      </select>
+    </div>
     <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnDefs"
-      [rowSelection]="rowSelection"  [rowData]="rowData" [animateRows]="true" [defaultColDef]="defaultColDef"
-      (cellDoubleClicked)="routeNextPage()" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
+      [rowSelection]="rowSelection" [rowData]="rowData" [pagination]="true" [paginationPageSize]="paginationPageSize"
+      [paginationNumberFormatter]="paginationNumberFormatter" [animateRows]="true" [defaultColDef]="defaultColDef"
+      (cellDoubleClicked)="routeNextPage()" (selectionChanged)="onSelectionChanged($event)" [floatingFilter]="true"
+      (gridReady)="onGridReady($event)">
     </ag-grid-angular>
   </div>
 </div>
 
- <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModel}">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModel}">
   <div class="modal-dialog modal-lg" role="dialog">
-    <div class="modal-content"> 
+    <div class="modal-content">
       <div class="container">
         ccccccc
-     <!--   <form class="m-3" [formGroup]="createFlowForm">
+        <!--   <form class="m-3" [formGroup]="createFlowForm">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
@@ -78,8 +89,8 @@
         </div>
       </div>
     </div>
-  </div> 
-</div> 
+  </div>
+</div>
 
 <!-- <div class="row" style="margin: 0px;">
   <div class="col-md-12" style="display: contents;">

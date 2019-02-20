@@ -12,7 +12,7 @@
           <mat-panel-title> My Application Features </mat-panel-title>
         </mat-expansion-panel-header>
         <div style="padding-right: 20px;">
-          <button class="createEntityButton" mat-raised-button color="primary" (click)="openFeatureDialog()">Create
+          <button class="createEntityButton" mat-raised-button color="primary" (click)="openFeatureDialog('create')">Create
             Features</button>
         </div>
         <div class="row" style="margin: 0px;" *ngIf="featureData.length > 0">
