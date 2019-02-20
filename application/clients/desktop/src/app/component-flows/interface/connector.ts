@@ -1,5 +1,5 @@
 export class Connector {
-  id: string;
+  id:'';
   name: string;
   description: string;
   url: string;

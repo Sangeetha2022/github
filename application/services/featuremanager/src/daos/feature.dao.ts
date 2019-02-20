@@ -18,7 +18,7 @@ export class FeatureDao {
     }
 
     public updateFeature(req: Request, callback: CallableFunction) {
-        Feature.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, feature) => {
+        Feature.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, feature) => {
             if (err) {
                 callback(err);
             } else {

@@ -3,6 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { ApiService } from '../config/api.service';
 import { SharedService } from '../../shared/shared.service';
 import { IEntity } from './interface/Entity';
+import {Constants} from '../config/Constant'
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -50,5 +51,31 @@ export class EntityManagerService {
     return this.api.get(this.restapi.entityUrl + '/entity_type/get');
   }
 
+  // data sharing
+  setEntity(entity: any) {
+    this.entityInfoSource.next(entity);
+  }
+
+
+  //Feature
+  addFeature(feature){
+    return this.api.post(this.restapi.featureUrl + Constants.feature + Constants.saveUrl,feature);
+
+  }
+
+  getAllFeature(){
+    return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getAllUrl)
+  }
+
+  deleteFeature(id){
+    return this.api.delete(this.restapi.featureUrl + Constants.feature + Constants.deleteUrl + id)
+  }
+
+  updateFeature(feature){
+    let id = feature.id
+    console.log("hello udhaya",id)
+    console.log("hello feature",feature)
+    return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + id,feature)
+  }
 
 }

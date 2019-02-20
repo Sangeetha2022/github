@@ -21,6 +21,7 @@
     "mongoose": "^5.4.7",
     "node-vault": "^0.9.5",
     "nodemon": "^1.18.9",
+    "ts-node": "^8.0.2",
     "typescript": "^3.2.4",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^3.6.0"

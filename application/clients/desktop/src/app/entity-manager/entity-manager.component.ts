@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatGridTileHeaderCssMatStyler } from '@angular/material';
 import { PopupModelComponent } from './popup-model/popup-model.component';
 import { EntityManagerService } from './entity-manager.service';
 import { DataService } from '../../shared/data.service';
@@ -17,29 +17,11 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export class EntityManagerComponent implements OnInit {
   public Editor = ClassicEditor;
   selectFeature: Boolean = true;
+  showUpdateFeature: Boolean = false;
   selectedExistingFeature: String;
-  public existingFeature: any[] = [{
-    "id": '1',
-    "name": 'First',
-    "description": 'I am the 1st',
-  }, {
-    "id": '2',
-    "name": 'Second',
-    "description": 'I am the 2st',
-  }, {
-    "id": '3',
-    "name": 'Third',
-    "description": 'I am the 3st',
-  }, {
-    "id": '4',
-    "name": 'Fourth',
-    "description": 'I am the 4st',
-  }, {
-    "id": '5',
-    "name": 'Fifth',
-    "description": 'I am the 5st',
-  },]
+  featureData: any = [];
   public features: IFeature = {
+    id:'',
     name: '',
     description: '',
     // explanation:'',
@@ -57,7 +39,9 @@ export class EntityManagerComponent implements OnInit {
   };
   public allEntity: IEntity[] = [];
   public deletePopup: String = 'none';
+  deleteFPopup: String = 'none';
   public selectedEntityId: any;
+  selectedFeatureId: any;
   selectedProject: any;
   constructor(
     public dialog: MatDialog,
@@ -67,15 +51,14 @@ export class EntityManagerComponent implements OnInit {
   ) {
 
     if (this.selectFeature === true) {
-      console.log("i am the one")
-      this.features = { description: '', name: '' }
+      this.features = { id:'',description: '', name: '' }
     }
   }
 
   ngOnInit() {
     this.getSelectedProject();
     this.getAllEntity();
-    console.log("selectFeature", this.selectFeature)
+    this.getAllFeature();
   }
 
   openDialog(): void {
@@ -91,42 +74,43 @@ export class EntityManagerComponent implements OnInit {
     });
   }
   onChangeRadio(selected) {
-    console.log(selected)
     if(selected==="on"){
-      this.features = { description: '', name: '' }
+      this.features = { id:'', description: '', name: '' }
     }
   }
 
   onChange(selected) {
     if (selected) {
-      this.existingFeature.map((data, index) => {
+      this.featureData.map((data, index) => {
         if (data.name === selected) {
           this.features.name = data.name
           this.features.description = data.description
-          console.log("i am the new one", data)
           return;
         }
       });
     }
-    console.log("i am the selected one", selected)
   }
 
   createFeature() {
+    this.addFeature();
+    this.closeFeatureCreateModel();
     console.log(this.features)
 
   }
-  openFeatureDialog(): void {
-
+  openFeatureDialog(create): void {
+    if(create==='create'){
+      console.log("sandsldsnlanlsnd")
+      this.showUpdateFeature = false;
+      this.features = { id:'', description: '', name: '' }
+    }
     this.displayFeatureModel = 'block';
   }
 
   closeFeatureCreateModel() {
-    console.log("i am the create")
     this.displayFeatureModel = 'none';
-    this.features = { description: '', name: '' }
+    this.features = { id:'', description: '', name: '' }
   }
   closeFeatureExistingModel() {
-    console.log("i am the Existing")
     this.displayFeatureModel = 'none';
   }
 
@@ -158,6 +142,7 @@ export class EntityManagerComponent implements OnInit {
     this.selectedEntityId = entity._id;
     this.deletePopup = 'block';
   }
+
   closeDeleteModel() {
     this.deletePopup = 'none';
   }
@@ -166,6 +151,7 @@ export class EntityManagerComponent implements OnInit {
     this.dataService.setAllEntity(this.allEntity);
     this.router.navigate(['/entity-field']);
   }
+
   deleteEntity() {
     this.deletePopup = 'none';
     this.entityManagerService.deleteEntity(this.selectedEntityId).subscribe(
@@ -188,4 +174,58 @@ export class EntityManagerComponent implements OnInit {
     this.dataService.setAllEntity(this.allEntity);
     this.router.navigate(['/desktopscreen']);
   }
+
+  //Feature
+
+  openDeleteFModel(feature) {
+    this.selectedFeatureId = feature._id;
+    this.deleteFPopup = 'block';
+  }
+
+  closeDeleteFModel(){
+    this.deleteFPopup = 'none';
+  }
+
+  updateFeature(){
+    this.entityManagerService.updateFeature(this.features).subscribe(data=>{
+      console.log(data)
+    })
+    this.closeFeatureExistingModel();
+    this.getAllFeature();
+  }
+
+  addFeature(){
+    this.entityManagerService.addFeature(this.features).subscribe(data=>{
+      console.log(data);
+      // if(data){
+        
+      // }
+    })
+  }
+
+  getAllFeature(){
+    this.entityManagerService.getAllFeature().subscribe(data=>{
+      this.featureData = data;
+      this.featureData.map((data,index)=>{
+        this.featureData[index].description = data.description.replace(/<[^>]*>/g, '');
+      })
+    })
+  }
+
+  deleteFeature(){
+    this.entityManagerService.deleteFeature(this.selectedFeatureId).subscribe(data=>{
+      console.log(data)
+    })
+    this.closeDeleteFModel();
+    this.getAllFeature();
+  }
+
+  editFeatureField(feature){
+    this.selectFeature = true;
+    this.showUpdateFeature = true;
+    this.features.id = feature._id;
+    this.features.name = feature.name;
+    this.features.description = feature.description;
+    this.openFeatureDialog('');
+  }  
 }

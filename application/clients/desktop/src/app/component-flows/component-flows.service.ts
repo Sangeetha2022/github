@@ -45,6 +45,10 @@ export class ComponentFlowsService {
     return this.api.post(this.restapi.flowbaseUrl + Constants.flowCompentUrl + id + Constants.addDConnectorUrl, connector);
   }
 
+  updateDefaultConnector(id, connector): Observable<any> {
+    return this.api.put(this.restapi.flowbaseUrl + Constants.flowCompentUrl + id + Constants.updateDConnectorUrl, connector);
+  }
+
   // addDefaultConnector(id, name, conn): Observable<any> {
   //   return this.api.post(this.restapi.flowbaseUrl + Constants.flow + id + '/' + name + Constants.addDConnectorToFlowUrl, conn);
   // }
@@ -53,29 +57,30 @@ export class ComponentFlowsService {
   //   return this.api.post(this.restapi.flowbaseUrl + Constants.flow + id + '/' + name + Constants.updateDConnectorToFlowUrl, conn);
   // }
 
-  // updateMicroFlow(flow): Observable<any> {
-  //   return this.api.put(this.restapi.mflowbaseUrl + Constants.updateMicroFlowUrl, flow);
-  // }
+  updateMicroFlow(flow): Observable<any> {
+    return this.api.put(this.restapi.mflowbaseUrl + Constants.updateMicroFlowUrl, flow);
+  }
 
-  // saveMicroFlow(proj): Observable<any> {
-  //   return this.api.post(this.restapi.mflowbaseUrl + Constants.addMicroFlowUrl, proj);
-  // }
+  saveMicroFlow(proj): Observable<any> {
+    return this.api.post(this.restapi.mflowbaseUrl + Constants.addMicroFlowUrl, proj);
+  }
 
-  // saveConnector(connector): Observable<any> {
-  //   return this.api.post(this.restapi.flowbaseUrl + Constants.addConnector, connector);
-  // }
+  saveConnector(connector): Observable<any> {
+    return this.api.post(this.restapi.flowbaseUrl + Constants.addConnector, connector);
+  }
 
-  // updateConnector(connector): Observable<any> {
-  //   return this.api.put(this.restapi.flowbaseUrl + Constants.upadateConnector, connector);
-  // }
+  updateConnector(connector): Observable<any> {
+    let id = connector._id;
+    return this.api.put(this.restapi.flowbaseUrl + Constants.upadateConnector + id, connector);
+  }
 
-  // deleteConnector(id): Observable<any> {
-  //   return this.api.delete(this.restapi.flowbaseUrl + Constants.deleteConnector + id);
-  // }
+  deleteConnector(id): Observable<any> {
+    return this.api.delete(this.restapi.flowbaseUrl + Constants.deleteConnector + id);
+  }
 
-  // deleteMicroFlow(id): Observable<any> {
-  //   return this.api.delete(this.restapi.mflowbaseUrl + Constants.deleteMicroFlowUrl + id);
-  // }
+  deleteMicroFlow(id): Observable<any> {
+    return this.api.delete(this.restapi.mflowbaseUrl + Constants.deleteMicroFlowUrl + id);
+  }
 
   // getFlowGenComponentByName(name): Observable<any> {
   //   return this.api.get(this.restapi.flowbaseUrl + Constants.getGenFlowsByCompNameUrl + name);
