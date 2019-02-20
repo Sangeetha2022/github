@@ -20,6 +20,14 @@ export class EntityService {
         })
     }
 
+    public updateEntityField(req: Request, callback) {
+        const entity = req.body;
+        console.log('before update in sevice --- ', entity);
+        entityDao.upateEntityField(entity, (response) => {
+            callback(response);
+        })
+    }
+
     public deleteEntity(req: Request, callback) {
         const entityId = req.params.id;
         entityDao.deleteEntity(entityId, (response) => {

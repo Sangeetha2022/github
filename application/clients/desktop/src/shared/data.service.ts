@@ -20,6 +20,17 @@ export class DataService {
     //     secondaryLanguage: '',
     // };
 
+    private entity: IEntity = <IEntity>{
+        name: '',
+        description: '',
+        project_id: '',
+        created_by: '',
+        last_modified_by: '',
+        updated_at: new Date(),
+        field: []
+    };
+
+
     private defaultLanguage: String = 'en';
 
     // project info
@@ -34,6 +45,10 @@ export class DataService {
     private allEntitySource = new BehaviorSubject<IEntity[]>([]);
     currentAllEntityInfo = this.allEntitySource.asObservable();
 
+    // selected entity details
+    private entityInfoSource = new BehaviorSubject<IEntity>(this.entity);
+    currentSelectedEntityInfo = this.entityInfoSource.asObservable();
+
     constructor() { }
 
     // set default language
@@ -46,7 +61,12 @@ export class DataService {
         this.projectInfoSource.next(details);
     }
 
-    // set entity details
+     // set selected entity
+  setEntity(entity: any) {
+    this.entityInfoSource.next(entity);
+  }
+
+    // set all entity details
     setAllEntity(entities: IEntity[]) {
         this.allEntitySource.next(entities);
     }
