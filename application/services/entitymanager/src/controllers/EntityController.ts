@@ -20,6 +20,13 @@ export class EntityController {
         })
     }
 
+    public updateEntityField(req: Request, res: Response) {
+        entityService.updateEntityField(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
     public deleteEntity(req: Request, res: Response) {
         entityService.deleteEntity(req, (response) => {
             res.status(200);

@@ -35,7 +35,7 @@ export class EntityFieldComponent implements OnInit {
     updated_at: new Date(),
     field: []
   };
-  public test: String = '';
+  public isGridInit: Boolean;
   public isValid: Boolean = true;
   // public entity: any;
   createProject: FormGroup;
@@ -59,25 +59,7 @@ export class EntityFieldComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.createProject = this.formBuilder.group({
-      name: ['', Validators.required],
-      label: ['', Validators.required],
-      appContext: '',
-      description: '',
-      primaryLanguage: ['', Validators.required],
-      secondaryLanguage: [''],
-    });
-    this.selectNounType = new FormGroup({
-      allEntity: new FormControl(null)
-    });
-    this.selectListType = new FormGroup({
-      entity: new FormControl(null),
-      standard: new FormControl(null)
-    });
-    // this.agGridInitialization();
-    this.selectNounType.controls['allEntity'].setValue('', { onlySelf: true });
-    this.selectListType.controls['entity'].setValue('', { onlySelf: true });
-    this.selectListType.controls['standard'].setValue('', { onlySelf: true });
+    this.isGridInit = true;
     this.getEntityType();
     // this.getEntity();
   }
@@ -101,13 +83,13 @@ export class EntityFieldComponent implements OnInit {
     this.columnDefs = [
       {
         headerName: 'Name',
-        field: 'Name',
+        field: 'name',
         valueSetter: this.nameValueSetter,
         suppressSizeToFit: false
       },
       {
         headerName: 'Type',
-        field: 'Type',
+        field: 'type',
         cellEditor: 'agSelectCellEditor',
         // singleClickEdit: true,
         cellEditorParams: {
@@ -118,12 +100,13 @@ export class EntityFieldComponent implements OnInit {
       },
       {
         headerName: 'Description',
-        field: 'Description'
+        field: 'description'
       },
       {
         headerName: 'Action',
         cellRenderer: 'buttonRenderer',
         editable: false,
+        sortable: false,
         cellRendererParams: {
           onClick: this.removeRow.bind(this),
           label: 'Remove'
@@ -132,14 +115,14 @@ export class EntityFieldComponent implements OnInit {
     ];
     this.rowData = [
       {
-        Name: 'Enter Name',
-        Type: 'Text',
-        Description: 'Description',
-        isEntityType: false,
-        isListType: false,
-        ListType: '',
-        ListId: '',
-        EntityId: ''
+        name: 'Enter Name',
+        type: 'Text',
+        description: 'Description',
+        is_entity_type: false,
+        is_list_type: false,
+        list_type: null,
+        list_value: null,
+        entity_id: null
       }
     ];
     // this.rowSelection = 'multiple';
@@ -165,6 +148,7 @@ export class EntityFieldComponent implements OnInit {
   }
 
   getAllEntity() {
+   
     this.dataService.currentAllEntityInfo.subscribe(
       (data) => {
         this.allEntity = data;
@@ -173,20 +157,23 @@ export class EntityFieldComponent implements OnInit {
   }
 
   openModal(e) {
+    console.log('open modal values are ---------- ', e, this.isGridInit);
     if (this.selectCellRenderedValue !== e.value
       || this.selectedCellRowIndex !== e.rowIndex) {
       this.selectCellRenderedValue = e.value;
       this.selectedCellRowIndex = e.rowIndex;
-      if (this.selectCellRenderedValue === 'Noun') {
+      if (this.selectCellRenderedValue === 'Noun' && !this.isGridInit) {
+        console.log('open modal noun values are  &&---------- ', e);
         this.openDialog(this.allEntity, null, e);
-      } else if (e.value === 'List') {
+      } else if (this.selectCellRenderedValue === 'List'  && !this.isGridInit) {
+        console.log('open modal list values are ---------- ', e);
         this.openDialog(this.allEntity, this.getEntityTypeValue, e);
       } else {
-        e.data.isEntityType = false;
-        e.data.isListType = false;
-        e.data.ListType = '';
-        e.data.ListId = '';
-        e.data.EntityId = '';
+        e.data.is_entity_type = false;
+        e.data.is_list_type = false;
+        e.data.list_type = null;
+        e.data.list_value = null;
+        e.data.entity_id = null;
       }
     }
     return e.value;
@@ -204,21 +191,22 @@ export class EntityFieldComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(entityData => {
       if (standardValue === null) {
-        e.data.isEntityType = true;
-        e.data.isListType = false;
-        e.data.EntityId = entityData.entity;
-        e.data.ListType = '';
-        e.data.ListId = '';
+        e.data.is_entity_type = true;
+        e.data.is_list_type = false;
+        e.data.entity_id = entityData.entity;
+        e.data.list_type = null;
+        e.data.list_value = null;
       } else {
-        e.data.isListType = true;
-        e.data.isEntityType = false;
-        e.data.EntityId = entityData.entity;
+        e.data.is_list_type = true;
+        e.data.is_entity_type = false;
+        e.data.entity_id = entityData.entity;
         if (entityData.standard !== undefined) {
-          e.data.ListType = 'standard';
-          e.data.ListId = entityData.standard;
+          e.data.list_type = 'standard';
+          e.data.list_value = entityData.standard;
         } else if (entityData.entity !== undefined) {
-          e.data.ListType = 'entity';
-          e.data.ListId = entityData.entity;
+          e.data.list_type = 'entity';
+          e.data.list_value = null;
+          e.data.entity_id = entityData.entity;
         }
       }
     });
@@ -226,19 +214,19 @@ export class EntityFieldComponent implements OnInit {
 
   saveField() {
     this.entity.field = this.getRowData();
-    this.updateEntity();
+    this.updateEntityField();
   }
   updateField() {
     this.entity.field = this.getRowData();
-    this.updateEntity();
+    this.updateEntityField();
   }
 
   cancelField() {
     this.router.navigate(['/entity']);
   }
 
-  updateEntity() {
-    this.entityManagerService.updateEntity(this.entity).subscribe(
+  updateEntityField() {
+    this.entityManagerService.updateEntityField(this.entity).subscribe(
       (data) => { },
       (error) => { });
   }
@@ -279,6 +267,8 @@ export class EntityFieldComponent implements OnInit {
     return true;
   }
   onGridReady(params) {
+    console.log('onGrid ready valuses are ------- ', this.isGridInit);
+    this.isGridInit = false;
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
     this.gridColumnApi = params.columnApi;
@@ -287,14 +277,14 @@ export class EntityFieldComponent implements OnInit {
 
 function createNewRowData() {
   const newData = {
-    Name: 'Enter Name',
-    Type: 'Text',
-    Description: 'Description',
-    isEntityType: false,
-    isListType: false,
-    ListType: '',
-    ListId: '',
-    EntityId: ''
+    name: 'Enter Name',
+    type: 'Text',
+    description: 'Description',
+    is_entitytype: false,
+    is_listtype: false,
+    list_type: null,
+    list_value: null,
+    entity_id: null
   };
   return newData;
 }

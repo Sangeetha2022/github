@@ -42,6 +42,10 @@ export class EntityManagerService {
     return this.api.get(this.restapi.entityUrl + '/entity/getall');
   }
 
+  updateEntityField(entity: any): Observable<any> {
+    return this.api.put(this.restapi.entityUrl + '/entity/field/update', entity);
+  }
+
   getAllEntityType(): Observable<any> {
     return this.api.get(this.restapi.entityUrl + '/entity_type/get');
   }
