@@ -57,13 +57,13 @@ export class ComponentFlowsService {
   //   return this.api.post(this.restapi.flowbaseUrl + Constants.flow + id + '/' + name + Constants.updateDConnectorToFlowUrl, conn);
   // }
 
-  // updateMicroFlow(flow): Observable<any> {
-  //   return this.api.put(this.restapi.mflowbaseUrl + Constants.updateMicroFlowUrl, flow);
-  // }
+  updateMicroFlow(flow): Observable<any> {
+    return this.api.put(this.restapi.mflowbaseUrl + Constants.updateMicroFlowUrl, flow);
+  }
 
-  // saveMicroFlow(proj): Observable<any> {
-  //   return this.api.post(this.restapi.mflowbaseUrl + Constants.addMicroFlowUrl, proj);
-  // }
+  saveMicroFlow(proj): Observable<any> {
+    return this.api.post(this.restapi.mflowbaseUrl + Constants.addMicroFlowUrl, proj);
+  }
 
   saveConnector(connector): Observable<any> {
     return this.api.post(this.restapi.flowbaseUrl + Constants.addConnector, connector);
@@ -78,9 +78,9 @@ export class ComponentFlowsService {
     return this.api.delete(this.restapi.flowbaseUrl + Constants.deleteConnector + id);
   }
 
-  // deleteMicroFlow(id): Observable<any> {
-  //   return this.api.delete(this.restapi.mflowbaseUrl + Constants.deleteMicroFlowUrl + id);
-  // }
+  deleteMicroFlow(id): Observable<any> {
+    return this.api.delete(this.restapi.mflowbaseUrl + Constants.deleteMicroFlowUrl + id);
+  }
 
   // getFlowGenComponentByName(name): Observable<any> {
   //   return this.api.get(this.restapi.flowbaseUrl + Constants.getGenFlowsByCompNameUrl + name);

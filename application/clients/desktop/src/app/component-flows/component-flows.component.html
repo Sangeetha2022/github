@@ -108,7 +108,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="sequence_id">{{'sequenceId'| i18next}}</label>
-                <input type="text" class="form-control" placeholder="Enter Sequence Id" id="sequence_id"
+                <input type="number" class="form-control" placeholder="Enter Sequence Id" id="sequence_id"
                   [(ngModel)]="iFlowComponent.sequence_id" formControlName="sequence_id"
                   [ngClass]="{ 'is-invalid': submitted && form_control.sequence_id.errors }">
                 <div *ngIf="submitted && form_control.sequence_id.errors" class="invalid-feedback">
@@ -345,19 +345,19 @@
   </div>
 </div>
 
-<!--
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addMFModel}">
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addMFModel}" *ngIf="showMicroFlow">
   <div class="modal-dialog modal-md" role="dialog">
     <div class="modal-content">
       <div class="container">
-        {{'addForSeq' | i18next}} : {{selectedFlow[0]?.component_name}}
+        {{'addForSeq' | i18next}} : {{selectedFlowCmpnt[0]?.component_name}}
         <form class="m-3" [formGroup]="createMFlowForm">
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="sequence_id">{{'sequenceId'| i18next}}</label>
-                <input type="text" class="form-control" placeholder="Enter Sequence Id" id="sequence_id"
-                  formControlName="sequence_id" [(ngModel)]="iMicroFlow.sequence_id"
+                <input type="number" class="form-control" placeholder="Enter Sequence Id" id="sequence_id"
+                  formControlName="sequence_id" [(ngModel)]="iMicroFlow.sequence_id" 
                   [ngClass]="{ 'is-invalid': submitted && form_control.sequence_id.errors }">
                 <div *ngIf="submitted && form_control.sequence_id.errors" class="invalid-feedback">
                   <div *ngIf="form_control.sequence_id.errors.required">{{'require_name' | i18next}}</div>
@@ -369,7 +369,7 @@
               <div class="form-group">
                 <label for="component_name">{{'componentName'|i18next}}</label>
                 <input type="text" class="form-control" placeholder="Enter Component Name" id="component_name"
-                  [value]="selectedFlow[0]?.component_name" disabled formControlName="component_name"
+                  [value]="selectedFlowCmpnt[0]?.component_name" disabled formControlName="component_name"
                   [(ngModel)]="iMicroFlow.component_name"
                   [ngClass]="{ 'is-invalid': submitted && form_control.component_name.errors }">
                 <div *ngIf="submitted && form_control.component_name.errors" class="invalid-feedback">
@@ -408,4 +408,4 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>
