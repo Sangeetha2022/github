@@ -35,13 +35,11 @@ export class EntityFieldComponent implements OnInit {
     updated_at: new Date(),
     field: []
   };
-  public isGridInit: Boolean;
   public isValid: Boolean = true;
   // public entity: any;
   createProject: FormGroup;
   selectNounType: FormGroup;
   selectListType: FormGroup;
-  testvalues: String = 'testfine';
   allEntity: IEntity[];
   selectCellRenderedValue: String;
   selectedCellRowIndex: any;
@@ -59,7 +57,6 @@ export class EntityFieldComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.isGridInit = true;
     this.getEntityType();
     // this.getEntity();
   }
@@ -84,26 +81,28 @@ export class EntityFieldComponent implements OnInit {
       {
         headerName: 'Name',
         field: 'name',
+        width: 250,
         valueSetter: this.nameValueSetter,
-        suppressSizeToFit: false
       },
       {
         headerName: 'Type',
         field: 'type',
+        width: 308,
         cellEditor: 'agSelectCellEditor',
         // singleClickEdit: true,
+        valueSetter: this.typeValueSetter.bind(this),
         cellEditorParams: {
           values: this.getEntityTypeValue,
         },
-        cellRenderer: this.openModal.bind(this)
-
       },
       {
         headerName: 'Description',
-        field: 'description'
+        field: 'description',
+        width: 450,
       },
       {
         headerName: 'Action',
+        width: 100,
         cellRenderer: 'buttonRenderer',
         editable: false,
         sortable: false,
@@ -138,7 +137,6 @@ export class EntityFieldComponent implements OnInit {
     this.dataService.currentSelectedEntityInfo.subscribe(
       (data) => {
         this.entity = data;
-        console.log('entity valuesa re --------------', data, this.entity.field.length);
         if (this.entity.field.length > 0) {
           this.rowData = this.entity.field;
         }
@@ -157,26 +155,19 @@ export class EntityFieldComponent implements OnInit {
   }
 
   openModal(e) {
-    console.log('open modal values are ---------- ', e, this.isGridInit);
-    if (this.selectCellRenderedValue !== e.value
-      || this.selectedCellRowIndex !== e.rowIndex) {
-      this.selectCellRenderedValue = e.value;
-      this.selectedCellRowIndex = e.rowIndex;
-      if (this.selectCellRenderedValue === 'Noun') {
-        console.log('open modal noun values are  &&---------- ', e);
-        this.openDialog(this.allEntity, null, e);
-      } else if (this.selectCellRenderedValue === 'List') {
-        console.log('open modal list values are ---------- ', e);
-        this.openDialog(this.allEntity, this.getEntityTypeValue, e);
-      } else {
-        e.data.is_entity_type = false;
-        e.data.is_list_type = false;
-        e.data.list_type = null;
-        e.data.list_value = null;
-        e.data.entity_id = null;
-      }
+    this.selectCellRenderedValue = e.newValue;
+    if (this.selectCellRenderedValue === 'Noun') {
+      this.openDialog(this.allEntity, null, e);
+    } else if (this.selectCellRenderedValue === 'List') {
+      this.openDialog(this.allEntity, this.getEntityTypeValue, e);
+    } else {
+      e.data.is_entity_type = false;
+      e.data.is_list_type = false;
+      e.data.list_type = null;
+      e.data.list_value = null;
+      e.data.entity_id = null;
     }
-    return e.value;
+    return e.newValue;
   }
 
   openDialog(entityValue, standardValue, e): void {
@@ -190,23 +181,26 @@ export class EntityFieldComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(entityData => {
-      if (standardValue === null) {
-        e.data.is_entity_type = true;
-        e.data.is_list_type = false;
-        e.data.entity_id = entityData.entity;
-        e.data.list_type = null;
-        e.data.list_value = null;
-      } else {
-        e.data.is_list_type = true;
-        e.data.is_entity_type = false;
-        e.data.entity_id = entityData.entity;
-        if (entityData.standard !== undefined) {
-          e.data.list_type = 'standard';
-          e.data.list_value = entityData.standard;
-        } else if (entityData.entity !== undefined) {
-          e.data.list_type = 'entity';
-          e.data.list_value = null;
+      console.log('afterClosed dialog are ------- ', entityData);
+      if (entityData !== undefined) {
+        if (standardValue === null) {
+          e.data.is_entity_type = true;
+          e.data.is_list_type = false;
           e.data.entity_id = entityData.entity;
+          e.data.list_type = null;
+          e.data.list_value = null;
+        } else {
+          e.data.is_list_type = true;
+          e.data.is_entity_type = false;
+          e.data.entity_id = entityData.entity;
+          if (entityData.standard !== undefined) {
+            e.data.list_type = 'standard';
+            e.data.list_value = entityData.standard;
+          } else if (entityData.entity !== undefined) {
+            e.data.list_type = 'entity';
+            e.data.list_value = null;
+            e.data.entity_id = entityData.entity;
+          }
         }
       }
     });
@@ -266,9 +260,13 @@ export class EntityFieldComponent implements OnInit {
     setDivStyle('none');
     return true;
   }
+  // type setter
+  typeValueSetter(params: ValueParserParams) {
+    const value = this.openModal(params);
+    params.data[params.colDef.field] = value;
+    return true;
+  }
   onGridReady(params) {
-    console.log('onGrid ready valuses are ------- ', this.isGridInit);
-    this.isGridInit = false;
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
     this.gridColumnApi = params.columnApi;
