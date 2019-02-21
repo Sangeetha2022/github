@@ -39,7 +39,6 @@ import { NavigationModule } from './navigation/navigation.module';
 import { ToastrModule } from 'ngx-toastr';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
-
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
   fallbackLng: ['en', 'ta', 'es'],

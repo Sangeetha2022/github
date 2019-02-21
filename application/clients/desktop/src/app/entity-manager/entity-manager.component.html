@@ -1,7 +1,8 @@
 <div class="container">
   <br />
   <div>
-    <button class="createEntityButton goToButton" mat-raised-button (click)="GoToDesigner()">Go To Screen Designer</button>
+    <button class="createEntityButton goToButton" mat-raised-button (click)="GoToDesigner()">Go To Screen
+      Designer</button>
   </div>
   <br />
   <br />
@@ -12,7 +13,8 @@
           <mat-panel-title> My Application Features </mat-panel-title>
         </mat-expansion-panel-header>
         <div style="padding-right: 20px;">
-          <button class="createEntityButton" mat-raised-button color="primary" (click)="openFeatureDialog('create')">Create
+          <button class="createEntityButton" mat-raised-button color="primary"
+            (click)="openFeatureDialog('create')">Create
             Features</button>
         </div>
         <div class="row" style="margin: 0px;" *ngIf="featureData.length > 0">
@@ -40,7 +42,8 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div style="padding-right: 20px;">
-          <button class="createEntityButton" mat-raised-button color="primary" (click)="openDialog()">Create Entity</button>
+          <button class="createEntityButton" mat-raised-button color="primary" (click)="openDialog()">Create
+            Entity</button>
         </div>
         <div class="row" style="margin: 0px;">
           <div class="col-md-4" *ngFor="let entity of allEntity; let i = index">
@@ -76,6 +79,7 @@
         </mat-card> -->
 
       </mat-expansion-panel>
+      <app-connector-manager></app-connector-manager>
 
       <!--   
   <mat-expansion-panel (opened)="panelOpenState = true"
@@ -143,27 +147,30 @@
           <h1>Create Feature</h1>
           <div class="row">
             <div class="radio mr-sm-4">
-              <label><input type="radio" name="selectFeature" [value]="false" (change)="onChangeRadio($event.target.value)" [(ngModel)]="selectFeature">Select From
+              <label><input type="radio" name="selectFeature" [value]="false"
+                  (change)="onChangeRadio($event.target.value)" [(ngModel)]="selectFeature">Select From
                 Existing</label>
             </div>
             <div class="radio">
-              <label><input type="radio" name="selectFeature" (change)="onChangeRadio($event.target.value)" [value]="true" [(ngModel)]="selectFeature">Create New
+              <label><input type="radio" name="selectFeature" (change)="onChangeRadio($event.target.value)"
+                  [value]="true" [(ngModel)]="selectFeature">Create New
                 Feature</label>
             </div>
           </div>
           <div *ngIf="!selectFeature" class="dropdown mt-sm-2 mb-sm-2">
             <div class="form-group">
-                <label for="sel1">Select From Existing:</label>
-                <select class="form-control" (change)="onChange($event.target.value)">
-                  <option *ngFor="let feature of featureData" value="{{feature.name}}"  ([ngModel])="selectedExistingFeature">{{feature.name}}</option>
-                </select>
-              </div>
+              <label for="sel1">Select From Existing:</label>
+              <select class="form-control" (change)="onChange($event.target.value)">
+                <option *ngFor="let feature of featureData" value="{{feature.name}}"
+                  ([ngModel])="selectedExistingFeature">{{feature.name}}</option>
+              </select>
+            </div>
           </div>
           <form #featurForm="ngForm">
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" class="form-control" name="name" [(ngModel)]="features.name" #name="ngModel" [ngClass]="{ 'is-invalid': featurForm.submitted && name.invalid }"
-                required />
+              <input type="text" class="form-control" name="name" [(ngModel)]="features.name" #name="ngModel"
+                [ngClass]="{ 'is-invalid': featurForm.submitted && name.invalid }" required />
               <div *ngIf="featurForm.submitted && name.invalid" class="invalid-feedback">
                 <div *ngIf="name.errors.required">Name is required</div>
               </div>
@@ -176,9 +183,9 @@
         </div>
       </div>
       <div class="modal-footer" style="padding: 5px" *ngIf="!selectFeature">
-          <button class="btn btn-primary" (click)="createFeature()">Create</button>
-          <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>
-        </div>
+        <button class="btn btn-primary" (click)="createFeature()">Create</button>
+        <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>
+      </div>
       <div class="modal-footer" style="padding: 5px" *ngIf="selectFeature && !showUpdateFeature">
         <button class="btn btn-primary" (click)="createFeature()">Create</button>
         <button type="button" class="btn btn-default" (click)="closeFeatureCreateModel()">Cancel</button>
