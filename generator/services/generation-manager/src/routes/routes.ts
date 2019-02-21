@@ -27,6 +27,13 @@ export class Routes {
             })
         })
 
+        app.post('/generate/update/:project_id', (req: Request, res: Response) => {
+            this.projectgenService.saveProjectgen(req, (response) => {
+                socket.emit('gen_notify_' + req.body.project_id, req.body);
+                res.send({ "message": "success" });
+            })
+        })
+
         app.route('/projectgen/project/:project_id').get(this.projectgenController.getProjectgenByProjectId);
         app.route('/projectgen/user/:user_id').get(this.projectgenController.getProjectgenByUserId);
 

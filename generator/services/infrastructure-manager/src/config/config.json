@@ -1,0 +1,10 @@
+{
+    "LOCAL": {
+        "TEMPLATE_URL": "../../template/deployment/local/",
+        "DESTINATION_URL": "/home/balaji/WORK/GEPPETTO/GeppettoNew/generated_code/"
+    },
+    "AWS": {
+        "TEMPLATE_URL": "",
+        "DESTINATION_URL": ""
+    }
+}
