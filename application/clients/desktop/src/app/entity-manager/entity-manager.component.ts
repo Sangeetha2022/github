@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import { MatDialog, MatGridTileHeaderCssMatStyler } from '@angular/material';
 import { PopupModelComponent } from './popup-model/popup-model.component';
 import { EntityManagerService } from './entity-manager.service';
@@ -6,6 +6,7 @@ import { DataService } from '../../shared/data.service';
 import { IEntity } from './interface/Entity';
 import { IFeature } from './interface/Feature';
 import { Router } from '@angular/router';
+import EasyImage from '@ckeditor/ckeditor5-easy-image/src/easyimage';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
@@ -147,8 +148,7 @@ export class EntityManagerComponent implements OnInit {
     this.deletePopup = 'none';
   }
   editEntityField(entity: IEntity) {
-    this.dataService.setEntity(entity);
-    this.dataService.setAllEntity(this.allEntity);
+    this.entityManagerService.setEntity(entity);
     this.router.navigate(['/entity-field']);
   }
 
@@ -212,6 +212,13 @@ export class EntityManagerComponent implements OnInit {
     })
   }
 
+  onReady(eventData) {
+    eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
+      console.log("aiosaohofhodaofdfdf>>>>>>>>>>++++++++",btoa(loader.file));
+      return new UploadAdapter(loader);
+    };
+  }
+
   deleteFeature(){
     this.entityManagerService.deleteFeature(this.selectedFeatureId).subscribe(data=>{
       console.log(data)
@@ -228,4 +235,33 @@ export class EntityManagerComponent implements OnInit {
     this.features.description = feature.description;
     this.openFeatureDialog('');
   }  
+}
+
+export class UploadAdapter {
+  private loader;
+  constructor(loader: any) {
+    this.loader = loader;
+    console.log(this.readThis(loader.file));
+  }
+
+  public upload(): Promise<any> {
+    //"data:image/png;base64,"+ btoa(binaryString) 
+    return this.readThis(this.loader.file);
+  }
+
+  readThis(file: File): Promise<any> {
+    console.log(file)
+    let imagePromise: Promise<any> = new Promise((resolve, reject) => {
+      var myReader: FileReader = new FileReader();
+      myReader.onloadend = (e) => {
+        let image = myReader.result;
+        console.log(image);
+        return { default: "data:image/png;base64," + image };
+        resolve();
+      }
+      myReader.readAsDataURL(file);
+    });
+    return imagePromise;
+  }
+
 }
