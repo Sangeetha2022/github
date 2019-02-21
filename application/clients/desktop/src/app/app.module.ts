@@ -121,7 +121,7 @@ export const I18N_PROVIDERS = [
     MatFormFieldModule,
     ConfigManagerModule,
     NavigationModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot({preventDuplicates: true}),
     CKEditorModule,
   ],
   providers: [

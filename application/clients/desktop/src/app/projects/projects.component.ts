@@ -193,7 +193,7 @@ export class ProjectsComponent implements OnInit {
       console.log('data', data);
       //this.getAllMyProjects();
       this.getProjectNotify(projectgen.project_id)
-      this.toastr.success('project: '+projectgen.project_name, 'generation requested!', {
+      this.toastr.success('PROJECT: '+projectgen.project_name, 'Generation Requested!', {
         closeButton:true,
         disableTimeOut:true
       });
@@ -227,10 +227,12 @@ export class ProjectsComponent implements OnInit {
       let currentNotify :any;
       currentNotify = data;
       if (currentNotify.project_id!==undefined) {
-        this.toastr.success('project: '+currentNotify.project_name, currentNotify.status_message, {
+        if(currentNotify.status!=="gen_requested"){
+        this.toastr.success('PROJECT : '+currentNotify.project_name+", STATUS : "+currentNotify.status_message+"", "Generation Notification!", {
           closeButton:true,
           disableTimeOut:true
         });
+       }
       }
     },
       error => {
@@ -254,11 +256,14 @@ export class ProjectsComponent implements OnInit {
   }
 
   getAllUserNotify(user_id){
+
     this.projectsService.getAllUserNotify(user_id).subscribe(data => {
       this.userNotifyArr = data;
       console.log('userNotifydata:', data);
       if (this.userNotifyArr.length !== 0) {
-        this.toastr.info('project: '+this.userNotifyArr[this.userNotifyArr.length-1].project_name, this.userNotifyArr[this.userNotifyArr.length-1].status_message, {
+        this.toastr.info('PROJECT : '+this.userNotifyArr[this.userNotifyArr.length-1].project_name
+        +", STATUS : "+this.userNotifyArr[this.userNotifyArr.length-1].status_message,
+        "Generation Notification!", {
           closeButton:true,
           disableTimeOut:true
         });
