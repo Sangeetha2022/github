@@ -37,7 +37,8 @@ export class Constants {
     // Generation Flow apis
     public static get getAllGenFlowsUrl(): string { return '/generation_flow/getall'; }
     public static get addGenFlowsUrl(): string { return '/generation_flow/add'; }
-    public static get updateGenFlowsUrl(): string { return '/generation_flow/update'; }
+    public static get updateGenFlowsUrl(): string { return '/generation_flow/update/'; }
+    public static get deleteGenFlowsUrl(): string {return '/generation_flow/delete/';}
     public static get getGenFlowsByCompNameUrl(): string { return '/generation_flow/getbyname/'; }
 
     // Micro Flow apis
@@ -62,4 +63,8 @@ export class Constants {
     //Feature
     public static get feature(): string { return '/feature'; }
 
+    //Default Entity
+    public static get addDefaultEntity(): string { return '/default_entity/save'; }
+    public static get getDefaultEntityByProjectId(): string { return '/default_entity/getbyproject/'; }
+    
 }

@@ -8,6 +8,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ConfigManagerComponent],
@@ -17,6 +18,7 @@ import { MatButtonModule } from '@angular/material';
     BrowserAnimationsModule,
     MatButtonModule,
     CommonModule,
+    FormsModule,
     I18NextModule.forRoot(),    
   ],
   exports: [

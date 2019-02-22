@@ -29,6 +29,7 @@
     "@angular/router": "~7.1.0",
     "@ckeditor/ckeditor5-angular": "^1.0.1",
     "@ckeditor/ckeditor5-build-classic": "^11.2.0",
+    "@ckeditor/ckeditor5-easy-image": "^10.0.4",
     "ag-grid-angular": "^20.0.0",
     "ag-grid-community": "^20.0.0",
     "angular-i18next": "^5.0.6",

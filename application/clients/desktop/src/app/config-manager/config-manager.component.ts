@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigManagerService } from './config-manager.service'
+import { FormBuilder, FormsModule } from '@angular/forms';
+import { ConfigManager } from './interface/configmanager'
 @Component({
   selector: 'app-config-manager',
   templateUrl: './config-manager.component.html',
@@ -11,13 +13,24 @@ export class ConfigManagerComponent implements OnInit {
   private gridColumnApi;
   private rowSelection;
   private checkUpdate: Boolean = false;
-  private flow: any = {};
+  private config: any;
+  private selectedConfig: any = [];
   private displayModel: string = 'none';
   private columnDefs: any = [];
   private rowData: any = [];
   private defaultColDef: any = [];
   private paginationPageSize;
   private paginationNumberFormatter;
+
+  private configManager: ConfigManager = {
+    description: '',
+    id: '',
+    label: '',
+    name: '',
+    sub_type: '',
+    type: '',
+    value: '',
+  }
 
   constructor(private configManagerService: ConfigManagerService) {
     this.columnDefs = [
@@ -57,7 +70,7 @@ export class ConfigManagerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllGen();
+    this.getAllConfig();
   }
 
   onGridReady(params) {
@@ -67,7 +80,9 @@ export class ConfigManagerComponent implements OnInit {
     this.gridApi.showNoRowsOverlay()
 
   }
-  onSelectionChanged(event) {
+  onSelectionChanged() {
+    this.selectedConfig = this.gridApi.getSelectedRows();
+    console.log("i am the selected one",this.selectedConfig)
 
   }
   onPageSizeChanged(newPageSize) {
@@ -82,23 +97,69 @@ export class ConfigManagerComponent implements OnInit {
     }
     if (type === 'update') {
       this.checkUpdate = false;
-      // this.flow = this.selectedFlow[0];
+      this.configManager = this.selectedConfig[0]
+      // this.configManager.id = this.selectedConfig[0]._id;
+      // this.configManager.name = this.selectedConfig[0].name;
+      // this.configManager.description = this.selectedConfig[0].description;
+      // this.configManager.label = this.selectedConfig[0].label;
+      // this.configManager.type = this.selectedConfig[0].type;
+      // this.configManager.value = this.selectedConfig[0].value;
+      // this.configManager.sub_type = this.selectedConfig[0].sub_type;
+
       this.displayModel = 'block';
     }
   }
 
   onCloseHandled() {
     this.displayModel = 'none';
+    this.configManager = { name: '', value: '', type: '', sub_type: '', label: '', id: '', description: '' }
     // this.createFlowForm.clearValidators();
     // this.createFlowForm.reset();
   }
 
+  onCloseHandledForUpdate() {
+    this.displayModel = 'none';
+  }
 
 
-  getAllGen() {
-    this.configManagerService.getAllGen().subscribe(data => {
+
+  getAllConfig() {
+    this.configManagerService.getAllConfig().subscribe(data => {
       this.rowData = data;
       console.log(data)
     })
+  }
+
+  createConfig() {
+    this.configManagerService.saveConfig(this.configManager)
+      .subscribe(
+        (data) => {
+          console.log('successfully added gen flow -- ', data);
+          this.onCloseHandled();
+          this.getAllConfig();
+        },
+        (error) => {
+          console.log('add gen flow error --- ', error);
+        }
+      );
+  }
+
+  updateConfig(){
+    this.configManagerService.updateConfig(this.configManager).subscribe(
+      (data) => {
+        this.onCloseHandled();
+        this.getAllConfig();
+      },
+      (error) => {
+        console.log('error delete flow manager --- ', error);
+      }
+    );
+  }
+
+  deleteRow(){
+    this.configManagerService.deleteConfig(this.selectedConfig[0]._id).subscribe(data=>{
+      console.log("successfully deleted " + data)
+    })
+    this.getAllConfig();
   }
 }
