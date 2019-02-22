@@ -2,10 +2,13 @@
 import { EntityController } from '../controllers/EntityController';
 import { EntityTypeController } from '../controllers/EntityTypeController';
 import { Request, Response, NextFunction } from "express";
+import { DefaultEntityController } from '../controllers/DefaultEntityController';
 
 export class Routes {
 
     public entityController: EntityController = new EntityController();
+    public defaultEntityController: DefaultEntityController = new DefaultEntityController();
+    
     public entityTypeController: EntityTypeController = new EntityTypeController();
 
     public routes(app): void {
@@ -26,5 +29,12 @@ export class Routes {
         
         // entity types
         app.route('/entity_type/get').get(this.entityTypeController.getAllEntity);
+
+        // default entity
+        app.route('/default_entity/save').post(this.defaultEntityController.createDefaultEntity);
+        app.route('/default_entity/getall').get(this.defaultEntityController.getAllDefaultEntity);
+        app.route('/default_entity/getbyproject/:id').get(this.defaultEntityController.getDefaultEntityByProjectId);
+        app.route('/default_entity/getbyuser/:id').get(this.defaultEntityController.getDefaultEntityByUserId);
+
     }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 // import { Subscription } from '../project-details/interface/subscription';
 import { IEntity } from '../app/entity-manager/interface/Entity';
+import {IDeafaultEntity} from '../app/projects/interface/user'
 
 
 
@@ -37,6 +38,10 @@ export class DataService {
     private projectInfoSource = new BehaviorSubject<any>({});
     currentProjectInfo = this.projectInfoSource.asObservable();
 
+    //user info
+    private defaultEntityInfoSource = new BehaviorSubject<any>({});
+    currentDeafultEntityInfoSource = this.defaultEntityInfoSource.asObservable();
+
     // default language
     private defaultLanguageSource = new BehaviorSubject(this.defaultLanguage);
     currentDefaultLanguage = this.defaultLanguageSource.asObservable();
@@ -69,6 +74,11 @@ export class DataService {
     // set all entity details
     setAllEntity(entities: IEntity[]) {
         this.allEntitySource.next(entities);
+    }
+
+    setDefaultEntityInfo(defaultEntity: IDeafaultEntity[]) {
+        console.log("defaultEntity",defaultEntity)
+        this.defaultEntityInfoSource.next(defaultEntity);
     }
 
 }

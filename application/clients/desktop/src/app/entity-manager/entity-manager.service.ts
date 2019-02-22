@@ -74,9 +74,20 @@ export class EntityManagerService {
 
   updateFeature(feature){
     let id = feature.id
-    console.log("hello udhaya",id)
-    console.log("hello feature",feature)
     return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + id,feature)
+  }
+
+  //Default Entity
+
+  addDefaultEntity(defaultEntity){
+    console.log("hello udhaya u r waiting",defaultEntity)
+    return this.api.post(this.restapi.entityUrl + Constants.addDefaultEntity,defaultEntity);
+
+  }
+
+  getDefaultEntityByProjectId(id){
+    return this.api.get(this.restapi.entityUrl + Constants.getDefaultEntityByProjectId + id)
+
   }
 
 }

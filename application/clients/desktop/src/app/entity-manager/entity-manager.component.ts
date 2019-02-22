@@ -21,6 +21,7 @@ export class EntityManagerComponent implements OnInit {
   showUpdateFeature: Boolean = false;
   selectedExistingFeature: String;
   featureData: any = [];
+  // user: any = [];
   public features: IFeature = {
     id:'',
     name: '',
@@ -44,6 +45,7 @@ export class EntityManagerComponent implements OnInit {
   public selectedEntityId: any;
   selectedFeatureId: any;
   selectedProject: any;
+  selecteddefaultEntity: any;
   constructor(
     public dialog: MatDialog,
     private router: Router,
@@ -59,7 +61,9 @@ export class EntityManagerComponent implements OnInit {
   ngOnInit() {
     this.getSelectedProject();
     this.getAllEntity();
-    this.getAllFeature();
+    this.getDefaultEntityByProjectId();
+    // this.getAllFeature();
+    this.createDefaultEntity();
   }
 
   openDialog(): void {
@@ -96,6 +100,10 @@ export class EntityManagerComponent implements OnInit {
     this.addFeature();
     this.closeFeatureCreateModel();
     console.log(this.features)
+
+  }
+
+  createDefaultEntity(){
 
   }
   openFeatureDialog(create): void {
@@ -163,13 +171,23 @@ export class EntityManagerComponent implements OnInit {
       }
     );
   }
+
   getSelectedProject() {
     this.dataService.currentProjectInfo.subscribe(
       (data) => {
         this.selectedProject = data;
+        console.log("this is the data",this.selectedProject._id)
       }
     );
   }
+
+  getDefaultEntityByProjectId(){
+    this.entityManagerService.getDefaultEntityByProjectId(this.selectedProject._id).subscribe(data=>{
+      this.selecteddefaultEntity = data;
+      console.log("i am data from the id",this.selecteddefaultEntity);
+    })
+  }
+
   GoToDesigner() {
     this.dataService.setAllEntity(this.allEntity);
     this.router.navigate(['/desktopscreen']);
@@ -214,8 +232,8 @@ export class EntityManagerComponent implements OnInit {
 
   onReady(eventData) {
     eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
-      console.log("aiosaohofhodaofdfdf>>>>>>>>>>++++++++",btoa(loader.file));
-      return new UploadAdapter(loader);
+      // console.log("aiosaohofhodaofdfdf>>>>>>>>>>++++++++",btoa(loader.file));
+      // return new UploadAdapter(loader);
     };
   }
 
@@ -237,31 +255,33 @@ export class EntityManagerComponent implements OnInit {
   }  
 }
 
-export class UploadAdapter {
-  private loader;
-  constructor(loader: any) {
-    this.loader = loader;
-    console.log(this.readThis(loader.file));
-  }
+// image uploader for ckeditor
 
-  public upload(): Promise<any> {
-    //"data:image/png;base64,"+ btoa(binaryString) 
-    return this.readThis(this.loader.file);
-  }
+// export class UploadAdapter {
+//   private loader;
+//   constructor(loader: any) {
+//     this.loader = loader;
+//     console.log(this.readThis(loader.file));
+//   }
 
-  readThis(file: File): Promise<any> {
-    console.log(file)
-    let imagePromise: Promise<any> = new Promise((resolve, reject) => {
-      var myReader: FileReader = new FileReader();
-      myReader.onloadend = (e) => {
-        let image = myReader.result;
-        console.log(image);
-        return { default: "data:image/png;base64," + image };
-        resolve();
-      }
-      myReader.readAsDataURL(file);
-    });
-    return imagePromise;
-  }
+//   public upload(): Promise<any> {
+//     //"data:image/png;base64,"+ btoa(binaryString) 
+//     return this.readThis(this.loader.file);
+//   }
 
-}
+//   readThis(file: File): Promise<any> {
+//     console.log(file)
+//     let imagePromise: Promise<any> = new Promise((resolve, reject) => {
+//       var myReader: FileReader = new FileReader();
+//       myReader.onloadend = (e) => {
+//         let image = myReader.result;
+//         console.log(image);
+//         return { default: "data:image/png;base64," + image };
+//         resolve();
+//       }
+//       myReader.readAsDataURL(file);
+//     });
+//     return imagePromise;
+//   }
+
+// }
