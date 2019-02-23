@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { IGenerateFlow } from './interface/generationFlow';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FlowManagerService } from './flow-manager.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { IFlow } from './interface/flow';
+import { DataService } from 'src/shared/data.service';
 
 @Component({
   selector: 'app-flow-manager',
@@ -25,6 +26,7 @@ export class FlowManagerComponent implements OnInit {
   };
   flowAfterCancel: any;
   gridApi;
+  flow_name: String;
   gridColumnApi;
   getGenFlow: any;
   dataFlow: any;
@@ -42,8 +44,12 @@ export class FlowManagerComponent implements OnInit {
   displayModel: String = 'none';
   createFlowForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder,
-    private flowManagerService: FlowManagerService, private router: Router) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private flowManagerService: FlowManagerService,
+    private router: Router, private route: ActivatedRoute,
+    private dataService: DataService,
+  ) {
     this.columnDefs = [
       {
         headerName: 'Name', field: 'name',
@@ -77,10 +83,6 @@ export class FlowManagerComponent implements OnInit {
     this.gridApi.sizeColumnsToFit();
   }
 
-  routeNextPage() {
-    this.router.navigate(['flow-component'], { skipLocationChange: true });
-  }
-
   getAllFlows() {
     this.flowManagerService.getAllFlows().subscribe((flowData) => {
       this.dataFlow = flowData;
@@ -93,14 +95,21 @@ export class FlowManagerComponent implements OnInit {
   onSelectionChanged() {
     this.selectedFlow = this.gridApi.getSelectedRows();
     if (this.selectedFlow.length != 0) {
-      this.flowManagerService.changeMessage(this.selectedFlow[0]._id);
-    }
+      this.dataService.setFlowIdInfo(this.selectedFlow[0]);
+        }
+  }
+
+  routeNextPage() {
+    this.dataService.currentFlowIdInfoSource.subscribe(data=>{
+      this.flow_name = data.name;
+    })
+    this.router.navigate(['flow-component'],{queryParams:{name:this.flow_name}});
   }
 
   openModal(type) {
     if (type === 'create') {
       this.checkUpdate = true;
-      this.flow = {name:'',action_on_data:'',description:'',label:''};
+      this.flow = { name: '', action_on_data: '', description: '', label: '' };
       this.displayModel = 'block';
     }
     if (type === 'update') {
@@ -115,11 +124,11 @@ export class FlowManagerComponent implements OnInit {
     this.createFlowForm.clearValidators();
     this.createFlowForm.reset();
   }
-  
+
   onCloseHandledForUpdate() {
     this.displayModel = 'none';
   }
-  
+
   createFlowModel() {
     this.flowManagerService.saveFlow(this.createFlowForm.getRawValue())
       .subscribe(

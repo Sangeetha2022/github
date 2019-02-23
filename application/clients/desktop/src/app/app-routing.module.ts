@@ -7,11 +7,13 @@ import { DesktopScreenComponent } from './screen-designer/desktop-screen/desktop
 import { EntityManagerComponent } from './entity-manager/entity-manager.component';
 import { EntityFieldComponent } from './entity-manager/entity-field/entity-field.component';
 import { ConfigManagerComponent } from './config-manager/config-manager.component';
+import { AvailableConnectorComponent } from './available-connector/available-connector.component';
 
 const routes: Routes = [
   { path: 'project', component: ProjectsComponent },
   { path: 'flow-component', component: ComponentFlowsComponent },
   { path: 'flow-manager', component: FlowManagerComponent },
+  { path: 'available-connector', component: AvailableConnectorComponent },
   { path: 'config-manager', component: ConfigManagerComponent },
   { path: 'desktopscreen', component: DesktopScreenComponent },
   { path: 'entity', component: EntityManagerComponent },

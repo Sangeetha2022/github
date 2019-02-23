@@ -11,14 +11,7 @@ export class FlowManagerService {
 
   private subject: Subject<any>;
 
-  private messageSource = new BehaviorSubject('');
-  currentMessage = this.messageSource.asObservable();
-
   constructor(private http: HttpClient, private router: Router, private api: ApiService, private restapi: SharedService) {
-  }
-
-  changeMessage(message: string) {
-    this.messageSource.next(message);
   }
 
   saveFlow(proj): Observable<any> {
