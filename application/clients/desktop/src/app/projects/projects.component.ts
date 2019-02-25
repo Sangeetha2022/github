@@ -5,6 +5,7 @@ import { ProjectsService } from '../projects/projects.service';
 import { DataService } from '../../shared/data.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { EntityManagerService } from '../entity-manager/entity-manager.service';
 
 @Component({
   selector: 'app-projects',
@@ -22,11 +23,16 @@ export class ProjectsComponent implements OnInit {
   languages: string[] = ['English', 'Tamil', 'Spanish'];
   submitted = false;
   myAllProjects: any = [];
-
+  createdProject: any = [];
   genNotifyArr: any = [];
-
   userNotifyArr: any = [];
-
+  public defaultEntity: any = {
+    project_name: '',
+    project_description: '',
+    project_id: '',
+    user_id: '',
+    user_name: '',
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,7 +40,8 @@ export class ProjectsComponent implements OnInit {
     private projectsService: ProjectsService,
     private dataService: DataService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private entityManagerService: EntityManagerService,
   ) { }
 
   ngOnInit() {
@@ -161,15 +168,28 @@ export class ProjectsComponent implements OnInit {
 
     this.projectsService.addProject(dataToSave).subscribe(data => {
       console.log('data', data);
+      if(data){
+      this.dataService.setProjectInfo(data);
+      this.defaultEntity.user_id = "12345"
+      this.defaultEntity.user_name = "david",
+      this.defaultEntity.project_id = data._id;
+      this.defaultEntity.project_name = data.name;
+      this.defaultEntity.project_description = data.description;
+
+      console.log("i am the entity u want",this.defaultEntity)
+      this.entityManagerService.addDefaultEntity(this.defaultEntity).subscribe(data=>{
+        this.dataService.setDefaultEntityInfo(data)
+      }),(error)=>{
+        console.log(error);
+      }
+    }
       this.getAllMyProjects();
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });
     this.onCloseHandled();
     this.getAllMyProjects();
-  }
-
-
+  }  
 
   //generation
   generateProject(project) {
@@ -193,7 +213,7 @@ export class ProjectsComponent implements OnInit {
       console.log('data', data);
       //this.getAllMyProjects();
       this.getProjectNotify(projectgen.project_id)
-      this.toastr.success('project: '+projectgen.project_name, 'generation requested!', {
+      this.toastr.success('PROJECT: '+projectgen.project_name, 'Generation Requested!', {
         closeButton:true,
         disableTimeOut:true
       });
@@ -227,10 +247,12 @@ export class ProjectsComponent implements OnInit {
       let currentNotify :any;
       currentNotify = data;
       if (currentNotify.project_id!==undefined) {
-        this.toastr.success('project: '+currentNotify.project_name, currentNotify.status_message, {
+        if(currentNotify.status!=="gen_requested"){
+        this.toastr.success('PROJECT : '+currentNotify.project_name+", STATUS : "+currentNotify.status_message+"", "Generation Notification!", {
           closeButton:true,
           disableTimeOut:true
         });
+       }
       }
     },
       error => {
@@ -254,11 +276,14 @@ export class ProjectsComponent implements OnInit {
   }
 
   getAllUserNotify(user_id){
+
     this.projectsService.getAllUserNotify(user_id).subscribe(data => {
       this.userNotifyArr = data;
       console.log('userNotifydata:', data);
       if (this.userNotifyArr.length !== 0) {
-        this.toastr.info('project: '+this.userNotifyArr[this.userNotifyArr.length-1].project_name, this.userNotifyArr[this.userNotifyArr.length-1].status_message, {
+        this.toastr.info('PROJECT : '+this.userNotifyArr[this.userNotifyArr.length-1].project_name
+        +", STATUS : "+this.userNotifyArr[this.userNotifyArr.length-1].status_message,
+        "Generation Notification!", {
           closeButton:true,
           disableTimeOut:true
         });
