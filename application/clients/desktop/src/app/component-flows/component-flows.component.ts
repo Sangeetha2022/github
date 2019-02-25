@@ -15,6 +15,8 @@ import { DataService } from 'src/shared/data.service';
   styleUrls: ['./component-flows.component.scss']
 })
 export class ComponentFlowsComponent implements OnInit {
+  selectConnector: Boolean = false;
+  enableDConnector: Boolean = true;
   iMicroFlow: IMicroFlow = {
     id: '',
     sequence_id: '',
@@ -42,6 +44,8 @@ export class ComponentFlowsComponent implements OnInit {
     connector: false,
   };
   paramsName: String;
+  AvailableConnector: any = [];
+  selectedDCon: any = [];
   // private test;
   // columnDefs;
   // tableArr: any = [];
@@ -91,7 +95,7 @@ export class ComponentFlowsComponent implements OnInit {
   microFlowGrid;
   connectorFlowGrid;
   linkedFlowGrid: any = [];
-
+  suppressCellSelection;
   // Form 
   createFlowComponentForm: FormGroup;
   createMFlowForm: FormGroup;
@@ -123,6 +127,7 @@ export class ComponentFlowsComponent implements OnInit {
   ngOnInit() {
     this.setupAgGrid();
     this.generateForms();
+    this.getAllAvailableConnector();
     this.route.queryParams.subscribe(params => {
       console.log(params.name)
       this.paramsName = params.name;
@@ -138,7 +143,7 @@ export class ComponentFlowsComponent implements OnInit {
       if (this.flow_id !== undefined) {
         this.getFlowSequence(this.flow_id);
       } else {
-        console.log("i am the one u looking",this.paramsName)
+        console.log("i am the one u looking", this.paramsName)
         // this.getFlowCompByName(this.paramsName)
       }
     })
@@ -165,10 +170,31 @@ export class ComponentFlowsComponent implements OnInit {
     }
     this.flowCompName = this.selectedFlowCmpnt[0].component_name
     this.default_connector = this.selectedFlowCmpnt[0].default_connector;
-
+    this.enableDConnector = this.default_connector[0].enable;
+    this.suppressCellSelection	 = this.default_connector[0].enable;
     this.getMicroFlowName(this.selectedFlowCmpnt[0].component_name);
   }
 
+  // deleteConnector() {
+  //   this.componentFlowsService.deleteConnector(this.connector.id).subscribe(data => {
+  //     console.log(data)
+  //   })
+
+  //   this.getAllAvailableConnector();
+
+  // }
+
+  onChange(selected) {
+    if (selected) {
+      // this.featureData.map((data, index) => {
+      //   if (data.name === selected) {
+      //     this.features.name = data.name
+      //     this.features.description = data.description
+      //     return;
+      //   }
+      // });
+    }
+  }
 
   selectDefaultConnector() {
     this.selectedDConnector = this.linkedFlowGrid.getSelectedRows();
@@ -394,6 +420,14 @@ export class ComponentFlowsComponent implements OnInit {
     })
   }
 
+  getAllAvailableConnector() {
+    this.componentFlowsService.getAllConnector().subscribe(data => {
+      this.AvailableConnector = data;
+    }, error => {
+      console.log("==== ==  ? ? ", error)
+    })
+  }
+
   // getLinkedConnectorByName(component) {
   //   console.log("hello udhaya i am", component)
   //   this.componentFlowsService.getLinkedConnectorByName(component).subscribe(data => {
@@ -438,6 +472,7 @@ export class ComponentFlowsComponent implements OnInit {
       { headerName: 'Name', field: 'name', checkboxSelection: true },
       { headerName: 'Description', field: 'description' },
       { headerName: 'URL', field: 'url' },
+      { headerName: 'Enable', field: 'enable' },
       // { headerName: 'Api key', field: 'properties.apiKey' },
       // { headerName: 'Secret Key', field: 'properties.secretKey' },
 

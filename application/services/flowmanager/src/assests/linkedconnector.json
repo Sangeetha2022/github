@@ -1,38 +1,45 @@
 {
     "GpExpressController": {
         "name": "GpExpressService",
-        "description": "default flow component",
+        "description": "default connector for flow component",
         "url": null,
-        "properties": null
+        "properties": null,
+        "enable": true
     },
     "GpExpressService": {
         "name": "GpExpressDao",
-        "description": "default flow component",
+        "description": "default connector for flow component",
         "url": null,
-        "properties": null
+        "properties": null,
+        "enable": true
+
     },
     "GpAngularComponent": {
         "name": "GpAngularService",
-        "description": "default flow component",
+        "description": "default connector for flow component",
         "url": null,
-        "properties": null
+        "properties": null,
+        "enable": true
     },
     "GpAngularService": {
         "name": "GpExpressController",
-        "description": "default flow component",
+        "description": "default connector for flow component",
         "url": null,
-        "properties": null
+        "properties": null,
+        "enable": true
     },
     "GpIonicAngularComponent": {
         "name": "GpIonicAngularService",
-        "description": "default flow component",
+        "description": "default connector for flow component",
         "url": null,
-        "properties": null
+        "properties": null,
+        "enable": true
     },
     "GpIonicAngularService": {
         "name": "GpExpressController",
-        "description": "default flow component",
+        "description": "default connector for flow component",
         "url": null,
-        "properties": null
+        "properties": null,
+        "enable": true
     }
 }

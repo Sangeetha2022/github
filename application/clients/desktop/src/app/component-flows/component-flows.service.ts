@@ -34,7 +34,7 @@ export class ComponentFlowsService {
   }
 
   addFlowCompToFlow(id, flow): Observable<any> {
-    return this.api.post(this.restapi.flowbaseUrl + Constants.flowUrl + id + Constants.addFlowCompToFlowUrl, flow);
+    return this.api.post(this.restapi.flowbaseUrl + Constants.flowUrl + '/' + id + Constants.addFlowCompToFlowUrl, flow);
   }
 
   updateFlowCompToFlow(id, flow): Observable<any> {
