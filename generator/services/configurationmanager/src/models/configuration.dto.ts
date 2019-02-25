@@ -1,4 +1,4 @@
-import { IsString, IsArray } from 'class-validator';
+import { IsString, IsArray, IsDate } from 'class-validator';
 
 class GpConfigDto {
   @IsString()
@@ -18,6 +18,14 @@ class GpConfigDto {
 
   @IsString()
   public sub_type: string
+
+  @IsDate()
+  public created_at: Date;
+
+  @IsDate()
+  public updated_at: Date;
+
+  
 }
 
 export default GpConfigDto;

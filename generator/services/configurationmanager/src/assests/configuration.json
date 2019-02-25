@@ -1,6 +1,22 @@
 {
 	"base_config": [
 		{
+			"name": "version",
+			"label": "",
+			"description": "app version",
+			"value": "1.0.0",
+			"type": "version",
+			"sub_type": ""
+		},
+		{
+			"name": "build_version",
+			"label": "",
+			"description": "build version",
+			"value": "1.0.0",
+			"type": "version",
+			"sub_type": ""
+		},
+		{
 			"name": "base_generation_directory",
 			"label": "",
 			"description": "",
