@@ -19,6 +19,7 @@ export class AvailableConnectorComponent implements OnInit {
   connectorData: any = [];
   createConnectorForm: FormGroup;
   selectedAvaConnector: any = [];
+  showApiModal: String = 'none';
   connector: Connector = {
     id: '',
     name: '',
@@ -73,6 +74,19 @@ export class AvailableConnectorComponent implements OnInit {
     this.onCloseConnectorHandled();
     this.getAllConnector();
 
+  }
+
+  onShowAPI() {
+    this.showApiModal = 'block'
+    console.log("--->> >selected connectror", this.selectedAvaConnector[0])
+  }
+
+  closeModal() {
+    this.showApiModal = 'none'
+  }
+ 
+  onFCSelectionChanged(event) {
+    console.log("selection changed, " , event.api.getSelectedNodes());
   }
 
   createConnector() {

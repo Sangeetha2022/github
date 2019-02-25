@@ -175,11 +175,6 @@ export class ComponentFlowsComponent implements OnInit {
     console.log("================>>>>", this.selectedDConnector);
   }
 
-
-  // onFCSelectionChanged(event) {
-  //   console.log("selection changed, " , event.api.getSelectedNodes());
-  // }
-
   openAddMFModal(type) {
     if (type === 'create') {
       this.isDisplayMicroFlow = true;
@@ -434,13 +429,15 @@ export class ComponentFlowsComponent implements OnInit {
       { headerName: 'Description', field: 'description' },
     ];
 
+    this.connectorColDef = [
+      { headerName: 'Name', field: 'name', checkboxSelection: true },
+      { headerName: 'Description', field: 'description' },
+    ]
+
     this.linkedConnectorColDef = [
       { headerName: 'Name', field: 'name', checkboxSelection: true },
       { headerName: 'Description', field: 'description' },
       { headerName: 'URL', field: 'url' },
-      // { headerName: 'Api key', field: 'properties.apiKey' },
-      // { headerName: 'Secret Key', field: 'properties.secretKey' },
-
     ]
     this.microColDef = [
       { headerName: 'Sequence Id', field: 'sequence_id', sort: 'asc', checkboxSelection: true },
