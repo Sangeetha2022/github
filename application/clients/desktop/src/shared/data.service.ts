@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 // import { Subscription } from '../project-details/interface/subscription';
 import { IEntity } from '../app/entity-manager/interface/Entity';
 import {IDeafaultEntity} from '../app/projects/interface/user'
+import { IFlow } from 'src/app/flow-manager/interface/flow';
 
 
 
@@ -31,6 +32,8 @@ export class DataService {
         field: []
     };
 
+    private Id: any;
+
 
     private defaultLanguage: String = 'en';
 
@@ -41,6 +44,10 @@ export class DataService {
     //user info
     private defaultEntityInfoSource = new BehaviorSubject<any>({});
     currentDeafultEntityInfoSource = this.defaultEntityInfoSource.asObservable();
+
+    //flow info
+    private flowIdInfoSource = new BehaviorSubject<any>({});
+    currentFlowIdInfoSource = this.flowIdInfoSource.asObservable();
 
     // default language
     private defaultLanguageSource = new BehaviorSubject(this.defaultLanguage);
@@ -79,6 +86,12 @@ export class DataService {
     setDefaultEntityInfo(defaultEntity: IDeafaultEntity[]) {
         console.log("defaultEntity",defaultEntity)
         this.defaultEntityInfoSource.next(defaultEntity);
+    }
+
+
+    setFlowIdInfo(flow: IFlow) {
+        console.log("defaultEntity",flow)
+        this.flowIdInfoSource.next(flow);
     }
 
 }

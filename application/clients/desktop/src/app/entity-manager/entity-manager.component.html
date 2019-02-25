@@ -8,7 +8,7 @@
   <br />
   <div>
     <mat-accordion>
-      <mat-expansion-panel [expanded]="true">
+      <!-- <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title> My Application Features </mat-panel-title>
         </mat-expansion-panel-header>
@@ -30,10 +30,27 @@
             </div>
           </div>
           <div class="col-md-4" *ngIf="featureData.length === 0">
-            No Entity Available.
+            No Feature Available.
           </div>
         </div>
-      </mat-expansion-panel>
+      </mat-expansion-panel> -->
+      <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Default Entity </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div style="padding-right: 20px;">
+          </div>
+          <div class="row" style="margin: 0px;">
+            <div class="col-md-4" *ngFor="let defaultEntity of selecteddefaultEntity; let i = index">
+              <div class="card">
+                <div class="card-header">{{defaultEntity.user_name}}</div>
+                <div class="card-body">
+                  <div><span>{{defaultEntity.project_name}}</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>

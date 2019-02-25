@@ -86,6 +86,10 @@ export class ComponentFlowsService {
   //   return this.api.get(this.restapi.flowbaseUrl + Constants.getGenFlowsByCompNameUrl + name);
   // }
 
+  // getFlowCompByName(name): Observable<any>{
+  //   return this.api.get(this.restapi.mflowbaseUrl + Constants.flowUrl + Constants.getByNameUrl + name + Constants.detailsUrl);
+  // }
+
   getFlowSequence(id): Observable<any> {
     return this.api.get(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.getByIdUrl + id + Constants.detailsUrl);
   }

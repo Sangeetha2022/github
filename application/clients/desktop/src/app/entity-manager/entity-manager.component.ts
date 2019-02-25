@@ -62,8 +62,7 @@ export class EntityManagerComponent implements OnInit {
     this.getSelectedProject();
     this.getAllEntity();
     this.getDefaultEntityByProjectId();
-    // this.getAllFeature();
-    this.createDefaultEntity();
+    this.getAllFeature();
   }
 
   openDialog(): void {
@@ -100,10 +99,6 @@ export class EntityManagerComponent implements OnInit {
     this.addFeature();
     this.closeFeatureCreateModel();
     console.log(this.features)
-
-  }
-
-  createDefaultEntity(){
 
   }
   openFeatureDialog(create): void {
@@ -183,8 +178,11 @@ export class EntityManagerComponent implements OnInit {
 
   getDefaultEntityByProjectId(){
     this.entityManagerService.getDefaultEntityByProjectId(this.selectedProject._id).subscribe(data=>{
-      this.selecteddefaultEntity = data;
-      console.log("i am data from the id",this.selecteddefaultEntity);
+      // data.map((data,index)=>{
+        this.selecteddefaultEntity = [data];
+      
+      
+      // let defaultEntity = Object.values(this.selecteddefaultEntity);
     })
   }
 
