@@ -8,6 +8,7 @@ import { I18NextModule } from 'angular-i18next';
 import { MatIconModule, MatToolbarModule } from '@angular/material';
 import { AppRoutingModule } from '../app-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {NavigationService} from './navigation.service'
 
 @NgModule({
   declarations: [
@@ -29,8 +30,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AppInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
+    NavigationService
   ]
 })
 export class NavigationModule { }
