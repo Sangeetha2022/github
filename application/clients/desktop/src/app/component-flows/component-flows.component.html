@@ -1,7 +1,7 @@
 <div class="container">
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a routerLink="/flow-manager">Flow</a></li>
+      <li class="breadcrumb-item"><a href="/flow-manager">Flow</a></li>
       <li class="breadcrumb-item active" aria-current="page">Flow Component</li>
     </ol>
   </nav>
@@ -31,7 +31,7 @@
       </button>
       <!-- <button mat-raised-button (click)="openAddDConnectorModal('update')">{{ 'update' | i18next }}</button> -->
       <button mat-raised-button color="warn" (click)="deleteConnector()">Remove Connector</button>
-    </div>
+    </div> 
   </div>
 
 
@@ -305,7 +305,7 @@
 
 
 
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addConnectorModel}">
+<!-- <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addConnectorModel}">
   <div class="modal-dialog modal-md" role="dialog">
     <div class="modal-content">
       <div class="container">
@@ -380,7 +380,7 @@
       </div>
     </div>
   </div>
-</div> -->
+</div>  -->
 
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addMFModel}" *ngIf="showMicroFlow">
