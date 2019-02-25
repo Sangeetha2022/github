@@ -4,14 +4,14 @@
         "description": "default connector for flow component",
         "url": null,
         "properties": null,
-        "enable": true
+        "enable": false
     },
     "GpExpressService": {
         "name": "GpExpressDao",
         "description": "default connector for flow component",
         "url": null,
         "properties": null,
-        "enable": true
+        "enable": false
 
     },
     "GpAngularComponent": {
@@ -19,27 +19,27 @@
         "description": "default connector for flow component",
         "url": null,
         "properties": null,
-        "enable": true
+        "enable": false
     },
     "GpAngularService": {
         "name": "GpExpressController",
         "description": "default connector for flow component",
         "url": null,
         "properties": null,
-        "enable": true
+        "enable": false
     },
     "GpIonicAngularComponent": {
         "name": "GpIonicAngularService",
         "description": "default connector for flow component",
         "url": null,
         "properties": null,
-        "enable": true
+        "enable": false
     },
     "GpIonicAngularService": {
         "name": "GpExpressController",
         "description": "default connector for flow component",
         "url": null,
         "properties": null,
-        "enable": true
+        "enable": false
     }
 }
