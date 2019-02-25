@@ -16,7 +16,7 @@ import { DataService } from 'src/shared/data.service';
 })
 export class ComponentFlowsComponent implements OnInit {
   selectConnector: Boolean = false;
-  enableDConnector: Boolean = true;
+  disableDConnector: Boolean = true;
   iMicroFlow: IMicroFlow = {
     id: '',
     sequence_id: '',
@@ -170,8 +170,6 @@ export class ComponentFlowsComponent implements OnInit {
     }
     this.flowCompName = this.selectedFlowCmpnt[0].component_name
     this.default_connector = this.selectedFlowCmpnt[0].default_connector;
-    this.enableDConnector = this.default_connector[0].enable;
-    this.suppressCellSelection	 = this.default_connector[0].enable;
     this.getMicroFlowName(this.selectedFlowCmpnt[0].component_name);
   }
 
@@ -472,7 +470,7 @@ export class ComponentFlowsComponent implements OnInit {
       { headerName: 'Name', field: 'name', checkboxSelection: true },
       { headerName: 'Description', field: 'description' },
       { headerName: 'URL', field: 'url' },
-      { headerName: 'Enable', field: 'enable' },
+      { headerName: 'Disable', field: 'disable' },
       // { headerName: 'Api key', field: 'properties.apiKey' },
       // { headerName: 'Secret Key', field: 'properties.secretKey' },
 
