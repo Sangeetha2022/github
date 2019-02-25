@@ -7,7 +7,9 @@ const gpConfigSchema = new mongoose.Schema({
     description: String,
     value: String,
     type: String,
-    sub_type: String
+    sub_type: String,
+    created_at: { type: Date,	default: Date.now },
+    updated_at: { type: Date,	default: null },
 });
 
 const GpConfigModel = mongoose.model<IGpConfigModel & mongoose.Document>('gp_config', gpConfigSchema);
