@@ -35,17 +35,16 @@
         </div>
       </mat-expansion-panel>
       <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title> Default Entity </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div style="padding-right: 20px;">
-        </div>
-        <div class="row" style="margin: 0px;">
-          <div class="col-md-4" *ngFor="let defaultEntity of selecteddefaultEntity; let i = index">
-            <div class="card">
-              <div class="card-header">{{defaultEntity.user_name}}</div>
-              <div class="card-body">
-                <div><span>{{defaultEntity.project_name}}</span></div>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Default Entity </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="row" style="margin: 0px;" *ngIf="selecteddefaultEntity.length > 0">
+            <div class="col-md-4" *ngFor="let defaultEntity of selecteddefaultEntity; let i = index">
+              <div class="card">
+                <div class="card-header"><h4>User:<span>{{defaultEntity.user_name}}</span></h4></div>
+                <div class="card-body">
+                  <div><h4>Project: <span>{{defaultEntity.project_name}}</span></h4></div>
+                </div>
               </div>
             </div>
           </div>
