@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { detect } from 'detect-browser';
 import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 import { AppComponentService } from '../app/app.component.service'
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

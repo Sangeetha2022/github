@@ -1,7 +1,8 @@
 <div class="container">
   <br />
   <div>
-    <button class="createEntityButton goToButton" mat-raised-button (click)="GoToDesigner()">Go To Screen Designer</button>
+    <button class="createEntityButton goToButton" mat-raised-button (click)="GoToDesigner()">Go To Screen
+      Designer</button>
   </div>
   <br />
   <br />
@@ -34,20 +35,24 @@
         </div>
       </mat-expansion-panel>
       <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title> Default Entity </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="row" style="margin: 0px;" *ngIf="selecteddefaultEntity.length > 0">
-            <div class="col-md-4" *ngFor="let defaultEntity of selecteddefaultEntity; let i = index">
-              <div class="card">
-                <div class="card-header"><h4>User:<span>{{defaultEntity.user_name}}</span></h4></div>
-                <div class="card-body">
-                  <div><h4>Project: <span>{{defaultEntity.project_name}}</span></h4></div>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Default Entity </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="row" style="margin: 0px;" *ngIf="selecteddefaultEntity.length > 0">
+          <div class="col-md-4" *ngFor="let defaultEntity of selecteddefaultEntity; let i = index">
+           <div class="card">
+              <div class="card-header">
+                <h4>User:<span>{{defaultEntity?.user_name}}</span></h4>
+              </div>
+              <div class="card-body">
+                <div>
+                  <h4>Project: <span>{{defaultEntity?.project_name}}</span></h4>
                 </div>
               </div>
             </div>
           </div>
-        </mat-expansion-panel>
+        </div>
+      </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -55,7 +60,8 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div style="padding-right: 20px;">
-          <button class="createEntityButton" mat-raised-button color="primary" (click)="openDialog()">Create Entity</button>
+          <button class="createEntityButton" mat-raised-button color="primary" (click)="openDialog()">Create
+            Entity</button>
         </div>
         <div class="row" style="margin: 0px;">
           <div class="col-md-4" *ngFor="let entity of allEntity; let i = index">
@@ -91,6 +97,7 @@
         </mat-card> -->
 
       </mat-expansion-panel>
+      <app-connector-manager></app-connector-manager>
 
       <!--   
   <mat-expansion-panel (opened)="panelOpenState = true"
@@ -150,7 +157,8 @@
 </div>
 
 
-<div class="modal" tabindex="-1" data-keyboard="true" aria-hidden="true" data-backdrop="true" role="dialog" [ngStyle]="{'top': '100px','display':displayFeatureModel}">
+<div class="modal" tabindex="-1" data-keyboard="true" aria-hidden="true" data-backdrop="true" role="dialog"
+  [ngStyle]="{'top': '100px','display':displayFeatureModel}">
   <div class="modal-dialog modal-lg" role="dialog">
     <div class="modal-content">
       <div class="modal-body">
@@ -158,13 +166,13 @@
           <h1>Add Feature</h1>
           <div class="row">
             <div class="radio mr-sm-4">
-              <label><input type="radio" name="selectFeature" [value]="false" (change)="onChangeRadio($event.target.value)"
-                  [(ngModel)]="selectFeature">Import
+              <label><input type="radio" name="selectFeature" [value]="false"
+                  (change)="onChangeRadio($event.target.value)" [(ngModel)]="selectFeature">Import
                 Existing Feature</label>
             </div>
             <div class="radio">
-              <label><input type="radio" name="selectFeature" (change)="onChangeRadio($event.target.value)" [value]="true"
-                  [(ngModel)]="selectFeature">Add New
+              <label><input type="radio" name="selectFeature" (change)="onChangeRadio($event.target.value)"
+                  [value]="true" [(ngModel)]="selectFeature">Add New
                 Feature</label>
             </div>
           </div>
@@ -172,22 +180,24 @@
             <div class="form-group">
               <label for="sel1">Import Existing Feature:</label>
               <select class="form-control" (change)="onChange($event.target.value)">
-                <option *ngFor="let feature of featureData" value="{{feature.name}}" ([ngModel])="selectedExistingFeature">{{feature.name}}</option>
+                <option *ngFor="let feature of featureData" value="{{feature.name}}"
+                  ([ngModel])="selectedExistingFeature">{{feature.name}}</option>
               </select>
             </div>
           </div>
           <form #featurForm="ngForm">
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" class="form-control" name="name" [(ngModel)]="features.name" #name="ngModel" [ngClass]="{ 'is-invalid': featurForm.submitted && name.invalid }"
-                required />
+              <input type="text" class="form-control" name="name" [(ngModel)]="features.name" #name="ngModel"
+                [ngClass]="{ 'is-invalid': featurForm.submitted && name.invalid }" required />
               <div *ngIf="featurForm.submitted && name.invalid" class="invalid-feedback">
                 <div *ngIf="name.errors.required">Name is required</div>
               </div>
             </div>
             <div class="form-group">
               <label for="description">Description</label>
-              <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)" [(ngModel)]="features.description"></ckeditor>
+              <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)"
+                [(ngModel)]="features.description"></ckeditor>
               <!--   use this inside ckeditor tag for image upload replace your api with uploadUrl [config]="{ ckfinder :{uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/'}}" -->
             </div>
           </form>

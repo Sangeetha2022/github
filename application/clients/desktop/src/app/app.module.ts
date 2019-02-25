@@ -38,8 +38,8 @@ import { ConfigManagerModule } from './config-manager/config-manager.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { ToastrModule } from 'ngx-toastr';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { ComponentFlowsModule } from './component-flows/component-flows.module';
 import { AvailableConnectorComponent } from './available-connector/available-connector.component';
-
 
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
@@ -97,7 +97,6 @@ export const I18N_PROVIDERS = [
   declarations: [
     AppComponent,
     ProjectsComponent,
-    ComponentFlowsComponent,
     FlowManagerComponent,
     AvailableConnectorComponent,
   ],
@@ -106,6 +105,7 @@ export const I18N_PROVIDERS = [
     BrowserAnimationsModule,
     AgGridModule.withComponents([]),
     AppRoutingModule,
+    ComponentFlowsModule,
     FormsModule,
     EntityManagerModule,
     ReactiveFormsModule,
