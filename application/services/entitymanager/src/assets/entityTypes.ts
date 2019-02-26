@@ -7,7 +7,7 @@ export const entityTypes = [
     { "typename": "Picture" },
     { "typename": "Sound" },
     { "typename": "Video" },
-    { "typename": "Noun" },
+    { "typename": "Entity" },
     { "typename": "List" },
     { "typename": "File Attachement" },
     { "typename": "Rich Text" }
