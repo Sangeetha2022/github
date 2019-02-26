@@ -1,22 +1,19 @@
 <div class="container">
   <br />
-  <div>
-    <button class="createEntityButton goToButton" mat-raised-button (click)="GoToDesigner()">Go To Screen
-      Designer</button>
-  </div>
+  <h1 style="text-align: center;">Project Components</h1>
   <br />
   <br />
   <div>
     <mat-accordion>
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
-          <mat-panel-title> My Application Features </mat-panel-title>
+          <mat-panel-title> Features </mat-panel-title>
         </mat-expansion-panel-header>
         <div style="padding-right: 20px;">
           <button class="createEntityButton" mat-raised-button color="primary" (click)="openFeatureDialog('create')">Add
             Features</button>
         </div>
-        <div class="row" style="margin: 0px;" *ngIf="featureData.length > 0">
+        <div class="row" style="margin: 0px;" *ngIf="featureData && featureData.length > 0">
           <div class="col-md-4" *ngFor="let feature of featureData; let i = index">
             <div class="card">
               <div class="card-header">{{feature.name}}</div>
@@ -29,35 +26,14 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4" *ngIf="featureData.length === 0">
+          <div class="col-md-4" *ngIf="featureData && featureData.length === 0">
             No Feature Available.
           </div>
         </div>
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title> Default Entity </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="row" style="margin: 0px;" *ngIf="selecteddefaultEntity.length > 0">
-          <div class="col-md-4" *ngFor="let defaultEntity of selecteddefaultEntity; let i = index">
-           <div class="card">
-              <div class="card-header">
-                <h4>User:<span>{{defaultEntity?.user_name}}</span></h4>
-              </div>
-              <div class="card-body">
-                <div>
-                  <h4>Project: <span>{{defaultEntity?.project_name}}</span></h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            My Entity
-          </mat-panel-title>
+          <mat-panel-title> Entities </mat-panel-title>
         </mat-expansion-panel-header>
         <div style="padding-right: 20px;">
           <button class="createEntityButton" mat-raised-button color="primary" (click)="openDialog()">Create
@@ -97,21 +73,30 @@
         </mat-card> -->
 
       </mat-expansion-panel>
-      <app-connector-manager></app-connector-manager>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Screens </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-card-content>
 
-      <!--   
-  <mat-expansion-panel (opened)="panelOpenState = true"
-                       (closed)="panelOpenState = false">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Self aware panel
-      </mat-panel-title>
-      <mat-panel-description>
-        Currently I am {{panelOpenState ? 'open' : 'closed'}}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <p>I'm visible because I am open</p>
-  </mat-expansion-panel> -->
+          <button class="createEntityButton goToButton" mat-raised-button (click)="GoToDesigner()">Add Screen</button>
+        </mat-card-content>
+        <!-- <div class="row" style="margin: 0px;" *ngIf="selecteddefaultEntity && selecteddefaultEntity.length > 0">
+            <div class="col-md-4" *ngFor="let defaultEntity of selecteddefaultEntity; let i = index">
+              <div class="card">
+                <div class="card-header">
+                  <h4>User:<span>{{defaultEntity?.user_name}}</span></h4>
+                </div>
+                <div class="card-body">
+                  <div>
+                    <h4>Project: <span>{{defaultEntity?.project_name}}</span></h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+      </mat-expansion-panel>
+      <app-techarchitecture-manager></app-techarchitecture-manager>
     </mat-accordion>
   </div>
 </div>

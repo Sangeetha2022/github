@@ -146,6 +146,7 @@ export class ComponentFlowsComponent implements OnInit {
         console.log("i am the one u looking", this.paramsName)
         // this.getFlowCompByName(this.paramsName)
       }
+      console.log("= == = = == = = = =ready----->>>", data)
     })
   }
 

@@ -8,10 +8,15 @@ let connectorSchema = mongoose.Schema({
   },
   name: { type: String, default: null },
   description: { type: String, default: null },
+  url: { type: String, default: null },
   available_apis: [{
     name: { type: String, default: null },
     description: { type: String, default: null },
-    type: { type: String, default: null }
+    type: { type: String, default: null },
+    properties: [{
+      key: { type: String, default: null },
+      value: { type: String, default: null }
+    }]
   }],
   properties: [{
     key: { type: String, default: null },

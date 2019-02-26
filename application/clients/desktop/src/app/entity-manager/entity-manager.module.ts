@@ -20,7 +20,7 @@ import { ButtonRendererComponent } from './entity-field/rendered/button-renderer
 import { PopupModelComponent } from './popup-model/popup-model.component';
 import { FieldPopupModalComponent } from './entity-field/field-popup-modal/field-popup-modal.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { ConnectorManagerModule } from '../connector-manager/connector-manager.module';
+import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitecture-manager.module';
 
 @NgModule({
   declarations: [
