@@ -260,12 +260,13 @@ export class EntityFieldComponent implements OnInit {
     setDivStyle('none');
     return true;
   }
-  // type setter
+  
   typeValueSetter(params: ValueParserParams) {
     const value = this.openModal(params);
     params.data[params.colDef.field] = value;
     return true;
   }
+
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();

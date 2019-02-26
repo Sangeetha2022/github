@@ -19,11 +19,23 @@ let generationFlowSchema = mongoose.Schema({
         default_connector: [{
             _id: { type: String, default: uuid.v1 },
             name: { type: String, default: null },
-            comp_name: { type: String, default: null },
             description: { type: String, default: null },
-            disable: {type: Boolean,default: false },
             url: { type: String, default: null },
-            properties: { type: {}, default: null },
+            comp_name: { type: String, default: null },
+            available_apis: [{
+                name: { type: String, default: null },
+                description: { type: String, default: null },
+                type: { type: String, default: null },
+                properties: [{
+                    key: { type: String, default: null },
+                    value: { type: String, default: null }
+                }]
+            }],
+            disable: { type: Boolean, default: false },
+            properties: [{
+                key: { type: String, default: null },
+                value: { type: String, default: null }
+            }],
             created_date: { type: Date, default: Date.now },
             updated_date: { type: Date, default: null }
         }],

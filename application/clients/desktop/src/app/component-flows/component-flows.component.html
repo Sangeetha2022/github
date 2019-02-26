@@ -31,14 +31,15 @@
       </button>
       <!-- <button mat-raised-button (click)="openAddDConnectorModal('update')">{{ 'update' | i18next }}</button> -->
       <button mat-raised-button color="warn" (click)="deleteConnector()">Remove Connector</button>
-    </div> 
+    </div>
   </div>
 
 
   <div class="flowTable" *ngIf="default_connector">
     <ag-grid-angular #agGrid3 style=" width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
-      (rowSelected)="selectDefaultConnector()" [animateRows]="true" class="ag-theme-balham" [columnDefs]="linkedConnectorColDef"
-      [rowData]="default_connector" [rowSelection]="rowSelection" (gridReady)="onDCGridReady($event)">
+      (rowSelected)="selectDefaultConnector()" [animateRows]="true" class="ag-theme-balham"
+      [columnDefs]="linkedConnectorColDef" [rowData]="default_connector" [rowSelection]="rowSelection"
+      (gridReady)="onDCGridReady($event)">
     </ag-grid-angular>
   </div>
 
@@ -189,47 +190,59 @@
   <div class="modal-dialog modal-md" role="dialog">
     <div class="modal-content">
       <div class="container">
-        <form class="m-3">
-            <div class="row">
-                <div class="radio mr-sm-4">
-                  <label><input type="radio" name="selectConnector" [value]="false" 
-                      [(ngModel)]="selectConnector">Default Connectors</label>
-                </div>
-                <!-- (change)="onChangeRadio($event.target.value)" -->
-                <div class="radio">
-                  <label><input type="radio" name="selectConnector" [value]="true"
-                      [(ngModel)]="selectConnector">Available Connectors</label>
-                </div>
-              </div>
-              <div *ngIf="selectConnector" class="dropdown mt-sm-2 mb-sm-2">
-                  <div class="form-group">
-                    <label for="sel1">Select Available Connector:</label>
-                    <select class="form-control" (change)="onChange($event.target.value)">
-                      <option *ngFor="let avaConnector of AvailableConnector" value="{{avaConnector.name}}" ([ngModel])="selectedAvaConnector">{{avaConnector.name}}</option>
-                    </select>
-                  </div>
-                </div>
+        <div class="m-3">
+          <div class="row">
+            <div class="radio mr-sm-4">
+              <label>
+                <input type="radio" name="selectConnector" [value]="false" [(ngModel)]="selectConnector">
+                Default Connectors
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input type="radio" name="selectConnector" [value]="true" [(ngModel)]="selectConnector">
+                Available Connectors
+              </label>
+            </div>
+          </div>
+          <div *ngIf="selectConnector" class="dropdown mt-sm-2 mb-sm-2">
+            <div class="form-group">
+              <label for="sel1">Select Available Connector:</label>
+              <select class="form-control" [(ngModel)]="selectedAvaConnector">
+                <option *ngFor="let avaConnector of AvailableConnector" [ngValue]="avaConnector">{{avaConnector.name}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group" *ngIf="selectedAvaConnector">
+              <label for="sel1">Select Methods/APIs:</label>
+              <select class="form-control" [(ngModel)]="selectedAvaConnectorMethod"
+                (change)="onSelectAvaConnectorMethod()">
+                <option *ngFor="let avaMethod of selectedAvaConnector.available_apis" [ngValue]="avaMethod">
+                  {{avaMethod.name}} {{avaMethod.description}}</option>
+              </select>
+            </div>
+          </div>
 
-                <div class="row">
-                    <div class="radio mr-sm-4" *ngIf="!selectConnector">
-                      <label><input type="radio" name="disableDConnector" [value]="false" 
-                          [(ngModel)]="disableDConnector">Disable</label>
-                    </div>
-                    <!-- (change)="onChangeRadio($event.target.value)" -->
-                    <div class="radio" *ngIf="!selectConnector">
-                      <label><input type="radio" name="disableDConnector" [value]="true"
-                          [(ngModel)]="disableDConnector">Enable</label>
-                    </div>
-                  </div>
-                  
-                <div *ngIf="!selectConnector" class="dropdown mt-sm-2 mb-sm-2">
-                    <div class="form-group">
-                      <label for="sel1"></label>
-                      <select class="form-control" [disabled]="!disableDConnector" (change)="onChange($event.target.value)">
-                        <option *ngFor="let DCon of default_connector" value="{{DCon.name}}" ([ngModel])="selectedDCon">{{DCon.name}}</option>
-                      </select>
-                    </div>
-                  </div>
+          <div class="row">
+            <div class="radio mr-sm-4" *ngIf="!selectConnector">
+              <label><input type="radio" name="disableDConnector" [value]="false"
+                  [(ngModel)]="disableDConnector">Disable</label>
+            </div>
+            <div class="radio" *ngIf="!selectConnector">
+              <label><input type="radio" name="disableDConnector" [value]="true"
+                  [(ngModel)]="disableDConnector">Enable</label>
+            </div>
+          </div>
+
+          <div *ngIf="!selectConnector" class="dropdown mt-sm-2 mb-sm-2">
+            <div class="form-group">
+              <label for="sel1"></label>
+              <select class="form-control" [disabled]="!disableDConnector" (change)="onChange($event.target.value)">
+                <option *ngFor="let DCon of default_connector" value="{{DCon.name}}" ([ngModel])="selectedDCon">
+                  {{DCon.name}}</option>
+              </select>
+            </div>
+          </div>
           <!-- <div class="row">
             <div class="col-md-6">
               <div class="form-group"  *ngIf="!selectConnector">
@@ -285,7 +298,7 @@
               </div>
             </div>
           </div> -->
-        </form>
+        </div>
       </div>
       <div class="modal-footer">
         <div class="form-group" *ngIf="isDisplayDConnector">
