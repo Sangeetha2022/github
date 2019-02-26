@@ -40,7 +40,7 @@ class App {
     }
 
     private mongoSeedData(): void {
-        let seedData = new FeedSeedData()
+        let seedData = new FeedSeedData();
         seedData.seedFlowData();
         seedData.seedFlowComponentData();
         seedData.seedConnectorData();

@@ -3,106 +3,137 @@
         {
             "name": "FRED® API",
             "description": "The FRED® API is a web service that allows developers to write programs and build applications that retrieve economic data from the FRED® and ALFRED® websites hosted by the Economic Research Division of the Federal Reserve Bank of St. Louis. Requests can be customized according to data source, release, category, series, and other preferences.",
-            "available_apis": [{
-                "name": "fred/category",
-                "description": "Get a category",
-                "type": "Categories"
-            },{
-                "name": "fred/category/children",
-                "description": "Get the child categories for a specified parent category",
-                "type": "Categories"
-            },{
-                "name": "fred/category/related",
-                "description": "Get the related categories for a category",
-                "type": "Categories"
-            },{
-                "name": "fred/category/series",
-                "description": "Get the series in a category",
-                "type": "Categories"
-            },{
-                "name": "fred/category/tags",
-                "description": "Get the tags for a category",
-                "type": "Categories"
-            },{
-                "name": "fred/category/related_tags",
-                "description": "Get the related tags for a category",
-                "type": "Categories"
-            },{
-                "name": "fred/releases ",
-                "description": "Get all releases of economic data",
-                "type": "Releases"
-            },{
-                "name": "fred/releases/dates",
-                "description": "Get release dates for all releases of economic data",
-                "type": "Releases"
-            },{
-                "name": "fred/release ",
-                "description": "Get a release of economic data",
-                "type": "Releases"
-            },{
-                "name": "fred/release/dates",
-                "description": "Get release dates for a release of economic data",
-                "type": "Releases"
-            },{
-                "name": "fred/release/series",
-                "description": "Get the series on a release of economic data",
-                "type": "Releases"
-            },{
-                "name": "fred/release/sources",
-                "description": "Get the sources for a release of economic data",
-                "type": "Releases"
-            },{
-                "name": "fred/release/tags",
-                "description": "Get the tags for a release",
-                "type": "Releases"
-            },{
-                "name": "fred/release/related_tags",
-                "description": "Get the related tags for a release",
-                "type": "Releases"
-            },{
-                "name": "fred/release/tables",
-                "description": "Get the release tables for a given release",
-                "type": "Releases"
-            },{
-                "name": "fred/sources",
-                "description": "Get all sources of economic data",
-                "type": "Sources"
-            },{
-                "name": "fred/source",
-                "description": "Get a source of economic data",
-                "type": "Sources"
-            },{
-                "name": "fred/source/releases",
-                "description": "Get the releases for a source",
-                "type": "Sources"
-            },{
-                "name": "fred/tags",
-                "description": "Get all tags, search for tags, or get tags by name",
-                "type": "Tags"
-            },{
-                "name": "fred/related_tags",
-                "description": "Get the related tags for one or more tags",
-                "type": "Tags"
-            },{
-                "name": "fred/tags/series",
-                "description": "Get the series matching tags",
-                "type": "Tags"
-            }],
-            "properties":[{
-                "key": "API_KEY",
-                "value": ""
-            }]
+            "url": "https://api.stlouisfed.org/",
+            "available_apis": [
+                {
+                    "name": "fred.categories.getCategory(categoryID)",
+                    "description": "Get a category",
+                    "type": "Categories",
+                    "properties": [
+                        {
+                            "key": "categoryID",
+                            "value": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "fred/category/children",
+                    "description": "Get the child categories for a specified parent category",
+                    "type": "Categories"
+                },
+                {
+                    "name": "fred/category/related",
+                    "description": "Get the related categories for a category",
+                    "type": "Categories"
+                },
+                {
+                    "name": "fred/category/series",
+                    "description": "Get the series in a category",
+                    "type": "Categories"
+                },
+                {
+                    "name": "fred/category/tags",
+                    "description": "Get the tags for a category",
+                    "type": "Categories"
+                },
+                {
+                    "name": "fred/category/related_tags",
+                    "description": "Get the related tags for a category",
+                    "type": "Categories"
+                },
+                {
+                    "name": "fred/releases ",
+                    "description": "Get all releases of economic data",
+                    "type": "Releases"
+                },
+                {
+                    "name": "fred/releases/dates",
+                    "description": "Get release dates for all releases of economic data",
+                    "type": "Releases"
+                },
+                {
+                    "name": "fred/release ",
+                    "description": "Get a release of economic data",
+                    "type": "Releases"
+                },
+                {
+                    "name": "fred/release/dates",
+                    "description": "Get release dates for a release of economic data",
+                    "type": "Releases"
+                },
+                {
+                    "name": "fred/release/series",
+                    "description": "Get the series on a release of economic data",
+                    "type": "Releases"
+                },
+                {
+                    "name": "fred/release/sources",
+                    "description": "Get the sources for a release of economic data",
+                    "type": "Releases"
+                },
+                {
+                    "name": "fred/release/tags",
+                    "description": "Get the tags for a release",
+                    "type": "Releases"
+                },
+                {
+                    "name": "fred/release/related_tags",
+                    "description": "Get the related tags for a release",
+                    "type": "Releases"
+                },
+                {
+                    "name": "fred/release/tables",
+                    "description": "Get the release tables for a given release",
+                    "type": "Releases"
+                },
+                {
+                    "name": "fred/sources",
+                    "description": "Get all sources of economic data",
+                    "type": "Sources"
+                },
+                {
+                    "name": "fred/source",
+                    "description": "Get a source of economic data",
+                    "type": "Sources"
+                },
+                {
+                    "name": "fred/source/releases",
+                    "description": "Get the releases for a source",
+                    "type": "Sources"
+                },
+                {
+                    "name": "fred/tags",
+                    "description": "Get all tags, search for tags, or get tags by name",
+                    "type": "Tags"
+                },
+                {
+                    "name": "fred/related_tags",
+                    "description": "Get the related tags for one or more tags",
+                    "type": "Tags"
+                },
+                {
+                    "name": "fred/tags/series",
+                    "description": "Get the series matching tags",
+                    "type": "Tags"
+                }
+            ],
+            "properties": [
+                {
+                    "key": "API_KEY",
+                    "value": ""
+                }
+            ]
         },
         {
             "name": "Bitbucket",
             "description": "Code Management",
-            "available_apis": [
-                
-            ],
-            "properties":[{
-                "key": "API_KEY",
-                "value": ""
-            }]
+            "available_apis": [],
+            "properties": [
+                {
+                    "key": "API_KEY",
+                    "value": ""
+                }
+            ]
         }
     ]
 }

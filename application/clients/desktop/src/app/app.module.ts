@@ -24,7 +24,7 @@ import { AgGridModule } from "ag-grid-angular";
 import { ComponentFlowsComponent } from './component-flows/component-flows.component';
 import { ComponentFlowsService } from './component-flows/component-flows.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MatButtonModule, MatExpansionModule, MatFormFieldModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatTabsModule } from '@angular/material';
+import { MatButtonModule, MatExpansionModule, MatFormFieldModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatTabsModule, MatSelectModule } from '@angular/material';
 
 import { FlowManagerComponent } from './flow-manager/flow-manager.component';
 import { SharedService } from 'src/shared/shared.service';
@@ -110,8 +110,11 @@ export const I18N_PROVIDERS = [
     EntityManagerModule,
     ReactiveFormsModule,
     I18NextModule.forRoot(),
+    MatFormFieldModule,
+    MatSelectModule,
     ValidationMessageModule,
     DragDropModule,
+    MatIconModule,
     NgMultiSelectDropDownModule.forRoot(),
     HttpClientModule,
     MatButtonModule,
