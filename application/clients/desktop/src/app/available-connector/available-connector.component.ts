@@ -13,6 +13,8 @@ export class AvailableConnectorComponent implements OnInit {
   defaultColDef;
   connectorFlowGrid;
   connectorData: any = [];
+  addedProperties: any =[]
+  addedApiProperties: any = [];
   selectedAvaConnector: any = [];
   showApiModal: String = 'none';
   selectedType: String = null;
@@ -31,9 +33,11 @@ export class AvailableConnectorComponent implements OnInit {
       }]
     }],
     properties: []
-  }
+  };
+  apiIndex : any;
   selectedApiCon: null;
   selcetedIndex: 0;
+  selectedAvaConProp: Boolean = false;
 
   constructor(
     private componentFlowsService: ComponentFlowsService
@@ -98,21 +102,47 @@ export class AvailableConnectorComponent implements OnInit {
 
 
   createConnector() {
-    console.log(" - - -     ?  ? ? ? ? ", this.connector)
-    // this.componentFlowsService.saveConnector(this.connector).subscribe(data => {
-    //   console.log("i am the data u r expected", data)
+    console.log(" - - -     ?  ? ? ? ? ", this.connector.properties)
+    
+       
 
-    // })
-    // this.getAllConnector();
+    console.log("i am the connector",this.connector)
+    this.componentFlowsService.saveConnector(this.connector).subscribe(data => {
+      console.log("i am the data u r expected", data)
+
+    })
+    this.getAllConnector();
+    this.closeModal();
+
   }
 
   updateConnector() {
+    this.addedApiProperties = []; 
+    this.addedProperties = []
+
+    this.connector.properties.map(data => {
+      console.log("___________>>>>?>??>?>????? ", data)
+      if (data.key !== "" || data.value !== "") {
+        this.addedProperties.push(data)
+      }
+    })
+    this.connector.properties = this.addedProperties;
+    if(this.selectedAvaConProp){
+    this.connector.available_apis[this.selcetedIndex].properties.map((data, index) => {
+        if (data.key !== "" || data.value !== "") {
+          this.addedApiProperties.push(data);
+        }
+      })
+      this.connector.available_apis[this.selcetedIndex].properties = this.addedApiProperties
+      console.log("asldhadodhsoiadosa",this.addedApiProperties);
+    }
     console.log("i am the connector id", this.connector)
     this.componentFlowsService.updateConnector(this.connector).subscribe(data => {
       console.log("i am the data u r expected", data)
 
     })
     this.getAllConnector();
+    this.closeModal();
   }
 
   selectAvaConnector() {
@@ -121,6 +151,7 @@ export class AvailableConnectorComponent implements OnInit {
   }
 
   selectAvaConProp(apis, index) {
+    this.selectedAvaConProp = true;
     this.selectedApiCon = apis;
     this.selcetedIndex = index;
   }
