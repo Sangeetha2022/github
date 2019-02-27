@@ -33,7 +33,7 @@ import { ApiService } from './config/api.service';
 import { FlowManagerService } from './flow-manager/flow-manager.service';
 import { ScreenDesignerModule } from './screen-designer/screen-designer.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { EntityManagerModule } from './entity-manager/entity-manager.module';
+import { EntityManagerModule } from './project-component/project-component.module';
 import { ConfigManagerModule } from './config-manager/config-manager.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { ToastrModule } from 'ngx-toastr';

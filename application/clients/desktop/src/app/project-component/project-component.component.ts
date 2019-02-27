@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import { MatDialog, MatGridTileHeaderCssMatStyler } from '@angular/material';
 import { PopupModelComponent } from './popup-model/popup-model.component';
-import { EntityManagerService } from './entity-manager.service';
+import { EntityManagerService } from './project-component.service';
 import { DataService } from '../../shared/data.service';
 import { IEntity } from './interface/Entity';
 import { IFeature } from './interface/Feature';
@@ -10,9 +10,9 @@ import EasyImage from '@ckeditor/ckeditor5-easy-image/src/easyimage';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
-  selector: 'app-entity-manager',
-  templateUrl: './entity-manager.component.html',
-  styleUrls: ['./entity-manager.component.scss']
+  selector: 'app-project-component',
+  templateUrl: './project-component.component.html',
+  styleUrls: ['./project-component.component.scss']
 })
 
 export class EntityManagerComponent implements OnInit {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 // import { Subscription } from '../project-details/interface/subscription';
-import { IEntity } from '../app/entity-manager/interface/Entity';
+import { IEntity } from '../app/project-component/interface/Entity';
 import {IDeafaultEntity} from '../app/projects/interface/user'
 import { IFlow } from 'src/app/flow-manager/interface/flow';
 

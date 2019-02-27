@@ -8,7 +8,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 // ag-grid
 import { AgGridModule } from 'ag-grid-angular';
-import { EntityManagerComponent } from './entity-manager.component';
+import { EntityManagerComponent } from './project-component.component';
 import { EntityFieldComponent } from './entity-field/entity-field.component';
 import {
   MatButtonModule, MatFormFieldModule, MatInputModule,

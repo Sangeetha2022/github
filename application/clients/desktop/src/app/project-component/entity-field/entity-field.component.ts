@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ButtonRendererComponent } from './rendered/button-renderer/button-renderer.component';
-import { EntityManagerService } from '../entity-manager.service';
+import { EntityManagerService } from '../project-component.service';
 import { IEntity } from '../interface/Entity';
 import { Router } from '@angular/router';
 import { ValueParserParams } from 'ag-grid-community';
@@ -260,12 +260,13 @@ export class EntityFieldComponent implements OnInit {
     setDivStyle('none');
     return true;
   }
-  // type setter
+  
   typeValueSetter(params: ValueParserParams) {
     const value = this.openModal(params);
     params.data[params.colDef.field] = value;
     return true;
   }
+
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
