@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EntityManagerComponent } from './entity-manager.component';
+import { EntityManagerComponent } from './project-component.component';
 
 describe('EntityManagerComponent', () => {
   let component: EntityManagerComponent;

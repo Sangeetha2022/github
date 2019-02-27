@@ -46,6 +46,7 @@ export class ComponentFlowsComponent implements OnInit {
   paramsName: String;
   AvailableConnector: any = [];
   selectedDCon: any = [];
+  selectedAvaConnector: any = null;
   // private test;
   // columnDefs;
   // tableArr: any = [];
@@ -113,6 +114,8 @@ export class ComponentFlowsComponent implements OnInit {
   addDConnector: String = 'none';
   isDisplayDConnector: boolean = true;
   selectedDConnector: any = [];
+  selectedAvaConnectorMethod: any = null;
+  availableConnApis: any = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -183,16 +186,18 @@ export class ComponentFlowsComponent implements OnInit {
 
   // }
 
-  onChange(selected) {
-    if (selected) {
-      // this.featureData.map((data, index) => {
-      //   if (data.name === selected) {
-      //     this.features.name = data.name
-      //     this.features.description = data.description
-      //     return;
-      //   }
-      // });
-    }
+  onSelectAvaConnector() {
+    console.log("====>>>RFRRR____>>>>", this.selectedAvaConnector);
+    // this.availableConnApis = this.selectedAvaConnector.available_apis;
+  }
+
+  onSelectAvaConnectorMethod() {
+    console.log("====>>>RFRRR_aaaa___>>>>", this.selectedAvaConnectorMethod);
+    // this.selcted
+    let index = this.selectedAvaConnector.available_apis.indexOf(this.selectedAvaConnectorMethod);
+    console.log("====>>>RFRRR__ttttttt__>>>>", index);
+    // this.selectedAvaConnect
+    // this.availableConnApis = this.selectedAvaConnector.available_apis;
   }
 
   selectDefaultConnector() {

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EntityManagerService } from './entity-manager.service';
+import { EntityManagerService } from './project-component.service';
 
 describe('EntityManagerService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
