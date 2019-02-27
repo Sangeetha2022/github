@@ -5,7 +5,7 @@ import { ProjectsService } from '../projects/projects.service';
 import { DataService } from '../../shared/data.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { EntityManagerService } from '../entity-manager/entity-manager.service';
+import { EntityManagerService } from '../project-component/project-component.service';
 
 @Component({
   selector: 'app-projects',
