@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataService } from '../../../../../shared/data.service';
-import { IEntity } from '../../../../entity-manager/interface/Entity';
+import { IEntity } from '../../../../project-component/interface/Entity';
 
 @Injectable({
   providedIn: 'root'
