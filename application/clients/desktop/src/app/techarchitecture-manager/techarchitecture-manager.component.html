@@ -1,0 +1,74 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Technical Architecture
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div style="padding-right: 20px;">
+    <!-- <button class="createEntityButton" mat-raised-button color="primary" (click)="openModal('add-prop')">Create
+      Entity</button> -->
+  </div>
+</mat-expansion-panel>
+
+<!-- <modal id="add-prop">
+  <div class="modal">
+    <div class="modal-body">
+      <form class="m-3" [formGroup]="connectorForm">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="name">{{'name'| i18next}}</label>
+              <input type="text" class="form-control" placeholder="enter Dev Framework" id="name"
+                [(ngModel)]="connector.name" formControlName="name"
+                [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="description">{{'description'| i18next}}</label>
+              <input type="text" class="form-control" placeholder="enter Dev Framework" id="description"
+                [(ngModel)]="connector.description" formControlName="description"
+                [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }">
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="url">{{'url'| i18next}}</label>
+              <input type="text" class="form-control" placeholder="enter Dev Framework" id="url"
+                [(ngModel)]="connector.url" formControlName="url"
+                [ngClass]="{ 'is-invalid': submitted && form_control.url.errors }">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-12">
+              <button class="btn btn-primary" type="button" (click)="addProperties()">Add</button>
+              <div formArrayName="properties"
+                *ngFor="let properties of connectorForm.get('properties').controls; let i = index;">
+                <div [formGroupName]="i">
+                  <label for="key">{{'description'| i18next}}</label>
+                  <input type="text" class="form-control" formControlName="key" placeholder="Item name">
+                  <label for="value">{{'description'| i18next}}</label>
+                  <input type="text" class="form-control" formControlName="value" placeholder="Item name">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <div class="form-group">
+          <button type="button" class="btn button-create"
+            (click)="addDefaultConnector()">{{ 'create' | i18next }}</button>
+          <button type="button" class="btn button-close"
+            (click)="closeModal('add-prop')">{{ 'cancel' | i18next }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal> -->

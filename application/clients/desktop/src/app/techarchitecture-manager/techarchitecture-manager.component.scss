@@ -1,0 +1,16 @@
+modal {
+
+    display: none;
+
+    .modal {
+        display: block;
+        border-radius: 20px;
+        .modal-body {
+            background: #fff;
+            margin: 40px;
+            border: 1px solid;
+            border-radius: 10px;
+            padding: 10px;
+        }
+    }
+}

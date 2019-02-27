@@ -35,7 +35,7 @@ export class GenerationFlowDao {
 
     getGenerationFlowByName = async (req: Request, next, callback: CallableFunction) => {
         const name = req.params.name;
-        const data = await this.genFlow.findOne({ flow_name: name });
+        const data = await this.genFlow.findOne({ name: name });
         if (data) {
             callback(data);
         } else {
@@ -46,6 +46,7 @@ export class GenerationFlowDao {
     updateGenerationFlow = async (req: Request, next, callback: CallableFunction) => {
         const id = req.params.id;
         const postData: IGenFlow = req.body;
+        postData.updated_at = new Date();
         const post = await this.genFlow.findByIdAndUpdate(id, postData, { new: true });
         if (post) {
             callback(post);

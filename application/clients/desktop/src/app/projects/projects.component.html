@@ -10,17 +10,53 @@
   <mat-accordion>
     <mat-expansion-panel [expanded]="true">
       <mat-expansion-panel-header>
-        <mat-panel-title> My Application</mat-panel-title>
+        <mat-panel-title> My Applications</mat-panel-title>
       </mat-expansion-panel-header>
       <div class="row" style="margin: 0px;">
-        <div class="col-md-4" *ngFor="let proj of myAllProjects; let i = index">
-          <div class="card">
-            <div class="card-header">{{proj.name}}</div>
-            <div class="card-body">
-              <div><span>{{proj.description}}</span></div>
-              <button type="button" (click)="generateProject(proj)" class="btn btn-primary btn-space">Genrator</button>
-              <button type="button" (click)="editProject(proj)" class="btn btn-primary btn-space pull-right">Edit</button>
-              <button type="button" (click)="openDeleteModel(proj)" class="btn btn-danger btn-space pull-right">Delete</button>
+        <div class="col-md-3" *ngFor="let proj of myAllProjects; let i = index">
+          <div class="sitecard">
+            <div class="sitecard-preview-c">
+              <a (click)="editProject(proj)">
+                <div class="sitecard__overlay">
+                  <mat-icon>edit</mat-icon> <span style="font-size: 26px">Edit</span>
+                </div>
+                <div class="sitecard-preview"
+                  style="background-image: url(https://www.geppettosoftware.com/wp-content/uploads/2018/02/Introslide.jpg)">
+                </div>
+              </a>
+            </div>
+            <div class="sitecard-info u-p--m">
+              <div title="Draft" class="sitecard-status sitecard-status-1"></div>
+              <div class="sitecard-title">{{proj.name}}</div>
+              <div class="sitecard-desc">{{proj.description}}</div>
+              <div class="sitecard__pub-info tp-size--s">
+                Created On: --
+              </div>
+            </div>
+
+            <div class="sitecard-actions">
+              <div class="col-xs-3 sitecard-action-c">
+                <a class="sitecard-action" (click)="editProject(proj)" data-toggle="tooltip" title=""
+                  data-original-title="Edit">
+                  <mat-icon class="base-icon">edit</mat-icon>
+                </a>
+              </div>
+              <div class="col-xs-3 sitecard-action-c">
+                <a class="sitecard-action" data-toggle="tooltip" title="" data-original-title="Clone">
+                  <mat-icon class="base-icon">file_copy</mat-icon>
+                </a>
+              </div>
+              <div class="col-xs-3 sitecard-action-c">
+                <a class="sitecard-action" (click)="generateProject(proj)" data-toggle="tooltip" title=""
+                  data-original-title="Settings">
+                  <mat-icon class="base-icon">get_app</mat-icon>
+                </a>
+              </div>
+              <div class="col-xs-3 sitecard-action-c">
+                <a class="sitecard-action entity-action-remove" (click)="openDeleteModel(proj)">
+                  <mat-icon class="base-icon">delete</mat-icon>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -31,7 +67,7 @@
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
-        <mat-panel-title> Geppetto Sample Application</mat-panel-title>
+        <mat-panel-title> Geppetto Sample Applications</mat-panel-title>
       </mat-expansion-panel-header>
       <p>No Projects Available.</p>
     </mat-expansion-panel>
@@ -42,7 +78,6 @@
       <p>No Projects Available.</p>
     </mat-expansion-panel>
   </mat-accordion>
-
 </div>
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModel}">
   <div class="modal-dialog modal-lg" role="dialog">
@@ -60,8 +95,6 @@
                 </div>
               </div>
             </div>
-            <!--  col-md-6   -->
-
             <div class="col-md-6">
               <div class="form-group">
                 <label for="label">{{ 'label' | i18next }}</label>
@@ -78,8 +111,9 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="app-context">{{ 'app_context' | i18next }}</label>
-                <input type="text" class="form-control" placeholder="{{'placeholder_appContext' | i18next}}" id="app-context"
-                  formControlName="appContext" [ngClass]="{ 'is-invalid': submitted && form_control.appContext.errors }">
+                <input type="text" class="form-control" placeholder="{{'placeholder_appContext' | i18next}}"
+                  id="app-context" formControlName="appContext"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.appContext.errors }">
                 <div *ngIf="submitted && form_control.appContext.errors" class="invalid-feedback">
                   <div *ngIf="form_control.appContext.errors.required">{{'require_appContext' | i18next}}</div>
                 </div>
@@ -89,8 +123,9 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="description">{{ 'description' | i18next }}</label>
-                <textarea class="form-control" rows="1" id="description" placeholder="{{'placeholder_description' | i18next}}"
-                  formControlName="description" [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }"></textarea>
+                <textarea class="form-control" rows="1" id="description"
+                  placeholder="{{'placeholder_description' | i18next}}" formControlName="description"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }"></textarea>
                 <div *ngIf="submitted && form_control.description.errors" class="invalid-feedback">
                   <div *ngIf="form_control.description.errors.required">{{'require_description' | i18next}}</div>
                 </div>
@@ -102,7 +137,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="primary-language">{{ 'primary_language' | i18next }}</label>
-                <select class="form-control" id="primary-language" formControlName="primaryLanguage" [ngClass]="{ 'is-invalid': submitted && form_control.primaryLanguage.errors }">
+                <select class="form-control" id="primary-language" formControlName="primaryLanguage"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.primaryLanguage.errors }">
                   <option value="" selected>{{'select_primary' | i18next}}</option>
                   <option value="english">English</option>
                   <option value="tamil">Tamil</option>
@@ -118,7 +154,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="secondary-language">{{ 'secondary_language' | i18next }}</label>
-                <select class="form-control" id="secondary-language" formControlName="secondaryLanguage" [ngClass]="{ 'is-invalid': submitted && form_control.secondaryLanguage.errors }">
+                <select class="form-control" id="secondary-language" formControlName="secondaryLanguage"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.secondaryLanguage.errors }">
                   <option value="" selected>{{'select_secondary' | i18next}}</option>
                   <option *ngFor="let c of languages" [ngValue]="c">{{ c }}</option>
                 </select>
@@ -175,6 +212,5 @@
         <button type="button" (click)="onCloseHandledGen()" class="btn btn-default">{{ 'cancel' | i18next }}</button>
       </div>
     </div>
-
   </div>
 </div>

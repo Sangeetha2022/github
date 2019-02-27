@@ -6,3 +6,203 @@
 .row-button a {
     margin-right: 8px;
 }
+
+.delBtn {
+    margin-left: 8px
+}
+
+.project-card {
+    border: 1px solid black;
+}
+
+.sitecard-new {
+    display: block;
+    text-align: center;
+    border: 3px dashed;
+    opacity: .5;
+    -webkit-transition: opacity .3s;
+    transition: opacity .3s;
+    border-radius: 3px;
+    padding: 40px 0
+}
+
+.sitecard-new:hover {
+    opacity: 1
+}
+
+.sitecard-new-text {
+    font-size: 2rem
+}
+
+.sitecard__preview-link {
+    display: inline-block
+}
+
+.sitecard-preview-c {
+    position: relative;
+    overflow: hidden
+}
+
+.sitecard-preview-c:hover .sitecard-preview {
+    -webkit-filter: blur(3px);
+    filter: blur(3px);
+    -webkit-transform: scale(1.07);
+    transform: scale(1.07)
+}
+
+.sitecard-preview {
+    height: 150px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background-position: top;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #fff;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    z-index: 1;
+    -webkit-transform: scale(1.01);
+    transform: scale(1.01);
+    -webkit-transition: -webkit-filter .25s, -webkit-transform .25s;
+    transition: -webkit-filter .25s, -webkit-transform .25s;
+    transition: filter .25s, transform .25s;
+    transition: filter .25s, transform .25s, -webkit-filter .25s, -webkit-transform .25s
+}
+
+.sitecard__overlay {
+    background-color: rgba(0, 0, 0, .75);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: 10;
+    color: #fff;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 150px;
+    opacity: 0;
+    cursor: pointer;
+    -webkit-transition: opacity .3s;
+    transition: opacity .3s;
+    text-transform: uppercase;
+    letter-spacing: 3px
+}
+
+.sitecard__overlay:hover {
+    opacity: 1
+}
+
+.sitecard__overlay-icon {
+    font-size: .75rem
+}
+
+.sitecard-status {
+    z-index: 1;
+    position: absolute;
+    bottom: 20px;
+    right: 1rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    background-color: rgba(0, 0, 0, .25)
+}
+
+.sitecard-status-2 {
+    background-color: #4ba74b;
+    -webkit-box-shadow: 0 0 5px #4ba74b;
+    box-shadow: 0 0 5px #4ba74b
+}
+
+.sitecard-info {
+    line-height: 1.3;
+    position: relative
+}
+
+.sitecard-title {
+    font-weight: 100;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap
+}
+
+.sitecard-desc {
+    opacity: .75;
+    word-wrap: break-word;
+    height: 60px;
+    overflow-y: scroll;
+}
+
+.sitecard-site {
+    font-size: .85rem;
+    opacity: .5;
+    -webkit-transition: opacity .25s;
+    transition: opacity .25s;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap
+}
+
+.sitecard-site:hover {
+    opacity: 1
+}
+
+.sitecard-action-c {
+    text-align: center;
+    border-left: 1px solid rgba(0, 0, 0, .2);
+    border-top: 1px solid rgba(0, 0, 0, .2);
+    padding: 0;
+    background: #383b42;
+}
+
+.sitecard-action-c:first-child {
+    border-left: none
+}
+
+.sitecard-action {
+    opacity: .7;
+    display: block;
+    padding: .3rem;
+    cursor: pointer;
+    -webkit-transition: opacity .25s;
+    transition: opacity .25s
+}
+
+.sitecard-action:hover {
+    opacity: 1
+}
+
+.sitecard__pub-info {
+    opacity: .3
+}
+
+.sitecard {
+    -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+    background-color: #383b42;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+}
+
+.sitecard a {
+    color: white;
+}
+
+.u-p--m {
+    padding: 15px !important
+}
+
+.u-m-bottom--s {
+    margin-bottom: 10px !important
+}
+
+.tp-size--s {
+    font-size: .8rem
+}
+
+.base-icon {
+    font-size: 20px;
+    color: white;
+}

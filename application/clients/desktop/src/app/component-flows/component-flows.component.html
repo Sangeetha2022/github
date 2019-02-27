@@ -1,9 +1,18 @@
 <div class="container">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/flow-manager">Flow</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Flow Component</li>
+    </ol>
+  </nav>
   <h1 style="text-align: center;"> <u>{{ 'flowComponents' | i18next }}</u> </h1>
-  <div class="row row-button">
-    <button mat-raised-button color="primary" (click)="openAddFlowModal('create')">{{ 'create' | i18next }}</button>
-    <button mat-raised-button (click)="openAddFlowModal('update')">{{ 'update' | i18next }}</button>
-    <button mat-raised-button color="warn" (click)="deleteRowComponent()">{{ 'delete' | i18next }}</button>
+  <div class="row">
+    <h3> Flow: <span>{{flow_name}}</span></h3>
+    <div class="row-button">
+      <button mat-raised-button color="primary" (click)="openAddFlowModal('create')">{{ 'create' | i18next }}</button>
+      <button mat-raised-button (click)="openAddFlowModal('update')">{{ 'update' | i18next }}</button>
+      <button mat-raised-button color="warn" (click)="deleteRowComponent()">{{ 'delete' | i18next }}</button>
+    </div>
   </div>
 
   <div class="flowTable">
@@ -14,43 +23,35 @@
   </div>
 
   <h1 class="flowTable" style="text-align: center;" *ngIf="default_connector">
-    <u>{{ 'defaultConnectors' | i18next }}</u> </h1>
-
-  <div class="row row-button" *ngIf="default_connector">
-    <button mat-raised-button color="primary" (click)="openAddDConnectorModal('create')"> {{ 'create' | i18next }}
-    </button>
-    <button mat-raised-button (click)="openAddDConnectorModal('update')">{{ 'update' | i18next }}</button>
-    <button mat-raised-button color="warn" (click)="deleteConnector()">{{ 'delete' | i18next }}</button>
+    <u>Connector</u> </h1>
+  <div class="row" *ngIf="default_connector">
+    <h3>Component: <span>{{selectedFlowCmpnt[0].component_name}}</span></h3>
+    <div class="row-button">
+      <button mat-raised-button color="primary" (click)="openAddDConnectorModal('create')"> Add Connector
+      </button>
+      <!-- <button mat-raised-button (click)="openAddDConnectorModal('update')">{{ 'update' | i18next }}</button> -->
+      <button mat-raised-button color="warn" (click)="deleteConnector()">Remove Connector</button>
+    </div> 
   </div>
+
 
   <div class="flowTable" *ngIf="default_connector">
     <ag-grid-angular #agGrid3 style=" width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
-      (rowSelected)="selectDefaultConnector()" [animateRows]="true" class="ag-theme-balham"
-      [columnDefs]="linkedConnectorColDef" [rowData]="default_connector" [rowSelection]="rowSelection"
-      (gridReady)="onDCGridReady($event)">
-    </ag-grid-angular>
-  </div>
-
-  <h1 class="flowTable" style="text-align: center;"> <u>{{ 'availableConnectors' | i18next }}</u> </h1>
-  <div class="row row-button">
-    <button mat-raised-button color="primary"
-      (click)="openAddConnectorModal('create')">{{ 'create' | i18next }}</button>
-    <button mat-raised-button (click)="openAddConnectorModal('update')">{{ 'update' | i18next }}</button>
-    <button mat-raised-button color="warn" (click)="deleteConnector()">{{ 'delete' | i18next }}</button>
-  </div>
-  <div class="flowTable">
-    <ag-grid-angular #agGrid style=" width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
-      (rowSelected)="selectAvaConnector()" [rowSelection]="rowSelection" [animateRows]="true" class="ag-theme-balham"
-      [columnDefs]="connectorColDef" [rowData]="connectorData" (gridReady)="onGridConnectorReady($event)">
+      (rowSelected)="selectDefaultConnector()" [animateRows]="true" class="ag-theme-balham" [columnDefs]="linkedConnectorColDef"
+      [rowData]="default_connector" [rowSelection]="rowSelection" (gridReady)="onDCGridReady($event)">
     </ag-grid-angular>
   </div>
 
   <div class="flowTable">
     <h1 style="text-align: center;" *ngIf="microFlow.length > 0"> <u>{{'microFlows'|i18next}}</u> </h1>
-    <div class="row row-button" *ngIf="microFlow.length > 0">
-      <button mat-raised-button color="primary" (click)="openAddMFModal('create')">{{ 'create' | i18next }}</button>
-      <button mat-raised-button (click)="openAddMFModal('update')">{{ 'update' | i18next }}</button>
-      <button mat-raised-button color="warn" (click)="deleteMicroFlow()">{{ 'delete' | i18next }}</button>
+    <div class="row" *ngIf="microFlow.length > 0">
+      <h3> Component: <span>{{selectedFlowCmpnt[0].component_name}}</span></h3>
+
+      <div class="row-button">
+        <button mat-raised-button color="primary" (click)="openAddMFModal('create')">{{ 'create' | i18next }}</button>
+        <button mat-raised-button (click)="openAddMFModal('update')">{{ 'update' | i18next }}</button>
+        <button mat-raised-button color="warn" (click)="deleteMicroFlow()">{{ 'delete' | i18next }}</button>
+      </div>
     </div>
     <div class="flowTable" *ngIf="microFlow.length > 0">
       <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
@@ -71,7 +72,7 @@
               <div class="form-group">
                 <label for="component_name">{{'componentName' | i18next}}</label>
                 <input type="text" class="form-control" placeholder="enter Dev Framework" hidden id="_id"
-                  [(ngModel)]="dconnector._id" formControlName="_id" >
+                  [(ngModel)]="dconnector._id" formControlName="_id">
                 <input type="text" class="form-control" placeholder="Enter component name" id="component_name"
                   formControlName="component_name" [(ngModel)]="iFlowComponent.component_name"
                   [ngClass]="{ 'is-invalid': submitted && form_control.component_name.errors }">
@@ -188,37 +189,74 @@
   <div class="modal-dialog modal-md" role="dialog">
     <div class="modal-content">
       <div class="container">
-        <form class="m-3" [formGroup]="createDConnectorForm">
-          <div class="row">
+        <form class="m-3">
+            <div class="row">
+                <div class="radio mr-sm-4">
+                  <label><input type="radio" name="selectConnector" [value]="false" 
+                      [(ngModel)]="selectConnector">Default Connectors</label>
+                </div>
+                <!-- (change)="onChangeRadio($event.target.value)" -->
+                <div class="radio">
+                  <label><input type="radio" name="selectConnector" [value]="true"
+                      [(ngModel)]="selectConnector">Available Connectors</label>
+                </div>
+              </div>
+              <div *ngIf="selectConnector" class="dropdown mt-sm-2 mb-sm-2">
+                  <div class="form-group">
+                    <label for="sel1">Select Available Connector:</label>
+                    <select class="form-control" (change)="onChange($event.target.value)">
+                      <option *ngFor="let avaConnector of AvailableConnector" value="{{avaConnector.name}}" ([ngModel])="selectedAvaConnector">{{avaConnector.name}}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row">
+                    <div class="radio mr-sm-4" *ngIf="!selectConnector">
+                      <label><input type="radio" name="disableDConnector" [value]="false" 
+                          [(ngModel)]="disableDConnector">Disable</label>
+                    </div>
+                    <!-- (change)="onChangeRadio($event.target.value)" -->
+                    <div class="radio" *ngIf="!selectConnector">
+                      <label><input type="radio" name="disableDConnector" [value]="true"
+                          [(ngModel)]="disableDConnector">Enable</label>
+                    </div>
+                  </div>
+                  
+                <div *ngIf="!selectConnector" class="dropdown mt-sm-2 mb-sm-2">
+                    <div class="form-group">
+                      <label for="sel1"></label>
+                      <select class="form-control" [disabled]="!disableDConnector" (change)="onChange($event.target.value)">
+                        <option *ngFor="let DCon of default_connector" value="{{DCon.name}}" ([ngModel])="selectedDCon">{{DCon.name}}</option>
+                      </select>
+                    </div>
+                  </div>
+          <!-- <div class="row">
             <div class="col-md-6">
-              <div class="form-group">
+              <div class="form-group"  *ngIf="!selectConnector">
                 <label for="name">{{'name'| i18next}}</label>
-                <input type="text" class="form-control" placeholder="enter Dev Framework" id="name"
-                  [(ngModel)]="dconnector.name" formControlName="name"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
+                <input type="text" class="form-control" placeholder="enter Dev Framework" id="name" [(ngModel)]="dconnector.name"
+                  name="name" [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
               </div>
             </div>
 
             <div class="col-md-6">
-              <div class="form-group">
+              <div class="form-group" *ngIf="!selectConnector">
                 <label for="description">{{'description'| i18next}}</label>
-                <input type="text" class="form-control" placeholder="enter Dev Framework" id="description"
-                  [(ngModel)]="dconnector.description" formControlName="description"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }">
+                <input type="text" class="form-control" placeholder="enter Dev Framework" id="description" [(ngModel)]="dconnector.description"
+                  name="description" [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }">
               </div>
             </div>
-          </div>
+          </div> -->
 
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-md-6">
-              <div class="form-group">
+              <div class="form-group" *ngIf="selectConnector">
                 <label for="url">{{'url'| i18next}}</label>
-                <input type="text" class="form-control" placeholder="enter Dev Framework" id="url"
-                  [(ngModel)]="dconnector.url" formControlName="url"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.url.errors }">
+                <input type="text" class="form-control" placeholder="enter Dev Framework" id="url" [(ngModel)]="dconnector.url"
+                  name="url" [ngClass]="{ 'is-invalid': submitted && form_control.url.errors }">
               </div>
             </div>
-          </div>
+          </div> -->
           <!-- <div class="form-group">
             <div class="row">
               <div class="col-md-12">
@@ -251,8 +289,7 @@
       </div>
       <div class="modal-footer">
         <div class="form-group" *ngIf="isDisplayDConnector">
-          <button type="button" class="btn button-create"
-            (click)="addDefaultConnector()">{{ 'create' | i18next }}</button>
+          <button type="button" class="btn button-create" (click)="addDefaultConnector()">Add</button>
           <button type="button" class="btn button-close" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
         </div>
         <div class="form-group" *ngIf="!isDisplayDConnector">
@@ -267,8 +304,8 @@
 </div>
 
 
- 
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addConnectorModel}">
+
+<!-- <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addConnectorModel}">
   <div class="modal-dialog modal-md" role="dialog">
     <div class="modal-content">
       <div class="container">
@@ -343,7 +380,7 @@
       </div>
     </div>
   </div>
-</div>
+</div>  -->
 
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addMFModel}" *ngIf="showMicroFlow">
@@ -357,7 +394,7 @@
               <div class="form-group">
                 <label for="sequence_id">{{'sequenceId'| i18next}}</label>
                 <input type="number" class="form-control" placeholder="Enter Sequence Id" id="sequence_id"
-                  formControlName="sequence_id" [(ngModel)]="iMicroFlow.sequence_id" 
+                  formControlName="sequence_id" [(ngModel)]="iMicroFlow.sequence_id"
                   [ngClass]="{ 'is-invalid': submitted && form_control.sequence_id.errors }">
                 <div *ngIf="submitted && form_control.sequence_id.errors" class="invalid-feedback">
                   <div *ngIf="form_control.sequence_id.errors.required">{{'require_name' | i18next}}</div>

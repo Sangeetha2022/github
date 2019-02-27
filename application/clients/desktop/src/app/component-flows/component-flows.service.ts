@@ -34,7 +34,7 @@ export class ComponentFlowsService {
   }
 
   addFlowCompToFlow(id, flow): Observable<any> {
-    return this.api.post(this.restapi.flowbaseUrl + Constants.flowUrl + id + Constants.addFlowCompToFlowUrl, flow);
+    return this.api.post(this.restapi.flowbaseUrl + Constants.flowUrl + '/' + id + Constants.addFlowCompToFlowUrl, flow);
   }
 
   updateFlowCompToFlow(id, flow): Observable<any> {
@@ -84,6 +84,10 @@ export class ComponentFlowsService {
 
   // getFlowGenComponentByName(name): Observable<any> {
   //   return this.api.get(this.restapi.flowbaseUrl + Constants.getGenFlowsByCompNameUrl + name);
+  // }
+
+  // getFlowCompByName(name): Observable<any>{
+  //   return this.api.get(this.restapi.mflowbaseUrl + Constants.flowUrl + Constants.getByNameUrl + name + Constants.detailsUrl);
   // }
 
   getFlowSequence(id): Observable<any> {

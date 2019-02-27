@@ -13,19 +13,21 @@ export class ConfigManagerService {
 
   constructor(private http: HttpClient, private router: Router, private api: ApiService, private restapi: SharedService) { }
 
-  saveFlow(proj): Observable<any> {
-    return this.api.post(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.saveUrl, proj);
+  saveConfig(config): Observable<any> {
+    return this.api.post(this.restapi.configUrl + Constants.addGenFlowsUrl, config);
   }
 
-  deleteFlow(id): Observable<any> {
-    return this.api.delete(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.deleteUrl + id);
+  deleteConfig(id): Observable<any> {
+    console.log("i am the id",id)
+    return this.api.delete(this.restapi.configUrl + Constants.deleteGenFlowsUrl + id);
   }
 
-  updateFlow(flow, id): Observable<any> {
-    return this.api.put(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.updateUrl + id, flow);
+  updateConfig(config): Observable<any> {
+    let id = config._id;
+    return this.api.put(this.restapi.configUrl + Constants.updateGenFlowsUrl + id, config);
   }
 
-  getAllGen(): Observable<any> {
+  getAllConfig(): Observable<any> {
     return this.api.get(this.restapi.configUrl + Constants.getAllGenFlowsUrl);
   }
 }

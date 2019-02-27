@@ -1,0 +1,189 @@
+<div class="container">
+  <h1 class="flowTable" style="text-align: center;"> <u>{{ 'availableConnectors' | i18next }}</u> </h1>
+  <div class="row row-button">
+    <button mat-raised-button color="primary" (click)="onShowAPI()"> View/Update Connectors </button>
+    <button mat-raised-button color="warn" (click)="deleteConnector()">{{ 'delete' | i18next }}</button>
+  </div>
+  <div class="flowTable">
+    <ag-grid-angular #agGrid style=" width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
+      (rowSelected)="selectAvaConnector()" [rowSelection]="rowSelection" [animateRows]="true" class="ag-theme-balham"
+      [columnDefs]="connectorColDef" [rowData]="connectorData" (gridReady)="onGridConnectorReady($event)">
+    </ag-grid-angular>
+  </div>
+</div>
+
+<!-- <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':addConnectorModel}">
+  <div class="modal-dialog modal-md" role="dialog">
+    <div class="modal-content">
+      <div class="container">
+        <form class="m-3">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">{{'name'| i18next}}</label>
+                <input type="text" class="form-control" placeholder="Enter Name" id="name" name="name"
+                  [(ngModel)]="connector.name">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="description">{{'description'| i18next}}</label>
+                <input type="text" class="form-control" placeholder="Enter Description" id="description"
+                  name="description" [(ngModel)]="connector.description">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="url">{{'url'| i18next}}</label>
+                <input class="form-control" id="url" placeholder="Enter URL" name="url" [(ngModel)]="connector.url">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <button class="btn btn-primary" type="button" (click)="addFieldValue()">Add</button>
+                  <span class="msgSpace">Click to add a properties</span>
+                  <table class="table table-striped table-bordered">
+                    <tbody>
+                      <tr *ngFor="let field of fieldArray; let i = index">
+                        <td>
+                          <input class="form-control" id="url" placeholder="Enter URL" name="key-{{i}}"
+                            [(ngModel)]="field.key">
+                        </td>
+                        <td>
+                          <input class="form-control" id="url" placeholder="Enter URL" name="value-{{i}}"
+                            [(ngModel)]="field.value">
+                        </td>
+
+                        <td>
+                          <button class="btn btn-danger" type="button" (click)="deleteFieldValue(i)">Delete</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group" *ngIf="isDisplayConnector">
+          <button type="button" class="btn button-create" (click)="createConnector()">{{ 'create' | i18next }}</button>
+          <button type="button" class="btn button-close"
+            (click)="onCloseConnectorHandled()">{{ 'cancel' | i18next }}</button>
+        </div>
+        <div class="form-group" *ngIf="!isDisplayConnector">
+          <button type="button" class="btn button-create" (click)="updateConnector()">{{ 'update' | i18next }}</button>
+          <button type="button" class="btn button-close" (click)="onCloseConnectorHandledUpdate()">{{ 'cancel' |
+              i18next }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':showApiModal}">
+  <div class="modal-dialog modal-lg" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="title">
+          Available APIs/Methods
+        </div>
+      </div>
+      <div class="modal-body" style="min-height: 200px; max-height: 300px; overflow-x: scroll;">
+        <div class="m-3">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">{{'name'| i18next}}</label>
+                <input type="text" class="form-control" placeholder="enter Dev Framework" id="name"
+                  [(ngModel)]="connector.name">
+              </div>
+              <div class="form-group">
+                <label for="url">{{'url'| i18next}}</label>
+                <input type="text" class="form-control" placeholder="enter Dev Framework" id="url"
+                  [(ngModel)]="connector.url">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="description">{{'description'| i18next}}</label>
+                <textarea rows="5" type="text" class="form-control" placeholder="enter Dev Framework" id="description"
+                  [(ngModel)]="connector.description"></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-12">
+                <h4>APIs and Methods</h4>
+              </div>
+              <div class="col-md-6">
+                <div *ngIf="selectedAvaConnector.length > 0"
+                  style="height: 250px; overflow-x: scroll; border: 1px solid black;">
+                  <div *ngFor="let apis of connector.available_apis; let i = index;">
+                    <div class="col-md-1">
+                      <input name="apis" (click)="selectAvaConProp(apis, i)" type="radio" />
+                    </div>
+                    <div class="col-md-10" style="padding: 0px 5px;">
+                      <label>{{ apis.type }} <b>{{apis.name}}</b> {{apis.description}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row" *ngIf="!selectedApiCon">
+                  <button class="btn btn-primary" type="button" (click)="addProperties()">Add Connector
+                    Properties</button>
+                  <div class="col-md-12" style="padding: 0px"
+                    *ngFor="let properties of connector.properties; let i = index;">
+                    <div class="col-md-6 form-group">
+                      <label *ngIf="i === 0" for="key">Key</label>
+                      <input [(ngModel)]="properties.key" type="text" class="form-control" placeholder="Item name">
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label *ngIf="i === 0" for="value">Value</label>
+                      <input type="text" [(ngModel)]="properties.value" disabled class="form-control"
+                        placeholder="Key value entered by user">
+                    </div>
+                  </div>
+                </div>
+                <div class="row" *ngIf="selectedApiCon">
+                  <button class="btn btn-primary" type="button" (click)="addAPIProperties()">Add APIs
+                    Properties</button>
+                  <div class="col-md-12" style="padding: 0px"
+                    *ngFor="let properties of connector.available_apis[selcetedIndex].properties; let i = index;">
+                    <div class="col-md-6 form-group">
+                      <label *ngIf="i === 0" for="key">Key</label>
+                      <input [(ngModel)]="properties.key" type="text" class="form-control" placeholder="Item name">
+                    </div>
+                    <div class="col-md-6 form-group">
+                      <label *ngIf="i === 0" for="value">Value</label>
+                      <input type="text" [(ngModel)]="properties.value" disabled class="form-control"
+                        placeholder="Key value entered by user">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group">
+          <button type="button" class="btn button-create" (click)="createConnector()">{{ 'create' | i18next }}</button>
+          <button type="button" class="btn button-close" (click)="closeModal()"> Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

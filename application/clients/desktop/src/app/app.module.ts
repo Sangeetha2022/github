@@ -24,7 +24,7 @@ import { AgGridModule } from "ag-grid-angular";
 import { ComponentFlowsComponent } from './component-flows/component-flows.component';
 import { ComponentFlowsService } from './component-flows/component-flows.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MatButtonModule, MatExpansionModule, MatFormFieldModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatTabsModule } from '@angular/material';
+import { MatButtonModule, MatExpansionModule, MatFormFieldModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatTabsModule, MatSelectModule } from '@angular/material';
 
 import { FlowManagerComponent } from './flow-manager/flow-manager.component';
 import { SharedService } from 'src/shared/shared.service';
@@ -38,7 +38,8 @@ import { ConfigManagerModule } from './config-manager/config-manager.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { ToastrModule } from 'ngx-toastr';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-
+import { ComponentFlowsModule } from './component-flows/component-flows.module';
+import { AvailableConnectorComponent } from './available-connector/available-connector.component';
 
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
@@ -96,20 +97,24 @@ export const I18N_PROVIDERS = [
   declarations: [
     AppComponent,
     ProjectsComponent,
-    ComponentFlowsComponent,
     FlowManagerComponent,
+    AvailableConnectorComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AgGridModule.withComponents([]),
     AppRoutingModule,
+    ComponentFlowsModule,
     FormsModule,
     EntityManagerModule,
     ReactiveFormsModule,
     I18NextModule.forRoot(),
+    MatFormFieldModule,
+    MatSelectModule,
     ValidationMessageModule,
     DragDropModule,
+    MatIconModule,
     NgMultiSelectDropDownModule.forRoot(),
     HttpClientModule,
     MatButtonModule,
