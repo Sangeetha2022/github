@@ -338,12 +338,13 @@ export class ComponentFlowsComponent implements OnInit {
     }
     console.log(" - - - - >>>  ", dataToSave)
     // let dconnector = this.createDConnectorForm.getRawValue();
-    // this.componentFlowsService.addDefaultConnector(this.selectedFlowCmpnt[0]._id, dconnector).subscribe(data => {
-    //   this.getFlowSequence(this.flow_id);
-    //   this.onCloseHandled();
-    // }, error => {
-    //   console.log("===got an error r===")
-    // })
+    this.componentFlowsService.addDefaultConnector(this.selectedFlowCmpnt[0]._id, dataToSave).subscribe(data => {
+     console.log("=============asdasidj========== >>>",data)
+      this.getFlowSequence(this.flow_id);
+      this.onCloseHandled();
+    }, error => {
+      console.log("===got an error r===",error)
+    })
   }
 
   updateDefaultConnector() {

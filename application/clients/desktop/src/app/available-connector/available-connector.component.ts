@@ -172,7 +172,7 @@ export class AvailableConnectorComponent implements OnInit {
     this.connectorColDef = [
       { headerName: 'Name', field: 'name', checkboxSelection: true },
       { headerName: 'Description', field: 'description' },
-      { headerName: 'URL', field: 'url' },
+      { headerName: 'End Point', field: 'url' },
     ]
     this.rowSelection = 'single';
 
