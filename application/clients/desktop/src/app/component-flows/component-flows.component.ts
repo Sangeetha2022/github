@@ -116,6 +116,10 @@ export class ComponentFlowsComponent implements OnInit {
   selectedDConnector: any = [];
   selectedAvaConnectorMethod: any = null;
   availableConnApis: any = null;
+  selectedAvaConnectorMethodApi: any = null;
+  selectedAvaConnectorMethodApiValues: any = null;
+  availableConnApisProp: any = [];
+  selectedAvaConnectorProp: any = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -192,10 +196,23 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   onSelectAvaConnectorMethod() {
-    console.log("====>>>RFRRR_aaaa___>>>>", this.selectedAvaConnectorMethod);
-    // this.selcted
     let index = this.selectedAvaConnector.available_apis.indexOf(this.selectedAvaConnectorMethod);
     console.log("====>>>RFRRR__ttttttt__>>>>", index);
+    // this.selectedAvaMethodIndex = index;
+    // this.selectedAvaConnect
+    // this.availableConnApis = this.selectedAvaConnector.available_apis;
+  }
+
+  onSelectAvaConnectorMethodProp() {
+    console.log("====>>>RFRRR_aaaa___>>>>", this.selectedAvaConnectorMethodApi);
+    if(this.selectedAvaConnectorMethodApi.value && this.selectedAvaConnectorMethodApi.value !== ""){
+      this.availableConnApisProp.push(this.selectedAvaConnectorMethodApi);
+    }
+    // this.selectedAvaConnectorMethodApiValues = 
+    // console.log("-============>>>", this.selectedAvaConnectorMethodApiValues)
+    // this.selcted
+    // let index = this.selectedAvaConnector.available_apis.indexOf(this.selectedAvaConnectorMethod);
+    // console.log("====>>>RFRRR__ttttttt__>>>>", index);
     // this.selectedAvaConnect
     // this.availableConnApis = this.selectedAvaConnector.available_apis;
   }
@@ -217,10 +234,6 @@ export class ComponentFlowsComponent implements OnInit {
       this.addMFModel = 'block'
     }
   }
-
-
-
-
 
   onCloseHandled() {
     this.createFlowComponentForm.clearValidators();
@@ -311,13 +324,26 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   addDefaultConnector() {
-    let dconnector = this.createDConnectorForm.getRawValue();
-    this.componentFlowsService.addDefaultConnector(this.selectedFlowCmpnt[0]._id, dconnector).subscribe(data => {
-      this.getFlowSequence(this.flow_id);
-      this.onCloseHandled();
-    }, error => {
-      console.log("===got an error r===")
-    })
+    console.log("==========eeeeee============>>>>>", this.AvailableConnector);
+    console.log("==========eeeeee===========selectedAvaConnector=>>>>>", this.selectedAvaConnector);
+    console.log("==========eeeeee===========selectedAvaConnectorMethod=>>>>>", this.selectedAvaConnectorMethod);
+    console.log("==========eeeeee===========selectedAvaConnectorMethodApi=>>>>>", this.selectedAvaConnectorMethodApi);
+    console.log("==========eeeeee===========availableConnApisProp=>>>>>", this.availableConnApisProp);
+    let dataToSave = {
+      available_apis: this.selectedAvaConnectorMethod,
+      description: this.selectedAvaConnector.description,
+      name: this.selectedAvaConnector.name,
+      properties: this.selectedAvaConnector.properties,
+      url: this.selectedAvaConnector.url
+    }
+    console.log(" - - - - >>>  ", dataToSave)
+    // let dconnector = this.createDConnectorForm.getRawValue();
+    // this.componentFlowsService.addDefaultConnector(this.selectedFlowCmpnt[0]._id, dconnector).subscribe(data => {
+    //   this.getFlowSequence(this.flow_id);
+    //   this.onCloseHandled();
+    // }, error => {
+    //   console.log("===got an error r===")
+    // })
   }
 
   updateDefaultConnector() {
