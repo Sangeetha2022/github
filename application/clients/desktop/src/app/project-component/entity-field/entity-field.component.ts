@@ -37,9 +37,6 @@ export class EntityFieldComponent implements OnInit {
   };
   public isValid: Boolean = true;
   // public entity: any;
-  createProject: FormGroup;
-  selectNounType: FormGroup;
-  selectListType: FormGroup;
   allEntity: IEntity[];
   selectCellRenderedValue: String;
   selectedCellRowIndex: any;
@@ -86,7 +83,7 @@ export class EntityFieldComponent implements OnInit {
       },
       {
         headerName: 'Type',
-        field: 'type',
+        field: 'type_name',
         width: 308,
         cellEditor: 'agSelectCellEditor',
         // singleClickEdit: true,
@@ -115,7 +112,8 @@ export class EntityFieldComponent implements OnInit {
     this.rowData = [
       {
         name: 'Enter Name',
-        type: 'Text',
+        type_name: 'Text',
+        data_type: null,
         description: 'Description',
         is_entity_type: false,
         is_list_type: false,
@@ -156,7 +154,7 @@ export class EntityFieldComponent implements OnInit {
 
   openModal(e) {
     this.selectCellRenderedValue = e.newValue;
-    if (this.selectCellRenderedValue === 'Noun') {
+    if (this.selectCellRenderedValue === 'Entity') {
       this.openDialog(this.allEntity, null, e);
     } else if (this.selectCellRenderedValue === 'List') {
       this.openDialog(this.allEntity, this.getEntityTypeValue, e);
@@ -277,7 +275,8 @@ export class EntityFieldComponent implements OnInit {
 function createNewRowData() {
   const newData = {
     name: 'Enter Name',
-    type: 'Text',
+    type_name: 'Text',
+    data_type: null,
     description: 'Description',
     is_entitytype: false,
     is_listtype: false,

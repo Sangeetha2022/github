@@ -1,5 +1,6 @@
 import { Request } from 'express';
 import { EntityDao } from '../daos/EntityDao';
+import { fieldTypes, fieldDataType } from '../constants/constant.service';
 
 let entityDao = new EntityDao();
 
@@ -14,7 +15,14 @@ export class EntityService {
 
     public updateEntity(req: Request, callback) {
         const entity = req.body;
-        console.log('before update in sevice --- ', entity);
+        entity.field.forEach(element => {
+            if (element.is_list_type && typeof element.entity_id !== "object") {
+                this.typeListCheck(element);
+            } else {
+                this.typeCheck(element);
+            }
+
+        });
         entityDao.updateEntity(entity, (response) => {
             callback(response);
         })
@@ -22,7 +30,14 @@ export class EntityService {
 
     public updateEntityField(req: Request, callback) {
         const entity = req.body;
-        console.log('before update in sevice --- ', entity);
+        entity.field.forEach(element => {
+            if (element.is_list_type && typeof element.entity_id !== "object") {
+                this.typeListCheck(element);
+            } else {
+                this.typeCheck(element);
+            }
+
+        });
         entityDao.upateEntityField(entity, (response) => {
             callback(response);
         })
@@ -46,5 +61,32 @@ export class EntityService {
         entityDao.getAllEntity((response) => {
             callback(response);
         });
+    }
+
+
+    typeCheck(element) {
+        if (element.type_name === fieldTypes.NUMBER ||
+            element.type_name === fieldTypes.DECIMAL) {
+            element.data_type = fieldDataType.NUMBER;
+        } else if (element.type_name === fieldTypes.DATE) {
+            element.data_type = fieldDataType.DATE;
+        } else if (element.type_name === fieldTypes.BOOLEAN) {
+            element.data_type = fieldDataType.BOOLEAN;
+        } else {
+            element.data_type = fieldDataType.STRING;
+        }
+    }
+
+    typeListCheck(element) {
+        if (element.list_value === fieldTypes.NUMBER ||
+            element.list_value === fieldTypes.DECIMAL) {
+            element.data_type = fieldDataType.NUMBER;
+        } else if (element.list_value === fieldTypes.DATE) {
+            element.data_type = fieldDataType.DATE;
+        } else if (element.list_value === fieldTypes.BOOLEAN) {
+            element.data_type = fieldDataType.BOOLEAN;
+        } else {
+            element.data_type = fieldDataType.STRING;
+        }
     }
 }
