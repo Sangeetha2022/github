@@ -214,7 +214,7 @@ export class EntityFieldComponent implements OnInit {
   }
 
   cancelField() {
-    this.router.navigate(['/entity']);
+    this.router.navigate(['/project-component']);
   }
 
   updateEntityField() {

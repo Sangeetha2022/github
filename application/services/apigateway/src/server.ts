@@ -2,14 +2,21 @@ import * as cors from 'cors';
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import Controller from './interfaces/controller.interface';
-import { ProjectController, FlowManagerController } from './apicontroller';
+import {
+     ProjectController,
+      FlowManagerController,
+      EntityController,
+      DefaultController
+    } from './apicontroller';
 import { WinstonLogger } from './config/WinstonLogger';
 
 const PORT = 3010;
 
 let apisController = [
     new ProjectController(),
-    new FlowManagerController()
+    new FlowManagerController(),
+    new EntityController(),
+    new DefaultController()
 ]
 
 class App {
