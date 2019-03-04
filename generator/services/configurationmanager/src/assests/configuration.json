@@ -57,14 +57,6 @@
 			"sub_type": ""
 		},
 		{
-			"name": "gen_java_directory_name",
-			"label": "",
-			"description": "",
-			"value": "java",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
 			"name": "gen_nodejs_directory_name",
 			"label": "",
 			"description": "",
@@ -89,38 +81,6 @@
 			"sub_type": ""
 		},
 		{
-			"name": "gen_base_domain_directory_java_server",
-			"label": "",
-			"description": "",
-			"value": "domain.core",
-			"type": "config",
-			"sub_type": "java_server"
-		},
-		{
-			"name": "server_java_domain_core_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.domain.core",
-			"type": "config",
-			"sub_type": "templates"
-		},
-		{
-			"name": "server_java_domain_core_template_name",
-			"label": "",
-			"description": "",
-			"value": "domain_models_test.stg",
-			"type": "config",
-			"sub_type": "template_names"
-		},
-		{
-			"name": "java_extension",
-			"label": "",
-			"description": "",
-			"value": ".java",
-			"type": "config",
-			"sub_type": "language_specific"
-		},
-		{
 			"name": "copy_right_range",
 			"label": "",
 			"description": "",
@@ -137,110 +97,6 @@
 			"sub_type": "legal"
 		},
 		{
-			"name": "gen_base_java_server_controller_directory",
-			"label": "",
-			"description": "",
-			"value": "controller",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_controller_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_controller_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_controller_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_base_java_server_service_directory",
-			"label": "",
-			"description": "",
-			"value": "service",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_service_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_service_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_service_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_base_java_server_dao_directory",
-			"label": "",
-			"description": "",
-			"value": "dao",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_dao_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_dao_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_legacy_dao_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_base_java_server_resources_directory",
-			"label": "",
-			"description": "",
-			"value": "resources",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_base_java_server_lib_directory",
-			"label": "",
-			"description": "",
-			"value": "lib",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_base_java_server_webapp_webinf",
-			"label": "",
-			"description": "",
-			"value": "WEB-INF",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_base_java_server_sql_queries_directory",
-			"label": "",
-			"description": "",
-			"value": "sql_queries",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
 			"name": "server_rdbms_mysql_template_location",
 			"label": "",
 			"description": "",
@@ -253,182 +109,6 @@
 			"label": "",
 			"description": "",
 			"value": "mysql_5.6.21_ddl.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_standard_resource_bundle_template_name",
-			"label": "",
-			"description": "",
-			"value": "standard_resource_bundle.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_standard_resource_bundle_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_dao_read_mapper_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_dao_read_mapper_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_legacy_dao_read_mapper_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_dao_update_mapper_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_dao_update_mapper_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_legacy_dao_update_mapper_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_base_controller_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_legacy_base_controller_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_base_controller_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_base_service_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_legacy_base_service_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_base_service_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_base_user_authority_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_legacy_base_user_authority_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_gp_user_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_legacy_gp_user_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_gp_user_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_legacy_base_user_authority_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "spring_legacy_user_authority_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_legacy_user_authority_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "spring_legacy_user_authority_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "spring_legacy_config_file_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_legacy_config_file_v4_1_2",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "spring_legacy_config_file_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "jdbc_conf_file_template_name",
-			"label": "",
-			"description": "",
-			"value": "jdbc_config_file_v4_1_2",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "jdbc_conf_file_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "spring_legacy_webxml_file_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_legacy_web_xml_file_v4_1_2",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "spring_legacy_webxml_file_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring",
 			"type": "config",
 			"sub_type": ""
 		},
@@ -623,118 +303,6 @@
 			"value": "tang3456",
 			"type": "config",
 			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_jpa_dao_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.jpa",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_jpa_dao_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_jpa_dao_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_jpa_dao_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.jpa",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_jpa_dao_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_jpa_dao_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_domain_core_jpa_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.domain.core.jpa",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_domain_core_jpa_template_name",
-			"label": "",
-			"description": "",
-			"value": "domain_models_test.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "spring_jpa_config_file_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_jpa_config_file_v4_1_2",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "spring_jpa_config_file_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.jpa",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_jpa_base_user_authority_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_jpa_base_user_authority_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_jpa_base_user_authority_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.jpa",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "spring_jpa_user_authority_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_jpa_user_authority_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "spring_jpa_user_authority_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.jpa",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_jpa_gp_user_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_jpa_gp_user_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_jpa_gp_user_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.jpa",
-			"type": "config",
-			"sub_type": ""
 		},
 		{
 			"name": "gen_server_node_express_config_directory_name",
@@ -1049,254 +617,6 @@
 			"sub_type": null
 		},
 		{
-			"name": "server_java_spring_spring_database_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.java.spring",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_spring_database_template_name_location",
-			"label": "",
-			"description": null,
-			"value": "spring_database",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_controller_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_boot_controller_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_controller_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_domain_core_spring_boot_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.domain.core.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_domain_core_spring_boot_template_name",
-			"label": "",
-			"description": "",
-			"value": "domain_models_test.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_service_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_service_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_service_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_main_app_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_main_app_template_name",
-			"label": "",
-			"description": "",
-			"value": "main_application",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_app_properties_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_app_properties_template_name",
-			"label": "",
-			"description": "",
-			"value": "application_properties",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_gradle_dependency_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_gradle_dependency_template_name",
-			"label": "",
-			"description": "",
-			"value": "build_gradle_dependency",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_base_java_server_config_directory",
-			"label": "",
-			"description": "",
-			"value": "config",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_configs_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_configs_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_configs.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_base_controller_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_boot_base_controller_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_base_controller_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_gp_user_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_boot_gp_user_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_gp_user_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "spring_boot_user_authority_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_boot_user_authority_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "spring_boot_user_authority_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_base_user_authority_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_boot_base_user_authority_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_base_user_authority_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_base_service_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_boot_base_service_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_base_service_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_swagger_config_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_swagger_config_template_name",
-			"label": "",
-			"description": "",
-			"value": "swagger_config",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_jpa_dao_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_java_spring_boot_jpa_dao_template_name",
-			"label": "",
-			"description": "",
-			"value": "spring_boot_jpa_dao_v4_1_2.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
 			"name": "system_activity_geppetto_login_rest_url_service_template_location",
 			"label": "",
 			"description": null,
@@ -1357,54 +677,6 @@
 			"label": "",
 			"description": null,
 			"value": "2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_mail_chimp_template_name",
-			"label": "",
-			"description": null,
-			"value": "mail_chimp",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_mail_chimp_template_location",
-			"label": "",
-			"description": null,
-			"value": "gradle.UserGradleScripts.java.springboot",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_login_controller_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_login_controller_template_name",
-			"label": "",
-			"description": "",
-			"value": "login_controller",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_security_util_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_security_util_template_name",
-			"label": "",
-			"description": "",
-			"value": "security_util",
 			"type": "config",
 			"sub_type": null
 		},
@@ -1545,14 +817,6 @@
 			"sub_type": null
 		},
 		{
-			"name": "server_java_springboot_microservice_eureka_code_location",
-			"label": " ",
-			"description": null,
-			"value": "server.java.spring.springboot.microservices.eureka-service",
-			"type": "config",
-			"sub_type": null
-		},
-		{
 			"name": "docker_compose_template_location",
 			"label": " ",
 			"description": null,
@@ -1565,38 +829,6 @@
 			"label": " ",
 			"description": null,
 			"value": "docker_compose_v_1.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_springboot_application_yml_template_location",
-			"label": " ",
-			"description": null,
-			"value": "server.java.spring.springboot.microservices",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_springboot_application_yml_template_name",
-			"label": " ",
-			"description": null,
-			"value": "application_yml",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_springboot_application_microservices_build_gradle_template_location",
-			"label": " ",
-			"description": "",
-			"value": "server.java.spring.springboot.microservices",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_springboot_application_microservices_build_gradle_template_name",
-			"label": " ",
-			"description": "",
-			"value": "build_gradle_for_user.stg",
 			"type": "config",
 			"sub_type": null
 		},
@@ -1617,50 +849,10 @@
 			"sub_type": null
 		},
 		{
-			"name": "server_java_springboot_microservice_ui_code_location",
-			"label": " ",
-			"description": null,
-			"value": "server.java.spring.springboot.microservices.ui-service",
-			"type": "config",
-			"sub_type": null
-		},
-		{
 			"name": "gradle_script_docker_download_location",
 			"label": " ",
 			"description": null,
 			"value": "/home/geppetto/GeppettoGenerator/download_containers_batch/gradle_scripts/docker",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_springboot_application_microservices_discovery_controller_template_location",
-			"label": " ",
-			"description": null,
-			"value": "server.java.spring.springboot.microservices",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_springboot_application_microservices_discovery_controller_template_name",
-			"label": " ",
-			"description": null,
-			"value": "discovery_controller.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_swagger_ui_constants_location",
-			"label": " ",
-			"description": null,
-			"value": "server.java.domain.core.springboot",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_swagger_ui_constants_name",
-			"label": " ",
-			"description": null,
-			"value": "swagger_ui_constants",
 			"type": "config",
 			"sub_type": null
 		},
@@ -1693,22 +885,6 @@
 			"label": " ",
 			"description": null,
 			"value": "docker_file_mysql.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_file_java_template_location",
-			"label": " ",
-			"description": null,
-			"value": "docker.docker-compose",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_file_java_template_name",
-			"label": " ",
-			"description": null,
-			"value": "docker_file_java.stg",
 			"type": "config",
 			"sub_type": null
 		},
@@ -1833,14 +1009,6 @@
 			"sub_type": null
 		},
 		{
-			"name": "docker_image_java_springboot_reference",
-			"label": " ",
-			"description": null,
-			"value": "geppetto-java:latest",
-			"type": "config",
-			"sub_type": null
-		},
-		{
 			"name": "docker_image_mysql_reference",
 			"label": " ",
 			"description": null,
@@ -1901,38 +1069,6 @@
 			"label": " ",
 			"description": null,
 			"value": "manager:3375",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_login_success_handler_template_location",
-			"label": " ",
-			"description": null,
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_login_success_handler_template_name",
-			"label": " ",
-			"description": null,
-			"value": "authentication_success_handler",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_login_web_security_template_name",
-			"label": " ",
-			"description": null,
-			"value": "login_websecurityconfig",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_login_web_security_template_location",
-			"label": " ",
-			"description": null,
-			"value": "server.java.spring.springboot",
 			"type": "config",
 			"sub_type": null
 		},
@@ -2025,22 +1161,6 @@
 			"sub_type": null
 		},
 		{
-			"name": "spring_boot_mongo_dao_template_location",
-			"label": " ",
-			"description": null,
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "spring_boot_mongo_dao_template_name",
-			"label": " ",
-			"description": null,
-			"value": "spring_boot_mongo_dao_v1.0.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
 			"name": "angular2_desktop_rest_url_service_template_name",
 			"label": " ",
 			"description": null,
@@ -2065,50 +1185,10 @@
 			"sub_type": null
 		},
 		{
-			"name": "spring_boot_couchbase_dao_template_location",
-			"label": " ",
-			"description": null,
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "spring_boot_couchbase_dao_template_name",
-			"label": " ",
-			"description": null,
-			"value": "spring_boot_couchbase_dao_v1.0.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_couchbase_config_template_location",
-			"label": " ",
-			"description": null,
-			"value": "server.java.spring.springboot",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_couchbase_config_template_name",
-			"label": " ",
-			"description": null,
-			"value": "couchbase_config_file",
-			"type": "config",
-			"sub_type": null
-		},
-		{
 			"name": "angular_desktop_wizard_screen_file_template_location",
 			"label": " ",
 			"description": null,
 			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_java_spring_boot_gp_user_template_name_couch",
-			"label": " ",
-			"description": null,
-			"value": "spring_boot_user_couchbase_v4_1_2.stg",
 			"type": "config",
 			"sub_type": null
 		},
@@ -2141,14 +1221,6 @@
 			"label": " ",
 			"description": null,
 			"value": "docker.CouchBase",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_ms_image_java_springboot_reference",
-			"label": " ",
-			"description": null,
-			"value": "967636366309.dkr.ecr.us-east-1.amazonaws.com/ms-java:latest",
 			"type": "config",
 			"sub_type": null
 		},
@@ -2849,14 +1921,6 @@
 			"sub_type": null
 		},
 		{
-			"name": "docker_image_java_springboot_reference_for_azure",
-			"label": " ",
-			"description": null,
-			"value": "967636366309.dkr.ecr.us-east-1.amazonaws.com/mono-java:latest",
-			"type": "config",
-			"sub_type": null
-		},
-		{
 			"name": "docker_image_mysql_reference_for_azure",
 			"label": " ",
 			"description": null,
@@ -3093,14 +2157,6 @@
 			"label": "",
 			"description": null,
 			"value": "server.nodejs.express.couchbase.model",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "swagger_rest_custom_properties_template_location",
-			"label": " ",
-			"description": null,
-			"value": "server.java.spring.springboot",
 			"type": "config",
 			"sub_type": null
 		},

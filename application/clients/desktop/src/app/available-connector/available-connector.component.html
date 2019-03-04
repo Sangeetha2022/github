@@ -30,7 +30,7 @@
                   [(ngModel)]="connector.name">
               </div>
               <div class="form-group">
-                <label for="url">{{'url'| i18next}}</label>
+                <label for="url">End Point</label>
                 <input type="text" class="form-control" placeholder="enter Dev Framework" id="url"
                   [(ngModel)]="connector.url">
               </div>
@@ -75,7 +75,7 @@
                     </div>
                     <div class="col-md-6 form-group">
                       <label *ngIf="i === 0" for="value">Value</label>
-                      <input type="text" [(ngModel)]="properties.value" disabled class="form-control"
+                      <input type="text" [(ngModel)]="properties.value"  class="form-control"
                         placeholder="Key value entered by user">
                     </div>
                   </div>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="col-md-6 form-group">
                       <label *ngIf="i === 0" for="value">Value</label>
-                      <input type="text" [(ngModel)]="properties.value" disabled class="form-control"
+                      <input type="text" [(ngModel)]="properties.value"  class="form-control"
                         placeholder="Key value entered by user">
                     </div>
                   </div>
@@ -102,8 +102,12 @@
         </div>
       </div>
       <div class="modal-footer">
-        <div class="form-group">
+        <div class="form-group" *ngIf="selectedAvaConnector.length === 0">
           <button type="button" class="btn button-create" (click)="createConnector()">{{ 'create' | i18next }}</button>
+          <button type="button" class="btn button-close" (click)="closeModal()"> Close</button>
+        </div>
+        <div class="form-group" *ngIf="selectedAvaConnector.length > 0">
+          <button type="button" class="btn button-create" (click)="updateConnector()">{{ 'update' | i18next }}</button>
           <button type="button" class="btn button-close" (click)="closeModal()"> Close</button>
         </div>
       </div>
