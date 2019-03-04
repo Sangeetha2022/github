@@ -2,8 +2,12 @@
 import * as express from "express";
 import { Request, Response } from 'express';
 import * as Constants from '../config/Constants';
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdaptar } from '../config/apiAdaptar';
 import Controller from '../interfaces/controller.interface';
+import { EntityController } from './entity.controller';
+
+
+const entityController = new EntityController();
 
 class ProjectController implements Controller {
 
@@ -18,15 +22,16 @@ class ProjectController implements Controller {
         this.router.put('/projects/my/:id/update', this.updateProject);
         this.router.get('/projects/my/getall', this.getAllMyProject);
         this.router.get('/projects/my/:id/get', this.getByProjectId);
-        this.router.delete('/projects/my/:id/delete', this.deleteProject);
+        this.router.delete('/projects/my/delete/:id', this.deleteProject);
     }
 
     public addProject(req: Request, res: Response) {
+        console.log('entering into add project api gateway')
         new ApiAdaptar().post(Constants.projectUrl + '/projects/my/add', req.body).then(proj => {
             res.send(proj);
         }).catch(err => {
             res.send(err);
-        });;
+        });
     }
 
     public updateProject(req: Request, res: Response) {
@@ -38,7 +43,8 @@ class ProjectController implements Controller {
     }
 
     public deleteProject(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.projectUrl + '/projects/my/delete' + req.params.id).then(proj => {
+        console.log('delete project url in project controller -------- ', Constants.projectUrl + '/projects/my/delete' + req.params.id)
+        new ApiAdaptar().delete(Constants.projectUrl + '/projects/my/delete/' + req.params.id).then(proj => {
             res.send(proj);
         }).catch(err => {
             res.send(err);
@@ -56,7 +62,7 @@ class ProjectController implements Controller {
     public getByProjectId = (req: Request, res: Response) => {
         new ApiAdaptar().get(Constants.projectUrl + '/projects/my/getbyid/' + req.params.id).then(proj => {
             req.baseUrl === '/mobile' ? res.send(proj) :
-            req.baseUrl === '/desktop' ? res.send(proj) : res.send(null)
+                req.baseUrl === '/desktop' ? res.send(proj) : res.send(null)
         }).catch(err => {
             res.send(err);
         });

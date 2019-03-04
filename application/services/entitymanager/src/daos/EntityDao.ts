@@ -71,4 +71,19 @@ export class EntityDao {
             callback(error);
         });
     }
+
+
+    public getEntityByProjectId(projectId, callback) {
+        console.log('project id  in entity dao ------ ', projectId);
+        entityModel.find({ project_id: projectId }).
+            exec(function (err, result) {
+                if (err) {
+                    callback(err);
+                    console.log('project id in entityt dao error ---- ', err);
+                } else {
+                    console.log('project id in entityt dao result ---- ', result);
+                    callback(result);
+                }
+            })
+    }
 }

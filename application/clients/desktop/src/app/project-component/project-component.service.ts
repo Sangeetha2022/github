@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { ApiService } from '../config/api.service';
 import { SharedService } from '../../shared/shared.service';
 import { IEntity } from './interface/Entity';
-import {Constants} from '../config/Constant'
+import { Constants } from '../config/Constant';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -40,6 +40,9 @@ export class EntityManagerService {
   getByIdEntity(entityId: any): Observable<any> {
     return this.api.get(this.restapi.entityUrl + `/entity/get/${entityId}`);
   }
+  getEntityByProjectId(projectId: String): Observable<[]> {
+    return this.api.get(this.restapi.entityUrl + `/entity/get?projectId=${projectId}`);
+  }
   getAllEntity(): Observable<any> {
     return this.api.get(this.restapi.entityUrl + '/entity/getall');
   }
@@ -58,36 +61,36 @@ export class EntityManagerService {
   }
 
 
-  //Feature
-  addFeature(feature){
-    return this.api.post(this.restapi.featureUrl + Constants.feature + Constants.saveUrl,feature);
+  // Feature
+  addFeature(feature) {
+    return this.api.post(this.restapi.featureUrl + Constants.feature + Constants.saveUrl, feature);
 
   }
 
-  getAllFeature(){
-    return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getAllUrl)
+  getAllFeature() {
+    return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getAllUrl);
   }
 
-  deleteFeature(id){
-    return this.api.delete(this.restapi.featureUrl + Constants.feature + Constants.deleteUrl + id)
+  deleteFeature(id) {
+    return this.api.delete(this.restapi.featureUrl + Constants.feature + Constants.deleteUrl + id);
   }
 
-  updateFeature(feature){
-    let id = feature.id
-    return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + id,feature)
+  updateFeature(feature) {
+    const featureId = feature.id;
+    return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + featureId, feature);
   }
 
-  //Default Entity
+  // Default Entity
 
-  addDefaultEntity(defaultEntity){
-    console.log("hello udhaya u r waiting",defaultEntity)
-    return this.api.post(this.restapi.entityUrl + Constants.addDefaultEntity,defaultEntity);
+  // addDefaultEntity(defaultEntity) {
+  //   console.log("hello udhaya u r waiting", defaultEntity)
+  //   return this.api.post(this.restapi.entityUrl + Constants.addDefaultEntity, defaultEntity);
 
-  }
+  // }
 
-  getDefaultEntityByProjectId(id){
-    return this.api.get(this.restapi.entityUrl + Constants.getDefaultEntityByProjectId + id)
+  // getDefaultEntityByProjectId(id) {
+  //   return this.api.get(this.restapi.entityUrl + Constants.getDefaultEntityByProjectId + id)
 
-  }
+  // }
 
 }

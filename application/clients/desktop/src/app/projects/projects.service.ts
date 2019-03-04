@@ -27,8 +27,12 @@ export class ProjectsService {
     return this.api.delete(this.restapi.projbaseUrl + Constants.deleteMyProjectUrl + id);
   }
 
+  createProjectDefaults(projectId: String): Observable<any> {
+    return this.api.get(`${this.restapi.projbaseUrl}${Constants.addProjectDefaults}/?projectId=${projectId}`);
+  }
 
-  //websocket connections
+
+  // websocket connections
 
   public initSocket(): void {
     this.socket = socketIo(this.restapi.genmanagerUrl);
@@ -44,9 +48,9 @@ export class ProjectsService {
     return this.http.post(this.restapi.genmanagerUrl + '/generate/' + projectgen.project_id, projectgen);
   }
 
-  //socket
+  // socket
   public getProjectNotify(project_id) {
-    let observable = new Observable(observer => {
+    const observable = new Observable(observer => {
       this.socket.on('gen_notify_' + project_id, (data) => {
         observer.next(data);
       });
@@ -66,7 +70,7 @@ export class ProjectsService {
   }
 
   getAllUserNotify(user_id) {
-    return this.http.get(this.restapi.genmanagerUrl + '/projectgen/user/'+user_id);
+    return this.http.get(this.restapi.genmanagerUrl + '/projectgen/user/' + user_id);
   }
 
 

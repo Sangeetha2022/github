@@ -9,7 +9,7 @@ import * as expressWinston from 'express-winston';
 const winston = require('winston');
 require('winston-daily-rotate-file')
 
-const PORT = 3005;
+const PORT = 5004;
 const logDir = 'log';
 
 class App {
@@ -21,7 +21,7 @@ class App {
     constructor() {
         this.config();
         this.mongoSetup();
-        this.mongoSeedData();
+        // this.mongoSeedData();
         this.routePrv.routes(this.app);
     }
 
@@ -115,11 +115,10 @@ class App {
         // mongoConfig.mongoConfig();
     }
 
-    private mongoSeedData(): void {
-        let seedData = new FeedSeedData();
-        seedData.EntityTypeData();
-        seedData.defaultEntityData();
-    }
+    // private mongoSeedData(): void {
+    //     let seedData = new FeedSeedData();
+    //     seedData.EntityTypeData();
+    // }
 }
 
 new App().app.listen(PORT, () => {

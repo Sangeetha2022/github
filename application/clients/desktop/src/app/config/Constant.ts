@@ -20,6 +20,7 @@ export class Constants {
     public static get addProjectUrl(): string { return '/projects/my/add'; }
     public static get deleteMyProjectUrl(): string { return '/projects/my/delete/'; }
     public static get getAllMyProjecturl(): string { return '/projects/my/getall'; }
+    public static get addProjectDefaults(): String { return '/projects/default/create'; }
 
     // Flow apis
     public static get addFlowCompToFlowUrl(): string { return '/add/flow_comp'; }
