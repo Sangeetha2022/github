@@ -17,12 +17,12 @@ export class DefaultEntityService {
             if (response) {
                 response.forEach(async element => {
                     console.log(" - - - - - -  -  > > >  ", element)
-                    element.project_id = projectId;
                      delete element.__v;
                      var defaultObj = {
                          name: element.name,
                          description: element.description,
-                         project_id: element.project_id,
+                         project_id: projectId,
+                         is_default: true,
                          field: element.field
                      }
                     console.log('each element in default object ---- ', element);

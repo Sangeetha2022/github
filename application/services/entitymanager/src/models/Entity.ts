@@ -11,6 +11,10 @@ export const EntitySchema = new Schema({
     name: String,
     description: String,
     project_id: String,
+    is_default: {
+        type: Boolean,
+        default: false
+    },
     created_by: String,
     created_at: {
         type: Date,
