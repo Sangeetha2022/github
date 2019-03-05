@@ -2,12 +2,12 @@
   <h1 style="text-align: center;"> <u>{{ 'flows' | i18next }}</u> </h1>
   <div class="row row-button">
     <button mat-raised-button color="primary" (click)="openModal('create')">{{ 'create' | i18next }}</button>
-    <button mat-raised-button  (click)="openModal('update')">{{ 'update' | i18next }}</button>
+    <button mat-raised-button (click)="openModal('update')">{{ 'update' | i18next }}</button>
     <button mat-raised-button color="warn" (click)="deleteRow()">{{ 'delete' | i18next }}</button>
   </div>
   <div class="flowTable">
     <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnDefs"
-      [rowSelection]="rowSelection"  [rowData]="rowData" [animateRows]="true" [defaultColDef]="defaultColDef"
+      [rowSelection]="rowSelection" [rowData]="rowData" [animateRows]="true" [defaultColDef]="defaultColDef"
       (cellDoubleClicked)="routeNextPage()" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
     </ag-grid-angular>
   </div>

@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule, HttpHeaders, HttpRequest, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Observable';
@@ -19,7 +19,7 @@ export class ApiService {
     private formatErrors(httpresponse: any) {
         return new ErrorObservable(httpresponse);
     }
-    
+
     get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
         return this.http.get(`${path}`, { params }).pipe(catchError(this.formatErrors));
     }

@@ -1,5 +1,5 @@
-export class ConfigManager {
-    id:'';
+export class IConfigManager {
+    id: '';
     name: String;
     description: String;
     label: String;

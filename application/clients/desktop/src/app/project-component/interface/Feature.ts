@@ -1,5 +1,5 @@
 export interface IFeature {
-    id:'',
+    id: '';
     name: String;
     description: String;
 }

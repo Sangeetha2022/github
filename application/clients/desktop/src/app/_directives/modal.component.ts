@@ -3,6 +3,7 @@ import { Component, ElementRef, Input, OnInit, OnDestroy } from '@angular/core';
 import { ModalService } from '../_services';
 
 @Component({
+    // tslint:disable-next-line:component-selector
     selector: 'modal',
     template: '<ng-content></ng-content>'
 })
@@ -16,7 +17,7 @@ export class ModalComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        let modal = this;
+        const modal = this;
 
         // ensure id attribute exists
         if (!this.id) {

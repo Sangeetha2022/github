@@ -13,7 +13,7 @@ export class AvailableConnectorComponent implements OnInit {
   defaultColDef;
   connectorFlowGrid;
   connectorData: any = [];
-  addedProperties: any =[]
+  addedProperties: any = [];
   addedApiProperties: any = [];
   selectedAvaConnector: any = [];
   showApiModal: String = 'none';
@@ -24,17 +24,17 @@ export class AvailableConnectorComponent implements OnInit {
     description: '',
     url: '',
     available_apis: [{
-      name: "",
-      description: "",
-      type: "",
+      name: '',
+      description: '',
+      type: '',
       properties: [{
-        key: "",
-        value: ""
+        key: '',
+        value: ''
       }]
     }],
     properties: []
   };
-  apiIndex : any;
+  apiIndex: any;
   selectedApiCon: null;
   selcetedIndex: 0;
   selectedAvaConProp: Boolean = false;
@@ -52,28 +52,27 @@ export class AvailableConnectorComponent implements OnInit {
     this.connector.properties.push({
       key: '',
       value: ''
-    })
+    });
   }
 
   addAPIProperties(): void {
     this.connector.available_apis[this.selcetedIndex].properties.push({
       key: '',
       value: ''
-    })
+    });
   }
 
   deleteConnector() {
     this.componentFlowsService.deleteConnector(this.connector.id).subscribe(data => {
-      console.log(data)
-    })
+      console.log(data);
+    });
     this.getAllConnector();
   }
 
   onShowAPI() {
-    this.showApiModal = 'block'
+    this.showApiModal = 'block';
     if (this.selectedAvaConnector.length > 0) {
-      this.connector = this.selectedAvaConnector[0]
-      console.log(" - -> >  ", this.connector)
+      this.connector = this.selectedAvaConnector[0];
     } else {
       this.connector = {
         id: '',
@@ -81,15 +80,15 @@ export class AvailableConnectorComponent implements OnInit {
         properties: [],
         description: '', name: '',
         available_apis: [{
-          name: "",
-          description: "",
-          type: "",
+          name: '',
+          description: '',
+          type: '',
           properties: [{
-            key: "",
-            value: ""
+            key: '',
+            value: ''
           }]
         }]
-      }
+      };
     }
   }
 
@@ -97,50 +96,50 @@ export class AvailableConnectorComponent implements OnInit {
     this.showApiModal = 'none';
     this.selectedApiCon = null;
     this.selcetedIndex = 0;
-    Array.from(document.querySelectorAll('input[name="apisradio"]:checked'), input => input["checked"] = false);
+    Array.from(document.querySelectorAll('input[name="apisradio"]:checked'), input => input['checked'] = false);
   }
 
 
   createConnector() {
-    console.log(" - - -     ?  ? ? ? ? ", this.connector.properties)
-    
-       
+    console.log(' - - -     ?  ? ? ? ? ', this.connector.properties);
 
-    console.log("i am the connector",this.connector)
+
+
+    console.log('i am the connector', this.connector);
     this.componentFlowsService.saveConnector(this.connector).subscribe(data => {
-      console.log("i am the data u r expected", data)
+      console.log('i am the data u r expected', data);
 
-    })
+    });
     this.getAllConnector();
     this.closeModal();
 
   }
 
   updateConnector() {
-    this.addedApiProperties = []; 
-    this.addedProperties = []
+    this.addedApiProperties = [];
+    this.addedProperties = [];
 
     this.connector.properties.map(data => {
-      console.log("___________>>>>?>??>?>????? ", data)
-      if (data.key !== "" || data.value !== "") {
-        this.addedProperties.push(data)
+      console.log('___________>>>>?>??>?>????? ', data);
+      if (data.key !== '' || data.value !== '') {
+        this.addedProperties.push(data);
       }
-    })
+    });
     this.connector.properties = this.addedProperties;
-    if(this.selectedAvaConProp){
-    this.connector.available_apis[this.selcetedIndex].properties.map((data, index) => {
-        if (data.key !== "" || data.value !== "") {
+    if (this.selectedAvaConProp) {
+      this.connector.available_apis[this.selcetedIndex].properties.map((data, index) => {
+        if (data.key !== '' || data.value !== '') {
           this.addedApiProperties.push(data);
         }
-      })
-      this.connector.available_apis[this.selcetedIndex].properties = this.addedApiProperties
-      console.log("asldhadodhsoiadosa",this.addedApiProperties);
+      });
+      this.connector.available_apis[this.selcetedIndex].properties = this.addedApiProperties;
+      console.log('asldhadodhsoiadosa', this.addedApiProperties);
     }
-    console.log("i am the connector id", this.connector)
+    console.log('i am the connector id', this.connector);
     this.componentFlowsService.updateConnector(this.connector).subscribe(data => {
-      console.log("i am the data u r expected", data)
+      console.log('i am the data u r expected', data);
 
-    })
+    });
     this.getAllConnector();
     this.closeModal();
   }
@@ -159,8 +158,8 @@ export class AvailableConnectorComponent implements OnInit {
   getAllConnector() {
     this.componentFlowsService.getAllConnector().subscribe(data => {
       this.connectorData = data;
-      console.log("this is the data", this.connectorData)
-    })
+      console.log('this is the data', this.connectorData);
+    });
   }
 
   onGridConnectorReady(params) {
@@ -173,7 +172,7 @@ export class AvailableConnectorComponent implements OnInit {
       { headerName: 'Name', field: 'name', checkboxSelection: true },
       { headerName: 'Description', field: 'description' },
       { headerName: 'End Point', field: 'url' },
-    ]
+    ];
     this.rowSelection = 'single';
 
     this.defaultColDef = {

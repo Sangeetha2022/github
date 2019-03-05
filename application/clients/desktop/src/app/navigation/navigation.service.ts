@@ -15,10 +15,10 @@ export class NavigationService {
   ) { }
 
   getVersion(name): Observable<any> {
-    return this.http.get(this.sharedService.configUrl + `/generation_flow/getbyname/`+name);
+    return this.http.get(this.sharedService.configUrl + `/generation_flow/getbyname/` + name);
   }
 
   getBuildVersion(name): Observable<any> {
-    return this.http.get(this.sharedService.configUrl + `/generation_flow/getbyname/`+name);
+    return this.http.get(this.sharedService.configUrl + `/generation_flow/getbyname/` + name);
   }
 }

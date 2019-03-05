@@ -94,16 +94,16 @@ export class FlowManagerComponent implements OnInit {
 
   onSelectionChanged() {
     this.selectedFlow = this.gridApi.getSelectedRows();
-    if (this.selectedFlow.length != 0) {
+    if (this.selectedFlow.length !== 0) {
       this.dataService.setFlowIdInfo(this.selectedFlow[0]);
-        }
+    }
   }
 
   routeNextPage() {
-    this.dataService.currentFlowIdInfoSource.subscribe(data=>{
+    this.dataService.currentFlowIdInfoSource.subscribe(data => {
       this.flow_name = data.name;
-    })
-    this.router.navigate(['flow-component'],{queryParams:{name:this.flow_name}});
+    });
+    this.router.navigate(['flow-component'], { queryParams: { name: this.flow_name } });
   }
 
   openModal(type) {
@@ -156,7 +156,7 @@ export class FlowManagerComponent implements OnInit {
   }
 
   updateFlowModel() {
-    console.log("= = >> ", this.flow)
+    console.log('= = >> ', this.flow);
     this.flowManagerService.updateFlow(this.flow, this.flow['_id']).subscribe(
       (data) => {
         this.onCloseHandled();

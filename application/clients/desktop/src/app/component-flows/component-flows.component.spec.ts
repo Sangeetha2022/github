@@ -8,9 +8,9 @@ describe('ComponentFlowsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ComponentFlowsComponent ]
+      declarations: [ComponentFlowsComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

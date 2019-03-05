@@ -24,9 +24,7 @@ export class FieldPopupModalComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
-  // get() {
-  //   console.log('field get values are ---- ', this.popupData);
-  // }
+
   ngOnInit() {
   }
 

@@ -1,32 +1,31 @@
 <div class="lang-head">
-    <span class="about-span" (click)="showAbout()" >About</span>
-    <ng-template ngFor let-lang [ngForOf]="languages" let-i="index">
-        <a *ngIf="language !== lang" href="javascript:void(0)" class="link lang-item {{lang}} space"
-            (click)="changeLanguage(lang)">{{
-                '_languages.' + lang | i18nextCap }}</a>
-        <span *ngIf="language === lang" class="current lang-item {{lang}} space">{{ '_languages.' + lang |
-                i18nextCap }}</span>        
-    </ng-template>
+  <span class="about-span" (click)="showAbout()">About</span>
+  <ng-template ngFor let-lang [ngForOf]="languages" let-i="index">
+    <a *ngIf="language !== lang" href="javascript:void(0)" class="link lang-item {{lang}} space" (click)="changeLanguage(lang)">{{
+      '_languages.' + lang | i18nextCap }}</a>
+    <span *ngIf="language === lang" class="current lang-item {{lang}} space">{{ '_languages.' + lang |
+      i18nextCap }}</span>
+  </ng-template>
 </div>
 
 
 
 <!-- about model -->
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':displayAboutModel}">
-        <div class="modal-dialog modal-sm" role="dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title">About</h6>
-            </div>
-            <div class="modal-body">
-              <p>Version: {{versionData.value}}</p>
-              <p>Build Version: {{buildVersionData.value}}</p>
-              <p>Build Date: {{buildVersionData.updated_at | date: 'MMM d, y, h:mm:ss a'}}</p>
-            </div>
-            <div class="modal-footer" style="padding: 5px;justify-content: space-evenly;">
-              <button type="button" (click)="hideAbout()" class="btn btn-default">{{ 'close' | i18next }}</button>
-            </div>
-          </div>
-      
-        </div>
- </div>
+  <div class="modal-dialog modal-sm" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">About</h6>
+      </div>
+      <div class="modal-body">
+        <p>Version: {{versionData.value}}</p>
+        <p>Build Version: {{buildVersionData.value}}</p>
+        <p>Build Date: {{buildVersionData.updated_at | date: 'MMM d, y, h:mm:ss a'}}</p>
+      </div>
+      <div class="modal-footer" style="padding: 5px;justify-content: space-evenly;">
+        <button type="button" (click)="hideAbout()" class="btn btn-default">{{ 'close' | i18next }}</button>
+      </div>
+    </div>
+
+  </div>
+</div>

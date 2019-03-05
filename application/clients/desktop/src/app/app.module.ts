@@ -8,7 +8,6 @@ import {
   I18NEXT_SERVICE, I18NextLoadResult, I18NextModule, ITranslationService, defaultInterpolationFormat,
   I18NEXT_NAMESPACE
 } from 'angular-i18next';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -20,11 +19,11 @@ import { I18NextValidationMessageModule } from 'angular-validation-message-i18ne
 import sprintf from 'i18next-sprintf-postprocessor';
 import { ProjectsService } from './projects/projects.service';
 import { AppComponentService } from './app.component.service';
-import { AgGridModule } from "ag-grid-angular";
-import { ComponentFlowsComponent } from './component-flows/component-flows.component';
+import { AgGridModule } from 'ag-grid-angular';
 import { ComponentFlowsService } from './component-flows/component-flows.service';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MatButtonModule, MatExpansionModule, MatFormFieldModule, MatToolbarModule, MatIconModule, MatSidenavModule, MatTabsModule, MatSelectModule } from '@angular/material';
+import { MatButtonModule, MatExpansionModule, MatFormFieldModule,
+    MatIconModule, MatSidenavModule, MatTabsModule, MatSelectModule } from '@angular/material';
 
 import { FlowManagerComponent } from './flow-manager/flow-manager.component';
 import { SharedService } from 'src/shared/shared.service';
