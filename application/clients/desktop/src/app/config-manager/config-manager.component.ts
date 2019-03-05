@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigManagerService } from './config-manager.service'
-import { FormBuilder, FormsModule } from '@angular/forms';
-import { ConfigManager } from './interface/configmanager'
+import { ConfigManagerService } from './config-manager.service';
+import { IConfigManager } from './interface/configmanager';
 @Component({
   selector: 'app-config-manager',
   templateUrl: './config-manager.component.html',
@@ -9,20 +8,20 @@ import { ConfigManager } from './interface/configmanager'
 })
 export class ConfigManagerComponent implements OnInit {
 
-  private gridApi;
-  private gridColumnApi;
-  private rowSelection;
-  private checkUpdate: Boolean = false;
-  private config: any;
-  private selectedConfig: any = [];
-  private displayModel: string = 'none';
-  private columnDefs: any = [];
-  private rowData: any = [];
-  private defaultColDef: any = [];
-  private paginationPageSize;
-  private paginationNumberFormatter;
+  public gridApi;
+  public gridColumnApi;
+  public rowSelection;
+  public checkUpdate: Boolean = false;
+  public config: any;
+  public selectedConfig: any = [];
+  public displayModel = 'none';
+  public columnDefs: any = [];
+  public rowData: any = [];
+  public defaultColDef: any = [];
+  public paginationPageSize;
+  public paginationNumberFormatter;
 
-  private configManager: ConfigManager = {
+  public configManager: IConfigManager = {
     description: '',
     id: '',
     label: '',
@@ -30,29 +29,29 @@ export class ConfigManagerComponent implements OnInit {
     sub_type: '',
     type: '',
     value: '',
-  }
+  };
 
-  constructor(private configManagerService: ConfigManagerService) {
+  constructor(public configManagerService: ConfigManagerService) {
     this.columnDefs = [
       {
         headerName: 'Name', field: 'name',
         checkboxSelection: true,
-        filter: "agTextColumnFilter",
+        filter: 'agTextColumnFilter',
       },
       {
-        headerName: 'Label', field: 'label', filter: "agTextColumnFilter",
+        headerName: 'Label', field: 'label', filter: 'agTextColumnFilter',
       },
       {
-        headerName: 'Value', field: 'value', filter: "agTextColumnFilter",
+        headerName: 'Value', field: 'value', filter: 'agTextColumnFilter',
       },
       {
-        headerName: 'Description', field: 'description', filter: "agTextColumnFilter",
+        headerName: 'Description', field: 'description', filter: 'agTextColumnFilter',
       },
       {
-        headerName: 'Type', field: 'type', filter: "agTextColumnFilter",
+        headerName: 'Type', field: 'type', filter: 'agTextColumnFilter',
       },
       {
-        headerName: 'Sub Type', field: 'sub_type', filter: "agTextColumnFilter",
+        headerName: 'Sub Type', field: 'sub_type', filter: 'agTextColumnFilter',
       },
 
 
@@ -65,7 +64,7 @@ export class ConfigManagerComponent implements OnInit {
     };
     this.paginationPageSize = 10;
     this.paginationNumberFormatter = function (params) {
-      return "[" + params.value.toLocaleString() + "]";
+      return '[' + params.value.toLocaleString() + ']';
     };
   }
 
@@ -77,12 +76,12 @@ export class ConfigManagerComponent implements OnInit {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     this.gridApi.sizeColumnsToFit();
-    this.gridApi.showNoRowsOverlay()
+    this.gridApi.showNoRowsOverlay();
 
   }
   onSelectionChanged() {
     this.selectedConfig = this.gridApi.getSelectedRows();
-    console.log("i am the selected one",this.selectedConfig)
+    console.log('i am the selected one', this.selectedConfig);
 
   }
   onPageSizeChanged(newPageSize) {
@@ -97,7 +96,7 @@ export class ConfigManagerComponent implements OnInit {
     }
     if (type === 'update') {
       this.checkUpdate = false;
-      this.configManager = this.selectedConfig[0]
+      this.configManager = this.selectedConfig[0];
       // this.configManager.id = this.selectedConfig[0]._id;
       // this.configManager.name = this.selectedConfig[0].name;
       // this.configManager.description = this.selectedConfig[0].description;
@@ -112,7 +111,7 @@ export class ConfigManagerComponent implements OnInit {
 
   onCloseHandled() {
     this.displayModel = 'none';
-    this.configManager = { name: '', value: '', type: '', sub_type: '', label: '', id: '', description: '' }
+    this.configManager = { name: '', value: '', type: '', sub_type: '', label: '', id: '', description: '' };
     // this.createFlowForm.clearValidators();
     // this.createFlowForm.reset();
   }
@@ -126,8 +125,8 @@ export class ConfigManagerComponent implements OnInit {
   getAllConfig() {
     this.configManagerService.getAllConfig().subscribe(data => {
       this.rowData = data;
-      console.log(data)
-    })
+      console.log(data);
+    });
   }
 
   createConfig() {
@@ -144,7 +143,7 @@ export class ConfigManagerComponent implements OnInit {
       );
   }
 
-  updateConfig(){
+  updateConfig() {
     this.configManagerService.updateConfig(this.configManager).subscribe(
       (data) => {
         this.onCloseHandled();
@@ -156,10 +155,9 @@ export class ConfigManagerComponent implements OnInit {
     );
   }
 
-  deleteRow(){
-    this.configManagerService.deleteConfig(this.selectedConfig[0]._id).subscribe(data=>{
-      console.log("successfully deleted " + data)
-    })
+  deleteRow() {
+    this.configManagerService.deleteConfig(this.selectedConfig[0]._id).subscribe(data => {
+    });
     this.getAllConfig();
   }
 }

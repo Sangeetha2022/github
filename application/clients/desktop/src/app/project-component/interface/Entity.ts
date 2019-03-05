@@ -1,7 +1,4 @@
 export interface IEntity {
-    // name: String;
-    // description: String;
-    // field: any[];
     name: String;
     description: String;
     project_id: String;

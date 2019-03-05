@@ -26,13 +26,11 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="name">{{'name'| i18next}}</label>
-                <input type="text" class="form-control" placeholder="enter Dev Framework" id="name"
-                  [(ngModel)]="connector.name">
+                <input type="text" class="form-control" placeholder="enter Dev Framework" id="name" [(ngModel)]="connector.name">
               </div>
               <div class="form-group">
                 <label for="url">End Point</label>
-                <input type="text" class="form-control" placeholder="enter Dev Framework" id="url"
-                  [(ngModel)]="connector.url">
+                <input type="text" class="form-control" placeholder="enter Dev Framework" id="url" [(ngModel)]="connector.url">
               </div>
             </div>
             <div class="col-md-6">
@@ -51,8 +49,7 @@
                 <h4>APIs and Methods</h4>
               </div>
               <div class="col-md-6">
-                <div *ngIf="selectedAvaConnector.length > 0"
-                  style="height: 250px; overflow-x: scroll; border: 1px solid black;">
+                <div *ngIf="selectedAvaConnector.length > 0" style="height: 250px; overflow-x: scroll; border: 1px solid black;">
                   <div *ngFor="let apis of connector.available_apis; let i = index;">
                     <div class="col-md-1">
                       <input name="apisradio" (click)="selectAvaConProp(apis, i)" type="radio" />
@@ -67,32 +64,28 @@
                 <div class="row" *ngIf="!selectedApiCon">
                   <button class="btn btn-primary" type="button" (click)="addProperties()">Add Connector
                     Properties</button>
-                  <div class="col-md-12" style="padding: 0px"
-                    *ngFor="let properties of connector.properties; let i = index;">
+                  <div class="col-md-12" style="padding: 0px" *ngFor="let properties of connector.properties; let i = index;">
                     <div class="col-md-6 form-group">
                       <label *ngIf="i === 0" for="key">Key</label>
                       <input [(ngModel)]="properties.key" type="text" class="form-control" placeholder="Item name">
                     </div>
                     <div class="col-md-6 form-group">
                       <label *ngIf="i === 0" for="value">Value</label>
-                      <input type="text" [(ngModel)]="properties.value"  class="form-control"
-                        placeholder="Key value entered by user">
+                      <input type="text" [(ngModel)]="properties.value" class="form-control" placeholder="Key value entered by user">
                     </div>
                   </div>
                 </div>
                 <div class="row" *ngIf="selectedApiCon">
                   <button class="btn btn-primary" type="button" (click)="addAPIProperties()">Add APIs
                     Properties</button>
-                  <div class="col-md-12" style="padding: 0px"
-                    *ngFor="let properties of connector.available_apis[selcetedIndex].properties; let i = index;">
+                  <div class="col-md-12" style="padding: 0px" *ngFor="let properties of connector.available_apis[selcetedIndex].properties; let i = index;">
                     <div class="col-md-6 form-group">
                       <label *ngIf="i === 0" for="key">Key</label>
                       <input [(ngModel)]="properties.key" type="text" class="form-control" placeholder="Item name">
                     </div>
                     <div class="col-md-6 form-group">
                       <label *ngIf="i === 0" for="value">Value</label>
-                      <input type="text" [(ngModel)]="properties.value"  class="form-control"
-                        placeholder="Key value entered by user">
+                      <input type="text" [(ngModel)]="properties.value" class="form-control" placeholder="Key value entered by user">
                     </div>
                   </div>
                 </div>

@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ApiService } from '../config/api.service';
-import { Router } from '@angular/router';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
 import { Constants } from '../config/Constant';
 import { SharedService } from 'src/shared/shared.service';
@@ -14,7 +12,7 @@ export class ComponentFlowsService {
   private messageSource = new BehaviorSubject('');
   currentMessage = this.messageSource.asObservable();
 
-  constructor(private http: HttpClient, private router: Router, private api: ApiService, private restapi: SharedService) {
+  constructor(private api: ApiService, private restapi: SharedService) {
   }
 
   changeMessage(message: string) {
@@ -42,7 +40,7 @@ export class ComponentFlowsService {
   }
 
   addDefaultConnector(id, connector): Observable<any> {
-    return this.api.post(this.restapi.flowbaseUrl + Constants.flowCompentUrl+ '/' + id + Constants.addDConnectorUrl, connector);
+    return this.api.post(this.restapi.flowbaseUrl + Constants.flowCompentUrl + '/' + id + Constants.addDConnectorUrl, connector);
   }
 
   updateDefaultConnector(id, connector): Observable<any> {
@@ -70,7 +68,7 @@ export class ComponentFlowsService {
   }
 
   updateConnector(connector): Observable<any> {
-    let id = connector._id;
+    const id = connector._id;
     return this.api.put(this.restapi.flowbaseUrl + Constants.upadateConnector + id, connector);
   }
 

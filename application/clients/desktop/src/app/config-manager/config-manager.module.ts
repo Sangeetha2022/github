@@ -19,7 +19,7 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     CommonModule,
     FormsModule,
-    I18NextModule.forRoot(),    
+    I18NextModule.forRoot(),
   ],
   exports: [
     ConfigManagerComponent

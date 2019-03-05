@@ -8,9 +8,9 @@ describe('AvailableConnectorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AvailableConnectorComponent ]
+      declarations: [AvailableConnectorComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

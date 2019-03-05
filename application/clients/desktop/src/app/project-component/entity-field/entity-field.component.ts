@@ -4,7 +4,6 @@ import { ProjectComponentService } from '../project-component.service';
 import { IEntity } from '../interface/Entity';
 import { Router } from '@angular/router';
 import { ValueParserParams } from 'ag-grid-community';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { DataService } from '../../../shared/data.service';
 import { MatDialog } from '@angular/material';
 import { FieldPopupModalComponent } from './field-popup-modal/field-popup-modal.component';
@@ -56,7 +55,6 @@ export class EntityFieldComponent implements OnInit {
 
   ngOnInit() {
     this.getEntityType();
-    // this.getEntity();
   }
 
   getEntityType() {
