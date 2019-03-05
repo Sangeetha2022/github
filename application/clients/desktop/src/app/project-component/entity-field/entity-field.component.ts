@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ButtonRendererComponent } from './rendered/button-renderer/button-renderer.component';
-import { EntityManagerService } from '../project-component.service';
+import { ProjectComponentService } from '../project-component.service';
 import { IEntity } from '../interface/Entity';
 import { Router } from '@angular/router';
 import { ValueParserParams } from 'ag-grid-community';
@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { DataService } from '../../../shared/data.service';
 import { MatDialog } from '@angular/material';
 import { FieldPopupModalComponent } from './field-popup-modal/field-popup-modal.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-entity-field',
@@ -42,10 +43,10 @@ export class EntityFieldComponent implements OnInit {
   selectedCellRowIndex: any;
 
   constructor(
-    private entityManagerService: EntityManagerService,
+    private entityManagerService: ProjectComponentService,
     private router: Router,
     public dialog: MatDialog,
-    private formBuilder: FormBuilder,
+    private toastr: ToastrService,
     private dataService: DataService
   ) {
     this.frameworkComponents = {
@@ -103,6 +104,7 @@ export class EntityFieldComponent implements OnInit {
         cellRenderer: 'buttonRenderer',
         editable: false,
         sortable: false,
+        filter: false,
         cellRendererParams: {
           onClick: this.removeRow.bind(this),
           label: 'Remove'
@@ -206,21 +208,29 @@ export class EntityFieldComponent implements OnInit {
 
   saveField() {
     this.entity.field = this.getRowData();
-    this.updateEntityField();
+    this.updateEntityField(true);
   }
   updateField() {
     this.entity.field = this.getRowData();
-    this.updateEntityField();
+    this.updateEntityField(false);
   }
 
   cancelField() {
     this.router.navigate(['/project-component']);
   }
 
-  updateEntityField() {
+  updateEntityField(options) {
     this.entityManagerService.updateEntityField(this.entity).subscribe(
-      (data) => { },
-      (error) => { });
+      (data) => {
+        if (options) {
+          this.toastr.success('entity fields are saved');
+        } else {
+          this.toastr.success('entity fields are updated');
+        }
+      },
+      (error) => {
+        this.toastr.error('something went wrong, entity are not stored');
+      });
   }
   // get() {
   //   console.log('get row data in entity field are --------- ', this.getRowData());
@@ -258,7 +268,7 @@ export class EntityFieldComponent implements OnInit {
     setDivStyle('none');
     return true;
   }
-  
+
   typeValueSetter(params: ValueParserParams) {
     const value = this.openModal(params);
     params.data[params.colDef.field] = value;

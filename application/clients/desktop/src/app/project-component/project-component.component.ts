@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import { MatDialog, MatGridTileHeaderCssMatStyler } from '@angular/material';
 import { PopupModelComponent } from './popup-model/popup-model.component';
-import { EntityManagerService } from './project-component.service';
+import { ProjectComponentService } from './project-component.service';
 import { DataService } from '../../shared/data.service';
 import { IEntity } from './interface/Entity';
 import { IFeature } from './interface/Feature';
@@ -49,7 +49,7 @@ export class EntityManagerComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private entityManagerService: EntityManagerService,
+    private projectComponentService: ProjectComponentService,
     private dataService: DataService
   ) {
 
@@ -65,15 +65,32 @@ export class EntityManagerComponent implements OnInit {
     this.getAllFeature();
   }
 
-  openDialog(): void {
+  saveEntityModel() {
+    this.openDialog(true, null);
+  }
+
+  openDialog(isSaveOption, objectValue): void {
+    let dialogDataValue;
+    if (isSaveOption) {
+      dialogDataValue = {};
+    } else {
+      dialogDataValue = objectValue;
+    }
     const dialogRef = this.dialog.open(PopupModelComponent, {
       width: '250px',
-      data: {}
+      data: dialogDataValue
     });
 
     dialogRef.afterClosed().subscribe(entityData => {
+      console.log('after close dialogRef ---- ', entityData);
       if (entityData !== undefined) {
-        this.saveEntity(entityData);
+        if (objectValue === null) {
+          this.saveEntity(entityData);
+        } else {
+          dialogDataValue.name = entityData.name;
+          dialogDataValue.description = entityData.description;
+          this.updateEntity(dialogDataValue);
+        }
       }
     });
   }
@@ -103,7 +120,6 @@ export class EntityManagerComponent implements OnInit {
   }
   openFeatureDialog(create): void {
     if (create === 'create') {
-      console.log('sandsldsnlanlsnd');
       this.showUpdateFeature = false;
       this.features = { id: '', description: '', name: '' };
     }
@@ -122,8 +138,7 @@ export class EntityManagerComponent implements OnInit {
     this.entity.name = entityData.name;
     this.entity.description = entityData.description;
     this.entity.project_id = this.selectedProject._id;
-    this.entity.updated_at = new Date();
-    this.entityManagerService.createEntity(this.entity).subscribe(
+    this.projectComponentService.createEntity(this.entity).subscribe(
       (data) => {
         this.getAllEntityByProjectId();
       },
@@ -132,8 +147,21 @@ export class EntityManagerComponent implements OnInit {
       }
     );
   }
+
+  updateEntity(entityData) {
+    entityData.updated_at = new Date();
+    this.projectComponentService.updateEntity(entityData).subscribe(
+      (data) => {
+        this.getAllEntityByProjectId();
+      },
+      (error) => {
+
+      }
+    );
+  }
+
   getAllEntityByProjectId() {
-    this.entityManagerService.getEntityByProjectId(this.selectedProject._id).subscribe(
+    this.projectComponentService.getEntityByProjectId(this.selectedProject._id).subscribe(
       (data) => {
         this.allEntity = data;
       },
@@ -155,9 +183,13 @@ export class EntityManagerComponent implements OnInit {
     this.router.navigate(['/entity-field']);
   }
 
+  editEntity(entity) {
+    this.openDialog(false, entity);
+  }
+
   deleteEntity() {
     this.deletePopup = 'none';
-    this.entityManagerService.deleteEntity(this.selectedEntityId).subscribe(
+    this.projectComponentService.deleteEntity(this.selectedEntityId).subscribe(
       (data) => {
         this.getAllEntityByProjectId();
       },
@@ -177,7 +209,7 @@ export class EntityManagerComponent implements OnInit {
   }
 
   // getDefaultEntityByProjectId() {
-  //   this.entityManagerService.getDefaultEntityByProjectId(this.selectedProject._id).subscribe(data => {
+  //   this.projectComponentService.getDefaultEntityByProjectId(this.selectedProject._id).subscribe(data => {
   //     // data.map((data,index)=>{
   //       this.selecteddefaultEntity = [data];
 
@@ -203,7 +235,7 @@ export class EntityManagerComponent implements OnInit {
   }
 
   updateFeature() {
-    this.entityManagerService.updateFeature(this.features).subscribe(data => {
+    this.projectComponentService.updateFeature(this.features).subscribe(data => {
       console.log(data);
     });
     this.closeFeatureExistingModel();
@@ -211,7 +243,7 @@ export class EntityManagerComponent implements OnInit {
   }
 
   addFeature() {
-    this.entityManagerService.addFeature(this.features).subscribe(data => {
+    this.projectComponentService.addFeature(this.features).subscribe(data => {
       console.log(data);
       // if(data){
 
@@ -220,7 +252,7 @@ export class EntityManagerComponent implements OnInit {
   }
 
   getAllFeature() {
-    this.entityManagerService.getAllFeature().subscribe(data => {
+    this.projectComponentService.getAllFeature().subscribe(data => {
       this.featureData = data;
       // tslint:disable-next-line:no-shadowed-variable
       this.featureData.map((data, index) => {
@@ -237,7 +269,7 @@ export class EntityManagerComponent implements OnInit {
   }
 
   deleteFeature() {
-    this.entityManagerService.deleteFeature(this.selectedFeatureId).subscribe(data => {
+    this.projectComponentService.deleteFeature(this.selectedFeatureId).subscribe(data => {
       console.log(data);
     });
     this.closeDeleteFModel();

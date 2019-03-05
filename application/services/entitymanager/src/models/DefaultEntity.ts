@@ -10,13 +10,20 @@ export const DefaultEntitySchema = new Schema({
     },
     name: String,
     description: String,
-    project_id: String,
+    is_default: {
+        type: Boolean,
+        default: false
+    },
     field: [{
         _id: false,
         name: { type: String, default: null },
         type_name: { type: String, default: null },
         data_type: { type: String, default: null },
         description: { type: String, default: null },
+        is_default: {
+            type: Boolean,
+            default: false
+        },
         is_entity_type: {
             type: Boolean,
             default: false

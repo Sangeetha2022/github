@@ -17,7 +17,12 @@
 .modal-dialog{
   overflow-y: initial !important
 }
-.modal-body{
+.feature .modal-body{
   height: 400px;
+  overflow-y: auto;
+}
+
+.delete .modal-body {
+  height: 70px;
   overflow-y: auto;
 }

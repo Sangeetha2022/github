@@ -32,7 +32,7 @@ export class Routes {
         app.route('/entity_type/get').get(this.entityTypeController.getAllEntity);
 
         // default entity
-        app.route('/create/default').get(this.defaultEntityController.createDefaultEntity);
+        app.route('/projects/default/create').get(this.defaultEntityController.createDefaultEntity);
 
     }
 }

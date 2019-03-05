@@ -6,7 +6,7 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 @Component({
   selector: 'app-button-renderer',
   template: `
-    <button class="removeRow" style="color:white;background-color: red;
+    <button [disabled]="isDisabled" class="removeRow" style="color:white;background-color: red;
     border: none;" type="button" (click)="onClick($event)">{{label}}</button>
     `,
   styles: [
@@ -17,14 +17,20 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 export class ButtonRendererComponent implements ICellRendererAngularComp {
 
   params;
-  label: string;
+  label: String;
+  isDisabled: Boolean = false;
 
   agInit(params): void {
     this.params = params;
+    console.log('agInit for button ---- ', params);
+    if (this.params.data.is_default) {
+      this.isDisabled = this.params.data.is_default;
+    }
     this.label = this.params.label || null;
   }
 
   refresh(params?: any): boolean {
+    console.log('refresh for button ---- ', params);
     return true;
   }
 

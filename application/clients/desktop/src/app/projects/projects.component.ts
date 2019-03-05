@@ -5,7 +5,7 @@ import { ProjectsService } from '../projects/projects.service';
 import { DataService } from '../../shared/data.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { EntityManagerService } from '../project-component/project-component.service';
+import { ProjectComponentService } from '../project-component/project-component.service';
 
 @Component({
   selector: 'app-projects',
@@ -41,7 +41,7 @@ export class ProjectsComponent implements OnInit {
     private dataService: DataService,
     private router: Router,
     private toastr: ToastrService,
-    private entityManagerService: EntityManagerService,
+    private entityManagerService: ProjectComponentService,
   ) { }
 
   ngOnInit() {

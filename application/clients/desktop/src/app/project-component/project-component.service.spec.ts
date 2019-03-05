@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EntityManagerService } from './project-component.service';
+import { ProjectComponentService } from './project-component.service';
 
-describe('EntityManagerService', () => {
+describe('ProjectComponentService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: EntityManagerService = TestBed.get(EntityManagerService);
+    const service: ProjectComponentService = TestBed.get(ProjectComponentService);
     expect(service).toBeTruthy();
   });
 });

@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class EntityManagerService {
+export class ProjectComponentService {
 
   private entity: IEntity = <IEntity>{
     name: '',

@@ -16,7 +16,9 @@
         <div class="row" style="margin: 0px;" *ngIf="featureData && featureData.length > 0">
           <div class="col-md-4" *ngFor="let feature of featureData; let i = index">
             <div class="card">
-              <div class="card-header">{{feature.name}}</div>
+              <div class="card-header">
+                {{feature.name}}
+              </div>
               <div class="card-body">
                 <div><span>{{feature.description}}</span></div>
                 <br />
@@ -36,19 +38,22 @@
           <mat-panel-title> Entities </mat-panel-title>
         </mat-expansion-panel-header>
         <div style="padding-right: 20px;">
-          <button class="createEntityButton" mat-raised-button color="primary" (click)="openDialog()">Create
+          <button class="createEntityButton" mat-raised-button color="primary" (click)="saveEntityModel()">Create
             Entity</button>
         </div>
         <div class="row" style="margin: 0px;">
           <div class="col-md-4" *ngFor="let entity of allEntity; let i = index">
             <div class="card">
-              <div class="card-header">{{entity.name}}</div>
+              <div class="card-header">
+                {{entity.name}}
+                <img *ngIf="!entity.is_default" style="float: right; cursor: pointer;" (click)="editEntity(entity)" src="https://img.icons8.com/metro/26/000000/edit-file.png">
+              </div>
               <div class="card-body">
                 <div><span>{{entity.description}}</span></div>
                 <br />
                 <button mat-raised-button color="primary" (click)="editEntityField(entity)">Edit</button>
                 &nbsp;
-                <button mat-raised-button color="warn" (click)="openDeleteModel(entity)">Delete</button>
+                <button mat-raised-button color="warn" [disabled]="entity.is_default" (click)="openDeleteModel(entity)">Delete</button>
               </div>
             </div>
           </div>
@@ -108,7 +113,7 @@
         <h6 class="modal-title">Delete</h6>
         <button type="button" class="close">&times;</button>
       </div> -->
-      <div class="modal-body">
+      <div class="delete modal-body">
         <p>Please click confirm to delete this project ? </p>
       </div>
       <div class="modal-footer" style="padding: 5px">
@@ -128,7 +133,7 @@
         <h6 class="modal-title">Delete</h6>
         <button type="button" class="close">&times;</button>
       </div> -->
-      <div class="modal-body">
+      <div class="delete modal-body">
         <p>Please click confirm to delete this Feature ? </p>
       </div>
       <div class="modal-footer" style="padding: 5px">
@@ -145,7 +150,7 @@
 <div class="modal" tabindex="-1" data-keyboard="true" aria-hidden="true" data-backdrop="true" role="dialog"
   [ngStyle]="{'top': '100px','display':displayFeatureModel}">
   <div class="modal-dialog modal-lg" role="dialog">
-    <div class="modal-content">
+    <div class="feature modal-content">
       <div class="modal-body">
         <div class="container">
           <h1>Add Feature</h1>

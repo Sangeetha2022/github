@@ -34,6 +34,10 @@ export const EntitySchema = new Schema({
         type_name: { type: String, default: null },
         data_type: {type:String, default: null},
         description: { type: String, default: null },
+        is_default: {
+            type: Boolean,
+            default: false
+        },
         is_entity_type: {
             type: Boolean,
             default: false
