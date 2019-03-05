@@ -4,7 +4,7 @@
         "DESTINATION_URL": "/home/balaji/WORK/GEPPETTO/GeppettoNew/generated_code/"
     },
     "AWS": {
-        "TEMPLATE_URL": "",
-        "DESTINATION_URL": ""
+        "TEMPLATE_URL": "../../template/deployment/aws/",
+        "DESTINATION_URL": "/home/balaji/WORK/GEPPETTO/GeppettoNew/generated_code/"
     }
 }
