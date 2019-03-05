@@ -22,7 +22,7 @@ let generationFlowSchema = mongoose.Schema({
             description: { type: String, default: null },
             url: { type: String, default: null },
             comp_name: { type: String, default: null },
-            available_apis: [{
+            available_apis: {
                 name: { type: String, default: null },
                 description: { type: String, default: null },
                 type: { type: String, default: null },
@@ -30,7 +30,7 @@ let generationFlowSchema = mongoose.Schema({
                     key: { type: String, default: null },
                     value: { type: String, default: null }
                 }]
-            }],
+            },
             disable: { type: Boolean, default: false },
             properties: [{
                 key: { type: String, default: null },
