@@ -39,7 +39,7 @@ export class Constants {
     public static get getAllGenFlowsUrl(): string { return '/generation_flow/getall'; }
     public static get addGenFlowsUrl(): string { return '/generation_flow/add'; }
     public static get updateGenFlowsUrl(): string { return '/generation_flow/update/'; }
-    public static get deleteGenFlowsUrl(): string {return '/generation_flow/delete/'; }
+    public static get deleteGenFlowsUrl(): string { return '/generation_flow/delete/'; }
     public static get getGenFlowsByCompNameUrl(): string { return '/generation_flow/getbyname/'; }
 
     // Micro Flow apis
@@ -67,5 +67,30 @@ export class Constants {
     // Default Entity
     public static get addDefaultEntity(): string { return '/default_entity/save'; }
     public static get getDefaultEntityByProjectId(): string { return '/default_entity/getbyproject/'; }
+
+
+    // regex Constant Expressions
+
+    public static get getConstantReservedWords(): String {
+        return `break,case,comment,continue,default,delete,do,else,export,for,function,if,import,in,label,new,return,
+        switch,this,typeof,var,void,while,with,abstract,boolean,decimal,integer,mixed,
+        byte,char,double,false,final,float,goto,implements,instanceOf,int,interface,long,native,null,package,private,protected,
+        protected,public,short,static,synchronized,throws,transient,true,catch,class,const,debugger,enum,extends,finally,super,throw,try,
+        alert,Anchor,Area,arguments,Array,assign,blur,Boolean,Button,callee,caller,captureEvents,Checkbox,clearInterval,clearTimeout,close,
+        closed,confirm,constructor,Date,defaultStatus,document,Element,escape,eval,FileUpload,find,
+        focus,Form,Frame,Frames,Function,getClass,Hidden,history,home,Image,Infinity,InnerHeight,InnerWidth,
+        isFinite,isNan,java,JavaArray,JavaClass,JavaObject,JavaPackage,length,Link,Location,locationbar,Math,menubar,
+        MimeType,moveBy,moveTo,NaN,navigate,navigator,netscape,Number,Object,onBlur,
+        onError,onFocus,onLoad,onUnload,opener,Option,outerHeight,
+        OuterWidth,Packages,pageXoffset,pageYoffset,parent,parseFloat,parseInt,Password,
+        personalbar,Plugin,print,prompt,prototype,Radio,ref,RegExpreleaseEvents,Reset,resizeBy,resizeTo,routeEvent,scroll,
+        scrollbars,scrollBy,scrollTo,Select,self,setInterval,setTimeout,status,statusbar,stop,String,
+        Submit,sun,taint,Text,Textarea,toolbar,top,toString,unescape,untaint,unwatch,valueOf,watch,window`;
+    }
+
+    public static get getConstantSpecialCharacters(): String {
+        return `\`|\\~|\\!|\\@|\\#|\\$|\\%|\\^|\\&|\\*|\\(|\\)|
+        \\+|\\=|\\[|\\{|\\]|\\}|\\||\\\\|\\'|\\<|\\,|\\.|\\>|\\?|\\/|\\""|\\"|\\;|\\:|\\s`;
+    }
 
 }
