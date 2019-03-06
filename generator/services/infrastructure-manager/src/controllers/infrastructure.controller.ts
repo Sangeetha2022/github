@@ -7,6 +7,7 @@ import { AppService } from '../services/app.service';
 import { SystemEntryService } from '../services/system-entry.service';
 import { TelemetryService } from '../services/telemetry.service';
 import { NamespaceService } from '../services/app.namespace';
+import {TerraformService} from '../services/terraform.service'
 //import InfrastructureDto from '../dto/infrastructure.dto';
 
 
@@ -14,6 +15,7 @@ let namespaceService = new NamespaceService()
 let appService = new AppService()
 let systemEntryService = new SystemEntryService()
 let telemetryService = new TelemetryService()
+let terraformService = new TerraformService()
 //let infrastructureDto = new InfrastructureDto()
 
 //local
@@ -36,7 +38,7 @@ export class InfrastructureController {
 
 
     //create project folder if not exists
-    let projectFolder = Destination + projectDetails.project_name;
+    let projectFolder = Destination + projectDetails.project_name+ "_" + projectDetails.user_id.substring(0, 5);
     if (!fs.existsSync(projectFolder)) {
       fs.mkdirSync(projectFolder);
     }
@@ -115,7 +117,7 @@ export class InfrastructureController {
 
 
     //create project folder if not exists
-    let projectFolder = DestinationAWS + projectDetails.project_name;
+    let projectFolder = DestinationAWS + projectDetails.project_name+ "_" + projectDetails.user_id.substring(0, 5);
     if (!fs.existsSync(projectFolder)) {
       fs.mkdirSync(projectFolder);
     }
@@ -136,6 +138,13 @@ export class InfrastructureController {
     //app namsespace
     namespaceService.generate_namespace(projectDetails, (response) => {
       //res.send(200);
+    })
+
+    //terraform for aws
+
+    terraformService.generate_aws_terraform(projectDetails, (response) => {
+        if (response.status === "success") {
+        }
     })
 
 

@@ -10,7 +10,7 @@ export class AppService {
     public generate_app_db_pod(projectDetails, callback: CallableFunction) {
 
 
-        let projectName = projectDetails.project_name + "_" + projectDetails.user_id
+        let projectName = projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5)
         let destination = projectDetails.destinationUrl + '/app-db-pod';
         let templatePath = projectDetails.templateUrl + '/app-db-pod';
 
@@ -54,7 +54,7 @@ export class AppService {
     public generate_app_pod(projectDetails, callback: CallableFunction) {
 
 
-        let projectName = projectDetails.project_name + "_" + projectDetails.user_id
+        let projectName = projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5)
         let destination = projectDetails.destinationUrl + '/app-pod';
         let templatePath = projectDetails.templateUrl + '/app-pod';
 
