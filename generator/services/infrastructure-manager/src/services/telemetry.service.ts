@@ -10,7 +10,7 @@ export class TelemetryService {
     public generate_telemetry_pod_vault(projectDetails, callback: CallableFunction) {
 
 
-        let projectName = projectDetails.project_name + "_" + projectDetails.user_id
+        let projectName = projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5)
         let destination = projectDetails.destinationUrl + '/telemetry-pod';
         let templatePath = projectDetails.templateUrl + '/telemetry-pod';
 

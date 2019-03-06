@@ -10,7 +10,7 @@ export class SystemEntryService {
     public generate_system_entry_pod(projectDetails, callback: CallableFunction) {
 
 
-        let projectName = projectDetails.project_name + "_" + projectDetails.user_id
+        let projectName = projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5)
         let destination = projectDetails.destinationUrl + '/system-entry-pod';
         let templatePath = projectDetails.templateUrl + '/system-entry-pod';
 
