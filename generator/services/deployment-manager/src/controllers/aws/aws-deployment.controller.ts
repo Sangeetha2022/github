@@ -17,7 +17,10 @@ const Client = kubernetes.Client1_10;
 const Source = path.resolve(__dirname, deployConfig.AWS.TEMPLATE_URL);
 
 import { RancherService } from '../../services/aws/rancher.service';
+import { KubernetesService } from '../../services/aws/kubernetes.service';
+
 let rancherService = new RancherService()
+let kubernetesService = new KubernetesService()
 
 export class AWSDeploymentController {
 
@@ -35,14 +38,26 @@ export class AWSDeploymentController {
         //var doc = yaml.safeLoad(fs.readFileSync('test.yaml', 'utf8'));
 
 
-       
-          rancherService.create_aws_nodes(projectDetails, (response) => {
-                    // console.log("response-------->", response);
-                    if(response.status == "success"){
-                        // console.log("response-data------->", response.data);
-                    }else{}
 
-            })
+        // rancherService.create_aws_nodes(projectDetails, (response) => {
+        //     if (response.status == "success") {
+        //         projectDetails.rancherHost = response.data;
+        //         kubernetesService.initKubernetes(projectDetails, (response) => {
+        //             console.log("response-------->", response);
+        //         })
+        //     } else {
+
+        //     }
+        // })
+
+        projectDetails.rancherHost = "https://54.84.232.129";
+        kubernetesService.connectRancher(projectDetails, (response) => {
+            console.log("response-------->", response);
+        })
+
+
+
+
 
         res.send({ "status": "deployment requested!" });
     }

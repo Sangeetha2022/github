@@ -6,9 +6,6 @@ import * as st from 'stringtemplate-js';
 import * as deployConfig from '../../config/config.json';
 import { exec } from 'child_process';
 
-const Client = require('kubernetes-client').Client
-const config = require('kubernetes-client').config
-const yaml = require('js-yaml');
 
 const Source = path.resolve(__dirname, deployConfig.AWS.DESTINATION_URL);
 
@@ -23,26 +20,43 @@ export class RancherService {
     public create_aws_nodes(projectDetails, callback: CallableFunction) {
 
 
-        let directryCmd = "cd "+terraformPlugin;
+        let directryCmd = "cd " + terraformPlugin;
+        let terraformInitCmd = "terraform init";
         let terraformCmd = "terraform apply -auto-approve";
         let rawData = null
         let rancherHost = null;
         let projectFolder = projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5)
-        let filePath = Source+"/"+projectFolder+terraformPath;
- 
+        let filePath = Source + "/" + projectFolder + terraformPath;
+
 
         fsextra.copySync(filePath, './aws/terraform.tfvars');
 
-        exec(directryCmd +' && '+ terraformCmd, function (error, stdout, stderr) {
-            // console.log('stdout-------->' + stdout);
+        // init aws plugin
+        exec(directryCmd + ' && ' + terraformInitCmd, function (error, stdout, stderr) {
+
             if (stderr) {
-                callback({ "status": "failed", "data": "Error accured Access Key or Seceret Key may be incorrect!" });
+                callback({ "status": "failed", "data": "Error accured while initializing aws plugin!" });
             }
             else {
                 if (stdout) {
-                    rawData = stdout;
-                    rancherHost = rawData.split('rancher-url =')[1].replace("[", '').replace("]", '').trim();
-                    callback({ "status": "success", "data": rancherHost });
+                    // create  nodes in aws
+                    exec(directryCmd + ' && ' + terraformCmd, function (error, stdout, stderr) {
+                        if (stderr) {
+                            callback({ "status": "failed", "data": "Error accured Access Key or Seceret Key may be incorrect!" });
+                        }
+                        else {
+                            if (stdout) {
+                                rawData = stdout;
+                                rancherHost = rawData.split('rancher-url =')[1].replace("[", '').replace("]", '').trim();
+                                callback({ "status": "success", "data": rancherHost });
+                            }
+                        }
+                        if (error !== null) {
+                            console.log('exec error: ' + error);
+                            callback({ "status": "failed", "data": "Error accured in exec!" });
+                        }
+                    });
+
                 }
             }
             if (error !== null) {
@@ -50,6 +64,8 @@ export class RancherService {
                 callback({ "status": "failed", "data": "Error accured in exec!" });
             }
         });
+
+
 
     }
 
