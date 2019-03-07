@@ -54,7 +54,7 @@ export class KubernetesService {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: { username: "admin", password: "*******" },
+            body: { username: "admin", password: "XXXXX" },
             json: true,
             rejectUnauthorized: false, //requestCert: true, //agent: false
         }, function (error, res, body) {
@@ -144,7 +144,7 @@ export class KubernetesService {
             const client = new Client({ config: config, version: '1.9' });
 
             //starts to deploy
-            devOpsService.dev_ops_db_pod(projectDetails, client, (response) => { })
+            devOpsService.dev_ops_pod(projectDetails, client, (response) => { })
         }
 
 
