@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SharedService {
-    public flowbaseUrl: String = 'http://localhost:3001';
+    // public flowbaseUrl: String = 'http://localhost:3001';
     // public mflowbaseUrl: String = 'http://localhost:3002';
     // public projbaseUrl: String = 'http://localhost:3003';
     // public screenUrl: String = 'http://localhost:3004';
@@ -11,7 +11,7 @@ export class SharedService {
     // public configUrl: String = 'http://localhost:5001'
 
 
-    // public flowbaseUrl: String = "http://a7b1cb70c352e11e99f1a12c401c6936-2100707124.us-east-1.elb.amazonaws.com:3001";
+    public flowbaseUrl: String = "http://a7b1cb70c352e11e99f1a12c401c6936-2100707124.us-east-1.elb.amazonaws.com:3001";
     public mflowbaseUrl: String = 'http://a7b1cb70c352e11e99f1a12c401c6936-2100707124.us-east-1.elb.amazonaws.com:3002';
     public projbaseUrl: String = 'http://a7b1cb70c352e11e99f1a12c401c6936-2100707124.us-east-1.elb.amazonaws.com:3003';
     public screenUrl: String = 'http://a7b1cb70c352e11e99f1a12c401c6936-2100707124.us-east-1.elb.amazonaws.com:3004';
