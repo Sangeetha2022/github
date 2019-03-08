@@ -16,15 +16,16 @@ export class DevOpsService {
 
         let namespaceYaml = projectDetails.yamlSource + "/namespace";
         let namespaceManifest = yaml.safeLoad(fs.readFileSync(namespaceYaml + '/namespace.yaml', 'utf8'));
-
+        console.log("deployment started...")
         async function createNameSpace() {
             try {
 
                 //create name space
                 const namespaceData = await client.api.v1.namespace.post({ body: namespaceManifest });
                 if (namespaceData.statusCode == 201) {
-                    projectDetails.namespace=namespaceData.body.metadata.name
-                    applyDeployDB()
+                    projectDetails.namespace = namespaceData.body.metadata.name
+                    //applyDeployDB()
+                    applyDeployDevOps()
                 }
 
 
@@ -36,9 +37,9 @@ export class DevOpsService {
 
         async function applyDeployDB() {
             try {
-                        
+
                 let devOpsDbYaml = projectDetails.yamlSource + "/dev-ops-db-pod";
-                
+
                 //deploy pvc
                 let sonarPvcManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/sonar-pv-postgres.yaml', 'utf8'));
                 const pvcData = await client.api.v1.namespaces(projectDetails.namespace).pvc.post({ body: sonarPvcManifest });
@@ -52,7 +53,7 @@ export class DevOpsService {
                 //service db
                 let serviceDbManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/dev-ops-db-service.yaml', 'utf8'));
                 const serviceDbData = await client.api.v1.namespaces(projectDetails.namespace).service.post({ body: serviceDbManifest });
-                if(serviceDbData.statusCode == 201) {
+                if (serviceDbData.statusCode == 201) {
                     applyDeployDevOps()
                 }
 
@@ -65,21 +66,22 @@ export class DevOpsService {
 
         async function applyDeployDevOps() {
             try {
-                        
+
                 let devOpsDbYaml = projectDetails.yamlSource + "/dev-ops-pod";
-                
+
 
                 //deploy dev-ops
                 let deployDevOpsManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/dev-ops-deployment.yaml', 'utf8'));
                 const deployDevOpsData = await client.apis.extensions.v1beta1.namespaces(projectDetails.namespace).deployments.post({ body: deployDevOpsManifest });
-                console.log("deployDevOpsData------>",deployDevOpsData)
-                
+                //console.log("deployDevOpsData------>", deployDevOpsData)
+
 
                 //service db
                 let serviceDbManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/dev-ops-service.yaml', 'utf8'));
                 const serviceDbData = await client.api.v1.namespaces(projectDetails.namespace).service.post({ body: serviceDbManifest });
-                if(serviceDbData.statusCode == 201) {
+                if (serviceDbData.statusCode == 201) {
                     // move to next pods...
+                    console.log("SUCCESS ALL DONE!")
                 }
 
 

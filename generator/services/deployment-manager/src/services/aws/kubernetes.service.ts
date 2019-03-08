@@ -28,20 +28,55 @@ export class KubernetesService {
 
     public async connectRancher(projectDetails, callback: CallableFunction) {
 
-
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+        console.log("connecting to rancher...")
         this.getRancherAccessKey(projectDetails, (response) => {
             if (response.status == "success") {
                 projectDetails.apiKey = response.data;
-                this.getRancherClusterId(projectDetails, (response) => {
+                this.getRancherClusterId(projectDetails, async (response) => {
                     let clusterData = response.data;
+                    let clusterState: any;
                     projectDetails.clusterId = clusterData.id;
-                    this.initKubernetes(projectDetails, (response) => {
 
-                    })
+                    console.log("cluster is provisioning....")
+                    for (let i = 0; i < 20; i++) {
+                        let check = checkClusterState(projectDetails.rancherHost);
+                        await delay(30000);
+                        check.then(function (result) { 
+                            clusterState = result 
+                        });
+                        console.log("cluster state : " + clusterState);
+                        if (clusterState === "active") {
+                            console.log("cluster is active!")
+                            this.initKubernetes(projectDetails, (response) => { })
+                            break;
+                        }
+                    }
+
                 })
             }
 
         })
+
+        function checkClusterState(host) {
+            return new Promise(resolve => {
+                request({
+                    uri: host + '/v3/clusters?limit=-1&sort=name', method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": "Bearer " + projectDetails.apiKey
+                    }, json: true,
+                    rejectUnauthorized: false,
+                }, function (error, res, body) {
+
+                    if (body) {
+                        return resolve(body.data[0].state)
+                    } if (error) {
+                        return resolve(error)
+                    }
+                })
+            });
+        }
 
     }
 
@@ -54,7 +89,7 @@ export class KubernetesService {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: { username: "admin", password: "XXXXX" },
+            body: { username: "admin", password: "admin" },
             json: true,
             rejectUnauthorized: false, //requestCert: true, //agent: false
         }, function (error, res, body) {
@@ -115,7 +150,6 @@ export class KubernetesService {
     public initKubernetes(projectDetails, callback: CallableFunction) {
 
         // configure kubernetes
-
         const projectNameYaml = "/" + projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5) + ".yaml"
 
         request({
@@ -138,14 +172,16 @@ export class KubernetesService {
         });
 
 
-        function initKubernetes() {
+        async function initKubernetes() {
             const config = K8sConfig.fromKubeconfig(kubeConfigpath + projectNameYaml)
             config.insecureSkipTlsVerify = true;
             const client = new Client({ config: config, version: '1.9' });
 
-            //starts to deploy
-            devOpsService.dev_ops_pod(projectDetails, client, (response) => { })
+            //start deployment
+            devOpsService.dev_ops_pod(projectDetails, client, (response) => { });
+
         }
+
 
 
         // kubctl api connect
@@ -156,7 +192,6 @@ export class KubernetesService {
         //     });
 
         // }
-
 
 
     }

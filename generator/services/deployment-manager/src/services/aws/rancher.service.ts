@@ -32,6 +32,7 @@ export class RancherService {
         fsextra.copySync(filePath, './aws/terraform.tfvars');
 
         // init aws plugin
+        console.log("running terraform...")
         exec(directryCmd + ' && ' + terraformInitCmd, function (error, stdout, stderr) {
 
             if (stderr) {
@@ -40,6 +41,7 @@ export class RancherService {
             else {
                 if (stdout) {
                     // create  nodes in aws
+                    console.log("creating nodes please wait...")
                     exec(directryCmd + ' && ' + terraformCmd, function (error, stdout, stderr) {
                         if (stderr) {
                             callback({ "status": "failed", "data": "Error accured Access Key or Seceret Key may be incorrect!" });
@@ -47,8 +49,9 @@ export class RancherService {
                         else {
                             if (stdout) {
                                 rawData = stdout;
-                                rancherHost = rawData.split('rancher-url =')[1].replace("[", '').replace("]", '').trim();
-                                callback({ "status": "success", "data": rancherHost });
+                                rancherHost = rawData.toString().split('rancher-url =')[1].replace("[", '').replace("]", '').replace(/\s/g,'');
+                                console.log("nodes created!");
+                                callback({ "status": "success", "data": rancherHost.replace('[0m','') });
                             }
                         }
                         if (error !== null) {
@@ -68,5 +71,12 @@ export class RancherService {
 
 
     }
+
+    // public creat_test(projectDetails, callback: CallableFunction) {
+       
+    //     let rancherHost2 = "https://54.172.222.122[0m";
+    //     callback({ "status": "success", "data":rancherHost2.replace('[0m','') });
+
+    // }
 
 }
