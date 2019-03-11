@@ -7,7 +7,7 @@ metadata:
   labels:
     app: elasticsearch
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: elasticsearch
   ports:

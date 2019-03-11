@@ -9,7 +9,7 @@ export class TerraformService {
 
     public generate_aws_terraform(projectDetails, callback: CallableFunction) {
 
-        let projectName = projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5)
+        let projectName = projectDetails.project_name + "-" + projectDetails.user_id.substring(0, 5)
         let destination =  projectDetails.destinationUrl + '/terraform';
         let templatePath = projectDetails.templateUrl+"/terraform";
 
@@ -25,11 +25,11 @@ export class TerraformService {
 
         //generate aws_terraform for nodes creation
         let generateTerraform = st.loadGroup(require(templatePath + '/aws_terraform_stg'));
-        let terraform = generateTerraform.render("aws_terraform", [projectName, aws_access_key, aws_secret_key, ssh_key_name]);
+        let terraform = generateTerraform.render("aws_terraform", [projectName.toLowerCase(), aws_access_key, aws_secret_key, ssh_key_name]);
 
         fs.writeFile(destination + '/terraform.tfvars', terraform, function (err) {
             if (err) throw err;
-            console.log('aws_terraform generated!!')
+            console.log('aws terraform generated!!')
             
         })
 
