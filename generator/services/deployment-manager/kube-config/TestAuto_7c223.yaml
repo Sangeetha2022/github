@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Config
+clusters:
+- name: "gep-dev-201902-cluster"
+  cluster:
+    server: "https://54.84.232.129/k8s/clusters/"
+    api-version: v1
+    certificate-authority-data: "XXXXXXXXXX"
+
+users:
+- name: "user-hk5tw"
+  user:
+    token: "kubeconfig-user-hk5tw:cmvwwxxt27lg2xw65crf6nfp6hcqzkfhxwcx4jtzpghk87b8ls5mbj"
+
+contexts:
+- name: "gep-dev-201902-cluster"
+  context:
+    user: "user-hk5tw"
+    cluster: "gep-dev-201902-cluster"
+
+current-context: "gep-dev-201902-cluster"
