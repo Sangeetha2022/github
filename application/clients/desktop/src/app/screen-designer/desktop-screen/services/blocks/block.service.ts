@@ -8,11 +8,63 @@ declare var agGrid: any;
 })
 export class BlockService {
 
+  // test: String = 'test';
   constructor(
     private traitService: TraitsService
   ) { }
 
   addCKeditor5(editor) {
+    // test
+
+    // editor.BlockManager.add('radio-block', {
+    //   label: 'Basic Form Element',
+    //   category: 'new',
+    //   content: {
+    //     tagName: 'input',
+    //     attributes: { type: 'text', ngModel: true }
+    //   }
+    // });
+
+    // editor.BlockManager.add('social-sign-in-butttons-section', {
+    //   label: 'Facebook sign-in',
+    //   category: 'new',
+    //   content:
+    //     '<div class="pull-left social-sign-in-button padding-right-small" data-gjs-droppable=".fa .fa-facebook-square">' +
+    //     '<img data-gjs-draggable=".social-sign-in-button" src="facebook.png" id="facebook" title="facebook" class="fa fa-facebook-square fa-3x ">' +
+    //     '</img>' +
+    //     '</div>',
+    //   attributes: {
+    //     class: 'fa fa-facebook'
+    //   }
+    // });
+
+    // editor.BlockManager.add('GooglePlus row', {
+    //   label: 'GooglePlus sign-in',
+    //   category: 'new',
+    //   content:
+    //     '<div class="pull-left social-sign-in-button padding-right-small">' +
+    //     '<img src="google.png" id="googleplus" title="googleplus" class="fa fa-google-plus-square fa-3x ">' +
+    //     '</img>' +
+    //     '</div>',
+    //   attributes: {
+    //     class: 'fa fa-google-plus-square'
+    //   }
+    // });
+
+    // editor.BlockManager.add('LinkedIn sign-in', {
+    //   label: 'LinkedIn sign-in',
+    //   category: 'new',
+    //   content:
+    //     '<div class="pull-left social-sign-in-button padding-right-small">' +
+    //     '<img src="linkedin.png" id="linkedin" title="linkedin" class="fa fa-linkedin-square fa-3x">' +
+    //     '</img>' +
+    //     '</div>',
+    //   attributes: {
+    //     class: 'fa fa-linkedin-square'
+    //   }
+    // });
+
+    // working fine
     editor.BlockManager.add('ckeditor', {
       id: 'ckeditor',
       label: `<svg width="443px" height="70px" viewBox="0 0 150 100"
@@ -69,7 +121,21 @@ export class BlockService {
           'padding-right': '2px',
           'padding-left': '2px',
           'padding-bottom': '10px'
-        }
+        },
+        'entity-name': 'testets',
+        traits: [{
+          type: 'text',
+          label: 'Name',
+          name: 'entity-name',
+          placeholder: 'Lorem ipsum',
+          changeProp: 1,
+        }, {
+          type: 'text',
+          label: 'Data Binding',
+          name: 'entity-data-binding',
+          placeholder: 'Lorem ipsum',
+          changeProp: 1,
+        }],
       },
       draggable: true,
       removable: true
@@ -99,108 +165,6 @@ export class BlockService {
 </div>`,
         type: 'grid-type',
         // activeOnRender: 1,
-        script: function () {
-          const initAgGrid = function () {
-            const columnDefs = [
-              {
-                headerName: 'A',
-                field: 'a',
-                sortable: true
-              },
-              {
-                headerName: 'B',
-                field: 'b.name',
-                sortable: true
-              },
-              {
-                headerName: 'C',
-                valueGetter: '\'zz\' + data.c.name',
-                sortable: true
-              },
-              {
-                headerName: 'D',
-                field: 'd.name',
-                sortable: true
-              },
-              {
-                headerName: 'E',
-                field: 'e.name',
-                sortable: true
-              }
-            ];
-
-            function createRowData() {
-              const rowData = [];
-              for (let i = 0; i < 100; i++) {
-                // create sample row item
-                const rowItem = {
-                  // is is simple
-                  a: 'aa' + Math.floor(Math.random() * 10000),
-                  // but b, c, d and e are all complex objects
-                  b: {
-                    name: 'bb' + Math.floor(Math.random() * 10000)
-                  },
-                  c: {
-                    name: 'cc' + Math.floor(Math.random() * 10000)
-                  },
-                  d: {
-                    name: 'dd' + Math.floor(Math.random() * 10000)
-                  },
-                  e: {
-                    name: 'ee' + Math.floor(Math.random() * 10000)
-                  }
-                };
-                rowData.push(rowItem);
-              }
-              return rowData;
-            }
-
-            this.gridOptions = {
-              defaultColDef: {
-                editable: true
-              },
-              columnDefs: columnDefs,
-              rowData: createRowData(),
-              components: {
-                boldRenderer: function (params) {
-                  return '<b>' + params.value.name + '</b>';
-                }
-              },
-              onGridReady: function (params) {
-                params.api.sizeColumnsToFit();
-
-                window.addEventListener('resize', function () {
-                  setTimeout(function () {
-                    params.api.sizeColumnsToFit();
-                  });
-                });
-              },
-              paginationAutoPageSize: true,
-              pagination: true,
-            };
-            const gridDiv = document.querySelector('#myGrid');
-            // tslint:disable-next-line:no-unused-expression
-            new agGrid.Grid(gridDiv, this.gridOptions);
-            this.gridOptions.cacheQuickFilter = false;
-            this.gridOptions.api.sizeColumnsToFit();
-          };
-          let exists = false;
-          const url = 'https://unpkg.com/ag-grid-community@20.0.0/dist/ag-grid-community.min.js';
-          const scripts = document.getElementsByTagName('script');
-          for (let i = scripts.length; i--;) {
-            if (scripts[i].src === url) {
-              exists = true;
-            }
-          }
-          if (exists) {
-            initAgGrid();
-          } else {
-            const script = document.createElement('script');
-            script.onload = initAgGrid;
-            script.src = url;
-            document.body.appendChild(script);
-          }
-        },
         style: {
           'padding-top': '10px',
           'padding-right': '10px',
@@ -212,6 +176,7 @@ export class BlockService {
       draggable: true,
       removable: true
     });
+    this.traitService.addGridTraits(editor, 'grid-type');
   }
 
 

@@ -10,6 +10,19 @@ export const UserTemplateSchema = new Schema({
     'gjs-components': [],
     'project-name': String,
     'default-language': String,
+    is_grid_present: {
+        type: Boolean,
+        default: false
+    },
+    grid_fields: {
+        html_id: String,
+        component_id: String,
+        fields: [{
+            column: String,
+            entity: String,
+            entityfield: String
+        }]
+    },
     created_at: {
         type: Date,
         default: Date.now
