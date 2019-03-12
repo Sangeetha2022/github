@@ -8,6 +8,7 @@ import { DataService } from '../../../shared/data.service';
 import { MatDialog } from '@angular/material';
 import { FieldPopupModalComponent } from './field-popup-modal/field-popup-modal.component';
 import { ToastrService } from 'ngx-toastr';
+import { RegexExpression } from '../../config/Regex';
 
 @Component({
   selector: 'app-entity-field',
@@ -24,7 +25,6 @@ export class EntityFieldComponent implements OnInit {
   public rowSelection;
   defaultColDef: { editable: boolean; sortable: boolean; filter: boolean; };
   frameworkComponents: { buttonRenderer: any; };
-
   public getEntityTypeValue: any[] = [];
   public entity: IEntity = {
     name: '',
@@ -40,12 +40,14 @@ export class EntityFieldComponent implements OnInit {
   allEntity: IEntity[];
   selectCellRenderedValue: String;
   selectedCellRowIndex: any;
+  EnteredReserveWord: String;
 
   constructor(
     private entityManagerService: ProjectComponentService,
     private router: Router,
     public dialog: MatDialog,
     private toastr: ToastrService,
+    private regexExpression: RegexExpression,
     private dataService: DataService
   ) {
     this.frameworkComponents = {
@@ -54,6 +56,7 @@ export class EntityFieldComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.regexExpression.generateReservedWord();
     this.getEntityType();
   }
 
@@ -78,7 +81,7 @@ export class EntityFieldComponent implements OnInit {
         headerName: 'Name',
         field: 'name',
         width: 250,
-        valueSetter: this.nameValueSetter,
+        valueSetter: this.nameValueSetter.bind(this),
       },
       {
         headerName: 'Type',
@@ -111,7 +114,7 @@ export class EntityFieldComponent implements OnInit {
     ];
     this.rowData = [
       {
-        name: 'Enter Name',
+        name: 'Enter_Name',
         type_name: 'Text',
         data_type: null,
         description: 'Description',
@@ -179,7 +182,6 @@ export class EntityFieldComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(entityData => {
-      console.log('afterClosed dialog are ------- ', entityData);
       if (entityData !== undefined) {
         if (standardValue === null) {
           e.data.is_entity_type = true;
@@ -257,9 +259,16 @@ export class EntityFieldComponent implements OnInit {
 
   // The value setter function/method
   nameValueSetter(params: ValueParserParams) {
-    const regexExpr = /`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\[|\{|\]|\}|\||\\|\'|\<|\,|\.|\>|\?|\/|\""|\"|\;|\:|\s/;
+    // const regexExpr = /`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\[|\{|\]|\}|\||\\|\'|\<|\,|\.|\>|\?|\/|\""|\"|\;|\:|\s/;
+    const regexExpr = new RegExp(this.regexExpression.getSpecialCharacter().toString(), 'g');
+    const reservedRegexExpr = new RegExp(this.regexExpression.getReservedWord(), 'i');
     if (regexExpr.test(params.newValue) || /[0-9]/.test(params.newValue.toString().charAt(0))) {
       setDivStyle('block');
+      this.EnteredReserveWord = null;
+      return false;
+    } else if (reservedRegexExpr.test(params.newValue)) {
+      setDivStyle('block');
+      this.EnteredReserveWord = String(params.newValue).toLowerCase();
       return false;
     }
     params.data[params.colDef.field] = params.newValue;
@@ -282,7 +291,7 @@ export class EntityFieldComponent implements OnInit {
 
 function createNewRowData() {
   const newData = {
-    name: 'Enter Name',
+    name: 'Enter_Name',
     type_name: 'Text',
     data_type: null,
     description: 'Description',
