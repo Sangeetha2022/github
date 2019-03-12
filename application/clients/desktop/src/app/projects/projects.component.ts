@@ -3,7 +3,7 @@ import { Component, OnInit, Injectable } from '@angular/core';
 import { AppComponentService } from '../app.component.service';
 import { ProjectsService } from '../projects/projects.service';
 import { DataService } from '../../shared/data.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EntityManagerService } from '../project-component/project-component.service';
 
@@ -33,6 +33,15 @@ export class ProjectsComponent implements OnInit {
     user_id: '',
     user_name: '',
   };
+  public params = {
+    code: '',
+    scope: '',
+    state: ''
+  };
+  public tokens: any;
+  public codes: any;
+  public scopes: any;
+  public states: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,6 +51,7 @@ export class ProjectsComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private entityManagerService: EntityManagerService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -55,16 +65,37 @@ export class ProjectsComponent implements OnInit {
       secondaryLanguage: [''],
     });
 
-    //socket
+    // socket
     this.initSocket();
     this.onEvent();
-    let user_id = "123"
-    if(!sessionStorage.getItem('onNotify')){
-    this.getAllUserNotify(user_id);
-    sessionStorage.setItem('onNotify','off')
+    // tslint:disable-next-line:prefer-const
+    let user_id = '123';
+    if (!sessionStorage.getItem('onNotify')) {
+      this.getAllUserNotify(user_id);
+      sessionStorage.setItem('onNotify', 'off');
     }
-   
+    this.Queryparams();
   }
+
+  Queryparams() {
+    this.route.queryParams.subscribe(params => {
+      this.codes = params['code'];
+      this.scopes = params['scope'];
+      this.states = params['state'];
+    });
+
+    this.params.code = this.codes;
+    this.params.scope = this.scopes;
+    this.params.state = this.states;
+
+    this.projectsService.landingpage(this.params).subscribe(data => {
+      this.tokens = data.body;
+      sessionStorage.setItem('Tokens', JSON.stringify(this.tokens));
+    }, error => {
+      console.error('error:', error);
+    });
+  }
+
   openModal() {
     this.displayModel = 'block';
   }
@@ -79,7 +110,7 @@ export class ProjectsComponent implements OnInit {
     this.displayGenratorModel = 'block';
   }
 
-  onCloseHandledGen(){
+  onCloseHandledGen() {
     this.displayGenratorModel = 'none';
   }
   get form_control() { return this.createProject.controls; }
@@ -168,59 +199,59 @@ export class ProjectsComponent implements OnInit {
 
     this.projectsService.addProject(dataToSave).subscribe(data => {
       console.log('data', data);
-      if(data){
-      this.dataService.setProjectInfo(data);
-      this.defaultEntity.user_id = "12345"
-      this.defaultEntity.user_name = "david",
-      this.defaultEntity.project_id = data._id;
-      this.defaultEntity.project_name = data.name;
-      this.defaultEntity.project_description = data.description;
+      if (data) {
+        this.dataService.setProjectInfo(data);
+        this.defaultEntity.user_id = '12345';
+        this.defaultEntity.user_name = 'david';
+        this.defaultEntity.project_id = data._id;
+        this.defaultEntity.project_name = data.name;
+        this.defaultEntity.project_description = data.description;
 
-      console.log("i am the entity u want",this.defaultEntity)
-      this.entityManagerService.addDefaultEntity(this.defaultEntity).subscribe(data=>{
-        this.dataService.setDefaultEntityInfo(data)
-      }),(error)=>{
-        console.log(error);
+        console.log('i am the entity u want', this.defaultEntity);
+        this.entityManagerService.addDefaultEntity(this.defaultEntity).subscribe(data => {
+          this.dataService.setDefaultEntityInfo(data);
+        }), (error) => {
+          console.log(error);
+        }
       }
-    }
       this.getAllMyProjects();
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });
     this.onCloseHandled();
     this.getAllMyProjects();
-  }  
+  }
 
-  //generation
+  // generation
   generateProject(project) {
-    console.log("project-------->", project);
-    //this.displayGenratorModel = 'block';
+    console.log('project-------->', project);
+    // this.displayGenratorModel = 'block';
 
     const projectgen = {
       project_id: project._id,
       project_name: project.name,
       user_id: "123",
       user_name: "tharani",
-      status: "gen_requested",
-      status_message: "generation requested",
-      stack_trace: "gen_processing",
-      claimed: "t",
-      parent_gen_id: "0"
+      status: 'gen_requested',
+      status_message: 'generation requested',
+      stack_trace: 'gen_processing',
+      claimed: 't',
+      parent_gen_id: '0'
     }
-    
+
 
     this.projectsService.generateProject(projectgen).subscribe(data => {
       console.log('data', data);
       //this.getAllMyProjects();
       this.getProjectNotify(projectgen.project_id)
-      this.toastr.success('PROJECT: '+projectgen.project_name, 'Generation Requested!', {
-        closeButton:true,
-        disableTimeOut:true
+      this.toastr.success('PROJECT: ' + projectgen.project_name, 'Generation Requested!', {
+        closeButton: true,
+        disableTimeOut: true
       });
     }, error => {
-      this.toastr.error("Failed!", 'Operation', {
-        closeButton:true,
-        disableTimeOut:true
+      this.toastr.error('Failed!', 'Operation', {
+        closeButton: true,
+        disableTimeOut: true
       });
       console.log('Check the browser console to see more info.', 'Error!');
     });
@@ -232,33 +263,33 @@ export class ProjectsComponent implements OnInit {
   }
 
   onEvent() {
-    this.projectsService.onEvent("connect");
+    this.projectsService.onEvent('connect');
   }
 
   disconnect() {
-    this.projectsService.onEvent("disconnect")
+    this.projectsService.onEvent('disconnect')
   }
 
   //socket get notify
   getProjectNotify(project_id) {
     this.projectsService.getProjectNotify(project_id).subscribe(data => {
-      console.log("socket data---->", data)
+      console.log('socket data---->', data)
       this.genNotifyArr.push(data);
-      let currentNotify :any;
+      let currentNotify: any;
       currentNotify = data;
-      if (currentNotify.project_id!==undefined) {
-        if(currentNotify.status!=="gen_requested"){
-        this.toastr.success('PROJECT : '+currentNotify.project_name+", STATUS : "+currentNotify.status_message+"", "Generation Notification!", {
-          closeButton:true,
-          disableTimeOut:true
-        });
-       }
+      if (currentNotify.project_id !== undefined) {
+        if (currentNotify.status !== 'gen_requested') {
+          this.toastr.success('PROJECT : ' + currentNotify.project_name + ', STATUS : ' + currentNotify.status_message + '', 'Generation Notification!', {
+            closeButton: true,
+            disableTimeOut: true
+          });
+        }
       }
     },
       error => {
         this.toastr.error('Failed', 'Operation!', {
-          closeButton:true,
-          disableTimeOut:true
+          closeButton: true,
+          disableTimeOut: true
         });
         console.log('Check the browser console to see more info.', 'Error!');
       });
@@ -275,19 +306,19 @@ export class ProjectsComponent implements OnInit {
 
   }
 
-  getAllUserNotify(user_id){
+  getAllUserNotify(user_id) {
 
     this.projectsService.getAllUserNotify(user_id).subscribe(data => {
       this.userNotifyArr = data;
       console.log('userNotifydata:', data);
       if (this.userNotifyArr.length !== 0) {
-        this.toastr.info('PROJECT : '+this.userNotifyArr[this.userNotifyArr.length-1].project_name
-        +", STATUS : "+this.userNotifyArr[this.userNotifyArr.length-1].status_message,
-        "Generation Notification!", {
-          closeButton:true,
-          disableTimeOut:true
-        });
-        this.getProjectNotify(this.userNotifyArr[this.userNotifyArr.length-1].project_id)
+        this.toastr.info('PROJECT : ' + this.userNotifyArr[this.userNotifyArr.length - 1].project_name
+          + ', STATUS : ' + this.userNotifyArr[this.userNotifyArr.length - 1].status_message,
+          'Generation Notification!', {
+            closeButton: true,
+            disableTimeOut: true
+          });
+        this.getProjectNotify(this.userNotifyArr[this.userNotifyArr.length - 1].project_id)
       }
     },
       error => {
