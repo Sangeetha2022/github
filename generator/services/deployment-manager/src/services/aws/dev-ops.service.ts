@@ -24,8 +24,7 @@ export class DevOpsService {
                 const namespaceData = await client.api.v1.namespace.post({ body: namespaceManifest });
                 if (namespaceData.statusCode == 201) {
                     projectDetails.namespace = namespaceData.body.metadata.name
-                    //applyDeployDB()
-                    applyDeployDevOps()
+                    applyDeployDB();
                 }
 
 
@@ -81,7 +80,7 @@ export class DevOpsService {
                 const serviceDbData = await client.api.v1.namespaces(projectDetails.namespace).service.post({ body: serviceDbManifest });
                 if (serviceDbData.statusCode == 201) {
                     // move to next pods...
-                    console.log("SUCCESS ALL DONE!")
+                    console.log("SUCCESS DEV-OPS DEPLOYED!")
                 }
 
 
