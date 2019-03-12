@@ -10,8 +10,12 @@ import * as deployConfig from '../../config/config.json';
 import { exec } from 'child_process';
 
 import { DevOpsService } from './dev-ops.service';
+import { TelemetryService } from './telemetry.service';
+import { AppService } from './app.service';
 
 let devOpsService = new DevOpsService();
+let telemetryService = new TelemetryService();
+let appService = new AppService();
 
 
 const kubeConfigpath = deployConfig.KUBECONFIG.YAML;
@@ -42,8 +46,8 @@ export class KubernetesService {
                     for (let i = 0; i < 20; i++) {
                         let check = checkClusterState(projectDetails.rancherHost);
                         await delay(30000);
-                        check.then(function (result) { 
-                            clusterState = result 
+                        check.then(function (result) {
+                            clusterState = result
                         });
                         console.log("cluster state : " + clusterState);
                         if (clusterState === "active") {
@@ -178,7 +182,26 @@ export class KubernetesService {
             const client = new Client({ config: config, version: '1.9' });
 
             //start deployment
-            devOpsService.dev_ops_pod(projectDetails, client, (response) => { });
+
+
+            //telemetry vault promethues
+            if (projectDetails.telemetry_pod.vault) {
+                telemetryService.telemetry_vault(projectDetails, client, (response) => { });
+            }
+
+            //dev-ops
+            if (projectDetails.dev_ops_pod) {
+                devOpsService.dev_ops_pod(projectDetails, client, (response) => { });
+            }
+
+            //App pod
+            if (projectDetails.app_pod) {
+                appService.app_pod(projectDetails, client, (response) => { });
+            }
+
+
+
+
 
         }
 
