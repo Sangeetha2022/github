@@ -8,7 +8,7 @@ import { Request, Response, NextFunction } from 'express';
 const cheerio = require('cheerio');
 
 
-const PORT = 3010;
+const PORT = 3007;
 
 class App {
 

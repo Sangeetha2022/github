@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SharedService {
 
-    public loginUrl: String = 'http://localhost:3010';
+    public loginUrl: String = 'http://localhost:3007';
     public flowbaseUrl: String = 'http://localhost:3001';
 
     // public flowbaseUrl: String = 'http://localhost:3001';
