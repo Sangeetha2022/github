@@ -8,72 +8,88 @@ const Client = require('kubernetes-client').Client
 const config = require('kubernetes-client').config
 const yaml = require('js-yaml');
 
+const Destination = deployConfig.LOCAL.DESTINATION_URL;
+const client = new Client({ config: config.fromKubeconfig(), version: '1.9' })
 
 export class DevOpsService {
 
-    public deploy_dev_ops_pod(projectDetails, callback: CallableFunction) {
+    public deploy_dev_ops_pod(projectDetails, callback: CallableFunction) {   
 
-        try {
-            var deploymentManifest = yaml.safeLoad(fs.readFileSync('/Users/10decoders/Desktop/geppetto-new/dev-ops/dev-ops-deployment.yaml', 'utf8'));
-            console.log("deploymentManifest", JSON.stringify(deploymentManifest));
-        } catch (e) {
-            console.log(e);
-        }
-        
-        async function applyDeploy() {
-            const client = new Client({ config: config.fromKubeconfig(), version: '1.9' })
+        projectDetails.yamlSource = Destination + "/" + projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5) + "/deployment/local"
+
+        let namespaceYaml = projectDetails.yamlSource + "/namespace";
+        let namespaceManifest = yaml.safeLoad(fs.readFileSync(namespaceYaml + '/namespace.yaml', 'utf8'));
+
+        async function createNameSpace() {
             try {
-        
-                //get the namespaces
-                const namespaces = await client.api.v1.namespaces.get()
-                console.log('Namespaces: ', JSON.stringify(namespaces));
-        
-                //create a new deployment
-                const createDeployment = await client.apis.extensions.v1beta1.namespaces('default').deployments.post({ body: deploymentManifest })
-                console.log('CreateDeployment: ', createDeployment)
-        
-                //fetch the deployment we created
-                const deployment = await client.apis.extensions.v1beta1.namespaces('default').deployments(deploymentManifest.metadata.name).get()
-                console.log('Deployment: ', deployment)
-        
-                // //remove the deployment we created
-                // const removed = await client.apis.extensions.v1beta1.namespaces('default').deployments(deploymentManifest.metadata.name).delete()
-                // console.log('Removed: ', removed)
+                //create namespace
+                const namespaceData = await client.api.v1.namespace.post({ body: namespaceManifest });
+                if (namespaceData.statusCode == 201) {
+                    projectDetails.namespace=namespaceData.body.metadata.name
+                    applyDeployDB()
+                }
+            }
+             catch (err) {
+                console.error('Error: ', err)
+            }
+        }
+        createNameSpace()
+
+        async function applyDeployDB() {
+            try {
+                        
+                let devOpsDbYaml = projectDetails.yamlSource + "/dev-ops-db-pod";
+                
+                //deploy pvc
+                let sonarPvcManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/sonar-pv-postgres.yaml', 'utf8'));
+                const pvcData = await client.api.v1.namespaces(projectDetails.namespace).pvc.post({ body: sonarPvcManifest });
+                console.log("pvcData", pvcData)
+                await delay(5000);
+
+                //deploy db
+                let deployDbManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/dev-ops-db-deployment.yaml', 'utf8'));
+                const deployDbData = await client.apis.extensions.v1beta1.namespaces(projectDetails.namespace).deployments.post({ body: deployDbManifest });
+                console.log("deployDbData", deployDbData)
+                await delay(10000);
+
+                //service db
+                let serviceDbManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/dev-ops-db-service.yaml', 'utf8'));
+                const serviceDbData = await client.api.v1.namespaces(projectDetails.namespace).service.post({ body: serviceDbManifest });
+                if(serviceDbData.statusCode == 201) {
+                    applyDeployDevOps()
+                }
+
             } catch (err) {
                 console.error('Error: ', err)
             }
         }
-        applyDeploy()    
-    }
 
-    public deploy_dev_ops_db_pod(projectDetails, callback: CallableFunction) {
-
-        try {
-            var deploymentManifest = yaml.safeLoad(fs.readFileSync('/Users/10decoders/Desktop/geppetto-new/dev-ops-db/dev-ops-db-deployment.yaml', 'utf8'));
-            console.log("deploymentManifest", JSON.stringify(deploymentManifest));
-        } catch (e) {
-            console.log(e);
-        }
-        
-        async function applyDeploy() {
-            const client = new Client({ config: config.fromKubeconfig(), version: '1.9' })
+        async function applyDeployDevOps() {
             try {
-        
-                //create a new deployment
-                const createDeployment = await client.apis.extensions.v1beta1.namespaces('default').deployments.post({ body: deploymentManifest })
-                console.log('CreateDeployment: ', createDeployment)
-        
-                //fetch the deployment we created
-                const deployment = await client.apis.extensions.v1beta1.namespaces('default').deployments(deploymentManifest.metadata.name).get()
-                console.log('Deployment: ', deployment)
-        
-                // //remove the deployment we created
-                // const removed = await client.apis.extensions.v1beta1.namespaces('default').deployments(deploymentManifest.metadata.name).delete()
-                // console.log('Removed: ', removed)
+                        
+                let devOpsDbYaml = projectDetails.yamlSource + "/dev-ops-pod";
+                
+                //deploy dev-ops
+                let deployDevOpsManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/dev-ops-deployment.yaml', 'utf8'));
+                const deployDevOpsData = await client.apis.extensions.v1beta1.namespaces(projectDetails.namespace).deployments.post({ body: deployDevOpsManifest });
+                console.log("deployDevOpsData------>",deployDevOpsData)
+                
+
+                //service db
+                let serviceDbManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/dev-ops-service.yaml', 'utf8'));
+                const serviceDbData = await client.api.v1.namespaces(projectDetails.namespace).service.post({ body: serviceDbManifest });
+                if(serviceDbData.statusCode == 201) {
+                    // move to next pods...
+                }
+
             } catch (err) {
                 console.error('Error: ', err)
             }
         }
-        applyDeploy()    
+
+        const delay = ms => new Promise(res => setTimeout(res, ms));
     }
-    }
+}
+
+
+  
