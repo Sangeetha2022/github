@@ -37,9 +37,8 @@
 
   <div class="flowTable" *ngIf="default_connector">
     <ag-grid-angular #agGrid3 style=" width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
-      (rowSelected)="selectDefaultConnector()" [animateRows]="true" class="ag-theme-balham"
-      [columnDefs]="linkedConnectorColDef" [rowData]="default_connector" [rowSelection]="rowSelection"
-      (gridReady)="onDCGridReady($event)">
+      (rowSelected)="selectDefaultConnector()" [animateRows]="true" class="ag-theme-balham" [columnDefs]="linkedConnectorColDef"
+      [rowData]="default_connector" [rowSelection]="rowSelection" (gridReady)="onDCGridReady($event)">
     </ag-grid-angular>
   </div>
 
@@ -56,9 +55,8 @@
     </div>
     <div class="flowTable" *ngIf="microFlow.length > 0">
       <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef"
-        (selectionChanged)="onSelectionMFChange()" [rowSelection]="rowSelection" [animateRows]="true"
-        class="ag-theme-balham" [columnDefs]="microColDef" [rowData]="microFlow"
-        (gridReady)="onGridMicroFlowReady($event)"></ag-grid-angular>
+        (selectionChanged)="onSelectionMFChange()" [rowSelection]="rowSelection" [animateRows]="true" class="ag-theme-balham"
+        [columnDefs]="microColDef" [rowData]="microFlow" (gridReady)="onGridMicroFlowReady($event)"></ag-grid-angular>
     </div>
   </div>
 </div>
@@ -72,11 +70,10 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="component_name">{{'componentName' | i18next}}</label>
-                <input type="text" class="form-control" placeholder="enter Dev Framework" hidden id="_id"
-                  [(ngModel)]="dconnector._id" formControlName="_id">
+                <input type="text" class="form-control" placeholder="enter Dev Framework" hidden id="_id" [(ngModel)]="dconnector._id"
+                  formControlName="_id">
                 <input type="text" class="form-control" placeholder="Enter component name" id="component_name"
-                  formControlName="component_name" [(ngModel)]="iFlowComponent.component_name"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.component_name.errors }">
+                  formControlName="component_name" [(ngModel)]="iFlowComponent.component_name" [ngClass]="{ 'is-invalid': submitted && form_control.component_name.errors }">
                 <div *ngIf="submitted && form_control.component_name.errors" class="invalid-feedback">
                   <div *ngIf="form_control.component_name.errors.required">{{'require_name' | i18next}}</div>
                 </div>
@@ -87,8 +84,7 @@
               <div class="form-group">
                 <label for="label">{{'label'| i18next}}</label>
                 <input type="text" class="form-control" placeholder="{{'placeholder_label' | i18next}}" id="label"
-                  formControlName="label" [(ngModel)]="iFlowComponent.label"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.label.errors }">
+                  formControlName="label" [(ngModel)]="iFlowComponent.label" [ngClass]="{ 'is-invalid': submitted && form_control.label.errors }">
                 <div *ngIf="submitted && form_control.label.errors" class="invalid-feedback">
                   <div *ngIf="form_control.label.errors.required">{{'require_label' | i18next}}</div>
                 </div>
@@ -100,8 +96,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="type">{{'type'| i18next}}</label>
-                <input class="form-control" id="type" placeholder="Enter Type" formControlName="type"
-                  [(ngModel)]="iFlowComponent.type" [ngClass]="{ 'is-invalid': submitted && form_control.type.errors }">
+                <input class="form-control" id="type" placeholder="Enter Type" formControlName="type" [(ngModel)]="iFlowComponent.type"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.type.errors }">
                 <div *ngIf="submitted && form_control.type.errors" class="invalid-feedback">
                   <div *ngIf="form_control.type.errors.required">{{'require_description' | i18next}}</div>
                 </div>
@@ -110,9 +106,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="sequence_id">{{'sequenceId'| i18next}}</label>
-                <input type="number" class="form-control" placeholder="Enter Sequence Id" id="sequence_id"
-                  [(ngModel)]="iFlowComponent.sequence_id" formControlName="sequence_id"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.sequence_id.errors }">
+                <input type="number" class="form-control" placeholder="Enter Sequence Id" id="sequence_id" [(ngModel)]="iFlowComponent.sequence_id"
+                  formControlName="sequence_id" [ngClass]="{ 'is-invalid': submitted && form_control.sequence_id.errors }">
                 <div *ngIf="submitted && form_control.sequence_id.errors" class="invalid-feedback">
                   <div *ngIf="form_control.sequence_id.errors.required">should not be empty</div>
                 </div>
@@ -123,9 +118,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="dev_language">{{'devLang'| i18next}}</label>
-                <input class="form-control" id="dev_language" placeholder="Enter Dev Language"
-                  formControlName="dev_language" [(ngModel)]="iFlowComponent.dev_language"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.dev_language.errors }">
+                <input class="form-control" id="dev_language" placeholder="Enter Dev Language" formControlName="dev_language"
+                  [(ngModel)]="iFlowComponent.dev_language" [ngClass]="{ 'is-invalid': submitted && form_control.dev_language.errors }">
                 <div *ngIf="submitted && form_control.dev_language.errors" class="invalid-feedback">
                   <div *ngIf="form_control.dev_language.errors.required">{{'require_description' | i18next}}</div>
                 </div>
@@ -135,8 +129,7 @@
               <div class="form-group">
                 <label for="dev_framework">{{'devFramework'| i18next}}</label>
                 <input type="text" class="form-control" placeholder="enter Dev Framework" id="dev_framework"
-                  [(ngModel)]="iFlowComponent.dev_framework" formControlName="dev_framework"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.dev_framework.errors }">
+                  [(ngModel)]="iFlowComponent.dev_framework" formControlName="dev_framework" [ngClass]="{ 'is-invalid': submitted && form_control.dev_framework.errors }">
                 <div *ngIf="submitted && form_control.dev_framework.errors" class="invalid-feedback">
                   <div *ngIf="form_control.dev_framework.errors.required">should not be empty</div>
                 </div>
@@ -147,10 +140,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="description">{{ 'description' | i18next }}</label>
-                <textarea class="form-control" rows="1" id="description"
-                  placeholder="{{'placeholder_description' | i18next}}" formControlName="description"
-                  [(ngModel)]="iFlowComponent.description"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }"></textarea>
+                <textarea class="form-control" rows="1" id="description" placeholder="{{'placeholder_description' | i18next}}"
+                  formControlName="description" [(ngModel)]="iFlowComponent.description" [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }"></textarea>
                 <div *ngIf="submitted && form_control.description.errors" class="invalid-feedback">
                   <div *ngIf="form_control.description.errors.required">{{'require_description' | i18next}}</div>
                 </div>
@@ -160,9 +151,8 @@
               <div class="form-group">
                 <div class="form-check">
                   <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" formControlName="connector"
-                      [checked]="iFlowComponent.connector" [(ngModel)]="iFlowComponent.connector"
-                      value="">{{'connector'|i18next}}</label>
+                    <input type="checkbox" class="form-check-input" formControlName="connector" [checked]="iFlowComponent.connector"
+                      [(ngModel)]="iFlowComponent.connector" value="">{{'connector'|i18next}}</label>
                 </div>
               </div>
             </div>
@@ -171,15 +161,12 @@
       </div>
       <div class="modal-footer">
         <div class="form-group" *ngIf="isDisableFlowComp">
-          <button type="button" class="btn button-create"
-            (click)="createFlowComponent()">{{ 'create' | i18next }}</button>
+          <button type="button" class="btn button-create" (click)="createFlowComponent()">{{ 'create' | i18next }}</button>
           <button type="button" class="btn button-close" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
         </div>
         <div class="form-group" *ngIf="!isDisableFlowComp">
-          <button type="button" class="btn button-create"
-            (click)="updateFlowCompModel()">{{ 'update' | i18next }}</button>
-          <button type="button" class="btn button-close"
-            (click)="onCloseHandledUpdate()">{{ 'cancel' | i18next }}</button>
+          <button type="button" class="btn button-create" (click)="updateFlowCompModel()">{{ 'update' | i18next }}</button>
+          <button type="button" class="btn button-close" (click)="onCloseHandledUpdate()">{{ 'cancel' | i18next }}</button>
         </div>
       </div>
     </div>
@@ -214,23 +201,38 @@
               </select>
             </div>
             <div class="form-group" *ngIf="selectedAvaConnector">
+              <label for="sel1">Enter Key Values for Connector Properties:</label>
+              <select class="form-control" [(ngModel)]="selectedAvaConnectorProp">
+                <option *ngFor="let avaMethod of selectedAvaConnector.properties" [ngValue]="avaMethod">
+                  {{avaMethod.key}}</option>
+              </select>
+              <input type="text" *ngIf="selectedAvaConnectorProp" class="form-control" placeholder="enter {{selectedAvaConnectorProp.key}} value"
+                id="description" [(ngModel)]="selectedAvaConnectorProp.value" name="description" [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }">
+            </div>
+            <div class="form-group" *ngIf="selectedAvaConnector">
               <label for="sel1">Select Methods/APIs:</label>
-              <select class="form-control" [(ngModel)]="selectedAvaConnectorMethod"
-                (change)="onSelectAvaConnectorMethod()">
+              <select class="form-control" [(ngModel)]="selectedAvaConnectorMethod" (change)="onSelectAvaConnectorMethod()">
                 <option *ngFor="let avaMethod of selectedAvaConnector.available_apis" [ngValue]="avaMethod">
                   {{avaMethod.name}} {{avaMethod.description}}</option>
               </select>
+            </div>
+            <div class="form-group" *ngIf="selectedAvaConnectorMethod">
+              <label for="sel1">Enter Key Values for Method/API:</label>
+              <select class="form-control" [(ngModel)]="selectedAvaConnectorMethodApi" (change)="onSelectAvaConnectorMethodProp()">
+                <option *ngFor="let avaMethod of selectedAvaConnectorMethod.properties" [ngValue]="avaMethod">
+                  {{avaMethod.key}}</option>
+              </select>
+              <input type="text" *ngIf="selectedAvaConnectorMethodApi" class="form-control" placeholder="enter {{selectedAvaConnectorMethodApi.key}} value"
+                id="description" [(ngModel)]="selectedAvaConnectorMethodApi.value" name="description" [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }">
             </div>
           </div>
 
           <div class="row">
             <div class="radio mr-sm-4" *ngIf="!selectConnector">
-              <label><input type="radio" name="disableDConnector" [value]="false"
-                  [(ngModel)]="disableDConnector">Disable</label>
+              <label><input type="radio" name="disableDConnector" [value]="false" [(ngModel)]="disableDConnector">Disable</label>
             </div>
             <div class="radio" *ngIf="!selectConnector">
-              <label><input type="radio" name="disableDConnector" [value]="true"
-                  [(ngModel)]="disableDConnector">Enable</label>
+              <label><input type="radio" name="disableDConnector" [value]="true" [(ngModel)]="disableDConnector">Enable</label>
             </div>
           </div>
 
@@ -306,8 +308,7 @@
           <button type="button" class="btn button-close" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
         </div>
         <div class="form-group" *ngIf="!isDisplayDConnector">
-          <button type="button" class="btn button-create"
-            (click)="updateDefaultConnector()">{{ 'update' | i18next }}</button>
+          <button type="button" class="btn button-create" (click)="updateDefaultConnector()">{{ 'update' | i18next }}</button>
           <button type="button" class="btn button-close" (click)="onCloseHandledUpdate()">{{ 'cancel' |
             i18next }}</button>
         </div>
@@ -407,8 +408,7 @@
               <div class="form-group">
                 <label for="sequence_id">{{'sequenceId'| i18next}}</label>
                 <input type="number" class="form-control" placeholder="Enter Sequence Id" id="sequence_id"
-                  formControlName="sequence_id" [(ngModel)]="iMicroFlow.sequence_id"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.sequence_id.errors }">
+                  formControlName="sequence_id" [(ngModel)]="iMicroFlow.sequence_id" [ngClass]="{ 'is-invalid': submitted && form_control.sequence_id.errors }">
                 <div *ngIf="submitted && form_control.sequence_id.errors" class="invalid-feedback">
                   <div *ngIf="form_control.sequence_id.errors.required">{{'require_name' | i18next}}</div>
                 </div>
@@ -418,10 +418,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="component_name">{{'componentName'|i18next}}</label>
-                <input type="text" class="form-control" placeholder="Enter Component Name" id="component_name"
-                  [value]="selectedFlowCmpnt[0]?.component_name" disabled formControlName="component_name"
-                  [(ngModel)]="iMicroFlow.component_name"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.component_name.errors }">
+                <input type="text" class="form-control" placeholder="Enter Component Name" id="component_name" [value]="selectedFlowCmpnt[0]?.component_name"
+                  disabled formControlName="component_name" [(ngModel)]="iMicroFlow.component_name" [ngClass]="{ 'is-invalid': submitted && form_control.component_name.errors }">
                 <div *ngIf="submitted && form_control.component_name.errors" class="invalid-feedback">
                   <div *ngIf="form_control.component_name.errors.required">{{'require_label' | i18next}}</div>
                 </div>
@@ -434,8 +432,7 @@
               <div class="form-group">
                 <label for="micro_flow_step_name">{{'microFlowName'|i18next}}</label>
                 <textarea class="form-control" rows="1" id="micro_flow_step_name" placeholder="Enter Micro Flow Name"
-                  formControlName="micro_flow_step_name" [(ngModel)]="iMicroFlow.micro_flow_step_name"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.micro_flow_step_name.errors }"></textarea>
+                  formControlName="micro_flow_step_name" [(ngModel)]="iMicroFlow.micro_flow_step_name" [ngClass]="{ 'is-invalid': submitted && form_control.micro_flow_step_name.errors }"></textarea>
                 <div *ngIf="submitted && form_control.micro_flow_step_name.errors" class="invalid-feedback">
                   <div *ngIf="form_control.micro_flow_step_name.errors.required">{{'require_description' | i18next}}
                   </div>
@@ -452,8 +449,7 @@
         </div>
         <div class="form-group" *ngIf="!isDisplayMicroFlow">
           <button type="button" class="btn button-create" (click)="updateMicroFlow()">{{ 'update' | i18next }}</button>
-          <button type="button" class="btn button-close"
-            (click)="onCloseMFHandledUpdate()">{{ 'cancel' | i18next }}</button>
+          <button type="button" class="btn button-close" (click)="onCloseMFHandledUpdate()">{{ 'cancel' | i18next }}</button>
         </div>
       </div>
     </div>

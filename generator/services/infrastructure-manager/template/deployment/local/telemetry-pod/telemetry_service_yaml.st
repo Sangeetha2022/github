@@ -5,6 +5,7 @@ metadata:
   name: $project_name$-telimetry
   labels:
     app: $project_name$-telimetry
+  namespace: $project_name$  
 spec:
   type: NodePort
   ports:

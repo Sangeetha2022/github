@@ -15,5 +15,6 @@ export class Routes {
 
         app.route('/generate/infrastructure/local/:project_id').post(this.infraController.generateInfrastructureLocal);
 
+        app.route('/generate/infrastructure/aws/:project_id').post(this.infraController.generateInfrastructureAWS);
     }
 }

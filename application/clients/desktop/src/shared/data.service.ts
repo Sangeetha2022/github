@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 // import { Subscription } from '../project-details/interface/subscription';
 import { IEntity } from '../app/project-component/interface/Entity';
-import {IDeafaultEntity} from '../app/projects/interface/user'
+import { IDeafaultEntity } from '../app/projects/interface/user';
 import { IFlow } from 'src/app/flow-manager/interface/flow';
 
 
@@ -41,11 +41,7 @@ export class DataService {
     private projectInfoSource = new BehaviorSubject<any>({});
     currentProjectInfo = this.projectInfoSource.asObservable();
 
-    //user info
-    private defaultEntityInfoSource = new BehaviorSubject<any>({});
-    currentDeafultEntityInfoSource = this.defaultEntityInfoSource.asObservable();
-
-    //flow info
+    // flow info
     private flowIdInfoSource = new BehaviorSubject<any>({});
     currentFlowIdInfoSource = this.flowIdInfoSource.asObservable();
 
@@ -61,6 +57,14 @@ export class DataService {
     private entityInfoSource = new BehaviorSubject<IEntity>(this.entity);
     currentSelectedEntityInfo = this.entityInfoSource.asObservable();
 
+     // screen agGrid Field binding info
+     private agGridInfoSource = new BehaviorSubject<any[]>([]);
+     currentAgGridInfoSource = this.agGridInfoSource.asObservable();
+
+     // screen agGrid Entity info
+     private agGridEntitySource = new BehaviorSubject<any>('');
+     currentAgGridEntitySource = this.agGridEntitySource.asObservable();
+
     constructor() { }
 
     // set default language
@@ -73,24 +77,29 @@ export class DataService {
         this.projectInfoSource.next(details);
     }
 
-     // set selected entity
-  setEntity(entity: any) {
-    this.entityInfoSource.next(entity);
-  }
+    // set selected entity
+    setEntity(entity: any) {
+        this.entityInfoSource.next(entity);
+    }
 
     // set all entity details
     setAllEntity(entities: IEntity[]) {
         this.allEntitySource.next(entities);
     }
 
-    setDefaultEntityInfo(defaultEntity: IDeafaultEntity[]) {
-        console.log("defaultEntity",defaultEntity)
-        this.defaultEntityInfoSource.next(defaultEntity);
-    }
+   // screen agGrid Field binding info
+   setAgGridValue(agGrid: any[]) {
+       this.agGridInfoSource.next(agGrid);
+   }
+
+   //  screen agGrid Entity info
+   setAgGridEntity(agGrid: any) {
+    this.agGridEntitySource.next(agGrid);
+}
 
 
     setFlowIdInfo(flow: IFlow) {
-        console.log("defaultEntity",flow)
+        console.log('defaultEntity', flow);
         this.flowIdInfoSource.next(flow);
     }
 

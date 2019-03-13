@@ -23,6 +23,7 @@ export class Routes {
         app.route('/entity/delete/:id').delete(this.entityController.deleteEntity);
         app.route('/entity/get/:id').get(this.entityController.getByEntityId);
         app.route('/entity/getall').get(this.entityController.getAllEntity);
+        app.route('/entity/get').get(this.entityController.getEntityByProjectId);
 
         // entity field
         app.route('/entity/field/update').put(this.entityController.updateEntityField);
@@ -31,10 +32,7 @@ export class Routes {
         app.route('/entity_type/get').get(this.entityTypeController.getAllEntity);
 
         // default entity
-        app.route('/default_entity/save').post(this.defaultEntityController.createDefaultEntity);
-        app.route('/default_entity/getall').get(this.defaultEntityController.getAllDefaultEntity);
-        app.route('/default_entity/getbyproject/:id').get(this.defaultEntityController.getDefaultEntityByProjectId);
-        app.route('/default_entity/getbyuser/:id').get(this.defaultEntityController.getDefaultEntityByUserId);
+        app.route('/projects/default/create').get(this.defaultEntityController.createDefaultEntity);
 
     }
 }

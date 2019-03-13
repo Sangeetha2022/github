@@ -2,14 +2,14 @@
 <div mat-dialog-content>
   <p>Name</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="data.name">
+    <input matInput [(ngModel)]="modelObject.name">
   </mat-form-field>
   <p>Description</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="data.description">
+    <input matInput [(ngModel)]="modelObject.description">
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
-  <button mat-raised-button color="primary" [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="modelObject" cdkFocusInitial>Ok</button>
 </div>

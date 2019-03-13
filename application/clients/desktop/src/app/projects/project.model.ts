@@ -1,7 +1,7 @@
-export class project {
+export class IProject {
     name: any;
     label: any;
-    description: any ;
+    description: any;
     default_module_id: any;
     default_module_label: any;
     notes: any;
@@ -43,5 +43,5 @@ export class project {
     extra_project_info: any;
     lotus_notes_cred_enabled: any;
     user_deployment_target: any;
-    server_deployment_target: any; 
+    server_deployment_target: any;
 }

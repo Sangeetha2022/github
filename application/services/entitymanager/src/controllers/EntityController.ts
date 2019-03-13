@@ -41,6 +41,13 @@ export class EntityController {
         })
     }
 
+    public getEntityByProjectId(req: Request, res: Response) {
+        entityService.getEntityByProjectId(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
     public getAllEntity(req: Request, res: Response) {
         entityService.getAllEntity(req, (response) => {
             res.status(200);

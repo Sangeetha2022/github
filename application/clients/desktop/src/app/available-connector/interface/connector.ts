@@ -1,26 +1,17 @@
 export class Connector {
-  id:'';
+  id: '';
   name: string;
   description: string;
   url: string;
   available_apis: [{
-    name: "",
-    description: "",
-    type: "",
+    name: '',
+    description: '',
+    type: '',
     properties: [{
-      key: "",
-      value: ""
+      key: '',
+      value: ''
     }]
   }];
   properties: Array<any>;
 }
 
-[{
-  name: "",
-  description: "",
-  type: "",
-  properties: [{
-    key: "",
-    value: ""
-  }]
-}]

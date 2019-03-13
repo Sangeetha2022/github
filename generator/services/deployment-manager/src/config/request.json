@@ -1,0 +1,20 @@
+{
+    "Api": "http://localhost:5004/generate/deployment/local/5c66506b5d1f412f98a6fb4a",
+    "Method": "POST",
+    "Type": "application/json",
+    "Payload": {
+        "project_id": "5c66506b5d1f412f98a6fb4a",
+        "project_name": "TestNotify",
+        "user_id": "1234",
+        "user_name": "tharani",
+        "app_db_pod": true,
+        "app_pod": true,
+        "system_entry_pod": true,
+        "telemetry_pod": {
+            "vault": true,
+            "EFK": false
+        },
+        "dev_ops_db_pod": false,
+        "dev_ops_pod": false
+    }
+}

@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import { MatDialog, MatGridTileHeaderCssMatStyler } from '@angular/material';
 import { PopupModelComponent } from './popup-model/popup-model.component';
-import { EntityManagerService } from './project-component.service';
+import { ProjectComponentService } from './project-component.service';
 import { DataService } from '../../shared/data.service';
 import { IEntity } from './interface/Entity';
 import { IFeature } from './interface/Feature';
@@ -23,13 +23,13 @@ export class EntityManagerComponent implements OnInit {
   featureData: any = [];
   // user: any = [];
   public features: IFeature = {
-    id:'',
+    id: '',
     name: '',
     description: '',
     // explanation:'',
   };
   panelOpenState = false;
-  displayFeatureModel: string = 'none';
+  displayFeatureModel = 'none';
   public entity: IEntity = {
     name: '',
     description: '',
@@ -49,37 +49,54 @@ export class EntityManagerComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private entityManagerService: EntityManagerService,
+    private projectComponentService: ProjectComponentService,
     private dataService: DataService
   ) {
 
     if (this.selectFeature === true) {
-      this.features = { id:'',description: '', name: '' }
+      this.features = { id: '', description: '', name: '' };
     }
   }
 
   ngOnInit() {
     this.getSelectedProject();
-    this.getAllEntity();
-    this.getDefaultEntityByProjectId();
+    this.getAllEntityByProjectId();
+    // this.getDefaultEntityByProjectId();
     this.getAllFeature();
   }
 
-  openDialog(): void {
+  saveEntityModel() {
+    this.openDialog(true, null);
+  }
+
+  openDialog(isSaveOption, objectValue): void {
+    let dialogDataValue;
+    if (isSaveOption) {
+      dialogDataValue = {};
+    } else {
+      dialogDataValue = objectValue;
+    }
     const dialogRef = this.dialog.open(PopupModelComponent, {
       width: '250px',
-      data: {}
+      data: dialogDataValue
     });
 
     dialogRef.afterClosed().subscribe(entityData => {
+      console.log('after close dialogRef ---- ', entityData);
       if (entityData !== undefined) {
-        this.saveEntity(entityData);
+        if (objectValue === null) {
+          this.saveEntity(entityData);
+        } else {
+          dialogDataValue.name = entityData.name;
+          dialogDataValue.description = entityData.description;
+          this.updateEntity(dialogDataValue);
+        }
       }
     });
   }
   onChangeRadio(selected) {
-    if(selected==="on"){
-      this.features = { id:'', description: '', name: '' }
+    if (selected === 'on') {
+      this.features = { id: '', description: '', name: '' };
     }
   }
 
@@ -87,8 +104,8 @@ export class EntityManagerComponent implements OnInit {
     if (selected) {
       this.featureData.map((data, index) => {
         if (data.name === selected) {
-          this.features.name = data.name
-          this.features.description = data.description
+          this.features.name = data.name;
+          this.features.description = data.description;
           return;
         }
       });
@@ -98,21 +115,20 @@ export class EntityManagerComponent implements OnInit {
   createFeature() {
     this.addFeature();
     this.closeFeatureCreateModel();
-    console.log(this.features)
+    console.log(this.features);
 
   }
   openFeatureDialog(create): void {
-    if(create==='create'){
-      console.log("sandsldsnlanlsnd")
+    if (create === 'create') {
       this.showUpdateFeature = false;
-      this.features = { id:'', description: '', name: '' }
+      this.features = { id: '', description: '', name: '' };
     }
     this.displayFeatureModel = 'block';
   }
 
   closeFeatureCreateModel() {
     this.displayFeatureModel = 'none';
-    this.features = { id:'', description: '', name: '' }
+    this.features = { id: '', description: '', name: '' };
   }
   closeFeatureExistingModel() {
     this.displayFeatureModel = 'none';
@@ -122,18 +138,30 @@ export class EntityManagerComponent implements OnInit {
     this.entity.name = entityData.name;
     this.entity.description = entityData.description;
     this.entity.project_id = this.selectedProject._id;
-    this.entity.updated_at = new Date();
-    this.entityManagerService.createEntity(this.entity).subscribe(
+    this.projectComponentService.createEntity(this.entity).subscribe(
       (data) => {
-        this.getAllEntity();
+        this.getAllEntityByProjectId();
       },
       (error) => {
 
       }
     );
   }
-  getAllEntity() {
-    this.entityManagerService.getAllEntity().subscribe(
+
+  updateEntity(entityData) {
+    entityData.updated_at = new Date();
+    this.projectComponentService.updateEntity(entityData).subscribe(
+      (data) => {
+        this.getAllEntityByProjectId();
+      },
+      (error) => {
+
+      }
+    );
+  }
+
+  getAllEntityByProjectId() {
+    this.projectComponentService.getEntityByProjectId(this.selectedProject._id).subscribe(
       (data) => {
         this.allEntity = data;
       },
@@ -151,15 +179,19 @@ export class EntityManagerComponent implements OnInit {
     this.deletePopup = 'none';
   }
   editEntityField(entity: IEntity) {
-    this.entityManagerService.setEntity(entity);
+    this.dataService.setEntity(entity);
     this.router.navigate(['/entity-field']);
+  }
+
+  editEntity(entity) {
+    this.openDialog(false, entity);
   }
 
   deleteEntity() {
     this.deletePopup = 'none';
-    this.entityManagerService.deleteEntity(this.selectedEntityId).subscribe(
+    this.projectComponentService.deleteEntity(this.selectedEntityId).subscribe(
       (data) => {
-        this.getAllEntity();
+        this.getAllEntityByProjectId();
       },
       (error) => {
 
@@ -171,61 +203,62 @@ export class EntityManagerComponent implements OnInit {
     this.dataService.currentProjectInfo.subscribe(
       (data) => {
         this.selectedProject = data;
-        console.log("this is the data",this.selectedProject._id)
+        console.log('this is the data', this.selectedProject._id);
       }
     );
   }
 
-  getDefaultEntityByProjectId(){
-    this.entityManagerService.getDefaultEntityByProjectId(this.selectedProject._id).subscribe(data=>{
-      // data.map((data,index)=>{
-        this.selecteddefaultEntity = [data];
-      
-      
-      // let defaultEntity = Object.values(this.selecteddefaultEntity);
-    })
-  }
+  // getDefaultEntityByProjectId() {
+  //   this.projectComponentService.getDefaultEntityByProjectId(this.selectedProject._id).subscribe(data => {
+  //     // data.map((data,index)=>{
+  //       this.selecteddefaultEntity = [data];
+
+
+  //     // let defaultEntity = Object.values(this.selecteddefaultEntity);
+  //   });
+  // }
 
   GoToDesigner() {
     this.dataService.setAllEntity(this.allEntity);
     this.router.navigate(['/desktopscreen']);
   }
 
-  //Feature
+  // Feature
 
   openDeleteFModel(feature) {
     this.selectedFeatureId = feature._id;
     this.deleteFPopup = 'block';
   }
 
-  closeDeleteFModel(){
+  closeDeleteFModel() {
     this.deleteFPopup = 'none';
   }
 
-  updateFeature(){
-    this.entityManagerService.updateFeature(this.features).subscribe(data=>{
-      console.log(data)
-    })
+  updateFeature() {
+    this.projectComponentService.updateFeature(this.features).subscribe(data => {
+      console.log(data);
+    });
     this.closeFeatureExistingModel();
     this.getAllFeature();
   }
 
-  addFeature(){
-    this.entityManagerService.addFeature(this.features).subscribe(data=>{
+  addFeature() {
+    this.projectComponentService.addFeature(this.features).subscribe(data => {
       console.log(data);
       // if(data){
-        
+
       // }
-    })
+    });
   }
 
-  getAllFeature(){
-    this.entityManagerService.getAllFeature().subscribe(data=>{
+  getAllFeature() {
+    this.projectComponentService.getAllFeature().subscribe(data => {
       this.featureData = data;
-      this.featureData.map((data,index)=>{
+      // tslint:disable-next-line:no-shadowed-variable
+      this.featureData.map((data, index) => {
         this.featureData[index].description = data.description.replace(/<[^>]*>/g, '');
-      })
-    })
+      });
+    });
   }
 
   onReady(eventData) {
@@ -235,22 +268,22 @@ export class EntityManagerComponent implements OnInit {
     };
   }
 
-  deleteFeature(){
-    this.entityManagerService.deleteFeature(this.selectedFeatureId).subscribe(data=>{
-      console.log(data)
-    })
+  deleteFeature() {
+    this.projectComponentService.deleteFeature(this.selectedFeatureId).subscribe(data => {
+      console.log(data);
+    });
     this.closeDeleteFModel();
     this.getAllFeature();
   }
 
-  editFeatureField(feature){
+  editFeatureField(feature) {
     this.selectFeature = true;
     this.showUpdateFeature = true;
     this.features.id = feature._id;
     this.features.name = feature.name;
     this.features.description = feature.description;
     this.openFeatureDialog('');
-  }  
+  }
 }
 
 // image uploader for ckeditor
@@ -263,7 +296,7 @@ export class EntityManagerComponent implements OnInit {
 //   }
 
 //   public upload(): Promise<any> {
-//     //"data:image/png;base64,"+ btoa(binaryString) 
+//     //"data:image/png;base64,"+ btoa(binaryString)
 //     return this.readThis(this.loader.file);
 //   }
 

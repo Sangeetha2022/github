@@ -8,7 +8,6 @@ import {
   I18NEXT_SERVICE, I18NextLoadResult, I18NextModule, ITranslationService, defaultInterpolationFormat,
   I18NEXT_NAMESPACE
 } from 'angular-i18next';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -20,15 +19,13 @@ import { I18NextValidationMessageModule } from 'angular-validation-message-i18ne
 import sprintf from 'i18next-sprintf-postprocessor';
 import { ProjectsService } from './projects/projects.service';
 import { AppComponentService } from './app.component.service';
-import { AgGridModule } from "ag-grid-angular";
-import { ComponentFlowsComponent } from './component-flows/component-flows.component';
+import { AgGridModule } from 'ag-grid-angular';
 import { ComponentFlowsService } from './component-flows/component-flows.service';
 import {
   MatButtonModule, MatExpansionModule, MatFormFieldModule,
   MatIconModule, MatSidenavModule, MatTabsModule, MatSelectModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { FlowManagerComponent } from './flow-manager/flow-manager.component';
 import { SharedService } from 'src/shared/shared.service';
 import { AppInterceptor } from './app.interceptor';
@@ -36,7 +33,7 @@ import { ApiService } from './config/api.service';
 import { FlowManagerService } from './flow-manager/flow-manager.service';
 import { ScreenDesignerModule } from './screen-designer/screen-designer.module';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { EntityManagerModule } from './project-component/project-component.module';
+import { ProjectComponentModule } from './project-component/project-component.module';
 import { ConfigManagerModule } from './config-manager/config-manager.module';
 import { NavigationModule } from './navigation/navigation.module';
 import { ToastrModule } from 'ngx-toastr';
@@ -125,7 +122,7 @@ export const I18N_PROVIDERS = [
     AppRoutingModule,
     ComponentFlowsModule,
     FormsModule,
-    EntityManagerModule,
+    ProjectComponentModule,
     ReactiveFormsModule,
     I18NextModule.forRoot(),
     MatFormFieldModule,

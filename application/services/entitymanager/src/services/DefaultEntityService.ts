@@ -1,64 +1,42 @@
 import { Request } from 'express';
 import { DefaultEntityDao } from '../daos/DefaultEntityDao';
+import { EntityDao } from '../daos/EntityDao';
+import { UserEntity } from '../assets/UserEntity';
 
-let entityDao = new DefaultEntityDao();
+let entityDefaultDao = new DefaultEntityDao();
+let entityDao = new EntityDao();
 
 export class DefaultEntityService {
 
-    public createDafaultEntity(req: Request, callback) {
-        const entity = req.body;
-        entityDao.createDefaultEntity(entity, (response) => {
-            callback(response);
-        });
-    }
-
-    public updateDafaultEntity(req: Request, callback) {
-        const entity = req.body;
-        console.log('before update in sevice --- ', entity);
-        entityDao.updateDefaultEntity(entity, (response) => {
-            callback(response);
+    public async createDafaultEntity(req: Request, callback) {
+        const projectId = req.query.projectId;
+        // UserEntity.project_id = projectId;
+        let count = 1;
+        entityDefaultDao.getDefaultEntity((response) => {
+            console.log('response for default tabvle ---- ', response);
+            if (response) {
+                response.forEach(async element => {
+                    console.log(" - - - - - -  -  > > >  ", element)
+                     delete element.__v;
+                     var defaultObj = {
+                         name: element.name,
+                         description: element.description,
+                         project_id: projectId,
+                         is_default: true,
+                         field: element.field
+                     }
+                    console.log('each element in default object ---- ', element);
+                    entityDao.createEntity(defaultObj, (createdEntity) => {
+                        if (count === response.length) {
+                            callback(createdEntity);
+                        }
+                        count++;
+                    })
+                })
+            }
         })
-    }
-
-    public updateDafaultEntityField(req: Request, callback) {
-        const entity = req.body;
-        console.log('before update in sevice --- ', entity);
-        entityDao.upateDefaultEntityField(entity, (response) => {
-            callback(response);
-        })
-    }
-
-    public deleteDafaultEntity(req: Request, callback) {
-        const entityId = req.params.id;
-        entityDao.deleteDefaultEntity(entityId, (response) => {
-            callback(response);
-        })
-    }
-
-    public getByDafaultEntityId(req: Request, callback) {
-        const entityId = req.params.id;
-        entityDao.getByDefaultEntityId(entityId, (response) => {
-            callback(response);
-        })
-    }
-
-    public getDefaultEntityByProjectId(req: Request, callback) {
-        const entityId = req.params.id;
-        entityDao.getDefaultEntityByProjectId(entityId, (response) => {
-            callback(response);
-        })
-    }
-    
-    public getDefaultEntityByUserId(req: Request, callback) {
-        const entityId = req.params.id;
-        entityDao.getDefaultEntityByUserId(entityId, (response) => {
-            callback(response);
-        })
-    }
-    
-    public getAllDafaultEntity(req: Request, callback) {
-        entityDao.getAllDefaultEntity((response) => {
-            callback(response);
-        });
+        // entityDao.createEntity(UserEntity, (response) => {
+        //     callback(response);
+        // });
     }
 }

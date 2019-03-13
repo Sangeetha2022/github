@@ -118,6 +118,7 @@ class App {
     private mongoSeedData(): void {
         let seedData = new FeedSeedData();
         seedData.EntityTypeData();
+        seedData.defaultEntityData();
     }
 }
 

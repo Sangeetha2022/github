@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { ApiService } from '../config/api.service';
-import { Router } from '@angular/router';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Constants } from '../config/Constant';
 import { SharedService } from 'src/shared/shared.service';
 
 @Injectable()
 export class FlowManagerService {
 
-  private subject: Subject<any>;
 
-  constructor(private http: HttpClient, private router: Router, private api: ApiService, private restapi: SharedService) {
+  constructor( private api: ApiService, private restapi: SharedService) {
   }
 
   saveFlow(proj): Observable<any> {

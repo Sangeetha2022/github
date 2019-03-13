@@ -8,19 +8,34 @@ export const DefaultEntitySchema = new Schema({
         type: String,
         default: uuid.v1
     },
-    project_name: String,
-    project_description: String,
-    project_id: String,
-    user_id: String,
-    user_name: String,
-    created_by: String,
-    created_at: {
-        type: Date,
-        default: Date.now
+    name: String,
+    description: String,
+    is_default: {
+        type: Boolean,
+        default: false
     },
-    last_modified_by: String,
-    updated_at: {
-        type: Date,
-        default: null
-    },
+    field: [{
+        _id: false,
+        name: { type: String, default: null },
+        type_name: { type: String, default: null },
+        data_type: { type: String, default: null },
+        description: { type: String, default: null },
+        is_default: {
+            type: Boolean,
+            default: false
+        },
+        is_entity_type: {
+            type: Boolean,
+            default: false
+        },
+        is_list_type: {
+            type: Boolean,
+            default: false
+        },
+        list_type: { type: String, default: null },
+        list_value: { type: String, default: null },
+        entity_id: { type: String, ref: 'entities' }
+    }]
+}, {
+        versionKey: false // You should be aware of the outcome after set to false
 })

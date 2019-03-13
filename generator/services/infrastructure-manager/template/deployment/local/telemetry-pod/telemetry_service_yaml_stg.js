@@ -1,6 +1,6 @@
 /*
  * Template group telemetry_service_yaml
- * Compiled on Thu Feb 21 2019 13:16:32 GMT+0530 (India Standard Time)
+ * Compiled on Tue Mar 05 2019 11:16:41 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -44,6 +44,12 @@ r = function(w, rc) {
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
     w.write("-telimetry");
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("namespace: ");
+    w.popIndentation();
+    st.write(w, s, g, rc, s.project_name);
+    w.write("  ");
     w.write("\n");
     w.write("spec:");
     w.write("\n");

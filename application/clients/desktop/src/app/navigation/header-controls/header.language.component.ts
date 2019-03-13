@@ -2,7 +2,7 @@ import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
 import { DataService } from 'src/shared/data.service';
 
-import {NavigationService } from '../navigation.service'
+import { NavigationService } from '../navigation.service';
 
 @Component({
   selector: 'app-header-language',
@@ -17,8 +17,8 @@ export class HeaderLanguageComponent implements OnInit {
 
   displayAboutModel: String = 'none';
 
-  versionData: any ={};
-  buildVersionData: any ={};
+  versionData: any = {};
+  buildVersionData: any = {};
 
   constructor(
     @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
@@ -52,19 +52,19 @@ export class HeaderLanguageComponent implements OnInit {
   showAbout() {
     this.displayAboutModel = 'block';
 
-    this.navigationService.getVersion("version").subscribe(data => {
+    this.navigationService.getVersion('version').subscribe(data => {
       this.versionData = data;
     },
       error => {
         console.log('Check the browser console to see more info.', 'Error!');
       });
 
-      this.navigationService.getBuildVersion("build_version").subscribe(data => {
-        this.buildVersionData = data;
-      },
-        error => {
-          console.log('Check the browser console to see more info.', 'Error!');
-        });
+    this.navigationService.getBuildVersion('build_version').subscribe(data => {
+      this.buildVersionData = data;
+    },
+      error => {
+        console.log('Check the browser console to see more info.', 'Error!');
+      });
 
   }
   hideAbout() {

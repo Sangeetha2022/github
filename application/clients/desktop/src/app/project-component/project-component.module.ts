@@ -21,6 +21,8 @@ import { PopupModelComponent } from './popup-model/popup-model.component';
 import { FieldPopupModalComponent } from './entity-field/field-popup-modal/field-popup-modal.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitecture-manager.module';
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitec
     MatInputModule,
     MatCardModule,
     CKEditorModule,
+    ToastrModule.forRoot(),
     MatFormFieldModule,
     ReactiveFormsModule,
     MatDialogModule,
@@ -55,4 +58,4 @@ import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitec
     FieldPopupModalComponent
   ]
 })
-export class EntityManagerModule { }
+export class ProjectComponentModule { }

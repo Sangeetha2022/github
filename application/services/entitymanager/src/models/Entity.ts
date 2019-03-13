@@ -11,6 +11,10 @@ export const EntitySchema = new Schema({
     name: String,
     description: String,
     project_id: String,
+    is_default: {
+        type: Boolean,
+        default: false
+    },
     created_by: String,
     created_at: {
         type: Date,
@@ -27,8 +31,13 @@ export const EntitySchema = new Schema({
             default: uuid.v1
         },
         name: { type: String, default: null },
-        type: { type: String, default: null },
+        type_name: { type: String, default: null },
+        data_type: {type:String, default: null},
         description: { type: String, default: null },
+        is_default: {
+            type: Boolean,
+            default: false
+        },
         is_entity_type: {
             type: Boolean,
             default: false

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ButtonRendererComponent } from './rendered/button-renderer/button-renderer.component';
-import { EntityManagerService } from '../project-component.service';
+import { ProjectComponentService } from '../project-component.service';
 import { IEntity } from '../interface/Entity';
 import { Router } from '@angular/router';
 import { ValueParserParams } from 'ag-grid-community';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { DataService } from '../../../shared/data.service';
 import { MatDialog } from '@angular/material';
 import { FieldPopupModalComponent } from './field-popup-modal/field-popup-modal.component';
+import { ToastrService } from 'ngx-toastr';
+import { RegexExpression } from '../../config/Regex';
 
 @Component({
   selector: 'app-entity-field',
@@ -24,7 +25,6 @@ export class EntityFieldComponent implements OnInit {
   public rowSelection;
   defaultColDef: { editable: boolean; sortable: boolean; filter: boolean; };
   frameworkComponents: { buttonRenderer: any; };
-
   public getEntityTypeValue: any[] = [];
   public entity: IEntity = {
     name: '',
@@ -37,18 +37,17 @@ export class EntityFieldComponent implements OnInit {
   };
   public isValid: Boolean = true;
   // public entity: any;
-  createProject: FormGroup;
-  selectNounType: FormGroup;
-  selectListType: FormGroup;
   allEntity: IEntity[];
   selectCellRenderedValue: String;
   selectedCellRowIndex: any;
+  EnteredReserveWord: String;
 
   constructor(
-    private entityManagerService: EntityManagerService,
+    private entityManagerService: ProjectComponentService,
     private router: Router,
     public dialog: MatDialog,
-    private formBuilder: FormBuilder,
+    private toastr: ToastrService,
+    private regexExpression: RegexExpression,
     private dataService: DataService
   ) {
     this.frameworkComponents = {
@@ -57,8 +56,8 @@ export class EntityFieldComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.regexExpression.generateReservedWord();
     this.getEntityType();
-    // this.getEntity();
   }
 
   getEntityType() {
@@ -82,11 +81,11 @@ export class EntityFieldComponent implements OnInit {
         headerName: 'Name',
         field: 'name',
         width: 250,
-        valueSetter: this.nameValueSetter,
+        valueSetter: this.nameValueSetter.bind(this),
       },
       {
         headerName: 'Type',
-        field: 'type',
+        field: 'type_name',
         width: 308,
         cellEditor: 'agSelectCellEditor',
         // singleClickEdit: true,
@@ -106,6 +105,7 @@ export class EntityFieldComponent implements OnInit {
         cellRenderer: 'buttonRenderer',
         editable: false,
         sortable: false,
+        filter: false,
         cellRendererParams: {
           onClick: this.removeRow.bind(this),
           label: 'Remove'
@@ -114,8 +114,9 @@ export class EntityFieldComponent implements OnInit {
     ];
     this.rowData = [
       {
-        name: 'Enter Name',
-        type: 'Text',
+        name: 'Enter_Name',
+        type_name: 'Text',
+        data_type: null,
         description: 'Description',
         is_entity_type: false,
         is_list_type: false,
@@ -156,7 +157,7 @@ export class EntityFieldComponent implements OnInit {
 
   openModal(e) {
     this.selectCellRenderedValue = e.newValue;
-    if (this.selectCellRenderedValue === 'Noun') {
+    if (this.selectCellRenderedValue === 'Entity') {
       this.openDialog(this.allEntity, null, e);
     } else if (this.selectCellRenderedValue === 'List') {
       this.openDialog(this.allEntity, this.getEntityTypeValue, e);
@@ -181,7 +182,6 @@ export class EntityFieldComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(entityData => {
-      console.log('afterClosed dialog are ------- ', entityData);
       if (entityData !== undefined) {
         if (standardValue === null) {
           e.data.is_entity_type = true;
@@ -208,21 +208,29 @@ export class EntityFieldComponent implements OnInit {
 
   saveField() {
     this.entity.field = this.getRowData();
-    this.updateEntityField();
+    this.updateEntityField(true);
   }
   updateField() {
     this.entity.field = this.getRowData();
-    this.updateEntityField();
+    this.updateEntityField(false);
   }
 
   cancelField() {
-    this.router.navigate(['/entity']);
+    this.router.navigate(['/project-component']);
   }
 
-  updateEntityField() {
+  updateEntityField(options) {
     this.entityManagerService.updateEntityField(this.entity).subscribe(
-      (data) => { },
-      (error) => { });
+      (data) => {
+        if (options) {
+          this.toastr.success('entity fields are saved');
+        } else {
+          this.toastr.success('entity fields are updated');
+        }
+      },
+      (error) => {
+        this.toastr.error('something went wrong, entity are not stored');
+      });
   }
   // get() {
   //   console.log('get row data in entity field are --------- ', this.getRowData());
@@ -251,16 +259,23 @@ export class EntityFieldComponent implements OnInit {
 
   // The value setter function/method
   nameValueSetter(params: ValueParserParams) {
-    const regexExpr = /`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\[|\{|\]|\}|\||\\|\'|\<|\,|\.|\>|\?|\/|\""|\"|\;|\:|\s/;
+    // const regexExpr = /`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\[|\{|\]|\}|\||\\|\'|\<|\,|\.|\>|\?|\/|\""|\"|\;|\:|\s/;
+    const regexExpr = new RegExp(this.regexExpression.getSpecialCharacter().toString(), 'g');
+    const reservedRegexExpr = new RegExp(this.regexExpression.getReservedWord(), 'i');
     if (regexExpr.test(params.newValue) || /[0-9]/.test(params.newValue.toString().charAt(0))) {
       setDivStyle('block');
+      this.EnteredReserveWord = null;
+      return false;
+    } else if (reservedRegexExpr.test(params.newValue)) {
+      setDivStyle('block');
+      this.EnteredReserveWord = String(params.newValue).toLowerCase();
       return false;
     }
     params.data[params.colDef.field] = params.newValue;
     setDivStyle('none');
     return true;
   }
-  
+
   typeValueSetter(params: ValueParserParams) {
     const value = this.openModal(params);
     params.data[params.colDef.field] = value;
@@ -276,8 +291,9 @@ export class EntityFieldComponent implements OnInit {
 
 function createNewRowData() {
   const newData = {
-    name: 'Enter Name',
-    type: 'Text',
+    name: 'Enter_Name',
+    type_name: 'Text',
+    data_type: null,
     description: 'Description',
     is_entitytype: false,
     is_listtype: false,

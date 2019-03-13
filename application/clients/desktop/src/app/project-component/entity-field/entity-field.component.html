@@ -5,10 +5,13 @@
   <br />
   <div class="errorField" style="padding-top: 2%; display: none">
     <ul>
-      <li style="color:red">Please enter the valid one in Name Field</li>
+      <li *ngIf="EnteredReserveWord == null" style="color:red">Please enter the valid one in Name Field</li>
+      <li *ngIf="EnteredReserveWord" style="color:red">Please Don't use the reserved word of <u>{{EnteredReserveWord}}</u>
+      </li>
     </ul>
     <!-- <p style="color:red">Please enter the valid one in Name Field</p> -->
   </div>
+
   <div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
     <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnDefs"
       [rowData]="rowData" [defaultColDef]="defaultColDef" [animateRows]="true" (gridReady)="onGridReady($event)"

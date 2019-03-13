@@ -8,9 +8,9 @@ describe('ConfigManagerComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ConfigManagerComponent ]
+      declarations: [ConfigManagerComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

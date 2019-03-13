@@ -2,197 +2,247 @@
 </div>
 
 
-<div id="publish-panel" class="panel-modal" style="display: none">
-    <div class="modal-body">
-      Confirm to publish all your changes on
-      <div class="page-link-c">
-        <a class="link page-link" href="http://ad8906c.grapedrop.com" target="_blank">
-          ad8906c.grapedrop.com
-        </a>
+<div id="agGridModal" class="modal" tabindex="-1" role="dialog" style="display: none">
+  <div class="modal-dialog modal-sm" role="dialog">
+    <div class="modal-content">
+      <div class="container">
+        <form class="m-3" [formGroup]="agGridFields">
+          <div class="form-group row">
+            <label for="column">column</label>
+            <select class="form-control" id="column" formControlName="selectColumn" [ngClass]="{ 'is-invalid': submitted && form_control.selectColumn.errors }">
+              <option value="" selected>none</option>
+              <option *ngFor="let col of columnsOption" [ngValue]="col.columnName">{{ col.columnName }}</option>
+            </select>
+            <div *ngIf="submitted && form_control.selectColumn.errors" class="invalid-feedback">
+              <div *ngIf="form_control.selectColumn.errors.required">This field is required
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="fields">fields</label>
+            <select class="form-control" id="fields" (ngModelChange)='onFieldOptions($event)' formControlName="selectField"
+              [ngClass]="{ 'is-invalid': submitted && form_control.selectField.errors }">
+              <option value="" selected>none</option>
+              <option *ngFor="let field of allEntityField" [ngValue]="field.name">{{ field.name }}</option>
+            </select>
+            <div *ngIf="submitted && form_control.selectField.errors" class="invalid-feedback">
+              <div *ngIf="form_control.selectField.errors.required">This field is required
+              </div>
+            </div>
+          </div>
+          <div>{{allEntityField.length}}</div>
+          <!-- <div class="form-group">
+            <label for="sel1">Select list (select one):</label>
+            <select class="form-control" id="sel1">
+              <option *ngFor="let field of allEntityField" [ngValue]="field.name">{{ field.name }}</option>
+            </select>
+          </div> -->
+        </form>
       </div>
-      <div class="page-link-reminder">
-        For all configurations about your domain visit
-        <a class="link" href="https://grapedrop.com/settings/ad8906ca2d4d4fcfb0c99f0a11082f4d?t=domain" target="_blank">
-          Project Settings
-        </a>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-btn-confirm btn-publish" data-dismiss="modal">Publish</button>
-      <button class="modal-btn-cancel" onClick="closeModal()">Cancel</button>
-    </div>
-  </div>
-
-  <!-- select parent template popup model -->
-  <div id="template-panel" class="template-modal" style="display: none">
-    <div class="modal-body">
-      <h3>Select one of the template</h3>
-      <br>
-      <div class="form-group">
-        <!-- <label for="inputState">State</label> -->
-        <select id="inputTemplate" class="form-control">
-          <option selected disabled>select</option>
-          <option value="0">template1</option>
-          <option value="1">template2</option>
-          <option value="2">template3</option>
-          <option value="3">template4</option>
-        </select>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-btn-confirm btn-template" data-dismiss="modal">confirm</button>
-      <button class="modal-btn-cancel" onClick="closeModal()">Cancel</button>
-    </div>
-  </div>
-
-  <!-- select child template popup model -->
-  <div id="templatepage-panel" class="template-modal" style="display: none">
-    <div class="modal-body">
-      <h3>Select one of the template</h3>
-      <br>
-      <div class="form-group">
-        <!-- <label for="inputState">State</label> -->
-        <select id="inputTemplatepage" class="form-control">
-          <option selected disabled>select</option>
-          <option value="0">create_page</option>
-          <option value="1">update_page</option>
-          <option value="2">delete_page</option>
-          <option value="3">search_page</option>
-        </select>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-btn-confirm btn-templatepage" data-dismiss="modal">confirm</button>
-      <button class="modal-btn-cancel" onClick="closeModal()">Cancel</button>
-    </div>
-  </div>
-
-  <!-- data binding popup model -->
-  <div id="databinding-panel" class="databinding-modal" style="display: none">
-    <div class="modal-body">
-      <br>
-      <h4>Data Bindings</h4>
-      <div class="row">
-        <div class="form-group col-md-4">
-          <label for="Attributes">Attributes:&nbsp;</label>
-          <select id="Attributes" class="form-control" style="width:110%">
-            <option selected>None</option>
-            <option value="name">name</option>
-            <option value="age">age</option>
-          </select>
-        </div>
-      </div>
-      <br>
-      <h4>Verb Bindings</h4>
-      <div class="row">
-        <div class="form-group col-md-4">
-          <label for="EventBind">Event</label>
-          <select id="EventBind" class="form-control" style="width:110%">
-            <option selected disabled>Choose an event</option>
-            <option value="CLICK">CLICK</option>
-            <option value="KEY_DOWN">KEY_DOWN</option>
-          </select>
-        </div>
-        <div class="form-group col-md-4">
-          <label for="VerbBind">Verb</label>
-          <select id="VerbBind" class="form-control" style="width:110%">
-            <option selected disabled>Choose an verb</option>
-            <option value="None">None</option>
-            <option value="Save">Save</option>
-            <option value="Update">Update</option>
-            <option value="Delete">Delete</option>
-            <option value="Search">Search</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-btn-confirm btn-dataBind" data-dismiss="modal">create</button>
-      <button class="modal-btn-cancel" onClick="closeModal()">Cancel</button>
-    </div>
-  </div>
-
-
-
-  <!-- entering folderName before saving the page popup model -->
-  <div id="saveProject-panel" class="saveProject-modal" style="display: none">
-    <div class="modal-body">
-      <h3>Page Details</h3>
-      <br>
-      <div>
+      <div class="modal-footer">
         <div class="form-group">
-          <label for="folderNameID">folderName:</label> &nbsp;
-          <input type="text" class="form-control" id="folderNameID" placeholder="Enter your Folder Name">
+          <button type="button" class="btn button-create" (click)="saveGridField()">ok</button>
+          <button type="button" class="btn button-close" (click)="onCloseHandled()">cancel</button>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- <div id="testDiv">Hello Ramkumar</div> -->
+
+
+<div id="publish-panel" class="panel-modal" style="display: none">
+  <div class="modal-body">
+    Confirm to publish all your changes on
+    <div class="page-link-c">
+      <a class="link page-link" href="http://ad8906c.grapedrop.com" target="_blank">
+        ad8906c.grapedrop.com
+      </a>
+    </div>
+    <div class="page-link-reminder">
+      For all configurations about your domain visit
+      <a class="link" href="https://grapedrop.com/settings/ad8906ca2d4d4fcfb0c99f0a11082f4d?t=domain" target="_blank">
+        Project Settings
+      </a>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="modal-btn-confirm btn-publish" data-dismiss="modal">Publish</button>
+    <button class="modal-btn-cancel" onClick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- select parent template popup model -->
+<div id="template-panel" class="template-modal" style="display: none">
+  <div class="modal-body">
+    <h3>Select one of the template</h3>
+    <br>
+    <div class="form-group">
+      <!-- <label for="inputState">State</label> -->
+      <select id="inputTemplate" class="form-control">
+        <option selected disabled>select</option>
+        <option value="0">template1</option>
+        <option value="1">template2</option>
+        <option value="2">template3</option>
+        <option value="3">template4</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="modal-btn-confirm btn-template" data-dismiss="modal">confirm</button>
+    <button class="modal-btn-cancel" onClick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- select child template popup model -->
+<div id="templatepage-panel" class="template-modal" style="display: none">
+  <div class="modal-body">
+    <h3>Select one of the template</h3>
+    <br>
+    <div class="form-group">
+      <!-- <label for="inputState">State</label> -->
+      <select id="inputTemplatepage" class="form-control">
+        <option selected disabled>select</option>
+        <option value="0">create_page</option>
+        <option value="1">update_page</option>
+        <option value="2">delete_page</option>
+        <option value="3">search_page</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="modal-btn-confirm btn-templatepage" data-dismiss="modal">confirm</button>
+    <button class="modal-btn-cancel" onClick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- data binding popup model -->
+<div id="databinding-panel" class="databinding-modal" style="display: none">
+  <div class="modal-body">
+    <br>
+    <h4>Data Bindings</h4>
+    <div class="row">
+      <div class="form-group col-md-4">
+        <label for="Attributes">Attributes:&nbsp;</label>
+        <select id="Attributes" class="form-control" style="width:110%">
+          <option selected>None</option>
+          <option value="name">name</option>
+          <option value="age">age</option>
+        </select>
+      </div>
+    </div>
+    <br>
+    <h4>Verb Bindings</h4>
+    <div class="row">
+      <div class="form-group col-md-4">
+        <label for="EventBind">Event</label>
+        <select id="EventBind" class="form-control" style="width:110%">
+          <option selected disabled>Choose an event</option>
+          <option value="CLICK">CLICK</option>
+          <option value="KEY_DOWN">KEY_DOWN</option>
+        </select>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="VerbBind">Verb</label>
+        <select id="VerbBind" class="form-control" style="width:110%">
+          <option selected disabled>Choose an verb</option>
+          <option value="None">None</option>
+          <option value="Save">Save</option>
+          <option value="Update">Update</option>
+          <option value="Delete">Delete</option>
+          <option value="Search">Search</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="modal-btn-confirm btn-dataBind" data-dismiss="modal">create</button>
+    <button class="modal-btn-cancel" onClick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+
+
+<!-- entering folderName before saving the page popup model -->
+<div id="saveProject-panel" class="saveProject-modal" style="display: none">
+  <div class="modal-body">
+    <h3>Page Details</h3>
+    <br>
+    <div>
+      <div class="form-group">
+        <label for="folderNameID">folderName:</label> &nbsp;
+        <input type="text" class="form-control" id="folderNameID" placeholder="Enter your Folder Name">
+      </div>
+    </div>
+  </div>
   <div class="modal-footer">
     <button class="modal-btn-confirm btn-saveProject" data-dismiss="modal">confirm</button>
     <button class="modal-btn-cancel" onClick="closeModal()">Cancel</button>
   </div>
-  </div>
+</div>
 
 
 
-  <!-- enter folderName before generate angular application popup model -->
-  <div id="projectDetails-panel" class="projectDetails-modal" style="display: none">
-    <div class="modal-body">
-      <h3>Project Details</h3>
-      <br>
-      <div>
-        <form>
-          <label for="fname">ProjectName</label>
-          <input type="text" id="projectNameID" name="projectname" placeholder="Enter your Project Name">
-        </form>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-btn-confirm btn-projectDetails" data-dismiss="modal">confirm</button>
-      <button class="modal-btn-cancel" onClick="closeModal()">Cancel</button>
+<!-- enter folderName before generate angular application popup model -->
+<div id="projectDetails-panel" class="projectDetails-modal" style="display: none">
+  <div class="modal-body">
+    <h3>Project Details</h3>
+    <br>
+    <div>
+      <form>
+        <label for="fname">ProjectName</label>
+        <input type="text" id="projectNameID" name="projectname" placeholder="Enter your Project Name">
+      </form>
     </div>
   </div>
+  <div class="modal-footer">
+    <button class="modal-btn-confirm btn-projectDetails" data-dismiss="modal">confirm</button>
+    <button class="modal-btn-cancel" onClick="closeModal()">Cancel</button>
+  </div>
+</div>
 
 
-  <div style="display: none;">
-    <div class="gjs-assets-switch" id="assets-switch">
-      <div class="gjs-field gjs-field-select">
-        <div class="gjs-input-holder" style="width: 100%;">
-          <select class="assets-switch form-control" data-toogle="assets-switch">
-            <option value="">Project&#039;s Images</option>
-            <option value="all">All Images</option>
-            <option value="library">Free Images by Unsplash</option>
-          </select>
-        </div>
-        <div class="gjs-sel-arrow">
-          <div class="gjs-d-s-arrow"></div>
-        </div>
+<div style="display: none;">
+  <div class="gjs-assets-switch" id="assets-switch">
+    <div class="gjs-field gjs-field-select">
+      <div class="gjs-input-holder" style="width: 100%;">
+        <select class="assets-switch form-control" data-toogle="assets-switch">
+          <option value="">Project&#039;s Images</option>
+          <option value="all">All Images</option>
+          <option value="library">Free Images by Unsplash</option>
+        </select>
       </div>
-      <div class="gjs-assets-switch-opt" id="unsplash-opt">
-        <div class="gjs-field" style="display: flex">
-          <i class="fa fa-search gjs-field-icon" aria-hidden="true"></i>
-          <input placeholder="eg. man office" type="url" data-unsplash-search>
-        </div>
+      <div class="gjs-sel-arrow">
+        <div class="gjs-d-s-arrow"></div>
       </div>
     </div>
-
-    <div class="gjs-assets__icon-search" id="assets-icon">
+    <div class="gjs-assets-switch-opt" id="unsplash-opt">
       <div class="gjs-field" style="display: flex">
         <i class="fa fa-search gjs-field-icon" aria-hidden="true"></i>
-        <input type="search" placeholder="eg. alert" data-icon-search>
-      </div>
-    </div>
-
-    <div class="gjs-blocks-switch" id="blocks-switch">
-      <div class="gjs-field gjs-field-select">
-        <div class="gjs-input-holder" style="width: 100%;">
-          <select class="blocks-switch form-control" data-toogle="blocks-switch">
-            <option  *ngFor="let blocks of blocksOption" value="{{blocks.value}}">{{blocks.option}}</option>
-            <!-- <option value="2">Built-in Blocks</option> -->
-          </select>
-        </div>
-        <div class="gjs-sel-arrow">
-          <div class="gjs-d-s-arrow"></div>
-        </div>
+        <input placeholder="eg. man office" type="url" data-unsplash-search>
       </div>
     </div>
   </div>
+
+  <div class="gjs-assets__icon-search" id="assets-icon">
+    <div class="gjs-field" style="display: flex">
+      <i class="fa fa-search gjs-field-icon" aria-hidden="true"></i>
+      <input type="search" placeholder="eg. alert" data-icon-search>
+    </div>
+  </div>
+
+  <div class="gjs-blocks-switch" id="blocks-switch">
+    <div class="gjs-field gjs-field-select">
+      <div class="gjs-input-holder" style="width: 100%;">
+        <select class="blocks-switch form-control" data-toogle="blocks-switch">
+          <option *ngFor="let blocks of blocksOption" value="{{blocks.value}}">{{blocks.option}}</option>
+          <!-- <option value="2">Built-in Blocks</option> -->
+        </select>
+      </div>
+      <div class="gjs-sel-arrow">
+        <div class="gjs-d-s-arrow"></div>
+      </div>
+    </div>
+  </div>
+</div>
