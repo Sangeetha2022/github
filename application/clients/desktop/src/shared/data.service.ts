@@ -57,13 +57,13 @@ export class DataService {
     private entityInfoSource = new BehaviorSubject<IEntity>(this.entity);
     currentSelectedEntityInfo = this.entityInfoSource.asObservable();
 
-     // screen agGrid Field binding info
-     private agGridInfoSource = new BehaviorSubject<any[]>([]);
-     currentAgGridInfoSource = this.agGridInfoSource.asObservable();
+    // screen agGrid Field binding info
+    private agGridInfoSource = new BehaviorSubject<any[]>([]);
+    currentAgGridInfoSource = this.agGridInfoSource.asObservable();
 
-     // screen agGrid Entity info
-     private agGridEntitySource = new BehaviorSubject<any>('');
-     currentAgGridEntitySource = this.agGridEntitySource.asObservable();
+    // screen agGrid Entity info
+    private agGridEntitySource = new BehaviorSubject<any>('');
+    currentAgGridEntitySource = this.agGridEntitySource.asObservable();
 
     constructor() { }
 
@@ -87,20 +87,19 @@ export class DataService {
         this.allEntitySource.next(entities);
     }
 
-   // screen agGrid Field binding info
-   setAgGridValue(agGrid: any[]) {
-       this.agGridInfoSource.next(agGrid);
-   }
+    // screen agGrid Field binding info
+    setAgGridValue(agGrid: any[]) {
+        this.agGridInfoSource.next(agGrid);
+    }
 
-   //  screen agGrid Entity info
-   setAgGridEntity(agGrid: any) {
-    this.agGridEntitySource.next(agGrid);
-}
+    //  screen agGrid Entity info
+    setAgGridEntity(agGrid: any) {
+        this.agGridEntitySource.next(agGrid);
+    }
 
 
     setFlowIdInfo(flow: IFlow) {
         console.log('defaultEntity', flow);
         this.flowIdInfoSource.next(flow);
     }
-
 }
