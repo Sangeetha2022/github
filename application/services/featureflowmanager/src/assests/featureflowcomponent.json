@@ -1,0 +1,730 @@
+{
+    "TicketCreate": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TikcetAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "IssueTicket": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TikcetAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "DocumentTicket": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TikcetAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "FeatureTicket": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TikcetAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "SupportTicket": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TikcetAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "TicketDelete": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "TicketGetAllValues": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "TicketGetById": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "TicketGetByCategory": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "TicketSearch": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "TicketSearchDetail": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "TicketSearchForUpdate": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "TicketUpdate": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ],
+    "TicketFileUpload": [
+        {
+            "component_name": "TicketExpressController",
+            "label": "node controller",
+            "type": "server",
+            "sequence_id": 1,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "controller for a NodeJs server application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressService",
+            "label": "node service",
+            "type": "server",
+            "sequence_id": 2,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "service component for a NodeJS based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketExpressDao",
+            "label": "node dao",
+            "type": "server",
+            "sequence_id": 3,
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "description": "dao component for a NodeJs based application",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularComponent",
+            "label": "angular component",
+            "type": "client",
+            "sequence_id": 1,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "component for Angular desktop",
+            "connector": true
+        },
+        {
+            "component_name": "TicketAngularService",
+            "label": "angular service",
+            "type": "client",
+            "sequence_id": 2,
+            "dev_language": "java_script",
+            "dev_framework": "Angular",
+            "description": "service for Angular desktop",
+            "connector": true
+        }
+    ]
+}

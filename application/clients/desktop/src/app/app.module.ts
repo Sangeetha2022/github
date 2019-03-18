@@ -39,6 +39,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ComponentFlowsModule } from './component-flows/component-flows.module';
 import { AvailableConnectorComponent } from './available-connector/available-connector.component';
+import { FeatureDetailsService } from './project-component/feature-details/feature-details.service';
 
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
@@ -130,6 +131,7 @@ export const I18N_PROVIDERS = [
   ],
   providers: [
     ApiService,
+    FeatureDetailsService,
     AppComponentService,
     ProjectsService,
     FlowManagerService,

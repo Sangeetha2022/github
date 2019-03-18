@@ -11,6 +11,7 @@ export class Constants {
     public static get detailsUrl(): string { return '/details'; }
 
     public static get flowUrl(): string { return '/flow'; }
+    public static get featureflowUrl(): string { return '/feature-flow'; }
     public static get flowCompUrl(): string { return '/flow/flow_comp'; }
     public static get flowCompentUrl(): string { return '/flow_comp'; }
     public static get addDConnectorUrl(): string { return '/add/dconnector'; }
@@ -63,6 +64,22 @@ export class Constants {
 
     // Feature
     public static get feature(): string { return '/feature'; }
+
+    // Feature Flow
+    public static get addFeatureFlow(): string { return '/feature-flow/save'; }
+    public static get getAllFeatureFlow(): string { return '/feature-flow/getall'; }
+    public static get getFeatureFlowById(): string { return '/feature-flow/getbyid/'; }
+    public static get getFeatureFlowDetails(): string { return '/feature-flow/getbyid/:id/details'; }
+    public static get deleteFeatureFlowById(): string { return '/feature-flow/delete/'; }
+    public static get updateFeatureFlow(): string { return '/feature-flow/update/:id'; }
+
+    // Feature Screen
+
+    public static get addScreen(): string { return '/screen/save'; }
+    public static get getAllScreen(): string { return '/screen/getall'; }
+    public static get getScreenByID(): string { return '/screen/getbyid/:id'; }
+    public static get deleteScreen(): string { return '/screen/delete/:id'; }
+    public static get updateScreen(): string { return '/screen/update/:id'; }
 
     // Default Entity
     public static get addDefaultEntity(): string { return '/default_entity/save'; }

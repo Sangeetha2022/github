@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FeatureDetailsService } from './feature-details.service';
+import { DataService } from 'src/shared/data.service';
+import { Iscreen } from './interface/screen';
 
 @Component({
   selector: 'app-feature-details',
@@ -6,19 +9,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./feature-details.component.scss']
 })
 export class FeatureDetailsComponent implements OnInit {
-  screen = [ "Ticket Creation","Ticket Details"]
+  screens: any = [];
   columnDefs: any = [];
+  screenName: String;
+  description: String;
+  displayModel: String = 'none';
   columnFeatureDefs: any = [];
   rowFlowCompData: any = [];
+  featureFlowId: String;
   rowSelection: String;
   defaultColDef: any;
   showFeatureFlow: boolean;
+  public screenData: Iscreen = {
+    screenName: '',
+    description: '',
+
+  }
   showFeatureFlowComponent: boolean;
   rowData: any = [];
-  selectedFeatureFlow:any =[];
+  selectedFlow: any = [];
+  selectedFeatureFlow: any = [];
   gridApi;
   gridColumnApi;
-  constructor() { 
+  constructor(private featureDetailsService: FeatureDetailsService, private dataService: DataService) {
     this.columnDefs = [
       {
         headerName: 'Name', field: 'name',
@@ -30,31 +43,20 @@ export class FeatureDetailsComponent implements OnInit {
     ];
     this.columnFeatureDefs = [
       {
-        headerName: 'Name', field: 'name',
+        headerName: 'Name', field: 'component_name',
         checkboxSelection: true
       },
       { headerName: 'Label', field: 'label' },
       { headerName: 'Description', field: 'description' },
     ];
     this.rowSelection = 'single';
-    this.rowData = [
-      {name:"CreateTicket",label:"create ticket",description: "create the ticket",action_on_data:"CreateTicket"},
-      // {name:"EditTicket",label:"edit ticket",description: "edit the ticket",action_on_data:"EditTicket"},
-      // {name:"DeleteTicket",label:"delete ticket",description: "delete the ticket",action_on_data:"DeleteTicket"},
-      // {name:"GetAllTicket",label:"get ticket",description: "get all the ticket",action_on_data:"GetAllTicket"},
-    ];
-
-    this.rowFlowCompData = [
-      {name:"saveTicketController",label:"save ticket contoller",description: "controller for save ticket"},
-      {name:"saveTicketService",label:"save ticket service",description: "service for save ticket"},
-      {name:"saveTicketDao",label:"save ticket dao",description: "dao for save ticket"},
-    ];
     this.defaultColDef = {
       enableValue: true,
     };
   }
 
   ngOnInit() {
+    this.getAllScreen();
   }
 
   onGridReady(params) {
@@ -62,16 +64,58 @@ export class FeatureDetailsComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
     this.gridApi.sizeColumnsToFit();
   }
-  showFlow(){
+  getAllFeatureFlows(type) {
     this.showFeatureFlow = true;
+    this.featureDetailsService.getAllFeatureFlows().subscribe(data => {
+      this.rowData = [];
+      data.map((data) => {
+        if (data.screenName === type) {
+          this.rowData.push(data);
+          console.log("adadafdaf",this.rowData)
+        }
+      });
+    });
   }
 
-  onSelectionChanged() {
-    this.selectedFeatureFlow = this.gridApi.getSelectedRows();
+  getFeatureFlowDetails() {
 
-    if (this.selectedFeatureFlow.length !== 0) {
+    this.dataService.currentFeatureFlowIdInfoSource.subscribe(data => {
+      this.featureFlowId = data._id;
+      if (data) {
+        this.featureDetailsService.getFeatureFlowDetails(this.featureFlowId).subscribe(data => {
+          console.log("asdasddsdad",data)
+          this.rowFlowCompData = data.flow_comp_seq;
+        });
+      }
+    });
+
+  }
+
+  createScreen() {
+    this.featureDetailsService.addScreen(this.screenData).subscribe(data => {
+      if (data) {
+        this.onCloseHandled();
+        this.getAllScreen();
+      }
+    });
+  }
+  getAllScreen() {
+    this.featureDetailsService.getAllScreen().subscribe(data => {
+      this.screens = data;
+    });
+  }
+  openScreenModal() {
+    this.displayModel = 'block';
+  }
+  onCloseHandled() {
+    this.displayModel = 'none';
+  }
+  onSelectionChanged() {
+    this.selectedFlow = this.gridApi.getSelectedRows();
+    if (this.selectedFlow.length !== 0) {
+      this.dataService.setFeatureFlowIdInfo(this.selectedFlow[0]);
       this.showFeatureFlowComponent = true;
     }
+    this.getFeatureFlowDetails();
   }
-
 }
