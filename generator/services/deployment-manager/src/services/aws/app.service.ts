@@ -21,6 +21,10 @@ export class AppService {
                 let devOpsDbYaml = projectDetails.yamlSource + "/app-db-pod";
 
                 //deploy mongo pvc
+                let mongoPvManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/mongo-pv.yaml', 'utf8'));
+                const pvData = await client.api.v1.pv.post({ body: mongoPvManifest });
+                await delay(5000);
+
                 let mongoPvcManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/mongo-pvc.yaml', 'utf8'));
                 const pvcData = await client.api.v1.namespaces(projectDetails.namespace).pvc.post({ body: mongoPvcManifest });
                 await delay(5000);

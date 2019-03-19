@@ -23,6 +23,7 @@ export class TelemetryService {
                 //create name space
                 const namespaceData = await client.api.v1.namespace.post({ body: namespaceManifest });
                 if (namespaceData.statusCode == 201) {
+                    console.log("namespace created...")
                     projectDetails.namespace = namespaceData.body.metadata.name
                     applyVault()
                 }
@@ -44,15 +45,16 @@ export class TelemetryService {
                 //deploy vault and promethuis
                 let deployManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/telemetry-deployment.yaml', 'utf8'));
                 const deployTelemetyVaultData = await client.apis.extensions.v1beta1.namespaces(projectDetails.namespace).deployments.post({ body: deployManifest });
-                //console.log("deployDevOpsData------>", deployDevOpsData)
-
+                await delay(10000);
 
                 //service for vault and promethuis
                 let serviceManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/telemetry-service.yaml', 'utf8'));
                 const serviceData = await client.api.v1.namespaces(projectDetails.namespace).service.post({ body: serviceManifest });
                 if (serviceData.statusCode == 201) {
                     // move to next pods...
-                    console.log("SUCCESS TELEMETRY VAULT-PROMETHUES DEPLOYED!");
+                    await delay(5000);
+                    loadVaultData();
+                    //console.log("SUCCESS TELEMETRY VAULT-PROMETHUES DEPLOYED!");
                 }
 
 
@@ -61,8 +63,39 @@ export class TelemetryService {
             }
         }
 
+        async function loadVaultData() {
+            try {
+                await delay(5000);
+                const svcData = await client.api.v1.namespaces(projectDetails.namespace).service.get();
+                var vaultHost = '';
+                var vaultPort = '';
 
-      
+
+                //need to change :
+                svcData.body.items.forEach(element => {
+                    if (element.metadata.name === 'gep-dev-telimetry') {
+                        var vaultHostData = JSON.parse(element.metadata.annotations['field.cattle.io/publicEndpoints']);
+                        vaultHost = vaultHostData[0].addresses[0];
+                        vaultPort = vaultHostData[0].port;
+                    }
+                });
+
+                var vault = require("node-vault")({ apiVersion: 'v1', endpoint: 'http://' + vaultHost + ':' + vaultPort, token: 'vault-geppetto-2019' });
+
+                vault.mounts()
+                    .then(() => vault.mount({ mount_point: 'kv', type: 'generic', description: 'mongo connection string' }))
+                    .then(() => vault.write('kv/kuberentes/database/mongo/connection', { mongo_connection_string: 'mongodb://gep-dev-app-db/' + projectDetails.namespace }))
+                //.then(() => vault.read('kv/kuberentes/database/mongo/connection'))
+                //.then(console.log)
+                console.log("SUCCESS TELEMETRY VAULT-PROMETHUES DEPLOYED!");
+
+            } catch (err) {
+                console.error('Error: ', err)
+            }
+        }
+
+
+
 
         const delay = ms => new Promise(res => setTimeout(res, ms));
 
@@ -72,7 +105,7 @@ export class TelemetryService {
 
 
         let loggingYaml = projectDetails.yamlSource + "/telemetry-pod/EFK";
-        
+
         async function createLoggingNameSpace() {
             try {
 
@@ -95,7 +128,7 @@ export class TelemetryService {
         async function applyDeployEFK() {
             try {
 
-        
+
                 //deploy pvc
                 let elsaticPvcManifest = yaml.safeLoad(fs.readFileSync(loggingYaml + '/elasticsearch-pv.yaml', 'utf8'));
                 const pvcData = await client.api.v1.namespaces(projectDetails.logNamespace).pvc.post({ body: elsaticPvcManifest });
@@ -111,8 +144,8 @@ export class TelemetryService {
                 //service for elasticsearch
                 let elasticsearchServiceManifest = yaml.safeLoad(fs.readFileSync(loggingYaml + '/elasticsearch-svc.yaml', 'utf8'));
                 const elasticsearchserviceData = await client.api.v1.namespaces(projectDetails.logNamespace).service.post({ body: elasticsearchServiceManifest });
-                
-                
+
+
                 // if (serviceData.statusCode == 201) {
                 //     // move to next pods...
                 //     console.log("SUCCESS TELEMETRY VAULT-PROMETHUES DEPLOYED!");
@@ -122,7 +155,7 @@ export class TelemetryService {
                 console.error('Error: ', err)
             }
         }
-   
+
         const delay = ms => new Promise(res => setTimeout(res, ms));
 
     }

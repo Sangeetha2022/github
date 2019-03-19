@@ -72,11 +72,11 @@ export class RancherService {
 
     }
 
-    // public creat_test(projectDetails, callback: CallableFunction) {
+    public creat_test(projectDetails, callback: CallableFunction) {
        
-    //     let rancherHost2 = "https://54.172.222.122[0m";
-    //     callback({ "status": "success", "data":rancherHost2.replace('[0m','') });
+        let rancherHost2 = "";
+        callback({ "status": "success", "data":rancherHost2 });
 
-    // }
+    }
 
 }

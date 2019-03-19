@@ -25,6 +25,7 @@ const Client = kubernetes.Client1_10;
 const Source = path.resolve(__dirname, deployConfig.AWS.DESTINATION_URL);
 
 
+
 export class KubernetesService {
 
 
@@ -188,35 +189,24 @@ export class KubernetesService {
             if (projectDetails.telemetry_pod.vault) {
                 telemetryService.telemetry_vault(projectDetails, client, (response) => { });
             }
+            await delay(30000);
 
             //dev-ops
-            if (projectDetails.dev_ops_pod) {
-                devOpsService.dev_ops_pod(projectDetails, client, (response) => { });
-            }
+            // if (projectDetails.dev_ops_pod) {
+            //     devOpsService.dev_ops_pod(projectDetails, client, (response) => { });
+            // }
 
             //App pod
             if (projectDetails.app_pod) {
                 appService.app_pod(projectDetails, client, (response) => { });
             }
 
-
-
-
+        
 
         }
 
 
-
-        // kubctl api connect
-        // function getAllNamespaces(client) {
-        //     client.api.v1.namespaces.get().then((res, err) => {
-        //         console.log("response------------------->", res.body.items);
-        //         if (err) { console.log("err------------------->", err); }
-        //     });
-
-        // }
-
-
+        const delay = ms => new Promise(res => setTimeout(res, ms));
     }
 
 }
