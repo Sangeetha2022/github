@@ -7,7 +7,8 @@ import { AppService } from '../services/app.service';
 import { SystemEntryService } from '../services/system-entry.service';
 import { TelemetryService } from '../services/telemetry.service';
 import { NamespaceService } from '../services/app.namespace';
-import {TerraformService} from '../services/terraform.service'
+import {TerraformService} from '../services/terraform.service';
+import {DevOpsService} from '../services/dev-ops.service';
 //import InfrastructureDto from '../dto/infrastructure.dto';
 
 
@@ -16,6 +17,7 @@ let appService = new AppService()
 let systemEntryService = new SystemEntryService()
 let telemetryService = new TelemetryService()
 let terraformService = new TerraformService()
+let devOpsService = new DevOpsService()
 //let infrastructureDto = new InfrastructureDto()
 
 //local
@@ -90,18 +92,24 @@ export class InfrastructureController {
 
     //telemetry logging EFK
     if (projectDetails.telemetry_pod.EFK) {
-
+      telemetryService.generate_telemetry_pod_EFK(projectDetails, (response) => {
+        //res.send(200);
+      })
     }
 
 
     //dev-ops db
     if (projectDetails.dev_ops_db_pod) {
-
+      devOpsService.generate_devops_db(projectDetails, (response) => {
+        //res.send(200);
+      })
     }
 
     //dev-ops
     if (projectDetails.dev_ops_pod) {
-
+      devOpsService.generate_devops(projectDetails, (response) => {
+        //res.send(200);
+      })
     }
 
 
@@ -179,20 +187,25 @@ export class InfrastructureController {
 
     //telemetry logging EFK
     if (projectDetails.telemetry_pod.EFK) {
-
+      telemetryService.generate_telemetry_pod_EFK(projectDetails, (response) => {
+        //res.send(200);
+      })
     }
 
 
     //dev-ops db
     if (projectDetails.dev_ops_db_pod) {
-
+      devOpsService.generate_devops_db(projectDetails, (response) => {
+        //res.send(200);
+      })
     }
 
     //dev-ops
     if (projectDetails.dev_ops_pod) {
-
+      devOpsService.generate_devops(projectDetails, (response) => {
+        //res.send(200);
+      })
     }
-
 
     res.send("Success!");
 

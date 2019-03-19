@@ -5,7 +5,7 @@ metadata:
   name: $project_name$-system-entry
   namespace: $project_name$
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - name: nginx-app
     port: 80

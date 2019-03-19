@@ -24,7 +24,7 @@
     "js-yaml": "^3.12.2",
     "kubernetes-client": "^6.9.0",
     "mongoose": "^5.4.7",
-    "node-vault": "^0.9.5",
+    "node-vault": "^0.9.6",
     "nodemon": "^1.18.9",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
