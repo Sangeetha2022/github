@@ -2,7 +2,7 @@
     "feature_flow": [
         {
             "name": "GpCreate",
-            "methodName": "TicketCreate",
+            "methodName": "CreateTicket",
             "label": "Save",
             "description": "creates a ticket",
             "action_on_data": "TicketCreate",
@@ -14,7 +14,7 @@
         },
         {
             "name": "GpUpdate",
-            "methodName": "TicketUpdate",
+            "methodName": "UpdateTicket",
             "label": "Update",
             "description": "updates a ticket",
             "action_on_data": "TicketUpdate",
@@ -25,7 +25,7 @@
         },
         {
             "name": "GpDelete",
-            "methodName": "TicketDelete",
+            "methodName": "DeleteTicket",
             "label": "Delete",
             "description": "deletes a ticket",
             "action_on_data": "TicketDelete",
@@ -36,7 +36,7 @@
         },
         {
             "name": "GpGetAllValues",
-            "methodName": "TicketGetAllValues",
+            "methodName": "GetAllTicketValues",
             "label": "Get All Records",
             "description": "special search that gets all values",
             "action_on_data": "TicketGetAllValues",
@@ -47,7 +47,7 @@
         },
         {
             "name": "GpGetById",
-            "methodName": "TicketGetById",
+            "methodName": "GetTicketById",
             "label": "Gets by ID",
             "description": "special search that fetches one value",
             "action_on_data": "TicketGetById",
@@ -58,7 +58,7 @@
         },
         {
             "name": "GpGetByCategory",
-            "methodName": "TicketGetByCategory",
+            "methodName": "GetTicketByCategory",
             "label": "Gets by Category",
             "description": "special search that fetches one value",
             "action_on_data": "TicketGetByCategory",
@@ -70,7 +70,7 @@
 
         {
             "name": "GpCreate",
-            "methodName": "IssueTicketCreate",
+            "methodName": "CreateIssueTicket",
             "label": "Save",
             "description": "creates a ticket",
             "action_on_data": "TicketCreate",
@@ -82,7 +82,7 @@
         },
         {
             "name": "GpUpdate",
-            "methodName": "IssueTicketUpdate",
+            "methodName": "UpdateIssueTicket",
             "label": "Update",
             "description": "updates a ticket",
             "action_on_data": "TicketUpdate",
@@ -93,7 +93,7 @@
         },
         {
             "name": "GpDelete",
-            "methodName": "IssueTicketDelete",
+            "methodName": "DeleteIssueTicket",
             "label": "Delete",
             "description": "deletes a ticket",
             "action_on_data": "TicketDelete",
@@ -104,7 +104,7 @@
         },
         {
             "name": "GpGetAllValues",
-            "methodName": "IssueTicketGetAllValues",
+            "methodName": "GetAllIssueTicketValues",
             "label": "Get All Records",
             "description": "special search that gets all values",
             "action_on_data": "TicketGetAllValues",
@@ -115,7 +115,7 @@
         },
         {
             "name": "GpGetById",
-            "methodName": "IssueTicketGetById",
+            "methodName": "GetIssueTicketById",
             "label": "Gets by ID",
             "description": "special search that fetches one value",
             "action_on_data": "TicketGetById",
@@ -126,7 +126,7 @@
         },
         {
             "name": "GpGetByCategory",
-            "methodName": "IssueTicketGetByCategory",
+            "methodName": "GetIssueTicketByCategory",
             "label": "Gets by Category",
             "description": "special search that fetches one value",
             "action_on_data": "TicketGetByCategory",
@@ -137,7 +137,7 @@
         },
         {
             "name": "GpCreate",
-            "methodName": "DocumentTicketCreate",
+            "methodName": "CreateDocumentTicket",
             "label": "Save",
             "description": "creates a ticket",
             "action_on_data": "TicketCreate",
@@ -149,7 +149,7 @@
         },
         {
             "name": "GpUpdate",
-            "methodName": "DocumentTicketUpdate",
+            "methodName": "UpdateDocumentTicket",
             "label": "Update",
             "description": "updates a ticket",
             "action_on_data": "TicketUpdate",
@@ -160,7 +160,7 @@
         },
         {
             "name": "GpDelete",
-            "methodName": "DocumentTicketDelete",
+            "methodName": "DeleteDocumentTicket",
             "label": "Delete",
             "description": "deletes a ticket",
             "action_on_data": "TicketDelete",
@@ -171,7 +171,7 @@
         },
         {
             "name": "GpGetAllValues",
-            "methodName": "DocumentTicketGetAllValues",
+            "methodName": "GetAllDocumentTicketValues",
             "label": "Get All Records",
             "description": "special search that gets all values",
             "action_on_data": "TicketGetAllValues",
@@ -182,7 +182,7 @@
         },
         {
             "name": "GpGetById",
-            "methodName": "DocumentTicketGetById",
+            "methodName": "GetDocumentTicketById",
             "label": "Gets by ID",
             "description": "special search that fetches one value",
             "action_on_data": "TicketGetById",
@@ -193,7 +193,7 @@
         },
         {
             "name": "GpGetByCategory",
-            "methodName": "DocumentTicketGetByCategory",
+            "methodName": "GetDocumentTicketByCategory",
             "label": "Gets by Category",
             "description": "special search that fetches one value",
             "action_on_data": "TicketGetByCategory",
@@ -204,7 +204,7 @@
         },
         {
             "name": "GpCreate",
-            "methodName": "FeatureTicketCreate",
+            "methodName": "CreateFeatureTicket",
             "label": "Save",
             "description": "creates a ticket",
             "action_on_data": "TicketCreate",
@@ -216,7 +216,7 @@
         },
         {
             "name": "GpUpdate",
-            "methodName": "FeatureTicketUpdate",
+            "methodName": "UpdateFeatureTicket",
             "label": "Update",
             "description": "updates a ticket",
             "action_on_data": "TicketUpdate",
@@ -227,7 +227,7 @@
         },
         {
             "name": "GpDelete",
-            "methodName": "FeatureTicketDelete",
+            "methodName": "DeleteFeatureTicket",
             "label": "Delete",
             "description": "deletes a ticket",
             "action_on_data": "TicketDelete",
@@ -238,7 +238,7 @@
         },
         {
             "name": "GpGetAllValues",
-            "methodName": "FeatureTicketGetAllValues",
+            "methodName": "GetAllFeatureTicketValues",
             "label": "Get All Records",
             "description": "special search that gets all values",
             "action_on_data": "TicketGetAllValues",
@@ -249,7 +249,7 @@
         },
         {
             "name": "GpGetById",
-            "methodName": "FeatureTicketGetById",
+            "methodName": "GetFeatureTicketById",
             "label": "Gets by ID",
             "description": "special search that fetches one value",
             "action_on_data": "TicketGetById",
@@ -260,7 +260,7 @@
         },
         {
             "name": "GpGetByCategory",
-            "methodName": "FeatureTicketGetByCategory",
+            "methodName": "GetFeatureTicketByCategory",
             "label": "Gets by Category",
             "description": "special search that fetches one value",
             "action_on_data": "TicketGetByCategory",
@@ -271,7 +271,7 @@
         },
         {
             "name": "GpCreate",
-            "methodName": "SupportTicketCreate",
+            "methodName": "CreateSupportTicket",
             "label": "Save",
             "description": "creates a ticket",
             "action_on_data": "TicketCreate",
@@ -283,7 +283,7 @@
         },
         {
             "name": "GpUpdate",
-            "methodName": "SupportTicketUpdate",
+            "methodName": "UpdateSupportTicket",
             "label": "Update",
             "description": "updates a ticket",
             "action_on_data": "TicketUpdate",
@@ -294,7 +294,7 @@
         },
         {
             "name": "GpDelete",
-            "methodName": "SupportTicketDelete",
+            "methodName": "DeleteSupportTicket",
             "label": "Delete",
             "description": "deletes a ticket",
             "action_on_data": "TicketDelete",
@@ -305,7 +305,7 @@
         },
         {
             "name": "GpGetAllValues",
-            "methodName": "SupportTicketGetAllValues",
+            "methodName": "GetAllSupportTicketValues",
             "label": "Get All Records",
             "description": "special search that gets all values",
             "action_on_data": "TicketGetAllValues",
@@ -316,7 +316,7 @@
         },
         {
             "name": "GpGetById",
-            "methodName": "SupportTicketGetById",
+            "methodName": "GetSupportTicketById",
             "label": "Gets by ID",
             "description": "special search that fetches one value",
             "action_on_data": "TicketGetById",
@@ -327,7 +327,7 @@
         },
         {
             "name": "GpGetByCategory",
-            "methodName": "SupportTicketGetByCategory",
+            "methodName": "SupportTicketByCategory",
             "label": "Gets by Category",
             "description": "special search that fetches one value",
             "action_on_data": "TicketGetByCategory",

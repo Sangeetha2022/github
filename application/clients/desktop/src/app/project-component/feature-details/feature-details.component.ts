@@ -44,6 +44,7 @@ export class FeatureDetailsComponent implements OnInit {
         checkboxSelection: true
       },
       { headerName: 'Label', field: 'label' },
+      { headerName: 'Method Name', field: 'methodName' },
       { headerName: 'Description', field: 'description' },
       { headerName: 'Action', field: 'action_on_data' }
     ];
@@ -74,10 +75,13 @@ export class FeatureDetailsComponent implements OnInit {
     this.showFeatureFlow = true;
     this.featureDetailsService.getAllFeatureFlows().subscribe(data => {
       this.rowData = [];
+      console.log("i am the one you needed",this.rowData);
+      // if(this.rowData==null){
+      //   this.showFeatureFlowComponent = false;
+      // }
       data.map((data) => {
         if (data.screenName === type) {
           this.rowData.push(data);
-          console.log("adadafdaf", this.rowData)
         }
       });
     });
