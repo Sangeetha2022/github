@@ -6,6 +6,7 @@ import * as cors from 'cors';
 import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
 import * as mongoose from "mongoose";
+import { URL } from 'url'
 
 const PORT = 3011;
 

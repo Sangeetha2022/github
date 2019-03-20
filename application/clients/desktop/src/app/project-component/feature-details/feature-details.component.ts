@@ -31,9 +31,8 @@ export class FeatureDetailsComponent implements OnInit {
   showFeatureFlowComponent: boolean;
   rowData: any = [];
   selectedFlow: any = [];
-  selectedFeatureFlow: any = [];
-  gridApi;
-  gridColumnApi;
+  featureFlowGrid;
+  featureFlowCompGrid;
   constructor(private featureDetailsService: FeatureDetailsService, private dataService: DataService, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.screenData.featureName = params.feature;
@@ -64,21 +63,13 @@ export class FeatureDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getAllScreen();
-  }
-
-  onGridReady(params) {
-    this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
-    this.gridApi.sizeColumnsToFit();
+    // this.getScreenByFeatureName();
   }
   getAllFeatureFlows(type) {
     this.showFeatureFlow = true;
+    this.showFeatureFlowComponent = false;
     this.featureDetailsService.getAllFeatureFlows().subscribe(data => {
       this.rowData = [];
-      console.log("i am the one you needed",this.rowData);
-      // if(this.rowData==null){
-      //   this.showFeatureFlowComponent = false;
-      // }
       data.map((data) => {
         if (data.screenName === type) {
           this.rowData.push(data);
@@ -93,7 +84,6 @@ export class FeatureDetailsComponent implements OnInit {
       this.featureFlowId = data._id;
       if (data) {
         this.featureDetailsService.getFeatureFlowDetails(this.featureFlowId).subscribe(data => {
-          console.log("asdasddsdad", data)
           this.rowFlowCompData = data.flow_comp_seq;
         });
       }
@@ -106,6 +96,7 @@ export class FeatureDetailsComponent implements OnInit {
       if (data) {
         this.onCloseHandled();
         this.getAllScreen();
+        // this.getScreenByFeatureName();
       }
     });
   }
@@ -114,18 +105,42 @@ export class FeatureDetailsComponent implements OnInit {
       this.screens = data;
     });
   }
+
+  // getScreenByFeatureName() {
+  //   const name = this.screenData.featureName;
+  //   console.log("i am the name", name);
+
+  //   this.featureDetailsService.getScreenByFeatureName(name).subscribe(data => {
+  //     this.screens = data;
+  //   });
+  // }
   openScreenModal() {
     this.displayModel = 'block';
   }
   onCloseHandled() {
     this.displayModel = 'none';
   }
-  onSelectionChanged() {
-    this.selectedFlow = this.gridApi.getSelectedRows();
+
+  selectedFeatureFlow() {
+
+    this.selectedFlow = this.featureFlowGrid.getSelectedRows();
+    console.log("i am the selected one", this.selectedFlow);
     if (this.selectedFlow.length !== 0) {
       this.dataService.setFeatureFlowIdInfo(this.selectedFlow[0]);
       this.showFeatureFlowComponent = true;
+      console.log("i am here");
     }
     this.getFeatureFlowDetails();
+
+  }
+
+  onFlowGridReady(params) {
+    this.featureFlowGrid = params.api;
+    this.featureFlowGrid.sizeColumnsToFit();
+  }
+
+  onFlowCompGridReady(params) {
+    this.featureFlowCompGrid = params.api;
+    this.featureFlowCompGrid.sizeColumnsToFit();
   }
 }

@@ -79,6 +79,7 @@ export class Constants {
     public static get getAllScreen(): string { return '/screen/getall'; }
     public static get getScreenByID(): string { return '/screen/getbyid/:id'; }
     public static get deleteScreen(): string { return '/screen/delete/:id'; }
+    public static get getScreenByFeatureName(): string { return '/screen/getbyfeature/'; }
     public static get updateScreen(): string { return '/screen/update/:id'; }
 
     // Default Entity

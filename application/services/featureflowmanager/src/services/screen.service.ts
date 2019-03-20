@@ -24,6 +24,14 @@ export class ScreenService {
         })
     }
 
+    public getScreenByFeatureName(req: Request, next: NextFunction, callback: CallableFunction) {
+        screenDao.getScreenByFeatureName(req, next, (flow) => {
+            callback(flow);
+        })
+    }
+
+    
+
     public deleteScreen(req: Request, next: NextFunction, callback: CallableFunction) {
         const flowID = req.params.id;
         screenDao.deleteScreen(flowID, next, (response) => {

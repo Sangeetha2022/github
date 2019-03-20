@@ -50,4 +50,9 @@ export class FeatureDetailsService {
   getAllScreen(): Observable<any> {
     return this.api.get(this.restapi.featureflowbaseUrl + Constants.getAllScreen);
   }
+
+  getScreenByFeatureName(name): Observable<any> {
+    console.log("name from the service", name);
+    return this.api.get(this.restapi.featureflowbaseUrl + Constants.getScreenByFeatureName + name);
+  }
 }

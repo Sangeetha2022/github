@@ -1,7 +1,7 @@
 {
     "feature_flow": [
         {
-            "name": "GpCreate",
+            "name": "TicketCreate",
             "methodName": "CreateTicket",
             "label": "Save",
             "description": "creates a ticket",
@@ -9,11 +9,12 @@
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Creation"
+            
 
             
         },
         {
-            "name": "GpUpdate",
+            "name": "TicketUpdate",
             "methodName": "UpdateTicket",
             "label": "Update",
             "description": "updates a ticket",
@@ -22,9 +23,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Creation"
             
+            
         },
         {
-            "name": "GpDelete",
+            "name": "TicketDelete",
             "methodName": "DeleteTicket",
             "label": "Delete",
             "description": "deletes a ticket",
@@ -33,9 +35,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Creation"
             
+            
         },
         {
-            "name": "GpGetAllValues",
+            "name": "TicketGetAllValues",
             "methodName": "GetAllTicketValues",
             "label": "Get All Records",
             "description": "special search that gets all values",
@@ -44,9 +47,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Creation"
             
+            
         },
         {
-            "name": "GpGetById",
+            "name": "TicketGetById",
             "methodName": "GetTicketById",
             "label": "Gets by ID",
             "description": "special search that fetches one value",
@@ -55,9 +59,10 @@
             "create_with_default_activity": 0,
             "screenName": "Ticket Creation"
             
+            
         },
         {
-            "name": "GpGetByCategory",
+            "name": "TicketGetByCategory",
             "methodName": "GetTicketByCategory",
             "label": "Gets by Category",
             "description": "special search that fetches one value",
@@ -66,10 +71,11 @@
             "create_with_default_activity": 0,
             "screenName": "Ticket Creation"
             
+            
         },
 
         {
-            "name": "GpCreate",
+            "name": "TicketCreate",
             "methodName": "CreateIssueTicket",
             "label": "Save",
             "description": "creates a ticket",
@@ -77,11 +83,12 @@
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
+            
 
             
         },
         {
-            "name": "GpUpdate",
+            "name": "TicketUpdate",
             "methodName": "UpdateIssueTicket",
             "label": "Update",
             "description": "updates a ticket",
@@ -90,9 +97,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpDelete",
+            "name": "TicketDelete",
             "methodName": "DeleteIssueTicket",
             "label": "Delete",
             "description": "deletes a ticket",
@@ -101,9 +109,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpGetAllValues",
+            "name": "TicketGetAllValues",
             "methodName": "GetAllIssueTicketValues",
             "label": "Get All Records",
             "description": "special search that gets all values",
@@ -112,9 +121,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpGetById",
+            "name": "TicketGetById",
             "methodName": "GetIssueTicketById",
             "label": "Gets by ID",
             "description": "special search that fetches one value",
@@ -123,9 +133,10 @@
             "create_with_default_activity": 0,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpGetByCategory",
+            "name": "TicketGetByCategory",
             "methodName": "GetIssueTicketByCategory",
             "label": "Gets by Category",
             "description": "special search that fetches one value",
@@ -134,9 +145,10 @@
             "create_with_default_activity": 0,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpCreate",
+            "name": "TicketCreate",
             "methodName": "CreateDocumentTicket",
             "label": "Save",
             "description": "creates a ticket",
@@ -144,11 +156,12 @@
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
+            
 
             
         },
         {
-            "name": "GpUpdate",
+            "name": "TicketUpdate",
             "methodName": "UpdateDocumentTicket",
             "label": "Update",
             "description": "updates a ticket",
@@ -157,9 +170,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpDelete",
+            "name": "TicketDelete",
             "methodName": "DeleteDocumentTicket",
             "label": "Delete",
             "description": "deletes a ticket",
@@ -168,9 +182,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpGetAllValues",
+            "name": "TicketGetAllValues",
             "methodName": "GetAllDocumentTicketValues",
             "label": "Get All Records",
             "description": "special search that gets all values",
@@ -179,9 +194,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpGetById",
+            "name": "TicketGetById",
             "methodName": "GetDocumentTicketById",
             "label": "Gets by ID",
             "description": "special search that fetches one value",
@@ -190,9 +206,10 @@
             "create_with_default_activity": 0,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpGetByCategory",
+            "name": "TicketGetByCategory",
             "methodName": "GetDocumentTicketByCategory",
             "label": "Gets by Category",
             "description": "special search that fetches one value",
@@ -201,9 +218,10 @@
             "create_with_default_activity": 0,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpCreate",
+            "name": "TicketCreate",
             "methodName": "CreateFeatureTicket",
             "label": "Save",
             "description": "creates a ticket",
@@ -211,11 +229,12 @@
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
+            
 
             
         },
         {
-            "name": "GpUpdate",
+            "name": "TicketUpdate",
             "methodName": "UpdateFeatureTicket",
             "label": "Update",
             "description": "updates a ticket",
@@ -224,9 +243,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpDelete",
+            "name": "TicketDelete",
             "methodName": "DeleteFeatureTicket",
             "label": "Delete",
             "description": "deletes a ticket",
@@ -235,9 +255,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpGetAllValues",
+            "name": "TicketGetAllValues",
             "methodName": "GetAllFeatureTicketValues",
             "label": "Get All Records",
             "description": "special search that gets all values",
@@ -246,9 +267,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpGetById",
+            "name": "TicketGetById",
             "methodName": "GetFeatureTicketById",
             "label": "Gets by ID",
             "description": "special search that fetches one value",
@@ -257,9 +279,10 @@
             "create_with_default_activity": 0,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpGetByCategory",
+            "name": "TicketGetByCategory",
             "methodName": "GetFeatureTicketByCategory",
             "label": "Gets by Category",
             "description": "special search that fetches one value",
@@ -268,9 +291,10 @@
             "create_with_default_activity": 0,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpCreate",
+            "name": "TicketCreate",
             "methodName": "CreateSupportTicket",
             "label": "Save",
             "description": "creates a ticket",
@@ -278,11 +302,12 @@
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
+            
 
             
         },
         {
-            "name": "GpUpdate",
+            "name": "TicketUpdate",
             "methodName": "UpdateSupportTicket",
             "label": "Update",
             "description": "updates a ticket",
@@ -291,9 +316,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpDelete",
+            "name": "TicketDelete",
             "methodName": "DeleteSupportTicket",
             "label": "Delete",
             "description": "deletes a ticket",
@@ -302,9 +328,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpGetAllValues",
+            "name": "TicketGetAllValues",
             "methodName": "GetAllSupportTicketValues",
             "label": "Get All Records",
             "description": "special search that gets all values",
@@ -313,9 +340,10 @@
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpGetById",
+            "name": "TicketGetById",
             "methodName": "GetSupportTicketById",
             "label": "Gets by ID",
             "description": "special search that fetches one value",
@@ -324,9 +352,10 @@
             "create_with_default_activity": 0,
             "screenName": "Ticket Details"
             
+            
         },
         {
-            "name": "GpGetByCategory",
+            "name": "TicketGetByCategory",
             "methodName": "SupportTicketByCategory",
             "label": "Gets by Category",
             "description": "special search that fetches one value",
@@ -334,6 +363,7 @@
             "type": "basic",
             "create_with_default_activity": 0,
             "screenName": "Ticket Details"
+            
             
         }
         

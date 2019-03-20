@@ -1,5 +1,5 @@
 {
-    "GpCreate": [
+    "TicketCreate": [
         {
             "component_name": "GpExpressController",
             "label": "node controller",
@@ -7,8 +7,7 @@
             "sequence_id": 1,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "controller for a NodeJs server application",
-            "connector": true
+            "description": "controller for a NodeJs server application"
         },
         {
             "component_name": "GpExpressService",
@@ -17,8 +16,8 @@
             "sequence_id": 2,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "service component for a NodeJS based application",
-            "connector": true
+            "description": "service component for a NodeJS based application"
+            
         },
         {
             "component_name": "GpExpressDao",
@@ -27,8 +26,8 @@
             "sequence_id": 3,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "dao component for a NodeJs based application",
-            "connector": true
+            "description": "dao component for a NodeJs based application"
+            
         },
         {
             "component_name": "GpAngularComponent",
@@ -37,8 +36,8 @@
             "sequence_id": 1,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "component for Angular desktop",
-            "connector": true
+            "description": "component for Angular desktop"
+            
         },
         {
             "component_name": "GpAngularService",
@@ -47,11 +46,11 @@
             "sequence_id": 2,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "service for Angular desktop",
-            "connector": true
+            "description": "service for Angular desktop"
+            
         }
     ],
-    "GpDelete": [
+    "TicketDelete": [
         {
             "component_name": "GpExpressController",
             "label": "node controller",
@@ -59,8 +58,8 @@
             "sequence_id": 1,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "controller for a NodeJs server application",
-            "connector": true
+            "description": "controller for a NodeJs server application"
+            
         },
         {
             "component_name": "GpExpressService",
@@ -69,8 +68,8 @@
             "sequence_id": 2,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "service component for a NodeJS based application",
-            "connector": true
+            "description": "service component for a NodeJS based application"
+            
         },
         {
             "component_name": "GpExpressDao",
@@ -79,8 +78,8 @@
             "sequence_id": 3,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "dao component for a NodeJs based application",
-            "connector": true
+            "description": "dao component for a NodeJs based application"
+            
         },
         {
             "component_name": "GpAngularComponent",
@@ -89,21 +88,21 @@
             "sequence_id": 1,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "component for Angular desktop",
-            "connector": true
+            "description": "component for Angular desktop"
+            
         },
         {
-            "component_name": "TicketAngularService",
+            "component_name": "GpAngularService",
             "label": "angular service",
             "type": "client",
             "sequence_id": 2,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "service for Angular desktop",
-            "connector": true
+            "description": "service for Angular desktop"
+            
         }
     ],
-    "GpGetAllValues": [
+    "TicketGetAllValues": [
         {
             "component_name": "GpExpressController",
             "label": "node controller",
@@ -111,8 +110,8 @@
             "sequence_id": 1,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "controller for a NodeJs server application",
-            "connector": true
+            "description": "controller for a NodeJs server application"
+            
         },
         {
             "component_name": "GpExpressService",
@@ -121,8 +120,8 @@
             "sequence_id": 2,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "service component for a NodeJS based application",
-            "connector": true
+            "description": "service component for a NodeJS based application"
+            
         },
         {
             "component_name": "GpExpressDao",
@@ -131,8 +130,8 @@
             "sequence_id": 3,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "dao component for a NodeJs based application",
-            "connector": true
+            "description": "dao component for a NodeJs based application"
+            
         },
         {
             "component_name": "GpAngularComponent",
@@ -141,21 +140,21 @@
             "sequence_id": 1,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "component for Angular desktop",
-            "connector": true
+            "description": "component for Angular desktop"
+            
         },
         {
-            "component_name": "TicketAngularService",
+            "component_name": "GpAngularService",
             "label": "angular service",
             "type": "client",
             "sequence_id": 2,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "service for Angular desktop",
-            "connector": true
+            "description": "service for Angular desktop"
+            
         }
     ],
-    "GpGetById": [
+    "TicketGetById": [
         {
             "component_name": "GpExpressController",
             "label": "node controller",
@@ -163,8 +162,8 @@
             "sequence_id": 1,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "controller for a NodeJs server application",
-            "connector": true
+            "description": "controller for a NodeJs server application"
+            
         },
         {
             "component_name": "GpExpressService",
@@ -173,8 +172,8 @@
             "sequence_id": 2,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "service component for a NodeJS based application",
-            "connector": true
+            "description": "service component for a NodeJS based application"
+            
         },
         {
             "component_name": "GpExpressDao",
@@ -183,8 +182,8 @@
             "sequence_id": 3,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "dao component for a NodeJs based application",
-            "connector": true
+            "description": "dao component for a NodeJs based application"
+            
         },
         {
             "component_name": "GpAngularComponent",
@@ -193,21 +192,21 @@
             "sequence_id": 1,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "component for Angular desktop",
-            "connector": true
+            "description": "component for Angular desktop"
+            
         },
         {
-            "component_name": "TicketAngularService",
+            "component_name": "GpAngularService",
             "label": "angular service",
             "type": "client",
             "sequence_id": 2,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "service for Angular desktop",
-            "connector": true
+            "description": "service for Angular desktop"
+            
         }
     ],
-    "GpGetByCategory": [
+    "TicketGetByCategory": [
         {
             "component_name": "GpExpressController",
             "label": "node controller",
@@ -215,8 +214,8 @@
             "sequence_id": 1,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "controller for a NodeJs server application",
-            "connector": true
+            "description": "controller for a NodeJs server application"
+            
         },
         {
             "component_name": "GpExpressService",
@@ -225,8 +224,8 @@
             "sequence_id": 2,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "service component for a NodeJS based application",
-            "connector": true
+            "description": "service component for a NodeJS based application"
+            
         },
         {
             "component_name": "GpExpressDao",
@@ -235,8 +234,8 @@
             "sequence_id": 3,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "dao component for a NodeJs based application",
-            "connector": true
+            "description": "dao component for a NodeJs based application"
+            
         },
         {
             "component_name": "GpAngularComponent",
@@ -245,21 +244,21 @@
             "sequence_id": 1,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "component for Angular desktop",
-            "connector": true
+            "description": "component for Angular desktop"
+            
         },
         {
-            "component_name": "TicketAngularService",
+            "component_name": "GpAngularService",
             "label": "angular service",
             "type": "client",
             "sequence_id": 2,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "service for Angular desktop",
-            "connector": true
+            "description": "service for Angular desktop"
+            
         }
     ],
-    "GpUpdate": [
+    "TicketUpdate": [
         {
             "component_name": "GpExpressController",
             "label": "node controller",
@@ -267,8 +266,8 @@
             "sequence_id": 1,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "controller for a NodeJs server application",
-            "connector": true
+            "description": "controller for a NodeJs server application"
+            
         },
         {
             "component_name": "GpExpressService",
@@ -277,8 +276,8 @@
             "sequence_id": 2,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "service component for a NodeJS based application",
-            "connector": true
+            "description": "service component for a NodeJS based application"
+            
         },
         {
             "component_name": "GpExpressDao",
@@ -287,8 +286,8 @@
             "sequence_id": 3,
             "dev_language": "Node.js",
             "dev_framework": "Express",
-            "description": "dao component for a NodeJs based application",
-            "connector": true
+            "description": "dao component for a NodeJs based application"
+            
         },
         {
             "component_name": "GpAngularComponent",
@@ -297,18 +296,18 @@
             "sequence_id": 1,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "component for Angular desktop",
-            "connector": true
+            "description": "component for Angular desktop"
+            
         },
         {
-            "component_name": "TicketAngularService",
+            "component_name": "GpAngularService",
             "label": "angular service",
             "type": "client",
             "sequence_id": 2,
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "service for Angular desktop",
-            "connector": true
+            "description": "service for Angular desktop"
+            
         }
     ]
 }

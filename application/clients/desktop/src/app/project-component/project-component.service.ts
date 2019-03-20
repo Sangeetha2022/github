@@ -77,6 +77,7 @@ export class ProjectComponentService {
 
   updateFeature(feature) {
     const featureId = feature.id;
+    console.log("asdadsf",featureId)
     return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + featureId, feature);
   }
 
