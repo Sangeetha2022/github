@@ -18,7 +18,7 @@ spec:
           image: postgres:latest
           env:
             - name: POSTGRES_PASSWORD
-              value: T@ng3456
+              value: $project_name$
             - name: POSTGRES_USER
               value: sonar
             - name: POSTGRES_DB

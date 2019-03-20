@@ -1,8 +1,8 @@
-sonar_pv_postgres_yaml(project_name) ::= <<
+mongo_pv_yaml(project_name) ::= <<
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: $project_name$-dev-ops-postgres-pv
+  name: $project_name$-app-mongo-data-pv
   labels:
     type: local
 spec:
@@ -11,5 +11,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /data/postgresql/
->>       
+    path: /data/mongo/
+>>

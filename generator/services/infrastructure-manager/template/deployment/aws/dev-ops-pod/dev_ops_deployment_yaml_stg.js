@@ -1,6 +1,6 @@
 /*
  * Template group dev_ops_deployment_yaml
- * Compiled on Thu Feb 21 2019 13:09:13 GMT+0530 (India Standard Time)
+ * Compiled on Wed Mar 20 2019 14:54:31 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -205,7 +205,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("            ");
-    w.write("- -Dsonar.web.context=/sonar");
+    w.write("- -Dsonar.web.context=/");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("          ");
@@ -217,8 +217,9 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("              ");
-    w.write("value: T@ng3456");
+    w.write("value: ");
     w.popIndentation();
+    st.write(w, s, g, rc, s.project_name);
     w.write("\n");
     w.pushIndentation("            ");
     w.write("- name: SONARQUBE_JDBC_URL");
