@@ -10,7 +10,7 @@ export class NamespaceService {
     public generate_namespace(projectDetails, callback: CallableFunction) {
 
 
-        let projectName = projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5)
+        let projectName = projectDetails.project_name + "-" + projectDetails.user_id.substring(0, 5)
         let destination = projectDetails.destinationUrl + '/namespace';
         let templatePath = projectDetails.templateUrl + '/namespace';
 
@@ -20,7 +20,7 @@ export class NamespaceService {
 
         //generate telemetry vault and promethues deployment
         let generateTelemetry_deployment = st.loadGroup(require(templatePath + '/namespace_yaml_stg'));
-        let telemetry = generateTelemetry_deployment.render("namespace_yaml", [projectName]);
+        let telemetry = generateTelemetry_deployment.render("namespace_yaml", [projectName.toLowerCase()]);
         fs.writeFile(destination + '/namespace.yaml', telemetry, function (err) {
             if (err) throw err;
             console.log('app namespace generated!!')

@@ -7,7 +7,7 @@ metadata:
     app: $project_name$-telimetry
   namespace: $project_name$  
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - name: vault
       targetPort: 8200
