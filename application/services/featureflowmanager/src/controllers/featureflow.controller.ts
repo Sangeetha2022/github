@@ -19,6 +19,13 @@ export class FlowController {
         })
     }
 
+    // public getFeatureFlowByName(req: Request, res: Response, next: NextFunction) {
+    //     flowService.getFeatureFlowByName(req,next, (response) => {
+    //         res.status(200);
+    //         res.json(response);
+    //     })
+    // }
+
     public getFeatureFlowByID(req: Request, res: Response, next: NextFunction) {
         flowService.getFeatureFlowByID(req, next, (response) => {
             res.status(200);

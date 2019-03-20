@@ -14,6 +14,9 @@ class FlowDto {
   public description: string;
 
   @IsString()
+  public featureName: string;
+
+  @IsString()
   public action_on_data: string;
 
   @IsString()

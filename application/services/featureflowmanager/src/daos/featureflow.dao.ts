@@ -24,6 +24,18 @@ export class FlowDao {
         callback(posts);
     }
 
+    
+
+    // getFeatureFlowByName = async (req: Request, next, callback: CallableFunction) => {
+    //     const featureName = req.params.featureName;
+    //     const flow = await this.flow.findOne(featureName);
+    //     if (flow) {
+    //         callback(flow);
+    //     } else {
+    //         next(new PostNotFoundException(name));
+    //     }
+    // }
+
     getFeatureFlowByID = async (req: Request, next, callback: CallableFunction) => {
         const id = req.params.id;
         const flow = await this.flow.findById(id);

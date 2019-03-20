@@ -1,31 +1,38 @@
 {
     "feature_flow": [
         {
-            "name": "TicketCreate",
+            "name": "GpCreate",
+            "methodName": "TicketCreate",
             "label": "Save",
             "description": "creates a ticket",
             "action_on_data": "TicketCreate",
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Creation"
+
+            
         },
         {
-            "name": "TicketUpdate",
+            "name": "GpUpdate",
+            "methodName": "TicketUpdate",
             "label": "Update",
             "description": "updates a ticket",
             "action_on_data": "TicketUpdate",
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Creation"
+            
         },
         {
-            "name": "TicketDelete",
+            "name": "GpDelete",
+            "methodName": "TicketDelete",
             "label": "Delete",
             "description": "deletes a ticket",
             "action_on_data": "TicketDelete",
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Creation"
+            
         },
         {
             "name": "TicketSearch",
@@ -35,6 +42,7 @@
             "type": "basic",
             "create_with_default_activity": 0,
             "screenName": "Ticket Creation"
+            
         },
         {
             "name": "TicketSearchForUpdate",
@@ -44,6 +52,7 @@
             "type": "basic",
             "create_with_default_activity": 0,
             "screenName": "Ticket Creation"
+            
         },
         {
             "name": "TicketGetAllValues",
@@ -53,6 +62,7 @@
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Creation"
+            
         },
         {
             "name": "TicketGetById",
@@ -62,6 +72,7 @@
             "type": "basic",
             "create_with_default_activity": 0,
             "screenName": "Ticket Creation"
+            
         },
         {
             "name": "TicketGetByCategory",
@@ -71,6 +82,7 @@
             "type": "basic",
             "create_with_default_activity": 0,
             "screenName": "Ticket Creation"
+            
         },
         {
             "name": "TicketFileUpload",
@@ -80,6 +92,7 @@
             "type": "complex",
             "create_with_default_activity": 0,
             "screenName": "Ticket Creation"
+            
         },
         {
             "name": "DocumentTicket",
@@ -89,6 +102,7 @@
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
+            
         },
         {
             "name": "IssueTicket",
@@ -98,6 +112,7 @@
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
+            
         },
         {
             "name": "FeatureTicket",

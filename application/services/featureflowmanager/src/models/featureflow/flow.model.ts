@@ -10,6 +10,7 @@ let flowSchema = mongoose.Schema({
   label: String,
   description: String,
   screenName: String,
+  featureName: String,
   action_on_data: String,
   type: String,
   create_with_default_activity: Number,

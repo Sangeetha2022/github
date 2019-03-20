@@ -18,6 +18,14 @@ export class FlowService {
         })
     }
 
+    // public getFeatureFlowByName(req: Request,next: NextFunction, callback: CallableFunction) {
+    //     flowDao.getFeatureFlowByName(req, next, (flow) => {
+    //         callback(flow);
+    //     })
+    // }
+
+    
+
     public getFeatureFlowByID(req: Request, next: NextFunction, callback: CallableFunction) {
         flowDao.getFeatureFlowByID(req, next, (flow) => {
             callback(flow);

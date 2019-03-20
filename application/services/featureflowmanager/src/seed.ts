@@ -3,11 +3,14 @@ import FlowModel from './models/featureflow/flow.model';
 import GenFlowModel from './models/featuregenerationflow/generationflow.model';
 
 import * as featureflowcomponentjson from './assests/featureflowcomponent.json'
+import * as requirementjson from './assests/recquirement.json'
+import RequirementModel from './models/requirement/requirement.model';
 
 export class FeedSeedData {
 
     private featureFlow = FlowModel;
     private genFlow = GenFlowModel;
+    private requirement =  RequirementModel;
 
     seedFlowData = async () => {
         featureflowjson.feature_flow.map(async (flowObj) => {
@@ -28,7 +31,7 @@ export class FeedSeedData {
     }
 
     private seedGenFlowComponentData = async (flow) => {
-        this.genFlow.findOne({ flow_name: flow['name'] }).then(async data => {
+        this.genFlow.findOne({ flow: flow['_id'] }).then(async data => {
             if (data === null) {
                 let flow_seq = await this.modifyFlowSeq(flow);
                 return flow_seq;
@@ -42,6 +45,7 @@ export class FeedSeedData {
             }
             const createdGenFlow = new this.genFlow(dataToSave);
             await createdGenFlow.save();
+            this.seedFeatureRequirements(flow);
         }).catch(err => {
             console.log("=== == =    ?? ?   ? ", err)
         })
@@ -56,6 +60,38 @@ export class FeedSeedData {
         });
         await Promise.all(promises);
         return flow_seq;
+    }
+
+    private seedFeatureRequirements = async (flow) => {
+        console.log("i am here")
+        this.requirement.findOne({ flow_id: flow['_id'] }).then(async data => {
+            if (data === null) {
+                let flow_seq = await this.modifyRequirements(flow);
+                return flow_seq;
+            } else {
+                return null;
+            }
+        }).then(async flow_seq => {
+            let dataToSave = {
+                flow: flow['_id'],
+                flow_comp_seq: flow_seq
+            }
+            const createdReq = new this.requirement(dataToSave);
+            await createdReq.save();
+        }).catch(err => {
+            console.log("=== == =    ?? ?   ? ", err)
+        })
+    }
+
+    private modifyRequirements = async (flow) => {
+        let feature_seq = [];
+        let feature_requirements = requirementjson[flow['name']];
+        let promises = feature_requirements.map(element => {
+            feature_seq.push(element)
+
+        });
+        await Promise.all(promises);
+        return feature_seq;
     }
 
 }

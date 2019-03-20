@@ -39,22 +39,22 @@
     </mat-accordion>
   </div>
 
-  <div class="row row-button mt-sm-3 mb-sm-3" *ngIf='showFeatureFlow'>
+  <!-- <div class="row row-button mt-sm-3 mb-sm-3" *ngIf='showFeatureFlow'>
     <button mat-raised-button color="primary" (click)="openModal('create')">Create</button>
     <button mat-raised-button (click)="openModal('update')">Update</button>
     <button mat-raised-button color="warn" (click)="deleteRow()">Delete</button>
-  </div>
+  </div> -->
   <div class="flowTable" *ngIf="showFeatureFlow">
     <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnDefs"
       [rowSelection]="rowSelection" [rowData]="rowData" [animateRows]="true" [defaultColDef]="defaultColDef"
        (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
     </ag-grid-angular>
   </div>
-  <div class="row row-button mt-sm-3 mb-sm-3" *ngIf='showFeatureFlowComponent'>
+  <!-- <div class="row row-button mt-sm-3 mb-sm-3" *ngIf='showFeatureFlowComponent'>
     <button mat-raised-button color="primary" (click)="openModal('create')">Create</button>
     <button mat-raised-button (click)="openModal('update')">Update</button>
     <button mat-raised-button color="warn" (click)="deleteRow()">Delete</button>
-  </div>
+  </div> -->
   <div class="flowTable" *ngIf="showFeatureFlowComponent">
     <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnFeatureDefs"
       [rowSelection]="rowSelection" [rowData]="rowFlowCompData" [animateRows]="true" [defaultColDef]="defaultColDef"

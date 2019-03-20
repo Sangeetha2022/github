@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FeatureDetailsService } from './feature-details.service';
 import { DataService } from 'src/shared/data.service';
 import { Iscreen } from './interface/screen';
+import { Route, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-feature-details',
@@ -11,6 +12,7 @@ import { Iscreen } from './interface/screen';
 export class FeatureDetailsComponent implements OnInit {
   screens: any = [];
   columnDefs: any = [];
+  featureName: any;
   screenName: String;
   description: String;
   displayModel: String = 'none';
@@ -23,6 +25,7 @@ export class FeatureDetailsComponent implements OnInit {
   public screenData: Iscreen = {
     screenName: '',
     description: '',
+    featureName: '',
 
   }
   showFeatureFlowComponent: boolean;
@@ -31,7 +34,10 @@ export class FeatureDetailsComponent implements OnInit {
   selectedFeatureFlow: any = [];
   gridApi;
   gridColumnApi;
-  constructor(private featureDetailsService: FeatureDetailsService, private dataService: DataService) {
+  constructor(private featureDetailsService: FeatureDetailsService, private dataService: DataService, private route: ActivatedRoute) {
+    this.route.queryParams.subscribe(params => {
+      this.screenData.featureName = params.feature;
+    });
     this.columnDefs = [
       {
         headerName: 'Name', field: 'name',
@@ -71,7 +77,7 @@ export class FeatureDetailsComponent implements OnInit {
       data.map((data) => {
         if (data.screenName === type) {
           this.rowData.push(data);
-          console.log("adadafdaf",this.rowData)
+          console.log("adadafdaf", this.rowData)
         }
       });
     });
@@ -83,7 +89,7 @@ export class FeatureDetailsComponent implements OnInit {
       this.featureFlowId = data._id;
       if (data) {
         this.featureDetailsService.getFeatureFlowDetails(this.featureFlowId).subscribe(data => {
-          console.log("asdasddsdad",data)
+          console.log("asdasddsdad", data)
           this.rowFlowCompData = data.flow_comp_seq;
         });
       }

@@ -7,6 +7,7 @@ let screenSchema = mongoose.Schema({
     default: uuid.v1
   },
   screenName: String,
+  featureName: String,
   description: String,
   created_date: {
     type: Date,

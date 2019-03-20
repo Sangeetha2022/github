@@ -6,12 +6,11 @@ let RequirementSchema = mongoose.Schema({
     type: String,
     default: uuid.v1
   },
-  flow_id: String,
-  requirementType: {
-    body: { type: String, default: false },
-    params: { type: String, default: false }
-  },
-  parameters: Array,
+  flow: { type: String, ref: 'feature_flows' },
+  parameters:[{
+    body: {type: Array, default: null},
+    params: {type: Array, default: null}
+  }],
   created_date: {
     type: Date,
     default: Date.now

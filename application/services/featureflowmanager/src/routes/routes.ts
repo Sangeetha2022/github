@@ -18,6 +18,7 @@ export class Routes {
         app.route('/feature-flow/getall').get(this.flowController.getAllFeatureFlow);
         app.route('/feature-flow/getbyid/:id').get(this.flowController.getFeatureFlowByID);
         app.route('/feature-flow/getbyid/:id/details').get(this.flowController.getFeatureFlowDetails);
+        // app.route('/feature-flow/getbyFeatureName').get(this.flowController.getFeatureFlowByName);
         app.route('/feature-flow/delete/:id').delete(this.flowController.deleteFeatureFlow);
         app.route('/feature-flow/update/:id').put(this.flowController.updateFeatureFlow);
 

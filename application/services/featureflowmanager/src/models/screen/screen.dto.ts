@@ -7,6 +7,9 @@ class ScreenDto {
   @IsString()
   public description: string;
 
+  @IsString()
+  public featureName: string;
+
 }
 
 export default ScreenDto;

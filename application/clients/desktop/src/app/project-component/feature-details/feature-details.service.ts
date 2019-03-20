@@ -28,7 +28,6 @@ export class FeatureDetailsService {
   getAllFeatureFlows(): Observable<any> {
     return this.api.get(this.restapi.featureflowbaseUrl + Constants.getAllFeatureFlow);
   }
-
   getFeatureFlowDetails(id): Observable<any> {
     return this.api.get(this.restapi.featureflowbaseUrl + Constants.featureflowUrl + Constants.getByIdUrl + id + Constants.detailsUrl);
   }

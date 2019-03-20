@@ -29,7 +29,7 @@
                 &nbsp; -->
                 <button class="btn btn-primary">Import Feature</button>
                 &nbsp;
-                <button class="btn btn-info" [routerLink]="['/feature-details']">See Details</button>
+                <button class="btn btn-info" [routerLink]="['/feature-details']"  [queryParams]="{feature: feature.name}">See Details</button>
               </div>
             </div>
           </div>
