@@ -8,6 +8,7 @@ import { EntityManagerComponent } from './project-component/project-component.co
 import { EntityFieldComponent } from './project-component/entity-field/entity-field.component';
 import { ConfigManagerComponent } from './config-manager/config-manager.component';
 import { AvailableConnectorComponent } from './available-connector/available-connector.component';
+import { FeatureDetailsComponent } from './project-component/feature-details/feature-details.component';
 
 const routes: Routes = [
   { path: 'project', component: ProjectsComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'desktopscreen', component: DesktopScreenComponent },
   { path: 'project-component', component: EntityManagerComponent },
   { path: 'entity-field', component: EntityFieldComponent },
+  { path: 'feature-details', component: FeatureDetailsComponent },
   { path: '', redirectTo: 'project', pathMatch: 'full' },
   { path: '**', redirectTo: 'project', pathMatch: 'full' },
 ];

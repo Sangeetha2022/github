@@ -64,7 +64,6 @@ export class AvailableConnectorComponent implements OnInit {
 
   deleteConnector() {
     this.componentFlowsService.deleteConnector(this.connector.id).subscribe(data => {
-      console.log(data);
     });
     this.getAllConnector();
   }
@@ -101,13 +100,7 @@ export class AvailableConnectorComponent implements OnInit {
 
 
   createConnector() {
-    console.log(' - - -     ?  ? ? ? ? ', this.connector.properties);
-
-
-
-    console.log('i am the connector', this.connector);
     this.componentFlowsService.saveConnector(this.connector).subscribe(data => {
-      console.log('i am the data u r expected', data);
 
     });
     this.getAllConnector();
@@ -120,7 +113,6 @@ export class AvailableConnectorComponent implements OnInit {
     this.addedProperties = [];
 
     this.connector.properties.map(data => {
-      console.log('___________>>>>?>??>?>????? ', data);
       if (data.key !== '' || data.value !== '') {
         this.addedProperties.push(data);
       }
@@ -133,11 +125,8 @@ export class AvailableConnectorComponent implements OnInit {
         }
       });
       this.connector.available_apis[this.selcetedIndex].properties = this.addedApiProperties;
-      console.log('asldhadodhsoiadosa', this.addedApiProperties);
     }
-    console.log('i am the connector id', this.connector);
     this.componentFlowsService.updateConnector(this.connector).subscribe(data => {
-      console.log('i am the data u r expected', data);
 
     });
     this.getAllConnector();
@@ -158,7 +147,6 @@ export class AvailableConnectorComponent implements OnInit {
   getAllConnector() {
     this.componentFlowsService.getAllConnector().subscribe(data => {
       this.connectorData = data;
-      console.log('this is the data', this.connectorData);
     });
   }
 
