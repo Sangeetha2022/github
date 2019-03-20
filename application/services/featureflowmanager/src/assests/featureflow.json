@@ -35,27 +35,8 @@
             
         },
         {
-            "name": "TicketSearch",
-            "label": "Search",
-            "description": "searches a ticket",
-            "action_on_data": "TicketSearch",
-            "type": "basic",
-            "create_with_default_activity": 0,
-            "screenName": "Ticket Creation"
-            
-        },
-        {
-            "name": "TicketSearchForUpdate",
-            "label": "Search for ticket",
-            "description": "special search for locking a ticket",
-            "action_on_data": "TicketSearchForUpdate",
-            "type": "basic",
-            "create_with_default_activity": 0,
-            "screenName": "Ticket Creation"
-            
-        },
-        {
-            "name": "TicketGetAllValues",
+            "name": "GpGetAllValues",
+            "methodName": "TicketGetAllValues",
             "label": "Get All Records",
             "description": "special search that gets all values",
             "action_on_data": "TicketGetAllValues",
@@ -65,7 +46,8 @@
             
         },
         {
-            "name": "TicketGetById",
+            "name": "GpGetById",
+            "methodName": "TicketGetById",
             "label": "Gets by ID",
             "description": "special search that fetches one value",
             "action_on_data": "TicketGetById",
@@ -75,7 +57,8 @@
             
         },
         {
-            "name": "TicketGetByCategory",
+            "name": "GpGetByCategory",
+            "methodName": "TicketGetByCategory",
             "label": "Gets by Category",
             "description": "special search that fetches one value",
             "action_on_data": "TicketGetByCategory",
@@ -84,53 +67,274 @@
             "screenName": "Ticket Creation"
             
         },
+
         {
-            "name": "TicketFileUpload",
-            "label": "Upload Files",
-            "description": "upload file to server or database",
-            "action_on_data": "TicketFileUpload",
-            "type": "complex",
+            "name": "GpCreate",
+            "methodName": "IssueTicketCreate",
+            "label": "Save",
+            "description": "creates a ticket",
+            "action_on_data": "TicketCreate",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+
+            
+        },
+        {
+            "name": "GpUpdate",
+            "methodName": "IssueTicketUpdate",
+            "label": "Update",
+            "description": "updates a ticket",
+            "action_on_data": "TicketUpdate",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpDelete",
+            "methodName": "IssueTicketDelete",
+            "label": "Delete",
+            "description": "deletes a ticket",
+            "action_on_data": "TicketDelete",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpGetAllValues",
+            "methodName": "IssueTicketGetAllValues",
+            "label": "Get All Records",
+            "description": "special search that gets all values",
+            "action_on_data": "TicketGetAllValues",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpGetById",
+            "methodName": "IssueTicketGetById",
+            "label": "Gets by ID",
+            "description": "special search that fetches one value",
+            "action_on_data": "TicketGetById",
+            "type": "basic",
             "create_with_default_activity": 0,
-            "screenName": "Ticket Creation"
-            
-        },
-        {
-            "name": "DocumentTicket",
-            "label": "Save",
-            "description": "document tickets",
-            "action_on_data": "DocumentTicket",
-            "type": "basic",
-            "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
         },
         {
-            "name": "IssueTicket",
+            "name": "GpGetByCategory",
+            "methodName": "IssueTicketGetByCategory",
+            "label": "Gets by Category",
+            "description": "special search that fetches one value",
+            "action_on_data": "TicketGetByCategory",
+            "type": "basic",
+            "create_with_default_activity": 0,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpCreate",
+            "methodName": "DocumentTicketCreate",
             "label": "Save",
-            "description": "issue tickets",
-            "action_on_data": "IssueTicket",
+            "description": "creates a ticket",
+            "action_on_data": "TicketCreate",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+
+            
+        },
+        {
+            "name": "GpUpdate",
+            "methodName": "DocumentTicketUpdate",
+            "label": "Update",
+            "description": "updates a ticket",
+            "action_on_data": "TicketUpdate",
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
             
         },
         {
-            "name": "FeatureTicket",
-            "label": "Save",
-            "description": "feature tickets",
-            "action_on_data": "FeatureTicket",
+            "name": "GpDelete",
+            "methodName": "DocumentTicketDelete",
+            "label": "Delete",
+            "description": "deletes a ticket",
+            "action_on_data": "TicketDelete",
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
+            
         },
         {
-            "name": "SupportTicket",
-            "label": "Save",
-            "description": "support tickets",
-            "action_on_data": "SupportTicket",
+            "name": "GpGetAllValues",
+            "methodName": "DocumentTicketGetAllValues",
+            "label": "Get All Records",
+            "description": "special search that gets all values",
+            "action_on_data": "TicketGetAllValues",
             "type": "basic",
             "create_with_default_activity": 1,
             "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpGetById",
+            "methodName": "DocumentTicketGetById",
+            "label": "Gets by ID",
+            "description": "special search that fetches one value",
+            "action_on_data": "TicketGetById",
+            "type": "basic",
+            "create_with_default_activity": 0,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpGetByCategory",
+            "methodName": "DocumentTicketGetByCategory",
+            "label": "Gets by Category",
+            "description": "special search that fetches one value",
+            "action_on_data": "TicketGetByCategory",
+            "type": "basic",
+            "create_with_default_activity": 0,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpCreate",
+            "methodName": "FeatureTicketCreate",
+            "label": "Save",
+            "description": "creates a ticket",
+            "action_on_data": "TicketCreate",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+
+            
+        },
+        {
+            "name": "GpUpdate",
+            "methodName": "FeatureTicketUpdate",
+            "label": "Update",
+            "description": "updates a ticket",
+            "action_on_data": "TicketUpdate",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpDelete",
+            "methodName": "FeatureTicketDelete",
+            "label": "Delete",
+            "description": "deletes a ticket",
+            "action_on_data": "TicketDelete",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpGetAllValues",
+            "methodName": "FeatureTicketGetAllValues",
+            "label": "Get All Records",
+            "description": "special search that gets all values",
+            "action_on_data": "TicketGetAllValues",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpGetById",
+            "methodName": "FeatureTicketGetById",
+            "label": "Gets by ID",
+            "description": "special search that fetches one value",
+            "action_on_data": "TicketGetById",
+            "type": "basic",
+            "create_with_default_activity": 0,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpGetByCategory",
+            "methodName": "FeatureTicketGetByCategory",
+            "label": "Gets by Category",
+            "description": "special search that fetches one value",
+            "action_on_data": "TicketGetByCategory",
+            "type": "basic",
+            "create_with_default_activity": 0,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpCreate",
+            "methodName": "SupportTicketCreate",
+            "label": "Save",
+            "description": "creates a ticket",
+            "action_on_data": "TicketCreate",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+
+            
+        },
+        {
+            "name": "GpUpdate",
+            "methodName": "SupportTicketUpdate",
+            "label": "Update",
+            "description": "updates a ticket",
+            "action_on_data": "TicketUpdate",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpDelete",
+            "methodName": "SupportTicketDelete",
+            "label": "Delete",
+            "description": "deletes a ticket",
+            "action_on_data": "TicketDelete",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpGetAllValues",
+            "methodName": "SupportTicketGetAllValues",
+            "label": "Get All Records",
+            "description": "special search that gets all values",
+            "action_on_data": "TicketGetAllValues",
+            "type": "basic",
+            "create_with_default_activity": 1,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpGetById",
+            "methodName": "SupportTicketGetById",
+            "label": "Gets by ID",
+            "description": "special search that fetches one value",
+            "action_on_data": "TicketGetById",
+            "type": "basic",
+            "create_with_default_activity": 0,
+            "screenName": "Ticket Details"
+            
+        },
+        {
+            "name": "GpGetByCategory",
+            "methodName": "SupportTicketGetByCategory",
+            "label": "Gets by Category",
+            "description": "special search that fetches one value",
+            "action_on_data": "TicketGetByCategory",
+            "type": "basic",
+            "create_with_default_activity": 0,
+            "screenName": "Ticket Details"
+            
         }
         
     ]

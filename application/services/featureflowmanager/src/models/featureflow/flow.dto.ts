@@ -11,10 +11,10 @@ class FlowDto {
   public screenName: string;
 
   @IsString()
-  public description: string;
+  public methodName: string;
 
   @IsString()
-  public featureName: string;
+  public description: string;
 
   @IsString()
   public action_on_data: string;

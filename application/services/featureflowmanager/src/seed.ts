@@ -63,7 +63,6 @@ export class FeedSeedData {
     }
 
     private seedFeatureRequirements = async (flow) => {
-        console.log("i am here")
         this.requirement.findOne({ flow_id: flow['_id'] }).then(async data => {
             if (data === null) {
                 let flow_seq = await this.modifyRequirements(flow);

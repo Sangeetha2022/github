@@ -1,5 +1,5 @@
 {
-    "TicketCreate": [
+    "GpCreate": [
         {
             "parameters": [
                 {
@@ -9,7 +9,7 @@
             ]
         }
     ],
-    "IssueTicket": [
+    "GpDelete": [
         {
             "parameters": [
                 {
@@ -19,7 +19,7 @@
             ]
         }
     ],
-    "DocumentTicket": [
+    "GpGetAllValues": [
         {
             "parameters": [
                 {
@@ -29,7 +29,7 @@
             ]
         }
     ],
-    "FeatureTicket": [
+    "GpGetById": [
         {
             "parameters": [
                 {
@@ -39,7 +39,7 @@
             ]
         }
     ],
-    "SupportTicket": [
+    "GpGetByCategory": [
         {
             "parameters": [
                 {
@@ -49,87 +49,7 @@
             ]
         }
     ],
-    "TicketDelete": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "TicketGetAllValues": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "TicketGetById": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "TicketGetByCategory": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "TicketSearch": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "TicketSearchDetail": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "TicketSearchForUpdate": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "TicketUpdate": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "TicketFileUpload": [
+    "GpUpdate": [
         {
             "parameters": [
                 {
