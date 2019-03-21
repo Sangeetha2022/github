@@ -12,7 +12,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 @Component({
   selector: 'app-project-component',
   templateUrl: './project-component.component.html',
-  styleUrls: ['./project-component.component.scss']
+  styleUrls: ['./project-component.component.scss'] 
 })
 
 export class EntityManagerComponent implements OnInit {

@@ -40,7 +40,7 @@ class App {
         // mConfig.mongoConfig();
     }
 
-    private mongoSeedData(): void {
+    private mongoSeedData(): void { 
         let seedData = new FeedSeedData();
         seedData.seedFlowData();
     }

@@ -11,8 +11,8 @@
         </mat-expansion-panel-header>
 
         <div style="padding-right: 20px;">
-          <button class="createEntityButton" mat-raised-button color="primary" (click)="openFeatureDialog('create')">Add
-            Features</button>
+          <button class="createEntityButton" mat-raised-button color="primary"
+            (click)="openFeatureDialog('create')">Create Features</button>
         </div>
         <div class="row" style="margin: 0px;" *ngIf="featureConnectProject.length > 0">
           <div class="col-md-4" *ngFor="let feature of featureConnectProject; let i = index">
@@ -23,14 +23,8 @@
               <div class="card-body">
                 <div><span>{{feature.description}}</span></div>
                 <br />
-                <!-- <button class="btn btn-primary" (click)="editFeatureField(feature)">Edit</button>
-                &nbsp;
-                <button class="btn btn-danger" (click)="openDeleteFModel(feature)">Delete</button>
-                &nbsp; -->
-                <button class="btn btn-primary">Import Feature</button>
-                &nbsp;
                 <button class="btn btn-info" [routerLink]="['/feature-details']"
-                  [queryParams]="{feature: feature.name}">See Details</button>
+                  [queryParams]="{feature: feature.name}">View Details</button>
               </div>
             </div>
           </div>
