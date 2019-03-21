@@ -84,7 +84,7 @@ r = function(w, rc) {
     w.write("image: ram2010/");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
-    w.write("-grapesjs:1.0");
+    w.write("-system-entry:1.0");
     w.write("\n");
     w.pushIndentation("          ");
     w.write("ports:");

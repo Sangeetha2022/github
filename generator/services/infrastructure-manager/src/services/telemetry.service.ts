@@ -58,12 +58,20 @@ export class TelemetryService {
             console.log('EFK namespace generated!!')
         })
 
-        //generate telemetry elastic search pvc
-        let generateTelemetry_elasticPVC = st.loadGroup(require(templatePath + '/elasticsearch_pv_yaml_stg'));
-        let telemetry_elasticPVC = generateTelemetry_elasticPVC.render("elasticsearch_pv_yaml", [projectName.toLowerCase()]);
-        fs.writeFile(destination + '/elasticsearch-pv.yaml', telemetry_elasticPVC, function (err) {
+        //generate telemetry elastic search pv
+        let generateTelemetry_elasticPV = st.loadGroup(require(templatePath + '/elasticsearch_pv_yaml_stg'));
+        let telemetry_elasticPV = generateTelemetry_elasticPV.render("elasticsearch_pv_yaml", [projectName.toLowerCase()]);
+        fs.writeFile(destination + '/elasticsearch-pv.yaml', telemetry_elasticPV, function (err) {
             if (err) throw err;
             console.log('elasticsearch_pv generated!!')
+        })
+
+        //generate telemetry elastic search pvc
+        let generateTelemetry_elasticPVC = st.loadGroup(require(templatePath + '/elasticsearch_pvc_yaml_stg'));
+        let telemetry_elasticPVC = generateTelemetry_elasticPVC.render("elasticsearch_pvc_yaml", [projectName.toLowerCase()]);
+        fs.writeFile(destination + '/elasticsearch-pvc.yaml', telemetry_elasticPVC, function (err) {
+            if (err) throw err;
+            console.log('elasticsearch_pvc generated!!')
         })
 
         //generate telemetry elasticsearch statefullset

@@ -50,7 +50,7 @@ r = function(w, rc) {
     w.write("spec:");
     w.write("\n");
     w.pushIndentation("  ");
-    w.write("type: NodePort");
+    w.write("type: LoadBalancer");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");

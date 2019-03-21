@@ -45,10 +45,10 @@ spec:
         - name: sonarqube-container
           image: sonarqube:latest
           args:
-            - -Dsonar.web.context=/sonar
+            - -Dsonar.web.context=/
           env:
             - name: SONARQUBE_JDBC_PASSWORD
-              value: T@ng3456
+              value: $project_name$
             - name: SONARQUBE_JDBC_URL
               value: jdbc:postgresql://$project_name$-dev-ops-db:5432/sonar
           ports:

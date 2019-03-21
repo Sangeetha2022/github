@@ -1,15 +1,15 @@
-elasticsearch_pv_yaml(project_name) ::= <<
+mongo_pv_yaml(project_name) ::= <<
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: $project_name$-elasticsearch-data-pv
+  name: $project_name$-app-mongo-data-pv
   labels:
     type: local
 spec:
   capacity:
-    storage: 50Gi
+    storage: 8Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /data/elasticsearch/
+    path: /data/mongo/
 >>
