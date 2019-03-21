@@ -14,8 +14,8 @@
           <button class="createEntityButton" mat-raised-button color="primary" (click)="openFeatureDialog('create')">Add
             Features</button>
         </div>
-        <div class="row" style="margin: 0px;" *ngIf="featureData.length > 0">
-          <div class="col-md-4" *ngFor="let feature of featureData; let i = index">
+        <div class="row" style="margin: 0px;" *ngIf="featureConnectProject.length > 0">
+          <div class="col-md-4" *ngFor="let feature of featureConnectProject; let i = index">
             <div class="card">
               <div class="card-header">
                 {{feature.name}}

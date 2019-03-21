@@ -21,6 +21,7 @@ export class EntityManagerComponent implements OnInit {
   showUpdateFeature: Boolean;
   selectedExistingFeature: String;
   featureData: any = [];
+  featureConnectProject: any = [];
   // user: any = [];
   public features: IFeature = {
     id: '',
@@ -261,6 +262,13 @@ export class EntityManagerComponent implements OnInit {
   getAllFeature() {
     this.projectComponentService.getAllFeature().subscribe(data => {
       this.featureData = data;
+      data.map(data => {
+        if (!this.features.connectProject) {
+          console.log("hello", data);
+          this.featureConnectProject.push(data);
+
+        }
+      })
       // tslint:disable-next-line:no-shadowed-variable
       this.featureData.map((data, index) => {
         this.featureData[index].description = data.description.replace(/<[^>]*>/g, '');
