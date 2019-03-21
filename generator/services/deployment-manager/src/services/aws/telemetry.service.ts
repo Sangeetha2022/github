@@ -129,8 +129,14 @@ export class TelemetryService {
             try {
 
 
-                //deploy pvc
-                let elsaticPvcManifest = yaml.safeLoad(fs.readFileSync(loggingYaml + '/elasticsearch-pv.yaml', 'utf8'));
+                //deploy elasticsearch pv
+                let elsaticPvManifest = yaml.safeLoad(fs.readFileSync(loggingYaml + '/elasticsearch-pv.yaml', 'utf8'));
+                const pvData = await client.api.v1.pv.post({ body: elsaticPvManifest });
+                await delay(5000);
+
+
+                //deploy elasticsearch pvc
+                let elsaticPvcManifest = yaml.safeLoad(fs.readFileSync(loggingYaml + '/elasticsearch-pvc.yaml', 'utf8'));
                 const pvcData = await client.api.v1.namespaces(projectDetails.logNamespace).pvc.post({ body: elsaticPvcManifest });
                 await delay(5000);
 
@@ -144,7 +150,8 @@ export class TelemetryService {
                 //service for elasticsearch
                 let elasticsearchServiceManifest = yaml.safeLoad(fs.readFileSync(loggingYaml + '/elasticsearch-svc.yaml', 'utf8'));
                 const elasticsearchserviceData = await client.api.v1.namespaces(projectDetails.logNamespace).service.post({ body: elasticsearchServiceManifest });
-
+                await delay(5000);
+                deployFluentd();
 
                 // if (serviceData.statusCode == 201) {
                 //     // move to next pods...
@@ -155,6 +162,76 @@ export class TelemetryService {
                 console.error('Error: ', err)
             }
         }
+
+
+        async function deployFluentd() {
+            try {
+
+                var fluentdManifest = fs.readFileSync(loggingYaml + 'fluentd.yaml', 'utf8')
+                var fluentdManifestArr = fluentdManifest.split('\n')
+
+                //fluentd service account 
+                var ServiceAccountArr = fluentdManifestArr.splice(0, 7);
+                var ServiceAccountManifest = yaml.safeLoad(ServiceAccountArr.join('\n'));
+                // console.log('ServiceAccountManifest--------->', ServiceAccountManifest)
+                const ServiceAccountData = await client.api.v1.namespaces(projectDetails.logNamespace).serviceaccount.post({ body: ServiceAccountManifest });
+
+
+                //fluentd clusterRole 
+                var ClusterRoleArr = fluentdManifestArr.splice(1, 16);
+                var ClusterRoleManifest = yaml.safeLoad(ClusterRoleArr.join('\n'));
+                //console.log('ClusterRoleManifest--------->', ClusterRoleManifest)
+                const CluserRoleData = await client.api.rbac.authorization.k8s.io.v1.clusterrole.post({ body: ClusterRoleManifest });
+
+
+                //fluentd clusterRoleBinding 
+                var ClusterRoleBindingArr = fluentdManifestArr.splice(2, 12);
+                var ClusterRoleBindingManifest = yaml.safeLoad(ClusterRoleBindingArr.join('\n'));
+                // console.log('ClusterRoleBindingManifest--------->', ClusterRoleBindingManifest)
+                const CluserRoleBindingData = await client.api.v1.clusterrolebinding.post({ body: ClusterRoleBindingManifest });
+
+                //fluentd DaemonSet 
+                var DaemonSetArr = fluentdManifestArr.splice(3, 56);
+                var DaemonSetManifest = yaml.safeLoad(DaemonSetArr.join('\n'));
+                //console.log('DaemonSetManifest--------->', DaemonSetManifest)
+                const DaemonSetBindingData = await client.api.apps.v1.namespaces(projectDetails.logNamespace).daemonset.post({ body: DaemonSetManifest });
+                await delay(10000);
+                deployKibana();
+
+
+            } catch (err) {
+                console.error('Error: ', err)
+            }
+        }
+
+
+        async function deployKibana() {
+            try {
+
+                var kibanaManifest = fs.readFileSync(loggingYaml + 'kibana.yaml', 'utf8')
+                var kibanaManifestArr = kibanaManifest.split('\n')
+
+                //kibana service
+                var kibanaService = kibanaManifestArr.splice(0, 13);
+                var kibanaServiceManifest = yaml.safeLoad(kibanaService.join('\n'));
+                const kibanaServiceData = await client.api.v1.namespaces(projectDetails.logNamespace).service.post({ body: kibanaServiceManifest });
+                // console.log('kibanaServiceManifest--------->', kibanaServiceManifest)
+
+
+                //kibana deployment
+                var kibanaDeployment = kibanaManifestArr.splice(1, 30);
+                var kibanaDeploymentManifest = yaml.safeLoad(kibanaDeployment.join('\n'));
+                // console.log('kibanaDeploymentManifest--------->', kibanaDeploymentManifest)
+                const deployDbData = await client.api.apps.v1.namespaces(projectDetails.namespace).deployments.post({ body: kibanaDeploymentManifest });
+                await delay(5000);
+                console.log('EFK DEPLOYED SUCCESSFULLY');
+
+
+            } catch (err) {
+                console.error('Error: ', err)
+            }
+        }
+
 
         const delay = ms => new Promise(res => setTimeout(res, ms));
 
