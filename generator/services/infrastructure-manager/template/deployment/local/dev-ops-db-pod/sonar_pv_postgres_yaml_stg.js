@@ -1,6 +1,6 @@
 /*
  * Template group sonar_pv_postgres_yaml
- * Compiled on Mon Mar 11 2019 12:26:01 GMT+0530 (India Standard Time)
+ * Compiled on Wed Mar 20 2019 14:29:15 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -23,7 +23,7 @@ r = function(w, rc) {
     var g = this.owningGroup,
         s = this.scope;
     
-    w.write("kind: PersistentVolumeClaim");
+    w.write("kind: PersistentVolume");
     w.write("\n");
     w.write("apiVersion: v1");
     w.write("\n");
@@ -33,14 +33,25 @@ r = function(w, rc) {
     w.write("name: ");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
-    w.write("-dev-ops-postgres-pvc");
+    w.write("-dev-ops-postgres-pv");
     w.write("\n");
     w.pushIndentation("  ");
-    w.write("namespace: ");
+    w.write("labels:");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("type: local");
+    w.popIndentation();
     w.write("\n");
     w.write("spec:");
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("capacity:");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("storage: 8Gi");
+    w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
     w.write("accessModes:");
@@ -51,18 +62,12 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
-    w.write("resources:");
+    w.write("hostPath:");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("requests:");
+    w.write("path: /data/postgresql/");
     w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("      ");
-    w.write("storage: 5Gi");
-    w.popIndentation();
-    w.write("\n");
-    w.write("  ");
 };
 r.args = [
         { name: "project_name"     }

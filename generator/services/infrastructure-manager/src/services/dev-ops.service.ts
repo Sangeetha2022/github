@@ -18,12 +18,21 @@ export class DevOpsService {
             fs.mkdirSync(destination);
         }
 
-        //generate dev-ops-db pvc
-        let generatedevops_dbPVC = st.loadGroup(require(templatePath + '/sonar_pv_postgres_yaml_stg'));
-        let telemetrydevops_dbPVC = generatedevops_dbPVC.render("sonar_pv_postgres_yaml", [projectName.toLowerCase()]);
-        fs.writeFile(destination + '/sonar-pv-postgres.yaml', telemetrydevops_dbPVC, function (err) {
+        //generate dev-ops-db pv
+        let generatedevops_dbPV = st.loadGroup(require(templatePath + '/sonar_pv_postgres_yaml_stg'));
+        let telemetrydevops_dbPV = generatedevops_dbPV.render("sonar_pv_postgres_yaml", [projectName.toLowerCase()]);
+        fs.writeFile(destination + '/sonar-pv-postgres.yaml', telemetrydevops_dbPV, function (err) {
             if (err) throw err;
             console.log('devops sonar-pv-postgres generated!!')
+        })
+
+
+        //generate dev-ops-db pvc
+        let generatedevops_dbPVC = st.loadGroup(require(templatePath + '/sonar_pvc_postgres_yaml_stg'));
+        let telemetrydevops_dbPVC = generatedevops_dbPVC.render("sonar_pvc_postgres_yaml", [projectName.toLowerCase()]);
+        fs.writeFile(destination + '/sonar-pvc-postgres.yaml', telemetrydevops_dbPVC, function (err) {
+            if (err) throw err;
+            console.log('devops sonar-pvc-postgres generated!!')
         })
 
         //generate dev-ops-db deployment

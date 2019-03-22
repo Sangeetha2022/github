@@ -24,13 +24,8 @@ let devOpsService = new DevOpsService()
 const Destination = deployConfig.LOCAL.DESTINATION_URL;
 const Source = path.resolve(__dirname, deployConfig.LOCAL.TEMPLATE_URL);
 
-//aws
-const DestinationAWS = deployConfig.AWS.DESTINATION_URL;
-const SourceAWS = path.resolve(__dirname, deployConfig.AWS.TEMPLATE_URL);
 
-
-
-export class InfrastructureController {
+export class LocalInfrastructureController {
 
 
 
@@ -112,100 +107,6 @@ export class InfrastructureController {
       })
     }
 
-
-    res.send("Success!");
-
-  }
-
-
-
-  public generateInfrastructureAWS(req: Request, res: Response) {
-
-    var projectDetails = req.body
-
-
-    //create project folder if not exists
-    let projectFolder = DestinationAWS + projectDetails.project_name+ "_" + projectDetails.user_id.substring(0, 5);
-    if (!fs.existsSync(projectFolder)) {
-      fs.mkdirSync(projectFolder);
-    }
-    let deploymentFolder = projectFolder + "/deployment";
-    if (!fs.existsSync(deploymentFolder)) {
-      fs.mkdirSync(deploymentFolder);
-    }
-    let envFolder = deploymentFolder + "/aws";
-    if (!fs.existsSync(envFolder)) {
-      fs.mkdirSync(envFolder);
-    }
-
-
-    projectDetails.destinationUrl = envFolder;
-    projectDetails.templateUrl = SourceAWS;
-
-
-    //app namsespace
-    namespaceService.generate_namespace(projectDetails, (response) => {
-      //res.send(200);
-    })
-
-    //terraform for aws
-
-    terraformService.generate_aws_terraform(projectDetails, (response) => {
-        if (response.status === "success") {
-        }
-    })
-
-
-
-    //app db
-    if (projectDetails.app_db_pod) {
-      appService.generate_app_db_pod(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
-
-    //app node service
-    if (projectDetails.app_pod) {
-      appService.generate_app_pod(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
-
-    //app ui
-    if (projectDetails.system_entry_pod) {
-      systemEntryService.generate_system_entry_pod(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
-
-    //telemetry vault
-    if (projectDetails.telemetry_pod.vault) {
-      telemetryService.generate_telemetry_pod_vault(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
-
-    //telemetry logging EFK
-    if (projectDetails.telemetry_pod.EFK) {
-      telemetryService.generate_telemetry_pod_EFK(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
-
-
-    //dev-ops db
-    if (projectDetails.dev_ops_db_pod) {
-      devOpsService.generate_devops_db(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
-
-    //dev-ops
-    if (projectDetails.dev_ops_pod) {
-      devOpsService.generate_devops(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
 
     res.send("Success!");
 

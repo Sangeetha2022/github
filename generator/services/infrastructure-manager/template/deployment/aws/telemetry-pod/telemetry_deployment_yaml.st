@@ -27,5 +27,5 @@ spec:
              - IPC_LOCK
         env:
         - name: VAULT_DEV_ROOT_TOKEN_ID
-          value: vault-$project_name$-2019
+          value: vault-$project_name$
 >>          

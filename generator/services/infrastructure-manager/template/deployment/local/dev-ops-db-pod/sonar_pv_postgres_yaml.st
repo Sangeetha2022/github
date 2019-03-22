@@ -1,13 +1,15 @@
 sonar_pv_postgres_yaml(project_name) ::= <<
-kind: PersistentVolumeClaim
+kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: $project_name$-dev-ops-postgres-pvc
-  namespace: $project_name$
+  name: $project_name$-dev-ops-postgres-pv
+  labels:
+    type: local
 spec:
+  capacity:
+    storage: 8Gi
   accessModes:
     - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
-  >>       
+  hostPath:
+    path: /data/postgresql/
+>>       

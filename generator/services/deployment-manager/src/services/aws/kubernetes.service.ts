@@ -185,20 +185,26 @@ export class KubernetesService {
             //start deployment
 
 
-            //telemetry vault promethues
+            // telemetry vault promethues
             if (projectDetails.telemetry_pod.vault) {
                 telemetryService.telemetry_vault(projectDetails, client, (response) => { });
             }
             await delay(30000);
 
             //dev-ops
-            // if (projectDetails.dev_ops_pod) {
-            //     devOpsService.dev_ops_pod(projectDetails, client, (response) => { });
-            // }
+            if (projectDetails.dev_ops_pod) {
+                devOpsService.dev_ops_pod(projectDetails, client, (response) => { });
+            }
 
             //App pod
             if (projectDetails.app_pod) {
                 appService.app_pod(projectDetails, client, (response) => { });
+            }
+
+
+            //telemetry EFK
+            if (projectDetails.telemetry_pod.EFK) {
+                telemetryService.telemetry_EFK(projectDetails, client, (response) => { });
             }
 
         

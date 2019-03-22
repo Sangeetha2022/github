@@ -3,13 +3,11 @@ import * as fs from "fs";
 import * as path from "path";
 import * as deployConfig from "../../config/config.json";
 import { AppService } from "../../services/local/app.service";
-import { SystemEntryService } from "../../services/local/system-entry.service";
 import { TelemetryService } from "../../services/local/telemetry.service";
 import { DevOpsService } from "../../services/local/dev-ops.service";
 import DeploymentDto from "../../dto/deployment.dto";
 
 let appService = new AppService();
-let systemEntryService = new SystemEntryService();
 let telemetryService = new TelemetryService();
 let devopsService = new DevOpsService();
 
@@ -41,7 +39,15 @@ export class DeploymentController {
     projectDetails.destinationUrl = envFolder;
     projectDetails.templateUrl = Source;
 
+    telemetryService.telemetry_vault(projectDetails, response => {
+      res.send(200);
+    });
+
     devopsService.deploy_dev_ops_pod(projectDetails, response => {
+      res.send(200);
+    });
+
+    appService.app_pod(projectDetails, response => {
       res.send(200);
     });
   }
