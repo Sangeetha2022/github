@@ -183,7 +183,8 @@ export class TraitsService {
             // modal.style.display = 'block';
             const constructObj = {
               entity: selectedEntity,
-              column: this.target.view.el.gridOptions.columnDefs
+              defalutColumn: this.target.view.el.gridOptions.columnDefs,
+              customColumn: columnOptions
             };
             localDataService.setAgGridEntity(constructObj);
           }
@@ -237,7 +238,7 @@ export class TraitsService {
                 },
                 {
                   headerName: 'C',
-                  valueGetter: '\'zz\' + data.c.name',
+                  field: 'c.name',
                   sortable: true,
                   colId: 'col3_id'
                 },
@@ -380,6 +381,8 @@ export class TraitsService {
           console.log('sessionStorage get all columnDef --333--- ', this.view.el.gridOptions.api.getColumnDef(selectedColumnName));
           this.view.el.gridOptions.api.getColumnDef(selectedColumnName).headerName = enteredColName;
           this.view.el.gridOptions.api.refreshHeader();
+          console.log('sessionStorage 333 colName ----- ', this.view.el.gridOptions);
+          console.log('sessionStorage 444 colOptions ----- ', columnOptions);
           const id = editor.getSelected().ccid;
           columnOptions.forEach(columnElement => {
             if (columnElement.value === selectedColumnName) {
@@ -432,6 +435,16 @@ export class TraitsService {
         gridColumns() {
           selectedColumnName = this.changed['columns'];
         },
+        toHTML: function () {
+          const html = this.view.el.innerHTML;
+          console.log('rnder html are ---------------- ', html);
+         const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
+         <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [animateRows]="true"
+           [gridOptions]="gridOptions" (gridReady)="onGridReady($event)"></ag-grid-angular>
+       </div>
+       `;
+          return replacedValue;
+        }
         // entityField() {
         // }
         // entity() {

@@ -59,7 +59,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     agGridObject: any = {
         html_id: '',
         component_id: '',
-        fields: []
+        custom_field: [],
+        default_field: []
     };
     // selectColumn:,
     // selectEntity,
@@ -69,6 +70,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     gridColumnApi: any;
     public isGridPopup: Boolean;
     currentAgGridData: any;
+    defaultColumn: any;
 
     constructor(
         private screenDesignerService: ScreenDesignerService,
@@ -266,13 +268,16 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
 
     onFieldOptions(event) {
         const agGridObject = {
-            column: '',
+            columnid: '',
+            columnname: '',
             entity: '',
             entityfield: ''
         };
+        console.log('this.agGridFields.value.selectColumn ----  ', this.agGridFields.value.selectColumn);
         if (this.agGridFields.value.selectColumn !== '' &&
             this.agGridFields.value.selectField !== '') {
-            agGridObject.column = this.agGridFields.value.selectColumn;
+            agGridObject.columnid = this.agGridFields.value.selectColumn.value;
+            agGridObject.columnname = this.agGridFields.value.selectColumn.name;
             agGridObject.entity = this.selectedEntity.name;
             agGridObject.entityfield = this.agGridFields.value.selectField;
             this.agGridArray.push(agGridObject);
@@ -281,7 +286,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
 
     saveGridField() {
         this.dataService.setAgGridValue(this.agGridArray);
-        this.agGridObject.fields = this.agGridArray;
+        this.agGridObject.custom_field = this.agGridArray;
+        this.agGridObject.default_field = this.defaultColumn;
         const RemoteStorage = this.editor.StorageManager.get('remote');
         RemoteStorage.set('params', {
             grid_fields: this.agGridObject,
@@ -475,7 +481,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 if (data) {
                     this.selectedEntity = data.entity;
                     this.allEntityField = data.entity.field;
-                    this.columnsOption = data.column;
+                    this.columnsOption = data.customColumn;
+                    this.defaultColumn = data.defalutColumn;
                     this.isGridPopup = true;
                     this.agGridArray = [];
                     this.ref.detectChanges();

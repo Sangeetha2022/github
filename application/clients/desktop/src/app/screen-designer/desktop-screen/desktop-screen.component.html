@@ -10,7 +10,7 @@
             <label for="column">column</label>
             <select class="form-control" id="column" formControlName="selectColumn" [ngClass]="{ 'is-invalid': submitted && form_control.selectColumn.errors }">
               <option value="" selected>none</option>
-              <option *ngFor="let col of columnsOption" [ngValue]="col.colId">{{ col.headerName }}</option>
+              <option *ngFor="let col of columnsOption" [ngValue]="col">{{ col.name }}</option>
             </select>
             <div *ngIf="submitted && form_control.selectColumn.errors" class="invalid-feedback">
               <div *ngIf="form_control.selectColumn.errors.required">This field is required

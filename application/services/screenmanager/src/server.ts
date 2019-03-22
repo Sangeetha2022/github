@@ -2,6 +2,7 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import { Routes } from "./routes/routes";
 import * as cors from 'cors';
+import * as mongoose from 'mongoose';
 import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
 import { FeedSeedData } from './seed';
@@ -32,10 +33,10 @@ class App {
     }
 
     private mongoSetup(): void {
-        // mongoose.Promise = global.Promise;
-        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        let mConfig = new MongoConfig();
-        mConfig.mongoConfig();
+        mongoose.Promise = global.Promise;
+        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        // let mConfig = new MongoConfig();
+        // mConfig.mongoConfig();
     }
 
     private mongoSeedData(): void {

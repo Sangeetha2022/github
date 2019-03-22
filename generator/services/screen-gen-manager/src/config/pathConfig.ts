@@ -1,0 +1,2 @@
+export const templatePath = `/home/dhina/Videos/StahlsJenkins/GrapesJS/ang7Grapesjs/Dan/branch/features_screen_designer/geppettotest/generator/services/screen-gen-manager/template`;
+export const sourcePath = `/home/dhina/Videos/StahlsJenkins/GrapesJS/ang7Grapesjs/Dan/branch/features_screen_designer/geppettotest/generatedcode`;
