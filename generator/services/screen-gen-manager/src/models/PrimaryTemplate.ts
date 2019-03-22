@@ -28,7 +28,7 @@ export const PrimaryTemplateSchema = new Schema({
     'asset-image': [
         {
             'image': { type: String, default: null},
-            'imagename': {type: String, default: null}
+            'imagename': { type: String, default: null}
         }
     ],
     date: {
