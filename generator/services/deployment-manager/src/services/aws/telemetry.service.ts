@@ -1,12 +1,14 @@
 import { Request } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as request from 'request';
 import * as st from 'stringtemplate-js';
 import * as deployConfig from '../../config/config.json';
 
 import * as yaml from 'js-yaml';
 
 const Destination = deployConfig.AWS.DESTINATION_URL;
+const kubeConfigpath = deployConfig.KUBECONFIG.YAML;
 
 export class TelemetryService {
 
@@ -103,6 +105,7 @@ export class TelemetryService {
 
     public telemetry_EFK(projectDetails, client, callback: CallableFunction) {
 
+        projectDetails.yamlSource = Destination + "/" + projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5) + "/deployment/aws"
 
         let loggingYaml = projectDetails.yamlSource + "/telemetry-pod/EFK";
 
@@ -129,10 +132,10 @@ export class TelemetryService {
             try {
 
 
-                //deploy elasticsearch pv
-                let elsaticPvManifest = yaml.safeLoad(fs.readFileSync(loggingYaml + '/elasticsearch-pv.yaml', 'utf8'));
-                const pvData = await client.api.v1.pv.post({ body: elsaticPvManifest });
-                await delay(5000);
+                // //deploy elasticsearch pv
+                // let elsaticPvManifest = yaml.safeLoad(fs.readFileSync(loggingYaml + '/elasticsearch-pv.yaml', 'utf8'));
+                // const pvData = await client.api.v1.pv.post({ body: elsaticPvManifest });
+                // await delay(5000);
 
 
                 //deploy elasticsearch pvc
@@ -142,7 +145,7 @@ export class TelemetryService {
 
                 //deploy elasticsearch statefulset
                 let elasticStatefulsetManifest = yaml.safeLoad(fs.readFileSync(loggingYaml + '/elasticsearch-statefulset.yaml', 'utf8'));
-                const elasticStatefulsetVaultData = await client.apis.extensions.v1beta1.namespaces(projectDetails.logNamespace).statefulsets.post({ body: elasticStatefulsetManifest });
+                const elasticStatefulsetVaultData = await client.apis.apps.v1.namespaces(projectDetails.logNamespace).statefulset.post({ body: elasticStatefulsetManifest });
                 await delay(10000);
                 //console.log("deployDevOpsData------>", deployDevOpsData)
 
@@ -167,10 +170,14 @@ export class TelemetryService {
         async function deployFluentd() {
             try {
 
-                var fluentdManifest = fs.readFileSync(loggingYaml + 'fluentd.yaml', 'utf8')
+                const projectNameYaml = "/" + projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5) + ".yaml"
+
+                var kubeConfig = yaml.safeLoad(fs.readFileSync(kubeConfigpath + projectNameYaml));
+
+                var fluentdManifest = fs.readFileSync(loggingYaml + '/fluentd.yaml', 'utf8')
                 var fluentdManifestArr = fluentdManifest.split('\n')
 
-                //fluentd service account 
+                // fluentd service account 
                 var ServiceAccountArr = fluentdManifestArr.splice(0, 7);
                 var ServiceAccountManifest = yaml.safeLoad(ServiceAccountArr.join('\n'));
                 // console.log('ServiceAccountManifest--------->', ServiceAccountManifest)
@@ -181,20 +188,48 @@ export class TelemetryService {
                 var ClusterRoleArr = fluentdManifestArr.splice(1, 16);
                 var ClusterRoleManifest = yaml.safeLoad(ClusterRoleArr.join('\n'));
                 //console.log('ClusterRoleManifest--------->', ClusterRoleManifest)
-                const CluserRoleData = await client.api.rbac.authorization.k8s.io.v1.clusterrole.post({ body: ClusterRoleManifest });
+                //const CluserRoleData = await client.apis.rbac.authorization.k8s.io.v1.clusterroles.post({ body: ClusterRoleManifest });
+
+
+                request({
+                    uri: kubeConfig.clusters[0].cluster.server + `/apis/rbac.authorization.k8s.io/v1/clusterroles`,
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": "Bearer " + kubeConfig.users[0].user.token
+                    },
+                    body: ClusterRoleManifest,
+                    Connection: "close",
+                    json: true,
+                    rejectUnauthorized: false, //requestCert: true, //agent: false
+                });
 
 
                 //fluentd clusterRoleBinding 
                 var ClusterRoleBindingArr = fluentdManifestArr.splice(2, 12);
                 var ClusterRoleBindingManifest = yaml.safeLoad(ClusterRoleBindingArr.join('\n'));
                 // console.log('ClusterRoleBindingManifest--------->', ClusterRoleBindingManifest)
-                const CluserRoleBindingData = await client.api.v1.clusterrolebinding.post({ body: ClusterRoleBindingManifest });
+                //const CluserRoleBindingData = await client.apis.rbac.authorization.k8s.io.v1.clusterrolebindings.post({ body: ClusterRoleBindingManifest });
+
+                request({
+                    uri: kubeConfig.clusters[0].cluster.server + `/apis/rbac.authorization.k8s.io/v1/clusterrolebindings`,
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": "Bearer " + kubeConfig.users[0].user.token
+                    },
+                    body: ClusterRoleBindingManifest,
+                    Connection: "close",
+                    json: true,
+                    rejectUnauthorized: false, //requestCert: true, //agent: false
+                });
+
 
                 //fluentd DaemonSet 
                 var DaemonSetArr = fluentdManifestArr.splice(3, 56);
                 var DaemonSetManifest = yaml.safeLoad(DaemonSetArr.join('\n'));
                 //console.log('DaemonSetManifest--------->', DaemonSetManifest)
-                const DaemonSetBindingData = await client.api.apps.v1.namespaces(projectDetails.logNamespace).daemonset.post({ body: DaemonSetManifest });
+                const DaemonSetBindingData = await client.apis.apps.v1.namespaces(projectDetails.logNamespace).daemonset.post({ body: DaemonSetManifest });
                 await delay(10000);
                 deployKibana();
 
@@ -208,7 +243,7 @@ export class TelemetryService {
         async function deployKibana() {
             try {
 
-                var kibanaManifest = fs.readFileSync(loggingYaml + 'kibana.yaml', 'utf8')
+                var kibanaManifest = fs.readFileSync(loggingYaml + '/kibana.yaml', 'utf8')
                 var kibanaManifestArr = kibanaManifest.split('\n')
 
                 //kibana service
@@ -222,7 +257,7 @@ export class TelemetryService {
                 var kibanaDeployment = kibanaManifestArr.splice(1, 30);
                 var kibanaDeploymentManifest = yaml.safeLoad(kibanaDeployment.join('\n'));
                 // console.log('kibanaDeploymentManifest--------->', kibanaDeploymentManifest)
-                const deployDbData = await client.api.apps.v1.namespaces(projectDetails.namespace).deployments.post({ body: kibanaDeploymentManifest });
+                const deployDbData = await client.apis.apps.v1.namespaces(projectDetails.logNamespace).deployments.post({ body: kibanaDeploymentManifest });
                 await delay(5000);
                 console.log('EFK DEPLOYED SUCCESSFULLY');
 
