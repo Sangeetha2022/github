@@ -1,0 +1,55 @@
+dns: http://localhost:3010
+
+interface:
+  path: src/interface/controller.interface
+  export: Controller
+ApiAdaptar:
+  path: src/config/apiAdaptar
+  export: ApiAdaptar
+Constants:
+  path: src/config/Constants
+  export: 
+    ticketFeatureUrl: http://localhost:3009
+
+baseUrl:
+  mobile:
+    api: /mobile
+  desktop:
+    api: /desktop
+
+initializeRoutes:
+  createTicket:
+    route: /ticket/save
+    method: addTicket
+  updateTicket: 
+    route: /ticket/update/:id
+    method: updateTicket
+  getAllTicket:
+    route:  /ticket/getall
+    method: getAllTicket
+  getByTicketId:
+    route:  /ticket/getbyid/:id
+    method: getByTicketId
+  deleteTicket:
+    route:  /ticket/delete/:id
+    method: deleteTicket
+  getTicketByName:
+    route:  /ticket/getbyticket/:name
+    method: getTicketByName
+
+ticket:
+  controller:
+    path: src/apicontroller/ticket.controller
+    export: TicketController
+    addTicket:
+      api: ${ticketFeatureUrl}/ticket/save
+    updateTicket:
+      api: ${ticketFeatureUrl}/ticket/update/:id
+    deleteTicket:
+      api: ${ticketFeatureUrl}/ticket/delete/:id
+    getAllTicket:
+      api: ${ticketFeatureUrl}/ticket/getall
+    getByTicketId:
+      api: ${ticketFeatureUrl}/ticket/getbyid/:id
+    getTicketByName: 
+      api: ${ticketFeatureUrl}/ticket/getbyticket/:name      

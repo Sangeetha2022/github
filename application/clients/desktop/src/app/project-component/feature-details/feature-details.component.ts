@@ -3,6 +3,11 @@ import { FeatureDetailsService } from './feature-details.service';
 import { DataService } from 'src/shared/data.service';
 import { Iscreen } from './interface/screen';
 import { Route, ActivatedRoute } from '@angular/router';
+import yaml from 'js-yaml';
+
+import {  FileUploader } from 'ng2-file-upload/ng2-file-upload';
+
+const URL = 'http://localhost:3006/feature/details/addfile';
 
 @Component({
   selector: 'app-feature-details',
@@ -29,10 +34,15 @@ export class FeatureDetailsComponent implements OnInit {
 
   }
   showFeatureFlowComponent: boolean;
-  rowData: any = [];
+  allFeatureFlows: any = [];
   selectedFlow: any = [];
   featureFlowGrid;
   featureFlowCompGrid;
+
+  public uploader:FileUploader = new FileUploader({url: URL, itemAlias: 'photo'});
+    //This is the default title property created by the angular cli. Its responsible for the app works 
+    title = 'app works!';
+
   constructor(private featureDetailsService: FeatureDetailsService, private dataService: DataService, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.screenData.featureName = params.feature;
@@ -63,19 +73,80 @@ export class FeatureDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getAllScreen();
-    // this.getScreenByFeatureName();
+    var doc = yaml.safeLoad(this.readTextFile('assets/files/ticketing-system.yaml'))
+    this.formDatafromYAML(doc);
   }
+
+  upload = () => {
+
+    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    //overide the onCompleteItem property of the uploader so we are 
+    //able to deal with the server response.
+    this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
+         console.log("ImageUpload:uploaded:", item, status, response);
+     };
+  }
+
+  formDatafromYAML = (doc) => {
+    console.log("== >> am coming here ---======>>>> ", doc);
+    let allSchema = []
+    let allFlows = []
+    let flowArray = Object.keys(doc).map((data, index) => {
+      if (data !== "dns" && data !== "db") {
+        let flowArray1 = Object.keys(doc[data]).map((data1, i) => {
+          if (data1 !== "schema" && data1 !== "handler") {
+            console.log("====>>>data needed ----->>>>>", doc[data][data1]);
+            let dataTopush = {
+              action_on_data: data1,
+              create_with_default_activity: 1,
+              description: doc[data][data1]["description"],
+              label: data1,
+              name: doc[data][data1]["flow"],
+              screenName: "Ticket Creation",
+              type: "basic"
+            }
+            this.allFeatureFlows.push(dataTopush)
+            return data1
+          }
+        })
+        allSchema.push({ name: data, model: doc[data]["schema"] })
+        
+        console.log("== >> am coming here flowArray1---=ffffffffffff=====>>>> ", allSchema);
+        console.log("== >> am coming here allFlows---=ffffffffffff=====>>>> ", this.allFeatureFlows);
+        return data
+      } else {
+        return false
+      }
+    })
+    console.log(" flow array 0pp  p- -- -  = = = > ", flowArray)
+  }
+
   getAllFeatureFlows(type) {
     this.showFeatureFlow = true;
     this.showFeatureFlowComponent = false;
     this.featureDetailsService.getAllFeatureFlows().subscribe(data => {
-      this.rowData = [];
+      this.allFeatureFlows = [];
       data.map((data) => {
         if (data.screenName === type) {
-          this.rowData.push(data);
+          this.allFeatureFlows.push(data);
         }
       });
     });
+  }
+
+  readTextFile = (file) => {
+    var rawFile = new XMLHttpRequest();
+    var allText = null;
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = () => {
+      if (rawFile.readyState === 4) {
+        if (rawFile.status === 200 || rawFile.status == 0) {
+          allText = rawFile.responseText;
+        }
+      }
+    }
+    rawFile.send(null);
+    return allText;
   }
 
   getFeatureFlowDetails() {

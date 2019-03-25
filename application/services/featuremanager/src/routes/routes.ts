@@ -1,9 +1,11 @@
 import { FeatureController } from "../controllers/feature.controller";
+import { FeatureDetailsController } from "../controllers/fetauredetails.controller";
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {
 
     public featureController: FeatureController = new FeatureController()
+    public featureDetailsController: FeatureDetailsController = new FeatureDetailsController()
 
     public routes(app): void {
         app.route('/health/micro-service').get((req: Request, res: Response) => {
@@ -17,5 +19,8 @@ export class Routes {
         app.route('/feature/getbyid/:id').get(this.featureController.getFeatureByID);
         app.route('/feature/delete/:id').delete(this.featureController.deleteFeature);
         app.route('/feature/getbyfeature/:name').get(this.featureController.getFeatureByName);
+
+
+        app.route('/feature/details/addfile').post(this.featureDetailsController.uploadeFeaturefile);
     }
 }

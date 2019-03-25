@@ -4,18 +4,57 @@
   <br />
   <br />
   <div>
+    Selected Feature : 
     <mat-accordion>
       <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Feature Flows </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="flowTable mt-sm-3">
+          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
+            [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="allFeatureFlows" [animateRows]="true"
+            [defaultColDef]="defaultColDef" (rowSelected)=selectedFeatureFlow() (gridReady)="onFlowGridReady($event)">
+          </ag-grid-angular>
+        </div>
+
+        <div class="flowTable mt-sm-3" *ngIf="showFeatureFlowComponent">
+          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
+            [columnDefs]="columnFeatureDefs" [rowSelection]="rowSelection" [rowData]="rowFlowCompData"
+            [animateRows]="true" [defaultColDef]="defaultColDef" (gridReady)="onFlowCompGridReady($event)">
+          </ag-grid-angular>
+        </div>
+
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Entities </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="float-right">
+          <button class="btn btn-primary" (click)="openScreenModal()">Add Screens</button>
+        </div>
+        <div class="row" style="margin: 0px;">
+          <div class="col-md-4" *ngFor="let screen of screens">
+            <div class="card">
+              <div class="card-header">
+                {{screen.screenName}}
+              </div>
+              <div class="card-body">
+                <button class="btn btn-primary" (click)="getAllFeatureFlows(screen.screenName)">See Flows</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4" *ngIf="screens.length === 0">
+            No Available.
+          </div>
+        </div>
+
+      </mat-expansion-panel>
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title> Screens </mat-panel-title>
         </mat-expansion-panel-header>
 
-        <!-- <div style="padding-right: 20px;">
-          <button class="btn btn-primary">Ticket Creation
-          </button>
-          <button class="btn btn-primary ml-sm-2">Ticket Details
-          </button>
-        </div> -->
         <div class="float-right">
           <button class="btn btn-primary" (click)="openScreenModal()">Add Screens</button>
         </div>
@@ -39,28 +78,6 @@
     </mat-accordion>
   </div>
 
-  <!-- <div class="row row-button mt-sm-3 mb-sm-3" *ngIf='showFeatureFlow'>
-    <button mat-raised-button color="primary" (click)="openModal('create')">Create</button>
-    <button mat-raised-button (click)="openModal('update')">Update</button>
-    <button mat-raised-button color="warn" (click)="deleteRow()">Delete</button>
-  </div> -->
-  <div class="flowTable mt-sm-3" *ngIf="showFeatureFlow">
-    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
-      [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="rowData" [animateRows]="true"
-      [defaultColDef]="defaultColDef" (rowSelected)=selectedFeatureFlow() (gridReady)="onFlowGridReady($event)">
-    </ag-grid-angular>
-  </div>
-  <!-- <div class="row row-button mt-sm-3 mb-sm-3" *ngIf='showFeatureFlowComponent'>
-    <button mat-raised-button color="primary" (click)="openModal('create')">Create</button>
-    <button mat-raised-button (click)="openModal('update')">Update</button>
-    <button mat-raised-button color="warn" (click)="deleteRow()">Delete</button>
-  </div> -->
-  <div class="flowTable mt-sm-3" *ngIf="showFeatureFlowComponent">
-    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
-      [columnDefs]="columnFeatureDefs" [rowSelection]="rowSelection" [rowData]="rowFlowCompData" [animateRows]="true"
-      [defaultColDef]="defaultColDef" (gridReady)="onFlowCompGridReady($event)">
-    </ag-grid-angular>
-  </div>
 </div>
 
 
