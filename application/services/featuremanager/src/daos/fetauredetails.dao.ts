@@ -171,6 +171,7 @@ export class FeatureDetailsDao {
         let dataToSave = {
             name: schemaname,
             description: schemaname,
+            flow_id: flow_id,
             created_by: "rahul",
             field: []
         }
@@ -178,7 +179,6 @@ export class FeatureDetailsDao {
             let dataToPush = {
                 name: data,
                 data_type: schema[data].type,
-                flow_id: flow_id
             }
             dataToSave.field.push(dataToPush)
         })
