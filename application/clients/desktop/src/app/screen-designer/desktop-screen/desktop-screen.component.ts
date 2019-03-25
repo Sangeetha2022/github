@@ -71,6 +71,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     public isGridPopup: Boolean;
     currentAgGridData: any;
     defaultColumn: any;
+    RemoteStorage: any;
 
     constructor(
         private screenDesignerService: ScreenDesignerService,
@@ -258,6 +259,10 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             }
             console.log('onFieldOptions selected component of element are --2222--- ', objectTest);
         });
+        this.RemoteStorage = this.editor.StorageManager.get('remote');
+        this.RemoteStorage.set('params', {
+            foldername: `screen${generate(dictionary.numbers, 6)}`,
+        });
     }
 
     ngOnDestroy() {
@@ -288,9 +293,9 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.dataService.setAgGridValue(this.agGridArray);
         this.agGridObject.custom_field = this.agGridArray;
         this.agGridObject.default_field = this.defaultColumn;
-        const RemoteStorage = this.editor.StorageManager.get('remote');
-        RemoteStorage.set('params', {
+        this.RemoteStorage.set('params', {
             grid_fields: this.agGridObject,
+            foldername: `screen${generate(dictionary.numbers, 6)}`,
             is_grid_present: true
         });
         this.onCloseHandled();

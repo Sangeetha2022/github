@@ -18,6 +18,7 @@ export class ScreenService {
         // const projectName = req.query['projectname'];
         // const folderName = req.query['foldername'];
         const projectName = req.body.projectname;
+        let folderNames = [];
         // const folderName = req.body.foldername;
         const projectID = req.body.templateid;
         const angularPath = {
@@ -33,7 +34,8 @@ export class ScreenService {
                             this.component = screenResponse;
                         }
                         asyncLoop(this.component, (element, next) => {
-                            const folder = 'grid';
+                            const folder = element.foldername;
+                            folderNames.push(folder);
                             screenSupporter.createHtmlFile(angularPath, element, folder, (htmlResponse) => {
                                 screenSupporter.createTsFile(angularPath, element, folder, (tsResponse) => {
                                     screenSupporter.createCssFile(angularPath, element, folder, (cssResponse) => {
@@ -48,13 +50,17 @@ export class ScreenService {
                                 console.log('entering in asyncLoop of if')
                             } else {
                                 console.log('entering in asyncLoop of else')
+                                screenSupporter.createHeader(angularPath, folderNames, (createdHeader) => {
                                 screenSupporter.generateAppComponent(angularPath, (appResult) => {
                                     screenSupporter.generateDependency(angularPath, projectName, (dependencyResult) => {
                                         callback("angular app generated")
+                                        
                                     })
                                 })
+                            })
                             }
                         })
+                        
                     })
                 })
             })

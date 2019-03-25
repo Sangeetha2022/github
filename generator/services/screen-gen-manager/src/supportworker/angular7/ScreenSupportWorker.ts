@@ -72,7 +72,7 @@ export class ScreenSupportWorker {
            // generate package.json files
            console.log('package json with name --- ', projectName);
            var packageJsonStg = st.loadGroup(require(path.source + '/package_json_stg'));
-           var packageJsonConf = packageJsonStg.render('package_json', [projectName.charAt(0).toUpperCase()+projectName.slice(1),
+           var packageJsonConf = packageJsonStg.render('package_json', [projectName.toLowerCase(),
              packageDependency]);
            fs.writeFile(path.destination + '/package.json', packageJsonConf, function (err) {
                if (err) throw err;
