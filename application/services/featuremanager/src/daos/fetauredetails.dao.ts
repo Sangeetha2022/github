@@ -70,6 +70,7 @@ export class FeatureDetailsDao {
     }
 
     private saveFeatureFlows = (doc, callback) => {
+        let flow_id = null
         Object.keys(doc[0]).map(async (data, index) => {
             if (data !== "dns" && data !== "db") {
                 await Object.keys(doc[0][data]).map(async (data1, i) => {
@@ -86,12 +87,13 @@ export class FeatureDetailsDao {
                         const createdFlowComp = new this.FeatureFlows(dataToSave);
                         await createdFlowComp.save(async (err, fdata) => {
                             if (fdata) {
+                                flow_id = fdata._id;
                                 await this.saveFeatureFlowComps(doc[0][data][data1], fdata._id);
                             }
                         });
                     }
                 })
-                await this.saveFeatureEntity(data, doc[0][data]["schema"], callback);
+                await this.saveFeatureEntity(data, doc[0][data]["schema"], flow_id, callback);
             }
         })
     }
@@ -165,7 +167,7 @@ export class FeatureDetailsDao {
         await createdFlowComp.save();
     }
 
-    private saveFeatureEntity = async (schemaname, schema, callback) => {
+    private saveFeatureEntity = async (schemaname, schema, flow_id, callback) => {
         let dataToSave = {
             name: schemaname,
             description: schemaname,
@@ -176,6 +178,7 @@ export class FeatureDetailsDao {
             let dataToPush = {
                 name: data,
                 data_type: schema[data].type,
+                flow_id: flow_id
             }
             dataToSave.field.push(dataToPush)
         })

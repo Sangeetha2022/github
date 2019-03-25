@@ -6,6 +6,7 @@ export const FeatureEntitySchema = new Schema({
     name: String,
     description: String,
     created_by: String,
+    flow_id: { type: mongoose.Schema.Types.ObjectId, ref: 'feature_flow_comp' },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: null },
     field: [{
