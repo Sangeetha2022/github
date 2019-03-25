@@ -9,7 +9,7 @@ export class SharedService {
     public screenUrl: String = 'http://localhost:3004';
     public entityUrl: String = 'http://localhost:3005';
     public featureUrl: String = 'http://localhost:3006';
-    // public featureflowbaseUrl: String = 'http://localhost:3011';
+    public featureflowbaseUrl: String = 'http://localhost:3007';
     public configUrl: String = 'http://localhost:5001';
     public genmanagerUrl: String = 'http://localhost:5000';
 

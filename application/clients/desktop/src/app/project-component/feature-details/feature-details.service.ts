@@ -36,7 +36,7 @@ export class FeatureDetailsService {
   }
 
   addScreen(screen): Observable<any> {
-    return this.api.post(this.restapi.featureUrl + Constants.addScreen, screen);
+    return this.api.post(this.restapi.featureflowbaseUrl + Constants.addScreen, screen);
   }
 
   deleteScreen(id): Observable<any> {
@@ -48,11 +48,16 @@ export class FeatureDetailsService {
   }
 
   getAllScreen(): Observable<any> {
-    return this.api.get(this.restapi.featureUrl + Constants.getAllScreen);
+    return this.api.get(this.restapi.featureflowbaseUrl + Constants.getAllScreen);
   }
 
   getAllEntity(): Observable<any> {
     return this.api.get(this.restapi.featureUrl + Constants.getAllEntity);
+  }
+
+
+  getEntityByFeatureId(id): Observable<any> {
+    return this.api.get(this.restapi.featureUrl + Constants.getEntityByFeatureId + id);
   }
 
   getScreenByFeatureName(name): Observable<any> {

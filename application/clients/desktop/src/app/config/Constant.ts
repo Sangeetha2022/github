@@ -86,6 +86,7 @@ export class Constants {
     // Feature Entity
 
     public static get getAllEntity(): string { return '/feature-entity/getall'; }
+    public static get getEntityByFeatureId(): string { return '/feature-entity/getbyfeatureid/'; }
 
     // Default Entity
     public static get addDefaultEntity(): string { return '/default_entity/save'; }

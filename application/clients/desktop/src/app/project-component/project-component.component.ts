@@ -114,11 +114,12 @@ export class EntityManagerComponent implements OnInit {
     });
   }
   onChangeRadio(selected) {
+
     if (selected === 'on') {
       if (!this.selectFeature) {
         this.showUpdateFeature = true;
       }
-      if (this.showUpdateFeature) {
+      if (this.selectFeature) {
         this.showUpdateFeature = false;
       }
       this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
@@ -265,29 +266,42 @@ export class EntityManagerComponent implements OnInit {
   }
 
   updateFeature() {
-    this.features.connectProject = true;
-    this.projectComponentService.updateFeature(this.features).subscribe(data => {
-      console.log(data);
+    console.log("this.features.id", this.features.id);
+    this.projectComponentService.getFeatureById(this.features.id).subscribe(data => {
+      if (data.connectProject === true) {
+        alert("Already Imported");
+        this.closeFeatureExistingModel();
+      } else {
+        this.features.connectProject = true;
+        console.log("Asadadffaffdf", this.features)
+        this.projectComponentService.updateFeature(this.features).subscribe(data => {
+          console.log(data);
+          if (data) {
+            this.closeFeatureExistingModel();
+            this.getAllFeature();
+          }
+        });
+
+      }
     });
-    this.closeFeatureExistingModel();
-    this.getAllFeature();
   }
 
   addFeature() {
     this.uploader.uploadAll();
     this.projectComponentService.addFeature(this.features).subscribe(data => {
       console.log(data);
-      // if(data){
-
-      // }
+      if (data) {
+        this.getAllFeature();
+      }
     });
   }
 
   getAllFeature() {
     this.projectComponentService.getAllFeature().subscribe(data => {
       this.featureData = data;
+      this.featureConnectProject = [];
       data.map(data => {
-        if (!this.features.connectProject) {
+        if (data.connectProject === true) {
           this.featureConnectProject.push(data);
 
         }

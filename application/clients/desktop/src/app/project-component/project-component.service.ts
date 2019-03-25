@@ -71,6 +71,10 @@ export class ProjectComponentService {
     return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getAllUrl);
   }
 
+  getFeatureById(id) {
+    return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getByIdUrl + id);
+  }
+
   deleteFeature(id) {
     return this.api.delete(this.restapi.featureUrl + Constants.feature + Constants.deleteUrl + id);
   }

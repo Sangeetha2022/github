@@ -50,6 +50,7 @@ export class Routes {
         app.route('/feature-entity/update/:id').put(this.featureFlowEntityController.updateFeatureFlowEntity);
         app.route('/feature-entity/getall').get(this.featureFlowEntityController.getAllFeatureFlowEntity);
         app.route('/feature-entity/getbyid/:id').get(this.featureFlowEntityController.getFeatureFlowEntityByID);
+        app.route('/feature-entity/getbyfeatureid/:id').get(this.featureFlowEntityController.getFeatureFlowEntityByFeatureID);
         app.route('/feature-entity/delete/:id').delete(this.featureFlowEntityController.deleteFeatureFlowEntity);
     }
 }

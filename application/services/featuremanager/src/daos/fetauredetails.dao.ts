@@ -40,7 +40,7 @@ export class FeatureDetailsDao {
             }
             req['files'].map((file, i) => {
                 if (file.fieldname === "front_mang_file") {
-                    dataToSave.api_mang_file = file.path
+                    dataToSave.front_mang_file = file.path
                 }
                 if (file.fieldname === "backed_mang_file") {
                     dataToSave.backed_mang_file = file.path
@@ -62,7 +62,7 @@ export class FeatureDetailsDao {
 
     private parseAndSaveFeatureDetails = (feature, files, callback) => {
         files.map((file, i) => {
-            if (file.fieldname === "backed_mang_file") {
+            if (file.fieldname === "front_mang_file") {
                 var doc = yaml.safeLoadAll(fs.readFileSync(file.destination + '/' + file.filename, 'utf8'))
                 this.saveFeatureFlows(doc,feature._id, callback);
             }
