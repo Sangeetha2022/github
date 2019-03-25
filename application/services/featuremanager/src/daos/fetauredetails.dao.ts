@@ -170,7 +170,6 @@ export class FeatureDetailsDao {
         let dataToSave = {
             name: schemaname,
             description: schemaname,
-            flow_id: flow_id,
             created_by: "rahul",
             feature_id: feature_id,
             field: []
