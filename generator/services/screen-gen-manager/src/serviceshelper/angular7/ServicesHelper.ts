@@ -137,6 +137,13 @@ export class ServicesHelper {
     })
   }
 
+  // generate Header files
+  public createHeader(headerObj, folderName, path, componentObj, callback) {
+    templateWorker.generateHeader(headerObj, folderName, path, componentObj, (response) => {
+      callback(response);
+    })
+  }
+
 
   // public createAng7Project(projectData, projectName, sourcePath, templatePath, callback) {
   //   const appPath = `${sourcePath}/${projectName}`;

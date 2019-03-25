@@ -10,6 +10,7 @@ export const UserTemplateSchema = new Schema({
     'gjs-components': [],
     'project-name': String,
     'default-language': String,
+    foldername: String,
     is_grid_present: {
         type: Boolean,
         default: false
