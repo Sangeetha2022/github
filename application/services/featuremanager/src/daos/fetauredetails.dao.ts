@@ -64,13 +64,12 @@ export class FeatureDetailsDao {
         files.map((file, i) => {
             if (file.fieldname === "backed_mang_file") {
                 var doc = yaml.safeLoadAll(fs.readFileSync(file.destination + '/' + file.filename, 'utf8'))
-                this.saveFeatureFlows(doc, callback);
+                this.saveFeatureFlows(doc,feature._id, callback);
             }
         })
     }
 
-    private saveFeatureFlows = (doc, callback) => {
-        let flow_id = null
+    private saveFeatureFlows = (doc,feature_id, callback) => {
         Object.keys(doc[0]).map(async (data, index) => {
             if (data !== "dns" && data !== "db") {
                 await Object.keys(doc[0][data]).map(async (data1, i) => {
@@ -82,18 +81,18 @@ export class FeatureDetailsDao {
                             label: data1,
                             name: doc[0][data][data1]["flow"],
                             screenName: doc[0][data][data1]["screen"],
-                            type: "basic"
+                            type: "basic",
+                            feature_id: feature_id
                         }
                         const createdFlowComp = new this.FeatureFlows(dataToSave);
                         await createdFlowComp.save(async (err, fdata) => {
                             if (fdata) {
-                                flow_id = fdata._id;
                                 await this.saveFeatureFlowComps(doc[0][data][data1], fdata._id);
                             }
                         });
                     }
                 })
-                await this.saveFeatureEntity(data, doc[0][data]["schema"], flow_id, callback);
+                await this.saveFeatureEntity(data, doc[0][data]["schema"], feature_id, callback);
             }
         })
     }
@@ -167,18 +166,18 @@ export class FeatureDetailsDao {
         await createdFlowComp.save();
     }
 
-    private saveFeatureEntity = async (schemaname, schema, flow_id, callback) => {
+    private saveFeatureEntity = async (schemaname, schema, feature_id, callback) => {
         let dataToSave = {
             name: schemaname,
             description: schemaname,
             created_by: "rahul",
+            feature_id: feature_id,
             field: []
         }
         Object.keys(schema).map(async (data, index) => {
             let dataToPush = {
                 name: data,
                 data_type: schema[data].type,
-                flow_id: flow_id
             }
             dataToSave.field.push(dataToPush)
         })

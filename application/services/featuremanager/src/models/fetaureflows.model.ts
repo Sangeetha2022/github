@@ -12,6 +12,7 @@ export const FeatureFlowsSchema = mongoose.Schema({
     action_on_data: String,
     type: String,
     create_with_default_activity: Number,
+    feature_id: { type: mongoose.Schema.Types.ObjectId, ref: 'feature_details' },
     created_date: {
         type: Date,
         default: Date.now
