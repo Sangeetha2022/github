@@ -526,7 +526,6 @@ feature-ticket:
       controller: FeatureTicketController.updateFeatureTicket
       service: FeatureTicketService.updateFeatureTicket
       dao: FeatureTicketdao.updateFeatureTicket
-      screen: "Ticket Details"
       api: /feature-ticket/update/:id
       method: put
       params:

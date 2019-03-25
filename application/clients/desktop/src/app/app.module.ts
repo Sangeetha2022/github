@@ -98,7 +98,7 @@ export const I18N_PROVIDERS = [
     AppComponent,
     ProjectsComponent,
     FlowManagerComponent,
-    AvailableConnectorComponent,
+    AvailableConnectorComponent
   ],
   imports: [
     BrowserModule,

@@ -77,8 +77,13 @@ export class ProjectComponentService {
 
   updateFeature(feature) {
     const featureId = feature.id;
-    console.log("asdadsf",featureId)
     return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + featureId, feature);
+  }
+
+  uploadeFeaturefile(file){
+    // const formData: FormData = new FormData();
+    // formData.append('fileKey', file, file.name);
+    return this.api.post(this.restapi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.addFilesUrl, file);
   }
 
   // Default Entity

@@ -8,7 +8,7 @@ import { WinstonLogger } from './config/WinstonLogger';
 import * as mongoose from "mongoose";
 import { URL } from 'url'
 
-const PORT = 3011;
+const PORT = 3007;
 
 class App {
 
@@ -34,10 +34,10 @@ class App {
     }
 
     private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mConfig = new MongoConfig();
-        // mConfig.mongoConfig();
+        // mongoose.Promise = global.Promise;
+        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        let mConfig = new MongoConfig();
+        mConfig.mongoConfig();
     }
 
     private mongoSeedData(): void { 

@@ -23,6 +23,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitecture-manager.module';
 import { ToastrModule } from 'ngx-toastr';
 import { FeatureDetailsComponent } from './feature-details/feature-details.component';
+import { FileSelectDirective } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { FeatureDetailsComponent } from './feature-details/feature-details.compo
     PopupModelComponent,
     ButtonRendererComponent,
     FieldPopupModalComponent,
-    FeatureDetailsComponent
+    FeatureDetailsComponent,
+    FileSelectDirective
   ],
   imports: [
     CommonModule,

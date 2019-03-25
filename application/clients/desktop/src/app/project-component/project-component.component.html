@@ -187,6 +187,12 @@
                 <div *ngIf="name.errors.required">Name is required</div>
               </div>
             </div>
+
+            <div class="form-group">
+              <label for="upload">Upload File</label>
+              <input type="file" ng2FileSelect [uploader]="uploader">
+              <!-- <input type="file" class="form-control" name="upload" (change)="handleFileInput($event.target.files)"  accept=".yaml,.yml"/> -->
+            </div>
             <div class="form-group">
               <label for="description">Description</label>
               <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)"

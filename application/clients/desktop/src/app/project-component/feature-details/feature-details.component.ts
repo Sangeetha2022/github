@@ -5,7 +5,7 @@ import { Iscreen } from './interface/screen';
 import { Route, ActivatedRoute } from '@angular/router';
 import yaml from 'js-yaml';
 
-import {  FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 
 const URL = 'http://localhost:3006/feature/details/addfile';
 
@@ -39,9 +39,9 @@ export class FeatureDetailsComponent implements OnInit {
   featureFlowGrid;
   featureFlowCompGrid;
 
-  public uploader:FileUploader = new FileUploader({url: URL, itemAlias: 'photo'});
-    //This is the default title property created by the angular cli. Its responsible for the app works 
-    title = 'app works!';
+  public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
+  //This is the default title property created by the angular cli. Its responsible for the app works 
+  title = 'app works!';
 
   constructor(private featureDetailsService: FeatureDetailsService, private dataService: DataService, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
@@ -53,16 +53,21 @@ export class FeatureDetailsComponent implements OnInit {
         checkboxSelection: true
       },
       { headerName: 'Label', field: 'label' },
-      { headerName: 'Method Name', field: 'methodName' },
+      { headerName: 'Screen Name', field: 'screenName' },
       { headerName: 'Description', field: 'description' },
       { headerName: 'Action', field: 'action_on_data' }
     ];
     this.columnFeatureDefs = [
       {
-        headerName: 'Name', field: 'component_name',
-        checkboxSelection: true
+        headerName: 'Label', field: 'label', checkboxSelection: true
       },
-      { headerName: 'Label', field: 'label' },
+
+      {
+        headerName: 'Dev Framework', field: 'dev_framework',
+      },
+      {
+        headerName: 'Dev Lang', field: 'dev_language',
+      },
       { headerName: 'Description', field: 'description' },
     ];
     this.rowSelection = 'single';
@@ -72,65 +77,63 @@ export class FeatureDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllScreen();
-    var doc = yaml.safeLoad(this.readTextFile('assets/files/ticketing-system.yaml'))
-    this.formDatafromYAML(doc);
+    // this.getAllScreen();
+    this.getAllFeatureFlows();
+    this.getAllEntity();
+    // var doc = yaml.safeLoad(this.readTextFile('assets/files/ticketing-system.yaml'))
+    // this.formDatafromYAML(doc);
   }
 
   upload = () => {
 
-    this.uploader.onAfterAddingFile = (file)=> { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
     //overide the onCompleteItem property of the uploader so we are 
     //able to deal with the server response.
-    this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
-         console.log("ImageUpload:uploaded:", item, status, response);
-     };
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      console.log("ImageUpload:uploaded:", item, status, response);
+    };
   }
 
-  formDatafromYAML = (doc) => {
-    console.log("== >> am coming here ---======>>>> ", doc);
-    let allSchema = []
-    let allFlows = []
-    let flowArray = Object.keys(doc).map((data, index) => {
-      if (data !== "dns" && data !== "db") {
-        let flowArray1 = Object.keys(doc[data]).map((data1, i) => {
-          if (data1 !== "schema" && data1 !== "handler") {
-            console.log("====>>>data needed ----->>>>>", doc[data][data1]);
-            let dataTopush = {
-              action_on_data: data1,
-              create_with_default_activity: 1,
-              description: doc[data][data1]["description"],
-              label: data1,
-              name: doc[data][data1]["flow"],
-              screenName: "Ticket Creation",
-              type: "basic"
-            }
-            this.allFeatureFlows.push(dataTopush)
-            return data1
-          }
-        })
-        allSchema.push({ name: data, model: doc[data]["schema"] })
-        
-        console.log("== >> am coming here flowArray1---=ffffffffffff=====>>>> ", allSchema);
-        console.log("== >> am coming here allFlows---=ffffffffffff=====>>>> ", this.allFeatureFlows);
-        return data
-      } else {
-        return false
-      }
-    })
-    console.log(" flow array 0pp  p- -- -  = = = > ", flowArray)
-  }
+  // formDatafromYAML = (doc) => {
+  //   console.log("== >> am coming here ---======>>>> ", doc);
+  //   let allSchema = []
+  //   let allFlows = []
+  //   let flowArray = Object.keys(doc).map((data, index) => {
+  //     if (data !== "dns" && data !== "db") {
+  //       let flowArray1 = Object.keys(doc[data]).map((data1, i) => {
+  //         if (data1 !== "schema" && data1 !== "handler") {
+  //           console.log("====>>>data needed ----->>>>>", doc[data][data1]);
+  //           let dataTopush = {
+  //             action_on_data: data1,
+  //             create_with_default_activity: 1,
+  //             description: doc[data][data1]["description"],
+  //             label: data1,
+  //             name: doc[data][data1]["flow"],
+  //             screenName: "Ticket Creation",
+  //             type: "basic"
+  //           }
+  //           this.allFeatureFlows.push(dataTopush)
+  //           return data1
+  //         }
+  //       })
+  //       allSchema.push({ name: data, model: doc[data]["schema"] })
 
-  getAllFeatureFlows(type) {
+  //       console.log("== >> am coming here flowArray1---=ffffffffffff=====>>>> ", allSchema);
+  //       console.log("== >> am coming here allFlows---=ffffffffffff=====>>>> ", this.allFeatureFlows);
+  //       return data
+  //     } else {
+  //       return false
+  //     }
+  //   })
+  //   console.log(" flow array 0pp  p- -- -  = = = > ", flowArray)
+  // }
+
+  getAllFeatureFlows() {
     this.showFeatureFlow = true;
     this.showFeatureFlowComponent = false;
     this.featureDetailsService.getAllFeatureFlows().subscribe(data => {
-      this.allFeatureFlows = [];
-      data.map((data) => {
-        if (data.screenName === type) {
-          this.allFeatureFlows.push(data);
-        }
-      });
+      this.allFeatureFlows = data;
+      console.log("i am the screen name",data.screenName);
     });
   }
 
@@ -149,6 +152,12 @@ export class FeatureDetailsComponent implements OnInit {
     return allText;
   }
 
+  getAllEntity(){
+    this.featureDetailsService.getAllEntity().subscribe(data=>{
+      console.log("entity",data);
+    })
+  }
+
   getFeatureFlowDetails() {
 
     this.dataService.currentFeatureFlowIdInfoSource.subscribe(data => {
@@ -162,20 +171,20 @@ export class FeatureDetailsComponent implements OnInit {
 
   }
 
-  createScreen() {
-    this.featureDetailsService.addScreen(this.screenData).subscribe(data => {
-      if (data) {
-        this.onCloseHandled();
-        this.getAllScreen();
-        // this.getScreenByFeatureName();
-      }
-    });
-  }
-  getAllScreen() {
-    this.featureDetailsService.getAllScreen().subscribe(data => {
-      this.screens = data;
-    });
-  }
+  // createScreen() {
+  //   this.featureDetailsService.addScreen(this.screenData).subscribe(data => {
+  //     if (data) {
+  //       this.onCloseHandled();
+  //       this.getAllScreen();
+  //       // this.getScreenByFeatureName();
+  //     }
+  //   });
+  // }
+  // getAllScreen() {
+  //   this.featureDetailsService.getAllScreen().subscribe(data => {
+  //     this.screens = data;
+  //   });
+  // }
 
   // getScreenByFeatureName() {
   //   const name = this.screenData.featureName;

@@ -15,27 +15,21 @@ baseUrl:
   mobile:
     api: /mobile
   desktop:
-    api: /desktop
+    api: /desktop  
 
 initializeRoutes:
-  createTicket:
-    route: /ticket/save
-    method: addTicket
-  updateTicket: 
-    route: /ticket/update/:id
-    method: updateTicket
-  getAllTicket:
-    route:  /ticket/getall
-    method: getAllTicket
-  getByTicketId:
-    route:  /ticket/getbyid/:id
-    method: getByTicketId
-  deleteTicket:
-    route:  /ticket/delete/:id
-    method: deleteTicket
-  getTicketByName:
-    route:  /ticket/getbyticket/:name
-    method: getTicketByName
+  createTicket: /ticket/save
+    mehtod: addTicket
+  updateTicket: /ticket/update/:id
+    mehtod: updateTicket
+  getAllTicket: /ticket/getall
+    mehtod: getAllTicket
+  getByTicketId: /ticket/getbyid/:id
+    mehtod: getByTicketId
+  deleteTicket: /ticket/delete/:id
+    mehtod: deleteTicket
+  getTicketByName: /ticket/getbyticket/:name
+    mehtod: getTicketByName        
 
 ticket:
   controller:
