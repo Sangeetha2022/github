@@ -9,46 +9,6 @@
             ]
         }
     ],
-    "IssueTicket": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "DocumentTicket": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "FeatureTicket": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "SupportTicket": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
     "TicketDelete": [
         {
             "parameters": [
@@ -89,47 +49,7 @@
             ]
         }
     ],
-    "TicketSearch": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "TicketSearchDetail": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "TicketSearchForUpdate": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
     "TicketUpdate": [
-        {
-            "parameters": [
-                {
-                    "body": [],
-                    "params": []
-                }
-            ]
-        }
-    ],
-    "TicketFileUpload": [
         {
             "parameters": [
                 {

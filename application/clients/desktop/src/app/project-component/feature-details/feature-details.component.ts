@@ -3,6 +3,11 @@ import { FeatureDetailsService } from './feature-details.service';
 import { DataService } from 'src/shared/data.service';
 import { Iscreen } from './interface/screen';
 import { Route, ActivatedRoute } from '@angular/router';
+import yaml from 'js-yaml';
+
+import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
+
+const URL = 'http://localhost:3006/feature/details/addfile';
 
 @Component({
   selector: 'app-feature-details',
@@ -15,8 +20,12 @@ export class FeatureDetailsComponent implements OnInit {
   featureName: any;
   screenName: String;
   description: String;
+  featureEntityData: any = [];
+  featureEntity: any = [];
   displayModel: String = 'none';
   columnFeatureDefs: any = [];
+  columnFeatureEntityData: any = [];
+  columnFeatureEntity: any = [];
   rowFlowCompData: any = [];
   featureFlowId: String;
   rowSelection: String;
@@ -29,11 +38,19 @@ export class FeatureDetailsComponent implements OnInit {
 
   }
   showFeatureFlowComponent: boolean;
-  rowData: any = [];
+  allFeatureFlows: any = [];
   selectedFlow: any = [];
-  selectedFeatureFlow: any = [];
-  gridApi;
-  gridColumnApi;
+  selectedFeatureEntity: any = [];
+  showFeatureEntity: boolean;
+  featureFlowGrid;
+  featureFlowCompGrid;
+  featureEntityDataGrid;
+  featureEntityGrid;
+
+  public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
+  //This is the default title property created by the angular cli. Its responsible for the app works 
+  title = 'app works!';
+
   constructor(private featureDetailsService: FeatureDetailsService, private dataService: DataService, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.screenData.featureName = params.feature;
@@ -44,16 +61,41 @@ export class FeatureDetailsComponent implements OnInit {
         checkboxSelection: true
       },
       { headerName: 'Label', field: 'label' },
+      { headerName: 'Screen Name', field: 'screenName' },
       { headerName: 'Description', field: 'description' },
       { headerName: 'Action', field: 'action_on_data' }
     ];
     this.columnFeatureDefs = [
       {
-        headerName: 'Name', field: 'component_name',
-        checkboxSelection: true
+        headerName: 'Label', field: 'label', checkboxSelection: true
       },
-      { headerName: 'Label', field: 'label' },
+
+      {
+        headerName: 'Dev Framework', field: 'dev_framework',
+      },
+      {
+        headerName: 'Dev Lang', field: 'dev_language',
+      },
       { headerName: 'Description', field: 'description' },
+    ];
+
+    this.columnFeatureEntityData = [
+      {
+        headerName: 'Name', field: 'name', checkboxSelection: true
+      },
+
+      {
+        headerName: 'Description', field: 'description',
+      }
+    ];
+
+    this.columnFeatureEntity = [
+      {
+        headerName: 'Name', field: 'name', checkboxSelection: true
+      },
+      {
+        headerName: 'Data Type', field: 'data_type'
+      }
     ];
     this.rowSelection = 'single';
     this.defaultColDef = {
@@ -63,24 +105,95 @@ export class FeatureDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getAllScreen();
+    this.getAllFeatureFlows();
+    this.getAllEntity();
+    // var doc = yaml.safeLoad(this.readTextFile('assets/files/ticketing-system.yaml'))
+    // this.formDatafromYAML(doc);
   }
 
-  onGridReady(params) {
-    this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
-    this.gridApi.sizeColumnsToFit();
+  upload = () => {
+
+    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+    //overide the onCompleteItem property of the uploader so we are 
+    //able to deal with the server response.
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      console.log("ImageUpload:uploaded:", item, status, response);
+    };
   }
-  getAllFeatureFlows(type) {
+
+  // formDatafromYAML = (doc) => {
+  //   console.log("== >> am coming here ---======>>>> ", doc);
+  //   let allSchema = []
+  //   let allFlows = []
+  //   let flowArray = Object.keys(doc).map((data, index) => {
+  //     if (data !== "dns" && data !== "db") {
+  //       let flowArray1 = Object.keys(doc[data]).map((data1, i) => {
+  //         if (data1 !== "schema" && data1 !== "handler") {
+  //           console.log("====>>>data needed ----->>>>>", doc[data][data1]);
+  //           let dataTopush = {
+  //             action_on_data: data1,
+  //             create_with_default_activity: 1,
+  //             description: doc[data][data1]["description"],
+  //             label: data1,
+  //             name: doc[data][data1]["flow"],
+  //             screenName: "Ticket Creation",
+  //             type: "basic"
+  //           }
+  //           this.allFeatureFlows.push(dataTopush)
+  //           return data1
+  //         }
+  //       })
+  //       allSchema.push({ name: data, model: doc[data]["schema"] })
+
+  //       console.log("== >> am coming here flowArray1---=ffffffffffff=====>>>> ", allSchema);
+  //       console.log("== >> am coming here allFlows---=ffffffffffff=====>>>> ", this.allFeatureFlows);
+  //       return data
+  //     } else {
+  //       return false
+  //     }
+  //   })
+  //   console.log(" flow array 0pp  p- -- -  = = = > ", flowArray)
+  // }
+
+  getAllFeatureFlows() {
     this.showFeatureFlow = true;
+    this.showFeatureFlowComponent = false;
     this.featureDetailsService.getAllFeatureFlows().subscribe(data => {
-      this.rowData = [];
-      data.map((data) => {
-        if (data.screenName === type) {
-          this.rowData.push(data);
-          console.log("adadafdaf", this.rowData)
-        }
-      });
+      this.allFeatureFlows = data;
+      console.log("i am the screen name",data.screenName);
     });
+  }
+
+  readTextFile = (file) => {
+    var rawFile = new XMLHttpRequest();
+    var allText = null;
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = () => {
+      if (rawFile.readyState === 4) {
+        if (rawFile.status === 200 || rawFile.status == 0) {
+          allText = rawFile.responseText;
+        }
+      }
+    }
+    rawFile.send(null);
+    return allText;
+  }
+
+  getAllEntity(){
+    this.featureDetailsService.getAllEntity().subscribe(data=>{
+      console.log("entity",data);
+      this.featureEntityData = data;
+      data.map(feature=>{
+        this.featureEntity = feature.field
+      });
+      console.log("this.featureEntity",this.featureEntity);
+    })
+  }
+
+  getEntityByFeatureId(id){
+    this.featureDetailsService.getEntityByFeatureId(id).subscribe(data=>{
+      console.log("entity",data);
+    })
   }
 
   getFeatureFlowDetails() {
@@ -89,7 +202,6 @@ export class FeatureDetailsComponent implements OnInit {
       this.featureFlowId = data._id;
       if (data) {
         this.featureDetailsService.getFeatureFlowDetails(this.featureFlowId).subscribe(data => {
-          console.log("asdasddsdad", data)
           this.rowFlowCompData = data.flow_comp_seq;
         });
       }
@@ -102,6 +214,7 @@ export class FeatureDetailsComponent implements OnInit {
       if (data) {
         this.onCloseHandled();
         this.getAllScreen();
+        // this.getScreenByFeatureName();
       }
     });
   }
@@ -110,18 +223,62 @@ export class FeatureDetailsComponent implements OnInit {
       this.screens = data;
     });
   }
+
+  // getScreenByFeatureName() {
+  //   const name = this.screenData.featureName;
+  //   console.log("i am the name", name);
+
+  //   this.featureDetailsService.getScreenByFeatureName(name).subscribe(data => {
+  //     this.screens = data;
+  //   });
+  // }
   openScreenModal() {
     this.displayModel = 'block';
   }
   onCloseHandled() {
     this.displayModel = 'none';
   }
-  onSelectionChanged() {
-    this.selectedFlow = this.gridApi.getSelectedRows();
+
+  selectedFeatureFlow() {
+
+    this.selectedFlow = this.featureFlowGrid.getSelectedRows();
+    console.log("i am the selected one", this.selectedFlow);
     if (this.selectedFlow.length !== 0) {
       this.dataService.setFeatureFlowIdInfo(this.selectedFlow[0]);
       this.showFeatureFlowComponent = true;
+      console.log("i am here");
     }
     this.getFeatureFlowDetails();
+
+  }
+
+  selectedFeatureEntityData(){
+    this.selectedFeatureEntity = this.featureFlowGrid.getSelectedRows();
+
+    if (this.selectedFeatureEntity.length !== 0) {
+      console.log("Id of the one",this.selectedFeatureEntity._id)
+      this.showFeatureEntity = true;
+      console.log("i am here");
+    }
+
+  }
+
+  onFlowGridReady(params) {
+    this.featureFlowGrid = params.api;
+    this.featureFlowGrid.sizeColumnsToFit();
+  }
+
+  onFlowCompGridReady(params) {
+    this.featureFlowCompGrid = params.api;
+    this.featureFlowCompGrid.sizeColumnsToFit();
+  }
+
+  onFeatureEntityDataGridReady(params){
+    this.featureEntityData = params.api;
+    this.featureEntityData.sizeColumnsToFit();
+  }
+  onFeatureEntityGridReady(params){
+    this.featureEntity = params.api;
+    this.featureEntity.sizeColumnsToFit();
   }
 }

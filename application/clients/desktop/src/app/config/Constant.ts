@@ -9,6 +9,7 @@ export class Constants {
     public static get getByIdUrl(): string { return '/getbyid/'; }
     public static get deleteUrl(): string { return '/delete/'; }
     public static get detailsUrl(): string { return '/details'; }
+    public static get addFilesUrl(): string { return '/addfile'; }
 
     public static get flowUrl(): string { return '/flow'; }
     public static get featureflowUrl(): string { return '/feature-flow'; }
@@ -69,7 +70,7 @@ export class Constants {
     public static get addFeatureFlow(): string { return '/feature-flow/save'; }
     public static get getAllFeatureFlow(): string { return '/feature-flow/getall'; }
     public static get getFeatureFlowById(): string { return '/feature-flow/getbyid/'; }
-    public static get getFeatureFlowDetails(): string { return '/feature-flow/getbyid/:id/details'; }
+    public static get getFeatureFlowByFlowId(): string { return '/feature-comp/getbyflowid/'; }
     public static get deleteFeatureFlowById(): string { return '/feature-flow/delete/'; }
     public static get updateFeatureFlow(): string { return '/feature-flow/update/:id'; }
 
@@ -79,7 +80,13 @@ export class Constants {
     public static get getAllScreen(): string { return '/screen/getall'; }
     public static get getScreenByID(): string { return '/screen/getbyid/:id'; }
     public static get deleteScreen(): string { return '/screen/delete/:id'; }
+    public static get getScreenByFeatureName(): string { return '/screen/getbyfeature/'; }
     public static get updateScreen(): string { return '/screen/update/:id'; }
+
+    // Feature Entity
+
+    public static get getAllEntity(): string { return '/feature-entity/getall'; }
+    public static get getEntityByFeatureId(): string { return '/feature-entity/getbyfeatureid/'; }
 
     // Default Entity
     public static get addDefaultEntity(): string { return '/default_entity/save'; }

@@ -6,8 +6,9 @@ import * as cors from 'cors';
 import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
 import * as mongoose from "mongoose";
+import { URL } from 'url'
 
-const PORT = 3011;
+const PORT = 3007;
 
 class App {
 
@@ -39,9 +40,9 @@ class App {
         // mConfig.mongoConfig();
     }
 
-    private mongoSeedData(): void {
+    private mongoSeedData(): void { 
         let seedData = new FeedSeedData();
-        seedData.seedFlowData();
+        // seedData.seedFlowData();
     }
 
 }

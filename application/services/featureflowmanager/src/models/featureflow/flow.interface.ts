@@ -3,7 +3,7 @@ interface IFlow {
   name: string,
   label: string,
   screenName: string;
-  featureName: string;
+  methodName: string;
   description: string,
   action_on_data: string,
   type: string,

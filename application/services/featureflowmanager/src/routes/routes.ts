@@ -33,6 +33,7 @@ export class Routes {
         app.route('/screen/getbyid/:id').get(this.screenController.getScreenByID);
         app.route('/screen/delete/:id').delete(this.screenController.deleteScreen);
         app.route('/screen/update/:id').put(this.screenController.updateScreen);
+        app.route('/screen/getbyfeature/:name').put(this.screenController.getScreenByFeatureName);
 
     }
 }

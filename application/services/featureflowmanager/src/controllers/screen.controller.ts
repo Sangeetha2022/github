@@ -26,6 +26,13 @@ export class ScreenController {
         })
     }
 
+    public getScreenByFeatureName(req: Request, res: Response, next: NextFunction) {
+        screenService.getScreenByFeatureName(req, next, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
     public deleteScreen(req: Request, res: Response, next: NextFunction) {
         screenService.deleteScreen(req, next, (response) => {
             res.status(200);

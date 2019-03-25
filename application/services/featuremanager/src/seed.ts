@@ -16,4 +16,15 @@ export class FeedSeedData {
             }
         });
     }
+
+    public testmethod(): void {
+        Feature.find({}, (err, data) => {
+            if (data === null || data.length === 0) {
+                featurejson.feature.map((feature) => {
+                    let newFeature = new Feature(feature);
+                    newFeature.save();
+                })
+            }
+        });
+    }
 }

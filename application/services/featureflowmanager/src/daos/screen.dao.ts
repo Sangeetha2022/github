@@ -32,6 +32,19 @@ export class ScreenDao {
         }
     }
 
+    getScreenByFeatureName = async (req: Request, next, callback: CallableFunction) => {
+        const name = req.query.name;
+        console.log("i am the params", name)
+        const screen = await this.screen.findOne(name);
+        if (screen) {
+            callback(screen);
+        } else {
+            next(new PostNotFoundException(name));
+        }
+    }
+
+
+
     deleteScreen = async (screenID, next, callback: CallableFunction) => {
         const id = screenID;
         const successResponse = await this.screen.findByIdAndDelete(id);

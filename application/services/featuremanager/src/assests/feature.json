@@ -1,38 +1,9 @@
 {
   "feature": [
     {
-      "name": "ticket1",
-      "description": "ticket1 description"
-    },{
-      "name": "ticket2",
-      "description": "ticket2 description"
-    },{
-      "name": "ticket3",
-      "description": "ticket3 description"
-    },{
-      "name": "ticket4",
-      "description": "ticket4 description"
-    },{
-      "name": "ticket5",
-      "description": "ticket5 description"
-    },{
-      "name": "ticket6",
-      "description": "ticket6 description"
-    },{
-      "name": "ticket7",
-      "description": "ticket7 description"
-    },{
-      "name": "ticket8",
-      "description": "ticket8 description"
-    },{
-      "name": "ticket9",
-      "description": "ticket9 description"
-    },{
-      "name": "ticket10",
-      "description": "ticket10 description"
-    },{
-      "name": "ticket11",
-      "description": "ticket11 description"
+      "name": "Ticketing Feature",
+      "description": "Feature for ticket system",
+      "connectProject": false
     }
   ]
 }
