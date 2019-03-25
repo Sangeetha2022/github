@@ -118,6 +118,9 @@ export class EntityManagerComponent implements OnInit {
       if (!this.selectFeature) {
         this.showUpdateFeature = true;
       }
+      if (this.showUpdateFeature) {
+        this.showUpdateFeature = false;
+      }
       this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
     }
   }

@@ -206,11 +206,11 @@
         <button class="btn btn-primary" (click)="createFeature()">Create</button>
         <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>
       </div> -->
-      <div class="modal-footer" style="padding: 5px" *ngIf="selectFeature && !showUpdateFeature">
+      <div class="modal-footer" style="padding: 5px" *ngIf="!showUpdateFeature">
         <button class="btn btn-primary" (click)="createFeature()">Create</button>
         <button type="button" class="btn btn-default" (click)="closeFeatureCreateModel()">Cancel</button>
       </div>
-      <div class="modal-footer" style="padding: 5px" *ngIf="showUpdateFeature && !selectFeature">
+      <div class="modal-footer" style="padding: 5px" *ngIf="showUpdateFeature">
         <button class="btn btn-primary" (click)="updateFeature()">Import</button>
         <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>
       </div>
