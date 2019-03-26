@@ -19,7 +19,7 @@ export class TraitsService {
   public testPrivate: String = '';
   constructor(
     private dataService: DataService
-  ) {}
+  ) { }
 
 
   addCKEditorTraits(editor, buttonName) {
@@ -33,7 +33,7 @@ export class TraitsService {
       (data) => {
         this.allEntity = data;
         console.log('all entity in traits are ----- ', this.allEntity);
-        this.entityOptions.push({value: 'none', name: 'none'});
+        this.entityOptions.push({ value: 'none', name: 'none' });
         data.forEach((Entityelement) => {
           const temp = {
             value: Entityelement.name,
@@ -65,8 +65,16 @@ export class TraitsService {
     let selectedEntityName = '';
     const localDataService = this.dataService;
     let selectedEntity;
-    let selectedColumnName = '';
+    let selectedColumnName = 'col1_id';
+    const columnOptions = [
+      { value: 'col1_id', name: 'a' },
+      { value: 'col2_id', name: 'b' },
+      { value: 'col3_id', name: 'c' },
+      { value: 'col4_id', name: 'd' },
+      { value: 'col5_id', name: 'e' }
+    ];
     const agGridArray = this.agGridValue;
+
     // add button
     editor.TraitManager.addType('addButton', {
       /**
@@ -75,14 +83,28 @@ export class TraitsService {
        */
       events: {
         'click': function () {
-          console.log('is this working -----  ', selectedEntity);
-          // console.log('onFieldOptions editor in traits ', editor.getSelected());
-          const modal = <HTMLElement>document.querySelector('#agGridModal');
-          console.log('ag Grid modal are ----- ', modal);
-          if (selectedEntity !== undefined) {
-          // modal.style.display = 'block';
-          localDataService.setAgGridEntity(selectedEntity);
-          }
+          console.log('addButton is this working -----  ', this.target.view.el.gridOptions.columnDefs);
+          const count = this.target.view.el.gridOptions.columnDefs.length + 1;
+          const columnDefs = this.target.view.el.gridOptions.columnDefs;
+          columnDefs.push({
+            headerName: `column_${count}`,
+            field: 'a',
+            sortable: true,
+            colId: `col${count}_id`
+          });
+          this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
+          this.target.view.el.gridOptions.api.sizeColumnsToFit();
+          columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
+          const colTraits = this.target.get('traits').where({ name: 'colname' })[0];
+          colTraits.set('options', columnOptions);
+          editor.TraitManager.getTraitsViewer().render();
+          console.log('sessionStorage count are ', count, ' --- ', { value: `col${count}_id`, name: `column_${count}` });
+          // const modal = <HTMLElement>document.querySelector('#agGridModal');
+          // console.log('ag Grid modal are ----- ', modal);
+          // if (selectedEntity !== undefined) {
+          //   // modal.style.display = 'block';
+          //   localDataService.setAgGridEntity(selectedEntity);
+          // }
           // trigger when btn is clicked
         },
       },
@@ -111,39 +133,126 @@ export class TraitsService {
         return button;
       },
     });
+
+    // remove button
+    editor.TraitManager.addType('removeButton', {
+      /**
+       * Returns the input element
+       * @return {HTMLElement}
+       */
+      events: {
+        'click': function () {
+          const columnDefs = this.target.view.el.gridOptions.columnDefs;
+          columnDefs.pop();
+          this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
+          this.target.view.el.gridOptions.api.sizeColumnsToFit();
+          columnOptions.pop();
+          const colTraits = this.target.get('traits').where({ name: 'colname' })[0];
+          colTraits.set('options', columnOptions);
+          editor.TraitManager.getTraitsViewer().render();
+        },
+      },
+      getInputEl() {
+        const button = <HTMLElement>document.createElement('button');
+        button.id = 'removeButton';
+        button.style.width = '100%';
+        button.style.backgroundColor = 'rgba(186, 43, 0, 0.73)';
+        button.style.border = 'none';
+        button.style.color = 'white';
+        button.style.fontSize = '16px';
+        button.style.cursor = 'pointer';
+        button.appendChild(document.createTextNode('-'));
+        return button;
+      },
+    });
+
+    // add field binding button
+    editor.TraitManager.addType('fieldButton', {
+      /**
+       * Returns the input element
+       * @return {HTMLElement}
+       */
+      events: {
+        'click': function () {
+          console.log('is this working -----  ', selectedEntity);
+          console.log('is this working events of this ------ ', this);
+          // console.log('onFieldOptions editor in traits ', editor.getSelected());
+          const modal = <HTMLElement>document.querySelector('#agGridModal');
+          console.log('ag Grid modal are ----- ', modal);
+          if (selectedEntity !== undefined) {
+            // modal.style.display = 'block';
+            const constructObj = {
+              entity: selectedEntity,
+              defalutColumn: this.target.view.el.gridOptions.columnDefs,
+              customColumn: columnOptions
+            };
+            localDataService.setAgGridEntity(constructObj);
+          }
+          // trigger when btn is clicked
+        },
+      },
+      getInputEl() {
+        // var button = document.createElement('button');
+        // button.id = 'btnLogin';
+        // button.value = 'Login';
+        // return button;
+        // tslint:disable-next-line:prefer-const
+        let button = <HTMLElement>document.createElement('button');
+        button.id = 'fieldButton';
+        button.style.width = '100%';
+        button.style.backgroundColor = '#4CAF50';
+        button.style.border = 'none';
+        button.style.color = 'white';
+        button.style.backgroundColor = '#008CBA';
+        button.style.fontSize = '12px !important';
+        button.style.cursor = 'pointer';
+        //       button.style =
+        //         'width: 100%;   background-color: #4CAF50; \
+        // border: none; \
+        // color: white; \
+        // font-size: 16px; \
+        // cursor: pointer; background-color: #008CBA;';
+        button.appendChild(document.createTextNode('Field'));
+        return button;
+      },
+    });
     comps.addType(buttonName, {
       model: defaultModel.extend({
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
           draggable: '*',
           droppable: false,
           script: function () {
-              const initAgGrid = () => {
+            const initAgGrid = () => {
               const columnDefs = [
                 {
                   headerName: 'A',
                   field: 'a',
                   sortable: true,
-                  colId: 'params_1'
+                  colId: 'col1_id'
                 },
                 {
                   headerName: 'B',
                   field: 'b.name',
-                  sortable: true
+                  sortable: true,
+                  colId: 'col2_id'
                 },
                 {
                   headerName: 'C',
-                  valueGetter: '\'zz\' + data.c.name',
-                  sortable: true
+                  field: 'c.name',
+                  sortable: true,
+                  colId: 'col3_id'
                 },
                 {
                   headerName: 'D',
                   field: 'd.name',
-                  sortable: true
+                  sortable: true,
+                  colId: 'col4_id'
                 },
                 {
                   headerName: 'E',
                   field: 'e.name',
-                  sortable: true
+                  sortable: true,
+                  colId: 'col5_id'
                 }
               ];
 
@@ -165,6 +274,9 @@ export class TraitsService {
                       name: 'dd' + Math.floor(Math.random() * 10000)
                     },
                     e: {
+                      name: 'ee' + Math.floor(Math.random() * 10000)
+                    },
+                    f: {
                       name: 'ee' + Math.floor(Math.random() * 10000)
                     }
                   };
@@ -220,22 +332,10 @@ export class TraitsService {
           },
           traits: [{
             type: 'select',
-            label: 'entities',
-            name: 'entities',
-            changeProp: 1,
-            options: this.entityOptions,
-          }, {
-            type: 'select',
             label: 'columns',
             name: 'columns',
             changeProp: 1,
-            options: [
-              { value: 'col_1', name: 'col_1' },
-              { value: 'col_2', name: 'col_2' },
-              { value: 'col_3', name: 'col_3' },
-              { value: 'col_4', name: 'col_4' },
-              { value: 'col_5', name: 'col_5' }
-            ],
+            options: columnOptions,
           }, {
             type: 'text',
             label: 'colName',
@@ -243,16 +343,26 @@ export class TraitsService {
             changeProp: 1
           },
           {
+            type: 'select',
+            label: 'entities',
+            name: 'entities',
+            changeProp: 1,
+            options: this.entityOptions,
+          },
+          {
+            'name': 'fieldButton',
+            'label': 'bind',
+            'type': 'fieldButton',
+          },
+          {
             'name': 'addButton',
             'label': 'Add',
             'type': 'addButton',
           },
           {
-            type: 'select',
-            label: 'fields',
-            name: 'entity-field',
-            changeProp: 1,
-            options: this.fieldOptions,
+            'name': 'removeButton',
+            'label': `Remove`,
+            'type': 'removeButton',
           }],
 
         }),
@@ -260,16 +370,28 @@ export class TraitsService {
           this.listenTo(this, 'change:entities', this.entities); // listen for active event
           this.listenTo(this, 'change:columns', this.gridColumns);
           this.listenTo(this, 'change:colname', this.columnName);
-          this.listenTo(this, 'change:entity-field', this.entityField);
+          // this.listenTo(this, 'change:entity-field', this.entityField);
         },
         columnName() {
 
           console.log('sessionStorage details are --this---- ', this);
-          console.log('sessionStorage details are --this-222--- ', this.view.el.gridOptions);
-          this.view.el.gridOptions.api.getColumnDef('params_1').headerName = 'tharani';
+          console.log('sessionStorage details are --this-222--- ', this.view.el.gridOptions, selectedColumnName);
+          const enteredColName = this.changed['colname'];
+          const colTraits = this.get('traits').where({ name: 'colname' })[0];
+          console.log('sessionStorage get all columnDef --333--- ', this.view.el.gridOptions.api.getColumnDef(selectedColumnName));
+          this.view.el.gridOptions.api.getColumnDef(selectedColumnName).headerName = enteredColName;
           this.view.el.gridOptions.api.refreshHeader();
+          console.log('sessionStorage 333 colName ----- ', this.view.el.gridOptions);
+          console.log('sessionStorage 444 colOptions ----- ', columnOptions);
           const id = editor.getSelected().ccid;
-          },
+          columnOptions.forEach(columnElement => {
+            if (columnElement.value === selectedColumnName) {
+              columnElement.name = enteredColName;
+            }
+          });
+          colTraits.set('options', columnOptions);
+          editor.TraitManager.getTraitsViewer().render();
+        },
         entities() {
           // let isExist = false;
           // agGridArray.forEach(gridElement => {
@@ -281,44 +403,50 @@ export class TraitsService {
           //   agGridArray.push();
           // }
           selectedEntity = undefined;
-          console.log('entities ------ ', this);
-          console.log('entities ------ ', localDataService);
+          // console.log('entities ------ ', this);
+          // console.log('entities ------ ', localDataService);
           selectedEntityName = this.changed['entities'];
-          console.log('entities ---33--- ', selectedEntityName);
-          const fieldTraits = this.get('traits').where({ name: 'entity-field' })[0];
-          console.log('entities ---44--- ', fieldTraits);
-          const options = [];
-          console.log('entities --55---- ', allEntityTemp.length);
+          // console.log('entities ---33--- ', selectedEntityName);
+          // const fieldTraits = this.get('traits').where({ name: 'entity-field' })[0];
+          // console.log('entities ---44--- ', fieldTraits);
+          // const options = [];
+          // console.log('entities --55---- ', allEntityTemp.length);
           allEntityTemp.forEach(entityElement => {
             if (entityElement.name === selectedEntityName) {
               // localDataService.setAgGridEntity(entityElement);
               if (selectedEntityName !== 'none') {
                 selectedEntity = entityElement;
               }
-              entityElement.field.forEach(fieldElement => {
-                const temp = {
-                  value: fieldElement.name,
-                  name: fieldElement.name
-                };
-                options.push(temp);
-              });
             }
-          });
-          console.log('entities --66---- ', options);
-
-          fieldTraits.set('options', options);
-          console.log('entities --77---- ', options);
-          editor.TraitManager.getTraitsViewer().render();
+            });
+          //     entityElement.field.forEach(fieldElement => {
+          //       const temp = {
+          //         value: fieldElement.name,
+          //         name: fieldElement.name
+          //       };
+          //       options.push(temp);
+          //     });
+          //   }
+          // });
+          // fieldTraits.set('options', options);
+          // editor.TraitManager.getTraitsViewer().render();
 
         },
         gridColumns() {
-          alert('gridCol  ' + agGridArray);
           selectedColumnName = this.changed['columns'];
         },
-        entityField() {
-          alert('field');
-
+        toHTML: function () {
+          const html = this.view.el.innerHTML;
+          console.log('rnder html are ---------------- ', html);
+         const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
+         <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [animateRows]="true"
+           [gridOptions]="gridOptions" (gridReady)="onGridReady($event)"></ag-grid-angular>
+       </div>
+       `;
+          return replacedValue;
         }
+        // entityField() {
+        // }
         // entity() {
         //   const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
         //   const changedValue = this.changed['entities'];

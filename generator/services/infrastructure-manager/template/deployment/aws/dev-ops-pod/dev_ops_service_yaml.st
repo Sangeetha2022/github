@@ -5,7 +5,7 @@ metadata:
   name: $project_name$-dev-ops
   namespace: $project_name$
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - name: jenkins
     port: 8080

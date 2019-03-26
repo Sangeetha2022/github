@@ -51,6 +51,7 @@ import { LandingService } from './landingpage/landingservice.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FeatureDetailsService } from './project-component/feature-details/feature-details.service';
 
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
@@ -114,6 +115,7 @@ export const I18N_PROVIDERS = [
     ConsentscreenComponent,
     HomepageComponent,
     LandingpageComponent
+
   ],
   imports: [
     BrowserModule,
@@ -150,6 +152,7 @@ export const I18N_PROVIDERS = [
   ],
   providers: [
     ApiService,
+    FeatureDetailsService,
     AppComponentService,
     ProjectsService,
     FlowManagerService,

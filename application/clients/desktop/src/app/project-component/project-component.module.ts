@@ -22,6 +22,8 @@ import { FieldPopupModalComponent } from './entity-field/field-popup-modal/field
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitecture-manager.module';
 import { ToastrModule } from 'ngx-toastr';
+import { FeatureDetailsComponent } from './feature-details/feature-details.component';
+import { FileSelectDirective } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { ToastrModule } from 'ngx-toastr';
     EntityFieldComponent,
     PopupModelComponent,
     ButtonRendererComponent,
-    FieldPopupModalComponent
+    FieldPopupModalComponent,
+    FeatureDetailsComponent,
+    FileSelectDirective
   ],
   imports: [
     CommonModule,

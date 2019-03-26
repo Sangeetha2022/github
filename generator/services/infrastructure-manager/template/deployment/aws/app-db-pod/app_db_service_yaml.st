@@ -7,7 +7,7 @@ metadata:
  name: $project_name$-app-db
  namespace: $project_name$
 spec:
- type: LoadBalancer
+ type: NodePort
  ports:
  - name: mongo-db
    port: 27017

@@ -14,7 +14,7 @@ spec:
       containers:
         - name: node-container
           imagePullPolicy: Always
-          image: tharanirajan/$project_name$-app:2.0
+          image: tharanirajan/$project_name$-app:1.0
           ports:
             - name: http-port
               containerPort: 3000

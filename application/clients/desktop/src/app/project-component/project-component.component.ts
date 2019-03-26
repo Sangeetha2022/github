@@ -8,6 +8,10 @@ import { IFeature } from './interface/Feature';
 import { Router } from '@angular/router';
 import EasyImage from '@ckeditor/ckeditor5-easy-image/src/easyimage';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
+import { Constants } from '../config/Constant';
+import { SharedService } from '../../shared/shared.service';
+
 
 @Component({
   selector: 'app-project-component',
@@ -18,17 +22,20 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export class EntityManagerComponent implements OnInit {
   public Editor = ClassicEditor;
   selectFeature: Boolean = true;
-  showUpdateFeature: Boolean = false;
+  showUpdateFeature: Boolean;
   selectedExistingFeature: String;
   featureData: any = [];
+  featureConnectProject: any = [];
   // user: any = [];
   public features: IFeature = {
     id: '',
     name: '',
     description: '',
+    connectProject: false,
     // explanation:'',
   };
   panelOpenState = false;
+  fileToUpload: File = null;
   displayFeatureModel = 'none';
   public entity: IEntity = {
     name: '',
@@ -46,15 +53,19 @@ export class EntityManagerComponent implements OnInit {
   selectedFeatureId: any;
   selectedProject: any;
   selecteddefaultEntity: any;
+  public uploader: FileUploader = new FileUploader({
+    url: '',
+  });
   constructor(
     public dialog: MatDialog,
     private router: Router,
     private projectComponentService: ProjectComponentService,
-    private dataService: DataService
+    private dataService: DataService,
+    private restApi: SharedService,
   ) {
 
     if (this.selectFeature === true) {
-      this.features = { id: '', description: '', name: '' };
+      this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
     }
   }
 
@@ -63,6 +74,14 @@ export class EntityManagerComponent implements OnInit {
     this.getAllEntityByProjectId();
     // this.getDefaultEntityByProjectId();
     this.getAllFeature();
+    const URL = this.restApi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.addFilesUrl;
+    this.uploader.onBeforeUploadItem = (item) => {
+      item.url = URL + '';
+    };
+    // this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+    //   console.log('ImageUpload:uploaded:', item, status, response);
+    //   alert('File uploaded successfully');
+    // };
   }
 
   saveEntityModel() {
@@ -95,8 +114,15 @@ export class EntityManagerComponent implements OnInit {
     });
   }
   onChangeRadio(selected) {
+
     if (selected === 'on') {
-      this.features = { id: '', description: '', name: '' };
+      if (!this.selectFeature) {
+        this.showUpdateFeature = true;
+      }
+      if (this.selectFeature) {
+        this.showUpdateFeature = false;
+      }
+      this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
     }
   }
 
@@ -104,6 +130,7 @@ export class EntityManagerComponent implements OnInit {
     if (selected) {
       this.featureData.map((data, index) => {
         if (data.name === selected) {
+          this.features.id = data._id;
           this.features.name = data.name;
           this.features.description = data.description;
           return;
@@ -113,6 +140,7 @@ export class EntityManagerComponent implements OnInit {
   }
 
   createFeature() {
+    this.uploader.uploadAll();
     this.addFeature();
     this.closeFeatureCreateModel();
     console.log(this.features);
@@ -120,15 +148,14 @@ export class EntityManagerComponent implements OnInit {
   }
   openFeatureDialog(create): void {
     if (create === 'create') {
-      this.showUpdateFeature = false;
-      this.features = { id: '', description: '', name: '' };
+      this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
     }
     this.displayFeatureModel = 'block';
   }
 
   closeFeatureCreateModel() {
     this.displayFeatureModel = 'none';
-    this.features = { id: '', description: '', name: '' };
+    this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
   }
   closeFeatureExistingModel() {
     this.displayFeatureModel = 'none';
@@ -147,7 +174,12 @@ export class EntityManagerComponent implements OnInit {
       }
     );
   }
-
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+    console.log(this.fileToUpload);
+    this.projectComponentService.uploadeFeaturefile(this.fileToUpload).subscribe(data => {
+    })
+  }
   updateEntity(entityData) {
     entityData.updated_at = new Date();
     this.projectComponentService.updateEntity(entityData).subscribe(
@@ -203,7 +235,6 @@ export class EntityManagerComponent implements OnInit {
     this.dataService.currentProjectInfo.subscribe(
       (data) => {
         this.selectedProject = data;
-        console.log('this is the data', this.selectedProject._id);
       }
     );
   }
@@ -235,25 +266,46 @@ export class EntityManagerComponent implements OnInit {
   }
 
   updateFeature() {
-    this.projectComponentService.updateFeature(this.features).subscribe(data => {
-      console.log(data);
+    console.log("this.features.id", this.features.id);
+    this.projectComponentService.getFeatureById(this.features.id).subscribe(data => {
+      if (data.connectProject === true) {
+        alert("Already Imported");
+        this.closeFeatureExistingModel();
+      } else {
+        this.features.connectProject = true;
+        console.log("Asadadffaffdf", this.features)
+        this.projectComponentService.updateFeature(this.features).subscribe(data => {
+          console.log(data);
+          if (data) {
+            this.closeFeatureExistingModel();
+            this.getAllFeature();
+          }
+        });
+
+      }
     });
-    this.closeFeatureExistingModel();
-    this.getAllFeature();
   }
 
   addFeature() {
+    this.uploader.uploadAll();
     this.projectComponentService.addFeature(this.features).subscribe(data => {
       console.log(data);
-      // if(data){
-
-      // }
+      if (data) {
+        this.getAllFeature();
+      }
     });
   }
 
   getAllFeature() {
     this.projectComponentService.getAllFeature().subscribe(data => {
       this.featureData = data;
+      this.featureConnectProject = [];
+      data.map(data => {
+        if (data.connectProject === true) {
+          this.featureConnectProject.push(data);
+
+        }
+      })
       // tslint:disable-next-line:no-shadowed-variable
       this.featureData.map((data, index) => {
         this.featureData[index].description = data.description.replace(/<[^>]*>/g, '');
@@ -274,15 +326,6 @@ export class EntityManagerComponent implements OnInit {
     });
     this.closeDeleteFModel();
     this.getAllFeature();
-  }
-
-  editFeatureField(feature) {
-    this.selectFeature = true;
-    this.showUpdateFeature = true;
-    this.features.id = feature._id;
-    this.features.name = feature.name;
-    this.features.description = feature.description;
-    this.openFeatureDialog('');
   }
 }
 

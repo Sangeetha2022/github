@@ -7,7 +7,7 @@ metadata:
   name: $project_name$-dev-ops-db
   namespace: $project_name$
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - name: sonar-postgres
       port: 5432

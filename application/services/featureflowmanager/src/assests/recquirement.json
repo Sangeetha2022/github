@@ -1,0 +1,62 @@
+{
+    "TicketCreate": [
+        {
+            "parameters": [
+                {
+                    "body": [],
+                    "params": []
+                }
+            ]
+        }
+    ],
+    "TicketDelete": [
+        {
+            "parameters": [
+                {
+                    "body": [],
+                    "params": []
+                }
+            ]
+        }
+    ],
+    "TicketGetAllValues": [
+        {
+            "parameters": [
+                {
+                    "body": [],
+                    "params": []
+                }
+            ]
+        }
+    ],
+    "TicketGetById": [
+        {
+            "parameters": [
+                {
+                    "body": [],
+                    "params": []
+                }
+            ]
+        }
+    ],
+    "TicketGetByCategory": [
+        {
+            "parameters": [
+                {
+                    "body": [],
+                    "params": []
+                }
+            ]
+        }
+    ],
+    "TicketUpdate": [
+        {
+            "parameters": [
+                {
+                    "body": [],
+                    "params": []
+                }
+            ]
+        }
+    ]
+}

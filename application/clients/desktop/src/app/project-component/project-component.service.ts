@@ -71,6 +71,10 @@ export class ProjectComponentService {
     return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getAllUrl);
   }
 
+  getFeatureById(id) {
+    return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getByIdUrl + id);
+  }
+
   deleteFeature(id) {
     return this.api.delete(this.restapi.featureUrl + Constants.feature + Constants.deleteUrl + id);
   }
@@ -78,6 +82,12 @@ export class ProjectComponentService {
   updateFeature(feature) {
     const featureId = feature.id;
     return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + featureId, feature);
+  }
+
+  uploadeFeaturefile(file){
+    // const formData: FormData = new FormData();
+    // formData.append('fileKey', file, file.name);
+    return this.api.post(this.restapi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.addFilesUrl, file);
   }
 
   // Default Entity

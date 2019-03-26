@@ -5,7 +5,7 @@ metadata:
   name: $project_name$-app
   namespace: $project_name$
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - name: node-app
     port: 3000

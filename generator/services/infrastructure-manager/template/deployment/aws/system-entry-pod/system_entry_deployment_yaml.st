@@ -14,7 +14,7 @@ spec:
       containers:
         - name: nginx-container
           imagePullPolicy: IfNotPresent
-          image: ram2010/$project_name$-grapesjs:1.0
+          image: tharanirajan/$project_name$-system-entry:1.0
           ports:
             - name: http-port
               containerPort: 80

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { ScreenDesignerService } from '../screen-designer.service';
 import { BlockService } from './services/blocks/block.service';
 import { LanguageService } from './services/languages/language.service';
@@ -59,14 +59,19 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     agGridObject: any = {
         html_id: '',
         component_id: '',
-        fields: []
+        custom_field: [],
+        default_field: []
     };
     // selectColumn:,
     // selectEntity,
     // selectField,
-    columnsOption: any[] = [{ 'columnName': 'column1' }, { 'columnName': 'column2' }, { 'columnName': 'column3' }];
+    columnsOption: any[] = [];
     gridApi: any;
     gridColumnApi: any;
+    public isGridPopup: Boolean;
+    currentAgGridData: any;
+    defaultColumn: any;
+    RemoteStorage: any;
 
     constructor(
         private screenDesignerService: ScreenDesignerService,
@@ -79,7 +84,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         private flowManagerService: FlowManagerService,
         private dataService: DataService,
         private sharedService: SharedService,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private ref: ChangeDetectorRef
     ) {
         this.dataService.currentAllEntityInfo.subscribe(
             (data) => {
@@ -107,6 +113,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.isGridPopup = false;
         // this.selectedColumn = 'column1';
         // this.selectedEntity = 'none';
         // this.selectedField = 'none';
@@ -252,22 +259,30 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             }
             console.log('onFieldOptions selected component of element are --2222--- ', objectTest);
         });
+        this.RemoteStorage = this.editor.StorageManager.get('remote');
+        this.RemoteStorage.set('params', {
+            foldername: `screen${generate(dictionary.numbers, 6)}`,
+        });
     }
 
     ngOnDestroy() {
         console.log('Destroy services called');
         this.dataService.setAgGridEntity('');
+        this.currentAgGridData.unsubscribe();
     }
 
     onFieldOptions(event) {
         const agGridObject = {
-            column: '',
+            columnid: '',
+            columnname: '',
             entity: '',
             entityfield: ''
         };
+        console.log('this.agGridFields.value.selectColumn ----  ', this.agGridFields.value.selectColumn);
         if (this.agGridFields.value.selectColumn !== '' &&
             this.agGridFields.value.selectField !== '') {
-            agGridObject.column = this.agGridFields.value.selectColumn;
+            agGridObject.columnid = this.agGridFields.value.selectColumn.value;
+            agGridObject.columnname = this.agGridFields.value.selectColumn.name;
             agGridObject.entity = this.selectedEntity.name;
             agGridObject.entityfield = this.agGridFields.value.selectField;
             this.agGridArray.push(agGridObject);
@@ -276,10 +291,11 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
 
     saveGridField() {
         this.dataService.setAgGridValue(this.agGridArray);
-        this.agGridObject.fields = this.agGridArray;
-        const RemoteStorage = this.editor.StorageManager.get('remote');
-        RemoteStorage.set('params', {
+        this.agGridObject.custom_field = this.agGridArray;
+        this.agGridObject.default_field = this.defaultColumn;
+        this.RemoteStorage.set('params', {
             grid_fields: this.agGridObject,
+            foldername: `screen${generate(dictionary.numbers, 6)}`,
             is_grid_present: true
         });
         this.onCloseHandled();
@@ -455,21 +471,26 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     }
 
     onCloseHandled() {
-        const modal = <HTMLElement>document.querySelector('#agGridModal');
-        modal.style.display = 'none';
+        // const modal = <HTMLElement>document.querySelector('#agGridModal');
+        // modal.style.display = 'none';
+        this.isGridPopup = false;
         this.agGridArray = [];
         this.allEntityField = [];
+        this.ref.detectChanges();
     }
 
     agGridEntity() {
-        this.dataService.currentAgGridEntitySource.subscribe(
+        this.currentAgGridData = this.dataService.currentAgGridEntitySource.subscribe(
             data => {
                 console.log('agGridEntity values are -------  ', data);
                 if (data) {
-                    this.selectedEntity = data;
-                    this.allEntityField = data.field;
-                    console.log('agGridEntity inside if condition ', this.allEntityField);
-                    this.showPopupModal();
+                    this.selectedEntity = data.entity;
+                    this.allEntityField = data.entity.field;
+                    this.columnsOption = data.customColumn;
+                    this.defaultColumn = data.defalutColumn;
+                    this.isGridPopup = true;
+                    this.agGridArray = [];
+                    this.ref.detectChanges();
                 }
             }
         );
@@ -479,13 +500,20 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.gridApi = params.api;
         this.gridApi.sizeColumnsToFit();
         this.gridColumnApi = params.columnApi;
-      }
-
-    showPopupModal() {
-        const modal = <HTMLElement>document.querySelector('#agGridModal');
-        console.log('agGridEntity ag Grid modal are --main--- ', modal);
-        modal.style.display = 'block';
-        this.agGridArray = [];
     }
+
+    // trackElement(index: number, element: any) {
+    //     return element ? element.headerName : null;
+    //   }
+
+    // showPopupModal() {
+    //     // this.isGridPopup = true;
+    //     // console.log('showPopup mdoels -====  ', this.isGridPopup);
+    //     // this.agGridArray = [];
+    //     const modal = <HTMLElement>document.querySelector('#agGridModal');
+    //     console.log('agGridEntity ag Grid modal are --main--- ', modal);
+    //     modal.style.display = 'block';
+    //     this.agGridArray = [];
+    // }
 
 }

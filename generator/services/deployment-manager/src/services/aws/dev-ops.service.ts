@@ -24,8 +24,7 @@ export class DevOpsService {
                 const namespaceData = await client.api.v1.namespace.post({ body: namespaceManifest });
                 if (namespaceData.statusCode == 201) {
                     projectDetails.namespace = namespaceData.body.metadata.name
-                    //applyDeployDB()
-                    applyDeployDevOps()
+                    applyDeployDB();
                 }
 
 
@@ -40,8 +39,13 @@ export class DevOpsService {
 
                 let devOpsDbYaml = projectDetails.yamlSource + "/dev-ops-db-pod";
 
-                //deploy pvc
-                let sonarPvcManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/sonar-pv-postgres.yaml', 'utf8'));
+                //deploy postgres pv
+                let sonarPvManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/sonar-pv-postgres.yaml', 'utf8'));
+                const pvData = await client.api.v1.pv.post({ body: sonarPvManifest });
+                await delay(5000);
+
+                //deploy postgres pvc
+                let sonarPvcManifest = yaml.safeLoad(fs.readFileSync(devOpsDbYaml + '/sonar-pvc-postgres.yaml', 'utf8'));
                 const pvcData = await client.api.v1.namespaces(projectDetails.namespace).pvc.post({ body: sonarPvcManifest });
                 await delay(5000);
 
@@ -81,7 +85,7 @@ export class DevOpsService {
                 const serviceDbData = await client.api.v1.namespaces(projectDetails.namespace).service.post({ body: serviceDbManifest });
                 if (serviceDbData.statusCode == 201) {
                     // move to next pods...
-                    console.log("SUCCESS ALL DONE!")
+                    console.log("SUCCESS DEV-OPS DEPLOYED!")
                 }
 
 

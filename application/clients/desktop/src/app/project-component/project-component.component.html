@@ -7,14 +7,15 @@
     <mat-accordion>
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
-          <mat-panel-title> Features </mat-panel-title>
+          <mat-panel-title>My Features </mat-panel-title>
         </mat-expansion-panel-header>
+
         <div style="padding-right: 20px;">
-          <button class="createEntityButton" mat-raised-button color="primary" (click)="openFeatureDialog('create')">Add
-            Features</button>
+          <button class="createEntityButton" mat-raised-button color="primary"
+            (click)="openFeatureDialog('create')">Create Features</button>
         </div>
-        <div class="row" style="margin: 0px;" *ngIf="featureData && featureData.length > 0">
-          <div class="col-md-4" *ngFor="let feature of featureData; let i = index">
+        <div class="row" style="margin: 0px;" *ngIf="featureConnectProject.length > 0">
+          <div class="col-md-4" *ngFor="let feature of featureConnectProject; let i = index">
             <div class="card">
               <div class="card-header">
                 {{feature.name}}
@@ -22,9 +23,8 @@
               <div class="card-body">
                 <div><span>{{feature.description}}</span></div>
                 <br />
-                <button mat-raised-button color="primary" (click)="editFeatureField(feature)">Edit</button>
-                &nbsp;
-                <button mat-raised-button color="warn" (click)="openDeleteFModel(feature)">Delete</button>
+                <button class="btn btn-info" [routerLink]="['/feature-details']"
+                  [queryParams]="{feature: feature.name}">View Details</button>
               </div>
             </div>
           </div>
@@ -46,14 +46,16 @@
             <div class="card">
               <div class="card-header">
                 {{entity.name}}
-                <img *ngIf="!entity.is_default" style="float: right; cursor: pointer;" (click)="editEntity(entity)" src="https://img.icons8.com/metro/26/000000/edit-file.png">
+                <img *ngIf="!entity.is_default" style="float: right; cursor: pointer;" (click)="editEntity(entity)"
+                  src="https://img.icons8.com/metro/26/000000/edit-file.png">
               </div>
               <div class="card-body">
                 <div><span>{{entity.description}}</span></div>
                 <br />
                 <button mat-raised-button color="primary" (click)="editEntityField(entity)">Edit</button>
                 &nbsp;
-                <button mat-raised-button color="warn" [disabled]="entity.is_default" (click)="openDeleteModel(entity)">Delete</button>
+                <button mat-raised-button color="warn" [disabled]="entity.is_default"
+                  (click)="openDeleteModel(entity)">Delete</button>
               </div>
             </div>
           </div>
@@ -169,7 +171,8 @@
           <div *ngIf="!selectFeature" class="dropdown mt-sm-2 mb-sm-2">
             <div class="form-group">
               <label for="sel1">Import Existing Feature:</label>
-              <select class="form-control" (change)="onChange($event.target.value)">
+              <select class="form-control" [(ngModel)]="features.name" (change)="onChange($event.target.value)">
+                <option value="" selected>Select Feature</option>
                 <option *ngFor="let feature of featureData" value="{{feature.name}}"
                   ([ngModel])="selectedExistingFeature">{{feature.name}}</option>
               </select>
@@ -184,6 +187,12 @@
                 <div *ngIf="name.errors.required">Name is required</div>
               </div>
             </div>
+
+            <div class="form-group">
+              <label for="upload">Upload File</label>
+              <input type="file" ng2FileSelect [uploader]="uploader">
+              <!-- <input type="file" class="form-control" name="upload" (change)="handleFileInput($event.target.files)"  accept=".yaml,.yml"/> -->
+            </div>
             <div class="form-group">
               <label for="description">Description</label>
               <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)"
@@ -193,16 +202,16 @@
           </form>
         </div>
       </div>
-      <div class="modal-footer" style="padding: 5px" *ngIf="!selectFeature">
+      <!-- <div class="modal-footer" style="padding: 5px" *ngIf="!selectFeature">
         <button class="btn btn-primary" (click)="createFeature()">Create</button>
         <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>
-      </div>
-      <div class="modal-footer" style="padding: 5px" *ngIf="selectFeature && !showUpdateFeature">
+      </div> -->
+      <div class="modal-footer" style="padding: 5px" *ngIf="!showUpdateFeature">
         <button class="btn btn-primary" (click)="createFeature()">Create</button>
         <button type="button" class="btn btn-default" (click)="closeFeatureCreateModel()">Cancel</button>
       </div>
-      <div class="modal-footer" style="padding: 5px" *ngIf="showUpdateFeature && selectFeature">
-        <button class="btn btn-primary" (click)="updateFeature()">Update</button>
+      <div class="modal-footer" style="padding: 5px" *ngIf="showUpdateFeature">
+        <button class="btn btn-primary" (click)="updateFeature()">Import</button>
         <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>
       </div>
     </div>

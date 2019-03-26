@@ -1,9 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import { InfrastructureController } from "../controllers/infrastructure.controller";
+import { LocalInfrastructureController } from "../controllers/local.controller";
+import { AWSInfrastructureController } from "../controllers/aws.controller";
 
 export class Routes {
 
-    public infraController: InfrastructureController = new InfrastructureController()
+    public localInfraController: LocalInfrastructureController = new LocalInfrastructureController()
+
+    public awsInfrastructureController: AWSInfrastructureController = new AWSInfrastructureController()
 
     public routes(app): void {
 
@@ -13,8 +16,8 @@ export class Routes {
             })
         })
 
-        app.route('/generate/infrastructure/local/:project_id').post(this.infraController.generateInfrastructureLocal);
+        app.route('/generate/infrastructure/local/:project_id').post(this.localInfraController.generateInfrastructureLocal);
 
-        app.route('/generate/infrastructure/aws/:project_id').post(this.infraController.generateInfrastructureAWS);
+        app.route('/generate/infrastructure/aws/:project_id').post(this.awsInfrastructureController.generateInfrastructureAWS);
     }
 }

@@ -136,7 +136,6 @@ export class ComponentFlowsComponent implements OnInit {
     this.generateForms();
     this.getAllAvailableConnector();
     this.route.queryParams.subscribe(params => {
-      console.log(params.name);
       this.paramsName = params.name;
     });
     this.getDataFromFlowService();
@@ -146,11 +145,9 @@ export class ComponentFlowsComponent implements OnInit {
     this.dataService.currentFlowIdInfoSource.subscribe(data => {
       this.flow_id = data._id;
       this.flow_name = data.name;
-      console.log(this.flow_name);
       if (this.flow_id !== undefined) {
         this.getFlowSequence(this.flow_id);
       } else {
-        console.log('i am the one u looking', this.paramsName);
         // this.getFlowCompByName(this.paramsName)
       }
     });
@@ -161,7 +158,6 @@ export class ComponentFlowsComponent implements OnInit {
       this.componentFlowsService.getFlowSequence(id).subscribe((data) => {
         this.flow_deatils = data;
         this.flow_comp = data.flow_comp_seq;
-        console.log('------------>err--------->>', this.flow_comp);
       });
     }
   }
@@ -190,20 +186,17 @@ export class ComponentFlowsComponent implements OnInit {
   // }
 
   onSelectAvaConnector() {
-    console.log('====>>>RFRRR____>>>>', this.selectedAvaConnector);
     // this.availableConnApis = this.selectedAvaConnector.available_apis;
   }
 
   onSelectAvaConnectorMethod() {
     const index = this.selectedAvaConnector.available_apis.indexOf(this.selectedAvaConnectorMethod);
-    console.log('====>>>RFRRR__ttttttt__>>>>', index);
     // this.selectedAvaMethodIndex = index;
     // this.selectedAvaConnect
     // this.availableConnApis = this.selectedAvaConnector.available_apis;
   }
 
   onSelectAvaConnectorMethodProp() {
-    console.log('====>>>RFRRR_aaaa___>>>>', this.selectedAvaConnectorMethodApi);
     if (this.selectedAvaConnectorMethodApi.value && this.selectedAvaConnectorMethodApi.value !== '') {
       this.availableConnApisProp.push(this.selectedAvaConnectorMethodApi);
     }
@@ -218,7 +211,6 @@ export class ComponentFlowsComponent implements OnInit {
 
   selectDefaultConnector() {
     this.selectedDConnector = this.linkedFlowGrid.getSelectedRows();
-    console.log('================>>>>', this.selectedDConnector);
   }
 
   openAddMFModal(type) {
@@ -337,7 +329,6 @@ export class ComponentFlowsComponent implements OnInit {
       url: this.selectedAvaConnector.url
     };
     console.log(' - - - - >>>  ', dataToSave);
-    // let dconnector = this.createDConnectorForm.getRawValue();
     this.componentFlowsService.addDefaultConnector(this.selectedFlowCmpnt[0]._id, dataToSave).subscribe(data => {
       console.log('=============asdasidj========== >>>', data);
       this.getFlowSequence(this.flow_id);

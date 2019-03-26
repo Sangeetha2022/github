@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { IEntity } from '../app/project-component/interface/Entity';
 import { IDeafaultEntity } from '../app/projects/interface/user';
 import { IFlow } from 'src/app/flow-manager/interface/flow';
+import { IGenerateFlow } from 'src/app/flow-manager/interface/generationFlow';
 
 
 
@@ -45,6 +46,9 @@ export class DataService {
     private flowIdInfoSource = new BehaviorSubject<any>({});
     currentFlowIdInfoSource = this.flowIdInfoSource.asObservable();
 
+    private featureFlowIdInfoSource = new BehaviorSubject<any>({});
+    currentFeatureFlowIdInfoSource = this.featureFlowIdInfoSource.asObservable();
+
     // default language
     private defaultLanguageSource = new BehaviorSubject(this.defaultLanguage);
     currentDefaultLanguage = this.defaultLanguageSource.asObservable();
@@ -57,13 +61,13 @@ export class DataService {
     private entityInfoSource = new BehaviorSubject<IEntity>(this.entity);
     currentSelectedEntityInfo = this.entityInfoSource.asObservable();
 
-     // screen agGrid Field binding info
-     private agGridInfoSource = new BehaviorSubject<any[]>([]);
-     currentAgGridInfoSource = this.agGridInfoSource.asObservable();
+    // screen agGrid Field binding info
+    private agGridInfoSource = new BehaviorSubject<any[]>([]);
+    currentAgGridInfoSource = this.agGridInfoSource.asObservable();
 
-     // screen agGrid Entity info
-     private agGridEntitySource = new BehaviorSubject<any>('');
-     currentAgGridEntitySource = this.agGridEntitySource.asObservable();
+    // screen agGrid Entity info
+    private agGridEntitySource = new BehaviorSubject<any>('');
+    currentAgGridEntitySource = this.agGridEntitySource.asObservable();
 
     constructor() { }
 
@@ -87,20 +91,24 @@ export class DataService {
         this.allEntitySource.next(entities);
     }
 
-   // screen agGrid Field binding info
-   setAgGridValue(agGrid: any[]) {
-       this.agGridInfoSource.next(agGrid);
-   }
+    // screen agGrid Field binding info
+    setAgGridValue(agGrid: any[]) {
+        this.agGridInfoSource.next(agGrid);
+    }
 
-   //  screen agGrid Entity info
-   setAgGridEntity(agGrid: any) {
-    this.agGridEntitySource.next(agGrid);
-}
+    //  screen agGrid Entity info
+    setAgGridEntity(agGrid: any) {
+        this.agGridEntitySource.next(agGrid);
+    }
 
 
     setFlowIdInfo(flow: IFlow) {
-        console.log('defaultEntity', flow);
         this.flowIdInfoSource.next(flow);
     }
 
+
+    setFeatureFlowIdInfo(flow: IGenerateFlow) {
+        console.log('feature flow', flow);
+        this.featureFlowIdInfoSource.next(flow);
+    }
 }
