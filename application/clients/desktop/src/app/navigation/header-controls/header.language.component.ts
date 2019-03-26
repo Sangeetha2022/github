@@ -19,6 +19,7 @@ export class HeaderLanguageComponent implements OnInit {
 
   versionData: any = {};
   buildVersionData: any = {};
+  public lastloggedintime: any;
 
   constructor(
     @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
@@ -27,6 +28,7 @@ export class HeaderLanguageComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.lastloggedintime = sessionStorage.getItem('lastloggedintime');
     this.i18NextService.events.initialized.subscribe((e) => {
       if (e) {
         this.updateState(this.i18NextService.language);
