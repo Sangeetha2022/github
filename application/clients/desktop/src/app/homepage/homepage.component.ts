@@ -12,7 +12,7 @@ export class HomepageComponent implements OnInit {
   public href: any;
 
   ngOnInit() {
-    this.Homescreen();
+    // this.Homescreen();
   }
 
   Homescreen() {

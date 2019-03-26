@@ -1,28 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
-import { Loginservice } from '../service/loginservice';
-import { Consentservice } from '../service/consentservice';
-import { AuthorizationToken } from '../service/redirecttoken';
+import { Signincontroller } from '../controllers/Signincontrollers';
+import { Consentcontroller } from '../controllers/Consentcontrollers';
 
 export class Routes {
 
-    public loginservice: Loginservice = new Loginservice()
+    public signincontroller: Signincontroller = new Signincontroller()
 
-    public consentservice: Consentservice = new Consentservice()
+    public consentcontroller: Consentcontroller = new Consentcontroller()
 
-    public authorize: AuthorizationToken = new AuthorizationToken()
 
     public routes(app): void {
 
-        // Login get and post call
-        app.route('/login').get(this.loginservice.getlogin);
-        app.route('/login').post(this.loginservice.postlogin);
+        app.route('/signup').post(this.signincontroller.signup);
+        app.route('/login').post(this.signincontroller.login);
+        app.route('/consent').post(this.consentcontroller.consent);
+        app.route('/logout').post(this.signincontroller.logout);
 
-        // Consent get and post call
-        app.route('/consent').get(this.consentservice.getconsent);
-        app.route('/consent').post(this.consentservice.postconsent);
-
-        // Authorization token
-        app.route('/authorize').post(this.authorize.authorizetoken);
         
     }
 }

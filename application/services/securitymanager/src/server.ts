@@ -3,10 +3,9 @@ import * as bodyParser from "body-parser";
 import cors from 'cors';
 import { WinstonLogger } from './config/Winstonlogger';
 import { Routes } from './routes/routes';
-const request = require('request');
-import { Request, Response, NextFunction } from 'express';
-const cheerio = require('cheerio');
-
+import { MongoConfig } from './config/Mongoconfig';
+import mongoose = require('mongoose');
+import { RoleSeedData } from './seed';
 
 const PORT = 3007;
 
@@ -21,7 +20,8 @@ class App {
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
         this.routerPrv.routes(this.app);
-        this.app.route('/home').get(this.homeroute)
+        this.mongoSetup();
+        this.mongoSeedData();
     }
 
     private initializeMiddlewares() {
@@ -30,27 +30,18 @@ class App {
         this.app.use(cors({ credentials: true, origin: true }))
     }
 
-    private homeroute(req: Request, res: Response, next: NextFunction): void {
-
-        var url = 'http://127.0.0.1:4446';
-
-        request({ url }, function (error, response, body) {
-            if (error) {
-                console.log('error:', error);
-            } else if (response && body) {
-                let url = [];
-                const $ = cheerio.load(body)
-                $('a').each(function () {
-                    const test = $(this)[0];
-                    const urlvalue = test.attribs;
-                    url.push(urlvalue.href);
-                })
-
-                res.send(url);
-            }
-        })
-
+    private mongoSetup(): void {
+        // mongoose.Promise = global.Promise;
+        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        let mongoConfig = new MongoConfig();
+        mongoConfig.mongoConfig();
     }
+
+    private mongoSeedData(): void {
+        let seedData = new RoleSeedData();
+        seedData.Createrole();
+    }
+
 }
 
 new App().app.listen(PORT, () => {

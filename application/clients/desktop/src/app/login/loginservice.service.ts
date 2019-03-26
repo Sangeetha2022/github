@@ -20,4 +20,8 @@ export class LoginService {
   Login(user: any): Observable<any> {
     return this.apiservice.post(this.restapi.loginUrl + '/login', user);
   }
+
+  Logout(user: any): Observable<any> {
+    return this.apiservice.post(this.restapi.loginUrl + '/logout', user);
+  }
 }

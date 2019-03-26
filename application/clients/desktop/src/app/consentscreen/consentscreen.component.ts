@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Consentservice } from './consentservice.service';
 @Component({
   selector: 'app-consentscreen',
@@ -9,7 +9,7 @@ import { Consentservice } from './consentservice.service';
 })
 export class ConsentscreenComponent implements OnInit {
 
-  constructor(private router: ActivatedRoute, private consentservice: Consentservice) { }
+  constructor(private router: ActivatedRoute, private consentservice: Consentservice, private route: Router) { }
 
 
   public openId: any;
@@ -18,15 +18,20 @@ export class ConsentscreenComponent implements OnInit {
   public consent: any;
   public token: any;
   public consentchallenge: any;
-  public consentbody = {
-    challenge: '',
-    submit: '',
-    grant_scope: [],
-    csrftoken: ''
-  };
+  public id: any;
+  // public consentbody = {
+  //   challenge: '',
+  //   submit: '',
+  //   grant_scope: [],
+  //   csrftoken: ''
+  // };
 
   ngOnInit() {
-    this.Queryparams();
+    // this.Queryparams();
+    this.router.queryParams.subscribe(params => {
+      this.id = params['id'];
+    });
+
   }
 
   Queryparams() {
@@ -56,12 +61,20 @@ export class ConsentscreenComponent implements OnInit {
   }
 
   Consent() {
-    this.consentbody.challenge = this.consentchallenge;
-    this.consentbody.submit = 'Allow access';
-    this.consentbody.grant_scope = [this.openId, this.offLine];
-    this.consentbody.csrftoken = this.token;
-    this.consentservice.Consent(this.consentbody).subscribe(consentvalue => {
-      window.open(consentvalue.redirectUrl, '_self');
+    // this.consentbody.challenge = this.consentchallenge;
+    // this.consentbody.submit = 'Allow access';
+    // this.consentbody.grant_scope = [this.openId, this.offLine];
+    // this.consentbody.csrftoken = this.token;
+    const consentbody = {
+      submit: 'Allow access',
+      scope: this.openId,
+      id: this.id,
+    };
+    this.consentservice.Consent(consentbody).subscribe(consentvalue => {
+      // window.open(consentvalue.redirectUrl, '_self');
+      this.route.navigate(['callback']);
+      sessionStorage.setItem('Userid', JSON.stringify(this.id));
+      // sessionStorage.setItem('token', )
     }, error => {
       console.error('error: ', error);
     });

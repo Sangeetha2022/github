@@ -26,6 +26,8 @@
     "typescript": "^3.2.4",
     "url-join": "^4.0.0",
     "winston": "^3.2.1",
-    "winston-daily-rotate-file": "^3.6.0"
+    "winston-daily-rotate-file": "^3.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "uuid": "^3.3.2"
   }
 }

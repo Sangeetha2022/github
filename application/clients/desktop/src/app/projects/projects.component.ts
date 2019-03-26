@@ -51,7 +51,7 @@ export class ProjectsComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
 
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
 
     private entityManagerService: ProjectComponentService,
 
@@ -79,7 +79,7 @@ export class ProjectsComponent implements OnInit {
       sessionStorage.setItem('onNotify', 'off');
     }
 
-    this.Queryparams();
+    // this.Queryparams();
   }
 
   Queryparams() {
