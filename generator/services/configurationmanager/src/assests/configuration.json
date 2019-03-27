@@ -2311,6 +2311,245 @@
 			"value": "docker_file_mongo.stg",
 			"type": "config",
 			"sub_type": null
+		},
+		{
+			"name": "java_script",
+			"label": "Javascript",
+			"description": null,
+			"value": null,
+			"type": "GpClientLanguage",
+			"sub_type": null
+		},{
+			"name": "angular7",
+			"label": "Angular 7",
+			"description": null,
+			"value": null,
+			"type": "GpClientDevFramework",
+			"sub_type": null
+		},
+		{
+			"name": "internet_explorer",
+			"label": "IE",
+			"description": null,
+			"value": null,
+			"type": "GpBrowser",
+			"sub_type": null
+		},
+		{
+			"name": "fire_fox",
+			"label": "Firefox",
+			"description": null,
+			"value": null,
+			"type": "GpBrowser",
+			"sub_type": null
+		},
+		{
+			"name": "chrome",
+			"label": "Chrome",
+			"description": null,
+			"value": null,
+			"type": "GpBrowser",
+			"sub_type": null
+		},
+		{
+			"name": "tom_cat 7",
+			"label": "Tomcat 7",
+			"description": null,
+			"value": null,
+			"type": "GpServerRunTime",
+			"sub_type": null
+		},
+		{
+			"name": "tom_cat 8",
+			"label": "Tomcat 8",
+			"description": null,
+			"value": null,
+			"type": "GpServerRunTime",
+			"sub_type": null
+		},
+		{
+			"name": "web_sphere",
+			"label": " ",
+			"description": null,
+			"value": null,
+			"type": "GpServerRunTime",
+			"sub_type": null
+		},
+		{
+			"name": "windows_server",
+			"label": " ",
+			"description": null,
+			"value": null,
+			"type": "GpServerOS",
+			"sub_type": null
+		},
+		{
+			"name": "linux _cent_os",
+			"label": " ",
+			"description": null,
+			"value": null,
+			"type": "GpServerOS",
+			"sub_type": null
+		},
+		{
+			"name": "mysql",
+			"label": "MySQL",
+			"description": null,
+			"value": null,
+			"type": "GpServerDBMS",
+			"sub_type": null
+		},
+		{
+			"name": "mongodb",
+			"label": "MongoDB",
+			"description": null,
+			"value": null,
+			"type": "GpServerDBMS",
+			"sub_type": null
+		},
+		{
+			"name": "server_deployment_environment_dev",
+			"label": " ",
+			"description": null,
+			"value": null,
+			"type": "GpServerCodePattern",
+			"sub_type": null
+		},
+		{
+			"name": "server_deployment_environment_test",
+			"label": " ",
+			"description": null,
+			"value": null,
+			"type": "GpServerDeploymentEnvironment",
+			"sub_type": null
+		},
+		{
+			"name": "server_deployment_environment_uat",
+			"label": " ",
+			"description": null,
+			"value": null,
+			"type": "GpServerDeploymentEnvironment",
+			"sub_type": null
+		},
+		{
+			"name": "server_deployment_environment_prod",
+			"label": " ",
+			"description": null,
+			"value": null,
+			"type": "GpServerDeploymentEnvironment",
+			"sub_type": null
+		},
+		{
+			"name": "client_code_pattern_geppetto_default",
+			"label": " ",
+			"description": null,
+			"value": null,
+			"type": "GpClientCodePattern",
+			"sub_type": null
+		},
+		{
+			"name": "none",
+			"label": "Absolute positions",
+			"description": null,
+			"value": null,
+			"type": "GpDesktopCssFramework",
+			"sub_type": null
+		},
+		{
+			"name": "android",
+			"label": "Android",
+			"description": null,
+			"value": null,
+			"type": "GpClientOS",
+			"sub_type": null
+		},
+		{
+			"name": "ios",
+			"label": "IOS",
+			"description": null,
+			"value": null,
+			"type": "GpClientOS",
+			"sub_type": null
+		},
+		{
+			"name": "windows",
+			"label": "Desktop",
+			"description": null,
+			"value": null,
+			"type": "GpClientOS",
+			"sub_type": null
+		},
+		{
+			"name": "none",
+			"label": "Absolute positions",
+			"description": null,
+			"value": null,
+			"type": "GpMobileCssFramework",
+			"sub_type": null
+		},
+		{
+			"name": "Node.js",
+			"label": "NodeJS",
+			"description": null,
+			"value": null,
+			"type": "GpServerLanguage",
+			"sub_type": null
+		},
+		{
+			"name": "Express",
+			"label": "Express",
+			"description": null,
+			"value": null,
+			"type": "GpServerDevFramework",
+			"sub_type": null
+		},
+		{
+			"name": "bootstrap",
+			"label": "Bootstrap",
+			"description": null,
+			"value": "3.0",
+			"type": "GpDesktopCssFramework",
+			"sub_type": null
+		},
+		{
+			"name": "IonicGrid",
+			"label": "Ionic Grid",
+			"description": null,
+			"value": "2.2.1",
+			"type": "GpMobileCssFramework",
+			"sub_type": null
+		},
+		{
+			"name": "local",
+			"label": "Local Machine",
+			"description": null,
+			"value": null,
+			"type": "GpUserDeploymentTarget",
+			"sub_type": null
+		},
+		{
+			"name": "live",
+			"label": "Live",
+			"description": null,
+			"value": null,
+			"type": "GpUserDeploymentTarget",
+			"sub_type": null
+		},
+		{
+			"name": "aws",
+			"label": "AWS",
+			"description": null,
+			"value": null,
+			"type": "GpUserDeploymentServer",
+			"sub_type": null
+		},
+		{
+			"name": "azure",
+			"label": "Azure",
+			"description": null,
+			"value": null,
+			"type": "GpUserDeploymentServer",
+			"sub_type": null
 		}
 	]
 }

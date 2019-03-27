@@ -19,6 +19,7 @@ export class Routes {
         app.route('/generation_flow/getbyid/:id').get(this.generationFlow.getGenerationFlowByID);
         app.route('/generation_flow/getbyname/:name').get(this.generationFlow.getGenerationFlowByName);
         app.route('/generation_flow/delete/:id').delete(this.generationFlow.deleteGenerationFlow);
+        app.route('/generation_flow/getproperties').get(this.generationFlow.getTechPropertyFlow);
 
     }
 }

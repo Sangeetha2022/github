@@ -203,7 +203,6 @@ export class EntityManagerComponent implements OnInit {
     this.dataService.currentProjectInfo.subscribe(
       (data) => {
         this.selectedProject = data;
-        console.log('this is the data', this.selectedProject._id);
       }
     );
   }
