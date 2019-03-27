@@ -22,7 +22,7 @@ class App {
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
         this.mongoSetup();
-        this.mongoSeedData();
+        // this.mongoSeedData();
         this.routePrv.routes(this.app);
     }
 
@@ -39,10 +39,10 @@ class App {
         // mConfig.mongoConfig();
     }
 
-    private mongoSeedData(): void {
-        let seedData = new FeedSeedData()
-        seedData.seedFeatureData();
-    }
+    // private mongoSeedData(): void {
+    //     let seedData = new FeedSeedData()
+    //     seedData.seedFeatureData();
+    // }
 
 }
 

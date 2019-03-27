@@ -12,4 +12,31 @@ export class FeatureDetailsController {
         })
     }
 
+    public getAllFeatureDetails = async(req: Request, res: Response) => {
+        featureDetailsService.getAllFeatureDetails(req, (user) => {
+            res.status(200);
+            res.json(user);
+        })
+    }
+
+    public getFeatureDetailsById = async(req: Request, res: Response) => {
+        featureDetailsService.getFeatureDetailsById(req, (user) => {
+            res.status(200);
+            res.json(user);
+        })
+    }
+
+    public getFeatureEntityByFeatureid = async(req: Request, res: Response) => {
+        featureDetailsService.getFeatureEntityByFeatureid(req, (user) => {
+            res.status(200);
+            res.json(user);
+        })
+    }
+
+    public getFeatureDetailsByFeatureid = async(req: Request, res: Response) => {
+        featureDetailsService.getFeatureDetailsByFeatureid(req, (user) => {
+            res.status(200);
+            res.json(user);
+        })
+    }
 }

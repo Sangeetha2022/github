@@ -1,13 +1,13 @@
 import * as mongoose from 'mongoose';
-import { FeatureSchema } from '../models/feature.model';
+import { ProjectFeatureSchema } from '../models/feature.model';
 import { Request, Response } from 'express';
 
-const Feature = mongoose.model('Feature', FeatureSchema);
+const ProjectFeature = mongoose.model('project_features', ProjectFeatureSchema);
 
 export class FeatureDao {
 
     public saveFeature(req: Request, callback: CallableFunction) {
-        let newCreateFeature = new Feature(req.body);
+        let newCreateFeature = new ProjectFeature(req.body);
         newCreateFeature.save((err, feature) => {
             if (err) {
                 callback(err);
@@ -18,7 +18,7 @@ export class FeatureDao {
     }
 
     public updateFeature(req: Request, callback: CallableFunction) {
-        Feature.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, feature) => {
+        ProjectFeature.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, feature) => {
             if (err) {
                 callback(err);
             } else {
@@ -28,7 +28,7 @@ export class FeatureDao {
     }
 
     public getAllFeature(req: Request, callback: CallableFunction) {
-        Feature.find({}, (err, feature) => {
+        ProjectFeature.find({}, (err, feature) => {
             if (err) {
                 callback(err);
             } else {
@@ -38,7 +38,7 @@ export class FeatureDao {
     }
 
     public getFeatureByID(req: Request, callback: CallableFunction) {
-        Feature.findById(req.params.id, (err, feature) => {
+        ProjectFeature.findById(req.params.id, (err, feature) => {
             if (err) {
                 callback(err);
             } else {
@@ -47,8 +47,8 @@ export class FeatureDao {
         });
     }
 
-    public getFeatureByName(req: Request, callback: CallableFunction) {
-        Feature.find({ name: req.params.name }, (err, feature) => {
+    public getFeatureByProjectId(req: Request, callback: CallableFunction) {
+        ProjectFeature.findOne({project_id:req.params.id}, (err, feature) => {
             if (err) {
                 callback(err);
             } else {
@@ -58,7 +58,7 @@ export class FeatureDao {
     }
 
     public deleteFeature(req: Request, callback: CallableFunction) {
-        Feature.remove({ _id: req.params.id }, (err) => {
+        ProjectFeature.remove({ _id: req.params.id }, (err) => {
             if (err) {
                 callback(err);
             } else {

@@ -30,12 +30,6 @@ export class FeatureFlowEntityService{
         })
     }
 
-    public getFeatureFlowEntityByFeatureID (req: Request, callback:CallableFunction) {           
-        featureFlowEntityDao.getFeatureFlowEntityByFeatureID(req, (feature) => {
-            callback(feature)
-        })
-    }
-
     public deleteFeatureFlowEntity (req: Request, callback:CallableFunction) {           
         featureFlowEntityDao.deleteFeatureFlowEntity(req, (feature) => {
             callback(feature)

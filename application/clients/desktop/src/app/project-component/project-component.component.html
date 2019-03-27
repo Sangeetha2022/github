@@ -11,11 +11,11 @@
         </mat-expansion-panel-header>
 
         <div style="padding-right: 20px;">
-          <button class="createEntityButton" mat-raised-button color="primary"
+          <button class="btn btn-primary float-right" color="primary"
             (click)="openFeatureDialog('create')">Create Features</button>
         </div>
-        <div class="row" style="margin: 0px;" *ngIf="featureConnectProject.length > 0">
-          <div class="col-md-4" *ngFor="let feature of featureConnectProject; let i = index">
+        <div class="row" style="margin: 0px;" *ngIf="projectFeatureData.length > 0">
+          <div class="col-md-4" *ngFor="let feature of projectFeatureData; let i = index">
             <div class="card">
               <div class="card-header">
                 {{feature.name}}
@@ -171,7 +171,7 @@
           <div *ngIf="!selectFeature" class="dropdown mt-sm-2 mb-sm-2">
             <div class="form-group">
               <label for="sel1">Import Existing Feature:</label>
-              <select class="form-control" [(ngModel)]="features.name" (change)="onChange($event.target.value)">
+              <select class="form-control" [(ngModel)]="featureDetails.name" (change)="onChange($event.target.value)">
                 <option value="" selected>Select Feature</option>
                 <option *ngFor="let feature of featureData" value="{{feature.name}}"
                   ([ngModel])="selectedExistingFeature">{{feature.name}}</option>
@@ -181,22 +181,27 @@
           <form #featurForm="ngForm">
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" class="form-control" name="name" [(ngModel)]="features.name" #name="ngModel"
+              <input type="text" class="form-control" name="name" [(ngModel)]="featureDetails.name" #name="ngModel"
                 [ngClass]="{ 'is-invalid': featurForm.submitted && name.invalid }" required />
               <div *ngIf="featurForm.submitted && name.invalid" class="invalid-feedback">
                 <div *ngIf="name.errors.required">Name is required</div>
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" *ngIf="selectFeature">
               <label for="upload">Upload File</label>
-              <input type="file" ng2FileSelect [uploader]="uploader">
+              <input type="file" ng2FileSelect [uploader]="uploader" multiple >
               <!-- <input type="file" class="form-control" name="upload" (change)="handleFileInput($event.target.files)"  accept=".yaml,.yml"/> -->
             </div>
+            <!-- <div class="drop-zone">
+              <div ng2FileDrop [uploader]="uploader" multiple class="drop-zone">
+                 Drag and drop files to upload
+              </div>
+              </div> -->
             <div class="form-group">
               <label for="description">Description</label>
               <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)"
-                [(ngModel)]="features.description"></ckeditor>
+                [(ngModel)]="featureDetails.description"></ckeditor>
               <!--   use this inside ckeditor tag for image upload replace your api with uploadUrl [config]="{ ckfinder :{uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/'}}" -->
             </div>
           </form>
@@ -211,7 +216,7 @@
         <button type="button" class="btn btn-default" (click)="closeFeatureCreateModel()">Cancel</button>
       </div>
       <div class="modal-footer" style="padding: 5px" *ngIf="showUpdateFeature">
-        <button class="btn btn-primary" (click)="updateFeature()">Import</button>
+        <button class="btn btn-primary" (click)="addFeature()">Import</button>
         <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>
       </div>
     </div>

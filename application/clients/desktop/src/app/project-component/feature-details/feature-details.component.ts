@@ -28,6 +28,7 @@ export class FeatureDetailsComponent implements OnInit {
   columnFeatureEntity: any = [];
   rowFlowCompData: any = [];
   featureFlowId: String;
+  featureId: any;
   rowSelection: String;
   defaultColDef: any;
   showFeatureFlow: boolean;
@@ -81,7 +82,7 @@ export class FeatureDetailsComponent implements OnInit {
 
     this.columnFeatureEntityData = [
       {
-        headerName: 'Name', field: 'name', checkboxSelection: true
+        headerName: 'Collection Name', field: 'name', checkboxSelection: true
       },
 
       {
@@ -91,7 +92,7 @@ export class FeatureDetailsComponent implements OnInit {
 
     this.columnFeatureEntity = [
       {
-        headerName: 'Name', field: 'name', checkboxSelection: true
+        headerName: 'Document Name', field: 'name', checkboxSelection: true
       },
       {
         headerName: 'Data Type', field: 'data_type'
@@ -158,9 +159,8 @@ export class FeatureDetailsComponent implements OnInit {
   getAllFeatureFlows() {
     this.showFeatureFlow = true;
     this.showFeatureFlowComponent = false;
-    this.featureDetailsService.getAllFeatureFlows().subscribe(data => {
+    this.featureDetailsService.getAllFeatureFlowByFeatureId(this.featureId).subscribe(data => {
       this.allFeatureFlows = data;
-      console.log("i am the screen name",data.screenName);
     });
   }
 
@@ -179,21 +179,10 @@ export class FeatureDetailsComponent implements OnInit {
     return allText;
   }
 
-  getAllEntity(){
-    this.featureDetailsService.getAllEntity().subscribe(data=>{
-      console.log("entity",data);
+  getAllEntity() {
+    this.featureDetailsService.getAllEntity().subscribe(data => {
       this.featureEntityData = data;
-      data.map(feature=>{
-        this.featureEntity = feature.field
-      });
-      console.log("this.featureEntity",this.featureEntity);
-    })
-  }
-
-  getEntityByFeatureId(id){
-    this.featureDetailsService.getEntityByFeatureId(id).subscribe(data=>{
-      console.log("entity",data);
-    })
+    });
   }
 
   getFeatureFlowDetails() {
@@ -201,9 +190,9 @@ export class FeatureDetailsComponent implements OnInit {
     this.dataService.currentFeatureFlowIdInfoSource.subscribe(data => {
       this.featureFlowId = data._id;
       if (data) {
-        this.featureDetailsService.getFeatureFlowDetails(this.featureFlowId).subscribe(data => {
-          this.rowFlowCompData = data.flow_comp_seq;
-        });
+        // this.featureDetailsService.getFeatureFlowDetails(this.featureFlowId).subscribe(data => {
+        //   this.rowFlowCompData = data.flow_comp_seq;
+        // });
       }
     });
 
@@ -214,7 +203,6 @@ export class FeatureDetailsComponent implements OnInit {
       if (data) {
         this.onCloseHandled();
         this.getAllScreen();
-        // this.getScreenByFeatureName();
       }
     });
   }
@@ -224,14 +212,6 @@ export class FeatureDetailsComponent implements OnInit {
     });
   }
 
-  // getScreenByFeatureName() {
-  //   const name = this.screenData.featureName;
-  //   console.log("i am the name", name);
-
-  //   this.featureDetailsService.getScreenByFeatureName(name).subscribe(data => {
-  //     this.screens = data;
-  //   });
-  // }
   openScreenModal() {
     this.displayModel = 'block';
   }
@@ -242,23 +222,20 @@ export class FeatureDetailsComponent implements OnInit {
   selectedFeatureFlow() {
 
     this.selectedFlow = this.featureFlowGrid.getSelectedRows();
-    console.log("i am the selected one", this.selectedFlow);
     if (this.selectedFlow.length !== 0) {
       this.dataService.setFeatureFlowIdInfo(this.selectedFlow[0]);
       this.showFeatureFlowComponent = true;
-      console.log("i am here");
     }
     this.getFeatureFlowDetails();
 
   }
 
-  selectedFeatureEntityData(){
-    this.selectedFeatureEntity = this.featureFlowGrid.getSelectedRows();
-
+  selectedFeatureEntityData() {
+    this.selectedFeatureEntity = this.featureEntityDataGrid.getSelectedRows();
     if (this.selectedFeatureEntity.length !== 0) {
-      console.log("Id of the one",this.selectedFeatureEntity._id)
+      const id = this.selectedFeatureEntity[0]._id;
+      this.featureEntity = this.selectedFeatureEntity[0].field;
       this.showFeatureEntity = true;
-      console.log("i am here");
     }
 
   }
@@ -273,12 +250,12 @@ export class FeatureDetailsComponent implements OnInit {
     this.featureFlowCompGrid.sizeColumnsToFit();
   }
 
-  onFeatureEntityDataGridReady(params){
-    this.featureEntityData = params.api;
-    this.featureEntityData.sizeColumnsToFit();
+  onFeatureEntityDataGridReady(params) {
+    this.featureEntityDataGrid = params.api;
+    this.featureEntityDataGrid.sizeColumnsToFit();
   }
-  onFeatureEntityGridReady(params){
-    this.featureEntity = params.api;
-    this.featureEntity.sizeColumnsToFit();
+  onFeatureEntityGridReady(params) {
+    this.featureEntityGrid = params.api;
+    this.featureEntityGrid.sizeColumnsToFit();
   }
 }

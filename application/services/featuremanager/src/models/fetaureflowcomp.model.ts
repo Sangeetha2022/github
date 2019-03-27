@@ -4,7 +4,8 @@ import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 export const FeatureFlowCompsSchema = mongoose.Schema({
-    flow: { type: mongoose.Schema.Types.ObjectId, ref: 'feature_flow_comp' },
+    flow: { type: mongoose.Schema.Types.ObjectId, ref: 'feature_flows' },
+    feature_id: { type: mongoose.Schema.Types.ObjectId, ref: 'feature_details' },
     flow_comp_seq: [{
         component_name: { type: String },
         label: { type: String, default: null },

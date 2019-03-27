@@ -13,24 +13,29 @@ export class FeatureDetailsService {
     private api: ApiService, private restapi: SharedService
   ) { }
 
-  saveFeatureFlow(featureFlow): Observable<any> {
-    return this.api.post(this.restapi.featureUrl + Constants.addFeatureFlow, featureFlow);
-  }
+  // saveFeatureFlow(featureFlow): Observable<any> {
+  //   return this.api.post(this.restapi.featureUrl + Constants.addFeatureFlow, featureFlow);
+  // }
 
-  deleteFeatureFlow(id): Observable<any> {
-    return this.api.delete(this.restapi.featureUrl + Constants.deleteFeatureFlowById + id);
-  }
+  // deleteFeatureFlow(id): Observable<any> {
+  //   return this.api.delete(this.restapi.featureUrl + Constants.deleteFeatureFlowById + id);
+  // }
 
-  updateFeatureFlow(flow, id): Observable<any> {
-    return this.api.put(this.restapi.featureUrl + Constants.updateFeatureFlow + id, flow);
-  }
+  // updateFeatureFlow(flow, id): Observable<any> {
+  //   return this.api.put(this.restapi.featureUrl + Constants.updateFeatureFlow + id, flow);
+  // }
 
-  getAllFeatureFlows(): Observable<any> {
-    return this.api.get(this.restapi.featureUrl + Constants.getAllFeatureFlow);
-  }
-  getFeatureFlowDetails(id): Observable<any> {
-    return this.api.get(this.restapi.featureUrl + Constants.getFeatureFlowByFlowId + id);
-  }
+  // getAllFeatureFlows(): Observable<any> {
+  //   return this.api.get(this.restapi.featureUrl + Constants.getAllFeatureFlow);
+  // }
+  // getFeatureFlowDetails(id): Observable<any> {
+  //   return this.api.get(this.restapi.featureUrl + Constants.getFeatureFlowByFlowId + id);
+  // }
+
+  getAllFeatureFlowByFeatureId(id): Observable<any> {
+      return this.api.put(this.restapi.featureUrl + Constants.getAllFeatureFlowByFeatureId + id);
+    }
+
   saveFeatureFlowComponent(flow): Observable<any> {
     return this.api.post(this.restapi.featureUrl + Constants.addFlowCompUrl, flow);
   }
@@ -53,11 +58,6 @@ export class FeatureDetailsService {
 
   getAllEntity(): Observable<any> {
     return this.api.get(this.restapi.featureUrl + Constants.getAllEntity);
-  }
-
-
-  getEntityByFeatureId(id): Observable<any> {
-    return this.api.get(this.restapi.featureUrl + Constants.getEntityByFeatureId + id);
   }
 
   getScreenByFeatureName(name): Observable<any> {

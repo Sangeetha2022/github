@@ -33,9 +33,8 @@ export class FeatureController {
         })
     }
 
-    public getFeatureByName(req: Request, res: Response) {
-        console.log("---<> > ", req.body)
-        featureService.getFeatureByName(req, (user) => {
+    public getFeatureByProjectId(req: Request, res: Response) {
+        featureService.getFeatureByProjectId(req, (user) => {
             res.status(200); // status for the response
             res.json(user); 
         })

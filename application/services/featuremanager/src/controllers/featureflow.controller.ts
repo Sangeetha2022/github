@@ -33,6 +33,13 @@ export class FeatureFlowController {
         })
     }
 
+    public getFeatureFlowByFeatureId(req: Request, res: Response) {
+        featureFlowService.getFeatureFlowByFeatureId(req, (user) => {
+            res.status(200); // status for the response
+            res.json(user); 
+        })
+    }
+
     public deleteFeatureFlow(req: Request, res: Response) {
         featureFlowService.deleteFeatureFlow(req, (user) => {
             res.status(200); // status for the response

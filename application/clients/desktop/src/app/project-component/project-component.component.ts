@@ -11,6 +11,7 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import { Constants } from '../config/Constant';
 import { SharedService } from '../../shared/shared.service';
+import { IFeatureDetails } from './interface/FeatureDetails';
 
 
 @Component({
@@ -24,14 +25,23 @@ export class EntityManagerComponent implements OnInit {
   selectFeature: Boolean = true;
   showUpdateFeature: Boolean;
   selectedExistingFeature: String;
+  featureId: String;
   featureData: any = [];
   featureConnectProject: any = [];
   // user: any = [];
   public features: IFeature = {
     id: '',
+    project_id: '',
+    feature_id: '',
+    // explanation:'',
+  };
+  public featureDetails: IFeatureDetails = {
+    id: '',
     name: '',
     description: '',
-    connectProject: false,
+    api_mang_file: '',
+    backed_mang_file: '',
+    front_mang_file: '',
     // explanation:'',
   };
   panelOpenState = false;
@@ -51,10 +61,11 @@ export class EntityManagerComponent implements OnInit {
   deleteFPopup: String = 'none';
   public selectedEntityId: any;
   selectedFeatureId: any;
+  projectFeatureData: any = [];
   selectedProject: any;
   selecteddefaultEntity: any;
   public uploader: FileUploader = new FileUploader({
-    url: '',
+    isHTML5: true
   });
   constructor(
     public dialog: MatDialog,
@@ -64,16 +75,18 @@ export class EntityManagerComponent implements OnInit {
     private restApi: SharedService,
   ) {
 
-    if (this.selectFeature === true) {
-      this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
-    }
+    // if (this.selectFeature === true) {
+    //   this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
+    // }
   }
 
   ngOnInit() {
     this.getSelectedProject();
+    this.getProjectDetails();
     this.getAllEntityByProjectId();
     // this.getDefaultEntityByProjectId();
-    this.getAllFeature();
+    // this.getAllFeature();
+    this.getAllFeatureDetails();
     const URL = this.restApi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.addFilesUrl;
     this.uploader.onBeforeUploadItem = (item) => {
       item.url = URL + '';
@@ -113,6 +126,23 @@ export class EntityManagerComponent implements OnInit {
       }
     });
   }
+
+  getProjectDetails() {
+    this.dataService.currentProjectInfo.subscribe(data => {
+      this.features.project_id = data._id;
+      this.projectComponentService.getAllFeatureByProjectId(this.features.project_id).subscribe(data => {
+        console.log(data)
+        this.featureId = data.feature_id;
+        this.projectComponentService.getFeatureDetailsById(this.featureId).subscribe(data => {
+          console.log("adadada", data)
+          this.projectFeatureData = data;
+          this.projectFeatureData.map((data, index) => {
+            this.projectFeatureData[index].description = data.description.replace(/<[^>]*>/g, '');
+          });
+        })
+      })
+    });
+  }
   onChangeRadio(selected) {
 
     if (selected === 'on') {
@@ -122,17 +152,19 @@ export class EntityManagerComponent implements OnInit {
       if (this.selectFeature) {
         this.showUpdateFeature = false;
       }
-      this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
+      // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
     }
   }
 
   onChange(selected) {
     if (selected) {
       this.featureData.map((data, index) => {
+        console.log("asadadad", data)
         if (data.name === selected) {
-          this.features.id = data._id;
-          this.features.name = data.name;
-          this.features.description = data.description;
+          this.features.feature_id = data._id;
+          this.featureDetails.id = data._id;
+          this.featureDetails.name = data.name;
+          this.featureDetails.description = data.description;
           return;
         }
       });
@@ -148,14 +180,14 @@ export class EntityManagerComponent implements OnInit {
   }
   openFeatureDialog(create): void {
     if (create === 'create') {
-      this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
+      // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
     }
     this.displayFeatureModel = 'block';
   }
 
   closeFeatureCreateModel() {
     this.displayFeatureModel = 'none';
-    this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
+    // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
   }
   closeFeatureExistingModel() {
     this.displayFeatureModel = 'none';
@@ -267,51 +299,68 @@ export class EntityManagerComponent implements OnInit {
 
   updateFeature() {
     console.log("this.features.id", this.features.id);
-    this.projectComponentService.getFeatureById(this.features.id).subscribe(data => {
-      if (data.connectProject === true) {
-        alert("Already Imported");
-        this.closeFeatureExistingModel();
-      } else {
-        this.features.connectProject = true;
-        console.log("Asadadffaffdf", this.features)
-        this.projectComponentService.updateFeature(this.features).subscribe(data => {
-          console.log(data);
-          if (data) {
-            this.closeFeatureExistingModel();
-            this.getAllFeature();
-          }
-        });
+    // this.projectComponentService.getFeatureById(this.features.id).subscribe(data => {
+    //   if (data.connectProject === true) {
+    //     alert("Already Imported");
+    //     this.closeFeatureExistingModel();
+    //   } else {
+    //     console.log("Asadadffaffdf", this.features)
+    //     this.projectComponentService.updateFeature(this.features).subscribe(data => {
+    //       console.log(data);
+    //       if (data) {
+    //         this.closeFeatureExistingModel();
+    //       }
+    //     });
 
-      }
-    });
+    //   }
+    // });
   }
 
   addFeature() {
     this.uploader.uploadAll();
+    console.log("adnjaojdnfojdandojfno", this.features)
     this.projectComponentService.addFeature(this.features).subscribe(data => {
       console.log(data);
-      if (data) {
-        this.getAllFeature();
-      }
+      // if (data) {
+      //   this.getAllFeature();
+      // }
     });
   }
 
-  getAllFeature() {
-    this.projectComponentService.getAllFeature().subscribe(data => {
-      this.featureData = data;
-      this.featureConnectProject = [];
-      data.map(data => {
-        if (data.connectProject === true) {
-          this.featureConnectProject.push(data);
+  addFeatureDetails() {
+    this.uploader.uploadAll();
+    this.projectComponentService.addFeatureDetails(this.features).subscribe(data => {
+      console.log(data);
+      // if (data) {
+      //   this.getAllFeature();
+      // }
+    });
+  }
 
-        }
-      })
-      // tslint:disable-next-line:no-shadowed-variable
+  getAllFeatureDetails() {
+    this.projectComponentService.getAllFeatureDetails().subscribe(data => {
+      this.featureData = data;
       this.featureData.map((data, index) => {
         this.featureData[index].description = data.description.replace(/<[^>]*>/g, '');
       });
     });
   }
+  // getAllFeature() {
+  //   this.projectComponentService.getAllFeature().subscribe(data => {
+  //     this.featureData = data;
+  //     this.featureConnectProject = [];
+  //     data.map(data => {
+  //       if (data.connectProject === true) {
+  //         this.featureConnectProject.push(data);
+
+  //       }
+  //     })
+  //     // tslint:disable-next-line:no-shadowed-variable
+  //     this.featureData.map((data, index) => {
+  //       this.featureData[index].description = data.description.replace(/<[^>]*>/g, '');
+  //     });
+  //   });
+  // }
 
   onReady(eventData) {
     eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
@@ -325,7 +374,7 @@ export class EntityManagerComponent implements OnInit {
       console.log(data);
     });
     this.closeDeleteFModel();
-    this.getAllFeature();
+    // this.getAllFeature();
   }
 }
 
