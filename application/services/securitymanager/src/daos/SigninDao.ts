@@ -16,9 +16,15 @@ export class SigninDao {
 
     public logindao(logindetails, callback) {
         signinmodel.findOneAndUpdate({ email: logindetails.email, password: logindetails.password }, {$set:{loggedinDate:new Date()}}, function (err, response) {
-            callback(response);
-        }).catch((err) => {
-            callback(err);
+            if (err){
+                callback(err);
+            }
+            if (response === null){
+                response = 'Incorrect Username or Password';
+                callback(response);
+            } else {
+                callback(response);
+            }
         })
     }
 

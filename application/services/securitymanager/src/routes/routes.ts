@@ -13,7 +13,7 @@ export class Routes {
 
         app.route('/signup').post(this.signincontroller.signup);
         app.route('/login').post(this.signincontroller.login);
-        app.route('/consent').post(this.consentcontroller.consent);
+        app.route('/consent').put(this.consentcontroller.consent);
         app.route('/logout').post(this.signincontroller.logout);
 
         

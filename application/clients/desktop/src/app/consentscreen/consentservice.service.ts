@@ -17,6 +17,6 @@ export class Consentservice {
   }
 
   Consent(consent: any): Observable<any> {
-    return this.apiservice.post(this.restapi.loginUrl + '/consent' , consent);
+    return this.apiservice.put(this.restapi.loginUrl + '/consent' , consent);
   }
 }

@@ -1,13 +1,13 @@
-import express from "express";
+import * as express from "express";
 import * as bodyParser from "body-parser";
-import cors from 'cors';
+import * as cors from 'cors';
 import { WinstonLogger } from './config/Winstonlogger';
 import { Routes } from './routes/routes';
 import { MongoConfig } from './config/Mongoconfig';
 import mongoose = require('mongoose');
 import { RoleSeedData } from './seed';
 
-const PORT = 3007;
+const PORT = 3008;
 
 class App {
 
