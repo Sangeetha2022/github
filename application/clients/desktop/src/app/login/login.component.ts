@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   public href: any;
   public lastloggedintime: any;
   public userdetails: any;
+  public errormessage: any;
 
   ngOnInit() {
     // this.Queryparams();
@@ -53,19 +54,23 @@ export class LoginComponent implements OnInit {
     this.loginservice.Login(this.user).subscribe(logindetails => {
       // const redirecturi = logindetails.redirectUrl;
       // window.open(redirecturi, '_self');
-      this.lastloggedintime = logindetails.loggedinDate;
-      sessionStorage.setItem('lastloggedintime', logindetails.loggedinDate );
-      sessionStorage.setItem('email', logindetails.email);
-      if (logindetails.Idtoken === null || logindetails.Idtoken === '') {
-        this.route.navigate(['consent'], { queryParams: { id: logindetails._id } });
+      if (logindetails === 'Incorrect Username or Password') {
+        this.errormessage = logindetails;
       } else {
-        this.route.navigate(['callback']);
+        this.lastloggedintime = logindetails.loggedinDate;
+        sessionStorage.setItem('lastloggedintime', logindetails.loggedinDate);
+        sessionStorage.setItem('email', logindetails.email);
+        if (logindetails.Idtoken === null || logindetails.Idtoken === '') {
+          this.route.navigate(['consent'], { queryParams: { id: logindetails._id } });
+        } else {
+          this.route.navigate(['callback']);
+        }
+
       }
 
     }, error => {
       console.error('error: ', error);
     });
 
-    this.route.navigate(['consent']);
   }
 }

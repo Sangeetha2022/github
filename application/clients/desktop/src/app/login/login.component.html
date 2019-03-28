@@ -1,5 +1,5 @@
 <mat-card class="cardsize">
-    <mat-card-header>
+    <mat-card-header class="imagealign">
         <div mat-card-avatar >
             <img mat-card-image src="../../assets/GeppettoIcon.png">
         </div>
@@ -16,6 +16,9 @@
     <br>
     <mat-card-actions>
         <button mat-raised-button (click)='Login(user)' color="primary">Login!</button>
+        <div style="color:red; text-align: center">
+            {{errormessage}}
+        </div>
         <!-- <button mat-raised-button (click)='google()' color="primary">Google Signin!</button>
         <button mat-raised-button (click)='facebook()' color="primary">Facebook Signin!</button> -->
     </mat-card-actions>
