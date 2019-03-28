@@ -1,14 +1,26 @@
 import * as mongoose from 'mongoose';
+import * as uuid from 'uuid';
 
 const Schema = mongoose.Schema;
 
 export const ProjectSchema = new Schema({
+    _id: {
+        type: String,
+        default: uuid.v1
+    },
     name: { type: String, required: 'Enter a project name' },
     label: { type: String, required: 'Enter a project label' },
     description: { type: String },
     default_module_id: { type: String },
     default_module_label: { type: String },
     notes: { type: String },
+    clientlanguage: {type: String, ref: 'gp_configs', default: null},
+    clientframework: {type: String, ref: 'gp_configs', default: null},
+    serverlanguage: {type: String, ref: 'gp_configs', default: null},
+    serverframework: {type: String, ref: 'gp_configs', default: null},
+    serverdatabase: {type: String, ref: 'gp_configs', default: null},
+    servertarget: {type: String, ref: 'gp_configs', default: null},
+    server_deployment_type: {type: String, ref: 'gp_configs', default: null},
     created_by: { type: String },
     created_date: { type: Date, default: Date.now },
     last_modified_by: { type: String },
