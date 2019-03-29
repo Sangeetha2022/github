@@ -72,6 +72,7 @@ export class Constants {
 
     // Feature Details
     public static get getAllFeatureDetails(): string { return '/feature/details/getall'; }
+    public static get getAllFeatureDetailsByFeatureId(): string { return '/feature/details/getbyfeatureid/'; }
     public static get addFeatureDetails(): string { return '/feature/details/addfile'; }
 
     // Feature Flow
@@ -79,7 +80,8 @@ export class Constants {
     // public static get getAllFeatureFlow(): string { return '/feature-flow/getall'; }
     public static get getAllFeatureFlowByFeatureId(): string { return '/feature-flow/getbyfeatureid/'; }
     public static get getFeatureFlowById(): string { return '/feature-flow/getbyid/'; }
-    // public static get getFeatureFlowByFlowId(): string { return '/feature-comp/getbyflowid/'; }
+    public static get getFeatureFlowCompByFlowId(): string { return '/feature-comp/getbyflowid/'; }
+    public static get getFeatureEntityByFeatureId(): string { return '/feature/details/getentitybyfeatureid/'; }
     // public static get deleteFeatureFlowById(): string { return '/feature-flow/delete/'; }
     // public static get updateFeatureFlow(): string { return '/feature-flow/update/:id'; }
 

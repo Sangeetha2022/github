@@ -48,7 +48,7 @@ export class FeatureDao {
     }
 
     public getFeatureByProjectId(req: Request, callback: CallableFunction) {
-        ProjectFeature.findOne({project_id:req.params.id}, (err, feature) => {
+        ProjectFeature.find({project_id:req.params.id}, (err, feature) => {
             if (err) {
                 callback(err);
             } else {

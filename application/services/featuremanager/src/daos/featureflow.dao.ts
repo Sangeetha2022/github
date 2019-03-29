@@ -47,7 +47,7 @@ export class FeatureFlowDao {
     }
 
     public getFeatureFlowByFeatureId(req: Request, callback: CallableFunction) {
-        this.FeatureFlows.findOne({feature_id:req.params.id}, (err, feature) => {
+        this.FeatureFlows.find({feature_id:req.params.id}, (err, feature) => {
             if (err) {
                 callback(err);
             } else {

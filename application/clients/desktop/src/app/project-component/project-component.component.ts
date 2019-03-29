@@ -5,10 +5,9 @@ import { ProjectComponentService } from './project-component.service';
 import { DataService } from '../../shared/data.service';
 import { IEntity } from './interface/Entity';
 import { IFeature } from './interface/Feature';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import EasyImage from '@ckeditor/ckeditor5-easy-image/src/easyimage';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload/ng2-file-upload';
 import { Constants } from '../config/Constant';
 import { SharedService } from '../../shared/shared.service';
 import { IFeatureDetails } from './interface/FeatureDetails';
@@ -24,11 +23,13 @@ export class EntityManagerComponent implements OnInit {
   public Editor = ClassicEditor;
   selectFeature: Boolean = true;
   showUpdateFeature: Boolean;
+  allowImport: Boolean;
   selectedExistingFeature: String;
-  featureId: String;
+  featureId: any = [];
   featureData: any = [];
   featureConnectProject: any = [];
   // user: any = [];
+  project_id: String;
   public features: IFeature = {
     id: '',
     project_id: '',
@@ -64,16 +65,15 @@ export class EntityManagerComponent implements OnInit {
   projectFeatureData: any = [];
   selectedProject: any;
   selecteddefaultEntity: any;
-  public uploader: FileUploader = new FileUploader({
-    isHTML5: true
-  });
   constructor(
     public dialog: MatDialog,
     private router: Router,
     private projectComponentService: ProjectComponentService,
     private dataService: DataService,
     private restApi: SharedService,
+    private route: ActivatedRoute,
   ) {
+
 
     // if (this.selectFeature === true) {
     //   this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
@@ -81,20 +81,16 @@ export class EntityManagerComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.project_id = params.projectId;
+      console.log("i am the params u need", params);
+    })
     this.getSelectedProject();
     this.getProjectDetails();
     this.getAllEntityByProjectId();
     // this.getDefaultEntityByProjectId();
     // this.getAllFeature();
     this.getAllFeatureDetails();
-    const URL = this.restApi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.addFilesUrl;
-    this.uploader.onBeforeUploadItem = (item) => {
-      item.url = URL + '';
-    };
-    // this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-    //   console.log('ImageUpload:uploaded:', item, status, response);
-    //   alert('File uploaded successfully');
-    // };
   }
 
   saveEntityModel() {
@@ -128,21 +124,29 @@ export class EntityManagerComponent implements OnInit {
   }
 
   getProjectDetails() {
-    this.dataService.currentProjectInfo.subscribe(data => {
-      this.features.project_id = data._id;
-      this.projectComponentService.getAllFeatureByProjectId(this.features.project_id).subscribe(data => {
-        console.log(data)
-        this.featureId = data.feature_id;
-        this.projectComponentService.getFeatureDetailsById(this.featureId).subscribe(data => {
-          console.log("adadada", data)
-          this.projectFeatureData = data;
-          this.projectFeatureData.map((data, index) => {
-            this.projectFeatureData[index].description = data.description.replace(/<[^>]*>/g, '');
+    this.projectComponentService.getAllFeatureByProjectId(this.project_id).subscribe(data => {
+      if (data !== null) {
+        data.map(fdata => {
+          this.featureId.push(fdata.feature_id);
+        });
+      }
+      if (this.featureId !== null) {
+        this.featureId.map(fdata => {
+          this.projectComponentService.getFeatureDetailsById(fdata).subscribe(data => {
+            if (data !== undefined) {
+              this.projectFeatureData.push(data);
+              if (this.projectFeatureData !== undefined) {
+                this.projectFeatureData.map((data, index) => {
+                  this.projectFeatureData[index].description = data.description.replace(/<[^>]*>/g, '');
+                });
+              }
+            }
           });
-        })
-      })
+        });
+      }
     });
   }
+
   onChangeRadio(selected) {
 
     if (selected === 'on') {
@@ -162,6 +166,7 @@ export class EntityManagerComponent implements OnInit {
         console.log("asadadad", data)
         if (data.name === selected) {
           this.features.feature_id = data._id;
+          this.features.project_id = this.project_id;
           this.featureDetails.id = data._id;
           this.featureDetails.name = data.name;
           this.featureDetails.description = data.description;
@@ -172,7 +177,6 @@ export class EntityManagerComponent implements OnInit {
   }
 
   createFeature() {
-    this.uploader.uploadAll();
     this.addFeature();
     this.closeFeatureCreateModel();
     console.log(this.features);
@@ -317,18 +321,29 @@ export class EntityManagerComponent implements OnInit {
   }
 
   addFeature() {
-    this.uploader.uploadAll();
-    console.log("adnjaojdnfojdandojfno", this.features)
-    this.projectComponentService.addFeature(this.features).subscribe(data => {
-      console.log(data);
-      // if (data) {
-      //   this.getAllFeature();
-      // }
+    this.projectComponentService.getAllFeatureByProjectId(this.features.project_id).subscribe(data => {
+
+      data.map(pfdata => {
+        if (pfdata.feature_id === this.features.feature_id) {
+          this.allowImport = true;
+        }
+      });
+      if (this.allowImport) {
+        this.closeFeatureExistingModel();
+      }
+      if (!this.allowImport) {
+        this.projectComponentService.addFeature(this.features).subscribe(data => {
+          console.log(data);
+          if (data) {
+            this.getProjectDetails();
+            this.closeFeatureExistingModel();
+          }
+        });
+      }
     });
   }
 
   addFeatureDetails() {
-    this.uploader.uploadAll();
     this.projectComponentService.addFeatureDetails(this.features).subscribe(data => {
       console.log(data);
       // if (data) {

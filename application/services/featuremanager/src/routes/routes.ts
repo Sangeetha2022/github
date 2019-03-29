@@ -32,7 +32,7 @@ export class Routes {
         app.route('/feature/details/getall').get(this.featureDetailsController.getAllFeatureDetails);
         app.route('/feature/details/getbyid/:id').get(this.featureDetailsController.getFeatureDetailsById);
         app.route('/feature/details/getbyfeatureid/:id').get(this.featureDetailsController.getFeatureDetailsByFeatureid);
-        app.route('/feature/details/getentityfeatureid/:id').get(this.featureDetailsController.getFeatureEntityByFeatureid);
+        app.route('/feature/details/getentitybyfeatureid/:id').get(this.featureDetailsController.getFeatureEntityByFeatureid);
 
 
         //Feature Flow
@@ -46,7 +46,7 @@ export class Routes {
         //Feature FlowComp
         // app.route('/feature-comp/save').post(this.featureFlowCompController.saveFeatureFlowComp);
         // app.route('/feature-comp/update/:id').put(this.featureFlowCompController.updateFeatureFlowComp);
-        // app.route('/feature-comp/getbyflowid/:id').get(this.featureFlowCompController.getFeatureFlowCompByFlowID);
+        app.route('/feature-comp/getbyflowid/:id').get(this.featureFlowCompController.getFeatureFlowCompByFlowID);
         // app.route('/feature-comp/getall').get(this.featureFlowCompController.getAllFeatureFlowComp);
         // app.route('/feature-comp/getbyid/:id').get(this.featureFlowCompController.getFeatureFlowCompByID);
         // app.route('/feature-comp/delete/:id').delete(this.featureFlowCompController.deleteFeatureFlowComp);

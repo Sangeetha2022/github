@@ -33,8 +33,8 @@ export class FeatureDetailsService {
   // }
 
   getAllFeatureFlowByFeatureId(id): Observable<any> {
-      return this.api.put(this.restapi.featureUrl + Constants.getAllFeatureFlowByFeatureId + id);
-    }
+    return this.api.put(this.restapi.featureUrl + Constants.getAllFeatureFlowByFeatureId + id);
+  }
 
   saveFeatureFlowComponent(flow): Observable<any> {
     return this.api.post(this.restapi.featureUrl + Constants.addFlowCompUrl, flow);
@@ -62,5 +62,20 @@ export class FeatureDetailsService {
 
   getScreenByFeatureName(name): Observable<any> {
     return this.api.get(this.restapi.featureUrl + Constants.getScreenByFeatureName + name);
+  }
+
+  getFeatureFlowCompByFlowId(id): Observable<any> {
+    return this.api.get(this.restapi.featureUrl + Constants.getFeatureFlowCompByFlowId + id);
+  }
+
+  getFeatureEntityByFeatureId(id): Observable<any> {
+    return this.api.get(this.restapi.featureUrl + Constants.getFeatureEntityByFeatureId + id);
+  }
+
+
+  // new service for feature details
+  getAllFeatureDetailsByFeatureId(id): Observable<any> {
+    console.log("adsadffdf", id);
+    return this.api.get(this.restapi.featureUrl + Constants.getAllFeatureDetailsByFeatureId + id);
   }
 }

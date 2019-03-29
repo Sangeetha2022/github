@@ -188,23 +188,21 @@ export class FeatureDetailsDao {
             } else {
 
                 callback(flowDetails);
-                console.log("Populated User " + flowDetails);
             }
 
         })
     }
 
     public getFeatureEntityByFeatureid = async (req: Request, callback: CallableFunction) => {
-        await this.FeatureEntityFlows.find({feature_id:req.params.id}),(err,flowDetails)=>{
+        await this.FeatureEntityFlows.find({feature_id:req.params.id},(err,flowDetails)=>{
             if (err) {
                 callback(err);
             } else {
 
                 callback(flowDetails);
-                console.log("Populated User " + flowDetails);
             }
 
-        }
+        });
     }
 
     public getFeatureDetailsById = async (req: Request, callback: CallableFunction) => {

@@ -18,8 +18,10 @@ export class FeatureDetailsComponent implements OnInit {
   screens: any = [];
   columnDefs: any = [];
   featureName: any;
+  feature_id: String;
   screenName: String;
   description: String;
+  featureDetailsData: any = [];
   featureEntityData: any = [];
   featureEntity: any = [];
   displayModel: String = 'none';
@@ -27,6 +29,7 @@ export class FeatureDetailsComponent implements OnInit {
   columnFeatureEntityData: any = [];
   columnFeatureEntity: any = [];
   rowFlowCompData: any = [];
+  featureFlowRowData: any = [];
   featureFlowId: String;
   featureId: any;
   rowSelection: String;
@@ -53,9 +56,6 @@ export class FeatureDetailsComponent implements OnInit {
   title = 'app works!';
 
   constructor(private featureDetailsService: FeatureDetailsService, private dataService: DataService, private route: ActivatedRoute) {
-    this.route.queryParams.subscribe(params => {
-      this.screenData.featureName = params.feature;
-    });
     this.columnDefs = [
       {
         headerName: 'Name', field: 'name',
@@ -105,9 +105,14 @@ export class FeatureDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllScreen();
-    this.getAllFeatureFlows();
-    this.getAllEntity();
+    this.route.queryParams.subscribe(params => {
+      this.feature_id = params.featureId;
+    });
+    this.getAllFeatureDetailsByFeatureId();
+    this.getFeatureEntityByFeatureId();
+    // this.getAllScreen();
+    // this.getAllFeatureFlows();
+    // this.getAllEntity();
     // var doc = yaml.safeLoad(this.readTextFile('assets/files/ticketing-system.yaml'))
     // this.formDatafromYAML(doc);
   }
@@ -156,13 +161,24 @@ export class FeatureDetailsComponent implements OnInit {
   //   console.log(" flow array 0pp  p- -- -  = = = > ", flowArray)
   // }
 
-  getAllFeatureFlows() {
-    this.showFeatureFlow = true;
-    this.showFeatureFlowComponent = false;
-    this.featureDetailsService.getAllFeatureFlowByFeatureId(this.featureId).subscribe(data => {
-      this.allFeatureFlows = data;
+  getAllFeatureDetailsByFeatureId() {
+    this.featureDetailsService.getAllFeatureDetailsByFeatureId(this.feature_id).subscribe(data => {
+      this.featureDetailsData = data;
+      console.log("adsffadffaf", this.featureDetailsData);
+      this.featureDetailsData.map((data) => {
+        this.allFeatureFlows.push(data.flow);
+      });
+      this.featureFlowRowData = this.allFeatureFlows;
+      console.log("adsffadffaf", this.featureFlowRowData);
     });
   }
+  // getAllFeatureFlows() {
+  //   this.showFeatureFlow = true;
+  //   this.showFeatureFlowComponent = false;
+  //   this.featureDetailsService.getAllFeatureFlowByFeatureId(this.featureId).subscribe(data => {
+  //     this.allFeatureFlows = data;
+  //   });
+  // }
 
   readTextFile = (file) => {
     var rawFile = new XMLHttpRequest();
@@ -179,38 +195,45 @@ export class FeatureDetailsComponent implements OnInit {
     return allText;
   }
 
+  getFeatureEntityByFeatureId(){
+    this.featureDetailsService.getFeatureEntityByFeatureId(this.feature_id).subscribe(data=>{
+      console.log(data);
+      this.featureEntityData = data;
+    })
+  }
+
   getAllEntity() {
     this.featureDetailsService.getAllEntity().subscribe(data => {
       this.featureEntityData = data;
     });
   }
 
-  getFeatureFlowDetails() {
+  // getFeatureFlowDetails() {
 
-    this.dataService.currentFeatureFlowIdInfoSource.subscribe(data => {
-      this.featureFlowId = data._id;
-      if (data) {
-        // this.featureDetailsService.getFeatureFlowDetails(this.featureFlowId).subscribe(data => {
-        //   this.rowFlowCompData = data.flow_comp_seq;
-        // });
-      }
-    });
+  //   this.dataService.currentFeatureFlowIdInfoSource.subscribe(data => {
+  //     this.featureFlowId = data._id;
+  //     if (data) {
+  //       // this.featureDetailsService.getFeatureFlowDetails(this.featureFlowId).subscribe(data => {
+  //       //   this.rowFlowCompData = data.flow_comp_seq;
+  //       // });
+  //     }
+  //   });
 
-  }
+  // }
 
   createScreen() {
     this.featureDetailsService.addScreen(this.screenData).subscribe(data => {
       if (data) {
         this.onCloseHandled();
-        this.getAllScreen();
+        // this.getAllScreen();
       }
     });
   }
-  getAllScreen() {
-    this.featureDetailsService.getAllScreen().subscribe(data => {
-      this.screens = data;
-    });
-  }
+  // getAllScreen() {
+  //   this.featureDetailsService.getAllScreen().subscribe(data => {
+  //     this.screens = data;
+  //   });
+  // }
 
   openScreenModal() {
     this.displayModel = 'block';
@@ -222,12 +245,16 @@ export class FeatureDetailsComponent implements OnInit {
   selectedFeatureFlow() {
 
     this.selectedFlow = this.featureFlowGrid.getSelectedRows();
+    console.log(this.selectedFlow)
     if (this.selectedFlow.length !== 0) {
-      this.dataService.setFeatureFlowIdInfo(this.selectedFlow[0]);
-      this.showFeatureFlowComponent = true;
-    }
-    this.getFeatureFlowDetails();
 
+      this.featureDetailsService.getFeatureFlowCompByFlowId(this.selectedFlow[0]._id).subscribe(data => {
+        console.log("adfadffafafffdfgfag", data)
+        this.rowFlowCompData = data.flow_comp_seq;
+        this.showFeatureFlowComponent = true;
+
+      });
+    }
   }
 
   selectedFeatureEntityData() {
