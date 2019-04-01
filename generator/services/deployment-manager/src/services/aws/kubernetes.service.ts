@@ -183,31 +183,33 @@ export class KubernetesService {
             const client = new Client({ config: config, version: '1.9' });
 
             //start deployment
-
+            let namespace = projectDetails.project_name + "-" + projectDetails.user_id.substring(0, 5);
+            projectDetails.namespace = namespace.toLowerCase();
 
             // telemetry vault promethues
             if (projectDetails.telemetry_pod.vault) {
                 telemetryService.telemetry_vault(projectDetails, client, (response) => { });
             }
-            await delay(30000);
+            await delay(60000);
+
 
             //dev-ops
             if (projectDetails.dev_ops_pod) {
                 devOpsService.dev_ops_pod(projectDetails, client, (response) => { });
             }
+            await delay(30000);
 
             //App pod
             if (projectDetails.app_pod) {
                 appService.app_pod(projectDetails, client, (response) => { });
             }
 
-
             //telemetry EFK
             if (projectDetails.telemetry_pod.EFK) {
                 telemetryService.telemetry_EFK(projectDetails, client, (response) => { });
             }
 
-        
+
 
         }
 
