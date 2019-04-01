@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FeatureDetailsService } from './feature-details.service';
 import { DataService } from 'src/shared/data.service';
 import { Iscreen } from './interface/screen';
-import { Route, ActivatedRoute } from '@angular/router';
+import { Route, ActivatedRoute, Router } from '@angular/router';
 import yaml from 'js-yaml';
 
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
@@ -25,11 +25,13 @@ export class FeatureDetailsComponent implements OnInit {
   featureEntityData: any = [];
   featureEntity: any = [];
   displayModel: String = 'none';
+  featureScreenName: any = [];
   columnFeatureDefs: any = [];
   columnFeatureEntityData: any = [];
   columnFeatureEntity: any = [];
   rowFlowCompData: any = [];
   featureFlowRowData: any = [];
+  distinctFeatureDetails: any = [];
   featureFlowId: String;
   featureId: any;
   rowSelection: String;
@@ -55,7 +57,12 @@ export class FeatureDetailsComponent implements OnInit {
   //This is the default title property created by the angular cli. Its responsible for the app works 
   title = 'app works!';
 
-  constructor(private featureDetailsService: FeatureDetailsService, private dataService: DataService, private route: ActivatedRoute) {
+  constructor(
+    private featureDetailsService: FeatureDetailsService,
+    private dataService: DataService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
     this.columnDefs = [
       {
         headerName: 'Name', field: 'name',
@@ -109,6 +116,7 @@ export class FeatureDetailsComponent implements OnInit {
       this.feature_id = params.featureId;
     });
     this.getAllFeatureDetailsByFeatureId();
+    this.getScreenDetailsByFeatureId();
     this.getFeatureEntityByFeatureId();
     // this.getAllScreen();
     // this.getAllFeatureFlows();
@@ -195,11 +203,32 @@ export class FeatureDetailsComponent implements OnInit {
     return allText;
   }
 
-  getFeatureEntityByFeatureId(){
-    this.featureDetailsService.getFeatureEntityByFeatureId(this.feature_id).subscribe(data=>{
+  GoToDesigner() {
+    this.router.navigate(['/desktopscreen']);
+  }
+
+  getFeatureEntityByFeatureId() {
+    this.featureDetailsService.getFeatureEntityByFeatureId(this.feature_id).subscribe(data => {
       console.log(data);
       this.featureEntityData = data;
     })
+  }
+
+  getScreenDetailsByFeatureId() {
+    this.featureDetailsService.getAllFeatureDetailsByFeatureId(this.feature_id).subscribe(data => {
+      this.featureDetailsData = data;
+      this.featureDetailsData.map(data => {
+        console.log(data.flow.screenName)
+        this.featureScreenName.push(data.flow.screenName);
+      })
+      const distinct = (value, index, self) => {
+        return self.indexOf(value) === index;
+      };
+
+      this.distinctFeatureDetails = this.featureScreenName.filter(distinct);
+      console.log("adsadfaffaf", this.distinctFeatureDetails);
+
+    });
   }
 
   getAllEntity() {

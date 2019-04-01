@@ -64,6 +64,13 @@ export class EntityService {
         })
     }
 
+    public getEntityByFeatureId(req: Request, callback) {
+        const featureId = req.params;
+        entityDao.getEntityByFeatureId(featureId, (response) => {
+            callback(response);
+        })
+    }
+
     public getAllEntity(req: Request, callback) {
         entityDao.getAllEntity((response) => {
             callback(response);

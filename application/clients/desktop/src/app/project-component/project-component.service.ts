@@ -15,6 +15,7 @@ export class ProjectComponentService {
     name: '',
     description: '',
     project_id: '',
+    feature_id:'',
     created_by: '',
     last_modified_by: '',
     updated_at: new Date(),

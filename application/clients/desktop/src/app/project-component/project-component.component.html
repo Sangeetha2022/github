@@ -12,7 +12,7 @@
 
         <div style="padding-right: 20px;">
           <button class="btn btn-primary float-right" color="primary"
-            (click)="openFeatureDialog('create')">Create Features</button>
+            (click)="openFeatureDialog()">Create Features</button>
         </div>
         <div class="row" style="margin: 0px;" *ngIf="projectFeatureData.length > 0">
           <div class="col-md-4" *ngFor="let feature of projectFeatureData; let i = index">
@@ -189,9 +189,11 @@
             </div>
 
             <div class="form-group" *ngIf="selectFeature">
-              <label for="upload">Upload File</label>
-              <input type="file" ng2FileSelect [uploader]="uploader" multiple >
-              <!-- <input type="file" class="form-control" name="upload" (change)="handleFileInput($event.target.files)"  accept=".yaml,.yml"/> -->
+              <!-- <label for="upload">Upload File</label> -->
+              <input type="file" (change)="fileSelected($event)" /><br />
+              <input type="file" (change)="fileSelectedBack($event)" /><br />
+              <input type="file" (change)="fileSelectedApi($event)" /><br />
+              <br />              <!-- <input type="file" class="form-control" name="upload" (change)="handleFileInput($event.target.files)"  accept=".yaml,.yml"/> -->
             </div>
             <!-- <div class="drop-zone">
               <div ng2FileDrop [uploader]="uploader" multiple class="drop-zone">

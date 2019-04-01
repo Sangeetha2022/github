@@ -11,6 +11,8 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Constants } from '../config/Constant';
 import { SharedService } from '../../shared/shared.service';
 import { IFeatureDetails } from './interface/FeatureDetails';
+import { FeatureDetailsService } from './feature-details/feature-details.service';
+import { HttpClient, HttpBackend } from '@angular/common/http';
 
 
 @Component({
@@ -22,6 +24,9 @@ import { IFeatureDetails } from './interface/FeatureDetails';
 export class EntityManagerComponent implements OnInit {
   public Editor = ClassicEditor;
   selectFeature: Boolean = true;
+  frontFile: any;
+  backendFile: any;
+  apiManFile: any;
   showUpdateFeature: Boolean;
   allowImport: Boolean;
   selectedExistingFeature: String;
@@ -46,34 +51,42 @@ export class EntityManagerComponent implements OnInit {
     // explanation:'',
   };
   panelOpenState = false;
-  fileToUpload: File = null;
+  featureEntityData: any = [];
+  featureEntityField: any = [];
   displayFeatureModel = 'none';
   public entity: IEntity = {
     name: '',
     description: '',
     project_id: '',
+    feature_id: '',
     created_by: '',
     last_modified_by: '',
     updated_at: new Date(),
     field: []
   };
+  http: HttpClient;
   public allEntity: IEntity[] = [];
   public deletePopup: String = 'none';
   deleteFPopup: String = 'none';
+  public formData: FormData = new FormData();
   public selectedEntityId: any;
   selectedFeatureId: any;
   projectFeatureData: any = [];
   selectedProject: any;
   selecteddefaultEntity: any;
+  featureDetailsData: any = [];
   constructor(
     public dialog: MatDialog,
     private router: Router,
     private projectComponentService: ProjectComponentService,
+    private featureDetailsService: FeatureDetailsService,
     private dataService: DataService,
     private restApi: SharedService,
     private route: ActivatedRoute,
-  ) {
+    private handler: HttpBackend,
 
+  ) {
+    this.http = new HttpClient(handler);
 
     // if (this.selectFeature === true) {
     //   this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
@@ -90,7 +103,21 @@ export class EntityManagerComponent implements OnInit {
     this.getAllEntityByProjectId();
     // this.getDefaultEntityByProjectId();
     // this.getAllFeature();
+    console.log(this.projectFeatureData);
     this.getAllFeatureDetails();
+  }
+
+
+  fileSelected(event) {
+    this.frontFile = event.target.files
+  }
+
+  fileSelectedBack(event) {
+    this.backendFile = event.target.files
+
+  }
+  fileSelectedApi(event) {
+    this.apiManFile = event.target.files
   }
 
   saveEntityModel() {
@@ -126,6 +153,7 @@ export class EntityManagerComponent implements OnInit {
   getProjectDetails() {
     this.projectComponentService.getAllFeatureByProjectId(this.project_id).subscribe(data => {
       if (data !== null) {
+        this.featureId = [];
         data.map(fdata => {
           this.featureId.push(fdata.feature_id);
         });
@@ -177,15 +205,20 @@ export class EntityManagerComponent implements OnInit {
   }
 
   createFeature() {
-    this.addFeature();
-    this.closeFeatureCreateModel();
-    console.log(this.features);
+    this.formData.append('front_mang_file', this.frontFile[0]);
+    this.formData.append('backed_mang_file', this.backendFile[0]);
+    this.formData.append('api_mang_file', this.apiManFile[0]);
+    this.formData.append('name', this.featureDetails.name);
+    this.formData.append('description', this.featureDetails.description);
+    console.log("asdhfijahfdfoiuahff", this.formData);
 
+    return this.http.post('http://localhost:3006/feature/details/addfile', this.formData).subscribe((data) => {
+      this.closeFeatureCreateModel();
+      this.getAllFeatureDetails();
+    });
   }
-  openFeatureDialog(create): void {
-    if (create === 'create') {
-      // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
-    }
+
+  openFeatureDialog(): void {
     this.displayFeatureModel = 'block';
   }
 
@@ -210,12 +243,12 @@ export class EntityManagerComponent implements OnInit {
       }
     );
   }
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
-    console.log(this.fileToUpload);
-    this.projectComponentService.uploadeFeaturefile(this.fileToUpload).subscribe(data => {
-    })
-  }
+  // handleFileInput(files: FileList) {
+  //   this.fileToUpload = files.item(0);
+  //   console.log(this.fileToUpload);
+  //   this.projectComponentService.uploadeFeaturefile(this.fileToUpload).subscribe(data => {
+  //   })
+  // }
   updateEntity(entityData) {
     entityData.updated_at = new Date();
     this.projectComponentService.updateEntity(entityData).subscribe(
@@ -232,6 +265,7 @@ export class EntityManagerComponent implements OnInit {
     this.projectComponentService.getEntityByProjectId(this.selectedProject._id).subscribe(
       (data) => {
         this.allEntity = data;
+        this.dataService.setAllEntity(this.allEntity);
       },
       (error) => {
 
@@ -286,7 +320,6 @@ export class EntityManagerComponent implements OnInit {
   // }
 
   GoToDesigner() {
-    this.dataService.setAllEntity(this.allEntity);
     this.router.navigate(['/desktopscreen']);
   }
 
@@ -321,14 +354,15 @@ export class EntityManagerComponent implements OnInit {
   }
 
   addFeature() {
-    this.projectComponentService.getAllFeatureByProjectId(this.features.project_id).subscribe(data => {
 
+    this.projectComponentService.getAllFeatureByProjectId(this.features.project_id).subscribe(data => {
       data.map(pfdata => {
         if (pfdata.feature_id === this.features.feature_id) {
           this.allowImport = true;
         }
       });
       if (this.allowImport) {
+        alert('Already Imported');
         this.closeFeatureExistingModel();
       }
       if (!this.allowImport) {
@@ -339,6 +373,31 @@ export class EntityManagerComponent implements OnInit {
             this.closeFeatureExistingModel();
           }
         });
+
+        this.featureDetailsService.getFeatureEntityByFeatureId(this.features.feature_id).subscribe(data => {
+          this.featureEntityData = data;
+          this.featureEntityData.map((data, index) => {
+            this.featureEntityField.push(data.field);
+          });
+          this.featureEntityField.map(data => {
+            this.entity.name = this.featureDetails.name;
+            this.entity.feature_id = this.features.feature_id;
+            this.entity.description = this.featureDetails.description;
+            this.entity.project_id = this.features.project_id;
+            this.entity.field = data;
+            this.projectComponentService.createEntity(this.entity).subscribe(
+              (data) => {
+                console.log("i am the entities", data);
+              },
+              (error) => {
+
+              }
+            );
+          });
+
+        });
+
+
       }
     });
   }
@@ -392,6 +451,7 @@ export class EntityManagerComponent implements OnInit {
     // this.getAllFeature();
   }
 }
+
 
 // image uploader for ckeditor
 
