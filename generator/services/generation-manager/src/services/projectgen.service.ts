@@ -2,12 +2,14 @@ import { Request, NextFunction } from 'express';
 import { ProjectgenDao } from '../daos/projectgen.dao';
 import { ProjectManagerService } from '../apiservices/ProjectManagerService';
 import { ConfigurationManagerService } from '../apiservices/ConfigurationManagerService';
-
-let projectgenDao = new ProjectgenDao()
-let projectManagerService = new ProjectManagerService();
-let configManagerService = new ConfigurationManagerService();
+import { CodeGenManagerService } from '../apiservices/CodeGenManagerService';
 
 export class ProjectgenService {
+
+    private projectgenDao: ProjectgenDao = new ProjectgenDao()
+    private projectManagerService: ProjectManagerService = new ProjectManagerService();
+    private configManagerService: ConfigurationManagerService = new ConfigurationManagerService();
+    private codeGenManagerService: CodeGenManagerService = new CodeGenManagerService();
 
     private projectObj: any = {
         name: '',
@@ -33,7 +35,7 @@ export class ProjectgenService {
 
     public saveProjectgen(req: Request, callback: CallableFunction) {
         const projectgen = req.body;
-        projectgenDao.saveProjectgen(projectgen, (response) => {
+        this.projectgenDao.saveProjectgen(projectgen, (response) => {
             callback(response);
             // if(response.status==="gen_requested"){
             //     this.startGenerate(response);
@@ -42,39 +44,39 @@ export class ProjectgenService {
     }
 
     public getProjectgenByProjectId(req: Request, next: NextFunction, callback: CallableFunction) {
-        projectgenDao.getProjectgenByProjectId(req, next, (projectgen) => {
+        this.projectgenDao.getProjectgenByProjectId(req, next, (projectgen) => {
             callback(projectgen);
         })
     }
 
     public getProjectgenByUserId(req: Request, next: NextFunction, callback: CallableFunction) {
-        projectgenDao.getProjectgenByUserId(req, next, (projectgen) => {
+        this.projectgenDao.getProjectgenByUserId(req, next, (projectgen) => {
             callback(projectgen);
         })
     }
 
 
     public getAllProjectgen(req: Request, callback: CallableFunction) {
-        projectgenDao.getAllProjectgen(req, (projectgen) => {
+        this.projectgenDao.getAllProjectgen(req, (projectgen) => {
             callback(projectgen);
         })
     }
 
     public getProjectgenByID(req: Request, next: NextFunction, callback: CallableFunction) {
-        projectgenDao.getProjectgenByID(req, next, (projectgen) => {
+        this.projectgenDao.getProjectgenByID(req, next, (projectgen) => {
             callback(projectgen);
         })
     }
 
     public deleteProjectgen(req: Request, next: NextFunction, callback: CallableFunction) {
         const projectgenID = req.params.id;
-        projectgenDao.deleteProjectgen(projectgenID, next, (response) => {
+        this.projectgenDao.deleteProjectgen(projectgenID, next, (response) => {
             callback(response);
         })
     }
 
     public updateProjectgen(req: Request, next: NextFunction, callback: CallableFunction) {
-        projectgenDao.updateProjectgen(req, next, (response) => {
+        this.projectgenDao.updateProjectgen(req, next, (response) => {
             callback(response);
         })
     }
@@ -82,7 +84,7 @@ export class ProjectgenService {
     public createProjectGen(req: Request, next: NextFunction, callback: CallableFunction) {
         const projectId = req.params.id;
 
-        projectManagerService.getProjectById(projectId, (projectResponse) => {
+        this.projectManagerService.getProjectById(projectId, (projectResponse) => {
             //   console.log('project response ----- ', projectResponse);
             const projectInfo = JSON.parse(projectResponse);
             this.projectObj.name = projectInfo.name;
@@ -90,13 +92,17 @@ export class ProjectgenService {
             this.projectObj.defaultHumanLanguage = projectInfo.default_human_language;
             this.projectObj.otherHumanLanguage = projectInfo.other_human_languages;
             this.setTechnicalField(projectInfo);
-            configManagerService.getAllDetails((configResponse) => {
-                const configInfo = JSON.parse(configResponse);
-                if (configInfo !== null && configInfo.length > 0 && configInfo !== undefined) {
-                    this.setConfigurationField(configInfo);
-                    console.log('project object are -22222---- ', this.projectObj);
-                }
+            this.codeGenManagerService.createProjectCode(projectId, this.projectObj, (codeResponse) => {
+
             })
+            // this.configManagerService.getAllDetails((configResponse) => {
+            //     const configInfo = JSON.parse(configResponse);
+            //     if (configInfo !== null && configInfo.length > 0 && configInfo !== undefined) {
+            //         this.setConfigurationField(configInfo);
+            //         console.log('project object are -22222---- ', this.projectObj);
+
+            //     }
+            // })
         })
     }
 
