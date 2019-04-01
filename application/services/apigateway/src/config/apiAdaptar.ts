@@ -15,7 +15,7 @@ export class ApiAdaptar {
         return new Promise((resolve, reject) => {
             request.get(url, (error, response, body) => {
                 console.log(" - -- > > ", body)
-                this.sendResponse(resolve, reject, error, response, body);
+                this.sendResponse(resolve, reject, error, response, JSON.parse(body));
             });
         });
     }
