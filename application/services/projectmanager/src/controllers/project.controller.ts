@@ -40,7 +40,14 @@ export class ProjectController {
     public deleteProject(req: Request, res: Response) {
         projectService.deleteProject(req, (user) => {
             res.status(200); // status for the response
-            res.json(user); 
+            res.json(user);
+        })
+    }
+
+    public getProjectByUserId(req: Request, res: Response) {
+        projectService.getProjectByID(req, (user) => {
+            res.status(200);
+            res.json(user);
         })
     }
 

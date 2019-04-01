@@ -1,6 +1,6 @@
 import mongoose = require('mongoose');
-import { Roleschema } from '../src/models/Role';
-import { roletypes } from '../src/assets/role';
+import { Roleschema } from './models/Role';
+import { roletypes } from './assets/role';
 
 const roletypemodel = mongoose.model('Role', Roleschema);
 

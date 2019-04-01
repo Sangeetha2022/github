@@ -49,4 +49,11 @@ export class GenerationFlowController {
         })
     }
 
+    public getTechPropertyFlow(req: Request, res: Response, next: NextFunction) {
+        generationFlowService.getTechPropertyFlow(req, next, (user) => {
+            res.status(200);
+            res.json(user);
+        })
+    }
+
 }

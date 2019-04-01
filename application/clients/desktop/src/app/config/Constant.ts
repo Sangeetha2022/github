@@ -27,6 +27,7 @@ export class Constants {
     public static get deleteMyProjectUrl(): string { return '/projects/my/delete/'; }
     public static get getAllMyProjecturl(): string { return '/projects/my/getall'; }
     public static get addProjectDefaults(): String { return '/projects/default/create'; }
+    public static get updateProjectById(): String { return '/projects/my/update'; }
 
     // Flow apis
     public static get addFlowCompToFlowUrl(): string { return '/add/flow_comp'; }
@@ -47,6 +48,7 @@ export class Constants {
     public static get updateGenFlowsUrl(): string { return '/generation_flow/update/'; }
     public static get deleteGenFlowsUrl(): string { return '/generation_flow/delete/'; }
     public static get getGenFlowsByCompNameUrl(): string { return '/generation_flow/getbyname/'; }
+    public static get getTechProperties(): string { return '/generation_flow/getproperties'; }
 
     // Micro Flow apis
     public static get addMicroFlowUrl(): string { return '/microflow/save'; }

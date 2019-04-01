@@ -4,6 +4,7 @@ import GenFlowModel from '../models/configuration.model';
 import IGenFlow from '../models/configuration.interface';
 import GenFlowDto from '../models/configuration.dto';
 import PostNotFoundException from '../exceptions/PostNotFoundException';
+import DataNotFoundException from '../exceptions/DataNotFoundException';
 
 export class GenerationFlowDao {
 
@@ -62,6 +63,23 @@ export class GenerationFlowDao {
             callback(200);
         } else {
             next(new PostNotFoundException(id));
+        }
+    }
+
+    getTechPropertyFlow = async(req: Request,next, callback: CallableFunction) => {
+        const successResponse = await this.genFlow.find({$or: [
+            {type: "GpClientLanguage"},
+            {type: "GpClientDevFramework"},
+            {type: "GpServerLanguage"},
+            {type: "GpServerDevFramework"},
+            {type: "GpServerDBMS"},
+            {type: "GpUserDeploymentTarget"},
+            {type: "GpUserDeploymentServer"},
+        ]});
+        if(successResponse) {
+            callback(successResponse)
+        } else {
+            next(new DataNotFoundException())
         }
     }
 
