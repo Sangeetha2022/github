@@ -1,16 +1,14 @@
-import * as express from "express";
-import * as bodyParser from "body-parser";
-import { Routes } from "./routes/routes";
-import * as expressWinston from 'express-winston';
-import * as cors from 'cors';
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
-import { MongoConfig } from './config/MongoConfig'
+import { Routes } from './routes/routes';
+import * as cors from 'cors';
 import { WinstonLogger } from './config/WinstonLogger';
 import { createServer, Server } from 'http';
 import * as socketIo from 'socket.io';
 
 
-const PORT = 5000;
+const PORT = 5006;
 const logDir = 'log';
 
 
@@ -19,8 +17,9 @@ export class App {
     public app: express.Application = express();
     public server: Server;
     public io: socketIo.Server;
-    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
+
     public routePrv: Routes = new Routes();
+    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
     public logger: WinstonLogger = new WinstonLogger();
 
 

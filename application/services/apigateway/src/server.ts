@@ -10,6 +10,9 @@ import {
       FeatureController,
     
     } from './apicontroller';
+import {
+CodeController
+} from './apicontroller/generator/code.controller';
 import { WinstonLogger } from './config/WinstonLogger';
 import { createUserTemplateController } from './apicontroller/screenmanager.controllers';
 import { securityController } from './apicontroller/securitymanager.controllers';
@@ -26,6 +29,7 @@ let apisController = [
     new createUserTemplateController(),
     new securityController(),
     new MicroflowController(),
+    new CodeController()
 ]
 
 class App {
