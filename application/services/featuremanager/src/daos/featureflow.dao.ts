@@ -1,5 +1,4 @@
 import * as mongoose from 'mongoose';
-import { FeatureSchema } from '../models/feature.model';
 import { Request, Response } from 'express';
 import FeatureFlowsModel from '../models/fetaureflows.model';
 
@@ -46,6 +45,18 @@ export class FeatureFlowDao {
             }
         });
     }
+
+    public getFeatureFlowByFeatureId(req: Request, callback: CallableFunction) {
+        this.FeatureFlows.find({feature_id:req.params.id}, (err, feature) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(feature);
+            }
+        });
+    }
+
+    
 
     public deleteFeatureFlow(req: Request, callback: CallableFunction) {
         this.FeatureFlows.remove({ _id: req.params.id }, (err) => {

@@ -147,7 +147,7 @@ export class ProjectsComponent implements OnInit {
   editProject(project) {
     console.log('edit project are --------- ', project);
     this.dataService.setProjectInfo(project);
-    this.router.navigate(['/project-component']);
+    this.router.navigate(['/project-component'],{queryParams:{projectId:project._id}});
   }
 
   projectCreate() {

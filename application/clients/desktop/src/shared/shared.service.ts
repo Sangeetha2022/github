@@ -14,8 +14,7 @@ export class SharedService {
     // public entityUrl: String = 'http://localhost:3005';
     // public featureUrl: String = 'http://localhost:3006';
     // public configUrl: String = 'http://localhost:5001'
-   
-    // public featureflowbaseUrl: String = 'http://localhost:3011';
+
     public mflowbaseUrl: String = 'http://localhost:3002';
     public projbaseUrl: String = 'http://localhost:3003';
     public screenUrl: String = 'http://localhost:3004';
@@ -32,6 +31,7 @@ export class SharedService {
     // public projbaseUrl: String = 'http://afa7c098d4afc11e988250eeb40aab9c-613839645.us-east-1.elb.amazonaws.com:3003';
     // public screenUrl: String = 'http://afa7c098d4afc11e988250eeb40aab9c-613839645.us-east-1.elb.amazonaws.com:3004';
     // public entityUrl: String = 'http://afa7c098d4afc11e988250eeb40aab9c-613839645.us-east-1.elb.amazonaws.com:3005';
+    // public featureflowbaseUrl = 'http://afa7c098d4afc11e988250eeb40aab9c-613839645.us-east-1.elb.amazonaws.com:3007'
     // public featureUrl: String = 'http://afa7c098d4afc11e988250eeb40aab9c-613839645.us-east-1.elb.amazonaws.com:3006';
     // public genmanagerUrl: String = 'http://a14efe48e38cf11e982c60202a46ed6d-1515056916.us-east-1.elb.amazonaws.com:5000';
     // public configUrl: String = 'http://a14efe48e38cf11e982c60202a46ed6d-1515056916.us-east-1.elb.amazonaws.com:5001';

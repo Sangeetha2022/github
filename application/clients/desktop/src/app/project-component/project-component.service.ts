@@ -15,6 +15,7 @@ export class ProjectComponentService {
     name: '',
     description: '',
     project_id: '',
+    feature_id:'',
     created_by: '',
     last_modified_by: '',
     updated_at: new Date(),
@@ -67,9 +68,26 @@ export class ProjectComponentService {
 
   }
 
+  addFeatureDetails(feature) {
+    return this.api.post(this.restapi.featureUrl + Constants.addFeatureDetails, feature);
+
+  }
+
   getAllFeature() {
     return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getAllUrl);
   }
+  getAllFeatureByProjectId(id) {
+    return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getFeatureByProjectId + id);
+  }
+
+  getAllFeatureDetails() {
+    return this.api.get(this.restapi.featureUrl + Constants.getAllFeatureDetails);
+  }
+
+  getFeatureDetailsById(id) {
+    return this.api.get(this.restapi.featureUrl + Constants.featureBaseUrl + Constants.detailsUrl + Constants.getByIdUrl + id);
+  }
+
 
   getFeatureById(id) {
     return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getByIdUrl + id);
@@ -84,7 +102,7 @@ export class ProjectComponentService {
     return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + featureId, feature);
   }
 
-  uploadeFeaturefile(file){
+  uploadeFeaturefile(file) {
     // const formData: FormData = new FormData();
     // formData.append('fileKey', file, file.name);
     return this.api.post(this.restapi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.addFilesUrl, file);

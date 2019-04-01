@@ -28,6 +28,14 @@ export class FeatureFlowService{
             callback(feature)
         })
     }
+
+    public getFeatureFlowByFeatureId (req: Request, callback:CallableFunction) {           
+        featureFlowDao.getFeatureFlowByFeatureId(req, (feature) => {
+            callback(feature)
+        })
+    }
+
+    
     
     public deleteFeatureFlow (req: Request, callback:CallableFunction) {           
         featureFlowDao.deleteFeatureFlow(req, (feature) => {

@@ -33,8 +33,9 @@ const routes: Routes = [
   // { path: '**', redirectTo: 'project', pathMatch: 'full' },
 
   { path: 'feature-details', component: FeatureDetailsComponent },
-  // { path: '', redirectTo: 'project', pathMatch: 'full' },
-  // { path: '**', redirectTo: 'project', pathMatch: 'full' },
+  { path: '', redirectTo: '', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
+
 
 ];
 

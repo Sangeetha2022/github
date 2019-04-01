@@ -46,16 +46,6 @@ export class FeatureFlowEntityDao {
         });
     }
 
-    public getFeatureFlowEntityByFeatureID(req: Request, callback: CallableFunction) {
-        this.FeatureEntityFlows.findOne({feature_id:req.params.id}, (err, feature) => {
-            if (err) {
-                callback(err);
-            } else {
-                callback(feature);
-            }
-        });
-    }
-
     public deleteFeatureFlowEntity(req: Request, callback: CallableFunction) {
         this.FeatureEntityFlows.remove({ _id: req.params.id }, (err) => {
             if (err) {

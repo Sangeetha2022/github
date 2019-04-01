@@ -25,6 +25,7 @@ export class FeatureDetailsDao {
     private FeatureFlows = FeatureFlowsModel;
     private FeatureEntityFlows = FeatureEntityModel;
     private FeatureFlowComps = FeatureFlowCompsModel;
+    flows: any = [];
 
     uploadeFeaturefile = async (req: Request, callback: CallableFunction) => {
         await backendupload(req, callback, async (err) => {
@@ -64,12 +65,12 @@ export class FeatureDetailsDao {
         files.map((file, i) => {
             if (file.fieldname === "front_mang_file") {
                 var doc = yaml.safeLoadAll(fs.readFileSync(file.destination + '/' + file.filename, 'utf8'))
-                this.saveFeatureFlows(doc,feature._id, callback);
+                this.saveFeatureFlows(doc, feature._id, callback);
             }
         })
     }
 
-    private saveFeatureFlows = (doc,feature_id, callback) => {
+    private saveFeatureFlows = (doc, feature_id, callback) => {
         Object.keys(doc[0]).map(async (data, index) => {
             if (data !== "dns" && data !== "db") {
                 await Object.keys(doc[0][data]).map(async (data1, i) => {
@@ -87,7 +88,9 @@ export class FeatureDetailsDao {
                         const createdFlowComp = new this.FeatureFlows(dataToSave);
                         await createdFlowComp.save(async (err, fdata) => {
                             if (fdata) {
-                                await this.saveFeatureFlowComps(doc[0][data][data1], fdata._id);
+                                this.flows = fdata
+                                console.log("Adsadad", this.flows);
+                                await this.saveFeatureFlowComps(doc[0][data][data1], fdata._id, feature_id);
                             }
                         });
                     }
@@ -97,8 +100,8 @@ export class FeatureDetailsDao {
         })
     }
 
-    private saveFeatureFlowComps = async (flowData, flowid) => {
-        console.log(" = = = == floe daraa ayccj0oc0 /.   > >>>  ", flowData, flowid);
+    private saveFeatureFlowComps = async (flowData, flowid, feature_id) => {
+        console.log(" = = = == floe daraa ayccj0oc0 /.   > >>>  ", feature_id);
         let flowComp = []
         if (flowData.controller) {
             flowComp.push({
@@ -160,10 +163,57 @@ export class FeatureDetailsDao {
         }
         let dataToSave = {
             flow: flowid,
+            feature_id: feature_id,
             flow_comp_seq: flowComp
         }
         const createdFlowComp = new this.FeatureFlowComps(dataToSave);
         await createdFlowComp.save();
+    }
+
+    public getAllFeatureDetails = async (req: Request, callback: CallableFunction) => {
+        await this.Feature.find({}, (err, feature) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(feature);
+            }
+        });
+
+    }
+
+    public getFeatureDetailsByFeatureid = async (req: Request, callback: CallableFunction) => {
+        await this.FeatureFlowComps.find({feature_id:req.params.id}).populate({path:'flow',model:this.FeatureFlows}).exec((err,flowDetails)=>{
+            if (err) {
+                callback(err);
+            } else {
+
+                callback(flowDetails);
+            }
+
+        })
+    }
+
+    public getFeatureEntityByFeatureid = async (req: Request, callback: CallableFunction) => {
+        await this.FeatureEntityFlows.find({feature_id:req.params.id},(err,flowDetails)=>{
+            if (err) {
+                callback(err);
+            } else {
+
+                callback(flowDetails);
+            }
+
+        });
+    }
+
+    public getFeatureDetailsById = async (req: Request, callback: CallableFunction) => {
+        await this.Feature.findById(req.params.id, (err, feature) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(feature);
+            }
+        });
+
     }
 
     private saveFeatureEntity = async (schemaname, schema, feature_id, callback) => {

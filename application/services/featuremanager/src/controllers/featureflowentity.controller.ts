@@ -31,15 +31,7 @@ export class FeatureFlowEntityController {
             res.status(200); // status for the response
             res.json(user); 
         })
-    }
-    
-    public getFeatureFlowEntityByFeatureID(req: Request, res: Response) {
-        featureFlowEntityService.getFeatureFlowEntityByFeatureID(req, (user) => {
-            res.status(200); // status for the response
-            res.json(user); 
-        })
-    }
-    
+    }    
 
     public deleteFeatureFlowEntity(req: Request, res: Response) {
         featureFlowEntityService.deleteFeatureFlowEntity(req, (user) => {
