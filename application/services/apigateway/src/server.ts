@@ -6,9 +6,14 @@ import {
      ProjectController,
       FlowManagerController,
       EntityController,
-      DefaultController
+      DefaultController,
+      FeatureController,
+    
     } from './apicontroller';
 import { WinstonLogger } from './config/WinstonLogger';
+import { createUserTemplateController } from './apicontroller/screenmanager.controllers';
+import { securityController } from './apicontroller/securitymanager.controllers';
+import { MicroflowController } from './apicontroller/microflowmanager.controller';
 
 const PORT = 3010;
 
@@ -16,7 +21,11 @@ let apisController = [
     new ProjectController(),
     new FlowManagerController(),
     new EntityController(),
-    new DefaultController()
+    new DefaultController(),
+    new FeatureController(),
+    new createUserTemplateController(),
+    new securityController(),
+    new MicroflowController(),
 ]
 
 class App {
