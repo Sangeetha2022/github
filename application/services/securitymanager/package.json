@@ -4,7 +4,8 @@
   "description": "geppetto login service",
   "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ng test",
+    "build": "tsc",
     "dev": "ts-node ./src/server.ts",
     "start": "nodemon ./dist/server.js",
     "prod": "npm run build && npm run start"

@@ -74,7 +74,7 @@ export class ConsentscreenComponent implements OnInit {
       // window.open(consentvalue.redirectUrl, '_self');
       this.route.navigate(['callback']);
       sessionStorage.setItem('Userid', JSON.stringify(this.id));
-      // sessionStorage.setItem('token', )
+      sessionStorage.setItem('token', JSON.stringify(consentvalue.Idtoken));
     }, error => {
       console.error('error: ', error);
     });
