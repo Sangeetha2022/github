@@ -14,7 +14,6 @@ export class Constants {
     public static get getFeatureByProjectId(): string { return '/getbyprojectid/'; }
 
     public static get flowUrl(): string { return '/flow'; }
-    public static get featureBaseUrl(): string { return '/feature'; }
 
     public static get featureflowUrl(): string { return '/feature-flow'; }
     public static get flowCompUrl(): string { return '/flow/flow_comp'; }
@@ -96,9 +95,8 @@ export class Constants {
     public static get getScreenByFeatureName(): string { return '/screen/getbyfeature/'; }
     public static get updateScreen(): string { return '/screen/update/:id'; }
 
-    //Entity
-    public static get getEntityByFeatureId(): string { return '/entity/getbyfeatureid/'; }
-
+    // Entity
+    public static get getEntityByFeatureAndprojectId(): string { return '/entity/getbyfeatureandprojectid/'; }
     // Feature Entity
 
     public static get getAllEntity(): string { return '/feature-entity/getall'; }

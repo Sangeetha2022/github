@@ -1,8 +1,13 @@
 import * as mongoose from 'mongoose';
+import * as uuid from 'uuid';
 
 const Schema = mongoose.Schema;
 
 export const FeatureDetailsSchema = new Schema({
+    _id: {
+        type: String,
+        default: uuid.v1
+    },
     name: { type: String },
     description: { type: String },
     api_mang_file: { type: String },

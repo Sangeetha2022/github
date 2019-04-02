@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { FeatureDetailsDao } from '../daos/fetauredetails.dao';
+import { FeatureDetailsDao } from '../daos/featuredetails.dao';
 
 let featureDetailsDao = new FeatureDetailsDao()
 

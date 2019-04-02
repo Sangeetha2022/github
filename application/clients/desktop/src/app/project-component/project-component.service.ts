@@ -15,7 +15,7 @@ export class ProjectComponentService {
     name: '',
     description: '',
     project_id: '',
-    feature_id:'',
+    feature_id: '',
     created_by: '',
     last_modified_by: '',
     updated_at: new Date(),
@@ -48,8 +48,8 @@ export class ProjectComponentService {
     return this.api.get(this.restapi.entityUrl + '/entity/getall');
   }
 
-  getEntityByFeatureId(featureId: String): Observable<[]> {
-    return this.api.get(this.restapi.entityUrl + Constants.getEntityByFeatureId + featureId);
+  getEntityByFeatureAndprojectId(projectId, featureId): Observable<[]> {
+    return this.api.get(this.restapi.entityUrl + Constants.getEntityByFeatureAndprojectId + projectId + '/' + featureId);
   }
 
   updateEntityField(entity: any): Observable<any> {
@@ -89,7 +89,8 @@ export class ProjectComponentService {
   }
 
   getFeatureDetailsById(id) {
-    return this.api.get(this.restapi.featureUrl + Constants.featureBaseUrl + Constants.detailsUrl + Constants.getByIdUrl + id);
+    console.log('get dsf features details by id ---- ', id);
+    return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.getByIdUrl + id);
   }
 
 
