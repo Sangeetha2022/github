@@ -65,8 +65,9 @@ export class EntityService {
     }
 
     public getEntityByFeatureId(req: Request, callback) {
-        const featureId = req.params;
-        entityDao.getEntityByFeatureId(featureId, (response) => {
+        console.log("adfadff",req.params)
+        const id = req.params.id;
+        entityDao.getEntityByFeatureId(id, (response) => {
             callback(response);
         })
     }
