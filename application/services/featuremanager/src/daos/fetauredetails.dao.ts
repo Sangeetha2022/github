@@ -219,7 +219,6 @@ export class FeatureDetailsDao {
     private saveFeatureEntity = async (schemaname, schema, feature_id, callback) => {
         let dataToSave = {
             name: schemaname,
-            description: schemaname,
             created_by: "rahul",
             feature_id: feature_id,
             field: []
@@ -228,6 +227,8 @@ export class FeatureDetailsDao {
             let dataToPush = {
                 name: data,
                 data_type: schema[data].type,
+                type_name: schema[data].type_name,
+                description: schema[data].description,
             }
             dataToSave.field.push(dataToPush)
         })
