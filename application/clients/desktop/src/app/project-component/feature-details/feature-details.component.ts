@@ -6,6 +6,10 @@ import { Route, ActivatedRoute, Router } from '@angular/router';
 import yaml from 'js-yaml';
 
 import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { PopupModelComponent } from '../popup-model/popup-model.component';
+import { MatDialog } from '@angular/material';
+import { ProjectComponentService } from '../project-component.service';
+import { IEntity } from '../interface/Entity';
 
 const URL = 'http://localhost:3006/feature/details/addfile';
 
@@ -29,6 +33,7 @@ export class FeatureDetailsComponent implements OnInit {
   columnFeatureDefs: any = [];
   columnFeatureEntityData: any = [];
   columnFeatureEntity: any = [];
+  featureEntityDetails: any = [];
   rowFlowCompData: any = [];
   featureFlowRowData: any = [];
   distinctFeatureDetails: any = [];
@@ -59,9 +64,11 @@ export class FeatureDetailsComponent implements OnInit {
 
   constructor(
     private featureDetailsService: FeatureDetailsService,
+    private projectComponentService: ProjectComponentService,
     private dataService: DataService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.columnDefs = [
       {
@@ -118,6 +125,7 @@ export class FeatureDetailsComponent implements OnInit {
     this.getAllFeatureDetailsByFeatureId();
     this.getScreenDetailsByFeatureId();
     this.getFeatureEntityByFeatureId();
+    this.getFeatureEntity();
     // this.getAllScreen();
     // this.getAllFeatureFlows();
     // this.getAllEntity();
@@ -180,6 +188,20 @@ export class FeatureDetailsComponent implements OnInit {
       console.log("adsffadffaf", this.featureFlowRowData);
     });
   }
+
+  getFeatureEntity(){
+    this.projectComponentService.getEntityByFeatureId(this.feature_id).subscribe(data=>{
+      this.featureEntityDetails = data;
+      console.log("DAsadsadsadadsfsf",this.featureEntityDetails);
+    });
+
+  }
+
+  editEntityField(entity: IEntity) {
+    this.dataService.setEntity(entity);
+    this.router.navigate(['/entity-field']);
+  }
+
   // getAllFeatureFlows() {
   //   this.showFeatureFlow = true;
   //   this.showFeatureFlowComponent = false;
@@ -201,6 +223,36 @@ export class FeatureDetailsComponent implements OnInit {
     }
     rawFile.send(null);
     return allText;
+  }
+
+  openDialog(isSaveOption, objectValue): void {
+    let dialogDataValue;
+    if (isSaveOption) {
+      dialogDataValue = {};
+    } else {
+      dialogDataValue = objectValue;
+    }
+    const dialogRef = this.dialog.open(PopupModelComponent, {
+      width: '250px',
+      data: dialogDataValue
+    });
+
+    dialogRef.afterClosed().subscribe(entityData => {
+      console.log('after close dialogRef ---- ', entityData);
+      // if (entityData !== undefined) {
+      //   if (objectValue === null) {
+      //     this.saveEntity(entityData);
+      //   } else {
+      //     dialogDataValue.name = entityData.name;
+      //     dialogDataValue.description = entityData.description;
+      //     this.updateEntity(dialogDataValue);
+      //   }
+      // }
+    });
+  }
+
+  editEntity(entity) {
+    this.openDialog(false, entity);
   }
 
   GoToDesigner() {

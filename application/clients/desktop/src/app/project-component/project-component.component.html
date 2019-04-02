@@ -42,7 +42,7 @@
             Entity</button>
         </div>
         <div class="row" style="margin: 0px;">
-          <div class="col-md-4" *ngFor="let entity of allEntity; let i = index">
+          <div class="col-md-4" *ngFor="let entity of projectEntity; let i = index">
             <div class="card">
               <div class="card-header">
                 {{entity.name}}
@@ -59,7 +59,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4" *ngIf="allEntity.length === 0">
+          <div class="col-md-4" *ngIf="projectEntity.length === 0">
             No Entity Available.
           </div>
         </div>

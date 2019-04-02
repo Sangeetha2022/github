@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 export const FeatureEntitySchema = new Schema({
     name: String,
-    description: String,
     created_by: String,
     feature_id: { type: mongoose.Schema.Types.ObjectId, ref: 'feature_details' },
     created_at: { type: Date, default: Date.now },
@@ -12,6 +11,8 @@ export const FeatureEntitySchema = new Schema({
     field: [{
         name: { type: String, default: null },
         data_type: { type: String, default: null },
+        type_name: { type: String, default: null },
+        description: { type: String, default: null },
         created_at: { type: Date, default: Date.now },
         updated_at: { type: Date, default: null },
     }]

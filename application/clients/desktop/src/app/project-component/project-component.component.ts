@@ -30,6 +30,7 @@ export class EntityManagerComponent implements OnInit {
   showUpdateFeature: Boolean;
   allowImport: Boolean;
   selectedExistingFeature: String;
+  featureNameandDesc: any = [];
   featureId: any = [];
   featureData: any = [];
   featureConnectProject: any = [];
@@ -65,6 +66,7 @@ export class EntityManagerComponent implements OnInit {
     field: []
   };
   http: HttpClient;
+  projectEntity: any = [];
   public allEntity: IEntity[] = [];
   public deletePopup: String = 'none';
   deleteFPopup: String = 'none';
@@ -210,11 +212,17 @@ export class EntityManagerComponent implements OnInit {
     this.formData.append('api_mang_file', this.apiManFile[0]);
     this.formData.append('name', this.featureDetails.name);
     this.formData.append('description', this.featureDetails.description);
-    console.log("asdhfijahfdfoiuahff", this.formData);
 
     return this.http.post('http://localhost:3006/feature/details/addfile', this.formData).subscribe((data) => {
-      this.closeFeatureCreateModel();
-      this.getAllFeatureDetails();
+      if (data) {
+        this.frontFile = '',
+          this.backendFile = '',
+          this.apiManFile = '',
+          this.featureDetails.name = '',
+          this.featureDetails.description = '',
+          this.closeFeatureCreateModel();
+        this.getAllFeatureDetails();
+      }
     });
   }
 
@@ -223,7 +231,13 @@ export class EntityManagerComponent implements OnInit {
   }
 
   closeFeatureCreateModel() {
+    this.frontFile = '',
+    this.backendFile = '',
+    this.apiManFile = '',
+    this.featureDetails.name = '',
+    this.featureDetails.description = '',
     this.displayFeatureModel = 'none';
+    
     // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
   }
   closeFeatureExistingModel() {
@@ -265,6 +279,11 @@ export class EntityManagerComponent implements OnInit {
     this.projectComponentService.getEntityByProjectId(this.selectedProject._id).subscribe(
       (data) => {
         this.allEntity = data;
+        this.allEntity.map(data => {
+          if (data.feature_id === undefined) {
+            this.projectEntity.push(data);
+          }
+        });
         this.dataService.setAllEntity(this.allEntity);
       },
       (error) => {
@@ -376,15 +395,17 @@ export class EntityManagerComponent implements OnInit {
 
         this.featureDetailsService.getFeatureEntityByFeatureId(this.features.feature_id).subscribe(data => {
           this.featureEntityData = data;
+          console.log("ojfhsohfsohfofhsoi", this.featureEntityData)
           this.featureEntityData.map((data, index) => {
-            this.featureEntityField.push(data.field);
+            this.featureEntityField.push(data);
           });
           this.featureEntityField.map(data => {
-            this.entity.name = this.featureDetails.name;
+            console.log("dandijandfjan", data)
+            this.entity.name = data.name;
             this.entity.feature_id = this.features.feature_id;
-            this.entity.description = this.featureDetails.description;
+            this.entity.description = data.description;
             this.entity.project_id = this.features.project_id;
-            this.entity.field = data;
+            this.entity.field = data.field;
             this.projectComponentService.createEntity(this.entity).subscribe(
               (data) => {
                 console.log("i am the entities", data);
