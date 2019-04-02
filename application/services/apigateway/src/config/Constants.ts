@@ -10,4 +10,5 @@ export const microUrl ="http://localhost:3002"
 
 // generation URL
 
-export const codeGenUrl = 'http://localhost:5006'
+export const codeGenUrl = 'http://localhost:5006';
+export const configUrl = 'http://localhost:5001';

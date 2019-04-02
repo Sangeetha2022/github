@@ -2576,6 +2576,14 @@
 			"sub_type": null
 		},
 		{
+			"name": "projectGenerationDirectory",
+			"label": "project generation directory",
+			"description": "location of where we want to generate our project code",
+			"value": "/home/dhina/Videos/StahlsJenkins/GrapesJS/ang7Grapesjs/Dan/branch/features_screen_designer/geppettotest/generatedcode",
+			"type": "ProjectGeneration",
+			"sub_type": null
+		},
+		{
 			"name": "backendGenerationDirectory",
 			"label": "BackEnd Generation Directory",
 			"description": "location of where we want to generate our backend code",
