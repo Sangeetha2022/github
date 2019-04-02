@@ -48,6 +48,10 @@ export class ProjectComponentService {
     return this.api.get(this.restapi.entityUrl + '/entity/getall');
   }
 
+  getEntityByFeatureId(featureId: String): Observable<[]> {
+    return this.api.get(this.restapi.entityUrl + Constants.getEntityByFeatureId + featureId);
+  }
+
   updateEntityField(entity: any): Observable<any> {
     return this.api.put(this.restapi.entityUrl + '/entity/field/update', entity);
   }
