@@ -1,8 +1,13 @@
 import * as mongoose from 'mongoose';
+import * as uuid from 'uuid';
 
 const Schema = mongoose.Schema;
 
 export const PrimaryTemplateSchema = new Schema({
+    _id: {
+        type: String,
+        default: uuid.v1
+    },
     'gjs-assets': [],
     'gjs-css': String,
     'gjs-styles': [String],
@@ -27,8 +32,8 @@ export const PrimaryTemplateSchema = new Schema({
     ],
     'asset-image': [
         {
-            'image': { type: String, default: null},
-            'imagename': {type: String, default: null}
+            'image': { type: String, default: null },
+            'imagename': { type: String, default: null }
         }
     ],
     date: {

@@ -87,9 +87,8 @@ export class EntityDao {
             })
     }
 
-    public getEntityByFeatureId(id, callback) {
-        console.log('project id  in entity dao ------ ', id);
-        entityModel.find({ feature_id: id }).
+    public getEntityByFeatureId(featureId,projectId, callback) {
+        entityModel.find({ $and: [ { feature_id: featureId }, { project_id: projectId } ] }).
             exec(function (err, result) {
                 if (err) {
                     callback(err);

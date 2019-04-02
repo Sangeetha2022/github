@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Request, Response } from 'express';
-import FeatureFlowCompsModel from '../models/fetaureflowcomp.model';
+import FeatureFlowCompsModel from '../models/featureflowcomp.model';
 
 
 export class FeatureFlowCompDao {

@@ -2,7 +2,6 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { Routes } from './routes/routes';
 import * as mongoose from 'mongoose';
-import { FeedSeedData } from './seed';
 import { MongoConfig } from './config/MongoConfig';
 import * as cors from 'cors';
 import * as expressWinston from 'express-winston';

@@ -1,7 +1,12 @@
 import * as mongoose from 'mongoose';
 import User from './projectgen.interface';
+import * as uuid from 'uuid';
 
 const projectGenSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    default: uuid.v1
+},
   project_id: String,
   project_name: String,
   user_id: String,
