@@ -1,11 +1,16 @@
 import * as mongoose from 'mongoose';
 // import * as uuid from 'uuid';
+import * as uuid from 'uuid';
 
 const Schema = mongoose.Schema;
 
 export const FeatureFlowCompsSchema = mongoose.Schema({
-    flow: { type: mongoose.Schema.Types.ObjectId, ref: 'feature_flows' },
-    feature_id: { type: mongoose.Schema.Types.ObjectId, ref: 'feature_details' },
+    _id: {
+        type: String,
+        default: uuid.v1
+    },
+    flow: { type: String, ref: 'feature_flows' },
+    feature_id: { type: String, ref: 'feature_details' },
     flow_comp_seq: [{
         component_name: { type: String },
         label: { type: String, default: null },

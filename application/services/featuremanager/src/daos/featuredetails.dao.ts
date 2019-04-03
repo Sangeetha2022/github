@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import FeatureDetailsModel from '../models/fetauredetails.model';
-import FeatureFlowsModel from '../models/fetaureflows.model';
-import FeatureEntityModel from '../models/fetaureentity.model';
-import FeatureFlowCompsModel from '../models/fetaureflowcomp.model';
+import FeatureDetailsModel from '../models/featuredetails.model';
+import FeatureFlowsModel from '../models/featureflows.model';
+import FeatureEntityModel from '../models/featureentity.model';
+import FeatureFlowCompsModel from '../models/featureflowcomp.model';
 var multer = require('multer');
 var yaml = require('js-yaml');
 var fs = require('fs');
@@ -206,6 +206,7 @@ export class FeatureDetailsDao {
     }
 
     public getFeatureDetailsById = async (req: Request, callback: CallableFunction) => {
+        console.log("adadfaf",req.params)
         await this.Feature.findById(req.params.id, (err, feature) => {
             if (err) {
                 callback(err);

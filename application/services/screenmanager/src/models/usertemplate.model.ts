@@ -1,8 +1,13 @@
 import * as mongoose from 'mongoose';
+import * as uuid from 'uuid';
 
 const Schema = mongoose.Schema;
- 
+
 export const UserTemplateSchema = new Schema({
+    _id: {
+        type: String,
+        default: uuid.v1
+    },
     'gjs-assets': [],
     'gjs-css': String,
     'gjs-styles': [String],

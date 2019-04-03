@@ -8,8 +8,10 @@ import {
       EntityController,
       DefaultController,
       FeatureController,
-    
+CodeController,
+ConfigurationController    
     } from './apicontroller';
+
 import { WinstonLogger } from './config/WinstonLogger';
 import { createUserTemplateController } from './apicontroller/screenmanager.controllers';
 import { securityController } from './apicontroller/securitymanager.controllers';
@@ -26,6 +28,8 @@ let apisController = [
     new createUserTemplateController(),
     new securityController(),
     new MicroflowController(),
+    new CodeController(),
+    new ConfigurationController()
 ]
 
 class App {

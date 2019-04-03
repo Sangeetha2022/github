@@ -1,5 +1,5 @@
 import { FeatureController } from "../controllers/feature.controller";
-import { FeatureDetailsController } from "../controllers/fetauredetails.controller";
+import { FeatureDetailsController } from "../controllers/featuredetails.controller";
 import { Request, Response, NextFunction } from "express";
 import { FeatureFlowController } from "../controllers/featureflow.controller";
 import { FeatureFlowCompController } from "../controllers/featureflowcomp.controller";

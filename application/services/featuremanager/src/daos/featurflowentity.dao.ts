@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Request, Response } from 'express';
-import FeatureEntityModel from '../models/fetaureentity.model';
+import FeatureEntityModel from '../models/featureentity.model';
 
 
 export class FeatureFlowEntityDao {

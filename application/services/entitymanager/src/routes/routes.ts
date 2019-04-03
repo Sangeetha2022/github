@@ -24,8 +24,8 @@ export class Routes {
         app.route('/entity/get/:id').get(this.entityController.getByEntityId);
         app.route('/entity/getall').get(this.entityController.getAllEntity);
         app.route('/entity/get').get(this.entityController.getEntityByProjectId);
-        app.route('/entity/getbyfeatureid/:id').get(this.entityController.getEntityByFeatureId);
-
+        app.route('/entity/getbyfeatureandprojectid/:projectId/:featureId').get(this.entityController.getEntityByFeatureId);
+        
         // entity field
         app.route('/entity/field/update').put(this.entityController.updateEntityField);
         
