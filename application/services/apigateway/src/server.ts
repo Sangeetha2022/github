@@ -6,7 +6,10 @@ import {
      ProjectController,
       FlowManagerController,
       EntityController,
-      DefaultController
+      DefaultController,
+      Logincontroller,
+      Proxycontroller,
+      Camundacontroller
     } from './apicontroller';
 import { WinstonLogger } from './config/WinstonLogger';
 
@@ -16,7 +19,10 @@ let apisController = [
     new ProjectController(),
     new FlowManagerController(),
     new EntityController(),
-    new DefaultController()
+    new DefaultController(),
+    new Logincontroller(),
+    new Proxycontroller(),
+    new Camundacontroller()
 ]
 
 class App {

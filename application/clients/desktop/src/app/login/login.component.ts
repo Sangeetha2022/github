@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   public lastloggedintime: any;
   public userdetails: any;
   public errormessage: any;
+  public id: any;
 
   ngOnInit() {
     // this.Queryparams();
@@ -40,26 +41,29 @@ export class LoginComponent implements OnInit {
       };
       const splitvalue = this.challenge.split('?');
       this.login = splitvalue[1];
-      this.loginservice.Getlogin(this.login).subscribe(token => {
-        this.token = token.csrftoken;
-      }, error => {
-        console.error('error: ', error);
-      });
+      // this.loginservice.Getlogin(this.login).subscribe(token => {
+      //   this.token = token.csrftoken;
+      // }, error => {
+      //   console.error('error: ', error);
+      // });
     });
   }
 
-  Login(value) {
+  Login() {
     // this.user.challenge = this.loginchallenge;
     // this.user.csrftoken = this.token;
     this.loginservice.Login(this.user).subscribe(logindetails => {
+      console.log('------------loginresponse-----', logindetails);
       // const redirecturi = logindetails.redirectUrl;
       // window.open(redirecturi, '_self');
+
       if (logindetails === 'Incorrect Username or Password') {
         this.errormessage = logindetails;
       } else {
         this.lastloggedintime = logindetails.loggedinDate;
         sessionStorage.setItem('lastloggedintime', logindetails.loggedinDate);
         sessionStorage.setItem('email', logindetails.email);
+        this.id = logindetails._id;
         if (logindetails.Idtoken === null || logindetails.Idtoken === '') {
           this.route.navigate(['consent'], { queryParams: { id: logindetails._id } });
         } else {

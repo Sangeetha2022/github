@@ -41,11 +41,11 @@ export class ConsentscreenComponent implements OnInit {
     });
     const splitvalue = this.challenge.split('?');
     this.consent = splitvalue[1];
-    this.consentservice.Getconsent(this.consent).subscribe(consentdetails => {
-      this.token = consentdetails.csrfToken;
-    }, error => {
-      console.error('error: ', error);
-    });
+    // this.consentservice.Getconsent(this.consent).subscribe(consentdetails => {
+    //   this.token = consentdetails.csrfToken;
+    // }, error => {
+    //   console.error('error: ', error);
+    // });
   }
 
   openid(value) {
@@ -78,5 +78,6 @@ export class ConsentscreenComponent implements OnInit {
     }, error => {
       console.error('error: ', error);
     });
+
   }
 }
