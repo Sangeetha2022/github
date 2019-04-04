@@ -1,6 +1,6 @@
 <div class="lang-head">
-  <span>
-    {{lastloggedintime}}
+  <span *ngIf="hideElement">
+    {{lastloggedintime | date: 'medium'}}
   </span>
   <span class="about-span" (click)="showAbout()">About</span>
   <ng-template ngFor let-lang [ngForOf]="languages" let-i="index">
