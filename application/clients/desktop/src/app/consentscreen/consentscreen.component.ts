@@ -19,6 +19,8 @@ export class ConsentscreenComponent implements OnInit {
   public token: any;
   public consentchallenge: any;
   public id: any;
+  public Userdetails: any;
+  public lastloggedintime: any;
   // public consentbody = {
   //   challenge: '',
   //   submit: '',
@@ -41,11 +43,11 @@ export class ConsentscreenComponent implements OnInit {
     });
     const splitvalue = this.challenge.split('?');
     this.consent = splitvalue[1];
-    this.consentservice.Getconsent(this.consent).subscribe(consentdetails => {
-      this.token = consentdetails.csrfToken;
-    }, error => {
-      console.error('error: ', error);
-    });
+    // this.consentservice.Getconsent(this.consent).subscribe(consentdetails => {
+    //   this.token = consentdetails.csrfToken;
+    // }, error => {
+    //   console.error('error: ', error);
+    // });
   }
 
   openid(value) {
@@ -72,11 +74,18 @@ export class ConsentscreenComponent implements OnInit {
     };
     this.consentservice.Consent(consentbody).subscribe(consentvalue => {
       // window.open(consentvalue.redirectUrl, '_self');
+      this.Userdetails = consentvalue.Userdetails;
+      this.id = this.Userdetails._id;
+      this.lastloggedintime = this.Userdetails.loggedinDate;
       this.route.navigate(['callback']);
-      sessionStorage.setItem('Userid', JSON.stringify(this.id));
-      sessionStorage.setItem('token', JSON.stringify(consentvalue.Idtoken));
+      console.log('--------idtoken------>>>', this.Userdetails);
+      sessionStorage.setItem('Id', this.id);
+      sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
+      sessionStorage.setItem('email', this.Userdetails.email);
+      sessionStorage.setItem('JwtToken', this.Userdetails.Idtoken);
     }, error => {
       console.error('error: ', error);
     });
+
   }
 }

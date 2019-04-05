@@ -1,4 +1,4 @@
-import { Request, Response, response } from 'express';
+import { Request, Response } from 'express';
 import { Signinservice } from '../service/Signinservice';
 
 let signinservice = new Signinservice;
@@ -13,7 +13,6 @@ export class Signincontroller {
     }
 
     public login(req: Request, res: Response) {
-
         signinservice.loginservice(req,(response) => {
             res.status(200);
             res.json(response);
