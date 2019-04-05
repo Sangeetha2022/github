@@ -51,7 +51,7 @@ export class Logincontroller implements Controller {
                         console.log('-----------err--->>>', err);
                         res.send({ 'status': 'Unauthorized', 'error': err,'Userdetails':user });
                     } else {
-                        var url = 'http://localhost:3011/proxy';
+                        var url = 'http://localhost:3010/proxy';
                         request.post({ url: url, json: decoded }, (error, response, body) => {
                             var loginresponse = {
                                 "Access": body,
@@ -79,7 +79,7 @@ export class Logincontroller implements Controller {
                     console.log('-----------err--->>>', err);
                     // res.send({ 'status': 'Unauthorized', 'error': err,'Userdetails':user });
                 } else {
-                    var url = 'http://localhost:3011/proxy';
+                    var url = 'http://localhost:3010/proxy';
                     request.post({ url: url, json: decoded }, (error, response, body) => {
                         var loginresponse = {
                             "Access": body,
