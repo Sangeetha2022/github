@@ -23,6 +23,7 @@ import * as dictionary from 'nanoid-dictionary';
 import { ProjectComponentService } from 'src/app/project-component/project-component.service';
 import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { TraitsService } from './services/traits/traits.service';
 
 
 declare var grapesjs: any;
@@ -56,6 +57,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     allEntityField: any[] = [];
     selectedProject: any;
     agGridFields: FormGroup;
+    eventFlows: FormGroup;
     agGridObject: any = {
         html_id: '',
         component_id: '',
@@ -66,6 +68,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     // selectEntity,
     // selectField,
     columnsOption: any[] = [];
+    listOfFLows: any[] = [];
     gridApi: any;
     gridColumnApi: any;
     public isGridPopup: Boolean;
@@ -79,6 +82,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         private languageService: LanguageService,
         private styleService: StylesService,
         private panelService: PanelService,
+        private traitService: TraitsService,
         private commandService: CommandService,
         private projectComponentService: ProjectComponentService,
         private flowManagerService: FlowManagerService,
@@ -122,6 +126,9 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             selectColumn: ['', Validators.required],
             selectEntity: ['', Validators.required],
             selectField: ['', Validators.required],
+        });
+        this.eventFlows = this.formBuilder.group({
+selectEvent: ['', Validators.required]
         });
         this.saveTemplateURL = this.sharedService.screenUrl + '/user_template/save';
         this.saveChildURL = this.sharedService.screenUrl + '/childTemplate/save';
@@ -242,6 +249,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.styleManager();
         this.panelManager();
         this.agGridEntity();
+        this.traitService.initializeMethod(this.editor);
         // this.beforeDropElement();
         const test1 = 'test';
         const objectTest = this.agGridObject;
@@ -338,9 +346,27 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     getAllFlows() {
         this.flowManagerService.getAllFlows().subscribe((flowData) => {
             //   this.dataFlow = flowData;
-            console.log('dataFlow ----- ', flowData);
+            console.log('dataFlow --print--- ', flowData);
             //   this.rowData = flowData;
+            this.listOfFLows = flowData;
+        }, (error) => {
+console.log('cannot get flows in screen designer');
         });
+    }
+
+    cancelEvent() {
+      this.closeEventPopup();
+    }
+
+    closeEventPopup() {
+        const eventPopupModel = document.getElementById('EventPopup');
+        console.log('print eventPopupModel values are ------ ', eventPopupModel);
+        eventPopupModel.style = 'display: none';
+    }
+
+    saveEvent() {
+        console.log('print save events are ----- ', this.eventFlows.value);
+        this.closeEventPopup();
     }
 
     // buildDataBindingTypes(element) {
