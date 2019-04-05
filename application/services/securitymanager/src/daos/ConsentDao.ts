@@ -14,21 +14,12 @@ export class ConsentDao {
             signinmodel.findById(consentdata.id).populate({
                 path: 'role', model: rolemodel
             }).then((result) => {
-                if (result.Idtoken !== '') {
-                    jwt.verify(result.Idtoken, 'geppettosecret', (err, decoded) => {
-                        if (err) {
-                            console.log('Auth error', err);
-                            callback(err);
-                        } else {
-                            callback(decoded);
-                        }
-                    })
-                } else {
                     var payload = {
                         username: result.username,
                         firstname: result.firstname,
                         lastname: result.lastname,
                         email: result.email,
+                        id: result._id,
                         role: result.role.role
                     }
                     var token = jwt.sign(payload, 'geppettosecret', {
@@ -38,9 +29,9 @@ export class ConsentDao {
                         if (err) {
                             callback(err);
                         }
+                        response.Idtoken = token;
                         callback(response);
                     })
-                }
             })
         }
     }

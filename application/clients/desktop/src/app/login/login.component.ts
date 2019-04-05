@@ -25,6 +25,9 @@ export class LoginComponent implements OnInit {
   public lastloggedintime: any;
   public userdetails: any;
   public errormessage: any;
+  public id: any;
+  public Userdetails: any;
+  public tokenerror: any;
 
   ngOnInit() {
     // this.Queryparams();
@@ -40,28 +43,43 @@ export class LoginComponent implements OnInit {
       };
       const splitvalue = this.challenge.split('?');
       this.login = splitvalue[1];
-      this.loginservice.Getlogin(this.login).subscribe(token => {
-        this.token = token.csrftoken;
-      }, error => {
-        console.error('error: ', error);
-      });
+      // this.loginservice.Getlogin(this.login).subscribe(token => {
+      //   this.token = token.csrftoken;
+      // }, error => {
+      //   console.error('error: ', error);
+      // });
     });
   }
 
-  Login(value) {
+  Login() {
     // this.user.challenge = this.loginchallenge;
     // this.user.csrftoken = this.token;
     this.loginservice.Login(this.user).subscribe(logindetails => {
+      this.Userdetails = logindetails.Userdetails;
+      this.tokenerror = logindetails.error;
+      console.log('------------loginresponse-----', this.Userdetails, this.tokenerror);
+      this.id = this.Userdetails._id;
+      this.lastloggedintime = this.Userdetails.loggedinDate;
       // const redirecturi = logindetails.redirectUrl;
       // window.open(redirecturi, '_self');
-      if (logindetails === 'Incorrect Username or Password') {
-        this.errormessage = logindetails;
+      if (this.tokenerror !== undefined) {
+        if (this.tokenerror.name === 'TokenExpiredError') {
+          sessionStorage.clear();
+          // this.loginservice.Logout(this.id).subscribe(data => {
+          this.route.navigate(['consent'], { queryParams: { id: this.Userdetails._id } });        // }, error => {
+          //   console.error('error:', error);
+          // });
+        }
+      }
+      if (this.Userdetails === 'Incorrect Username or Password') {
+        this.errormessage = this.Userdetails;
       } else {
-        this.lastloggedintime = logindetails.loggedinDate;
-        sessionStorage.setItem('lastloggedintime', logindetails.loggedinDate);
-        sessionStorage.setItem('email', logindetails.email);
-        if (logindetails.Idtoken === null || logindetails.Idtoken === '') {
-          this.route.navigate(['consent'], { queryParams: { id: logindetails._id } });
+        sessionStorage.setItem('Id', this.id);
+        sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
+        sessionStorage.setItem('email', this.Userdetails.email);
+        sessionStorage.setItem('JwtToken', this.Userdetails.Idtoken);
+        if (this.Userdetails.Idtoken === null || this.Userdetails.Idtoken === '') {
+          this.route.navigate(['consent'], { queryParams: { id: this.Userdetails._id } });
         } else {
           this.route.navigate(['callback']);
         }
@@ -69,7 +87,7 @@ export class LoginComponent implements OnInit {
       }
 
     }, error => {
-      console.error('error: ', error);
+      console.error('error---------->>>>>', error);
     });
 
   }
