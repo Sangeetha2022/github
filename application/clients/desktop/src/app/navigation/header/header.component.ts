@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
       userid: JSON.parse(sessionStorage.getItem('Userid'))
     };
     this.logoutservice.Logout(this.user).subscribe(data => {
+      sessionStorage.clear();
       this.router.navigate(['']);
     }, error => {
       console.error('error:', error);

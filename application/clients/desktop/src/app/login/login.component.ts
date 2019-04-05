@@ -62,13 +62,16 @@ export class LoginComponent implements OnInit {
       this.lastloggedintime = this.Userdetails.loggedinDate;
       // const redirecturi = logindetails.redirectUrl;
       // window.open(redirecturi, '_self');
-      if (this.tokenerror.name === 'TokenExpiredError') {
-        sessionStorage.clear();
-        // this.loginservice.Logout(this.id).subscribe(data => {
+      if (this.tokenerror !== undefined) {
+        if (this.tokenerror.name === 'TokenExpiredError') {
+          sessionStorage.clear();
+          // this.loginservice.Logout(this.id).subscribe(data => {
           this.route.navigate(['consent'], { queryParams: { id: this.Userdetails._id } });        // }, error => {
-        //   console.error('error:', error);
-        // });
-      } else if (this.Userdetails === 'Incorrect Username or Password') {
+          //   console.error('error:', error);
+          // });
+        }
+      }
+      if (this.Userdetails === 'Incorrect Username or Password') {
         this.errormessage = this.Userdetails;
       } else {
         sessionStorage.setItem('Id', this.id);
