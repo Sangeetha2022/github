@@ -16,7 +16,6 @@ export const Signinschema = new Schema ({
     password: String,
     role: { type: mongoose.Schema.Types.String, ref: 'roles' },
     Idtoken: String,
-    expired: Boolean,
     loggedinDate: {
         type: Date,
         default: Date.now
