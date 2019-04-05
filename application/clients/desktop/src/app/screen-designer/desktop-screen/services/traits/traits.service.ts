@@ -22,6 +22,157 @@ export class TraitsService {
   ) { }
 
 
+  initializeMethod(editor) {
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    // const allEntityTemp = this.allEntity;
+    console.log('@@@@@@@ print 111 ----- ', this);
+    console.log('@@@@@@@ print 222 ----- ', comps);
+    console.log('@@@@@@@ print 333 ----- ', defaultType);
+    console.log('@@@@@@@ print 444 ----- ', defaultModel);
+    // console.log('@@@@@@@ print 555 ----- ', this);
+    // let selectedEntityName = '';
+    // const localDataService = this.dataService;
+    // // let selectedEntity;
+    // // let selectedColumnName = 'col1_id';
+    // const columnOptions = [
+    //   { value: 'col1_id', name: 'a' },
+    //   { value: 'col2_id', name: 'b' },
+    //   { value: 'col3_id', name: 'c' },
+    //   { value: 'col4_id', name: 'd' },
+    //   { value: 'col5_id', name: 'e' }
+    // ];
+    // const agGridArray = this.agGridValue;
+
+    // add button
+    editor.TraitManager.addType('actionButton', {
+      /**
+       * Returns the input element
+       * @return {HTMLElement}
+       */
+      events: {
+        'click': function () {
+          console.log('print button clicked');
+          const eventPopupModel = document.getElementById('EventPopup');
+          console.log('print eventPopupModel values are ------ ', eventPopupModel);
+          eventPopupModel.style = 'display: block';
+          // console.log('addButton is this working -----  ', this.target.view.el.gridOptions.columnDefs);
+          // const count = this.target.view.el.gridOptions.columnDefs.length + 1;
+          // const columnDefs = this.target.view.el.gridOptions.columnDefs;
+          // columnDefs.push({
+          //   headerName: `column_${count}`,
+          //   field: 'a',
+          //   sortable: true,
+          //   colId: `col${count}_id`
+          // });
+          // this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
+          // this.target.view.el.gridOptions.api.sizeColumnsToFit();
+          // columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
+          // const colTraits = this.target.get('traits').where({ name: 'colname' })[0];
+          // colTraits.set('options', columnOptions);
+          // editor.TraitManager.getTraitsViewer().render();
+          // console.log('sessionStorage count are ', count, ' --- ', { value: `col${count}_id`, name: `column_${count}` });
+          // const modal = <HTMLElement>document.querySelector('#agGridModal');
+          // console.log('ag Grid modal are ----- ', modal);
+          // if (selectedEntity !== undefined) {
+          //   // modal.style.display = 'block';
+          //   localDataService.setAgGridEntity(selectedEntity);
+          // }
+          // trigger when btn is clicked
+        },
+      },
+      getInputEl() {
+          // var button = document.createElement('button');
+        // button.id = 'btnLogin';
+        // button.value = 'Login';
+        // return button;
+        // tslint:disable-next-line:prefer-const
+        let button = <HTMLElement>document.createElement('button');
+        button.id = 'fieldButton';
+        button.style.width = '100%';
+        button.style.backgroundColor = '#4CAF50';
+        button.style.border = 'none';
+        button.style.color = 'white';
+        button.style.backgroundColor = '#008CBA';
+        button.style.fontSize = '12px !important';
+        button.style.cursor = 'pointer';
+        //       button.style =
+        //         'width: 100%;   background-color: #4CAF50; \
+        // border: none; \
+        // color: white; \
+        // font-size: 16px; \
+        // cursor: pointer; background-color: #008CBA;';
+        button.appendChild(document.createTextNode('Event'));
+        return button;
+      },
+    });
+
+    comps.addType('button', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [{
+            type: 'text',
+            label: 'Name',
+            name: 'buttonname',
+            changeProp: 1
+          },
+          {
+            'name': 'actionButton',
+            'label': 'Action',
+            'type': 'actionButton',
+          }],
+
+        }),
+        init() {
+          this.listenTo(this, 'change:buttonname', this.buttonText); // listen for active event
+          // this.listenTo(this, 'change:Action', this.buttonAction);
+        },
+        buttonText() {
+
+          // console.log('sessionStorage details are --this---- ', this);
+          // console.log('sessionStorage details are --this-222--- ', this.view.el.gridOptions, selectedColumnName);
+          // const enteredColName = this.changed['colname'];
+          // const colTraits = this.get('traits').where({ name: 'colname' })[0];
+          // console.log('sessionStorage get all columnDef --333--- ', this.view.el.gridOptions.api.getColumnDef(selectedColumnName));
+          // this.view.el.gridOptions.api.getColumnDef(selectedColumnName).headerName = enteredColName;
+          // this.view.el.gridOptions.api.refreshHeader();
+          // console.log('sessionStorage 333 colName ----- ', this.view.el.gridOptions);
+          // console.log('sessionStorage 444 colOptions ----- ', columnOptions);
+          // const id = editor.getSelected().ccid;
+          // columnOptions.forEach(columnElement => {
+          //   if (columnElement.value === selectedColumnName) {
+          //     columnElement.name = enteredColName;
+          //   }
+          // });
+          // colTraits.set('options', columnOptions);
+          // editor.TraitManager.getTraitsViewer().render();
+
+          const component = this.find('button');
+          console.log('default editor get component area ---------   ', component);
+
+          // eg. update inner component contents
+          component.components('<div>New content</div>');
+        }
+        },
+        {
+          isComponent: function (el) {
+            if (el.tagName === 'BUTTON') {
+              return {
+                type: 'button'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+   }
+
+
   addCKEditorTraits(editor, buttonName) {
 
   }
