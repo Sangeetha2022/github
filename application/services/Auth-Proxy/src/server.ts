@@ -13,7 +13,6 @@ class App {
     public app = express();
     public routerPrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
-    public mongoUrl: String = 'mongodb://localhost:27017/kishan'
 
     constructor() {
         this.logger.setupLogger();
@@ -30,10 +29,10 @@ class App {
     }
 
     private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mongoConfig = new MongoConfig();
-        // mongoConfig.mongoConfig();
+        // mongoose.Promise = global.Promise;
+        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        let mongoConfig = new MongoConfig();
+        mongoConfig.mongoConfig();
     }
 
 

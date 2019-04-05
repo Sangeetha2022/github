@@ -33,30 +33,63 @@ export class Logincontroller implements Controller {
 
 
     public login(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.loginUrl}/login`, req.body).then((response) => {
+        new ApiAdaptar().post(`${Constants.loginUrl}/login`, req.body).then((user) => {
             // @ts-ignore
-            var token = response.Idtoken;
-            jwt.verify(token, 'geppettosecret', (err, decoded) => {
-                if (err) {
-                    res.send(err);
+            const Userdetails = user;
+            // @ts-ignore
+            if (Userdetails.Idtoken === null || Userdetails.Idtoken === '') {
+                var loginresponse = {
+                    "Userdetails": Userdetails
                 }
-                var url = 'http://localhost:3011/proxy';
-                request.post({ url: url, json: decoded }, (error, response, body) => {
-                    var loginresponse = {
-                        "Access":body,
-                        "Userdetails":decoded
+                res.send(loginresponse);
+            } else {
+                // @ts-ignore
+                var token = user.Idtoken;
+                jwt.verify(token, 'geppettosecret', (err, decoded) => {
+                    if (err) {
+                        // res.status(401);
+                        console.log('-----------err--->>>', err);
+                        res.send({ 'status': 'Unauthorized', 'error': err,'Userdetails':user });
+                    } else {
+                        var url = 'http://localhost:3011/proxy';
+                        request.post({ url: url, json: decoded }, (error, response, body) => {
+                            var loginresponse = {
+                                "Access": body,
+                                "Userdetails": user
+                            }
+                            res.send(loginresponse);
+                        })
                     }
-                    res.send(loginresponse);
                 })
-            })
+            }
         }).catch(err => {
             res.send(err);
         });
+
     }
 
     public Consent(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.loginUrl}/consent`, req.body).then((response) => {
-            res.send(response);
+        new ApiAdaptar().put(`${Constants.loginUrl}/consent`, req.body).then((consentresponse) => {
+            console.log('---------consentresponse----->', consentresponse);
+            // @ts-ignore
+            var token = consentresponse.Idtoken;
+            jwt.verify(token, 'geppettosecret', (err, decoded) => {
+                if (err) {
+                    // res.status(401);
+                    console.log('-----------err--->>>', err);
+                    // res.send({ 'status': 'Unauthorized', 'error': err,'Userdetails':user });
+                } else {
+                    var url = 'http://localhost:3011/proxy';
+                    request.post({ url: url, json: decoded }, (error, response, body) => {
+                        var loginresponse = {
+                            "Access": body,
+                            "Userdetails": consentresponse
+                        }
+                        res.send(loginresponse);
+                    })
+                }
+            })
+            // res.send(consentresponse);
         }).catch(err => {
             res.send(err);
         });

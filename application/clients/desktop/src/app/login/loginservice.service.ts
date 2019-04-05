@@ -18,11 +18,11 @@ export class LoginService {
   // }
 
   Login(user: any): Observable<any> {
-    return this.apiservice.post(this.restapi.Apigateway + '/desktop/login', user);
+    return this.http.post(this.restapi.Apigateway + '/desktop/login', user);
   }
 
   Logout(user: any): Observable<any> {
-    return this.apiservice.post(this.restapi.Apigateway + '/desktop/logout', user);
+    return this.http.post(this.restapi.Apigateway + '/desktop/logout', user);
   }
 
 
