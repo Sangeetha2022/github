@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SharedService {
 
+
     // Local
     // public loginUrl: String = 'http://localhost:3008';
     // public Apigateway: String = 'http://localhost:3010';
@@ -14,12 +15,6 @@ export class SharedService {
     // public featureUrl: String = 'http://localhost:3006';
     // public configUrl: String = 'http://localhost:5001';
     // public featureflowbaseUrl: String = 'http://localhost:3011';
-    // public mflowbaseUrl: String = 'http://localhost:3002';
-    // public projbaseUrl: String = 'http://localhost:3003';
-    // public screenUrl: String = 'http://localhost:3004';
-    // public entityUrl: String = 'http://localhost:3005';
-    // public featureUrl: String = 'http://localhost:3006';
-    // public featureflowbaseUrl: String = 'http://localhost:3007';
     // public configUrl: String = 'http://localhost:5001';
     // public genmanagerUrl: String = 'http://localhost:5000';
 
@@ -37,6 +32,9 @@ export class SharedService {
     // Generator Services
     public genmanagerUrl: String = 'http://a14efe48e38cf11e982c60202a46ed6d-1515056916.us-east-1.elb.amazonaws.com:5000';
     public configUrl: String = 'http://a14efe48e38cf11e982c60202a46ed6d-1515056916.us-east-1.elb.amazonaws.com:5001';
+
+
+   
 
     public browser_language: String;
 }

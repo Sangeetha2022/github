@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import { Request, Response } from 'express';
-import FeatureEntityModel from '../models/fetaureentity.model';
+import FeatureEntityModel from '../models/featureentity.model';
 
 
 export class FeatureFlowEntityDao {
@@ -38,16 +38,6 @@ export class FeatureFlowEntityDao {
 
     public getFeatureFlowEntityByID(req: Request, callback: CallableFunction) {
         this.FeatureEntityFlows.findById(req.params.id, (err, feature) => {
-            if (err) {
-                callback(err);
-            } else {
-                callback(feature);
-            }
-        });
-    }
-
-    public getFeatureFlowEntityByFeatureID(req: Request, callback: CallableFunction) {
-        this.FeatureEntityFlows.findOne({feature_id:req.params.id}, (err, feature) => {
             if (err) {
                 callback(err);
             } else {

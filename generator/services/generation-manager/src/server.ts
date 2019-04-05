@@ -3,6 +3,7 @@ import * as bodyParser from "body-parser";
 import { Routes } from "./routes/routes";
 import * as expressWinston from 'express-winston';
 import * as cors from 'cors';
+import * as mongoose from 'mongoose';
 import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
 import { createServer, Server } from 'http';
@@ -18,7 +19,7 @@ export class App {
     public app: express.Application = express();
     public server: Server;
     public io: socketIo.Server;
-
+    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
 
@@ -41,8 +42,10 @@ export class App {
     }
 
     private mongoSetup(): void {
-        let mConfig = new MongoConfig();
-        mConfig.mongoConfig();
+        mongoose.Promise = global.Promise;
+        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        // let mConfig = new MongoConfig();
+        // mConfig.mongoConfig();
     }
 
 

@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
-import { FeatureSchema } from './models/feature.model';
+import { ProjectFeatureSchema } from './models/feature.model';
 import * as featurejson from './assests/feature.json';
 
-const Feature = mongoose.model('Feature', FeatureSchema);
+const Feature = mongoose.model('Feature', ProjectFeatureSchema);
 
 export class FeedSeedData {
 

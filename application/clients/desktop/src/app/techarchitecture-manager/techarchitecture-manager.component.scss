@@ -5,6 +5,7 @@ modal {
     .modal {
         display: block;
         border-radius: 20px;
+
         .modal-body {
             background: #fff;
             margin: 40px;
@@ -13,4 +14,15 @@ modal {
             padding: 10px;
         }
     }
+}
+
+.col-header {
+    text-align: center;
+    color: #3a7bd5;
+    font-size: 130%;
+}
+
+.techDropdown {
+    text-align: center;
+    padding-top: 2%;
 }

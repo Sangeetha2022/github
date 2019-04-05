@@ -5,7 +5,7 @@ export class ApiAdaptar {
     post = (url, body) => {
         return new Promise((resolve, reject) => {
             request.post({ url: url, json: body }, (error, response, body) => {
-                console.log(" - - -  - - - - - > > > > ", this)
+                // console.log(" - - -  - - - - - > > > > ", this)
                 this.sendResponse(resolve, reject, error, response, body);
             });
         });
@@ -14,8 +14,8 @@ export class ApiAdaptar {
     get = (url) => {
         return new Promise((resolve, reject) => {
             request.get(url, (error, response, body) => {
-                console.log(" - -- > > ", body)
-                this.sendResponse(resolve, reject, error, response, body);
+                // console.log(" - -- > > ", body)
+                this.sendResponse(resolve, reject, error, response, JSON.parse(body));
             });
         });
     }
@@ -30,7 +30,7 @@ export class ApiAdaptar {
 
     delete = (url) => {
         return new Promise((resolve, reject) => {
-            console.log('delete url are --------  ', url);
+            // console.log('delete url are --------  ', url);
             request.delete(url, (error, response, body) => {
                 this.sendResponse(resolve, reject, error, response, body);
             });
@@ -38,7 +38,7 @@ export class ApiAdaptar {
     }
 
     private sendResponse = (resolve, reject, error, response, body) => {
-        console.log('response ------------  ', response, '  - ------ -  ', body);
+        // console.log('response ------------  ', response, '  - ------ -  ', body);
         if (response.statusCode === 200) {
             resolve(body);
         } else if (response.statusCode === 404) {

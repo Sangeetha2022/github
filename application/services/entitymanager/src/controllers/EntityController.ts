@@ -48,6 +48,13 @@ export class EntityController {
         })
     }
 
+    public getEntityByFeatureId(req: Request, res: Response) {
+        entityService.getEntityByFeatureId(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
     public getAllEntity(req: Request, res: Response) {
         entityService.getAllEntity(req, (response) => {
             res.status(200);

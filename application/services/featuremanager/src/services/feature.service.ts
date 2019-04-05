@@ -29,8 +29,8 @@ export class FeatureService{
         })
     }
 
-    public getFeatureByName (req: Request, callback:CallableFunction) {           
-        featureDao.getFeatureByName(req, (feature) => {
+    public getFeatureByProjectId (req: Request, callback:CallableFunction) {           
+        featureDao.getFeatureByProjectId(req, (feature) => {
             callback(feature)
         })
     }

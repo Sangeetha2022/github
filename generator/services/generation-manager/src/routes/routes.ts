@@ -37,6 +37,7 @@ export class Routes {
         app.route('/projectgen/project/:project_id').get(this.projectgenController.getProjectgenByProjectId);
         app.route('/projectgen/user/:user_id').get(this.projectgenController.getProjectgenByUserId);
 
+        app.route('/projectgen/project/:id/get').get(this.projectgenController.createProjectGen);
 
     }
 

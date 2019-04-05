@@ -18,6 +18,7 @@ export class Routes {
         app.route('/projects/my/getbyid/:id').get(this.projectController.getProjectByID)
         app.route('/projects/my/update/:id').put(this.projectController.updateProject)
         app.route('/projects/my/delete/:id').delete(this.projectController.deleteProject)
+        app.route('/projects/my/getbyuserid/:id').get(this.projectController.getProjectByUserId);
 
     }
 }

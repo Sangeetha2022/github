@@ -440,8 +440,8 @@ export class TraitsService {
           console.log('rnder html are ---------------- ', html);
          const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [animateRows]="true"
-           [gridOptions]="gridOptions" (gridReady)="onGridReady($event)"></ag-grid-angular>
-       </div>
+         [gridOptions]="gridOptions" (gridReady)="onGridReady($event)" domLayout='autoHeight'></ag-grid-angular>
+         </div>
        `;
           return replacedValue;
         }
