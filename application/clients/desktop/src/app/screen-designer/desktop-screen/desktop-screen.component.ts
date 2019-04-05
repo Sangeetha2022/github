@@ -359,9 +359,9 @@ console.log('cannot get flows in screen designer');
     }
 
     closeEventPopup() {
-        const eventPopupModel = document.getElementById('EventPopup');
+        const eventPopupModel = <HTMLElement>document.querySelector('#EventPopup');
         console.log('print eventPopupModel values are ------ ', eventPopupModel);
-        eventPopupModel.style = 'display: none';
+        eventPopupModel.style.display = 'none';
     }
 
     saveEvent() {
@@ -532,14 +532,14 @@ console.log('cannot get flows in screen designer');
     //     return element ? element.headerName : null;
     //   }
 
-    // showPopupModal() {
-    //     // this.isGridPopup = true;
-    //     // console.log('showPopup mdoels -====  ', this.isGridPopup);
-    //     // this.agGridArray = [];
-    //     const modal = <HTMLElement>document.querySelector('#agGridModal');
-    //     console.log('agGridEntity ag Grid modal are --main--- ', modal);
-    //     modal.style.display = 'block';
-    //     this.agGridArray = [];
-    // }
+    showPopupModal() {
+        // this.isGridPopup = true;
+        // console.log('showPopup mdoels -====  ', this.isGridPopup);
+        // this.agGridArray = [];
+        const modal = <HTMLElement>document.querySelector('#agGridModal');
+        console.log('agGridEntity ag Grid modal are --main--- ', modal);
+        modal.style.display = 'block';
+        this.agGridArray = [];
+    }
 
 }
