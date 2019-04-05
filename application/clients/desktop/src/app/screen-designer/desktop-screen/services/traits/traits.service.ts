@@ -56,7 +56,7 @@ export class TraitsService {
           console.log('print button clicked');
           const eventPopupModel = document.getElementById('EventPopup');
           console.log('print eventPopupModel values are ------ ', eventPopupModel);
-          eventPopupModel.style = 'display: block';
+          eventPopupModel.style.display = 'block';
           // console.log('addButton is this working -----  ', this.target.view.el.gridOptions.columnDefs);
           // const count = this.target.view.el.gridOptions.columnDefs.length + 1;
           // const columnDefs = this.target.view.el.gridOptions.columnDefs;
@@ -149,8 +149,7 @@ export class TraitsService {
           // });
           // colTraits.set('options', columnOptions);
           // editor.TraitManager.getTraitsViewer().render();
-
-          const component = this.find('button');
+        const component = this.find('button')[0];
           console.log('default editor get component area ---------   ', component);
 
           // eg. update inner component contents

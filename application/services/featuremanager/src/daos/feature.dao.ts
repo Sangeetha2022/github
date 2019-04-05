@@ -1,8 +1,10 @@
 import * as mongoose from 'mongoose';
 import { ProjectFeatureSchema } from '../models/feature.model';
+import { FeatureDetailsSchema } from '../models/featuredetails.model';
 import { Request, Response } from 'express';
 
 const ProjectFeature = mongoose.model('project_features', ProjectFeatureSchema);
+const featureDetails = mongoose.model('feature_detail', FeatureDetailsSchema);
 
 export class FeatureDao {
 
@@ -48,13 +50,13 @@ export class FeatureDao {
     }
 
     public getFeatureByProjectId(req: Request, callback: CallableFunction) {
-        ProjectFeature.find({project_id:req.params.id}, (err, feature) => {
-            if (err) {
+        console.log('feature detilas are --- ', req.params.id)
+        ProjectFeature.find({ project_id: req.params.id })
+            .populate({ path: 'feature_id', model: featureDetails }).then((result) => {
+                callback(result);
+            }).catch((err) => {
                 callback(err);
-            } else {
-                callback(feature);
-            }
-        });
+            })
     }
 
     public deleteFeature(req: Request, callback: CallableFunction) {
