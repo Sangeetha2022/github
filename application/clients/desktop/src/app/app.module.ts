@@ -129,6 +129,7 @@ export const I18N_PROVIDERS = [
     I18NextModule.forRoot(),
     MatFormFieldModule,
     MatSelectModule,
+    MatRadioModule,
     ValidationMessageModule,
     DragDropModule,
     MatIconModule,

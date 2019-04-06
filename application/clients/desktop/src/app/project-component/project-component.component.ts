@@ -483,6 +483,13 @@ eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) 
 // return new UploadAdapter(loader);
 };
 }
+// getAllFeature() {
+// this.projectComponentService.getAllFeature().subscribe(data => {
+// this.featureData = data;
+// this.featureConnectProject = [];
+// data.map(data => {
+// if (data.connectProject === true) {
+// this.featureConnectProject.push(data);
 
 deleteFeature() {
 this.projectComponentService.deleteFeature(this.selectedFeatureId).subscribe(data => {
