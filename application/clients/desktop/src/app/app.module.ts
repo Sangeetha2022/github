@@ -23,7 +23,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { ComponentFlowsService } from './component-flows/component-flows.service';
 import {
   MatButtonModule, MatExpansionModule, MatFormFieldModule,
-  MatIconModule, MatSidenavModule, MatTabsModule, MatSelectModule
+  MatIconModule, MatSidenavModule, MatTabsModule, MatSelectModule, MatRadioModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlowManagerComponent } from './flow-manager/flow-manager.component';
@@ -136,6 +136,7 @@ export const I18N_PROVIDERS = [
     HttpClientModule,
     MatButtonModule,
     MatTabsModule,
+    MatRadioModule,
     MatSidenavModule,
     ScreenDesignerModule,
     I18NextValidationMessageModule,

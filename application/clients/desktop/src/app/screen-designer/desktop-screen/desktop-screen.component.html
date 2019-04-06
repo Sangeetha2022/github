@@ -1,6 +1,7 @@
 <div id="editor-c" style="height:0px; overflow:hidden">
 </div>
 
+<!-- grid popup model -->
 <div *ngIf="isGridPopup" id="agGridModal" class="modal" tabindex="-1" role="dialog" style="display: block">
   <div class="modal-dialog modal-sm" role="dialog">
     <div class="modal-content">
@@ -51,6 +52,34 @@
 
 <!-- <div id="testDiv">Hello Ramkumar</div> -->
 
+<!-- events action popup model -->
+<div id="EventPopup" class="modal" tabindex="-1" role="dialog" style="display: none">
+  <div class="modal-dialog modal-sm" role="dialog">
+    <div class="modal-content">
+      <div class="container">
+        <form class="m-3" [formGroup]="eventFlows">
+          <div class="form-group row">
+            <label for="column">Choose an Event</label>
+            <select class="form-control" id="column" formControlName="selectEvent" [ngClass]="{ 'is-invalid': submitted && form_control.selectColumn.errors }">
+              <option value="" selected>none</option>
+              <option *ngFor="let flows of listOfFLows" [ngValue]="flows?._id">{{ flows?.label }}</option>
+            </select>
+            <div *ngIf="submitted && form_control.selectEvent.errors" class="invalid-feedback">
+              <div *ngIf="form_control.selectEvent.errors.required">This field is required
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group">
+          <button type="button" class="btn button-create" (click)="saveEvent()">ok</button>
+          <button type="button" class="btn button-close" (click)="cancelEvent()">cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div id="publish-panel" class="panel-modal" style="display: none">
   <div class="modal-body">

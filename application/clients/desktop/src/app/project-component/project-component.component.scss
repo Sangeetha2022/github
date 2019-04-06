@@ -1,28 +1,38 @@
 .entity-card {
-    max-width: 300px;
+  max-width: 300px;
   }
- 
+  
   .createEntityButton {
-    float: right;
+  float: right;
   }
-
+  
   .goToButton {
-    background-color: green;
-    color: white;
+  background-color: green;
+  color: white;
   }
-
-:host ::ng-deep .ck-editor__editable {
-    min-height: 200px !important;
-}
-.modal-dialog{
+  
+  :host ::ng-deep .ck-editor__editable {
+  min-height: 200px !important;
+  }
+  .modal-dialog{
   overflow-y: initial !important
-}
-.feature .modal-body{
+  }
+  .feature .modal-body{
   height: 400px;
   overflow-y: auto;
-}
-
-.delete .modal-body {
+  }
+  
+  .delete .modal-body {
   height: 70px;
   overflow-y: auto;
-}
+  }
+  
+  .example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  }
+  
+  .example-radio-button {
+  margin: 5px;
+  }
