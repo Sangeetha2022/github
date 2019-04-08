@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" id="Definitions_0fnw5vs" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+  <decision id="Accesslevel" name="Authorize">
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" label="role">
+        <inputExpression id="inputExpression_1" typeRef="string">
+          <text>role</text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="Admin" name="Admin" typeRef="boolean" />
+      <output id="OutputClause_0vdltyr" label="Project" name="Project" typeRef="boolean" />
+      <output id="OutputClause_16m831c" label="Connectors" name="Connectors" typeRef="boolean" />
+      <output id="OutputClause_0ebsmu7" label="Feature" name="Feature" typeRef="boolean" />
+      <rule id="DecisionRule_14jfe5c">
+        <inputEntry id="UnaryTests_1evfq7y">
+          <text>"Standard User"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0f2sopu">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0w0djbx">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1119s68">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1bzie83">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1e08dzb">
+        <inputEntry id="UnaryTests_1ffot1s">
+          <text>"Admin"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1vir8it">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0moal26">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0fkvhqp">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0tfo98k">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1omer2s">
+        <inputEntry id="UnaryTests_1pk86oa">
+          <text>"Group User"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ouretl">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0vi07w6">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0c5z2e5">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ayit50">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0484j0k">
+        <inputEntry id="UnaryTests_0uslrt0">
+          <text>"Manager"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16a8mni">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_083l1nw">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0edq8c7">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_03ckzgt">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0ptvda8">
+        <inputEntry id="UnaryTests_0i6m6bz">
+          <text>"Group Admin"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ex6nib">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1fvaet8">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02g68in">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1x1qkah">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+</definitions>

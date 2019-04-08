@@ -3,18 +3,16 @@ import * as bodyParser from "body-parser";
 import * as cors from 'cors';
 import { WinstonLogger } from './config/Winstonlogger';
 import { Routes } from './routes/routes';
-import { MongoConfig } from './config/Mongoconfig';
+import { MongoConfig } from './config/MongoConfig';
 import mongoose = require('mongoose');
-import { RoleSeedData } from './seed';
 
-const PORT = 3008;
+const PORT = 3010;
 
 class App {
 
     public app = express();
     public routerPrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
-    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
 
     constructor() {
         this.logger.setupLogger();
@@ -22,7 +20,6 @@ class App {
         this.initializeMiddlewares();
         this.routerPrv.routes(this.app);
         this.mongoSetup();
-        this.mongoSeedData();
     }
 
     private initializeMiddlewares() {
@@ -32,16 +29,12 @@ class App {
     }
 
     private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mongoConfig = new MongoConfig();
-        // mongoConfig.mongoConfig();
+        // mongoose.Promise = global.Promise;
+        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        let mongoConfig = new MongoConfig();
+        mongoConfig.mongoConfig();
     }
 
-    private mongoSeedData(): void {
-        let seedData = new RoleSeedData();
-        seedData.Createrole();
-    }
 
 }
 
