@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DataService } from '../../../../../shared/data.service';
 import { IEntity } from '../../../../project-component/interface/Entity';
+import * as dictionary from 'nanoid-dictionary';
+import * as generate from 'nanoid/generate';
 
 declare var agGrid: any;
 @Injectable({
@@ -44,6 +46,36 @@ export class TraitsService {
     //   { value: 'col5_id', name: 'e' }
     // ];
     // const agGridArray = this.agGridValue;
+
+
+// content traits
+// Each new type extends the default Trait
+editor.TraitManager.addType('content', {
+  events: {
+    'keyup': 'onChange',  // trigger parent onChange method on keyup
+  },
+
+  /**
+  * Returns the input element
+  * @return {HTMLElement}
+  */
+  getInputEl: function() {
+    if (!this.inputEl) {
+      const input = document.createElement('textarea');
+      input.value = this.target.get('content');
+      this.inputEl = input;
+    }
+    return this.inputEl;
+  },
+
+  /**
+   * Triggered when the value of the model is changed
+   */
+  onValueChange: function () {
+    console.log('buttonn on value changes are ---- ', this.model.get('value'));
+    this.target.set('content', this.model.get('value'));
+  }
+});
 
     // add button
     editor.TraitManager.addType('actionButton', {
@@ -103,7 +135,7 @@ export class TraitsService {
         // color: white; \
         // font-size: 16px; \
         // cursor: pointer; background-color: #008CBA;';
-        button.appendChild(document.createTextNode('Event'));
+        button.appendChild(document.createTextNode('Flow'));
         return button;
       },
     });
@@ -113,10 +145,11 @@ export class TraitsService {
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
           draggable: '*',
           droppable: false,
+          'name': `button_${generate(dictionary.numbers, 6)}`,
           traits: [{
-            type: 'text',
+            type: 'content',
             label: 'Name',
-            name: 'buttonname',
+            name: 'name',
             changeProp: 1
           },
           {
@@ -127,7 +160,7 @@ export class TraitsService {
 
         }),
         init() {
-          this.listenTo(this, 'change:buttonname', this.buttonText); // listen for active event
+          this.listenTo(this, 'change:name', this.buttonText); // listen for active event
           // this.listenTo(this, 'change:Action', this.buttonAction);
         },
         buttonText() {
