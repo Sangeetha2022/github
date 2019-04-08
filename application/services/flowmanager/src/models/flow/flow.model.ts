@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import * as uuid from 'uuid';
 
-let flowSchema = mongoose.Schema({
+export let flowSchema = mongoose.Schema({
   _id: {
     type: String,
     default: uuid.v1

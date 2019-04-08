@@ -31,6 +31,12 @@ export class FlowService {
         })
     }
 
+    getFlowByname(req: Request, next: NextFunction, callback: CallableFunction) {
+        flowDao.getFlowByname(req,next, (response) => {
+            callback(response);
+        })
+    }
+
     updateFlow = (req: Request, next: NextFunction, callback: CallableFunction) => {
         flowDao.updateFlow(req, next, (response) => {
             callback(response);
