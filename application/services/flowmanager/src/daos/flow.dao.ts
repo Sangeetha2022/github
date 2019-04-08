@@ -5,6 +5,7 @@ import FlowDto from '../models/flow/flow.dto';
 import PostNotFoundException from '../exceptions/PostNotFoundException';
 import GenFlowModel from '../models/generationflow/generationflow.model';
 
+
 export class FlowDao {
 
     private flow = FlowModel;
@@ -31,6 +32,36 @@ export class FlowDao {
             callback(flow);
         } else {
             next(new PostNotFoundException(id));
+        }
+    }
+
+    getFlowByname = async (req: Request, next, callback: CallableFunction) => {
+        const dataName = req.params.name;
+        console.log('flows name are ------- ', dataName);
+        const flows = await this.genFlow.find({})
+            .populate({
+                path: 'flow',
+                match: { name: dataName },
+                model: this.flow
+            })
+        console.log('after flows details are ---- ', flows);
+        console.log('after details length are --2222-- ', flows.length);
+        if (flows) {
+            const matchedData = flows.find(x => x.flow != null)
+            console.log('matched datra rea ----- ', matchedData);
+            if (matchedData === undefined) {
+                callback({
+                    status: 404,
+                    message: "cannot able to find the flow of " + dataName
+                })
+            } else {
+                callback(matchedData)
+            }
+        } else {
+            callback({
+                status: 500,
+                message: "error occured"
+            })
         }
     }
 
@@ -117,7 +148,7 @@ export class FlowDao {
                 status: 200,
                 message: "flow component updated successfully."
             });
-        }).catch(err=> {
+        }).catch(err => {
             console.log(" - = ===e=r=r=r=rr=r> > ", err)
         });
 

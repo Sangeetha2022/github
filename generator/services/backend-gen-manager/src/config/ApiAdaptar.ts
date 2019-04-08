@@ -1,4 +1,4 @@
-import * as request from "request-promise-native";
+import * as request from 'request-promise-native';
 
 export class ApiAdaptar {
 
@@ -12,12 +12,11 @@ export class ApiAdaptar {
     }
 
     get = (url) => {
-        console.log('get adi adapterare are--111--- ', url);
         return new Promise((resolve, reject) => {
-        console.log('get adi adapterare are--222--- ', resolve, '  --- ', reject);
-  request.get(url, (error, response, body) => {
-                console.log(" output are - -- > > ",error, ' --- ', response, ' -- ', body)
-                this.sendResponse(resolve, reject, error, response, JSON.parse(body));
+                console.log(" - -- > > ", url)
+            request.get(url, (error, response, body) => {
+                // console.log(" - -- > > ", body)
+                this.sendResponse(resolve, reject, error, response, body);
             });
         });
     }
