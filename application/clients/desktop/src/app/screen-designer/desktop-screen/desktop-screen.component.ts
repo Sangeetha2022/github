@@ -57,7 +57,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     allEntityField: any[] = [];
     selectedProject: any;
     agGridFields: FormGroup;
-    eventFlows: FormGroup;
+    selectedFlow: any;
+    // eventFlows: FormGroup;
     agGridObject: any = {
         html_id: '',
         component_id: '',
@@ -75,6 +76,10 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     currentAgGridData: any;
     defaultColumn: any;
     RemoteStorage: any;
+    columnDefs: any;
+    rowSelection: string;
+    defaultColDef: any;
+    rowData: any;
 
     constructor(
         private screenDesignerService: ScreenDesignerService,
@@ -91,6 +96,22 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         private formBuilder: FormBuilder,
         private ref: ChangeDetectorRef
     ) {
+        this.columnDefs = [
+            {
+                headerName: 'Name', field: 'name',
+                checkboxSelection: true
+            },
+            { headerName: 'Label', field: 'label' },
+            { headerName: 'Description', field: 'description' },
+            { headerName: 'Action', field: 'action_on_data' },
+
+
+        ];
+        this.rowSelection = 'single';
+        this.defaultColDef = {
+            sortable: true,
+            filter: true
+        };
         this.dataService.currentAllEntityInfo.subscribe(
             (data) => {
                 this.allEntity = data;
@@ -127,9 +148,9 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             selectEntity: ['', Validators.required],
             selectField: ['', Validators.required],
         });
-        this.eventFlows = this.formBuilder.group({
-selectEvent: ['', Validators.required]
-        });
+        // this.eventFlows = this.formBuilder.group({
+        //     selectEvent: ['', Validators.required]
+        // });
         this.saveTemplateURL = this.sharedService.screenUrl + '/user_template/save';
         this.saveChildURL = this.sharedService.screenUrl + '/childTemplate/save';
         const addStyles = [];
@@ -349,13 +370,14 @@ selectEvent: ['', Validators.required]
             console.log('dataFlow --print--- ', flowData);
             //   this.rowData = flowData;
             this.listOfFLows = flowData;
+            this.rowData = flowData;
         }, (error) => {
-console.log('cannot get flows in screen designer');
+            console.log('cannot get flows in screen designer');
         });
     }
 
     cancelEvent() {
-      this.closeEventPopup();
+        this.closeEventPopup();
     }
 
     closeEventPopup() {
@@ -365,8 +387,13 @@ console.log('cannot get flows in screen designer');
     }
 
     saveEvent() {
-        console.log('print save events are ----- ', this.eventFlows.value);
+        console.log('print save events are ----- ', this.selectedFlow[0]);
         this.closeEventPopup();
+    }
+
+    onSelectionChanged() {
+        this.selectedFlow = this.gridApi.getSelectedRows();
+        console.log('selected row values are ----- ', this.gridApi.getSelectedRows());
     }
 
     // buildDataBindingTypes(element) {
@@ -444,10 +471,18 @@ console.log('cannot get flows in screen designer');
             const allTextAreaModels = model.find('textarea');
             const allOptionModels = model.find('select');
             const allRadioModels = model.find('.radio');
+            const allButtonModels = model.find('.button');
             const allCheckBoxModels = model.find('.checkbox');
             const allImageBlockModels = model.find('.gpd-image-block');
             const allImageModels = model.find('.gjs-plh-image');
+            console.log('buttonn are ---- ', allButtonModels);
+            // allButtonModels[0].attributes.content = 'testnew';
+            // allButtonModels.target.set('content', 'dsfdsfsdf');
+
+            // button default content name changed
+            allButtonModels[0].attributes.traits.target.set('content', `button_${generate(dictionary.numbers, 6)}`);
             allInputModels.forEach(models => models.setAttributes({ name: `input_${generate(dictionary.numbers, 6)}` }));
+            // allButtonModels.forEach(models => models.setAttributes({ content: `button_${generate(dictionary.numbers, 6)}` }));
             allTextAreaModels.forEach(models => models.setAttributes({ name: `textarea_${generate(dictionary.numbers, 6)}` }));
             allOptionModels.forEach(models => models.setAttributes({ name: `select_${generate(dictionary.numbers, 6)}` }));
             allRadioModels.forEach(models => models.setAttributes({ name: `radio_${generate(dictionary.numbers, 6)}` },
