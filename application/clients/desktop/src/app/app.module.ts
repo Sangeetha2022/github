@@ -53,6 +53,8 @@ import { MatInputModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FeatureDetailsService } from './project-component/feature-details/feature-details.service';
 
+import { sessionTimeOutComponent } from './sessionTimeout/sessionTimeOut';
+
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
   fallbackLng: ['en', 'ta', 'es'],
@@ -153,6 +155,7 @@ export const I18N_PROVIDERS = [
   providers: [
     ApiService,
     FeatureDetailsService,
+    sessionTimeOutComponent,
     AppComponentService,
     ProjectsService,
     FlowManagerService,
