@@ -72,7 +72,6 @@ editor.TraitManager.addType('content', {
    * Triggered when the value of the model is changed
    */
   onValueChange: function () {
-    console.log('buttonn on value changes are ---- ', this.model.get('value'));
     this.target.set('content', this.model.get('value'));
   }
 });

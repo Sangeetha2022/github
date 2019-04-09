@@ -24,6 +24,7 @@ import { ProjectComponentService } from 'src/app/project-component/project-compo
 import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TraitsService } from './services/traits/traits.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 declare var grapesjs: any;
@@ -58,6 +59,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     selectedProject: any;
     agGridFields: FormGroup;
     selectedFlow: any;
+    is_grid_present: Boolean;
     // eventFlows: FormGroup;
     agGridObject: any = {
         html_id: '',
@@ -65,6 +67,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         custom_field: [],
         default_field: []
     };
+    screenFlows: any[] = [];
     // selectColumn:,
     // selectEntity,
     // selectField,
@@ -80,6 +83,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     rowSelection: string;
     defaultColDef: any;
     rowData: any;
+    feature_id: String;
+    project_id: String;
 
     constructor(
         private screenDesignerService: ScreenDesignerService,
@@ -94,6 +99,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         private dataService: DataService,
         private sharedService: SharedService,
         private formBuilder: FormBuilder,
+        private activatedRoute: ActivatedRoute,
         private ref: ChangeDetectorRef
     ) {
         this.columnDefs = [
@@ -138,7 +144,17 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.activatedRoute.queryParams.subscribe(params => {
+            console.log('activated routes in screen designer are ----- ', params);
+            if (params.featureId !== undefined && params.featureId !== null) {
+                this.feature_id = params.featureId;
+            }
+            if (params.projectId !== undefined && params.projectId !== null) {
+                this.project_id = params.projectId;
+            }
+            });
         this.isGridPopup = false;
+        this.is_grid_present = false;
         // this.selectedColumn = 'column1';
         // this.selectedEntity = 'none';
         // this.selectedField = 'none';
@@ -273,12 +289,13 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.traitService.initializeMethod(this.editor);
         // this.beforeDropElement();
         const test1 = 'test';
-        const objectTest = this.agGridObject;
+        // const is = this.agGridObject;
+        const $this = this;
         this.editor.on('component:selected', function (component) {
-            console.log('onFieldOptions selected component of element are ----- ', test1, component);
             if (component.attributes.type === 'grid-type') {
-                objectTest.html_id = component.ccid;
-                objectTest.component_id = component.cid;
+                $this.agGridObject.html_id = component.ccid;
+                $this.agGridObject.component_id = component.cid;
+                $this.is_grid_present = true;
                 //   const styleManager = editor.StyleManager;
                 //   styleManager.addSector('div-only-sector',{
                 //     name: 'Div only sector',
@@ -286,7 +303,6 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 //     properties: [{ name: 'This is a div'}]
                 //   });
             }
-            console.log('onFieldOptions selected component of element are --2222--- ', objectTest);
         });
         this.RemoteStorage = this.editor.StorageManager.get('remote');
         this.RemoteStorage.set('params', {
@@ -322,12 +338,19 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.dataService.setAgGridValue(this.agGridArray);
         this.agGridObject.custom_field = this.agGridArray;
         this.agGridObject.default_field = this.defaultColumn;
+       this.saveRemoteStorage();
+        this.onCloseHandled();
+    }
+
+    saveRemoteStorage() {
         this.RemoteStorage.set('params', {
             grid_fields: this.agGridObject,
+            flows_info: this.screenFlows,
             foldername: `screen${generate(dictionary.numbers, 6)}`,
-            is_grid_present: true
+            is_grid_present: this.is_grid_present,
+            project: this.project_id,
+            feature: this.feature_id
         });
-        this.onCloseHandled();
     }
 
     getEntityType() {
@@ -370,7 +393,13 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             console.log('dataFlow --print--- ', flowData);
             //   this.rowData = flowData;
             this.listOfFLows = flowData;
+            if (this.feature_id !== undefined && this.feature_id != null) {
             this.rowData = flowData;
+            } else {
+                const createFlow = flowData.find(x => x.name === 'GpCreate');
+                console.log('project and featureId are create flow ---- ', createFlow);
+                this.rowData = [createFlow];
+            }
         }, (error) => {
             console.log('cannot get flows in screen designer');
         });
@@ -382,18 +411,26 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
 
     closeEventPopup() {
         const eventPopupModel = <HTMLElement>document.querySelector('#EventPopup');
-        console.log('print eventPopupModel values are ------ ', eventPopupModel);
         eventPopupModel.style.display = 'none';
     }
 
+    // save flows
     saveEvent() {
-        console.log('print save events are ----- ', this.selectedFlow[0]);
+        const flowObj = {
+            html_id: '',
+            component_id: '',
+            flow: ''
+        };
+        flowObj.html_id = this.editor.getSelected().cid;
+        flowObj.component_id = this.editor.getSelected().ccid;
+        flowObj.flow = this.selectedFlow[0]._id;
+        this.screenFlows.push(flowObj);
+        this.saveRemoteStorage();
         this.closeEventPopup();
     }
 
     onSelectionChanged() {
         this.selectedFlow = this.gridApi.getSelectedRows();
-        console.log('selected row values are ----- ', this.gridApi.getSelectedRows());
     }
 
     // buildDataBindingTypes(element) {
