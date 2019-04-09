@@ -274,7 +274,7 @@ this.displayFeatureModel = 'none';
 saveEntity(entityData) {
 this.entity.name = entityData.name;
 this.entity.description = entityData.description;
-this.entity.project_id = this.selectedProject._id;
+this.entity.project_id = this.project_id;
 this.projectComponentService.createEntity(this.entity).subscribe(
 (data) => {
 this.getAllEntityByProjectId();
@@ -303,7 +303,7 @@ this.getAllEntityByProjectId();
 }
 
 getAllEntityByProjectId() {
-this.projectComponentService.getEntityByProjectId(this.selectedProject._id).subscribe(
+this.projectComponentService.getEntityByProjectId(this.project_id).subscribe(
 (data) => {
 this.allEntity = data;
 this.allEntity.map(entityData => {
@@ -356,7 +356,7 @@ this.selectedProject = data;
 }
 
 // getDefaultEntityByProjectId() {
-// this.projectComponentService.getDefaultEntityByProjectId(this.selectedProject._id).subscribe(data => {
+// this.projectComponentService.getDefaultEntityByProjectId(this.project_id).subscribe(data => {
 // // data.map((data,index)=>{
 // this.selecteddefaultEntity = [data];
 
