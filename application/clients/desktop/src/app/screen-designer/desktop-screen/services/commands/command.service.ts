@@ -36,11 +36,11 @@ export class CommandService {
         editor.StorageManager.get('remote').set({ urlStore: saveURL });
         n.set('active', 0);
         console.log('save command ran for saving features ', $this.feature_id, ' ---- ', $this.project_id);
-        console.log('save command ran for saving features storemanagar arr ', e, ' ---- ', n);
+        // console.log('save command ran for saving features storemanagar arr ', e, ' ---- ', n);
         if (this.project_id !== undefined && this.feature_id !== undefined) {
           editor.store();
         } else {
-
+editor.store();
         }
         // editor.store();
       }
