@@ -32,7 +32,7 @@ export class EntityManagerComponent implements OnInit {
     rowSelection: any;
     apiManFile: any;
     showUpdateFeature: Boolean;
-    allowImport: Boolean;
+    allowImport: Boolean = false;
     selectedExistingFeature: String;
     featureNameandDesc: any = [];
     featureId: any = [];
@@ -94,6 +94,7 @@ export class EntityManagerComponent implements OnInit {
         field: []
     };
     http: HttpClient;
+    createFeatureData: any = [];
     gridColumnApi: any;
     gridApi: any;
     projectEntity: any = [];
@@ -274,7 +275,6 @@ export class EntityManagerComponent implements OnInit {
             if (this.featureId !== null) {
                 this.featureId.map(fdata => {
                     this.projectComponentService.getFeatureDetailsById(fdata._id).subscribe(fedata => {
-                        console.log('asadafdsfd', fedata);
                         if (data !== undefined) {
                             this.projectFeatureData.push(fedata);
                             this.dataService.setProjectFeatureInfo(this.projectFeatureData);
@@ -339,7 +339,7 @@ export class EntityManagerComponent implements OnInit {
             console.log(this.featureDetails);
             console.log('adskjahdifafdf', this.formData);
             return this.http.post('http://localhost:3006/feature/details/addfile', this.formData).subscribe((data) => {
-                console.log("data in level", data)
+                console.log("data in level", data);
                 if (data) {
                     this.frontFile = '',
                         this.backendFile = '',
@@ -352,12 +352,18 @@ export class EntityManagerComponent implements OnInit {
             });
         } else if (this.selectedOption === 'Add Feature') {
             return this.http.post('http://localhost:3006/feature/details/addfile', this.featureDetails).subscribe((data) => {
-                console.log("data in level", data)
                 if (data) {
-                    this.frontFile = '',
-                        this.backendFile = '',
-                        this.apiManFile = '',
-                        this.featureDetails.name = '',
+                    this.createFeatureData = data;
+                    console.log("adfohodhfa",this.createFeatureData._id);
+                    this.features.feature_id = this.createFeatureData._id;
+                    this.features.project_id = this.project_id;
+                    this.projectComponentService.addFeature(this.features).subscribe(featureData => {
+                        if (featureData) {
+                            this.getProjectDetails();
+                            this.closeFeatureExistingModel();
+                        }
+                    });
+                    this.featureDetails.name = '',
                         this.featureDetails.description = '',
                         this.closeFeatureCreateModel();
                     this.getAllFeatureDetails();
@@ -549,10 +555,11 @@ export class EntityManagerComponent implements OnInit {
     addFeature() {
         this.projectComponentService.getAllFeatureByProjectId(this.features.project_id).subscribe(data => {
             data.map(pfdata => {
-                if (pfdata.feature_id === this.features.feature_id) {
+                if (pfdata.feature_id._id === this.features.feature_id) {
                     this.allowImport = true;
                 }
             });
+            console.log('allow import', this.allowImport);
             if (this.allowImport) {
                 alert('Already Imported');
                 this.closeFeatureExistingModel();
