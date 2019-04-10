@@ -35,6 +35,10 @@ export class ProjectComponentService {
   updateEntity(entity: any): Observable<any> {
     return this.api.put(this.restapi.entityUrl + '/entity/update', entity);
   }
+
+  saveFeatureEntity(featureEntity: any): Observable<any>{
+    return this.api.post(this.restapi.featureUrl + Constants.saveFeatureEntity, featureEntity);
+  }
   deleteEntity(entityId: String): Observable<any> {
     return this.api.delete(this.restapi.entityUrl + `/entity/delete/${entityId}`);
   }
@@ -65,11 +69,14 @@ export class ProjectComponentService {
     this.entityInfoSource.next(entity);
   }
 
-
   // Feature
   addFeature(feature) {
     return this.api.post(this.restapi.featureUrl + Constants.feature + Constants.saveUrl, feature);
 
+  }
+
+  addFeatureFlow(featureFlow){
+    return this.api.post(this.restapi.featureUrl + Constants.addFeatureFlow, featureFlow);
   }
 
   addFeatureDetails(feature) {

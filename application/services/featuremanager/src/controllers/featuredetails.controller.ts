@@ -29,14 +29,13 @@ export class FeatureDetailsController {
 
     public getFeatureEntityByFeatureid = async(req: Request, res: Response) => {
         featureDetailsService.getFeatureEntityByFeatureid(req, (user) => {
-        console.log("ADadadaasadsad",req)
-
             res.status(200);
             res.json(user);
         })
     }
 
     public getFeatureDetailsByFeatureid = async(req: Request, res: Response) => {
+        console.log("ADadadaasadsad",req)
         featureDetailsService.getFeatureDetailsByFeatureid(req, (user) => {
             res.status(200);
             res.json(user);

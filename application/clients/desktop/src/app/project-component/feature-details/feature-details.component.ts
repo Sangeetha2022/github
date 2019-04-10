@@ -40,6 +40,7 @@ export class FeatureDetailsComponent implements OnInit {
     distinctFeatureDetails: any = [];
     featureFlowId: String;
     featureId: any;
+    featureData: any = [];
     rowSelection: String;
     defaultColDef: any;
     showFeatureFlow: boolean;
@@ -77,7 +78,6 @@ export class FeatureDetailsComponent implements OnInit {
                 checkboxSelection: true
             },
             { headerName: 'Label', field: 'label' },
-            { headerName: 'Screen Name', field: 'screenName' },
             { headerName: 'Description', field: 'description' },
             { headerName: 'Action', field: 'action_on_data' }
         ];
@@ -124,10 +124,10 @@ export class FeatureDetailsComponent implements OnInit {
             this.feature_id = params.featureId;
         });
         this.getSelectedProject();
-        this.getAllFeatureDetailsByFeatureId();
         this.getScreenDetailsByFeatureId();
         this.getFeatureEntityByFeatureId();
         this.getEntityByFeatureAndprojectId();
+        this.getProjectFeature();
         // this.getAllScreen();
         // this.getAllFeatureFlows();
         // this.getAllEntity();
@@ -150,6 +150,32 @@ export class FeatureDetailsComponent implements OnInit {
                 this.selectedProject = data;
             }
         );
+    }
+
+    getProjectFeature() {
+        this.dataService.currentProjectFeatureInfo.subscribe(feature => {
+            this.featureData = feature;
+            console.log('i am the data', this.featureData);
+            this.featureData.forEach(fData => {
+                console.log('i am the feature data', fData);
+                if (fData.api_mang_file === null && fData.backed_mang_file === null && fData.front_mang_file === null) {
+                    this.featureDetailsService.getAllFeatureFlowByFeatureId(this.feature_id).subscribe(feData => {
+                        this.featureFlowRowData = feData;
+                        console.log(this.featureFlowRowData);
+                    });
+                } else {
+
+                    this.featureDetailsService.getAllFeatureDetailsByFeatureId(this.feature_id).subscribe(data => {
+                        this.featureDetailsData = data;
+                        this.featureDetailsData.map((featureData) => {
+                            this.allFeatureFlows.push(featureData.flow);
+                        });
+                        this.featureFlowRowData = this.allFeatureFlows;
+                    });
+                }
+
+            });
+        });
     }
 
     // formDatafromYAML = (doc) => {
@@ -185,16 +211,6 @@ export class FeatureDetailsComponent implements OnInit {
     // })
     // console.log(" flow array 0pp p- -- - = = = > ", flowArray)
     // }
-
-    getAllFeatureDetailsByFeatureId() {
-        this.featureDetailsService.getAllFeatureDetailsByFeatureId(this.feature_id).subscribe(data => {
-            this.featureDetailsData = data;
-            this.featureDetailsData.map((featureData) => {
-                this.allFeatureFlows.push(featureData.flow);
-            });
-            this.featureFlowRowData = this.allFeatureFlows;
-        });
-    }
 
     getEntityByFeatureAndprojectId() {
         this.projectComponentService.getEntityByFeatureAndprojectId(this.selectedProject._id, this.feature_id).subscribe(data => {

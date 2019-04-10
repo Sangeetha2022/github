@@ -33,7 +33,7 @@ export class FeatureDetailsService {
   // }
 
   getAllFeatureFlowByFeatureId(id): Observable<any> {
-    return this.api.put(this.restapi.featureUrl + Constants.getAllFeatureFlowByFeatureId + id);
+    return this.api.get(this.restapi.featureUrl + Constants.getAllFeatureFlowByFeatureId + id);
   }
 
   saveFeatureFlowComponent(flow): Observable<any> {
@@ -78,4 +78,8 @@ export class FeatureDetailsService {
     console.log("adsadffdf", id);
     return this.api.get(this.restapi.featureUrl + Constants.getAllFeatureDetailsByFeatureId + id);
   }
+
+  // getFeatureFlowByFeatureId(id) {
+  //   return this.api.get(this.restapi.featureUrl + Constants.getFeatureFlowByFeatureId + id);
+  // }
 }

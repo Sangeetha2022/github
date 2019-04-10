@@ -27,7 +27,50 @@ export class FeatureDetailsDao {
     private FeatureFlowComps = FeatureFlowCompsModel;
     flows: any = [];
 
+    // uploadeFeaturefile = async (req: Request, callback: CallableFunction) => {
+    //     await backendupload(req, callback, async (err) => {
+    //         if (err) {
+    //             return callback("an Error occured", err)
+    //         }
+    //         var dataToSave = {
+    //             name: req.body.name,
+    //             description: req.body.description,
+    //             api_mang_file: null,
+    //             backed_mang_file: null,
+    //             front_mang_file: null
+    //         }
+    //         if (req['files'].length !== 0) {
+    //             req['files'].map((file, i) => {
+    //                 if (file.fieldname === "front_mang_file") {
+    //                     dataToSave.front_mang_file = file.path
+    //                 }
+    //                 if (file.fieldname === "backed_mang_file") {
+    //                     dataToSave.backed_mang_file = file.path
+    //                 }
+    //                 if (file.fieldname === "api_mang_file") {
+    //                     dataToSave.api_mang_file = file.path
+    //                 }
+
+    //             })
+    //         }
+    //         console.log('Data to save', dataToSave);
+    //         const createdFlowComp = new this.Feature(dataToSave);
+    //         await createdFlowComp.save((err, feature) => {
+    //             if (err) {
+    //                 callback(err);
+    //             } else {
+    //                 if (req['files'].length !== 0) {
+    //                     this.parseAndSaveFeatureDetails(feature, req['files'], callback)
+    //                 } else if (req['files'].length === 0) {
+    //                     callback(feature);
+    //                 }
+    //             }
+    //         });
+    //     });
+    // }
+
     uploadeFeaturefile = async (req: Request, callback: CallableFunction) => {
+        console.log("request---->davo----->",req.body)
         await backendupload(req, callback, async (err) => {
             if (err) {
                 return callback("an Error occured", err)
@@ -39,7 +82,7 @@ export class FeatureDetailsDao {
                 backed_mang_file: null,
                 front_mang_file: null
             }
-            if (req['files'].length !== 0) {
+            if (req['files'] !== null && req['files'] !== undefined ) {
                 req['files'].map((file, i) => {
                     if (file.fieldname === "front_mang_file") {
                         dataToSave.front_mang_file = file.path
@@ -53,15 +96,14 @@ export class FeatureDetailsDao {
 
                 })
             }
-            console.log('Data to save', dataToSave);
             const createdFlowComp = new this.Feature(dataToSave);
             await createdFlowComp.save((err, feature) => {
                 if (err) {
                     callback(err);
                 } else {
-                    if (req['files'].length !== 0) {
+                    if (req['files'] !== null && req['files'] !== undefined ) {
                         this.parseAndSaveFeatureDetails(feature, req['files'], callback)
-                    } else if (req['files'].length === 0) {
+                    } else {
                         callback(feature);
                     }
                 }
