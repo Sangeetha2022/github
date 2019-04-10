@@ -101,6 +101,9 @@ export class Constants {
 
     public static get getAllEntity(): string { return '/feature-entity/getall'; }
 
+    // Feature Flows
+    public static get addFeatureFlow(): string { return '/feature-flow/save'; }
+
     // Default Entity
     public static get addDefaultEntity(): string { return '/default_entity/save'; }
     public static get getDefaultEntityByProjectId(): string { return '/default_entity/getbyproject/'; }

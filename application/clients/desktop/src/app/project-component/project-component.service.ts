@@ -65,6 +65,11 @@ export class ProjectComponentService {
     this.entityInfoSource.next(entity);
   }
 
+  // featureFlow
+  addFeatureFlow(featureFlow: any) {
+    return this.api.post(this.restapi.featureUrl + Constants.addFeatureFlow, featureFlow);
+  }
+
 
   // Feature
   addFeature(feature) {

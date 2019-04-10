@@ -305,8 +305,11 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             }
         });
         this.RemoteStorage = this.editor.StorageManager.get('remote');
+        console.log('before save remotestorage ar e----- ', this.project_id, ' -feat--- ', this.feature_id);
         this.RemoteStorage.set('params', {
             foldername: `screen${generate(dictionary.numbers, 6)}`,
+            project: this.project_id,
+            feature: this.feature_id
         });
     }
 
@@ -427,6 +430,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.screenFlows.push(flowObj);
         this.saveRemoteStorage();
         this.closeEventPopup();
+        this.traitService.setScreenInfo(flowObj.html_id, flowObj.component_id, this.selectedFlow[0]);
     }
 
     onSelectionChanged() {
