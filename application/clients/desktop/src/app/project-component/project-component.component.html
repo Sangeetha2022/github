@@ -24,7 +24,7 @@
                                 <div><span>{{feature.description}}</span></div>
                                 <br />
                                 <button class="btn btn-info" [routerLink]="['/feature-details']"
-                                    [queryParams]="{featureId: feature._id}">View Details</button>
+                                    [queryParams]="{featureId: feature._id,, projectId: project_id}">View Details</button>
                                 <button class="btn btn-info ml-sm-3" (click)="openFeatureFlowDialog(feature._id)">Add
                                     Flows</button>
                             </div>

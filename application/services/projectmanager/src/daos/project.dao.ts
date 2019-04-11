@@ -45,7 +45,7 @@ export class ProjectDao {
                 if (err) {
                     callback(err);
                 } else {
-                    console.log('project id --------- ', project)
+                    // console.log('project id --------- ', project)
 
                     callback(project);
                 }

@@ -23,6 +23,7 @@ export class FeatureDetailsComponent implements OnInit {
     columnDefs: any = [];
     featureName: any;
     feature_id: String;
+    project_id: String;
     screenName: String;
     description: String;
     featureDetailsData: any = [];
@@ -131,7 +132,13 @@ export class FeatureDetailsComponent implements OnInit {
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
-            this.feature_id = params.featureId;
+            console.log('project and featureId are 111 ----- ', params);
+            if (params.featureId !== undefined && params.featureId !== null) {
+                this.feature_id = params.featureId;
+            }
+            if (params.projectId !== undefined && params.projectId !== null) {
+                this.project_id = params.projectId;
+            }
         });
         this.getSelectedProject();
         this.getScreenDetailsByFeatureId();
@@ -331,7 +338,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     GoToDesigner() {
-        this.router.navigate(['/desktopscreen']);
+        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, featureId: this.feature_id  } });
     }
 
     getFeatureEntityByFeatureId() {

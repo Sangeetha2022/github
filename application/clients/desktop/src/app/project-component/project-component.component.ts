@@ -142,6 +142,7 @@ export class EntityManagerComponent implements OnInit {
             sortable: true,
             filter: true
         };
+
         // if (this.selectFeature === true) {
         // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
         // }
@@ -220,47 +221,19 @@ export class EntityManagerComponent implements OnInit {
             data: dialogDataValue
         });
 
-        if (this.featureEntityDetails.name !== null) {
 
-            this.allEntity.map(allEntity => {
-                console.log(allEntity);
-                if (allEntity.project_id === this.project_id && allEntity.feature_id === this.featureEntityDetails.id) {
-
-                    this.FeatureEntity = allEntity;
+        dialogRef.afterClosed().subscribe(entityData => {
+            console.log('after close dialogRef ---- ', entityData);
+            if (entityData !== undefined) {
+                if (objectValue === null) {
+                    this.saveEntity(entityData);
+                } else {
+                    dialogDataValue.name = entityData.name;
+                    dialogDataValue.description = entityData.description;
+                    this.updateEntity(dialogDataValue);
                 }
-            });
-            dialogRef.afterClosed().subscribe(entityData => {
-                this.entity.project_id = this.project_id;
-                this.entity.feature_id = this.featureEntityDetails.id;
-                this.entity.name = entityData.name;
-                this.entity.description = entityData.description;
-                console.log(this.entity);
-                if (entityData !== undefined) {
-                    if (objectValue === null) {
-                        this.projectComponentService.saveFeatureEntity(this.entity).subscribe(feature_entity => {
-                            console.log(feature_entity);
-                        });
-                        this.saveEntity(this.entity);
-                    } else {
-                        dialogDataValue.name = entityData.name;
-                        dialogDataValue.description = entityData.description;
-                        this.updateEntity(dialogDataValue);
-                    }
-                }
-            });
-        } else if (this.featureEntityDetails.name === null) {
-            dialogRef.afterClosed().subscribe(entityData => {
-                if (entityData !== undefined) {
-                    if (objectValue === null) {
-                        this.saveEntity(entityData);
-                    } else {
-                        dialogDataValue.name = entityData.name;
-                        dialogDataValue.description = entityData.description;
-                        this.updateEntity(dialogDataValue);
-                    }
-                }
-            });
-        }
+            }
+        });
     }
 
     getProjectDetails() {
@@ -328,7 +301,7 @@ export class EntityManagerComponent implements OnInit {
         }
     }
 
-    createFeature() {
+     createFeature() {
         if (this.selectedOption === 'Upload Feature') {
             this.formData.append('front_mang_file', this.frontFile[0]);
             this.formData.append('backed_mang_file', this.backendFile[0]);
@@ -521,7 +494,8 @@ export class EntityManagerComponent implements OnInit {
     // }
 
     GoToDesigner() {
-        this.router.navigate(['/desktopscreen']);
+
+        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id } });
     }
 
     // Feature
@@ -616,7 +590,6 @@ export class EntityManagerComponent implements OnInit {
                 if (featureElement.description !== undefined) {
                     this.featureData[index].description = featureElement.description.replace(/<[^>]*>/g, '');
                 }
-
             });
         });
     }

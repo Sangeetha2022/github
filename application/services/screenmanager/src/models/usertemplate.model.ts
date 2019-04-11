@@ -31,6 +31,13 @@ export const UserTemplateSchema = new Schema({
         }],
         default_field: []
     },
+    flows_info: [{
+        html_id: { type: String, default: null },
+        component_id: { type: String, default: null },
+        flow: { type: String, ref: 'flows' }
+    }],
+    project: { type: String, ref: 'projects', default: null},
+    feature: { type: String, ref: 'feature_details', default: null},
     created_at: {
         type: Date,
         default: Date.now

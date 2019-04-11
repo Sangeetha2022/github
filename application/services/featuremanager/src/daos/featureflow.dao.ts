@@ -5,8 +5,8 @@ import FeatureFlowsModel from '../models/featureflows.model';
 
 export class FeatureFlowDao {
     private FeatureFlows = FeatureFlowsModel;
-    public saveFeatureFlow(req: Request, callback: CallableFunction) {
-        let newCreateFeatureFlow = new this.FeatureFlows(req.body);
+    public saveFeatureFlow(flowData, callback: CallableFunction) {
+        let newCreateFeatureFlow = new this.FeatureFlows(flowData);
         newCreateFeatureFlow.save((err, feature) => {
             if (err) {
                 callback(err);

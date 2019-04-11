@@ -27,6 +27,10 @@ export class ScreenService {
         }
         console.log('entering into generateScreen')
         screenDao.getTemplate(projectID, (templateResponse) => {
+            console.log('default templates are ---- ', templateResponse);
+            if(templateResponse === null || templateResponse === undefined) {
+                callback('Please select the template first ')
+            }
             screenSupporter.generateTemplate(templateResponse, angularPath, (createdTemplateResult) => {
                 screenSupporter.generateDefaultFile(angularPath, (defaultResult) => {
                     screenDao.getScreenDetails((screenResponse) => {

@@ -24,6 +24,7 @@ import { ProjectComponentService } from 'src/app/project-component/project-compo
 import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TraitsService } from './services/traits/traits.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 declare var grapesjs: any;
@@ -57,13 +58,16 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     allEntityField: any[] = [];
     selectedProject: any;
     agGridFields: FormGroup;
-    eventFlows: FormGroup;
+    selectedFlow: any;
+    is_grid_present: Boolean;
+    // eventFlows: FormGroup;
     agGridObject: any = {
         html_id: '',
         component_id: '',
         custom_field: [],
         default_field: []
     };
+    screenFlows: any[] = [];
     // selectColumn:,
     // selectEntity,
     // selectField,
@@ -75,6 +79,12 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     currentAgGridData: any;
     defaultColumn: any;
     RemoteStorage: any;
+    columnDefs: any;
+    rowSelection: string;
+    defaultColDef: any;
+    rowData: any;
+    feature_id: String;
+    project_id: String;
 
     constructor(
         private screenDesignerService: ScreenDesignerService,
@@ -89,8 +99,25 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         private dataService: DataService,
         private sharedService: SharedService,
         private formBuilder: FormBuilder,
+        private activatedRoute: ActivatedRoute,
         private ref: ChangeDetectorRef
     ) {
+        this.columnDefs = [
+            {
+                headerName: 'Name', field: 'name',
+                checkboxSelection: true
+            },
+            { headerName: 'Label', field: 'label' },
+            { headerName: 'Description', field: 'description' },
+            { headerName: 'Action', field: 'action_on_data' },
+
+
+        ];
+        this.rowSelection = 'single';
+        this.defaultColDef = {
+            sortable: true,
+            filter: true
+        };
         this.dataService.currentAllEntityInfo.subscribe(
             (data) => {
                 this.allEntity = data;
@@ -117,7 +144,17 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.activatedRoute.queryParams.subscribe(params => {
+            console.log('activated routes in screen designer are ----- ', params);
+            if (params.featureId !== undefined && params.featureId !== null) {
+                this.feature_id = params.featureId;
+            }
+            if (params.projectId !== undefined && params.projectId !== null) {
+                this.project_id = params.projectId;
+            }
+            });
         this.isGridPopup = false;
+        this.is_grid_present = false;
         // this.selectedColumn = 'column1';
         // this.selectedEntity = 'none';
         // this.selectedField = 'none';
@@ -127,9 +164,9 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             selectEntity: ['', Validators.required],
             selectField: ['', Validators.required],
         });
-        this.eventFlows = this.formBuilder.group({
-selectEvent: ['', Validators.required]
-        });
+        // this.eventFlows = this.formBuilder.group({
+        //     selectEvent: ['', Validators.required]
+        // });
         this.saveTemplateURL = this.sharedService.screenUrl + '/user_template/save';
         this.saveChildURL = this.sharedService.screenUrl + '/childTemplate/save';
         const addStyles = [];
@@ -252,12 +289,13 @@ selectEvent: ['', Validators.required]
         this.traitService.initializeMethod(this.editor);
         // this.beforeDropElement();
         const test1 = 'test';
-        const objectTest = this.agGridObject;
+        // const is = this.agGridObject;
+        const $this = this;
         this.editor.on('component:selected', function (component) {
-            console.log('onFieldOptions selected component of element are ----- ', test1, component);
             if (component.attributes.type === 'grid-type') {
-                objectTest.html_id = component.ccid;
-                objectTest.component_id = component.cid;
+                $this.agGridObject.html_id = component.ccid;
+                $this.agGridObject.component_id = component.cid;
+                $this.is_grid_present = true;
                 //   const styleManager = editor.StyleManager;
                 //   styleManager.addSector('div-only-sector',{
                 //     name: 'Div only sector',
@@ -265,11 +303,13 @@ selectEvent: ['', Validators.required]
                 //     properties: [{ name: 'This is a div'}]
                 //   });
             }
-            console.log('onFieldOptions selected component of element are --2222--- ', objectTest);
         });
         this.RemoteStorage = this.editor.StorageManager.get('remote');
+        console.log('before save remotestorage ar e----- ', this.project_id, ' -feat--- ', this.feature_id);
         this.RemoteStorage.set('params', {
             foldername: `screen${generate(dictionary.numbers, 6)}`,
+            project: this.project_id,
+            feature: this.feature_id
         });
     }
 
@@ -301,12 +341,19 @@ selectEvent: ['', Validators.required]
         this.dataService.setAgGridValue(this.agGridArray);
         this.agGridObject.custom_field = this.agGridArray;
         this.agGridObject.default_field = this.defaultColumn;
+       this.saveRemoteStorage();
+        this.onCloseHandled();
+    }
+
+    saveRemoteStorage() {
         this.RemoteStorage.set('params', {
             grid_fields: this.agGridObject,
+            flows_info: this.screenFlows,
             foldername: `screen${generate(dictionary.numbers, 6)}`,
-            is_grid_present: true
+            is_grid_present: this.is_grid_present,
+            project: this.project_id,
+            feature: this.feature_id
         });
-        this.onCloseHandled();
     }
 
     getEntityType() {
@@ -349,24 +396,45 @@ selectEvent: ['', Validators.required]
             console.log('dataFlow --print--- ', flowData);
             //   this.rowData = flowData;
             this.listOfFLows = flowData;
+            if (this.feature_id !== undefined && this.feature_id != null) {
+            this.rowData = flowData;
+            } else {
+                const createFlow = flowData.find(x => x.name === 'GpCreate');
+                console.log('project and featureId are create flow ---- ', createFlow);
+                this.rowData = [createFlow];
+            }
         }, (error) => {
-console.log('cannot get flows in screen designer');
+            console.log('cannot get flows in screen designer');
         });
     }
 
     cancelEvent() {
-      this.closeEventPopup();
+        this.closeEventPopup();
     }
 
     closeEventPopup() {
         const eventPopupModel = <HTMLElement>document.querySelector('#EventPopup');
-        console.log('print eventPopupModel values are ------ ', eventPopupModel);
         eventPopupModel.style.display = 'none';
     }
 
+    // save flows
     saveEvent() {
-        console.log('print save events are ----- ', this.eventFlows.value);
+        const flowObj = {
+            html_id: '',
+            component_id: '',
+            flow: ''
+        };
+        flowObj.html_id = this.editor.getSelected().cid;
+        flowObj.component_id = this.editor.getSelected().ccid;
+        flowObj.flow = this.selectedFlow[0]._id;
+        this.screenFlows.push(flowObj);
+        this.saveRemoteStorage();
         this.closeEventPopup();
+        this.traitService.setScreenInfo(flowObj.html_id, flowObj.component_id, this.selectedFlow[0]);
+    }
+
+    onSelectionChanged() {
+        this.selectedFlow = this.gridApi.getSelectedRows();
     }
 
     // buildDataBindingTypes(element) {
@@ -444,10 +512,18 @@ console.log('cannot get flows in screen designer');
             const allTextAreaModels = model.find('textarea');
             const allOptionModels = model.find('select');
             const allRadioModels = model.find('.radio');
+            const allButtonModels = model.find('.button');
             const allCheckBoxModels = model.find('.checkbox');
             const allImageBlockModels = model.find('.gpd-image-block');
             const allImageModels = model.find('.gjs-plh-image');
+            console.log('buttonn are ---- ', allButtonModels);
+            // allButtonModels[0].attributes.content = 'testnew';
+            // allButtonModels.target.set('content', 'dsfdsfsdf');
+
+            // button default content name changed
+            allButtonModels[0].attributes.traits.target.set('content', `button_${generate(dictionary.numbers, 6)}`);
             allInputModels.forEach(models => models.setAttributes({ name: `input_${generate(dictionary.numbers, 6)}` }));
+            // allButtonModels.forEach(models => models.setAttributes({ content: `button_${generate(dictionary.numbers, 6)}` }));
             allTextAreaModels.forEach(models => models.setAttributes({ name: `textarea_${generate(dictionary.numbers, 6)}` }));
             allOptionModels.forEach(models => models.setAttributes({ name: `select_${generate(dictionary.numbers, 6)}` }));
             allRadioModels.forEach(models => models.setAttributes({ name: `radio_${generate(dictionary.numbers, 6)}` },

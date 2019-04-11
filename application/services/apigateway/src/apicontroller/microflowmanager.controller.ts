@@ -23,7 +23,7 @@ class MicroflowController implements Controller {
         this.router.get('/microflow/getall', this.flowControllergetAllFlow);
         this.router.get('/microflow/getbyid/:id', this.flowControllergetFlowByID);
         this.router.delete('/microflow/delete/:id', this.flowControllerdeleteMicroFlow);
-       
+       this.router.get('/microflow/getbycomp/:name', this.getMicroFlowByName);
     }
 
     public flowControllersaveMicroFlow(req: Request, res: Response) {
@@ -59,12 +59,21 @@ class MicroflowController implements Controller {
     }
 
     public flowControllergetFlowByID = (req: Request, res: Response) => {
-        new ApiAdaptar().get(`${Constants.microUrl}'/microflow/getall'${req.params.id}`).then(feature => {
-            req.baseUrl === '/mobile' ? res.send(feature) :
-                req.baseUrl === '/desktop' ? res.send(feature) : res.send(null)
+        new ApiAdaptar().get(`${Constants.microUrl}'/microflow/getall'${req.params.id}`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null)
         }).catch(err => {
             res.send(err);
         });
+    }
+
+    public getMicroFlowByName = (req: Request, res: Response) => {
+        new ApiAdaptar().get(`${Constants.microUrl}/microflow/getbycomp/${req.params.name}`)
+        .then(result => {
+            res.send(result);
+        }).catch(err => {
+            res.send(err);
+        })
     }
 }
 export { MicroflowController };
