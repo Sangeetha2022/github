@@ -37,42 +37,42 @@ export class TraitsService {
   }
 
   initializeMethod(editor) {
-   const $this = this;
+    const $this = this;
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
-// content traits
-// Each new type extends the default Trait
-editor.TraitManager.addType('content', {
-  events: {
-    'keyup': 'onChange',  // trigger parent onChange method on keyup
-  },
+    // content traits
+    // Each new type extends the default Trait
+    editor.TraitManager.addType('content', {
+      events: {
+        'keyup': 'onChange',  // trigger parent onChange method on keyup
+      },
 
-  /**
-  * Returns the input element
-  * @return {HTMLElement}
-  */
-  getInputEl: function() {
-    if (!this.inputEl) {
-      const input = document.createElement('textarea');
-      input.value = this.target.get('content');
-      this.inputEl = input;
-    }
-    return this.inputEl;
-  },
+      /**
+      * Returns the input element
+      * @return {HTMLElement}
+      */
+      getInputEl: function () {
+        if (!this.inputEl) {
+          const input = document.createElement('textarea');
+          input.value = this.target.get('content');
+          this.inputEl = input;
+        }
+        return this.inputEl;
+      },
 
-  /**
-   * Triggered when the value of the model is changed
-   */
-  onValueChange: function () {
-    this.target.set('content', this.model.get('value'));
-  }
-});
+      /**
+       * Triggered when the value of the model is changed
+       */
+      onValueChange: function () {
+        this.target.set('content', this.model.get('value'));
+      }
+    });
 
     // action button add
     editor.TraitManager.addType('actionButton', {
-     events: {
+      events: {
         'click': function () {
           console.log('print button clicked');
           const eventPopupModel = document.getElementById('EventPopup');
@@ -116,22 +116,31 @@ editor.TraitManager.addType('content', {
 
         }),
         toHTML: function () {
-          const html = this.view.el.innerHTML;
-          console.log('button rnder html are ------11---------- ', html);
+          const htmlName = this.view.el.innerHTML;
+          console.log('button rnder html are ------11---------- ', htmlName);
           console.log('button rnder html are -------22--------- ', this);
-      //    const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
-      //    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [animateRows]="true"
-      //    [gridOptions]="gridOptions" (gridReady)="onGridReady($event)" domLayout='autoHeight'></ag-grid-angular>
-      //    </div>
-      //  `;
-      //     return replacedValue;
+          let buttonElementRender = `<button type="submit" class="button">${htmlName}</button>`;
+          $this.screenArray.forEach(screenElement => {
+            if (screenElement.button.htmlId === this.cid &&
+              screenElement.button.componentId === this.ccid) {
+              buttonElementRender = `<button type="submit" class="button"
+(click)="${screenElement.button.action.label}()">${htmlName}</button>`;
+            }
+          });
+          return buttonElementRender;
+          //    const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
+          //    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [animateRows]="true"
+          //    [gridOptions]="gridOptions" (gridReady)="onGridReady($event)" domLayout='autoHeight'></ag-grid-angular>
+          //    </div>
+          //  `;
+          //     return replacedValue;
         },
         init() {
           // this.listenTo(this, 'change:name', this.buttonText); // listen for active event
         },
         buttonText() {
-   }
-        },
+        }
+      },
         {
           isComponent: function (el) {
             if (el.tagName === 'BUTTON') {
@@ -145,7 +154,7 @@ editor.TraitManager.addType('content', {
       // Define the View
       view: defaultType.view,
     });
-   }
+  }
 
 
   addCKEditorTraits(editor, buttonName) {
@@ -543,7 +552,7 @@ editor.TraitManager.addType('content', {
                 selectedEntity = entityElement;
               }
             }
-            });
+          });
           //     entityElement.field.forEach(fieldElement => {
           //       const temp = {
           //         value: fieldElement.name,
@@ -563,7 +572,7 @@ editor.TraitManager.addType('content', {
         toHTML: function () {
           const html = this.view.el.innerHTML;
           console.log('rnder html are ---------------- ', html);
-         const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
+          const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [animateRows]="true"
          [gridOptions]="gridOptions" (gridReady)="onGridReady($event)" domLayout='autoHeight'></ag-grid-angular>
          </div>
@@ -722,9 +731,9 @@ editor.TraitManager.addType('content', {
   setScreenInfo(htmlId, componentId, flow) {
     const screenObj = {
       button: {
-      htmlId: undefined,
-      componentId: undefined,
-      action: undefined
+        htmlId: undefined,
+        componentId: undefined,
+        action: undefined
       }
     };
     screenObj.button.htmlId = htmlId;
