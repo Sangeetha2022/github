@@ -77,7 +77,6 @@ export class Constants {
     public static get addFeatureDetails(): string { return '/feature/details/addfile'; }
 
     // Feature Flow
-    // public static get addFeatureFlow(): string { return '/feature-flow/save'; }
     // public static get getAllFeatureFlow(): string { return '/feature-flow/getall'; }
     public static get getAllFeatureFlowByFeatureId(): string { return '/feature-flow/getbyfeatureid/'; }
     public static get getFeatureFlowById(): string { return '/feature-flow/getbyid/'; }
