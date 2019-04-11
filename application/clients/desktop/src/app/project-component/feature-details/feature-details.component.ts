@@ -230,7 +230,7 @@ export class FeatureDetailsComponent implements OnInit {
     // }
 
     getEntityByFeatureAndprojectId() {
-        this.projectComponentService.getEntityByFeatureAndprojectId(this.selectedProject._id, this.feature_id).subscribe(data => {
+        this.projectComponentService.getEntityByFeatureAndprojectId(this.project_id, this.feature_id).subscribe(data => {
             this.featureEntityDetails = data;
         });
 
@@ -272,7 +272,7 @@ export class FeatureDetailsComponent implements OnInit {
     saveEntity(entityData) {
         this.entity.name = entityData.name;
         this.entity.description = entityData.description;
-        this.entity.project_id = this.selectedProject._id;
+        this.entity.project_id = this.project_id;
         this.projectComponentService.createEntity(this.entity).subscribe(
             (data) => {
                 if (data) {
@@ -313,7 +313,7 @@ export class FeatureDetailsComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(entityData => {
-            this.entity.project_id = this.selectedProject._id;
+            this.entity.project_id = this.project_id;
             this.entity.feature_id = this.feature_id;
             this.entity.name = entityData.name;
             this.entity.description = entityData.description;

@@ -18,4 +18,19 @@ export class UserTemplateController {
             res.json(response);
         })
     }
+
+    public getAllUserTemplateByProjectId(req: Request, res: Response) {
+        userTemplateService.getAllUserTemplateByProjectId(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
+
+    public getAllUserTemplateByProjectAndFeatureId(req: Request, res: Response) {
+        userTemplateService.getAllUserTemplateByProjectAndFeatureId(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
 }
