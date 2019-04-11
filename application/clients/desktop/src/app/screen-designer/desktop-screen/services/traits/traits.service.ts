@@ -19,105 +19,68 @@ export class TraitsService {
     entity: ''
   }];
   public testPrivate: String = '';
+  // public screenObj: any = {
+  //   button: {
+  //   htmlId: undefined,
+  //   componentId: undefined,
+  //   action: undefined
+  //   }
+  // };
+  public screenArray: any[] = [];
+  public clientFramework: any = 'Angular 7';
   constructor(
     private dataService: DataService
-  ) { }
+  ) { this.initMethod(); }
 
+  initMethod() {
+    this.screenArray = [];
+  }
 
   initializeMethod(editor) {
+    const $this = this;
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    // const allEntityTemp = this.allEntity;
-    console.log('@@@@@@@ print 111 ----- ', this);
-    console.log('@@@@@@@ print 222 ----- ', comps);
-    console.log('@@@@@@@ print 333 ----- ', defaultType);
-    console.log('@@@@@@@ print 444 ----- ', defaultModel);
-    // console.log('@@@@@@@ print 555 ----- ', this);
-    // let selectedEntityName = '';
-    // const localDataService = this.dataService;
-    // // let selectedEntity;
-    // // let selectedColumnName = 'col1_id';
-    // const columnOptions = [
-    //   { value: 'col1_id', name: 'a' },
-    //   { value: 'col2_id', name: 'b' },
-    //   { value: 'col3_id', name: 'c' },
-    //   { value: 'col4_id', name: 'd' },
-    //   { value: 'col5_id', name: 'e' }
-    // ];
-    // const agGridArray = this.agGridValue;
 
+    // content traits
+    // Each new type extends the default Trait
+    editor.TraitManager.addType('content', {
+      events: {
+        'keyup': 'onChange',  // trigger parent onChange method on keyup
+      },
 
-// content traits
-// Each new type extends the default Trait
-editor.TraitManager.addType('content', {
-  events: {
-    'keyup': 'onChange',  // trigger parent onChange method on keyup
-  },
-
-  /**
-  * Returns the input element
-  * @return {HTMLElement}
-  */
-  getInputEl: function() {
-    if (!this.inputEl) {
-      const input = document.createElement('textarea');
-      input.value = this.target.get('content');
-      this.inputEl = input;
-    }
-    return this.inputEl;
-  },
-
-  /**
-   * Triggered when the value of the model is changed
-   */
-  onValueChange: function () {
-    this.target.set('content', this.model.get('value'));
-  }
-});
-
-    // add button
-    editor.TraitManager.addType('actionButton', {
       /**
-       * Returns the input element
-       * @return {HTMLElement}
+      * Returns the input element
+      * @return {HTMLElement}
+      */
+      getInputEl: function () {
+        if (!this.inputEl) {
+          const input = document.createElement('textarea');
+          input.value = this.target.get('content');
+          this.inputEl = input;
+        }
+        return this.inputEl;
+      },
+
+      /**
+       * Triggered when the value of the model is changed
        */
+      onValueChange: function () {
+        this.target.set('content', this.model.get('value'));
+      }
+    });
+
+    // action button add
+    editor.TraitManager.addType('actionButton', {
       events: {
         'click': function () {
           console.log('print button clicked');
           const eventPopupModel = document.getElementById('EventPopup');
           console.log('print eventPopupModel values are ------ ', eventPopupModel);
           eventPopupModel.style.display = 'block';
-          // console.log('addButton is this working -----  ', this.target.view.el.gridOptions.columnDefs);
-          // const count = this.target.view.el.gridOptions.columnDefs.length + 1;
-          // const columnDefs = this.target.view.el.gridOptions.columnDefs;
-          // columnDefs.push({
-          //   headerName: `column_${count}`,
-          //   field: 'a',
-          //   sortable: true,
-          //   colId: `col${count}_id`
-          // });
-          // this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
-          // this.target.view.el.gridOptions.api.sizeColumnsToFit();
-          // columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
-          // const colTraits = this.target.get('traits').where({ name: 'colname' })[0];
-          // colTraits.set('options', columnOptions);
-          // editor.TraitManager.getTraitsViewer().render();
-          // console.log('sessionStorage count are ', count, ' --- ', { value: `col${count}_id`, name: `column_${count}` });
-          // const modal = <HTMLElement>document.querySelector('#agGridModal');
-          // console.log('ag Grid modal are ----- ', modal);
-          // if (selectedEntity !== undefined) {
-          //   // modal.style.display = 'block';
-          //   localDataService.setAgGridEntity(selectedEntity);
-          // }
-          // trigger when btn is clicked
         },
       },
       getInputEl() {
-          // var button = document.createElement('button');
-        // button.id = 'btnLogin';
-        // button.value = 'Login';
-        // return button;
         // tslint:disable-next-line:prefer-const
         let button = <HTMLElement>document.createElement('button');
         button.id = 'fieldButton';
@@ -128,12 +91,6 @@ editor.TraitManager.addType('content', {
         button.style.backgroundColor = '#008CBA';
         button.style.fontSize = '12px !important';
         button.style.cursor = 'pointer';
-        //       button.style =
-        //         'width: 100%;   background-color: #4CAF50; \
-        // border: none; \
-        // color: white; \
-        // font-size: 16px; \
-        // cursor: pointer; background-color: #008CBA;';
         button.appendChild(document.createTextNode('Flow'));
         return button;
       },
@@ -158,36 +115,32 @@ editor.TraitManager.addType('content', {
           }],
 
         }),
+        toHTML: function () {
+          const htmlName = this.view.el.innerHTML;
+          console.log('button rnder html are ------11---------- ', htmlName);
+          console.log('button rnder html are -------22--------- ', this);
+          let buttonElementRender = `<button type="submit" class="button">${htmlName}</button>`;
+          $this.screenArray.forEach(screenElement => {
+            if (screenElement.button.htmlId === this.cid &&
+              screenElement.button.componentId === this.ccid) {
+              buttonElementRender = `<button type="submit" class="button"
+(click)="${screenElement.button.action.label}()">${htmlName}</button>`;
+            }
+          });
+          return buttonElementRender;
+          //    const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
+          //    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [animateRows]="true"
+          //    [gridOptions]="gridOptions" (gridReady)="onGridReady($event)" domLayout='autoHeight'></ag-grid-angular>
+          //    </div>
+          //  `;
+          //     return replacedValue;
+        },
         init() {
-          this.listenTo(this, 'change:name', this.buttonText); // listen for active event
-          // this.listenTo(this, 'change:Action', this.buttonAction);
+          // this.listenTo(this, 'change:name', this.buttonText); // listen for active event
         },
         buttonText() {
-
-          // console.log('sessionStorage details are --this---- ', this);
-          // console.log('sessionStorage details are --this-222--- ', this.view.el.gridOptions, selectedColumnName);
-          // const enteredColName = this.changed['colname'];
-          // const colTraits = this.get('traits').where({ name: 'colname' })[0];
-          // console.log('sessionStorage get all columnDef --333--- ', this.view.el.gridOptions.api.getColumnDef(selectedColumnName));
-          // this.view.el.gridOptions.api.getColumnDef(selectedColumnName).headerName = enteredColName;
-          // this.view.el.gridOptions.api.refreshHeader();
-          // console.log('sessionStorage 333 colName ----- ', this.view.el.gridOptions);
-          // console.log('sessionStorage 444 colOptions ----- ', columnOptions);
-          // const id = editor.getSelected().ccid;
-          // columnOptions.forEach(columnElement => {
-          //   if (columnElement.value === selectedColumnName) {
-          //     columnElement.name = enteredColName;
-          //   }
-          // });
-          // colTraits.set('options', columnOptions);
-          // editor.TraitManager.getTraitsViewer().render();
-        const component = this.find('button')[0];
-          console.log('default editor get component area ---------   ', component);
-
-          // eg. update inner component contents
-          component.components('<div>New content</div>');
         }
-        },
+      },
         {
           isComponent: function (el) {
             if (el.tagName === 'BUTTON') {
@@ -201,7 +154,7 @@ editor.TraitManager.addType('content', {
       // Define the View
       view: defaultType.view,
     });
-   }
+  }
 
 
   addCKEditorTraits(editor, buttonName) {
@@ -240,12 +193,11 @@ editor.TraitManager.addType('content', {
 
   addGridTraits(editor, buttonName) {
     this.getData();
+    const $this = this;
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    const allEntityTemp = this.allEntity;
     let selectedEntityName = '';
-    const localDataService = this.dataService;
     let selectedEntity;
     let selectedColumnName = 'col1_id';
     const columnOptions = [
@@ -368,7 +320,7 @@ editor.TraitManager.addType('content', {
               defalutColumn: this.target.view.el.gridOptions.columnDefs,
               customColumn: columnOptions
             };
-            localDataService.setAgGridEntity(constructObj);
+            $this.dataService.setAgGridEntity(constructObj);
           }
           // trigger when btn is clicked
         },
@@ -593,14 +545,14 @@ editor.TraitManager.addType('content', {
           // console.log('entities ---44--- ', fieldTraits);
           // const options = [];
           // console.log('entities --55---- ', allEntityTemp.length);
-          allEntityTemp.forEach(entityElement => {
+          $this.allEntity.forEach(entityElement => {
             if (entityElement.name === selectedEntityName) {
               // localDataService.setAgGridEntity(entityElement);
               if (selectedEntityName !== 'none') {
                 selectedEntity = entityElement;
               }
             }
-            });
+          });
           //     entityElement.field.forEach(fieldElement => {
           //       const temp = {
           //         value: fieldElement.name,
@@ -620,37 +572,13 @@ editor.TraitManager.addType('content', {
         toHTML: function () {
           const html = this.view.el.innerHTML;
           console.log('rnder html are ---------------- ', html);
-         const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
+          const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [animateRows]="true"
          [gridOptions]="gridOptions" (gridReady)="onGridReady($event)" domLayout='autoHeight'></ag-grid-angular>
          </div>
        `;
           return replacedValue;
         }
-        // entityField() {
-        // }
-        // entity() {
-        //   const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
-        //   const changedValue = this.changed['entities'];
-        //   const options = [];
-        //   if (allEntityTemp.length > 0) {
-        //     allEntityTemp.forEach(element => {
-        //       if (element.name === changedValue) {
-        //         element.field.forEach(childElement => {
-        //           const temp = {
-        //             value: childElement.Name,
-        //             name: childElement.Name
-        //           };
-        //           options.push(temp);
-        //         });
-        //       }
-        //     });
-        //   }
-        //   entityTrait.set('options', options);
-        //   editor.TraitManager.getTraitsViewer().render();
-        // },
-        // attributeVal() {
-        // }
       },
         {
           isComponent: function (el) {
@@ -668,11 +596,10 @@ editor.TraitManager.addType('content', {
   }
 
   addSpecialButtonTraits(editor, buttonName) {
+    const $this = this;
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    const defaultView = defaultType.view;
-    const allEntityTemp = this.allEntity;
     comps.addType(buttonName, {
       model: defaultModel.extend({
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
@@ -701,8 +628,8 @@ editor.TraitManager.addType('content', {
           const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
           const changedValue = this.changed['entities'];
           const options = [];
-          if (allEntityTemp.length > 0) {
-            allEntityTemp.forEach(entityElement => {
+          if ($this.allEntity.length > 0) {
+            $this.allEntity.forEach(entityElement => {
               if (entityElement.name === changedValue) {
                 entityElement.field.forEach(childElement => {
                   const temp = {
@@ -736,10 +663,9 @@ editor.TraitManager.addType('content', {
   }
   addSpecialDropdownTraits(editor, buttonName) {
     const comps = editor.DomComponents;
+    const $this = this;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    const defaultView = defaultType.view;
-    const allEntityTemp = this.allEntity;
 
     comps.addType(buttonName, {
       model: defaultModel.extend({
@@ -769,8 +695,8 @@ editor.TraitManager.addType('content', {
           const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
           const changedValue = this.changed['entities'];
           const options = [];
-          if (allEntityTemp.length > 0) {
-            allEntityTemp.forEach(entityElement => {
+          if ($this.allEntity.length > 0) {
+            $this.allEntity.forEach(entityElement => {
               if (entityElement.name === changedValue) {
                 entityElement.field.forEach(childElement => {
                   const temp = {
@@ -801,4 +727,24 @@ editor.TraitManager.addType('content', {
       view: defaultType.view,
     });
   }
+
+  setScreenInfo(htmlId, componentId, flow) {
+    const screenObj = {
+      button: {
+        htmlId: undefined,
+        componentId: undefined,
+        action: undefined
+      }
+    };
+    screenObj.button.htmlId = htmlId;
+    screenObj.button.componentId = componentId;
+    screenObj.button.action = flow;
+    this.screenArray.push(screenObj);
+    console.log('button rnder html set screen info ------ ', this.screenArray);
+  }
+
+  getScreenInfo() {
+    return this.screenArray;
+  }
+
 }

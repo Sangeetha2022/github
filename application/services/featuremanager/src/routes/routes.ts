@@ -36,7 +36,7 @@ export class Routes {
 
 
         //Feature Flow
-        // app.route('/feature-flow/save').post(this.featureFlowController.saveFeatureFlow);
+        app.route('/feature-flow/save').post(this.featureFlowController.saveFeatureFlow);
         // app.route('/feature-flow/update/:id').put(this.featureFlowController.updateFeatureFlow);
         // app.route('/feature-flow/getall').get(this.featureFlowController.getAllFeatureFlow);
         app.route('/feature-flow/getbyid/:id').get(this.featureFlowController.getFeatureFlowByID);
