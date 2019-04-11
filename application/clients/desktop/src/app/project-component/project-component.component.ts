@@ -49,7 +49,7 @@ export class EntityManagerComponent implements OnInit {
         // explanation:'',
     };
     selectedOption: string;
-    options: string[] = ['Import Feature', 'Upload Feature', 'Add Feature'];
+    options: string[] = ['Import Feature', 'Upload Feature', 'Create Feature'];
     public featureDetails: IFeatureDetails = {
         id: '',
         name: '',
@@ -153,7 +153,7 @@ export class EntityManagerComponent implements OnInit {
             this.project_id = params.projectId;
         });
         if (this.showAddFeature === true) {
-            this.selectedOption = 'Add Feature';
+            this.selectedOption = 'Create Feature';
         }
         this.getSelectedProject();
         this.getProjectDetails();
@@ -193,7 +193,7 @@ export class EntityManagerComponent implements OnInit {
             this.showUploadFeature = true;
 
         }
-        if (event.value === 'Add Feature') {
+        if (event.value === 'Create Feature') {
             this.showImportFeature = false;
             this.showAddFeature = true;
             this.showUploadFeature = false;
@@ -323,7 +323,7 @@ export class EntityManagerComponent implements OnInit {
                     this.getAllFeatureDetails();
                 }
             });
-        } else if (this.selectedOption === 'Add Feature') {
+        } else if (this.selectedOption === 'Create Feature') {
             return this.http.post('http://localhost:3006/feature/details/addfile', this.featureDetails).subscribe((data) => {
                 if (data) {
                     this.createFeatureData = data;

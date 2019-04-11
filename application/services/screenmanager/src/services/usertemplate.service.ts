@@ -17,4 +17,17 @@ export class UserTemplateService {
             callback(response);
         });
     }
+
+
+    public getAllUserTemplateByProjectId(req: Request, callback) {
+        userTemplateDao.getAllUserTemplateByProjectId(req,(response) => {
+            callback(response);
+        });
+    }
+
+    public getAllUserTemplateByProjectAndFeatureId(req: Request, callback) {
+        userTemplateDao.getAllUserTemplateByProjectAndFeatureId(req,(response) => {
+            callback(response);
+        });
+    }
 }
