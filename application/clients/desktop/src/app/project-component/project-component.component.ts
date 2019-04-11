@@ -247,7 +247,7 @@ export class EntityManagerComponent implements OnInit {
             }
             if (this.featureId !== null) {
                 this.featureId.map(fdata => {
-                    this.projectComponentService.getFeatureDetailsById(fdata).subscribe(fedata => {
+                    this.projectComponentService.getFeatureDetailsById(fdata._id).subscribe(fedata => {
                         if (data !== undefined) {
                             this.projectFeatureData.push(fedata);
                             this.dataService.setProjectFeatureInfo(this.projectFeatureData);
