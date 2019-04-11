@@ -50,6 +50,16 @@ export class FeatureDetailsComponent implements OnInit {
         featureName: '',
 
     };
+    public entity: IEntity = {
+        name: '',
+        description: '',
+        project_id: '',
+        feature_id: '',
+        created_by: '',
+        last_modified_by: '',
+        updated_at: new Date(),
+        field: []
+    };
     showFeatureFlowComponent: boolean;
     allFeatureFlows: any = [];
     selectedFlow: any = [];
@@ -224,6 +234,10 @@ export class FeatureDetailsComponent implements OnInit {
         this.router.navigate(['/entity-field']);
     }
 
+    saveEntityModel() {
+        this.openDialog(true, null);
+    }
+
     // getAllFeatureFlows() {
     // this.showFeatureFlow = true;
     // this.showFeatureFlowComponent = false;
@@ -247,6 +261,38 @@ export class FeatureDetailsComponent implements OnInit {
         return allText;
     }
 
+
+    saveEntity(entityData) {
+        this.entity.name = entityData.name;
+        this.entity.description = entityData.description;
+        this.entity.project_id = this.selectedProject._id;
+        this.projectComponentService.createEntity(this.entity).subscribe(
+            (data) => {
+                if (data) {
+                    this.getEntityByFeatureAndprojectId();
+                }
+                // this.getAllEntityByProjectId();
+            },
+            (error) => {
+
+            }
+        );
+    }
+
+
+    updateEntity(entityData) {
+        entityData.updated_at = new Date();
+        this.projectComponentService.updateEntity(entityData).subscribe(
+            (data) => {
+                // this.getAllEntityByProjectId();
+            },
+            (error) => {
+
+            }
+        );
+    }
+
+
     openDialog(isSaveOption, objectValue): void {
         let dialogDataValue;
         if (isSaveOption) {
@@ -260,16 +306,24 @@ export class FeatureDetailsComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(entityData => {
-            // if (entityData !== undefined) {
-            // if (objectValue === null) {
-            // this.saveEntity(entityData);
-            // } else {
-            // dialogDataValue.name = entityData.name;
-            // dialogDataValue.description = entityData.description;
-            // this.updateEntity(dialogDataValue);
-            // }
-            // }
+            this.entity.project_id = this.selectedProject._id;
+            this.entity.feature_id = this.feature_id;
+            this.entity.name = entityData.name;
+            this.entity.description = entityData.description;
+            if (entityData !== undefined) {
+                if (objectValue === null) {
+                    this.projectComponentService.saveFeatureEntity(this.entity).subscribe(feature_entity => {
+                        console.log(feature_entity);
+                    });
+                    this.saveEntity(this.entity);
+                } else {
+                    dialogDataValue.name = entityData.name;
+                    dialogDataValue.description = entityData.description;
+                    this.updateEntity(dialogDataValue);
+                }
+            }
         });
+
     }
 
     editEntity(entity) {

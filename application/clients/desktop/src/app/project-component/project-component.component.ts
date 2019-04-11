@@ -79,6 +79,7 @@ export class EntityManagerComponent implements OnInit {
         action_on_data: '',
         description: '',
         feature_id: '',
+        label:'',
         name: '',
         type: 'basic',
         create_with_default_activity: 1,
@@ -220,7 +221,6 @@ export class EntityManagerComponent implements OnInit {
         });
 
         if (this.featureEntityDetails.name !== null) {
-            console.log(this.allEntity);
 
             this.allEntity.map(allEntity => {
                 console.log(allEntity);
@@ -415,6 +415,7 @@ export class EntityManagerComponent implements OnInit {
         this.featureFlow.forEach(featureData => {
             this.featureFlows.name = featureData.name;
             this.featureFlows.description = featureData.description;
+            this.featureFlows.label = featureData.label;
             this.featureFlows.action_on_data = featureData.action_on_data;
             this.projectComponentService.addFeatureFlow(this.featureFlows).subscribe(flowData => {
                 if (flowData) {
