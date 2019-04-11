@@ -43,6 +43,10 @@ export class DataService {
     private projectInfoSource = new BehaviorSubject<any>({});
     currentProjectInfo = this.projectInfoSource.asObservable();
 
+    // project feature info
+    private projectFeatureInfoSource = new BehaviorSubject<any>({});
+    currentProjectFeatureInfo = this.projectFeatureInfoSource.asObservable();
+
     // flow info
     private flowIdInfoSource = new BehaviorSubject<any>({});
     currentFlowIdInfoSource = this.flowIdInfoSource.asObservable();
@@ -82,6 +86,9 @@ export class DataService {
         this.projectInfoSource.next(details);
     }
 
+    setProjectFeatureInfo(details: any) {
+        this.projectFeatureInfoSource.next(details);
+    }
     // set selected entity
     setEntity(entity: any) {
         this.entityInfoSource.next(entity);

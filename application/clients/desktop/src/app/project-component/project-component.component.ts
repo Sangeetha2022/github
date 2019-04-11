@@ -11,6 +11,8 @@ import { SharedService } from '../../shared/shared.service';
 import { IFeatureDetails } from './interface/FeatureDetails';
 import { FeatureDetailsService } from './feature-details/feature-details.service';
 import { HttpClient, HttpBackend } from '@angular/common/http';
+import { FlowManagerService } from '../flow-manager/flow-manager.service';
+import { IFeatureFLow } from './interface/FeatureFlow';
 
 
 @Component({
@@ -27,15 +29,19 @@ export class EntityManagerComponent implements OnInit {
 
     frontFile: any;
     backendFile: any;
+    rowSelection: any;
     apiManFile: any;
     showUpdateFeature: Boolean;
-    allowImport: Boolean;
+    allowImport: Boolean = false;
     selectedExistingFeature: String;
     featureNameandDesc: any = [];
     featureId: any = [];
+    defaultColDef: any;
     featureData: any = [];
     featureConnectProject: any = [];
     // user: any = [];
+    columnDefs: any = [];
+    rowData: any = [];
     project_id: String;
     public features: IFeature = {
         project_id: '',
@@ -43,8 +49,18 @@ export class EntityManagerComponent implements OnInit {
         // explanation:'',
     };
     selectedOption: string;
-    options: string[] = ['Import Feature', 'Upload Feature', 'Add Feature'];
+    options: string[] = ['Import Feature', 'Upload Feature', 'Create Feature'];
     public featureDetails: IFeatureDetails = {
+        id: '',
+        name: '',
+        description: '',
+        api_mang_file: '',
+        backed_mang_file: '',
+        front_mang_file: '',
+        // explanation:'',
+    };
+
+    public featureEntityDetails: IFeatureDetails = {
         id: '',
         name: '',
         description: '',
@@ -56,7 +72,18 @@ export class EntityManagerComponent implements OnInit {
     panelOpenState = false;
     featureEntityData: any = [];
     featureEntityField: any = [];
+    featureFlow: any = [];
     displayFeatureModel = 'none';
+    public featureFlows: IFeatureFLow = {
+        id: '',
+        action_on_data: '',
+        description: '',
+        feature_id: '',
+        label:'',
+        name: '',
+        type: 'basic',
+        create_with_default_activity: 1,
+    };
     public entity: IEntity = {
         name: '',
         description: '',
@@ -68,10 +95,16 @@ export class EntityManagerComponent implements OnInit {
         field: []
     };
     http: HttpClient;
+    createFeatureData: any = [];
+    gridColumnApi: any;
+    gridApi: any;
     projectEntity: any = [];
+    selectedFlow: any = [];
     public allEntity: IEntity[] = [];
+    public FeatureEntity: any = [];
     public deletePopup: String = 'none';
     deleteFPopup: String = 'none';
+    displayFeatureFlowModal: String = 'none';
     public formData: FormData = new FormData();
     public selectedEntityId: any;
     selectedFeatureId: any;
@@ -88,9 +121,27 @@ export class EntityManagerComponent implements OnInit {
         private restApi: SharedService,
         private route: ActivatedRoute,
         private handler: HttpBackend,
+        private flowManagerService: FlowManagerService
 
     ) {
         this.http = new HttpClient(handler);
+
+        this.columnDefs = [
+            {
+                headerName: 'Name', field: 'name',
+                checkboxSelection: true
+            },
+            { headerName: 'Label', field: 'label' },
+            { headerName: 'Description', field: 'description' },
+            { headerName: 'Action', field: 'action_on_data' },
+
+
+        ];
+        this.rowSelection = 'multiple';
+        this.defaultColDef = {
+            sortable: true,
+            filter: true
+        };
 
         // if (this.selectFeature === true) {
         // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
@@ -102,15 +153,15 @@ export class EntityManagerComponent implements OnInit {
             this.project_id = params.projectId;
         });
         if (this.showAddFeature === true) {
-            this.selectedOption = 'Add Feature';
+            this.selectedOption = 'Create Feature';
         }
         this.getSelectedProject();
         this.getProjectDetails();
         this.getAllEntityByProjectId();
         // this.getDefaultEntityByProjectId();
         // this.getAllFeature();
-        console.log(this.projectFeatureData);
         this.getAllFeatureDetails();
+        this.getAllFlows();
     }
 
 
@@ -142,12 +193,20 @@ export class EntityManagerComponent implements OnInit {
             this.showUploadFeature = true;
 
         }
-        if (event.value === 'Add Feature') {
+        if (event.value === 'Create Feature') {
             this.showImportFeature = false;
             this.showAddFeature = true;
             this.showUploadFeature = false;
         }
         console.log(event);
+    }
+
+    getAllFlows() {
+        this.flowManagerService.getAllFlows().subscribe((flowData) => {
+            //   this.dataFlow = flowData;
+            //   console.log('dataFlow', this.dataFlow);
+            this.rowData = flowData;
+        });
     }
 
     openDialog(isSaveOption, objectValue): void {
@@ -161,6 +220,7 @@ export class EntityManagerComponent implements OnInit {
             width: '250px',
             data: dialogDataValue
         });
+
 
         dialogRef.afterClosed().subscribe(entityData => {
             console.log('after close dialogRef ---- ', entityData);
@@ -188,9 +248,9 @@ export class EntityManagerComponent implements OnInit {
             if (this.featureId !== null) {
                 this.featureId.map(fdata => {
                     this.projectComponentService.getFeatureDetailsById(fdata._id).subscribe(fedata => {
-                        console.log('asadafdsfd', fedata);
                         if (data !== undefined) {
                             this.projectFeatureData.push(fedata);
+                            this.dataService.setProjectFeatureInfo(this.projectFeatureData);
                             if (this.projectFeatureData !== undefined) {
                                 this.projectFeatureData.map((featuredata, index) => {
                                     this.projectFeatureData[index].description = featuredata.description.replace(/<[^>]*>/g, '');
@@ -230,31 +290,79 @@ export class EntityManagerComponent implements OnInit {
             });
         }
     }
+    onChangeFeature(selected) {
+        if (selected) {
+            this.featureData.map((data, index) => {
+                if (data.name === selected) {
+                    this.featureEntityDetails.id = data._id;
+                    return;
+                }
+            });
+        }
+    }
 
-    createFeature() {
+     createFeature() {
         if (this.selectedOption === 'Upload Feature') {
             this.formData.append('front_mang_file', this.frontFile[0]);
             this.formData.append('backed_mang_file', this.backendFile[0]);
             this.formData.append('api_mang_file', this.apiManFile[0]);
             this.formData.append('name', this.featureDetails.name);
             this.formData.append('description', this.featureDetails.description);
-        }
-        console.log(this.featureDetails);
-        return this.http.post('http://localhost:3006/feature/details/addfile', this.formData).subscribe((data) => {
-            if (data) {
-                this.frontFile = '',
-                    this.backendFile = '',
-                    this.apiManFile = '',
+
+            console.log(this.featureDetails);
+            console.log('adskjahdifafdf', this.formData);
+            return this.http.post('http://localhost:3006/feature/details/addfile', this.formData).subscribe((data) => {
+                console.log("data in level", data);
+                if (data) {
+                    this.frontFile = '',
+                        this.backendFile = '',
+                        this.apiManFile = '',
+                        this.featureDetails.name = '',
+                        this.featureDetails.description = '',
+                        this.closeFeatureCreateModel();
+                    this.getAllFeatureDetails();
+                }
+            });
+        } else if (this.selectedOption === 'Create Feature') {
+            return this.http.post('http://localhost:3006/feature/details/addfile', this.featureDetails).subscribe((data) => {
+                if (data) {
+                    this.createFeatureData = data;
+                    console.log("adfohodhfa",this.createFeatureData._id);
+                    this.features.feature_id = this.createFeatureData._id;
+                    this.features.project_id = this.project_id;
+                    this.projectComponentService.addFeature(this.features).subscribe(featureData => {
+                        if (featureData) {
+                            this.getProjectDetails();
+                            this.closeFeatureExistingModel();
+                        }
+                    });
                     this.featureDetails.name = '',
-                    this.featureDetails.description = '',
-                    this.closeFeatureCreateModel();
-                this.getAllFeatureDetails();
-            }
-        });
+                        this.featureDetails.description = '',
+                        this.closeFeatureCreateModel();
+                    this.getAllFeatureDetails();
+                }
+            });
+        }
+    }
+
+
+    onSelectionChanged() {
+        this.selectedFlow = this.gridApi.getSelectedRows();
+    }
+
+    onGridReady(params) {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+        this.gridApi.sizeColumnsToFit();
     }
 
     openFeatureDialog(): void {
         this.displayFeatureModel = 'block';
+    }
+
+    openFeatureFlowDialog(id): void {
+        this.featureFlows.feature_id = id;
+        this.displayFeatureFlowModal = 'block';
     }
 
     closeFeatureCreateModel() {
@@ -269,6 +377,25 @@ export class EntityManagerComponent implements OnInit {
     }
     closeFeatureExistingModel() {
         this.displayFeatureModel = 'none';
+    }
+
+    closeFeatureFlowModal() {
+        this.displayFeatureFlowModal = 'none';
+    }
+
+    saveFeatureFlow() {
+        this.featureFlow = this.selectedFlow;
+        this.featureFlow.forEach(featureData => {
+            this.featureFlows.name = featureData.name;
+            this.featureFlows.description = featureData.description;
+            this.featureFlows.label = featureData.label;
+            this.featureFlows.action_on_data = featureData.action_on_data;
+            this.projectComponentService.addFeatureFlow(this.featureFlows).subscribe(flowData => {
+                if (flowData) {
+                    this.closeFeatureFlowModal();
+                }
+            });
+        });
     }
 
     saveEntity(entityData) {
@@ -306,6 +433,7 @@ export class EntityManagerComponent implements OnInit {
         this.projectComponentService.getEntityByProjectId(this.project_id).subscribe(
             (data) => {
                 this.allEntity = data;
+                this.projectEntity = [];
                 this.allEntity.map(entityData => {
                     if (entityData.feature_id === undefined) {
                         this.projectEntity.push(entityData);
@@ -356,7 +484,7 @@ export class EntityManagerComponent implements OnInit {
     }
 
     // getDefaultEntityByProjectId() {
-    // this.projectComponentService.getDefaultEntityByProjectId(this.project_id).subscribe(data => {
+    // this.projectComponentService.getDefaultEntityByProjectId(this.selectedProject._id).subscribe(data => {
     // // data.map((data,index)=>{
     // this.selecteddefaultEntity = [data];
 
@@ -366,6 +494,7 @@ export class EntityManagerComponent implements OnInit {
     // }
 
     GoToDesigner() {
+
         this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id } });
     }
 
@@ -401,10 +530,11 @@ export class EntityManagerComponent implements OnInit {
     addFeature() {
         this.projectComponentService.getAllFeatureByProjectId(this.features.project_id).subscribe(data => {
             data.map(pfdata => {
-                if (pfdata.feature_id === this.features.feature_id) {
+                if (pfdata.feature_id._id === this.features.feature_id) {
                     this.allowImport = true;
                 }
             });
+            console.log('allow import', this.allowImport);
             if (this.allowImport) {
                 alert('Already Imported');
                 this.closeFeatureExistingModel();
@@ -456,7 +586,10 @@ export class EntityManagerComponent implements OnInit {
         this.projectComponentService.getAllFeatureDetails().subscribe(data => {
             this.featureData = data;
             this.featureData.forEach((featureElement, index) => {
-                this.featureData[index].description = featureElement.description.replace(/<[^>]*>/g, '');
+                console.log("i am the undefined", featureElement.description);
+                if (featureElement.description !== undefined) {
+                    this.featureData[index].description = featureElement.description.replace(/<[^>]*>/g, '');
+                }
             });
         });
     }
@@ -483,6 +616,13 @@ export class EntityManagerComponent implements OnInit {
             // return new UploadAdapter(loader);
         };
     }
+    // getAllFeature() {
+    // this.projectComponentService.getAllFeature().subscribe(data => {
+    // this.featureData = data;
+    // this.featureConnectProject = [];
+    // data.map(data => {
+    // if (data.connectProject === true) {
+    // this.featureConnectProject.push(data);
 
     deleteFeature() {
         this.projectComponentService.deleteFeature(this.selectedFeatureId).subscribe(data => {
