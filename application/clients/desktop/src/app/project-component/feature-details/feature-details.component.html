@@ -29,6 +29,11 @@
         <mat-expansion-panel-header>
           <mat-panel-title> Entities </mat-panel-title>
         </mat-expansion-panel-header>
+        <div style="margin-left: 64rem;">
+          <button class="createEntityButton" mat-raised-button color="primary"
+              (click)="saveEntityModel()">Create
+              Entity</button>
+              </div>
         <div class="row" style="margin: 0px;">
           <div class="col-md-4" *ngFor="let entity of featureEntityDetails; let i = index">
             <div class="card mt-sm-3">

@@ -95,11 +95,17 @@ export class Constants {
     public static get getScreenByFeatureName(): string { return '/screen/getbyfeature/'; }
     public static get updateScreen(): string { return '/screen/update/:id'; }
 
+    // Feature Flow
+    public static get addFeatureFlow(): string { return '/feature-flow/save'; }
+    // public static get getFeatureFlowByFeatureId(): string { return '/feature-flow/getbyid/'; }
+    
+
     // Entity
     public static get getEntityByFeatureAndprojectId(): string { return '/entity/getbyfeatureandprojectid/'; }
     // Feature Entity
 
     public static get getAllEntity(): string { return '/feature-entity/getall'; }
+    public static get saveFeatureEntity(): string { return '/feature-entity/save'; }
 
     // Feature Flows
     public static get addFeatureFlow(): string { return '/feature-flow/save'; }
