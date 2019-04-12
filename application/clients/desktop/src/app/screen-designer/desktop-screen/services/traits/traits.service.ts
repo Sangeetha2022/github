@@ -37,6 +37,65 @@ export class TraitsService {
   }
 
   initMethod(editor) {
+    // action button add
+    const $this = this;
+    // entity field button
+    editor.TraitManager.addType('entityFieldButton', {
+      events: {
+        'click': function () {
+          console.log('print button clicked');
+          console.log('ram $this ---- ', $this);
+          console.log('ram this ---- ', this);
+          const eventPopupModel = document.getElementById('EventPopup');
+          console.log('print eventPopupModel values are ------ ', eventPopupModel);
+          eventPopupModel.style.display = 'block';
+        },
+      },
+      getInputEl() {
+        // tslint:disable-next-line:prefer-const
+        let button = <HTMLElement>document.createElement('button');
+        button.id = 'fieldButton';
+        button.style.width = '100%';
+        button.style.backgroundColor = '#4CAF50';
+        button.style.border = 'none';
+        button.style.color = 'white';
+        button.style.backgroundColor = '#008CBA';
+        button.style.fontSize = '12px !important';
+        button.style.cursor = 'pointer';
+        button.appendChild(document.createTextNode('Field'));
+        return button;
+      },
+    });
+
+    // content example
+    editor.TraitManager.addType('entityDropdown', {
+      events: {
+        'click': function () {
+          console.log('print button clicked');
+          console.log('ram $this ---- ', $this);
+          console.log('ram this ---- ', this);
+          const eventPopupModel = document.getElementById('EventPopup');
+          console.log('print eventPopupModel values are ------ ', eventPopupModel);
+          eventPopupModel.style.display = 'block';
+        },
+      },
+      getInputEl() {
+        // tslint:disable-next-line:prefer-const
+        let button = <HTMLElement>document.createElement('button');
+        button.id = 'fieldButton';
+        button.style.width = '100%';
+        button.style.backgroundColor = '#4CAF50';
+        button.style.border = 'none';
+        button.style.color = 'white';
+        button.style.backgroundColor = '#008CBA';
+        button.style.fontSize = '12px !important';
+        button.style.cursor = 'pointer';
+        button.appendChild(document.createTextNode('Field'));
+        return button;
+      },
+    });
+
+
     this.initializeMethod(editor);
     this.initializeInputMethod(editor);
     this.initializeTextAreaMethod(editor);
@@ -167,9 +226,18 @@ export class TraitsService {
               { value: 'password', name: 'Password' },
               { value: 'number', name: 'Number' }]
             },
-            { type: 'checkbox', name: 'required', label: 'Required' }],
+            { type: 'checkbox', name: 'required', label: 'Required' }
+          ]
+        }),
+        init() {
+          this.listenTo(this, 'change:entity', this.entities);
+        },
+        entities() {
+          alert('entity called');
+          console.log('ram traits input models ar e--$this---  ', $this);
+          console.log('ram traits input models ar e--this---  ', this);
+        }
 
-        })
       },
         {
           isComponent: function (el) {

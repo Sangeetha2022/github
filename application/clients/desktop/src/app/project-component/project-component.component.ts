@@ -13,6 +13,7 @@ import { FeatureDetailsService } from './feature-details/feature-details.service
 import { HttpClient, HttpBackend } from '@angular/common/http';
 import { FlowManagerService } from '../flow-manager/flow-manager.service';
 import { IFeatureFLow } from './interface/FeatureFlow';
+import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
 
 
 @Component({
@@ -97,6 +98,7 @@ export class EntityManagerComponent implements OnInit {
     createFeatureData: any = [];
     gridColumnApi: any;
     gridApi: any;
+    screenDetails: any = [];
     projectEntity: any = [];
     selectedFlow: any = [];
     public allEntity: IEntity[] = [];
@@ -117,6 +119,7 @@ export class EntityManagerComponent implements OnInit {
         private projectComponentService: ProjectComponentService,
         private featureDetailsService: FeatureDetailsService,
         private dataService: DataService,
+        private screenService: ScreenDesignerService,
         private route: ActivatedRoute,
         private flowManagerService: FlowManagerService
 
@@ -153,6 +156,7 @@ export class EntityManagerComponent implements OnInit {
         }
         this.getSelectedProject();
         this.getProjectDetails();
+        this.getScreenByProjectId();
         this.getAllEntityByProjectId();
         // this.getDefaultEntityByProjectId();
         // this.getAllFeature();
@@ -395,6 +399,15 @@ export class EntityManagerComponent implements OnInit {
         });
     }
 
+    getScreenByProjectId() {
+        console.log('asojdnaojdso');
+        this.screenService.getScreenByProjectId(this.project_id).subscribe(sData => {
+            this.screenDetails = sData;
+        }, (error) => {
+            console.log('something is not working on backend side');
+        });
+    }
+
     saveEntity(entityData) {
         this.entity.name = entityData.name;
         this.entity.description = entityData.description;
@@ -583,7 +596,6 @@ export class EntityManagerComponent implements OnInit {
         this.projectComponentService.getAllFeatureDetails().subscribe(data => {
             this.featureData = data;
             this.featureData.forEach((featureElement, index) => {
-                console.log("i am the undefined", featureElement.description);
                 if (featureElement.description !== undefined) {
                     this.featureData[index].description = featureElement.description.replace(/<[^>]*>/g, '');
                 }

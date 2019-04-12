@@ -277,6 +277,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 clearProperties: 1,
             },
         });
+        this.traitService.initMethod(this.editor);
+        this.getEntity();
         this.getEntityType();
         this.getAllFlows();
         // this.getSelectedProject();
@@ -286,7 +288,6 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.styleManager();
         this.panelManager();
         this.agGridEntity();
-        this.traitService.initMethod(this.editor);
         // this.traitService.initializeRadioMethod(this.editor);
         // this.beforeDropElement();
         const test1 = 'test';
@@ -442,6 +443,117 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
 
     // }
 
+    getEntity() {
+        console.log('ram getEntity ------- ', this.project_id, ' ---- ', this.feature_id);
+        if (this.project_id !== undefined && this.feature_id !== undefined) {
+            this.projectComponentService.getEntityByFeatureAndprojectId(this.project_id, this.feature_id)
+                .subscribe((entityData) => {
+                    console.log('ram getEntity with project and features =---- ', entityData);
+                    if (entityData !== null && entityData !== undefined && entityData.length > 0) {
+                        const entityArray = [];
+                        entityData.forEach(entityElement => {
+                            // const data = entityElement;
+                            const object = {
+                                name: '',
+                                value: ''
+                            };
+                            object.name = entityElement.name;
+                            object.value = entityElement._id;
+                            entityArray.push(object);
+                        });
+                        this.setDefaultType('entity', entityArray);
+                    } else {
+                        this.setDefaultType('dataBinding', this.dataBindingTypes);
+                    }
+                }, (error) => {
+
+                });
+        } else {
+            this.projectComponentService.getEntityByProjectId(this.project_id)
+                .subscribe((allEntityData) => {
+                    console.log('ram getEntity with project ----  ', allEntityData);
+                    if (allEntityData !== null && allEntityData !== undefined && allEntityData.length > 0) {
+                        const entityArray = [];
+                        allEntityData.forEach(entityElement => {
+                            // const data = JSON.parse(entityElement);
+                            const object = {
+                                name: '',
+                                value: ''
+                            };
+                            object.name = entityElement.name;
+                            object.value = entityElement._id;
+                            entityArray.push(object);
+                        });
+                        this.setDefaultType('entity', entityArray);
+                    } else {
+                        this.setDefaultType('dataBinding', this.dataBindingTypes);
+                    }
+                }, (error) => {
+
+                });
+        }
+    }
+
+    newENtity() {
+
+    }
+
+    setDefaultType(traitsName, EntityBinding) {
+        // console.log('ram setdefaul types are ----- ', traitsName);
+        // this.editor.DomComponents.getType('input').model.prototype.init().listenTo(this, 'change:2345', this.newENtity);
+        // console.log('ram 12345@@ ----  ',this.editor.DomComponents.getType('input').model.prototype.init());
+      
+        this.editor.DomComponents.getType('input').model
+            .prototype.defaults.traits.push({
+                type: 'select',
+                label: traitsName,
+                name: traitsName,
+                options: EntityBinding,
+                changeProp: 1
+
+            }, {
+                type: 'entityFieldButton',
+                label: 'Field',
+                name: 'Field'
+            });
+        this.editor.DomComponents.getType('select').model
+            .prototype.defaults.traits.push({
+                type: 'select',
+                label: traitsName,
+                name: traitsName,
+                options: EntityBinding
+
+            }, {
+                type: 'entityFieldButton',
+                label: 'Field',
+                name: 'Field'
+            });
+        this.editor.DomComponents.getType('radio').model
+            .prototype.defaults.traits.push({
+                type: 'select',
+                label: traitsName,
+                name: traitsName,
+                options: EntityBinding
+
+            }, {
+                type: 'entityFieldButton',
+                label: 'Field',
+                name: 'Field'
+            });
+        this.editor.DomComponents.getType('textarea').model
+            .prototype.defaults.traits.push({
+                type: 'select',
+                label: traitsName,
+                name: traitsName,
+                options: EntityBinding
+
+            }, {
+                type: 'entityFieldButton',
+                label: 'Field',
+                name: 'Field'
+            });
+    }
+
     beforeDropElement() {
         this.editor.on('component:toggled', model => {
             // To inject buttons close to the input fields
@@ -456,8 +568,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         // console.log('all triats --13--  ', this.editor.DomComponents.getType('input').model
         //     .prototype.defaults.traits.push({
         //         type: 'select',
-        //         label: 'Data Binding',
-        //         name: 'data-binding',
+        //         label: traitsName,
+        //         name: traitsName,
         //         options: this.dataBindingTypes
 
         //     }));
@@ -476,43 +588,11 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         // console.log('all triats --22--  ', this.editor.TraitManager.getType('input'));
         // this.editor.DomComponents.getType('default')
         //     .model.prototype.defaults.traits.push({ label: 'Crazy Attribute', name: 'data-crazy' });
-        this.editor.DomComponents.getType('input').model
-            .prototype.defaults.traits.push({
-                type: 'select',
-                label: 'Data Binding',
-                name: 'data-binding',
-                options: this.dataBindingTypes
-
-            });
-        this.editor.DomComponents.getType('select').model
-            .prototype.defaults.traits.push({
-                type: 'select',
-                label: 'Data Binding',
-                name: 'data-binding',
-                options: this.dataBindingTypes
-
-            });
-        this.editor.DomComponents.getType('radio').model
-            .prototype.defaults.traits.push({
-                type: 'select',
-                label: 'Data Binding',
-                name: 'data-binding',
-                options: this.dataBindingTypes
-
-            });
-        this.editor.DomComponents.getType('textarea').model
-            .prototype.defaults.traits.push({
-                type: 'select',
-                label: 'Data Binding',
-                name: 'data-binding',
-                options: this.dataBindingTypes
-
-            });
-        console.log('ram component values ar e---input---  ', this.editor.DomComponents.getType('input').model.prototype);
-        console.log('ram component values ar e---select---  ', this.editor.DomComponents.getType('select').model.prototype);
-        console.log('ram component values ar e---textarea---  ', this.editor.DomComponents.getType('textarea').model.prototype);
-        console.log('ram component values ar e---checkbox---  ', this.editor.DomComponents.getType('checkbox').model.prototype);
-        console.log('ram component values ar e---textarea---  ', this.editor.DomComponents.getType('textarea').model.prototype);
+        // console.log('ram component values ar e---input---  ', this.editor.DomComponents.getType('input').model.prototype);
+        // console.log('ram component values ar e---select---  ', this.editor.DomComponents.getType('select').model.prototype);
+        // console.log('ram component values ar e---textarea---  ', this.editor.DomComponents.getType('textarea').model.prototype);
+        // console.log('ram component values ar e---checkbox---  ', this.editor.DomComponents.getType('checkbox').model.prototype);
+        // console.log('ram component values ar e---textarea---  ', this.editor.DomComponents.getType('textarea').model.prototype);
 
         // // this.editor.DomComponents.getType('radio').model.prototype.toHTML.apply(this)
         // const defaultType = this.editor.DomComponents.getType('default');
@@ -531,6 +611,10 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         //     view: defaultType.view
         // });
 
+        this.editor.on('change:traits:entity', function (model) {
+console.log('ram change editor entity values ar e-----  ');
+         });
+
 
         this.editor.on('block:drag:stop', function (model) {
             console.log('ram component values ar e----11--  ', model);
@@ -544,13 +628,13 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             const allImageBlockModels = model.find('.gpd-image-block');
             const allImageModels = model.find('.gjs-plh-image');
             // console.log('buttonn are ---- ', allButtonModels);
-            console.log('ram component values ar e--33----  ', model.find('textarea'));
-            console.log('ram component values ar e--44----  ', model.find('select'));
-            console.log('ram component values ar e--55----  ', model.find('.radio'));
-            console.log('ram component values ar e--66----  ', model.find('.button'));
-            console.log('ram component values ar e--77----  ', model.find('.checkbox'));
-            console.log('ram component values ar e--88----  ', model.find('.gpd-image-block'));
-            console.log('ram component values ar e--99----  ', model.find('.gjs-plh-image'));
+            // console.log('ram component values ar e--33----  ', model.find('textarea'));
+            // console.log('ram component values ar e--44----  ', model.find('select'));
+            // console.log('ram component values ar e--55----  ', model.find('.radio'));
+            // console.log('ram component values ar e--66----  ', model.find('.button'));
+            // console.log('ram component values ar e--77----  ', model.find('.checkbox'));
+            // console.log('ram component values ar e--88----  ', model.find('.gpd-image-block'));
+            // console.log('ram component values ar e--99----  ', model.find('.gjs-plh-image'));
 
 
             allInputModels.forEach(inputElement => {

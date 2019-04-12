@@ -10,6 +10,7 @@ import { PopupModelComponent } from '../popup-model/popup-model.component';
 import { MatDialog } from '@angular/material';
 import { ProjectComponentService } from '../project-component.service';
 import { IEntity } from '../interface/Entity';
+import { ScreenDesignerService } from 'src/app/screen-designer/screen-designer.service';
 
 const URL = 'http://localhost:3006/feature/details/addfile';
 
@@ -44,6 +45,7 @@ export class FeatureDetailsComponent implements OnInit {
     featureData: any = [];
     rowSelection: String;
     defaultColDef: any;
+    screenDetails: any = [];
     showFeatureFlow: boolean;
     public screenData: Iscreen = {
         screenName: '',
@@ -79,6 +81,7 @@ export class FeatureDetailsComponent implements OnInit {
         private featureDetailsService: FeatureDetailsService,
         private projectComponentService: ProjectComponentService,
         private dataService: DataService,
+        private screenService: ScreenDesignerService,
         private route: ActivatedRoute,
         private router: Router,
         private dialog: MatDialog
@@ -145,6 +148,7 @@ export class FeatureDetailsComponent implements OnInit {
         this.getFeatureEntityByFeatureId();
         this.getEntityByFeatureAndprojectId();
         this.getProjectFeature();
+        this.getScreenByProjectAndFeatureId();
         // this.getAllScreen();
         // this.getAllFeatureFlows();
         // this.getAllEntity();
@@ -234,6 +238,16 @@ export class FeatureDetailsComponent implements OnInit {
             this.featureEntityDetails = data;
         });
 
+    }
+
+    getScreenByProjectAndFeatureId() {
+        console.log('asojdnaojdso');
+        this.screenService.getScreenByProjectAndFeatureId(this.project_id, this.feature_id).subscribe(sData => {
+            console.log('asojdnaojdso', sData);
+            this.screenDetails = sData;
+        }, (error) => {
+            console.log('something is not working on backend side');
+        });
     }
 
     editEntityField(entity: IEntity) {

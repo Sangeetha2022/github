@@ -49,14 +49,14 @@ export class ProjectComponentService {
   getByIdEntity(entityId: any): Observable<any> {
     return this.api.get(this.restapi.entityUrl + `/entity/get/${entityId}`);
   }
-  getEntityByProjectId(projectId: String): Observable<[]> {
+  getEntityByProjectId(projectId: String): Observable<any> {
     return this.api.get(this.restapi.entityUrl + `/entity/get?projectId=${projectId}`);
   }
   getAllEntity(): Observable<any> {
     return this.api.get(this.restapi.entityUrl + '/entity/getall');
   }
 
-  getEntityByFeatureAndprojectId(projectId, featureId): Observable<[]> {
+  getEntityByFeatureAndprojectId(projectId, featureId): Observable<any> {
     return this.api.get(this.restapi.entityUrl + Constants.getEntityByFeatureAndprojectId + projectId + '/' + featureId);
   }
 
