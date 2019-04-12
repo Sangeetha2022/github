@@ -3,7 +3,7 @@ import * as uuid from 'uuid';
 
 const Schema = mongoose.Schema;
 
-export const UserTemplateSchema = new Schema({
+export const ScreenSchema = new Schema({
     _id: {
         type: String,
         default: uuid.v1

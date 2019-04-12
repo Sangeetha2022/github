@@ -1,6 +1,6 @@
-export const primaryTemplate = [
+export const geppettoTemplate = [
     {
-        "name": "primaryTemplate1",
+        "name": "geppettoTemplate1",
         "scripts": [
             {
                 src: "https://cdn.ckeditor.com/4.5.11/full/ckeditor.js",

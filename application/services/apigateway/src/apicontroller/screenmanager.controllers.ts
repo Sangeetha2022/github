@@ -18,13 +18,13 @@ class createUserTemplateController implements Controller {
     }
 
     private initializeRoutes() {
-        this.router.post('/user_template/save',this.userTemplateController);
-        this.router.get('/user_template/get', this.userTemplateController);
+        this.router.post('/screen/save',this.userTemplateController);
+        this.router.get('/screen/get', this.userTemplateController);
         
     }
 
     public userTemplateController(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.screenUrl }/user_template/save`, req.body).then(user => {
+        new ApiAdaptar().post(`${Constants.screenUrl }/screen/save`, req.body).then(user => {
             res.send(user);
         }).catch(err => {
             res.send(err);
@@ -33,7 +33,7 @@ class createUserTemplateController implements Controller {
 
 
     public userTemplateControll(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/user_template/get`).then(user => {
+        new ApiAdaptar().get(`${Constants.screenUrl}/screen/get`).then(user => {
             res.send(user);
         }).catch(err => {
             res.send(err);
