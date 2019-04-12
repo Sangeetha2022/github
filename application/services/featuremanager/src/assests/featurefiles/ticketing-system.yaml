@@ -17,16 +17,26 @@ ticket:
 
     schema:
       title: 
-        type: String,
+        type: String
+        type_name: Text
+        description: ticket title
       description: 
-        type: String,
+        type: String
+        type_name: Text
+        description: ticket description
       category: 
-        type: String,
+        type: String
+        type_name: Select
+        description: ticket category
       createdAt: 
-        type: Date, 
-        default: Date.now,
+        type: Date 
+        type_name: Date
+        default: Date.now
+        description: ticket createdAt
       updatedAt: 
         type: Date 
+        type_name: Date
+        description: ticket updatedAt
 
     saveTicket:
       description: create a ticket
@@ -39,11 +49,11 @@ ticket:
       method: post
       body:
         title:
-          type: String,
+          type: String
         description: 
-          type: String,
+          type: String
         category: 
-          type: String,
+          type: String
 
 
     updateTicket:
@@ -59,11 +69,11 @@ ticket:
         id: String 
       body:
         title:
-          type: String,
+          type: String
         description: 
-          type: String,
+          type: String
         category: 
-          type: String,
+          type: String
 
     getAllTicket:
       description: get all tickets
@@ -127,22 +137,36 @@ support-ticket:
         name:    
 
     schema:
-      title:
-        type: String,
+      title: 
+        type: String
+        type_name: Text
+        description: ticket title
       description: 
-        type: String,
+        type: String
+        type_name: Text
+        description: ticket description
       category: 
-        type: String,
+        type: String
+        type_name: Select
+        description: ticket category
       createdAt: 
-        type: Date, 
-        default: Date.now,
+        type: Date 
+        type_name: Date
+        default: Date.now
+        description: ticket createdAt
       updatedAt: 
         type: Date 
+        type_name: Date
+        description: ticket updatedAt 
       ticket_id:
-         type: String, 
+         type: String
+         type_name: Entity
+         description: ticket id of the ticket 
       isClosed:
          type: Boolean 
          default: false
+         type_name: Boolean
+         description: ticket close status
 
     saveSupportTicket:
       description: create a support ticket
@@ -155,13 +179,13 @@ support-ticket:
       method: post
       body:
         title:
-          type: String,
+          type: String
         description: 
-          type: String,
+          type: String
         category: 
-          type: String,
+          type: String
         ticket_id:
-          type: String,  
+          type: String  
 
     updateSupportTicket:
       description: update support ticket by id
@@ -176,13 +200,13 @@ support-ticket:
         id: String
       body:
         title:
-          type: String,
+          type: String
         description: 
-          type: String,
+          type: String
         category: 
-          type: String,
+          type: String
         ticket_id:
-          type: String,
+          type: String
 
     getAllSupportTicket:
       description: get all support tickets
@@ -246,22 +270,36 @@ issue-ticket:
         name: IssueTicketSchema
 
     schema:
-      title:
-        type: String,
+      title: 
+        type: String
+        type_name: Text
+        description: ticket title
       description: 
-        type: String,
+        type: String
+        type_name: Text
+        description: ticket description
       category: 
-        type: String,
+        type: String
+        type_name: Select
+        description: ticket category
       createdAt: 
-        type: Date, 
-        default: Date.now,
+        type: Date 
+        type_name: Date
+        default: Date.now
+        description: ticket createdAt
       updatedAt: 
         type: Date 
+        type_name: Date
+        description: ticket updatedAt 
       ticket_id:
-         type: String, 
+         type: String 
+         type_name: Entity
+         description: ticket id of the ticket
       isClosed:
          type: Boolean 
          default: false
+         type_name: Boolean
+         description: ticket close status
       
     saveIssueTicket:
       description: create a issue ticket
@@ -274,13 +312,13 @@ issue-ticket:
       method: post
       body:
         title:
-          type: String,
+          type: String
         description: 
-          type: String,
+          type: String
         category: 
-          type: String,
+          type: String
         ticket_id:
-          type: String,
+          type: String
 
     updateIssueTicket:
       description: update issue ticket by id
@@ -295,13 +333,13 @@ issue-ticket:
         id: String 
       body:
         title:
-          type: String,
+          type: String
         description: 
-          type: String,
+          type: String
         category: 
-          type: String,
+          type: String
         ticket_id:
-          type: String,
+          type: String
 
     getAllIssueTicket:
       description: get all issue tickets
@@ -365,22 +403,36 @@ document-ticket:
         name: DocumentTicketSchema
       
     schema:
-      title:
-        type: String,
+      title: 
+        type: String
+        type_name: Text
+        description: ticket title
       description: 
-        type: String,
+        type: String
+        type_name: Text
+        description: ticket description
       category: 
-        type: String,
+        type: String
+        type_name: Select
+        description: ticket category
       createdAt: 
-        type: Date, 
-        default: Date.now,
+        type: Date 
+        type_name: Date
+        default: Date.now
+        description: ticket createdAt
       updatedAt: 
         type: Date 
+        type_name: Date
+        description: ticket updatedAt
       ticket_id:
-         type: String, 
+         type: String
+         type_name: Entity
+         description: ticket id of the ticket 
       isClosed:
          type: Boolean 
          default: false
+         type_name: Boolean
+         description: ticket close status
 
     saveDocumentTicket:
       description: create a document ticket
@@ -393,13 +445,13 @@ document-ticket:
       method: post
       body:
         title:
-          type: String,
+          type: String
         description: 
-          type: String,
+          type: String
         category: 
-          type: String,
+          type: String
         ticket_id:
-          type: String,
+          type: String
 
     updateDocumentTicket:
       description: update document ticket by id
@@ -414,13 +466,13 @@ document-ticket:
         id: String 
       body:
         title:
-          type: String,
+          type: String
         description: 
-          type: String,
+          type: String
         category: 
-          type: String,
+          type: String
         ticket_id:
-          type: String,
+          type: String
 
     getAllDocumentTicket:
       description: get all document tickets
@@ -484,22 +536,36 @@ feature-ticket:
         name: FeatureTicketSchema
      
     schema:
-      title:
-        type: String,
+      title: 
+        type: String
+        type_name: Text
+        description: ticket title
       description: 
-        type: String,
+        type: String
+        type_name: Text
+        description: ticket description
       category: 
-        type: String,
+        type: String
+        type_name: Select
+        description: ticket category
       createdAt: 
-        type: Date, 
-        default: Date.now,
+        type: Date 
+        type_name: Date
+        default: Date.now
+        description: ticket createdAt
       updatedAt: 
         type: Date 
+        type_name: Date
+        description: ticket updatedAt
       ticket_id:
-         type: String, 
+         type: String
+         type_name: Entity
+         description: ticket id of the ticket 
       isClosed:
-         type: Boolean 
+         type: Boolean
          default: false
+         type_name: Boolean
+         description: ticket close status
 
     saveFeatureTicket:
       description: create a feature ticket
@@ -512,13 +578,13 @@ feature-ticket:
       method: post
       body:
         title:
-          type: String,
+          type: String
         description: 
-          type: String,
+          type: String
         category: 
-          type: String,
+          type: String
         ticket_id:
-          type: String,
+          type: String
 
     updateFeatureTicket:
       description: update feature ticket by id
@@ -533,13 +599,13 @@ feature-ticket:
         id: String 
       body:
         title:
-          type: String,
+          type: String
         description: 
-          type: String,
+          type: String
         category: 
-          type: String,
+          type: String
         ticket_id:
-          type: String,
+          type: String
 
     getAllFeatureTicket:
       description: get all feature tickets

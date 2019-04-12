@@ -25,4 +25,32 @@ export class UserTemplateDao {
             callback(error);
         });
     }
+
+    public getAllUserTemplateByProjectId(req, callback) {
+        let projectId = req.params.projectId
+         UserTemplateModel.find({ project_id: projectId }).
+         exec(function (err, result) {
+             if (err) {
+                 callback(err);
+             } else {
+                 callback(result);
+             }
+         })
+ 
+     }
+ 
+     public getAllUserTemplateByProjectAndFeatureId(req, callback) {
+         console.log(req.params.id)
+         let featureId = req.params.featureId;
+         let projectId = req.params.projectId;
+         UserTemplateModel.find({ $and: [ { feature_id: featureId }, { project_id: projectId } ] }).
+         exec(function (err, result) {
+             if (err) {
+                 callback(err);
+             } else {
+                 callback(result);
+             }
+         })
+ 
+     }
 }

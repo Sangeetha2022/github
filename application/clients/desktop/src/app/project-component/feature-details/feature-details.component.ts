@@ -41,6 +41,7 @@ export class FeatureDetailsComponent implements OnInit {
     distinctFeatureDetails: any = [];
     featureFlowId: String;
     featureId: any;
+    featureData: any = [];
     rowSelection: String;
     defaultColDef: any;
     showFeatureFlow: boolean;
@@ -49,6 +50,16 @@ export class FeatureDetailsComponent implements OnInit {
         description: '',
         featureName: '',
 
+    };
+    public entity: IEntity = {
+        name: '',
+        description: '',
+        project_id: '',
+        feature_id: '',
+        created_by: '',
+        last_modified_by: '',
+        updated_at: new Date(),
+        field: []
     };
     showFeatureFlowComponent: boolean;
     allFeatureFlows: any = [];
@@ -78,7 +89,6 @@ export class FeatureDetailsComponent implements OnInit {
                 checkboxSelection: true
             },
             { headerName: 'Label', field: 'label' },
-            { headerName: 'Screen Name', field: 'screenName' },
             { headerName: 'Description', field: 'description' },
             { headerName: 'Action', field: 'action_on_data' }
         ];
@@ -131,10 +141,10 @@ export class FeatureDetailsComponent implements OnInit {
             }
         });
         this.getSelectedProject();
-        this.getAllFeatureDetailsByFeatureId();
         this.getScreenDetailsByFeatureId();
         this.getFeatureEntityByFeatureId();
         this.getEntityByFeatureAndprojectId();
+        this.getProjectFeature();
         // this.getAllScreen();
         // this.getAllFeatureFlows();
         // this.getAllEntity();
@@ -157,6 +167,32 @@ export class FeatureDetailsComponent implements OnInit {
                 this.selectedProject = data;
             }
         );
+    }
+
+    getProjectFeature() {
+        this.dataService.currentProjectFeatureInfo.subscribe(feature => {
+            this.featureData = feature;
+            console.log('i am the data', this.featureData);
+            this.featureData.forEach(fData => {
+                console.log('i am the feature data', fData);
+                if (fData.api_mang_file === null && fData.backed_mang_file === null && fData.front_mang_file === null) {
+                    this.featureDetailsService.getAllFeatureFlowByFeatureId(this.feature_id).subscribe(feData => {
+                        this.featureFlowRowData = feData;
+                        console.log(this.featureFlowRowData);
+                    });
+                } else {
+
+                    this.featureDetailsService.getAllFeatureDetailsByFeatureId(this.feature_id).subscribe(data => {
+                        this.featureDetailsData = data;
+                        this.featureDetailsData.map((featureData) => {
+                            this.allFeatureFlows.push(featureData.flow);
+                        });
+                        this.featureFlowRowData = this.allFeatureFlows;
+                    });
+                }
+
+            });
+        });
     }
 
     // formDatafromYAML = (doc) => {
@@ -193,18 +229,8 @@ export class FeatureDetailsComponent implements OnInit {
     // console.log(" flow array 0pp p- -- - = = = > ", flowArray)
     // }
 
-    getAllFeatureDetailsByFeatureId() {
-        this.featureDetailsService.getAllFeatureDetailsByFeatureId(this.feature_id).subscribe(data => {
-            this.featureDetailsData = data;
-            this.featureDetailsData.map((featureData) => {
-                this.allFeatureFlows.push(featureData.flow);
-            });
-            this.featureFlowRowData = this.allFeatureFlows;
-        });
-    }
-
     getEntityByFeatureAndprojectId() {
-        this.projectComponentService.getEntityByFeatureAndprojectId(this.selectedProject._id, this.feature_id).subscribe(data => {
+        this.projectComponentService.getEntityByFeatureAndprojectId(this.project_id, this.feature_id).subscribe(data => {
             this.featureEntityDetails = data;
         });
 
@@ -213,6 +239,10 @@ export class FeatureDetailsComponent implements OnInit {
     editEntityField(entity: IEntity) {
         this.dataService.setEntity(entity);
         this.router.navigate(['/entity-field']);
+    }
+
+    saveEntityModel() {
+        this.openDialog(true, null);
     }
 
     // getAllFeatureFlows() {
@@ -238,6 +268,38 @@ export class FeatureDetailsComponent implements OnInit {
         return allText;
     }
 
+
+    saveEntity(entityData) {
+        this.entity.name = entityData.name;
+        this.entity.description = entityData.description;
+        this.entity.project_id = this.project_id;
+        this.projectComponentService.createEntity(this.entity).subscribe(
+            (data) => {
+                if (data) {
+                    this.getEntityByFeatureAndprojectId();
+                }
+                // this.getAllEntityByProjectId();
+            },
+            (error) => {
+
+            }
+        );
+    }
+
+
+    updateEntity(entityData) {
+        entityData.updated_at = new Date();
+        this.projectComponentService.updateEntity(entityData).subscribe(
+            (data) => {
+                // this.getAllEntityByProjectId();
+            },
+            (error) => {
+
+            }
+        );
+    }
+
+
     openDialog(isSaveOption, objectValue): void {
         let dialogDataValue;
         if (isSaveOption) {
@@ -251,16 +313,24 @@ export class FeatureDetailsComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(entityData => {
-            // if (entityData !== undefined) {
-            // if (objectValue === null) {
-            // this.saveEntity(entityData);
-            // } else {
-            // dialogDataValue.name = entityData.name;
-            // dialogDataValue.description = entityData.description;
-            // this.updateEntity(dialogDataValue);
-            // }
-            // }
+            this.entity.project_id = this.project_id;
+            this.entity.feature_id = this.feature_id;
+            this.entity.name = entityData.name;
+            this.entity.description = entityData.description;
+            if (entityData !== undefined) {
+                if (objectValue === null) {
+                    this.projectComponentService.saveFeatureEntity(this.entity).subscribe(feature_entity => {
+                        console.log(feature_entity);
+                    });
+                    this.saveEntity(this.entity);
+                } else {
+                    dialogDataValue.name = entityData.name;
+                    dialogDataValue.description = entityData.description;
+                    this.updateEntity(dialogDataValue);
+                }
+            }
         });
+
     }
 
     editEntity(entity) {

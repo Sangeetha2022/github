@@ -15,5 +15,7 @@ export class Routes {
         })
         app.route('/user_template/save').post(this.userTemplateController.createUserTemplate);
         app.route('/user_template/get').get(this.userTemplateController.getAllUserTemplate);
+        app.route('/user_template/getbyprojectid/:projectId').get(this.userTemplateController.getAllUserTemplateByProjectId);
+        app.route('/user_template/getbyprojectandfeatureid/:projectId/:featureId').get(this.userTemplateController.getAllUserTemplateByProjectAndFeatureId);
     }
 }
