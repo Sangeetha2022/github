@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import { GeppettoTemplateSchema } from './models/GeppettoTemplate';
 import { geppettoTemplate } from './assets/geppettoTemplate';
 
-const GeppettoTemplateModel = mongoose.model('GeppettoTemplate', GeppettoTemplateSchema);
+const GeppettoTemplateModel = mongoose.model('Geppetto_Template', GeppettoTemplateSchema);
 
 export class FeedSeedData {
 

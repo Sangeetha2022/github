@@ -68,6 +68,9 @@ export class Constants {
     // public static get upadateConnector(): string { return '/connector/update' ;}
     // public static get deleteConnector(): string { return '/connector/delete/' ;}
 
+
+    
+
     // Feature
     public static get feature(): string { return '/feature'; }
 
@@ -86,18 +89,18 @@ export class Constants {
     // public static get updateFeatureFlow(): string { return '/feature-flow/update/:id'; }
 
     // Feature Screen
-
     public static get addScreen(): string { return '/screen/save'; }
     public static get getAllScreen(): string { return '/screen/getall'; }
     public static get getScreenByID(): string { return '/screen/getbyid/:id'; }
     public static get deleteScreen(): string { return '/screen/delete/:id'; }
     public static get getScreenByFeatureName(): string { return '/screen/getbyfeature/'; }
     public static get updateScreen(): string { return '/screen/update/:id'; }
+    public static get getScreenByProjectAndFeatureId(): string { return '/screen/getbyprojectandfeatureid/'; }
+    public static get getScreenByProjectId(): string { return '/screen/getbyprojectid/'; }
 
     // Feature Flow
     public static get addFeatureFlow(): string { return '/feature-flow/save'; }
     // public static get getFeatureFlowByFeatureId(): string { return '/feature-flow/getbyid/'; }
-    
 
     // Entity
     public static get getEntityByFeatureAndprojectId(): string { return '/entity/getbyfeatureandprojectid/'; }

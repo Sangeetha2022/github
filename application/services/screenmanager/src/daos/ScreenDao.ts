@@ -28,7 +28,7 @@ export class ScreenDao {
 
     public getAllScreenByProjectId(req, callback) {
         let projectId = req.params.projectId
-         screenModel.find({ project_id: projectId }).
+         screenModel.find({ project: projectId }).
          exec(function (err, result) {
              if (err) {
                  callback(err);
@@ -43,7 +43,7 @@ export class ScreenDao {
          console.log(req.params.id)
          let featureId = req.params.featureId;
          let projectId = req.params.projectId;
-         screenModel.find({ $and: [ { feature_id: featureId }, { project_id: projectId } ] }).
+         screenModel.find({ $and: [ { feature: featureId }, { project: projectId } ] }).
          exec(function (err, result) {
              if (err) {
                  callback(err);

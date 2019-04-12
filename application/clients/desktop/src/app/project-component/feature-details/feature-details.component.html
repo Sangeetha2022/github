@@ -86,20 +86,27 @@
           <button class="btn btn-success float-right" mat-raised-button (click)="GoToDesigner()">Add Screen</button>
         </mat-card-content>
         <div class="row" style="margin: 0px;">
-          <div class="col-md-4" *ngFor="let screen of distinctFeatureDetails">
-            <div class="card">
-              <!-- <div class="card-header">
-                {{screen}}
-              </div> -->
-              <div class="card-body">
-                {{screen}}
+          <div class="col-md-4" *ngFor="let screen of screenDetails; let i = index">
+              <div class="card">
+                  <div class="card-header">
+                      {{screen.foldername}}
+                      <img  style="float: right; cursor: pointer;"
+                          src="https://img.icons8.com/metro/26/000000/edit-file.png">
+                  </div>
+                  <div class="card-body">
+                      
+                      <button mat-raised-button color="primary"
+                          >Edit</button>
+                      &nbsp;
+                      <button mat-raised-button color="warn" [disabled]="entity.is_default"
+                          >Delete</button>
+                  </div>
               </div>
-            </div>
           </div>
-          <div class="col-md-4" *ngIf="distinctFeatureDetails.length === 0">
-            No Available.
+          <div class="col-md-4" *ngIf="screenDetails.length === 0">
+              No Screen Available.
           </div>
-        </div>
+      </div>
 
       </mat-expansion-panel>
     </mat-accordion>
