@@ -79,7 +79,7 @@ export class EntityManagerComponent implements OnInit {
         action_on_data: '',
         description: '',
         feature_id: '',
-        label:'',
+        label: '',
         name: '',
         type: 'basic',
         create_with_default_activity: 1,
@@ -94,7 +94,6 @@ export class EntityManagerComponent implements OnInit {
         updated_at: new Date(),
         field: []
     };
-    http: HttpClient;
     createFeatureData: any = [];
     gridColumnApi: any;
     gridApi: any;
@@ -118,13 +117,10 @@ export class EntityManagerComponent implements OnInit {
         private projectComponentService: ProjectComponentService,
         private featureDetailsService: FeatureDetailsService,
         private dataService: DataService,
-        private restApi: SharedService,
         private route: ActivatedRoute,
-        private handler: HttpBackend,
         private flowManagerService: FlowManagerService
 
     ) {
-        this.http = new HttpClient(handler);
 
         this.columnDefs = [
             {
@@ -301,7 +297,7 @@ export class EntityManagerComponent implements OnInit {
         }
     }
 
-     createFeature() {
+    createFeature() {
         if (this.selectedOption === 'Upload Feature') {
             this.formData.append('front_mang_file', this.frontFile[0]);
             this.formData.append('backed_mang_file', this.backendFile[0]);
@@ -310,9 +306,7 @@ export class EntityManagerComponent implements OnInit {
             this.formData.append('description', this.featureDetails.description);
 
             console.log(this.featureDetails);
-            console.log('adskjahdifafdf', this.formData);
-            return this.http.post('http://localhost:3006/feature/details/addfile', this.formData).subscribe((data) => {
-                console.log("data in level", data);
+            this.projectComponentService.addFeatureDetailsWithFile(this.formData).subscribe((data) => {
                 if (data) {
                     this.frontFile = '',
                         this.backendFile = '',
@@ -322,12 +316,13 @@ export class EntityManagerComponent implements OnInit {
                         this.closeFeatureCreateModel();
                     this.getAllFeatureDetails();
                 }
+            }, (error) => {
+                console.log('something happens in feature microservice');
             });
         } else if (this.selectedOption === 'Create Feature') {
-            return this.http.post('http://localhost:3006/feature/details/addfile', this.featureDetails).subscribe((data) => {
+            this.projectComponentService.addFeatureDetails(this.featureDetails).subscribe((data) => {
                 if (data) {
                     this.createFeatureData = data;
-                    console.log("adfohodhfa",this.createFeatureData._id);
                     this.features.feature_id = this.createFeatureData._id;
                     this.features.project_id = this.project_id;
                     this.projectComponentService.addFeature(this.features).subscribe(featureData => {
@@ -341,6 +336,8 @@ export class EntityManagerComponent implements OnInit {
                         this.closeFeatureCreateModel();
                     this.getAllFeatureDetails();
                 }
+            }, (error) => {
+                console.log('something happens in feature microservice');
             });
         }
     }

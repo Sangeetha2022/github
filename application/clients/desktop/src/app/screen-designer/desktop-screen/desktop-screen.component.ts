@@ -152,7 +152,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             if (params.projectId !== undefined && params.projectId !== null) {
                 this.project_id = params.projectId;
             }
-            });
+        });
         this.isGridPopup = false;
         this.is_grid_present = false;
         // this.selectedColumn = 'column1';
@@ -286,7 +286,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.styleManager();
         this.panelManager();
         this.agGridEntity();
-        this.traitService.initializeMethod(this.editor);
+        this.traitService.initMethod(this.editor);
+        // this.traitService.initializeRadioMethod(this.editor);
         // this.beforeDropElement();
         const test1 = 'test';
         // const is = this.agGridObject;
@@ -341,7 +342,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.dataService.setAgGridValue(this.agGridArray);
         this.agGridObject.custom_field = this.agGridArray;
         this.agGridObject.default_field = this.defaultColumn;
-       this.saveRemoteStorage();
+        this.saveRemoteStorage();
         this.onCloseHandled();
     }
 
@@ -397,7 +398,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             //   this.rowData = flowData;
             this.listOfFLows = flowData;
             if (this.feature_id !== undefined && this.feature_id != null) {
-            this.rowData = flowData;
+                this.rowData = flowData;
             } else {
                 const createFlow = flowData.find(x => x.name === 'GpCreate');
                 console.log('project and featureId are create flow ---- ', createFlow);
@@ -507,7 +508,33 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 options: this.dataBindingTypes
 
             });
+        console.log('ram component values ar e---input---  ', this.editor.DomComponents.getType('input').model.prototype);
+        console.log('ram component values ar e---select---  ', this.editor.DomComponents.getType('select').model.prototype);
+        console.log('ram component values ar e---textarea---  ', this.editor.DomComponents.getType('textarea').model.prototype);
+        console.log('ram component values ar e---checkbox---  ', this.editor.DomComponents.getType('checkbox').model.prototype);
+        console.log('ram component values ar e---textarea---  ', this.editor.DomComponents.getType('textarea').model.prototype);
+
+        // // this.editor.DomComponents.getType('radio').model.prototype.toHTML.apply(this)
+        // const defaultType = this.editor.DomComponents.getType('default');
+        // this.editor.DomComponents.addType('radio', {
+        //     model: defaultType.model.extend({
+        //         toHTML: function () {
+        //             console.log('ram tohtml values of dom are -- ');
+        //             return '<p>ram code</p>'; // return an empty string instead of the default toHTML behaviour
+        //         }
+        //     }, {
+        //             isComponent: function (el) {
+        //                 console.log('ram iscomponent function are ---- ', el.tagName);
+        //                 // add custom isComponent logic here
+        //             }
+        //         }),
+        //     view: defaultType.view
+        // });
+
+
         this.editor.on('block:drag:stop', function (model) {
+            console.log('ram component values ar e----11--  ', model);
+            console.log('ram component values ar e--22----  ', model.find('input'));
             const allInputModels = model.find('input');
             const allTextAreaModels = model.find('textarea');
             const allOptionModels = model.find('select');
@@ -516,22 +543,56 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             const allCheckBoxModels = model.find('.checkbox');
             const allImageBlockModels = model.find('.gpd-image-block');
             const allImageModels = model.find('.gjs-plh-image');
-            console.log('buttonn are ---- ', allButtonModels);
+            // console.log('buttonn are ---- ', allButtonModels);
+            console.log('ram component values ar e--33----  ', model.find('textarea'));
+            console.log('ram component values ar e--44----  ', model.find('select'));
+            console.log('ram component values ar e--55----  ', model.find('.radio'));
+            console.log('ram component values ar e--66----  ', model.find('.button'));
+            console.log('ram component values ar e--77----  ', model.find('.checkbox'));
+            console.log('ram component values ar e--88----  ', model.find('.gpd-image-block'));
+            console.log('ram component values ar e--99----  ', model.find('.gjs-plh-image'));
+
+
+            allInputModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `input_${inputElement.ccid}` });
+            });
+            allTextAreaModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `textarea_${inputElement.ccid}` });
+            });
+            allOptionModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `option_${inputElement.ccid}` });
+            });
+            allRadioModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `radio_${inputElement.ccid}` });
+            });
+            allButtonModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `button_${inputElement.ccid}` });
+            });
+            allCheckBoxModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `checkbox_${inputElement.ccid}` });
+            });
+            allImageBlockModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `imageblock_${inputElement.ccid}` });
+            });
+            allImageModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `image_${inputElement.ccid}` });
+            });
+
             // allButtonModels[0].attributes.content = 'testnew';
             // allButtonModels.target.set('content', 'dsfdsfsdf');
 
             // button default content name changed
-            allButtonModels[0].attributes.traits.target.set('content', `button_${generate(dictionary.numbers, 6)}`);
-            allInputModels.forEach(models => models.setAttributes({ name: `input_${generate(dictionary.numbers, 6)}` }));
-            // allButtonModels.forEach(models => models.setAttributes({ content: `button_${generate(dictionary.numbers, 6)}` }));
-            allTextAreaModels.forEach(models => models.setAttributes({ name: `textarea_${generate(dictionary.numbers, 6)}` }));
-            allOptionModels.forEach(models => models.setAttributes({ name: `select_${generate(dictionary.numbers, 6)}` }));
-            allRadioModels.forEach(models => models.setAttributes({ name: `radio_${generate(dictionary.numbers, 6)}` },
-                { value: 1 }));
-            allCheckBoxModels.forEach(models => models.setAttributes({ name: `checkbox_${generate(dictionary.numbers, 6)}` }));
-            // model.attributes.attributes = {href:"http://teste.com"}
-            allImageBlockModels.forEach(models => models.setAttributes({ name: `imageblocks_${generate(dictionary.numbers, 6)}` }));
-            allImageModels.forEach(models => models.setAttributes({ name: `image_${generate(dictionary.numbers, 6)}` }));
+            // allButtonModels[0].attributes.traits.target.set('content', `button_${generate(dictionary.numbers, 6)}`);
+            // allInputModels.forEach(models => models.setAttributes({ name: `input_${generate(dictionary.numbers, 6)}` }));
+            // // allButtonModels.forEach(models => models.setAttributes({ content: `button_${generate(dictionary.numbers, 6)}` }));
+            // allTextAreaModels.forEach(models => models.setAttributes({ name: `textarea_${generate(dictionary.numbers, 6)}` }));
+            // allOptionModels.forEach(models => models.setAttributes({ name: `select_${generate(dictionary.numbers, 6)}` }));
+            // allRadioModels.forEach(models => models.setAttributes({ name: `radio_${generate(dictionary.numbers, 6)}` },
+            //     { value: 1 }));
+            // allCheckBoxModels.forEach(models => models.setAttributes({ name: `checkbox_${generate(dictionary.numbers, 6)}` }));
+            // // model.attributes.attributes = {href:"http://teste.com"}
+            // allImageBlockModels.forEach(models => models.setAttributes({ name: `imageblocks_${generate(dictionary.numbers, 6)}` }));
+            // allImageModels.forEach(models => models.setAttributes({ name: `image_${generate(dictionary.numbers, 6)}` }));
         });
     }
 

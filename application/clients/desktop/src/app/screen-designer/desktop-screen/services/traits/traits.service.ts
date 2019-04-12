@@ -30,10 +30,20 @@ export class TraitsService {
   public clientFramework: any = 'Angular 7';
   constructor(
     private dataService: DataService
-  ) { this.initMethod(); }
+  ) { this.initVariable(); }
 
-  initMethod() {
+  initVariable() {
     this.screenArray = [];
+  }
+
+  initMethod(editor) {
+    this.initializeMethod(editor);
+    this.initializeInputMethod(editor);
+    this.initializeTextAreaMethod(editor);
+    this.initializeSelectMethod(editor);
+    this.initializeCheckboxMethod(editor);
+    this.initializeRadioMethod(editor);
+
   }
 
   initializeMethod(editor) {
@@ -41,7 +51,9 @@ export class TraitsService {
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-
+    console.log('ram defaultType doms are ---- ', comps);
+    console.log('ram defaultType 11 ---- ', defaultType);
+    console.log('ram defaultModel 22 ---- ', defaultModel);
     // content traits
     // Each new type extends the default Trait
     editor.TraitManager.addType('content', {
@@ -101,7 +113,6 @@ export class TraitsService {
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
           draggable: '*',
           droppable: false,
-          'name': `button_${generate(dictionary.numbers, 6)}`,
           traits: [{
             type: 'content',
             label: 'Name',
@@ -115,31 +126,6 @@ export class TraitsService {
           }],
 
         }),
-        toHTML: function () {
-          const htmlName = this.view.el.innerHTML;
-          console.log('button rnder html are ------11---------- ', htmlName);
-          console.log('button rnder html are -------22--------- ', this);
-          let buttonElementRender = `<button type="submit" class="button">${htmlName}</button>`;
-          $this.screenArray.forEach(screenElement => {
-            if (screenElement.button.htmlId === this.cid &&
-              screenElement.button.componentId === this.ccid) {
-              buttonElementRender = `<button type="submit" class="button"
-(click)="${screenElement.button.action.label}()">${htmlName}</button>`;
-            }
-          });
-          return buttonElementRender;
-          //    const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
-          //    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [animateRows]="true"
-          //    [gridOptions]="gridOptions" (gridReady)="onGridReady($event)" domLayout='autoHeight'></ag-grid-angular>
-          //    </div>
-          //  `;
-          //     return replacedValue;
-        },
-        init() {
-          // this.listenTo(this, 'change:name', this.buttonText); // listen for active event
-        },
-        buttonText() {
-        }
       },
         {
           isComponent: function (el) {
@@ -155,6 +141,251 @@ export class TraitsService {
       view: defaultType.view,
     });
   }
+
+
+  // input values are ---
+  initializeInputMethod(editor) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    comps.addType('input', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [
+            { name: 'name', label: 'Name' },
+            { name: 'placeholder', label: 'Placeholder' },
+            {
+              label: 'Type',
+              type: 'select',
+              name: 'type',
+              options: [{ value: 'text', name: 'Text' },
+              { value: 'email', name: 'Email' },
+              { value: 'password', name: 'Password' },
+              { value: 'number', name: 'Number' }]
+            },
+            { type: 'checkbox', name: 'required', label: 'Required' }],
+
+        })
+      },
+        {
+          isComponent: function (el) {
+            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
+            if (el.tagName === 'INPUT') {
+              return {
+                type: 'input'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
+  // Select values are ---
+  initializeSelectMethod(editor) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    comps.addType('select', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [
+            { name: 'name', label: 'Name' },
+            { label: 'Options', type: 'select-options' },
+            { type: 'checkbox', name: 'required', label: 'Required' },
+          ],
+
+        }),
+      },
+        {
+          isComponent: function (el) {
+            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
+            if (el.tagName === 'SELECT') {
+              return {
+                type: 'select'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
+  // textarea are ---
+  initializeTextAreaMethod(editor) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    comps.addType('textarea', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [
+            { name: 'name', label: 'Name' },
+            { name: 'placeholder', label: 'Placeholder' },
+            { type: 'checkbox', name: 'required', label: 'Required' }
+          ],
+
+        }),
+       },
+        {
+          isComponent: function (el) {
+            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
+            if (el.tagName === 'TEXTAREA' && el.type === 'textarea') {
+              return {
+                type: 'textarea'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
+  // Radio values are ---
+  initializeRadioMethod(editor) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    // content traits
+    // Each new type extends the default Trait
+    editor.TraitManager.addType('content', {
+      events: {
+        'keyup': 'onChange',  // trigger parent onChange method on keyup
+      },
+
+      /**
+      * Returns the input element
+      * @return {HTMLElement}
+      */
+      getInputEl: function () {
+        if (!this.inputEl) {
+          const input = document.createElement('textarea');
+          input.value = this.target.get('content');
+          this.inputEl = input;
+        }
+        return this.inputEl;
+      },
+
+      /**
+       * Triggered when the value of the model is changed
+       */
+      onValueChange: function () {
+        this.target.set('content', this.model.get('value'));
+      }
+    });
+
+    // action button add
+    editor.TraitManager.addType('actionButton', {
+      events: {
+        'click': function () {
+          console.log('print button clicked');
+          const eventPopupModel = document.getElementById('EventPopup');
+          console.log('print eventPopupModel values are ------ ', eventPopupModel);
+          eventPopupModel.style.display = 'block';
+        },
+      },
+      getInputEl() {
+        // tslint:disable-next-line:prefer-const
+        let button = <HTMLElement>document.createElement('button');
+        button.id = 'fieldButton';
+        button.style.width = '100%';
+        button.style.backgroundColor = '#4CAF50';
+        button.style.border = 'none';
+        button.style.color = 'white';
+        button.style.backgroundColor = '#008CBA';
+        button.style.fontSize = '12px !important';
+        button.style.cursor = 'pointer';
+        button.appendChild(document.createTextNode('Flow'));
+        return button;
+      },
+    });
+
+    comps.addType('radio', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [{ name: 'id', label: 'ID' },
+          { name: 'name', label: 'Name' },
+          { name: 'value', label: 'Value' },
+          { type: 'checkbox', name: 'required', label: 'Required' },
+          { label: 'Checked', type: 'checkbox', name: 'checked', changeProp: 1 }],
+
+        }),
+         },
+        {
+          isComponent: function (el) {
+            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
+            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ');
+            if (el.tagName === 'INPUT' && el.type === 'radio') {
+              return {
+                type: 'radio'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
+  // checkbox values are ---
+  initializeCheckboxMethod(editor) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    comps.addType('checkbox', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [{ name: 'id', label: 'ID' },
+          { name: 'name', label: 'Name' },
+          { name: 'value', label: 'Value' },
+          { type: 'checkbox', name: 'required', label: 'Required' },
+          { label: 'Checked', type: 'checkbox', name: 'checked', changeProp: 1 }],
+
+        }),
+        },
+        {
+          isComponent: function (el) {
+            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
+            if (el.tagName === 'INPUT' && el.type === 'checkbox') {
+              return {
+                type: 'checkbox'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
 
 
   addCKEditorTraits(editor, buttonName) {

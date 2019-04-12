@@ -4,6 +4,7 @@ import { ApiService } from '../config/api.service';
 import { SharedService } from '../../shared/shared.service';
 import { IEntity } from './interface/Entity';
 import { Constants } from '../config/Constant';
+import { HttpClient, HttpBackend } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -26,7 +27,10 @@ export class ProjectComponentService {
 
 
   constructor(
-    private api: ApiService, private restapi: SharedService
+    private api: ApiService,
+    private restapi: SharedService,
+    private http: HttpClient,
+    private handler: HttpBackend,
   ) { }
 
   createEntity(entity: any): Observable<any> {
@@ -82,6 +86,11 @@ export class ProjectComponentService {
   addFeatureDetails(feature) {
     return this.api.post(this.restapi.featureUrl + Constants.addFeatureDetails, feature);
 
+  }
+
+  addFeatureDetailsWithFile(feature) {
+    this.http = new HttpClient(this.handler);
+    return this.http.post(`${this.restapi.featureUrl}${Constants.addFeatureDetails}`, feature);
   }
 
   getAllFeature() {
