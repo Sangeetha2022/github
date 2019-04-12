@@ -1,10 +1,10 @@
 
-import { UserTemplateController } from '../controllers/usertemplate.controller';
+import { ScreenController } from '../controllers/ScreenController';
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {
 
-    public userTemplateController: UserTemplateController = new UserTemplateController();
+    public screenController: ScreenController = new ScreenController();
 
     public routes(app): void {
 
@@ -13,9 +13,9 @@ export class Routes {
                 status: 'up'
             })
         })
-        app.route('/user_template/save').post(this.userTemplateController.createUserTemplate);
-        app.route('/user_template/get').get(this.userTemplateController.getAllUserTemplate);
-        app.route('/user_template/getbyprojectid/:projectId').get(this.userTemplateController.getAllUserTemplateByProjectId);
-        app.route('/user_template/getbyprojectandfeatureid/:projectId/:featureId').get(this.userTemplateController.getAllUserTemplateByProjectAndFeatureId);
+        app.route('/screen/save').post(this.screenController.createScreen);
+        app.route('/screen/get').get(this.screenController.getAllScreen);
+        app.route('/screen/getbyprojectid/:projectId').get(this.screenController.getAllScreenByProjectId);
+        app.route('/screen/getbyprojectandfeatureid/:projectId/:featureId').get(this.screenController.getAllScreenByProjectAndFeatureId);
     }
 }

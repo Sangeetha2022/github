@@ -167,7 +167,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         // this.eventFlows = this.formBuilder.group({
         //     selectEvent: ['', Validators.required]
         // });
-        this.saveTemplateURL = this.sharedService.screenUrl + '/user_template/save';
+        this.saveTemplateURL = this.sharedService.screenUrl + '/screen/save';
         this.saveChildURL = this.sharedService.screenUrl + '/childTemplate/save';
         const addStyles = [];
         const plugins = ['gjs-grapedrop-preset'];

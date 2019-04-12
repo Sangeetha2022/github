@@ -1,14 +1,14 @@
 'use strict'
 import * as mongoose from 'mongoose';
-import { UserTemplateSchema } from '../models/usertemplate.model';
+import { ScreenSchema } from '../models/Screen';
 
-const UserTemplateModel = mongoose.model('UserTemplate', UserTemplateSchema);
+const screenModel = mongoose.model('screen', ScreenSchema);
 
-export class UserTemplateDao {
+export class ScreenDao {
     constructor() { }
 
-    public createUserTemplate(userTemplate, callback) {
-        let template = new UserTemplateModel(userTemplate);
+    public createScreen(screenData, callback) {
+        let template = new screenModel(screenData);
         template.save().then((result) => {
             console.log('save template result ----- ', result);
             callback(result);
@@ -18,17 +18,17 @@ export class UserTemplateDao {
         });
     }
 
-    public getAllUserTemplate(callback) {
-        UserTemplateModel.find().then((result) => {
+    public getAllScreen(callback) {
+        screenModel.find().then((result) => {
             callback(result);
         }).catch((error) => {
             callback(error);
         });
     }
 
-    public getAllUserTemplateByProjectId(req, callback) {
+    public getAllScreenByProjectId(req, callback) {
         let projectId = req.params.projectId
-         UserTemplateModel.find({ project_id: projectId }).
+         screenModel.find({ project_id: projectId }).
          exec(function (err, result) {
              if (err) {
                  callback(err);
@@ -39,11 +39,11 @@ export class UserTemplateDao {
  
      }
  
-     public getAllUserTemplateByProjectAndFeatureId(req, callback) {
+     public getAllScreenByProjectAndFeatureId(req, callback) {
          console.log(req.params.id)
          let featureId = req.params.featureId;
          let projectId = req.params.projectId;
-         UserTemplateModel.find({ $and: [ { feature_id: featureId }, { project_id: projectId } ] }).
+         screenModel.find({ $and: [ { feature_id: featureId }, { project_id: projectId } ] }).
          exec(function (err, result) {
              if (err) {
                  callback(err);

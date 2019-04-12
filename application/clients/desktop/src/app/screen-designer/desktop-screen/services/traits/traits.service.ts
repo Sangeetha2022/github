@@ -242,7 +242,7 @@ export class TraitsService {
           ],
 
         }),
-       },
+      },
         {
           isComponent: function (el) {
             console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
@@ -332,7 +332,7 @@ export class TraitsService {
           { label: 'Checked', type: 'checkbox', name: 'checked', changeProp: 1 }],
 
         }),
-         },
+      },
         {
           isComponent: function (el) {
             console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
@@ -369,7 +369,7 @@ export class TraitsService {
           { label: 'Checked', type: 'checkbox', name: 'checked', changeProp: 1 }],
 
         }),
-        },
+      },
         {
           isComponent: function (el) {
             console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
