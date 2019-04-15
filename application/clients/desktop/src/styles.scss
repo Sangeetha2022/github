@@ -52,3 +52,7 @@ html,
 .ck-editor__editable {
   min-height: 500px !important;
 }
+
+@import "assets/scss/_variables.scss";
+@import "assets/scss/_mixins.scss";
+@import "assets/scss/_geppetto.scss";
