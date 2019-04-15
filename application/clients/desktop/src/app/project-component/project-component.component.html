@@ -16,7 +16,7 @@
                         Features</button>
                 </div>
                 <div class="row" style="margin: 0px;" *ngIf="projectFeatureData.length > 0">
-                    <div class="col-md-4" *ngFor="let feature of projectFeatureData; let i = index">
+                    <div class="col-md-5" *ngFor="let feature of projectFeatureData; let i = index">
                         <div class="card">
                             <div class="card-header">
                                 {{feature.name}}
@@ -29,6 +29,9 @@
                                     Details</button>
                                 <button class="btn btn-info ml-sm-3" (click)="openFeatureFlowDialog(feature._id)">Add
                                     Flows</button>
+                                <button class="btn btn-info ml-sm-3" color="primary" (click)="openModal('create')">Create Flow</button>
+                                <!-- <button mat-raised-button (click)="openModal('update')">{{ 'update' | i18next }}</button> -->
+                                <!-- <button mat-raised-button color="warn" (click)="deleteRow()">{{ 'delete' | i18next }}</button> -->
                             </div>
                         </div>
                     </div>
@@ -317,6 +320,62 @@
                 <div class="form-group">
                     <button type="button" class="btn btn-primary" (click)="saveFeatureFlow()">Save</button>
                     <button type="button" class="btn btn-danger" (click)="closeFeatureFlowModal()">cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModel}">
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+            <div class="container">
+                <form class="m-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" placeholder="enter a name" id="name" name="name"
+                                    [(ngModel)]="flow.name"
+                                    [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label">Label</label>
+                                <input type="text" class="form-control" placeholder="enter a label" id="label"
+                                    name="label" [(ngModel)]="flow.label"
+                                    [ngClass]="{ 'is-invalid': submitted && form_control.label.errors }">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" rows="1" id="description" placeholder="description"
+                                    name="description" [(ngModel)]="flow.description"
+                                    [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="action">Action</label>
+                                <input type="text" class="form-control" placeholder="enter your action" id="action"
+                                    name="action_on_data" [(ngModel)]="flow.action_on_data"
+                                    [ngClass]="{ 'is-invalid': submitted && form_control.action_on_data.errors }">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" (click)="createFlowModel()">Create</button>
+                    <button type="button" class="btn btn-danger" (click)="onCloseHandled()">Cancel</button>
                 </div>
             </div>
         </div>

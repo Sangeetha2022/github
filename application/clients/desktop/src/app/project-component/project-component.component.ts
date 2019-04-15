@@ -14,6 +14,7 @@ import { HttpClient, HttpBackend } from '@angular/common/http';
 import { FlowManagerService } from '../flow-manager/flow-manager.service';
 import { IFeatureFLow } from './interface/FeatureFlow';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
+import { IFlow } from '../flow-manager/interface/flow';
 
 
 @Component({
@@ -27,7 +28,12 @@ export class EntityManagerComponent implements OnInit {
     showUploadFeature: Boolean;
     showImportFeature: Boolean;
     showAddFeature: Boolean = true;
-
+    flow: IFlow = {
+        name: '',
+        label: '',
+        description: '',
+        action_on_data: '',
+      };
     frontFile: any;
     backendFile: any;
     rowSelection: any;
@@ -61,6 +67,8 @@ export class EntityManagerComponent implements OnInit {
         // explanation:'',
     };
 
+    displayModel: any;
+
     public featureEntityDetails: IFeatureDetails = {
         id: '',
         name: '',
@@ -77,6 +85,7 @@ export class EntityManagerComponent implements OnInit {
     displayFeatureModel = 'none';
     public featureFlows: IFeatureFLow = {
         id: '',
+        flow: '',
         action_on_data: '',
         description: '',
         feature_id: '',
@@ -200,6 +209,32 @@ export class EntityManagerComponent implements OnInit {
         }
         console.log(event);
     }
+
+    openModal(type) {
+        if (type === 'create') {
+          this.flow = { name: '', action_on_data: '', description: '', label: '' };
+          this.displayModel = 'block';
+        }
+      }
+
+      onCloseHandled() {
+        this.displayModel = 'none';
+      }
+
+
+      createFlowModel() {
+        this.flowManagerService.saveFlow(this.flow)
+          .subscribe(
+            (data) => {
+              console.log('successfully added gen flow -- ', data);
+              this.getAllFlows();
+              this.onCloseHandled();
+            },
+            (error) => {
+              console.log('add gen flow error --- ', error);
+            }
+          );
+      }
 
     getAllFlows() {
         this.flowManagerService.getAllFlows().subscribe((flowData) => {
@@ -387,6 +422,7 @@ export class EntityManagerComponent implements OnInit {
     saveFeatureFlow() {
         this.featureFlow = this.selectedFlow;
         this.featureFlow.forEach(featureData => {
+            this.featureFlows.flow = featureData._id;
             this.featureFlows.name = featureData.name;
             this.featureFlows.description = featureData.description;
             this.featureFlows.label = featureData.label;

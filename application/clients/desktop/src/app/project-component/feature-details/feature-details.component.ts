@@ -11,6 +11,9 @@ import { MatDialog } from '@angular/material';
 import { ProjectComponentService } from '../project-component.service';
 import { IEntity } from '../interface/Entity';
 import { ScreenDesignerService } from 'src/app/screen-designer/screen-designer.service';
+import { ComponentFlowsService } from 'src/app/component-flows/component-flows.service';
+import { IFlow } from 'src/app/flow-manager/interface/flow';
+import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 
 const URL = 'http://localhost:3006/feature/details/addfile';
 
@@ -27,6 +30,7 @@ export class FeatureDetailsComponent implements OnInit {
     project_id: String;
     screenName: String;
     description: String;
+    showFeatureFlowComp: boolean;
     featureDetailsData: any = [];
     featureEntityData: any = [];
     featureEntity: any = [];
@@ -38,14 +42,18 @@ export class FeatureDetailsComponent implements OnInit {
     columnFeatureEntity: any = [];
     featureEntityDetails: any = [];
     rowFlowCompData: any = [];
+    selectedFlowCmpnt: any = [];
     featureFlowRowData: any = [];
     distinctFeatureDetails: any = [];
     featureFlowId: String;
+    fcompColDefs;
+    flowCompGrid;
     featureId: any;
     featureData: any = [];
     rowSelection: String;
     defaultColDef: any;
     screenDetails: any = [];
+    flow_comp: any = [];
     showFeatureFlow: boolean;
     public screenData: Iscreen = {
         screenName: '',
@@ -82,7 +90,9 @@ export class FeatureDetailsComponent implements OnInit {
         private projectComponentService: ProjectComponentService,
         private dataService: DataService,
         private screenService: ScreenDesignerService,
+        private componentFlowsService: ComponentFlowsService,
         private route: ActivatedRoute,
+        private flowManagerService: FlowManagerService,
         private router: Router,
         private dialog: MatDialog
     ) {
@@ -94,6 +104,16 @@ export class FeatureDetailsComponent implements OnInit {
             { headerName: 'Label', field: 'label' },
             { headerName: 'Description', field: 'description' },
             { headerName: 'Action', field: 'action_on_data' }
+        ];
+
+        this.fcompColDefs = [
+            { headerName: 'Component Name', field: 'component_name', checkboxSelection: true },
+            { headerName: 'FrameWork', field: 'dev_framework' },
+            { headerName: 'Type', field: 'type' },
+            { headerName: 'Sequence', field: 'sequence_id' },
+            { headerName: 'Language', field: 'dev_language' },
+            { headerName: 'Label', field: 'label' },
+            { headerName: 'Description', field: 'description' },
         ];
         this.columnFeatureDefs = [
             {
@@ -199,6 +219,12 @@ export class FeatureDetailsComponent implements OnInit {
         });
     }
 
+    selectFlowComponent() {
+        this.selectedFlowCmpnt = this.flowCompGrid.getSelectedRows();
+        if (this.selectedFlowCmpnt[0].component_name !== null) {
+        }
+    }
+
     // formDatafromYAML = (doc) => {
     // console.log("== >> am coming here ---======>>>> ", doc);
     // let allSchema = []
@@ -248,6 +274,11 @@ export class FeatureDetailsComponent implements OnInit {
         }, (error) => {
             console.log('something is not working on backend side');
         });
+    }
+
+    onFCGridReady(params) {
+        this.flowCompGrid = params.api;
+        this.flowCompGrid.sizeColumnsToFit();
     }
 
     editEntityField(entity: IEntity) {
@@ -352,7 +383,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     GoToDesigner() {
-        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, featureId: this.feature_id  } });
+        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, featureId: this.feature_id } });
     }
 
     getFeatureEntityByFeatureId() {
@@ -420,13 +451,30 @@ export class FeatureDetailsComponent implements OnInit {
 
         this.selectedFlow = this.featureFlowGrid.getSelectedRows();
         if (this.selectedFlow.length !== 0) {
-            this.featureDetailsService.getFeatureFlowCompByFlowId(this.selectedFlow[0]._id).subscribe(data => {
-                this.showFeatureFlowComponent = true;
-                this.rowFlowCompData = data.flow_comp_seq;
+            if (this.selectedFlow[0].flow === undefined) {
+                this.featureDetailsService.getFeatureFlowCompByFlowId(this.selectedFlow[0]._id).subscribe(data => {
+                    this.showFeatureFlowComponent = true;
+                    this.rowFlowCompData = data.flow_comp_seq;
 
-            });
+                });
+            }
+
+            if (this.selectedFlow[0].flow !== undefined) {
+                this.componentFlowsService.getFlowSequence(this.selectedFlow[0].flow).subscribe((data) => {
+                    if (data) {
+                        console.log('dlsoudhoidshifhdi');
+                        if (data.flow_comp_seq !== null) {
+                            this.showFeatureFlowComp = true;
+                            this.flow_comp = data.flow_comp_seq;
+                        }
+                    }
+                });
+            }
         }
     }
+
+
+
 
     selectedFeatureEntityData() {
         this.selectedFeatureEntity = this.featureEntityDataGrid.getSelectedRows();
