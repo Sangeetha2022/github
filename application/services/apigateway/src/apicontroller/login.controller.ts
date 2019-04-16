@@ -49,9 +49,9 @@ export class Logincontroller implements Controller {
                     if (err) {
                         // res.status(401);
                         console.log('-----------err--->>>', err);
-                        res.send({ 'status': 'Unauthorized', 'error': err,'Userdetails':user });
+                        res.send({ 'status': 'Unauthorized', 'error': err, 'Userdetails': user });
                     } else {
-                        var url = 'http://localhost:3010/proxy';
+                        var url = `${Constants.proxyUrl}/proxy`
                         request.post({ url: url, json: decoded }, (error, response, body) => {
                             var loginresponse = {
                                 "Access": body,
@@ -79,7 +79,7 @@ export class Logincontroller implements Controller {
                     console.log('-----------err--->>>', err);
                     // res.send({ 'status': 'Unauthorized', 'error': err,'Userdetails':user });
                 } else {
-                    var url = 'http://localhost:3010/proxy';
+                    var url = `${Constants.proxyUrl}/proxy`;
                     request.post({ url: url, json: decoded }, (error, response, body) => {
                         var loginresponse = {
                             "Access": body,

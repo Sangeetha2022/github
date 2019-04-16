@@ -61,8 +61,8 @@ export class ProjectsComponent implements OnInit {
     this.getAllMyProjects();
     this.createProject = this.formBuilder.group({
       name: ['', Validators.required],
-      label: ['', Validators.required],
-      appContext: '',
+      label: '',
+      appContext: ['', Validators.required],
       description: '',
       primaryLanguage: ['', Validators.required],
       secondaryLanguage: [''],
