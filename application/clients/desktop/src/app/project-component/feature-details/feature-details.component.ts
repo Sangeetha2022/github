@@ -14,6 +14,8 @@ import { ScreenDesignerService } from 'src/app/screen-designer/screen-designer.s
 import { ComponentFlowsService } from 'src/app/component-flows/component-flows.service';
 import { IFlow } from 'src/app/flow-manager/interface/flow';
 import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
+import { IFeatureFLow } from '../interface/FeatureFlow';
+import { ButtonRendererComponent } from '../entity-field/rendered/button-renderer/button-renderer.component';
 
 const URL = 'http://localhost:3006/feature/details/addfile';
 
@@ -28,12 +30,15 @@ export class FeatureDetailsComponent implements OnInit {
     featureName: any;
     feature_id: String;
     project_id: String;
+    gridColumnApi;
     screenName: String;
     description: String;
     showFeatureFlowComp: boolean;
+    displayFeatureFlowModal: String = 'none';
     featureDetailsData: any = [];
     featureEntityData: any = [];
     featureEntity: any = [];
+    frameworkComponents: { buttonRenderer: any; };
     displayModel: String = 'none';
     featureScreenName: any = [];
     columnFeatureDefs: any = [];
@@ -44,22 +49,40 @@ export class FeatureDetailsComponent implements OnInit {
     rowFlowCompData: any = [];
     selectedFlowCmpnt: any = [];
     featureFlowRowData: any = [];
+    rowData: any = [];
     distinctFeatureDetails: any = [];
+    columnFlow: any = [];
     featureFlowId: String;
+    selectedFeatureName: String;
     fcompColDefs;
     flowCompGrid;
+    gridApi;
+    rowSelectionFlow;
     featureId: any;
     featureData: any = [];
     rowSelection: String;
     defaultColDef: any;
+    defaultColFlow: any;
     screenDetails: any = [];
     flow_comp: any = [];
     showFeatureFlow: boolean;
+    featureFlow: any = [];
     public screenData: Iscreen = {
         screenName: '',
         description: '',
         featureName: '',
 
+    };
+    public featureFlows: IFeatureFLow = {
+        id: '',
+        flow: '',
+        action_on_data: '',
+        description: '',
+        feature_id: '',
+        label: '',
+        name: '',
+        type: 'basic',
+        create_with_default_activity: 1,
     };
     public entity: IEntity = {
         name: '',
@@ -96,6 +119,27 @@ export class FeatureDetailsComponent implements OnInit {
         private router: Router,
         private dialog: MatDialog
     ) {
+
+        this.frameworkComponents = {
+            buttonRenderer: ButtonRendererComponent,
+          };
+
+        this.columnFlow = [
+            {
+                headerName: 'Name', field: 'name',
+                checkboxSelection: true
+            },
+            { headerName: 'Label', field: 'label' },
+            { headerName: 'Description', field: 'description' },
+            { headerName: 'Action', field: 'action_on_data' },
+
+
+        ];
+        this.rowSelectionFlow = 'multiple';
+        this.defaultColFlow = {
+            sortable: true,
+            filter: true
+        };
         this.columnDefs = [
             {
                 headerName: 'Name', field: 'name',
@@ -103,7 +147,19 @@ export class FeatureDetailsComponent implements OnInit {
             },
             { headerName: 'Label', field: 'label' },
             { headerName: 'Description', field: 'description' },
-            { headerName: 'Action', field: 'action_on_data' }
+            { headerName: 'Action', field: 'action_on_data' },
+            {
+                headerName: 'Remove',
+                width: 100,
+                cellRenderer: 'buttonRenderer',
+                editable: false,
+                sortable: false,
+                filter: false,
+                cellRendererParams: {
+                //   onClick: this.removeRow.bind(this),
+                  label: 'Remove'
+                }
+              }
         ];
 
         this.fcompColDefs = [
@@ -168,6 +224,7 @@ export class FeatureDetailsComponent implements OnInit {
         this.getFeatureEntityByFeatureId();
         this.getEntityByFeatureAndprojectId();
         this.getProjectFeature();
+        this.getAllFlows();
         this.getScreenByProjectAndFeatureId();
         // this.getAllScreen();
         // this.getAllFeatureFlows();
@@ -176,6 +233,30 @@ export class FeatureDetailsComponent implements OnInit {
         // this.formDatafromYAML(doc);
     }
 
+
+    onFlowGridReady(params) {
+        this.featureFlowGrid = params.api;
+        this.featureFlowGrid.sizeColumnsToFit();
+    }
+
+    onFlowCompGridReady(params) {
+        this.featureFlowCompGrid = params.api;
+        this.featureFlowCompGrid.sizeColumnsToFit();
+    }
+
+    onFeatureEntityDataGridReady(params) {
+        this.featureEntityDataGrid = params.api;
+        this.featureEntityDataGrid.sizeColumnsToFit();
+    }
+    onFeatureEntityGridReady(params) {
+        this.featureEntityGrid = params.api;
+        this.featureEntityGrid.sizeColumnsToFit();
+    }
+    onGridReady(params) {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+        this.gridApi.sizeColumnsToFit();
+    }
     upload = () => {
 
         this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
@@ -192,17 +273,24 @@ export class FeatureDetailsComponent implements OnInit {
             }
         );
     }
+    getAllFlows() {
+        this.flowManagerService.getAllFlows().subscribe((flowData) => {
+            //   this.dataFlow = flowData;
+            //   console.log('dataFlow', this.dataFlow);
+            this.rowData = flowData;
+        });
+    }
 
     getProjectFeature() {
         this.dataService.currentProjectFeatureInfo.subscribe(feature => {
             this.featureData = feature;
             console.log('i am the data', this.featureData);
             this.featureData.forEach(fData => {
-                console.log('i am the feature data', fData);
+                this.selectedFeatureName = fData.name
+                console.log('i am the feature data', fData.name);
                 if (fData.api_mang_file === null && fData.backed_mang_file === null && fData.front_mang_file === null) {
                     this.featureDetailsService.getAllFeatureFlowByFeatureId(this.feature_id).subscribe(feData => {
                         this.featureFlowRowData = feData;
-                        console.log(this.featureFlowRowData);
                     });
                 } else {
 
@@ -225,6 +313,37 @@ export class FeatureDetailsComponent implements OnInit {
         }
     }
 
+
+    openFeatureFlowDialog(id): void {
+        this.featureFlows.feature_id = id;
+        this.displayFeatureFlowModal = 'block';
+    }
+
+    closeFeatureFlowModal() {
+        this.displayFeatureFlowModal = 'none';
+    }
+
+
+    saveFeatureFlow() {
+        this.featureFlow = this.selectedFlow;
+        this.featureFlow.forEach(featureData => {
+            this.featureFlows.flow = featureData._id;
+            this.featureFlows.name = featureData.name;
+            this.featureFlows.description = featureData.description;
+            this.featureFlows.label = featureData.label;
+            this.featureFlows.action_on_data = featureData.action_on_data;
+            this.projectComponentService.addFeatureFlow(this.featureFlows).subscribe(flowData => {
+                if (flowData) {
+                    this.closeFeatureFlowModal();
+                    this.getProjectFeature();
+                }
+            });
+        });
+    }
+
+    onSelectionChanged() {
+        this.selectedFlow = this.gridApi.getSelectedRows();
+    }
     // formDatafromYAML = (doc) => {
     // console.log("== >> am coming here ---======>>>> ", doc);
     // let allSchema = []
@@ -484,24 +603,5 @@ export class FeatureDetailsComponent implements OnInit {
             this.showFeatureEntity = true;
         }
 
-    }
-
-    onFlowGridReady(params) {
-        this.featureFlowGrid = params.api;
-        this.featureFlowGrid.sizeColumnsToFit();
-    }
-
-    onFlowCompGridReady(params) {
-        this.featureFlowCompGrid = params.api;
-        this.featureFlowCompGrid.sizeColumnsToFit();
-    }
-
-    onFeatureEntityDataGridReady(params) {
-        this.featureEntityDataGrid = params.api;
-        this.featureEntityDataGrid.sizeColumnsToFit();
-    }
-    onFeatureEntityGridReady(params) {
-        this.featureEntityGrid = params.api;
-        this.featureEntityGrid.sizeColumnsToFit();
     }
 }

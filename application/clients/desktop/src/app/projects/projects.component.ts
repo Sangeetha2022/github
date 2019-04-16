@@ -230,7 +230,6 @@ export class ProjectsComponent implements OnInit {
       console.log('Check the browser console to see more info.', 'Error!');
     });
     this.onCloseHandled();
-    this.getAllMyProjects();
   }
 
   // generation
