@@ -41,7 +41,7 @@ export class Routes {
         // app.route('/feature-flow/getall').get(this.featureFlowController.getAllFeatureFlow);
         app.route('/feature-flow/getbyid/:id').get(this.featureFlowController.getFeatureFlowByID);
         app.route('/feature-flow/getbyfeatureid/:id').get(this.featureFlowController.getFeatureFlowByFeatureId);
-        // app.route('/feature-flow/delete/:id').delete(this.featureFlowController.deleteFeatureFlow);
+        app.route('/feature-flow/delete/:id').delete(this.featureFlowController.deleteFeatureFlow);
 
         //Feature FlowComp
         // app.route('/feature-comp/save').post(this.featureFlowCompController.saveFeatureFlowComp);

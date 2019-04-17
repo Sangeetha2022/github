@@ -122,7 +122,7 @@ export class FeatureDetailsComponent implements OnInit {
 
         this.frameworkComponents = {
             buttonRenderer: ButtonRendererComponent,
-          };
+        };
 
         this.columnFlow = [
             {
@@ -156,10 +156,10 @@ export class FeatureDetailsComponent implements OnInit {
                 sortable: false,
                 filter: false,
                 cellRendererParams: {
-                //   onClick: this.removeRow.bind(this),
-                  label: 'Remove'
+                    onClick: this.removeRow.bind(this),
+                    label: 'Remove'
                 }
-              }
+            }
         ];
 
         this.fcompColDefs = [
@@ -235,6 +235,7 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     onFlowGridReady(params) {
+        console.log('onFlowGridReady', params);
         this.featureFlowGrid = params.api;
         this.featureFlowGrid.sizeColumnsToFit();
     }
@@ -266,6 +267,17 @@ export class FeatureDetailsComponent implements OnInit {
         };
     }
 
+    removeRow(e) {
+        console.log('adajdgiyfgsaiyfgdsa', e)
+        this.featureDetailsService.deleteFlowId(e.rowData._id).subscribe(delData => {
+            if (delData) {
+                this.getProjectFeature();
+                this.showFeatureFlowComp = false;
+            }
+        });
+        const rows = e.rowData;
+
+    }
     getSelectedProject() {
         this.dataService.currentProjectInfo.subscribe(
             (data) => {
@@ -566,9 +578,14 @@ export class FeatureDetailsComponent implements OnInit {
         this.displayModel = 'none';
     }
 
-    selectedFeatureFlow() {
-
+    selectedFeatureFlow(event) {
         this.selectedFlow = this.featureFlowGrid.getSelectedRows();
+        console.log(this.selectedFlow)
+        if (this.selectedFlow.length === 0) {
+            this.showFeatureFlowComp = false;
+            this.showFeatureFlowComponent = false;
+
+        }
         if (this.selectedFlow.length !== 0) {
             if (this.selectedFlow[0].flow === undefined) {
                 this.featureDetailsService.getFeatureFlowCompByFlowId(this.selectedFlow[0]._id).subscribe(data => {

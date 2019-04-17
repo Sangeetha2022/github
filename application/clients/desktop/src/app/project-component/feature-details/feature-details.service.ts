@@ -79,6 +79,10 @@ export class FeatureDetailsService {
     return this.api.get(this.restapi.featureUrl + Constants.getAllFeatureDetailsByFeatureId + id);
   }
 
+  deleteFlowId(id){
+    return this.api.delete(this.restapi.featureUrl + Constants.deleteFeatureFlowById + id);
+  }
+
   // getFeatureFlowByFeatureId(id) {
   //   return this.api.get(this.restapi.featureUrl + Constants.getFeatureFlowByFeatureId + id);
   // }

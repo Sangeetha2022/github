@@ -26,8 +26,8 @@ import { IFlow } from '../flow-manager/interface/flow';
 export class EntityManagerComponent implements OnInit {
     public Editor = ClassicEditor;
     showUploadFeature: Boolean;
-    showImportFeature: Boolean;
-    showAddFeature: Boolean = true;
+    showImportFeature: Boolean = true;
+    showAddFeature: Boolean;
     frontFile: any;
     backendFile: any;
     rowSelection: any;
@@ -121,8 +121,8 @@ export class EntityManagerComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.project_id = params.projectId;
         });
-        if (this.showAddFeature === true) {
-            this.selectedOption = 'Create Feature';
+        if (this.showImportFeature === true) {
+            this.selectedOption = 'Import Feature';
         }
         this.getSelectedProject();
         this.getProjectDetails();

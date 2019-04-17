@@ -7,11 +7,9 @@ import {
     FlowManagerController,
     EntityController,
     DefaultController,
-
     Logincontroller,
     Proxycontroller,
     Camundacontroller,
-
     FeatureController,
     CodeController,
     ConfigurationController
@@ -29,11 +27,9 @@ let apisController = [
     new FlowManagerController(),
     new EntityController(),
     new DefaultController(),
-
     new Logincontroller(),
     new Proxycontroller(),
     new Camundacontroller(),
-
     new FeatureController(),
     new createUserTemplateController(),
     new MicroflowController(),
