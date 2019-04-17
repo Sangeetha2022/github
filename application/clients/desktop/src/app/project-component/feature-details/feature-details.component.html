@@ -4,7 +4,7 @@
   <br />
   <br />
   <div>
-    Selected Feature : 
+    Selected Feature :  {{selectedFeatureName}}
     <mat-accordion>
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
@@ -12,7 +12,7 @@
         </mat-expansion-panel-header>
         <div style="margin-left: 64rem;">
           <button class="createEntityButton" mat-raised-button color="primary"
-              (click)="saveEntityModel()">Create
+              (click)="saveEntityModel()">Add
               Entity</button>
               </div>
         <div class="row" style="margin: 0px;">
@@ -94,10 +94,12 @@
         <mat-expansion-panel-header>
           <mat-panel-title> Feature Flows </mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="flowTable mt-sm-3">
+        <button class="btn btn-info ml-sm-3 float-right" (click)="openFeatureFlowDialog(feature_id)">Add
+          Flows</button>
+        <div class="flowTable mt-sm-3" *ngIf="featureFlowRowData.length>0">
           <ag-grid-angular #agGrid style="width: 100%; height: 100%; margin-top: 50px;" id="myGrid" class="ag-theme-balham" domLayout='autoHeight'
-            [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="featureFlowRowData" [animateRows]="true"
-            [defaultColDef]="defaultColDef" (rowSelected)=selectedFeatureFlow() (gridReady)="onFlowGridReady($event)">
+            [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="featureFlowRowData" [animateRows]="true"  [suppressRowClickSelection]="true"
+            [defaultColDef]="defaultColDef" (rowSelected)=selectedFeatureFlow($event) [frameworkComponents]="frameworkComponents" (gridReady)="onFlowGridReady($event)">
           </ag-grid-angular>
         </div>
 
@@ -119,4 +121,49 @@
     </mat-accordion>
   </div>
 
+</div>
+
+
+<div id="EventPopup" class="modal" tabindex="-1" role="dialog"
+    [ngStyle]="{'top': '100px','display':displayFeatureFlowModal}">
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h3>Select Flow for Feature</h3>
+                <button type="button" class="close" (click)="closeFeatureFlowModal()" data-dismiss="modal"
+                    aria-hidden="true">x</button>
+            </div> -->
+            <div class="modal-body">
+
+                <div class="container">
+                    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
+                        [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData"
+                        [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef"
+                        domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10" [floatingFilter]="true"
+                        (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+
+                    <!-- <form class="m-3" [formGroup]="eventFlows">
+    <div class="form-group row">
+    <label for="column">Choose an Event</label>
+    <select class="form-control" id="column" formControlName="selectEvent" [ngClass]="{ 'is-invalid': submitted && form_control.selectColumn.errors }">
+    <option value="" selected>none</option>
+    <option *ngFor="let flows of listOfFLows" [ngValue]="flows?._id">{{ flows?.label }}</option>
+    </select>
+    <div *ngIf="submitted && form_control.selectEvent.errors" class="invalid-feedback">
+    <div *ngIf="form_control.selectEvent.errors.required">This field is required
+    </div>
+    </div>
+    </div>
+    </form> -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" (click)="saveFeatureFlow()">Save</button>
+                    <button type="button" class="btn btn-danger" (click)="closeFeatureFlowModal()">cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

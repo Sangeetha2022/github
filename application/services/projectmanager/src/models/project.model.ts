@@ -9,7 +9,7 @@ export const ProjectSchema = new Schema({
         default: uuid.v1
     },
     name: { type: String, required: 'Enter a project name' },
-    label: { type: String, required: 'Enter a project label' },
+    label: { type: String},
     description: { type: String },
     default_module_id: { type: String },
     default_module_label: { type: String },
@@ -56,7 +56,7 @@ export const ProjectSchema = new Schema({
     stand_alone_app: { type: String },
     application_type: { type: String },
     lotus_notes_enabled: { type: String },
-    extra_project_info: { type: String },
+    extra_project_info: { type: String, required: 'Enter a project app context' },
     lotus_notes_cred_enabled: { type: String },
     user_deployment_target: { type: String },
     server_deployment_target: { type: String }

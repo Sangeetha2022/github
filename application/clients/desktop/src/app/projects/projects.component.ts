@@ -61,8 +61,8 @@ export class ProjectsComponent implements OnInit {
     this.getAllMyProjects();
     this.createProject = this.formBuilder.group({
       name: ['', Validators.required],
-      label: ['', Validators.required],
-      appContext: '',
+      label: '',
+      appContext: ['', Validators.required],
       description: '',
       primaryLanguage: ['', Validators.required],
       secondaryLanguage: [''],
@@ -230,7 +230,6 @@ export class ProjectsComponent implements OnInit {
       console.log('Check the browser console to see more info.', 'Error!');
     });
     this.onCloseHandled();
-    this.getAllMyProjects();
   }
 
   // generation
