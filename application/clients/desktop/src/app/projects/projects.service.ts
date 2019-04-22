@@ -15,6 +15,10 @@ export class ProjectsService {
   constructor(private http: HttpClient, private router: Router, private api: ApiService, private restapi: SharedService) {
   }
 
+  landingpage(body): Observable<any> {
+    return this.api.post(this.restapi.loginUrl + '/authorize', body);
+  }
+
   addProject(proj): Observable<any> {
     return this.api.post(this.restapi.projbaseUrl + Constants.addProjectUrl, proj);
   }
@@ -31,6 +35,9 @@ export class ProjectsService {
     return this.api.get(`${this.restapi.entityUrl}${Constants.addProjectDefaults}/?projectId=${projectId}`);
   }
 
+  updateProjectById(projectId: String, projectDetails: any): Observable<any> {
+    return this.api.put(`${this.restapi.projbaseUrl}${Constants.updateProjectById}/${projectId}`, projectDetails);
+  }
 
   // websocket connections
 

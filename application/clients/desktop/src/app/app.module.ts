@@ -21,10 +21,11 @@ import { ProjectsService } from './projects/projects.service';
 import { AppComponentService } from './app.component.service';
 import { AgGridModule } from 'ag-grid-angular';
 import { ComponentFlowsService } from './component-flows/component-flows.service';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { MatButtonModule, MatExpansionModule, MatFormFieldModule,
-    MatIconModule, MatSidenavModule, MatTabsModule, MatSelectModule } from '@angular/material';
-
+import {
+  MatButtonModule, MatExpansionModule, MatFormFieldModule,
+  MatIconModule, MatSidenavModule, MatTabsModule, MatSelectModule, MatRadioModule
+} from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlowManagerComponent } from './flow-manager/flow-manager.component';
 import { SharedService } from 'src/shared/shared.service';
 import { AppInterceptor } from './app.interceptor';
@@ -39,6 +40,17 @@ import { ToastrModule } from 'ngx-toastr';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ComponentFlowsModule } from './component-flows/component-flows.module';
 import { AvailableConnectorComponent } from './available-connector/available-connector.component';
+import { LoginComponent } from './login/login.component';
+import { ConsentscreenComponent } from './consentscreen/consentscreen.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { LandingpageComponent } from './landingpage/landingpage.component';
+import { LoginService } from './login/loginservice.service';
+import { Consentservice } from './consentscreen/consentservice.service';
+import { HomepageService } from './homepage/homepage.service';
+import { LandingService } from './landingpage/landingservice.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FeatureDetailsService } from './project-component/feature-details/feature-details.service';
 
 const i18nextOptions = {
@@ -99,6 +111,11 @@ export const I18N_PROVIDERS = [
     ProjectsComponent,
     FlowManagerComponent,
     AvailableConnectorComponent,
+    LoginComponent,
+    ConsentscreenComponent,
+    HomepageComponent,
+    LandingpageComponent
+
   ],
   imports: [
     BrowserModule,
@@ -112,6 +129,7 @@ export const I18N_PROVIDERS = [
     I18NextModule.forRoot(),
     MatFormFieldModule,
     MatSelectModule,
+    MatRadioModule,
     ValidationMessageModule,
     DragDropModule,
     MatIconModule,
@@ -119,6 +137,7 @@ export const I18N_PROVIDERS = [
     HttpClientModule,
     MatButtonModule,
     MatTabsModule,
+    MatRadioModule,
     MatSidenavModule,
     ScreenDesignerModule,
     I18NextValidationMessageModule,
@@ -126,8 +145,12 @@ export const I18N_PROVIDERS = [
     MatFormFieldModule,
     ConfigManagerModule,
     NavigationModule,
-    ToastrModule.forRoot({preventDuplicates: true}),
+    ToastrModule.forRoot({ preventDuplicates: true }),
     CKEditorModule,
+    MatCardModule,
+    MatInputModule,
+    MatCheckboxModule
+
   ],
   providers: [
     ApiService,
@@ -138,6 +161,10 @@ export const I18N_PROVIDERS = [
     ComponentFlowsService,
     I18N_PROVIDERS,
     SharedService,
+    LoginService,
+    Consentservice,
+    HomepageService,
+    LandingService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AppInterceptor,

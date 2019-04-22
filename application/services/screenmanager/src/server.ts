@@ -33,15 +33,15 @@ class App {
     }
 
     private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mConfig = new MongoConfig();
-        // mConfig.mongoConfig();
+        // mongoose.Promise = global.Promise;
+        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        let mConfig = new MongoConfig();
+        mConfig.mongoConfig();
     }
 
     private mongoSeedData(): void {
         let seedData = new FeedSeedData();
-        seedData.primaryTemplateData();
+        seedData.geppettoTemplateData();
     }
 }
 

@@ -6,11 +6,15 @@ export class Constants {
     public static get saveUrl(): string { return '/save'; }
     public static get updateUrl(): string { return '/update/'; }
     public static get getAllUrl(): string { return '/getall'; }
+
     public static get getByIdUrl(): string { return '/getbyid/'; }
     public static get deleteUrl(): string { return '/delete/'; }
     public static get detailsUrl(): string { return '/details'; }
+    public static get addFilesUrl(): string { return '/addfile'; }
+    public static get getFeatureByProjectId(): string { return '/getbyprojectid/'; }
 
     public static get flowUrl(): string { return '/flow'; }
+
     public static get featureflowUrl(): string { return '/feature-flow'; }
     public static get flowCompUrl(): string { return '/flow/flow_comp'; }
     public static get flowCompentUrl(): string { return '/flow_comp'; }
@@ -22,6 +26,7 @@ export class Constants {
     public static get deleteMyProjectUrl(): string { return '/projects/my/delete/'; }
     public static get getAllMyProjecturl(): string { return '/projects/my/getall'; }
     public static get addProjectDefaults(): String { return '/projects/default/create'; }
+    public static get updateProjectById(): String { return '/projects/my/update'; }
 
     // Flow apis
     public static get addFlowCompToFlowUrl(): string { return '/add/flow_comp'; }
@@ -42,6 +47,7 @@ export class Constants {
     public static get updateGenFlowsUrl(): string { return '/generation_flow/update/'; }
     public static get deleteGenFlowsUrl(): string { return '/generation_flow/delete/'; }
     public static get getGenFlowsByCompNameUrl(): string { return '/generation_flow/getbyname/'; }
+    public static get getTechProperties(): string { return '/generation_flow/getproperties'; }
 
     // Micro Flow apis
     public static get addMicroFlowUrl(): string { return '/microflow/save'; }
@@ -62,24 +68,48 @@ export class Constants {
     // public static get upadateConnector(): string { return '/connector/update' ;}
     // public static get deleteConnector(): string { return '/connector/delete/' ;}
 
+
+    
+
     // Feature
     public static get feature(): string { return '/feature'; }
 
+    // Feature Details
+    public static get getAllFeatureDetails(): string { return '/feature/details/getall'; }
+    public static get getAllFeatureDetailsByFeatureId(): string { return '/feature/details/getbyfeatureid/'; }
+    public static get addFeatureDetails(): string { return '/feature/details/addfile'; }
+
     // Feature Flow
-    public static get addFeatureFlow(): string { return '/feature-flow/save'; }
-    public static get getAllFeatureFlow(): string { return '/feature-flow/getall'; }
+    // public static get getAllFeatureFlow(): string { return '/feature-flow/getall'; }
+    public static get getAllFeatureFlowByFeatureId(): string { return '/feature-flow/getbyfeatureid/'; }
     public static get getFeatureFlowById(): string { return '/feature-flow/getbyid/'; }
-    public static get getFeatureFlowDetails(): string { return '/feature-flow/getbyid/:id/details'; }
-    public static get deleteFeatureFlowById(): string { return '/feature-flow/delete/'; }
-    public static get updateFeatureFlow(): string { return '/feature-flow/update/:id'; }
+    public static get getFeatureFlowCompByFlowId(): string { return '/feature-comp/getbyflowid/'; }
+    public static get getFeatureEntityByFeatureId(): string { return '/feature/details/getentitybyfeatureid/'; }
+    // public static get deleteFeatureFlowById(): string { return '/feature-flow/delete/'; }
+    // public static get updateFeatureFlow(): string { return '/feature-flow/update/:id'; }
 
     // Feature Screen
-
     public static get addScreen(): string { return '/screen/save'; }
     public static get getAllScreen(): string { return '/screen/getall'; }
     public static get getScreenByID(): string { return '/screen/getbyid/:id'; }
     public static get deleteScreen(): string { return '/screen/delete/:id'; }
+    public static get getScreenByFeatureName(): string { return '/screen/getbyfeature/'; }
     public static get updateScreen(): string { return '/screen/update/:id'; }
+    public static get getScreenByProjectAndFeatureId(): string { return '/screen/getbyprojectandfeatureid/'; }
+    public static get getScreenByProjectId(): string { return '/screen/getbyprojectid/'; }
+
+    // Feature Flow
+    public static get addFeatureFlow(): string { return '/feature-flow/save'; }
+    public static get deleteFeatureFlowById(): string { return '/feature-flow/delete/'; }
+    
+    // public static get getFeatureFlowByFeatureId(): string { return '/feature-flow/getbyid/'; }
+
+    // Entity
+    public static get getEntityByFeatureAndprojectId(): string { return '/entity/getbyfeatureandprojectid/'; }
+    // Feature Entity
+
+    public static get getAllEntity(): string { return '/feature-entity/getall'; }
+    public static get saveFeatureEntity(): string { return '/feature-entity/save'; }
 
     // Default Entity
     public static get addDefaultEntity(): string { return '/default_entity/save'; }

@@ -13,26 +13,31 @@ export class FeatureDetailsService {
     private api: ApiService, private restapi: SharedService
   ) { }
 
-  saveFeatureFlow(featureFlow): Observable<any> {
-    return this.api.post(this.restapi.featureflowbaseUrl + Constants.addFeatureFlow, featureFlow);
+  // saveFeatureFlow(featureFlow): Observable<any> {
+  //   return this.api.post(this.restapi.featureUrl + Constants.addFeatureFlow, featureFlow);
+  // }
+
+  // deleteFeatureFlow(id): Observable<any> {
+  //   return this.api.delete(this.restapi.featureUrl + Constants.deleteFeatureFlowById + id);
+  // }
+
+  // updateFeatureFlow(flow, id): Observable<any> {
+  //   return this.api.put(this.restapi.featureUrl + Constants.updateFeatureFlow + id, flow);
+  // }
+
+  // getAllFeatureFlows(): Observable<any> {
+  //   return this.api.get(this.restapi.featureUrl + Constants.getAllFeatureFlow);
+  // }
+  // getFeatureFlowDetails(id): Observable<any> {
+  //   return this.api.get(this.restapi.featureUrl + Constants.getFeatureFlowByFlowId + id);
+  // }
+
+  getAllFeatureFlowByFeatureId(id): Observable<any> {
+    return this.api.get(this.restapi.featureUrl + Constants.getAllFeatureFlowByFeatureId + id);
   }
 
-  deleteFeatureFlow(id): Observable<any> {
-    return this.api.delete(this.restapi.featureflowbaseUrl + Constants.deleteFeatureFlowById + id);
-  }
-
-  updateFeatureFlow(flow, id): Observable<any> {
-    return this.api.put(this.restapi.featureflowbaseUrl + Constants.updateFeatureFlow + id, flow);
-  }
-
-  getAllFeatureFlows(): Observable<any> {
-    return this.api.get(this.restapi.featureflowbaseUrl + Constants.getAllFeatureFlow);
-  }
-  getFeatureFlowDetails(id): Observable<any> {
-    return this.api.get(this.restapi.featureflowbaseUrl + Constants.featureflowUrl + Constants.getByIdUrl + id + Constants.detailsUrl);
-  }
   saveFeatureFlowComponent(flow): Observable<any> {
-    return this.api.post(this.restapi.featureflowbaseUrl + Constants.addFlowCompUrl, flow);
+    return this.api.post(this.restapi.featureUrl + Constants.addFlowCompUrl, flow);
   }
 
   addScreen(screen): Observable<any> {
@@ -40,14 +45,45 @@ export class FeatureDetailsService {
   }
 
   deleteScreen(id): Observable<any> {
-    return this.api.delete(this.restapi.featureflowbaseUrl + Constants.deleteScreen + id);
+    return this.api.delete(this.restapi.featureUrl + Constants.deleteScreen + id);
   }
 
   updateScreen(screen, id): Observable<any> {
-    return this.api.put(this.restapi.featureflowbaseUrl + Constants.updateScreen + id, screen);
+    return this.api.put(this.restapi.featureUrl + Constants.updateScreen + id, screen);
   }
 
   getAllScreen(): Observable<any> {
     return this.api.get(this.restapi.featureflowbaseUrl + Constants.getAllScreen);
   }
+
+  getAllEntity(): Observable<any> {
+    return this.api.get(this.restapi.featureUrl + Constants.getAllEntity);
+  }
+
+  getScreenByFeatureName(name): Observable<any> {
+    return this.api.get(this.restapi.featureUrl + Constants.getScreenByFeatureName + name);
+  }
+
+  getFeatureFlowCompByFlowId(id): Observable<any> {
+    return this.api.get(this.restapi.featureUrl + Constants.getFeatureFlowCompByFlowId + id);
+  }
+
+  getFeatureEntityByFeatureId(id): Observable<any> {
+    return this.api.get(this.restapi.featureUrl + Constants.getFeatureEntityByFeatureId + id);
+  }
+
+
+  // new service for feature details
+  getAllFeatureDetailsByFeatureId(id): Observable<any> {
+    console.log("adsadffdf", id);
+    return this.api.get(this.restapi.featureUrl + Constants.getAllFeatureDetailsByFeatureId + id);
+  }
+
+  deleteFlowId(id){
+    return this.api.delete(this.restapi.featureUrl + Constants.deleteFeatureFlowById + id);
+  }
+
+  // getFeatureFlowByFeatureId(id) {
+  //   return this.api.get(this.restapi.featureUrl + Constants.getFeatureFlowByFeatureId + id);
+  // }
 }

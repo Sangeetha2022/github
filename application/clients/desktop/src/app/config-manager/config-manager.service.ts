@@ -27,4 +27,8 @@ export class ConfigManagerService {
   getAllConfig(): Observable<any> {
     return this.api.get(this.restapi.configUrl + Constants.getAllGenFlowsUrl);
   }
+
+  getTechProperties(): Observable<any> {
+    return this.api.get(this.restapi.configUrl + Constants.getTechProperties);
+  }
 }

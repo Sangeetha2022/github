@@ -86,4 +86,17 @@ export class EntityDao {
                 }
             })
     }
+
+    public getEntityByFeatureId(featureId,projectId, callback) {
+        entityModel.find({ $and: [ { feature_id: featureId }, { project_id: projectId } ] }).
+            exec(function (err, result) {
+                if (err) {
+                    callback(err);
+                    console.log('project id in entityt dao error ---- ', err);
+                } else {
+                    console.log('project id in entityt dao result ---- ', result);
+                    callback(result);
+                }
+            })
+    }
 }

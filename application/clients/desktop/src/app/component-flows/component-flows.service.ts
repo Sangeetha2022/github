@@ -89,7 +89,7 @@ export class ComponentFlowsService {
   // }
 
   getFlowSequence(id): Observable<any> {
-    return this.api.get(this.restapi.flowbaseUrl + Constants.featureflowUrl + Constants.getByIdUrl + id + Constants.detailsUrl);
+    return this.api.get(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.getByIdUrl + id + Constants.detailsUrl);
   }
 
   getMicroFlowByCompName(name): Observable<any> {

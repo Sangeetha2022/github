@@ -4,6 +4,7 @@ import { ApiService } from '../config/api.service';
 import { SharedService } from '../../shared/shared.service';
 import { IEntity } from './interface/Entity';
 import { Constants } from '../config/Constant';
+import { HttpClient, HttpBackend } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -15,6 +16,7 @@ export class ProjectComponentService {
     name: '',
     description: '',
     project_id: '',
+    feature_id: '',
     created_by: '',
     last_modified_by: '',
     updated_at: new Date(),
@@ -25,7 +27,10 @@ export class ProjectComponentService {
 
 
   constructor(
-    private api: ApiService, private restapi: SharedService
+    private api: ApiService,
+    private restapi: SharedService,
+    private http: HttpClient,
+    private handler: HttpBackend,
   ) { }
 
   createEntity(entity: any): Observable<any> {
@@ -34,17 +39,25 @@ export class ProjectComponentService {
   updateEntity(entity: any): Observable<any> {
     return this.api.put(this.restapi.entityUrl + '/entity/update', entity);
   }
+
+  saveFeatureEntity(featureEntity: any): Observable<any>{
+    return this.api.post(this.restapi.featureUrl + Constants.saveFeatureEntity, featureEntity);
+  }
   deleteEntity(entityId: String): Observable<any> {
     return this.api.delete(this.restapi.entityUrl + `/entity/delete/${entityId}`);
   }
   getByIdEntity(entityId: any): Observable<any> {
     return this.api.get(this.restapi.entityUrl + `/entity/get/${entityId}`);
   }
-  getEntityByProjectId(projectId: String): Observable<[]> {
+  getEntityByProjectId(projectId: String): Observable<any> {
     return this.api.get(this.restapi.entityUrl + `/entity/get?projectId=${projectId}`);
   }
   getAllEntity(): Observable<any> {
     return this.api.get(this.restapi.entityUrl + '/entity/getall');
+  }
+
+  getEntityByFeatureAndprojectId(projectId, featureId): Observable<any> {
+    return this.api.get(this.restapi.entityUrl + Constants.getEntityByFeatureAndprojectId + projectId + '/' + featureId);
   }
 
   updateEntityField(entity: any): Observable<any> {
@@ -60,15 +73,45 @@ export class ProjectComponentService {
     this.entityInfoSource.next(entity);
   }
 
-
   // Feature
   addFeature(feature) {
     return this.api.post(this.restapi.featureUrl + Constants.feature + Constants.saveUrl, feature);
 
   }
 
+  addFeatureFlow(featureFlow){
+    return this.api.post(this.restapi.featureUrl + Constants.addFeatureFlow, featureFlow);
+  }
+
+  addFeatureDetails(feature) {
+    return this.api.post(this.restapi.featureUrl + Constants.addFeatureDetails, feature);
+
+  }
+
+  addFeatureDetailsWithFile(feature) {
+    this.http = new HttpClient(this.handler);
+    return this.http.post(`${this.restapi.featureUrl}${Constants.addFeatureDetails}`, feature);
+  }
+
   getAllFeature() {
     return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getAllUrl);
+  }
+  getAllFeatureByProjectId(id) {
+    return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getFeatureByProjectId + id);
+  }
+
+  getAllFeatureDetails() {
+    return this.api.get(this.restapi.featureUrl + Constants.getAllFeatureDetails);
+  }
+
+  getFeatureDetailsById(id) {
+    console.log('get dsf features details by id ---- ', id);
+    return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.getByIdUrl + id);
+  }
+
+
+  getFeatureById(id) {
+    return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getByIdUrl + id);
   }
 
   deleteFeature(id) {
@@ -78,6 +121,12 @@ export class ProjectComponentService {
   updateFeature(feature) {
     const featureId = feature.id;
     return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + featureId, feature);
+  }
+
+  uploadeFeaturefile(file) {
+    // const formData: FormData = new FormData();
+    // formData.append('fileKey', file, file.name);
+    return this.api.post(this.restapi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.addFilesUrl, file);
   }
 
   // Default Entity

@@ -4,22 +4,43 @@
   <br />
   <br />
   <div>
+    Selected Feature :  {{selectedFeatureName}}
     <mat-accordion>
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
-          <mat-panel-title> Screens </mat-panel-title>
+          <mat-panel-title> Entities </mat-panel-title>
         </mat-expansion-panel-header>
-
-        <!-- <div style="padding-right: 20px;">
-          <button class="btn btn-primary">Ticket Creation
-          </button>
-          <button class="btn btn-primary ml-sm-2">Ticket Details
-          </button>
-        </div> -->
-        <div class="float-right">
-          <button class="btn btn-primary" (click)="openScreenModal()">Add Screens</button>
-          </div>
+        <div style="margin-left: 64rem;">
+          <button class="createEntityButton" mat-raised-button color="primary"
+              (click)="saveEntityModel()">Add
+              Entity</button>
+              </div>
         <div class="row" style="margin: 0px;">
+          <div class="col-md-4" *ngFor="let entity of featureEntityDetails; let i = index">
+            <div class="card mt-sm-3">
+              <div class="card-header">
+                {{entity.name}}
+                <!-- <img *ngIf="!entity.is_default" style="float: right; cursor: pointer;" (click)="editEntity(entity)"
+                  src="https://img.icons8.com/metro/26/000000/edit-file.png"> -->
+              </div>
+              <div class="card-body">
+                <div><span>{{entity.description}}</span></div>
+                <br />
+                <button mat-raised-button color="primary" (click)="editEntityField(entity)">Edit</button>
+                <!-- &nbsp;
+                <button mat-raised-button color="warn" [disabled]="entity.is_default"
+                  (click)="openDeleteModel(entity)">Delete</button> -->
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4" *ngIf="featureEntityDetails.length === 0">
+            No Entity Available.
+          </div>
+        </div>
+        <!-- <div class="float-right">
+          <button class="btn btn-primary" (click)="openScreenModal()">Add Screens</button>
+        </div> -->
+        <!-- <div class="row" style="margin: 0px;">
           <div class="col-md-4" *ngFor="let screen of screens">
             <div class="card">
               <div class="card-header">
@@ -31,72 +52,118 @@
             </div>
           </div>
           <div class="col-md-4" *ngIf="screens.length === 0">
-            No  Available.
+            No Available.
           </div>
+        </div> -->
+
+      </mat-expansion-panel>
+       <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Screens </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-card-content>
+
+          <button class="btn btn-success float-right" mat-raised-button (click)="GoToDesigner()">Add Screen</button>
+        </mat-card-content>
+        <div class="row" style="margin: 0px;">
+          <div class="col-md-4" *ngFor="let screen of screenDetails; let i = index">
+              <div class="card">
+                  <div class="card-header">
+                      {{screen.foldername}}
+                      <img  style="float: right; cursor: pointer;"
+                          src="https://img.icons8.com/metro/26/000000/edit-file.png">
+                  </div>
+                  <div class="card-body">
+                      
+                      <button mat-raised-button color="primary"
+                          >Edit</button>
+                      &nbsp;
+                      <button mat-raised-button color="warn" [disabled]="entity.is_default"
+                          >Delete</button>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4" *ngIf="screenDetails.length === 0">
+              No Screen Available.
+          </div>
+      </div>
+
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Feature Flows </mat-panel-title>
+        </mat-expansion-panel-header>
+        <button class="btn btn-info ml-sm-3 float-right" (click)="openFeatureFlowDialog(feature_id)">Add
+          Flows</button>
+        <div class="flowTable mt-sm-3" *ngIf="featureFlowRowData.length>0">
+          <ag-grid-angular #agGrid style="width: 100%; height: 100%; margin-top: 50px;" id="myGrid" class="ag-theme-balham" domLayout='autoHeight'
+            [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="featureFlowRowData" [animateRows]="true"  [suppressRowClickSelection]="true"
+            [defaultColDef]="defaultColDef" (rowSelected)=selectedFeatureFlow($event) [frameworkComponents]="frameworkComponents" (gridReady)="onFlowGridReady($event)">
+          </ag-grid-angular>
         </div>
-        
+
+        <div class="flowTable mt-sm-3" *ngIf="showFeatureFlowComp">
+          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef" domLayout='autoHeight'
+            (rowSelected)="selectFlowComponent()" [animateRows]="true" class="ag-theme-balham" [columnDefs]="fcompColDefs"
+            [rowData]="flow_comp" [rowSelection]="rowSelection" (gridReady)="onFCGridReady($event)">
+          </ag-grid-angular>
+        </div>
+
+        <div class="flowTable mt-sm-3" *ngIf="showFeatureFlowComponent">
+          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" domLayout='autoHeight'
+            [columnDefs]="columnFeatureDefs" [rowSelection]="rowSelection" [rowData]="rowFlowCompData"
+            [animateRows]="true" [defaultColDef]="defaultColDef" (gridReady)="onFlowCompGridReady($event)">
+          </ag-grid-angular>
+        </div>
+
       </mat-expansion-panel>
     </mat-accordion>
   </div>
 
-  <!-- <div class="row row-button mt-sm-3 mb-sm-3" *ngIf='showFeatureFlow'>
-    <button mat-raised-button color="primary" (click)="openModal('create')">Create</button>
-    <button mat-raised-button (click)="openModal('update')">Update</button>
-    <button mat-raised-button color="warn" (click)="deleteRow()">Delete</button>
-  </div> -->
-  <div class="flowTable" *ngIf="showFeatureFlow">
-    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnDefs"
-      [rowSelection]="rowSelection" [rowData]="rowData" [animateRows]="true" [defaultColDef]="defaultColDef"
-       (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
-    </ag-grid-angular>
-  </div>
-  <!-- <div class="row row-button mt-sm-3 mb-sm-3" *ngIf='showFeatureFlowComponent'>
-    <button mat-raised-button color="primary" (click)="openModal('create')">Create</button>
-    <button mat-raised-button (click)="openModal('update')">Update</button>
-    <button mat-raised-button color="warn" (click)="deleteRow()">Delete</button>
-  </div> -->
-  <div class="flowTable" *ngIf="showFeatureFlowComponent">
-    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnFeatureDefs"
-      [rowSelection]="rowSelection" [rowData]="rowFlowCompData" [animateRows]="true" [defaultColDef]="defaultColDef"
-       (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
-    </ag-grid-angular>
-  </div>
 </div>
 
 
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModel}">
-  <div class="modal-dialog modal-lg" role="dialog">
-    <div class="modal-content">
-      <div class="container">
-        <form class="m-3">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="screen">Screen Name</label>
-                <input type="text" class="form-control" rows="1" id="screen-name" placeholder="Enter a screen name"
-                  name="screen-name" [(ngModel)]="screenData.screenName">
-                </div>
-              </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="description">Description</label>
-                <input type="text" class="form-control" placeholder="enter your description" id="description" name="description"
-                  [(ngModel)]="screenData.description">
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <div class="form-group">
-          <button type="button" class="btn button-create" (click)="createScreen()">Create</button>
-          <button type="button" class="btn button-close" (click)="onCloseHandled()">Cancel</button>
-        </div>
-        <div class="form-group" *ngIf="checkUpdate">
-          <button type="button" class="btn button-create" (click)="updateFlowModel()">Update</button>
-          <button type="button" class="btn button-close" (click)="onCloseHandledForUpdate()">Cancel</button>
-        </div>
-      </div>
+<div id="EventPopup" class="modal" tabindex="-1" role="dialog"
+    [ngStyle]="{'top': '100px','display':displayFeatureFlowModal}">
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h3>Select Flow for Feature</h3>
+                <button type="button" class="close" (click)="closeFeatureFlowModal()" data-dismiss="modal"
+                    aria-hidden="true">x</button>
+            </div> -->
+            <div class="modal-body">
+
+                <div class="container">
+                    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
+                        [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData"
+                        [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef"
+                        domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10" [floatingFilter]="true"
+                        (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+
+                    <!-- <form class="m-3" [formGroup]="eventFlows">
+    <div class="form-group row">
+    <label for="column">Choose an Event</label>
+    <select class="form-control" id="column" formControlName="selectEvent" [ngClass]="{ 'is-invalid': submitted && form_control.selectColumn.errors }">
+    <option value="" selected>none</option>
+    <option *ngFor="let flows of listOfFLows" [ngValue]="flows?._id">{{ flows?.label }}</option>
+    </select>
+    <div *ngIf="submitted && form_control.selectEvent.errors" class="invalid-feedback">
+    <div *ngIf="form_control.selectEvent.errors.required">This field is required
     </div>
-  </div>
+    </div>
+    </div>
+    </form> -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" (click)="saveFeatureFlow()">Save</button>
+                    <button type="button" class="btn btn-danger" (click)="closeFeatureFlowModal()">cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

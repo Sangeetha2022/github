@@ -3,6 +3,7 @@ import { Component, ViewEncapsulation, Inject, OnInit } from '@angular/core';
 import { DataService } from 'src/shared/data.service';
 
 import { NavigationService } from '../navigation.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-header-language',
@@ -14,19 +15,34 @@ export class HeaderLanguageComponent implements OnInit {
 
   language = 'en';
   languages = ['en', 'ta', 'es'];
+  hideElement: Boolean = true;
 
   displayAboutModel: String = 'none';
 
   versionData: any = {};
   buildVersionData: any = {};
+  public lastloggedintime: any;
 
   constructor(
     @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
     private dataService: DataService,
-    private navigationService: NavigationService
-  ) { }
+    private navigationService: NavigationService,
+    private router: Router
+  ) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        if (event.url === '/' || event.url === '/login') {
+          this.hideElement = false;
+        } else {
+          this.hideElement = true;
+        }
+      }
+    });
+  }
 
   ngOnInit() {
+    this.lastloggedintime = sessionStorage.getItem('lastloggedintime');
+    // console.log("sadadadadfsf time", this.lastloggedintime.toLocaleString())
     this.i18NextService.events.initialized.subscribe((e) => {
       if (e) {
         this.updateState(this.i18NextService.language);

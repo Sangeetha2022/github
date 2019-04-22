@@ -3,20 +3,39 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import Controller from './interfaces/controller.interface';
 import {
-     ProjectController,
-      FlowManagerController,
-      EntityController,
-      DefaultController
-    } from './apicontroller';
-import { WinstonLogger } from './config/WinstonLogger';
+    ProjectController,
+    FlowManagerController,
+    EntityController,
+    DefaultController,
+    Logincontroller,
+    Proxycontroller,
+    Camundacontroller,
+    FeatureController,
+    CodeController,
+    ConfigurationController
 
-const PORT = 3010;
+} from './apicontroller';
+
+import { WinstonLogger } from './config/WinstonLogger';
+import { createUserTemplateController } from './apicontroller/screenmanager.controllers';
+import { MicroflowController } from './apicontroller/microflowmanager.controller';
+
+const PORT = 3000;
 
 let apisController = [
     new ProjectController(),
     new FlowManagerController(),
     new EntityController(),
-    new DefaultController()
+    new DefaultController(),
+    new Logincontroller(),
+    new Proxycontroller(),
+    new Camundacontroller(),
+    new FeatureController(),
+    new createUserTemplateController(),
+    new MicroflowController(),
+    new CodeController(),
+    new ConfigurationController()
+
 ]
 
 class App {

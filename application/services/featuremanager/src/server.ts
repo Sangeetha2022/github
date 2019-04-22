@@ -22,7 +22,7 @@ class App {
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
         this.mongoSetup();
-        this.mongoSeedData();
+        // this.mongoSeedData();
         this.routePrv.routes(this.app);
     }
 
@@ -33,16 +33,16 @@ class App {
     }
 
     private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mConfig = new MongoConfig();
-        // mConfig.mongoConfig();
+        // mongoose.Promise = global.Promise;
+        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        let mConfig = new MongoConfig();
+        mConfig.mongoConfig();
     }
 
-    private mongoSeedData(): void {
-        let seedData = new FeedSeedData()
-        seedData.seedFeatureData();
-    }
+    // private mongoSeedData(): void {
+    //     let seedData = new FeedSeedData()
+    //     seedData.seedFeatureData();
+    // }
 
 }
 

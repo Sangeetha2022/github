@@ -60,9 +60,12 @@ class ProjectController implements Controller {
     }
 
     public getByProjectId = (req: Request, res: Response) => {
+        console.log('entering into method')
         new ApiAdaptar().get(Constants.projectUrl + '/projects/my/getbyid/' + req.params.id).then(proj => {
-            req.baseUrl === '/mobile' ? res.send(proj) :
-                req.baseUrl === '/desktop' ? res.send(proj) : res.send(null)
+            console.log('reponse in main method')
+            res.send(proj);
+            // req.baseUrl === '/mobile' ? res.send(proj) :
+            //     req.baseUrl === '/desktop' ? res.send(proj) : res.send(null)
         }).catch(err => {
             res.send(err);
         });

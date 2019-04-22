@@ -27,6 +27,7 @@ export class DataService {
         name: '',
         description: '',
         project_id: '',
+        feature_id:'',
         created_by: '',
         last_modified_by: '',
         updated_at: new Date(),
@@ -41,6 +42,10 @@ export class DataService {
     // project info
     private projectInfoSource = new BehaviorSubject<any>({});
     currentProjectInfo = this.projectInfoSource.asObservable();
+
+    // project feature info
+    private projectFeatureInfoSource = new BehaviorSubject<any>({});
+    currentProjectFeatureInfo = this.projectFeatureInfoSource.asObservable();
 
     // flow info
     private flowIdInfoSource = new BehaviorSubject<any>({});
@@ -81,6 +86,9 @@ export class DataService {
         this.projectInfoSource.next(details);
     }
 
+    setProjectFeatureInfo(details: any) {
+        this.projectFeatureInfoSource.next(details);
+    }
     // set selected entity
     setEntity(entity: any) {
         this.entityInfoSource.next(entity);

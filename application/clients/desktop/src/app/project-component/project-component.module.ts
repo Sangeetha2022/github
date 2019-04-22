@@ -11,9 +11,10 @@ import { AgGridModule } from 'ag-grid-angular';
 import { EntityManagerComponent } from './project-component.component';
 import { EntityFieldComponent } from './entity-field/entity-field.component';
 import {
-  MatButtonModule, MatFormFieldModule, MatInputModule,
-  MatCardModule, MatDialogModule, MatSelectModule,
-  MatIconModule
+MatButtonModule, MatFormFieldModule, MatInputModule,
+MatCardModule, MatDialogModule, MatSelectModule,
+MatIconModule,
+MatRadioModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { ButtonRendererComponent } from './entity-field/rendered/button-renderer/button-renderer.component';
@@ -23,41 +24,44 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitecture-manager.module';
 import { ToastrModule } from 'ngx-toastr';
 import { FeatureDetailsComponent } from './feature-details/feature-details.component';
+import { FileSelectDirective } from 'ng2-file-upload';
 
 
 @NgModule({
-  declarations: [
-    EntityManagerComponent,
-    EntityFieldComponent,
-    PopupModelComponent,
-    ButtonRendererComponent,
-    FieldPopupModalComponent,
-    FeatureDetailsComponent
-  ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    ConnectorManagerModule,
-    MatExpansionModule,
-    MatButtonModule,
-    MatInputModule,
-    MatCardModule,
-    CKEditorModule,
-    ToastrModule.forRoot(),
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    FormsModule,
-    MatIconModule,
-    RouterModule,
-    MatSelectModule,
-    HttpClientModule,
-    AgGridModule.withComponents([])
-  ],
-  entryComponents: [
-    ButtonRendererComponent,
-    PopupModelComponent,
-    FieldPopupModalComponent
-  ]
+declarations: [
+EntityManagerComponent,
+EntityFieldComponent,
+PopupModelComponent,
+ButtonRendererComponent,
+FieldPopupModalComponent,
+FeatureDetailsComponent,
+FileSelectDirective
+],
+imports: [
+CommonModule,
+BrowserModule,
+ConnectorManagerModule,
+MatExpansionModule,
+MatButtonModule,
+MatInputModule,
+MatCardModule,
+CKEditorModule,
+ToastrModule.forRoot(),
+MatFormFieldModule,
+MatRadioModule,
+ReactiveFormsModule,
+MatDialogModule,
+FormsModule,
+MatIconModule,
+RouterModule,
+MatSelectModule,
+HttpClientModule,
+AgGridModule.withComponents([])
+],
+entryComponents: [
+ButtonRendererComponent,
+PopupModelComponent,
+FieldPopupModalComponent
+]
 })
 export class ProjectComponentModule { }

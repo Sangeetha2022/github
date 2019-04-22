@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DataService } from '../../../../../shared/data.service';
 import { IEntity } from '../../../../project-component/interface/Entity';
+import * as dictionary from 'nanoid-dictionary';
+import * as generate from 'nanoid/generate';
 
 declare var agGrid: any;
 @Injectable({
@@ -17,9 +19,441 @@ export class TraitsService {
     entity: ''
   }];
   public testPrivate: String = '';
+  // public screenObj: any = {
+  //   button: {
+  //   htmlId: undefined,
+  //   componentId: undefined,
+  //   action: undefined
+  //   }
+  // };
+  public screenArray: any[] = [];
+  public clientFramework: any = 'Angular 7';
   constructor(
     private dataService: DataService
-  ) { }
+  ) { this.initVariable(); }
+
+  initVariable() {
+    this.screenArray = [];
+  }
+
+  initMethod(editor) {
+    // action button add
+    const $this = this;
+    // entity field button
+    editor.TraitManager.addType('entityFieldButton', {
+      events: {
+        'click': function () {
+          console.log('print button clicked');
+          console.log('ram $this ---- ', $this);
+          console.log('ram this ---- ', this);
+          const eventPopupModel = document.getElementById('EventPopup');
+          console.log('print eventPopupModel values are ------ ', eventPopupModel);
+          eventPopupModel.style.display = 'block';
+        },
+      },
+      getInputEl() {
+        // tslint:disable-next-line:prefer-const
+        let button = <HTMLElement>document.createElement('button');
+        button.id = 'fieldButton';
+        button.style.width = '100%';
+        button.style.backgroundColor = '#4CAF50';
+        button.style.border = 'none';
+        button.style.color = 'white';
+        button.style.backgroundColor = '#008CBA';
+        button.style.fontSize = '12px !important';
+        button.style.cursor = 'pointer';
+        button.appendChild(document.createTextNode('Field'));
+        return button;
+      },
+    });
+
+    // content example
+    editor.TraitManager.addType('entityDropdown', {
+      events: {
+        'click': function () {
+          console.log('print button clicked');
+          console.log('ram $this ---- ', $this);
+          console.log('ram this ---- ', this);
+          const eventPopupModel = document.getElementById('EventPopup');
+          console.log('print eventPopupModel values are ------ ', eventPopupModel);
+          eventPopupModel.style.display = 'block';
+        },
+      },
+      getInputEl() {
+        // tslint:disable-next-line:prefer-const
+        let button = <HTMLElement>document.createElement('button');
+        button.id = 'fieldButton';
+        button.style.width = '100%';
+        button.style.backgroundColor = '#4CAF50';
+        button.style.border = 'none';
+        button.style.color = 'white';
+        button.style.backgroundColor = '#008CBA';
+        button.style.fontSize = '12px !important';
+        button.style.cursor = 'pointer';
+        button.appendChild(document.createTextNode('Field'));
+        return button;
+      },
+    });
+
+
+    this.initializeMethod(editor);
+    this.initializeInputMethod(editor);
+    this.initializeTextAreaMethod(editor);
+    this.initializeSelectMethod(editor);
+    this.initializeCheckboxMethod(editor);
+    this.initializeRadioMethod(editor);
+
+  }
+
+  initializeMethod(editor) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    console.log('ram defaultType doms are ---- ', comps);
+    console.log('ram defaultType 11 ---- ', defaultType);
+    console.log('ram defaultModel 22 ---- ', defaultModel);
+    // content traits
+    // Each new type extends the default Trait
+    editor.TraitManager.addType('content', {
+      events: {
+        'keyup': 'onChange',  // trigger parent onChange method on keyup
+      },
+
+      /**
+      * Returns the input element
+      * @return {HTMLElement}
+      */
+      getInputEl: function () {
+        if (!this.inputEl) {
+          const input = document.createElement('textarea');
+          input.value = this.target.get('content');
+          this.inputEl = input;
+        }
+        return this.inputEl;
+      },
+
+      /**
+       * Triggered when the value of the model is changed
+       */
+      onValueChange: function () {
+        this.target.set('content', this.model.get('value'));
+      }
+    });
+
+    // action button add
+    editor.TraitManager.addType('actionButton', {
+      events: {
+        'click': function () {
+          console.log('print button clicked');
+          const eventPopupModel = document.getElementById('EventPopup');
+          console.log('print eventPopupModel values are ------ ', eventPopupModel);
+          eventPopupModel.style.display = 'block';
+        },
+      },
+      getInputEl() {
+        // tslint:disable-next-line:prefer-const
+        let button = <HTMLElement>document.createElement('button');
+        button.id = 'fieldButton';
+        button.style.width = '100%';
+        button.style.backgroundColor = '#4CAF50';
+        button.style.border = 'none';
+        button.style.color = 'white';
+        button.style.backgroundColor = '#008CBA';
+        button.style.fontSize = '12px !important';
+        button.style.cursor = 'pointer';
+        button.appendChild(document.createTextNode('Flow'));
+        return button;
+      },
+    });
+
+    comps.addType('button', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [{
+            type: 'content',
+            label: 'Name',
+            name: 'name',
+            changeProp: 1
+          },
+          {
+            'name': 'actionButton',
+            'label': 'Action',
+            'type': 'actionButton',
+          }],
+
+        }),
+      },
+        {
+          isComponent: function (el) {
+            if (el.tagName === 'BUTTON') {
+              return {
+                type: 'button'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
+
+  // input values are ---
+  initializeInputMethod(editor) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    comps.addType('input', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [
+            { name: 'name', label: 'Name' },
+            { name: 'placeholder', label: 'Placeholder' },
+            {
+              label: 'Type',
+              type: 'select',
+              name: 'type',
+              options: [{ value: 'text', name: 'Text' },
+              { value: 'email', name: 'Email' },
+              { value: 'password', name: 'Password' },
+              { value: 'number', name: 'Number' }]
+            },
+            { type: 'checkbox', name: 'required', label: 'Required' }
+          ]
+        }),
+        init() {
+          this.listenTo(this, 'change:entity', this.entities);
+        },
+        entities() {
+          alert('entity called');
+          console.log('ram traits input models ar e--$this---  ', $this);
+          console.log('ram traits input models ar e--this---  ', this);
+        }
+
+      },
+        {
+          isComponent: function (el) {
+            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
+            if (el.tagName === 'INPUT') {
+              return {
+                type: 'input'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
+  // Select values are ---
+  initializeSelectMethod(editor) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    comps.addType('select', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [
+            { name: 'name', label: 'Name' },
+            { label: 'Options', type: 'select-options' },
+            { type: 'checkbox', name: 'required', label: 'Required' },
+          ],
+
+        }),
+      },
+        {
+          isComponent: function (el) {
+            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
+            if (el.tagName === 'SELECT') {
+              return {
+                type: 'select'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
+  // textarea are ---
+  initializeTextAreaMethod(editor) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    comps.addType('textarea', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [
+            { name: 'name', label: 'Name' },
+            { name: 'placeholder', label: 'Placeholder' },
+            { type: 'checkbox', name: 'required', label: 'Required' }
+          ],
+
+        }),
+      },
+        {
+          isComponent: function (el) {
+            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
+            if (el.tagName === 'TEXTAREA' && el.type === 'textarea') {
+              return {
+                type: 'textarea'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
+  // Radio values are ---
+  initializeRadioMethod(editor) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    // content traits
+    // Each new type extends the default Trait
+    editor.TraitManager.addType('content', {
+      events: {
+        'keyup': 'onChange',  // trigger parent onChange method on keyup
+      },
+
+      /**
+      * Returns the input element
+      * @return {HTMLElement}
+      */
+      getInputEl: function () {
+        if (!this.inputEl) {
+          const input = document.createElement('textarea');
+          input.value = this.target.get('content');
+          this.inputEl = input;
+        }
+        return this.inputEl;
+      },
+
+      /**
+       * Triggered when the value of the model is changed
+       */
+      onValueChange: function () {
+        this.target.set('content', this.model.get('value'));
+      }
+    });
+
+    // action button add
+    editor.TraitManager.addType('actionButton', {
+      events: {
+        'click': function () {
+          console.log('print button clicked');
+          const eventPopupModel = document.getElementById('EventPopup');
+          console.log('print eventPopupModel values are ------ ', eventPopupModel);
+          eventPopupModel.style.display = 'block';
+        },
+      },
+      getInputEl() {
+        // tslint:disable-next-line:prefer-const
+        let button = <HTMLElement>document.createElement('button');
+        button.id = 'fieldButton';
+        button.style.width = '100%';
+        button.style.backgroundColor = '#4CAF50';
+        button.style.border = 'none';
+        button.style.color = 'white';
+        button.style.backgroundColor = '#008CBA';
+        button.style.fontSize = '12px !important';
+        button.style.cursor = 'pointer';
+        button.appendChild(document.createTextNode('Flow'));
+        return button;
+      },
+    });
+
+    comps.addType('radio', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [{ name: 'id', label: 'ID' },
+          { name: 'name', label: 'Name' },
+          { name: 'value', label: 'Value' },
+          { type: 'checkbox', name: 'required', label: 'Required' },
+          { label: 'Checked', type: 'checkbox', name: 'checked', changeProp: 1 }],
+
+        }),
+      },
+        {
+          isComponent: function (el) {
+            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
+            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ');
+            if (el.tagName === 'INPUT' && el.type === 'radio') {
+              return {
+                type: 'radio'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
+  // checkbox values are ---
+  initializeCheckboxMethod(editor) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    comps.addType('checkbox', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [{ name: 'id', label: 'ID' },
+          { name: 'name', label: 'Name' },
+          { name: 'value', label: 'Value' },
+          { type: 'checkbox', name: 'required', label: 'Required' },
+          { label: 'Checked', type: 'checkbox', name: 'checked', changeProp: 1 }],
+
+        }),
+      },
+        {
+          isComponent: function (el) {
+            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
+            if (el.tagName === 'INPUT' && el.type === 'checkbox') {
+              return {
+                type: 'checkbox'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
 
 
   addCKEditorTraits(editor, buttonName) {
@@ -58,12 +492,11 @@ export class TraitsService {
 
   addGridTraits(editor, buttonName) {
     this.getData();
+    const $this = this;
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    const allEntityTemp = this.allEntity;
     let selectedEntityName = '';
-    const localDataService = this.dataService;
     let selectedEntity;
     let selectedColumnName = 'col1_id';
     const columnOptions = [
@@ -186,7 +619,7 @@ export class TraitsService {
               defalutColumn: this.target.view.el.gridOptions.columnDefs,
               customColumn: columnOptions
             };
-            localDataService.setAgGridEntity(constructObj);
+            $this.dataService.setAgGridEntity(constructObj);
           }
           // trigger when btn is clicked
         },
@@ -411,14 +844,14 @@ export class TraitsService {
           // console.log('entities ---44--- ', fieldTraits);
           // const options = [];
           // console.log('entities --55---- ', allEntityTemp.length);
-          allEntityTemp.forEach(entityElement => {
+          $this.allEntity.forEach(entityElement => {
             if (entityElement.name === selectedEntityName) {
               // localDataService.setAgGridEntity(entityElement);
               if (selectedEntityName !== 'none') {
                 selectedEntity = entityElement;
               }
             }
-            });
+          });
           //     entityElement.field.forEach(fieldElement => {
           //       const temp = {
           //         value: fieldElement.name,
@@ -438,37 +871,13 @@ export class TraitsService {
         toHTML: function () {
           const html = this.view.el.innerHTML;
           console.log('rnder html are ---------------- ', html);
-         const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
+          const replacedValue = `<div style="height: 80%; padding-top: 10px; box-sizing: border-box;">
          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [animateRows]="true"
-           [gridOptions]="gridOptions" (gridReady)="onGridReady($event)"></ag-grid-angular>
-       </div>
+         [gridOptions]="gridOptions" (gridReady)="onGridReady($event)" domLayout='autoHeight'></ag-grid-angular>
+         </div>
        `;
           return replacedValue;
         }
-        // entityField() {
-        // }
-        // entity() {
-        //   const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
-        //   const changedValue = this.changed['entities'];
-        //   const options = [];
-        //   if (allEntityTemp.length > 0) {
-        //     allEntityTemp.forEach(element => {
-        //       if (element.name === changedValue) {
-        //         element.field.forEach(childElement => {
-        //           const temp = {
-        //             value: childElement.Name,
-        //             name: childElement.Name
-        //           };
-        //           options.push(temp);
-        //         });
-        //       }
-        //     });
-        //   }
-        //   entityTrait.set('options', options);
-        //   editor.TraitManager.getTraitsViewer().render();
-        // },
-        // attributeVal() {
-        // }
       },
         {
           isComponent: function (el) {
@@ -486,11 +895,10 @@ export class TraitsService {
   }
 
   addSpecialButtonTraits(editor, buttonName) {
+    const $this = this;
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    const defaultView = defaultType.view;
-    const allEntityTemp = this.allEntity;
     comps.addType(buttonName, {
       model: defaultModel.extend({
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
@@ -519,8 +927,8 @@ export class TraitsService {
           const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
           const changedValue = this.changed['entities'];
           const options = [];
-          if (allEntityTemp.length > 0) {
-            allEntityTemp.forEach(entityElement => {
+          if ($this.allEntity.length > 0) {
+            $this.allEntity.forEach(entityElement => {
               if (entityElement.name === changedValue) {
                 entityElement.field.forEach(childElement => {
                   const temp = {
@@ -554,10 +962,9 @@ export class TraitsService {
   }
   addSpecialDropdownTraits(editor, buttonName) {
     const comps = editor.DomComponents;
+    const $this = this;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    const defaultView = defaultType.view;
-    const allEntityTemp = this.allEntity;
 
     comps.addType(buttonName, {
       model: defaultModel.extend({
@@ -587,8 +994,8 @@ export class TraitsService {
           const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
           const changedValue = this.changed['entities'];
           const options = [];
-          if (allEntityTemp.length > 0) {
-            allEntityTemp.forEach(entityElement => {
+          if ($this.allEntity.length > 0) {
+            $this.allEntity.forEach(entityElement => {
               if (entityElement.name === changedValue) {
                 entityElement.field.forEach(childElement => {
                   const temp = {
@@ -619,4 +1026,24 @@ export class TraitsService {
       view: defaultType.view,
     });
   }
+
+  setScreenInfo(htmlId, componentId, flow) {
+    const screenObj = {
+      button: {
+        htmlId: undefined,
+        componentId: undefined,
+        action: undefined
+      }
+    };
+    screenObj.button.htmlId = htmlId;
+    screenObj.button.componentId = componentId;
+    screenObj.button.action = flow;
+    this.screenArray.push(screenObj);
+    console.log('button rnder html set screen info ------ ', this.screenArray);
+  }
+
+  getScreenInfo() {
+    return this.screenArray;
+  }
+
 }

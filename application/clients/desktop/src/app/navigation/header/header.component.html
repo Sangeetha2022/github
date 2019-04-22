@@ -8,7 +8,7 @@
   <div>
     <img src="../../../assets/img/GeppettoSoftware.png" />
   </div>
-  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs [hidden]="hideElement">
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">
       <a class="btn btn-secondary" [routerLink]="['/project']">{{'project' | i18next}}</a>
       <div class="dropdown">
@@ -21,6 +21,9 @@
           <a class="dropdown-item" routerLink="/config-manager">Configuration</a>
           <a class="dropdown-item" routerLink="/available-connector">Available Connector</a>
         </div>
+      </div>
+      <div>
+        <button class="btn btn-secondary" (click)="Logout()" type="button">LogOut</button>
       </div>
     </ul>
   </div>

@@ -26,6 +26,13 @@ export class FlowController {
         })
     }
 
+    public getFlowByname(req: Request, res: Response, next: NextFunction) {
+        flowService.getFlowByname(req, next, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
     public deleteFlow(req: Request, res: Response, next: NextFunction) {
         flowService.deleteFlow(req, next, (response) => {
             res.status(200);

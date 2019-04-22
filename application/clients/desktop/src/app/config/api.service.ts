@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Observable';
@@ -16,6 +16,14 @@ export class ApiService {
         private http: HttpClient
     ) { }
 
+    private setHeaders(): HttpHeaders {
+        const headersconfig = {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        };
+        return new HttpHeaders(headersconfig);
+    }
+
     private formatErrors(httpresponse: any) {
         return new ErrorObservable(httpresponse);
     }
@@ -29,7 +37,7 @@ export class ApiService {
     }
 
     post(path: string, body: Object = {}): Observable<any> {
-        return this.http.post(`${path}`, JSON.stringify(body)).pipe(catchError(this.formatErrors));
+        return this.http.post(`${path}`, JSON.stringify(body), { headers: this.setHeaders() }).pipe(catchError(this.formatErrors));
     }
 
     put(path: string, body: Object = {}): Observable<any> {

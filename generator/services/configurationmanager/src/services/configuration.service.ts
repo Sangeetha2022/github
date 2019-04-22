@@ -41,4 +41,10 @@ export class GenerationFlowService {
         })
     }
 
+    public getTechPropertyFlow(req: Request, next, callback: CallableFunction) {
+        generationFlowDao.getTechPropertyFlow(req, next, (generationFlow) => {
+            callback(generationFlow)
+        })
+    }
+
 }

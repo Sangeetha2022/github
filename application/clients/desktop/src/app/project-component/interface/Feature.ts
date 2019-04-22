@@ -1,5 +1,4 @@
 export interface IFeature {
-    id: '';
-    name: String;
-    description: String;
+    project_id: String;
+    feature_id: String;
 }

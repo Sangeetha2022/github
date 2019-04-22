@@ -1,0 +1,662 @@
+dns:  http://localhost:3009
+
+ticket:
+    handler: 
+      controller: 
+        path: src/controllers/ticket.controller
+        name: TicketController
+      service: 
+        path: src/services/ticket.service
+        name: TicketService
+      dao: 
+        path: src/daos/ticket.dao
+        name: Ticketdao
+      model: 
+        path: src/models/ticket.model
+        name: TicketSchema
+
+    schema:
+      title: 
+        type: String
+        type_name: Text
+        description: ticket title
+      description: 
+        type: String
+        type_name: Text
+        description: ticket description
+      category: 
+        type: String
+        type_name: Select
+        description: ticket category
+      createdAt: 
+        type: Date 
+        type_name: Date
+        default: Date.now
+        description: ticket createdAt
+      updatedAt: 
+        type: Date 
+        type_name: Date
+        description: ticket updatedAt
+
+    saveTicket:
+      description: create a ticket
+      flow: GpCreate
+      controller: TicketController.saveTicket
+      service: TicketService.saveTicket
+      dao: Ticketdao.saveTicket
+      screen: "Ticket Creation"
+      api: /ticket/save
+      method: post
+      body:
+        title:
+          type: String
+        description: 
+          type: String
+        category: 
+          type: String
+
+
+    updateTicket:
+      description: update ticket by id
+      flow: GpUpdate
+      controller: TicketController.updateTicket
+      service: TicketService.updateTicket
+      dao: Ticketdao.updateTicket
+      screen: "Ticket Creation"
+      api: /ticket/update/:id
+      method: put
+      params: 
+        id: String 
+      body:
+        title:
+          type: String
+        description: 
+          type: String
+        category: 
+          type: String
+
+    getAllTicket:
+      description: get all tickets
+      flow: GpSearch
+      controller: TicketController.getAllTicket
+      service: TicketService.getAllTicket
+      dao: Ticketdao.getAllTicket
+      screen: "Ticket Creation"
+      api: /ticket/getall
+      method: get
+
+    getTicketByID:
+      description: get ticket by id
+      flow: GpSearchId
+      controller: TicketController.getTicketByID
+      service: TicketService.getTicketByID
+      dao: Ticketdao.getTicketByID
+      screen: "Ticket Creation" 
+      api: /ticket/getbyid/:id
+      method: get
+      params:
+        id: String
+
+    deleteTicket:
+      description: delete ticket by id
+      flow: GpDelete
+      controller: TicketController.deleteTicket 
+      service: TicketService.deleteTicket
+      dao: Ticketdao.deleteTicket
+      screen: "Ticket Creation"
+      api: /ticket/delete/:id
+      method: delete
+      params:
+        id: String 
+
+    getTicketByName:
+      description: get ticket by name
+      flow: GpSearchName
+      controller: TicketController.getTicketByName
+      service: TicketService.getTicketByName
+      dao: Ticketdao.getTicketByName
+      screen: "Ticket Creation"
+      api: /ticket/getbyticket/:name
+      method: get
+      params: 
+        category: String
+
+support-ticket:
+    handler:
+      controller: 
+        path: src/controllers/categories/support.controller
+        name: SupportTicketController
+      service: 
+        path: src/services/categories/support.service
+        name: SupportTicketService
+      dao: 
+        path: src/daos/categories/support.dao
+        name: SupportTicketdao
+      model: 
+        path: src/models/categories/support.model
+        name:    
+
+    schema:
+      title: 
+        type: String
+        type_name: Text
+        description: ticket title
+      description: 
+        type: String
+        type_name: Text
+        description: ticket description
+      category: 
+        type: String
+        type_name: Select
+        description: ticket category
+      createdAt: 
+        type: Date 
+        type_name: Date
+        default: Date.now
+        description: ticket createdAt
+      updatedAt: 
+        type: Date 
+        type_name: Date
+        description: ticket updatedAt 
+      ticket_id:
+         type: String
+         type_name: Entity
+         description: ticket id of the ticket 
+      isClosed:
+         type: Boolean 
+         default: false
+         type_name: Boolean
+         description: ticket close status
+
+    saveSupportTicket:
+      description: create a support ticket
+      flow: GpCreate
+      controller: SupportTicketController.saveSupportTicket
+      service: SupportTicketService.saveSupportTicket
+      dao: SupportTicketdao.saveSupportTicket
+      screen: "Ticket Details"
+      api: /support-ticket/save
+      method: post
+      body:
+        title:
+          type: String
+        description: 
+          type: String
+        category: 
+          type: String
+        ticket_id:
+          type: String  
+
+    updateSupportTicket:
+      description: update support ticket by id
+      flow: GpUpdate
+      controller: SupportTicketController.updateSupportTicket
+      service: SupportTicketService.updateSupportTicket
+      dao: SupportTicketdao.updateSupportTicket
+      screen: "Ticket Details"
+      api: /support-ticket/update/:id
+      method: put
+      params:
+        id: String
+      body:
+        title:
+          type: String
+        description: 
+          type: String
+        category: 
+          type: String
+        ticket_id:
+          type: String
+
+    getAllSupportTicket:
+      description: get all support tickets
+      flow: GpSearch
+      controller: SupportTicketController.getAllSupportTicket
+      service: SupportTicketService.getAllSupportTicket
+      dao: SupportTicketdao.getAllSupportTicket
+      screen: "Ticket Details"
+      api: /support-ticket/getall
+      method: get
+
+    getSupportTicketByID:
+      description: get ticket support by id
+      flow: GpSearchId
+      controller: SupportTicketController.getSupportTicketByID 
+      service: SupportTicketService.getSupportTicketByID
+      dao: SupportTicketdao.getSupportTicketByID
+      api: /support-ticket/getbyid/:id
+      screen: "Ticket Details"
+      method: get
+      params:
+        id: String
+
+    deleteSupportTicket:
+      description: delete support ticket by id
+      flow: GpDelete
+      controller: SupportTicketController.deleteSupportTicket
+      service: SupportTicketService.deleteSupportTicket
+      dao: SupportTicketdao.deleteSupportTicket 
+      screen: "Ticket Details"
+      api: /support-ticket/delete/:id
+      method: delete
+      params:
+        id: String
+
+    getSupportTicketByName:
+      description: get support ticket by name
+      flow: GpSearchName
+      controller: SupportTicketController.getSupportTicketByName
+      service: SupportTicketService.getSupportTicketByName
+      dao: SupportTicketdao.getSupportTicketByName
+      screen: "Ticket Details"
+      api: /support-ticket/getbyticket/:name
+      method: get
+      params:
+        category: String 
+
+issue-ticket:
+    handler:
+      controller: 
+        path: src/controllers/categories/issue.controller
+        name: IssueTicketController
+      service: 
+        path: src/services/categories/issue.service
+        name: IssueTicketService
+      dao: 
+        path: src/daos/categories/issue.dao
+        name: IssueTicketdao
+      model: 
+        path: src/models/categories/issue.model
+        name: IssueTicketSchema
+
+    schema:
+      title: 
+        type: String
+        type_name: Text
+        description: ticket title
+      description: 
+        type: String
+        type_name: Text
+        description: ticket description
+      category: 
+        type: String
+        type_name: Select
+        description: ticket category
+      createdAt: 
+        type: Date 
+        type_name: Date
+        default: Date.now
+        description: ticket createdAt
+      updatedAt: 
+        type: Date 
+        type_name: Date
+        description: ticket updatedAt 
+      ticket_id:
+         type: String 
+         type_name: Entity
+         description: ticket id of the ticket
+      isClosed:
+         type: Boolean 
+         default: false
+         type_name: Boolean
+         description: ticket close status
+      
+    saveIssueTicket:
+      description: create a issue ticket
+      flow: GpCreate
+      controller: IssueTicketController.saveIssueTicket
+      service: IssueTicketService.saveIssueTicket
+      dao: IssueTicketdao.saveIssueTicket
+      screen: "Ticket Details"
+      api: /issue-ticket/save 
+      method: post
+      body:
+        title:
+          type: String
+        description: 
+          type: String
+        category: 
+          type: String
+        ticket_id:
+          type: String
+
+    updateIssueTicket:
+      description: update issue ticket by id
+      flow: GpUpdate
+      controller: IssueTicketController.updateIssueTicket
+      service: IssueTicketService.updateIssueTicket
+      dao: IssueTicketdao.updateIssueTicket
+      screen: "Ticket Details"
+      api: /issue-ticket/update/:id
+      method: put
+      params:
+        id: String 
+      body:
+        title:
+          type: String
+        description: 
+          type: String
+        category: 
+          type: String
+        ticket_id:
+          type: String
+
+    getAllIssueTicket:
+      description: get all issue tickets
+      flow: GpSearch
+      controller: IssueTicketController.getAllIssueTicket
+      service: IssueTicketService.getAllIssueTicket
+      dao: IssueTicketdao.getAllIssueTicket
+      screen: "Ticket Details"
+      api: /issue-ticket/getall
+      method: get
+
+    getIssueTicketByID:
+      description: get issue ticket by id
+      flow: GpSearchId
+      controller: IssueTicketController.getIssueTicketByID
+      service: IssueTicketService.getIssueTicketByID
+      dao: IssueTicketdao.getIssueTicketByID 
+      screen: "Ticket Details"
+      api: /issue-ticket/getbyid/:id
+      method: get
+      params:
+        id: String
+
+    deleteIssueTicket:
+      description: delete issue ticket by id
+      flow: GpDelete
+      controller: IssueTicketController.deleteIssueTicket 
+      service: IssueTicketService.deleteIssueTicket
+      dao: IssueTicketdao.deleteIssueTicket
+      screen: "Ticket Details"
+      api: /issue-ticket/delete/:id
+      method: delete
+      params:
+        id: String
+
+    getIssueTicketByName:
+      description: get issue ticket by name
+      flow: GpSearchName
+      controller: IssueTicketController.getIssueTicketByName
+      service: IssueTicketService.getIssueTicketByName
+      dao: IssueTicketdao.getIssueTicketByName
+      screen: "Ticket Details"
+      api: /issue-ticket/getbyticket/:name
+      method: get
+      params:
+        category: String 
+
+document-ticket:
+    handler: 
+      controller: 
+        path: src/controllers/categories/document.controller
+        name: DocumentTicketController
+      service: 
+        path: src/services/categories/document.service
+        name: DocumentTicketService
+      dao: 
+        path: src/daos/categories/document.dao
+        name: DocumentTicketdao
+      model: 
+        path: src/models/categories/document.model
+        name: DocumentTicketSchema
+      
+    schema:
+      title: 
+        type: String
+        type_name: Text
+        description: ticket title
+      description: 
+        type: String
+        type_name: Text
+        description: ticket description
+      category: 
+        type: String
+        type_name: Select
+        description: ticket category
+      createdAt: 
+        type: Date 
+        type_name: Date
+        default: Date.now
+        description: ticket createdAt
+      updatedAt: 
+        type: Date 
+        type_name: Date
+        description: ticket updatedAt
+      ticket_id:
+         type: String
+         type_name: Entity
+         description: ticket id of the ticket 
+      isClosed:
+         type: Boolean 
+         default: false
+         type_name: Boolean
+         description: ticket close status
+
+    saveDocumentTicket:
+      description: create a document ticket
+      flow: GpCreate
+      controller: DocumentTicketController.saveDocumentTicket
+      service: DocumentTicketService.saveDocumentTicket
+      dao: DocumentTicketdao.saveDocumentTicket
+      screen: "Ticket Details"
+      api: /issue-ticket/save
+      method: post
+      body:
+        title:
+          type: String
+        description: 
+          type: String
+        category: 
+          type: String
+        ticket_id:
+          type: String
+
+    updateDocumentTicket:
+      description: update document ticket by id
+      flow: GpUpdate
+      controller: DocumentTicketController.updateDocumentTicket
+      service: DocumentTicketService.updateDocumentTicket
+      dao: DocumentTicketdao.updateDocumentTicket
+      screen: "Ticket Details"
+      api: /issue-ticket/update/:id
+      method: put
+      params:
+        id: String 
+      body:
+        title:
+          type: String
+        description: 
+          type: String
+        category: 
+          type: String
+        ticket_id:
+          type: String
+
+    getAllDocumentTicket:
+      description: get all document tickets
+      flow: GpSearch
+      controller: DocumentTicketController.getAllDocumentTicket
+      service: DocumentTicketService.getAllDocumentTicket
+      dao: DocumentTicketdao.getAllDocumentTicket
+      screen: "Ticket Details"
+      api: /issue-ticket/getall 
+      method: get
+
+    getDocumentTicketByID:
+      description: get document ticket by id
+      flow: GpSearchId
+      controller: DocumentTicketController.getDocumentTicketByID
+      service: DocumentTicketService.getDocumentTicketByID
+      dao: DocumentTicketdao.getDocumentTicketByID
+      screen: "Ticket Details" 
+      api: /issue-ticket/getbyid/:id
+      method: get
+      params:
+        id: String 
+
+    deleteDocumentTicket:
+      description: delete document ticket by id
+      flow: GpDelete
+      controller: DocumentTicketController.deleteDocumentTicket 
+      service: DocumentTicketService.deleteDocumentTicket
+      dao: DocumentTicketdao.deleteDocumentTicket
+      screen: "Ticket Details"
+      api: /issue-ticket/delete/:id
+      method: delete
+      params:
+        id: String 
+
+    getDocumentTicketByName:
+      description: get document ticket by name
+      flow: GpSearchName
+      controller: DocumentTicketController.getDocumentTicketByName
+      service: DocumentTicketService.getDocumentTicketByName
+      dao: DocumentTicketdao.getDocumentTicketByName
+      screen: "Ticket Details"
+      api: /issue-ticket/getbyticket/:name
+      method: get
+      params:
+        category: String 
+
+feature-ticket:
+    handler: 
+      controller: 
+        path: src/controllers/categories/feature.controller
+        name: FeatureTicketController
+      service: 
+        path: src/services/categories/feature.service
+        name: FeatureTicketService
+      dao: 
+        path: src/daos/categories/feature.dao
+        name: FeatureTicketdao
+      model: 
+        path: src/models/categories/feature.model
+        name: FeatureTicketSchema
+     
+    schema:
+      title: 
+        type: String
+        type_name: Text
+        description: ticket title
+      description: 
+        type: String
+        type_name: Text
+        description: ticket description
+      category: 
+        type: String
+        type_name: Select
+        description: ticket category
+      createdAt: 
+        type: Date 
+        type_name: Date
+        default: Date.now
+        description: ticket createdAt
+      updatedAt: 
+        type: Date 
+        type_name: Date
+        description: ticket updatedAt
+      ticket_id:
+         type: String
+         type_name: Entity
+         description: ticket id of the ticket 
+      isClosed:
+         type: Boolean
+         default: false
+         type_name: Boolean
+         description: ticket close status
+
+    saveFeatureTicket:
+      description: create a feature ticket
+      flow: GpCreate
+      controller: FeatureTicketController.saveFeatureTicket
+      service: FeatureTicketService.saveFeatureTicket
+      dao: FeatureTicketdao.saveFeatureTicket
+      screen: "Ticket Details"
+      api: /feature-ticket/save
+      method: post
+      body:
+        title:
+          type: String
+        description: 
+          type: String
+        category: 
+          type: String
+        ticket_id:
+          type: String
+
+    updateFeatureTicket:
+      description: update feature ticket by id
+      flow: GpUpdate
+      controller: FeatureTicketController.updateFeatureTicket
+      service: FeatureTicketService.updateFeatureTicket
+      dao: FeatureTicketdao.updateFeatureTicket'
+      screen: "Ticket Details"
+      api: /feature-ticket/update/:id
+      method: put
+      params:
+        id: String 
+      body:
+        title:
+          type: String
+        description: 
+          type: String
+        category: 
+          type: String
+        ticket_id:
+          type: String
+
+    getAllFeatureTicket:
+      description: get all feature tickets
+      flow: GpSearch
+      controller: FeatureTicketController.getAllFeatureTicket
+      service: FeatureTicketService.getAllFeatureTicket
+      dao: FeatureTicketdao.getAllFeatureTicket
+      screen: "Ticket Details"
+      api: /feature-ticket/
+      method: get
+
+    getFeatureTicketByID:
+      description: get feature ticket by id
+      flow: GpSearchId
+      controller: FeatureTicketController.getFeatureTicketByID 
+      service: FeatureTicketService.getFeatureTicketByID
+      dao: FeatureTicketdao.getFeatureTicketByID
+      screen: "Ticket Details"
+      api: /feature-ticket/getbyid/:id
+      method: get
+      params:
+        id: String
+
+    deleteFeatureTicket:
+      description: delete feature ticket by id
+      flow: GpDelete
+      controller: FeatureTicketController.deleteFeatureTicket 
+      service: FeatureTicketService.deleteFeatureTicket
+      dao: FeatureTicketdao.deleteFeatureTicket
+      screen: "Ticket Details"
+      api: /feature-ticket/delete/:id
+      method: delete
+      params:
+        id: String 
+
+    getFeatureTicketByName:
+      description: get feature ticket by name
+      flow: GpSearchName
+      controller: FeatureTicketController.getFeatureTicketByName
+      service: FeatureTicketService.getFeatureTicketByName
+      dao: FeatureTicketdao.getFeatureTicketByName
+      screen: "Ticket Details"
+      api: /feature-ticket/getbyticket/:name
+      method: get
+      params:
+        category: String 
+db:
+    connectionUrl: mongodb://127.0.0.1/GeppettoDev
+    collections:
+      issue: issue_ticket
+      document: document_ticket
+      feature: feature_ticket
+      support: support_ticket
+      ticket: ticket

@@ -1,13 +1,15 @@
 import * as mongoose from 'mongoose';
-import { FeatureSchema } from '../models/feature.model';
+import { ProjectFeatureSchema } from '../models/feature.model';
+import { FeatureDetailsSchema } from '../models/featuredetails.model';
 import { Request, Response } from 'express';
 
-const Feature = mongoose.model('Feature', FeatureSchema);
+const ProjectFeature = mongoose.model('project_features', ProjectFeatureSchema);
+const featureDetails = mongoose.model('feature_detail', FeatureDetailsSchema);
 
 export class FeatureDao {
 
     public saveFeature(req: Request, callback: CallableFunction) {
-        let newCreateFeature = new Feature(req.body);
+        let newCreateFeature = new ProjectFeature(req.body);
         newCreateFeature.save((err, feature) => {
             if (err) {
                 callback(err);
@@ -18,7 +20,7 @@ export class FeatureDao {
     }
 
     public updateFeature(req: Request, callback: CallableFunction) {
-        Feature.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, feature) => {
+        ProjectFeature.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, feature) => {
             if (err) {
                 callback(err);
             } else {
@@ -28,7 +30,7 @@ export class FeatureDao {
     }
 
     public getAllFeature(req: Request, callback: CallableFunction) {
-        Feature.find({}, (err, feature) => {
+        ProjectFeature.find({}, (err, feature) => {
             if (err) {
                 callback(err);
             } else {
@@ -38,7 +40,7 @@ export class FeatureDao {
     }
 
     public getFeatureByID(req: Request, callback: CallableFunction) {
-        Feature.findById(req.params.id, (err, feature) => {
+        ProjectFeature.findById(req.params.id, (err, feature) => {
             if (err) {
                 callback(err);
             } else {
@@ -47,18 +49,18 @@ export class FeatureDao {
         });
     }
 
-    public getFeatureByName(req: Request, callback: CallableFunction) {
-        Feature.find({ name: req.params.name }, (err, feature) => {
-            if (err) {
+    public getFeatureByProjectId(req: Request, callback: CallableFunction) {
+        console.log('feature detilas are --- ', req.params.id)
+        ProjectFeature.find({ project_id: req.params.id })
+            .populate({ path: 'feature_id', model: featureDetails }).then((result) => {
+                callback(result);
+            }).catch((err) => {
                 callback(err);
-            } else {
-                callback(feature);
-            }
-        });
+            })
     }
 
     public deleteFeature(req: Request, callback: CallableFunction) {
-        Feature.remove({ _id: req.params.id }, (err) => {
+        ProjectFeature.remove({ _id: req.params.id }, (err) => {
             if (err) {
                 callback(err);
             } else {

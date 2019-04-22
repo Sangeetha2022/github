@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
 import * as uuid from 'uuid';
+import flowSchema from '../flow/flow.model';
 
 let generationFlowSchema = mongoose.Schema({
     _id: {
