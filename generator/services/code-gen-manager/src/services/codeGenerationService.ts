@@ -35,6 +35,7 @@ export class CodeGenerationService {
   };
   private clientArray: any[] = [];
   private backendArray: any[] = [];
+  featureDetails: any;
 
   public async createProjectCode(req: Request, callback: CallableFunction) {
     const projectId = req.query.projectid;
@@ -63,12 +64,15 @@ export class CodeGenerationService {
     // get features based on project id
     const features = await this.getFeatures(projectId);
     console.log('get all featurea rea --22222--- ', features);
-    
+
     if (features !== undefined && features !== null) {
       const featureJSON = JSON.parse(features.toString());
-      console.log('featurea json are ------------ ', featureJSON);
       let count = 0;
       asyncLoop(featureJSON, async (featureElement, next1) => {
+        featureElement = featureElement.value.reduce(function (obj, item) {
+          obj[item.key] = item.value;
+          return obj;
+        });
         count++;
         let clientFeatures = {
           featureName: '',
@@ -81,10 +85,18 @@ export class CodeGenerationService {
         clientFeatures['featureName'] = backendFeatures['featureName'] = featureElement.feature_id.name;
         // this.clientArray.push({'featureName': featureElement.feature_id.name});
         // this.backendArray.push({'featureName': featureElement.feature_id.name});
-        const featureDetails = await this.getDetailsByFeatureId(featureElement.feature_id._id);
-        const featureDetailsJSON = JSON.parse(featureDetails.toString());
-        console.log('detaials are ----1111-- ', count, '  ---  ', util.inspect(featureDetailsJSON, { showHidden: true, depth: null }), '  --- ', featureDetailsJSON.length);
+        if (featureElement.feature_id.api_mang_file !== null && featureElement.feature_id.front_mang_file !== null && featureElement.feature_id.backed_mang_file !== null) {
+          this.featureDetails = await this.getDetailsByFeatureId(featureElement.feature_id._id);
+        }else{
+          this.featureDetails = await this.getAllFeatureFlowByFeatureId(featureElement.feature_id._id);
+        }
+        const featureDetailsJSON = JSON.parse(this.featureDetails.toString());
+        console.log('detaials are ----1111-- ', featureDetailsJSON);
         asyncLoop(featureDetailsJSON, async (flowElement, next2) => {
+          flowElement = flowElement.value.reduce(function (obj, item) {
+            obj[item.key] = item.value;
+            return obj;
+          });
           if (flowElement !== undefined) {
             let clientFlowDetails = {
               name: '',
@@ -118,7 +130,7 @@ export class CodeGenerationService {
             console.log(' temp flow component name --33333--- ', tempFlowJSON.flow_comp_seq);
             // const microFlow = await this.getFlowsByName(flowElement.flow.name);
             // const microFlowJSON = JSON.parse(microFlow.toString());
-          
+
             let clientMicroFlowComponent = [];
             let backendMicroFlowComponent = [];
             if (tempFlowJSON.status !== 404 && tempFlowJSON !== undefined) {
@@ -223,6 +235,13 @@ export class CodeGenerationService {
   getDetailsByFeatureId(featureId) {
     return new Promise(resolve => {
       this.featureService.getDetailByFeatureId(featureId, (data) => {
+        resolve(data);
+      })
+    })
+  }
+  getAllFeatureFlowByFeatureId(featureId){
+    return new Promise(resolve => {
+      this.featureService.getAllFeatureFlowByFeatureId(featureId, (data) => {
         resolve(data);
       })
     })

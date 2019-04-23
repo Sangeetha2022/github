@@ -1,0 +1,82 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Menu Builder
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div style="padding-right: 20px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
+            <h6>Language:</h6>
+            <mat-form-field>
+              <mat-label>Select a Language</mat-label>
+              <mat-select [(ngModel)]="selectedLang" (ngModelChange)="onChangeLang($event)">
+                <mat-option *ngFor="let lang of languages" [value]="lang">
+                  {{lang}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" name="name" placeholder="Enter Name" [(ngModel)]="description" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
+            <h6>Screen</h6>
+            <mat-form-field>
+              <mat-label>Select a Screens</mat-label>
+              <mat-select [(ngModel)]="selectedScreen" (ngModelChange)="onChangeScreen($event)">
+                <mat-option *ngFor="let screen of Screens" [value]="screen">
+                  {{screen}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
+            <div class="form-group">
+              <label for="name">Description</label>
+              <input type="text" class="form-control" name="description" placeholder="Enter Description" [(ngModel)]="description" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+          <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8">
+            <h6>OS Type</h6>
+            <mat-form-field>
+              <mat-label>Select a OS</mat-label>
+              <mat-select [(ngModel)]="selectedOS" [disabled]="disabledOS" (ngModelChange)="onChangeOS($event)">
+                <mat-option *ngFor="let os of OS" [value]="os">
+                  {{os}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+            <app-tree-drag></app-tree-drag>
+          <!-- <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+            </div>
+          <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 mt-sm-3 mt-md-3 mt-lg-3 mt-xl-3">
+              <button class="btn btn-primary">Update</button>
+          </div>
+          <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-expansion-panel>

@@ -52,6 +52,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FeatureDetailsService } from './project-component/feature-details/feature-details.service';
+import { MenuBuilderModule } from './menu-builder/menu-builder.module';
 
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
@@ -114,8 +115,7 @@ export const I18N_PROVIDERS = [
     LoginComponent,
     ConsentscreenComponent,
     HomepageComponent,
-    LandingpageComponent
-
+    LandingpageComponent,
   ],
   imports: [
     BrowserModule,
@@ -149,7 +149,8 @@ export const I18N_PROVIDERS = [
     CKEditorModule,
     MatCardModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MenuBuilderModule,
 
   ],
   providers: [

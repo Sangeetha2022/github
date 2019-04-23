@@ -25,6 +25,8 @@ import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitec
 import { ToastrModule } from 'ngx-toastr';
 import { FeatureDetailsComponent } from './feature-details/feature-details.component';
 import { FileSelectDirective } from 'ng2-file-upload';
+import { MenuBuilderModule } from '../menu-builder/menu-builder.module';
+import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
 
 
 @NgModule({
@@ -35,12 +37,13 @@ PopupModelComponent,
 ButtonRendererComponent,
 FieldPopupModalComponent,
 FeatureDetailsComponent,
-FileSelectDirective
+FileSelectDirective,
 ],
 imports: [
 CommonModule,
 BrowserModule,
 ConnectorManagerModule,
+MenuBuilderModule,
 MatExpansionModule,
 MatButtonModule,
 MatInputModule,
