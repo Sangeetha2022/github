@@ -15,7 +15,7 @@ export const ScreenSchema = new Schema({
     'gjs-components': [],
     'project-name': String,
     'default-language': String,
-    foldername: String,
+    screenName: String,
     is_grid_present: {
         type: Boolean,
         default: false
@@ -31,6 +31,18 @@ export const ScreenSchema = new Schema({
         }],
         default_field: []
     },
+    entity_info: [{
+        htmlId: {type: String, default: null},
+        componentId: {type: String, default: null},
+        entityId: {type: String, default: null},
+        fields: {
+            fieldId: {type: String, default: null},
+            name: {type: String, default: null},
+            description: {type: String, default: null},
+            typeName: {type: String, default: null},
+            dataType: {type: String, default: null}
+        }
+    }],
     flows_info: [{
         html_id: { type: String, default: null },
         component_id: { type: String, default: null },

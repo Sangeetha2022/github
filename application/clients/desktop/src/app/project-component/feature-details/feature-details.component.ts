@@ -173,6 +173,11 @@ export class FeatureDetailsComponent implements OnInit {
         );
     }
 
+    editScreen(screenId) {
+        console.log('screen id are ----- ', screenId);
+        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, screenId: screenId } });
+    }
+
     getProjectFeature() {
         this.dataService.currentProjectFeatureInfo.subscribe(feature => {
             this.featureData = feature;

@@ -91,10 +91,10 @@ export class Constants {
     // Feature Screen
     public static get addScreen(): string { return '/screen/save'; }
     public static get getAllScreen(): string { return '/screen/getall'; }
-    public static get getScreenByID(): string { return '/screen/getbyid/:id'; }
+    public static get getScreenByID(): string { return '/screen/get/'; }
     public static get deleteScreen(): string { return '/screen/delete/:id'; }
     public static get getScreenByFeatureName(): string { return '/screen/getbyfeature/'; }
-    public static get updateScreen(): string { return '/screen/update/:id'; }
+    public static get updateScreen(): string { return '/screen/update/'; }
     public static get getScreenByProjectAndFeatureId(): string { return '/screen/getbyprojectandfeatureid/'; }
     public static get getScreenByProjectId(): string { return '/screen/getbyprojectid/'; }
 
