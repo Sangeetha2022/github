@@ -1,1 +1,14 @@
 // SASS Variables for reskin implementation
+$color_geppetto_green: #009933;
+$color_geppetto_lightblue: #3333cc;
+$color_geppetto_darkblue: #003366;
+$color_base_text: #333;
+$color_dialog-title: $color_base_text;
+$color_button: $color_geppetto_green;
+$color_button_border: darken($color_geppetto_green,10%);
+$color_select_arrow: $color_geppetto_darkblue;
+$color_modal_backdrop: rgba(80,80,80,0.85);
+
+
+
+
