@@ -33,6 +33,10 @@ export class ScreenDesignerService {
   return this.http.put(`${this.sharedService.screenUrl}${Constants.updateScreen}${screenId}`, screenData);
   }
 
+  deleteScreen(screenId) {
+    return this.http.delete(`${this.sharedService.screenUrl}${Constants.deleteScreen}${screenId}`);
+  }
+
   getScreenByProjectId(projectId) {
     return this.http.get(this.sharedService.screenUrl + Constants.getScreenByProjectId + projectId);
   }

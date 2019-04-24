@@ -40,11 +40,25 @@ export class ScreenDao {
     }
 
     public updateScreen(req, callback) {
+        console.log('update screen in dao --- ', req.params.id);
+        console.log('update screen in dao -body-- ', req.body);
         screenModel.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, result) => {
+            if (err) {
+                console.log('err in update ---- ', err);
+                callback(err);
+            } else {
+                console.log('successfully updated ---- ', result);
+                callback(result);
+            }
+        });
+    }
+
+    public deleteScreen(screenId, callback: CallableFunction) {
+        screenModel.remove({ _id: screenId }, (err, screen) => {
             if (err) {
                 callback(err);
             } else {
-                callback(result);
+                callback({ message: 'Successfully deleted screen!' });
             }
         });
     }

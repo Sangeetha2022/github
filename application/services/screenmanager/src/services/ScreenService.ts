@@ -30,6 +30,13 @@ export class ScreenService {
         });
     }
 
+    public deleteScreen(req: Request, callback) {
+        const screenId = req.params.id;
+        screenDao.deleteScreen(screenId, (response) => {
+            callback(response);
+        })
+    }
+
 
     public getAllScreenByProjectId(req: Request, callback) {
         screenDao.getAllScreenByProjectId(req,(response) => {

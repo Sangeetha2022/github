@@ -20,7 +20,15 @@ export class ScreenController {
     }
 
     public updateScreen(req: Request, res: Response) {
+        console.log('entering into update screen');
         screenService.updateScreen(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
+    public deleteScreen(req: Request, res: Response) {
+        screenService.deleteScreen(req, (response) => {
             res.status(200);
             res.json(response);
         })

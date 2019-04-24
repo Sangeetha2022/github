@@ -92,7 +92,7 @@ export class Constants {
     public static get addScreen(): string { return '/screen/save'; }
     public static get getAllScreen(): string { return '/screen/getall'; }
     public static get getScreenByID(): string { return '/screen/get/'; }
-    public static get deleteScreen(): string { return '/screen/delete/:id'; }
+    public static get deleteScreen(): string { return '/screen/delete/'; }
     public static get getScreenByFeatureName(): string { return '/screen/getbyfeature/'; }
     public static get updateScreen(): string { return '/screen/update/'; }
     public static get getScreenByProjectAndFeatureId(): string { return '/screen/getbyprojectandfeatureid/'; }

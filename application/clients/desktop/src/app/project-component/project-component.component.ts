@@ -455,7 +455,7 @@ export class EntityManagerComponent implements OnInit {
                 this.dataService.setAllEntity(this.allEntity);
             },
             (error) => {
-console.log('error in ProjectEntity ---- ', error);
+                console.log('error in ProjectEntity ---- ', error);
             }
         );
     }
@@ -647,6 +647,17 @@ console.log('error in ProjectEntity ---- ', error);
     editScreen(screenId) {
         console.log('screen id are ----- ', screenId);
         this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, screenId: screenId } });
+    }
+
+    deleteScreen(screenId) {
+        this.screenService.deleteScreen(screenId).subscribe(
+            (data) => {
+                this.getScreenByProjectId();
+            },
+            (error) => {
+
+            }
+        );
     }
 }
 
