@@ -53,6 +53,7 @@ import { MatInputModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FeatureDetailsService } from './project-component/feature-details/feature-details.service';
 
+
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
   fallbackLng: ['en', 'ta', 'es'],

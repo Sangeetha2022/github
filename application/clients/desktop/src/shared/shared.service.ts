@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SharedService {
+
 // Local
 // public loginUrl: String = 'http://localhost:3008';
 // public Apigateway: String = 'http://localhost:3010';
@@ -32,3 +33,4 @@ public configUrl: String = 'http://ac769f28b521b11e988250eeb40aab9c-41146344.us-
 
 public browser_language: String;
 }
+

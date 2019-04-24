@@ -28,6 +28,8 @@ export class LoginComponent implements OnInit {
   public id: any;
   public Userdetails: any;
   public tokenerror: any;
+  public Accesslevel: any;
+  public permission: any[] = [];
 
   ngOnInit() {
     // this.Queryparams();
@@ -54,36 +56,45 @@ export class LoginComponent implements OnInit {
   Login() {
     // this.user.challenge = this.loginchallenge;
     // this.user.csrftoken = this.token;
+    this.permission = [];
     this.loginservice.Login(this.user).subscribe(logindetails => {
+      if (logindetails.Access !== undefined) {
+        console.log('-------ahdbakjvjakjak--------');
+        this.Accesslevel = logindetails.Access[0];
+        this.permission.push(this.Accesslevel);
+        console.log('------------loginresponse-----', this.permission);
+        sessionStorage.setItem('Access', JSON.stringify(this.permission));
+      }
       this.Userdetails = logindetails.Userdetails;
       this.tokenerror = logindetails.error;
-      console.log('------------loginresponse-----', this.Userdetails, this.tokenerror);
-      this.id = this.Userdetails._id;
-      this.lastloggedintime = this.Userdetails.loggedinDate;
+      this.id = this.Userdetails.body._id;
+      this.lastloggedintime = this.Userdetails.body.loggedinDate;
       // const redirecturi = logindetails.redirectUrl;
       // window.open(redirecturi, '_self');
-      if (this.tokenerror !== undefined) {
-        if (this.tokenerror.name === 'TokenExpiredError') {
-          sessionStorage.clear();
-          // this.loginservice.Logout(this.id).subscribe(data => {
-          this.route.navigate(['consent'], { queryParams: { id: this.Userdetails._id } });        // }, error => {
-          //   console.error('error:', error);
-          // });
-        }
-      }
-      if (this.Userdetails === 'Incorrect Username or Password') {
-        this.errormessage = this.Userdetails;
+      if (this.Userdetails.body === 'Incorrect Username or Password') {
+        this.errormessage = this.Userdetails.body;
       } else {
-        sessionStorage.setItem('Id', this.id);
-        sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
-        sessionStorage.setItem('email', this.Userdetails.email);
-        sessionStorage.setItem('JwtToken', this.Userdetails.Idtoken);
-        if (this.Userdetails.Idtoken === null || this.Userdetails.Idtoken === '') {
-          this.route.navigate(['consent'], { queryParams: { id: this.Userdetails._id } });
+        if (this.tokenerror !== undefined) {
+          console.log('-------insideifconditioin-----');
+          if (this.tokenerror.name === 'TokenExpiredError') {
+            sessionStorage.clear();
+            // this.loginservice.Logout(this.id).subscribe(data => {
+            this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });        // }, error => {
+            //   console.error('error:', error);
+            // });
+          }
         } else {
-          this.route.navigate(['callback']);
-        }
+          sessionStorage.setItem('Id', this.id);
+          sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
+          sessionStorage.setItem('email', this.Userdetails.body.email);
+          sessionStorage.setItem('JwtToken', this.Userdetails.body.Idtoken);
+          if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '') {
+            this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });
+          } else {
+            this.route.navigate(['callback']);
+          }
 
+        }
       }
 
     }, error => {
