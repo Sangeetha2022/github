@@ -14,6 +14,7 @@ class App {
     public app = express();
     public routerPrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
+    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
 
     constructor() {
         this.logger.setupLogger();

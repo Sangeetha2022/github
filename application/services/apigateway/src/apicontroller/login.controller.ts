@@ -49,10 +49,10 @@ export class Logincontroller implements Controller {
                 jwt.verify(token, 'geppettosecret', (err, decoded) => {
                     if (err) {
                         // res.status(401);
-                        console.log('------hey an err--->>>', err);
-                        res.send({ 'status': 'Unauthorized', 'error': err,'Userdetails':user });
+                        console.log('-----------err--->>>', err);
+                        res.send({ 'status': 'Unauthorized', 'error': err, 'Userdetails': user });
                     } else {
-                        var url = `${Constants.proxyUrl}/proxy`;
+                        var url = `${Constants.proxyUrl}/proxy`
                         request.post({ url: url, json: decoded }, (error, response, body) => {
                             var loginresponse = {
                                 "Access": body,
@@ -81,7 +81,7 @@ export class Logincontroller implements Controller {
                     console.log('---------hey an err--->>>', err);
                     // res.send({ 'status': 'Unauthorized', 'error': err,'Userdetails':user });
                 } else {
-                    var url = `${Constants.proxyUrl}/proxy `;
+                    var url = `${Constants.proxyUrl}/proxy`;
                     request.post({ url: url, json: decoded }, (error, response, body) => {
                         var loginresponse = {
                             "Access": body,

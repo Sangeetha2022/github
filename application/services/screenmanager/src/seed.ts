@@ -1,17 +1,16 @@
 import * as mongoose from 'mongoose';
-import { PrimaryTemplateSchema } from './models/primarytemplate.model';
-import { primaryTemplate } from './assets/primaryTemplate';
+import { GeppettoTemplateSchema } from './models/GeppettoTemplate';
+import { geppettoTemplate } from './assets/geppettoTemplate';
 
-const PrimaryTemplate = mongoose.model('PrimaryTemplate', PrimaryTemplateSchema);
+const GeppettoTemplateModel = mongoose.model('Geppetto_Template', GeppettoTemplateSchema);
 
 export class FeedSeedData {
 
-    public primaryTemplateData(): void {
-        console.log('primary template constant data length ----  ', primaryTemplate.length);
-        primaryTemplate.map(template => {
-            PrimaryTemplate.findOneAndUpdate({ name: template['name'] }, template, { new: true }, (err, data) => {
+    public geppettoTemplateData(): void {
+        geppettoTemplate.map(template => {
+            GeppettoTemplateModel.findOneAndUpdate({ name: template['name'] }, template, { new: true }, (err, data) => {
                 if (data === null) {
-                    let Template = new PrimaryTemplate(template);
+                    let Template = new GeppettoTemplateModel(template);
                     Template.save();
                 }
             });

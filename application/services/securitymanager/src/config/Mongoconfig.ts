@@ -1,4 +1,4 @@
-var vault = require("node-vault")({ apiVersion: 'v1', endpoint: 'http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200', token: 'vault-geppetto-2019' });
+var vault = require("node-vault")({ apiVersion: 'v1', endpoint: 'http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200', token: 'vault-geppetto-2019'}); 
 import * as mongoose from "mongoose";
 
 export class MongoConfig {
@@ -6,6 +6,5 @@ export class MongoConfig {
         vault.read('kv/kuberentes/database/mongo/connection').then((result) => {
             mongoose.connect(result.data.mongo_connection_string);
         })
-
     }
 }

@@ -19,9 +19,20 @@ class FlowManagerController implements Controller {
         this.router.get('/flowmanager/flow/:id/get', this.getByFlowId);
         this.router.put('/flowmanager/flow/:id/update', this.updateFlow);
         this.router.delete('/flowmanager/flow/:id/delete', this.deleteFlow);
+        this.router.get('/flow/get/:name/name', this.getFlowByName);
     }
 
     // new ApiAdaptar().put(`${Constants.entityUrl}/entity/update`, req.body).then((response) => {
+
+
+    public getFlowByName(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.flowUrl}/flow/get/${req.params.name}/name`)
+            .then(flow => {
+                res.send(flow);
+            }).catch(err => {
+                res.send(err);
+            })
+    }
 
     public addFlow(req: Request, res: Response) {
         new ApiAdaptar().post(`${Constants.flowUrl}/flow/save`, req.body).then(flow => {

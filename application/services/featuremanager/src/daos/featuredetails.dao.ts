@@ -27,7 +27,50 @@ export class FeatureDetailsDao {
     private FeatureFlowComps = FeatureFlowCompsModel;
     flows: any = [];
 
+    // uploadeFeaturefile = async (req: Request, callback: CallableFunction) => {
+    //     await backendupload(req, callback, async (err) => {
+    //         if (err) {
+    //             return callback("an Error occured", err)
+    //         }
+    //         var dataToSave = {
+    //             name: req.body.name,
+    //             description: req.body.description,
+    //             api_mang_file: null,
+    //             backed_mang_file: null,
+    //             front_mang_file: null
+    //         }
+    //         if (req['files'].length !== 0) {
+    //             req['files'].map((file, i) => {
+    //                 if (file.fieldname === "front_mang_file") {
+    //                     dataToSave.front_mang_file = file.path
+    //                 }
+    //                 if (file.fieldname === "backed_mang_file") {
+    //                     dataToSave.backed_mang_file = file.path
+    //                 }
+    //                 if (file.fieldname === "api_mang_file") {
+    //                     dataToSave.api_mang_file = file.path
+    //                 }
+
+    //             })
+    //         }
+    //         console.log('Data to save', dataToSave);
+    //         const createdFlowComp = new this.Feature(dataToSave);
+    //         await createdFlowComp.save((err, feature) => {
+    //             if (err) {
+    //                 callback(err);
+    //             } else {
+    //                 if (req['files'].length !== 0) {
+    //                     this.parseAndSaveFeatureDetails(feature, req['files'], callback)
+    //                 } else if (req['files'].length === 0) {
+    //                     callback(feature);
+    //                 }
+    //             }
+    //         });
+    //     });
+    // }
+
     uploadeFeaturefile = async (req: Request, callback: CallableFunction) => {
+        console.log("request---->davo----->",req.body)
         await backendupload(req, callback, async (err) => {
             if (err) {
                 return callback("an Error occured", err)
@@ -39,23 +82,30 @@ export class FeatureDetailsDao {
                 backed_mang_file: null,
                 front_mang_file: null
             }
-            req['files'].map((file, i) => {
-                if (file.fieldname === "front_mang_file") {
-                    dataToSave.front_mang_file = file.path
-                }
-                if (file.fieldname === "backed_mang_file") {
-                    dataToSave.backed_mang_file = file.path
-                }
-                if (file.fieldname === "api_mang_file") {
-                    dataToSave.api_mang_file = file.path
-                }
-            })
+            if (req['files'] !== null && req['files'] !== undefined ) {
+                req['files'].map((file, i) => {
+                    if (file.fieldname === "front_mang_file") {
+                        dataToSave.front_mang_file = file.path
+                    }
+                    if (file.fieldname === "backed_mang_file") {
+                        dataToSave.backed_mang_file = file.path
+                    }
+                    if (file.fieldname === "api_mang_file") {
+                        dataToSave.api_mang_file = file.path
+                    }
+
+                })
+            }
             const createdFlowComp = new this.Feature(dataToSave);
             await createdFlowComp.save((err, feature) => {
                 if (err) {
                     callback(err);
                 } else {
-                    this.parseAndSaveFeatureDetails(feature, req['files'], callback)
+                    if (req['files'] !== null && req['files'] !== undefined ) {
+                        this.parseAndSaveFeatureDetails(feature, req['files'], callback)
+                    } else {
+                        callback(feature);
+                    }
                 }
             });
         });
@@ -182,7 +232,7 @@ export class FeatureDetailsDao {
     }
 
     public getFeatureDetailsByFeatureid = async (req: Request, callback: CallableFunction) => {
-        await this.FeatureFlowComps.find({feature_id:req.params.id}).populate({path:'flow',model:this.FeatureFlows}).exec((err,flowDetails)=>{
+        await this.FeatureFlowComps.find({ feature_id: req.params.id }).populate({ path: 'flow', model: this.FeatureFlows }).exec((err, flowDetails) => {
             if (err) {
                 callback(err);
             } else {
@@ -194,7 +244,7 @@ export class FeatureDetailsDao {
     }
 
     public getFeatureEntityByFeatureid = async (req: Request, callback: CallableFunction) => {
-        await this.FeatureEntityFlows.find({feature_id:req.params.id},(err,flowDetails)=>{
+        await this.FeatureEntityFlows.find({ feature_id: req.params.id }, (err, flowDetails) => {
             if (err) {
                 callback(err);
             } else {
@@ -206,7 +256,7 @@ export class FeatureDetailsDao {
     }
 
     public getFeatureDetailsById = async (req: Request, callback: CallableFunction) => {
-        console.log("adadfaf",req.params)
+        console.log("adadfaf", req.params)
         await this.Feature.findById(req.params.id, (err, feature) => {
             if (err) {
                 callback(err);
@@ -220,7 +270,7 @@ export class FeatureDetailsDao {
     private saveFeatureEntity = async (schemaname, schema, feature_id, callback) => {
         let dataToSave = {
             name: schemaname,
-            created_by: "rahul",
+            created_by: "",
             feature_id: feature_id,
             field: []
         }

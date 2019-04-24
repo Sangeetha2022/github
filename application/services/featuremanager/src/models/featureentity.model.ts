@@ -9,6 +9,7 @@ export const FeatureEntitySchema = new Schema({
         default: uuid.v1
     },
     name: String,
+    description: String,    
     created_by: String,
     feature_id: { type: String, ref: 'feature_details' },
     created_at: { type: Date, default: Date.now },

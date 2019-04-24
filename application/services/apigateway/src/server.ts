@@ -7,37 +7,31 @@ import {
     FlowManagerController,
     EntityController,
     DefaultController,
-
     Logincontroller,
     Proxycontroller,
     Camundacontroller,
-
     FeatureController,
     CodeController,
-    ConfigurationController,
+    ConfigurationController
 
 } from './apicontroller';
 
 import { WinstonLogger } from './config/WinstonLogger';
 import { createUserTemplateController } from './apicontroller/screenmanager.controllers';
-// import { securityController } from './apicontroller/securitymanager.controllers';
 import { MicroflowController } from './apicontroller/microflowmanager.controller';
 
-const PORT = 3010;
+const PORT = 3000;
 
 let apisController = [
     new ProjectController(),
     new FlowManagerController(),
     new EntityController(),
     new DefaultController(),
-
     new Logincontroller(),
     new Proxycontroller(),
     new Camundacontroller(),
-
     new FeatureController(),
     new createUserTemplateController(),
-    // new securityController(),
     new MicroflowController(),
     new CodeController(),
     new ConfigurationController()

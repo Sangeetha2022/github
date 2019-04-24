@@ -28,7 +28,7 @@ class securityController implements Controller {
     }
 
     public signincontroller(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.securityUrl}/signup`, req.body).then(security => {
+        new ApiAdaptar().post(`${Constants.loginUrl}/signup`, req.body).then(security => {
             res.send(security);
         }).catch(err => {
             res.send(err);
@@ -36,7 +36,7 @@ class securityController implements Controller {
     }
 
     public logincontroller(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.securityUrl}/login`, req.body).then(security => {
+        new ApiAdaptar().post(`${Constants.loginUrl}/login`, req.body).then(security => {
             res.send(security);
         }).catch(err => {
             res.send(err);
@@ -44,7 +44,7 @@ class securityController implements Controller {
     }
 
     public consentcontroller(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.securityUrl}/consent`, req.body).then(security => {
+        new ApiAdaptar().post(`${Constants.loginUrl}/consent`, req.body).then(security => {
             res.send(security);
         }).catch(err => {
             res.send(err);
@@ -52,7 +52,7 @@ class securityController implements Controller {
     }
 
     public logoutcontroller(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.securityUrl}/logout`, req.body).then(security => {
+        new ApiAdaptar().post(`${Constants.loginUrl}/logout`, req.body).then(security => {
             res.send(security);
         }).catch(err => {
             res.send(err);

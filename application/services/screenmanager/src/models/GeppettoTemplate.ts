@@ -3,7 +3,7 @@ import * as uuid from 'uuid';
 
 const Schema = mongoose.Schema;
 
-export const PrimaryTemplateSchema = new Schema({
+export const GeppettoTemplateSchema = new Schema({
     _id: {
         type: String,
         default: uuid.v1

@@ -23,6 +23,8 @@ import * as dictionary from 'nanoid-dictionary';
 import { ProjectComponentService } from 'src/app/project-component/project-component.service';
 import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { TraitsService } from './services/traits/traits.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 declare var grapesjs: any;
@@ -56,22 +58,33 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     allEntityField: any[] = [];
     selectedProject: any;
     agGridFields: FormGroup;
+    selectedFlow: any;
+    is_grid_present: Boolean;
+    // eventFlows: FormGroup;
     agGridObject: any = {
         html_id: '',
         component_id: '',
         custom_field: [],
         default_field: []
     };
+    screenFlows: any[] = [];
     // selectColumn:,
     // selectEntity,
     // selectField,
     columnsOption: any[] = [];
+    listOfFLows: any[] = [];
     gridApi: any;
     gridColumnApi: any;
     public isGridPopup: Boolean;
     currentAgGridData: any;
     defaultColumn: any;
     RemoteStorage: any;
+    columnDefs: any;
+    rowSelection: string;
+    defaultColDef: any;
+    rowData: any;
+    feature_id: String;
+    project_id: String;
 
     constructor(
         private screenDesignerService: ScreenDesignerService,
@@ -79,14 +92,32 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         private languageService: LanguageService,
         private styleService: StylesService,
         private panelService: PanelService,
+        private traitService: TraitsService,
         private commandService: CommandService,
         private projectComponentService: ProjectComponentService,
         private flowManagerService: FlowManagerService,
         private dataService: DataService,
         private sharedService: SharedService,
         private formBuilder: FormBuilder,
+        private activatedRoute: ActivatedRoute,
         private ref: ChangeDetectorRef
     ) {
+        this.columnDefs = [
+            {
+                headerName: 'Name', field: 'name',
+                checkboxSelection: true
+            },
+            { headerName: 'Label', field: 'label' },
+            { headerName: 'Description', field: 'description' },
+            { headerName: 'Action', field: 'action_on_data' },
+
+
+        ];
+        this.rowSelection = 'single';
+        this.defaultColDef = {
+            sortable: true,
+            filter: true
+        };
         this.dataService.currentAllEntityInfo.subscribe(
             (data) => {
                 this.allEntity = data;
@@ -113,7 +144,17 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.activatedRoute.queryParams.subscribe(params => {
+            console.log('activated routes in screen designer are ----- ', params);
+            if (params.featureId !== undefined && params.featureId !== null) {
+                this.feature_id = params.featureId;
+            }
+            if (params.projectId !== undefined && params.projectId !== null) {
+                this.project_id = params.projectId;
+            }
+        });
         this.isGridPopup = false;
+        this.is_grid_present = false;
         // this.selectedColumn = 'column1';
         // this.selectedEntity = 'none';
         // this.selectedField = 'none';
@@ -123,7 +164,10 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             selectEntity: ['', Validators.required],
             selectField: ['', Validators.required],
         });
-        this.saveTemplateURL = this.sharedService.screenUrl + '/user_template/save';
+        // this.eventFlows = this.formBuilder.group({
+        //     selectEvent: ['', Validators.required]
+        // });
+        this.saveTemplateURL = this.sharedService.screenUrl + '/screen/save';
         this.saveChildURL = this.sharedService.screenUrl + '/childTemplate/save';
         const addStyles = [];
         const plugins = ['gjs-grapedrop-preset'];
@@ -233,6 +277,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 clearProperties: 1,
             },
         });
+        this.traitService.initMethod(this.editor);
+        this.getEntity();
         this.getEntityType();
         this.getAllFlows();
         // this.getSelectedProject();
@@ -242,14 +288,16 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.styleManager();
         this.panelManager();
         this.agGridEntity();
+        // this.traitService.initializeRadioMethod(this.editor);
         // this.beforeDropElement();
         const test1 = 'test';
-        const objectTest = this.agGridObject;
+        // const is = this.agGridObject;
+        const $this = this;
         this.editor.on('component:selected', function (component) {
-            console.log('onFieldOptions selected component of element are ----- ', test1, component);
             if (component.attributes.type === 'grid-type') {
-                objectTest.html_id = component.ccid;
-                objectTest.component_id = component.cid;
+                $this.agGridObject.html_id = component.ccid;
+                $this.agGridObject.component_id = component.cid;
+                $this.is_grid_present = true;
                 //   const styleManager = editor.StyleManager;
                 //   styleManager.addSector('div-only-sector',{
                 //     name: 'Div only sector',
@@ -257,11 +305,13 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 //     properties: [{ name: 'This is a div'}]
                 //   });
             }
-            console.log('onFieldOptions selected component of element are --2222--- ', objectTest);
         });
         this.RemoteStorage = this.editor.StorageManager.get('remote');
+        console.log('before save remotestorage ar e----- ', this.project_id, ' -feat--- ', this.feature_id);
         this.RemoteStorage.set('params', {
             foldername: `screen${generate(dictionary.numbers, 6)}`,
+            project: this.project_id,
+            feature: this.feature_id
         });
     }
 
@@ -293,12 +343,19 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.dataService.setAgGridValue(this.agGridArray);
         this.agGridObject.custom_field = this.agGridArray;
         this.agGridObject.default_field = this.defaultColumn;
+        this.saveRemoteStorage();
+        this.onCloseHandled();
+    }
+
+    saveRemoteStorage() {
         this.RemoteStorage.set('params', {
             grid_fields: this.agGridObject,
+            flows_info: this.screenFlows,
             foldername: `screen${generate(dictionary.numbers, 6)}`,
-            is_grid_present: true
+            is_grid_present: this.is_grid_present,
+            project: this.project_id,
+            feature: this.feature_id
         });
-        this.onCloseHandled();
     }
 
     getEntityType() {
@@ -338,14 +395,164 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     getAllFlows() {
         this.flowManagerService.getAllFlows().subscribe((flowData) => {
             //   this.dataFlow = flowData;
-            console.log('dataFlow ----- ', flowData);
+            console.log('dataFlow --print--- ', flowData);
             //   this.rowData = flowData;
+            this.listOfFLows = flowData;
+            if (this.feature_id !== undefined && this.feature_id != null) {
+                this.rowData = flowData;
+            } else {
+                const createFlow = flowData.find(x => x.name === 'GpCreate');
+                console.log('project and featureId are create flow ---- ', createFlow);
+                this.rowData = [createFlow];
+            }
+        }, (error) => {
+            console.log('cannot get flows in screen designer');
         });
+    }
+
+    cancelEvent() {
+        this.closeEventPopup();
+    }
+
+    closeEventPopup() {
+        const eventPopupModel = <HTMLElement>document.querySelector('#EventPopup');
+        eventPopupModel.style.display = 'none';
+    }
+
+    // save flows
+    saveEvent() {
+        const flowObj = {
+            html_id: '',
+            component_id: '',
+            flow: ''
+        };
+        flowObj.html_id = this.editor.getSelected().cid;
+        flowObj.component_id = this.editor.getSelected().ccid;
+        flowObj.flow = this.selectedFlow[0]._id;
+        this.screenFlows.push(flowObj);
+        this.saveRemoteStorage();
+        this.closeEventPopup();
+        this.traitService.setScreenInfo(flowObj.html_id, flowObj.component_id, this.selectedFlow[0]);
+    }
+
+    onSelectionChanged() {
+        this.selectedFlow = this.gridApi.getSelectedRows();
     }
 
     // buildDataBindingTypes(element) {
 
     // }
+
+    getEntity() {
+        console.log('ram getEntity ------- ', this.project_id, ' ---- ', this.feature_id);
+        if (this.project_id !== undefined && this.feature_id !== undefined) {
+            this.projectComponentService.getEntityByFeatureAndprojectId(this.project_id, this.feature_id)
+                .subscribe((entityData) => {
+                    console.log('ram getEntity with project and features =---- ', entityData);
+                    if (entityData !== null && entityData !== undefined && entityData.length > 0) {
+                        const entityArray = [];
+                        entityData.forEach(entityElement => {
+                            // const data = entityElement;
+                            const object = {
+                                name: '',
+                                value: ''
+                            };
+                            object.name = entityElement.name;
+                            object.value = entityElement._id;
+                            entityArray.push(object);
+                        });
+                        this.setDefaultType('entity', entityArray);
+                    } else {
+                        this.setDefaultType('dataBinding', this.dataBindingTypes);
+                    }
+                }, (error) => {
+
+                });
+        } else {
+            this.projectComponentService.getEntityByProjectId(this.project_id)
+                .subscribe((allEntityData) => {
+                    console.log('ram getEntity with project ----  ', allEntityData);
+                    if (allEntityData !== null && allEntityData !== undefined && allEntityData.length > 0) {
+                        const entityArray = [];
+                        allEntityData.forEach(entityElement => {
+                            // const data = JSON.parse(entityElement);
+                            const object = {
+                                name: '',
+                                value: ''
+                            };
+                            object.name = entityElement.name;
+                            object.value = entityElement._id;
+                            entityArray.push(object);
+                        });
+                        this.setDefaultType('entity', entityArray);
+                    } else {
+                        this.setDefaultType('dataBinding', this.dataBindingTypes);
+                    }
+                }, (error) => {
+
+                });
+        }
+    }
+
+    newENtity() {
+
+    }
+
+    setDefaultType(traitsName, EntityBinding) {
+        // console.log('ram setdefaul types are ----- ', traitsName);
+        // this.editor.DomComponents.getType('input').model.prototype.init().listenTo(this, 'change:2345', this.newENtity);
+        // console.log('ram 12345@@ ----  ',this.editor.DomComponents.getType('input').model.prototype.init());
+      
+        this.editor.DomComponents.getType('input').model
+            .prototype.defaults.traits.push({
+                type: 'select',
+                label: traitsName,
+                name: traitsName,
+                options: EntityBinding,
+                changeProp: 1
+
+            }, {
+                type: 'entityFieldButton',
+                label: 'Field',
+                name: 'Field'
+            });
+        this.editor.DomComponents.getType('select').model
+            .prototype.defaults.traits.push({
+                type: 'select',
+                label: traitsName,
+                name: traitsName,
+                options: EntityBinding
+
+            }, {
+                type: 'entityFieldButton',
+                label: 'Field',
+                name: 'Field'
+            });
+        this.editor.DomComponents.getType('radio').model
+            .prototype.defaults.traits.push({
+                type: 'select',
+                label: traitsName,
+                name: traitsName,
+                options: EntityBinding
+
+            }, {
+                type: 'entityFieldButton',
+                label: 'Field',
+                name: 'Field'
+            });
+        this.editor.DomComponents.getType('textarea').model
+            .prototype.defaults.traits.push({
+                type: 'select',
+                label: traitsName,
+                name: traitsName,
+                options: EntityBinding
+
+            }, {
+                type: 'entityFieldButton',
+                label: 'Field',
+                name: 'Field'
+            });
+    }
 
     beforeDropElement() {
         this.editor.on('component:toggled', model => {
@@ -361,8 +568,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         // console.log('all triats --13--  ', this.editor.DomComponents.getType('input').model
         //     .prototype.defaults.traits.push({
         //         type: 'select',
-        //         label: 'Data Binding',
-        //         name: 'data-binding',
+        //         label: traitsName,
+        //         name: traitsName,
         //         options: this.dataBindingTypes
 
         //     }));
@@ -381,55 +588,95 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         // console.log('all triats --22--  ', this.editor.TraitManager.getType('input'));
         // this.editor.DomComponents.getType('default')
         //     .model.prototype.defaults.traits.push({ label: 'Crazy Attribute', name: 'data-crazy' });
-        this.editor.DomComponents.getType('input').model
-            .prototype.defaults.traits.push({
-                type: 'select',
-                label: 'Data Binding',
-                name: 'data-binding',
-                options: this.dataBindingTypes
+        // console.log('ram component values ar e---input---  ', this.editor.DomComponents.getType('input').model.prototype);
+        // console.log('ram component values ar e---select---  ', this.editor.DomComponents.getType('select').model.prototype);
+        // console.log('ram component values ar e---textarea---  ', this.editor.DomComponents.getType('textarea').model.prototype);
+        // console.log('ram component values ar e---checkbox---  ', this.editor.DomComponents.getType('checkbox').model.prototype);
+        // console.log('ram component values ar e---textarea---  ', this.editor.DomComponents.getType('textarea').model.prototype);
 
-            });
-        this.editor.DomComponents.getType('select').model
-            .prototype.defaults.traits.push({
-                type: 'select',
-                label: 'Data Binding',
-                name: 'data-binding',
-                options: this.dataBindingTypes
+        // // this.editor.DomComponents.getType('radio').model.prototype.toHTML.apply(this)
+        // const defaultType = this.editor.DomComponents.getType('default');
+        // this.editor.DomComponents.addType('radio', {
+        //     model: defaultType.model.extend({
+        //         toHTML: function () {
+        //             console.log('ram tohtml values of dom are -- ');
+        //             return '<p>ram code</p>'; // return an empty string instead of the default toHTML behaviour
+        //         }
+        //     }, {
+        //             isComponent: function (el) {
+        //                 console.log('ram iscomponent function are ---- ', el.tagName);
+        //                 // add custom isComponent logic here
+        //             }
+        //         }),
+        //     view: defaultType.view
+        // });
 
-            });
-        this.editor.DomComponents.getType('radio').model
-            .prototype.defaults.traits.push({
-                type: 'select',
-                label: 'Data Binding',
-                name: 'data-binding',
-                options: this.dataBindingTypes
+        this.editor.on('change:traits:entity', function (model) {
+console.log('ram change editor entity values ar e-----  ');
+         });
 
-            });
-        this.editor.DomComponents.getType('textarea').model
-            .prototype.defaults.traits.push({
-                type: 'select',
-                label: 'Data Binding',
-                name: 'data-binding',
-                options: this.dataBindingTypes
 
-            });
         this.editor.on('block:drag:stop', function (model) {
+            console.log('ram component values ar e----11--  ', model);
+            console.log('ram component values ar e--22----  ', model.find('input'));
             const allInputModels = model.find('input');
             const allTextAreaModels = model.find('textarea');
             const allOptionModels = model.find('select');
             const allRadioModels = model.find('.radio');
+            const allButtonModels = model.find('.button');
             const allCheckBoxModels = model.find('.checkbox');
             const allImageBlockModels = model.find('.gpd-image-block');
             const allImageModels = model.find('.gjs-plh-image');
-            allInputModels.forEach(models => models.setAttributes({ name: `input_${generate(dictionary.numbers, 6)}` }));
-            allTextAreaModels.forEach(models => models.setAttributes({ name: `textarea_${generate(dictionary.numbers, 6)}` }));
-            allOptionModels.forEach(models => models.setAttributes({ name: `select_${generate(dictionary.numbers, 6)}` }));
-            allRadioModels.forEach(models => models.setAttributes({ name: `radio_${generate(dictionary.numbers, 6)}` },
-                { value: 1 }));
-            allCheckBoxModels.forEach(models => models.setAttributes({ name: `checkbox_${generate(dictionary.numbers, 6)}` }));
-            // model.attributes.attributes = {href:"http://teste.com"}
-            allImageBlockModels.forEach(models => models.setAttributes({ name: `imageblocks_${generate(dictionary.numbers, 6)}` }));
-            allImageModels.forEach(models => models.setAttributes({ name: `image_${generate(dictionary.numbers, 6)}` }));
+            // console.log('buttonn are ---- ', allButtonModels);
+            // console.log('ram component values ar e--33----  ', model.find('textarea'));
+            // console.log('ram component values ar e--44----  ', model.find('select'));
+            // console.log('ram component values ar e--55----  ', model.find('.radio'));
+            // console.log('ram component values ar e--66----  ', model.find('.button'));
+            // console.log('ram component values ar e--77----  ', model.find('.checkbox'));
+            // console.log('ram component values ar e--88----  ', model.find('.gpd-image-block'));
+            // console.log('ram component values ar e--99----  ', model.find('.gjs-plh-image'));
+
+
+            allInputModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `input_${inputElement.ccid}` });
+            });
+            allTextAreaModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `textarea_${inputElement.ccid}` });
+            });
+            allOptionModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `option_${inputElement.ccid}` });
+            });
+            allRadioModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `radio_${inputElement.ccid}` });
+            });
+            allButtonModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `button_${inputElement.ccid}` });
+            });
+            allCheckBoxModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `checkbox_${inputElement.ccid}` });
+            });
+            allImageBlockModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `imageblock_${inputElement.ccid}` });
+            });
+            allImageModels.forEach(inputElement => {
+                inputElement.setAttributes({ name: `image_${inputElement.ccid}` });
+            });
+
+            // allButtonModels[0].attributes.content = 'testnew';
+            // allButtonModels.target.set('content', 'dsfdsfsdf');
+
+            // button default content name changed
+            // allButtonModels[0].attributes.traits.target.set('content', `button_${generate(dictionary.numbers, 6)}`);
+            // allInputModels.forEach(models => models.setAttributes({ name: `input_${generate(dictionary.numbers, 6)}` }));
+            // // allButtonModels.forEach(models => models.setAttributes({ content: `button_${generate(dictionary.numbers, 6)}` }));
+            // allTextAreaModels.forEach(models => models.setAttributes({ name: `textarea_${generate(dictionary.numbers, 6)}` }));
+            // allOptionModels.forEach(models => models.setAttributes({ name: `select_${generate(dictionary.numbers, 6)}` }));
+            // allRadioModels.forEach(models => models.setAttributes({ name: `radio_${generate(dictionary.numbers, 6)}` },
+            //     { value: 1 }));
+            // allCheckBoxModels.forEach(models => models.setAttributes({ name: `checkbox_${generate(dictionary.numbers, 6)}` }));
+            // // model.attributes.attributes = {href:"http://teste.com"}
+            // allImageBlockModels.forEach(models => models.setAttributes({ name: `imageblocks_${generate(dictionary.numbers, 6)}` }));
+            // allImageModels.forEach(models => models.setAttributes({ name: `image_${generate(dictionary.numbers, 6)}` }));
         });
     }
 
@@ -506,14 +753,14 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     //     return element ? element.headerName : null;
     //   }
 
-    // showPopupModal() {
-    //     // this.isGridPopup = true;
-    //     // console.log('showPopup mdoels -====  ', this.isGridPopup);
-    //     // this.agGridArray = [];
-    //     const modal = <HTMLElement>document.querySelector('#agGridModal');
-    //     console.log('agGridEntity ag Grid modal are --main--- ', modal);
-    //     modal.style.display = 'block';
-    //     this.agGridArray = [];
-    // }
+    showPopupModal() {
+        // this.isGridPopup = true;
+        // console.log('showPopup mdoels -====  ', this.isGridPopup);
+        // this.agGridArray = [];
+        const modal = <HTMLElement>document.querySelector('#agGridModal');
+        console.log('agGridEntity ag Grid modal are --main--- ', modal);
+        modal.style.display = 'block';
+        this.agGridArray = [];
+    }
 
 }

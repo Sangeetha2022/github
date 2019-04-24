@@ -4,6 +4,7 @@ import { ApiService } from '../config/api.service';
 import { SharedService } from '../../shared/shared.service';
 import { IEntity } from './interface/Entity';
 import { Constants } from '../config/Constant';
+import { HttpClient, HttpBackend } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 @Injectable({
@@ -26,7 +27,10 @@ export class ProjectComponentService {
 
 
   constructor(
-    private api: ApiService, private restapi: SharedService
+    private api: ApiService,
+    private restapi: SharedService,
+    private http: HttpClient,
+    private handler: HttpBackend,
   ) { }
 
   createEntity(entity: any): Observable<any> {
@@ -35,20 +39,24 @@ export class ProjectComponentService {
   updateEntity(entity: any): Observable<any> {
     return this.api.put(this.restapi.entityUrl + '/entity/update', entity);
   }
+
+  saveFeatureEntity(featureEntity: any): Observable<any>{
+    return this.api.post(this.restapi.featureUrl + Constants.saveFeatureEntity, featureEntity);
+  }
   deleteEntity(entityId: String): Observable<any> {
     return this.api.delete(this.restapi.entityUrl + `/entity/delete/${entityId}`);
   }
   getByIdEntity(entityId: any): Observable<any> {
     return this.api.get(this.restapi.entityUrl + `/entity/get/${entityId}`);
   }
-  getEntityByProjectId(projectId: String): Observable<[]> {
+  getEntityByProjectId(projectId: String): Observable<any> {
     return this.api.get(this.restapi.entityUrl + `/entity/get?projectId=${projectId}`);
   }
   getAllEntity(): Observable<any> {
     return this.api.get(this.restapi.entityUrl + '/entity/getall');
   }
 
-  getEntityByFeatureAndprojectId(projectId, featureId): Observable<[]> {
+  getEntityByFeatureAndprojectId(projectId, featureId): Observable<any> {
     return this.api.get(this.restapi.entityUrl + Constants.getEntityByFeatureAndprojectId + projectId + '/' + featureId);
   }
 
@@ -65,16 +73,24 @@ export class ProjectComponentService {
     this.entityInfoSource.next(entity);
   }
 
-
   // Feature
   addFeature(feature) {
     return this.api.post(this.restapi.featureUrl + Constants.feature + Constants.saveUrl, feature);
 
   }
 
+  addFeatureFlow(featureFlow){
+    return this.api.post(this.restapi.featureUrl + Constants.addFeatureFlow, featureFlow);
+  }
+
   addFeatureDetails(feature) {
     return this.api.post(this.restapi.featureUrl + Constants.addFeatureDetails, feature);
 
+  }
+
+  addFeatureDetailsWithFile(feature) {
+    this.http = new HttpClient(this.handler);
+    return this.http.post(`${this.restapi.featureUrl}${Constants.addFeatureDetails}`, feature);
   }
 
   getAllFeature() {
