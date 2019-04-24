@@ -19,19 +19,19 @@ export class SharedService {
     // public genmanagerUrl: String = 'http://localhost:5000';
 
     // App Service
-
-    public flowbaseUrl: String = 'http://a88c39f81506b11e9a0f9123b38b3f44-638954340.us-east-1.elb.amazonaws.com:3001';
-    public mflowbaseUrl: String = 'http://a88c39f81506b11e9a0f9123b38b3f44-638954340.us-east-1.elb.amazonaws.com:3002';
-    public projbaseUrl: String = 'http://a88c39f81506b11e9a0f9123b38b3f44-638954340.us-east-1.elb.amazonaws.com:3003';
-    public screenUrl: String = 'http://a88c39f81506b11e9a0f9123b38b3f44-638954340.us-east-1.elb.amazonaws.com:3004';
-    public entityUrl: String = 'http://a88c39f81506b11e9a0f9123b38b3f44-638954340.us-east-1.elb.amazonaws.com:3005';
-    public featureUrl: String = 'http://a88c39f81506b11e9a0f9123b38b3f44-638954340.us-east-1.elb.amazonaws.com:3006';
-    public featureflowbaseUrl: String = 'http://a88c39f81506b11e9a0f9123b38b3f44-638954340.us-east-1.elb.amazonaws.com:3007';
-    public loginUrl: String = 'http://a88c39f81506b11e9a0f9123b38b3f44-638954340.us-east-1.elb.amazonaws.com:3008';
+    public Apigateway: String = 'http://3.92.72.204:30001';
+    public flowbaseUrl: String = 'http://a1b92b727579811e9a0f9123b38b3f44-375396789.us-east-1.elb.amazonaws.com:3001';
+    public mflowbaseUrl: String = 'http://a1b92b727579811e9a0f9123b38b3f44-375396789.us-east-1.elb.amazonaws.com:3002';
+    public projbaseUrl: String = 'http://a1b92b727579811e9a0f9123b38b3f44-375396789.us-east-1.elb.amazonaws.com:3003';
+    public screenUrl: String = 'http://a1b92b727579811e9a0f9123b38b3f44-375396789.us-east-1.elb.amazonaws.com:3004';
+    public entityUrl: String = 'http://a1b92b727579811e9a0f9123b38b3f44-375396789.us-east-1.elb.amazonaws.com:3005';
+    public featureUrl: String = 'http://a1b92b727579811e9a0f9123b38b3f44-375396789.us-east-1.elb.amazonaws.com:3006';
+    public featureflowbaseUrl: String = 'http://a1b92b727579811e9a0f9123b38b3f44-375396789.us-east-1.elb.amazonaws.com:3007';
+    public loginUrl: String = 'http://a1b92b727579811e9a0f9123b38b3f44-375396789.us-east-1.elb.amazonaws.com:3008';
 
     // Generator Services
-    public genmanagerUrl: String = 'http://a14efe48e38cf11e982c60202a46ed6d-1515056916.us-east-1.elb.amazonaws.com:5000';
-    public configUrl: String = 'http://a14efe48e38cf11e982c60202a46ed6d-1515056916.us-east-1.elb.amazonaws.com:5001';
+    public genmanagerUrl: String = 'http://ac769f28b521b11e988250eeb40aab9c-41146344.us-east-1.elb.amazonaws.com:5000';
+    public configUrl: String = 'http://ac769f28b521b11e988250eeb40aab9c-41146344.us-east-1.elb.amazonaws.com:5001';
 
 
    

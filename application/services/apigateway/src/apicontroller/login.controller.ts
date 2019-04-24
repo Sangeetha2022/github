@@ -37,26 +37,28 @@ export class Logincontroller implements Controller {
             // @ts-ignore
             const Userdetails = user;
             // @ts-ignore
-            if (Userdetails.Idtoken === null || Userdetails.Idtoken === '') {
+            if (Userdetails.body.Idtoken === null || Userdetails.body.Idtoken === '' || Userdetails.body.Idtoken === undefined) {
+                // console.log('----------insideifcondition------>>>>', Userdetails);
                 var loginresponse = {
                     "Userdetails": Userdetails
                 }
                 res.send(loginresponse);
             } else {
                 // @ts-ignore
-                var token = user.Idtoken;
+                var token = Userdetails.body.Idtoken;
                 jwt.verify(token, 'geppettosecret', (err, decoded) => {
                     if (err) {
                         // res.status(401);
-                        console.log('-----------err--->>>', err);
+                        console.log('------hey an err--->>>', err);
                         res.send({ 'status': 'Unauthorized', 'error': err,'Userdetails':user });
                     } else {
-                        var url = 'http://localhost:3010/proxy';
+                        var url = `${Constants.proxyUrl}/proxy`;
                         request.post({ url: url, json: decoded }, (error, response, body) => {
                             var loginresponse = {
                                 "Access": body,
                                 "Userdetails": user
                             }
+                            console.log('-----------body--------->>>', loginresponse);
                             res.send(loginresponse);
                         })
                     }
@@ -70,16 +72,16 @@ export class Logincontroller implements Controller {
 
     public Consent(req: Request, res: Response) {
         new ApiAdaptar().put(`${Constants.loginUrl}/consent`, req.body).then((consentresponse) => {
-            console.log('---------consentresponse----->', consentresponse);
             // @ts-ignore
-            var token = consentresponse.Idtoken;
+            var token = consentresponse.body.Idtoken;
+            console.log('---------token---->>>', token);
             jwt.verify(token, 'geppettosecret', (err, decoded) => {
                 if (err) {
                     // res.status(401);
-                    console.log('-----------err--->>>', err);
+                    console.log('---------hey an err--->>>', err);
                     // res.send({ 'status': 'Unauthorized', 'error': err,'Userdetails':user });
                 } else {
-                    var url = 'http://localhost:3010/proxy';
+                    var url = `${Constants.proxyUrl}/proxy `;
                     request.post({ url: url, json: decoded }, (error, response, body) => {
                         var loginresponse = {
                             "Access": body,

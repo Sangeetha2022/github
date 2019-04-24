@@ -14,13 +14,15 @@ import { LoginComponent } from './login/login.component';
 import { ConsentscreenComponent } from './consentscreen/consentscreen.component';
 import { LandingpageComponent } from './landingpage/landingpage.component';
 import { FeatureDetailsComponent } from './project-component/feature-details/feature-details.component';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: '', component: HomepageComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'consent', component: ConsentscreenComponent},
-  { path: 'callback', component: ProjectsComponent},
-  { path: 'project', component: ProjectsComponent },
+  { path: '', component: HomepageComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'consent', component: ConsentscreenComponent, canActivate: [AuthGuard] },
+  { path: 'landing', component: LandingpageComponent, canActivate: [AuthGuard] },
+  { path: 'callback', component: ProjectsComponent, canActivate: [AuthGuard] },
+  { path: 'project', component: ProjectsComponent, canActivate: [AuthGuard] },
   { path: 'flow-component', component: ComponentFlowsComponent },
   { path: 'flow-manager', component: FlowManagerComponent },
   { path: 'available-connector', component: AvailableConnectorComponent },

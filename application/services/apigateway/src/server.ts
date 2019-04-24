@@ -3,24 +3,24 @@ import * as express from "express";
 import * as bodyParser from "body-parser";
 import Controller from './interfaces/controller.interface';
 import {
-     ProjectController,
-      FlowManagerController,
-      EntityController,
-      DefaultController,
+    ProjectController,
+    FlowManagerController,
+    EntityController,
+    DefaultController,
 
-      Logincontroller,
-      Proxycontroller,
-      Camundacontroller
+    Logincontroller,
+    Proxycontroller,
+    Camundacontroller,
 
-      FeatureController,
-CodeController,
-ConfigurationController    
+    FeatureController,
+    CodeController,
+    ConfigurationController,
 
-    } from './apicontroller';
+} from './apicontroller';
 
 import { WinstonLogger } from './config/WinstonLogger';
 import { createUserTemplateController } from './apicontroller/screenmanager.controllers';
-import { securityController } from './apicontroller/securitymanager.controllers';
+// import { securityController } from './apicontroller/securitymanager.controllers';
 import { MicroflowController } from './apicontroller/microflowmanager.controller';
 
 const PORT = 3010;
@@ -33,11 +33,11 @@ let apisController = [
 
     new Logincontroller(),
     new Proxycontroller(),
-    new Camundacontroller()
+    new Camundacontroller(),
 
     new FeatureController(),
     new createUserTemplateController(),
-    new securityController(),
+    // new securityController(),
     new MicroflowController(),
     new CodeController(),
     new ConfigurationController()
