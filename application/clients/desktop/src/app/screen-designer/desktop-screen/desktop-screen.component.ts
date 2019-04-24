@@ -387,7 +387,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     // need to work screen by id
     getScreenById() {
         if (this.screen_id) {
-            this.editor.StorageManager.get('remote').set({ urlStore: `${this.updateTemplateURL}${this.project_id}` });
+            this.editor.StorageManager.get('remote').set({ urlStore: `${this.updateTemplateURL}${this.screen_id}` });
             this.screenDesignerService.getScreenById(this.screen_id).subscribe(
                 (data) => {
                     console.log('screenId get are --- ', data, this.screen_id);
