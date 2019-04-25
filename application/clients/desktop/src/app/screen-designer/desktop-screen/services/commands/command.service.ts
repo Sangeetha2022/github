@@ -13,6 +13,7 @@ export class CommandService {
   feature_id: any;
   project_id: any;
   screenArray: any[] = [];
+  screen_id: any;
 
   constructor(
     private projectComponentService: ProjectComponentService,
@@ -32,6 +33,11 @@ export class CommandService {
       } else {
         this.project_id = undefined;
       }
+      if (params.screenId !== undefined && params.screenId !== null) {
+        this.screen_id = params.screenId;
+      } else {
+        this.screen_id = undefined;
+      }
     });
   }
 
@@ -42,6 +48,8 @@ export class CommandService {
         n.set('active', 0);
         const currentStorageDetails = e.StorageManager.getCurrentStorage();
         if ($this.project_id !== undefined && $this.feature_id !== undefined) {
+          editor.store();
+        } else if ($this.screen_id !== undefined) {
           editor.store();
         } else {
           $this.traitService.getScreenInfo();
