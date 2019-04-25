@@ -14,25 +14,25 @@ export class DevOpsService {
 
         projectDetails.yamlSource = Destination + "/" + projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5) + "/deployment/aws"
 
-        let namespaceYaml = projectDetails.yamlSource + "/namespace";
-        let namespaceManifest = yaml.safeLoad(fs.readFileSync(namespaceYaml + '/namespace.yaml', 'utf8'));
-        console.log("deployment started...")
-        async function createNameSpace() {
-            try {
+        //let namespaceYaml = projectDetails.yamlSource + "/namespace";
+        //let namespaceManifest = yaml.safeLoad(fs.readFileSync(namespaceYaml + '/namespace.yaml', 'utf8'));
+        console.log("deploying dev-ops...")
+        // async function createNameSpace() {
+        //     try {
 
-                //create name space
-                const namespaceData = await client.api.v1.namespace.post({ body: namespaceManifest });
-                if (namespaceData.statusCode == 201) {
-                    projectDetails.namespace = namespaceData.body.metadata.name
-                    applyDeployDB();
-                }
+        //         //create name space
+        //         const namespaceData = await client.api.v1.namespace.post({ body: namespaceManifest });
+        //         if (namespaceData.statusCode == 201) {
+        //             projectDetails.namespace = namespaceData.body.metadata.name
+        //             applyDeployDB();
+        //         }
 
 
-            } catch (err) {
-                console.error('Error: ', err)
-            }
-        }
-        createNameSpace()
+        //     } catch (err) {
+        //         console.error('Error: ', err)
+        //     }
+        // }
+        // createNameSpace()
 
         async function applyDeployDB() {
             try {
@@ -66,7 +66,7 @@ export class DevOpsService {
                 console.error('Error: ', err)
             }
         }
-
+        applyDeployDB();
 
         async function applyDeployDevOps() {
             try {

@@ -14,6 +14,8 @@ export class TelemetryService {
 
     public telemetry_vault(projectDetails, client, callback: CallableFunction) {
 
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+
         projectDetails.yamlSource = Destination + "/" + projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5) + "/deployment/aws"
 
         let namespaceYaml = projectDetails.yamlSource + "/namespace";
@@ -54,7 +56,7 @@ export class TelemetryService {
                 const serviceData = await client.api.v1.namespaces(projectDetails.namespace).service.post({ body: serviceManifest });
                 if (serviceData.statusCode == 201) {
                     // move to next pods...
-                    await delay(5000);
+                    await delay(30000);
                     loadVaultData();
                     //console.log("SUCCESS TELEMETRY VAULT-PROMETHUES DEPLOYED!");
                 }
@@ -67,26 +69,26 @@ export class TelemetryService {
 
         async function loadVaultData() {
             try {
-                await delay(5000);
+                
+                let projectName = projectDetails.project_name + "-" + projectDetails.user_id.substring(0, 5);
                 const svcData = await client.api.v1.namespaces(projectDetails.namespace).service.get();
                 var vaultHost = '';
                 var vaultPort = '';
-
-
+                             
                 //need to change :
                 svcData.body.items.forEach(element => {
-                    if (element.metadata.name === 'gep-dev-telimetry') {
+                    if (element.metadata.name === projectName.toLowerCase() + '-telimetry') {
                         var vaultHostData = JSON.parse(element.metadata.annotations['field.cattle.io/publicEndpoints']);
                         vaultHost = vaultHostData[0].addresses[0];
                         vaultPort = vaultHostData[0].port;
                     }
                 });
 
-                var vault = require("node-vault")({ apiVersion: 'v1', endpoint: 'http://' + vaultHost + ':' + vaultPort, token: 'vault-geppetto-2019' });
+                var vault = require("node-vault")({ apiVersion: 'v1', endpoint: 'http://' + vaultHost + ':' + vaultPort, token: 'vault-' + projectName.toLowerCase() + '-2019' });
 
                 vault.mounts()
                     .then(() => vault.mount({ mount_point: 'kv', type: 'generic', description: 'mongo connection string' }))
-                    .then(() => vault.write('kv/kuberentes/database/mongo/connection', { mongo_connection_string: 'mongodb://gep-dev-app-db/' + projectDetails.namespace }))
+                    .then(() => vault.write('kv/kuberentes/database/mongo/connection', { mongo_connection_string: 'mongodb://' + projectName.toLowerCase() + '-app-db/' + projectName.toLowerCase() }))
                 //.then(() => vault.read('kv/kuberentes/database/mongo/connection'))
                 //.then(console.log)
                 console.log("SUCCESS TELEMETRY VAULT-PROMETHUES DEPLOYED!");
@@ -96,10 +98,6 @@ export class TelemetryService {
             }
         }
 
-
-
-
-        const delay = ms => new Promise(res => setTimeout(res, ms));
 
     }
 
@@ -132,10 +130,10 @@ export class TelemetryService {
             try {
 
 
-                // //deploy elasticsearch pv
-                // let elsaticPvManifest = yaml.safeLoad(fs.readFileSync(loggingYaml + '/elasticsearch-pv.yaml', 'utf8'));
-                // const pvData = await client.api.v1.pv.post({ body: elsaticPvManifest });
-                // await delay(5000);
+                //deploy elasticsearch pv
+                let elsaticPvManifest = yaml.safeLoad(fs.readFileSync(loggingYaml + '/elasticsearch-pv.yaml', 'utf8'));
+                const pvData = await client.api.v1.pv.post({ body: elsaticPvManifest });
+                await delay(5000);
 
 
                 //deploy elasticsearch pvc

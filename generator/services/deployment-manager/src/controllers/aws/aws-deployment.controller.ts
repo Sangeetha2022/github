@@ -36,20 +36,42 @@ export class AWSDeploymentController {
         projectDetails.templateUrl = Source;
         const delay = ms => new Promise(res => setTimeout(res, ms));
 
-        rancherService.create_aws_nodes(projectDetails, async (response) => {
-            if (response.status == "success") {
-                projectDetails.rancherHost = response.data;
-                console.log("rancher host url : " + projectDetails.rancherHost)
-                console.log("waiting for rancher to be available....");
-                await delay(60000);
-                console.log("rancher is up!")
-                kubernetesService.connectRancher(projectDetails, (response) => {
-                    //console.log("response-------->", response);
-                })
-            } else {
-                console.log("failed in AWS nodes creation!");
-            }
-        })
+         //use existing cluster
+        if (projectDetails.existing_cluster) {
+            rancherService.get_existing_rancherHost(projectDetails, async (response) => {
+                if (response.status == "success") {
+                    projectDetails.rancherHost = response.data;
+                    console.log("rancher host url : " + projectDetails.rancherHost)
+                    // console.log("waiting for rancher to be available....");
+                    // await delay(60000);
+                    // console.log("rancher is up!")
+                    kubernetesService.connectRancher(projectDetails, (response) => {
+                        //console.log("response-------->", response);
+                    })
+                } else {
+                    console.log("failed in AWS nodes creation!");
+                }
+            })
+        }
+
+        //creating new cluster
+        if (!projectDetails.existing_cluster) {
+            rancherService.create_aws_nodes(projectDetails, async (response) => {
+                if (response.status == "success") {
+                    projectDetails.rancherHost = response.data;
+                    console.log("rancher host url : " + projectDetails.rancherHost)
+                    console.log("waiting for rancher to be available....");
+                    await delay(60000);
+                    console.log("rancher is up!")
+                    kubernetesService.connectRancher(projectDetails, (response) => {
+                        //console.log("response-------->", response);
+                    })
+                } else {
+                    console.log("failed in AWS nodes creation!");
+                }
+            })
+        }
+
 
 
 

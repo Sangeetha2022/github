@@ -13,5 +13,10 @@
     "KUBECONFIG": {
         "YAML": "./kube-config",
         "URL": ""
+    },
+    "GEPPETTO":{
+      "DEV":{
+          "URL":"./src/config/geppetto"
+      }
     }
 }

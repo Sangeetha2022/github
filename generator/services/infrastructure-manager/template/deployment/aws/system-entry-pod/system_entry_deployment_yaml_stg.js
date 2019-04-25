@@ -1,6 +1,6 @@
 /*
  * Template group system_entry_deployment_yaml
- * Compiled on Thu Feb 21 2019 13:15:17 GMT+0530 (India Standard Time)
+ * Compiled on Mon Mar 25 2019 11:24:03 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -81,7 +81,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("          ");
-    w.write("image: ram2010/");
+    w.write("image: tharanirajan/");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
     w.write("-system-entry:1.0");
