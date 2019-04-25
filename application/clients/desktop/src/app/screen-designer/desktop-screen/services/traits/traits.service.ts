@@ -29,7 +29,7 @@ export class TraitsService {
   public screenArray: any[] = [];
   public clientFramework: any = 'Angular 7';
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
   ) { this.initVariable(); }
 
   initVariable() {
@@ -40,60 +40,76 @@ export class TraitsService {
     // action button add
     const $this = this;
     // entity field button
-    editor.TraitManager.addType('entityFieldButton', {
-      events: {
-        'click': function () {
-          console.log('print button clicked');
-          console.log('ram $this ---- ', $this);
-          console.log('ram this ---- ', this);
-          const eventPopupModel = document.getElementById('EventPopup');
-          console.log('print eventPopupModel values are ------ ', eventPopupModel);
-          eventPopupModel.style.display = 'block';
-        },
-      },
-      getInputEl() {
-        // tslint:disable-next-line:prefer-const
-        let button = <HTMLElement>document.createElement('button');
-        button.id = 'fieldButton';
-        button.style.width = '100%';
-        button.style.backgroundColor = '#4CAF50';
-        button.style.border = 'none';
-        button.style.color = 'white';
-        button.style.backgroundColor = '#008CBA';
-        button.style.fontSize = '12px !important';
-        button.style.cursor = 'pointer';
-        button.appendChild(document.createTextNode('Field'));
-        return button;
-      },
-    });
+    // editor.TraitManager.addType('entityFieldButton', {
+    //   events: {
+    //     'click': function () {
+    //       // console.log('print button clicked');
+    //       // console.log('ram $this ---- ', $this);
+    //       // console.log('ram this ---- ', this);
+    //       // const eventPopupModel = document.getElementById('EventPopup');
+    //       // console.log('print eventPopupModel values are ------ ', eventPopupModel);
+    //       // eventPopupModel.style.display = 'block';
+    //       const modal = <HTMLElement>document.querySelector('#modalDiv');
+    //       // console.log('entityFieldButton 34455 ----- ', modal, ' ---- ', this);
+    //       // console.log('entityFieldButton 34455 --2222--- ', modal, ' ---- ', this.target.changed['entity']);
+    //       if (this.target.changed['entity'] !== undefined) {
+    //         modal.style.display = 'block';
+    //         $this.ref.detectChanges()
+    //       }
+    //       // if (selectedEntity !== undefined) {
+    //         // modal.style.display = 'block';
+    //         // const constructObj = {
+    //         //   entity: '',
+    //         //   defalutColumn: '',
+    //         //   customColumn: ''
+    //         // };
+    //         // $this.dataService.setAgGridEntity(constructObj);
+    //       // }
+    //     },
+    //   },
+    //   getInputEl() {
+    //     // tslint:disable-next-line:prefer-const
+    //     let button = <HTMLElement>document.createElement('button');
+    //     button.id = 'fieldButton';
+    //     button.style.width = '100%';
+    //     button.style.backgroundColor = '#4CAF50';
+    //     button.style.border = 'none';
+    //     button.style.color = 'white';
+    //     button.style.backgroundColor = '#008CBA';
+    //     button.style.fontSize = '12px !important';
+    //     button.style.cursor = 'pointer';
+    //     button.appendChild(document.createTextNode('Field'));
+    //     return button;
+    //   },
+    // });
 
     // content example
-    editor.TraitManager.addType('entityDropdown', {
-      events: {
-        'click': function () {
-          console.log('print button clicked');
-          console.log('ram $this ---- ', $this);
-          console.log('ram this ---- ', this);
-          const eventPopupModel = document.getElementById('EventPopup');
-          console.log('print eventPopupModel values are ------ ', eventPopupModel);
-          eventPopupModel.style.display = 'block';
-        },
-      },
-      getInputEl() {
-        // tslint:disable-next-line:prefer-const
-        let button = <HTMLElement>document.createElement('button');
-        button.id = 'fieldButton';
-        button.style.width = '100%';
-        button.style.backgroundColor = '#4CAF50';
-        button.style.border = 'none';
-        button.style.color = 'white';
-        button.style.backgroundColor = '#008CBA';
-        button.style.fontSize = '12px !important';
-        button.style.cursor = 'pointer';
-        button.appendChild(document.createTextNode('Field'));
-        return button;
-      },
-    });
+    // editor.TraitManager.addType('entityDropdown', {
+    //   events: {
+    //     'click': function () {
+    //       console.log('print button clicked');
+    //       console.log('ram $this ---- ', $this);
+    //       console.log('ram this ---- ', this);
+    //       const eventPopupModel = document.getElementById('EventPopup');
+    //       console.log('print eventPopupModel values are ------ ', eventPopupModel);
+    //       eventPopupModel.style.display = 'block';
+    //     },
+    //   },
+    //   getInputEl() {
+    //     // tslint:disable-next-line:prefer-const
+    //     let button = <HTMLElement>document.createElement('button');
+    //     button.id = 'fieldButton';
+    //     button.style.width = '100%';
+    //     button.style.backgroundColor = '#4CAF50';
+    //     button.style.border = 'none';
+    //     button.style.color = 'white';
+    //     button.style.backgroundColor = '#008CBA';
+    //     button.style.fontSize = '12px !important';
+    //     button.style.cursor = 'pointer';
+    //     button.appendChild(document.createTextNode('Field'));
+    //     return button;
+    //   },
+    // });
 
 
     this.initializeMethod(editor);
@@ -228,15 +244,7 @@ export class TraitsService {
             },
             { type: 'checkbox', name: 'required', label: 'Required' }
           ]
-        }),
-        init() {
-          this.listenTo(this, 'change:entity', this.entities);
-        },
-        entities() {
-          alert('entity called');
-          console.log('ram traits input models ar e--$this---  ', $this);
-          console.log('ram traits input models ar e--this---  ', this);
-        }
+        })
 
       },
         {

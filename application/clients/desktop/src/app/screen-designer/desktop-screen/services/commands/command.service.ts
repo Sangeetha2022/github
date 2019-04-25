@@ -35,23 +35,16 @@ export class CommandService {
     });
   }
 
-  addSaveCommand(commandName, editor, saveURL) {
-    console.log('entering into add save command', saveURL);
+  addSaveCommand(commandName, editor) {
     const $this = this;
     editor.Commands.add(commandName, {
       run: function (e, n) {
-        editor.StorageManager.get('remote').set({ urlStore: saveURL });
         n.set('active', 0);
-        console.log('save command ran for saving features ', $this.feature_id, ' ---- ', $this.project_id);
-        console.log('ram save command ran for saving features storemanagar arr ', e, ' ---- ', n);
-        console.log('ram storagedetails getcurrent ', e.StorageManager.getCurrent());
-        console.log('ram storagedetails getcurrentstorage', e.StorageManager.getCurrentStorage());
         const currentStorageDetails = e.StorageManager.getCurrentStorage();
         if ($this.project_id !== undefined && $this.feature_id !== undefined) {
           editor.store();
         } else {
           $this.traitService.getScreenInfo();
-          console.log('ram get traits service ar e------ ', $this.traitService.getScreenInfo());
           $this.screenArray = $this.traitService.getScreenInfo();
           const featureDetailObj = {
             name: `Feature_${generate(dictionary.numbers, 6)}`,
@@ -59,7 +52,6 @@ export class CommandService {
           };
           $this.projectComponentService.addFeatureDetails(featureDetailObj).subscribe(
             (details) => {
-              console.log('ram saved feature detils are ----- ', details);
               if (details) {
                 const featureObj = {
                   project_id: $this.project_id,
@@ -67,7 +59,6 @@ export class CommandService {
                 };
                 $this.projectComponentService.addFeature(featureObj).subscribe(
                   (features) => {
-                    console.log('ram saved feature are ------ ', features);
                     const result = $this.screenArray.filter(function (a) {
                       return !this[a._id] && (this[a._id] = true);
                     }, Object.create(null));
@@ -84,10 +75,8 @@ export class CommandService {
                           type: flowElement.button.action.type,
                           feature_id: details._id
                         };
-                        console.log('ram resultoject ----- ', flowObj, ' ---- ');
                         resultArray.push(flowObj);
                       });
-                      console.log('ram resultarray and resultoject ----- ', resultArray, ' ---- ');
                       $this.projectComponentService.addFeatureFlow(resultArray).subscribe(
                         (featureFlow) => {
                           currentStorageDetails.attributes.params.feature = details._id;
@@ -104,20 +93,18 @@ export class CommandService {
 
                   },
                   (error) => {
-                    console.log('ram sorry feature project cannot able to save ');
+                    console.log('sorry feature project cannot able to save ');
                   }
                 );
               } else {
-                console.log('ram saved feature details return empty object', details);
+                console.log('saved feature details return empty object', details);
               }
             },
             (error) => {
-              console.log('ram sorry the feature details cannot able to save');
+              console.log('sorry the feature details cannot able to save');
             }
           );
-          // editor.store();
         }
-        // editor.store();
       }
     });
 

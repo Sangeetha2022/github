@@ -337,8 +337,9 @@ export class EntityManagerComponent implements OnInit {
         console.log('asojdnaojdso');
         this.screenService.getScreenByProjectId(this.project_id).subscribe(sData => {
             this.screenDetails = sData;
+            console.log('screenDetails are ----- ', this.screenDetails);
         }, (error) => {
-            console.log('something is not working on backend side');
+            console.log('screenDetails something is not working on backend side');
         });
     }
 
@@ -378,15 +379,17 @@ export class EntityManagerComponent implements OnInit {
             (data) => {
                 this.allEntity = data;
                 this.projectEntity = [];
+                console.log('ProjectEntity data are ------ ', this.allEntity);
                 this.allEntity.map(entityData => {
                     if (entityData.feature_id === undefined) {
                         this.projectEntity.push(entityData);
                     }
                 });
+                console.log('ProjectEntity 22333 ---- ', this.projectEntity);
                 this.dataService.setAllEntity(this.allEntity);
             },
             (error) => {
-
+                console.log('error in ProjectEntity ---- ', error);
             }
         );
     }
@@ -573,6 +576,22 @@ export class EntityManagerComponent implements OnInit {
         });
         this.closeDeleteFModel();
         // this.getAllFeature();
+    }
+
+    editScreen(screenId) {
+        console.log('screen id are ----- ', screenId);
+        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, screenId: screenId } });
+    }
+
+    deleteScreen(screenId) {
+        this.screenService.deleteScreen(screenId).subscribe(
+            (data) => {
+                this.getScreenByProjectId();
+            },
+            (error) => {
+
+            }
+        );
     }
 }
 

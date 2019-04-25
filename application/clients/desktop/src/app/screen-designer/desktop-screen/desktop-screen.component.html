@@ -97,6 +97,41 @@
   </div>
 </div>
 
+
+
+<!-- entity and its field div popup model -->
+<div *ngIf="isFieldPopupModal" id="modalDiv" class="modal" tabindex="-1" role="dialog" style="display: block">
+  <div class="modal-dialog modal-sm" role="dialog">
+    <div class="modal-content">
+      <div class="container">
+        <form class="m-3">
+          <div class="form-group row">
+            <label for="fields">fields</label>
+            <select class="form-control" id="fields" name="entityField" [(ngModel)]="entityFields">
+              <option value="" selected>none</option>
+              <option *ngFor="let field of fields" [ngValue]="field">{{ field.name }}</option>
+            </select>
+          </div>
+          <!-- <div>{{allEntityField.length}}</div>
+          <div  *ngFor="let field of allEntityField">{{ field.name }}</div> -->
+          <!-- <div class="form-group">
+            <label for="sel1">Select list (select one):</label>
+            <select class="form-control" id="sel1">
+              <option *ngFor="let field of allEntityField" [ngValue]="field.name">{{ field.name }}</option>
+            </select>
+          </div> -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group">
+          <button type="button" class="btn button-create" (click)="saveFieldPopup()">ok</button>
+          <button type="button" class="btn button-close" (click)="onCloseModel()">cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="publish-panel" class="panel-modal" style="display: none">
   <div class="modal-body">
     Confirm to publish all your changes on

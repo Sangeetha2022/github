@@ -70,16 +70,17 @@
           <div class="col-md-4" *ngFor="let screen of screenDetails; let i = index">
               <div class="card">
                   <div class="card-header">
-                      {{screen.foldername}}
+                      {{screen?.screenName}}
                       <img  style="float: right; cursor: pointer;"
                           src="https://img.icons8.com/metro/26/000000/edit-file.png">
                   </div>
                   <div class="card-body">
                       
-                      <button mat-raised-button color="primary"
+                      <button mat-raised-button color="primary"  (click)="editScreen(screen._id)"
                           >Edit</button>
                       &nbsp;
-                      <button mat-raised-button color="warn" [disabled]="entity.is_default"
+                      <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
+                       [disabled]="entity.is_default"
                           >Delete</button>
                   </div>
               </div>

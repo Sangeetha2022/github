@@ -25,6 +25,7 @@ import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TraitsService } from './services/traits/traits.service';
 import { ActivatedRoute } from '@angular/router';
+import { Constants } from 'src/app/config/Constant';
 
 
 declare var grapesjs: any;
@@ -52,12 +53,17 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     agGridArray: any[] = [];
     defaultLanguage: String = 'en';
     saveTemplateURL: String;
+    updateTemplateURL: String;
     saveChildURL: String;
     allEntity: any[] = [];
-    selectedEntity: any;
     allEntityField: any[] = [];
+    selectedEntity: any;
+    fields: any[] = [];
+    EntityField: any[] = [];
     selectedProject: any;
+    isFieldPopupModal: Boolean;
     agGridFields: FormGroup;
+    entityFields: any = '';
     selectedFlow: any;
     is_grid_present: Boolean;
     // eventFlows: FormGroup;
@@ -85,6 +91,16 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     rowData: any;
     feature_id: String;
     project_id: String;
+    selectedEntityModel: any;
+    selectedHtmlElement: any = {
+        htmlId: undefined,
+        componentId: undefined
+    };
+    screenEntityModel: any[] = [];
+    traitsName: string;
+    screen_id: any;
+    existScreenDetail: any;
+    screenName: any;
 
     constructor(
         private screenDesignerService: ScreenDesignerService,
@@ -152,7 +168,11 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             if (params.projectId !== undefined && params.projectId !== null) {
                 this.project_id = params.projectId;
             }
+            if (params.screenId !== undefined && params.screenId !== null) {
+                this.screen_id = params.screenId;
+            }
         });
+        this.isFieldPopupModal = false;
         this.isGridPopup = false;
         this.is_grid_present = false;
         // this.selectedColumn = 'column1';
@@ -164,10 +184,14 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             selectEntity: ['', Validators.required],
             selectField: ['', Validators.required],
         });
+        // this.entityFields = this.formBuilder.group({
+        //     field: ['', Validators.required]
+        // });
         // this.eventFlows = this.formBuilder.group({
         //     selectEvent: ['', Validators.required]
         // });
-        this.saveTemplateURL = this.sharedService.screenUrl + '/screen/save';
+        this.saveTemplateURL = `${this.sharedService.screenUrl}${Constants.addScreen}`;
+        this.updateTemplateURL = `${this.sharedService.screenUrl}${Constants.updateScreen}`;
         this.saveChildURL = this.sharedService.screenUrl + '/childTemplate/save';
         const addStyles = [];
         const plugins = ['gjs-grapedrop-preset'];
@@ -288,6 +312,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.styleManager();
         this.panelManager();
         this.agGridEntity();
+        this.getScreenById();
         // this.traitService.initializeRadioMethod(this.editor);
         // this.beforeDropElement();
         const test1 = 'test';
@@ -308,8 +333,9 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         });
         this.RemoteStorage = this.editor.StorageManager.get('remote');
         console.log('before save remotestorage ar e----- ', this.project_id, ' -feat--- ', this.feature_id);
+        this.screenName = `screen${generate(dictionary.numbers, 6)}`;
         this.RemoteStorage.set('params', {
-            foldername: `screen${generate(dictionary.numbers, 6)}`,
+            screenName: this.screenName,
             project: this.project_id,
             feature: this.feature_id
         });
@@ -351,11 +377,44 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.RemoteStorage.set('params', {
             grid_fields: this.agGridObject,
             flows_info: this.screenFlows,
-            foldername: `screen${generate(dictionary.numbers, 6)}`,
+            screenName: this.screenName,
             is_grid_present: this.is_grid_present,
+            entity_info: this.screenEntityModel,
             project: this.project_id,
             feature: this.feature_id
         });
+    }
+    // need to work screen by id
+    getScreenById() {
+        if (this.screen_id) {
+            this.editor.StorageManager.get('remote').set({ urlStore: `${this.updateTemplateURL}${this.screen_id}` });
+            this.screenDesignerService.getScreenById(this.screen_id).subscribe(
+                (data) => {
+                    console.log('screenId get are --- ', data, this.screen_id);
+                    if (data) {
+                        this.existScreenDetail = data;
+                        if (this.existScreenDetail[0]['gjs-components']) {
+                            console.log('screenId if condition are ---- ');
+                            this.editor.setComponents(JSON.parse(this.existScreenDetail[0]['gjs-components']));
+                            this.editor.setStyle(this.existScreenDetail[0]['gjs-css']);
+                            this.feature_id = this.existScreenDetail[0]['feature'];
+                            this.project_id = this.existScreenDetail[0]['project'];
+                            this.screenName = this.existScreenDetail[0]['screenName'];
+                            this.is_grid_present = this.existScreenDetail[0]['is_grid_present'];
+                            this.agGridObject = this.existScreenDetail[0]['grid_fields'];
+                            this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
+                            this.screenFlows = this.existScreenDetail[0]['flows_info'];
+                        }
+
+                    }
+                },
+                (error) => {
+                    console.log('screenId error are ---- ', error);
+                }
+            );
+        } else {
+            this.editor.StorageManager.get('remote').set({ urlStore: this.saveTemplateURL });
+        }
     }
 
     getEntityType() {
@@ -451,6 +510,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                     console.log('ram getEntity with project and features =---- ', entityData);
                     if (entityData !== null && entityData !== undefined && entityData.length > 0) {
                         const entityArray = [];
+                        entityArray.push({ name: 'none', value: 'none' });
+                        this.EntityField = entityData;
                         entityData.forEach(entityElement => {
                             // const data = entityElement;
                             const object = {
@@ -461,9 +522,11 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                             object.value = entityElement._id;
                             entityArray.push(object);
                         });
-                        this.setDefaultType('entity', entityArray);
+                        this.traitsName = 'entity';
+                        this.setDefaultType(entityArray);
                     } else {
-                        this.setDefaultType('dataBinding', this.dataBindingTypes);
+                        this.traitsName = 'dataBinding';
+                        this.setDefaultType(this.dataBindingTypes);
                     }
                 }, (error) => {
 
@@ -474,6 +537,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                     console.log('ram getEntity with project ----  ', allEntityData);
                     if (allEntityData !== null && allEntityData !== undefined && allEntityData.length > 0) {
                         const entityArray = [];
+                        entityArray.push({ name: 'none', value: 'none' });
+                        this.EntityField = allEntityData;
                         allEntityData.forEach(entityElement => {
                             // const data = JSON.parse(entityElement);
                             const object = {
@@ -484,9 +549,11 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                             object.value = entityElement._id;
                             entityArray.push(object);
                         });
-                        this.setDefaultType('entity', entityArray);
+                        this.traitsName = 'entity';
+                        this.setDefaultType(entityArray);
                     } else {
-                        this.setDefaultType('dataBinding', this.dataBindingTypes);
+                        this.traitsName = 'dataBinding';
+                        this.setDefaultType(this.dataBindingTypes);
                     }
                 }, (error) => {
 
@@ -494,127 +561,140 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         }
     }
 
-    newENtity() {
-
-    }
-
-    setDefaultType(traitsName, EntityBinding) {
+    setDefaultType(EntityBinding) {
         // console.log('ram setdefaul types are ----- ', traitsName);
         // this.editor.DomComponents.getType('input').model.prototype.init().listenTo(this, 'change:2345', this.newENtity);
         // console.log('ram 12345@@ ----  ',this.editor.DomComponents.getType('input').model.prototype.init());
-      
+        this.traitsButton();
         this.editor.DomComponents.getType('input').model
             .prototype.defaults.traits.push({
                 type: 'select',
-                label: traitsName,
-                name: traitsName,
+                label: this.traitsName,
+                name: this.traitsName,
                 options: EntityBinding,
                 changeProp: 1
 
             }, {
-                type: 'entityFieldButton',
-                label: 'Field',
-                name: 'Field'
-            });
+                    type: 'entityFieldButton',
+                    label: 'Field',
+                    name: 'Field'
+                });
         this.editor.DomComponents.getType('select').model
             .prototype.defaults.traits.push({
                 type: 'select',
-                label: traitsName,
-                name: traitsName,
-                options: EntityBinding
+                label: this.traitsName,
+                name: this.traitsName,
+                options: EntityBinding,
+                changeProp: 1
 
             }, {
-                type: 'entityFieldButton',
-                label: 'Field',
-                name: 'Field'
-            });
+                    type: 'entityFieldButton',
+                    label: 'Field',
+                    name: 'Field'
+                });
         this.editor.DomComponents.getType('radio').model
             .prototype.defaults.traits.push({
                 type: 'select',
-                label: traitsName,
-                name: traitsName,
-                options: EntityBinding
+                label: this.traitsName,
+                name: this.traitsName,
+                options: EntityBinding,
+                changeProp: 1
 
             }, {
-                type: 'entityFieldButton',
-                label: 'Field',
-                name: 'Field'
-            });
+                    type: 'entityFieldButton',
+                    label: 'Field',
+                    name: 'Field'
+                });
         this.editor.DomComponents.getType('textarea').model
             .prototype.defaults.traits.push({
                 type: 'select',
-                label: traitsName,
-                name: traitsName,
-                options: EntityBinding
+                label: this.traitsName,
+                name: this.traitsName,
+                options: EntityBinding,
+                changeProp: 1
 
             }, {
-                type: 'entityFieldButton',
-                label: 'Field',
-                name: 'Field'
-            });
+                    type: 'entityFieldButton',
+                    label: 'Field',
+                    name: 'Field'
+                });
+    }
+
+
+    traitsButton() {
+        const $this = this;
+        this.editor.TraitManager.addType('entityFieldButton', {
+            events: {
+                'click': function () {
+                    console.log('traits button before if --- ', this.target.changed['entity']);
+                    if (this.target.changed['entity'] !== undefined
+                        && this.target.changed['entity'] !== 'none') {
+                        $this.isFieldPopupModal = true;
+                        $this.ref.detectChanges();
+                        console.log('traits button after if --- ', $this.isFieldPopupModal);
+                    }
+                },
+            },
+            getInputEl() {
+                // tslint:disable-next-line:prefer-const
+                let button = <HTMLElement>document.createElement('button');
+                button.id = 'fieldButton';
+                button.style.width = '100%';
+                button.style.backgroundColor = '#4CAF50';
+                button.style.border = 'none';
+                button.style.color = 'white';
+                button.style.backgroundColor = '#008CBA';
+                button.style.fontSize = '12px !important';
+                button.style.cursor = 'pointer';
+                button.appendChild(document.createTextNode('Field'));
+                return button;
+            },
+        });
     }
 
     beforeDropElement() {
+        const $this = this;
         this.editor.on('component:toggled', model => {
             // To inject buttons close to the input fields
             console.log('toggled ----- ', model);
             //  addATButtons();
         });
-        // console.log('this editor ----- ', this.editor);
-        // console.log('all triats --11--  ', this.editor.DomComponents.getType('input').model
-        //     .prototype.defaults);
-        // console.log('all triats --12--  ', this.editor.DomComponents.getType('input').model
-        //     .prototype.defaults.traits);
-        // console.log('all triats --13--  ', this.editor.DomComponents.getType('input').model
-        //     .prototype.defaults.traits.push({
-        //         type: 'select',
-        //         label: traitsName,
-        //         name: traitsName,
-        //         options: this.dataBindingTypes
+        this.editor.on(`component:update:${this.traitsName}`, function (model) {
+            console.log('this vlaues are ---- ', this, ' ---  ', $this.EntityField);
 
-        //     }));
-        // this.editor.DomComponents.getType('input').model
-        //     .prototype.defaults.traits.sort((n1, n2) => {
-        //         if (n1.name === 'name') {
-        //             return true;
-        //         } else if (n1.name === 'data-crazy') {
-        //             return true;
-        //         } else {
-        //             return false;
-        //         }
-        //         console.log('n1 and n2 inside of arrays ----  ', n1, ' --- ', n2);
-        //     });
-
-        // console.log('all triats --22--  ', this.editor.TraitManager.getType('input'));
-        // this.editor.DomComponents.getType('default')
-        //     .model.prototype.defaults.traits.push({ label: 'Crazy Attribute', name: 'data-crazy' });
-        // console.log('ram component values ar e---input---  ', this.editor.DomComponents.getType('input').model.prototype);
-        // console.log('ram component values ar e---select---  ', this.editor.DomComponents.getType('select').model.prototype);
-        // console.log('ram component values ar e---textarea---  ', this.editor.DomComponents.getType('textarea').model.prototype);
-        // console.log('ram component values ar e---checkbox---  ', this.editor.DomComponents.getType('checkbox').model.prototype);
-        // console.log('ram component values ar e---textarea---  ', this.editor.DomComponents.getType('textarea').model.prototype);
-
-        // // this.editor.DomComponents.getType('radio').model.prototype.toHTML.apply(this)
-        // const defaultType = this.editor.DomComponents.getType('default');
-        // this.editor.DomComponents.addType('radio', {
-        //     model: defaultType.model.extend({
-        //         toHTML: function () {
-        //             console.log('ram tohtml values of dom are -- ');
-        //             return '<p>ram code</p>'; // return an empty string instead of the default toHTML behaviour
-        //         }
-        //     }, {
-        //             isComponent: function (el) {
-        //                 console.log('ram iscomponent function are ---- ', el.tagName);
-        //                 // add custom isComponent logic here
-        //             }
-        //         }),
-        //     view: defaultType.view
+            console.log('this vlaues are -22 model--- ', model, ' ---  ', model.changed['entity']);
+            $this.selectedEntityModel = model.changed['entity'];
+            $this.selectedHtmlElement.htmlId = model.ccid;
+            $this.selectedHtmlElement.componentId = model.cid;
+            $this.EntityField.forEach(entityElement => {
+                // console.log('entity field ar e---- ', entityElement);
+                if (entityElement._id === model.changed['entity']) {
+                    $this.fields = entityElement.field.filter((el) => {
+                        return (el.name.toLowerCase() !== 'createdat' &&
+                            el.name.toLowerCase() !== 'updatedat');
+                    });
+                    console.log('ram all filtered fields are ----- ', $this.fields);
+                    // entityElement.field.forEach(fieldElement => {
+                    //     // const fieldObj = {
+                    //     //     name: '',
+                    //     //     value: ''
+                    //     // };
+                    //     if (fieldElement.name.toLowerCase() !== 'createdat' && fieldElement.name.toLowerCase() !== 'updatedat') {
+                    //         // fieldObj.name = fieldElement.name;
+                    //         // fieldObj.value = fieldElement.data_type;
+                    //         $this.fields.push(fieldElement);
+                    //     }
+                    // });
+                    // $this.isFieldPopupModal = true;
+                }
+            });
+        });
+        // this.editor.on('change:traits:entity', function (model) {
+        //     console.log('ram change editor entity values ar e-----  ');
         // });
-
-        this.editor.on('change:traits:entity', function (model) {
-console.log('ram change editor entity values ar e-----  ');
-         });
-
+        // this.editor.on('component:update:Field', function (model) {
+        //     alert('entity field button clicked');
+        // });
 
         this.editor.on('block:drag:stop', function (model) {
             console.log('ram component values ar e----11--  ', model);
@@ -713,7 +793,7 @@ console.log('ram change editor entity values ar e-----  ');
         this.styleService.addStyleManager(this.editor, this.stylesOption);
     }
     panelManager() {
-        this.panelService.addSaveButton(this.editor, this.saveTemplateURL);
+        this.panelService.addSaveButton(this.editor);
         this.panelService.addCancelButton(this.editor);
     }
 
@@ -761,6 +841,63 @@ console.log('ram change editor entity values ar e-----  ');
         console.log('agGridEntity ag Grid modal are --main--- ', modal);
         modal.style.display = 'block';
         this.agGridArray = [];
+    }
+
+    onCloseModel() {
+        // const modal = <HTMLElement>document.querySelector('#modalDiv');
+        // modal.style.display = 'none';
+        this.entityFields = '';
+        this.isFieldPopupModal = false;
+        this.ref.detectChanges();
+    }
+
+    saveFieldPopup() {
+        console.log('savefield popup modal are --11---- ', this.entityFields);
+        console.log('savefield popup modal are --selectedObj---- ', this.selectedHtmlElement);
+        console.log('savefield popup modal are --screenentity---- ', this.screenEntityModel);
+        // this.isFieldPopupModal = false;
+        // const
+        // this.screenEntityModel.findIndex()
+        const checkedIndex = this.screenEntityModel.findIndex(x => (
+            x.htmlId === this.selectedHtmlElement.htmlId
+            && x.componentId === this.selectedHtmlElement.componentId
+        ));
+        console.log('checked index are ----- ', checkedIndex);
+        if (checkedIndex > -1) {
+            this.screenEntityModel.splice(checkedIndex, 1);
+        }
+        if (this.selectedHtmlElement.htmlId !== undefined
+            && this.selectedHtmlElement.componentId !== undefined
+            && this.entityFields !== ''
+            && this.entityFields !== undefined
+            && this.traitsName === 'entity'
+        ) {
+            const obj = {
+                htmlId: '',
+                componentId: '',
+                entityId: '',
+                fields: {
+                    fieldId: '',
+                    name: '',
+                    description: '',
+                    typeName: '',
+                    dataType: ''
+                }
+            };
+            obj.htmlId = this.selectedHtmlElement.htmlId;
+            obj.componentId = this.selectedHtmlElement.componentId;
+            obj.entityId = this.selectedEntityModel;
+            obj.fields.fieldId = this.entityFields._id;
+            obj.fields.name = this.entityFields.name;
+            obj.fields.description = this.entityFields.description;
+            obj.fields.typeName = this.entityFields.type_name;
+            obj.fields.dataType = this.entityFields.data_type;
+            this.screenEntityModel.push(obj);
+
+        }
+        this.saveRemoteStorage();
+        this.onCloseModel();
+        console.log('savefield after length -----  ', this.screenEntityModel);
     }
 
 }
