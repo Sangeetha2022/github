@@ -3,6 +3,7 @@ import FeatureDetailsModel from '../models/featuredetails.model';
 import FeatureFlowsModel from '../models/featureflows.model';
 import FeatureEntityModel from '../models/featureentity.model';
 import FeatureFlowCompsModel from '../models/featureflowcomp.model';
+import ScreenSchemaModel from '../models/Screen';
 var multer = require('multer');
 var yaml = require('js-yaml');
 var fs = require('fs');
@@ -25,6 +26,7 @@ export class FeatureDetailsDao {
     private FeatureFlows = FeatureFlowsModel;
     private FeatureEntityFlows = FeatureEntityModel;
     private FeatureFlowComps = FeatureFlowCompsModel;
+    private Screen = ScreenSchemaModel;
     flows: any = [];
 
     // uploadeFeaturefile = async (req: Request, callback: CallableFunction) => {
@@ -232,6 +234,7 @@ export class FeatureDetailsDao {
     }
 
     public getFeatureDetailsByFeatureid = async (req: Request, callback: CallableFunction) => {
+        console.log('req.params.id',req.params.id);
         await this.FeatureFlowComps.find({ feature_id: req.params.id }).populate({ path: 'flow', model: this.FeatureFlows }).exec((err, flowDetails) => {
             if (err) {
                 callback(err);
@@ -242,6 +245,21 @@ export class FeatureDetailsDao {
 
         })
     }
+
+    public getScreenByFeatureId = async (req: Request, callback: CallableFunction) => {
+        console.log('req.params.id',req.params.id);
+        await this.Screen.find({ feature: req.params.id }).populate({ path: 'feature', model: this.Feature }).exec((err, flowDetails) => {
+            if (err) {
+                callback(err);
+            } else {
+
+                callback(flowDetails);
+            }
+
+        })
+    }
+
+    
 
     public getFeatureEntityByFeatureid = async (req: Request, callback: CallableFunction) => {
         await this.FeatureEntityFlows.find({ feature_id: req.params.id }, (err, flowDetails) => {

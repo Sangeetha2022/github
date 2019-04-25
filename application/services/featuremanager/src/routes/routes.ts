@@ -57,5 +57,9 @@ export class Routes {
         // app.route('/feature-entity/getall').get(this.featureFlowEntityController.getAllFeatureFlowEntity);
         // app.route('/feature-entity/getbyid/:id').get(this.featureFlowEntityController.getFeatureFlowEntityByID);
         // app.route('/feature-entity/delete/:id').delete(this.featureFlowEntityController.deleteFeatureFlowEntity);
+
+        //screen Details based on feature
+        app.route('/feature/details/screen/:id').get(this.featureDetailsController.getScreenByFeatureId);
+        
     }
 }

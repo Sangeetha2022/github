@@ -35,8 +35,13 @@ export class FeatureDetailsController {
     }
 
     public getFeatureDetailsByFeatureid = async(req: Request, res: Response) => {
-        console.log("ADadadaasadsad",req)
         featureDetailsService.getFeatureDetailsByFeatureid(req, (user) => {
+            res.status(200);
+            res.json(user);
+        })
+    }
+    public getScreenByFeatureId = async(req: Request, res: Response) => {
+        featureDetailsService.getScreenByFeatureId(req, (user) => {
             res.status(200);
             res.json(user);
         })

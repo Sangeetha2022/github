@@ -15,6 +15,7 @@ import { FlowManagerService } from '../flow-manager/flow-manager.service';
 import { IFeatureFLow } from './interface/FeatureFlow';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
 import { IFlow } from '../flow-manager/interface/flow';
+import { IMenu } from './interface/Menu';
 
 
 @Component({
@@ -57,6 +58,13 @@ export class EntityManagerComponent implements OnInit {
         front_mang_file: '',
         // explanation:'',
     };
+
+    public menuBuilder: IMenu = {
+        id: '',
+        language: '',
+        menu_builder_details: '',
+        project: '',
+    }
 
     displayModel: any;
 
@@ -292,6 +300,11 @@ export class EntityManagerComponent implements OnInit {
                     this.features.project_id = this.project_id;
                     this.projectComponentService.addFeature(this.features).subscribe(featureData => {
                         if (featureData) {
+                            this.menuBuilder.menu_builder_details = this.project_id;
+                            this.menuBuilder.project = this.featureData._id;
+                            this.projectComponentService.createMenu(this.menuBuilder).subscribe(menuData => {
+
+                            })
                             this.getProjectDetails();
                             this.closeFeatureExistingModel();
                         }
@@ -308,7 +321,7 @@ export class EntityManagerComponent implements OnInit {
     }
 
 
-   
+
 
 
     openFeatureDialog(): void {
@@ -329,9 +342,9 @@ export class EntityManagerComponent implements OnInit {
         this.displayFeatureModel = 'none';
     }
 
-   
 
- 
+
+
 
     getScreenByProjectId() {
         console.log('asojdnaojdso');

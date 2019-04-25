@@ -123,6 +123,10 @@ export class ProjectComponentService {
     return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + featureId, feature);
   }
 
+  createMenu(menu: any): Observable<any> {
+    return this.api.post(this.restapi.menuUrl + '/menu/save', menu);
+  }
+
   uploadeFeaturefile(file) {
     // const formData: FormData = new FormData();
     // formData.append('fileKey', file, file.name);
