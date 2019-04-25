@@ -87,16 +87,26 @@ export class CodeGenerationService {
         // this.backendArray.push({'featureName': featureElement.feature_id.name});
         if (featureElement.feature_id.api_mang_file !== null && featureElement.feature_id.front_mang_file !== null && featureElement.feature_id.backed_mang_file !== null) {
           this.featureDetails = await this.getDetailsByFeatureId(featureElement.feature_id._id);
-        }else{
+        } else {
           this.featureDetails = await this.getAllFeatureFlowByFeatureId(featureElement.feature_id._id);
         }
         const featureDetailsJSON = JSON.parse(this.featureDetails.toString());
         console.log('detaials are ----1111-- ', featureDetailsJSON);
         asyncLoop(featureDetailsJSON, async (flowElement, next2) => {
-          flowElement = flowElement.value.reduce(function (obj, item) {
-            obj[item.key] = item.value;
-            return obj;
-          });
+          flowElement.value.map((data) => {
+            console.log(" = = = > > ", data)
+            flowElement = data;
+          })
+
+        //  ` asyncLoop(flowElement.value, async (flowElementValue,next3)=>{
+        //     console.log('i am the data u need',flowElementValue)
+        //   })`
+          // flowElement = flowElement.value.reduce(function (obj, item) {
+          //   obj[item.key] = item.value;
+          //   console.log('obj ++++++++',obj)
+          //   return obj;
+          // });
+          console.log('detaials are ----1111496294692-- ', flowElement.value);
           if (flowElement !== undefined) {
             let clientFlowDetails = {
               name: '',
@@ -123,7 +133,7 @@ export class CodeGenerationService {
             clientFlowDetails.actionOnData = backendFlowDetails.actionOnData = flowElement.flow.action_on_data;
             clientFlowDetails.createWithDefaultActivity = backendFlowDetails.createWithDefaultActivity = flowElement.flow.create_with_default_activity;
             clientFlowDetails.description = backendFlowDetails.description = flowElement.flow.description;
-
+            console.log('flowElement.flow.name', flowElement.flow.name);
             const tempFlow = await this.getFlowsByName(flowElement.flow.name);
             const tempFlowJSON = JSON.parse(tempFlow.toString());
             console.log(' temp flow json --22222222222--- ', util.inspect(tempFlowJSON, { showHidden: true, depth: null }));
@@ -239,7 +249,7 @@ export class CodeGenerationService {
       })
     })
   }
-  getAllFeatureFlowByFeatureId(featureId){
+  getAllFeatureFlowByFeatureId(featureId) {
     return new Promise(resolve => {
       this.featureService.getAllFeatureFlowByFeatureId(featureId, (data) => {
         resolve(data);
