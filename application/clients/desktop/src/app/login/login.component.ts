@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
         if (this.tokenerror !== undefined) {
           console.log('-------insideifconditioin-----');
           if (this.tokenerror.name === 'TokenExpiredError') {
-            sessionStorage.clear();
+            // sessionStorage.clear();
             // this.loginservice.Logout(this.id).subscribe(data => {
             this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });        // }, error => {
             //   console.error('error:', error);
