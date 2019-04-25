@@ -19,7 +19,7 @@ import { AuthGuard } from './auth.guard';
 const routes: Routes = [
   { path: '', component: HomepageComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'consent', component: ConsentscreenComponent, canActivate: [AuthGuard] },
+  { path: 'consent', component: ConsentscreenComponent },
   { path: 'landing', component: LandingpageComponent, canActivate: [AuthGuard] },
   { path: 'callback', component: ProjectsComponent, canActivate: [AuthGuard] },
   { path: 'project', component: ProjectsComponent, canActivate: [AuthGuard] },

@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 // import * as request from 'request';
-const request = require('request');
 import * as asyncLoop from 'node-async-loop';
 import * as mongoose from 'mongoose';
 import { Resourceschema } from '../model/resource';
