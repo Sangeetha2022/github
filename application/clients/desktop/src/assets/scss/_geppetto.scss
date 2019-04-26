@@ -1,1 +1,43 @@
 // Main SASS file for reskin implementation
+
+// Font including
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i);
+
+
+// Globals
+body {
+	font-family: $font_main;
+}
+
+
+
+// ======= HEADER ======= 
+div.lang-head {
+	@include container-topBar;
+}
+
+mat-toolbar.mat-toolbar.mat-primary[_ngcontent-c2] {
+	@include container-header;
+
+	div[_ngcontent-c2] {
+		@include header-logo();
+	}
+}
+
+// ======= HOME PAGE ======= 
+div.geppetoimage1[_ngcontent-c4] {
+	@include container-home-main;
+}
+
+div.geppetoimage[_ngcontent-c4] {
+	width: 100%;
+}
+
+// ======= LOGIN ======= 
+app-login {
+	.cardsize[_ngcontent-c4] {
+		@include modal-login;
+	}
+}
+
+

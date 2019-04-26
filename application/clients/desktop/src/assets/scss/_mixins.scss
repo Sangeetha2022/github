@@ -1,1 +1,171 @@
 // SASS Mixins for reskin implementation
+
+@mixin button-styles() {
+	border-radius: $m_radius;
+	background-color: $color_button;
+	border-bottom: 2px solid $color_button_border;
+	box-shadow: 0 2px 2px rgba(0,0,0,0.5);
+}
+
+@mixin container-topBar() {
+	border-top: 1px solid $color_border_topbar;
+	border-bottom: 1px solid $color_bg_topbar;
+	background-color: $color_bg_topbar;
+	color: #fff;
+	padding-top: rem-calc(18);
+	padding-bottom: rem-calc(18);
+	height: 58px;
+
+	.lang-item, .about-span {
+		font-weight: bold;
+		color: inherit;
+		text-decoration: none;
+		font-size: rem-calc(18);
+	}
+	.current.lang-item {
+		text-decoration: underline;
+	}
+}
+
+@mixin container-header() {
+	background-color: $color_geppetto_darkblue;
+	color: #fff;
+	top: 57px;
+	background-image: $gradient_bg_header;
+	border-radius: 0;
+	height: 110px;
+}
+
+@mixin header-logo() {
+	img {visibility: hidden;}
+
+	background: transparent url('/assets/img/skin/logo-geppetto.svg') center center no-repeat;
+	background-size: contain;
+}
+
+@mixin container-home-main() {
+	background: $white;
+	height: calc(100vh - 86px);
+	flex-basis: auto;
+
+	.btn[_ngcontent-c4] {
+		position: relative;
+		z-index: 1000;
+		padding-top: 0.5%;
+
+		button {
+			@include button-header();
+		}
+	}
+}
+
+@mixin button-base {
+	@include transition-effect;
+	display: inline-block;
+	border-radius: $m_radius;
+	line-height: 1;
+	cursor: pointer;
+
+	&:active {
+		position: relative;
+		top: 1px;
+	}
+}
+
+@mixin button-header {
+	@include button-base;
+	border: 2px solid $white;
+	color: $white;
+	font-size: rem-calc(20);
+	padding: 0.42em 0.80em;
+	background-color: rgba(255,255,255,0);
+
+	&:hover {
+		background-color: $white;
+		color: $color_geppetto_darkblue;
+	}
+}
+
+@mixin button-style() {
+	@include button-base;
+	color: $white;
+	background-color: $color_button;
+	border-bottom: 3px solid $color_button_border;
+	text-transform: uppercase;
+	font-weight: bold;
+	min-width: rem-calc(187);
+	font-size: rem-calc(20);
+	padding: 1em 2em;
+	box-shadow: $shadow_button;
+}
+
+@mixin modal-login() {
+	@include absolute-centered-in-container();
+	background-color: $color_bg_login;
+	box-shadow: $shadow_modal;
+	margin-top: 2em;
+	margin-bottom: 0;
+	z-index: 1000;
+	border: 1px solid $white;
+	padding-left: 56px;
+	padding-right: 56px;
+	height: auto;
+	
+	button {
+		@include button-style();
+	}
+	.mat-form-field-appearance-outline.mat-form-field-infix {
+		border-color: $color_base_text;
+		padding: 0.5em 0;
+		width: 100%;
+	}
+	.mat-input-element {
+		@include text-field();
+
+		label {
+			color: $color_base_text;
+		}
+	}
+	.mat-card-header {
+		margin-left: 0;
+		text-align: center;
+		justify-content: center;
+
+		.mat-card-avatar, img {display: none;}
+
+		.mat-card-header-text {
+			margin: 0;
+
+			&::before {
+				content: "Login";
+				display: inline-block;
+				font-size: rem-calc(35);
+				color: $color_base_text;
+				font-weight: bold;
+			}
+		}
+	}
+}
+
+@mixin text-field {
+	font-size: rem-calc(24);
+	color: $color_base_text;
+	line-height: 1
+}
+
+// Utility Mixins
+@mixin transition-effect($property: all, $speed: $m_transition-speed, $ease: linear) {
+	transition: $property $speed $ease;
+}
+@mixin absolute-centered-in-container() {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+
+// Utility Functions
+@function rem-calc($size) {
+  $remSize: $size / 16;
+  @return #{$remSize}rem;
+}

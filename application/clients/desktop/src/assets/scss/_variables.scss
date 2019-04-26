@@ -1,4 +1,11 @@
 // SASS Variables for reskin implementation
+
+// System
+$override_mode: true !default;
+
+// Colors
+$white: #fafafa;
+$black: #111;
 $color_geppetto_green: #009933;
 $color_geppetto_lightblue: #3333cc;
 $color_geppetto_darkblue: #003366;
@@ -7,19 +14,32 @@ $color_geppetto_red: #d12727;
 $color_base_text: #333333;
 $color_dialog-title: $color_base_text;
 $color_button: $color_geppetto_green;
-$color_button_border: darken($color_geppetto_green,10%);
+$color_button_border: darken($color_geppetto_green,8%);
 $color_select_arrow: $color_geppetto_darkblue;
 $color_modal_backdrop: rgba(80,80,80,0.85);
 $color_bg_topbar: #333333;
+$color_border_topbar: #3b3b3b;
 $gradient_bg_header: linear-gradient(to bottom, #003366, #335c85);
 $color_header_border: #24507c;
 $color_bg_footer: #333333;
 $color_fg_footer: rgba(255,255,255,0.71);
 $color_text_light: #666666;
 $color_bg_login: #f7f7f7;
-$shadow_modal: 2px 3px 5px rgba(0,0,0,0.75);
 $color_card_bg_title: #f7f7f7;
 $color_card_border: #e3e3e3;
 $color_accordion_bd: #ababab;
 $color_accordion_bd_bottom: #949494;
 $color_accordion_title: #666666;
+
+// Fonts
+$font_main: "Open Sans", "Segoe UI", Tahoma, sans-serif;
+$font_sans_alt: Arial, Helvetica Neue, Helvetica, sans-serif;
+
+// Metrics
+$m_maxwidth: 1200px;
+$m_radius: 3px;
+$m_transition-speed: 0.2s;
+
+// Others
+$shadow_modal: 2px 3px 5px rgba(0,0,0,0.75);
+$shadow_button: $shadow_modal;
