@@ -199,6 +199,22 @@
 		color: $color_text_light;
 		font-size: rem-calc(24);
 	}
+	.mat-expansion-panel-header {
+		font-weight: bold;
+
+		&.mat-expanded {
+			background-color: $color_geppetto_darkblue;
+
+			.mat-expansion-panel-header-title,
+			.mat-expansion-indicator::after {
+				color: #fff;
+			}
+
+			+ .mat-expansion-panel-content {
+				padding-top: 2rem;
+			}
+		}
+	}
 }
 
 @mixin element-card() {
@@ -215,11 +231,22 @@
 		}
 		.sitecard-info {
 			z-index: 10;
+			pointer-events: none;
+			text-shadow: 0 0 2px rgba(255,255,255,0.9);
 		}
 		.sitecard-title {
 			font-size: rem-calc(27);
 			font-weight: bold;
 			margin-bottom: 0.3rem;
+		}
+		.sitecard-desc {
+			max-height: 60px;
+			height: auto;
+			margin-bottom: 1em;
+		}
+		.sitecard__pub-info {
+			opacity: 0.9;
+			font-style: italic;
 		}
 		.sitecard-actions {
 			position: relative;
@@ -229,8 +256,43 @@
 			margin-left: 0.45rem;
 
 			.sitecard-action {
+				@include transition-effect(background-color);
 				height: 24px;
 				box-sizing: content-box;
+				text-align: center;
+				opacity: 0.8;
+				padding: 6px;
+
+				mat-icon {display: none}
+
+				&:hover {
+					opacity: 1;
+					background-color: $color_geppetto_darkblue;
+				}
+
+				&::before {
+					content: "";
+					display: inline-block;
+					width: 24px;
+					height: 24px;
+					background-size: contain;
+					background-color: transparent;
+					background-position: center center;
+					background-repeat: no-repeat;
+				}
+
+				&[data-original-title="Edit"]::before {
+					background-image: url('/assets/img/skin/icon_edit_white.svg');
+				}
+				&[data-original-title="Clone"]::before {
+					background-image: url('/assets/img/skin/icon_duplicate_white.svg');
+				}
+				&[data-original-title="Settings"]::before {
+					background-image: url('/assets/img/skin/icon_download_white.svg');
+				}
+				&.entity-action-remove::before {
+					background-image: url('/assets/img/skin/icon_delete_white.svg');
+				}
 			}
 
 			.sitecard-action-c {
@@ -256,7 +318,7 @@
 		line-height: 120px;
 		width: 100%;
 		margin-top: 3rem;
-		padding: 0 calc(49% - #{$m_maxwidth / 2}); 
+		padding: 0 calc(50% - #{$m_footer_width / 2}); 
 	}
 }
 
