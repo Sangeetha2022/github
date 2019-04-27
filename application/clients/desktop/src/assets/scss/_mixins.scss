@@ -1,11 +1,7 @@
 // SASS Mixins for reskin implementation
 
-@mixin button-styles() {
-	border-radius: $m_radius;
-	background-color: $color_button;
-	border-bottom: 2px solid $color_button_border;
-	box-shadow: 0 2px 2px rgba(0,0,0,0.5);
-}
+// ATTENTION:
+// CHECKTHIS: Could set .mat-raised-button to new style (globally)
 
 @mixin container-topBar() {
 	border-top: 1px solid $color_border_topbar;
@@ -41,6 +37,14 @@
 
 	background: transparent url('/assets/img/skin/logo-geppetto.svg') center center no-repeat;
 	background-size: contain;
+}
+
+@mixin main-navigation() {
+	.navigation-items {
+		.btn {
+			@include button-header();
+		}
+	}
 }
 
 @mixin container-home-main() {
@@ -86,17 +90,22 @@
 	}
 }
 
-@mixin button-style() {
+@mixin button-style($fontSize: 1.2rem,$bottomBorderWidth: 3px) {
 	@include button-base;
 	color: $white;
 	background-color: $color_button;
-	border-bottom: 3px solid $color_button_border;
+	border-bottom: $bottomBorderWidth solid $color_button_border;
 	text-transform: uppercase;
 	font-weight: bold;
-	min-width: rem-calc(187);
-	font-size: rem-calc(20);
-	padding: 1em 2em;
+	min-width: 10rem;
+	font-size: $fontSize;
+	padding: 0.8em 1.5em calc(0.8em - #{$bottomBorderWidth});
 	box-shadow: $shadow_button;
+
+	&:hover {
+		background-color: darken($color_button,5%);
+		border-bottom-color: lighten($color_button_border,3%);
+	}
 }
 
 @mixin modal-login() {
@@ -109,10 +118,12 @@
 	border: 1px solid $white;
 	padding-left: 56px;
 	padding-right: 56px;
+	padding-bottom: 1rem;
 	height: auto;
 	
 	button {
 		@include button-style();
+		margin-bottom: 1rem;
 	}
 	.mat-form-field-appearance-outline.mat-form-field-infix {
 		border-color: $color_base_text;
@@ -145,12 +156,103 @@
 			}
 		}
 	}
+	.loginname[_ngcontent-c4] {
+		margin-top: 2rem;
+	}
 }
 
 @mixin text-field {
 	font-size: rem-calc(24);
 	color: $color_base_text;
 	line-height: 1
+}
+
+@mixin container-projects-dashboard() {
+	margin-top: 145px;
+
+	.row-button .mat-raised-button {
+		@include button-style();
+	}
+
+	@include element-accordion;
+	@include element-card;
+}
+
+@mixin element-accordion() {
+	.mat-accordion > .mat-expansion-panel {
+		box-shadow: none;
+		color: $black;
+		border: 1px solid $color_accordion_bd;
+		border-bottom-color: $color_accordion_bd_bottom;
+		border-radius: 0;
+		&:not(:last-child) {
+			margin-bottom: rem-calc(22);
+		}
+	}
+	.mat-expansion-indicator::after {
+		color: $color_geppetto_darkblue;
+		padding: 6px;
+		border-width: 0 4px 4px 0;
+		margin-top: -6px;
+	}
+	.mat-expansion-panel-header-title {
+		color: $color_text_light;
+		font-size: rem-calc(24);
+	}
+}
+
+@mixin element-card() {
+	.sitecard {
+		border: 1px solid $white;
+		padding-top: 60%;
+		
+		.sitecard-preview[_ngcontent-c4],
+		.sitecard-preview-c[_ngcontent-c4] {
+			@include absolute-fill-parent-container();
+			
+			background-position: top left;
+			background-size: cover;
+		}
+		.sitecard-info {
+			z-index: 10;
+		}
+		.sitecard-actions {
+			position: relative;
+			z-index: 10;
+			margin-right: 0.45rem;
+			bottom: 0.45rem;
+			margin-left: 0.45rem;
+
+			.sitecard-action {
+				height: 24px;
+				box-sizing: content-box;
+			}
+
+			.sitecard-action-c {
+				background-color: rgba($color_geppetto_darkblue,0.8);
+				border-top: 0 none;
+				border-left: 1px solid rgba(255,255,255,0.4);
+				border-right: 1px solid rgba(255,255,255,0.4);
+
+				&:first-child {border-left: none;}
+				&:last-child {border-right: none;}
+			}
+		}
+	}
+}
+
+@mixin virtual-footer() {
+	&::after {
+		display: block;
+		content: "Geppetto 2019. All Rights Reserved";
+		color: rgba(255,255,255,0.71);
+		background: $color_bg_footer url('/assets/img/skin/decor_puzzle-piece_slanted.svg') 110% 0 no-repeat;
+		background-size: auto 200%;
+		line-height: 120px;
+		width: 100%;
+		margin-top: 3rem;
+		padding: 0 calc(49% - #{$m_maxwidth / 2}); 
+	}
 }
 
 // Utility Mixins
@@ -163,7 +265,15 @@
 	left: 50%;
 	transform: translate(-50%,-50%);
 }
-
+@mixin absolute-fill-parent-container() {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: auto;
+	width: auto;
+}
 // Utility Functions
 @function rem-calc($size) {
   $remSize: $size / 16;
