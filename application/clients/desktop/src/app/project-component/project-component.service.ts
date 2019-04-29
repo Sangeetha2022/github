@@ -105,7 +105,7 @@ export class ProjectComponentService {
   }
 
   getFeatureDetailsById(id) {
-    console.log('get dsf features details by id ---- ', id);
+    // console.log('get dsf features details by id ---- ', id);
     return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.getByIdUrl + id);
   }
 
