@@ -187,9 +187,9 @@ export class KubernetesService {
             projectDetails.namespace = namespace.toLowerCase();
 
             // telemetry vault promethues
-            if (projectDetails.telemetry_pod.vault) {
-                telemetryService.telemetry_vault(projectDetails, client, (response) => { });
-            }
+            // if (projectDetails.telemetry_pod.vault) {
+            telemetryService.telemetry_vault(projectDetails, client, (response) => { });
+            // }
             await delay(60000);
 
 
@@ -202,6 +202,10 @@ export class KubernetesService {
             //App pod
             if (projectDetails.app_pod) {
                 appService.app_pod(projectDetails, client, (response) => { });
+            }
+
+            if(projectDetails.system_entry_pod){
+                appService.system_entry_pod(projectDetails, client, (response) => { });
             }
 
             //telemetry EFK
