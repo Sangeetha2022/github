@@ -28,8 +28,10 @@ export class TelemetryService {
                 const namespaceData = await client.api.v1.namespace.post({ body: namespaceManifest });
                 if (namespaceData.statusCode == 201) {
                     console.log("namespace created...")
-                    projectDetails.namespace = namespaceData.body.metadata.name
-                    applyVault()
+                    projectDetails.namespace = namespaceData.body.metadata.name         
+                    if(projectDetails.telemetry_pod.vault){
+                        applyVault()
+                    }  
                 }
 
 
