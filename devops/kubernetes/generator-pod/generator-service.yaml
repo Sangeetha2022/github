@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gep-dev-generator
+  namespace: gep-dev-201902
+spec:
+  type: NodePort
+  ports:
+  - name: generation-manager
+    port: 5000
+    targetPort: 5000
+    nodePort: 30500 
+  - name: configuration-manager
+    port: 5001
+    targetPort: 5001
+    nodePort: 30501
+  - name: redis-container
+    port: 6379
+    targetPort: 6379
+    nodePort: 30379
+  - name: deployment-manager
+    port: 5005
+    targetPort: 5005
+    nodePort: 30505
+  - name: build-manager
+    port: 5006
+    targetPort: 5006
+    nodePort: 30506
+  selector:
+    app: gep-dev-generator
+

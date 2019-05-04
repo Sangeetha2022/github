@@ -6,7 +6,7 @@ metadata:
   labels:
     app: gep-dev-telimetry
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
     - name: vault
       targetPort: 8200

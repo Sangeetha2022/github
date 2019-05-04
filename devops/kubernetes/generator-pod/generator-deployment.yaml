@@ -1,0 +1,84 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gep-dev-generator
+  namespace: gep-dev-201902
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gep-dev-generator
+    spec:
+      containers:
+        - name: generationmanager-container
+          imagePullPolicy: Always
+          image: tharanirajan/gep-dev-generationmanager:1.0
+          ports:
+            - name: http-port
+              containerPort: 5000
+          env:
+            - name: gep-dev-app-db
+              value: gep-dev-app-db
+            - name: VAULT_API
+              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - name: gep-dev-generated-code
+              mountPath: /geppetto/generated-code
+        - name: configurationmanager-container
+          imagePullPolicy: Always
+          image: tharanirajan/gep-dev-configmanager:1.0
+          ports:
+            - name: http-port
+              containerPort: 5001
+          env:
+            - name: gep-dev-app-db
+              value: gep-dev-app-db
+            - name: VAULT_API
+              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: /geppetto/generated-code
+              name: gep-dev-generated-code
+        - name: redis-container
+          image: redis
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+          - containerPort: 6379
+          volumeMounts:
+            - mountPath: /geppetto/generated-code
+              name: gep-dev-generated-code   
+        - name: deploymentmanager-container
+          imagePullPolicy: Always
+          image: tharanirajan/gep-dev-deployment-manager:1.0
+          ports:
+            - name: http-port
+              containerPort: 5005
+          env:
+            - name: gep-dev-app-db
+              value: gep-dev-app-db
+            - name: VAULT_API
+              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: /geppetto/generated-code
+              name: gep-dev-generated-code
+        - name: buildmanager-container
+          imagePullPolicy: Always
+          image: tharanirajan/gep-dev-build-manager:1.0
+          ports:
+            - name: http-port
+              containerPort: 5006
+          env:
+            - name: gep-dev-app-db
+              value: gep-dev-app-db
+            - name: VAULT_API
+              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: /geppetto/generated-code
+              name: gep-dev-generated-code
+      volumes:
+        - name: gep-dev-generated-code
+          persistentVolumeClaim:
+            claimName: 'gep-dev-generated-code-pvc'

@@ -6,7 +6,7 @@ metadata:
   labels:
     app: kibana
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 5601
   selector:
@@ -39,6 +39,6 @@ spec:
             cpu: 100m
         env:
           - name: ELASTICSEARCH_URL
-            value: http://192.168.99.100:30246/
+            value: http://elasticsearch.gep-dev-logging.svc.cluster.local:9200/
         ports:
         - containerPort: 5601
