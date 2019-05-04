@@ -21,8 +21,8 @@ export const ScreenSchema = new Schema({
         default: false
     },
     grid_fields: {
-        html_id: String,
-        component_id: String,
+        htmlId: String,
+        componentId: String,
         custom_field: [{
             columnid: String,
             columnname: String,
@@ -34,6 +34,7 @@ export const ScreenSchema = new Schema({
     entity_info: [{
         htmlId: {type: String, default: null},
         componentId: {type: String, default: null},
+        elementName: {type: String, default: null},
         entityId: {type: String, default: null},
         fields: {
             fieldId: {type: String, default: null},
@@ -44,8 +45,9 @@ export const ScreenSchema = new Schema({
         }
     }],
     flows_info: [{
-        html_id: { type: String, default: null },
-        component_id: { type: String, default: null },
+        htmlId: { type: String, default: null },
+        componentId: { type: String, default: null },
+        elementName: {type: String, default: null},
         flow: { type: String, ref: 'flows' }
     }],
     project: { type: String, ref: 'projects', default: null},

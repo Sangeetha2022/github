@@ -68,8 +68,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     is_grid_present: Boolean;
     // eventFlows: FormGroup;
     agGridObject: any = {
-        html_id: '',
-        component_id: '',
+        htmlId: '',
+        componentId: '',
         custom_field: [],
         default_field: []
     };
@@ -94,13 +94,16 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     selectedEntityModel: any;
     selectedHtmlElement: any = {
         htmlId: undefined,
-        componentId: undefined
+        componentId: undefined,
+        elementName: undefined
     };
     screenEntityModel: any[] = [];
     traitsName: string;
     screen_id: any;
     existScreenDetail: any;
     screenName: any;
+    gridScript: any;
+    ElementNameArray: any[] = [];
 
     constructor(
         private screenDesignerService: ScreenDesignerService,
@@ -172,6 +175,51 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 this.screen_id = params.screenId;
             }
         });
+        // this.columnDefs = [
+        //     {
+        //         headerName: 'Name',
+        //         field: 'name',
+        //         width: 250,
+        //     },
+        //     {
+        //         headerName: 'Type',
+        //         field: 'type_name',
+        //         width: 308,
+        //         cellEditor: 'agSelectCellEditor',
+        //     },
+        //     {
+        //         headerName: 'Description',
+        //         field: 'description',
+        //         width: 450,
+        //     },
+        //     {
+        //         headerName: 'Action',
+        //         width: 100,
+        //         cellRenderer: 'buttonRenderer',
+        //         editable: false,
+        //         sortable: false,
+        //         filter: false,
+        //     }
+        // ];
+        // this.rowData = [
+        //     {
+        //         name: 'Enter_Name',
+        //         type_name: 'Text',
+        //         data_type: null,
+        //         description: 'Description',
+        //         is_entity_type: false,
+        //         is_list_type: false,
+        //         list_type: null,
+        //         list_value: null,
+        //         entity_id: null
+        //     }
+        // ];
+        // // this.rowSelection = 'multiple';
+        // this.defaultColDef = {
+        //     editable: true,
+        //     sortable: true,
+        //     filter: true
+        // };
         this.isFieldPopupModal = false;
         this.isGridPopup = false;
         this.is_grid_present = false;
@@ -320,8 +368,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         const $this = this;
         this.editor.on('component:selected', function (component) {
             if (component.attributes.type === 'grid-type') {
-                $this.agGridObject.html_id = component.ccid;
-                $this.agGridObject.component_id = component.cid;
+                $this.agGridObject.htmlId = component.ccid;
+                $this.agGridObject.componentId = component.cid;
                 $this.is_grid_present = true;
                 //   const styleManager = editor.StyleManager;
                 //   styleManager.addSector('div-only-sector',{
@@ -374,6 +422,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     }
 
     saveRemoteStorage() {
+        console.log('save remote storage ------- ', this.screenEntityModel);
         this.RemoteStorage.set('params', {
             grid_fields: this.agGridObject,
             flows_info: this.screenFlows,
@@ -397,6 +446,16 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                             console.log('screenId if condition are ---- ');
                             this.editor.setComponents(JSON.parse(this.existScreenDetail[0]['gjs-components']));
                             this.editor.setStyle(this.existScreenDetail[0]['gjs-css']);
+                            // console.log('get screen component ----- ', this.editor);
+                            // console.log('get screen component --22--- ', this.editor.getComponents());
+                            // console.log('get screen component --22-model-- ', this.editor.getComponents().model);
+                            // console.log('get screen component --22--find- ', this.editor.getComponents().find('input'));
+                            // console.log('get screen component ----- ', this.editor.getModel());
+                            // // console.log('get screen component -find---- ', this.editor.getModel().find('input'));
+                            // console.log('get screen component --grid 1--- ', this.editor.DomComponents.getType('grid-type'));
+                            // console.log('get screen component --grid 2--- ', this.editor.DomComponents);
+                            // console.log('get screen component --grid 3--- ', this.editor.DomComponents.getComponents());
+                            // console.log('get screen component ----- ', this.editor.get('components'));
                             this.feature_id = this.existScreenDetail[0]['feature'];
                             this.project_id = this.existScreenDetail[0]['project'];
                             this.screenName = this.existScreenDetail[0]['screenName'];
@@ -481,17 +540,20 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     // save flows
     saveEvent() {
         const flowObj = {
-            html_id: '',
-            component_id: '',
+            htmlId: '',
+            componentId: '',
+            elementName: '',
             flow: ''
         };
-        flowObj.html_id = this.editor.getSelected().cid;
-        flowObj.component_id = this.editor.getSelected().ccid;
+        // console.log('selected component after upload an flows ---- ', this.editor.selected())
+        flowObj.htmlId = this.editor.getSelected().ccid;
+        flowObj.componentId = this.editor.getSelected().cid;
+        flowObj.elementName = this.editor.getSelected().attributes.name;
         flowObj.flow = this.selectedFlow[0]._id;
         this.screenFlows.push(flowObj);
         this.saveRemoteStorage();
         this.closeEventPopup();
-        this.traitService.setScreenInfo(flowObj.html_id, flowObj.component_id, this.selectedFlow[0]);
+        this.traitService.setScreenInfo(flowObj.htmlId, flowObj.componentId, this.selectedFlow[0]);
     }
 
     onSelectionChanged() {
@@ -659,39 +721,153 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             console.log('toggled ----- ', model);
             //  addATButtons();
         });
-        // this.editor.on(`component:remove`, function (model) {
-        //     console.log('component -delete --modal----->> ', model);
-        //     console.log('component -delete --this----->> ', this);
-        //     alert();
-        // });
-        this.editor.on(`component:update:${this.traitsName}`, function (model) {
-            console.log('this vlaues are ---- ', this, ' ---  ', $this.EntityField);
+        this.editor.on(`component:remove`, function (model) {
+            const parentComponent = model.get('components');
+            let componentIndex = 0;
+            if (parentComponent.length === 0) {
+                componentIndex = $this.screenEntityModel.findIndex(x =>
+                    x.elementName === parentComponent.parent.attributes.name
+                );
+                if (componentIndex > -1) {
+                    $this.screenEntityModel.splice(componentIndex, 1);
+                }
+                componentIndex = $this.screenFlows.findIndex(x =>
+                    x.elementName === parentComponent.parent.attributes.name
+                );
+                if (componentIndex > -1) {
+                    $this.screenFlows.splice(componentIndex, 1);
+                }
+                const elementNameIndex = $this.ElementNameArray.findIndex(x => x === parentComponent.parent.attributes.name);
+                if (elementNameIndex > -1) {
+                    $this.ElementNameArray.splice(elementNameIndex, 1);
+                }
+                $this.saveRemoteStorage();
+            } else {
+                model.get('components').each(child => {
+                    componentIndex = $this.screenEntityModel.findIndex(x =>
+                        x.elementName === child.attributes.name
+                    );
+                    if (componentIndex > -1) {
+                        $this.screenEntityModel.splice(componentIndex, 1);
+                    }
+                    componentIndex = $this.screenFlows.findIndex(x =>
+                        x.elementName === child.attributes.name
+                    );
+                    if (componentIndex > -1) {
+                        $this.screenFlows.splice(componentIndex, 1);
+                    }
+                    const elementNameIndex = $this.ElementNameArray.findIndex(x => x === child.attributes.name);
+                    if (elementNameIndex > -1) {
+                        $this.ElementNameArray.splice(elementNameIndex, 1);
+                    }
+                });
+                $this.saveRemoteStorage();
+            }
+        });
 
-            console.log('this vlaues are -22 model--- ', model, ' ---  ', model.changed['entity']);
+        // name triats for each element component
+        this.editor.on(`component:update:name`, function (model) {
+            // alert('component name updated');
+            // console.log('update component for name entered ----- ', model);
+            // console.log('update component for name entered -previous---- ', model._previousAttributes.name);
+            // console.log('update component for name entered ---ElementNameArray-- ', $this.ElementNameArray);
+            if (model._previousAttributes.name === '') {
+                $this.ElementNameArray.push(model.attributes.name);
+            } else {
+                const elementNameIndex = $this.ElementNameArray.findIndex(x => x === model.attributes.name);
+                console.log('pushed element name in else part ----- ');
+                if (elementNameIndex > -1) {
+                    alert('name already exists');
+                    model.attributes.traits.target.set('name', `${model._previousAttributes.name}`);
+                    $this.editor.TraitManager.getTraitsViewer().render();
+                } else {
+                    $this.ElementNameArray.push(model.attributes.name);
+                }
+            }
+            const entityIndex = $this.screenEntityModel.findIndex(x =>
+                x.elementName === model._previousAttributes.name);
+            if (entityIndex > -1) {
+                $this.screenEntityModel[entityIndex].elementName = model.attributes.name;
+                $this.saveRemoteStorage();
+            }
+            const flowIndex = $this.screenFlows.findIndex(x =>
+                x.elementName === model._previousAttributes.name);
+            if (flowIndex > -1) {
+                $this.screenFlows[flowIndex].elementName = model.attributes.name;
+                $this.saveRemoteStorage();
+            }
+
+        });
+
+        // select entity
+        this.editor.on(`component:update:${this.traitsName}`, function (model) {
             $this.selectedEntityModel = model.changed['entity'];
             $this.selectedHtmlElement.htmlId = model.ccid;
             $this.selectedHtmlElement.componentId = model.cid;
+            $this.selectedHtmlElement.elementName = model.attributes.name;
             $this.EntityField.forEach(entityElement => {
-                // console.log('entity field ar e---- ', entityElement);
                 if (entityElement._id === model.changed['entity']) {
                     $this.fields = entityElement.field.filter((el) => {
                         return (el.name.toLowerCase() !== 'createdat' &&
                             el.name.toLowerCase() !== 'updatedat');
                     });
-                    console.log('ram all filtered fields are ----- ', $this.fields);
-                    // entityElement.field.forEach(fieldElement => {
-                    //     // const fieldObj = {
-                    //     //     name: '',
-                    //     //     value: ''
-                    //     // };
-                    //     if (fieldElement.name.toLowerCase() !== 'createdat' && fieldElement.name.toLowerCase() !== 'updatedat') {
-                    //         // fieldObj.name = fieldElement.name;
-                    //         // fieldObj.value = fieldElement.data_type;
-                    //         $this.fields.push(fieldElement);
-                    //     }
-                    // });
-                    // $this.isFieldPopupModal = true;
                 }
+            });
+        });
+        this.editor.on('block:drag:stop', function (model) {
+            // console.log('before drop the element component ------- ', this);
+            console.log('before drop the element component ----models--- ', model);
+            const wrapperType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="grid-type"]');
+            if (wrapperType.length > 0) {
+                // alert(true);
+                wrapperType.forEach(element => {
+                    element.attributes.traits.target.set('name', `grid_${element.ccid}`);
+                });
+            }
+            // $this.editor.DomComponents.getWrapper().find('#somid')[0];
+            const allInputModels = model.find('input');
+            const allRadioModels = model.find('.radio');
+            const allTextAreaModels = model.find('textarea');
+            const allOptionModels = model.find('select');
+            const allButtonModels = model.find('.button');
+            const allCheckBoxModels = model.find('.checkbox');
+            const allImageBlockModels = model.find('.gpd-image-block');
+            const allImageModels = model.find('.gjs-plh-image');
+            // const agGridModels = model.find('[data-gjs-type="grid-type"]');
+            // console.log('ag grid models before drop ----- ', agGridModels);
+            // console.log('before drop the element component ----models--- ', allInputModels);
+            // console.log('before drop the element component ----textArea--- ', allTextAreaModels);
+            // input
+            allInputModels.forEach(element => {
+                element.attributes.traits.target.set('name', `textbox_${element.ccid}`);
+            });
+            // radio
+            allRadioModels.forEach(element => {
+                element.attributes.traits.target.set('name', `radio_${element.ccid}`);
+            });
+            // TextArea
+            allTextAreaModels.forEach(element => {
+                element.attributes.traits.target.set('name', `textbox_${element.ccid}`);
+            });
+            // input options
+            allOptionModels.forEach(element => {
+                element.attributes.traits.target.set('name', `select_${element.ccid}`);
+            });
+            // checkbox
+            allCheckBoxModels.forEach(element => {
+                element.attributes.traits.target.set('name', `checkbox_${element.ccid}`);
+            });
+            // button
+            allButtonModels.forEach(element => {
+                element.attributes.traits.target.set('name', `button_${element.ccid}`);
+            });
+            // image blocks
+            allImageBlockModels.forEach(element => {
+                element.attributes.traits.target.set('name', `image_${element.ccid}`);
+            });
+            // images
+            allImageModels.forEach(element => {
+                element.attributes.traits.target.set('name', `image_${element.ccid}`);
             });
         });
         // this.editor.on('change:traits:entity', function (model) {
@@ -700,7 +876,6 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         // this.editor.on('component:update:Field', function (model) {
         //     alert('entity field button clicked');
         // });
-
         // this.editor.on('block:drag:stop', function (model) {
         //     console.log('ram component values ar e----11--  ', model);
         //     console.log('ram component values ar e--22----  ', model.find('input'));
@@ -855,7 +1030,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.isFieldPopupModal = false;
         this.ref.detectChanges();
     }
-
+    // save entity for form
     saveFieldPopup() {
         console.log('savefield popup modal are --11---- ', this.entityFields);
         console.log('savefield popup modal are --selectedObj---- ', this.selectedHtmlElement);
@@ -880,6 +1055,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             const obj = {
                 htmlId: '',
                 componentId: '',
+                elementName: '',
                 entityId: '',
                 fields: {
                     fieldId: '',
@@ -891,6 +1067,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             };
             obj.htmlId = this.selectedHtmlElement.htmlId;
             obj.componentId = this.selectedHtmlElement.componentId;
+            obj.elementName = this.selectedHtmlElement.elementName;
             obj.entityId = this.selectedEntityModel;
             obj.fields.fieldId = this.entityFields._id;
             obj.fields.name = this.entityFields.name;
@@ -902,7 +1079,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         }
         this.saveRemoteStorage();
         this.onCloseModel();
-        console.log('savefield after length -----  ', this.screenEntityModel);
     }
+
+
 
 }
