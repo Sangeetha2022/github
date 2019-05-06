@@ -24,4 +24,11 @@ export class Signinservice {
             callback(response);
         })
     }
+
+    public googleservice(req: Request,callback){
+        const googledata = req.body;
+        signindao.googledao(googledata,(response) =>{
+            callback(response);
+        })
+    }
 }
