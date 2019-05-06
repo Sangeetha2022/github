@@ -3,44 +3,135 @@
 
 # Content
 1. [Prerequisites](#prerequisites)
-1. [DevOps-DB](#devops-db)
-1. [DevOps](#devops)
 1. [Telemetry](#telemetry)
+1. [App-DB](#app-db)
+1. [App-Pod](#app-pod)
+1. [Generator-Pod](#generator-pod)
+1. [System-Entry](#system-entry)
 
 
 # Prerequisites<br/> 
-  [Kubernetes Setup](https://github.com/TharaniRajan/Geppetto-local-K8s/blob/master/docs/Kubernetes_setup.md) <br/> 
+  [Kubernetes Setup](https://github.com/TharaniRajan/Geppetto-local-K8s/blob/master/docs/Kubernetes_setup.md)<br/> 
   Knowledge on Dev-Ops, Docker, containers. <br/> 
   Download the repo and have the YAML files in your working directry. <br/> 
   Create Namespace for kubernetes to maintain the resources in seperate namespace.
   
         $ kubectl create namespace gep-dev-201902
+
+# Telemetry<br/> 
+    The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and Prometheus.
+
+# Vault
+   
+   Vault is a tool for securely accessing secrets. A secret is anything that you want to tightly control access to, such as API keys, passwords, certificates, and more. Vault provides a unified interface to any secret while providing tight access control and recording a detailed audit log.
+   
+   ![Vault](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/docs/images/Vault.png?raw=true"Vault")
+   
+   Run this file to create deployment for vault [telemetry-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/telimetry-pod/telemetry-deployment.yaml)
+   
+      $ kubectl create -f telemetry-deployment.yaml
+      
+   Run this file to create the service [telemetry-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/telimetry-pod/telimetry-service.yaml)
+       
+      $ kubectl create -f telimetry-service.yaml
   
+  # App-Db-Pod<br/> 
+
+   The App-DB Pod consists of Database needed for the Geppetto-app.
+   
+   To Deploy the App-Db-Pod DB:
+   
+   To create PersistanceVolume(pv) for the DB [mongo-pv.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/app-db-pod/mongo-pv.yaml)
+   
+     $ kubectl create -f mongo-pv.yaml 
+
+   create PersistanceVolume-Claim(pvc) for the DB [mongo-pvc.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/app-db-pod/mongo-pvc.yaml)
+   
+     $ kubectl create -f mongo-pvc.yaml 
+
+   create deployment:[dev-ops-db-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/app-db-pod/app-db-deployment.yaml)
+   
+     $ kubectl create -f app-db-deployment.yaml
+   
+   create service:[dev-ops-db-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/app-db-pod/app-db-service.yaml)
+   
+     $ kubectl create -f app-db-deployment.yaml
+ 
+   create service:[dev-ops-db-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/dev-ops-db/dev-ops-db-service.yaml)
+   
+     $ kubectl create -f app-db-service.yaml
+      
+   Now the App-DB-Pod is up and running.
+
+   # App-Pod<br/> 
+   
+   To Deploy the App-Pod:
+
+   create deployment:[app-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/app-pod/app-deployment.yaml)
+   
+     $ kubectl create -f app-deployment.yaml
+ 
+   create service:[app-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/app-pod/app-service.yaml)
+   
+     $ kubectl create -f app-service.yaml
+      
+   Now the App-Pod is up and running.
+
+   # Generator-Pod<br/> 
+   
+   To Deploy the Generator-Pod:
+
+   create persistent volume claim(pvc):[generated-code-pvc.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/generator-pod/generated-code-pvc.yaml)
+   
+     $ kubectl create -f generated-code-pvc.yaml
+
+    create deployment:[generator-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/generator-pod/generator-deployment.yaml)
+   
+     $ kubectl create -f generator-deployment.yaml
+ 
+   create service:[generator-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/system-entry-pod/generator-service.yaml)
+   
+     $ kubectl create -f generator-service.yaml
+      
+   Now the Generator-Pod is up and running.
+
+  # System-Entry-Pod<br/> 
+   
+   To Deploy the System-Entry-Pod:
+
+   create deployment:[system-entry-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/system-entry-pod/system-entry-deployment.yaml)
+   
+     $ kubectl create -f app-deployment.yaml
+ 
+   create service:[system-entry-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/system-entry-pod/system-entry-service.yaml)
+   
+     $ kubectl create -f app-service.yaml
+      
+   Now the system-entry-Pod is up and running.
   
 # DevOps-DB<br/> 
    The DevOps DB Pod consists of Database needed for the DevOps, currently it has Postgres DB for the SonarQube.
    
    To Deploy the DevOps DB:
    
-   createe PersistanceVolume for the DB [sonar-pv-postgres.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/dev-ops-db/sonar-pv-postgres.yaml)
+   create PersistanceVolume for the DB [sonar-pv-postgres.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/dev-ops-db/sonar-pv-postgres.yaml)
    
      $ kubectl create -f sonar-pv-postgres.yaml 
    
-   create deployment:[dev-ops-db-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/dev-ops-db/dev-ops-db-deployment.yaml)
+   create deployment:[dev-ops-db-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/dev-ops-db/dev-ops-db-deployment.yaml)
    
      $ kubectl create -f dev-ops-db-deployment.yaml
  
-   create service:[dev-ops-db-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/dev-ops-db/dev-ops-db-service.yaml)
+   create service:[dev-ops-db-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/dev-ops-db/dev-ops-db-service.yaml)
    
      $ kubectl create -f dev-ops-db-service.yaml
       
    Now the DevOps DB Pod is up and running.   
-  
-  
+   
 # DevOps<br/> 
   DevOps is a software development methodology that combines software development with information technology operations to shorten the systems development life cycle while delivering features, fixes, and updates frequently in close alignment with business objectives.
   
-  The DevOps Pod consists of number of containers: Jenkins, Nexus, Sonarqube, Rancher and Jmeter.
+  The DevOps Pod consists of number of containers: Jenkins, Nexus, Sonarqube, Rancher .
   
   NOTE: Before DevOps we need to setup DevOps DB.
   
@@ -54,11 +145,12 @@
   SonarQube is an open-source platform developed by SonarSource for continuous inspection of code quality to perform automatic reviews with static analysis of code to detect bugs, code smells, and security vulnerabilities.
   
   To Deploy all the three containers in one Pod:
-     we need create a kubernetes deployment with the file [dev-ops-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/dev-ops/dev-ops-deployment.yaml)
+
+     we need create a kubernetes deployment with the file [dev-ops-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/dev-ops/dev-ops-deployment.yaml)
   
      $ kubectl create -f dev-ops-deployment.yaml
    
-  To expose this containers we need to create a kubernetes service [dev-ops-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/dev-ops/dev-ops-service.yaml)
+  To expose this containers we need to create a kubernetes service [dev-ops-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/local/dev-ops/dev-ops-service.yaml)
      
      $ kubectl create -f dev-ops-service.yaml
   
@@ -74,8 +166,8 @@
   
   if you use the ip with the port you can access the services in the browser.
 
-
 # Telemetry<br/> 
+
    The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and Prometheus.
    
    To create a namespace for this telemetry pods run this file [kube-logging.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/EFK/kube-logging.yaml)

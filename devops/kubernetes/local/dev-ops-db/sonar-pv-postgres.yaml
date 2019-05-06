@@ -1,0 +1,27 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gep-dev-ops-postgres-pv
+  namespace: gep-dev-201902
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /data/postgresql/
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: gep-dev-ops-postgres-pvc
+  namespace: gep-dev-201902
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+          

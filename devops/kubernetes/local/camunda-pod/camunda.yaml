@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gep-dev-camunda
+  namespace: gep-dev-201902
+spec:
+  type: LoadBalancer
+  ports:
+  - name: camunda
+    port: 6000
+    targetPort: 8080
+  selector:
+    app: gep-dev-camunda
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gep-dev-camunda
+  namespace: gep-dev-201902
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gep-dev-camunda
+    spec:
+      containers:
+        - name: camunda-container
+          imagePullPolicy: Always
+          image: camunda/camunda-bpm-platform
+          ports:
+            - name: http-port
+              containerPort: 8080

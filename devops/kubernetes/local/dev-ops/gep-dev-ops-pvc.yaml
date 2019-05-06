@@ -1,0 +1,26 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: gep-dev-ops-pv
+  namespace: gep-dev-201902
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /var/jenkins_home/
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: gep-dev-ops-pvc
+  namespace: gep-dev-201902
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
