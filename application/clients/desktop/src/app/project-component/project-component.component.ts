@@ -14,6 +14,7 @@ import { HttpClient, HttpBackend } from '@angular/common/http';
 import { FlowManagerService } from '../flow-manager/flow-manager.service';
 import { IFeatureFLow } from './interface/FeatureFlow';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
+import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
 
 
 @Component({
@@ -507,8 +508,22 @@ export class EntityManagerComponent implements OnInit {
     // }
 
     GoToDesigner() {
+        this.openScreenDialog();
+        // this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id } });
+    }
 
-        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id } });
+    openScreenDialog(): void {
+        const dialogRef = this.dialog.open(ScreenPopupComponent, {
+            width: '550px',
+            data: {}
+        });
+
+
+        dialogRef.afterClosed().subscribe(screenData => {
+            if (screenData) {
+                this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, screenType: screenData } });
+            }
+        });
     }
 
     // Feature

@@ -25,6 +25,7 @@ import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitec
 import { ToastrModule } from 'ngx-toastr';
 import { FeatureDetailsComponent } from './feature-details/feature-details.component';
 import { FileSelectDirective } from 'ng2-file-upload';
+import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ PopupModelComponent,
 ButtonRendererComponent,
 FieldPopupModalComponent,
 FeatureDetailsComponent,
-FileSelectDirective
+FileSelectDirective,
+ScreenPopupComponent
 ],
 imports: [
 CommonModule,
@@ -61,6 +63,7 @@ AgGridModule.withComponents([])
 entryComponents: [
 ButtonRendererComponent,
 PopupModelComponent,
+ScreenPopupComponent,
 FieldPopupModalComponent
 ]
 })
