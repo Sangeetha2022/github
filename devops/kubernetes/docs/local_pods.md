@@ -1,5 +1,5 @@
-# Kubernetes Pods for Development<br/>
-   In here we will see how to containerize development apps, dev-ops and deploy them in kubernetes.
+# Geppetto Application Local Setup<br/>
+   In here we will see how to setup geppetto application in local.(minikube)
 
 # Content
 1. [Prerequisites](#prerequisites)
@@ -33,7 +33,7 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
      $ kubectl create -f prometheus-clusterRole.yaml
      
-   To create a config Map [prometheus-config-map.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/prometheus-config-Map.yaml)
+   To create a config Map [prometheus-config-map.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/prometheus-config-map.yaml)
    
      $ kubectl create -f prometheus-config-map.yaml
 
