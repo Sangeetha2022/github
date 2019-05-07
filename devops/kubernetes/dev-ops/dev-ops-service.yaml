@@ -17,6 +17,6 @@ spec:
   - name: sonarqube
     port: 9000
     targetPort: 9000
-    nodePort: 30090
+    nodePort: 30900
   selector:
     app: gep-dev-ops

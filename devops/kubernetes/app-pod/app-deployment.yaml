@@ -82,7 +82,7 @@ spec:
           image: tharanirajan/gep-dev-securitymanager:1.0
           ports:
             - name: http-port
-              containerPort: 3008
+              containerPort: 3007
           env:
             - name: gep-dev-app-db
               value: gep-dev-app-db
@@ -93,7 +93,7 @@ spec:
           image: tharanirajan/gep-dev-camundamanager:1.0
           ports:
             - name: http-port
-              containerPort: 3009
+              containerPort: 3008
           env:
             - name: gep-dev-app-db
               value: gep-dev-app-db
@@ -104,7 +104,7 @@ spec:
           image: tharanirajan/gep-dev-proxymanager:1.0
           ports:
             - name: http-port
-              containerPort: 3010
+              containerPort: 3009
           env:
             - name: gep-dev-app-db
               value: gep-dev-app-db
