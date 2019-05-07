@@ -104,6 +104,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     screenName: any;
     gridScript: any;
     ElementNameArray: any[] = [];
+    screenType: String;
 
     constructor(
         private screenDesignerService: ScreenDesignerService,
@@ -173,6 +174,9 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             }
             if (params.screenId !== undefined && params.screenId !== null) {
                 this.screen_id = params.screenId;
+            }
+            if (params.screenType !== undefined && params.screenType !== null) {
+                this.screenType = params.screenType;
             }
         });
         // this.columnDefs = [
@@ -382,11 +386,17 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.RemoteStorage = this.editor.StorageManager.get('remote');
         console.log('before save remotestorage ar e----- ', this.project_id, ' -feat--- ', this.feature_id);
         this.screenName = `screen${generate(dictionary.numbers, 6)}`;
-        this.RemoteStorage.set('params', {
-            screenName: this.screenName,
-            project: this.project_id,
-            feature: this.feature_id
-        });
+        this.saveRemoteStorage();
+        // this.RemoteStorage.set('params', {
+        //     screenName: this.screenName,
+        //     project: this.project_id,
+        //     feature: this.feature_id
+        // });
+        if (this.screenType === 'mobile') {
+            console.log('screen type ares ----- ', this.editor);
+            this.editor.setDevice('Mobile');
+            console.log('screen type ares --devices--- ', this.editor.getDevice());
+        }
     }
 
     ngOnDestroy() {
@@ -430,7 +440,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             is_grid_present: this.is_grid_present,
             entity_info: this.screenEntityModel,
             project: this.project_id,
-            feature: this.feature_id
+            feature: this.feature_id,
+            screenType: this.screenType
         });
     }
     // need to work screen by id

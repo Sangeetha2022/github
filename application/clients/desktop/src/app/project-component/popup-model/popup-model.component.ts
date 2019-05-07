@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
     selector: 'app-popup-model',
-    templateUrl: 'popup-model.component.html',
+    templateUrl: 'popup-model.component.html'
 })
 export class PopupModelComponent {
     public modelObject: any = {
