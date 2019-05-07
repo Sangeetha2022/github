@@ -11,8 +11,8 @@ spec:
     - name: vault
       targetPort: 8200
       port: 8200
-    # - name: prometheus
-    #   targetPort: 9090
-    #   port: 9090  
+    - name: prometheus
+      targetPort: 9090
+      port: 9090  
   selector:
     app: gep-dev-telimetry

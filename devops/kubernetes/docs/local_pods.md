@@ -24,6 +24,19 @@
 
 The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and Prometheus.
 
+
+ # Prometheus
+   
+   An open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.
+   
+   To create clusterRole config [prometheus-clusterRole.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/prometheus-clusterRole.yaml)
+   
+     $ kubectl create -f prometheus-clusterRole.yaml
+     
+   To create a config Map [prometheus-config-map.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/prometheus-config-Map.yaml)
+   
+     $ kubectl create -f prometheus-config-map.yaml
+
 # Vault
    
    Vault is a tool for securely accessing secrets. A secret is anything that you want to tightly control access to,such as API keys, passwords, certificates, and more. Vault provides a unified interface to any secret while providing tight access control and recording a detailed audit log.
@@ -225,15 +238,4 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
    Now,EFK is up and running.
   
-   # Prometheus
-   
-   An open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.
-   
-   To create clusterRole config [prometheus-clusterRole.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/prometheus-clusterRole.yaml)
-   
-     $ kubectl create -f prometheus-clusterRole.yaml
-     
-   To create a config Map [prometheus-config-map.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/prometheus-config-Map.yaml)
-   
-     $ kubectl create -f prometheus-config-map.yaml
    
