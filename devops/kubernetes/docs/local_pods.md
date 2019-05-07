@@ -29,11 +29,11 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
    An open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.
    
-   To create clusterRole config [prometheus-clusterRole.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/prometheus-clusterRole.yaml)
+   To create clusterRole config [prometheus-clusterRole.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/telimetry-pod/prometheus-clusterRole.yaml)
    
      $ kubectl create -f prometheus-clusterRole.yaml
      
-   To create a config Map [prometheus-config-map.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/telimetry-pod/prometheus-config-map.yaml)
+   To create a config Map [prometheus-config-map.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/telimetry-pod/promethues-config-map.yaml)
    
      $ kubectl create -f prometheus-config-map.yaml
 
