@@ -21,6 +21,7 @@ export class Logincontroller implements Controller {
         this.router.route('/login').post(this.login);
         this.router.route('/consent').put(this.Consent);
         this.router.route('/logout').post(this.Logout);
+        this.router.route('/googlesignin').post(this.googlelogin);
     }
 
     public signup(req: Request, res: Response) {
@@ -105,4 +106,29 @@ export class Logincontroller implements Controller {
         });
     }
 
+    public googlelogin(req: Request, res: Response) {
+        new ApiAdaptar().post(`${Constants.loginUrl}/googlesignin`, req.body).then((googleuser) => {
+            const Userdetails = googleuser;
+            // @ts-ignore
+            var token = Userdetails.body.Idtoken;
+            jwt.verify(token, 'geppettosecret', (err, decoded) => {
+                if (err) {
+                    // res.status(401);
+                    console.log('-----------err--->>>', err);
+                    res.send({ 'status': 'Unauthorized', 'error': err, 'Userdetails': googleuser });
+                } else {
+                    var url = `${Constants.proxyUrl}/proxy`
+                    request.post({ url: url, json: decoded }, (error, response, body) => {
+                        var loginresponse = {
+                            "Access": body,
+                            "Userdetails": googleuser
+                        }
+                        console.log('-----------body--------->>>', loginresponse);
+                        res.send(loginresponse);
+                    })
+                }
+            })
+
+        });
+    }
 }

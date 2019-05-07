@@ -28,4 +28,13 @@ export class Signincontroller {
         })
     }
 
+    public googlecontroller(req: Request, res:Response){
+
+        signinservice.googleservice(req, (response)=>{
+            res.status(200);
+            console.log('--------------callbackresponeincontroller', response);
+            res.json(response);
+        })
+    }
+
 }
