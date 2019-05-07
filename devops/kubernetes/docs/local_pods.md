@@ -8,8 +8,8 @@
 1. [App-Pod](#app-pod)
 1. [Generator-Pod](#generator-pod)
 1. [System-Entry](#system-entry)
-1. [Dev-ops-db](#dev-ops)
-1. [Dev-ops](#)
+1. [Dev-ops-db](#dev-ops-db)
+1. [Dev-ops](#dev-ops)
 
 
 # Prerequisites<br/> 
@@ -36,6 +36,12 @@
    Run this file to create the service [telemetry-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/telimetry-pod/telimetry-deployment.yaml)
        
       $ kubectl create -f telimetry-service.yaml
+
+   You can get the telimetry running port in minikube,
+
+      $ kubectl get service --namespace=gep-dev-201902
+
+   Access the vault in browser and load the secrets needed for the mongo db.
   
   # App-Db-Pod<br/> 
 
@@ -43,19 +49,19 @@
    
    To Deploy the App-Db-Pod DB:
    
-   To create PersistanceVolume(pv) for the DB [mongo-pv.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-db-pod/mongo-pv.yaml)
+   To create persistance-volume(pv) for the DB [mongo-pv.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-db-pod/mongo-pv.yaml)
    
      $ kubectl create -f mongo-pv.yaml
 
-   create PersistanceVolume-Claim(pvc) for the DB [mongo-pvc.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-db-pod/mongo-pvc.yaml)
+   Create persistance-volume-claim(pvc) for the DB [mongo-pvc.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-db-pod/mongo-pvc.yaml)
    
      $ kubectl create -f mongo-pvc.yaml
 
-   create deployment:[dev-ops-db-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-db-pod/dev-ops-db-deployment.yaml)
+   Create deployment [dev-ops-db-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-db-pod/dev-ops-db-deployment.yaml)
    
      $ kubectl create -f app-db-deployment.yaml
    
-   create service:[dev-ops-db-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-db-pod/dev-ops-db-service.yaml)
+   Create Service [dev-ops-db-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-db-pod/dev-ops-db-service.yaml)
    
      $ kubectl create -f app-db-service.yaml
       
@@ -222,16 +228,3 @@
    
      $ kubectl create -f prometheus-config-map.yaml
    
-   # Vault
-   
-   Vault is a tool for securely accessing secrets. A secret is anything that you want to tightly control access to, such as API keys, passwords, certificates, and more. Vault provides a unified interface to any secret while providing tight access control and recording a detailed audit log.
-   
-   ![Vault](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/docs/images/Vault.png?raw=true"Vault")
-   
-   Run this file to create deployment for vault [telemetry-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/telemetry-deployment.yaml)
-   
-      $ kubectl create -f telemetry-deployment.yaml
-      
-   Run this file to create the service [telemetry-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/telimetry-service.yaml)
-       
-      $ kubectl create -f telimetry-service.yaml
