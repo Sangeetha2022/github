@@ -4,11 +4,12 @@ metadata:
   name: gep-dev-camunda
   namespace: gep-dev-201902
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - name: camunda
     port: 6000
     targetPort: 8080
+    nodePort: 30060
   selector:
     app: gep-dev-camunda
 ---

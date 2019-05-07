@@ -4,37 +4,43 @@ metadata:
   name: gep-dev-app
   namespace: gep-dev-201902
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - name: flowmanager
     port: 3001
     targetPort: 3001
+    nodePort: 30001
   - name: microflowmanager
     port: 3002
     targetPort: 3002
+    nodePort: 30002
   - name: projectmanager
     port: 3003
     targetPort: 3003
+    nodePort: 30003
   - name: screenmanager
     port: 3004
     targetPort: 3004
+    nodePort: 30004
   - name: entitymanager
     port: 3005
-    targetPort: 3005 
+    targetPort: 3005
+    nodePort: 30005 
   - name: featuremanager
     port: 3006
     targetPort: 3006
-  - name: featureflowmanager
+    nodePort: 30006
+  - name: securitymanager
     port: 3007
     targetPort: 3007
-  - name: securitymanager
+    nodePort: 30007
+  - name: camundamanager
     port: 3008
     targetPort: 3008
-  - name: camundamanager
+    nodePort: 30008
+  - name: proxymanager
     port: 3009
     targetPort: 3009
-  - name: proxymanager
-    port: 3010
-    targetPort: 3010
+    nodePort: 30009
   selector:
     app: gep-dev-app

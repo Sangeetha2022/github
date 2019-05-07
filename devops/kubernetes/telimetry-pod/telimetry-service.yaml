@@ -6,13 +6,15 @@ metadata:
   labels:
     app: gep-dev-telimetry
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - name: vault
       targetPort: 8200
       port: 8200
+      nodePort: 30082 
     - name: prometheus
       targetPort: 9090
-      port: 9090  
+      port: 9090
+      nodePort: 30090  
   selector:
     app: gep-dev-telimetry
