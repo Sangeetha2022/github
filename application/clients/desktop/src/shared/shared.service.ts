@@ -5,7 +5,7 @@ export class SharedService {
 
 // Local
 // public loginUrl: String = 'http://localhost:3008';
-public Apigateway: String = 'http://localhost:3000';
+// public Apigateway: String = 'http://localhost:3000';
 // public flowbaseUrl: String = 'http://localhost:3001';
 // public mflowbaseUrl: String = 'http://localhost:3002';
 // public projbaseUrl: String = 'http://localhost:3003';
@@ -17,7 +17,7 @@ public Apigateway: String = 'http://localhost:3000';
 // public genmanagerUrl: String = 'http://localhost:5000';
 
 // App Service
-// public Apigateway: String = 'http://3.84.173.148:30000';
+public Apigateway: String = 'http://3.84.173.148:30000';
 public flowbaseUrl: String = 'http://3.84.173.148:30001';
 public mflowbaseUrl: String = 'http://3.84.173.148:30002';
 public projbaseUrl: String = 'http://3.84.173.148:30003';
