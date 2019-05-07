@@ -65,7 +65,7 @@ export class AppService {
                 let serviceAppManifest = yaml.safeLoad(fs.readFileSync(appYaml + '/app-service.yaml', 'utf8'));
                 const serviceAppData = await client.api.v1.namespaces(projectDetails.namespace).service.post({ body: serviceAppManifest });
                 if (serviceAppData.statusCode == 201) {
-                    applyDeployAppUI();
+                    //applyDeployAppUI();
                 }
 
 
@@ -75,6 +75,14 @@ export class AppService {
         }
 
 
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+
+    }
+
+
+    public system_entry_pod(projectDetails, client, callback: CallableFunction) {
+
+        projectDetails.yamlSource = Destination + "/" + projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5) + "/deployment/aws"
 
         async function applyDeployAppUI() {
             try {
@@ -100,7 +108,7 @@ export class AppService {
                 console.error('Error: ', err)
             }
         }
-
+        applyDeployAppUI();
 
         const delay = ms => new Promise(res => setTimeout(res, ms));
 

@@ -14,8 +14,8 @@ import { HttpClient, HttpBackend } from '@angular/common/http';
 import { FlowManagerService } from '../flow-manager/flow-manager.service';
 import { IFeatureFLow } from './interface/FeatureFlow';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
+import { IFlow } from '../flow-manager/interface/flow';
 import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
-
 
 @Component({
     selector: 'app-project-component',
@@ -26,9 +26,8 @@ import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
 export class EntityManagerComponent implements OnInit {
     public Editor = ClassicEditor;
     showUploadFeature: Boolean;
-    showImportFeature: Boolean;
-    showAddFeature: Boolean = true;
-
+    showImportFeature: Boolean = true;
+    showAddFeature: Boolean;
     frontFile: any;
     backendFile: any;
     rowSelection: any;
@@ -38,12 +37,9 @@ export class EntityManagerComponent implements OnInit {
     selectedExistingFeature: String;
     featureNameandDesc: any = [];
     featureId: any = [];
-    defaultColDef: any;
     featureData: any = [];
     featureConnectProject: any = [];
     // user: any = [];
-    columnDefs: any = [];
-    rowData: any = [];
     project_id: String;
     public features: IFeature = {
         project_id: '',
@@ -62,6 +58,8 @@ export class EntityManagerComponent implements OnInit {
         // explanation:'',
     };
 
+    displayModel: any;
+
     public featureEntityDetails: IFeatureDetails = {
         id: '',
         name: '',
@@ -74,18 +72,7 @@ export class EntityManagerComponent implements OnInit {
     panelOpenState = false;
     featureEntityData: any = [];
     featureEntityField: any = [];
-    featureFlow: any = [];
     displayFeatureModel = 'none';
-    public featureFlows: IFeatureFLow = {
-        id: '',
-        action_on_data: '',
-        description: '',
-        feature_id: '',
-        label: '',
-        name: '',
-        type: 'basic',
-        create_with_default_activity: 1,
-    };
     public entity: IEntity = {
         name: '',
         description: '',
@@ -106,7 +93,6 @@ export class EntityManagerComponent implements OnInit {
     public FeatureEntity: any = [];
     public deletePopup: String = 'none';
     deleteFPopup: String = 'none';
-    displayFeatureFlowModal: String = 'none';
     public formData: FormData = new FormData();
     public selectedEntityId: any;
     selectedFeatureId: any;
@@ -126,23 +112,6 @@ export class EntityManagerComponent implements OnInit {
 
     ) {
 
-        this.columnDefs = [
-            {
-                headerName: 'Name', field: 'name',
-                checkboxSelection: true
-            },
-            { headerName: 'Label', field: 'label' },
-            { headerName: 'Description', field: 'description' },
-            { headerName: 'Action', field: 'action_on_data' },
-
-
-        ];
-        this.rowSelection = 'multiple';
-        this.defaultColDef = {
-            sortable: true,
-            filter: true
-        };
-
         // if (this.selectFeature === true) {
         // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
         // }
@@ -152,8 +121,8 @@ export class EntityManagerComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.project_id = params.projectId;
         });
-        if (this.showAddFeature === true) {
-            this.selectedOption = 'Create Feature';
+        if (this.showImportFeature === true) {
+            this.selectedOption = 'Import Feature';
         }
         this.getSelectedProject();
         this.getProjectDetails();
@@ -162,7 +131,6 @@ export class EntityManagerComponent implements OnInit {
         // this.getDefaultEntityByProjectId();
         // this.getAllFeature();
         this.getAllFeatureDetails();
-        this.getAllFlows();
     }
 
 
@@ -200,14 +168,6 @@ export class EntityManagerComponent implements OnInit {
             this.showUploadFeature = false;
         }
         console.log(event);
-    }
-
-    getAllFlows() {
-        this.flowManagerService.getAllFlows().subscribe((flowData) => {
-            //   this.dataFlow = flowData;
-            //   console.log('dataFlow', this.dataFlow);
-            this.rowData = flowData;
-        });
     }
 
     openDialog(isSaveOption, objectValue): void {
@@ -348,23 +308,11 @@ export class EntityManagerComponent implements OnInit {
     }
 
 
-    onSelectionChanged() {
-        this.selectedFlow = this.gridApi.getSelectedRows();
-    }
+   
 
-    onGridReady(params) {
-        this.gridApi = params.api;
-        this.gridColumnApi = params.columnApi;
-        this.gridApi.sizeColumnsToFit();
-    }
 
     openFeatureDialog(): void {
         this.displayFeatureModel = 'block';
-    }
-
-    openFeatureFlowDialog(id): void {
-        this.featureFlows.feature_id = id;
-        this.displayFeatureFlowModal = 'block';
     }
 
     closeFeatureCreateModel() {
@@ -381,24 +329,9 @@ export class EntityManagerComponent implements OnInit {
         this.displayFeatureModel = 'none';
     }
 
-    closeFeatureFlowModal() {
-        this.displayFeatureFlowModal = 'none';
-    }
+   
 
-    saveFeatureFlow() {
-        this.featureFlow = this.selectedFlow;
-        this.featureFlow.forEach(featureData => {
-            this.featureFlows.name = featureData.name;
-            this.featureFlows.description = featureData.description;
-            this.featureFlows.label = featureData.label;
-            this.featureFlows.action_on_data = featureData.action_on_data;
-            this.projectComponentService.addFeatureFlow(this.featureFlows).subscribe(flowData => {
-                if (flowData) {
-                    this.closeFeatureFlowModal();
-                }
-            });
-        });
-    }
+ 
 
     getScreenByProjectId() {
         console.log('asojdnaojdso');

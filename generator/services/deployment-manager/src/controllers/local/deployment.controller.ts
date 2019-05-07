@@ -43,6 +43,10 @@ export class DeploymentController {
       res.send(200);
     });
 
+    telemetryService.telemetry_EFK(projectDetails, response => {
+      res.send(200);
+    });
+
     devopsService.deploy_dev_ops_pod(projectDetails, response => {
       res.send(200);
     });

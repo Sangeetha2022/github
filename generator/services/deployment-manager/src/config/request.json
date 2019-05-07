@@ -7,6 +7,7 @@
         "project_name": "TestNotify",
         "user_id": "1234",
         "user_name": "tharani",
+        "existing_cluster":false,
         "app_db_pod": true,
         "app_pod": true,
         "system_entry_pod": true,

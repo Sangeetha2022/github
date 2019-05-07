@@ -72,9 +72,16 @@ export class RancherService {
 
     }
 
-    public creat_test(projectDetails, callback: CallableFunction) {
+    public get_existing_rancherHost(projectDetails, callback: CallableFunction) {
        
-        let rancherHost2 = "";
+        let rancherHost2 = "https://54.84.232.129";
+        callback({ "status": "success", "data":rancherHost2 });
+
+    }
+
+    public created_test(projectDetails, callback: CallableFunction) {
+       
+        let rancherHost2 = "https://54.84.232.129";
         callback({ "status": "success", "data":rancherHost2 });
 
     }

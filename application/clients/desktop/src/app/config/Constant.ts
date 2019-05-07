@@ -100,6 +100,8 @@ export class Constants {
 
     // Feature Flow
     public static get addFeatureFlow(): string { return '/feature-flow/save'; }
+    public static get deleteFeatureFlowById(): string { return '/feature-flow/delete/'; }
+    
     // public static get getFeatureFlowByFeatureId(): string { return '/feature-flow/getbyid/'; }
 
     // Entity

@@ -11,14 +11,14 @@
   <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs [hidden]="hideElement">
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">
       <a class="btn btn-secondary" [routerLink]="['/project']">{{'project' | i18next}}</a>
-      <div class="dropdown">
+      <div class="dropdown" *ngIf='permission == "true"'>
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
           Administrator
         </button>
         <div class="dropdown-menu pull-right">
           <a class="dropdown-item" routerLink="/flow-manager">{{'flowManager' | i18next}}</a>
-          <a class="dropdown-item" routerLink="/config-manager">Configuration</a>
+          <a class="dropdown-item" *ngIf='configfields == "true"' routerLink="/config-manager">Configuration</a>
           <a class="dropdown-item" routerLink="/available-connector">Available Connector</a>
         </div>
       </div>

@@ -14,6 +14,7 @@ export const FeatureFlowsSchema = mongoose.Schema({
     description: String,
     screenName: String,
     methodName: String,
+    flow: { type: String, ref: 'flows' },
     action_on_data: String,
     type: String,
     create_with_default_activity: Number,
