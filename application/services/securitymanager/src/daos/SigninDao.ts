@@ -11,13 +11,71 @@ export class SigninDao {
 
     private userrole: any;
     private rolevalue: any;
+    private signuprole: any;
+    private userDetails: any;
+    private mailboolean: boolean;
     public signindao(userData, callback) {
-        let logincreds = new signinmodel(userData);
-        logincreds.save().then((result) => {
-            callback(result);
-        }).catch((error) => {
-            callback(error);
+        rolemodel.find().then(result => {
+            asyncLoop(result, (roles, next) => {
+                if (roles.role === 'Standarduser') {
+                    this.signuprole = roles._id;
+                    console.log('signuprole---->', this.signuprole)
+                }
+                next();
+            }, (err) => {
+                if (err) {
+                    console.log('----------erro----', err);
+                }
+            })
+
+            this.userDetails = {
+                'firstname': userData.firstName,
+                'lastname': userData.lastName,
+                'password': userData.password,
+                'email': userData.email,
+                'username': userData.email,
+                'role': this.signuprole,
+                'Idtoken':''
+            };
+            console.log('userdetails---->', this.userDetails)
+            signinmodel.find().then(data => {
+                console.log('----------------data-------->>>', data.length);
+                if(data.length !== 0){
+                    asyncLoop(data, (users, next) => {
+                        if (users.email === this.userDetails.email) {
+                            this.mailboolean = true;
+                        }else{
+                            this.mailboolean = false;
+                        }
+                        next();
+                    }, (error) => {
+                        if (error) {
+                            console.log('----------erro----', error);
+                        }
+                    });
+                    if (this.mailboolean === true) {
+                        var mailresponse = 'Email is already exists';
+                        callback(mailresponse);
+                    } else {
+                        let logincreds = new signinmodel(this.userDetails);
+                        logincreds.save().then((result) => {
+                            callback(result);
+                        }).catch((error) => {
+                            callback(error);
+                        })
+                    }    
+                }else{
+                    let logincreds = new signinmodel(this.userDetails);
+                    logincreds.save().then((result) => {
+                        callback(result);
+                    }).catch((error) => {
+                        callback(error);
+                    })
+                }
+            });
+
         })
+
     }
 
     public logindao(logindetails, callback) {

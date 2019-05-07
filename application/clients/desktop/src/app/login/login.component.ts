@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './loginservice.service';
 import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,6 +23,8 @@ export class LoginComponent implements OnInit {
   public user = {
     email: '',
     password: '',
+    firstName: '',
+    lastName: ''
   };
   public token: any;
   public href: any;
@@ -32,7 +36,12 @@ export class LoginComponent implements OnInit {
   public tokenerror: any;
   public Accesslevel: any;
   public permission: any[] = [];
-  private loggedIn: boolean;
+  public signup: boolean;
+  public newUser: any = [];
+  public isChecked: boolean;
+  displayModel: String = 'none';
+
+
 
   ngOnInit() {
     // this.Queryparams();
@@ -43,9 +52,26 @@ export class LoginComponent implements OnInit {
 
   }
 
+  closeDeleteFModel() {
+    this.displayModel = 'none';
+    this.isChecked = false;
+  }
+
   signInwithGoogle() {
     this.authservice.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
+
+  newuser(value) {
+
+    if (value.checked) {
+      this.signup = true;
+      this.displayModel = 'block';
+      this.isChecked = true;
+
+    }
+  }
+
+
   Queryparams() {
     this.router.queryParams.subscribe(params => {
       this.loginchallenge = params['login_challenge'];
@@ -62,6 +88,28 @@ export class LoginComponent implements OnInit {
       // });
     });
   }
+
+
+  newUserLogin() {
+    this.loginservice.signup(this.user).subscribe(data => {
+      this.Userdetails = data.Userdetails;
+      console.log('userinfoo--->', this.Userdetails);
+      this.displayModel = 'none';
+      this.isChecked = false;
+      this.user.firstName = '';
+      this.user.lastName = '';
+      if (this.Userdetails.body === 'Email is already exists') {
+        console.log('-----------error message-------');
+        this.errormessage = this.Userdetails.body;
+      } else {
+        if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '' || this.Userdetails.body.Idtoken === undefined) {
+          this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });
+        }
+
+      }
+    });
+  }
+
 
   Login() {
     // this.user.challenge = this.loginchallenge;
