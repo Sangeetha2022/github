@@ -29,11 +29,11 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
    An open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.
    
-   To create clusterRole config [prometheus-clusterRole.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/telimetry-pod/prometheus-clusterRole.yaml)
+   To create clusterRole config [prometheus-clusterRole.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/prometheus-clusterRole.yaml)
    
      $ kubectl create -f prometheus-clusterRole.yaml
      
-   To create a config Map [prometheus-config-map.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/telimetry-pod/promethues-config-map.yaml)
+   To create a config Map [prometheus-config-map.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/promethues-config-map.yaml)
    
      $ kubectl create -f prometheus-config-map.yaml
 
@@ -43,11 +43,11 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
    ![Vault](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/docs/images/Vault.png?raw=true"Vault")
    
-   Run this file to create deployment for vault [telemetry-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/telimetry-pod/telimetry-deployment.yaml)
+   Run this file to create deployment for vault [telemetry-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/telimetry-deployment.yaml)
    
       $ kubectl create -f telemetry-deployment.yaml
       
-   Run this file to create the service [telemetry-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/telimetry-pod/telimetry-deployment.yaml)
+   Run this file to create the service [telemetry-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/telimetry-deployment.yaml)
        
       $ kubectl create -f telimetry-service.yaml
 
@@ -65,19 +65,19 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
    To Deploy the App-Db-Pod DB:
    
-   To create persistance-volume(pv) for the DB [mongo-pv.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-db-pod/mongo-pv.yaml)
+   To create persistance-volume(pv) for the DB [mongo-pv.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/app-db-pod/mongo-pv.yaml)
    
      $ kubectl create -f mongo-pv.yaml
 
-   Create persistance-volume-claim(pvc) for the DB [mongo-pvc.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-db-pod/mongo-pvc.yaml)
+   Create persistance-volume-claim(pvc) for the DB [mongo-pvc.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/app-db-pod/mongo-pvc.yaml)
    
      $ kubectl create -f mongo-pvc.yaml
 
-   Create deployment [dev-ops-db-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-db-pod/dev-ops-db-deployment.yaml)
+   Create deployment [dev-ops-db-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/app-db-pod/dev-ops-db-deployment.yaml)
    
      $ kubectl create -f app-db-deployment.yaml
    
-   Create service [dev-ops-db-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-db-pod/dev-ops-db-service.yaml)
+   Create service [dev-ops-db-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/app-db-pod/dev-ops-db-service.yaml)
    
      $ kubectl create -f app-db-service.yaml
       
@@ -87,11 +87,11 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
    To Deploy the App-Pod:
 
-   Create deployment [app-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-pod/app-deployment.yaml)
+   Create deployment [app-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/app-pod/app-deployment.yaml)
    
      $ kubectl create -f app-deployment.yaml
  
-   Create service [app-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/app-pod/app-service.yaml)
+   Create service [app-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/app-pod/app-service.yaml)
    
      $ kubectl create -f app-service.yaml
       
@@ -105,15 +105,15 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
    To Deploy the Generator-Pod:
 
-   Create persistent volume claim(pvc) [generated-code-pvc.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/generator-pod/generated-code-pvc.yaml)
+   Create persistent volume claim(pvc) [generated-code-pvc.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/generator-pod/generated-code-pvc.yaml)
    
      $ kubectl create -f generated-code-pvc.yaml
 
-   Create deployment [generator-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/generator-pod/generator-deployment.yaml)
+   Create deployment [generator-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/generator-pod/generator-deployment.yaml)
    
      $ kubectl create -f generator-deployment.yaml
  
-   Create service [generator-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/system-entry-pod/generator-service.yaml)
+   Create service [generator-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/system-entry-pod/generator-service.yaml)
    
      $ kubectl create -f generator-service.yaml
       
@@ -123,11 +123,11 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
    To Deploy the System-Entry-Pod:
 
-   Create deployment [system-entry-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/system-entry-pod/system-entry-deployment.yaml)
+   Create deployment [system-entry-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/system-entry-pod/system-entry-deployment.yaml)
    
      $ kubectl create -f app-deployment.yaml
  
-   Create service [system-entry-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/system-entry-pod/system-entry-service.yaml)
+   Create service [system-entry-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/system-entry-pod/system-entry-service.yaml)
    
      $ kubectl create -f app-service.yaml
       
@@ -139,15 +139,15 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
    To Deploy the DevOps DB:
    
-   create PersistanceVolume for the DB [sonar-pv-postgres.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/dev-ops-db/sonar-pv-postgres.yaml)
+   create PersistanceVolume for the DB [sonar-pv-postgres.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/dev-ops-db/sonar-pv-postgres.yaml)
    
      $ kubectl create -f sonar-pv-postgres.yaml 
    
-   create deployment:[dev-ops-db-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/dev-ops-db/dev-ops-db-deployment.yaml)
+   create deployment:[dev-ops-db-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/dev-ops-db/dev-ops-db-deployment.yaml)
    
      $ kubectl create -f dev-ops-db-deployment.yaml
  
-   create service:[dev-ops-db-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/dev-ops-db/dev-ops-db-service.yaml)
+   create service:[dev-ops-db-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/dev-ops-db/dev-ops-db-service.yaml)
    
      $ kubectl create -f dev-ops-db-service.yaml
       
@@ -172,11 +172,11 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
   
   To Deploy all the three containers in one Pod:
 
-     we need create a kubernetes deployment with the file [dev-ops-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/dev-ops/dev-ops-deployment.yaml)
+     we need create a kubernetes deployment with the file [dev-ops-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/dev-ops/dev-ops-deployment.yaml)
   
      $ kubectl create -f dev-ops-deployment.yaml
    
-  To expose this containers we need to create a kubernetes service [dev-ops-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/local/dev-ops/dev-ops-service.yaml)
+  To expose this containers we need to create a kubernetes service [dev-ops-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/dev-ops/dev-ops-service.yaml)
      
      $ kubectl create -f dev-ops-service.yaml
   
