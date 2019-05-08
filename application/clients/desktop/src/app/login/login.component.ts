@@ -6,7 +6,6 @@ import { MatInputModule } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './loginservice.service';
 import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
-import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

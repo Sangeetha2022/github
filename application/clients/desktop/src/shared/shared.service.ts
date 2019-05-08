@@ -4,8 +4,9 @@ import { Injectable } from '@angular/core';
 export class SharedService {
 
 // Local
-// public loginUrl: String = 'http://localhost:3008';
+// public loginUrl: String = 'http://localhost:3007';
 // public Apigateway: String = 'http://localhost:3000';
+// public Adminmanager: String = 'http://localhost:3010';
 // public flowbaseUrl: String = 'http://localhost:3001';
 // public mflowbaseUrl: String = 'http://localhost:3002';
 // public projbaseUrl: String = 'http://localhost:3003';
@@ -26,8 +27,9 @@ public entityUrl: String = 'http://3.84.173.148:30005';
 public featureUrl: String = 'http://3.84.173.148:30006';
 public featureflowbaseUrl: String = 'http://a1b92b727579811e9a0f9123b38b3f44-375396789.us-east-1.elb.amazonaws.com:3007';
 public loginUrl: String = 'http://3.84.173.148:30007';
+public Adminmanager: String = 'http://3.84.173.148:30010';
 
-// Generator Services
+// // Generator Services
 public genmanagerUrl: String = 'http://3.84.173.148:30500';
 public configUrl: String = 'http://3.84.173.148:30501';
 
