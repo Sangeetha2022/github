@@ -592,9 +592,10 @@ export class EntityManagerComponent implements OnInit {
         // this.getAllFeature();
     }
 
-    editScreen(screenId) {
-        console.log('screen id are ----- ', screenId);
-        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, screenId: screenId } });
+    editScreen(screenId, screenType) {
+        console.log('screen id are ----- ', screenId, screenType);
+        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, screenId: screenId,
+             screenType: screenType } });
     }
 
     deleteScreen(screenId) {
