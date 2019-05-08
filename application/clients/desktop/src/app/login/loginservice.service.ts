@@ -16,6 +16,9 @@ export class LoginService {
   // Getlogin(): Observable<any> {
   //   return this.http.get(this.restapi.loginUrl + '/googlelogin');
   // }
+  signup(user: any): Observable<any> {
+    return this.http.post(this.restapi.Apigateway + '/desktop/signup', user);
+  }
 
   googlelogin(googleresponse: any): Observable<any> {
     return this.http.post(this.restapi.Apigateway + '/desktop/googlesignin', googleresponse);

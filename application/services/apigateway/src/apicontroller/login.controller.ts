@@ -25,8 +25,18 @@ export class Logincontroller implements Controller {
     }
 
     public signup(req: Request, res: Response) {
+        console.log('----ccominghere----');
         new ApiAdaptar().post(`${Constants.loginUrl}/signup`, req.body).then((response) => {
-            res.send(response);
+            // @ts-ignore
+            const Userdetails = response;
+            // @ts-ignore
+            if (Userdetails.body.Idtoken === null || Userdetails.body.Idtoken === '' || Userdetails.body.Idtoken === undefined) {
+                // console.log('----------insideifcondition------>>>>', Userdetails);
+                var loginresponse = {
+                    "Userdetails": Userdetails
+                }
+                res.send(loginresponse);
+            } 
         }).catch(err => {
             res.send(err);
         })
@@ -39,7 +49,7 @@ export class Logincontroller implements Controller {
             const Userdetails = user;
             // @ts-ignore
             if (Userdetails.body.Idtoken === null || Userdetails.body.Idtoken === '' || Userdetails.body.Idtoken === undefined) {
-                // console.log('----------insideifcondition------>>>>', Userdetails);
+                console.log('----------insideifcondition------>>>>', Userdetails);
                 var loginresponse = {
                     "Userdetails": Userdetails
                 }
