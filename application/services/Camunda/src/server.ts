@@ -7,7 +7,7 @@ import { ResourceSeedData } from './seed';
 import { MongoConfig } from './config/Mongoconfig';
 import mongoose = require('mongoose');
 
-const PORT = 3009;
+const PORT = 3008;
 
 class App {
     public app = express();
