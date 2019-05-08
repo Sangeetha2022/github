@@ -60,6 +60,9 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider
 } from 'angular-6-social-login';
+import { AdminComponent } from './admin/admin.component';
+import { UserComponent } from './user/user.component';
+import { ProfilesettingsComponent } from './user/profilesettings/profilesettings.component';
 
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
@@ -98,7 +101,7 @@ export function getAuthserviceConfgis() {
     },
     {
       id: FacebookLoginProvider.PROVIDER_ID,
-      provider: new FacebookLoginProvider('1112836695586860')
+      provider: new FacebookLoginProvider('879601898877087')
     }
 
   ]);
@@ -144,7 +147,10 @@ export const I18N_PROVIDERS = [
     LoginComponent,
     ConsentscreenComponent,
     HomepageComponent,
-    LandingpageComponent
+    LandingpageComponent,
+    AdminComponent,
+    UserComponent,
+    ProfilesettingsComponent
 
   ],
   imports: [

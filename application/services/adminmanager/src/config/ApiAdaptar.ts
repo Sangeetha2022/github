@@ -16,7 +16,7 @@ export class ApiAdaptar {
         return new Promise((resolve, reject) => {
             console.log('get adi adapterare are--222--- ', resolve, '  --- ', reject);
             request.get(url, (error, response, body) => {
-                console.log(" output are - -- > > ",error, ' --- ', response, ' -- ', body)
+                console.log(" output are - -- > > ", body)
                 this.sendResponse(resolve, reject, error, response, JSON.parse(body));
             });
         });

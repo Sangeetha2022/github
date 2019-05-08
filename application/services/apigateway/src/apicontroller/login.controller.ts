@@ -22,6 +22,10 @@ export class Logincontroller implements Controller {
         this.router.route('/consent').put(this.Consent);
         this.router.route('/logout').post(this.Logout);
         this.router.route('/googlesignin').post(this.googlelogin);
+        this.router.route('/getallusers').get(this.Getallusers);
+        this.router.route('/getuser/:id').get(this.Getuserbyid);
+        this.router.route('/getallroles').get(this.Getallroles);
+        this.router.route('/updateuser').put(this.Updateuser);
     }
 
     public signup(req: Request, res: Response) {
@@ -36,12 +40,36 @@ export class Logincontroller implements Controller {
                     "Userdetails": Userdetails
                 }
                 res.send(loginresponse);
-            } 
+            }
         }).catch(err => {
             res.send(err);
         })
     }
 
+    public Getallusers(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.loginUrl}/getallusers`).then((userlist) => {
+            const usersdetails = userlist;
+            res.send(usersdetails);
+        }).catch(err => {
+            res.send(err);
+        })
+    }
+
+    public Getallroles(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.loginUrl}/getallroles`).then((roles) => {
+            res.send(roles);
+        }).catch(err => {
+            res.send(err);
+        })
+    }
+
+    public Getuserbyid(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.loginUrl}/getuser/${req.params.id}`).then((user) => {
+            res.send(user);
+        }).catch(err => {
+            res.send(err);
+        });
+    }
 
     public login(req: Request, res: Response) {
         new ApiAdaptar().post(`${Constants.loginUrl}/login`, req.body).then((user) => {
@@ -140,5 +168,15 @@ export class Logincontroller implements Controller {
             })
 
         });
+    }
+
+    public Updateuser(req: Request, res: Response) {
+        new ApiAdaptar().put(`${Constants.loginUrl}/updateuser`, req.body).then((updateduser) => {
+            console.log('--------updateuser-----', updateduser);
+            const Updateduser = updateduser;
+            res.send(Updateduser);
+        }).catch(err => {
+            res.send(err);
+        })
     }
 }

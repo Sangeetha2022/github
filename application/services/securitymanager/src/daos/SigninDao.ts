@@ -35,16 +35,16 @@ export class SigninDao {
                 'email': userData.email,
                 'username': userData.email,
                 'role': this.signuprole,
-                'Idtoken':''
+                'Idtoken': ''
             };
             console.log('userdetails---->', this.userDetails)
             signinmodel.find().then(data => {
                 console.log('----------------data-------->>>', data.length);
-                if(data.length !== 0){
+                if (data.length !== 0) {
                     asyncLoop(data, (users, next) => {
                         if (users.email === this.userDetails.email) {
                             this.mailboolean = true;
-                        }else{
+                        } else {
                             this.mailboolean = false;
                         }
                         next();
@@ -63,8 +63,8 @@ export class SigninDao {
                         }).catch((error) => {
                             callback(error);
                         })
-                    }    
-                }else{
+                    }
+                } else {
                     let logincreds = new signinmodel(this.userDetails);
                     logincreds.save().then((result) => {
                         callback(result);
@@ -155,5 +155,66 @@ export class SigninDao {
 
         });
 
+    }
+
+    public getalluserdao(callback) {
+        signinmodel.find().populate({
+            path: 'role', model: rolemodel
+        }).then(result => {
+            callback(result);
+        }).catch((error => {
+            callback(error);
+        }))
+    }
+
+    public getbyiduserdao(userId, callback) {
+        signinmodel.findById(userId).populate({
+            path: 'role', model: rolemodel
+        }).then(result => {
+            callback(result);
+        }).catch((error => {
+            callback(error);
+        }))
+    }
+
+    public getrolesdao(callback) {
+        rolemodel.find().then(result => {
+            callback(result);
+        }).catch((error) => {
+            callback(error);
+        })
+    }
+
+    public updateuserdao(updateuser, callback) {
+
+        console.log('------updateuserindaoe-----', updateuser);
+
+        var payload = {
+            username: updateuser.email,
+            firstname: updateuser.firstname,
+            lastname: updateuser.lastname,
+            email: updateuser.email,
+            id: updateuser.id,
+            role: updateuser.role.role
+        }
+        var idtoken = jwt.sign(payload, 'geppettosecret', {
+            expiresIn: 86400
+        });
+
+        signinmodel.findByIdAndUpdate(updateuser.id, {$set: { username: updateuser.username, firstname: updateuser.firstname,lastname:updateuser.lastname,email:updateuser.email,role:updateuser.role._id,Idtoken:idtoken }},(err,response)=>{
+            if(err){
+                callback(err);
+            }
+            var updaterespone = {
+                username: updateuser.email,
+                firstname: updateuser.firstname,
+                lastname: updateuser.lastname,
+                email: updateuser.email,
+                id: updateuser.id,
+                role: updateuser.role._id,
+                Idtoken: idtoken
+            }
+            callback(updaterespone);
+        })
     }
 }
