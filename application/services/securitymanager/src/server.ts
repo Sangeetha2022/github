@@ -7,7 +7,7 @@ import { MongoConfig } from './config/Mongoconfig';
 import mongoose = require('mongoose');
 import { RoleSeedData } from './seed';
 
-const PORT = 3008;
+const PORT = 3007;
 
 class App {
 

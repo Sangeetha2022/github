@@ -10,12 +10,18 @@ let listofresources = [];
 
 export class CamundaService {
 
+    private resourcevalue: any;
+
     constructor() { }
 
     public camundarequest(req: Request, callback): void {
 
         resourcemodel.find().then((result) => {
             asyncLoop(result, (resource, next) => {
+                if(resource.resources === 'Landing'){
+                    console.log('------ifcondition-loop-----', resource.resources);
+                    this.resourcevalue = resource.resources;
+                }
                 listofresources.push(resource.resources);
                 next();
             }, async (err) => {
@@ -34,15 +40,15 @@ export class CamundaService {
     }
 
     public camundaauthorization() {
-        console.log('----------resource-----', listofresources[0]);
+        console.log('----------resource-----', this.resourcevalue);
         var body = {
             "variables": {
-                "resources": { "value": `${listofresources[0]}`, "type": "String" },
+                "resources": { "value": `${this.resourcevalue}`, "type": "String" },
                 "resourcetype":{"value":"Screen", "type":"String"}
             }
         }
         // var geturl = 'http://3.92.72.204:32676/engine-rest/engine/default/decision-definition/count';
-        var posturl = 'http://3.92.72.204:32676/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate'
+        var posturl = 'http://3.84.173.148:30060/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate'
 
         return new Promise(resolve => {
             request.post({ url: posturl, json: body }, function (error, response, body) {
