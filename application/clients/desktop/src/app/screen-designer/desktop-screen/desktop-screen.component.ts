@@ -251,8 +251,55 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             method: 'PATCH',
         };
         addStyles.push('./assets/css/gjs-base.css');
-
-
+        grapesjs.plugins.add('mobile-plugin', function (editor, options) {
+            // remove the devices switcher
+            // editor.getConfig().showDevices = false;
+            // console.log('new plugin editor --1--- ', editor);
+            // console.log('new plugin options --2--- ', options);
+            // console.log('new plugin options -3 -editor.getConfig()--- ', editor.getConfig());
+            // editor.getConfig().deviceManager.devices = [];
+            editor.getConfig().deviceManager.devices = [{
+                name: 'Mobile',
+                width: '568px',
+                widthMedia: '768px'
+            },
+            {
+                name: 'Mobile',
+                width: '320px',
+                widthMedia: '480px'
+            }];
+            // console.log('new plugin options -4 -editor.Panels--- ', editor.Panels);
+            // console.log('new plugin options 55 ', editor.Panels);
+            // console.log('new plugin options all panels ', editor.Panels.getPanels());
+            // console.log('new plugin options 1 options ', editor.Panels.getPanel('commands').get('buttons'));
+            // console.log('new plugin options 2 options ', editor.Panels.getPanel('options').get('buttons'));
+            // console.log('new plugin options 3 options ', editor.Panels.getPanel('views').get('buttons'));
+            // console.log('new plugin options 4 options ', editor.Panels.getPanel('blocks-panel').get('buttons'));
+            // console.log('new plugin options 5 options ', editor.Panels.getPanel('block-btn').get('buttons'));
+            // console.log('new plugin options 6 options ', editor.Panels.getPanel('devices-c').get('buttons'));
+            // console.log('new plugin options 7 options ', editor.Panels.getPanel('views-container'));
+            // remove the view code button
+            // const codeButton = editor.Panels.getButton("options", "undo-options");
+            // const codeButton1 = editor.Panels.getButton("devices-c", "set-device-desktop");
+            // const codeButton2 = editor.Panels.getButton("devices-c", "set-device-tablet");
+            // const codeButton3 = editor.Panels.getButton("devices-c", "set-device-mobile");
+            const desktopButton = editor.Panels.getButton('devices-c', 'deviceDesktop');
+            const tabletButton = editor.Panels.getButton('devices-c', 'deviceTablet');
+            const mobileButton = editor.Panels.getButton('devices-c', 'deviceMobile');
+            // console.log('new code button are ------ ', codeButton);
+            // console.log('new code button are ---codeButton--- ', codeButton);
+            // console.log('new code button are ---codeButton1--- ', codeButton1);
+            // console.log('new code button are --codeButton2---- ', codeButton2);
+            // console.log('new code button are --codeButton3---- ', codeButton3);
+            // console.log('new code button are --desktopButton---- ', desktopButton);
+            // console.log('new code button are --tabletButton---- ', tabletButton);
+            desktopButton.collection.remove(desktopButton);
+            tabletButton.collection.remove(tabletButton);
+            mobileButton.set('active', 1);
+        });
+        if (this.screenType === 'mobile') {
+            plugins.push('mobile-plugin');
+        }
         this.editor = grapesjs.init({
             container: '#editor-c',
             height: '100%',
@@ -351,7 +398,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             },
             styleManager: {
                 clearProperties: 1,
-            },
+            }
         });
         this.traitService.initMethod(this.editor);
         this.getEntity();
@@ -367,7 +414,6 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.getScreenById();
         // this.traitService.initializeRadioMethod(this.editor);
         // this.beforeDropElement();
-        const test1 = 'test';
         // const is = this.agGridObject;
         const $this = this;
         this.editor.on('component:selected', function (component) {
@@ -393,10 +439,13 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         //     feature: this.feature_id
         // });
         if (this.screenType === 'mobile') {
-            console.log('screen type ares ----- ', this.editor);
+            // console.log('screen type ares ----- ', this.editor);
             this.editor.setDevice('Mobile');
-            console.log('screen type ares --devices--- ', this.editor.getDevice());
+            // console.log('screen type ares --devices--- ', this.editor.getDevice());
         }
+        // console.log(' editor ram 11 ---- ', this.editor);
+        // console.log(' editor ram 22 ---- ', this.editor.DeviceManager);
+        // console.log(' editor ram 22 ---- ', JSON.stringify(this.editor.DeviceManager.getAll()));
     }
 
     ngOnDestroy() {
