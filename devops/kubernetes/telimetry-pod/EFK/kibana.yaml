@@ -9,6 +9,7 @@ spec:
   type: NodePort
   ports:
   - port: 5601
+    nodePort: 30560
   selector:
     app: kibana
 ---
@@ -39,6 +40,6 @@ spec:
             cpu: 100m
         env:
           - name: ELASTICSEARCH_URL
-            value: http://192.168.99.100:30246/
+            value: http://elasticsearch.gep-dev-logging.svc.cluster.local:9200/
         ports:
         - containerPort: 5601

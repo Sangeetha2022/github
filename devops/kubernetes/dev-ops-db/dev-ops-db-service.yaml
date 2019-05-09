@@ -11,5 +11,6 @@ spec:
     - name: sonar-postgres
       port: 5432
       targetPort: 5432
+      nodePort: 30543
   selector:
     name: gep-dev-ops-db

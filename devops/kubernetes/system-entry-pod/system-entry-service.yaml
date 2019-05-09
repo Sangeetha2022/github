@@ -9,5 +9,10 @@ spec:
   - name: nginx-app
     port: 80
     targetPort: 80
+    nodePort: 31111
+  - name: apigateway-app
+    port: 3000
+    targetPort: 3000
+    nodePort: 30000
   selector:
     app: gep-dev-system-entry
