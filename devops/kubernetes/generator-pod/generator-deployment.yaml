@@ -21,7 +21,7 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
           volumeMounts:
             - name: gep-dev-generated-code
               mountPath: /geppetto/generated-code
@@ -35,7 +35,7 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
           volumeMounts:
             - mountPath: /geppetto/generated-code
               name: gep-dev-generated-code
@@ -60,7 +60,7 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
           volumeMounts:
             - mountPath: /geppetto/generated-code
               name: gep-dev-generated-code
@@ -74,7 +74,7 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
           volumeMounts:
             - mountPath: /geppetto/generated-code
               name: gep-dev-generated-code

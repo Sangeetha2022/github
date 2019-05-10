@@ -33,7 +33,7 @@ r = function(w, rc) {
     w.write("name: ");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
-    w.write("-telimetry");
+    w.write("-telemetry");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("labels:");
@@ -43,7 +43,7 @@ r = function(w, rc) {
     w.write("app: ");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
-    w.write("-telimetry");
+    w.write("-telemetry");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("namespace: ");
@@ -81,7 +81,7 @@ r = function(w, rc) {
     w.write("app: ");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
-    w.write("-telimetry");
+    w.write("-telemetry");
 };
 r.args = [
         { name: "project_name"     }

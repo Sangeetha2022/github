@@ -29,11 +29,11 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
    An open-source monitoring system with a dimensional data model, flexible query language, efficient time series database and modern alerting approach.
    
-   To create clusterRole config [prometheus-clusterRole.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/prometheus-clusterRole.yaml)
+   To create clusterRole config [prometheus-clusterRole.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telemetry-pod/prometheus-clusterRole.yaml)
    
      $ kubectl create -f prometheus-clusterRole.yaml
      
-   To create a config Map [prometheus-config-map.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/promethues-config-map.yaml)
+   To create a config Map [prometheus-config-map.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telemetry-pod/prometheus-config-map.yaml)
    
      $ kubectl create -f prometheus-config-map.yaml
 
@@ -43,15 +43,15 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
    ![Vault](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/docs/images/Vault.png?raw=true"Vault")
    
-   Run this file to create deployment for vault [telemetry-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/telimetry-deployment.yaml)
+   Run this file to create deployment for vault [telemetry-deployment.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telemetry-pod/telemetry-deployment.yaml)
    
       $ kubectl create -f telemetry-deployment.yaml
       
-   Run this file to create the service [telemetry-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/telimetry-deployment.yaml)
+   Run this file to create the service [telemetry-service.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telemetry-pod/telemetry-deployment.yaml)
        
-      $ kubectl create -f telimetry-service.yaml
+      $ kubectl create -f telemetry-service.yaml
 
-   You can get the telimetry running port in minikube,
+   You can get the telemetry running port in minikube,
 
       $ kubectl get service --namespace=gep-dev-201902
 
@@ -196,7 +196,7 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
 
    The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and Prometheus.
    
-   To create a namespace for this telemetry pods run this file [kube-logging.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telimetry-pod/EFK/kube-logging.yaml)
+   To create a namespace for this telemetry pods run this file [kube-logging.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/feature/deployment-manager/devops/kubernetes/telemetry-pod/EFK/kube-logging.yaml)
    
      $ kubectl create -f kube-logging.yaml     
          
@@ -212,25 +212,25 @@ The Telemetry Pod consists of EFK(Elasticsearch + Fluentd + Kibana), Vault and P
    
    Fluentd to collect, transform, and ship log data to the Elasticsearch backend. Fluentd is a popular open-source data collector that we'll set up on our Kubernetes nodes to tail container log files, filter and transform the log data, and deliver it to the Elasticsearch cluster, where it will be indexed and stored.
          
-   To create the persistent volume run this file [elasticsearch_pv.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/EFK/elasticsearch_pv.yaml)
+   To create the persistent volume run this file [elasticsearch_pv.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telemetry-pod/EFK/elasticsearch_pv.yaml)
    
      $ kubectl create -f elasticsearch_pv.yaml
          
-   Run this file is to create elasticsearch deployment [elasticsearch_stateset.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/EFK/elasticsearch_statefulset.yaml)
+   Run this file is to create elasticsearch deployment [elasticsearch_stateset.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telemetry-pod/EFK/elasticsearch_statefulset.yaml)
    
      $ kubectl create -f elasticsearch_stateset.yaml
              
-   Run this file to create elasticsearch service [elasticsearch_svc.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/EFK/elasticsearch_svc.yaml)
+   Run this file to create elasticsearch service [elasticsearch_svc.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telemetry-pod/EFK/elasticsearch_svc.yaml)
    
      $ kubectl create -f elasticsearch_svc.yaml
     
-   To deploy the Kibana, run this file [kibana.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/EFK/kibana.yaml)
+   To deploy the Kibana, run this file [kibana.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telemetry-pod/EFK/kibana.yaml)
    
      $ kubectl create -f kibana.yaml
      
    After elasticsearch and kibana is set need to connect to fluentd for container logs,
 
-   To deploy the fluentd,run this file [fluentd.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telimetry-pod/EFK/fluentd.yaml)
+   To deploy the fluentd,run this file [fluentd.yaml](https://github.com/GeppettoSoftware/geppettotest/blob/dev/devops/kubernetes/telemetry-pod/EFK/fluentd.yaml)
    
      $ kubectl create -f fluentd.yaml
      

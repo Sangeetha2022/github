@@ -186,7 +186,7 @@ export class KubernetesService {
             let namespace = projectDetails.project_name + "-" + projectDetails.user_id.substring(0, 5);
             projectDetails.namespace = namespace.toLowerCase();
 
-            // telemetry vault promethues
+            // telemetry vault prometheus
             // if (projectDetails.telemetry_pod.vault) {
             telemetryService.telemetry_vault(projectDetails, client, (response) => { });
             // }

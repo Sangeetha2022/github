@@ -2,15 +2,15 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: gep-dev-telimetry
-  name: gep-dev-telimetry
+    app: gep-dev-telemetry
+  name: gep-dev-telemetry
   namespace: gep-dev-201902
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: gep-dev-telimetry
+        app: gep-dev-telemetry
     spec:
       containers:
       - name: vault-container

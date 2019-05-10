@@ -52,7 +52,7 @@ export class TelemetryService {
                 const serviceData = await client.api.v1.namespaces(projectDetails.namespace).service.post({ body: serviceManifest });
                 if (serviceData.statusCode == 201) {
                     // move to next pods...
-                    // console.log("SUCCESS TELEMETRY VAULT-PROMETHUES DEPLOYED!");
+                    // console.log("SUCCESS TELEMETRY VAULT-PROMETHEUS DEPLOYED!");
                     await delay(5000);
                     loadVaultData()
                 }
@@ -88,9 +88,9 @@ export class TelemetryService {
                 
                     .then(() => vault.mount({ mount_point: 'kv', type: 'generic', description: 'mongo connection string' }))
 
-                    .then(() => vault.write('kv/kuberentes/database/mongo/connection', { mongo_connection_string: 'mongodb://gep-dev-app-db/' + projectDetails.namespace }))
+                    .then(() => vault.write('kv/kubernetes/database/mongo/connection', { mongo_connection_string: 'mongodb://gep-dev-app-db/' + projectDetails.namespace }))
    
-                console.log("SUCCESS TELEMETRY VAULT-PROMETHUES DEPLOYED!");
+                console.log("SUCCESS TELEMETRY VAULT-PROMETHEUS DEPLOYED!");
 
             } catch (err) {
                 console.error('Error: ', err)
@@ -157,7 +157,7 @@ public telemetry_EFK(projectDetails, callback: CallableFunction) {
 
             // if (serviceData.statusCode == 201) {
             //     // move to next pods...
-            //     console.log("SUCCESS TELEMETRY VAULT-PROMETHUES DEPLOYED!");
+            //     console.log("SUCCESS TELEMETRY VAULT-PROMETHEUS DEPLOYED!");
             // }
 
         } catch (err) {

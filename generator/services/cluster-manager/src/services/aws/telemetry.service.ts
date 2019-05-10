@@ -60,7 +60,7 @@ export class TelemetryService {
                     // move to next pods...
                     await delay(30000);
                     loadVaultData();
-                    //console.log("SUCCESS TELEMETRY VAULT-PROMETHUES DEPLOYED!");
+                    //console.log("SUCCESS TELEMETRY VAULT-PROMETHEUS DEPLOYED!");
                 }
 
 
@@ -79,7 +79,7 @@ export class TelemetryService {
                              
                 //need to change :
                 svcData.body.items.forEach(element => {
-                    if (element.metadata.name === projectName.toLowerCase() + '-telimetry') {
+                    if (element.metadata.name === projectName.toLowerCase() + '-telemetry') {
                         var vaultHostData = JSON.parse(element.metadata.annotations['field.cattle.io/publicEndpoints']);
                         vaultHost = vaultHostData[0].addresses[0];
                         vaultPort = vaultHostData[0].port;
@@ -90,10 +90,10 @@ export class TelemetryService {
 
                 vault.mounts()
                     .then(() => vault.mount({ mount_point: 'kv', type: 'generic', description: 'mongo connection string' }))
-                    .then(() => vault.write('kv/kuberentes/database/mongo/connection', { mongo_connection_string: 'mongodb://' + projectName.toLowerCase() + '-app-db/' + projectName.toLowerCase() }))
-                //.then(() => vault.read('kv/kuberentes/database/mongo/connection'))
+                    .then(() => vault.write('kv/kubernetes/database/mongo/connection', { mongo_connection_string: 'mongodb://' + projectName.toLowerCase() + '-app-db/' + projectName.toLowerCase() }))
+                //.then(() => vault.read('kv/kubernetes/database/mongo/connection'))
                 //.then(console.log)
-                console.log("SUCCESS TELEMETRY VAULT-PROMETHUES DEPLOYED!");
+                console.log("SUCCESS TELEMETRY VAULT-PROMETHEUS DEPLOYED!");
 
             } catch (err) {
                 console.error('Error: ', err)
@@ -158,7 +158,7 @@ export class TelemetryService {
 
                 // if (serviceData.statusCode == 201) {
                 //     // move to next pods...
-                //     console.log("SUCCESS TELEMETRY VAULT-PROMETHUES DEPLOYED!");
+                //     console.log("SUCCESS TELEMETRY VAULT-PROMETHEUS DEPLOYED!");
                 // }
 
             } catch (err) {
