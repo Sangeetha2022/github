@@ -4,15 +4,15 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    app: $project_name$-telimetry
-  name: $project_name$-telimetry
+    app: $project_name$-telemetry
+  name: $project_name$-telemetry
   namespace: $project_name$
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: $project_name$-telimetry
+        app: $project_name$-telemetry
     spec:
       containers:
       - name: vault-container

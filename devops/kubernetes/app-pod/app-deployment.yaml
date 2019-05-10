@@ -21,7 +21,7 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"    
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"    
         - name: microflowmanager-container
           imagePullPolicy: Always
           image: tharanirajan/gep-dev-microflowmanager:1.0
@@ -32,7 +32,7 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
         - name: projectmanager-container
           imagePullPolicy: Always
           image: tharanirajan/gep-dev-projectmanager:1.0
@@ -43,7 +43,7 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
         - name: screenmanager-container
           imagePullPolicy: Always
           image: tharanirajan/gep-dev-screenmanager:1.0
@@ -54,7 +54,7 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
         - name: entitymanager-container
           imagePullPolicy: Always
           image: tharanirajan/gep-dev-entitymanager:1.0
@@ -65,7 +65,7 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
         - name: featuremanager-container
           imagePullPolicy: Always
           image: tharanirajan/gep-dev-featuremanager:1.0
@@ -76,7 +76,7 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
         - name: securitymanager-container
           imagePullPolicy: Always
           image: tharanirajan/gep-dev-securitymanager:1.0
@@ -87,7 +87,7 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
         - name: camundamanager-container
           imagePullPolicy: Always
           image: tharanirajan/gep-dev-camundamanager:1.0
@@ -98,7 +98,7 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
         - name: proxymanager-container
           imagePullPolicy: Always
           image: tharanirajan/gep-dev-proxymanager:1.0
@@ -109,4 +109,4 @@ spec:
             - name: gep-dev-app-db
               value: gep-dev-app-db
             - name: VAULT_API
-              value: "http://gep-dev-telimetry.gep-dev-201902.svc.cluster.local:8200"
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"

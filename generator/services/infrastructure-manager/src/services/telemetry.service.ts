@@ -18,20 +18,20 @@ export class TelemetryService {
             fs.mkdirSync(destination);
         }
 
-        //generate telemetry vault and promethues deployment
+        //generate telemetry vault and prometheus deployment
         let generateTelemetry_deployment = st.loadGroup(require(templatePath + '/telemetry_deployment_yaml_stg'));
         let telemetry = generateTelemetry_deployment.render("telemetry_deployment_yaml", [projectName.toLowerCase()]);
         fs.writeFile(destination + '/telemetry-deployment.yaml', telemetry, function (err) {
             if (err) throw err;
-            console.log('vault and promethues deployment generated!!')
+            console.log('vault and prometheus deployment generated!!')
         })
 
-        //generate telemetry vault and promethues service
+        //generate telemetry vault and prometheus service
         let generateTelemetry__service = st.loadGroup(require(templatePath + '/telemetry_service_yaml_stg'));
         let telemetrySer = generateTelemetry__service.render("telemetry_service_yaml", [projectName.toLowerCase()]);
         fs.writeFile(destination + '/telemetry-service.yaml', telemetrySer, function (err) {
             if (err) throw err;
-            console.log('vault and promethues service generated!!')
+            console.log('vault and prometheus service generated!!')
         })
 
         //callback("Success");
