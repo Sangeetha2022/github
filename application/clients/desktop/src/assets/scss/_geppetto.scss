@@ -11,7 +11,7 @@ body {
 
 
 // ======= APP CONTAINER ======= 
-app-root {
+body {
 	@include virtual-footer;
 }
 // ======= HEADER ======= 
@@ -40,6 +40,7 @@ div.geppetoimage[_ngcontent-c4] {
 
 // ======= LOGIN ======= 
 app-login {
+	mat-card.cardsize,
 	.cardsize[_ngcontent-c4] {
 		@include modal-login;
 	}

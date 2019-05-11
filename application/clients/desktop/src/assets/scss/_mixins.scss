@@ -309,6 +309,8 @@
 }
 
 @mixin virtual-footer() {
+	padding-bottom: 120px;
+
 	&::after {
 		display: block;
 		content: "Geppetto 2019. All Rights Reserved";
@@ -316,9 +318,12 @@
 		background: $color_bg_footer url('/assets/img/skin/decor_puzzle-piece_slanted.svg') 110% 0 no-repeat;
 		background-size: auto 200%;
 		line-height: 120px;
-		width: 100%;
 		margin-top: 3rem;
 		padding: 0 calc(50% - #{$m_footer_width / 2}); 
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
 	}
 }
 
