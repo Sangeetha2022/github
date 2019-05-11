@@ -29,7 +29,7 @@ export class TraitsService {
   public screenArray: any[] = [];
   public clientFramework: any = 'Angular 7';
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
   ) { this.initVariable(); }
 
   initVariable() {
@@ -39,64 +39,108 @@ export class TraitsService {
   initMethod(editor) {
     // action button add
     const $this = this;
-    // entity field button
-    editor.TraitManager.addType('entityFieldButton', {
+    editor.TraitManager.addType('uniqueId', {
       events: {
-        'click': function () {
-          console.log('print button clicked');
-          console.log('ram $this ---- ', $this);
-          console.log('ram this ---- ', this);
-          const eventPopupModel = document.getElementById('EventPopup');
-          console.log('print eventPopupModel values are ------ ', eventPopupModel);
-          eventPopupModel.style.display = 'block';
-        },
+        'keyup': 'onChange',  // trigger parent onChange method on keyup
       },
-      getInputEl() {
-        // tslint:disable-next-line:prefer-const
-        let button = <HTMLElement>document.createElement('button');
-        button.id = 'fieldButton';
-        button.style.width = '100%';
-        button.style.backgroundColor = '#4CAF50';
-        button.style.border = 'none';
-        button.style.color = 'white';
-        button.style.backgroundColor = '#008CBA';
-        button.style.fontSize = '12px !important';
-        button.style.cursor = 'pointer';
-        button.appendChild(document.createTextNode('Field'));
-        return button;
+
+      /**
+      * Returns the input element
+      * @return {HTMLElement}
+      */
+      getInputEl: function () {
+        if (!this.inputEl) {
+          const input = document.createElement('textarea');
+          console.log('unique id element values rae ---- ', this.target, ' ', this);
+          // input.value = this.target.ccid;
+          input.disabled = true;
+          this.inputEl = input;
+        }
+        return this.inputEl;
       },
+
+      /**
+       * Triggered when the value of the model is changed
+       */
+      onValueChange: function () {
+        this.target.set('content', this.model.get('value'));
+      }
     });
+
+    // entity field button
+    // editor.TraitManager.addType('uniqueElementId', {
+    //   events: {
+    //     'click': function () {
+    //       // console.log('print button clicked');
+    //       // console.log('ram $this ---- ', $this);
+    //       // console.log('ram this ---- ', this);
+    //       // const eventPopupModel = document.getElementById('EventPopup');
+    //       // console.log('print eventPopupModel values are ------ ', eventPopupModel);
+    //       // eventPopupModel.style.display = 'block';
+    //       // const modal = <HTMLElement>document.querySelector('#modalDiv');
+    //       // console.log('entityFieldButton 34455 ----- ', modal, ' ---- ', this);
+    //       // console.log('entityFieldButton 34455 --2222--- ', modal, ' ---- ', this.target.changed['entity']);
+    //       // if (this.target.changed['entity'] !== undefined) {
+    //       //   modal.style.display = 'block';
+    //       //   $this.ref.detectChanges()
+    //       // }
+    //       // if (selectedEntity !== undefined) {
+    //         // modal.style.display = 'block';
+    //         // const constructObj = {
+    //         //   entity: '',
+    //         //   defalutColumn: '',
+    //         //   customColumn: ''
+    //         // };
+    //         // $this.dataService.setAgGridEntity(constructObj);
+    //       // }
+    //     },
+    //   },
+    //   getInputEl() {
+    //     // tslint:disable-next-line:prefer-const
+    //     let button = <HTMLElement>document.createElement('button');
+    //     button.id = 'fieldButton';
+    //     button.style.width = '100%';
+    //     button.style.backgroundColor = '#4CAF50';
+    //     button.style.border = 'none';
+    //     button.style.color = 'white';
+    //     button.style.backgroundColor = '#008CBA';
+    //     button.style.fontSize = '12px !important';
+    //     button.style.cursor = 'pointer';
+    //     button.appendChild(document.createTextNode('Field'));
+    //     return button;
+    //   },
+    // });
 
     // content example
-    editor.TraitManager.addType('entityDropdown', {
-      events: {
-        'click': function () {
-          console.log('print button clicked');
-          console.log('ram $this ---- ', $this);
-          console.log('ram this ---- ', this);
-          const eventPopupModel = document.getElementById('EventPopup');
-          console.log('print eventPopupModel values are ------ ', eventPopupModel);
-          eventPopupModel.style.display = 'block';
-        },
-      },
-      getInputEl() {
-        // tslint:disable-next-line:prefer-const
-        let button = <HTMLElement>document.createElement('button');
-        button.id = 'fieldButton';
-        button.style.width = '100%';
-        button.style.backgroundColor = '#4CAF50';
-        button.style.border = 'none';
-        button.style.color = 'white';
-        button.style.backgroundColor = '#008CBA';
-        button.style.fontSize = '12px !important';
-        button.style.cursor = 'pointer';
-        button.appendChild(document.createTextNode('Field'));
-        return button;
-      },
-    });
+    // editor.TraitManager.addType('entityDropdown', {
+    //   events: {
+    //     'click': function () {
+    //       console.log('print button clicked');
+    //       console.log('ram $this ---- ', $this);
+    //       console.log('ram this ---- ', this);
+    //       const eventPopupModel = document.getElementById('EventPopup');
+    //       console.log('print eventPopupModel values are ------ ', eventPopupModel);
+    //       eventPopupModel.style.display = 'block';
+    //     },
+    //   },
+    //   getInputEl() {
+    //     // tslint:disable-next-line:prefer-const
+    //     let button = <HTMLElement>document.createElement('button');
+    //     button.id = 'fieldButton';
+    //     button.style.width = '100%';
+    //     button.style.backgroundColor = '#4CAF50';
+    //     button.style.border = 'none';
+    //     button.style.color = 'white';
+    //     button.style.backgroundColor = '#008CBA';
+    //     button.style.fontSize = '12px !important';
+    //     button.style.cursor = 'pointer';
+    //     button.appendChild(document.createTextNode('Field'));
+    //     return button;
+    //   },
+    // });
 
 
-    this.initializeMethod(editor);
+    this.initializeButtonMethod(editor);
     this.initializeInputMethod(editor);
     this.initializeTextAreaMethod(editor);
     this.initializeSelectMethod(editor);
@@ -105,14 +149,14 @@ export class TraitsService {
 
   }
 
-  initializeMethod(editor) {
+  initializeButtonMethod(editor) {
     const $this = this;
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    console.log('ram defaultType doms are ---- ', comps);
-    console.log('ram defaultType 11 ---- ', defaultType);
-    console.log('ram defaultModel 22 ---- ', defaultModel);
+    // console.log('ram defaultType doms are ---- ', comps);
+    // console.log('ram defaultType 11 ---- ', defaultType);
+    // console.log('ram defaultModel 22 ---- ', defaultModel);
     // content traits
     // Each new type extends the default Trait
     editor.TraitManager.addType('content', {
@@ -145,9 +189,9 @@ export class TraitsService {
     editor.TraitManager.addType('actionButton', {
       events: {
         'click': function () {
-          console.log('print button clicked');
+          // console.log('print button clicked');
           const eventPopupModel = document.getElementById('EventPopup');
-          console.log('print eventPopupModel values are ------ ', eventPopupModel);
+          // console.log('print eventPopupModel values are ------ ', eventPopupModel);
           eventPopupModel.style.display = 'block';
         },
       },
@@ -174,8 +218,14 @@ export class TraitsService {
           droppable: false,
           traits: [{
             type: 'content',
+            label: 'contentName',
+            name: 'contentname',
+            changeProp: 1
+          },
+          {
             label: 'Name',
             name: 'name',
+            type: 'text',
             changeProp: 1
           },
           {
@@ -185,6 +235,12 @@ export class TraitsService {
           }],
 
         }),
+        init() {
+          this.listenTo(this, 'change:name', this.ElementName);
+        },
+        ElementName() {
+
+        }
       },
         {
           isComponent: function (el) {
@@ -208,14 +264,14 @@ export class TraitsService {
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-
+    console.log('@@#### intialize input methods are ----- ', editor);
     comps.addType('input', {
       model: defaultModel.extend({
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
           draggable: '*',
           droppable: false,
           traits: [
-            { name: 'name', label: 'Name' },
+            { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
             { name: 'placeholder', label: 'Placeholder' },
             {
               label: 'Type',
@@ -230,14 +286,12 @@ export class TraitsService {
           ]
         }),
         init() {
-          this.listenTo(this, 'change:entity', this.entities);
-        },
-        entities() {
-          alert('entity called');
-          console.log('ram traits input models ar e--$this---  ', $this);
-          console.log('ram traits input models ar e--this---  ', this);
-        }
+          this.listenTo(this, 'change:name', this.ElementName);
 
+        },
+        ElementName() {
+
+        }
       },
         {
           isComponent: function (el) {
@@ -268,12 +322,18 @@ export class TraitsService {
           draggable: '*',
           droppable: false,
           traits: [
-            { name: 'name', label: 'Name' },
+            { name: 'name', label: 'Name', changeProp: 1 },
             { label: 'Options', type: 'select-options' },
             { type: 'checkbox', name: 'required', label: 'Required' },
           ],
 
         }),
+        init() {
+          this.listenTo(this, 'change:name', this.ElementName);
+        },
+        ElementName() {
+
+        }
       },
         {
           isComponent: function (el) {
@@ -304,12 +364,18 @@ export class TraitsService {
           draggable: '*',
           droppable: false,
           traits: [
-            { name: 'name', label: 'Name' },
+            { name: 'name', label: 'Name', changeProp: 1 },
             { name: 'placeholder', label: 'Placeholder' },
             { type: 'checkbox', name: 'required', label: 'Required' }
           ],
 
         }),
+        init() {
+          this.listenTo(this, 'change:name', this.ElementName);
+        },
+        ElementName() {
+
+        }
       },
         {
           isComponent: function (el) {
@@ -394,12 +460,18 @@ export class TraitsService {
           draggable: '*',
           droppable: false,
           traits: [{ name: 'id', label: 'ID' },
-          { name: 'name', label: 'Name' },
+          { name: 'name', label: 'Name', changeProp: 1 },
           { name: 'value', label: 'Value' },
           { type: 'checkbox', name: 'required', label: 'Required' },
           { label: 'Checked', type: 'checkbox', name: 'checked', changeProp: 1 }],
 
         }),
+        init() {
+          this.listenTo(this, 'change:name', this.ElementName);
+        },
+        ElementName() {
+
+        }
       },
         {
           isComponent: function (el) {
@@ -431,12 +503,18 @@ export class TraitsService {
           draggable: '*',
           droppable: false,
           traits: [{ name: 'id', label: 'ID' },
-          { name: 'name', label: 'Name' },
+          { name: 'name', label: 'Name', changeProp: 1 },
           { name: 'value', label: 'Value' },
           { type: 'checkbox', name: 'required', label: 'Required' },
           { label: 'Checked', type: 'checkbox', name: 'checked', changeProp: 1 }],
 
         }),
+        init() {
+          this.listenTo(this, 'change:name', this.ElementName);
+        },
+        ElementName() {
+
+        }
       },
         {
           isComponent: function (el) {
@@ -764,6 +842,11 @@ export class TraitsService {
             }
           },
           traits: [{
+            label: 'Name',
+            name: 'name',
+            changeProp: 1,
+            type: 'text'
+          }, {
             type: 'select',
             label: 'columns',
             name: 'columns',
@@ -800,10 +883,14 @@ export class TraitsService {
 
         }),
         init() {
+          this.listenTo(this, 'change:name', this.ElementName);
           this.listenTo(this, 'change:entities', this.entities); // listen for active event
           this.listenTo(this, 'change:columns', this.gridColumns);
           this.listenTo(this, 'change:colname', this.columnName);
           // this.listenTo(this, 'change:entity-field', this.entityField);
+        },
+        ElementName() {
+
         },
         columnName() {
 
@@ -905,6 +992,11 @@ export class TraitsService {
           draggable: '*',
           droppable: false,
           traits: [{
+            label: 'name',
+            name: 'name',
+            changeProp: 1,
+            type: 'text'
+          }, {
             type: 'select',
             label: 'entities',
             name: 'entities',
@@ -920,8 +1012,12 @@ export class TraitsService {
 
         }),
         init() {
+          this.listenTo(this, 'change:name', this.ElementName);
           this.listenTo(this, 'change:entities', this.entity);
           this.listenTo(this, 'change:entityattributes', this.attributeVal); // listen for active event
+        },
+        ElementName() {
+
         },
         entity() {
           const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
@@ -972,6 +1068,11 @@ export class TraitsService {
           draggable: '*',
           droppable: false,
           traits: [{
+            label: 'name',
+            name: 'name',
+            type: 'text',
+            changeProp: 1
+          }, {
             type: 'select',
             label: 'entities',
             name: 'entities',
@@ -987,8 +1088,12 @@ export class TraitsService {
 
         }),
         init() {
+          this.listenTo(this, 'change:name', this.ElementName);
           this.listenTo(this, 'change:entities', this.entity);
           this.listenTo(this, 'change:entityattributes', this.attributeVal); // listen for active event
+        },
+        ElementName() {
+
         },
         entity() {
           const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];

@@ -16,6 +16,7 @@ import { IFlow } from 'src/app/flow-manager/interface/flow';
 import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 import { IFeatureFLow } from '../interface/FeatureFlow';
 import { ButtonRendererComponent } from '../entity-field/rendered/button-renderer/button-renderer.component';
+import { ScreenPopupComponent } from '../screen-popup/screen-popup.component';
 
 const URL = 'http://localhost:3006/feature/details/addfile';
 
@@ -293,6 +294,23 @@ export class FeatureDetailsComponent implements OnInit {
         });
     }
 
+    editScreen(screenId, screenType) {
+        console.log('screen id are ----- ', screenId, screenType);
+        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, screenId: screenId,
+             screenType: screenType } });
+    }
+
+    deleteScreen(screenId) {
+        this.screenService.deleteScreen(screenId).subscribe(
+            (data) => {
+                this.getScreenByProjectAndFeatureId();
+            },
+            (error) => {
+
+            }
+        );
+    }
+
     getProjectFeature() {
         this.dataService.currentProjectFeatureInfo.subscribe(feature => {
             this.featureData = feature;
@@ -514,8 +532,29 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     GoToDesigner() {
-        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, featureId: this.feature_id } });
+        // this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, featureId: this.feature_id } });
+        this.openScreenDialog();
     }
+    openScreenDialog(): void {
+        const dialogRef = this.dialog.open(ScreenPopupComponent, {
+            width: '550px',
+            data: {}
+        });
+
+
+        dialogRef.afterClosed().subscribe(screenData => {
+            if (screenData) {
+                this.router.navigate(['/desktopscreen'], {
+                    queryParams: {
+                        projectId: this.project_id,
+                        featureId: this.feature_id,
+                        screenType: screenData
+                    }
+                });
+            }
+        });
+    }
+
 
     getFeatureEntityByFeatureId() {
         this.featureDetailsService.getFeatureEntityByFeatureId(this.feature_id).subscribe(data => {

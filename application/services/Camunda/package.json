@@ -19,6 +19,7 @@
     "express": "^4.16.4",
     "express-winston": "^3.0.1",
     "mongoose": "^5.4.9",
+    "node-async-loop": "^1.2.2",
     "node-vault": "^0.9.5",
     "nodemon": "^1.18.9",
     "request": "^2.88.0",

@@ -50,7 +50,38 @@
   </div>
 </div>
 
+
+
 <!-- <div id="testDiv">Hello Ramkumar</div> -->
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog" 
+   style="display: none">
+  <div class="modal-dialog modal-md" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Screen</h5>
+        <button type="button" class="close" (click)="closeScreeName()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group row">
+          <label for="screen-name" class="col-sm-4 col-form-label">Screen Name</label>
+          <div class="col-sm-8">
+            <input type="text" [(ngModel)]="screenName" (ngModelChange)="isScreenNameExist()"
+             class="form-control" id="screen-name">
+             <small *ngIf="screenNameExist" style="font-style: italic;
+             color: red;">This screen Name is Exist.</small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeScreeName()">Close</button>
+        <button type="button" [disabled]="screenNameExist" class="btn btn-primary" (click)="updateScreeName()">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- events action popup model -->
 <div id="EventPopup" class="modal" tabindex="-1" role="dialog" style="display: none">
@@ -91,6 +122,41 @@
         <div class="form-group">
           <button type="button" class="btn button-create" (click)="saveEvent()">ok</button>
           <button type="button" class="btn button-close" (click)="cancelEvent()">cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- entity and its field div popup model -->
+<div *ngIf="isFieldPopupModal" id="modalDiv" class="modal" tabindex="-1" role="dialog" style="display: block">
+  <div class="modal-dialog modal-sm" role="dialog">
+    <div class="modal-content">
+      <div class="container">
+        <form class="m-3">
+          <div class="form-group row">
+            <label for="fields">fields</label>
+            <select class="form-control" id="fields" name="entityField" [(ngModel)]="entityFields">
+              <option value="" selected>none</option>
+              <option *ngFor="let field of fields" [ngValue]="field">{{ field.name }}</option>
+            </select>
+          </div>
+          <!-- <div>{{allEntityField.length}}</div>
+          <div  *ngFor="let field of allEntityField">{{ field.name }}</div> -->
+          <!-- <div class="form-group">
+            <label for="sel1">Select list (select one):</label>
+            <select class="form-control" id="sel1">
+              <option *ngFor="let field of allEntityField" [ngValue]="field.name">{{ field.name }}</option>
+            </select>
+          </div> -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group">
+          <button type="button" class="btn button-create" (click)="saveFieldPopup()">ok</button>
+          <button type="button" class="btn button-close" (click)="onCloseModel()">cancel</button>
         </div>
       </div>
     </div>
@@ -291,3 +357,5 @@
     </div>
   </div>
 </div>
+
+

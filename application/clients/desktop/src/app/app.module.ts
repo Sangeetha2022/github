@@ -52,6 +52,17 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FeatureDetailsService } from './project-component/feature-details/feature-details.service';
+// import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
+// import { GoogleLoginProvider } from 'angularx-social-login';
+import {
+  SocialLoginModule,
+  AuthServiceConfig,
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from 'angular-6-social-login';
+import { AdminComponent } from './admin/admin.component';
+import { UserComponent } from './user/user.component';
+import { ProfilesettingsComponent } from './user/profilesettings/profilesettings.component';
 
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
@@ -75,6 +86,28 @@ const i18nextOptions = {
 
   },
 };
+
+// @ts-ignore
+const googleLoginOptions: LoginOpt = {
+  scope: 'profile email'
+};
+
+export function getAuthserviceConfgis() {
+
+  const config = new AuthServiceConfig([
+    {
+      id: GoogleLoginProvider.PROVIDER_ID,
+      provider: new GoogleLoginProvider('888021930791-c0iahj760dsmnua9bfh92hab55kbthi6.apps.googleusercontent.com')
+    },
+    {
+      id: FacebookLoginProvider.PROVIDER_ID,
+      provider: new FacebookLoginProvider('879601898877087')
+    }
+
+  ]);
+  return config;
+}
+
 
 export function appInit(i18next: ITranslationService) {
   return () => {
@@ -114,7 +147,10 @@ export const I18N_PROVIDERS = [
     LoginComponent,
     ConsentscreenComponent,
     HomepageComponent,
-    LandingpageComponent
+    LandingpageComponent,
+    AdminComponent,
+    UserComponent,
+    ProfilesettingsComponent
 
   ],
   imports: [
@@ -149,7 +185,8 @@ export const I18N_PROVIDERS = [
     CKEditorModule,
     MatCardModule,
     MatInputModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    SocialLoginModule
 
   ],
   providers: [
@@ -169,6 +206,10 @@ export const I18N_PROVIDERS = [
       provide: HTTP_INTERCEPTORS,
       useClass: AppInterceptor,
       multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: getAuthserviceConfgis
     }
   ],
   bootstrap: [AppComponent],

@@ -9,6 +9,7 @@ import { TelemetryService } from '../services/telemetry.service';
 import { NamespaceService } from '../services/app.namespace';
 import {TerraformService} from '../services/terraform.service';
 import {DevOpsService} from '../services/dev-ops.service';
+import {DockerService} from '../services/docker.service';
 //import InfrastructureDto from '../dto/infrastructure.dto';
 
 
@@ -18,6 +19,7 @@ let systemEntryService = new SystemEntryService()
 let telemetryService = new TelemetryService()
 let terraformService = new TerraformService()
 let devOpsService = new DevOpsService()
+let dockerService = new DockerService()
 //let infrastructureDto = new InfrastructureDto()
 
 
@@ -118,6 +120,21 @@ export class AWSInfrastructureController {
         //res.send(200);
       })
     }
+
+    //generate script for system entry pod image
+    if (projectDetails.system_entry_pod) {
+      dockerService.generate_build_script_system_entry_pod(projectDetails, (response) => {
+        //res.send(200);
+      })
+    }
+
+    //generate script for app pod image
+    if (projectDetails.app_pod) {
+      dockerService.generate_build_script_app_pod(projectDetails, (response) => {
+        //res.send(200);
+      })
+    }
+
 
     res.send("Success!");
 

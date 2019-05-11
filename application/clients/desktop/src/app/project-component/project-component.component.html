@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4" *ngIf="projectEntity.length === 0">
+                    <div class="col-md-4" *ngIf="projectEntity?.length === 0">
                         No Entity Available.
                     </div>
                 </div>
@@ -101,15 +101,15 @@
                         <div class="col-md-4" *ngFor="let screen of screenDetails; let i = index">
                             <div class="card">
                                 <div class="card-header">
-                                    {{screen.foldername}}
+                                    {{screen?.screenName}}
                                     <img style="float: right; cursor: pointer;"
                                         src="https://img.icons8.com/metro/26/000000/edit-file.png">
                                 </div>
                                 <div class="card-body">
 
-                                    <button mat-raised-button color="primary">Edit</button>
+                                    <button mat-raised-button color="primary" (click)="editScreen(screen._id, screen.screenType)">Edit</button>
                                     &nbsp;
-                                    <button mat-raised-button color="warn"
+                                    <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
                                         [disabled]="entity.is_default">Delete</button>
                                 </div>
                             </div>
@@ -236,15 +236,15 @@
                             <!-- <label for="upload">Upload File</label> -->
                             <div class="mb-sm-2">
                                 <label for="name">UI YAML</label><br />
-                                <input type="file" (change)="fileSelected($event)" />
+                                <input #uiFile type="file" (change)="fileSelected($event)" />
                             </div>
                             <div class="mb-sm-2">
                                 <label for="name">Service YAML</label><br />
-                                <input type="file" (change)="fileSelectedBack($event)" />
+                                <input #serviceFile type="file" (change)="fileSelectedBack($event)" />
                             </div>
                             <div class="mb-sm-2">
                                 <label for="name">ApiGateway YAML</label><br />
-                                <input type="file" (change)="fileSelectedApi($event)" />
+                                <input #apiGatewayFile type="file" (change)="fileSelectedApi($event)" />
                             </div>
                             <!-- <input type="file" class="form-control" name="upload" (change)="handleFileInput($event.target.files)" accept=".yaml,.yml"/> -->
                         </div>
