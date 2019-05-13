@@ -21,6 +21,10 @@
         <option *ngFor="let rolevalue of roles">{{rolevalue.role}}</option>
       </select>
     </div>
-    <button type="submit" class="btn btn-primary" (click)="Updateuser(Userobject)">Save</button>
+    <div style="float: right">
+      <button type="submit" class="btn btn-primary"  (click)="Updateuser(Userobject)">Save</button>&nbsp;&nbsp;
+      <button type="submit" class="btn btn-primary" (click)="cancle()">cancel</button>
+    </div>
+
   </form>
 </div>
