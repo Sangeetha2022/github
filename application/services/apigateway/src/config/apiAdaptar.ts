@@ -14,8 +14,8 @@ export class ApiAdaptar {
     get = (url) => {
         console.log('get adi adapterare are--111--- ', url);
         return new Promise((resolve, reject) => {
-        console.log('get adi adapterare are--222--- ', resolve, '  --- ', reject);
-  request.get(url, (error, response, body) => {
+            console.log('get adi adapterare are--222--- ', resolve, '  --- ', reject);
+            request.get(url, (error, response, body) => {
                 console.log(" output are - -- > > ",error, ' --- ', response, ' -- ', body)
                 this.sendResponse(resolve, reject, error, response, JSON.parse(body));
             });
@@ -53,31 +53,31 @@ export class ApiAdaptar {
                 code: response.statusCode,
                 message: "request has succeeded and a new resource has been created"
             });
-        }else if (response.statusCode === 202) {
+        } else if (response.statusCode === 202) {
             resolve({
                 body,
                 code: response.statusCode,
                 message: "request has been received but not yet acted upon"
             });
-        }else if (response.statusCode === 203) {
+        } else if (response.statusCode === 203) {
             resolve({
                 body,
                 code: response.statusCode,
                 message: "non authoritative info"
             });
-        }else if (response.statusCode === 204) {
+        } else if (response.statusCode === 204) {
             resolve({
                 body,
                 code: response.statusCode,
                 message: "no conent"
             });
-        }else if (response.statusCode === 205) {
+        } else if (response.statusCode === 205) {
             resolve({
                 body,
                 code: response.statusCode,
                 message: "reset content"
             });
-        }else if (response.statusCode === 206) {
+        } else if (response.statusCode === 206) {
             resolve({
                 body,
                 code: response.statusCode,
@@ -93,27 +93,27 @@ export class ApiAdaptar {
                 code: response.statusCode,
                 message: "unauthorized"
             });
-        }else if (response.statusCode === 402) {
+        } else if (response.statusCode === 402) {
             reject({
                 code: response.statusCode,
                 message: "Payment Required"
             });
-        }else if (response.statusCode === 403) {
+        } else if (response.statusCode === 403) {
             reject({
                 code: response.statusCode,
                 message: "forbidden"
             });
-        }else if (response.statusCode === 404) {
+        } else if (response.statusCode === 404) {
             reject({
                 code: response.statusCode,
                 message: "not found"
             });
-        }else if (response.statusCode === 405) {
+        } else if (response.statusCode === 405) {
             reject({
                 code: response.statusCode,
                 message: "method not allowed"
             });
-        }else if (response.statusCode === 406) {
+        } else if (response.statusCode === 406) {
             reject({
                 code: response.statusCode,
                 message: "not acceptable"
@@ -128,32 +128,32 @@ export class ApiAdaptar {
                 code: response.statusCode,
                 message: "request timeout"
             });
-        }else if (response.statusCode === 500) {
+        } else if (response.statusCode === 500) {
             reject({
                 code: response.statusCode,
                 message: "internal server error"
             });
-        }else if (response.statusCode === 501) {
+        } else if (response.statusCode === 501) {
             reject({
                 code: response.statusCode,
                 message: "request method is not supported by the server and cannot be handled"
             });
-        }else if (response.statusCode === 502) {
+        } else if (response.statusCode === 502) {
             reject({
                 code: response.statusCode,
                 message: "bad request"
             });
-        }else if (response.statusCode === 503) {
+        } else if (response.statusCode === 503) {
             reject({
                 code: response.statusCode,
                 message: "service available"
             });
-        }else if (response.statusCode === 504) {
+        } else if (response.statusCode === 504) {
             reject({
                 code: response.statusCode,
                 message: "gateway timeout"
             });
-        }else if (response.statusCode === 505) {
+        } else if (response.statusCode === 505) {
             reject({
                 code: response.statusCode,
                 message: "HTTP version used in the request is not supported by the server"

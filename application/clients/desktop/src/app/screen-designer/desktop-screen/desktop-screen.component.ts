@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { ScreenDesignerService } from '../screen-designer.service';
 import { BlockService } from './services/blocks/block.service';
 import { LanguageService } from './services/languages/language.service';
@@ -29,6 +29,7 @@ import { Constants } from 'src/app/config/Constant';
 
 
 declare var grapesjs: any;
+declare var jQuery: any;
 @Component({
     selector: 'app-desktop-screen',
     templateUrl: './desktop-screen.component.html',
@@ -36,6 +37,7 @@ declare var grapesjs: any;
 })
 export class DesktopScreenComponent implements OnInit, OnDestroy {
     editor: any;
+    @ViewChild('myModal') myModal: ElementRef;
     blocksOption: any[] = [{
         'option': 'Basic Elements',
         'value': ''
@@ -105,6 +107,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     gridScript: any;
     ElementNameArray: any[] = [];
     screenType: String;
+    screenArrayByProjectId: any;
+    screenNameExist: Boolean = false;
 
     constructor(
         private screenDesignerService: ScreenDesignerService,
@@ -122,6 +126,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private ref: ChangeDetectorRef
     ) {
+        console.log('jquery are --22 main--- ', this.myModal);
         this.columnDefs = [
             {
                 headerName: 'Name', field: 'name',
@@ -412,6 +417,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.panelManager();
         this.agGridEntity();
         this.getScreenById();
+        this.getScreenByProjectId();
         // this.traitService.initializeRadioMethod(this.editor);
         // this.beforeDropElement();
         // const is = this.agGridObject;
@@ -493,8 +499,21 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             screenType: this.screenType
         });
     }
+
+    // get screens by project id
+    getScreenByProjectId() {
+        this.screenDesignerService.getScreenByProjectId(this.project_id)
+            .subscribe(projectData => {
+                console.log('get screen by project id -------  ', projectData);
+                this.screenArrayByProjectId = projectData;
+            }, error => {
+
+            });
+    }
+
     // need to work screen by id
     getScreenById() {
+        console.log('screenId in getScreen by id ---- ', this.screen_id);
         if (this.screen_id) {
             this.editor.StorageManager.get('remote').set({ urlStore: `${this.updateTemplateURL}${this.screen_id}` });
             this.screenDesignerService.getScreenById(this.screen_id).subscribe(
@@ -523,6 +542,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                             this.agGridObject = this.existScreenDetail[0]['grid_fields'];
                             this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
                             this.screenFlows = this.existScreenDetail[0]['flows_info'];
+                            this.screenName = this.existScreenDetail[0]['screenName'];
                         }
 
                     }
@@ -1139,6 +1159,118 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         }
         this.saveRemoteStorage();
         this.onCloseModel();
+    }
+
+    isScreenNameExist() {
+        // console.log('screen name changing ------ ', this.screenArrayByProjectId, this.screenName);
+        const index = this.screenArrayByProjectId.findIndex(x =>
+            x.screenName === this.screenName && x._id !== this.screen_id);
+        if (index > -1) {
+            this.screenNameExist = true;
+        } else {
+            this.screenNameExist = false;
+        }
+    }
+
+    closeScreeName() {
+        const model = document.getElementById('myModal');
+        model.style.display = 'none';
+        const mobileButton = this.editor.Panels.getButton('options', 'save-page');
+        mobileButton.set('active', 0);
+    }
+
+    updateScreeName() {
+        const $this = this;
+        // console.log('update screen name ----- ', this.screenName);
+        // console.log('new plugin options 4 options ', this.editor.Panels.getPanel('options').get('buttons'));
+        this.saveRemoteStorage();
+        // const mobileButton = this.editor.Panels.getButton('options', 'save-page');
+        // mobileButton.set('active', 0);
+        // this.editor.store();
+        this.createFeatureIfNotExist();
+        this.closeScreeName();
+        this.editor.on('storage:response', function (e) {
+            console.log('main $$%%%% storage response ------- ', e, this);
+            $this.screen_id = e._id;
+            $this.getScreenById();
+        });
+    }
+    createFeatureIfNotExist() {
+        const currentStorageDetails = this.editor.StorageManager.getCurrentStorage();
+        console.log('cureent storage details ------- ', currentStorageDetails);
+        const mobileButton = this.editor.Panels.getButton('options', 'save-page');
+        // mobileButton.set('active', 0);
+        if (this.project_id !== undefined && this.feature_id !== undefined) {
+            this.editor.store();
+            mobileButton.set('active', 0);
+        } else if (this.screen_id !== undefined) {
+            this.editor.store();
+            mobileButton.set('active', 0);
+        } else {
+            this.traitService.getScreenInfo();
+            const screenArray = this.traitService.getScreenInfo();
+            const featureDetailObj = {
+                name: `Feature_${generate(dictionary.numbers, 6)}`,
+                description: `This Feature has been created from screen designer`
+            };
+            this.projectComponentService.addFeatureDetails(featureDetailObj).subscribe(
+                (details) => {
+                    if (details) {
+                        const featureObj = {
+                            project_id: this.project_id,
+                            feature_id: details._id
+                        };
+                        this.projectComponentService.addFeature(featureObj).subscribe(
+                            (features) => {
+                                const result = screenArray.filter(function (a) {
+                                    return !this[a._id] && (this[a._id] = true);
+                                }, Object.create(null));
+                                if (result !== undefined && result !== null) {
+                                    const resultArray = [];
+                                    result.forEach(flowElement => {
+                                        const flowObj = {
+                                            action_on_data: flowElement.button.action.action_on_data,
+                                            create_with_default_activity: flowElement.button.action.create_with_default_activity,
+                                            description: flowElement.button.action.description,
+                                            label: flowElement.button.action.label,
+                                            name: flowElement.button.action.name,
+                                            screenName: currentStorageDetails.attributes.params.foldername,
+                                            type: flowElement.button.action.type,
+                                            feature_id: details._id
+                                        };
+                                        resultArray.push(flowObj);
+                                    });
+                                    this.projectComponentService.addFeatureFlow(resultArray).subscribe(
+                                        (featureFlow) => {
+                                            currentStorageDetails.attributes.params.feature = details._id;
+                                            this.editor.store();
+                                            mobileButton.set('active', 0);
+                                        },
+                                        (error) => {
+
+                                        }
+                                    );
+                                } else {
+                                    currentStorageDetails.attributes.params.feature = details._id;
+                                    this.editor.store();
+                                    mobileButton.set('active', 0);
+                                }
+
+                            },
+                            (error) => {
+                                console.log('sorry feature project cannot able to save ');
+                            }
+                        );
+                    } else {
+                        console.log('saved feature details return empty object', details);
+                    }
+                },
+                (error) => {
+                    console.log('sorry the feature details cannot able to save');
+                }
+            );
+        }
+
     }
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { PopupModelComponent } from './popup-model/popup-model.component';
 import { ProjectComponentService } from './project-component.service';
@@ -24,6 +24,9 @@ import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
 })
 
 export class EntityManagerComponent implements OnInit {
+    @ViewChild('uiFile') uiFile: ElementRef;
+    @ViewChild('serviceFile') serviceFile: ElementRef;
+    @ViewChild('apiGatewayFile') apiGatewayFile: ElementRef;
     public Editor = ClassicEditor;
     showUploadFeature: Boolean;
     showImportFeature: Boolean = true;
@@ -157,6 +160,7 @@ export class EntityManagerComponent implements OnInit {
             this.showUploadFeature = false;
         }
         if (event.value === 'Upload Feature') {
+            this.formData = new FormData();
             this.showImportFeature = false;
             this.showAddFeature = false;
             this.showUploadFeature = true;
@@ -308,10 +312,24 @@ export class EntityManagerComponent implements OnInit {
     }
 
 
-   
+
 
 
     openFeatureDialog(): void {
+        if (this.uiFile) {
+            this.uiFile.nativeElement.value = '';
+        }
+        if (this.serviceFile) {
+            this.serviceFile.nativeElement.value = '';
+        }
+        if (this.apiGatewayFile) {
+            this.apiGatewayFile.nativeElement.value = '';
+        }
+        this.formData = new FormData();
+
+        this.frontFile = undefined;
+        this.backendFile = undefined;
+        this.apiManFile = undefined;
         this.displayFeatureModel = 'block';
     }
 
@@ -329,9 +347,9 @@ export class EntityManagerComponent implements OnInit {
         this.displayFeatureModel = 'none';
     }
 
-   
 
- 
+
+
 
     getScreenByProjectId() {
         console.log('asojdnaojdso');
@@ -594,8 +612,12 @@ export class EntityManagerComponent implements OnInit {
 
     editScreen(screenId, screenType) {
         console.log('screen id are ----- ', screenId, screenType);
-        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, screenId: screenId,
-             screenType: screenType } });
+        this.router.navigate(['/desktopscreen'], {
+            queryParams: {
+                projectId: this.project_id, screenId: screenId,
+                screenType: screenType
+            }
+        });
     }
 
     deleteScreen(screenId) {

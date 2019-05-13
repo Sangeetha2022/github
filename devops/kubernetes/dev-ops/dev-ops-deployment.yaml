@@ -13,7 +13,7 @@ spec:
       containers:
         - name: jenkins-container
           imagePullPolicy: Always
-          image: tharanirajan/gep-jenkins:1.0
+          image: tharanirajan/gep-jenkins:3.0
           env:
             - name: JAVA_OPTS
               value: -Djenkins.install.runSetupWizard=true
@@ -23,8 +23,14 @@ spec:
             - name: jnlp-port
               containerPort: 50000
           volumeMounts:
-            - name: jenkins-data
-              mountPath: /var/jenkins_home             
+#            - name: jenkins-data
+#              mountPath: /var/jenkins_home
+            - name: docker-socket-volume
+              mountPath: /var/run/docker.sock
+            - name: gep-dev-generated-code
+              mountPath: /geppetto/generated-code           
+          securityContext:
+              privileged: true                                           
         - name: nexus-container 
           imagePullPolicy: Always
           image: sonatype/nexus3 
@@ -41,6 +47,8 @@ spec:
           volumeMounts:
             - name: nexus-data
               mountPath: /nexus-data
+            - name: gep-dev-generated-code
+              mountPath: /geppetto/generated-code
         - name: sonarqube-container
           image: sonarqube:latest
           args:
@@ -52,9 +60,20 @@ spec:
               value: jdbc:postgresql://gep-dev-ops-db:5432/sonar
           ports:
             - containerPort: 9000
-              name: sonarqube                                
+              name: sonarqube
+          volumeMounts:
+            - name: gep-dev-generated-code
+              mountPath: /geppetto/generated-code                                
       volumes:
-        - name: jenkins-data
-          emptyDir: {}
+#        - name: jenkins-data
+#          persistentVolumeClaim:
+#            claimName: 'gep-dev-ops-pvc'
         - name: nexus-data
           emptyDir: {}  
+        - name: docker-socket-volume
+          hostPath:
+            path: /var/run/docker.sock
+            type: File
+        - name: gep-dev-generated-code
+          persistentVolumeClaim:
+            claimName: 'gep-dev-generated-code-pvc'
