@@ -7,15 +7,13 @@ import { IEntity } from './interface/Entity';
 import { IFeature } from './interface/Feature';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { SharedService } from '../../shared/shared.service';
 import { IFeatureDetails } from './interface/FeatureDetails';
 import { FeatureDetailsService } from './feature-details/feature-details.service';
-import { HttpClient, HttpBackend } from '@angular/common/http';
-import { FlowManagerService } from '../flow-manager/flow-manager.service';
-import { IFeatureFLow } from './interface/FeatureFlow';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
-import { IFlow } from '../flow-manager/interface/flow';
 import { IMenu } from './interface/Menu';
+import { MenuBuilderService } from '../menu-builder/menu-builder.service';
+import { TreeDragService } from '../menu-builder/tree-drag/tree-drag.service';
+import { ProjectsService } from '../projects/projects.service';
 
 
 @Component({
@@ -32,14 +30,22 @@ export class EntityManagerComponent implements OnInit {
     frontFile: any;
     backendFile: any;
     rowSelection: any;
+    menuBuilderDetails: any;
     apiManFile: any;
     showUpdateFeature: Boolean;
+    screenFeature: any = [];
+    screenName: any = [];
+    menuFeatureName: any = [];
+    featureScreen: any = [];
     allowImport: Boolean = false;
     selectedExistingFeature: String;
     featureNameandDesc: any = [];
+    dataMenu: any;
     featureId: any = [];
     featureData: any = [];
     featureConnectProject: any = [];
+    constructedMenu: any = [];
+    menuLanguages: any = [];
     // user: any = [];
     project_id: String;
     public features: IFeature = {
@@ -60,11 +66,12 @@ export class EntityManagerComponent implements OnInit {
     };
 
     public menuBuilder: IMenu = {
-        id: '',
-        language: '',
-        menu_builder_details: '',
+        language: 'en',
+        feature: [],
         project: '',
-    }
+        menuDetails: [],
+        project_languages: [],
+    };
 
     displayModel: any;
 
@@ -93,6 +100,10 @@ export class EntityManagerComponent implements OnInit {
     };
     createFeatureData: any = [];
     gridColumnApi: any;
+    screenId: any = [];
+    featureName: any = [];
+    menusJson: any = [];
+    screenMenuName: any = [];
     gridApi: any;
     screenDetails: any = [];
     projectEntity: any = [];
@@ -108,15 +119,21 @@ export class EntityManagerComponent implements OnInit {
     selectedProject: any;
     selecteddefaultEntity: any;
     featureDetailsData: any = [];
+    uniqueScreen: any = [];
+    menuFId: String;
+    menuFName: String;
+    screenMenu: any;
     constructor(
         public dialog: MatDialog,
         private router: Router,
         private projectComponentService: ProjectComponentService,
+        private projectService: ProjectsService,
+        private menuBuilderService: MenuBuilderService,
         private featureDetailsService: FeatureDetailsService,
         private dataService: DataService,
         private screenService: ScreenDesignerService,
         private route: ActivatedRoute,
-        private flowManagerService: FlowManagerService
+        private database: TreeDragService,
 
     ) {
 
@@ -132,6 +149,7 @@ export class EntityManagerComponent implements OnInit {
         if (this.showImportFeature === true) {
             this.selectedOption = 'Import Feature';
         }
+        this.getProjectById();
         this.getSelectedProject();
         this.getProjectDetails();
         this.getScreenByProjectId();
@@ -139,6 +157,7 @@ export class EntityManagerComponent implements OnInit {
         // this.getDefaultEntityByProjectId();
         // this.getAllFeature();
         this.getAllFeatureDetails();
+        this.getMenuBuilderByProjectId();
     }
 
 
@@ -175,7 +194,6 @@ export class EntityManagerComponent implements OnInit {
             this.showAddFeature = true;
             this.showUploadFeature = false;
         }
-        console.log(event);
     }
 
     openDialog(isSaveOption, objectValue): void {
@@ -192,7 +210,6 @@ export class EntityManagerComponent implements OnInit {
 
 
         dialogRef.afterClosed().subscribe(entityData => {
-            console.log('after close dialogRef ---- ', entityData);
             if (entityData !== undefined) {
                 if (objectValue === null) {
                     this.saveEntity(entityData);
@@ -205,6 +222,18 @@ export class EntityManagerComponent implements OnInit {
         });
     }
 
+    getProjectById() {
+        this.projectService.getProjectById(this.project_id).subscribe(proj => {
+
+            this.menuLanguages.push(proj.default_human_language);
+            if (proj.other_human_languages !== '') {
+                this.menuLanguages.push(proj.other_human_languages)
+            }
+            this.menuBuilder.project_languages = this.menuLanguages;
+            console.log('===========',this.menuLanguages)
+        });
+    }
+
     getProjectDetails() {
         this.projectComponentService.getAllFeatureByProjectId(this.project_id).subscribe(data => {
             this.projectFeatureData = [];
@@ -212,6 +241,7 @@ export class EntityManagerComponent implements OnInit {
                 this.featureId = [];
                 data.map(fdata => {
                     this.featureId.push(fdata.feature_id);
+                    // this.getScreenDetails(fdata.feature_id._id);
                 });
             }
             if (this.featureId !== null) {
@@ -231,19 +261,6 @@ export class EntityManagerComponent implements OnInit {
             }
         });
     }
-
-    // onChangeRadio(selected) {
-
-    // if (selected === 'on') {
-    // if (!this.selectFeature) {
-    // this.showUpdateFeature = true;
-    // }
-    // if (this.selectFeature) {
-    // this.showUpdateFeature = false;
-    // }
-    // // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
-    // }
-    // }
 
     onChange(selected) {
         if (selected) {
@@ -278,15 +295,16 @@ export class EntityManagerComponent implements OnInit {
             this.formData.append('name', this.featureDetails.name);
             this.formData.append('description', this.featureDetails.description);
 
-            console.log(this.featureDetails);
             this.projectComponentService.addFeatureDetailsWithFile(this.formData).subscribe((data) => {
+
                 if (data) {
                     this.frontFile = '',
                         this.backendFile = '',
                         this.apiManFile = '',
                         this.featureDetails.name = '',
                         this.featureDetails.description = '',
-                        this.closeFeatureCreateModel();
+                        this.createFeatureData = data;
+                    this.closeFeatureCreateModel();
                     this.getAllFeatureDetails();
                 }
             }, (error) => {
@@ -300,13 +318,25 @@ export class EntityManagerComponent implements OnInit {
                     this.features.project_id = this.project_id;
                     this.projectComponentService.addFeature(this.features).subscribe(featureData => {
                         if (featureData) {
-                            this.menuBuilder.menu_builder_details = this.project_id;
-                            this.menuBuilder.project = this.featureData._id;
-                            this.projectComponentService.createMenu(this.menuBuilder).subscribe(menuData => {
+                            this.menuBuilder = { feature: [], project: '', language: 'en', menuDetails: [], project_languages: [] };
+                            this.menuBuilder.project = this.project_id;
+                            this.menuBuilder.feature.push(this.createFeatureData._id);
+                            this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
+                                if (menuBuilderData.length !== 0) {
+                                    this.menuBuilder.feature = menuBuilderData[0].feature;
+                                    this.menuBuilder.feature.push(featureData.feature_id);
+                                    this.menuBuilderService.updateMenuById(menuBuilderData[0]._id, this.menuBuilder)
+                                        .subscribe(fMenu => {
+                                        });
+                                } else {
+                                    this.menuBuilderService.createMenu(this.menuBuilder).subscribe(menuData => {
+                                    });
+                                }
+                            });
 
-                            })
                             this.getProjectDetails();
                             this.closeFeatureExistingModel();
+                            this.getMenuBuilderByProjectId();
                         }
                     });
                     this.featureDetails.name = '',
@@ -319,10 +349,6 @@ export class EntityManagerComponent implements OnInit {
             });
         }
     }
-
-
-
-
 
     openFeatureDialog(): void {
         this.displayFeatureModel = 'block';
@@ -347,7 +373,6 @@ export class EntityManagerComponent implements OnInit {
 
 
     getScreenByProjectId() {
-        console.log('asojdnaojdso');
         this.screenService.getScreenByProjectId(this.project_id).subscribe(sData => {
             this.screenDetails = sData;
         }, (error) => {
@@ -368,12 +393,6 @@ export class EntityManagerComponent implements OnInit {
             }
         );
     }
-    // handleFileInput(files: FileList) {
-    // this.fileToUpload = files.item(0);
-    // console.log(this.fileToUpload);
-    // this.projectComponentService.uploadeFeaturefile(this.fileToUpload).subscribe(data => {
-    // })
-    // }
     updateEntity(entityData) {
         entityData.updated_at = new Date();
         this.projectComponentService.updateEntity(entityData).subscribe(
@@ -430,6 +449,77 @@ export class EntityManagerComponent implements OnInit {
 
             }
         );
+    }
+
+
+
+    getMenuBuilderByProjectId() {
+        this.menuFeatureName = [];
+        this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
+            if (menuBuilderData.length !== 0) {
+                this.menuBuilderDetails = menuBuilderData;
+                this.dataMenu = this.menuBuilderDetails[0].menuDetails;
+
+                let array = [];
+                this.menuBuilderDetails[0].feature.forEach(feData => {
+                    this.screenService.getScreenByFeature(feData).subscribe(data => {
+                        if (data.length !== 0) {
+                            this.screenMenuName = [];
+                            this.screenId = [];
+                            data.forEach(sData => {
+                                this.menuFId = sData.feature._id;
+                                this.menuFName = sData.feature.name;
+                                this.screenId.push(sData._id);
+                                this.screenMenuName.push(sData.foldername);
+                            });
+                            let screenData = {
+                                screen: this.screenMenuName,
+                                screenId: this.screenId
+                            }
+                            let fMenuData = {
+                                feature: this.menuFName,
+                                featureId: this.menuFId,
+                            }
+                            let obj = {
+                                featuremenu: [{ name: fMenuData, description: fMenuData }],
+                                screenmenu: [{
+                                    name: screenData,
+                                    description: screenData
+                                }]
+                            };
+                            array.push(obj);
+                            this.menuBuilder = this.menuBuilderDetails[0];
+                            this.menuBuilder.menuDetails = array;
+                            this.dataMenu.forEach(meData => {
+                                this.menuBuilder.menuDetails.forEach(menu => {
+                                    if (menu.featuremenu[0].name.featureId === meData.featuremenu[0].name.featureId) {
+                                        menu.featuremenu[0].description = meData.featuremenu[0].description;
+                                        let intersection = menu.screenmenu[0].name.screenId.filter(x => meData.screenmenu[0].name.screenId.includes(x));
+                                        if (intersection.length !== 0) {
+                                            intersection.forEach(sId => {
+                                                meData.screenmenu[0].name.screenId.forEach((dSId, index) => {
+                                                    if (sId === dSId) {
+                                                        menu.screenmenu[0].description.screen[index] = meData.screenmenu[0].description.screen[index]
+                                                    }
+                                                });
+                                            });
+                                        }
+                                    }
+                                });
+                            });
+
+                            this.menuBuilderService.updateMenubyProject(this.project_id, this.menuBuilder)
+                                .subscribe(fMenu => {
+                                    if (fMenu) {
+                                        this.database.initialize(fMenu.menuDetails);
+
+                                    }
+                                });
+                        }
+                    });
+                });
+            }
+        });
     }
 
     getSelectedProject() {
@@ -491,7 +581,6 @@ export class EntityManagerComponent implements OnInit {
                     this.allowImport = true;
                 }
             });
-            console.log('allow import', this.allowImport);
             if (this.allowImport) {
                 alert('Already Imported');
                 this.closeFeatureExistingModel();
@@ -499,6 +588,13 @@ export class EntityManagerComponent implements OnInit {
             if (!this.allowImport) {
                 this.projectComponentService.addFeature(this.features).subscribe(featureData => {
                     if (featureData) {
+                        this.menuBuilder.feature.push(featureData.feature_id);
+                        this.menuBuilder.project = this.project_id;
+                        this.menuBuilderService.createMenu(this.menuBuilder).subscribe(menuData => {
+                            if (menuData) {
+                                this.getMenuBuilderByProjectId();
+                            }
+                        });
                         this.getProjectDetails();
                         this.closeFeatureExistingModel();
                     }
@@ -532,7 +628,6 @@ export class EntityManagerComponent implements OnInit {
 
     addFeatureDetails() {
         this.projectComponentService.addFeatureDetails(this.features).subscribe(data => {
-            console.log(data);
             // if (data) {
             // this.getAllFeature();
             // }
@@ -582,7 +677,6 @@ export class EntityManagerComponent implements OnInit {
 
     deleteFeature() {
         this.projectComponentService.deleteFeature(this.selectedFeatureId).subscribe(data => {
-            console.log(data);
         });
         this.closeDeleteFModel();
         // this.getAllFeature();

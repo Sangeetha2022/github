@@ -1,6 +1,7 @@
 export interface IMenu {
-    id: String;
     project: String;
-    menu_builder_details: String;
+    feature: Array<any>;
     language: String;
+    menuDetails: Array<any>;
+    project_languages: Array<any>;
 }

@@ -103,12 +103,12 @@
           </ag-grid-angular>
         </div>
 
-        <div class="flowTable mt-sm-3" *ngIf="showFeatureFlowComp">
+        <!-- <div class="flowTable mt-sm-3" *ngIf="showFeatureFlowComp">
           <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef" domLayout='autoHeight'
             (rowSelected)="selectFlowComponent()" [animateRows]="true" class="ag-theme-balham" [columnDefs]="fcompColDefs"
             [rowData]="flow_comp" [rowSelection]="rowSelection" (gridReady)="onFCGridReady($event)">
           </ag-grid-angular>
-        </div>
+        </div> -->
 
         <div class="flowTable mt-sm-3" *ngIf="showFeatureFlowComponent">
           <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" domLayout='autoHeight'

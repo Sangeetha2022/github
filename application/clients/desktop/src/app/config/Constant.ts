@@ -27,6 +27,8 @@ export class Constants {
     public static get getAllMyProjecturl(): string { return '/projects/my/getall'; }
     public static get addProjectDefaults(): String { return '/projects/default/create'; }
     public static get updateProjectById(): String { return '/projects/my/update'; }
+    public static get getProjectById(): String { return '/projects/my/getbyid'; }
+    
 
     // Flow apis
     public static get addFlowCompToFlowUrl(): string { return '/add/flow_comp'; }
@@ -78,6 +80,7 @@ export class Constants {
     public static get getAllFeatureDetails(): string { return '/feature/details/getall'; }
     public static get getAllFeatureDetailsByFeatureId(): string { return '/feature/details/getbyfeatureid/'; }
     public static get addFeatureDetails(): string { return '/feature/details/addfile'; }
+    public static get getFeatureDetailsById(): string { return '/feature/details/getbyid/'; }
 
     // Feature Flow
     // public static get getAllFeatureFlow(): string { return '/feature-flow/getall'; }
@@ -97,6 +100,7 @@ export class Constants {
     public static get updateScreen(): string { return '/screen/update/:id'; }
     public static get getScreenByProjectAndFeatureId(): string { return '/screen/getbyprojectandfeatureid/'; }
     public static get getScreenByProjectId(): string { return '/screen/getbyprojectid/'; }
+    public static get getScreenByFeatureId(): string { return '/screen/getbyfeatureid/'; }
 
     // Feature Flow
     public static get addFeatureFlow(): string { return '/feature-flow/save'; }

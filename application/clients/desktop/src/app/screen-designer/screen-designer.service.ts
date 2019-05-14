@@ -21,12 +21,16 @@ export class ScreenDesignerService {
     );
   }
 
-  getScreenByProjectAndFeatureId(projectId, featureId) {
+  getScreenByProjectAndFeatureId(projectId, featureId): Observable<any> {
     return this.http.get(this.sharedService.screenUrl + Constants.getScreenByProjectAndFeatureId + projectId + '/' + featureId);
   }
 
-  getScreenByProjectId(projectId) {
+  getScreenByProjectId(projectId): Observable<any> {
     return this.http.get(this.sharedService.screenUrl + Constants.getScreenByProjectId + projectId);
+  }
+
+  getScreenByFeature(featureId): Observable<any> {
+    return this.http.get(this.sharedService.screenUrl + Constants.getScreenByFeatureId + featureId);
   }
 
 }

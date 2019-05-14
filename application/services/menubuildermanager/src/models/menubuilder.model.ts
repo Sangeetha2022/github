@@ -10,7 +10,9 @@ export const MenuBuilderSchema = new Schema({
     },
     project: { type: String, ref: 'projects' },
     language: { type: String, default: 'en' },
-    menu_builder_details: { type: String, ref: 'feature_details' },
+    project_languages: { type: Array, default: null },
+    feature: { type: Array, ref: 'feature_details' },
+    menuDetails: { type: Array, default: null },
     created_date: { type: Date, default: Date.now },
     updated_date: { type: Date, default: null }
 });

@@ -4,6 +4,12 @@ import { Component, Injectable, ElementRef, ViewChild } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { TodoItemNode } from './interface/TodoItemNode';
 import { TreeDragService } from './tree-drag.service';
+import { DataService } from 'src/shared/data.service';
+import { ActivatedRoute } from '@angular/router';
+import { FeatureDetailsService } from 'src/app/project-component/feature-details/feature-details.service';
+import { MenuBuilderService } from '../menu-builder.service';
+import { ScreenDesignerService } from 'src/app/screen-designer/screen-designer.service';
+import { MenuBuilderComponent } from '../menu-builder.component';
 
 
 /** Flat to-do item node with expandable and level information */
@@ -48,17 +54,42 @@ export class TreeDragComponent {
   dragNodeExpandOverNode: any;
   dragNodeExpandOverTime: number;
   dragNodeExpandOverArea: number;
+  project_id: String;
+  menuBilderDetails: any = [];
+  menuFeatureId: any = [];
+  menuFeatureName: any = [];
+  menusJson: any = [];
+  screenFeature: any = [];
+  screenName: any = [];
+  uniqueScreen: any = [];
+  screenMenu: any;
+  selectedItem: String;
+
   @ViewChild('emptyItem') emptyItem: ElementRef;
 
-  constructor(private database: TreeDragService) {
+  constructor(
+    private database: TreeDragService,
+    private route: ActivatedRoute,
+    private menuBuilderService: MenuBuilderService,
+    private featureDetailsService: FeatureDetailsService,
+    private dataService: DataService,
+    private screenService: ScreenDesignerService,
+    private menuBuilder: MenuBuilderComponent,
+
+  ) {
     this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel, this.isExpandable, this.getChildren);
     this.treeControl = new FlatTreeControl<TodoItemFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-
+    // this.getMenuDetails();
     database.dataChange.subscribe(data => {
       this.dataSource.data = [];
       this.dataSource.data = data;
-      console.log("i need you", data);
+    });
+  }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.project_id = params.projectId;
     });
   }
 
@@ -117,6 +148,13 @@ export class TreeDragComponent {
     this.treeControl.expand(node);
   }
 
+  logNode(node) {
+    console.log(node.item);
+    this.selectedItem = node.item;
+    this.dataService.setSelectedMenuInfo(this.selectedItem);
+    this.menuBuilder.getSelectedMenu();
+  }
+
   /** Save the node to database */
   saveNode(node: TodoItemFlatNode, itemValue: string) {
     const nestedNode = this.flatNodeMap.get(node);
@@ -130,6 +168,12 @@ export class TreeDragComponent {
     this.dragNode = node;
     this.treeControl.collapse(node);
   }
+
+  // getMenuDetails() {
+  //   this.dataService.currentMenuBuilderSource.subscribe(data => {
+  //     console.log('i am the menu feature', data);
+  //   });
+  // }
 
   handleDragOver(event, node) {
     event.preventDefault();

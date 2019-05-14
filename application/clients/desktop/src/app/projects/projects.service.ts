@@ -39,6 +39,10 @@ export class ProjectsService {
     return this.api.put(`${this.restapi.projbaseUrl}${Constants.updateProjectById}/${projectId}`, projectDetails);
   }
 
+  getProjectById(projectId: String): Observable<any> {
+    return this.api.get(`${this.restapi.projbaseUrl}${Constants.getProjectById}/${projectId}`);
+  }
+
   // websocket connections
 
   public initSocket(): void {

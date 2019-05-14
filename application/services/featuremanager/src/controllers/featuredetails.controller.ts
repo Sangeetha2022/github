@@ -40,10 +40,11 @@ export class FeatureDetailsController {
             res.json(user);
         })
     }
-    public getScreenByFeatureId = async(req: Request, res: Response) => {
-        featureDetailsService.getScreenByFeatureId(req, (user) => {
+
+    public getAllFeatureByFeatureid = async(req: Request, res: Response) => {
+        featureDetailsService.getAllFeatureByFeatureid(req, (user) => {
             res.status(200);
             res.json(user);
         })
-    }
+    }    
 }

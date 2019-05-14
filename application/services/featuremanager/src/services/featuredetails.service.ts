@@ -38,12 +38,10 @@ export class FeatureDetailsService {
         })
     }
 
-    public getScreenByFeatureId = async (req: Request, callback: CallableFunction) => {
-        featureDetailsDao.getScreenByFeatureId(req, (feature) => {
+    public getAllFeatureByFeatureid = async (req: Request, callback: CallableFunction) => {
+        featureDetailsDao.getAllFeatureByFeatureid(req, (feature) => {
             callback(feature)
         })
     }
-
-
-
+    
 }

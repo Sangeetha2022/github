@@ -34,6 +34,13 @@ export class MenuBuilderController {
         })
     }
 
+    public updateMenuByProjectId(req: Request, res: Response) {
+        menuBuilderService.updateMenuByProjectId(req, (user) => {
+            res.status(200); // status for the response
+            res.json(user); 
+        })
+    }
+
     public deleteMenu(req: Request, res: Response) {
         menuBuilderService.deleteMenu(req, (user) => {
             res.status(200); // status for the response

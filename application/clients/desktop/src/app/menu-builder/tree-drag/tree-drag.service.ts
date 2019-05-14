@@ -15,12 +15,12 @@ const TREE_DATA = {
       Apple: null,
       Berries: ['Blueberry', 'Raspberry'],
       Orange: null
-    },
-    Vegetables: {
-      Carrot: null,
-      Tomato: null,
-      Potato: null
     }
+  },
+  Vegetables: {
+    Carrot: null,
+    Tomato: null,
+    Potato: null
   }
 };
 
@@ -30,26 +30,26 @@ const TREE_DATA = {
 export class TreeDragService {
 
   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
-
+  menuBuilder: any;
+  menu: any = [];
   get data(): TodoItemNode[] { return this.dataChange.value; }
-
   constructor() {
-    this.initialize();
   }
 
-  initialize() {
-    // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
-    //     file node as children.
-    const data = this.buildFileTree(TREE_DATA, 0);
-
-    // Notify the change.
-    this.dataChange.next(data);
+  initialize(menu: any) {
+    let array = [];
+    let count = 0;
+    menu.forEach(element => {
+      count = count + 1;
+      array[element.featuremenu[0].description.feature] = element.screenmenu[0].description.screen;
+    });
+    if (count === menu.length) {
+      this.menuBuilder = array;
+      const data = this.buildFileTree(this.menuBuilder, 0);
+      this.dataChange.next(data);
+    }
   }
 
-  /**
-   * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
-   * The return value is the list of `TodoItemNode`.
-   */
   buildFileTree(obj: object, level: number): TodoItemNode[] {
     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
       const value = obj[key];
