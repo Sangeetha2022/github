@@ -88,6 +88,7 @@ export class FeatureDetailsComponent implements OnInit {
     public entity: IEntity = {
         name: '',
         description: '',
+        entity_type: '',
         project_id: '',
         feature_id: '',
         created_by: '',
@@ -108,6 +109,9 @@ export class FeatureDetailsComponent implements OnInit {
     public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
     // This is the default title property created by the angular cli. Its responsible for the app works
     title = 'app works!';
+    isPrimaryEntityPresent: boolean;
+    deletePopup: string;
+    selectedEntityId: any;
 
     constructor(
         private featureDetailsService: FeatureDetailsService,
@@ -314,26 +318,29 @@ export class FeatureDetailsComponent implements OnInit {
     getProjectFeature() {
         this.dataService.currentProjectFeatureInfo.subscribe(feature => {
             this.featureData = feature;
-            console.log('i am the data', this.featureData);
-            this.featureData.forEach(fData => {
-                this.selectedFeatureName = fData.name
-                console.log('i am the feature data', fData.name);
-                if (fData.api_mang_file === null && fData.backed_mang_file === null && fData.front_mang_file === null) {
-                    this.featureDetailsService.getAllFeatureFlowByFeatureId(this.feature_id).subscribe(feData => {
-                        this.featureFlowRowData = feData;
-                    });
-                } else {
-
-                    this.featureDetailsService.getAllFeatureDetailsByFeatureId(this.feature_id).subscribe(data => {
-                        this.featureDetailsData = data;
-                        this.featureDetailsData.map((featureData) => {
-                            this.allFeatureFlows.push(featureData.flow);
+            const isMyObjectEmpty = Object.keys(this.featureData).length;
+            console.log('i am the data', this.featureData, isMyObjectEmpty);
+            if (Object.keys(this.featureData).length > 0) {
+                this.featureData.forEach(fData => {
+                    this.selectedFeatureName = fData.name;
+                    console.log('i am the feature data', fData.name);
+                    if (fData.api_mang_file === null && fData.backed_mang_file === null && fData.front_mang_file === null) {
+                        this.featureDetailsService.getAllFeatureFlowByFeatureId(this.feature_id).subscribe(feData => {
+                            this.featureFlowRowData = feData;
                         });
-                        this.featureFlowRowData = this.allFeatureFlows;
-                    });
-                }
+                    } else {
 
-            });
+                        this.featureDetailsService.getAllFeatureDetailsByFeatureId(this.feature_id).subscribe(data => {
+                            this.featureDetailsData = data;
+                            this.featureDetailsData.map((featureData) => {
+                                this.allFeatureFlows.push(featureData.flow);
+                            });
+                            this.featureFlowRowData = this.allFeatureFlows;
+                        });
+                    }
+
+                });
+            }
         });
     }
 
@@ -411,6 +418,8 @@ export class FeatureDetailsComponent implements OnInit {
     getEntityByFeatureAndprojectId() {
         this.projectComponentService.getEntityByFeatureAndprojectId(this.project_id, this.feature_id).subscribe(data => {
             this.featureEntityDetails = data;
+            this.isPrimaryEntityPresent = this.featureEntityDetails.some(x => x.entity_type === 'primary');
+            console.log('get all entities are ---- ', this.featureEntityDetails, '  ', this.isPrimaryEntityPresent);
         });
 
     }
@@ -486,6 +495,9 @@ export class FeatureDetailsComponent implements OnInit {
         this.projectComponentService.updateEntity(entityData).subscribe(
             (data) => {
                 // this.getAllEntityByProjectId();
+                if (data) {
+                    this.getEntityByFeatureAndprojectId();
+                }
             },
             (error) => {
 
@@ -495,32 +507,45 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     openDialog(isSaveOption, objectValue): void {
-        let dialogDataValue;
+        const dialogDataValue = {
+            savedEntity: {},
+            isPrimaryEntityPresent: this.isPrimaryEntityPresent,
+        };
         if (isSaveOption) {
-            dialogDataValue = {};
+            dialogDataValue.savedEntity = {};
         } else {
-            dialogDataValue = objectValue;
+            dialogDataValue.savedEntity = objectValue;
         }
         const dialogRef = this.dialog.open(PopupModelComponent, {
-            width: '250px',
+            width: '350px',
             data: dialogDataValue
         });
 
         dialogRef.afterClosed().subscribe(entityData => {
-            this.entity.project_id = this.project_id;
-            this.entity.feature_id = this.feature_id;
-            this.entity.name = entityData.name;
-            this.entity.description = entityData.description;
-            if (entityData !== undefined) {
-                if (objectValue === null) {
-                    this.projectComponentService.saveFeatureEntity(this.entity).subscribe(feature_entity => {
-                        console.log(feature_entity);
-                    });
-                    this.saveEntity(this.entity);
-                } else {
-                    dialogDataValue.name = entityData.name;
-                    dialogDataValue.description = entityData.description;
-                    this.updateEntity(dialogDataValue);
+            console.log('entity details rae --- ', entityData);
+            if (entityData) {
+                this.entity.project_id = this.project_id;
+                this.entity.feature_id = this.feature_id;
+                this.entity.name = entityData.name;
+                this.entity.description = entityData.description;
+                this.entity.entity_type = entityData.entityType;
+                if (entityData !== undefined) {
+                    if (objectValue === null) {
+                        this.projectComponentService.saveFeatureEntity(this.entity).subscribe(feature_entity => {
+                            console.log(feature_entity);
+                        });
+                        this.saveEntity(this.entity);
+                    } else {
+                        const tempObj = {
+                            name: '',
+                            description: '',
+                            entity_type: ''
+                        };
+                        tempObj.name = entityData.name;
+                        tempObj.description = entityData.description;
+                        tempObj.entity_type = entityData.entityType;
+                        this.updateEntity(tempObj);
+                    }
                 }
             }
         });
@@ -659,5 +684,26 @@ export class FeatureDetailsComponent implements OnInit {
             this.showFeatureEntity = true;
         }
 
+    }
+
+    openDeleteModel(entity) {
+        this.selectedEntityId = entity._id;
+        this.deletePopup = 'block';
+    }
+
+    closeDeleteModel() {
+        this.deletePopup = 'none';
+    }
+
+    deleteEntity() {
+        this.deletePopup = 'none';
+        this.projectComponentService.deleteEntity(this.selectedEntityId).subscribe(
+            (data) => {
+                this.getEntityByFeatureAndprojectId();
+            },
+            (error) => {
+
+            }
+        );
     }
 }

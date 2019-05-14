@@ -79,6 +79,7 @@ export class EntityManagerComponent implements OnInit {
     public entity: IEntity = {
         name: '',
         description: '',
+        entity_type: '',
         project_id: '',
         feature_id: '',
         created_by: '',
@@ -175,6 +176,7 @@ export class EntityManagerComponent implements OnInit {
     }
 
     openDialog(isSaveOption, objectValue): void {
+        alert('cxcc');
         let dialogDataValue;
         if (isSaveOption) {
             dialogDataValue = {};
@@ -182,7 +184,7 @@ export class EntityManagerComponent implements OnInit {
             dialogDataValue = objectValue;
         }
         const dialogRef = this.dialog.open(PopupModelComponent, {
-            width: '250px',
+            width: '550px',
             data: dialogDataValue
         });
 
@@ -364,6 +366,7 @@ export class EntityManagerComponent implements OnInit {
     saveEntity(entityData) {
         this.entity.name = entityData.name;
         this.entity.description = entityData.description;
+        this.entity.entity_type = entityData.entityType;
         this.entity.project_id = this.project_id;
         this.projectComponentService.createEntity(this.entity).subscribe(
             (data) => {
@@ -399,7 +402,7 @@ export class EntityManagerComponent implements OnInit {
                 this.projectEntity = [];
                 console.log('ProjectEntity data are ------ ', this.allEntity);
                 this.allEntity.map(entityData => {
-                    if (entityData.feature_id === undefined) {
+                    if (entityData.feature_id === undefined && entityData.project_id === null) {
                         this.projectEntity.push(entityData);
                     }
                 });
