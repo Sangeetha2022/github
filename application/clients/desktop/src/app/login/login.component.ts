@@ -14,7 +14,9 @@ import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular
 export class LoginComponent implements OnInit {
 
   // tslint:disable-next-line:max-line-length
-  constructor(private route: Router, private router: ActivatedRoute, private loginservice: LoginService, private authservice: AuthService) { }
+  constructor(private route: Router, private router: ActivatedRoute, private loginservice: LoginService, private authservice: AuthService) { 
+    this.show = false;
+  }
 
   public challenge: any;
   public loginchallenge: any;
@@ -39,6 +41,7 @@ export class LoginComponent implements OnInit {
   public newUser: any = [];
   public isChecked: boolean;
   displayModel: String = 'none';
+  public show: boolean;
 
 
 
@@ -107,6 +110,9 @@ export class LoginComponent implements OnInit {
 
       }
     });
+  }
+  hideEye(){
+    this.show = !this.show;
   }
 
 
