@@ -26,6 +26,7 @@ export class MenuBuilderComponent implements OnInit {
   stopUpdate: Boolean;
   getMenu: Boolean;
   descriptionBeforeUpdate: String;
+  createRow: Boolean = false;
 
   // state: ITreeState = {
   //   expandedNodeIds: {
@@ -164,24 +165,35 @@ export class MenuBuilderComponent implements OnInit {
         });
       }
     });
+    let difference = this.menuBuilderDetails.project_languages
+      .filter(x => !this.menuLang.includes(x))
+      .concat(this.menuLang.filter(x => !this.menuBuilderDetails.project_languages.includes(x)));
+    console.log('================', difference)
+    if (difference.length === 0) {
+      this.createRow = true;
+    }
     this.menuLang.forEach(lang => {
-      if (this.secondaryLang !== undefined) {
-        console.log('=============== hello udhaya', this.secondaryLang);
-        if (lang !== this.secondaryLang) {
-          this.menuBuilderDetails.language = this.primaryLang;
-          this.menuBuilderDetails.menu_option = false;
+      if (!this.createRow) {
+        if (this.secondaryLang !== undefined) {
+          if (lang !== this.secondaryLang) {
+            this.menuBuilderDetails.language = this.primaryLang;
+            this.menuBuilderDetails.menu_option = false;
+            this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
+            delete this.menuBuilderDetails._id;
+            delete this.menuBuilderDetails.updated_date;
+            delete this.menuBuilderDetails.created_date;
+            this.menuBuilderDetails.menu_option = true;
+            this.menuBuilderDetails.language = this.selectedLang;
+            this.menuBuilderService.createMenu(this.menuBuilderDetails).subscribe(menuData => {
+            });
+          }
+        } else if (lang === this.primaryLang) {
           this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
-          delete this.menuBuilderDetails._id;
-          delete this.menuBuilderDetails.updated_date;
-          delete this.menuBuilderDetails.created_date;
-          this.menuBuilderDetails.menu_option = true;
-          this.menuBuilderDetails.language = this.selectedLang;
-          this.menuBuilderService.createMenu(this.menuBuilderDetails).subscribe(menuData => {
-          });
+          this.stopUpdate = false;
         }
-      } else if (lang === this.primaryLang) {
-        console.log('=============== hello');
+      } else {
         this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
+        this.stopUpdate = false;
       }
     });
   }
@@ -196,7 +208,7 @@ export class MenuBuilderComponent implements OnInit {
         this.database.initialize(fMenu.menuDetails);
         this.stopUpdate = false;
       }
-    })
+    });
   }
 
   updatemenu(projectId, menu) {
@@ -211,7 +223,6 @@ export class MenuBuilderComponent implements OnInit {
     this.secondaryLang = event;
     this.getMenuByProjectId();
     if (this.menuLang.length === 2) {
-      console.log('=============== hello in the array');
       this.getMenu = true;
     }
   }
