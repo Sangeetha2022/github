@@ -12,19 +12,19 @@ import { TreeDragService } from './tree-drag/tree-drag.service';
   styleUrls: ['./menu-builder.component.scss']
 })
 export class MenuBuilderComponent implements OnInit {
-  languages = ['English', 'தமிழ்', 'Español'];
-  Screens = ['PC', 'Tablet', 'Phone'];
-  OS = ['IOS', 'Android'];
+  languages: any = [];
+  primaryLang: String;
+  secondaryLang: String;
   selectedLang: String;
-  selectedScreen: String;
-  selectedOS: String;
-  disabledOS: Boolean;
+  menuLang: any = [];
   name: String;
   menuBuilderDetails: any = [];
   description: String;
   selectedMenu: String;
   project_id: String;
   menuDetails: any = [];
+  stopUpdate: Boolean;
+  getMenu: Boolean;
   descriptionBeforeUpdate: String;
 
   // state: ITreeState = {
@@ -75,17 +75,6 @@ export class MenuBuilderComponent implements OnInit {
     private menuBuilderService: MenuBuilderService,
 
   ) {
-    if (this.selectedLang === undefined) {
-      this.selectedLang = 'English';
-    }
-    if (this.selectedScreen === undefined) {
-      this.selectedScreen = 'PC';
-    }
-    if (this.selectedScreen = 'PC') {
-      this.disabledOS = true;
-    } else {
-      this.disabledOS = false;
-    }
   }
 
   ngOnInit() {
@@ -102,6 +91,7 @@ export class MenuBuilderComponent implements OnInit {
       (data) => {
         this.description = data;
         this.descriptionBeforeUpdate = data;
+        console.log('==========', this.menuDetails);
         this.menuDetails.forEach(menuData => {
           if (menuData.featuremenu[0].description.feature === this.descriptionBeforeUpdate) {
             this.name = menuData.featuremenu[0].name.feature;
@@ -122,8 +112,40 @@ export class MenuBuilderComponent implements OnInit {
   getMenuByProjectId() {
     this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
       if (menuBuilderData.length !== 0) {
-        this.menuBuilderDetails = menuBuilderData;
-        this.menuDetails = this.menuBuilderDetails[0].menuDetails;
+        this.menuLang = [];
+        if (!this.getMenu) {
+          menuBuilderData.forEach(mData => {
+            this.menuLang.push(mData.language);
+            if (mData.menu_option === true) {
+              this.menuBuilderDetails = mData;
+              this.languages = this.menuBuilderDetails.project_languages;
+              this.primaryLang = this.menuBuilderDetails.language;
+              this.menuDetails = this.menuBuilderDetails.menuDetails;
+              if (this.selectedLang === undefined) {
+                this.selectedLang = this.menuBuilderDetails.language;
+              } else {
+                this.menuBuilderDetails.language = this.selectedLang;
+              }
+            }
+          });
+        }
+
+        if (this.getMenu) {
+          menuBuilderData.forEach(meData => {
+            if (meData.language === this.selectedLang) {
+              meData.menu_option = true;
+              this.updateMenuById(meData._id, meData);
+              this.menuDetails = meData.menuDetails;
+              this.database.initialize(this.menuDetails);
+              this.stopUpdate = true;
+            }
+            if (meData.language !== this.selectedLang) {
+              meData.menu_option = false;
+              this.menuDetails = meData.menuDetails;
+              this.updateMenuById(meData._id, meData);
+            }
+          });
+        }
       }
     });
   }
@@ -140,38 +162,57 @@ export class MenuBuilderComponent implements OnInit {
             }
           });
         });
-
       }
     });
-    this.updatamenu(this.project_id, this.menuBuilderDetails[0]);
+    this.menuLang.forEach(lang => {
+      if (this.secondaryLang !== undefined) {
+        console.log('=============== hello udhaya', this.secondaryLang);
+        if (lang !== this.secondaryLang) {
+          this.menuBuilderDetails.language = this.primaryLang;
+          this.menuBuilderDetails.menu_option = false;
+          this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
+          delete this.menuBuilderDetails._id;
+          delete this.menuBuilderDetails.updated_date;
+          delete this.menuBuilderDetails.created_date;
+          this.menuBuilderDetails.menu_option = true;
+          this.menuBuilderDetails.language = this.selectedLang;
+          this.menuBuilderService.createMenu(this.menuBuilderDetails).subscribe(menuData => {
+          });
+        }
+      } else if (lang === this.primaryLang) {
+        console.log('=============== hello');
+        this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
+      }
+    });
+  }
+  updateMenuById(id, menu) {
+    this.menuBuilderService.updateMenuById(id, menu).subscribe(fMenu => {
+      this.getMenu = false;
+      this.menuDetails = [];
+      this.menuBuilderDetails = [];
+      this.name = '';
+      this.description = '';
+      if (!this.stopUpdate) {
+        this.database.initialize(fMenu.menuDetails);
+        this.stopUpdate = false;
+      }
+    })
   }
 
-
-  updatamenu(projectId, menu) {
+  updatemenu(projectId, menu) {
     this.menuBuilderService.updateMenubyProject(projectId, menu)
       .subscribe(fMenu => {
         if (fMenu) {
-          this.menuDetails = [];
-          this.menuBuilderDetails = [];
-          this.name = '';
-          this.description = '';
-          this.database.initialize(fMenu.menuDetails);
+
         }
       });
   }
   onChangeLang(event) {
-    console.log('lang', event);
-  }
-  onChangeScreen(event) {
-    if (event === 'PC') {
-      this.disabledOS = true;
-    } else {
-      console.log('screen', event);
-      this.disabledOS = false;
+    this.secondaryLang = event;
+    this.getMenuByProjectId();
+    if (this.menuLang.length === 2) {
+      console.log('=============== hello in the array');
+      this.getMenu = true;
     }
-  }
-  onChangeOS(event) {
-    console.log('OS', event);
-
   }
 }

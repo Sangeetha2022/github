@@ -66,11 +66,12 @@ export class EntityManagerComponent implements OnInit {
     };
 
     public menuBuilder: IMenu = {
-        language: 'en',
+        language: '',
         feature: [],
         project: '',
         menuDetails: [],
         project_languages: [],
+        menu_option: false,
     };
 
     displayModel: any;
@@ -230,7 +231,6 @@ export class EntityManagerComponent implements OnInit {
                 this.menuLanguages.push(proj.other_human_languages)
             }
             this.menuBuilder.project_languages = this.menuLanguages;
-            console.log('===========',this.menuLanguages)
         });
     }
 
@@ -318,7 +318,7 @@ export class EntityManagerComponent implements OnInit {
                     this.features.project_id = this.project_id;
                     this.projectComponentService.addFeature(this.features).subscribe(featureData => {
                         if (featureData) {
-                            this.menuBuilder = { feature: [], project: '', language: 'en', menuDetails: [], project_languages: [] };
+                            this.menuBuilder = { feature: [], project: '', language: this.menuLanguages[0], menuDetails: [], project_languages: this.menuLanguages, menu_option: true };
                             this.menuBuilder.project = this.project_id;
                             this.menuBuilder.feature.push(this.createFeatureData._id);
                             this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
@@ -327,6 +327,7 @@ export class EntityManagerComponent implements OnInit {
                                     this.menuBuilder.feature.push(featureData.feature_id);
                                     this.menuBuilderService.updateMenuById(menuBuilderData[0]._id, this.menuBuilder)
                                         .subscribe(fMenu => {
+                                            console.log('=========', fMenu);
                                         });
                                 } else {
                                     this.menuBuilderService.createMenu(this.menuBuilder).subscribe(menuData => {
@@ -457,66 +458,72 @@ export class EntityManagerComponent implements OnInit {
         this.menuFeatureName = [];
         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
             if (menuBuilderData.length !== 0) {
+                console.log('============', menuBuilderData)
                 this.menuBuilderDetails = menuBuilderData;
                 this.dataMenu = this.menuBuilderDetails[0].menuDetails;
 
                 let array = [];
-                this.menuBuilderDetails[0].feature.forEach(feData => {
-                    this.screenService.getScreenByFeature(feData).subscribe(data => {
-                        if (data.length !== 0) {
-                            this.screenMenuName = [];
-                            this.screenId = [];
-                            data.forEach(sData => {
-                                this.menuFId = sData.feature._id;
-                                this.menuFName = sData.feature.name;
-                                this.screenId.push(sData._id);
-                                this.screenMenuName.push(sData.foldername);
-                            });
-                            let screenData = {
-                                screen: this.screenMenuName,
-                                screenId: this.screenId
-                            }
-                            let fMenuData = {
-                                feature: this.menuFName,
-                                featureId: this.menuFId,
-                            }
-                            let obj = {
-                                featuremenu: [{ name: fMenuData, description: fMenuData }],
-                                screenmenu: [{
-                                    name: screenData,
-                                    description: screenData
-                                }]
-                            };
-                            array.push(obj);
-                            this.menuBuilder = this.menuBuilderDetails[0];
-                            this.menuBuilder.menuDetails = array;
-                            this.dataMenu.forEach(meData => {
-                                this.menuBuilder.menuDetails.forEach(menu => {
-                                    if (menu.featuremenu[0].name.featureId === meData.featuremenu[0].name.featureId) {
-                                        menu.featuremenu[0].description = meData.featuremenu[0].description;
-                                        let intersection = menu.screenmenu[0].name.screenId.filter(x => meData.screenmenu[0].name.screenId.includes(x));
-                                        if (intersection.length !== 0) {
-                                            intersection.forEach(sId => {
-                                                meData.screenmenu[0].name.screenId.forEach((dSId, index) => {
-                                                    if (sId === dSId) {
-                                                        menu.screenmenu[0].description.screen[index] = meData.screenmenu[0].description.screen[index]
-                                                    }
-                                                });
-                                            });
-                                        }
+                this.menuBuilderDetails.forEach(menuData => {
+                    console.log('============', menuData);
+                    if (menuData.menu_option === true) {
+                        menuData.feature.forEach(feData => {
+                            this.screenService.getScreenByFeature(feData).subscribe(data => {
+                                if (data.length !== 0) {
+                                    this.screenMenuName = [];
+                                    this.screenId = [];
+                                    data.forEach(sData => {
+                                        this.menuFId = sData.feature._id;
+                                        this.menuFName = sData.feature.name;
+                                        this.screenId.push(sData._id);
+                                        this.screenMenuName.push(sData.foldername);
+                                    });
+                                    let screenData = {
+                                        screen: this.screenMenuName,
+                                        screenId: this.screenId
                                     }
-                                });
-                            });
-
-                            this.menuBuilderService.updateMenubyProject(this.project_id, this.menuBuilder)
-                                .subscribe(fMenu => {
-                                    if (fMenu) {
-                                        this.database.initialize(fMenu.menuDetails);
-
+                                    let fMenuData = {
+                                        feature: this.menuFName,
+                                        featureId: this.menuFId,
                                     }
-                                });
-                        }
-                    });
+                                    let obj = {
+                                        featuremenu: [{ name: fMenuData, description: fMenuData }],
+                                        screenmenu: [{
+                                            name: screenData,
+                                            description: screenData
+                                        }],
+                                    };
+                                    array.push(obj);
+                                    this.menuBuilder = menuData;
+                                    this.menuBuilder.menuDetails = array;
+                                    this.dataMenu.forEach(meData => {
+                                        this.menuBuilder.menuDetails.forEach(menu => {
+                                            if (menu.featuremenu[0].name.featureId === meData.featuremenu[0].name.featureId) {
+                                                menu.featuremenu[0].description = meData.featuremenu[0].description;
+                                                let intersection = menu.screenmenu[0].name.screenId.filter(x => meData.screenmenu[0].name.screenId.includes(x));
+                                                if (intersection.length !== 0) {
+                                                    intersection.forEach(sId => {
+                                                        meData.screenmenu[0].name.screenId.forEach((dSId, index) => {
+                                                            if (sId === dSId) {
+                                                                menu.screenmenu[0].description.screen[index] = meData.screenmenu[0].description.screen[index]
+                                                            }
+                                                        });
+                                                    });
+                                                }
+                                            }
+                                        });
+                                    });
+        
+                                    this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
+                                        .subscribe(fMenu => {
+                                            if (fMenu) {
+                                                this.database.initialize(fMenu.menuDetails);
+        
+                                            }
+                                        });
+                                }
+                            });
+                        });
+                     }
                 });
             }
         });

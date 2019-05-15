@@ -22,7 +22,6 @@ export class MenuBuilderService {
 
   }
   updateMenuById(id, menu) {
-    console.log('======', menu);
     return this.api.put(this.restapi.menuUrl + '/menu/update/' + id, menu);
   }
 

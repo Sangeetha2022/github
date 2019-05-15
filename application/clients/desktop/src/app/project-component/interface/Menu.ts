@@ -4,4 +4,5 @@ export interface IMenu {
     language: String;
     menuDetails: Array<any>;
     project_languages: Array<any>;
+    menu_option: Boolean;
 }
