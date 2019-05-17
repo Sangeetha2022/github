@@ -52,6 +52,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FeatureDetailsService } from './project-component/feature-details/feature-details.service';
+import { MenuBuilderModule } from './menu-builder/menu-builder.module';
 // import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
 // import { GoogleLoginProvider } from 'angularx-social-login';
 import {
@@ -151,7 +152,6 @@ export const I18N_PROVIDERS = [
     AdminComponent,
     UserComponent,
     ProfilesettingsComponent
-
   ],
   imports: [
     BrowserModule,
@@ -186,6 +186,7 @@ export const I18N_PROVIDERS = [
     MatCardModule,
     MatInputModule,
     MatCheckboxModule,
+    MenuBuilderModule,
     SocialLoginModule
 
   ],

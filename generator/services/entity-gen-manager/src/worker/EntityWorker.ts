@@ -1,4 +1,5 @@
 import { EntitySupportWorker } from "../supportworker/EntitySupportWorker";
+import { response } from "express";
 
 
 let entitySupportWorker = new EntitySupportWorker();
@@ -10,6 +11,10 @@ export class EntityWorker {
         console.log('list of fields in objects ----- ', fields);
         entitySupportWorker.entityModelWorker(entityData.name, fields, (response) => {
             callback(response);
+        })
+        entitySupportWorker.nodeServerWorker(6000, (response) => {
+            console.log('adjnaijdnbsadofnafno')
+            callback(response)
         })
     }
 
@@ -24,7 +29,7 @@ export class EntityWorker {
                 fieldValue.push(`${element.name}: { type: String, ref: '${element.entity_id.name}' }`)
             } else if (typeof element.entity_id === "object" && element.is_list_type) {
                 fieldValue.push(`${element.name}: [{ type: String, ref: '${element.entity_id.name}' }]`)
-            }else if (element.is_list_type && typeof element.entity_id !== "object") {
+            } else if (element.is_list_type && typeof element.entity_id !== "object") {
                 fieldValue.push(`${element.name}: [${element.data_type}]`)
             }
         })

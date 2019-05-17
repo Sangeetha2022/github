@@ -70,7 +70,7 @@ export class FeatureDetailsDao {
     // }
 
     uploadeFeaturefile = async (req: Request, callback: CallableFunction) => {
-        console.log("request---->davo----->",req.body)
+        console.log("request---->davo----->", req.body)
         await backendupload(req, callback, async (err) => {
             if (err) {
                 return callback("an Error occured", err)
@@ -82,7 +82,7 @@ export class FeatureDetailsDao {
                 backed_mang_file: null,
                 front_mang_file: null
             }
-            if (req['files'] !== null && req['files'] !== undefined ) {
+            if (req['files'] !== null && req['files'] !== undefined) {
                 req['files'].map((file, i) => {
                     if (file.fieldname === "front_mang_file") {
                         dataToSave.front_mang_file = file.path
@@ -101,7 +101,7 @@ export class FeatureDetailsDao {
                 if (err) {
                     callback(err);
                 } else {
-                    if (req['files'] !== null && req['files'] !== undefined ) {
+                    if (req['files'] !== null && req['files'] !== undefined) {
                         this.parseAndSaveFeatureDetails(feature, req['files'], callback)
                     } else {
                         callback(feature);
@@ -232,7 +232,22 @@ export class FeatureDetailsDao {
     }
 
     public getFeatureDetailsByFeatureid = async (req: Request, callback: CallableFunction) => {
+        console.log('req.params.id', req.params.id);
         await this.FeatureFlowComps.find({ feature_id: req.params.id }).populate({ path: 'flow', model: this.FeatureFlows }).exec((err, flowDetails) => {
+            if (err) {
+                callback(err);
+            } else {
+
+                callback(flowDetails);
+            }
+
+        })
+    }
+
+
+    public getAllFeatureByFeatureid = async (req: Request, callback: CallableFunction) => {
+        console.log('req.params.id', req.params.id);
+        await this.Feature.find({ _id: req.params.id }, (err, flowDetails) => {
             if (err) {
                 callback(err);
             } else {

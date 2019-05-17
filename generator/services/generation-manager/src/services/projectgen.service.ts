@@ -78,14 +78,18 @@ export class ProjectgenService {
         const projectId = req.params.id;
 
         this.projectManagerService.getProjectById(projectId, (projectResponse) => {
-              console.log('####### project response ----- ', projectResponse);
+            console.log('####### project response ----- ', projectResponse);
+
             const projectInfo = JSON.parse(projectResponse);
-            this.projectObj.name = projectInfo.name;
-            this.projectObj.description = projectInfo.description;
-            this.projectObj.defaultHumanLanguage = projectInfo.default_human_language;
-            this.projectObj.otherHumanLanguage = projectInfo.other_human_languages;
+            console.log('i am the prblm', projectInfo);
+            this.projectObj.name = projectInfo.body.name;
+            this.projectObj.description = projectInfo.body.description;
+            this.projectObj.defaultHumanLanguage = projectInfo.body.default_human_language;
+            this.projectObj.otherHumanLanguage = projectInfo.body.other_human_languages;
             this.setTechnicalField(projectInfo);
+
             this.configManagerService.getAllDetails((configResponse) => {
+                console.log('i am the one u r need', configResponse);
                 const configInfo = JSON.parse(configResponse);
                 if (configInfo !== null && configInfo.length > 0 && configInfo !== undefined) {
                     this.setConfigurationField(configInfo);
@@ -93,20 +97,20 @@ export class ProjectgenService {
 
                 }
                 this.codeGenManagerService.createProjectCode(projectId, this.projectObj, (codeResponse) => {
-
+                    console.log('hello i need this', codeResponse);
                 })
             })
         })
     }
 
     setTechnicalField(projectInfo) {
-        this.projectObj.clientLanguage = projectInfo.clientlanguage;
-        this.projectObj.clientFramework = projectInfo.clientframework;
-        this.projectObj.serverLanguage = projectInfo.serverlanguage;
-        this.projectObj.serverFramework = projectInfo.serverframework;
-        this.projectObj.serverDatabase = projectInfo.serverdatabase;
-        this.projectObj.deploymentTarget = projectInfo.servertarget;
-        this.projectObj.deploymentType = projectInfo.server_deployment_type;
+        this.projectObj.clientLanguage = projectInfo.body.clientlanguage;
+        this.projectObj.clientFramework = projectInfo.body.clientframework;
+        this.projectObj.serverLanguage = projectInfo.body.serverlanguage;
+        this.projectObj.serverFramework = projectInfo.body.serverframework;
+        this.projectObj.serverDatabase = projectInfo.body.serverdatabase;
+        this.projectObj.deploymentTarget = projectInfo.body.servertarget;
+        this.projectObj.deploymentType = projectInfo.body.server_deployment_type;
 
         // if (projectInfo.clientlanguage !== null && projectInfo.clientlanguage.label !== null) {
         //     this.projectObj.clientLanguage = projectInfo.clientlanguage.label;
@@ -132,10 +136,10 @@ export class ProjectgenService {
     }
 
     setConfigurationField(configInfo) {
-        const projectPath = configInfo.find(x => 
+        const projectPath = configInfo.find(x =>
             x.name.toString().toLowerCase() === 'projectgenerationdirectory'
-            );
-            this.projectObj.projectGenerationPath = projectPath.value; 
+        );
+        this.projectObj.projectGenerationPath = projectPath.value;
         // const frontendSourcePath = configInfo.find(x =>
         //     x.name.toString().toLowerCase() === 'frontendtemplatelocation'
         // );

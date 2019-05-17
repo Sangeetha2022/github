@@ -32,6 +32,7 @@ export class Routes {
         app.route('/feature/details/getall').get(this.featureDetailsController.getAllFeatureDetails);
         app.route('/feature/details/getbyid/:id').get(this.featureDetailsController.getFeatureDetailsById);
         app.route('/feature/details/getbyfeatureid/:id').get(this.featureDetailsController.getFeatureDetailsByFeatureid);
+        app.route('/feature/details/getallbyfeatureid/:id').get(this.featureDetailsController.getAllFeatureByFeatureid);
         app.route('/feature/details/getentitybyfeatureid/:id').get(this.featureDetailsController.getFeatureEntityByFeatureid);
 
 
@@ -44,7 +45,7 @@ export class Routes {
         app.route('/feature-flow/delete/:id').delete(this.featureFlowController.deleteFeatureFlow);
 
         //Feature FlowComp
-        // app.route('/feature-comp/save').post(this.featureFlowCompController.saveFeatureFlowComp);
+        app.route('/feature-comp/save').post(this.featureFlowCompController.saveFeatureFlowComp);
         // app.route('/feature-comp/update/:id').put(this.featureFlowCompController.updateFeatureFlowComp);
         app.route('/feature-comp/getbyflowid/:id').get(this.featureFlowCompController.getFeatureFlowCompByFlowID);
         // app.route('/feature-comp/getall').get(this.featureFlowCompController.getAllFeatureFlowComp);
@@ -56,6 +57,6 @@ export class Routes {
         app.route('/feature-entity/update/:id').put(this.featureFlowEntityController.updateFeatureFlowEntity);
         // app.route('/feature-entity/getall').get(this.featureFlowEntityController.getAllFeatureFlowEntity);
         // app.route('/feature-entity/getbyid/:id').get(this.featureFlowEntityController.getFeatureFlowEntityByID);
-        // app.route('/feature-entity/delete/:id').delete(this.featureFlowEntityController.deleteFeatureFlowEntity);
+        // app.route('/feature-entity/delete/:id').delete(this.featureFlowEntityController.deleteFeatureFlowEntity);        
     }
 }

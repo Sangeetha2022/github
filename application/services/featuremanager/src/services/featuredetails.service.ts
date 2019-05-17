@@ -31,13 +31,17 @@ export class FeatureDetailsService {
         })
     }
 
-    
+
     public getFeatureDetailsByFeatureid = async (req: Request, callback: CallableFunction) => {
-        console.log("ADadadaasadsad",req)
         featureDetailsDao.getFeatureDetailsByFeatureid(req, (feature) => {
             callback(feature)
         })
     }
 
+    public getAllFeatureByFeatureid = async (req: Request, callback: CallableFunction) => {
+        featureDetailsDao.getAllFeatureByFeatureid(req, (feature) => {
+            callback(feature)
+        })
+    }
     
 }

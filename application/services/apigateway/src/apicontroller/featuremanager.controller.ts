@@ -33,6 +33,10 @@ class FeatureController implements Controller {
         this.router.get('/feature/details/getbyfeatureid/:id', this.getFeatureDetailsByFeatureid);
         this.router.get('/feature/details/getentitybyfeatureid/:id', this.getFeatureEntityByFeatureid);
 
+        //Feature flow
+        this.router.get('/feature-flow/getbyfeatureid/:id', this.getAllFeatureFlowByFeatureId);
+
+
 
     }
 
@@ -125,6 +129,14 @@ class FeatureController implements Controller {
         new ApiAdaptar().get(`${Constants.featureUrl}/feature/getbyid/:id ${req.params.id}`).then(feature => {
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null)
+        }).catch(err => {
+            res.send(err);
+        });
+    }
+
+    public getAllFeatureFlowByFeatureId(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.featureUrl}/feature-flow/getbyfeatureid/${req.params.id}`).then(feature => {
+            res.send(feature);
         }).catch(err => {
             res.send(err);
         });

@@ -20,5 +20,6 @@ export class Routes {
         app.route('/screen/delete/:id').delete(this.screenController.deleteScreen);
         app.route('/screen/getbyprojectid/:projectId').get(this.screenController.getAllScreenByProjectId);
         app.route('/screen/getbyprojectandfeatureid/:projectId/:featureId').get(this.screenController.getAllScreenByProjectAndFeatureId);
+        app.route('/screen/getbyfeatureid/:id').get(this.screenController.getAllScreenByFeatureId);
     }
 }

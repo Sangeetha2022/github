@@ -7,11 +7,14 @@ export class FeatureFlowCompDao {
     private FeatureFlowComps = FeatureFlowCompsModel;
 
     public saveFeatureFlowComp(req: Request, callback: CallableFunction) {
+        console.log('+++++++++++++++++', req.body)
         let newCreateFeatureFlowComp = new this.FeatureFlowComps(req.body);
         newCreateFeatureFlowComp.save((err, feature) => {
             if (err) {
+                console.log('+++++++++++++++++ err', err)
                 callback(err);
             } else {
+                console.log('+++++++++++++++++ feature', feature)
                 callback(feature);
             }
         });
@@ -48,7 +51,7 @@ export class FeatureFlowCompDao {
     }
 
     public getFeatureFlowCompByFlowID(req: Request, callback: CallableFunction) {
-        this.FeatureFlowComps.findOne({flow: req.params.id}, (err, feature) => {
+        this.FeatureFlowComps.findOne({ flow: req.params.id }, (err, feature) => {
             if (err) {
                 callback(err);
             } else {
@@ -56,7 +59,7 @@ export class FeatureFlowCompDao {
             }
         });
     }
-    
+
 
     public deleteFeatureFlowComp(req: Request, callback: CallableFunction) {
         this.FeatureFlowComps.remove({ _id: req.params.id }, (err) => {

@@ -1,4 +1,4 @@
 
 export class SharedService {
-    public static apiGatewayURL: String = `http://localhost:3010`;
+    public static apiGatewayURL: String = `http://localhost:3000`;
 }

@@ -76,7 +76,9 @@ export class ProjectgenController {
     public createProjectGen(req: Request, res: Response, next: NextFunction) {
         console.log('entering into project controller')
         projectgenService.createProjectGen(req, next, (response) => {
-            
+            console.log('i am the response u need',res)
+            res.status(200);
+            res.json(response);
         })
     }
 
