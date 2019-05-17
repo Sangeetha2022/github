@@ -1,0 +1,44 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gep-dev-generator
+  namespace: gep-dev-201902
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gep-dev-generator
+    spec:
+      containers:
+        - name: generationmanager-container
+          imagePullPolicy: Always
+          image: tharanirajan/gep-dev-generationmanager:1.0
+          ports:
+            - name: http-port
+              containerPort: 5000
+          env:
+            - name: gep-dev-app-db
+              value: gep-dev-app-db
+            - name: VAULT_API
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
+        - name: configurationmanager-container
+          imagePullPolicy: Always
+          image: tharanirajan/gep-dev-configmanager:1.0
+          ports:
+            - name: http-port
+              containerPort: 5001
+          env:
+            - name: gep-dev-app-db
+              value: gep-dev-app-db
+            - name: VAULT_API
+              value: "http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200"
+        - name: redis-container
+          image: redis
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+          - containerPort: 6379
+

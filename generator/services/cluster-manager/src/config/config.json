@@ -1,0 +1,22 @@
+{
+    "LOCAL": {
+        "TEMPLATE_URL": "../../template/deployment/local/",
+        "DESTINATION_URL": "/Users/10decoders/Desktop/geppetto-new/",
+        "DEPLOYMENT_YAML": "/Users/10decoders/Desktop/kubernetes/system-entry-deployment.yaml"
+    },
+    "AWS": {
+        "TEMPLATE_URL": "../../../template/deployment/aws",
+        "DESTINATION_URL": "/geppetto/generated-code/",
+        "TERRAFORM_FILE":"/deployment/aws/terraform/terraform.tfvars",
+        "TERRAFORM_AWS_PLUGIN":"/clustermanager/aws"
+    },
+    "KUBECONFIG": {
+        "YAML": "./kube-config",
+        "URL": ""
+    },
+    "GEPPETTO":{
+      "DEV":{
+          "URL":"./src/config/geppetto"
+      }
+    }
+}

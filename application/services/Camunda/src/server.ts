@@ -3,9 +3,11 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import { WinstonLogger } from './config/Winstonlogger';
 import { Routes } from './routes/routes'
+import { ResourceSeedData } from './seed';
+import { MongoConfig } from './config/Mongoconfig';
+import mongoose = require('mongoose');
 
-
-const PORT = 3009;
+const PORT = 3008;
 
 class App {
     public app = express();
@@ -14,7 +16,10 @@ class App {
 
     constructor() {
         this.config();
-        this.routerPrv.routes(this.app)
+        this.routerPrv.routes(this.app);
+        this.mongoSetup();
+        this.mongoSeedData();
+
     }
 
     private config(): void {
@@ -25,6 +30,18 @@ class App {
 
     }
 
+    private mongoSetup(): void {
+        // mongoose.Promise = global.Promise;
+        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        let mongoConfig = new MongoConfig();
+        mongoConfig.mongoConfig();
+    }
+
+
+    private mongoSeedData(): void {
+        let seedData = new ResourceSeedData();
+        seedData.Createresource();
+    }
 
 
 }

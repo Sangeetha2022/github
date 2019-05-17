@@ -15,6 +15,7 @@ export class ProjectComponentService {
   private entity: IEntity = <IEntity>{
     name: '',
     description: '',
+    entity_type: '',
     project_id: '',
     feature_id: '',
     created_by: '',

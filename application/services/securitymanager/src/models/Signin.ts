@@ -15,6 +15,7 @@ export const Signinschema = new Schema ({
     email: String,
     password: String,
     role: { type: mongoose.Schema.Types.String, ref: 'roles' },
+    signintype: String,
     Idtoken: String,
     loggedinDate: {
         type: Date,

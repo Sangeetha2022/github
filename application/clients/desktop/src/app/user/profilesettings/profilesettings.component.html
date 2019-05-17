@@ -1,0 +1,30 @@
+<div class="profileform">
+  <form>
+    <div class="row">
+      <div class="col">
+        <input type="text" class="form-control" [(ngModel)]='Userobject.firstname' name="firstname">
+      </div>
+      <div class="col">
+        <input type="text" class="form-control" [(ngModel)]='Userobject.lastname' name="lastname">
+      </div>
+    </div>
+    <br>
+    <div class="form-group">
+      <input type="text" class="form-control" [(ngModel)]='Userobject.email' name="username">
+    </div>
+    <div class="form-group">
+      <input type="email" class="form-control" [(ngModel)]='Userobject.email' name="email">
+    </div>
+    <div class="form-group">
+      <select class="form-control" (change)="onChange($event.target.value)">
+        <option value="" selected>Select Roles</option>
+        <option *ngFor="let rolevalue of roles">{{rolevalue.role}}</option>
+      </select>
+    </div>
+    <div style="float: right">
+      <button type="submit" class="btn btn-primary"  (click)="Updateuser(Userobject)">Save</button>&nbsp;&nbsp;
+      <button type="submit" class="btn btn-primary" (click)="cancle()">cancel</button>
+    </div>
+
+  </form>
+</div>

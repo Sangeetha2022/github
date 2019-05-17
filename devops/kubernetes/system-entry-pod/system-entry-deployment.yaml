@@ -12,8 +12,15 @@ spec:
     spec:
       containers:
         - name: nginx-container
-          imagePullPolicy: IfNotPresent
-          image: ram2010/gep-dev-grapesjs:1.0
+          imagePullPolicy: Always
+          image: tharanirajan/gep-dev-appbuilder:1.0
           ports:
             - name: http-port
               containerPort: 80
+        - name: apigateway-container
+          imagePullPolicy: Always
+          image: tharanirajan/gep-dev-apigateway:1.0
+          ports:
+            - name: http-port
+              containerPort: 3000
+

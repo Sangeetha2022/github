@@ -7,8 +7,9 @@ import { AppService } from '../services/app.service';
 import { SystemEntryService } from '../services/system-entry.service';
 import { TelemetryService } from '../services/telemetry.service';
 import { NamespaceService } from '../services/app.namespace';
-import {TerraformService} from '../services/terraform.service';
-import {DevOpsService} from '../services/dev-ops.service';
+import { TerraformService } from '../services/terraform.service';
+import { DevOpsService } from '../services/dev-ops.service';
+import {DockerService} from '../services/docker.service';
 //import InfrastructureDto from '../dto/infrastructure.dto';
 
 
@@ -18,6 +19,7 @@ let systemEntryService = new SystemEntryService()
 let telemetryService = new TelemetryService()
 let terraformService = new TerraformService()
 let devOpsService = new DevOpsService()
+let dockerService = new DockerService()
 //let infrastructureDto = new InfrastructureDto()
 
 //local
@@ -35,7 +37,7 @@ export class LocalInfrastructureController {
 
 
     //create project folder if not exists
-    let projectFolder = Destination + projectDetails.project_name+ "_" + projectDetails.user_id.substring(0, 5);
+    let projectFolder = Destination + projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5);
     if (!fs.existsSync(projectFolder)) {
       fs.mkdirSync(projectFolder);
     }
@@ -51,8 +53,9 @@ export class LocalInfrastructureController {
 
     projectDetails.destinationUrl = envFolder;
     projectDetails.templateUrl = Source;
+    projectDetails.projectUrl = projectFolder;
 
-    //app namsespace
+    // //app namsespace
     namespaceService.generate_namespace(projectDetails, (response) => {
       //res.send(200);
     })
@@ -93,7 +96,7 @@ export class LocalInfrastructureController {
     }
 
 
-    //dev-ops db
+    // //dev-ops db
     if (projectDetails.dev_ops_db_pod) {
       devOpsService.generate_devops_db(projectDetails, (response) => {
         //res.send(200);
@@ -107,8 +110,22 @@ export class LocalInfrastructureController {
       })
     }
 
+    //generate script for system entry pod image
+    if (projectDetails.system_entry_pod) {
+      dockerService.generate_build_script_system_entry_pod(projectDetails, (response) => {
+        //res.send(200);
+      })
+    }
 
-    res.send("Success!");
+    //generate script for app pod image
+    if (projectDetails.app_pod) {
+      dockerService.generate_build_script_app_pod(projectDetails, (response) => {
+        //res.send(200);
+      })
+    }
+
+
+    res.send({ "status": "building infrastructure started!" });
 
   }
 

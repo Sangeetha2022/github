@@ -6,7 +6,7 @@ import { Routes } from './routes/routes';
 import { MongoConfig } from './config/MongoConfig';
 import mongoose = require('mongoose');
 
-const PORT = 3010;
+const PORT = 3009;
 
 class App {
 

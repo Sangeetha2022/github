@@ -18,6 +18,25 @@ export class ScreenService {
         });
     }
 
+    public getScreenById(req: Request, callback) {
+        screenDao.getScreenById(req, (response) => {
+            callback(response);
+        })
+    }
+
+    public updateScreen(req: Request, callback) {
+        screenDao.updateScreen(req, (response) => {
+            callback(response);
+        });
+    }
+
+    public deleteScreen(req: Request, callback) {
+        const screenId = req.params.id;
+        screenDao.deleteScreen(screenId, (response) => {
+            callback(response);
+        })
+    }
+
 
     public getAllScreenByProjectId(req: Request, callback) {
         screenDao.getAllScreenByProjectId(req,(response) => {
