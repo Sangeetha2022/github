@@ -8,6 +8,7 @@ export class FeatureFlowCompController {
 
     public saveFeatureFlowComp(req: Request, res: Response) {
         featureFlowCompService.saveFeatureFlowComp(req, (user) => {
+            console.log('+++++++++++++++++',res)
             res.status(200); // status for the response
             res.json(user);
         })

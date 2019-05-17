@@ -106,7 +106,6 @@ export class ProjectComponentService {
   }
 
   getFeatureDetailsById(id) {
-    // console.log('get dsf features details by id ---- ', id);
     return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.getByIdUrl + id);
   }
 
@@ -123,7 +122,7 @@ export class ProjectComponentService {
     const featureId = feature.id;
     return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + featureId, feature);
   }
-
+  
   uploadeFeaturefile(file) {
     // const formData: FormData = new FormData();
     // formData.append('fileKey', file, file.name);
