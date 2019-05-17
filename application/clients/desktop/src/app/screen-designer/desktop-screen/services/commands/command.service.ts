@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectComponentService } from 'src/app/project-component/project-component.service';
 import * as dictionary from 'nanoid-dictionary';
 import * as generate from 'nanoid/generate';
 import { TraitsService } from '../traits/traits.service';
+
+declare var jQuery: any;
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,8 @@ export class CommandService {
   feature_id: any;
   project_id: any;
   screenArray: any[] = [];
+  screen_id: any;
+  @ViewChild('myModal') myModal: ElementRef;
 
   constructor(
     private projectComponentService: ProjectComponentService,
@@ -32,92 +36,92 @@ export class CommandService {
       } else {
         this.project_id = undefined;
       }
+      if (params.screenId !== undefined && params.screenId !== null) {
+        this.screen_id = params.screenId;
+      } else {
+        this.screen_id = undefined;
+      }
     });
   }
 
-  addSaveCommand(commandName, editor, saveURL) {
-    console.log('entering into add save command', saveURL);
+  addSaveCommand(commandName, editor) {
     const $this = this;
     editor.Commands.add(commandName, {
       run: function (e, n) {
-        editor.StorageManager.get('remote').set({ urlStore: saveURL });
-        n.set('active', 0);
-        console.log('save command ran for saving features ', $this.feature_id, ' ---- ', $this.project_id);
-        console.log('ram save command ran for saving features storemanagar arr ', e, ' ---- ', n);
-        console.log('ram storagedetails getcurrent ', e.StorageManager.getCurrent());
-        console.log('ram storagedetails getcurrentstorage', e.StorageManager.getCurrentStorage());
-        const currentStorageDetails = e.StorageManager.getCurrentStorage();
-        if ($this.project_id !== undefined && $this.feature_id !== undefined) {
-          editor.store();
-        } else {
-          $this.traitService.getScreenInfo();
-          console.log('ram get traits service ar e------ ', $this.traitService.getScreenInfo());
-          $this.screenArray = $this.traitService.getScreenInfo();
-          const featureDetailObj = {
-            name: `Feature_${generate(dictionary.numbers, 6)}`,
-            description: `This Feature has been created from screen designer`
-          };
-          $this.projectComponentService.addFeatureDetails(featureDetailObj).subscribe(
-            (details) => {
-              console.log('ram saved feature detils are ----- ', details);
-              if (details) {
-                const featureObj = {
-                  project_id: $this.project_id,
-                  feature_id: details._id
-                };
-                $this.projectComponentService.addFeature(featureObj).subscribe(
-                  (features) => {
-                    console.log('ram saved feature are ------ ', features);
-                    const result = $this.screenArray.filter(function (a) {
-                      return !this[a._id] && (this[a._id] = true);
-                    }, Object.create(null));
-                    if (result !== undefined && result !== null) {
-                      const resultArray = [];
-                      result.forEach(flowElement => {
-                        const flowObj = {
-                          action_on_data: flowElement.button.action.action_on_data,
-                          create_with_default_activity: flowElement.button.action.create_with_default_activity,
-                          description: flowElement.button.action.description,
-                          label: flowElement.button.action.label,
-                          name: flowElement.button.action.name,
-                          screenName: currentStorageDetails.attributes.params.foldername,
-                          type: flowElement.button.action.type,
-                          feature_id: details._id
-                        };
-                        console.log('ram resultoject ----- ', flowObj, ' ---- ');
-                        resultArray.push(flowObj);
-                      });
-                      console.log('ram resultarray and resultoject ----- ', resultArray, ' ---- ');
-                      $this.projectComponentService.addFeatureFlow(resultArray).subscribe(
-                        (featureFlow) => {
-                          currentStorageDetails.attributes.params.feature = details._id;
-                          editor.store();
-                        },
-                        (error) => {
+        const eventPopupModel = document.getElementById('myModal');
+        // console.log('@@#####  eventPopupModel values are ------ ', eventPopupModel);
+        eventPopupModel.style.display = 'block';
+        // console.log('jquery are ----- ', jQuery);
+        // console.log('jquery are --22--- ', $this.myModal);
+        // jQuery($this.myModal.nativeElement).modal('show');
+        // n.set('active', 0);
+        // const currentStorageDetails = e.StorageManager.getCurrentStorage();
+        // if ($this.project_id !== undefined && $this.feature_id !== undefined) {
+        //   editor.store();
+        // } else if ($this.screen_id !== undefined) {
+        //   editor.store();
+        // } else {
+        //   $this.traitService.getScreenInfo();
+        //   $this.screenArray = $this.traitService.getScreenInfo();
+        //   const featureDetailObj = {
+        //     name: `Feature_${generate(dictionary.numbers, 6)}`,
+        //     description: `This Feature has been created from screen designer`
+        //   };
+        //   $this.projectComponentService.addFeatureDetails(featureDetailObj).subscribe(
+        //     (details) => {
+        //       if (details) {
+        //         const featureObj = {
+        //           project_id: $this.project_id,
+        //           feature_id: details._id
+        //         };
+        //         $this.projectComponentService.addFeature(featureObj).subscribe(
+        //           (features) => {
+        //             const result = $this.screenArray.filter(function (a) {
+        //               return !this[a._id] && (this[a._id] = true);
+        //             }, Object.create(null));
+        //             if (result !== undefined && result !== null) {
+        //               const resultArray = [];
+        //               result.forEach(flowElement => {
+        //                 const flowObj = {
+        //                   action_on_data: flowElement.button.action.action_on_data,
+        //                   create_with_default_activity: flowElement.button.action.create_with_default_activity,
+        //                   description: flowElement.button.action.description,
+        //                   label: flowElement.button.action.label,
+        //                   name: flowElement.button.action.name,
+        //                   screenName: currentStorageDetails.attributes.params.foldername,
+        //                   type: flowElement.button.action.type,
+        //                   feature_id: details._id
+        //                 };
+        //                 resultArray.push(flowObj);
+        //               });
+        //               $this.projectComponentService.addFeatureFlow(resultArray).subscribe(
+        //                 (featureFlow) => {
+        //                   currentStorageDetails.attributes.params.feature = details._id;
+        //                   editor.store();
+        //                 },
+        //                 (error) => {
 
-                        }
-                      );
-                    } else {
-                      currentStorageDetails.attributes.params.feature = details._id;
-                      editor.store();
-                    }
+        //                 }
+        //               );
+        //             } else {
+        //               currentStorageDetails.attributes.params.feature = details._id;
+        //               editor.store();
+        //             }
 
-                  },
-                  (error) => {
-                    console.log('ram sorry feature project cannot able to save ');
-                  }
-                );
-              } else {
-                console.log('ram saved feature details return empty object', details);
-              }
-            },
-            (error) => {
-              console.log('ram sorry the feature details cannot able to save');
-            }
-          );
-          // editor.store();
-        }
-        // editor.store();
+        //           },
+        //           (error) => {
+        //             console.log('sorry feature project cannot able to save ');
+        //           }
+        //         );
+        //       } else {
+        //         console.log('saved feature details return empty object', details);
+        //       }
+        //     },
+        //     (error) => {
+        //       console.log('sorry the feature details cannot able to save');
+        //     }
+        //   );
+        // }
       }
     });
 

@@ -21,6 +21,8 @@ export class ConsentscreenComponent implements OnInit {
   public id: any;
   public Userdetails: any;
   public lastloggedintime: any;
+  public Accesslevel: any;
+  public permission: any[] = [];
   // public consentbody = {
   //   challenge: '',
   //   submit: '',
@@ -74,15 +76,22 @@ export class ConsentscreenComponent implements OnInit {
     };
     this.consentservice.Consent(consentbody).subscribe(consentvalue => {
       // window.open(consentvalue.redirectUrl, '_self');
+      if (consentvalue.Access !== undefined) {
+        console.log('-------ahdbakjvjakjak--------');
+        this.Accesslevel = consentvalue.Access[0];
+        this.permission.push(this.Accesslevel);
+        console.log('------------loginresponse-----', this.permission);
+        sessionStorage.setItem('Access', JSON.stringify(this.permission));
+      }
       this.Userdetails = consentvalue.Userdetails;
-      this.id = this.Userdetails._id;
-      this.lastloggedintime = this.Userdetails.loggedinDate;
+      this.id = this.Userdetails.body._id;
+      this.lastloggedintime = this.Userdetails.body.loggedinDate;
       this.route.navigate(['callback']);
       console.log('--------idtoken------>>>', this.Userdetails);
       sessionStorage.setItem('Id', this.id);
       sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
-      sessionStorage.setItem('email', this.Userdetails.email);
-      sessionStorage.setItem('JwtToken', this.Userdetails.Idtoken);
+      sessionStorage.setItem('email', this.Userdetails.body.email);
+      sessionStorage.setItem('JwtToken', this.Userdetails.body.Idtoken);
     }, error => {
       console.error('error: ', error);
     });

@@ -4,29 +4,31 @@
   <br />
   <br />
   <div>
-    Selected Feature :  {{selectedFeatureName}}
+    Selected Feature : {{selectedFeatureName}}
     <mat-accordion>
       <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title> Entities </mat-panel-title>
         </mat-expansion-panel-header>
         <div style="margin-left: 64rem;">
-          <button class="createEntityButton" mat-raised-button color="primary"
-              (click)="saveEntityModel()">Add
-              Entity</button>
-              </div>
+          <button class="createEntityButton" mat-raised-button color="primary" (click)="saveEntityModel()">Add
+            Entity</button>
+        </div>
         <div class="row" style="margin: 0px;">
           <div class="col-md-4" *ngFor="let entity of featureEntityDetails; let i = index">
             <div class="card mt-sm-3">
               <div class="card-header">
                 {{entity.name}}
-                <!-- <img *ngIf="!entity.is_default" style="float: right; cursor: pointer;" (click)="editEntity(entity)"
-                  src="https://img.icons8.com/metro/26/000000/edit-file.png"> -->
+                <img *ngIf="!entity.is_default" style="float: right; cursor: pointer;" (click)="editEntity(entity)"
+                  src="https://img.icons8.com/metro/26/000000/edit-file.png">
               </div>
               <div class="card-body">
                 <div><span>{{entity.description}}</span></div>
                 <br />
                 <button mat-raised-button color="primary" (click)="editEntityField(entity)">Edit</button>
+                &nbsp;&nbsp;
+                <button mat-raised-button color="warn" [disabled]="entity.is_default"
+                  (click)="openDeleteModel(entity)">Delete</button>
                 <!-- &nbsp;
                 <button mat-raised-button color="warn" [disabled]="entity.is_default"
                   (click)="openDeleteModel(entity)">Delete</button> -->
@@ -57,7 +59,7 @@
         </div> -->
 
       </mat-expansion-panel>
-       <mat-expansion-panel>
+      <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title> Screens </mat-panel-title>
         </mat-expansion-panel-header>
@@ -70,24 +72,32 @@
           <div class="col-md-4" *ngFor="let screen of screenDetails; let i = index">
               <div class="card">
                   <div class="card-header">
-                      {{screen.foldername}}
+                      {{screen?.screenName}}
                       <img  style="float: right; cursor: pointer;"
                           src="https://img.icons8.com/metro/26/000000/edit-file.png">
                   </div>
                   <div class="card-body">
                       
-                      <button mat-raised-button color="primary"
+                      <button mat-raised-button color="primary"  (click)="editScreen(screen._id, screen.screenType)"
                           >Edit</button>
                       &nbsp;
-                      <button mat-raised-button color="warn" [disabled]="entity.is_default"
+                      <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
+                       [disabled]="entity.is_default"
                           >Delete</button>
                   </div>
               </div>
+              <div class="card-body">
+
+                <button mat-raised-button color="primary" (click)="editScreen(screen._id)">Edit</button>
+                &nbsp;
+                <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
+                  [disabled]="entity.is_default">Delete</button>
+              </div>
+            </div>
           </div>
           <div class="col-md-4" *ngIf="screenDetails.length === 0">
-              No Screen Available.
+            No Screen Available.
           </div>
-      </div>
 
       </mat-expansion-panel>
       <mat-expansion-panel>
@@ -97,9 +107,11 @@
         <button class="btn btn-info ml-sm-3 float-right" (click)="openFeatureFlowDialog(feature_id)">Add
           Flows</button>
         <div class="flowTable mt-sm-3" *ngIf="featureFlowRowData.length>0">
-          <ag-grid-angular #agGrid style="width: 100%; height: 100%; margin-top: 50px;" id="myGrid" class="ag-theme-balham" domLayout='autoHeight'
-            [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="featureFlowRowData" [animateRows]="true"  [suppressRowClickSelection]="true"
-            [defaultColDef]="defaultColDef" (rowSelected)=selectedFeatureFlow($event) [frameworkComponents]="frameworkComponents" (gridReady)="onFlowGridReady($event)">
+          <ag-grid-angular #agGrid style="width: 100%; height: 100%; margin-top: 50px;" id="myGrid"
+            class="ag-theme-balham" domLayout='autoHeight' [columnDefs]="columnDefs" [rowSelection]="rowSelection"
+            [rowData]="featureFlowRowData" [animateRows]="true" [suppressRowClickSelection]="true"
+            [defaultColDef]="defaultColDef" (rowSelected)=selectedFeatureFlow($event)
+            [frameworkComponents]="frameworkComponents" (gridReady)="onFlowGridReady($event)">
           </ag-grid-angular>
         </div>
 
@@ -111,9 +123,10 @@
         </div> -->
 
         <div class="flowTable mt-sm-3" *ngIf="showFeatureFlowComponent">
-          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" domLayout='autoHeight'
-            [columnDefs]="columnFeatureDefs" [rowSelection]="rowSelection" [rowData]="rowFlowCompData"
-            [animateRows]="true" [defaultColDef]="defaultColDef" (gridReady)="onFlowCompGridReady($event)">
+          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
+            domLayout='autoHeight' [columnDefs]="columnFeatureDefs" [rowSelection]="rowSelection"
+            [rowData]="rowFlowCompData" [animateRows]="true" [defaultColDef]="defaultColDef"
+            (gridReady)="onFlowCompGridReady($event)">
           </ag-grid-angular>
         </div>
 
@@ -125,25 +138,25 @@
 
 
 <div id="EventPopup" class="modal" tabindex="-1" role="dialog"
-    [ngStyle]="{'top': '100px','display':displayFeatureFlowModal}">
-    <div class="modal-dialog modal-lg" role="dialog">
-        <div class="modal-content">
-            <!-- <div class="modal-header">
+  [ngStyle]="{'top': '100px','display':displayFeatureFlowModal}">
+  <div class="modal-dialog modal-lg" role="dialog">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
                 <h3>Select Flow for Feature</h3>
                 <button type="button" class="close" (click)="closeFeatureFlowModal()" data-dismiss="modal"
                     aria-hidden="true">x</button>
             </div> -->
-            <div class="modal-body">
+      <div class="modal-body">
 
-                <div class="container">
-                    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
-                        [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData"
-                        [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef"
-                        domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10" [floatingFilter]="true"
-                        (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
-                    </ag-grid-angular>
+        <div class="container">
+          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
+            [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData"
+            [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight'
+            [pagination]="true" [paginationPageSize]="10" [floatingFilter]="true"
+            (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
+          </ag-grid-angular>
 
-                    <!-- <form class="m-3" [formGroup]="eventFlows">
+          <!-- <form class="m-3" [formGroup]="eventFlows">
     <div class="form-group row">
     <label for="column">Choose an Event</label>
     <select class="form-control" id="column" formControlName="selectEvent" [ngClass]="{ 'is-invalid': submitted && form_control.selectColumn.errors }">
@@ -156,14 +169,34 @@
     </div>
     </div>
     </form> -->
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="form-group">
-                    <button type="button" class="btn btn-primary" (click)="saveFeatureFlow()">Save</button>
-                    <button type="button" class="btn btn-danger" (click)="closeFeatureFlowModal()">cancel</button>
-                </div>
-            </div>
         </div>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group">
+          <button type="button" class="btn btn-primary" (click)="saveFeatureFlow()">Save</button>
+          <button type="button" class="btn btn-danger" (click)="closeFeatureFlowModal()">cancel</button>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deletePopup}">
+  <div class="modal-dialog modal-sm" role="dialog">
+      <div class="modal-content">
+          <!-- <div class="modal-header">
+  <h6 class="modal-title">Delete</h6>
+  <button type="button" class="close">&times;</button>
+  </div> -->
+          <div class="delete modal-body">
+              <p>Please click confirm to delete this project ? </p>
+          </div>
+          <div class="modal-footer" style="padding: 5px">
+              <button type="button" class="btn btn-default" (click)="deleteEntity()">Confirm</button>
+              &nbsp;
+              <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
+          </div>
+      </div>
+
+  </div>
 </div>

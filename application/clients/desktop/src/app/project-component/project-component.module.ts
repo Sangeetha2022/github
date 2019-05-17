@@ -27,6 +27,7 @@ import { FeatureDetailsComponent } from './feature-details/feature-details.compo
 import { FileSelectDirective } from 'ng2-file-upload';
 import { MenuBuilderModule } from '../menu-builder/menu-builder.module';
 import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
+import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ ButtonRendererComponent,
 FieldPopupModalComponent,
 FeatureDetailsComponent,
 FileSelectDirective,
+ScreenPopupComponent
 ],
 imports: [
 CommonModule,
@@ -64,6 +66,7 @@ AgGridModule.withComponents([])
 entryComponents: [
 ButtonRendererComponent,
 PopupModelComponent,
+ScreenPopupComponent,
 FieldPopupModalComponent
 ]
 })

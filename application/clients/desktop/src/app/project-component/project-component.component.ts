@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { PopupModelComponent } from './popup-model/popup-model.component';
 import { ProjectComponentService } from './project-component.service';
@@ -14,7 +14,8 @@ import { IMenu } from './interface/Menu';
 import { MenuBuilderService } from '../menu-builder/menu-builder.service';
 import { TreeDragService } from '../menu-builder/tree-drag/tree-drag.service';
 import { ProjectsService } from '../projects/projects.service';
-
+import { IFlow } from '../flow-manager/interface/flow';
+import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
 
 @Component({
     selector: 'app-project-component',
@@ -23,6 +24,9 @@ import { ProjectsService } from '../projects/projects.service';
 })
 
 export class EntityManagerComponent implements OnInit {
+    @ViewChild('uiFile') uiFile: ElementRef;
+    @ViewChild('serviceFile') serviceFile: ElementRef;
+    @ViewChild('apiGatewayFile') apiGatewayFile: ElementRef;
     public Editor = ClassicEditor;
     showUploadFeature: Boolean;
     showImportFeature: Boolean = true;
@@ -92,6 +96,7 @@ export class EntityManagerComponent implements OnInit {
     public entity: IEntity = {
         name: '',
         description: '',
+        entity_type: '',
         project_id: '',
         feature_id: '',
         created_by: '',
@@ -185,6 +190,7 @@ export class EntityManagerComponent implements OnInit {
             this.showUploadFeature = false;
         }
         if (event.value === 'Upload Feature') {
+            this.formData = new FormData();
             this.showImportFeature = false;
             this.showAddFeature = false;
             this.showUploadFeature = true;
@@ -198,6 +204,7 @@ export class EntityManagerComponent implements OnInit {
     }
 
     openDialog(isSaveOption, objectValue): void {
+        alert('cxcc');
         let dialogDataValue;
         if (isSaveOption) {
             dialogDataValue = {};
@@ -205,7 +212,7 @@ export class EntityManagerComponent implements OnInit {
             dialogDataValue = objectValue;
         }
         const dialogRef = this.dialog.open(PopupModelComponent, {
-            width: '250px',
+            width: '550px',
             data: dialogDataValue
         });
 
@@ -352,6 +359,20 @@ export class EntityManagerComponent implements OnInit {
     }
 
     openFeatureDialog(): void {
+        if (this.uiFile) {
+            this.uiFile.nativeElement.value = '';
+        }
+        if (this.serviceFile) {
+            this.serviceFile.nativeElement.value = '';
+        }
+        if (this.apiGatewayFile) {
+            this.apiGatewayFile.nativeElement.value = '';
+        }
+        this.formData = new FormData();
+
+        this.frontFile = undefined;
+        this.backendFile = undefined;
+        this.apiManFile = undefined;
         this.displayFeatureModel = 'block';
     }
 
@@ -376,14 +397,16 @@ export class EntityManagerComponent implements OnInit {
     getScreenByProjectId() {
         this.screenService.getScreenByProjectId(this.project_id).subscribe(sData => {
             this.screenDetails = sData;
+            console.log('screenDetails are ----- ', this.screenDetails);
         }, (error) => {
-            console.log('something is not working on backend side');
+            console.log('screenDetails something is not working on backend side');
         });
     }
 
     saveEntity(entityData) {
         this.entity.name = entityData.name;
         this.entity.description = entityData.description;
+        this.entity.entity_type = entityData.entityType;
         this.entity.project_id = this.project_id;
         this.projectComponentService.createEntity(this.entity).subscribe(
             (data) => {
@@ -411,15 +434,17 @@ export class EntityManagerComponent implements OnInit {
             (data) => {
                 this.allEntity = data;
                 this.projectEntity = [];
+                console.log('ProjectEntity data are ------ ', this.allEntity);
                 this.allEntity.map(entityData => {
-                    if (entityData.feature_id === undefined) {
+                    if (entityData.feature_id === undefined && entityData.project_id === null) {
                         this.projectEntity.push(entityData);
                     }
                 });
+                console.log('ProjectEntity 22333 ---- ', this.projectEntity);
                 this.dataService.setAllEntity(this.allEntity);
             },
             (error) => {
-
+                console.log('error in ProjectEntity ---- ', error);
             }
         );
     }
@@ -545,8 +570,22 @@ export class EntityManagerComponent implements OnInit {
     // }
 
     GoToDesigner() {
+        this.openScreenDialog();
+        // this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id } });
+    }
 
-        this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id } });
+    openScreenDialog(): void {
+        const dialogRef = this.dialog.open(ScreenPopupComponent, {
+            width: '550px',
+            data: {}
+        });
+
+
+        dialogRef.afterClosed().subscribe(screenData => {
+            if (screenData) {
+                this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, screenType: screenData } });
+            }
+        });
     }
 
     // Feature
@@ -684,6 +723,27 @@ export class EntityManagerComponent implements OnInit {
         });
         this.closeDeleteFModel();
         // this.getAllFeature();
+    }
+
+    editScreen(screenId, screenType) {
+        console.log('screen id are ----- ', screenId, screenType);
+        this.router.navigate(['/desktopscreen'], {
+            queryParams: {
+                projectId: this.project_id, screenId: screenId,
+                screenType: screenType
+            }
+        });
+    }
+
+    deleteScreen(screenId) {
+        this.screenService.deleteScreen(screenId).subscribe(
+            (data) => {
+                this.getScreenByProjectId();
+            },
+            (error) => {
+
+            }
+        );
     }
 }
 

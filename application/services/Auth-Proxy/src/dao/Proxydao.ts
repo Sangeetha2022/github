@@ -3,6 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import * as request from 'request';
 
 import { Signinschema } from '../model/Signin';
+import * as Constants from '../config/Constants';
 
 const signinmodel = mongoose.model('Signin', Signinschema);
 
@@ -19,7 +20,7 @@ export class Proxydao {
                         }
                     }
                 }
-                var posturl = 'http://ac769f28b521b11e988250eeb40aab9c-41146344.us-east-1.elb.amazonaws.com:3009/accesslevel'
+                var posturl = `${Constants.camundaUrl}/accesslevel`
 
                 var camundaresponse = [];
                 request.post({ url: posturl, json: jsonbody }, function (error, response, body) {

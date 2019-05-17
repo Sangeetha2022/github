@@ -10,7 +10,7 @@ export class PanelService {
     private commandService: CommandService
   ) { }
 
-  addSaveButton(editor, saveURL) {
+  addSaveButton(editor) {
     editor.Panels.addButton('options', {
       id: 'save-page',
       className: 'fa fa-save btn-save',
@@ -19,7 +19,7 @@ export class PanelService {
         title: 'Save'
       }
     });
-    this.commandService.addSaveCommand('save-page', editor, saveURL);
+    this.commandService.addSaveCommand('save-page', editor);
   }
 
   addCancelButton(editor) {

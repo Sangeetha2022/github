@@ -18,7 +18,7 @@ export class NamespaceService {
             fs.mkdirSync(destination);
         }
 
-        //generate telemetry vault and promethues deployment
+        //generate telemetry vault and prometheus deployment
         let generateTelemetry_deployment = st.loadGroup(require(templatePath + '/namespace_yaml_stg'));
         let telemetry = generateTelemetry_deployment.render("namespace_yaml", [projectName.toLowerCase()]);
         fs.writeFile(destination + '/namespace.yaml', telemetry, function (err) {

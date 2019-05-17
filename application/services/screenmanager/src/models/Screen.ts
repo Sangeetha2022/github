@@ -15,14 +15,14 @@ export const ScreenSchema = new Schema({
     'gjs-components': [],
     'project-name': String,
     'default-language': String,
-    foldername: String,
+    screenName: String,
     is_grid_present: {
         type: Boolean,
         default: false
     },
     grid_fields: {
-        html_id: String,
-        component_id: String,
+        htmlId: String,
+        componentId: String,
         custom_field: [{
             columnid: String,
             columnname: String,
@@ -31,13 +31,28 @@ export const ScreenSchema = new Schema({
         }],
         default_field: []
     },
+    entity_info: [{
+        htmlId: { type: String, default: null },
+        componentId: { type: String, default: null },
+        elementName: { type: String, default: null },
+        entityId: { type: String, default: null },
+        fields: {
+            fieldId: { type: String, default: null },
+            name: { type: String, default: null },
+            description: { type: String, default: null },
+            typeName: { type: String, default: null },
+            dataType: { type: String, default: null }
+        }
+    }],
     flows_info: [{
-        html_id: { type: String, default: null },
-        component_id: { type: String, default: null },
+        htmlId: { type: String, default: null },
+        componentId: { type: String, default: null },
+        elementName: { type: String, default: null },
         flow: { type: String, ref: 'flows' }
     }],
-    project: { type: String, ref: 'projects', default: null},
-    feature: { type: String, ref: 'feature_details', default: null},
+    project: { type: String, ref: 'projects', default: null },
+    feature: { type: String, ref: 'feature_details', default: null },
+    screenType: { type: String, default: null },
     created_at: {
         type: Date,
         default: Date.now
