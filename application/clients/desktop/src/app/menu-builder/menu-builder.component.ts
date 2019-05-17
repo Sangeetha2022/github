@@ -92,7 +92,6 @@ export class MenuBuilderComponent implements OnInit {
       (data) => {
         this.description = data;
         this.descriptionBeforeUpdate = data;
-        console.log('==========', this.menuDetails);
         this.menuDetails.forEach(menuData => {
           if (menuData.featuremenu[0].description.feature === this.descriptionBeforeUpdate) {
             this.name = menuData.featuremenu[0].name.feature;
@@ -113,8 +112,8 @@ export class MenuBuilderComponent implements OnInit {
   getMenuByProjectId() {
     this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
       if (menuBuilderData.length !== 0) {
-        this.menuLang = [];
         if (!this.getMenu) {
+          this.menuLang = [];
           menuBuilderData.forEach(mData => {
             this.menuLang.push(mData.language);
             if (mData.menu_option === true) {
@@ -168,7 +167,6 @@ export class MenuBuilderComponent implements OnInit {
     let difference = this.menuBuilderDetails.project_languages
       .filter(x => !this.menuLang.includes(x))
       .concat(this.menuLang.filter(x => !this.menuBuilderDetails.project_languages.includes(x)));
-    console.log('================', difference)
     if (difference.length === 0) {
       this.createRow = true;
     }
@@ -221,9 +219,10 @@ export class MenuBuilderComponent implements OnInit {
   }
   onChangeLang(event) {
     this.secondaryLang = event;
-    this.getMenuByProjectId();
     if (this.menuLang.length === 2) {
       this.getMenu = true;
     }
+    this.getMenuByProjectId();
+
   }
 }

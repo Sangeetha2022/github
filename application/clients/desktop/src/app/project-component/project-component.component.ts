@@ -458,14 +458,12 @@ export class EntityManagerComponent implements OnInit {
         this.menuFeatureName = [];
         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
             if (menuBuilderData.length !== 0) {
-                console.log('============', menuBuilderData)
                 this.menuBuilderDetails = menuBuilderData;
-                this.dataMenu = this.menuBuilderDetails[0].menuDetails;
 
                 let array = [];
                 this.menuBuilderDetails.forEach(menuData => {
-                    console.log('============', menuData);
                     if (menuData.menu_option === true) {
+                        this.dataMenu = menuData.menuDetails;
                         menuData.feature.forEach(feData => {
                             this.screenService.getScreenByFeature(feData).subscribe(data => {
                                 if (data.length !== 0) {
@@ -512,18 +510,17 @@ export class EntityManagerComponent implements OnInit {
                                             }
                                         });
                                     });
-        
                                     this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
                                         .subscribe(fMenu => {
                                             if (fMenu) {
                                                 this.database.initialize(fMenu.menuDetails);
-        
+
                                             }
                                         });
                                 }
                             });
                         });
-                     }
+                    }
                 });
             }
         });
