@@ -41,6 +41,7 @@ class App {
         seeds.flows();
         seeds.flowComponents();
         seeds.microFlow();
+        seeds.connectors();
         // seeds.flowComponent();
         // seedData.seedFlowData();
         // seedData.seedFlowComponentData();

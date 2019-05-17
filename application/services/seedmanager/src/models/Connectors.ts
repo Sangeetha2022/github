@@ -16,10 +16,24 @@ export let connectorSchema = mongoose.Schema({
             properties: [],
         }
     ],
-    url: String,
-    componentName: String,
-    isDisabled: Boolean,
-    properties: String,
+    url: {
+        type: String,
+        default: null
+    },
+    isDefault: {
+        type: Boolean,
+        default: false
+    },
+    fromComponentName: String,
+    toComponentName: String,
+    isDisabled: {
+        type: Boolean,
+        default: false
+    },
+    properties: [{
+        type: String,
+        default: null
+    }],
     createdAt: {
         type: Date,
         default: Date.now

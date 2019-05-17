@@ -12,15 +12,18 @@
 import * as flowJSON from './assests/flow.json';
 import * as flowComponentJSON from './assests/flowcomponent.json';
 import * as microFlowJSON from './assests/microflow.json';
+import * as connectoJSON from './assests/connector.json';
 import FlowModel from './models/Flows';
 import FlowComponents from './models/FlowComponents';
 import MicroFlows from './models/MicroFlows';
+import connector from './models/Connectors';
 
 export class seedData {
 
     private flowModel = FlowModel;
     private flowComponentModel = FlowComponents;
     private microFlowModel = MicroFlows;
+    private connectorModel = connector;
     // private flow = FlowModel;
     // private flowComp = FlowCompModel;
     // private connector = ConnectorModel;
@@ -31,21 +34,21 @@ export class seedData {
     //     createdFlow.save();
     // }
 
-  public  flows() {
-        
-            flowJSON.flow.map(flowElement => {
-                this.flowModel.findOneAndUpdate({ _id: flowElement['_id'] }, flowElement, { new: true }, (err, data) => {
-                    if (data === null) {
-                        let Flow = new this.flowModel(flowElement);
-                        Flow.save();
-                    }
-                });
+    public flows() {
+
+        flowJSON.flow.map(flowElement => {
+            this.flowModel.findOneAndUpdate({ _id: flowElement['_id'] }, flowElement, { new: true }, (err, data) => {
+                if (data === null) {
+                    let Flow = new this.flowModel(flowElement);
+                    Flow.save();
+                }
             });
-        
+        });
+
     }
 
-    public  flowComponents() {
-        
+    public flowComponents() {
+
         flowComponentJSON.flowComponents.map(flowComponentElement => {
             this.flowComponentModel.findOneAndUpdate({ _id: flowComponentElement['_id'] }, flowComponentElement, { new: true }, (err, data) => {
                 if (data === null) {
@@ -54,21 +57,36 @@ export class seedData {
                 }
             });
         });
-    
-}
 
-public  microFlow() {
-        
-    microFlowJSON.microFlows.map(microFlowElement => {
-        this.microFlowModel.findOneAndUpdate({ _id: microFlowElement['_id'] }, microFlowElement, { new: true }, (err, data) => {
-            if (data === null) {
-                let microFlow = new this.microFlowModel(microFlowElement);
-                microFlow.save();
-            }
+    }
+
+    public microFlow() {
+
+        microFlowJSON.microFlows.map(microFlowElement => {
+            this.microFlowModel.findOneAndUpdate({ _id: microFlowElement['_id'] }, microFlowElement, { new: true }, (err, data) => {
+                if (data === null) {
+                    let microFlow = new this.microFlowModel(microFlowElement);
+                    microFlow.save();
+                }
+            });
         });
-    });
 
-}
+    }
+
+    public connectors() {
+
+        connectoJSON.connector.map(connectorElement => {
+            this.connectorModel.findOneAndUpdate({ _id: connectorElement['_id'] }, connectorElement, { new: true }, (err, data) => {
+                if (data === null) {
+                    let connector = new this.connectorModel(connectorElement);
+                    connector.save();
+                }
+            });
+        });
+
+    }
+
+
 
     // flows() {
     //     flowJSON.flow.map(async (flowObj) => {

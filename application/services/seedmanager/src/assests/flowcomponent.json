@@ -14,6 +14,9 @@
                 "8828f871-7003-11e9-abdd-ffb308621fd2",
                 "8828f872-7003-11e9-abdd-ffb308621fd2"
             ],
+            "connector": [
+                "7cbbbaf0-7877-11e9-bdb0-f73f14ce0e52"
+            ],
             "description": "component for Angular desktop"
         },
         {
@@ -31,11 +34,14 @@
                 "88291f84-7003-11e9-abdd-ffb308621fd2",
                 "88291f85-7003-11e9-abdd-ffb308621fd2"
             ],
+            "connector": [
+                "7cbb93e4-7877-11e9-bdb0-f73f14ce0e52"
+            ],
             "description": "service for Angular desktop"
         },
         {
             "_id": "a33377f1-7619-11e9-8b28-fb1133df238c",
-            "name": "GpMobileComponent",
+            "name": "GpIonicAngularComponent",
             "label": "Mobile Component",
             "type": "client",
             "sequence_id": "1",
@@ -48,11 +54,14 @@
                 "88291f80-7003-11e9-abdd-ffb308621fd2",
                 "88291f81-7003-11e9-abdd-ffb308621fd2"
             ],
+            "connector": [
+                "7cbb93e2-7877-11e9-bdb0-f73f14ce0e52"
+            ],
             "description": "component for Mobile Application"
         },
         {
             "_id": "a33377f3-7619-11e9-8b28-fb1133df238c",
-            "name": "GpMobileService",
+            "name": "GpIonicAngularService",
             "label": "Mobile Service",
             "type": "client",
             "sequence_id": "2",
@@ -65,11 +74,14 @@
                 "88294695-7003-11e9-abdd-ffb308621fd2",
                 "88294694-7003-11e9-abdd-ffb308621fd2"
             ],
+            "connector": [
+                "7cbb93e0-7877-11e9-bdb0-f73f14ce0e52"
+            ],
             "description": "service for mobile Application"
         },
         {
             "_id": "a33377f0-7619-11e9-8b28-fb1133df238c",
-            "name": "GpController",
+            "name": "GpExpressController",
             "label": "controller",
             "type": "server",
             "sequence_id": "1",
@@ -83,11 +95,14 @@
                 "88288341-7003-11e9-abdd-ffb308621fd2",
                 "88288342-7003-11e9-abdd-ffb308621fd2"
             ],
+            "connector": [
+                "7cbbe202-7877-11e9-bdb0-f73f14ce0e52"
+            ],
             "description": "controller for a Backend Application"
         },
         {
             "_id": "a33377f2-7619-11e9-8b28-fb1133df238c",
-            "name": "GpService",
+            "name": "GpExpressService",
             "label": "service",
             "type": "server",
             "sequence_id": "2",
@@ -100,11 +115,14 @@
                 "8828aa50-7003-11e9-abdd-ffb308621fd2",
                 "8828aa51-7003-11e9-abdd-ffb308621fd2"
             ],
+            "connector": [
+                "7cbbe200-7877-11e9-bdb0-f73f14ce0e52"
+            ],
             "description": "service component for Backend Application"
         },
         {
             "_id": "a3339f00-7619-11e9-8b28-fb1133df238c",
-            "name": "GpDao",
+            "name": "GpExpressDao",
             "label": "dao",
             "type": "server",
             "sequence_id": "3",
