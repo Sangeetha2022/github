@@ -1,74 +1,141 @@
 {
-    "flow_components": [
-        {
-            "name": "GpExpressController",
-            "label": "node controller",
-            "type": "server",
-            "sequence_id": 1,
-            "dev_language": "Node.js",
-            "dev_framework": "Express",
-            "description": "controller for a NodeJs server application",
-            "connector": true
-        },
-        {
-            "name": "GpExpressService",
-            "label": "node service",
-            "type": "server",
-            "sequence_id": 2,
-            "dev_language": "Node.js",
-            "dev_framework": "Express",
-            "description": "service component for a NodeJS based application",
-            "connector": true
-        },
-        {
-            "name": "GpExpressDao",
-            "label": "node dao",
-            "type": "server",
-            "sequence_id": 3,
-            "dev_language": "Node.js",
-            "dev_framework": "Express",
-            "description": "dao component for a NodeJs based application",
-            "connector": true
-        },
-        {
+    "flowComponents": [{
+            "_id": "a332b4a2-7619-11e9-8b28-fb1133df238c",
             "name": "GpAngularComponent",
             "label": "angular 7 component",
             "type": "client",
-            "sequence_id": 1,
+            "sequence_id": "1",
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "component for Angular desktop",
-            "connector": true
+            "microFlows": [
+                "8828d164-7003-11e9-abdd-ffb308621fd2",
+                "8828d165-7003-11e9-abdd-ffb308621fd2",
+                "8828f870-7003-11e9-abdd-ffb308621fd2",
+                "8828f871-7003-11e9-abdd-ffb308621fd2",
+                "8828f872-7003-11e9-abdd-ffb308621fd2"
+            ],
+            "connector": [
+                "7cbbbaf0-7877-11e9-bdb0-f73f14ce0e52"
+            ],
+            "description": "component for Angular desktop"
         },
         {
+            "_id": "a33350e1-7619-11e9-8b28-fb1133df238c",
             "name": "GpAngularService",
             "label": "angular 7 service",
             "type": "client",
-            "sequence_id": 2,
+            "sequence_id": "2",
             "dev_language": "java_script",
             "dev_framework": "Angular",
-            "description": "service for Angular desktop",
-            "connector": true
+            "microFlows": [
+                "88294690-7003-11e9-abdd-ffb308621fd2",
+                "88291f82-7003-11e9-abdd-ffb308621fd2",
+                "88291f83-7003-11e9-abdd-ffb308621fd2",
+                "88291f84-7003-11e9-abdd-ffb308621fd2",
+                "88291f85-7003-11e9-abdd-ffb308621fd2"
+            ],
+            "connector": [
+                "7cbb93e4-7877-11e9-bdb0-f73f14ce0e52"
+            ],
+            "description": "service for Angular desktop"
         },
         {
+            "_id": "a33377f1-7619-11e9-8b28-fb1133df238c",
             "name": "GpIonicAngularComponent",
-            "label": "angular 7 component",
+            "label": "Mobile Component",
             "type": "client",
-            "sequence_id": 1,
+            "sequence_id": "1",
             "dev_language": "java_script",
             "dev_framework": "Ionic Angular",
-            "description": "component for ionic Angular mobile",
-            "connector": true
+            "microFlows": [
+                "8828f873-7003-11e9-abdd-ffb308621fd2",
+                "8828f874-7003-11e9-abdd-ffb308621fd2",
+                "8828f875-7003-11e9-abdd-ffb308621fd2",
+                "88291f80-7003-11e9-abdd-ffb308621fd2",
+                "88291f81-7003-11e9-abdd-ffb308621fd2"
+            ],
+            "connector": [
+                "7cbb93e2-7877-11e9-bdb0-f73f14ce0e52"
+            ],
+            "description": "component for Mobile Application"
         },
         {
+            "_id": "a33377f3-7619-11e9-8b28-fb1133df238c",
             "name": "GpIonicAngularService",
-            "label": "angular 7 service",
+            "label": "Mobile Service",
             "type": "client",
-            "sequence_id": 2,
+            "sequence_id": "2",
             "dev_language": "java_script",
             "dev_framework": "Ionic Angular",
-            "description": "service for ionic Angular mobile",
-            "connector": true
+            "microFlows": [
+                "88294691-7003-11e9-abdd-ffb308621fd2",
+                "88294692-7003-11e9-abdd-ffb308621fd2",
+                "88294693-7003-11e9-abdd-ffb308621fd2",
+                "88294695-7003-11e9-abdd-ffb308621fd2",
+                "88294694-7003-11e9-abdd-ffb308621fd2"
+            ],
+            "connector": [
+                "7cbb93e0-7877-11e9-bdb0-f73f14ce0e52"
+            ],
+            "description": "service for mobile Application"
+        },
+        {
+            "_id": "a33377f0-7619-11e9-8b28-fb1133df238c",
+            "name": "GpExpressController",
+            "label": "controller",
+            "type": "server",
+            "sequence_id": "1",
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "microFlows": [
+                "8827e700-7003-11e9-abdd-ffb308621fd2",
+                "88285c30-7003-11e9-abdd-ffb308621fd2",
+                "88285c31-7003-11e9-abdd-ffb308621fd2",
+                "88288340-7003-11e9-abdd-ffb308621fd2",
+                "88288341-7003-11e9-abdd-ffb308621fd2",
+                "88288342-7003-11e9-abdd-ffb308621fd2"
+            ],
+            "connector": [
+                "7cbbe202-7877-11e9-bdb0-f73f14ce0e52"
+            ],
+            "description": "controller for a Backend Application"
+        },
+        {
+            "_id": "a33377f2-7619-11e9-8b28-fb1133df238c",
+            "name": "GpExpressService",
+            "label": "service",
+            "type": "server",
+            "sequence_id": "2",
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "microFlows": [
+                "88288343-7003-11e9-abdd-ffb308621fd2",
+                "88288344-7003-11e9-abdd-ffb308621fd2",
+                "88288345-7003-11e9-abdd-ffb308621fd2",
+                "8828aa50-7003-11e9-abdd-ffb308621fd2",
+                "8828aa51-7003-11e9-abdd-ffb308621fd2"
+            ],
+            "connector": [
+                "7cbbe200-7877-11e9-bdb0-f73f14ce0e52"
+            ],
+            "description": "service component for Backend Application"
+        },
+        {
+            "_id": "a3339f00-7619-11e9-8b28-fb1133df238c",
+            "name": "GpExpressDao",
+            "label": "dao",
+            "type": "server",
+            "sequence_id": "3",
+            "dev_language": "Node.js",
+            "dev_framework": "Express",
+            "microFlows": [
+                "8828aa52-7003-11e9-abdd-ffb308621fd2",
+                "8828aa53-7003-11e9-abdd-ffb308621fd2",
+                "8828d160-7003-11e9-abdd-ffb308621fd2",
+                "8828d161-7003-11e9-abdd-ffb308621fd2",
+                "8828d162-7003-11e9-abdd-ffb308621fd2"
+            ],
+            "description": "dao component for Backend Application"
         }
     ]
 }

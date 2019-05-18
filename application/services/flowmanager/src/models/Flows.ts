@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import * as uuid from 'uuid';
 
-export let flowSchema = mongoose.Schema({
+let flowSchema = mongoose.Schema({
   _id: {
     type: String,
     default: uuid.v1
@@ -9,19 +9,22 @@ export let flowSchema = mongoose.Schema({
   name: String,
   label: String,
   description: String,
-  action_on_data: String,
   type: String,
-  create_with_default_activity: Number,
-  created_date: {
+  components: [
+    { type: mongoose.Schema.Types.String, ref: 'flow_components' }
+  ],
+  actionOnData: String,
+  createWithDefaultActivity: Number,
+  createdAt: {
     type: Date,
     default: Date.now
   },
-  updated_date: {
+  updatedAt: {
     type: Date,
     default: null
   }
 });
 
-const FlowModel = mongoose.model('flows', flowSchema);
+const FlowModel = mongoose.model('flows', flowSchema, 'flows');
 
 export default FlowModel;

@@ -4,7 +4,7 @@ import { Routes } from "./routes/routes";
 import * as cors from 'cors';
 import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
-import { FeedSeedData } from './seed';
+import { seedData } from './seed';
 import * as mongoose from "mongoose";
 
 const PORT = 3002;
@@ -33,15 +33,15 @@ class App {
     }
 
     private mongoSetup(): void {
-        // mongoose.Promise = global.Promise;
-        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        let mConfig = new MongoConfig();
-        mConfig.mongoConfig();
+        mongoose.Promise = global.Promise;
+        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        // let mConfig = new MongoConfig();
+        // mConfig.mongoConfig();
     }
 
     private mongoSeedData(): void {
-        let seedData = new FeedSeedData()
-        seedData.seedFlowData();
+        let seed = new seedData()
+        seed.microFlow();
     }
 
 }

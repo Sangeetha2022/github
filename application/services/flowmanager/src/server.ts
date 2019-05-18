@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import { Routes } from "./routes/routes";
-import { FeedSeedData } from './seed';
+import { seedData } from './seed';
 import * as cors from 'cors';
 import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
@@ -33,17 +33,17 @@ class App {
     }
 
     private mongoSetup(): void {
-        // mongoose.Promise = global.Promise;
-        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        let mConfig = new MongoConfig();
-        mConfig.mongoConfig();
+        mongoose.Promise = global.Promise;
+        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        // let mConfig = new MongoConfig();
+        // mConfig.mongoConfig();
     }
 
     private mongoSeedData(): void {
-        let seedData = new FeedSeedData();
-        seedData.seedFlowData();
-        seedData.seedFlowComponentData();
-        seedData.seedConnectorData();
+        let seed = new seedData();
+        seed.flows();
+        seed.flowComponents();
+        seed.connectors();
     }
 
 }
