@@ -10,7 +10,6 @@ export class SystemEntryService {
     public generate_system_entry_pod(projectDetails, callback: CallableFunction) {
 
 
-        let projectName = projectDetails.project_name + "-" + projectDetails.user_id.substring(0, 5)
         let destination = projectDetails.destinationUrl + '/system-entry-pod';
         let templatePath = projectDetails.templateUrl + '/system-entry-pod';
 
@@ -20,7 +19,7 @@ export class SystemEntryService {
 
         //generate ui deployment
         let generatesySystem_entry_deployment = st.loadGroup(require(templatePath + '/system_entry_deployment_yaml_stg'));
-        let systemEntry = generatesySystem_entry_deployment.render("system_entry_deployment_yaml", [projectName.toLowerCase()]);
+        let systemEntry = generatesySystem_entry_deployment.render("system_entry_deployment_yaml", [projectDetails.project_lowercase]);
         fs.writeFile(destination + '/system-entry-deployment.yaml', systemEntry, function (err) {
             if (err) throw err;
             console.log('system-entry-deployment generated!!')
@@ -28,7 +27,7 @@ export class SystemEntryService {
 
         //generate ui service
         let generatesySystem_entry_service = st.loadGroup(require(templatePath + '/system_entry_service_yaml_stg'));
-        let systemEntrySer = generatesySystem_entry_service.render("system_entry_service_yaml", [projectName.toLowerCase()]);
+        let systemEntrySer = generatesySystem_entry_service.render("system_entry_service_yaml", [projectDetails.project_lowercase]);
         fs.writeFile(destination + '/system-entry-service.yaml', systemEntrySer, function (err) {
             if (err) throw err;
             console.log('system-entry-service generated!!')

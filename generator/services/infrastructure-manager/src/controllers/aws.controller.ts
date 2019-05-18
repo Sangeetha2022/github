@@ -36,10 +36,12 @@ export class AWSInfrastructureController {
   public generateInfrastructureAWS(req: Request, res: Response) {
 
     var projectDetails = req.body
+    projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
+    projectDetails.project_lowercase = projectDetails.project.toLowercase();
 
 
     //create project folder if not exists
-    let projectFolder = DestinationAWS + projectDetails.project_name+ "_" + projectDetails.user_id.substring(0, 5);
+    let projectFolder = DestinationAWS + projectDetails.project;
     if (!fs.existsSync(projectFolder)) {
       fs.mkdirSync(projectFolder);
     }
@@ -130,6 +132,13 @@ export class AWSInfrastructureController {
 
     //generate script for app pod image
     if (projectDetails.app_pod) {
+      dockerService.generate_build_script_app_pod(projectDetails, (response) => {
+        //res.send(200);
+      })
+    }
+
+    //generate script for ios build
+    if (projectDetails.ios_build) {
       dockerService.generate_build_script_app_pod(projectDetails, (response) => {
         //res.send(200);
       })

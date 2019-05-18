@@ -34,10 +34,12 @@ export class LocalInfrastructureController {
   public generateInfrastructureLocal(req: Request, res: Response) {
 
     var projectDetails = req.body
+    projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
+    projectDetails.project_lowercase = projectDetails.project.toLowercase();
 
 
     //create project folder if not exists
-    let projectFolder = Destination + projectDetails.project_name + "_" + projectDetails.user_id.substring(0, 5);
+    let projectFolder =  projectDetails.project;
     if (!fs.existsSync(projectFolder)) {
       fs.mkdirSync(projectFolder);
     }
