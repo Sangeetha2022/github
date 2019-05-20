@@ -26,8 +26,9 @@ export class DataService {
     private entity: IEntity = <IEntity>{
         name: '',
         description: '',
+        entity_type: '',
         project_id: '',
-        feature_id:'',
+        feature_id: '',
         created_by: '',
         last_modified_by: '',
         updated_at: new Date(),
@@ -46,6 +47,10 @@ export class DataService {
     // project feature info
     private projectFeatureInfoSource = new BehaviorSubject<any>({});
     currentProjectFeatureInfo = this.projectFeatureInfoSource.asObservable();
+
+    //selected menu info
+    private selectedMenuInfoSource = new BehaviorSubject<any>({});
+    currentSelectedMenuInfo = this.selectedMenuInfoSource.asObservable();
 
     // flow info
     private flowIdInfoSource = new BehaviorSubject<any>({});
@@ -74,6 +79,9 @@ export class DataService {
     private agGridEntitySource = new BehaviorSubject<any>('');
     currentAgGridEntitySource = this.agGridEntitySource.asObservable();
 
+    // menu deatils
+    private menuBuilderSource = new BehaviorSubject<any>('');
+    currentMenuBuilderSource = this.menuBuilderSource.asObservable();
     constructor() { }
 
     // set default language
@@ -88,6 +96,10 @@ export class DataService {
 
     setProjectFeatureInfo(details: any) {
         this.projectFeatureInfoSource.next(details);
+    }
+
+    setSelectedMenuInfo(details: any) {
+        this.selectedMenuInfoSource.next(details);
     }
     // set selected entity
     setEntity(entity: any) {
@@ -109,6 +121,9 @@ export class DataService {
         this.agGridEntitySource.next(agGrid);
     }
 
+    setMenuBuilder(menuDetails: any){
+        this.menuBuilderSource.next(menuDetails);
+    }
 
     setFlowIdInfo(flow: IFlow) {
         this.flowIdInfoSource.next(flow);

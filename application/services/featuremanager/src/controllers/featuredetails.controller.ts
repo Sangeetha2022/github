@@ -35,10 +35,16 @@ export class FeatureDetailsController {
     }
 
     public getFeatureDetailsByFeatureid = async(req: Request, res: Response) => {
-        console.log("ADadadaasadsad",req)
         featureDetailsService.getFeatureDetailsByFeatureid(req, (user) => {
             res.status(200);
             res.json(user);
         })
     }
+
+    public getAllFeatureByFeatureid = async(req: Request, res: Response) => {
+        featureDetailsService.getAllFeatureByFeatureid(req, (user) => {
+            res.status(200);
+            res.json(user);
+        })
+    }    
 }

@@ -32,12 +32,11 @@ export class Signincontroller {
 
         signinservice.googleservice(req, (response) => {
             res.status(200);
-            console.log('--------------callbackresponeincontroller', response);
             res.json(response);
         })
     }
 
-    public getllusers(req: Request, res: Response) {
+    public getallusers(req: Request, res: Response) {
 
         signinservice.getalluserservice(req, (response) => {
             res.status(200);

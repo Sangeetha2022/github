@@ -136,9 +136,9 @@
                 <label for="primary-language">{{ 'primary_language' | i18next }}</label>
                 <select class="form-control" id="primary-language" formControlName="primaryLanguage" [ngClass]="{ 'is-invalid': submitted && form_control.primaryLanguage.errors }">
                   <option value="" selected>{{'select_primary' | i18next}}</option>
-                  <option value="english">English</option>
-                  <option value="tamil">Tamil</option>
-                  <option value="spanish">Spanish</option>
+                  <option value="English">English</option>
+                  <option value="Tamil">Tamil</option>
+                  <option value="Spanish">Spanish</option>
                 </select>
                 <div *ngIf="submitted && form_control.primaryLanguage.errors" class="invalid-feedback">
                   <div *ngIf="form_control.primaryLanguage.errors.required">{{'require_primaryLanguage' | i18next}}

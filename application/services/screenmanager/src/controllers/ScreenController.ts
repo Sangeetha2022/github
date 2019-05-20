@@ -56,4 +56,11 @@ export class ScreenController {
             res.json(response);
         })
     }
+
+    public getAllScreenByFeatureId(req: Request, res: Response) {
+        screenService.getAllScreenByFeatureId(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
 }

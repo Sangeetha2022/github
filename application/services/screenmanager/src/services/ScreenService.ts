@@ -49,4 +49,10 @@ export class ScreenService {
             callback(response);
         });
     }
+
+    public getAllScreenByFeatureId(req: Request, callback) {
+        screenDao.getAllScreenByFeatureId(req,(response) => {
+            callback(response);
+        });
+    }
 }

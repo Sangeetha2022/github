@@ -20,8 +20,18 @@ export class ProfilesettingsComponent implements OnInit {
     'id': '',
     'username': ''
   };
+  public userDefault = {
+    'firstname': '',
+    'lastname': '',
+    'email': '',
+    'role':{},
+    'id': '',
+    'username': ''
+  };
   public roles: any[] = [];
   public rolechange: any;
+  public defaultUserRole: any;
+  public defaultRole:{}
 
   ngOnInit() {
     this.Queryparams();
@@ -36,6 +46,8 @@ export class ProfilesettingsComponent implements OnInit {
 
   Userdetails() {
     this.profileservice.Getuser(this.id).subscribe(data => {
+      this.defaultRole = data.body.role;
+      console.log("userdefaulttt------>>>",this.defaultRole)
       const user = data.body;
       this.Userobject.firstname = user.firstname;
       this.Userobject.lastname = user.lastname;
@@ -44,7 +56,8 @@ export class ProfilesettingsComponent implements OnInit {
 
       this.profileservice.Getroles().subscribe(roledata => {
         this.roles = roledata.body;
-        console.log('-------roles----->>>>', this.Userobject.role);
+        this.defaultUserRole = this.Userobject.role;
+        console.log('-------roles---11111-->>>>', this.Userobject.role);
         const index = this.roles.findIndex(x => x.role === this.Userobject.role);
         console.log('-------indexvalue-----', index);
         if (index > -1) {
@@ -70,15 +83,38 @@ export class ProfilesettingsComponent implements OnInit {
     this.rolechange = updaterole;
   }
 
+  cancle(){
+    this.route.navigate(['usermanagement'])
+  }
+
   Updateuser() {
-    this.Userobject.role = this.rolechange;
+     this.Userobject.role = this.rolechange;
     this.Userobject.id = this.id;
     this.Userobject.username = this.Userobject.email;
-    console.log('---------updateuserdetails-----', this.Userobject);
-    this.profileservice.Updateuser(this.Userobject).subscribe(data => {
-      this.route.navigate(['admin']);
-    }, error => {
-      console.error('error:', error);
-    });
+    const userRole = sessionStorage.getItem('Access');
+    
+    if(this.Userobject.role === null || this.Userobject.role === undefined){
+      console.log('ifcondtion---->>>>>', this.defaultRole);
+
+      this.userDefault.firstname =  this.Userobject.firstname;
+      this.userDefault.lastname = this.Userobject.lastname;
+      this.userDefault.email = this.Userobject.email;
+      this.userDefault.role = this.defaultRole;
+      this.userDefault.id = this.Userobject.id;
+      this.userDefault.username = this.Userobject.username;
+
+      this.profileservice.Updateuser(this.userDefault).subscribe(data => {
+        this.route.navigate(['admin']);
+      }, error => {
+        console.error('error:', error);
+      });
+    } else {
+
+      this.profileservice.Updateuser(this.Userobject).subscribe(data => {
+        this.route.navigate(['admin']);
+      }, error => {
+        console.error('error:', error);
+      });
+    }
   }
 }

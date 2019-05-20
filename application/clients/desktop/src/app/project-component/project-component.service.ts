@@ -15,6 +15,7 @@ export class ProjectComponentService {
   private entity: IEntity = <IEntity>{
     name: '',
     description: '',
+    entity_type: '',
     project_id: '',
     feature_id: '',
     created_by: '',
@@ -40,7 +41,7 @@ export class ProjectComponentService {
     return this.api.put(this.restapi.entityUrl + '/entity/update', entity);
   }
 
-  saveFeatureEntity(featureEntity: any): Observable<any>{
+  saveFeatureEntity(featureEntity: any): Observable<any> {
     return this.api.post(this.restapi.featureUrl + Constants.saveFeatureEntity, featureEntity);
   }
   deleteEntity(entityId: String): Observable<any> {
@@ -79,7 +80,7 @@ export class ProjectComponentService {
 
   }
 
-  addFeatureFlow(featureFlow){
+  addFeatureFlow(featureFlow) {
     return this.api.post(this.restapi.featureUrl + Constants.addFeatureFlow, featureFlow);
   }
 
@@ -105,7 +106,6 @@ export class ProjectComponentService {
   }
 
   getFeatureDetailsById(id) {
-    // console.log('get dsf features details by id ---- ', id);
     return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.getByIdUrl + id);
   }
 
@@ -122,7 +122,7 @@ export class ProjectComponentService {
     const featureId = feature.id;
     return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + featureId, feature);
   }
-
+  
   uploadeFeaturefile(file) {
     // const formData: FormData = new FormData();
     // formData.append('fileKey', file, file.name);
