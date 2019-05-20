@@ -130,11 +130,11 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.columnDefs = [
             {
                 headerName: 'Name', field: 'name',
-                checkboxSelection: true
+                checkboxSelection: true, filter: 'agTextColumnFilter'
             },
-            { headerName: 'Label', field: 'label' },
-            { headerName: 'Description', field: 'description' },
-            { headerName: 'Action', field: 'action_on_data' },
+            { headerName: 'Label', field: 'label', filter: 'agTextColumnFilter' },
+            { headerName: 'Description', field: 'description', filter: 'agTextColumnFilter' },
+            { headerName: 'Action', field: 'actionOnData', filter: 'agTextColumnFilter' },
 
 
         ];

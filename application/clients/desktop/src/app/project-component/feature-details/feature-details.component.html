@@ -84,13 +84,6 @@
                   [disabled]="entity.is_default">Delete</button>
               </div>
             </div>
-            <div class="card-body">
-
-              <button mat-raised-button color="primary" (click)="editScreen(screen._id)">Edit</button>
-              &nbsp;
-              <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
-                [disabled]="entity.is_default">Delete</button>
-            </div>
           </div>
         </div>
         <div class="col-md-4" *ngIf="screenDetails.length === 0">
@@ -110,7 +103,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="flowTable container mt-sm-3" *ngIf="featureFlowRowData.length>0">
+          <div class="flowTable container mt-sm-3" *ngIf="flowInFeatureRowData.length>0">
             <!-- <ag-grid-angular #agGrid style="width: 100%; height: 100%; margin-top: 50px;" id="myGrid"
           class="ag-theme-balham" domLayout='autoHeight' [columnDefs]="columnDefs" [rowSelection]="rowSelection"
           [rowData]="featureFlowRowData" [animateRows]="true" [suppressRowClickSelection]="true"
@@ -118,11 +111,11 @@
           [frameworkComponents]="frameworkComponents" (gridReady)="onFlowGridReady($event)">
         </ag-grid-angular> -->
             <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
-              [columnDefs]="flowInFeatureColumn" [rowData]="featureFlowRowData"
-              [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight' [pagination]="true"
+              [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData"
+              [animateRows]="true" [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true"
               [paginationPageSize]="10" [suppressRowClickSelection]="true" [suppressRowClickSelection]="true"
-               [frameworkComponents]="frameworkComponents"
-              (gridReady)="onGridReady($event)">
+               [frameworkComponents]="frameworkComponents" [floatingFilter]="true"
+              (gridReady)="onFeatureFlowGridReady($event)">
             </ag-grid-angular>
           </div>
         </div>
@@ -165,7 +158,7 @@
             [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData"
             [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight'
             [pagination]="true" [paginationPageSize]="10" [floatingFilter]="true"
-            (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
+            (selectionChanged)="onRowSelectionChanged($event)" (gridReady)="onGridReady($event)">
           </ag-grid-angular>
 
           <!-- <form class="m-3" [formGroup]="eventFlows">
@@ -185,7 +178,7 @@
       </div>
       <div class="modal-footer">
         <div class="form-group">
-          <button type="button" class="btn btn-primary" (click)="saveFlowsInFeature()">Save</button>
+          <button type="button" class="btn btn-primary" (click)="saveFlowsInFeature('add')">Save</button>
           <button type="button" class="btn btn-danger" (click)="closeFeatureFlowModal()">cancel</button>
         </div>
       </div>
