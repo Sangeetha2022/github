@@ -17,11 +17,11 @@ export class Routes {
         })
         // Feature
         app.route('/feature/save').post(this.featureController.saveFeature);
-        app.route('/feature/update/:id').put(this.featureController.updateFeature);
+        app.route('/feature/update').put(this.featureController.updateFeature);
         app.route('/feature/getall').get(this.featureController.getAllFeature);
-        app.route('/feature/get/:id').get(this.featureController.getFeatureById);
-        app.route('/feature/delete/:id').delete(this.featureController.deleteFeature);
-        app.route('/feature/get').get(this.featureController.getFeatureByProjectId);
+        app.route('/feature/get').get(this.featureController.getFeatureById);
+        app.route('/feature/delete').delete(this.featureController.deleteFeature);
+        app.route('/feature/project/get').get(this.featureController.getFeatureByProjectId);
 
         // // Feature Details
         // app.route('/feature/details/addfile').post(this.featureDetailsController.uploadeFeaturefile);

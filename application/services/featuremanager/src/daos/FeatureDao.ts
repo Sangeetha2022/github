@@ -41,7 +41,7 @@ export class FeatureDao {
     }
 
     public getFeatureById(featureId, callback: CallableFunction) {
-        this.Features.find({_id: featureId}, (err, features) => {
+        this.Features.findOne({_id: featureId}, (err, features) => {
             if(err) {
                 callback(err)
             } else {

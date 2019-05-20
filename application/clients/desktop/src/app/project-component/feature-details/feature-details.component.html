@@ -70,49 +70,61 @@
         </mat-card-content>
         <div class="row" style="margin: 0px;">
           <div class="col-md-4" *ngFor="let screen of screenDetails; let i = index">
-              <div class="card">
-                  <div class="card-header">
-                      {{screen?.screenName}}
-                      <img  style="float: right; cursor: pointer;"
-                          src="https://img.icons8.com/metro/26/000000/edit-file.png">
-                  </div>
-                  <div class="card-body">
-                      
-                      <button mat-raised-button color="primary"  (click)="editScreen(screen._id, screen.screenType)"
-                          >Edit</button>
-                      &nbsp;
-                      <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
-                       [disabled]="entity.is_default"
-                          >Delete</button>
-                  </div>
+            <div class="card">
+              <div class="card-header">
+                {{screen?.screenName}}
+                <img style="float: right; cursor: pointer;" src="https://img.icons8.com/metro/26/000000/edit-file.png">
               </div>
               <div class="card-body">
 
-                <button mat-raised-button color="primary" (click)="editScreen(screen._id)">Edit</button>
+                <button mat-raised-button color="primary"
+                  (click)="editScreen(screen._id, screen.screenType)">Edit</button>
                 &nbsp;
                 <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
                   [disabled]="entity.is_default">Delete</button>
               </div>
             </div>
+            <div class="card-body">
+
+              <button mat-raised-button color="primary" (click)="editScreen(screen._id)">Edit</button>
+              &nbsp;
+              <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
+                [disabled]="entity.is_default">Delete</button>
+            </div>
           </div>
-          <div class="col-md-4" *ngIf="screenDetails.length === 0">
-            No Screen Available.
-          </div>
+        </div>
+        <div class="col-md-4" *ngIf="screenDetails.length === 0">
+          No Screen Available.
+        </div>
 
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title> Feature Flows </mat-panel-title>
         </mat-expansion-panel-header>
-        <button class="btn btn-info ml-sm-3 float-right" (click)="openFeatureFlowDialog(feature_id)">Add
-          Flows</button>
-        <div class="flowTable mt-sm-3" *ngIf="featureFlowRowData.length>0">
-          <ag-grid-angular #agGrid style="width: 100%; height: 100%; margin-top: 50px;" id="myGrid"
-            class="ag-theme-balham" domLayout='autoHeight' [columnDefs]="columnDefs" [rowSelection]="rowSelection"
-            [rowData]="featureFlowRowData" [animateRows]="true" [suppressRowClickSelection]="true"
-            [defaultColDef]="defaultColDef" (rowSelected)=selectedFeatureFlow($event)
-            [frameworkComponents]="frameworkComponents" (gridReady)="onFlowGridReady($event)">
-          </ag-grid-angular>
+        <div class="row">
+          <div class="col-md-6"></div>
+          <div class="col-md-6">
+            <button class="btn btn-info ml-sm-3 float-right" (click)="openFeatureFlowDialog(feature_id)">Add
+              Flows</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="flowTable container mt-sm-3" *ngIf="featureFlowRowData.length>0">
+            <!-- <ag-grid-angular #agGrid style="width: 100%; height: 100%; margin-top: 50px;" id="myGrid"
+          class="ag-theme-balham" domLayout='autoHeight' [columnDefs]="columnDefs" [rowSelection]="rowSelection"
+          [rowData]="featureFlowRowData" [animateRows]="true" [suppressRowClickSelection]="true"
+          [defaultColDef]="defaultColDef" (rowSelected)=selectedFeatureFlow($event)
+          [frameworkComponents]="frameworkComponents" (gridReady)="onFlowGridReady($event)">
+        </ag-grid-angular> -->
+            <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
+              [columnDefs]="flowInFeatureColumn" [rowData]="featureFlowRowData"
+              [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight' [pagination]="true"
+              [paginationPageSize]="10" [suppressRowClickSelection]="true" [suppressRowClickSelection]="true"
+               [frameworkComponents]="frameworkComponents"
+              (gridReady)="onGridReady($event)">
+            </ag-grid-angular>
+          </div>
         </div>
 
         <!-- <div class="flowTable mt-sm-3" *ngIf="showFeatureFlowComp">
@@ -122,13 +134,13 @@
           </ag-grid-angular>
         </div> -->
 
-        <div class="flowTable mt-sm-3" *ngIf="showFeatureFlowComponent">
+        <!-- <div class="flowTable mt-sm-3" *ngIf="showFeatureFlowComponent">
           <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
             domLayout='autoHeight' [columnDefs]="columnFeatureDefs" [rowSelection]="rowSelection"
             [rowData]="rowFlowCompData" [animateRows]="true" [defaultColDef]="defaultColDef"
             (gridReady)="onFlowCompGridReady($event)">
           </ag-grid-angular>
-        </div>
+        </div> -->
 
       </mat-expansion-panel>
     </mat-accordion>
@@ -173,7 +185,7 @@
       </div>
       <div class="modal-footer">
         <div class="form-group">
-          <button type="button" class="btn btn-primary" (click)="saveFeatureFlow()">Save</button>
+          <button type="button" class="btn btn-primary" (click)="saveFlowsInFeature()">Save</button>
           <button type="button" class="btn btn-danger" (click)="closeFeatureFlowModal()">cancel</button>
         </div>
       </div>
@@ -183,20 +195,20 @@
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deletePopup}">
   <div class="modal-dialog modal-sm" role="dialog">
-      <div class="modal-content">
-          <!-- <div class="modal-header">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
   <h6 class="modal-title">Delete</h6>
   <button type="button" class="close">&times;</button>
   </div> -->
-          <div class="delete modal-body">
-              <p>Please click confirm to delete this project ? </p>
-          </div>
-          <div class="modal-footer" style="padding: 5px">
-              <button type="button" class="btn btn-default" (click)="deleteEntity()">Confirm</button>
-              &nbsp;
-              <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
-          </div>
+      <div class="delete modal-body">
+        <p>Please click confirm to delete this project ? </p>
       </div>
+      <div class="modal-footer" style="padding: 5px">
+        <button type="button" class="btn btn-default" (click)="deleteEntity()">Confirm</button>
+        &nbsp;
+        <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
+      </div>
+    </div>
 
   </div>
 </div>
