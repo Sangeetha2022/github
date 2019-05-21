@@ -19,25 +19,24 @@ export class MicroFlowController {
         })
     }
 
-    public getAllFlow(req: Request, res: Response) {
+    public getAllMicroFlow(req: Request, res: Response) {
         mFlowService.getAllMicroFlow(req, (user) => {
             res.status(200); // status for the response
-            res.json(user); 
+            res.json(user);
         })
     }
 
-    public getFlowByID(req: Request, res: Response) {
+    public getMicroFlowByID(req: Request, res: Response) {
         mFlowService.getMicroFlowByID(req, (user) => {
             res.status(200); // status for the response
-            res.json(user); 
+            res.json(user);
         })
     }
 
-    public getMicroFlowByName(req: Request, res: Response) {
-        console.log("---<> > ", req.body)
-        mFlowService.getMicroFlowByName(req, (user) => {
+    public getMicroFlowByProjectId(req: Request, res: Response) {
+        mFlowService.getMicroFlowByProjectId(req, (user) => {
             res.status(200); // status for the response
-            res.json(user); 
+            res.json(user);
         })
     }
 

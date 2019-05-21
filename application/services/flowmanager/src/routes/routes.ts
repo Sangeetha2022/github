@@ -15,6 +15,15 @@ export class Routes {
                 status: 'up'
             })
         })
+
+        app.route('/flow/save').post(this.flowController.saveFlow);
+        app.route('/flow/update').put(this.flowController.updateFlow);
+        app.route('/flow/getall').get(this.flowController.getAllFlow);
+        app.route('/flow/get').get(this.flowController.getFlowById);
+        app.route('/flow/delete').delete(this.flowController.deleteFlow);
+        app.route('/flow/project/get').get(this.flowController.getFlowByProjectId);
+
+        
         //flow routes
         // app.route('/flow/save').post(this.flowController.saveFlow);
         // app.route('/flow/getall').get(this.flowController.getAllFlow);

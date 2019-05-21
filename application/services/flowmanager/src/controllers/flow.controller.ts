@@ -5,6 +5,48 @@ let flowService = new FlowService()
 
 export class FlowController {
 
+    public saveFlow(req: Request, res: Response) {
+        flowService.saveFlow(req, (user) => {
+            res.status(200); // status for the response
+            res.json(user);
+        })
+    }
+
+    public updateFlow(req: Request, res: Response) {
+        flowService.updateFlow(req, (user) => {
+            res.status(200); // status for the response
+            res.json(user);
+        })
+    }
+
+    public getAllFlow(req: Request, res: Response) {
+        flowService.getAllFlow(req, (user) => {
+            res.status(200); // status for the response
+            res.json(user);
+        })
+    }
+
+    public getFlowById(req: Request, res: Response) {
+        flowService.getFlowById(req, (user) => {
+            res.status(200); // status for the response
+            res.json(user);
+        })
+    }
+
+    public getFlowByProjectId(req: Request, res: Response) {
+        flowService.getFlowByProjectId(req, (user) => {
+            res.status(200); // status for the response
+            res.json(user);
+        })
+    }
+
+    public deleteFlow(req: Request, res: Response) {
+        flowService.deleteFlow(req, (user) => {
+            res.status(200); // status for the response
+            res.json(user);
+        })
+    }
+
     // public saveFlow(req: Request, res: Response, next: NextFunction) {
     //     flowService.saveFlow(req, (response) => {
     //         res.status(200);

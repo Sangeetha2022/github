@@ -9,59 +9,59 @@ export class MicroFlowDao {
     private MicroFlow = microFlowModel;
 
 
-    public saveMicroFlow(req: Request, callback: CallableFunction) {
-        let newGenerationFlow = new this.MicroFlow(req.body);
-        newGenerationFlow.save((err, generationFlow) => {
+    public saveMicroFlow(featureData, callback: CallableFunction) {
+        let microflow = new this.MicroFlow(featureData);
+        microflow.save((err, microflow) => {
             if (err) {
                 callback(err);
             } else {
-                callback(generationFlow);
+                callback(microflow);
             }
         });
     }
 
-    public updateMicroFlow(req: Request, callback: CallableFunction) {
-        this.MicroFlow.findOneAndUpdate({ _id: req.body._id }, req.body, { new: true }, (err, generationFlow) => {
+    public updateMicroFlow(microflowId, microflowData, callback: CallableFunction) {
+        this.MicroFlow.findOneAndUpdate({ _id: microflowId }, microflowData, { new: true }, (err, microflow) => {
             if (err) {
                 callback(err);
             } else {
-                callback(generationFlow);
+                callback(microflow);
             }
         });
     }
 
-    public getAllFlow(req: Request, callback: CallableFunction) {
-        this.MicroFlow.find({}, (err, mflow) => {
-            if (err) {
-                callback(err);
+    public getAllMicroFlow(callback: CallableFunction) {
+        this.MicroFlow.find({}, (err, microflow) => {
+            if(err) {
+                callback(err)
             } else {
-                callback(mflow);
+                callback(microflow)
             }
         });
     }
 
-    public getFlowByID(req: Request, callback: CallableFunction) {
-        this.MicroFlow.findById(req.params.id, (err, mflow) => {
-            if (err) {
-                callback(err);
+    public getMicroFlowByID(microflowId, callback: CallableFunction) {
+        this.MicroFlow.findOne({_id: microflowId}, (err, microflow) => {
+            if(err) {
+                callback(err)
             } else {
-                callback(mflow);
+                callback(microflow)
             }
         });
     }
 
-    public getMicroFlowByName(req: Request, callback: CallableFunction) {
-        this.MicroFlow.find({ component_name: req.params.name }, (err, mflow) => {
-            if (err) {
-                callback(err);
+    public getMicroFlowByProjectId(projectId, callback: CallableFunction) {
+        this.MicroFlow.find({project: projectId}, (err, microflow) => {
+            if(err) {
+                callback(err)
             } else {
-                callback(mflow);
+                callback(microflow)
             }
         });
     }
 
-    public deleteMicroFlow(req: Request, callback: CallableFunction) {
-        this.MicroFlow.remove({ _id: req.params.id }, (err, generationFlow) => {
+    public deleteMicroFlow(microflowId, callback: CallableFunction) {
+        this.MicroFlow.remove({ _id: microflowId }, (err, microflow) => {
             if (err) {
                 callback(err);
             } else {

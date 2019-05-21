@@ -1,9 +1,52 @@
-// import { Request, NextFunction } from 'express';
-// import { FlowDao } from '../daos/flow.dao';
+import { Request, NextFunction } from 'express';
+import { FlowDao } from '../daos/flow.dao';
 
-// let flowDao = new FlowDao()
+let flowDao = new FlowDao()
 
 export class FlowService {
+
+    public saveFlow(req: Request, callback: CallableFunction) {
+        const flowData = req.body;
+        flowDao.saveFlow(flowData, (flow) => {
+            callback(flow)
+        })
+    }
+
+    public updateFlow(req: Request, callback: CallableFunction) {
+        const flowId = req.body._id;
+        const flowData = req.body;
+        flowDao.updateFlow(flowId, flowData, (flow) => {
+            callback(flow)
+        })
+    }
+
+    public getAllFlow(req: Request, callback: CallableFunction) {
+        flowDao.getAllFlow((flow) => {
+            callback(flow)
+        })
+    }
+
+    public getFlowById(req: Request, callback: CallableFunction) {
+        const flowId = req.query.flowId;
+        flowDao.getFlowById(flowId, (flow) => {
+            callback(flow)
+        })
+    }
+
+    public getFlowByProjectId(req: Request, callback: CallableFunction) {
+        const projectId = req.query.projectId;
+        console.log('getflow by project id are ------ ', projectId);
+        flowDao.getFlowByProjectId(projectId, (flow) => {
+            callback(flow)
+        })
+    }
+
+    public deleteFlow(req: Request, callback: CallableFunction) {
+        const flowId = req.query.flowId;
+        flowDao.deleteFlow(flowId, (flow) => {
+            callback(flow)
+        })
+    }
 
     // public saveFlow(req: Request, callback: CallableFunction) {
     //     const flow = req.body;

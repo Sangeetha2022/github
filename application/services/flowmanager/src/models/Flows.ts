@@ -1,27 +1,32 @@
 import * as mongoose from 'mongoose';
 import * as uuid from 'uuid';
 
-let flowSchema = mongoose.Schema({
+export let flowSchema = mongoose.Schema({
   _id: {
-    type: String,
-    default: uuid.v1
+      type: String,
+      default: uuid.v1
   },
   name: String,
-  label: String,
   description: String,
-  type: String,
-  components: [
-    { type: mongoose.Schema.Types.String, ref: 'flow_components' }
-  ],
-  actionOnData: String,
-  createWithDefaultActivity: Number,
-  createdAt: {
-    type: Date,
-    default: Date.now
+  project: {
+      type: mongoose.Schema.Types.String,
+      ref: 'projects'
   },
-  updatedAt: {
-    type: Date,
-    default: null
+  flows: [
+      {
+          type: mongoose.Schema.Types.String,
+          ref: 'flows'
+      }
+  ],
+  entities: [{
+      entityType: String,
+      entityId: { type: mongoose.Schema.Types.String, ref: 'entities' }
+  }],
+  microFlowStepName: String,
+  sequenceId: String,
+  createdAt: {
+      type: Date,
+      default: Date.now
   }
 });
 
