@@ -146,11 +146,21 @@ export class FeatureDetailsComponent implements OnInit {
         this.columnFlow = [
             {
                 headerName: 'Name', field: 'name',
+                filter: 'agTextColumnFilter',
                 checkboxSelection: true
             },
-            { headerName: 'Label', field: 'label' },
-            { headerName: 'Description', field: 'description' },
-            { headerName: 'Action', field: 'actionOnData' },
+            {
+                headerName: 'Label', field: 'label',
+                filter: 'agTextColumnFilter'
+            },
+            {
+                headerName: 'Description', field: 'description',
+                filter: 'agTextColumnFilter'
+            },
+            {
+                headerName: 'Action', field: 'actionOnData',
+                filter: 'agTextColumnFilter'
+            },
 
 
         ];
@@ -481,7 +491,7 @@ export class FeatureDetailsComponent implements OnInit {
     // }
 
 
-  
+
 
 
     // saveFeatureFlow() {

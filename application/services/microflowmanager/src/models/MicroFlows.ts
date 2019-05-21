@@ -6,22 +6,7 @@ export let microFlowSchema = mongoose.Schema({
         type: String,
         default: uuid.v1
     },
-    name: String,
-    description: String,
-    project: {
-        type: mongoose.Schema.Types.String,
-        ref: 'projects'
-    },
-    flows: [
-        {
-            type: mongoose.Schema.Types.String,
-            ref: 'flows'
-        }
-    ],
-    entities: [{
-        entityType: String,
-        entityId: { type: mongoose.Schema.Types.String, ref: 'entities' }
-    }],
+    componentName: String,
     microFlowStepName: String,
     sequenceId: String,
     createdAt: {
