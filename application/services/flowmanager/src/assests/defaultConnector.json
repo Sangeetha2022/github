@@ -1,0 +1,121 @@
+// need for references
+{
+    "default_connector" : [
+        // from express controller to express service
+        {
+            "available_apis" : {
+                "name" : null,
+                "description" : null,
+                "type" : null,
+                "properties" : [ ]
+            },
+            "name" : "GpExpressService",
+            "description" : "default connector for flow component",
+            "url" : null,
+            "comp_name" : "GpExpressController",
+            "disable" : false,
+            "updated_date" : null,
+            "properties" : null,
+            "_id" : "7cbbe202-7877-11e9-bdb0-f73f14ce0e52",
+            "created_date" : ISODate("2019-05-17T13:13:40.064+05:30")
+        },
+        // from express service to dao
+        {
+            "available_apis" : {
+                "name" : null,
+                "description" : null,
+                "type" : null,
+                "properties" : [ ]
+            },
+            "name" : "GpExpressDao",
+            "description" : "default connector for flow component",
+            "url" : null,
+            "comp_name" : "GpExpressService",
+            "disable" : false,
+            "updated_date" : null,
+            "properties" : null,
+            "_id" : "7cbbe200-7877-11e9-bdb0-f73f14ce0e52",
+            "created_date" : ISODate("2019-05-17T13:13:40.064+05:30")
+        },
+        // from express dao to none
+        "default_connector" : [ ],
+
+        // angular
+        // from angular component to service
+        {
+            "available_apis" : {
+                "name" : null,
+                "description" : null,
+                "type" : null,
+                "properties" : [ ]
+            },
+            "name" : "GpAngularService",
+            "description" : "default connector for flow component",
+            "url" : null,
+            "comp_name" : "GpAngularComponent",
+            "disable" : false,
+            "updated_date" : null,
+            "properties" : null,
+            "_id" : "7cbbbaf0-7877-11e9-bdb0-f73f14ce0e52",
+            "created_date" : ISODate("2019-05-17T13:13:40.063+05:30")
+        }
+
+        // from angular service to backend service controller
+        {
+            "available_apis" : {
+                "name" : null,
+                "description" : null,
+                "type" : null,
+                "properties" : [ ]
+            },
+            "name" : "GpExpressController",
+            "description" : "default connector for flow component",
+            "url" : null,
+            "comp_name" : "GpAngularService",
+            "disable" : false,
+            "updated_date" : null,
+            "properties" : null,
+            "_id" : "7cbb93e4-7877-11e9-bdb0-f73f14ce0e52",
+            "created_date" : ISODate("2019-05-17T13:13:40.062+05:30")
+        }
+
+        // GpIonicAngular
+        // from gp ionic angular component to ionic angular service 
+        {
+            "available_apis" : {
+                "name" : null,
+                "description" : null,
+                "type" : null,
+                "properties" : [ ]
+            },
+            "name" : "GpIonicAngularService",
+            "description" : "default connector for flow component",
+            "url" : null,
+            "comp_name" : "GpIonicAngularComponent",
+            "disable" : false,
+            "updated_date" : null,
+            "properties" : null,
+            "_id" : "7cbb93e2-7877-11e9-bdb0-f73f14ce0e52",
+            "created_date" : ISODate("2019-05-17T13:13:40.062+05:30")
+        },
+        // from gp ionic angular service to backend service controller
+
+        {
+            "available_apis" : {
+                "name" : null,
+                "description" : null,
+                "type" : null,
+                "properties" : [ ]
+            },
+            "name" : "GpExpressController",
+            "description" : "default connector for flow component",
+            "url" : null,
+            "comp_name" : "GpIonicAngularService",
+            "disable" : false,
+            "updated_date" : null,
+            "properties" : null,
+            "_id" : "7cbb93e0-7877-11e9-bdb0-f73f14ce0e52",
+            "created_date" : ISODate("2019-05-17T13:13:40.062+05:30")
+        }
+    ]
+}
