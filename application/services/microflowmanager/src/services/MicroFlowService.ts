@@ -34,7 +34,8 @@ export class MicroFlowService{
     }
 
     public getMicroFlow(req: Request, callback: CallableFunction) {
-        microFlowDao.getMicroFlow((microflow) => {
+        const microFlowIDS = req.body;
+        microFlowDao.getMicroFlow(microFlowIDS ,(microflow) => {
             callback(microflow);
         })
     }

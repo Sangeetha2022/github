@@ -61,8 +61,8 @@ export class MicroFlowDao {
     }
 
     
-    public getMicroFlow(callback: CallableFunction) {
-        this.MicroFlow.find({}, (err, microflow) => {
+    public getMicroFlow(microFlowIDs, callback: CallableFunction) {
+        this.MicroFlow.find().where('_id').in(microFlowIDs).exec((err, microflow) => {
             if(err) {
                 callback(err)
             } else {

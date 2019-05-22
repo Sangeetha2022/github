@@ -53,6 +53,7 @@ export class Constants {
 
     // Micro Flow apis
     public static get addMicroFlowUrl(): string { return '/microflow/save'; }
+    public static get getMicroFlow(): string { return '/microflow/component/get'; }
     public static get updateMicroFlowUrl(): string { return '/microflow/update'; }
     public static get deleteMicroFlowUrl(): string { return '/microflow/delete/'; }
     public static get getMicroFlowsByCompNameUrl(): string { return '/microflow/getbycomp/'; }
