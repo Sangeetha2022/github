@@ -13,7 +13,7 @@ export class Routes {
         })
 
 
-        app.route('/generate/code').put(this.codeController.createProjectCode);
+        app.route('/generate/code').put(this.codeController.createProject);
 
         }
 

@@ -1,14 +1,10 @@
-import { FlowController } from "../controllers/flow.controller";
-import { FlowComponentController } from "../controllers/flowcomponent.controller";
-import { ConnectorController } from "../controllers/connector.controller";
+import { FlowController } from "../controllers/FlowController";
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {
 
-    public flowComponentController: FlowComponentController = new FlowComponentController()
     public flowController: FlowController = new FlowController()
-    public connector: ConnectorController = new ConnectorController()
-
+  
     public routes(app): void {
         app.route('/health/flow-service').get((req: Request, res: Response) => {
             res.status(200).send({
@@ -26,7 +22,7 @@ export class Routes {
         
         //flow routes
         // app.route('/flow/save').post(this.flowController.saveFlow);
-        // app.route('/flow/getall').get(this.flowController.getAllFlow);
+        // app.route('/flow/getall').get(this.flowComponentController.getAllFlows);
         // app.route('/flow/getbyid/:id').get(this.flowController.getFlowByID);
         // app.route('/flow/getbyid/:id/details').get(this.flowController.getFlowDetails);
         // app.route('/flow/delete/:id').delete(this.flowController.deleteFlow);

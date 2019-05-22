@@ -60,6 +60,18 @@ export class MicroFlowDao {
         });
     }
 
+    
+    public getMicroFlow(callback: CallableFunction) {
+        this.MicroFlow.find({}, (err, microflow) => {
+            if(err) {
+                callback(err)
+            } else {
+                callback(microflow)
+            }
+        });
+    }
+
+
     public deleteMicroFlow(microflowId, callback: CallableFunction) {
         this.MicroFlow.remove({ _id: microflowId }, (err, microflow) => {
             if (err) {

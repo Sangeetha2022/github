@@ -4,7 +4,7 @@ import Controller from "../../interfaces/controller.interface";
 import { ApiAdaptar } from '../../config/apiAdaptar';
 import * as Constants from '../../config/Constants';
 
-export class CodeController implements Controller {
+export class BackendController implements Controller {
     public router = express.Router();
 
     constructor() {
@@ -12,13 +12,12 @@ export class CodeController implements Controller {
     }
 
     private initializeRoutes() {
-        this.router.route('/generate/code').put(this.createProjectCode);
+        this.router.route('/backend/project').post(this.createProject);
     }
 
-    createProjectCode(req: Request, res: Response) {
-        console.log('create project code ----- ', req.query.projectId)
-        new ApiAdaptar().put(
-            `${Constants.codeGenUrl}/generate/code?projectId=${req.query.projectId}`,
+    createProject(req: Request, res: Response) {
+        new ApiAdaptar().post(
+            `${Constants.backendGenUrl}/backend/project`,
             req.body
         ).then((response) => {
             res.send(response);

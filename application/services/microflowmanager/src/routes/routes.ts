@@ -1,9 +1,9 @@
-import { MicroFlowController } from "../controllers/microflow.controller";
+import { MicroFlowController } from "../controllers/MicroFlowController";
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {
 
-    public mflowController: MicroFlowController = new MicroFlowController()
+    public microFlowController: MicroFlowController = new MicroFlowController()
 
     public routes(app): void {
         app.route('/health/micro-service').get((req: Request, res: Response) => {
@@ -11,11 +11,12 @@ export class Routes {
                 status: 'up'
             })
         })
-        app.route('/microflow/save').post(this.mflowController.saveMicroFlow);
-        app.route('/microflow/update').put(this.mflowController.updateMicroFlow);
-        app.route('/microflow/getall').get(this.mflowController.getAllMicroFlow);
-        app.route('/microflow/get').get(this.mflowController.getMicroFlowByID);
-        app.route('/microflow/project/get').get(this.mflowController.getMicroFlowByProjectId);
-        app.route('/microflow/delete').delete(this.mflowController.deleteMicroFlow);
+        app.route('/microflow/save').post(this.microFlowController.saveMicroFlow);
+        app.route('/microflow/update').put(this.microFlowController.updateMicroFlow);
+        app.route('/microflow/getall').get(this.microFlowController.getAllMicroFlow);
+        app.route('/microflow/get').get(this.microFlowController.getMicroFlowByID);
+        app.route('/microflow/component/get').post(this.microFlowController.getMicroFlow);
+        app.route('/microflow/project/get').get(this.microFlowController.getMicroFlowByProjectId);
+        app.route('/microflow/delete').delete(this.microFlowController.deleteMicroFlow);
     }
 }
