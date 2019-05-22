@@ -1,0 +1,33 @@
+<section class="wrapper">
+  <div class="container-fostrap">
+    <div>
+      <img src="" class="fostrap-logo" />
+      <h1 class="heading">
+        Geppetto Templates
+      </h1>
+    </div>
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-4 ml-sm-2 bg_align " *ngFor="let template of gepTemplates">
+            <div class="card">
+              <a class="img-card">
+                <img src={{template.template_image[0].image}} />
+              </a>
+              <!-- <div class=" card-content">
+                <h4 class="card-title">
+
+                </h4>
+                <p class="">
+                </p>
+            </div> -->
+              <div class="card-body">
+                <p>{{template.name}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

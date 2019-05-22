@@ -3,7 +3,7 @@ import * as uuid from 'uuid';
 
 const Schema = mongoose.Schema;
 
-export const GeppettoTemplateSchema = new Schema({
+export const TemplateSchema = new Schema({
     _id: {
         type: String,
         default: uuid.v1
@@ -30,7 +30,7 @@ export const GeppettoTemplateSchema = new Schema({
             is_angular: { type: Boolean, default: false }
         }
     ],
-    'asset-image': [
+    'template_image': [
         {
             'image': { type: String, default: null },
             'imagename': { type: String, default: null }

@@ -16,6 +16,7 @@ import { TreeDragService } from '../menu-builder/tree-drag/tree-drag.service';
 import { ProjectsService } from '../projects/projects.service';
 import { IFlow } from '../flow-manager/interface/flow';
 import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
+import { async } from 'q';
 
 @Component({
     selector: 'app-project-component',
@@ -330,12 +331,16 @@ export class EntityManagerComponent implements OnInit {
                             this.menuBuilder.feature.push(this.createFeatureData._id);
                             this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
                                 if (menuBuilderData.length !== 0) {
-                                    this.menuBuilder.feature = menuBuilderData[0].feature;
-                                    this.menuBuilder.feature.push(featureData.feature_id);
-                                    this.menuBuilderService.updateMenuById(menuBuilderData[0]._id, this.menuBuilder)
-                                        .subscribe(fMenu => {
-                                            console.log('=========', fMenu);
-                                        });
+                                    menuBuilderData.forEach(feMenu => {
+                                        this.menuBuilder = feMenu;
+                                        this.menuBuilder.feature = feMenu.feature;
+                                        this.menuBuilder.feature.push(featureData.feature_id);
+                                        this.menuBuilderService.updateMenuById(feMenu._id, this.menuBuilder)
+                                            .subscribe(fMenu => {
+                                                console.log('=========', fMenu);
+
+                                            });
+                                    });
                                 } else {
                                     this.menuBuilderService.createMenu(this.menuBuilder).subscribe(menuData => {
                                     });
@@ -344,7 +349,6 @@ export class EntityManagerComponent implements OnInit {
 
                             this.getProjectDetails();
                             this.closeFeatureExistingModel();
-                            this.getMenuBuilderByProjectId();
                         }
                     });
                     this.featureDetails.name = '',
@@ -484,7 +488,6 @@ export class EntityManagerComponent implements OnInit {
         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
             if (menuBuilderData.length !== 0) {
                 this.menuBuilderDetails = menuBuilderData;
-
                 let array = [];
                 this.menuBuilderDetails.forEach(menuData => {
                     if (menuData.menu_option === true) {
@@ -498,7 +501,7 @@ export class EntityManagerComponent implements OnInit {
                                         this.menuFId = sData.feature._id;
                                         this.menuFName = sData.feature.name;
                                         this.screenId.push(sData._id);
-                                        this.screenMenuName.push(sData.foldername);
+                                        this.screenMenuName.push(sData.screenName);
                                     });
                                     let screenData = {
                                         screen: this.screenMenuName,

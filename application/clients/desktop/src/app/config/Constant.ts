@@ -119,6 +119,9 @@ export class Constants {
     public static get addDefaultEntity(): string { return '/default_entity/save'; }
     public static get getDefaultEntityByProjectId(): string { return '/default_entity/getbyproject/'; }
 
+    //Templates
+
+    public static get getAllTemplates(): string { return '/template/getall'; }
 
     // regex Constant Expressions
 

@@ -110,6 +110,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getMenuByProjectId() {
+    console.log('=========', this.getMenu)
     this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
       if (menuBuilderData.length !== 0) {
         if (!this.getMenu) {
@@ -131,8 +132,10 @@ export class MenuBuilderComponent implements OnInit {
         }
 
         if (this.getMenu) {
-          menuBuilderData.forEach(meData => {
+          console.log('=========', this.getMenu)
+          menuBuilderData.forEach((meData, index) => {
             if (meData.language === this.selectedLang) {
+              console.log('==============', index)
               meData.menu_option = true;
               this.updateMenuById(meData._id, meData);
               this.menuDetails = meData.menuDetails;
@@ -140,6 +143,7 @@ export class MenuBuilderComponent implements OnInit {
               this.stopUpdate = true;
             }
             if (meData.language !== this.selectedLang) {
+              console.log('==============', index)
               meData.menu_option = false;
               this.menuDetails = meData.menuDetails;
               this.updateMenuById(meData._id, meData);
@@ -219,6 +223,7 @@ export class MenuBuilderComponent implements OnInit {
   }
   onChangeLang(event) {
     this.secondaryLang = event;
+    console.log('============',this.menuLang)
     if (this.menuLang.length === 2) {
       this.getMenu = true;
     }

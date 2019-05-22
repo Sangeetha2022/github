@@ -5,8 +5,9 @@ import * as cors from 'cors';
 import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
 import * as mongoose from "mongoose";
+import { FeedSeedData } from './seed';
 
-const PORT = 3011;
+const PORT = 3012;
 
 class App {
 
@@ -21,6 +22,7 @@ class App {
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
         this.mongoSetup();
+        this.mongoSeedData();
         this.routePrv.routes(this.app);
     }
 
@@ -35,6 +37,11 @@ class App {
         mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
         // let mConfig = new MongoConfig();
         // mConfig.mongoConfig();
+    }
+
+    private mongoSeedData(): void {
+        let seedData = new FeedSeedData();
+        seedData.geppettoTemplateData();
     }
 
 }
