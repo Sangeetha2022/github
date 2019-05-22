@@ -14,14 +14,14 @@
       <button mat-raised-button color="warn" (click)="deleteRowComponent()">{{ 'delete' | i18next }}</button>
     </div>
   </div>
- <!-- modified -->
+ <!-- modified start -->
   <div class="flowTable">
     <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef" domLayout='autoHeight'
       (rowSelected)="selectFlowComponent()" [animateRows]="true" class="ag-theme-balham" [columnDefs]="flowComponentColDef"
       [rowData]="flowComponentRowData" [rowSelection]="rowSelection" (gridReady)="onFCGridReady($event)">
     </ag-grid-angular>
   </div>
-
+ <!-- modified end -->
   <h1 class="flowTable" style="text-align: center;" *ngIf="default_connector">
     <u>Connector</u> </h1>
   <div class="row" *ngIf="default_connector">
@@ -43,8 +43,8 @@
   </div>
 
   <div class="flowTable">
-    <h1 style="text-align: center;" *ngIf="microFlow.length > 0"> <u>{{'microFlows'|i18next}}</u> </h1>
-    <div class="row" *ngIf="microFlow.length > 0">
+    <h1 style="text-align: center;" *ngIf="microFlowRowData.length > 0"> <u>{{'microFlows'|i18next}}</u> </h1>
+    <div class="row" *ngIf="microFlowRowData.length > 0">
       <h3> Component: <span>{{selectedFlowCmpnt[0].component_name}}</span></h3>
 
       <div class="row-button">
@@ -53,11 +53,13 @@
         <button mat-raised-button color="warn" (click)="deleteMicroFlow()">{{ 'delete' | i18next }}</button>
       </div>
     </div>
-    <div class="flowTable" *ngIf="microFlow.length > 0">
+     <!-- modified start -->
+    <div class="flowTable" *ngIf="microFlowRowData.length > 0">
       <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" [defaultColDef]="defaultColDef" domLayout='autoHeight'
         (selectionChanged)="onSelectionMFChange()" [rowSelection]="rowSelection" [animateRows]="true" class="ag-theme-balham"
-        [columnDefs]="microColDef" [rowData]="microFlow" (gridReady)="onGridMicroFlowReady($event)"></ag-grid-angular>
+        [columnDefs]="microFlowColDef" [rowData]="microFlowRowData" (gridReady)="onGridMicroFlowReady($event)"></ag-grid-angular>
     </div>
+     <!-- modified end -->
   </div>
 </div>
 
