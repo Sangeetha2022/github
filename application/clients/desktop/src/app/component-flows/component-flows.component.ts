@@ -77,10 +77,10 @@ export class ComponentFlowsComponent implements OnInit {
   // rowSelection: String = null;
   // defaultColDef: any = null;
   // microColDef: any = [];
-  // fcompColDefs: any = null;
+  // flowComponentColDef: any = null;
   // connectorColDef: any = [];
   // linkedConnectorColDef: any = [];
-  // flowCompGrid: any = [];
+  // flowComponentGrid: any = [];
   // microFlowGrid: any = [];
   // connectorFlowGrid: any = [];
 
@@ -88,11 +88,11 @@ export class ComponentFlowsComponent implements OnInit {
   defaultColDef;
 
   microColDef;
-  fcompColDefs;
+  flowComponentColDef;
   connectorColDef;
   linkedConnectorColDef;
 
-  flowCompGrid;
+  flowComponentGrid;
   microFlowGrid;
   connectorFlowGrid;
   linkedFlowGrid: any = [];
@@ -103,6 +103,7 @@ export class ComponentFlowsComponent implements OnInit {
   createDConnectorForm: FormGroup;
 
   flow_comp: any = [];
+  flowComponentRowData: any = [];
   flow_id: String = null;
   flow_deatils: any = {};
   default_connector: any = null;
@@ -135,14 +136,27 @@ export class ComponentFlowsComponent implements OnInit {
     this.setupAgGrid();
     this.generateForms();
     this.getAllAvailableConnector();
-    this.route.queryParams.subscribe(params => {
-      this.paramsName = params.name;
-    });
-    this.getDataFromFlowService();
+    // this.route.queryParams.subscribe(params => {
+    //   this.paramsName = params.name;
+    // });
+    this.getFlows();
+    // this.getDataFromFlowService();
+  }
+
+  getFlows() {
+    this.dataService.currentflowSource.subscribe(
+      flowData => {
+        console.log('flow component data ----- ', flowData);
+        this.flowComponentRowData = flowData.components;
+      },
+      error => {
+        console.log('flow component error ----- ', error);
+      }
+    );
   }
 
   getDataFromFlowService() {
-    this.dataService.currentFlowIdInfoSource.subscribe(data => {
+    this.dataService.currentflowSource.subscribe(data => {
       this.flow_id = data._id;
       this.flow_name = data.name;
       if (this.flow_id !== undefined) {
@@ -167,13 +181,15 @@ export class ComponentFlowsComponent implements OnInit {
   //   })
   // }
   selectFlowComponent() {
-    this.selectedFlowCmpnt = this.flowCompGrid.getSelectedRows();
-    if (this.selectedFlowCmpnt[0].component_name !== null) {
-      this.showMicroFlow = true;
-    }
-    this.flowCompName = this.selectedFlowCmpnt[0].component_name;
-    this.default_connector = this.selectedFlowCmpnt[0].default_connector;
-    this.getMicroFlowName(this.selectedFlowCmpnt[0].component_name);
+    this.selectedFlowCmpnt = this.flowComponentGrid.getSelectedRows();
+    console.log('selected flow component are ----- ', this.flowComponentGrid.getSelectedRows());
+    
+    // if (this.selectedFlowCmpnt[0].component_name !== null) {
+    //   this.showMicroFlow = true;
+    // }
+    // this.flowCompName = this.selectedFlowCmpnt[0].component_name;
+    // this.default_connector = this.selectedFlowCmpnt[0].default_connector;
+    // this.getMicroFlowName(this.selectedFlowCmpnt[0].component_name);
   }
 
   // deleteConnector() {
@@ -256,8 +272,10 @@ export class ComponentFlowsComponent implements OnInit {
     if (type === 'create') {
       this.isDisableFlowComp = true;
       this.createFlowComponentForm.controls['component_name'].enable();
-      this.iFlowComponent = { label: '', description: '', component_name: '',
-       connector: false, dev_framework: '', dev_language: '', sequence_id: '', type: '' };
+      this.iFlowComponent = {
+        label: '', description: '', component_name: '',
+        connector: false, dev_framework: '', dev_language: '', sequence_id: '', type: ''
+      };
       this.addModel = 'block';
     }
     if (type === 'update' && this.selectedFlowCmpnt.length > 0) {
@@ -416,7 +434,7 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   // onSelectionChange() {
-  //   let selectedRows = this.flowCompGrid.getSelectedRows();
+  //   let selectedRows = this.flowComponentGrid.getSelectedRows();
   //   this.selectedFlowCmpnt = selectedRows;
   //   console.log("this.selectedFlowCmpnt[0].component_name.length", this.selectedFlowCmpnt[0].component_name)
   //   if (this.selectedFlowCmpnt[0].component_name.length !== null) {
@@ -475,12 +493,12 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   setupAgGrid() {
-    this.fcompColDefs = [
-      { headerName: 'Component Name', field: 'component_name', checkboxSelection: true },
-      { headerName: 'FrameWork', field: 'dev_framework' },
+    this.flowComponentColDef = [
+      { headerName: 'Component Name', field: 'name', checkboxSelection: true },
+      { headerName: 'FrameWork', field: 'devFramework' },
       { headerName: 'Type', field: 'type' },
-      { headerName: 'Sequence', field: 'sequence_id' },
-      { headerName: 'Language', field: 'dev_language' },
+      { headerName: 'Sequence', field: 'sequenceId' },
+      { headerName: 'Language', field: 'devLanguage' },
       { headerName: 'Label', field: 'label' },
       { headerName: 'Description', field: 'description' },
     ];
@@ -542,8 +560,8 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   onFCGridReady(params) {
-    this.flowCompGrid = params.api;
-    this.flowCompGrid.sizeColumnsToFit();
+    this.flowComponentGrid = params.api;
+    this.flowComponentGrid.sizeColumnsToFit();
   }
 
 

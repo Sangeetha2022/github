@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import  FlowModel  from '../models/Flows';
+import FlowModel from '../models/Flows';
 import { Request, Response } from 'express';
 
 // const Features = mongoose.model('Features', FeaturesSchema);
@@ -31,8 +31,8 @@ export class FlowDao {
     }
 
     public getAllFlow(callback: CallableFunction) {
-        this.Flow.find({}, (err, flow) => {
-            if(err) {
+        this.Flow.find({}).populate('components').exec((err, flow) => {
+            if (err) {
                 callback(err)
             } else {
                 callback(flow)
@@ -42,7 +42,7 @@ export class FlowDao {
 
     public getFlowById(flowId, callback: CallableFunction) {
         this.Flow.findById(flowId, (err, flow) => {
-            if(err) {
+            if (err) {
                 callback(err)
             } else {
                 callback(flow)
@@ -51,8 +51,8 @@ export class FlowDao {
     }
 
     public getFlowByProjectId(projectId, callback: CallableFunction) {
-        this.Flow.find({project: projectId}, (err, flow) => {
-            if(err) {
+        this.Flow.find({ project: projectId }, (err, flow) => {
+            if (err) {
                 callback(err)
             } else {
                 callback(flow)

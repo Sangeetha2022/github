@@ -1,49 +1,56 @@
 import { Request, Response } from 'express';
-import { MicroFlowService } from '../services/microflow.service';
+import { MicroFlowService } from '../services/MicroFlowService';
 
-let mFlowService = new MicroFlowService()
+let microFlowService = new MicroFlowService()
 
 export class MicroFlowController {
 
     public saveMicroFlow(req: Request, res: Response) {
-        mFlowService.saveMicroFlow(req, (user) => {
+        microFlowService.saveMicroFlow(req, (response) => {
             res.status(200); // status for the response
-            res.json(user);
+            res.json(response);
         })
     }
 
     public updateMicroFlow(req: Request, res: Response) {
-        mFlowService.updateMicroFlow(req, (user) => {
+        microFlowService.updateMicroFlow(req, (response) => {
             res.status(200); // status for the response
-            res.json(user);
+            res.json(response);
         })
     }
 
     public getAllMicroFlow(req: Request, res: Response) {
-        mFlowService.getAllMicroFlow(req, (user) => {
+        microFlowService.getAllMicroFlow(req, (response) => {
             res.status(200); // status for the response
-            res.json(user);
+            res.json(response);
         })
     }
 
     public getMicroFlowByID(req: Request, res: Response) {
-        mFlowService.getMicroFlowByID(req, (user) => {
+        microFlowService.getMicroFlowByID(req, (response) => {
             res.status(200); // status for the response
-            res.json(user);
+            res.json(response);
+        })
+    }
+
+    public getMicroFlow(req: Request, res: Response) {
+        microFlowService.getMicroFlow(req, (response) => {
+            res.status(200);
+            res.json(response);
         })
     }
 
     public getMicroFlowByProjectId(req: Request, res: Response) {
-        mFlowService.getMicroFlowByProjectId(req, (user) => {
+        microFlowService.getMicroFlowByProjectId(req, (response) => {
             res.status(200); // status for the response
-            res.json(user);
+            res.json(response);
         })
     }
 
     public deleteMicroFlow(req: Request, res: Response) {
-        mFlowService.deleteMicroFlow(req, (user) => {
+        microFlowService.deleteMicroFlow(req, (response) => {
             res.status(200); // status for the response
-            res.json(user);
+            res.json(response);
         })
     }
 }

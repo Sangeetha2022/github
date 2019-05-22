@@ -1,49 +1,49 @@
 import { Request, Response, NextFunction } from 'express';
-import { FlowService } from '../services/flow.service';
+import { FlowService } from '../services/FlowService';
 
 let flowService = new FlowService()
 
 export class FlowController {
 
     public saveFlow(req: Request, res: Response) {
-        flowService.saveFlow(req, (user) => {
+        flowService.saveFlow(req, (response) => {
             res.status(200); // status for the response
-            res.json(user);
+            res.json(response);
         })
     }
 
     public updateFlow(req: Request, res: Response) {
-        flowService.updateFlow(req, (user) => {
+        flowService.updateFlow(req, (response) => {
             res.status(200); // status for the response
-            res.json(user);
+            res.json(response);
         })
     }
 
     public getAllFlow(req: Request, res: Response) {
-        flowService.getAllFlow(req, (user) => {
+        flowService.getAllFlow(req, (response) => {
             res.status(200); // status for the response
-            res.json(user);
+            res.json(response);
         })
     }
 
     public getFlowById(req: Request, res: Response) {
-        flowService.getFlowById(req, (user) => {
+        flowService.getFlowById(req, (response) => {
             res.status(200); // status for the response
-            res.json(user);
+            res.json(response);
         })
     }
 
     public getFlowByProjectId(req: Request, res: Response) {
-        flowService.getFlowByProjectId(req, (user) => {
+        flowService.getFlowByProjectId(req, (response) => {
             res.status(200); // status for the response
-            res.json(user);
+            res.json(response);
         })
     }
 
     public deleteFlow(req: Request, res: Response) {
-        flowService.deleteFlow(req, (user) => {
+        flowService.deleteFlow(req, (response) => {
             res.status(200); // status for the response
-            res.json(user);
+            res.json(response);
         })
     }
 

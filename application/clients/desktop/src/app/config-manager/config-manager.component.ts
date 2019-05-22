@@ -91,7 +91,7 @@ export class ConfigManagerComponent implements OnInit {
   openModal(type) {
     if (type === 'create') {
       this.checkUpdate = true;
-      // this.flow = {name:'',action_on_data:'',description:'',label:''};
+      // this.flow = {name:'',actionOnData:'',description:'',label:''};
       this.displayModel = 'block';
     }
     if (type === 'update') {

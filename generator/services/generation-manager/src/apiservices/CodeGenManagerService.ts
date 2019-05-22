@@ -3,9 +3,9 @@ import { SharedService } from '../config/SharedService';
 
 export class CodeGenManagerService {
 
-    createProjectCode(projectid, details, callback) {
+    createProjectCode(projectId, details, callback) {
         new ApiAdaptar().put(
-            `${SharedService.apiGatewayURL}/desktop/generate/code?projectid=${projectid}`, details
+            `${SharedService.apiGatewayURL}/desktop/generate/code?projectId=${projectId}`, details
         ).then(
             data => {
                 console.log('create project code ---- ', data);

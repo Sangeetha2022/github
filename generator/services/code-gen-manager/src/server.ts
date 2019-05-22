@@ -8,7 +8,7 @@ import { createServer, Server } from 'http';
 import * as socketIo from 'socket.io';
 
 
-const PORT = 5006;
+const PORT = 5008;
 const logDir = 'log';
 
 

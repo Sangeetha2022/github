@@ -48,13 +48,13 @@ export class DataService {
     private projectFeatureInfoSource = new BehaviorSubject<any>({});
     currentProjectFeatureInfo = this.projectFeatureInfoSource.asObservable();
 
-    //selected menu info
+    // selected menu info
     private selectedMenuInfoSource = new BehaviorSubject<any>({});
     currentSelectedMenuInfo = this.selectedMenuInfoSource.asObservable();
 
     // flow info
-    private flowIdInfoSource = new BehaviorSubject<any>({});
-    currentFlowIdInfoSource = this.flowIdInfoSource.asObservable();
+    private flowSource = new BehaviorSubject<any>({});
+    currentflowSource = this.flowSource.asObservable();
 
     private featureFlowIdInfoSource = new BehaviorSubject<any>({});
     currentFeatureFlowIdInfoSource = this.featureFlowIdInfoSource.asObservable();
@@ -121,12 +121,12 @@ export class DataService {
         this.agGridEntitySource.next(agGrid);
     }
 
-    setMenuBuilder(menuDetails: any){
+    setMenuBuilder(menuDetails: any) {
         this.menuBuilderSource.next(menuDetails);
     }
 
-    setFlowIdInfo(flow: IFlow) {
-        this.flowIdInfoSource.next(flow);
+    setFlow(flow: IFlow) {
+        this.flowSource.next(flow);
     }
 
 
