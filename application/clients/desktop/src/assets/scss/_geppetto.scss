@@ -11,15 +11,15 @@ body {
 
 
 // ======= APP CONTAINER ======= 
-app-root {
-	@include virtual-footer;
-}
+// body {
+// 	@include virtual-footer;
+// }
 // ======= HEADER ======= 
 div.lang-head {
 	@include container-topBar;
 }
 
-mat-toolbar.mat-toolbar.mat-primary[_ngcontent-c2] {
+app-header > mat-toolbar.mat-toolbar.mat-primary[_ngcontent-c2] {
 	@include container-header;
 
 	div[_ngcontent-c2]:first-child {
@@ -40,6 +40,7 @@ div.geppetoimage[_ngcontent-c4] {
 
 // ======= LOGIN ======= 
 app-login {
+	mat-card.cardsize,
 	.cardsize[_ngcontent-c4] {
 		@include modal-login;
 	}
