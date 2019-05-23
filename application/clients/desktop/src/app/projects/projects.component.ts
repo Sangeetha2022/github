@@ -69,8 +69,8 @@ export class ProjectsComponent implements OnInit {
     });
 
     // socket
-    this.initSocket();
-    this.onEvent();
+    // this.initSocket();
+    // this.onEvent();
 
     const user_id = '123';
 

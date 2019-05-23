@@ -47,4 +47,19 @@ export class FeatureController {
             res.json(user);
         })
     }
+
+    public featureUpdateEntity(req: Request, res: Response) {
+        featureService.featureUpdateEntity(req, (response) => {
+            res.status(200); // status for the response
+            res.json(response);
+        })
+    }
+
+
+    public featuredeleteEntity(req: Request, res: Response) {
+        featureService.featuredeleteentity(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
 }

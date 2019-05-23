@@ -482,13 +482,13 @@ export class EntityManagerComponent implements OnInit {
         this.projectComponentService.getEntityByProjectId(this.project_id).subscribe(
             (data) => {
                 this.allEntity = data;
-                this.projectEntity = [];
+                this.projectEntity = this.allEntity;
                 console.log('ProjectEntity data are ------ ', this.allEntity);
-                this.allEntity.map(entityData => {
-                    if (entityData.feature_id === undefined && entityData.project_id === null) {
-                        this.projectEntity.push(entityData);
-                    }
-                });
+                // this.allEntity.map(entityData => {
+                //     if (entityData.feature_id === undefined && entityData.project_id === null) {
+                //         this.projectEntity.push(entityData);
+                //     }
+                // });
                 console.log('ProjectEntity 22333 ---- ', this.projectEntity);
                 this.dataService.setAllEntity(this.allEntity);
             },

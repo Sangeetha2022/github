@@ -59,6 +59,8 @@ export class ProjectComponentService {
     return this.api.get(`${this.restapi.flowbaseUrl}${Constants.getAllFlow}`);
   }
 
+  
+
   // old
   createEntity(entity: any): Observable<any> {
     return this.api.post(this.restapi.entityUrl + '/entity/save', entity);
@@ -68,6 +70,7 @@ export class ProjectComponentService {
   }
 
   saveFeatureEntity(featureEntity: any): Observable<any> {
+    console.log('hiiiiiiservice ----->>>>', featureEntity);
     return this.api.post(this.restapi.featureUrl + Constants.saveFeatureEntity, featureEntity);
   }
   deleteEntity(entityId: String): Observable<any> {
@@ -81,6 +84,18 @@ export class ProjectComponentService {
   }
   getAllEntity(): Observable<any> {
     return this.api.get(this.restapi.entityUrl + '/entity/getall');
+  }
+
+  Updatefeaturedetailsentity(featureid: any, entitydetails: any): Observable<any> {
+    return this.http.put(this.restapi.featureUrl + `/feature/updateEntity/${featureid}`, entitydetails);
+  }
+
+  Deletefeaturedetailsentity(featureid: any, entityid: any): Observable<any> {
+    return this.http.delete(this.restapi.featureUrl + `/feature/deleteentity/${featureid}/${entityid}`);
+  }
+
+  Getentities(): Observable<any> {
+    return this.http.get(this.restapi.entityUrl + '/feature/getentities');
   }
 
   getEntityByFeatureAndprojectId(projectId, featureId): Observable<any> {
@@ -134,6 +149,7 @@ export class ProjectComponentService {
   getFeatureDetailsById(id) {
     return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.getByIdUrl + id);
   }
+
 
 
   // getFeatureById(id) {

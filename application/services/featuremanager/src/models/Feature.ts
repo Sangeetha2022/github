@@ -19,6 +19,7 @@ export let featureSchema = mongoose.Schema({
         }
     ],
     entities: [{
+        _id: false,
         entityType: String,
         entityId: { type: mongoose.Schema.Types.String, ref: 'entities' }
     }],
