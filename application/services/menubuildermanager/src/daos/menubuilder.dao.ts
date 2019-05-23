@@ -42,7 +42,7 @@ export class MenuBuilderDao {
 
 
     public updateMenu(req: Request, callback: CallableFunction) {
-        MenuBuilder.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, project) => {
+        MenuBuilder.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true, useFindAndModify: false }, (err, project) => {
             if (err) {
                 callback(err);
             } else {
@@ -52,9 +52,7 @@ export class MenuBuilderDao {
     }
 
     public updateMenuByProjectId(req: Request, callback: CallableFunction) {
-        // console.log('---------------------+++++++++++', req.body);
-        console.log('---------------------+++++++++++', req.body);
-        MenuBuilder.findOneAndUpdate({ project: req.params.projectId }, req.body, { new: true }, (err, project) => {
+        MenuBuilder.findOneAndUpdate({ project: req.params.projectId }, { $set: req.body }, { new: true, useFindAndModify: false }, (err, project) => {
             if (err) {
                 callback(err);
             } else {
