@@ -39,10 +39,12 @@ export class TreeDragService {
   initialize(menu: any) {
     let array = [];
     let count = 0;
-    menu.forEach(element => {
-      count = count + 1;
-      array[element.featuremenu[0].description.feature] = element.screenmenu[0].description.screen;
-    });
+    if (menu.length > 0) {
+      menu.forEach(element => {
+        count = count + 1;
+        array[element.featuremenu[0].description.feature] = element.screenmenu[0].description.screen;
+      });
+    }
     if (count === menu.length) {
       this.menuBuilder = array;
       const data = this.buildFileTree(this.menuBuilder, 0);
