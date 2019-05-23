@@ -70,6 +70,79 @@ export class FeatureDao {
         });
     }
 
+    public featureUpdateEntity(entity, featureId, callback: CallableFunction) {
+        console.log("entitydata--->>", entity);
+        let entityData = entity[0].entities.entityId;
+        console.log('--------entityid---->>>', entityData);
+        this.Features.findById(featureId, (err, data) => {
+            console.log("---entitylength----->>>>", data.entities.length);
+            if (data.entities.length > 0) {
+                const entityarray = data.entities;
+                const index = entityarray.findIndex(arrayindex => arrayindex.entityId === entityData);
+                console.log('--------index-----', index);
+                const updateneity = entityarray.find(arrayvalue => arrayvalue.entityId === entityData);
+                if (index > -1) {
+                    console.log('--------beforeentityupdate', updateneity);
+                    updateneity.entityType = entity[0].entities.entityType;
+                    console.log('---------afterentityupdate-----', updateneity);
+                    console.log('--------entityindexvalue-----', entityarray[index]);
+                    this.Features.update(
+                        { "entities.entityId": entityData },
+                        {
+                            $set: {
+                                'entities.$.entityType': updateneity.entityType
+                            }
+                        }).then(res => {
+                            callback(res);
+                        });
+                } else {
+                    this.Features.update({ _id: featureId }, { $push: { 'entities': entity[0].entities } }, { $set: { 'updated_date': new Date(), 'description': entity[0].description, 'name': entity[0].name } }, (err, data) => {
+                        if (err) {
+                            console.log("errr--2222--->>>", err)
+                            callback(err)
+                        } else {
+                            console.log("dattttaa--22222-->", data)
+                            callback(data)
+                        }
+                    });
+                }
+            } else {
+                this.Features.update({ _id: featureId }, { $push: { 'entities': entity[0].entities } }, { $set: { 'updated_date': new Date(), 'description': entity[0].description, 'name': entity[0].name } }, (err, data) => {
+                    if (err) {
+                        console.log("errr--2222--->>>", err)
+                        callback(err)
+                    } else {
+                        console.log("dattttaa--22222-->", data)
+                        callback(data)
+                    }
+                });
+            }
+        })
+
+    }
+
+    public featuredeleteentity(entityId, featureId, callback: CallableFunction) {
+        this.Features.findById(featureId, (err, feature) => {
+            let entitiesarray = feature.entities;
+            console.log('-------entityarray----->>>', entityId);
+            const index = entitiesarray.findIndex(
+                entity =>
+                    entity.entityId === entityId
+            );
+            if (index > -1) {
+                entitiesarray.splice(index, 1);
+            }
+            console.log('-------afterentitydelete----->>>', feature);
+            feature.updated_date = new Date();
+            this.Features.findOneAndUpdate({ _id: feature._id }, feature).then((result) => {
+                callback(result);
+            }).catch((error) => {
+                callback(error);
+            })
+        });
+    }
+
+
     // public getAllFlow(req: Request, callback: CallableFunction) {
     //     this.Features.find({}, (err, mflow) => {
     //         if (err) {

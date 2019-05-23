@@ -16,6 +16,8 @@ export class SharedService {
 // public configUrl: String = 'http://localhost:5001';
 // public featureflowbaseUrl: String = 'http://localhost:3011';
 // public genmanagerUrl: String = 'http://localhost:5000';
+// public menuUrl: String = 'http://loclhost:3012';
+
 
 // App Service
 public Apigateway: String = 'http://3.84.173.148:30000';
@@ -36,5 +38,10 @@ public genmanagerUrl: String = 'http://3.84.173.148:30500';
 public configUrl: String = 'http://3.84.173.148:30501';
 
 public browser_language: String;
+
 }
+
+
+
+
 

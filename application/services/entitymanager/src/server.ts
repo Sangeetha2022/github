@@ -16,7 +16,6 @@ class App {
 
     public app: express.Application = express();
     public routePrv: Routes = new Routes();
-    // public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
 
     constructor() {
         this.config();

@@ -48,4 +48,26 @@ export class FeatureService {
         })
     }
 
+    public featureUpdateEntity(req: Request, callback: CallableFunction) {
+        let entity = req.body
+        let featureId = req.params.featureId
+        console.log("id------->", featureId);
+        featureDao.featureUpdateEntity(entity, featureId, (response) => {
+            callback(response)
+        })
+    }
+
+    public featuredeleteentity(req: Request, callback: CallableFunction) {
+        let entityId = req.params.entityid;
+        let featureId = req.params.featureId;
+
+        featureDao.featuredeleteentity(entityId, featureId, (response) => {
+            callback(response);
+        })
+    }
+
+
+
+
+
 }
