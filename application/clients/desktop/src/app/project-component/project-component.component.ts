@@ -544,16 +544,23 @@ export class EntityManagerComponent implements OnInit {
             if (menuBuilderData.length !== 0) {
                 this.menuBuilderDetails = menuBuilderData;
                 let array = [];
+
                 this.menuBuilderDetails.forEach(menuData => {
                     if (menuData.menu_option === true) {
                         this.dataMenu = menuData.menuDetails;
                         menuData.feature.forEach(feData => {
                             if (feData !== null) {
+                                this.featureDetailsData = [];
                                 this.projectComponentService.getFeatureById(feData).subscribe(
                                     feature => {
                                         this.featureDetailsData = feature;
                                         this.menuFId = this.featureDetailsData._id;
                                         this.menuFName = this.featureDetailsData.name;
+                                        let fMenuData = {
+                                            feature: this.menuFName,
+                                            featureId: this.menuFId,
+                                        }
+
                                         this.screenService.getScreenByFeature(feData).subscribe(data => {
                                             if (data.length !== 0) {
                                                 this.screenMenuName = [];
@@ -565,10 +572,6 @@ export class EntityManagerComponent implements OnInit {
                                                 let screenData = {
                                                     screen: this.screenMenuName,
                                                     screenId: this.screenId
-                                                }
-                                                let fMenuData = {
-                                                    feature: this.menuFName,
-                                                    featureId: this.menuFId,
                                                 }
                                                 let obj = {
                                                     featuremenu: [{ name: fMenuData, description: fMenuData }],
@@ -617,7 +620,6 @@ export class EntityManagerComponent implements OnInit {
                             }
                         });
                     }
-                    console.log('====================', menuData.menuDetails);
                 });
             }
             this.database.initialize('');
