@@ -14,7 +14,6 @@ class App {
     public app: express.Application = express();
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
-    
 
     constructor() { 
         this.logger.setupLogger();

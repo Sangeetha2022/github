@@ -15,7 +15,6 @@ class App {
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
     
-
     constructor() { 
         this.logger.setupLogger();
         this.logger.configureWinston(this.app);
