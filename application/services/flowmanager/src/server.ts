@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import { Routes } from "./routes/routes";
-import { FeedSeedData } from './seed';
+import { seedData } from './seed';
 import * as cors from 'cors';
 import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
@@ -15,7 +15,7 @@ class App {
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
     
-    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
+    // public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
 
     constructor() { 
         this.logger.setupLogger();
@@ -40,10 +40,10 @@ class App {
     }
 
     private mongoSeedData(): void {
-        let seedData = new FeedSeedData();
-        seedData.seedFlowData();
-        seedData.seedFlowComponentData();
-        seedData.seedConnectorData();
+        let seed = new seedData();
+        seed.flows();
+        seed.flowComponents();
+        seed.connectors();
     }
 
 }

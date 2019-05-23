@@ -6,7 +6,7 @@ import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
 import * as mongoose from "mongoose";
 
-const PORT = 3007;
+const PORT = 3011;
 
 class App {
 
@@ -14,7 +14,7 @@ class App {
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
     
-    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
+    // public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
 
     constructor() { 
         this.logger.setupLogger();
@@ -31,10 +31,10 @@ class App {
     }
 
     private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mConfig = new MongoConfig();
-        // mConfig.mongoConfig();
+        // mongoose.Promise = global.Promise;
+        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        let mConfig = new MongoConfig();
+        mConfig.mongoConfig();
     }
 
 }

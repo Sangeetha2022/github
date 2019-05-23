@@ -130,11 +130,11 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.columnDefs = [
             {
                 headerName: 'Name', field: 'name',
-                checkboxSelection: true
+                checkboxSelection: true, filter: 'agTextColumnFilter'
             },
-            { headerName: 'Label', field: 'label' },
-            { headerName: 'Description', field: 'description' },
-            { headerName: 'Action', field: 'action_on_data' },
+            { headerName: 'Label', field: 'label', filter: 'agTextColumnFilter' },
+            { headerName: 'Description', field: 'description', filter: 'agTextColumnFilter' },
+            { headerName: 'Action', field: 'actionOnData', filter: 'agTextColumnFilter' },
 
 
         ];
@@ -1229,7 +1229,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                                     const resultArray = [];
                                     result.forEach(flowElement => {
                                         const flowObj = {
-                                            action_on_data: flowElement.button.action.action_on_data,
+                                            actionOnData: flowElement.button.action.actionOnData,
                                             create_with_default_activity: flowElement.button.action.create_with_default_activity,
                                             description: flowElement.button.action.description,
                                             label: flowElement.button.action.label,

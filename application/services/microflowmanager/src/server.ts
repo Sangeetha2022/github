@@ -4,7 +4,7 @@ import { Routes } from "./routes/routes";
 import * as cors from 'cors';
 import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
-import { FeedSeedData } from './seed';
+import { seedData } from './seed';
 import * as mongoose from "mongoose";
 
 const PORT = 3002;
@@ -15,7 +15,7 @@ class App {
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
     
-    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
+    // public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
 
     constructor() { 
         this.logger.setupLogger();
@@ -40,8 +40,8 @@ class App {
     }
 
     private mongoSeedData(): void {
-        let seedData = new FeedSeedData()
-        seedData.seedFlowData();
+        let seed = new seedData()
+        seed.microFlow();
     }
 
 }

@@ -22,7 +22,7 @@ export class FlowManagerComponent implements OnInit {
     name: '',
     label: '',
     description: '',
-    action_on_data: '',
+    actionOnData: '',
   };
   flowAfterCancel: any;
   gridApi;
@@ -57,7 +57,7 @@ export class FlowManagerComponent implements OnInit {
       },
       { headerName: 'Label', field: 'label' },
       { headerName: 'Description', field: 'description' },
-      { headerName: 'Action', field: 'action_on_data' },
+      { headerName: 'Action', field: 'actionOnData' },
 
 
     ];
@@ -72,7 +72,7 @@ export class FlowManagerComponent implements OnInit {
       name: ['', Validators.required],
       label: ['', Validators.required],
       description: '',
-      action_on_data: ['', Validators.required],
+      actionOnData: ['', Validators.required],
     });
     this.getAllFlows();
   }
@@ -95,21 +95,25 @@ export class FlowManagerComponent implements OnInit {
   onSelectionChanged() {
     this.selectedFlow = this.gridApi.getSelectedRows();
     if (this.selectedFlow.length !== 0) {
-      this.dataService.setFlowIdInfo(this.selectedFlow[0]);
+      this.dataService.setFlow(this.selectedFlow[0]);
     }
   }
 
-  routeNextPage() {
-    this.dataService.currentFlowIdInfoSource.subscribe(data => {
-      this.flow_name = data.name;
-    });
-    this.router.navigate(['flow-component'], { queryParams: { name: this.flow_name } });
+  routeNextPage(event) {
+    console.log('route next page values rae----- ', event);
+    this.dataService.setFlow(event.data);
+    this.router.navigate(['flow-component']);
+    // this.dataService.currentflowSource.subscribe(data => {
+    //   console.log('get route next page in flows ------  ', data);
+    //   this.flow_name = data.name;
+    // });
+    // this.router.navigate(['flow-component'], { queryParams: { name: this.flow_name } });
   }
 
   openModal(type) {
     if (type === 'create') {
       this.checkUpdate = true;
-      this.flow = { name: '', action_on_data: '', description: '', label: '' };
+      this.flow = { name: '', actionOnData: '', description: '', label: '' };
       this.displayModel = 'block';
     }
     if (type === 'update') {

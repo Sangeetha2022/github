@@ -11,7 +11,7 @@ export class Constants {
     public static get deleteUrl(): string { return '/delete/'; }
     public static get detailsUrl(): string { return '/details'; }
     public static get addFilesUrl(): string { return '/addfile'; }
-    public static get getFeatureByProjectId(): string { return '/getbyprojectid/'; }
+    // public static get getFeatureByProjectId(): string { return '/getbyprojectid/'; }
 
     public static get flowUrl(): string { return '/flow'; }
 
@@ -53,6 +53,7 @@ export class Constants {
 
     // Micro Flow apis
     public static get addMicroFlowUrl(): string { return '/microflow/save'; }
+    public static get getMicroFlow(): string { return '/microflow/component/get'; }
     public static get updateMicroFlowUrl(): string { return '/microflow/update'; }
     public static get deleteMicroFlowUrl(): string { return '/microflow/delete/'; }
     public static get getMicroFlowsByCompNameUrl(): string { return '/microflow/getbycomp/'; }
@@ -76,7 +77,19 @@ export class Constants {
     // Feature
     public static get feature(): string { return '/feature'; }
 
-    // Feature Details
+    // new Feature
+    public static get saveFeature(): String { return '/feature/save'; }
+    public static get updateFeature(): String { return '/feature/update'; }
+    public static get getAllFeature(): String { return '/feature/getall'; }
+    public static get getFeatureById(): String { return '/feature/get'; }
+    public static get getFeatureByProjectId(): String { return '/feature/project/get'; }
+    public static get deleteFeature(): String { return '/feature/delete'; }
+
+    // new flows
+    public static get getAllFlow(): String { return '/flow/getall'; }
+
+
+    // old  Feature Details
     public static get getAllFeatureDetails(): string { return '/feature/details/getall'; }
     public static get getAllFeatureDetailsByFeatureId(): string { return '/feature/details/getbyfeatureid/'; }
     public static get addFeatureDetails(): string { return '/feature/details/addfile'; }

@@ -1,19 +1,20 @@
-import * as mongoose from 'mongoose';
-import { MicroFlowSchema } from './models/microflow.model';
-import * as microflowjson from './assests/microflow.json';
+import * as microFlowJSON from './assests/microflow.json';
+import MicroFlows from './models/MicroFlows';
 
-const MicroFlow = mongoose.model('MicroFlow', MicroFlowSchema);
 
-export class FeedSeedData {
+export class seedData {
 
-    public seedFlowData(): void {
-        MicroFlow.find({}, (err, data) => {
-            if (data === null || data.length === 0) {
-                microflowjson.microflow.map((mflow) => {
-                    let newFlow = new MicroFlow(mflow);
-                    newFlow.save();
-                })
-            }
+    private microFlowModel = MicroFlows;
+    public microFlow() {
+
+        microFlowJSON.microFlows.map(microFlowElement => {
+            this.microFlowModel.findOneAndUpdate({ _id: microFlowElement['_id'] }, microFlowElement, { new: true }, (err, data) => {
+                if (data === null) {
+                    let microFlow = new this.microFlowModel(microFlowElement);
+                    microFlow.save();
+                }
+            });
         });
+
     }
 }
