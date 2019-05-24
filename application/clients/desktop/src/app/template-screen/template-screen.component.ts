@@ -10,6 +10,8 @@ export class TemplateScreenComponent implements OnInit {
 
   gepTemplates: any = [];
   gepTempImages: any = [];
+  Selected: Boolean = false;
+  displayModel: String;
   constructor(private templateScreenService: TemplateScreenService) {
   }
 
@@ -22,6 +24,9 @@ export class TemplateScreenComponent implements OnInit {
       this.gepTemplates = gepTemp;
       this.gepTempImages = this.gepTemplates.template_image;
     });
+  }
+
+  ShowSelected() {
   }
 
 }
