@@ -14,7 +14,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-4" *ngFor="let template of gepTemplates;let i = index">
-            <div class="card" (click)="ShowSelected(i)">
+            <div class="card" (click)="ShowSelected(template,i)">
               <a class="img-card">
                 <img src={{template.template_image[0].image}} />
               </a>
@@ -29,7 +29,8 @@
                 <p>{{template.name}}</p>
               </div>
               <div class="overlay">
-                <div class="text">Select</div>
+                <div *ngIf="!selected && selectedIndex[0] !== i" class="text">Select</div>
+                <div *ngIf="selectedIndex[0] === i" class="text">Selected</div>
               </div>
             </div>
           </div>

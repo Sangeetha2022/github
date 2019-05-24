@@ -10,8 +10,10 @@ export class TemplateScreenComponent implements OnInit {
 
   gepTemplates: any = [];
   gepTempImages: any = [];
-  Selected: Boolean = false;
-  displayModel: String;
+  selected: Boolean = false;
+  selectedIndex: any = [];
+  unSelectedIndex: any = [];
+  selectedTemplate: any = [];
   constructor(private templateScreenService: TemplateScreenService) {
   }
 
@@ -26,7 +28,16 @@ export class TemplateScreenComponent implements OnInit {
     });
   }
 
-  ShowSelected() {
+  ShowSelected(template, index) {
+    this.selectedIndex = [];
+    this.gepTemplates.forEach(element => {
+      if (element.name === template.name) {
+        this.selectedIndex.push(index);
+        this.selectedTemplate = template;
+      } else {
+        this.selected = false;
+      }
+    });
   }
 
 }
