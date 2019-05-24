@@ -1,6 +1,6 @@
 /*
  * Template group ios_jenkins_build
- * Compiled on Sat May 18 2019 13:26:49 GMT+0530 (India Standard Time)
+ * Compiled on Fri May 24 2019 15:02:31 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -32,7 +32,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
-    w.write("<description>IPA Build Jenkins Job</description>");
+    w.write("<description>Ipa build and push to installr</description>");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -101,10 +101,25 @@ r = function(w, rc) {
     st.write(w, s, g, rc, s.project_name);
     w.write("&apos;");
     w.write("\n");
+    w.write("CRTLOCATION=&apos;");
+    st.write(w, s, g, rc, s.crt_location);
+    w.write("&apos;");
+    w.write("\n");
+    w.write("\n");
     w.write("GITURL=&apos;");
     st.write(w, s, g, rc, s.git_url);
     w.write("&apos;");
     w.write("\n");
+    w.write("\n");
+    w.write("#installr");
+    w.write("\n");
+    w.write("APITOKEN=&apos;");
+    st.write(w, s, g, rc, s.api_token);
+    w.write("&apos;");
+    w.write("\n");
+    w.write("EMAIL=&apos;");
+    st.write(w, s, g, rc, s.email);
+    w.write("&apos;");
     w.write("\n");
     w.write("\n");
     w.write("get_code(){");
@@ -184,7 +199,7 @@ r = function(w, rc) {
     w.write("}");
     w.write("\n");
     w.write("\n");
-    w.write("build_ipa(){");
+    w.write("build_code(){");
     w.write("\n");
     w.write("\n");
     w.write("cd &quot;$BASEPATH$WORKSPACE$CODEPATH&quot;");
@@ -209,7 +224,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("cordova build ios --device");
+    w.write("cordova build ios");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -259,7 +274,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("cordova build ios --device");
+    w.write("cordova build ios");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -287,7 +302,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("echo &quot;add ios platform failed!&quot;");
+    w.write("echo &quot;ios platform already added!&quot;");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -300,10 +315,62 @@ r = function(w, rc) {
     w.write("}");
     w.write("\n");
     w.write("\n");
+    w.write("build_ipa(){");
+    w.write("\n");
+    w.write("cd platforms/ios/build/emulator/");
+    w.write("\n");
+    w.write("\n");
+    w.write("mkdir ./Payload");
+    w.write("\n");
+    w.write("\n");
+    w.write("cp -R &quot;$PROJECTNAME.app&quot; ./Payload");
+    w.write("\n");
+    w.write("\n");
+    w.write("cp $CRTLOCATION Payload/$PROJECTNAME.app/embedded.mobileprovision");
+    w.write("\n");
+    w.write("\n");
+    w.write("zip -qr &quot;$PROJECTNAME.ipa&quot; Payload/");
+    w.write("\n");
+    w.write("\n");
+    w.write("rm -rf ./Payload");
+    w.write("\n");
+    w.write("}");
+    w.write("\n");
+    w.write("\n");
+    w.write("upload_ipa(){");
+    w.write("\n");
+    w.write("\n");
+    w.write("echo &quot;uploading app file to installr..&quot;");
+    w.write("\n");
+    w.write("\n");
+    w.write("UPLOADRESPONSE=`curl -H &quot;X-InstallrAppToken: $APITOKEN&quot;  https://www.installrapp.com/apps.json -F &quot;qqfile=@$PROJECTNAME.ipa&quot; -F &apos;releaseNotes=These are the release notes for first app&apos;`");
+    w.write("\n");
+    w.write("APPID=`echo $UPLOADRESPONSE | jq -r .appData.id`");
+    w.write("\n");
+    w.write("\n");
+    w.write("echo &quot;app file uploaded appId : $APPID&quot;");
+    w.write("\n");
+    w.write("\n");
+    w.write("echo &quot;sending email notification..&quot;");
+    w.write("\n");
+    w.write("\n");
+    w.write("EMAILRESPONSE=`curl -H &quot;X-InstallrAppToken: $APITOKEN&quot; https://www.installrapp.com/apps/$APPID/builds/latest/team.json -F &quot;notify=$EMAIL&quot;`");
+    w.write("\n");
+    w.write("EMAILSTATUS=`echo $EMAILRESPONSE | jq -r .result`");
+    w.write("\n");
+    w.write("\n");
+    w.write("echo &quot;email status:$EMAILSTATUS&quot;");
+    w.write("\n");
+    w.write("}");
+    w.write("\n");
     w.write("\n");
     w.write("get_code");
     w.write("\n");
-    w.write("build_ipa</command>");
+    w.write("build_code");
+    w.write("\n");
+    w.write("build_ipa");
+    w.write("\n");
+    w.write("upload_ipa</command>");
     w.write("\n");
     w.pushIndentation("    ");
     w.write("</hudson.tasks.Shell>");
@@ -328,7 +395,10 @@ r.args = [
 { name: "base_path"     },
 { name: "workspace"     },
 { name: "code_path"     },
-{ name: "git_url"     }
+{ name: "git_url"     },
+{ name: "crt_location"     },
+{ name: "email"     },
+{ name: "api_token"     }
 ];
 group.addTemplate("/ios_jenkins_build", r); 
 
