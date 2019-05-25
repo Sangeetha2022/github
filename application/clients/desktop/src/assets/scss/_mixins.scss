@@ -133,8 +133,8 @@
 	// }
 	.mat-form-field {
 		.mat-form-field-infix {
-			padding: 0.3rem 0 0;
-			border-width: 0.3rem;
+			padding: 0.3rem 0 0.4rem;
+			border-width: 0.7rem;
 		}
 		input[_ngcontent-c4] {
 			border: 0 none;
@@ -156,6 +156,7 @@
 	}
 	.mat-input-element {
 		@include text-field();
+		font-size: 1.3rem;
 
 		label {
 			color: $color_base_text;
@@ -253,8 +254,8 @@
 		border: 1px solid $white;
 		padding-top: 60%;
 		
-		.sitecard-preview[_ngcontent-c4],
-		.sitecard-preview-c[_ngcontent-c4] {
+		.sitecard-preview,
+		.sitecard-preview-c {
 			@include absolute-fill-parent-container();
 			
 			background-position: top left;
