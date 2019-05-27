@@ -4,7 +4,6 @@
     <br />
     <br />
     <!-- <button class="btn btn-success mb-sm-3 float-right">Generate</button> -->
-    <button class="btn btn-success mb-sm-3" [routerLink]="['/templates']">Geppetto Templates</button>
     <div>
         <mat-accordion>
             <mat-expansion-panel [expanded]="true">
@@ -44,8 +43,7 @@
                     <mat-panel-title> Entities </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div style="padding-right: 20px;">
-                    <button class="createEntityButton" mat-raised-button color="primary"
-                        (click)="saveEntityModel()">Add
+                    <button class="createEntityButton" mat-raised-button color="primary" (click)="saveEntityModel()">Add
                         Entity</button>
                 </div>
                 <div class="row" style="margin: 0px;">
@@ -95,9 +93,14 @@
                     <mat-panel-title> Screens </mat-panel-title>
                 </mat-expansion-panel-header>
                 <mat-card-content>
-
-                    <button class="createEntityButton goToButton" mat-raised-button (click)="GoToDesigner()">Add
-                        Screen</button>
+                    <div class="row">
+                        <div class="btn-group">
+                            <button class="goToButton btn-space" mat-raised-button [routerLink]="['/templates']">Modify
+                                Templates</button>
+                            <button class="goToButton btn-space" mat-raised-button (click)="GoToDesigner()">Add
+                                Screen</button>
+                        </div>
+                    </div>
                     <div class="row" style="margin: 0px;">
                         <div class="col-md-4" *ngFor="let screen of screenDetails; let i = index">
                             <div class="card">
@@ -108,7 +111,8 @@
                                 </div>
                                 <div class="card-body">
 
-                                    <button mat-raised-button color="primary" (click)="editScreen(screen._id, screen.screenType)">Edit</button>
+                                    <button mat-raised-button color="primary"
+                                        (click)="editScreen(screen._id, screen.screenType)">Edit</button>
                                     &nbsp;
                                     <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
                                         [disabled]="entity.is_default">Delete</button>

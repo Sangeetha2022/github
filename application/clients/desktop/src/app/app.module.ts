@@ -66,6 +66,7 @@ import { UserComponent } from './user/user.component';
 import { ProfilesettingsComponent } from './user/profilesettings/profilesettings.component';
 import { TemplateScreenComponent } from './template-screen/template-screen.component';
 import { TemplateScreenModule } from './template-screen/template-screen.module';
+import { FooterComponent } from './navigation/footer/footer.component';
 
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
@@ -154,6 +155,7 @@ export const I18N_PROVIDERS = [
     AdminComponent,
     UserComponent,
     ProfilesettingsComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

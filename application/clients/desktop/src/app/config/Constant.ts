@@ -11,7 +11,7 @@ export class Constants {
     public static get deleteUrl(): string { return '/delete/'; }
     public static get detailsUrl(): string { return '/details'; }
     public static get addFilesUrl(): string { return '/addfile'; }
-    public static get getFeatureByProjectId(): string { return '/getbyprojectid/'; }
+    // public static get getFeatureByProjectId(): string { return '/getbyprojectid/'; }
 
     public static get flowUrl(): string { return '/flow'; }
 
@@ -28,7 +28,7 @@ export class Constants {
     public static get addProjectDefaults(): String { return '/projects/default/create'; }
     public static get updateProjectById(): String { return '/projects/my/update'; }
     public static get getProjectById(): String { return '/projects/my/getbyid'; }
-    
+
 
     // Flow apis
     public static get addFlowCompToFlowUrl(): string { return '/add/flow_comp'; }
@@ -53,6 +53,7 @@ export class Constants {
 
     // Micro Flow apis
     public static get addMicroFlowUrl(): string { return '/microflow/save'; }
+    public static get getMicroFlow(): string { return '/microflow/component/get'; }
     public static get updateMicroFlowUrl(): string { return '/microflow/update'; }
     public static get deleteMicroFlowUrl(): string { return '/microflow/delete/'; }
     public static get getMicroFlowsByCompNameUrl(): string { return '/microflow/getbycomp/'; }
@@ -71,12 +72,24 @@ export class Constants {
     // public static get deleteConnector(): string { return '/connector/delete/' ;}
 
 
-    
+
 
     // Feature
     public static get feature(): string { return '/feature'; }
 
-    // Feature Details
+    // new Feature
+    public static get saveFeature(): String { return '/feature/save'; }
+    public static get updateFeature(): String { return '/feature/update'; }
+    public static get getAllFeature(): String { return '/feature/getall'; }
+    public static get getFeatureById(): String { return '/feature/get'; }
+    public static get getFeatureByProjectId(): String { return '/feature/project/get'; }
+    public static get deleteFeature(): String { return '/feature/delete'; }
+
+    // new flows
+    public static get getAllFlow(): String { return '/flow/getall'; }
+
+
+    // old  Feature Details
     public static get getAllFeatureDetails(): string { return '/feature/details/getall'; }
     public static get getAllFeatureDetailsByFeatureId(): string { return '/feature/details/getbyfeatureid/'; }
     public static get addFeatureDetails(): string { return '/feature/details/addfile'; }
@@ -105,7 +118,7 @@ export class Constants {
     // Feature Flow
     public static get addFeatureFlow(): string { return '/feature-flow/save'; }
     public static get deleteFeatureFlowById(): string { return '/feature-flow/delete/'; }
-    
+
     // public static get getFeatureFlowByFeatureId(): string { return '/feature-flow/getbyid/'; }
 
     // Entity
@@ -119,9 +132,11 @@ export class Constants {
     public static get addDefaultEntity(): string { return '/default_entity/save'; }
     public static get getDefaultEntityByProjectId(): string { return '/default_entity/getbyproject/'; }
 
+
     //Templates
 
     public static get getAllTemplates(): string { return '/template/getall'; }
+
 
     // regex Constant Expressions
 
