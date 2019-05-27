@@ -1,7 +1,7 @@
 {
-  "name": "entitygenmanager",
+  "name": "nodegenmanager",
   "version": "1.0.0",
-  "description": "Entity generation Manager MicroService",
+  "description": "node generation Manager MicroService",
   "main": "dist/server.js",
   "scripts": {
     "test": "ng test",
@@ -10,7 +10,7 @@
     "start": "nodemon ./dist/server.js",
     "prod": "npm run build && npm run start"
   },
-  "author": "Ramkumar <ramkumar.m@10decoders.in>",
+  "author": "Mithun <mithun.vikram@10decoders.in>",
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.16.1",
