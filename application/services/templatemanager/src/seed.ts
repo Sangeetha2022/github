@@ -1,8 +1,8 @@
 import * as mongoose from 'mongoose';
-import { GeppettoTemplateSchema } from './models/GeppettoTemplate';
+import { TemplateSchema } from './models/template.model';
 import { geppettoTemplate } from './assets/geppettoTemplate';
 
-const GeppettoTemplateModel = mongoose.model('Geppetto_Template', GeppettoTemplateSchema);
+const GeppettoTemplateModel = mongoose.model('Geppetto_Template', TemplateSchema);
 
 export class FeedSeedData {
 

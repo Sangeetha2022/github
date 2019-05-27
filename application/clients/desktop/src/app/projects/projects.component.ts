@@ -6,6 +6,7 @@ import { DataService } from '../../shared/data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProjectComponentService } from '../project-component/project-component.service';
+import { TemplateScreenService } from '../template-screen/template-screen.service';
 
 @Component({
   selector: 'app-projects',
@@ -33,6 +34,7 @@ export class ProjectsComponent implements OnInit {
     user_id: '',
     user_name: '',
   };
+  gepTempImages: any = [];
   public params = {
     code: '',
     scope: '',
@@ -42,6 +44,7 @@ export class ProjectsComponent implements OnInit {
   public codes: any;
   public scopes: any;
   public states: any;
+  gepTemplates: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -50,7 +53,7 @@ export class ProjectsComponent implements OnInit {
     private dataService: DataService,
     private router: Router,
     private toastr: ToastrService,
-
+    private templateScreenService: TemplateScreenService,
     private route: ActivatedRoute,
 
     private entityManagerService: ProjectComponentService,
@@ -59,6 +62,7 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.getAllMyProjects();
+    this.getAllGepTemplates();
     this.createProject = this.formBuilder.group({
       name: ['', Validators.required],
       label: '',
@@ -66,6 +70,7 @@ export class ProjectsComponent implements OnInit {
       description: '',
       primaryLanguage: ['', Validators.required],
       secondaryLanguage: [''],
+      template: [''],
     });
 
     // socket
@@ -147,7 +152,7 @@ export class ProjectsComponent implements OnInit {
   editProject(project) {
     console.log('edit project are --------- ', project);
     this.dataService.setProjectInfo(project);
-    this.router.navigate(['/project-component'],{queryParams:{projectId:project._id}});
+    this.router.navigate(['/project-component'], { queryParams: { projectId: project._id } });
   }
 
   projectCreate() {
@@ -329,6 +334,14 @@ export class ProjectsComponent implements OnInit {
 
   }
 
+
+  getAllGepTemplates() {
+    this.templateScreenService.getAllTemplates().subscribe(gepTemp => {
+      this.gepTemplates = gepTemp;
+      console.log('============', this.gepTemplates[0].name)
+      this.gepTempImages = this.gepTemplates.template_image;
+    });
+  }
   getAllUserNotify(user_id) {
 
     this.projectsService.getAllUserNotify(user_id).subscribe(data => {

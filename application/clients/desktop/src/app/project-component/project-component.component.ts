@@ -622,8 +622,6 @@ export class EntityManagerComponent implements OnInit {
                     }
                 });
             }
-            this.database.initialize('');
-
         });
     }
 

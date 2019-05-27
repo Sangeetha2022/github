@@ -14,6 +14,7 @@ class App {
     public app = express();
     public routerPrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
+    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
 
 
     constructor() {
@@ -32,10 +33,10 @@ class App {
     }
 
     private mongoSetup(): void {
-        // mongoose.Promise = global.Promise;
-        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        let mongoConfig = new MongoConfig();
-        mongoConfig.mongoConfig();
+        mongoose.Promise = global.Promise;
+        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        // let mongoConfig = new MongoConfig();
+        // mongoConfig.mongoConfig();
     }
 
     private mongoSeedData(): void {

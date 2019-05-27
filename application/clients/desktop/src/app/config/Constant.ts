@@ -28,7 +28,7 @@ export class Constants {
     public static get addProjectDefaults(): String { return '/projects/default/create'; }
     public static get updateProjectById(): String { return '/projects/my/update'; }
     public static get getProjectById(): String { return '/projects/my/getbyid'; }
-    
+
 
     // Flow apis
     public static get addFlowCompToFlowUrl(): string { return '/add/flow_comp'; }
@@ -72,7 +72,7 @@ export class Constants {
     // public static get deleteConnector(): string { return '/connector/delete/' ;}
 
 
-    
+
 
     // Feature
     public static get feature(): string { return '/feature'; }
@@ -118,7 +118,7 @@ export class Constants {
     // Feature Flow
     public static get addFeatureFlow(): string { return '/feature-flow/save'; }
     public static get deleteFeatureFlowById(): string { return '/feature-flow/delete/'; }
-    
+
     // public static get getFeatureFlowByFeatureId(): string { return '/feature-flow/getbyid/'; }
 
     // Entity
@@ -131,6 +131,11 @@ export class Constants {
     // Default Entity
     public static get addDefaultEntity(): string { return '/default_entity/save'; }
     public static get getDefaultEntityByProjectId(): string { return '/default_entity/getbyproject/'; }
+
+
+    //Templates
+
+    public static get getAllTemplates(): string { return '/template/getall'; }
 
 
     // regex Constant Expressions
