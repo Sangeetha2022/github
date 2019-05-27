@@ -12,7 +12,7 @@ export class NodeDao {
      
     }
 
-    public getEntityByProjectId(projectId, callback) {
+    public getNodeByProjectId(projectId, callback) {
         console.log('project id  in entity dao ------ ', projectId);
         entityModel.find({ project_id: projectId }).
             populate({

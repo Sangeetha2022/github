@@ -1,24 +1,24 @@
 import { Request } from 'express';
-import { EntityDao } from '../daos/EntityDao';
+import { NodeDao } from '../daos/NodeDao';
 import * as util from 'util';
-import { EntityWorker } from '../worker/EntityWorker';
+import { NodeWorker } from '../worker/NodeWorker';
 
-let entityDao = new EntityDao();
-let entityWorker = new EntityWorker();
+let nodeDao = new NodeDao();
+let nodeWorker = new NodeWorker();
 
-export class EntityService {
+export class NodeService {
 
 
 
-    public generateEntity = async (req: Request, callback) => {
+    public generateNode = async (req: Request, callback) => {
         const projectId = req.params.projectId;
-        entityDao.getEntityByProjectId(projectId, (response) => {
+        nodeDao.getNodeByProjectId(projectId, (response) => {
             console.log('generate entity in services are -----------  ', response.length, ' -- ',
                 util.inspect(response, { showHidden: false, depth: null }));
                 let count = 0;
             if (response.length > 0) {
                 response.forEach(element => {
-                    entityWorker.entityModelWorker(element, (result) => {
+                    nodeWorker.nodeModelWorker(element, (result) => {
                         count++;
                         console.log('inside one in controller')
                         if(count === response.length - 1) {

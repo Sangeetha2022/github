@@ -1,18 +1,18 @@
-import { EntitySupportWorker } from "../supportworker/EntitySupportWorker";
+import { NodeSupportWorker } from "../supportworker/NodeSupportWorker";
 import { response } from "express";
 
 
-let entitySupportWorker = new EntitySupportWorker();
-export class EntityWorker {
+let nodeSupportWorker = new NodeSupportWorker();
+export class NodeWorker {
 
 
-    entityModelWorker(entityData, callback) {
+    nodeModelWorker(entityData, callback) {
         let fields = this.FieldObject(entityData.field);
         console.log('list of fields in objects ----- ', fields);
-        entitySupportWorker.entityModelWorker(entityData.name, fields, (response) => {
+        nodeSupportWorker.entityModelWorker(entityData.name, fields, (response) => {
             callback(response);
         })
-        entitySupportWorker.nodeServerWorker(6000, (response) => {
+        nodeSupportWorker.nodeServerWorker(6000, (response) => {
             console.log('adjnaijdnbsadofnafno')
             callback(response)
         })

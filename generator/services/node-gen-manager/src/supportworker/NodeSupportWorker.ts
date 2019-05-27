@@ -5,7 +5,7 @@ import * as st from 'stringtemplate-js';
 
 
 
-export class EntitySupportWorker {
+export class NodeSupportWorker {
 
     private templatePath = path.resolve(__dirname, '../../template');
     private sourcePath: String = path.resolve(__dirname, '../../originalCode');

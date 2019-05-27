@@ -3,7 +3,7 @@ import * as uuid from 'uuid';
 
 const Schema = mongoose.Schema;
 
-export const EntitySchema = new Schema({
+export const NodeSchema = new Schema({
     _id: {
         type: String,
         default: uuid.v1
