@@ -40,6 +40,13 @@ export class MicroFlowService{
         })
     }
 
+    public getBackendMicroFlow(req: Request, callback: CallableFunction) {
+        const microFlowIDS = req.body;
+        microFlowDao.getBackendMicroFlow(microFlowIDS ,(microflow) => {
+            callback(microflow);
+        })
+    }
+
     public getMicroFlowByProjectId(req: Request, callback: CallableFunction) {
         const projectId = req.query.projectId;
         microFlowDao.getMicroFlowByProjectId(projectId, (microflow) => {

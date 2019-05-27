@@ -53,7 +53,7 @@ export class CodeGenerationService {
     const features = await this.getFeatures(projectId);
     const FeatureJSON = JSON.parse(features.toString());
     console.log('get feature by project id are ------  ', features, '  length   ', FeatureJSON.body.length);
-    asyncLoop(FeatureJSON.body, (featureElement, next) => {
+    asyncLoop(FeatureJSON.body, async (featureElement, next) => {
      
       console.log('starting feature each ovjes area--11----  ', featureElement, ' each feature length  ', featureElement.entities.length);
       const feature = {
@@ -65,7 +65,10 @@ export class CodeGenerationService {
       }
       feature.name = featureElement.name;
       feature.description = featureElement.description;
-      feature.flows = featureElement.flows;
+      const flows = await this.getFlows(featureElement.flows);
+      console.log('flows response rae -11----  ', flows);
+      console.log('flows response rae --22---  ', JSON.parse(JSON.stringify(flows)).body);
+      feature.flows = JSON.parse(JSON.stringify(flows)).body;
       
       // const entity = await this.getEntityById();
       if (featureElement.entities.length > 0) {
@@ -123,6 +126,22 @@ export class CodeGenerationService {
         resolve(data);
       })
     });
+  }
+
+  getFlows(flowIDs) {
+    return new Promise(resolve => {
+      this.flowService.getFlows(flowIDs, (data) => {
+        resolve(data);
+      })
+    })
+  }
+
+  getFlowsByLanguage(flowIDs, language) {
+    return new Promise(resolve => {
+      this.flowService.getFlowsByLanguage(flowIDs, language, (data) => {
+        resolve(data);
+      })
+    })
   }
 
   getEntityById(entityId) {

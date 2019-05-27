@@ -18,15 +18,19 @@ class MicroflowController implements Controller {
 
     private initializeRoutes() {
 
-        this.router.post('/microflow/save', this.flowControllersaveMicroFlow);
-        this.router.put('/microflow/update', this.flowControllerupdateMicroFlow);
-        this.router.get('/microflow/getall', this.flowControllergetAllFlow);
-        this.router.get('/microflow/getbyid/:id', this.flowControllergetFlowByID);
-        this.router.delete('/microflow/delete/:id', this.flowControllerdeleteMicroFlow);
-       this.router.get('/microflow/getbycomp/:name', this.getMicroFlowByName);
+
+        this.router.post('/microflow/save', this.saveMicroFlow);
+        this.router.put('/microflow/update', this.updateMicroFlow);
+        this.router.get('/microflow/getall', this.getAllMicroFlow);
+        this.router.get('/microflow/get', this.getMicroFlowByID);
+        this.router.post('/microflow/component/get', this.getMicroFlow);
+        this.router.post('/microflow/component/backend/get', this.getBackendMicroFlow);
+        this.router.get('/microflow/project/get', this.getMicroFlowByProjectId);
+        this.router.delete('/microflow/delete', this.deleteMicroFlow);
+
     }
 
-    public flowControllersaveMicroFlow(req: Request, res: Response) {
+    public saveMicroFlow(req: Request, res: Response) {
         new ApiAdaptar().post(`${Constants.featureUrl}/microflow/save`, req.body).then(micro => {
             res.send(micro);
         }).catch(err => {
@@ -34,23 +38,23 @@ class MicroflowController implements Controller {
         });
     }
 
-    public flowControllerupdateMicroFlow(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.microUrl}/microflow/update ${req.params.id}`,req.body).then(micro => {
+    public updateMicroFlow(req: Request, res: Response) {
+        new ApiAdaptar().put(`${Constants.microUrl}/microflow/update`, req.body).then(micro => {
             res.send(micro);
         }).catch(err => {
             res.send(err);
         });
     }
 
-    public flowControllerdeleteMicroFlow(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.microUrl}/microflow/delete/:id ${req.params.id}`).then(micro => {
+    public deleteMicroFlow(req: Request, res: Response) {
+        new ApiAdaptar().delete(`${Constants.microUrl}/microflow/delete?microflowId=${req.query.microflowId}`).then(micro => {
             res.send(micro);
         }).catch(err => {
             res.send(err);
         });
     }
 
-    public flowControllergetAllFlow(req: Request, res: Response) {
+    public getAllMicroFlow(req: Request, res: Response) {
         new ApiAdaptar().get(`${Constants.microUrl}/microflow/getall`).then(allmicro => {
             res.send(allmicro);
         }).catch(err => {
@@ -58,22 +62,42 @@ class MicroflowController implements Controller {
         });
     }
 
-    public flowControllergetFlowByID = (req: Request, res: Response) => {
-        new ApiAdaptar().get(`${Constants.microUrl}'/microflow/getall'${req.params.id}`).then(result => {
-            req.baseUrl === '/mobile' ? res.send(result) :
-                req.baseUrl === '/desktop' ? res.send(result) : res.send(null)
+    public getMicroFlowByID(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.microUrl}/microflow/get?microflowId=${req.query.microflowId}`).then(result => {
+            res.send(result)
         }).catch(err => {
             res.send(err);
         });
     }
 
-    public getMicroFlowByName = (req: Request, res: Response) => {
-        new ApiAdaptar().get(`${Constants.microUrl}/microflow/getbycomp/${req.params.name}`)
-        .then(result => {
-            res.send(result);
+    public getMicroFlow(req: Request, res: Response) {
+        console.log('api get microflows id are --11-- ', req.body);
+        console.log('api get microflows id are --22-- ', `${Constants.microUrl}/microflow/component/get`);
+        new ApiAdaptar().post(`${Constants.microUrl}/microflow/component/get`, req.body).then(result => {
+            res.send(result)
         }).catch(err => {
             res.send(err);
-        })
+        });
     }
+
+
+
+    public getBackendMicroFlow(req: Request, res: Response) {
+        new ApiAdaptar().post(`${Constants.microUrl}/microflow/component/backend/get`, req.body).then(result => {
+            res.send(result)
+        }).catch(err => {
+            res.send(err);
+        });
+    }
+
+    public getMicroFlowByProjectId(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.microUrl}/microflow/project/get?projectId=${req.query.projectId}`).then(result => {
+            res.send(result)
+        }).catch(err => {
+            res.send(err);
+        });
+    }
+
+
 }
 export { MicroflowController };

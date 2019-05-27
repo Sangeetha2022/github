@@ -16,6 +16,7 @@ export class Routes {
         app.route('/microflow/getall').get(this.microFlowController.getAllMicroFlow);
         app.route('/microflow/get').get(this.microFlowController.getMicroFlowByID);
         app.route('/microflow/component/get').post(this.microFlowController.getMicroFlow);
+        app.route('/microflow/component/backend/get').post(this.microFlowController.getBackendMicroFlow);
         app.route('/microflow/project/get').get(this.microFlowController.getMicroFlowByProjectId);
         app.route('/microflow/delete').delete(this.microFlowController.deleteMicroFlow);
     }

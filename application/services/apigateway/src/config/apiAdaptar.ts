@@ -14,9 +14,9 @@ export class ApiAdaptar {
     get = (url) => {
         console.log('get adi adapterare are--111--- ', url);
         return new Promise((resolve, reject) => {
-            console.log('get adi adapterare are--222--- ', resolve, '  --- ', reject);
+            // console.log('get adi adapterare are--222--- ', resolve, '  --- ', reject);
             request.get(url, (error, response, body) => {
-                console.log(" output are - -- > > ",error, ' --- ', response, ' -- ', body)
+                // console.log(" output are - -- > > ",error, ' --- ', response, ' -- ', body)
                 this.sendResponse(resolve, reject, error, response, JSON.parse(body));
             });
         });
@@ -40,7 +40,7 @@ export class ApiAdaptar {
     }
 
     private sendResponse = (resolve, reject, error, response, body) => {
-        console.log('response ------------  ', response, '  - ------ -  ', body);
+        // console.log('response ------------  ', response, '  - ------ -  ', body);
         if (response.statusCode === 200) {
             resolve({
                 body,
