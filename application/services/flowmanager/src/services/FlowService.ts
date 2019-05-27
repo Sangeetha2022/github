@@ -1,5 +1,5 @@
 import { Request, NextFunction } from 'express';
-import { FlowDao } from '../daos/flow.dao';
+import { FlowDao } from '../daos/FlowDao';
 
 let flowDao = new FlowDao()
 
@@ -32,6 +32,27 @@ export class FlowService {
             callback(flow)
         })
     }
+
+    public getFeatureFlows(req: Request, callback: CallableFunction) {
+        const flowsId = req.body;
+        flowDao.getFeatureFlows(flowsId, (flow) => {
+            callback(flow)
+        })
+    }
+    public getFeatureFlowsByLanguage(req: Request, callback: CallableFunction) {
+        const flowsId = req.body;
+        const language = req.query.language;
+        flowDao.getFeatureFlowsByLanguage(flowsId, language, (flow) => {
+            callback(flow)
+        })
+    }
+
+    // public getBackendFlow(req: Request, callback: CallableFunction) {
+    //     const flowsId = req.body;
+    //     flowDao.getBackendFlow(flowsId, (flow) => {
+    //         callback(flow)
+    //     })
+    // }
 
     public getFlowByProjectId(req: Request, callback: CallableFunction) {
         const projectId = req.query.projectId;

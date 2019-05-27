@@ -33,6 +33,27 @@ export class FlowController {
         })
     }
 
+    public getFeatureFlows(req: Request, res: Response) {
+        flowService.getFeatureFlows(req, (response) => {
+            res.status(200); // status for the response
+            res.json(response);
+        })
+    }
+
+    public getFeatureFlowsByLanguage(req: Request, res: Response) {
+        flowService.getFeatureFlowsByLanguage(req, (response) => {
+            res.status(200); // status for the response
+            res.json(response);
+        })
+    }
+
+    // public getBackendFlow(req: Request, res: Response) {
+    //     flowService.getBackendFlow(req, (response) => {
+    //         res.status(200); // status for the response
+    //         res.json(response);
+    //     })
+    // }
+
     public getFlowByProjectId(req: Request, res: Response) {
         flowService.getFlowByProjectId(req, (response) => {
             res.status(200); // status for the response

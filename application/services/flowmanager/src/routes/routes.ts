@@ -16,6 +16,9 @@ export class Routes {
         app.route('/flow/update').put(this.flowController.updateFlow);
         app.route('/flow/getall').get(this.flowController.getAllFlow);
         app.route('/flow/get').get(this.flowController.getFlowById);
+        app.route('/flow/feature/get').post(this.flowController.getFeatureFlows);
+        app.route('/flow/feature/language/get').post(this.flowController.getFeatureFlowsByLanguage);
+        // app.route('/flow/feature/backend/get').post(this.flowController.getBackendFlow);
         app.route('/flow/delete').delete(this.flowController.deleteFlow);
         app.route('/flow/project/get').get(this.flowController.getFlowByProjectId);
 

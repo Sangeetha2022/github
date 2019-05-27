@@ -13,15 +13,4 @@ export class FlowManagerService {
             callback(error);
         })
     }
-
-    getFlowsByLanguage(flowIDS, language, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/flow/feature/language/get?language=${language}`, flowIDS).then(
-            data => {
-                console.log('backend flow response ---- ', data);
-                callback(data);
-            }
-        ).catch(error => {
-            callback(error);
-        })
-    }
 }
