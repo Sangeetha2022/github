@@ -6,9 +6,9 @@ let codeService = new CodeGenerationService();
 
 export class CodeGenerationController {
 
-    public createProjectCode(req: Request, res: Response) {
+    public createProject(req: Request, res: Response) {
         console.log('coder serbvice in controller ---- ', codeService)
-        codeService.createProjectCode(req, (response) => {
+        codeService.createProject(req, (response) => {
             res.status(200);
             res.json(response);
         })

@@ -8,7 +8,7 @@
   <div class="flowTable">
     <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnDefs"
     [rowSelection]="rowSelection" [rowData]="rowData" [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight'
-    (cellDoubleClicked)="routeNextPage()" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
+    (cellDoubleClicked)="routeNextPage($event)" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
     </ag-grid-angular>
   </div>
 </div>
@@ -56,10 +56,10 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="action">{{ 'action' | i18next }}</label>
-                <input type="text" class="form-control" placeholder="enter your action" id="action" formControlName="action_on_data"
-                  [(ngModel)]="flow.action_on_data" [ngClass]="{ 'is-invalid': submitted && form_control.action_on_data.errors }">
-                <div *ngIf="submitted && form_control.action_on_data.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.action_on_data.errors.required">should not be empty</div>
+                <input type="text" class="form-control" placeholder="enter your action" id="action" formControlName="actionOnData"
+                  [(ngModel)]="flow.actionOnData" [ngClass]="{ 'is-invalid': submitted && form_control.actionOnData.errors }">
+                <div *ngIf="submitted && form_control.actionOnData.errors" class="invalid-feedback">
+                  <div *ngIf="form_control.actionOnData.errors.required">should not be empty</div>
                 </div>
               </div>
             </div>

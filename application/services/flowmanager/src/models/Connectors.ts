@@ -40,6 +40,6 @@ export let connectorSchema = mongoose.Schema({
     }
 });
 
-const connectorModel = mongoose.model('connector', connectorSchema, 'connector');
+const connectorModel = mongoose.model('connectors', connectorSchema, 'connectors');
 
 export default connectorModel;

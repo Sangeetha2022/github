@@ -8,7 +8,7 @@ import { createServer, Server } from 'http';
 import * as socketIo from 'socket.io';
 
 
-const PORT = 5008;
+const PORT = 5009;
 
 export class App {
 
@@ -17,7 +17,6 @@ export class App {
     public io: socketIo.Server;
 
     public routePrv: Routes = new Routes();
-    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
     public logger: WinstonLogger = new WinstonLogger();
 
 
@@ -39,10 +38,10 @@ export class App {
     }
 
     private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mConfig = new MongoConfig();
-        // mConfig.mongoConfig();
+        // mongoose.Promise = global.Promise;
+        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        let mConfig = new MongoConfig();
+        mConfig.mongoConfig();
     }
 
 

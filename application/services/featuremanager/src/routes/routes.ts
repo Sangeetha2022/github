@@ -23,6 +23,11 @@ export class Routes {
         app.route('/feature/delete').delete(this.featureController.deleteFeature);
         app.route('/feature/project/get').get(this.featureController.getFeatureByProjectId);
 
+        app.route('/feature/updateEntity/:featureId').put(this.featureController.featureUpdateEntity)
+        app.route('/feature/deleteentity/:featureId/:entityid').delete(this.featureController.featuredeleteEntity);
+
+
+
         // // Feature Details
         // app.route('/feature/details/addfile').post(this.featureDetailsController.uploadeFeaturefile);
         // app.route('/feature/details/getall').get(this.featureDetailsController.getAllFeatureDetails);

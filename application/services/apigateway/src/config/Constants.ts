@@ -8,12 +8,12 @@
 // export const loginUrl = 'http://localhost:3007';
 // export const camundaUrl = 'http://localhost:3008';
 // export const proxyUrl = 'http://localhost:3009';
-// export const securityUrl ='http://localhost:3008';
 
 // generation URL
 
-// export const codeGenUrl = 'http://localhost:5006';
 // export const configUrl = 'http://localhost:5001';
+// export const codeGenUrl = 'http://localhost:5008';
+// export const backendGenUrl = 'http://localhost:5009'
 
 export const flowUrl = 'http://3.84.173.148:30001';
 export const microUrl = 'http://3.84.173.148:30002';
@@ -25,7 +25,7 @@ export const loginUrl = 'http://3.84.173.148:30007';
 export const camundaUrl = 'http://3.84.173.148:30008'
 export const proxyUrl = 'http://3.84.173.148:30009';
 
-// Generation Url
+// // Generation Url
 export const codeGenUrl = 'http://3.84.173.148:30500';
 export const configUrl = 'http://3.84.173.148:30501';
 

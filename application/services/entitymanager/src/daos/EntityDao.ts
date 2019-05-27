@@ -19,12 +19,13 @@ export class EntityDao {
     }
 
     public updateEntity(entityData, callback) {
+        console.log("datada----->>>>", entityData)
         entityModel.findOneAndUpdate({ _id: entityData._id },
              entityData,
             { new: true })
             .then((result) => {
-                console.log('update entity result ----- ', result);
-                callback(result);
+                console.log('result---------->>>>>', entityData.id)
+                callback(entityData._id);
             }).catch((error) => {
                 console.log('update entity error -----  ', error);
                 callback(error);
@@ -88,8 +89,11 @@ export class EntityDao {
     }
 
     public getEntityByFeatureId(featureId,projectId, callback) {
+        console.log('featureee----->>>', featureId);
+        console.log('projecttt---->>', projectId);
         entityModel.find({ $and: [ { feature_id: featureId }, { project_id: projectId } ] }).
             exec(function (err, result) {
+                console.log('resultt----->>',result)
                 if (err) {
                     callback(err);
                     console.log('project id in entityt dao error ---- ', err);
@@ -99,4 +103,15 @@ export class EntityDao {
                 }
             })
     }
+
+    public getentityfeatures(callback) {
+
+        entityModel.find({ feature_id: '' }).then((result) => {
+            console.log('---------response----->>>', result);
+            callback(result);
+        }).catch((error) => {
+            callback(error);
+        });
+    }
+
 }

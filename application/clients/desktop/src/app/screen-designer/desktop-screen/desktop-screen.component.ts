@@ -1229,7 +1229,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                                     const resultArray = [];
                                     result.forEach(flowElement => {
                                         const flowObj = {
-                                            action_on_data: flowElement.button.action.action_on_data,
+                                            actionOnData: flowElement.button.action.actionOnData,
                                             create_with_default_activity: flowElement.button.action.create_with_default_activity,
                                             description: flowElement.button.action.description,
                                             label: flowElement.button.action.label,

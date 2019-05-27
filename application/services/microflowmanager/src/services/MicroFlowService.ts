@@ -1,13 +1,13 @@
 import { Request } from 'express';
-import { MicroFlowDao } from '../daos/microflow.dao';
+import { MicroFlowDao } from '../daos/MicroFlowDao';
 
-let mFlowDao = new MicroFlowDao()
+let microFlowDao = new MicroFlowDao()
 
 export class MicroFlowService{
 
     public saveMicroFlow(req: Request, callback: CallableFunction) {
         const microflowData = req.body;
-        mFlowDao.saveMicroFlow(microflowData, (feature) => {
+        microFlowDao.saveMicroFlow(microflowData, (feature) => {
             callback(feature)
         })
     }
@@ -15,35 +15,48 @@ export class MicroFlowService{
     public updateMicroFlow(req: Request, callback: CallableFunction) {
         const microflowId = req.body._id;
         const microflowData = req.body;
-        mFlowDao.updateMicroFlow(microflowId, microflowData, (microflow) => {
+        microFlowDao.updateMicroFlow(microflowId, microflowData, (microflow) => {
             callback(microflow)
         })
     }
 
     public getAllMicroFlow(req: Request, callback: CallableFunction) {
-        mFlowDao.getAllMicroFlow((microflow) => {
+        microFlowDao.getAllMicroFlow((microflow) => {
             callback(microflow)
         })
     }
 
     public getMicroFlowByID(req: Request, callback: CallableFunction) {
         const microflowId = req.query.microflowId;
-        mFlowDao.getMicroFlowByID(microflowId, (microflow) => {
+        microFlowDao.getMicroFlowByID(microflowId, (microflow) => {
             callback(microflow)
+        })
+    }
+
+    public getMicroFlow(req: Request, callback: CallableFunction) {
+        const microFlowIDS = req.body;
+        microFlowDao.getMicroFlow(microFlowIDS ,(microflow) => {
+            callback(microflow);
+        })
+    }
+
+    public getBackendMicroFlow(req: Request, callback: CallableFunction) {
+        const microFlowIDS = req.body;
+        microFlowDao.getBackendMicroFlow(microFlowIDS ,(microflow) => {
+            callback(microflow);
         })
     }
 
     public getMicroFlowByProjectId(req: Request, callback: CallableFunction) {
         const projectId = req.query.projectId;
-        console.log('get microflow by project id are ------ ', projectId);
-        mFlowDao.getMicroFlowByProjectId(projectId, (microflow) => {
+        microFlowDao.getMicroFlowByProjectId(projectId, (microflow) => {
             callback(microflow)
         })
     }
 
     public deleteMicroFlow(req: Request, callback: CallableFunction) {
         const microflowId = req.query.microflowId;
-        mFlowDao.deleteMicroFlow(microflowId, (microflow) => {
+        microFlowDao.deleteMicroFlow(microflowId, (microflow) => {
             callback(microflow)
         })
     }
