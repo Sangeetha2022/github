@@ -6,8 +6,8 @@ let backendService = new BackendService();
 
 export class BackendController {
 
-    public createbackend(req: Request, res: Response) {
-        backendService.createbackend(req, (response) => {
+    public createProject(req: Request, res: Response) {
+        backendService.createProject(req, (response) => {
             res.status(200);
             res.json(response);
         })

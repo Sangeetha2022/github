@@ -1,9 +1,0 @@
-{
-  "feature": [
-    {
-      "name": "Ticketing Feature",
-      "description": "Feature for ticket system",
-      "connectProject": false
-    }
-  ]
-}

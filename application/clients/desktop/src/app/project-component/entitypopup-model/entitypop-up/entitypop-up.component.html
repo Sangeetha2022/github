@@ -1,0 +1,53 @@
+<h1 mat-dialog-title>Entity:</h1>
+<div *ngIf="create">
+    <div mat-dialog-content style="text-align: center">
+        <p>Name</p>
+        <mat-form-field>
+            <input matInput [(ngModel)]="modelObject.name">
+        </mat-form-field>
+        <p>Description</p>
+        <mat-form-field>
+            <input matInput [(ngModel)]="modelObject.description">
+        </mat-form-field>
+        <br />
+        <mat-radio-group [(ngModel)]="modelObject.entityType" #radioGroup="matRadioGroup">
+            <mat-radio-button [disabled]="isPrimaryEntityPresent" value="primary">Primary</mat-radio-button>
+            &nbsp;&nbsp;
+            <mat-radio-button value="secondary">Secondary</mat-radio-button>
+        </mat-radio-group>
+    </div>
+    <br />
+    <br />
+    <!-- <div mat-dialog-actions>
+        <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+        <button mat-raised-button color="primary" [mat-dialog-close]="modelObject" cdkFocusInitial>Ok</button>
+    </div> -->
+</div>
+<div *ngIf="existing">
+    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
+        [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="rowData" [defaultColDef]="defaultColDef"
+        [animateRows]="true" (cellDoubleClicked)="routeNextPage()" (selectionChanged)="onSelectionChanged($event)"
+        (gridReady)="onGridReady($event)" domLayout='autoHeight' [frameworkComponents]="frameworkComponents">
+    </ag-grid-angular>
+    <div>
+        <mat-radio-group [(ngModel)]="modelObject.entityType" #radioGroup="matRadioGroup">
+            <mat-radio-button [disabled]="isPrimaryEntityPresent"  value="primary">Primary</mat-radio-button>
+            &nbsp;&nbsp;
+            <mat-radio-button  value="secondary">Secondary</mat-radio-button>
+        </mat-radio-group>
+    </div>
+</div>
+<div *ngIf="hide" mat-dialog-actions>
+    <mat-radio-group layout="row" [(ngModel)]="selectedOption">
+        <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option"
+            (change)="radioChange($event)">
+            {{option}}
+        </mat-radio-button>
+    </mat-radio-group>
+</div>
+<br />
+<br />
+<div>
+    <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="modelObject">Add</button>
+</div>

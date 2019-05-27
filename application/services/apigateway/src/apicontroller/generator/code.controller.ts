@@ -16,9 +16,9 @@ export class CodeController implements Controller {
     }
 
     createProjectCode(req: Request, res: Response) {
-        console.log('create project code ----- ', req.query.projectid)
+        console.log('create project code ----- ', req.query.projectId)
         new ApiAdaptar().put(
-            `${Constants.codeGenUrl}/generate/code?projectid=${req.query.projectid}`,
+            `${Constants.codeGenUrl}/generate/code?projectId=${req.query.projectId}`,
             req.body
         ).then((response) => {
             res.send(response);

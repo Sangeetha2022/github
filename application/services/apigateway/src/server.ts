@@ -12,6 +12,7 @@ import {
     Camundacontroller,
     FeatureController,
     CodeController,
+    BackendController,
     ConfigurationController
 
 } from './apicontroller';
@@ -34,6 +35,7 @@ let apisController = [
     new createUserTemplateController(),
     new MicroflowController(),
     new CodeController(),
+    new BackendController(),
     new ConfigurationController()
 
 ]

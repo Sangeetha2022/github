@@ -33,7 +33,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4" *ngIf="featureData && featureData.length === 0">
+                    <div class="col-md-4" *ngIf="projectFeatureData && projectFeatureData.length === 0">
                         No Feature Available.
                     </div>
                 </div>
@@ -229,8 +229,9 @@
                     </div>
                     <form #featurForm="ngForm">
                         <div class="form-group">
+                            <!-- feature name -->
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" name="name" [(ngModel)]="featureDetails.name"
+                            <input type="text" class="form-control" name="name" [(ngModel)]="featureInfo.name"
                                 #name="ngModel" [ngClass]="{ 'is-invalid': featurForm.submitted && name.invalid }"
                                 required />
                             <div *ngIf="featurForm.submitted && name.invalid" class="invalid-feedback">
@@ -259,10 +260,12 @@
     Drag and drop files to upload
     </div>
     </div> -->
+       
+    <!-- feature descritpion -->
                         <div class="form-group">
                             <label for="description">Description</label>
                             <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)"
-                                [(ngModel)]="featureDetails.description"></ckeditor>
+                                [(ngModel)]="featureInfo.description"></ckeditor>
                             <!-- use this inside ckeditor tag for image upload replace your api with uploadUrl [config]="{ ckfinder :{uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/'}}" -->
                         </div>
                     </form>

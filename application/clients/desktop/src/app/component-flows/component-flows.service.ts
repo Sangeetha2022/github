@@ -15,6 +15,12 @@ export class ComponentFlowsService {
   constructor(private api: ApiService, private restapi: SharedService) {
   }
 
+  // new apis
+  getMicroFlow(ids: any): Observable<any> {
+    return this.api.post(`${this.restapi.mflowbaseUrl}${Constants.getMicroFlow}`, ids);
+  }
+
+  // old apis
   changeMessage(message: string) {
     this.messageSource.next(message);
   }
