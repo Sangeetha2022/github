@@ -1,7 +1,7 @@
 
 'use strict'
 import * as mongoose from 'mongoose';
-import { NodeSchema } from '../models/Nodemodels';
+import { NodeSchema } from '../models/NodeModels';
 
 const entityModel = mongoose.model('Node', NodeSchema);
 

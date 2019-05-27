@@ -1,0 +1,33 @@
+{
+  "name": "configurationmanager",
+  "version": "1.0.0",
+  "description": "Gen Configuration Microservice",
+  "main": "dist/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "dev": "ts-node ./src/server.ts",
+    "start": "nodemon ./dist/server.js",
+    "prod": "npm run build && npm run start"
+  },
+  "author": "Rahul Tibrewal <rahul.tiberwal@10decoders.in>",
+  "license": "",
+  "dependencies": {
+    "@types/express": "^4.16.1",
+    "@types/socket.io": "^2.1.2",
+    "body-parser": "^1.18.3",
+    "class-validator": "^0.9.1",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-winston": "^3.0.1",
+    "mongoose": "^5.4.7",
+    "node-async-loop": "^1.2.2",
+    "node-vault": "^0.9.5",
+    "nodemon": "^1.18.9",
+    "socket.io": "^2.2.0",
+    "stringtemplate-js": "^0.1.1",
+    "typescript": "^3.2.4",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^3.6.0"
+  }
+}
