@@ -5,7 +5,7 @@ import { DataService } from 'src/shared/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { MenuBuilderService } from './menu-builder.service';
 import { TreeDragService } from './tree-drag/tree-drag.service';
-import {EntityManagerComponent} from '../project-component/project-component.component';
+import { EntityManagerComponent } from '../project-component/project-component.component';
 
 @Component({
   selector: 'app-menu-builder',
@@ -24,7 +24,6 @@ export class MenuBuilderComponent implements OnInit {
   selectedMenu: String;
   project_id: String;
   menuDetails: any = [];
-  stopUpdate: Boolean;
   getMenu: Boolean;
   descriptionBeforeUpdate: String;
   createRow: Boolean = false;
@@ -75,7 +74,7 @@ export class MenuBuilderComponent implements OnInit {
     private database: TreeDragService,
     private route: ActivatedRoute,
     private menuBuilderService: MenuBuilderService,
-    private projectComp : EntityManagerComponent,
+    private projectComp: EntityManagerComponent,
   ) {
   }
 
@@ -144,9 +143,9 @@ export class MenuBuilderComponent implements OnInit {
                 meData.feature.push(FeatureDiff[0]);
               }
               this.menuDetails = meData.menuDetails;
-              // this.projectComp.getMenuBuilderByProjectId();
-              this.database.initialize(this.menuDetails);
               this.updateMenuById(meData._id, meData);
+              this.database.initialize(meData.menuDetails);
+
             }
             if (meData.language !== this.selectedLang) {
               meData.menu_option = false;
@@ -193,7 +192,6 @@ export class MenuBuilderComponent implements OnInit {
             this.menuBuilderDetails.language = this.selectedLang;
             this.menuBuilderService.createMenu(this.menuBuilderDetails).subscribe(menuData => {
               this.database.initialize(menuData.menuDetails);
-
             });
           }
         } else if (lang === this.primaryLang) {
