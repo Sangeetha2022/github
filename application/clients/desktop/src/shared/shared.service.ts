@@ -14,7 +14,7 @@ export class SharedService {
 // public entityUrl: String = 'http://localhost:3005';
 // public featureUrl: String = 'http://localhost:3006';
 // public menuUrl: String = 'http://localhost:3011';
-// public templateUrl: String = 'http://localhost:3012';
+public templateUrl: String = 'http://localhost:3012';
 // public configUrl: String = 'http://localhost:5001';
 // public featureflowbaseUrl: String = 'http://localhost:3011';
 // public genmanagerUrl: String = 'http://localhost:5000';
@@ -33,8 +33,8 @@ public Adminmanager: String = 'http://3.84.173.148:30010';
 public menuUrl: String = 'http://3.84.173.148:30011';
 
 // // Generator Services
-// public genmanagerUrl: String = 'http://3.84.173.148:30500';
-// public configUrl: String = 'http://3.84.173.148:30501';
+public genmanagerUrl: String = 'http://3.84.173.148:30500';
+public configUrl: String = 'http://3.84.173.148:30501';
 
 public browser_language: String;
 
