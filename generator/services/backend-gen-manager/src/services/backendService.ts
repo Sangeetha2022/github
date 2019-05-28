@@ -7,11 +7,13 @@ import { FlowManagerService } from '../apiservices/FlowManagerService';
 import * as util from 'util';
 import * as path from 'path';
 import * as asyncLoop from 'node-async-loop';
+import { DataStoreManagerService } from '../apiservices/DataStoreManagerService';
 
 export class BackendService {
     sharedService = new SharedService();
     flowService = new FlowManagerService();
     microFlowService = new MicroFlowManagerService();
+    dataStoreService = new DataStoreManagerService();
     apiAdapter = new ApiAdaptar()
     backend: String;
 
@@ -36,8 +38,12 @@ export class BackendService {
             serverFramework: details.project.serverFramework,
             serverDatabase: details.project.serverDatabase,
             entities: details.entities,
+            entitySchema: [],
             flows: []
         }
+        const dataStore = await this.getDataStore(feature);
+        console.log('dataStore values are backend services are --###@@@@@@--- ', dataStore);
+        feature.entitySchema = JSON.parse(JSON.stringify(dataStore)).body;
         // const flows = {
         //     name: '',
         //     label: '',
@@ -181,6 +187,14 @@ export class BackendService {
     getFlows(flowIDs) {
         return new Promise(resolve => {
             this.flowService.getFlows(flowIDs, (data) => {
+                resolve(data);
+            })
+        })
+    }
+
+    getDataStore(details) {
+        return new Promise(resolve => {
+            this.dataStoreService.getDataStore(details, (data) => {
                 resolve(data);
             })
         })

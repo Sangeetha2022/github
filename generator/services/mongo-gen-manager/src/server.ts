@@ -1,6 +1,5 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import * as mongoose from 'mongoose';
 import { Routes } from './routes/routes';
 import * as cors from 'cors';
 import { WinstonLogger } from './config/WinstonLogger';
@@ -8,7 +7,7 @@ import { createServer, Server } from 'http';
 import * as socketIo from 'socket.io';
 
 
-const PORT = 5009;
+const PORT = 5011;
 
 export class App {
 
@@ -35,8 +34,6 @@ export class App {
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(cors({ credentials: true, origin: true }))
     }
-
-
 
     private createServer(): void {
         this.server = createServer(this.app);
