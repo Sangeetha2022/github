@@ -13,7 +13,7 @@ export class Routes {
                 status: 'up'
             })
         })
-        app.route('/generate/:projectId/node').get(this.nodeController.generateNode);
+        app.route('/generate/node').get(this.nodeController.generateNode);
         
     }
 }

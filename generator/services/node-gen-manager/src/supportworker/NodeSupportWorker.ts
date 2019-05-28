@@ -11,20 +11,17 @@ export class NodeSupportWorker {
     private sourcePath: String = path.resolve(__dirname , '../../originalCode');
 
     nodeModelWorker(model , callback) {
-       let modelPath = this.sourcePath+'/model';
+       let modelPath = this.sourcePath+'/server';
        if (!fs.existsSync(modelPath)) {
         fs.mkdirSync(modelPath)
     }
-        let generateModel = st.loadGroup(require(this.templatePath + '/model_stg'));
-        console.log('generate model data ++++++++++',generateModel)
-        let modelData = generateModel.render("model", [model]);
-        console.log('generate model data  ------------',modelData)
-        fs.writeFile(modelPath + `/${{model}}.ts`, modelData, function (err) {
+        let generateModel = st.loadGroup(require(this.templatePath + '/server_stg.js'));
+        let modelData = generateModel.render("server", [model]);
+        fs.writeFile(modelPath + `/server.ts`, modelData, function (err) {
             if (err) throw err;
-            console.log(`${model} file saved!!`)
-            callback(`${model} created`)
+            console.log(`sserver file saved!!`)
+            callback(`server created`)
         })
     }
-   
 }
 

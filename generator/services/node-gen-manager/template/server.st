@@ -1,48 +1,40 @@
-server(Port) ::= <<
+server(model) ::= <<
+import * as $model.express$ from 'express';
+import * as $model.bodyParser$ from 'body-parser';
+import * as $model.orm$ from 'mongoose';
+import * as $model.cors$ from 'cors';
 
-import * as mongoose from 'mongoose';
-import * as express from "express";
-import * as bodyParser from "body-parser";
-import { Routes } from "./routes/routes";
-import * as cors from 'cors';
-import { MongoConfig } from './config/MongoConfig'
-import { WinstonLogger } from './config/WinstonLogger';
-
-const PORT = $Port;separator=",\n"$
+const PORT = $model.PORT$;
 
 class App {
 
-    public app: express.Application = express();
-    public routePrv: Routes = new Routes();
-    public logger: WinstonLogger = new WinstonLogger();
-    
-    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
+    public app: $model.express$.Application = $model.express$();
+    public mongoUrl = '$model.DbConnection$';
 
-    constructor() { 
-        this.logger.setupLogger();
-        this.logger.configureWinston(this.app);
-        this.initializeMiddlewares();
+    constructor() {
+        this.config();
         this.mongoSetup();
-        this.routePrv.routes(this.app);
     }
 
-    private initializeMiddlewares() {
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.use(cors({ credentials: true, origin: true }))
-    }
+    private config(): void {
+        this.app.use($model.bodyParser$.json());
+        this.app.use($model.bodyParser$.urlencoded({ extended: false }));
+        this.app.use($model.express$.static('public'));
 
+        // Enable CORS
+        this.app.use($model.cors$({ credentials: true, origin: true }))
+    }
     private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mConfig = new MongoConfig();
-        // mConfig.mongoConfig();
+        $model.orm$.Promise = global.Promise;
+        $model.orm$.connect(this.mongoUrl, { useNewUrlParser: true });
     }
 
 }
 
 new App().app.listen(PORT, () => {
-    console.log('Express server listening on port ' + PORT);
+    console.log('Express server listening on port  ' + PORT);
 })
+
+
 
 >>
