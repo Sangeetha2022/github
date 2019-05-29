@@ -1,4 +1,5 @@
 <mat-toolbar color="primary">
+  
   <!-- TODO: Below commented code is for mobile compatibility -->
   <!-- <div fxHide.gt-xs>
     <button mat-icon-button (click)="onToggleSidenav()">
@@ -23,9 +24,42 @@
           <a class="dropdown-item" routerLink="/available-connector">Available Connector</a>
         </div>
       </div>
-      <div>
-        <button class="btn btn-secondary" (click)="Logout()" type="button">LogOut</button>
-      </div>
-    </ul>
+      <div class="btn-group drop-btn">
+          <button type="button" class="btn btn-danger dropdown-toggle btn-design" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            select Language
+          </button>
+          <div class="dropdown-menu">
+            <option  *ngFor="let lang of languages" (click)='changeLanguage(lang)'>{{ '_languages.' + lang |
+              i18nextCap }}</option>
+          </div>
+        </div>
+        <div>
+            <button class="btn btn-secondary"(click) ="showAbout()"  type="button">About</button>
+          </div>
+        <div>
+            <button class="btn btn-secondary" (click)="Logout()" type="button">LogOut</button>
+          </div>
+        </ul>
   </div>
 </mat-toolbar>
+
+
+  
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':displayAboutModel}">
+    <div class="modal-dialog modal-sm" role="dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h6 class="modal-title">About</h6>
+        </div>
+        <div class="modal-body">
+          <p>Version: {{versionData.value}}</p>
+          <p>Build Version: {{buildVersionData.value}}</p>
+          <p>Build Date: {{buildVersionData.updated_at | date: 'MMM d, y, h:mm:ss a'}}</p>
+        </div>
+        <div class="modal-footer" style="padding: 5px;justify-content: space-evenly;">
+          <button type="button" (click)="hideAbout()" class="btn btn-default">{{ 'close' | i18next }}</button>
+        </div>
+      </div>
+    </div>
+  </div> 

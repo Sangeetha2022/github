@@ -11,22 +11,28 @@
     <br>
     <mat-form-field class="password" appearance="outline">
         <mat-label>Password</mat-label>
-        <input matInput  [type]="show ? 'text' : 'password'" pw-show-hide="icon" [(ngModel)]='user.password' (keyup.enter)="Login(user)">
-         <span class="input-group-addon eye">
-        <i class="fa fa-eye-slash" aria-hidden="true" (click)= "hideEye()"></i>
-      </span>
+        <input matInput [type]="show ? 'text' : 'password'" pw-show-hide="icon" [(ngModel)]='user.password'
+            (keyup.enter)="Login(user)">
+        <span class="input-group-addon eye">
+            <i class="fa fa-eye-slash" aria-hidden="true" (click)="hideEye()"></i>
+        </span>
     </mat-form-field>
-   
+
     <br>
-    <mat-checkbox class="example-margin" (change)="newuser($event,check)"  [(ngModel)]="isChecked" >New User</mat-checkbox>
+    <mat-checkbox class="example-margin" (change)="newuser($event,check)" [(ngModel)]="isChecked">New User</mat-checkbox>
     <br>
     <mat-card-actions>
-        <button mat-raised-button (click)='Login(user)' color="primary">Login!</button>
-        <div style="color:red; text-align: center">
-            {{errormessage}}
+        <div>
+            <button mat-raised-button (click)='Login(user)' color="primary">Login!</button>
+            <div style="color:red; text-align: center">
+                {{errormessage}}
+            </div>
+        </div>
+        <br/>
+        <div>
+            <button mat-raised-button (click)='googlesigin("google")' color="primary">Google Signin!</button>
         </div>
 
-        <button mat-raised-button (click)='googlesigin("google")' color="primary">Google Signin!</button>
         <!-- <button mat-raised-button (click)='facebooksigin("facebook")' color="primary">Facebook Signin!</button> -->
     </mat-card-actions>
 
@@ -43,25 +49,23 @@
                     <div class="modal-body">
                         <!-- Default input -->
                         <label for="exampleForm2">First name</label>
-                        <input type="text" id="exampleForm2" class="form-control"  [(ngModel)]='user.firstName'>
+                        <input type="text" id="exampleForm2" class="form-control" [(ngModel)]='user.firstName'>
                         <!-- Default input -->
                         <label for="exampleForm2">last name</label>
                         <input type="text" id="exampleForm2" class="form-control" [(ngModel)]='user.lastName'>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                            (click)="closeDeleteFModel()">Close</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeDeleteFModel()">Close</button>
                     </div>
                     <div>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                        (click)="newUserLogin(sign)">Login</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="newUserLogin(sign)">Login</button>
                     </div>
-                           
-                    </div>
+
                 </div>
             </div>
         </div>
+    </div>
     <!-- </div> -->
     <!-- <a href={{href}}></a> -->
 
