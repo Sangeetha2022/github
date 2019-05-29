@@ -261,7 +261,7 @@ export class FeatureDetailsComponent implements OnInit {
         // new
         this.getFeatureById();
         this.getScreenByFeatureId();
-
+        this.getEntityByFeatureId();
         // old
         // this.getSelectedProject();
         // this.getScreenDetailsByFeatureId();
@@ -295,6 +295,18 @@ export class FeatureDetailsComponent implements OnInit {
             (screenData) => {
                 console.log('get screen by feature id are -------  ', screenData);
                 this.screenDetails = screenData;
+            },
+            (error) => {
+
+            }
+        );
+    }
+
+    getEntityByFeatureId() {
+        this.projectComponentService.getEntityByFeatureId(this.feature_id).subscribe(
+            (entityData) => {
+                this.featureEntityDetails = entityData;
+                this.isPrimaryEntityPresent = this.featureEntityDetails.some(x => x.entity_type === 'primary');
             },
             (error) => {
 
@@ -734,6 +746,7 @@ export class FeatureDetailsComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(entityData => {
+            console.log('cancel entity pop ----- ', entityData);
             this.entityid = entityData.entity_id;
             if (entityData) {
                 this.entity.project_id = this.project_id;

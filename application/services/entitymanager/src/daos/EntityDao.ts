@@ -98,30 +98,22 @@ export class EntityDao {
 
 
     public getEntityByProjectId(projectId, callback) {
-        console.log('project id  in entity dao ------ ', projectId);
         entityModel.find({ project_id: projectId }).
             exec(function (err, result) {
                 if (err) {
                     callback(err);
-                    console.log('project id in entityt dao error ---- ', err);
                 } else {
-                    console.log('project id in entityt dao result ---- ', result);
                     callback(result);
                 }
             })
     }
 
-    public getEntityByFeatureId(featureId,projectId, callback) {
-        console.log('featureee----->>>', featureId);
-        console.log('projecttt---->>', projectId);
-        entityModel.find({ $and: [ { feature_id: featureId }, { project_id: projectId } ] }).
+    public getEntityByFeatureId(featureId, callback) {
+        entityModel.find( { feature_id: featureId }).
             exec(function (err, result) {
-                console.log('resultt----->>',result)
                 if (err) {
                     callback(err);
-                    console.log('project id in entityt dao error ---- ', err);
                 } else {
-                    console.log('project id in entityt dao result ---- ', result);
                     callback(result);
                 }
             })
@@ -130,7 +122,6 @@ export class EntityDao {
     public getentityfeatures(callback) {
 
         entityModel.find({ feature_id: '' }).then((result) => {
-            console.log('---------response----->>>', result);
             callback(result);
         }).catch((error) => {
             callback(error);

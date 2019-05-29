@@ -122,7 +122,7 @@ export class Constants {
     // public static get getFeatureFlowByFeatureId(): string { return '/feature-flow/getbyid/'; }
 
     // Entity
-    public static get getEntityByFeatureAndprojectId(): string { return '/entity/getbyfeatureandprojectid/'; }
+    public static get getEntityByFeatureId(): string { return '/entity/feature/get'; }
     // Feature Entity
 
     public static get getAllEntity(): string { return '/feature-entity/getall'; }
