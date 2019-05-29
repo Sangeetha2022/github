@@ -13,6 +13,9 @@ import { DevOpsService } from './dev-ops.service';
 import { TelemetryService } from './telemetry.service';
 import { AppService } from './app.service';
 
+import { IPAService } from './ios-build.service'
+
+let ipaService = new IPAService();
 let devOpsService = new DevOpsService();
 let telemetryService = new TelemetryService();
 let appService = new AppService();
@@ -213,7 +216,9 @@ export class KubernetesService {
                 telemetryService.telemetry_EFK(projectDetails, client, (response) => { });
             }
 
-
+            if (projectDetails.ios_build) {
+                ipaService.build_ipa(projectDetails, (response) => { });
+            }
 
         }
 
