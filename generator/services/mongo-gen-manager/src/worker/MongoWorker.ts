@@ -8,9 +8,9 @@ export class MongoWorker {
 
     mongoSupportWorker = new MongoSupportWorker();
 
-    createProjectModel(modelDetails, modelPath, callback) {
+    createProjectModel(modelDetails, modelPath, templatePath, callback) {
         let fields = this.FieldObject(modelDetails.field);
-        this.mongoSupportWorker.createProjectModel(modelDetails.name, fields, modelPath, (response) => {
+        this.mongoSupportWorker.createProjectModel(modelDetails.name, fields, modelPath, templatePath,  (response) => {
             callback(response);
         })
     }

@@ -15,6 +15,7 @@ import {
     BackendController,
     MongoController,
     DataStoreController,
+    NodeController,
     ConfigurationController
 
 } from './apicontroller';
@@ -40,6 +41,7 @@ let apisController = [
     new CodeController(),
     new BackendController(),
     new MongoController(),
+    new NodeController(),
     new ConfigurationController()
 
 ]

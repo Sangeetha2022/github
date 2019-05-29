@@ -16,6 +16,7 @@ export const codeGenUrl = 'http://localhost:5008';
 export const backendGenUrl = 'http://localhost:5009';
 export const datastoreGenUrl = 'http://localhost:5010';
 export const mongoGenUrl = 'http://localhost:5011';
+export const nodeGenUrl = 'http://localhost:5012';
 
 // export const flowUrl = 'http://3.84.173.148:30001';
 // export const microUrl = 'http://3.84.173.148:30002';

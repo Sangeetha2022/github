@@ -539,7 +539,7 @@ export class EntityManagerComponent implements OnInit {
                     if (menuData.menu_option === true) {
                         this.dataMenu = menuData.menuDetails;
                         menuData.feature.forEach(feData => {
-                            this.screenService.getScreenByFeature(feData).subscribe(data => {
+                            this.screenService.getScreenByFeatureId(feData).subscribe(data => {
                                 if (data.length !== 0) {
                                     this.screenMenuName = [];
                                     this.screenId = [];

@@ -8,7 +8,7 @@ import * as expressWinston from 'express-winston';
 const winston = require('winston');
 require('winston-daily-rotate-file')
 
-const PORT = 5010;
+const PORT = 5012;
 const logDir = 'log';
 
 class App {

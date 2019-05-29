@@ -14,5 +14,10 @@ export class NodeService {
              callback(result)
         })
     }
+
+    public createProjectNode(req: Request, callback) {
+        console.log('create project node -------  ', util.inspect(req.body, { showHidden: true, depth: null }));
+        callback();
+    }
 }
 

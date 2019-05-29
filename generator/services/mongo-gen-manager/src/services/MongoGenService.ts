@@ -12,13 +12,15 @@ export class MongoGenService {
         const schemaInfo = [];
         const srcPath = `${details.projectGenerationPath}/src`;
         const modelPath = `${srcPath}/models`;
+        const templatePath = details.templateLocation.mongoTemplate;
+        console.log('backend create project values are -----  ', details);
         this.createFolder(srcPath);
         this.createFolder(modelPath);
         asyncLoop(details.entities, (entityElement, entityNext) => {
             if (entityElement === undefined) {
                 entityNext();
             } else {
-                this.mongoWorker.createProjectModel(entityElement, modelPath, (data) => {
+                this.mongoWorker.createProjectModel(entityElement, modelPath, templatePath, (data) => {
                     schemaInfo.push(data);
                     entityNext();
                 })

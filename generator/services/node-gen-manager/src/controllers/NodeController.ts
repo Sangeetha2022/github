@@ -11,4 +11,11 @@ export class NodeController {
             res.json(response);
         })
     }
+
+    public createProjectNode(req: Request, res: Response) {
+        nodeService.createProjectNode(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
 }

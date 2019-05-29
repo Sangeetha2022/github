@@ -14,6 +14,7 @@ export class Routes {
             })
         })
         app.route('/generate/node').get(this.nodeController.generateNode);
+        app.route('/node/project').post(this.nodeController.createProjectNode);
         
     }
 }
