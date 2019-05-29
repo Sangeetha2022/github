@@ -20,15 +20,15 @@ const Destination = deployConfig.AWS.DESTINATION_URL;
 import { RancherService } from '../../services/aws/rancher.service';
 import { KubernetesService } from '../../services/aws/kubernetes.service';
 import { AsyncResource } from 'async_hooks';
-import {IPAService } from '../../services/aws/ios-build.service';
+import {AndroidService } from '../../services/aws/android-build.service';
 
-let ipaService = new IPAService()
+let androidService = new AndroidService()
 let kubernetesService = new KubernetesService()
 
-export class IPAController {
+export class AndroidController {
 
 
-    public async generateIPA(req: Request, res: Response) {
+    public async generateAPK(req: Request, res: Response) {
 
         var projectDetails = req.body
         projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
@@ -39,11 +39,11 @@ export class IPAController {
         const delay = ms => new Promise(res => setTimeout(res, ms));
 
          
-         ipaService.build_ipa(projectDetails, (response) => {
+        androidService.build_apk(projectDetails, (response) => {
             //console.log("response-------->", response);
          })
 
 
-        res.send({ "status": "ipa generation requested!" });
+        res.send({ "status": "apk generation requested!" });
     }
 }

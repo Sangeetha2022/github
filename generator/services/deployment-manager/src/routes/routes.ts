@@ -4,6 +4,7 @@ import { AWSDeploymentController } from "../controllers/aws/aws-deployment.contr
 import { GeppettoAWSDeploymentController } from "../controllers/aws/gep-aws-deployment.controller";
 import { GeppettoLocalDeploymentController } from "../controllers/local/gep-local-deployment.controller";
 import { IPAController } from "../controllers/aws/ios-build.controller";
+import { AndroidController } from "../controllers/aws/android-build.controller";
 
 export class Routes {
     public deployController: DeploymentController = new DeploymentController();
@@ -11,6 +12,7 @@ export class Routes {
     public awsDeployController: AWSDeploymentController = new AWSDeploymentController();
     public geppettoAWSDeploymentController : GeppettoAWSDeploymentController = new GeppettoAWSDeploymentController();
     public ipaController : IPAController = new IPAController();
+    public androidController : AndroidController = new AndroidController();
 
     public routes(app): void {
         app.route('/health/deploymentmanager').get((req: Request, res: Response) => {
@@ -29,5 +31,6 @@ export class Routes {
 
 
         app.route('/generate/ios/:project_id').post(this.ipaController.generateIPA);
+        app.route('/generate/android/:project_id').post(this.androidController.generateAPK);
     }
 }

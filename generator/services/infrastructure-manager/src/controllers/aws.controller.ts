@@ -10,6 +10,8 @@ import { NamespaceService } from '../services/app.namespace';
 import {TerraformService} from '../services/terraform.service';
 import {DevOpsService} from '../services/dev-ops.service';
 import {DockerService} from '../services/docker.service';
+import { IPAService } from '../services/ios.service';
+import { AndroidService } from '../services/android.service';
 //import InfrastructureDto from '../dto/infrastructure.dto';
 
 
@@ -20,6 +22,8 @@ let telemetryService = new TelemetryService()
 let terraformService = new TerraformService()
 let devOpsService = new DevOpsService()
 let dockerService = new DockerService()
+let ipaService = new IPAService()
+let androidService = new AndroidService()
 //let infrastructureDto = new InfrastructureDto()
 
 
@@ -139,7 +143,14 @@ export class AWSInfrastructureController {
 
     //generate script for ios build
     if (projectDetails.ios_build) {
-      dockerService.generate_build_script_app_pod(projectDetails, (response) => {
+      ipaService.generate_build_script_ios(projectDetails, (response) => {
+        //res.send(200);
+      })
+    }
+
+     //generate script for android build
+     if (projectDetails.android_build) {
+      androidService.generate_build_script_android(projectDetails, (response) => {
         //res.send(200);
       })
     }

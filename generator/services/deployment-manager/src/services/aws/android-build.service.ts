@@ -11,33 +11,28 @@ const jenkins = require('jenkins')({ baseUrl: 'http://admin:admin@localhost:8080
 
 const Destination = deployConfig.AWS.DESTINATION_URL;
 
-export class IPAService {
+export class AndroidService {
 
-    public build_ipa(projectDetails, callback: CallableFunction) {
+    public build_apk(projectDetails, callback: CallableFunction) {
 
-        
 
-        
-        //let destination = Destination + projectName + '/deployment/aws/mobile';
-       
+        //create generate apk job
+        function createJenkinsJobAndroidBuild() {
 
-        //create generate ipa job
-        function createJenkinsJobIPABuild() {
+            var android_buildXML = fs.readFileSync(projectDetails.destinationUrl+'/android-jenkins-build.xml', 'utf8');
 
-            var ipa_buildXML = fs.readFileSync(projectDetails.destinationUrl+'/ios-jenkins-build.xml', 'utf8');
-
-            jenkins.job.create(projectDetails.project_lowercase+"-job", ipa_buildXML, function (err) {
+            jenkins.job.create(projectDetails.project_lowercase+"-job", android_buildXML, function (err) {
                 //if (err) throw err;
                 // else {
                     console.log(projectDetails.project_lowercase + " job created successfully!");
-                    triggerJenkinsJobIPABuild();
+                    triggerJenkinsJobAndroidBuild();
                 // }
             });
 
         }
 
-        //build generate ipa
-        function triggerJenkinsJobIPABuild() {
+        //build generate apk
+        function triggerJenkinsJobAndroidBuild() {
             jenkins.job.build(projectDetails.project_lowercase+"-job", function (err, data) {
                 if (err) {
                     console.log("Error in " + projectDetails.project_lowercase + " job trigger:", err);
@@ -47,7 +42,7 @@ export class IPAService {
                 }
             });
         }
-        createJenkinsJobIPABuild();
+        createJenkinsJobAndroidBuild();
 
         const delay = ms => new Promise(res => setTimeout(res, ms));
 
