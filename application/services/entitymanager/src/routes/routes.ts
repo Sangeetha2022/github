@@ -24,7 +24,9 @@ export class Routes {
         app.route('/entity/get/:id').get(this.entityController.getByEntityId);
         app.route('/entity/getall').get(this.entityController.getAllEntity);
         app.route('/entity/get').get(this.entityController.getEntityByProjectId);
-        app.route('/entity/getbyfeatureandprojectid/:projectId/:featureId').get(this.entityController.getEntityByFeatureId);
+        app.route('/entity/feature/get').get(this.entityController.getEntityByFeatureId);
+
+        // need some clarification from kishan
         app.route('/feature/getentities').get(this.entityController.getentityfeatures);
 
         // entity field

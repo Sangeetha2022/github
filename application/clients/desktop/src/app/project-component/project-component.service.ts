@@ -59,7 +59,11 @@ export class ProjectComponentService {
     return this.api.get(`${this.restapi.flowbaseUrl}${Constants.getAllFlow}`);
   }
 
-  
+
+  getEntityByFeatureId(featureId): Observable<any> {
+    return this.api.get(`${this.restapi.entityUrl}${Constants.getEntityByFeatureId}?featureId=${featureId}`);
+  }
+
 
   // old
   createEntity(entity: any): Observable<any> {
@@ -98,9 +102,6 @@ export class ProjectComponentService {
     return this.http.get(this.restapi.entityUrl + '/feature/getentities');
   }
 
-  getEntityByFeatureAndprojectId(projectId, featureId): Observable<any> {
-    return this.api.get(this.restapi.entityUrl + Constants.getEntityByFeatureAndprojectId + projectId + '/' + featureId);
-  }
 
   updateEntityField(entity: any): Observable<any> {
     return this.api.put(this.restapi.entityUrl + '/entity/field/update', entity);

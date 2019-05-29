@@ -647,7 +647,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     getEntity() {
         console.log('ram getEntity ------- ', this.project_id, ' ---- ', this.feature_id);
         if (this.project_id !== undefined && this.feature_id !== undefined) {
-            this.projectComponentService.getEntityByFeatureAndprojectId(this.project_id, this.feature_id)
+            this.projectComponentService.getEntityByFeatureId(this.feature_id)
                 .subscribe((entityData) => {
                     console.log('ram getEntity with project and features =---- ', entityData);
                     if (entityData !== null && entityData !== undefined && entityData.length > 0) {
