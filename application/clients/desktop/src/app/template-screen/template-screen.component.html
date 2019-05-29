@@ -1,0 +1,42 @@
+<section class="wrapper">
+  <div class="container">
+    <div>
+      <h1 class="heading">
+        Geppetto Templates
+      </h1>
+    </div>
+    <div class="col-md-12">
+      <div class="row-button">
+        <button class="btn btn-success pull-right">Add Template </button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4" *ngFor="let template of gepTemplates;let i = index">
+            <div class="card" (click)="ShowSelected(template,i)">
+              <a class="img-card">
+                <img src={{template.template_image[0].image}} />
+              </a>
+              <!-- <div class=" card-content">
+                  <h4 class="card-title">
+  
+                  </h4>
+                  <p class="">
+                  </p>
+              </div> -->
+              <div class="card-body">
+                <p>{{template.name}}</p>
+              </div>
+              <div class="overlay">
+                <div *ngIf="!selected && selectedIndex[0] !== i" class="text">Select</div>
+                <div *ngIf="selectedIndex[0] === i" class="text">Selected</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

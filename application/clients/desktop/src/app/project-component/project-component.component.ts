@@ -34,21 +34,15 @@ export class EntityManagerComponent implements OnInit {
     frontFile: any;
     backendFile: any;
     rowSelection: any;
-    menuBuilderDetails: any;
+    menuBuilderDetails: any = [];
     apiManFile: any;
-    showUpdateFeature: Boolean;
-    screenFeature: any = [];
     screenName: any = [];
     menuFeatureName: any = [];
-    featureScreen: any = [];
     allowImport: Boolean = false;
-    selectedExistingFeature: String;
-    featureNameandDesc: any = [];
     dataMenu: any;
     featureId: any = [];
     featureData: any = [];
     featureConnectProject: any = [];
-    constructedMenu: any = [];
     menuLanguages: any = [];
     // user: any = [];
     project_id: String;
@@ -83,7 +77,6 @@ export class EntityManagerComponent implements OnInit {
         description: '',
         project: ''
     };
-
     displayModel: any;
 
     public featureEntityDetails: IFeatureDetails = {
@@ -95,7 +88,6 @@ export class EntityManagerComponent implements OnInit {
         front_mang_file: '',
         // explanation:'',
     };
-    panelOpenState = false;
     featureEntityData: any = [];
     featureEntityField: any = [];
     displayFeatureModel = 'none';
@@ -114,12 +106,10 @@ export class EntityManagerComponent implements OnInit {
     gridColumnApi: any;
     screenId: any = [];
     featureName: any = [];
-    menusJson: any = [];
     screenMenuName: any = [];
     gridApi: any;
     screenDetails: any = [];
     projectEntity: any = [];
-    selectedFlow: any = [];
     public allEntity: IEntity[] = [];
     public FeatureEntity: any = [];
     public deletePopup: String = 'none';
@@ -169,7 +159,7 @@ export class EntityManagerComponent implements OnInit {
         this.getAllEntityByProjectId();
         // this.getDefaultEntityByProjectId();
         // this.getAllFeature();
-        this.getAllFeatureDetails();
+        // this.getAllFeatureDetails();
         this.getMenuBuilderByProjectId();
     }
 
@@ -239,12 +229,14 @@ export class EntityManagerComponent implements OnInit {
 
     getProjectById() {
         this.projectService.getProjectById(this.project_id).subscribe(proj => {
-
-            this.menuLanguages.push(proj.default_human_language);
-            if (proj.other_human_languages !== '') {
-                this.menuLanguages.push(proj.other_human_languages)
+            if (proj) {
+                this.menuLanguages.push(proj.default_human_language);
+                if (proj.other_human_languages !== '') {
+                    this.menuLanguages.push(proj.other_human_languages)
+                }
+                this.menuBuilder.project_languages = this.menuLanguages;
+                this.menuBuilder.language = this.menuLanguages[0];
             }
-            this.menuBuilder.project_languages = this.menuLanguages;
         });
     }
 
@@ -261,20 +253,38 @@ export class EntityManagerComponent implements OnInit {
     }
 
     createFeature() {
-        console.log('feature name and decription ---- ', this.featureInfo.name);
-        console.log('feature name and decription ---11- ', this.featureInfo.description);
         this.featureInfo.description = this.featureInfo.description.replace(/<[^>]*>/g, '');
         this.featureInfo.project = this.project_id;
-            this.projectComponentService.saveFeatures(this.featureInfo).subscribe(
-                (featureData) => {
-                    console.log('saved features are ---- ', featureData);
-                    this.displayFeatureModel = 'none';
-                    this.getFeatureByProjectId();
-                },
-                (error) => {
+        this.projectComponentService.saveFeatures(this.featureInfo).subscribe(
+            (featureData) => {
+                console.log('saved features are ---- ', featureData);
+                this.displayFeatureModel = 'none';
+                this.menuBuilder = {
+                    feature: [], project: '', language: this.menuLanguages[0],
+                    menuDetails: [], project_languages: this.menuLanguages, menu_option: true
+                };
+                this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
+                    if (menuBuilderData.length !== 0) {
+                        this.menuBuilder.feature = menuBuilderData[0].feature;
+                        this.menuBuilder.project = this.project_id;
+                        this.menuBuilder.feature.push(featureData._id);
+                        this.menuBuilderService.updateMenuById(menuBuilderData[0]._id, this.menuBuilder)
+                            .subscribe(fMenu => {
+                                console.log('=========', fMenu);
+                            });
+                    } else {
+                        this.menuBuilder.feature.push(featureData._id);
+                        this.menuBuilder.project = this.project_id;
+                        this.menuBuilderService.createMenu(this.menuBuilder).subscribe(menuData => {
+                        });
+                    }
+                });
+                this.getFeatureByProjectId();
+            },
+            (error) => {
 
-                }
-            );
+            }
+        );
     }
 
     // getProjectDetails() {
@@ -533,66 +543,81 @@ export class EntityManagerComponent implements OnInit {
         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
             if (menuBuilderData.length !== 0) {
                 this.menuBuilderDetails = menuBuilderData;
-
                 let array = [];
+
                 this.menuBuilderDetails.forEach(menuData => {
                     if (menuData.menu_option === true) {
                         this.dataMenu = menuData.menuDetails;
                         menuData.feature.forEach(feData => {
-                            this.screenService.getScreenByFeatureId(feData).subscribe(data => {
-                                if (data.length !== 0) {
-                                    this.screenMenuName = [];
-                                    this.screenId = [];
-                                    data.forEach(sData => {
-                                        this.menuFId = sData.feature._id;
-                                        this.menuFName = sData.feature.name;
-                                        this.screenId.push(sData._id);
-                                        this.screenMenuName.push(sData.foldername);
-                                    });
-                                    let screenData = {
-                                        screen: this.screenMenuName,
-                                        screenId: this.screenId
-                                    }
-                                    let fMenuData = {
-                                        feature: this.menuFName,
-                                        featureId: this.menuFId,
-                                    }
-                                    let obj = {
-                                        featuremenu: [{ name: fMenuData, description: fMenuData }],
-                                        screenmenu: [{
-                                            name: screenData,
-                                            description: screenData
-                                        }],
-                                    };
-                                    array.push(obj);
-                                    this.menuBuilder = menuData;
-                                    this.menuBuilder.menuDetails = array;
-                                    this.dataMenu.forEach(meData => {
-                                        this.menuBuilder.menuDetails.forEach(menu => {
-                                            if (menu.featuremenu[0].name.featureId === meData.featuremenu[0].name.featureId) {
-                                                menu.featuremenu[0].description = meData.featuremenu[0].description;
-                                                let intersection = menu.screenmenu[0].name.screenId.filter(x => meData.screenmenu[0].name.screenId.includes(x));
-                                                if (intersection.length !== 0) {
-                                                    intersection.forEach(sId => {
-                                                        meData.screenmenu[0].name.screenId.forEach((dSId, index) => {
-                                                            if (sId === dSId) {
-                                                                menu.screenmenu[0].description.screen[index] = meData.screenmenu[0].description.screen[index]
+                            if (feData !== null) {
+                                this.featureDetailsData = [];
+                                this.projectComponentService.getFeatureById(feData).subscribe(
+                                    feature => {
+                                        this.featureDetailsData = feature;
+                                        this.menuFId = this.featureDetailsData._id;
+                                        this.menuFName = this.featureDetailsData.name;
+                                        let fMenuData = {
+                                            feature: this.menuFName,
+                                            featureId: this.menuFId,
+                                        }
+
+                                        this.screenService.getScreenByFeatureId(feData).subscribe(data => {
+                                            if (data.length !== 0) {
+                                                this.screenMenuName = [];
+                                                this.screenId = [];
+                                                data.forEach(sData => {
+                                                    this.screenId.push(sData._id);
+                                                    this.screenMenuName.push(sData.screenName);
+                                                });
+                                                let screenData = {
+                                                    screen: this.screenMenuName,
+                                                    screenId: this.screenId
+                                                }
+                                                let obj = {
+                                                    featuremenu: [{ name: fMenuData, description: fMenuData }],
+                                                    screenmenu: [{
+                                                        name: screenData,
+                                                        description: screenData
+                                                    }],
+                                                };
+                                                array.push(obj);
+                                                this.menuBuilder = menuData;
+                                                this.menuBuilder.menuDetails = array;
+                                                if (this.dataMenu.length !== 0) {
+                                                    this.dataMenu.forEach(meData => {
+                                                        this.menuBuilder.menuDetails.forEach(menu => {
+                                                            if (menu.featuremenu[0].name.featureId === meData.featuremenu[0].name.featureId) {
+                                                                menu.featuremenu[0].description = meData.featuremenu[0].description;
+                                                                let intersection = menu.screenmenu[0].name.screenId.filter(x => meData.screenmenu[0].name.screenId.includes(x));
+                                                                if (intersection.length !== 0) {
+                                                                    intersection.forEach(sId => {
+                                                                        meData.screenmenu[0].name.screenId.forEach((dSId, index) => {
+                                                                            if (sId === dSId) {
+                                                                                menu.screenmenu[0].description.screen[index] = meData.screenmenu[0].description.screen[index]
+                                                                            }
+                                                                        });
+                                                                    });
+                                                                }
                                                             }
                                                         });
                                                     });
                                                 }
-                                            }
-                                        });
-                                    });
-                                    this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
-                                        .subscribe(fMenu => {
-                                            if (fMenu) {
-                                                this.database.initialize(fMenu.menuDetails);
+                                                this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
+                                                    .subscribe(fMenu => {
+                                                        if (fMenu) {
+                                                            this.database.initialize(fMenu.menuDetails);
 
+                                                        }
+                                                    });
                                             }
                                         });
-                                }
-                            });
+
+                                    },
+                                    error => {
+
+                                    }
+                                );
+                            }
                         });
                     }
                 });

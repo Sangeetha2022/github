@@ -10,9 +10,8 @@ import * as socketIo from 'socket.io-client';
 @Injectable()
 export class ProjectsService {
 
-  private subject: Subject<any>;
   private socket;
-  constructor(private http: HttpClient, private router: Router, private api: ApiService, private restapi: SharedService) {
+  constructor(private http: HttpClient, private api: ApiService, private restapi: SharedService) {
   }
 
   landingpage(body): Observable<any> {

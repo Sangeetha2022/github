@@ -8,15 +8,16 @@
 	border-bottom: 1px solid $color_bg_topbar;
 	background-color: $color_bg_topbar;
 	color: #fff;
-	padding-top: rem-calc(18);
-	padding-bottom: rem-calc(18);
-	height: 58px;
+	// padding-top: rem-calc(18);
+	// padding-bottom: rem-calc(18);
+	// height: 58px;
 
 	.lang-item, .about-span {
 		font-weight: bold;
 		color: inherit;
 		text-decoration: none;
-		font-size: rem-calc(18);
+		// font-size: rem-calc(18);
+		font-size: 1rem;
 	}
 	.current.lang-item {
 		text-decoration: underline;
@@ -28,8 +29,10 @@
 	color: #fff;
 	top: 0px;
 	background-image: $gradient_bg_header;
+	color: #fff;
 	border-radius: 0;
-	height: 110px;
+	// top: 57px;
+	// height: 110px;
 }
 
 @mixin header-logo() {
@@ -122,19 +125,50 @@
 	height: auto;
 	
 	button {
-		@include button-style();
+		@include button-style(1rem);
 		margin-bottom: 1rem;
 	}
-	.mat-form-field-appearance-outline.mat-form-field-infix {
-		border-color: $color_base_text;
-		padding: 0.5em 0;
-		width: 100%;
+	// .mat-form-field-appearance-outline.mat-form-field-infix {
+	// 	border-color: $color_base_text;
+	// 	padding: 0.5em 0;
+	// 	width: 100%;
+	// }
+	.mat-form-field {
+		.mat-form-field-infix {
+			padding: 0.3rem 0 0.4rem;
+			border-width: 0.7rem;
+		}
+		input[_ngcontent-c4] {
+			border: 0 none;
+		}
+
+		.mat-form-field-appearance-outline .mat-form-field-outline-start {
+		    border-radius: $m_radius 0 0 $m_radius;
+		}
+		.mat-form-field-appearance-outline .mat-form-field-outline-end {
+		    border-radius: 0 $m_radius $m_radius 0;
+		}
+
+		&.password {
+			.eye[_ngcontent-c4] {
+				margin-left: -16px !important;
+				margin-top: 6px !important;
+			}
+		}
 	}
 	.mat-input-element {
 		@include text-field();
+		font-size: 1.3rem;
 
 		label {
 			color: $color_base_text;
+		}
+
+		&:focus + .mat-form-field-label-wrapper > label,
+		&:focus + .eye + .mat-form-field-label-wrapper > label {
+			margin-bottom: 0;
+			margin-top: 0.25rem;
+			// background-color: $color_bg_login;
 		}
 	}
 	.mat-card-header {
@@ -222,8 +256,8 @@
 		border: 1px solid $white;
 		padding-top: 60%;
 		
-		.sitecard-preview[_ngcontent-c4],
-		.sitecard-preview-c[_ngcontent-c4] {
+		.sitecard-preview,
+		.sitecard-preview-c {
 			@include absolute-fill-parent-container();
 			
 			background-position: top left;
@@ -309,6 +343,8 @@
 }
 
 @mixin virtual-footer() {
+	padding-bottom: calc(120px + 3em);
+
 	&::after {
 		display: block;
 		content: "Geppetto 2019. All Rights Reserved";
@@ -316,9 +352,12 @@
 		background: $color_bg_footer url('/assets/img/skin/decor_puzzle-piece_slanted.svg') 110% 0 no-repeat;
 		background-size: auto 200%;
 		line-height: 120px;
-		width: 100%;
-		margin-top: 3rem;
 		padding: 0 calc(50% - #{$m_footer_width / 2}); 
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		top: auto;
 	}
 }
 

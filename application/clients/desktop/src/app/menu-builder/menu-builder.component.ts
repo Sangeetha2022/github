@@ -5,6 +5,7 @@ import { DataService } from 'src/shared/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { MenuBuilderService } from './menu-builder.service';
 import { TreeDragService } from './tree-drag/tree-drag.service';
+import { EntityManagerComponent } from '../project-component/project-component.component';
 
 @Component({
   selector: 'app-menu-builder',
@@ -23,7 +24,6 @@ export class MenuBuilderComponent implements OnInit {
   selectedMenu: String;
   project_id: String;
   menuDetails: any = [];
-  stopUpdate: Boolean;
   getMenu: Boolean;
   descriptionBeforeUpdate: String;
   createRow: Boolean = false;
@@ -74,7 +74,7 @@ export class MenuBuilderComponent implements OnInit {
     private database: TreeDragService,
     private route: ActivatedRoute,
     private menuBuilderService: MenuBuilderService,
-
+    private projectComp: EntityManagerComponent,
   ) {
   }
 
@@ -112,10 +112,10 @@ export class MenuBuilderComponent implements OnInit {
   getMenuByProjectId() {
     this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
       if (menuBuilderData.length !== 0) {
-        if (!this.getMenu) {
-          this.menuLang = [];
-          menuBuilderData.forEach(mData => {
-            this.menuLang.push(mData.language);
+        this.menuLang = [];
+        menuBuilderData.forEach(mData => {
+          this.menuLang.push(mData.language);
+          if (!this.getMenu) {
             if (mData.menu_option === true) {
               this.menuBuilderDetails = mData;
               this.languages = this.menuBuilderDetails.project_languages;
@@ -127,22 +127,30 @@ export class MenuBuilderComponent implements OnInit {
                 this.menuBuilderDetails.language = this.selectedLang;
               }
             }
-          });
-        }
+
+          }
+        });
 
         if (this.getMenu) {
-          menuBuilderData.forEach(meData => {
+          menuBuilderData.forEach((meData, index) => {
             if (meData.language === this.selectedLang) {
               meData.menu_option = true;
-              this.updateMenuById(meData._id, meData);
+              meData.language = this.selectedLang;
+              let FeatureDiff = menuBuilderData[0].feature
+                .filter(x => !menuBuilderData[1].feature.includes(x))
+                .concat(menuBuilderData[1].feature.filter(x => !menuBuilderData[0].feature.includes(x)));
+              if (FeatureDiff.length === 1) {
+                meData.feature.push(FeatureDiff[0]);
+              }
               this.menuDetails = meData.menuDetails;
-              this.database.initialize(this.menuDetails);
-              this.stopUpdate = true;
+              this.updateMenuById(meData._id, meData);
+              this.database.initialize(meData.menuDetails);
+
             }
             if (meData.language !== this.selectedLang) {
               meData.menu_option = false;
-              this.menuDetails = meData.menuDetails;
               this.updateMenuById(meData._id, meData);
+
             }
           });
         }
@@ -183,15 +191,16 @@ export class MenuBuilderComponent implements OnInit {
             this.menuBuilderDetails.menu_option = true;
             this.menuBuilderDetails.language = this.selectedLang;
             this.menuBuilderService.createMenu(this.menuBuilderDetails).subscribe(menuData => {
+              this.database.initialize(menuData.menuDetails);
             });
           }
         } else if (lang === this.primaryLang) {
+          this.database.initialize(this.menuBuilderDetails.menuDetails);
           this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
-          this.stopUpdate = false;
         }
       } else {
+        this.database.initialize(this.menuBuilderDetails.menuDetails);
         this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
-        this.stopUpdate = false;
       }
     });
   }
@@ -202,10 +211,6 @@ export class MenuBuilderComponent implements OnInit {
       this.menuBuilderDetails = [];
       this.name = '';
       this.description = '';
-      if (!this.stopUpdate) {
-        this.database.initialize(fMenu.menuDetails);
-        this.stopUpdate = false;
-      }
     });
   }
 
@@ -219,10 +224,10 @@ export class MenuBuilderComponent implements OnInit {
   }
   onChangeLang(event) {
     this.secondaryLang = event;
+    this.selectedLang = this.secondaryLang;
     if (this.menuLang.length === 2) {
       this.getMenu = true;
     }
     this.getMenuByProjectId();
-
   }
 }

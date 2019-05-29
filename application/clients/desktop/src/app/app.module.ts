@@ -64,6 +64,9 @@ import {
 import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
 import { ProfilesettingsComponent } from './user/profilesettings/profilesettings.component';
+import { TemplateScreenComponent } from './template-screen/template-screen.component';
+import { TemplateScreenModule } from './template-screen/template-screen.module';
+import { FooterComponent } from './navigation/footer/footer.component';
 
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
@@ -151,7 +154,8 @@ export const I18N_PROVIDERS = [
     LandingpageComponent,
     AdminComponent,
     UserComponent,
-    ProfilesettingsComponent
+    ProfilesettingsComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -161,6 +165,7 @@ export const I18N_PROVIDERS = [
     ComponentFlowsModule,
     FormsModule,
     ProjectComponentModule,
+    TemplateScreenModule,
     ReactiveFormsModule,
     I18NextModule.forRoot(),
     MatFormFieldModule,
