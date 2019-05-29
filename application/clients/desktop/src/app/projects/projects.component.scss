@@ -134,6 +134,14 @@
     overflow-y: scroll;
 }
 
+.sitecard-temp-name{
+    font-weight: 100;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: azure;
+    white-space: nowrap 
+}
+
 .sitecard-site {
     font-size: .85rem;
     opacity: .5;

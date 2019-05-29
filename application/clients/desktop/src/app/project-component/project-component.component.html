@@ -95,8 +95,12 @@
                 <mat-card-content>
                     <div class="row">
                         <div class="btn-group">
-                            <button class="goToButton btn-space" mat-raised-button [routerLink]="['/templates']">Modify
-                                Templates</button>
+                            <button class="goToButton btn-space" mat-raised-button
+                                (click)="editTemplate(screenTempId)">Modify
+                                Template</button>
+                            <button class="goToButton btn-space" mat-raised-button [routerLink]="['/templates']"
+                                [queryParams]="{projectId: project_id}">Change
+                                Template</button>
                             <button class="goToButton btn-space" mat-raised-button (click)="GoToDesigner()">Add
                                 Screen</button>
                         </div>
@@ -260,8 +264,8 @@
     Drag and drop files to upload
     </div>
     </div> -->
-       
-    <!-- feature descritpion -->
+
+                        <!-- feature descritpion -->
                         <div class="form-group">
                             <label for="description">Description</label>
                             <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)"

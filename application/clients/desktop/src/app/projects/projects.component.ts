@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProjectComponentService } from '../project-component/project-component.service';
 import { TemplateScreenService } from '../template-screen/template-screen.service';
+import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
 
 @Component({
   selector: 'app-projects',
@@ -34,6 +35,7 @@ export class ProjectsComponent implements OnInit {
     user_id: '',
     user_name: '',
   };
+  created_date: String;
   gepTempImages: any = [];
   public params = {
     code: '',
@@ -45,7 +47,6 @@ export class ProjectsComponent implements OnInit {
   public scopes: any;
   public states: any;
   gepTemplates: any = [];
-
   constructor(
     private formBuilder: FormBuilder,
     private data: AppComponentService,
@@ -55,7 +56,7 @@ export class ProjectsComponent implements OnInit {
     private toastr: ToastrService,
     private templateScreenService: TemplateScreenService,
     private route: ActivatedRoute,
-
+    private screenDesignerService: ScreenDesignerService,
     private entityManagerService: ProjectComponentService,
 
   ) { }
@@ -178,7 +179,8 @@ export class ProjectsComponent implements OnInit {
       client_widget_frameworks: null,
       mobile_css_framework: null,
       desktop_css_framework: null,
-      app_ui_template: null,
+      app_ui_template: this.createProject.value.template.name,
+      app_ui_template_img: this.createProject.value.template.template_image[0].image,
       client_code_pattern: null,
       server_code_pattern: null,
       server_dev_lang: null,
@@ -206,15 +208,28 @@ export class ProjectsComponent implements OnInit {
       lotus_notes_cred_enabled: null,
       user_deployment_target: null,
       server_deployment_target: null,
+      created_date: null,
     };
+    const templateDetailsToSave = {
+      'gjs-assets': this.createProject.value.template['gjs-assets'],
+      'gjs-css': this.createProject.value.template['gjs-css'],
+      'gjs-styles': this.createProject.value.template['gjs-styles'],
+      'gjs-html': this.createProject.value.template['gjs-html'],
+      'gjs-components': this.createProject.value.template['gjs-components'],
+      screenName: this.createProject.value.template.name,
+      project: '',
+      isTemplate: true,
+    }
 
     this.projectsService.addProject(dataToSave).subscribe(data => {
-      console.log('data', data);
       if (data) {
+        templateDetailsToSave.project = data._id;
+        this.created_date = data.created_date;
+        this.screenDesignerService.saveScreen(templateDetailsToSave).subscribe(screenData => {
+        });
         this.dataService.setProjectInfo(data);
         this.projectsService.createProjectDefaults(data._id).subscribe(
           (defaultRes) => {
-
           }, (error) => { });
         // this.defaultEntity.user_id = "12345"
         // this.defaultEntity.user_name = "david",
@@ -338,7 +353,6 @@ export class ProjectsComponent implements OnInit {
   getAllGepTemplates() {
     this.templateScreenService.getAllTemplates().subscribe(gepTemp => {
       this.gepTemplates = gepTemp;
-      console.log('============', this.gepTemplates[0].name)
       this.gepTempImages = this.gepTemplates.template_image;
     });
   }
