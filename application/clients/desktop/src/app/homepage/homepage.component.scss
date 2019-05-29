@@ -23,4 +23,35 @@
     flex-basis: 550px;
     /* justify-content: center; */
     height: 100vh;
+    top:0px !important;
+    margin-top: -5%;
+}
+
+.header-btn{
+    float: right !important;
+}
+.drop-btn{
+    margin-right: 41px !important;
+    float: right !important;
+    padding-left: -1px !important;
+    padding: 10px !important;
+   
+}
+.btn-design{
+    padding: 7px 30px !important;
+    font-size: 13px !important;
+    border-radius: 4px !important;
+    color: white !important;
+
+}
+
+.test_123{
+    // position: fixed;
+}
+.mat-toolbar.mat-toolbar.mat-primary{
+    top:0px !important;
+}
+
+mat-toolbar.mat-toolbar.mat-primary{
+
 }

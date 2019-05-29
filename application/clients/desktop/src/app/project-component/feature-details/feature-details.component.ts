@@ -260,13 +260,13 @@ export class FeatureDetailsComponent implements OnInit {
         });
         // new
         this.getFeatureById();
-        this.getScreenByProjectAndFeatureId();
+        this.getScreenByFeatureId();
 
         // old
         // this.getSelectedProject();
         // this.getScreenDetailsByFeatureId();
         // this.getFeatureEntityByFeatureId();
-        this.getEntityByFeatureAndprojectId();
+        // this.getEntityByFeatureAndprojectId();
         // this.getProjectFeature();
         // this.getAllFlows();
         // this.getAllFeature();
@@ -290,12 +290,24 @@ export class FeatureDetailsComponent implements OnInit {
         );
     }
 
-    getScreenByProjectAndFeatureId() {
-        this.screenService.getScreenByProjectAndFeatureId(this.project_id, this.feature_id).subscribe(sData => {
-            this.screenDetails = sData;
-        }, (error) => {
-        });
+    getScreenByFeatureId() {
+        this.screenService.getScreenByFeatureId(this.feature_id).subscribe(
+            (screenData) => {
+                console.log('get screen by feature id are -------  ', screenData);
+                this.screenDetails = screenData;
+            },
+            (error) => {
+
+            }
+        );
     }
+
+    // getScreenByProjectAndFeatureId() {
+    //     this.screenService.getScreenByProjectAndFeatureId(this.project_id, this.feature_id).subscribe(sData => {
+    //         this.screenDetails = sData;
+    //     }, (error) => {
+    //     });
+    // }
 
     getAllFlows() {
         this.projectComponentService.getAllFlows().subscribe(
@@ -336,7 +348,7 @@ export class FeatureDetailsComponent implements OnInit {
     deleteScreen(screenId) {
         this.screenService.deleteScreen(screenId).subscribe(
             (data) => {
-                this.getScreenByProjectAndFeatureId();
+                this.getFeatureById();
             },
             (error) => {
 
@@ -553,18 +565,18 @@ export class FeatureDetailsComponent implements OnInit {
     // console.log(" flow array 0pp p- -- - = = = > ", flowArray)
     // }
 
-    getEntityByFeatureAndprojectId() {
-        this.projectComponentService.getEntityByFeatureAndprojectId(this.project_id, this.feature_id).subscribe(data => {
-            this.featureEntityDetails = data;
-            // tslint:disable-next-line:quotemark
-            this.isPrimaryEntityPresent = this.featureEntityDetails.some(x => x.entity_type === 'primary');
-        });
+    // getEntityByFeatureAndprojectId() {
+    //     this.projectComponentService.getEntityByFeatureAndprojectId(this.project_id, this.feature_id).subscribe(data => {
+    //         this.featureEntityDetails = data;
+    //         // tslint:disable-next-line:quotemark
+    //         this.isPrimaryEntityPresent = this.featureEntityDetails.some(x => x.entity_type === 'primary');
+    //     });
 
-    }
+    // }
     // getAllFeature() {
     //     this.projectComponentService.getAllFeatureByProjectId(this.project_id).subscribe(data => {
     //         data.forEach(fData => {
-    //             this.screenService.getScreenByFeature(fData.feature_id._id).subscribe(data => {
+    //             this.screenService.getScreenByFeatureId(fData.feature_id._id).subscribe(data => {
     //                 console.log('======', data);
     //                 if (data.length !== 0) {
     //                     this.fName = fData.feature_id.name;
@@ -627,7 +639,7 @@ export class FeatureDetailsComponent implements OnInit {
         ];
         this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails).subscribe(featuredetails => {
         });
-        this.getEntityByFeatureAndprojectId();
+        this.getFeatureById();
 
         this.projectComponentService.updateEntity(entityData).subscribe((data) => {
 
@@ -662,7 +674,7 @@ export class FeatureDetailsComponent implements OnInit {
                 });
 
                 if (data) {
-                    this.getEntityByFeatureAndprojectId();
+                    this.getFeatureById();
                 }
                 // this.getAllEntityByProjectId();
             },
@@ -695,7 +707,7 @@ export class FeatureDetailsComponent implements OnInit {
                 this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails).subscribe(featuredetails => {
                 });
                 if (data) {
-                    this.getEntityByFeatureAndprojectId();
+                    this.getFeatureById();
                 }
             },
             (error) => {
@@ -738,7 +750,7 @@ export class FeatureDetailsComponent implements OnInit {
                             // this.projectComponentService.createEntity(this.entity).subscribe(feature_entity => {
                             //     console.log('saveeeentityyyy-222222222222--->>>', feature_entity);
                             // });
-                             this.saveEntity(this.entity);
+                            this.saveEntity(this.entity);
                         }
                         // this.projectComponentService.createEntity(this.entity).subscribe(feature_entity => {
                         //     console.log('createentityy-----------333333---..', feature_entity);
@@ -786,7 +798,7 @@ export class FeatureDetailsComponent implements OnInit {
                 description: '',
                 entity_type: ''
             };
-            tempObj._id =  this.updateEntityId;
+            tempObj._id = this.updateEntityId;
             tempObj.name = entityData.name;
             tempObj.description = entityData.description;
             tempObj.entity_type = entityData.entityType;
@@ -931,7 +943,7 @@ export class FeatureDetailsComponent implements OnInit {
         this.deletePopup = 'none';
         this.projectComponentService.deleteEntity(this.selectedEntityId).subscribe(
             (data) => {
-                this.getEntityByFeatureAndprojectId();
+                this.getFeatureById();
             },
             (error) => {
 

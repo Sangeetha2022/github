@@ -17,6 +17,11 @@ export class ProjectgenService {
         defaultHumanLanguage: '',
         otherHumanLanguage: '',
         projectGenerationPath: '',
+        templateLocation: {
+            frontendTemplate: '',
+            backendTemplate: '',
+            mongoTemplate: ''
+        },
         clientLanguage: {},
         clientFramework: {},
         serverLanguage: {},
@@ -91,7 +96,7 @@ export class ProjectgenService {
             this.configManagerService.getAllDetails((configResponse) => {
                 // console.log('i am the one u r need', configResponse);
                 const configInfo = JSON.parse(configResponse);
-                console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ", configInfo, '  lenghtt   ',configInfo.body.length);
+                console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ", configInfo, '  lenghtt   ', configInfo.body.length);
                 if (configInfo.body !== null && configInfo.body.length > 0 && configInfo.body !== undefined) {
                     console.log("@@@@@@@@@@@@@ entering into info condition ------------ ")
                     this.setConfigurationField(configInfo);
@@ -138,10 +143,31 @@ export class ProjectgenService {
     }
 
     setConfigurationField(configInfo) {
+        // project generation path
         const projectPath = configInfo.body.find(x =>
             x.name.toString().toLowerCase() === 'projectgenerationdirectory'
         );
         this.projectObj.projectGenerationPath = projectPath.value;
+
+        // frontend template location
+        const frontendPath = configInfo.body.find(x =>
+            x.name.toString().toLowerCase() === 'frontendtemplatelocation'
+        );
+        this.projectObj.templateLocation.frontendTemplate = frontendPath.value;
+
+        // backend template location
+        const backendPath = configInfo.body.find(x =>
+            x.name.toString().toLowerCase() === 'backendtemplatelocation'
+        );
+        this.projectObj.templateLocation.backendTemplate = backendPath.value;
+
+        // mongo template location
+        const mongoTemplatePath = configInfo.body.find(x =>
+            x.name.toString().toLowerCase() === 'mongotemplatelocation'
+        );
+        this.projectObj.templateLocation.mongoTemplate = mongoTemplatePath.value;
+
+
         // const frontendSourcePath = configInfo.find(x =>
         //     x.name.toString().toLowerCase() === 'frontendtemplatelocation'
         // );

@@ -1,12 +1,11 @@
 import { ApiAdaptar } from '../config/ApiAdaptar';
 import { SharedService } from '../config/SharedService';
 
-export class FlowManagerService {
+export class NodeGenManagerService {
 
-    getFlows(flowIDS, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/flow/feature/get`, flowIDS).then(
+    generateNode(details, callback) {
+        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/node/project`, details).then(
             data => {
-                console.log('backend flow response ---- ', data);
                 callback(data);
             }
         ).catch(error => {

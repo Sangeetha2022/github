@@ -1,12 +1,11 @@
 import { ApiAdaptar } from '../config/ApiAdaptar';
 import { SharedService } from '../config/SharedService';
 
-export class ConfigurationManagerService {
+export class MongoGenManagerService {
 
-    getAllDetails(callback) {
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/generation_flow/getall`).then(
+    getMongo(details, callback) {
+        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/mongoose/project`, details).then(
             data => {
-                console.log('get all config details ---- ', data);
                 callback(data);
             }
         ).catch(error => {

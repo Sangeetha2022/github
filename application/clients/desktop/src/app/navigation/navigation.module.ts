@@ -13,7 +13,7 @@ import { NavigationService } from './navigation.service';
 @NgModule({
   declarations: [
     HeaderLanguageComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -24,7 +24,7 @@ import { NavigationService } from './navigation.service';
   ],
   exports: [
     HeaderLanguageComponent,
-    HeaderComponent
+    HeaderComponent,
   ],
   providers: [
     {

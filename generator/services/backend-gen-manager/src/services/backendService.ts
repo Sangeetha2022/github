@@ -3,15 +3,17 @@ import * as fs from 'fs';
 import { SharedService } from '../config/SharedService';
 import { ApiAdaptar } from '../config/ApiAdaptar';
 import { MicroFlowManagerService } from '../apiservices/MicroFlowManagerService';
-import { FlowManagerService } from '../apiservices/FlowManagerService';
+import { NodeGenManagerService } from '../apiservices/NodeGenManagerService';
 import * as util from 'util';
 import * as path from 'path';
 import * as asyncLoop from 'node-async-loop';
+import { DataStoreManagerService } from '../apiservices/DataStoreManagerService';
 
 export class BackendService {
     sharedService = new SharedService();
-    flowService = new FlowManagerService();
+    nodeService = new NodeGenManagerService();
     microFlowService = new MicroFlowManagerService();
+    dataStoreService = new DataStoreManagerService();
     apiAdapter = new ApiAdaptar()
     backend: String;
 
@@ -29,6 +31,7 @@ export class BackendService {
         this.createFolders(microservicePath);
         const feature = {
             projectGenerationPath: microservicePath,
+            templateLocation: details.project.templateLocation,
             projectName: details.project.name,
             primaryLanguage: details.project.defaultHumanLanguage,
             secondaryLanguage: details.project.otherHumanLanguage,
@@ -36,8 +39,13 @@ export class BackendService {
             serverFramework: details.project.serverFramework,
             serverDatabase: details.project.serverDatabase,
             entities: details.entities,
+            entitySchema: [],
             flows: []
         }
+        console.log('all feature value are------  ', feature);
+        const dataStore = await this.getDataStore(feature);
+        console.log('dataStore values are backend services are --###@@@@@@--- ', dataStore);
+        feature.entitySchema = JSON.parse(JSON.stringify(dataStore)).body;
         // const flows = {
         //     name: '',
         //     label: '',
@@ -63,7 +71,7 @@ export class BackendService {
         let flowComponentCount = 0;
         try {
             asyncLoop(details.flows, (flowElement, flowNext) => {
-                console.log(`each flows are --@@@@@@@@@@@  ${flowCount}  `, flowElement,' length  ',flowElement.components.length);
+                console.log(`each flows are --@@@@@@@@@@@  ${flowCount}  `, flowElement, ' length  ', flowElement.components.length);
                 const flows = {
                     name: '',
                     label: '',
@@ -86,7 +94,7 @@ export class BackendService {
                     flows.actionOnData = flowElement.actionOnData;
                     flows.createWithDefaultActivity = flowElement.createWithDefaultActivity;
                 }
-                if(flowElement.components.length === 0) {
+                if (flowElement.components.length === 0) {
                     flowCount++;
                     flowNext();
                 } else {
@@ -94,7 +102,7 @@ export class BackendService {
                     asyncLoop(flowElement.components, async (componentElement, componentNext) => {
 
                         console.log(`each compopneont are ---$$$$$$$$- ${flowComponentCount} - `, componentElement);
-    
+
                         const flowComponent = {
                             name: '',
                             label: '',
@@ -117,12 +125,12 @@ export class BackendService {
                             flowComponent.sequenceId = componentElement.sequenceId;
                             flowComponent.devLanguage = componentElement.devLanguage;
                             flowComponent.devFramework = componentElement.devFramework;
-    
+
                             if (componentElement.devLanguage !== feature.serverLanguage.name &&
                                 componentElement.devFramework !== feature.serverFramework.name) {
                                 flowComponentCount++;
                                 componentNext();
-                            } else if(componentElement.microFlows.length === 0) {
+                            } else if (componentElement.microFlows.length === 0) {
                                 flows.components.push(flowComponent);
                                 flowComponentCount++;
                                 componentNext();
@@ -135,10 +143,10 @@ export class BackendService {
                                 componentNext();
                             }
                         }
-    
+
                     }, (compErr) => {
                         if (compErr) {
-    
+
                         } else {
                             feature.flows.push(flows);
                             console.log('flow component iteration done %%%%%11%%%%%%%%%% ', feature);
@@ -148,13 +156,14 @@ export class BackendService {
                     })
                 }
 
-              
 
-            }, (flowErr) => {
+
+            }, async (flowErr) => {
                 if (flowErr) {
 
                 } else {
                     console.log('flow iteration completed %%%%%%%%%%%%% ----- ', util.inspect(feature, { showHidden: true, depth: null }));
+                    const node = await this.generateNode(feature);
                 }
             })
         }
@@ -177,10 +186,17 @@ export class BackendService {
         // const backendServiceName = details.project.
     }
 
-
-    getFlows(flowIDs) {
+    generateNode(details) {
         return new Promise(resolve => {
-            this.flowService.getFlows(flowIDs, (data) => {
+            this.nodeService.generateNode(details, (data) => {
+                resolve(data);
+            })
+        })
+    }
+
+    getDataStore(details) {
+        return new Promise(resolve => {
+            this.dataStoreService.getDataStore(details, (data) => {
                 resolve(data);
             })
         })

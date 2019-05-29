@@ -41,7 +41,7 @@ export class ScreenDesignerService {
     return this.http.get(this.sharedService.screenUrl + Constants.getScreenByProjectId + projectId);
   }
 
-  getScreenByFeature(featureId): Observable<any> {
+  getScreenByFeatureId(featureId): Observable<any> {
     return this.http.get(this.sharedService.screenUrl + Constants.getScreenByFeatureId + featureId);
   }
 

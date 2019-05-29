@@ -26,6 +26,8 @@
 
 @mixin container-header() {
 	background-color: $color_geppetto_darkblue;
+	color: #fff;
+	top: 0px;
 	background-image: $gradient_bg_header;
 	color: #fff;
 	border-radius: 0;

@@ -58,10 +58,33 @@ export class EntityDao {
 
     public getByEntityId(entityId, callback) {
         console.log('get entity by id are ---- ', entityId);
-        entityModel.findById(entityId).then((result) => {
-            callback(result);
-        }).catch((error) => {
-            callback(error);
+        entityModel.findById(entityId).populate({
+            path: 'field.entity_id',
+            model: 'Entity',
+            // second level entities are populated
+            populate: {
+                path: 'field.entity_id',
+                model: 'Entity',
+                // third level entities are populated
+                populate: {
+                    path: 'field.entity_id',
+                    model: 'Entity',
+                    // fourth level entities are populated
+                    populate: {
+                        path: 'field.entity_id',
+                        model: 'Entity'
+                    }
+                }
+            }
+        }).
+        exec(function (err, result) {
+            if (err) {
+                callback(err);
+                console.log('project id in entityt dao error ---- ', err);
+            } else {
+                console.log('project id in entityt dao result ---- ', result);
+                callback(result);
+            }
         })
     }
 

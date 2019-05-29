@@ -14,4 +14,7 @@ export * from "./featuremanager.controller";
 export * from "./generator/code.controller";
 export * from "./generator/backend.controller";
 export * from "./generator/configuration.controller";
+export * from "./generator/datastore.controller";
+export * from "./generator/mongo.controller";
+export * from "./generator/node.controller";
 

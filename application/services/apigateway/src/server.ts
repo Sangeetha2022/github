@@ -13,6 +13,9 @@ import {
     FeatureController,
     CodeController,
     BackendController,
+    MongoController,
+    DataStoreController,
+    NodeController,
     ConfigurationController
 
 } from './apicontroller';
@@ -32,10 +35,13 @@ let apisController = [
     new Proxycontroller(),
     new Camundacontroller(),
     new FeatureController(),
+    new DataStoreController(),
     new createUserTemplateController(),
     new MicroflowController(),
     new CodeController(),
     new BackendController(),
+    new MongoController(),
+    new NodeController(),
     new ConfigurationController()
 
 ]

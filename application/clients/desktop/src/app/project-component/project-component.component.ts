@@ -561,7 +561,7 @@ export class EntityManagerComponent implements OnInit {
                                             featureId: this.menuFId,
                                         }
 
-                                        this.screenService.getScreenByFeature(feData).subscribe(data => {
+                                        this.screenService.getScreenByFeatureId(feData).subscribe(data => {
                                             if (data.length !== 0) {
                                                 this.screenMenuName = [];
                                                 this.screenId = [];

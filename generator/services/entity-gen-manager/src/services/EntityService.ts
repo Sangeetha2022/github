@@ -9,7 +9,6 @@ let entityWorker = new EntityWorker();
 export class EntityService {
 
 
-
     public generateEntity = async (req: Request, callback) => {
         const projectId = req.params.projectId;
         entityDao.getEntityByProjectId(projectId, (response) => {

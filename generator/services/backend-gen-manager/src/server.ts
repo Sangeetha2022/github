@@ -24,7 +24,6 @@ export class App {
         this.logger.setupLogger();
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
-        this.mongoSetup();
         this.createServer();
         this.sockets();
         this.listen();
@@ -37,12 +36,6 @@ export class App {
         this.app.use(cors({ credentials: true, origin: true }))
     }
 
-    private mongoSetup(): void {
-        // mongoose.Promise = global.Promise;
-        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        let mConfig = new MongoConfig();
-        mConfig.mongoConfig();
-    }
 
 
     private createServer(): void {
