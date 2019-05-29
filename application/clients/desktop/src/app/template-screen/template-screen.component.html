@@ -14,7 +14,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-4" *ngFor="let template of gepTemplates;let i = index">
-            <div class="card" (click)="ShowSelected(template,i)">
+            <div class="card" (click)="ShowSelected(template,i,projectTemp[0]._id)">
               <a class="img-card">
                 <img src={{template.template_image[0].image}} />
               </a>
