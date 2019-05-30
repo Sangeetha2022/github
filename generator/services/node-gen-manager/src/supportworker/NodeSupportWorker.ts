@@ -23,5 +23,20 @@ export class NodeSupportWorker {
             callback(`server created`)
         })
     }
+
+    nodeModelServiceWorker(serviceData , callback){
+        let modelPath = this.sourcePath+'/service';
+        if(!fs.existsSync(modelPath)){
+            fs.mkdirSync(modelPath)
+        }
+
+        let generateModel = st.loadGroup(require(this.templatePath + '/service_stg.js'));
+        let modelData = generateModel.render('service', [serviceData]);
+        fs.writeFile(modelPath + `service.ts`,modelData , function(err){
+            if(err) throw err;
+            console.log('service')
+            callback('sucess :) ---service file created---')
+        })
+    }
 }
 
