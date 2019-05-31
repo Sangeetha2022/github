@@ -18,7 +18,8 @@ export class ProfilesettingsComponent implements OnInit {
     'email': '',
     'role': {},
     'id': '',
-    'username': ''
+    'username': '',
+    'installrToken':''
   };
   public userDefault = {
     'firstname': '',
@@ -26,7 +27,8 @@ export class ProfilesettingsComponent implements OnInit {
     'email': '',
     'role':{},
     'id': '',
-    'username': ''
+    'username': '',
+    'installrToken':''
   };
   public roles: any[] = [];
   public rolechange: any;
@@ -53,6 +55,7 @@ export class ProfilesettingsComponent implements OnInit {
       this.Userobject.lastname = user.lastname;
       this.Userobject.email = user.email;
       this.Userobject.role = user.role.role;
+      this.Userobject.installrToken = user.installrToken;
 
       this.profileservice.Getroles().subscribe(roledata => {
         this.roles = roledata.body;
@@ -102,6 +105,7 @@ export class ProfilesettingsComponent implements OnInit {
       this.userDefault.role = this.defaultRole;
       this.userDefault.id = this.Userobject.id;
       this.userDefault.username = this.Userobject.username;
+      this.userDefault.installrToken = this.Userobject.installrToken;
 
       this.profileservice.Updateuser(this.userDefault).subscribe(data => {
         this.route.navigate(['admin']);
