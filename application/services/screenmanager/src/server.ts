@@ -5,7 +5,7 @@ import * as cors from 'cors';
 import * as mongoose from 'mongoose';
 import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
-import { FeedSeedData } from './seed';
+// import { FeedSeedData } from './seed';
 
 const PORT = 3004;
 
@@ -14,6 +14,7 @@ class App {
     public app: express.Application = express();
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
+    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
     
 
     constructor() { 
@@ -32,15 +33,15 @@ class App {
     }
 
     private mongoSetup(): void {
-        // mongoose.Promise = global.Promise;
-        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        let mConfig = new MongoConfig();
-        mConfig.mongoConfig();
+        mongoose.Promise = global.Promise;
+        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        // let mConfig = new MongoConfig();
+        // mConfig.mongoConfig();
     }
 
     private mongoSeedData(): void {
-        let seedData = new FeedSeedData();
-        seedData.geppettoTemplateData();
+        // let seedData = new FeedSeedData();
+        // seedData.geppettoTemplateData();
     }
 }
 
