@@ -10,6 +10,8 @@ import { NamespaceService } from '../services/app.namespace';
 import {TerraformService} from '../services/terraform.service';
 import {DevOpsService} from '../services/dev-ops.service';
 import {DockerService} from '../services/docker.service';
+import { IPAService } from '../services/ios.service';
+import { AndroidService } from '../services/android.service';
 //import InfrastructureDto from '../dto/infrastructure.dto';
 
 
@@ -20,6 +22,8 @@ let telemetryService = new TelemetryService()
 let terraformService = new TerraformService()
 let devOpsService = new DevOpsService()
 let dockerService = new DockerService()
+let ipaService = new IPAService()
+let androidService = new AndroidService()
 //let infrastructureDto = new InfrastructureDto()
 
 
@@ -36,10 +40,12 @@ export class AWSInfrastructureController {
   public generateInfrastructureAWS(req: Request, res: Response) {
 
     var projectDetails = req.body
+    projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
+    projectDetails.project_lowercase = projectDetails.project.toLowercase();
 
 
     //create project folder if not exists
-    let projectFolder = DestinationAWS + projectDetails.project_name+ "_" + projectDetails.user_id.substring(0, 5);
+    let projectFolder = DestinationAWS + projectDetails.project;
     if (!fs.existsSync(projectFolder)) {
       fs.mkdirSync(projectFolder);
     }
@@ -131,6 +137,20 @@ export class AWSInfrastructureController {
     //generate script for app pod image
     if (projectDetails.app_pod) {
       dockerService.generate_build_script_app_pod(projectDetails, (response) => {
+        //res.send(200);
+      })
+    }
+
+    //generate script for ios build
+    if (projectDetails.ios_build) {
+      ipaService.generate_build_script_ios(projectDetails, (response) => {
+        //res.send(200);
+      })
+    }
+
+     //generate script for android build
+     if (projectDetails.android_build) {
+      androidService.generate_build_script_android(projectDetails, (response) => {
         //res.send(200);
       })
     }

@@ -1,0 +1,318 @@
+/*
+ * Template group android_jenkins_build
+ * Compiled on Sat Jun 01 2019 20:50:51 GMT+0530 (India Standard Time)
+ */
+var path = require("path");
+var base = path.dirname(module.filename);
+
+function getInstance(st, group) {
+    "use strict";
+var r;
+var gFile = "android_jenkins_build"; 
+
+group.name = "android_jenkins_build";
+
+
+
+
+
+//
+// Template /android_jenkins_build
+//
+r = function(w, rc) {
+    var g = this.owningGroup,
+        s = this.scope;
+    
+    w.write("<?xml version='1.1' encoding='UTF-8'?>");
+    w.write("\n");
+    w.write("<project>");
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<actions/>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<description></description>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<keepDependencies>false</keepDependencies>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<properties/>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<scm class=\"hudson.scm.NullSCM\"/>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<canRoam>true</canRoam>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<disabled>false</disabled>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<triggers/>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<concurrentBuild>false</concurrentBuild>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<builders>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("<hudson.tasks.Shell>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("      ");
+    w.write("<command>#!/bin/bash");
+    w.popIndentation();
+    w.write("\n");
+    w.write("\n");
+    w.write("\n");
+    w.write("BASEPATH=&apos;");
+    st.write(w, s, g, rc, s.base_path);
+    w.write("&apos;");
+    w.write("\n");
+    w.write("WORKSPACE=&apos;");
+    st.write(w, s, g, rc, s.workspace);
+    w.write("&apos;");
+    w.write("\n");
+    w.write("CODEPATH=&apos;");
+    st.write(w, s, g, rc, s.code_path);
+    w.write("&apos;");
+    w.write("\n");
+    w.write("PROJECTNAME=&apos;");
+    st.write(w, s, g, rc, s.project_name);
+    w.write("&apos;");
+    w.write("\n");
+    w.write("\n");
+    w.write("GITURL=&apos;");
+    st.write(w, s, g, rc, s.git_url);
+    w.write("&apos;");
+    w.write("\n");
+    w.write("\n");
+    w.write("#installr");
+    w.write("\n");
+    w.write("APITOKEN=&apos;");
+    st.write(w, s, g, rc, s.api_token);
+    w.write("&apos;");
+    w.write("\n");
+    w.write("EMAIL=&apos;");
+    st.write(w, s, g, rc, s.email);
+    w.write("&apos;");
+    w.write("\n");
+    w.write("\n");
+    w.write("get_code(){");
+    w.write("\n");
+    w.write("\n");
+    w.write("cd &quot;$BASEPATH$WORKSPACE&quot;");
+    w.write("\n");
+    w.write("\n");
+    w.write("\n");
+    w.write("if [ ! -d &quot;$PROJECTNAME&quot; ] ; then");
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("echo &quot;running git clone..&quot;");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("git clone $GITURL");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("if [ $? -eq 0 ]; then");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("        ");
+    w.write("echo &quot;git clone sucessfull!&quot;");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("else");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("        ");
+    w.write("echo &quot;git clone failed!&quot;");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("fi");
+    w.popIndentation();
+    w.write("\n");
+    w.write("else");
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("echo &quot;code exists!&quot;");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("cd $PROJECTNAME");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("git pull");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("if [ $? -eq 0 ]; then");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("        ");
+    w.write("echo &quot;git pull sucessfull!&quot;");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("else");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("        ");
+    w.write("echo &quot;git pull failed!&quot;");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("fi    ");
+    w.popIndentation();
+    w.write("\n");
+    w.write("fi");
+    w.write("\n");
+    w.write("\n");
+    w.write("}");
+    w.write("\n");
+    w.write("\n");
+    w.write("build_apk(){");
+    w.write("\n");
+    w.write("\n");
+    w.write("cd &quot;$BASEPATH$WORKSPACE$CODEPATH&quot;");
+    w.write("\n");
+    w.write("\n");
+    w.write("ionic cordova platform add android");
+    w.write("\n");
+    w.write("if [ $? -eq 0 ]; then");
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("echo \"android platform added sucessfully!\"");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("ionic cordova build android --device");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("if [ $? -eq 0 ]; then");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("        ");
+    w.write("echo \"android build success!\"");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("else");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("        ");
+    w.write("echo \"android build failed!\"");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("fi");
+    w.popIndentation();
+    w.write("\n");
+    w.write("else");
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("echo \"add android platform failed!\"");
+    w.popIndentation();
+    w.write("\n");
+    w.write("fi");
+    w.write("\n");
+    w.write("\n");
+    w.write("}");
+    w.write("\n");
+    w.write("\n");
+    w.write("upload_apk(){");
+    w.write("\n");
+    w.write("\n");
+    w.write("echo &quot;uploading app file to installr..&quot;");
+    w.write("\n");
+    w.write("\n");
+    w.write("cd &apos;platforms/android/app/build/outputs/apk/debug&apos;");
+    w.write("\n");
+    w.write("\n");
+    w.write("UPLOADRESPONSE=`curl -H &quot;X-InstallrAppToken: $APITOKEN&quot;  https://www.installrapp.com/apps.json -F &quot;qqfile=@app-debug.apk&quot; -F &apos;releaseNotes=These are the release notes for apk app&apos;`");
+    w.write("\n");
+    w.write("APPID=`echo $UPLOADRESPONSE | jq -r .appData.id`");
+    w.write("\n");
+    w.write("\n");
+    w.write("echo &quot;app file uploaded appId : $APPID&quot;");
+    w.write("\n");
+    w.write("\n");
+    w.write("echo &quot;sending email notification..&quot;");
+    w.write("\n");
+    w.write("\n");
+    w.write("EMAILRESPONSE=`curl -H &quot;X-InstallrAppToken: $APITOKEN&quot; https://www.installrapp.com/apps/$APPID/builds/latest/team.json -F &quot;notify=$EMAIL&quot;`");
+    w.write("\n");
+    w.write("EMAILSTATUS=`echo $EMAILRESPONSE | jq -r .result`");
+    w.write("\n");
+    w.write("\n");
+    w.write("echo &quot;email status:$EMAILSTATUS&quot;");
+    w.write("\n");
+    w.write("}");
+    w.write("\n");
+    w.write("\n");
+    w.write("get_code");
+    w.write("\n");
+    w.write("build_apk");
+    w.write("\n");
+    w.write("upload_apk</command>");
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("</hudson.tasks.Shell>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("</builders>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<publishers/>");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("<buildWrappers/>");
+    w.popIndentation();
+    w.write("\n");
+    w.write("</project>");
+};
+r.args = [
+        { name: "project_name"     },
+{ name: "base_path"     },
+{ name: "workspace"     },
+{ name: "code_path"     },
+{ name: "git_url"     },
+{ name: "email"     },
+{ name: "api_token"     }
+];
+group.addTemplate("/android_jenkins_build", r); 
+
+
+return group;
+}
+getInstance.base = base;
+
+module.exports = getInstance;
