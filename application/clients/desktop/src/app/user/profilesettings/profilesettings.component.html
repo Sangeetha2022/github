@@ -2,18 +2,21 @@
   <form>
     <div class="row">
       <div class="col">
-        <input type="text" class="form-control" [(ngModel)]='Userobject.firstname' name="firstname">
+        <input type="text" class="form-control" placeholder="Firstname" [(ngModel)]='Userobject.firstname' name="firstname">
       </div>
       <div class="col">
-        <input type="text" class="form-control" [(ngModel)]='Userobject.lastname' name="lastname">
+        <input type="text" class="form-control" placeholder="Lastname" [(ngModel)]='Userobject.lastname' name="lastname">
       </div>
     </div>
     <br>
     <div class="form-group">
-      <input type="text" class="form-control" [(ngModel)]='Userobject.email' name="username">
+      <input type="text" class="form-control" placeholder="Username" [(ngModel)]='Userobject.username' name="username">
     </div>
     <div class="form-group">
-      <input type="email" class="form-control" [(ngModel)]='Userobject.email' name="email">
+      <input type="email" class="form-control" placeholder="Email" [(ngModel)]='Userobject.email' name="email">
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Installr Token" [(ngModel)]='Userobject.installrToken' name="installrToken">
     </div>
     <div class="form-group">
       <select class="form-control" (change)="onChange($event.target.value)">

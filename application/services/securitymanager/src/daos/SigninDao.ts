@@ -1,11 +1,11 @@
 import mongoose = require('mongoose');
-import { Signinschema } from '../models/Signin';
+import { Userschema } from '../models/User';
 import { Roleschema } from '../models/Role';
 import * as jwt from 'jsonwebtoken';
 import * as asyncLoop from 'node-async-loop';
 var jwtDecode = require('jwt-decode');
 
-const signinmodel = mongoose.model('Signin', Signinschema);
+const signinmodel = mongoose.model('User', Userschema);
 const rolemodel = mongoose.model('role', Roleschema);
 export class SigninDao {
 
@@ -29,13 +29,14 @@ export class SigninDao {
             })
 
             this.userDetails = {
-                'firstname': userData.firstName,
-                'lastname': userData.lastName,
+                'firstname': userData.firstname,
+                'lastname': userData.lastname,
                 'password': userData.password,
                 'email': userData.email,
                 'username': userData.email,
                 'role': this.signuprole,
-                'Idtoken': ''
+                'Idtoken': '',
+                'installrToken': userData.installrToken
             };
             console.log('userdetails---->', this.userDetails)
             signinmodel.find().then(data => {
@@ -195,7 +196,8 @@ export class SigninDao {
             lastname: updateuser.lastname,
             email: updateuser.email,
             id: updateuser.id,
-            role: updateuser.role.role
+            role: updateuser.role.role,
+            installrToken : updateuser.installrToken
         }
         var idtoken = jwt.sign(payload, 'geppettosecret', {
             expiresIn: 86400
@@ -212,7 +214,8 @@ export class SigninDao {
                 email: updateuser.email,
                 id: updateuser.id,
                 role: updateuser.role._id,
-                Idtoken: idtoken
+                Idtoken: idtoken,
+                installrToken : updateuser.installrToken
             }
             callback(updaterespone);
         })

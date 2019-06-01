@@ -33,7 +33,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4" *ngIf="featureData && featureData.length === 0">
+                    <div class="col-md-4" *ngIf="projectFeatureData && projectFeatureData.length === 0">
                         No Feature Available.
                     </div>
                 </div>
@@ -43,8 +43,7 @@
                     <mat-panel-title> Entities </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div style="padding-right: 20px;">
-                    <button class="createEntityButton" mat-raised-button color="primary"
-                        (click)="saveEntityModel()">Add
+                    <button class="createEntityButton" mat-raised-button color="primary" (click)="saveEntityModel()">Add
                         Entity</button>
                 </div>
                 <div class="row" style="margin: 0px;">
@@ -94,9 +93,18 @@
                     <mat-panel-title> Screens </mat-panel-title>
                 </mat-expansion-panel-header>
                 <mat-card-content>
-
-                    <button class="createEntityButton goToButton" mat-raised-button (click)="GoToDesigner()">Add
-                        Screen</button>
+                    <div class="row">
+                        <div class="btn-group">
+                            <button class="goToButton btn-space" mat-raised-button
+                                (click)="editTemplate(screenTempId)">Modify
+                                Template</button>
+                            <button class="goToButton btn-space" mat-raised-button [routerLink]="['/templates']"
+                                [queryParams]="{projectId: project_id}">Change
+                                Template</button>
+                            <button class="goToButton btn-space" mat-raised-button (click)="GoToDesigner()">Add
+                                Screen</button>
+                        </div>
+                    </div>
                     <div class="row" style="margin: 0px;">
                         <div class="col-md-4" *ngFor="let screen of screenDetails; let i = index">
                             <div class="card">
@@ -107,7 +115,8 @@
                                 </div>
                                 <div class="card-body">
 
-                                    <button mat-raised-button color="primary" (click)="editScreen(screen._id, screen.screenType)">Edit</button>
+                                    <button mat-raised-button color="primary"
+                                        (click)="editScreen(screen._id, screen.screenType)">Edit</button>
                                     &nbsp;
                                     <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
                                         [disabled]="entity.is_default">Delete</button>
@@ -224,8 +233,9 @@
                     </div>
                     <form #featurForm="ngForm">
                         <div class="form-group">
+                            <!-- feature name -->
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" name="name" [(ngModel)]="featureDetails.name"
+                            <input type="text" class="form-control" name="name" [(ngModel)]="featureInfo.name"
                                 #name="ngModel" [ngClass]="{ 'is-invalid': featurForm.submitted && name.invalid }"
                                 required />
                             <div *ngIf="featurForm.submitted && name.invalid" class="invalid-feedback">
@@ -254,10 +264,12 @@
     Drag and drop files to upload
     </div>
     </div> -->
+
+                        <!-- feature descritpion -->
                         <div class="form-group">
                             <label for="description">Description</label>
                             <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)"
-                                [(ngModel)]="featureDetails.description"></ckeditor>
+                                [(ngModel)]="featureInfo.description"></ckeditor>
                             <!-- use this inside ckeditor tag for image upload replace your api with uploadUrl [config]="{ ckfinder :{uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/'}}" -->
                         </div>
                     </form>

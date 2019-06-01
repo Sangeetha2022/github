@@ -6,7 +6,7 @@ import { IMicroFlow } from './interface/microFlow';
 import { IFlowComponent } from './interface/flowComponents';
 import { Connector } from './interface/connector';
 import { IGenerateFlow } from '../flow-manager/interface/generationFlow';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/shared/data.service';
 
 @Component({
@@ -76,23 +76,23 @@ export class ComponentFlowsComponent implements OnInit {
   // ag-grid
   // rowSelection: String = null;
   // defaultColDef: any = null;
-  // microColDef: any = [];
-  // fcompColDefs: any = null;
+  // microFlowColDef: any = [];
+  // flowComponentColDef: any = null;
   // connectorColDef: any = [];
   // linkedConnectorColDef: any = [];
-  // flowCompGrid: any = [];
+  // flowComponentGrid: any = [];
   // microFlowGrid: any = [];
   // connectorFlowGrid: any = [];
 
   rowSelection;
   defaultColDef;
 
-  microColDef;
-  fcompColDefs;
+  microFlowColDef;
+  flowComponentColDef;
   connectorColDef;
   linkedConnectorColDef;
 
-  flowCompGrid;
+  flowComponentGrid;
   microFlowGrid;
   connectorFlowGrid;
   linkedFlowGrid: any = [];
@@ -103,10 +103,11 @@ export class ComponentFlowsComponent implements OnInit {
   createDConnectorForm: FormGroup;
 
   flow_comp: any = [];
+  flowComponentRowData: any = [];
   flow_id: String = null;
   flow_deatils: any = {};
   default_connector: any = null;
-  microFlow: any = [];
+  microFlowRowData: any = [];
   selectedFlowCmpnt: any = [];
   flowCompName: String;
   isDisableFlowComp = true;
@@ -126,7 +127,8 @@ export class ComponentFlowsComponent implements OnInit {
     private flowManagerService: FlowManagerService,
     private componentFlowsService: ComponentFlowsService,
     private changeDetectorRef: ChangeDetectorRef,
-    private route: ActivatedRoute,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     private dataService: DataService
   ) {
   }
@@ -135,14 +137,30 @@ export class ComponentFlowsComponent implements OnInit {
     this.setupAgGrid();
     this.generateForms();
     this.getAllAvailableConnector();
-    this.route.queryParams.subscribe(params => {
-      this.paramsName = params.name;
-    });
-    this.getDataFromFlowService();
+    // this.activatedRoute.queryParams.subscribe(params => {
+    //   this.paramsName = params.name;
+    // });
+    this.getFlows();
+    // this.getDataFromFlowService();
+  }
+
+  getFlows() {
+    this.dataService.currentflowSource.subscribe(
+      flowData => {
+        const isMyObjectEmpty = Object.keys(flowData).length;
+        if (Object.keys(flowData).length === 0) {
+          this.router.navigate(['flow-manager']);
+        }
+        this.flowComponentRowData = flowData.components;
+      },
+      error => {
+        console.log('flow component error ----- ', error);
+      }
+    );
   }
 
   getDataFromFlowService() {
-    this.dataService.currentFlowIdInfoSource.subscribe(data => {
+    this.dataService.currentflowSource.subscribe(data => {
       this.flow_id = data._id;
       this.flow_name = data.name;
       if (this.flow_id !== undefined) {
@@ -167,13 +185,21 @@ export class ComponentFlowsComponent implements OnInit {
   //   })
   // }
   selectFlowComponent() {
-    this.selectedFlowCmpnt = this.flowCompGrid.getSelectedRows();
-    if (this.selectedFlowCmpnt[0].component_name !== null) {
-      this.showMicroFlow = true;
-    }
-    this.flowCompName = this.selectedFlowCmpnt[0].component_name;
-    this.default_connector = this.selectedFlowCmpnt[0].default_connector;
-    this.getMicroFlowName(this.selectedFlowCmpnt[0].component_name);
+    this.selectedFlowCmpnt = this.flowComponentGrid.getSelectedRows();
+    this.componentFlowsService.getMicroFlow(this.flowComponentGrid.getSelectedRows()[0].microFlows).subscribe(
+      microflow => {
+        this.microFlowRowData = microflow;
+      },
+      error => {
+
+      }
+    );
+    // if (this.selectedFlowCmpnt[0].component_name !== null) {
+    //   this.showMicroFlow = true;
+    // }
+    // this.flowCompName = this.selectedFlowCmpnt[0].component_name;
+    // this.default_connector = this.selectedFlowCmpnt[0].default_connector;
+    // this.getMicroFlowName(this.selectedFlowCmpnt[0].component_name);
   }
 
   // deleteConnector() {
@@ -256,8 +282,10 @@ export class ComponentFlowsComponent implements OnInit {
     if (type === 'create') {
       this.isDisableFlowComp = true;
       this.createFlowComponentForm.controls['component_name'].enable();
-      this.iFlowComponent = { label: '', description: '', component_name: '',
-       connector: false, dev_framework: '', dev_language: '', sequence_id: '', type: '' };
+      this.iFlowComponent = {
+        label: '', description: '', component_name: '',
+        connector: false, dev_framework: '', dev_language: '', sequence_id: '', type: ''
+      };
       this.addModel = 'block';
     }
     if (type === 'update' && this.selectedFlowCmpnt.length > 0) {
@@ -316,11 +344,11 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   addDefaultConnector() {
-    console.log('==========eeeeee============>>>>>', this.AvailableConnector);
-    console.log('==========eeeeee===========selectedAvaConnector=>>>>>', this.selectedAvaConnector);
-    console.log('==========eeeeee===========selectedAvaConnectorMethod=>>>>>', this.selectedAvaConnectorMethod);
-    console.log('==========eeeeee===========selectedAvaConnectorMethodApi=>>>>>', this.selectedAvaConnectorMethodApi);
-    console.log('==========eeeeee===========availableConnApisProp=>>>>>', this.availableConnApisProp);
+    // console.log('==========eeeeee============>>>>>', this.AvailableConnector);
+    // console.log('==========eeeeee===========selectedAvaConnector=>>>>>', this.selectedAvaConnector);
+    // console.log('==========eeeeee===========selectedAvaConnectorMethod=>>>>>', this.selectedAvaConnectorMethod);
+    // console.log('==========eeeeee===========selectedAvaConnectorMethodApi=>>>>>', this.selectedAvaConnectorMethodApi);
+    // console.log('==========eeeeee===========availableConnApisProp=>>>>>', this.availableConnApisProp);
     const dataToSave = {
       available_apis: this.selectedAvaConnectorMethod,
       description: this.selectedAvaConnector.description,
@@ -328,9 +356,9 @@ export class ComponentFlowsComponent implements OnInit {
       properties: this.selectedAvaConnector.properties,
       url: this.selectedAvaConnector.url
     };
-    console.log(' - - - - >>>  ', dataToSave);
+    // console.log(' - - - - >>>  ', dataToSave);
     this.componentFlowsService.addDefaultConnector(this.selectedFlowCmpnt[0]._id, dataToSave).subscribe(data => {
-      console.log('=============asdasidj========== >>>', data);
+      // console.log('=============asdasidj========== >>>', data);
       this.getFlowSequence(this.flow_id);
       this.onCloseHandled();
     }, error => {
@@ -389,7 +417,7 @@ export class ComponentFlowsComponent implements OnInit {
         console.log('add gen flow error --- ', error);
       }
     );
-    this.getMicroFlowName(this.flowCompName);
+    // this.getMicroFlowName(this.flowCompName);
     this.onCloseMFHandled();
   }
 
@@ -416,7 +444,7 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   // onSelectionChange() {
-  //   let selectedRows = this.flowCompGrid.getSelectedRows();
+  //   let selectedRows = this.flowComponentGrid.getSelectedRows();
   //   this.selectedFlowCmpnt = selectedRows;
   //   console.log("this.selectedFlowCmpnt[0].component_name.length", this.selectedFlowCmpnt[0].component_name)
   //   if (this.selectedFlowCmpnt[0].component_name.length !== null) {
@@ -429,13 +457,13 @@ export class ComponentFlowsComponent implements OnInit {
   //   }
   // }
 
-  getMicroFlowName(component) {
-    this.componentFlowsService.getMicroFlowByCompName(component).subscribe(data => {
-      this.microFlow = data;
-    }, error => {
-      console.log('==== ==  ? ? ', error);
-    });
-  }
+  // getMicroFlowName(component) {
+  //   this.componentFlowsService.getMicroFlowByCompName(component).subscribe(data => {
+  //     this.microFlow = data;
+  //   }, error => {
+  //     console.log('==== ==  ? ? ', error);
+  //   });
+  // }
 
   getAllAvailableConnector() {
     this.componentFlowsService.getAllConnector().subscribe(data => {
@@ -475,12 +503,12 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   setupAgGrid() {
-    this.fcompColDefs = [
-      { headerName: 'Component Name', field: 'component_name', checkboxSelection: true },
-      { headerName: 'FrameWork', field: 'dev_framework' },
+    this.flowComponentColDef = [
+      { headerName: 'Component Name', field: 'name', checkboxSelection: true },
+      { headerName: 'FrameWork', field: 'devFramework' },
       { headerName: 'Type', field: 'type' },
-      { headerName: 'Sequence', field: 'sequence_id' },
-      { headerName: 'Language', field: 'dev_language' },
+      { headerName: 'Sequence', field: 'sequenceId' },
+      { headerName: 'Language', field: 'devLanguage' },
       { headerName: 'Label', field: 'label' },
       { headerName: 'Description', field: 'description' },
     ];
@@ -499,10 +527,10 @@ export class ComponentFlowsComponent implements OnInit {
       // { headerName: 'Secret Key', field: 'properties.secretKey' },
 
     ];
-    this.microColDef = [
-      { headerName: 'Sequence Id', field: 'sequence_id', sort: 'asc', checkboxSelection: true },
-      { headerName: 'Component Name', field: 'component_name' },
-      { headerName: 'Micro Flow Step Name', field: 'micro_flow_step_name' }
+    this.microFlowColDef = [
+      { headerName: 'Sequence Id', field: 'sequenceId', sort: 'asc', checkboxSelection: true },
+      { headerName: 'Component Name', field: 'componentName' },
+      { headerName: 'Micro Flow Step Name', field: 'microFlowStepName' }
     ];
 
     this.rowSelection = 'single';
@@ -542,8 +570,8 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   onFCGridReady(params) {
-    this.flowCompGrid = params.api;
-    this.flowCompGrid.sizeColumnsToFit();
+    this.flowComponentGrid = params.api;
+    this.flowComponentGrid.sizeColumnsToFit();
   }
 
 

@@ -18,17 +18,19 @@ import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
 import { ProfilesettingsComponent } from './user/profilesettings/profilesettings.component';
 import { AuthGuard } from './auth.guard';
+import { TemplateScreenComponent } from './template-screen/template-screen.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent },
+  { path: 'templates', component: TemplateScreenComponent },
   { path: 'login', component: LoginComponent },
   { path: 'consent', component: ConsentscreenComponent },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
-  { path: 'usermanagement', component: UserComponent, canActivate: [AuthGuard]},
-  { path: 'profile', component: ProfilesettingsComponent, canActivate: [AuthGuard]},
+  { path: 'usermanagement', component: UserComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfilesettingsComponent, canActivate: [AuthGuard] },
   { path: 'landing', component: LandingpageComponent, canActivate: [AuthGuard] },
-  { path: 'callback', component: ProjectsComponent, canActivate: [AuthGuard] },
-  { path: 'project', component: ProjectsComponent, canActivate: [AuthGuard] },
+  { path: 'callback', component: ProjectsComponent, canActivate: [AuthGuard]},
+  { path: 'project', component: ProjectsComponent, canActivate: [AuthGuard]},
   { path: 'flow-component', component: ComponentFlowsComponent },
   { path: 'flow-manager', component: FlowManagerComponent },
   { path: 'available-connector', component: AvailableConnectorComponent },

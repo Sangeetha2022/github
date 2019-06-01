@@ -1,8 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { LoginService } from '../../login/loginservice.service';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Brodcastservice } from '../../broadcast.service';
 import { AuthGuard } from '../../auth.guard';
+import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
+import { DataService } from '../../../shared/data.service';
+import { NavigationService } from '../navigation.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -12,17 +15,25 @@ export class HeaderComponent implements OnInit {
   hideElement: boolean;
   public headergaurd: any;
   public permission: any;
+  language = 'en';
+  languages = ['en', 'ta', 'es'];
+  displayAboutModel: String = 'none';
+  versionData: any = {};
+  buildVersionData: any = {};
+
 
   @Output() public sidenavToggle = new EventEmitter();
 
   // tslint:disable-next-line:max-line-length
-  constructor(private logoutservice: LoginService, private router: Router, public brodcast: Brodcastservice, private gaurdservice: AuthGuard) {
-    // gaurdservice.getpermission.subscribe(response => this.Accesspermission(response));
+  constructor(
+    @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
+    private navigationService: NavigationService,
+
+    private dataService: DataService,
+    private logoutservice: LoginService, private router: Router, public brodcast: Brodcastservice, private gaurdservice: AuthGuard) {
     this.brodcast.currentusername.subscribe(headerpermission => {
-      console.log('----------behavioursubject---->>>', headerpermission);
       if (headerpermission !== undefined) {
         this.headergaurd = headerpermission;
-        console.log('-------this.permission----->>', this.headergaurd.Project);
         if (this.headergaurd.Project !== undefined) {
           this.permission = this.headergaurd.Project.Access;
           if (this.headergaurd.Project.Fields !== undefined) {
@@ -65,8 +76,53 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.i18NextService.events.initialized.subscribe((e) => {
+      console.log('language---->>>>', e)
+      if (e) {
+        this.updateState(this.i18NextService.language);
+      }
+    })
+
     // this.Accesspermission(this.brodcast.gaurdarray);
   }
+
+  changeLanguage(lang: string) {
+    if (lang !== this.i18NextService.language) {
+      this.i18NextService.changeLanguage(lang).then(x => {
+        this.updateState(lang);
+        // localStorage.setItem('i18nextLng',lang)
+        document.location.reload();
+      });
+    }
+  }
+
+  private updateState(lang: string) {
+    this.language = lang;
+    this.dataService.setDefaultLanguage(lang);
+  }
+  showAbout() {
+    this.displayAboutModel = 'block';
+
+    this.navigationService.getVersion('version').subscribe(data => {
+      this.versionData = data;
+    },
+      error => {
+        console.log('Check the browser console to see more info.', 'Error!');
+      });
+
+    this.navigationService.getBuildVersion('build_version').subscribe(data => {
+      this.buildVersionData = data;
+    },
+      error => {
+        console.log('Check the browser console to see more info.', 'Error!');
+      });
+
+  }
+  hideAbout() {
+    this.displayAboutModel = 'none';
+  }
+
+
 
 
   public onToggleSidenav = () => {

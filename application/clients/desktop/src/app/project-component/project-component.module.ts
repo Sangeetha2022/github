@@ -28,6 +28,8 @@ import { FileSelectDirective } from 'ng2-file-upload';
 import { MenuBuilderModule } from '../menu-builder/menu-builder.module';
 import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
 import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
+import { EntityModelComponent } from './entitypopup-model/entitypop-up/entitypop-up.component';
+import { EditPopupComponent } from './edit-popup/edit-popup.component';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ ButtonRendererComponent,
 FieldPopupModalComponent,
 FeatureDetailsComponent,
 FileSelectDirective,
-ScreenPopupComponent
+ScreenPopupComponent,
+EntityModelComponent,
+EditPopupComponent
 ],
 imports: [
 CommonModule,
@@ -67,7 +71,9 @@ entryComponents: [
 ButtonRendererComponent,
 PopupModelComponent,
 ScreenPopupComponent,
-FieldPopupModalComponent
+FieldPopupModalComponent,
+EntityModelComponent,
+EditPopupComponent,
 ]
 })
 export class ProjectComponentModule { }

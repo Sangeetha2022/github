@@ -2555,31 +2555,31 @@
 			"name": "frontendTemplateLocation",
 			"label": "FrontEnd Template Location",
 			"description": "frontend compiled template code storage location",
-			"value": "/home/dhina/Videos/StahlsJenkins/GrapesJS/ang7Grapesjs/Dan/branch/features_screen_designer/geppettotest/generator/services/screen-gen-manager/template",
+			"value": "../../template",
 			"type": "FrontEndTemplate",
-			"sub_type": null
-		},
-		{
-			"name": "frontendGenerationDirectory",
-			"label": "FrontEnd Generation Directory",
-			"description": "location of where we want to generate our frontend code",
-			"value": "/home/dhina/Videos/StahlsJenkins/GrapesJS/ang7Grapesjs/Dan/branch/features_screen_designer/geppettotest/generatedcode",
-			"type": "FrontEndGeneration",
 			"sub_type": null
 		},
 		{
 			"name": "backendTemplateLocation",
 			"label": "BackEnd Template Location",
 			"description": "backend complied template code storage location",
-			"value": "/home/dhina/Videos/StahlsJenkins/GrapesJS/ang7Grapesjs/Dan/branch/features_screen_designer/geppettotest/generator/services/entity-gen-manager/template",
+			"value": "../../template",
 			"type": "BackEndTemplate",
+			"sub_type": null
+		},
+		{
+			"name": "mongoTemplateLocation",
+			"label": "Mongo Template Location",
+			"description": "mongo template code storage location",
+			"value": "../../template",
+			"type": "MongoTemplate",
 			"sub_type": null
 		},
 		{
 			"name": "projectGenerationDirectory",
 			"label": "project generation directory",
 			"description": "location of where we want to generate our project code",
-			"value": "/home/dhina/Videos/StahlsJenkins/GrapesJS/ang7Grapesjs/Dan/branch/features_screen_designer/geppettotest/generatedcode",
+			"value": "../../../../../generatedcode",
 			"type": "ProjectGeneration",
 			"sub_type": null
 		},

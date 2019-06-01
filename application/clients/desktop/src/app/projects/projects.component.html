@@ -20,12 +20,13 @@
                 <div class="sitecard__overlay">
                   <mat-icon>edit</mat-icon> <span style="font-size: 26px">Edit</span>
                 </div>
-                <div class="sitecard-preview" style="background-image: url(https://www.geppettosoftware.com/wp-content/uploads/2018/02/Introslide.jpg)">
+                <div class="sitecard-preview" [ngStyle]="{'background-image':'url('+proj.app_ui_template_img+')'}">
                 </div>
               </a>
             </div>
             <div class="sitecard-info u-p--m">
               <div title="Draft" class="sitecard-status sitecard-status-1"></div>
+              <div class="sitecard-temp-name">{{proj.app_ui_template}}</div>
               <div class="sitecard-title">{{proj.name}}</div>
               <div class="sitecard-desc">{{proj.description}}</div>
               <div class="sitecard__pub-info tp-size--s">
@@ -34,24 +35,24 @@
             </div>
 
             <div class="sitecard-actions">
-              <div class="col-xs-3 sitecard-action-c">
+              <div class="col-xs-4 sitecard-action-c">
                 <a class="sitecard-action" (click)="editProject(proj)" data-toggle="tooltip" title=""
                   data-original-title="Edit">
                   <mat-icon class="base-icon">edit</mat-icon>
                 </a>
               </div>
-              <div class="col-xs-3 sitecard-action-c">
+              <!-- <div class="col-xs-3 sitecard-action-c">
                 <a class="sitecard-action" data-toggle="tooltip" title="" data-original-title="Clone">
                   <mat-icon class="base-icon">file_copy</mat-icon>
                 </a>
-              </div>
-              <div class="col-xs-3 sitecard-action-c">
+              </div> -->
+              <div class="col-xs-4 sitecard-action-c">
                 <a class="sitecard-action" (click)="generateProject(proj)" data-toggle="tooltip" title=""
                   data-original-title="Settings">
                   <mat-icon class="base-icon">get_app</mat-icon>
                 </a>
               </div>
-              <div class="col-xs-3 sitecard-action-c">
+              <div class="col-xs-4 sitecard-action-c">
                 <a class="sitecard-action entity-action-remove" (click)="openDeleteModel(proj)">
                   <mat-icon class="base-icon">delete</mat-icon>
                 </a>
@@ -110,8 +111,9 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="app-context">{{ 'app_context' | i18next }}</label>
-                <input type="text" class="form-control" placeholder="{{'placeholder_appContext' | i18next}}" id="app-context"
-                  formControlName="appContext" [ngClass]="{ 'is-invalid': submitted && form_control.appContext.errors }">
+                <input type="text" class="form-control" placeholder="{{'placeholder_appContext' | i18next}}"
+                  id="app-context" formControlName="appContext"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.appContext.errors }">
                 <div *ngIf="submitted && form_control.appContext.errors" class="invalid-feedback">
                   <div *ngIf="form_control.appContext.errors.required">{{'require_appContext' | i18next}}</div>
                 </div>
@@ -121,8 +123,9 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="description">{{ 'description' | i18next }}</label>
-                <textarea class="form-control" rows="1" id="description" placeholder="{{'placeholder_description' | i18next}}"
-                  formControlName="description" [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }"></textarea>
+                <textarea class="form-control" rows="1" id="description"
+                  placeholder="{{'placeholder_description' | i18next}}" formControlName="description"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }"></textarea>
                 <div *ngIf="submitted && form_control.description.errors" class="invalid-feedback">
                   <div *ngIf="form_control.description.errors.required">{{'require_description' | i18next}}</div>
                 </div>
@@ -134,7 +137,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="primary-language">{{ 'primary_language' | i18next }}</label>
-                <select class="form-control" id="primary-language" formControlName="primaryLanguage" [ngClass]="{ 'is-invalid': submitted && form_control.primaryLanguage.errors }">
+                <select class="form-control" id="primary-language" formControlName="primaryLanguage"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.primaryLanguage.errors }">
                   <option value="" selected>{{'select_primary' | i18next}}</option>
                   <option value="English">English</option>
                   <option value="Tamil">Tamil</option>
@@ -150,12 +154,30 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="secondary-language">{{ 'secondary_language' | i18next }}</label>
-                <select class="form-control" id="secondary-language" formControlName="secondaryLanguage" [ngClass]="{ 'is-invalid': submitted && form_control.secondaryLanguage.errors }">
+                <select class="form-control" id="secondary-language" formControlName="secondaryLanguage"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.secondaryLanguage.errors }">
                   <option value="" selected>{{'select_secondary' | i18next}}</option>
                   <option *ngFor="let c of languages" [ngValue]="c">{{ c }}</option>
                 </select>
                 <div *ngIf="submitted && form_control.secondaryLanguage.errors" class="invalid-feedback">
                   <div *ngIf="form_control.secondaryLanguage.errors.required">{{'require_secondaryLanguage' | i18next}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="template">Select Template</label>
+                <select class="form-control" id="template" formControlName="template"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.secondaryLanguage.errors }">
+                  <option value="" selected>select template</option>
+                  <option *ngFor="let tempalte of gepTemplates;let i = index" [ngValue]="tempalte">{{ tempalte.name }}
+                  </option>
+                </select>
+                <div *ngIf="submitted && form_control.template.errors" class="invalid-feedback">
+                  <div *ngIf="form_control.template.errors.required">must select one template
                   </div>
                 </div>
               </div>

@@ -13,10 +13,10 @@ class App {
     public app: express.Application = express();
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
-    
     public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
 
-    constructor() { 
+
+    constructor() {
         this.logger.setupLogger();
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
@@ -25,8 +25,8 @@ class App {
     }
 
     private initializeMiddlewares() {
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(bodyParser.json({ limit: '50mb' }));
+        this.app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }));
         this.app.use(cors({ credentials: true, origin: true }))
     }
 

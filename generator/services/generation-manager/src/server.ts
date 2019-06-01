@@ -19,7 +19,6 @@ export class App {
     public app: express.Application = express();
     public server: Server;
     public io: socketIo.Server;
-    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
 

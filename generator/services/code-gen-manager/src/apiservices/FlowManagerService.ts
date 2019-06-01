@@ -3,10 +3,21 @@ import { SharedService } from '../config/SharedService';
 
 export class FlowManagerService {
 
-    getFlowByName(flowName, callback) {
-        console.log('getflow by name ----- ', flowName);
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/flow/get/${flowName}/name`).then(
+    getFlows(flowIDS, callback) {
+        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/flow/feature/get`, flowIDS).then(
             data => {
+                console.log('backend flow response ---- ', data);
+                callback(data);
+            }
+        ).catch(error => {
+            callback(error);
+        })
+    }
+
+    getFlowsByLanguage(flowIDS, language, callback) {
+        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/flow/feature/language/get?language=${language}`, flowIDS).then(
+            data => {
+                console.log('backend flow response ---- ', data);
                 callback(data);
             }
         ).catch(error => {

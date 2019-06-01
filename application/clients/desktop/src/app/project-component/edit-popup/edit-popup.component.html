@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Details:</h1>
+<div mat-dialog-content style="text-align: center">
+  <p>Name</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="modelObject.name">
+  </mat-form-field>
+  <p>Description</p>
+  <mat-form-field>
+    <input matInput [(ngModel)]="modelObject.description">
+  </mat-form-field>
+  <br />
+  <mat-radio-group [(ngModel)]="modelObject.entityType" #radioGroup="matRadioGroup">
+    <mat-radio-button [disabled]="isPrimaryEntityPresent" value="primary">Primary</mat-radio-button>
+    &nbsp;&nbsp;
+    <mat-radio-button value="secondary">Secondary</mat-radio-button>
+  </mat-radio-group>
+</div>
+<br />
+<br />
+<div mat-dialog-actions>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="modelObject" cdkFocusInitial>Ok</button>
+</div>

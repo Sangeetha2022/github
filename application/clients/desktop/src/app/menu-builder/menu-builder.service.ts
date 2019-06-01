@@ -21,7 +21,8 @@ export class MenuBuilderService {
     return this.api.get(this.restapi.menuUrl + '/menu/getbyprojectid/' + id);
 
   }
-  updateMenuById(id, menu) {
+  updateMenuById(id, menu): Observable<any> {
+    console.log('=======', menu)
     return this.api.put(this.restapi.menuUrl + '/menu/update/' + id, menu);
   }
 

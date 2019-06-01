@@ -19,12 +19,13 @@ export class EntityDao {
     }
 
     public updateEntity(entityData, callback) {
+        console.log("datada----->>>>", entityData)
         entityModel.findOneAndUpdate({ _id: entityData._id },
              entityData,
             { new: true })
             .then((result) => {
-                console.log('update entity result ----- ', result);
-                callback(result);
+                console.log('result---------->>>>>', entityData.id)
+                callback(entityData._id);
             }).catch((error) => {
                 console.log('update entity error -----  ', error);
                 callback(error);
@@ -57,10 +58,33 @@ export class EntityDao {
 
     public getByEntityId(entityId, callback) {
         console.log('get entity by id are ---- ', entityId);
-        entityModel.findById(entityId).then((result) => {
-            callback(result);
-        }).catch((error) => {
-            callback(error);
+        entityModel.findById(entityId).populate({
+            path: 'field.entity_id',
+            model: 'Entity',
+            // second level entities are populated
+            populate: {
+                path: 'field.entity_id',
+                model: 'Entity',
+                // third level entities are populated
+                populate: {
+                    path: 'field.entity_id',
+                    model: 'Entity',
+                    // fourth level entities are populated
+                    populate: {
+                        path: 'field.entity_id',
+                        model: 'Entity'
+                    }
+                }
+            }
+        }).
+        exec(function (err, result) {
+            if (err) {
+                callback(err);
+                console.log('project id in entityt dao error ---- ', err);
+            } else {
+                console.log('project id in entityt dao result ---- ', result);
+                callback(result);
+            }
         })
     }
 
@@ -74,29 +98,34 @@ export class EntityDao {
 
 
     public getEntityByProjectId(projectId, callback) {
-        console.log('project id  in entity dao ------ ', projectId);
         entityModel.find({ project_id: projectId }).
             exec(function (err, result) {
                 if (err) {
                     callback(err);
-                    console.log('project id in entityt dao error ---- ', err);
                 } else {
-                    console.log('project id in entityt dao result ---- ', result);
                     callback(result);
                 }
             })
     }
 
-    public getEntityByFeatureId(featureId,projectId, callback) {
-        entityModel.find({ $and: [ { feature_id: featureId }, { project_id: projectId } ] }).
+    public getEntityByFeatureId(featureId, callback) {
+        entityModel.find( { feature_id: featureId }).
             exec(function (err, result) {
                 if (err) {
                     callback(err);
-                    console.log('project id in entityt dao error ---- ', err);
                 } else {
-                    console.log('project id in entityt dao result ---- ', result);
                     callback(result);
                 }
             })
     }
+
+    public getentityfeatures(callback) {
+
+        entityModel.find({ feature_id: '' }).then((result) => {
+            callback(result);
+        }).catch((error) => {
+            callback(error);
+        });
+    }
+
 }

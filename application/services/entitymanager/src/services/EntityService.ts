@@ -15,14 +15,15 @@ export class EntityService {
 
     public updateEntity(req: Request, callback) {
         const entity = req.body;
-        entity.field.forEach(element => {
-            if (element.is_list_type && typeof element.entity_id !== "object") {
-                this.typeListCheck(element);
-            } else {
-                this.typeCheck(element);
-            }
+        console.log('----------entity------', entity);
+        // entity.field.forEach(element => {
+        //     if (element.is_list_type && typeof element.entity_id !== "object") {
+        //         this.typeListCheck(element);
+        //     } else {
+        //         this.typeCheck(element);
+        //     }
 
-        });
+        // });
         entityDao.updateEntity(entity, (response) => {
             callback(response);
         })
@@ -65,9 +66,8 @@ export class EntityService {
     }
 
     public getEntityByFeatureId(req: Request, callback) {
-        const featureId = req.params.featureId
-        const projectId = req.params.projectId
-        entityDao.getEntityByFeatureId(featureId,projectId, (response) => {
+        const featureId = req.query.featureId;
+        entityDao.getEntityByFeatureId(featureId, (response) => {
             callback(response);
         })
     }
@@ -76,6 +76,12 @@ export class EntityService {
         entityDao.getAllEntity((response) => {
             callback(response);
         });
+    }
+
+    public getentityfeatures(req: Request, callback: CallableFunction) {
+        entityDao.getentityfeatures((response) => {
+            callback(response);
+        })
     }
 
 
