@@ -1,4 +1,7 @@
 import * as util from 'util';
+import { DaoSupportWorker } from '../supportworker/DaoSupportWorker';
+
+let daoSupportWorker = new DaoSupportWorker();
 
 export class DaoWorker {
 
@@ -8,8 +11,8 @@ export class DaoWorker {
         },
         GpVariable:
         {
-            insideClass: { variableName: [], parentName: [] },
-            outsideClass: { variableName: [], parentName: [] }
+            insideClass: [],
+            outsideClass: []
         },
         gpConnector: {},
         function: {
@@ -46,8 +49,11 @@ export class DaoWorker {
         console.log('templateLocationPath in dao worker ---- ', templateLocationPath);
         console.log('dao worker ---- ', dao);
         console.log('create project node -------  ', util.inspect(dao, { showHidden: true, depth: null }));
+    //    const daoPath = `${projectGenerationPath}/src/dao`;
         dao.forEach(daoElement => {
-
+            daoSupportWorker.generateDaoFile(projectGenerationPath, templateLocationPath, daoElement, (response) => {
+                console.log('file generated and saved')
+            })
         });
     }
 
@@ -106,14 +112,16 @@ export class DaoWorker {
         //         insideClass: { variableName: [], parentName: [] },
         //         outsideClass: { variableName: [], parentName: [] }
         //     };
-        this.tempDao.GpVariable.insideClass = {
-            variableName: [],
-            parentName: []
-        }
-        this.tempDao.GpVariable.outsideClass = {
-            variableName: [],
-            parentName: []
-        }
+        // this.tempDao.GpVariable.insideClass = {
+        //     variableName: [],
+        //     parentName: []
+        // }
+        // this.tempDao.GpVariable.outsideClass = {
+        //     variableName: [],
+        //     parentName: []
+        // }
+        this.tempDao.GpVariable.insideClass = [];
+        this.tempDao.GpVariable.outsideClass = [];
         const tempVariable = {
             insideClass: {
                 variableName: [],
@@ -132,14 +140,20 @@ export class DaoWorker {
             });
         if (gpVariableStatement != undefined) {
             // this.importEntitySchema(null, tempVariable, 'variable');
-            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ==11=== ', this.entitySchema.modelName);
-            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ===22== ', daoObj.variable.insideClass.parentName);
-            const insideClassIndex = daoObj.variable.insideClass.parentName.findIndex(x => x == this.entitySchema.modelName);
-            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ===33== ', insideClassIndex);
+            // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ==11=== ', this.entitySchema.modelName);
+            // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ===22== ', daoObj.variable.insideClass.parentName);
+            const insideClassIndex = daoObj.variable.insideClass.findIndex(x => x.parentName == this.entitySchema.modelName);
+            // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ===33== ', insideClassIndex);
             if (insideClassIndex < 0) {
-                tempVariable.insideClass.variableName.push(this.entitySchema.fileName);
-                tempVariable.insideClass.parentName.push(this.entitySchema.modelName);
-                this.tempDao.GpVariable = tempVariable;
+                const temp = {
+                    variableName: '',
+                    parentName: ''
+                }
+                temp.variableName = this.entitySchema.fileName;
+                temp.parentName = this.entitySchema.modelName;
+                // tempVariable.insideClass.variableName.push(this.entitySchema.fileName);
+                // tempVariable.insideClass.parentName.push(this.entitySchema.modelName);
+                this.tempDao.GpVariable.insideClass.push(temp);
             }
 
         }
@@ -244,39 +258,39 @@ export class DaoWorker {
                 console.log('flowaction into gpcreate ------  ');
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempDao.function.variable = `let ${this.entitySchema.fileName} = new ${this.entitySchema.fileName}(${this.entitySchema.fileName}Data)`;
-                this.tempDao.function.verbs = `${this.entitySchema.fileName}.save`;
+                this.tempDao.function.variable = `let temp = new ${this.entitySchema.modelName}(${this.entitySchema.fileName}Data)`;
+                this.tempDao.function.verbs = `temp.save`;
                 // this.tempDao.method.variable = `let ${entityElement.fileName}`
                 break;
             case 'GpSearch':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempDao.function.verbs = `${this.entitySchema.fileName}.findOneAndUpdate`;
+                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
                 this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
                 break;
             case 'GpUpdate':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempDao.function.verbs = `${this.entitySchema.fileName}.findOneAndUpdate`;
+                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
                 this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
                 break;
             case 'GpDelete':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Id, callback`;
-                this.tempDao.function.verbs = `${this.entitySchema.fileName}.findByIdAndRemove`;
+                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findByIdAndRemove`;
                 this.tempDao.function.query = `${this.entitySchema.fileName}Id`;
                 break;
             case 'GpGetAllValues':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `callback`;
-                this.tempDao.function.verbs = `${this.entitySchema.fileName}.find`;
+                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
                 break;
             case 'GpSearchDetail':
                 break;
             case 'GpSearchForUpdate':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempDao.function.verbs = `${this.entitySchema.fileName}.findOneAndUpdate`;
+                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
                 this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
                 break;
             case 'GpDeleteNounRelationship':

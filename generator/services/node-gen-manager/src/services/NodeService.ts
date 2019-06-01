@@ -26,8 +26,8 @@ export class NodeService {
             dependencies: []
         },
         variable: {
-            insideClass: { variableName: [], parentName: [] },
-            outsideClass: { variableName: [], parentName: [] }
+            insideClass: [],
+            outsideClass: []
         },
         flowAction: []
     }
@@ -41,8 +41,8 @@ export class NodeService {
                 dependencies: []
             },
             variable: {
-                insideClass: { variableName: [], parentName: [] },
-                outsideClass: { variableName: [], parentName: [] }
+                insideClass: [],
+                outsideClass: []
             },
             flowAction: []
         }
@@ -158,15 +158,28 @@ export class NodeService {
                         this.daoObj.import.dependencies = this.daoObj.import.dependencies.concat(dao.GpStart.dependencies);
                        
                         // inside variable
-                        this.daoObj.variable.insideClass.parentName = this.daoObj.variable.insideClass.parentName.concat(dao.GpVariable.insideClass.parentName);
-                        this.daoObj.variable.insideClass.variableName = this.daoObj.variable.insideClass.variableName.concat(dao.GpVariable.insideClass.variableName);
+                        this.daoObj.variable.insideClass = this.daoObj.variable.insideClass.concat(dao.GpVariable.insideClass);
 
                         // outside variable
-                        this.daoObj.variable.outsideClass.parentName = this.daoObj.variable.outsideClass.parentName.concat(dao.GpVariable.outsideClass.parentName);
-                        this.daoObj.variable.outsideClass.variableName = this.daoObj.variable.outsideClass.variableName.concat(dao.GpVariable.outsideClass.variableName);
+                        this.daoObj.variable.outsideClass = this.daoObj.variable.outsideClass.concat(dao.GpVariable.outsideClass);
 
                         // gp function 
-                        this.daoObj.flowAction.push(dao.function);
+                        console.log('before pushing into flow action of dao obj    ', dao.function)
+                        const tempObj = {
+                            methodName: '',
+                            parameter: '',
+                            variable: '',
+                            verbs: '',
+                            query: '',
+                            return: ''
+                        }
+                        tempObj.methodName = dao.function.methodName;
+                        tempObj.parameter = dao.function.parameter;
+                        tempObj.variable = dao.function.variable;
+                        tempObj.verbs = dao.function.verbs;
+                        tempObj.query = dao.function.query;
+                        tempObj.return = dao.function.return;
+                        this.daoObj.flowAction.push(tempObj);
                         // tempDao.function.methodName.push(dao.function.methodName);
                         // tempDao.function.parameter.push(dao.function.parameter);
                         // tempDao.function.variable.push(dao.function.variable);
