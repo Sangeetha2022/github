@@ -19,11 +19,11 @@ export class NodeController {
         })
     }
 
-    public generateNodeService(req:Request , res:Response){
-        nodeService.generateNodeService(req , (response) =>{
-            res.status(200);
-            res.json(response)
-        })
+    // public generateNodeService(req:Request , res:Response){
+    //     nodeService.generateNodeService(req , (response) =>{
+    //         res.status(200);
+    //         res.json(response)
+    //     })
 
-    }
+    // }
 }

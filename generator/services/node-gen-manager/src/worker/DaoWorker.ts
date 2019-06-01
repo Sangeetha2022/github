@@ -1,9 +1,10 @@
+import * as util from 'util';
+
 export class DaoWorker {
 
     private tempDao = {
         GpStart: {
-            dependencyName: [],
-            dependencyPath: []
+            dependencies: []
         },
         GpVariable:
         {
@@ -23,28 +24,37 @@ export class DaoWorker {
     private flowDetail;
     private entitySchema;
     private gpDao;
+    count = 0;
 
-    createDao(flowDetail, gpDao, entityElement) {
+    createDao(flowDetail, gpDao, entityElement, daoObj) {
         console.log('dao worker start --- ', flowDetail);
         console.log('dao worker gpDao value ----->>>>  ', gpDao);
         console.log('dao worker entityElement value ----->>>>  ', entityElement);
         this.flowDetail = flowDetail;
         this.entitySchema = entityElement;
         this.gpDao = gpDao;
-        this.gpStart();
-        this.gpVariableStatement();
+        this.gpStart(daoObj);
+        this.gpVariableStatement(daoObj);
         this.gpCheckConnector();
         this.gpFunction();
         console.log('final create dao values are -----   ', this.tempDao);
         return this.tempDao;
     }
 
+    generateDaoFile(projectGenerationPath, templateLocationPath, dao) {
+        console.log('projectGenerationPath in dao worker ---- ', projectGenerationPath);
+        console.log('templateLocationPath in dao worker ---- ', templateLocationPath);
+        console.log('dao worker ---- ', dao);
+        console.log('create project node -------  ', util.inspect(dao, { showHidden: true, depth: null }));
+        dao.forEach(daoElement => {
 
-    gpStart() {
-        const tempImport = {
-            dependencyName: [],
-            dependencyPath: []
-        }
+        });
+    }
+
+
+    gpStart(daoObj) {
+        this.tempDao.GpStart.dependencies = [];
+
         const gpStart = this.gpDao.microFlows.find(
             function (element, index, array) {
                 if (element.microFlowStepName === 'GpStart') {
@@ -53,20 +63,57 @@ export class DaoWorker {
             });
         if (gpStart !== undefined) {
             // default
-            tempImport.dependencyName.push(`* as mongoose`);
-            tempImport.dependencyPath.push(`mongoose`);
+            // const tempImport.dependencyName.findIndex();
+            console.log(`daoObjcec are om count ${this.count} `, daoObj);
+            const mongoPathIndex = daoObj.import.dependencies.findIndex(x => x.path == `mongoose`);
+            // const entityPathIndex = daoObj.import.dependencyPath.findIndex(x => x == `../models/${this.entitySchema.fileName}`);
+            if (mongoPathIndex < 0) {
+                // tempImport.dependencyName.push(`* as mongoose`);
+                // tempImport.dependencyPath.push(`mongoose`);
+                const tempImport = {
+                    name: '',
+                    path: ''
+                }
+                tempImport.name = `* as mongoose`;
+                tempImport.path = `mongoose`;
+                this.tempDao.GpStart.dependencies.push(tempImport);
+            }
 
-            // custom
-            tempImport.dependencyName.push(`{ ${this.entitySchema.modelName} }`);
-            tempImport.dependencyPath.push(this.entitySchema.fileName);
+            const entityPathIndex = daoObj.import.dependencies.findIndex(x => x.path == `../models/${this.entitySchema.fileName}`);
+            if (entityPathIndex < 0) {
+                // tempImport.dependencyName.push(`{ ${this.entitySchema.modelName} }`);
+                console.log(`entityPath inded ar e------  count ${this.count} `, entityPathIndex, '  -----  ', `../models/${this.entitySchema.fileName}`);
+                // tempImport.dependencyPath.push(`../models/${this.entitySchema.fileName}`);
+                const tempImport = {
+                    name: '',
+                    path: ''
+                }
+                tempImport.name = `{ ${this.entitySchema.modelName} }`;
+                tempImport.path = `../models/${this.entitySchema.fileName}`;
+                this.tempDao.GpStart.dependencies.push(tempImport);
+            }
 
             // this.importEntitySchema(tempImport, null, 'import');
-            this.tempDao.GpStart = tempImport;
+            // this.tempDao.GpStart = tempImport;
         }
-        console.log('dao worker of gpstart -----  ', gpStart, '  tempImport   ', tempImport);
+        console.log(`dao worker of gpstart - count ${this.count} `, this.tempDao.GpStart);
+        this.count++;
     }
 
-    gpVariableStatement() {
+    gpVariableStatement(daoObj) {
+        // this.tempDao.GpVariable =
+        //     {
+        //         insideClass: { variableName: [], parentName: [] },
+        //         outsideClass: { variableName: [], parentName: [] }
+        //     };
+        this.tempDao.GpVariable.insideClass = {
+            variableName: [],
+            parentName: []
+        }
+        this.tempDao.GpVariable.outsideClass = {
+            variableName: [],
+            parentName: []
+        }
         const tempVariable = {
             insideClass: {
                 variableName: [],
@@ -85,9 +132,16 @@ export class DaoWorker {
             });
         if (gpVariableStatement != undefined) {
             // this.importEntitySchema(null, tempVariable, 'variable');
-            tempVariable.insideClass.variableName.push(this.entitySchema.fileName);
-            tempVariable.insideClass.parentName.push(this.entitySchema.modelName);
-            this.tempDao.GpVariable = tempVariable;
+            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ==11=== ', this.entitySchema.modelName);
+            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ===22== ', daoObj.variable.insideClass.parentName);
+            const insideClassIndex = daoObj.variable.insideClass.parentName.findIndex(x => x == this.entitySchema.modelName);
+            console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ===33== ', insideClassIndex);
+            if (insideClassIndex < 0) {
+                tempVariable.insideClass.variableName.push(this.entitySchema.fileName);
+                tempVariable.insideClass.parentName.push(this.entitySchema.modelName);
+                this.tempDao.GpVariable = tempVariable;
+            }
+
         }
         console.log('dao worker of gpVariableStatement -----  ', gpVariableStatement, '   tempVariable   ', tempVariable);
     }
@@ -179,6 +233,12 @@ export class DaoWorker {
     // }
 
     flowAction() {
+        this.tempDao.function.methodName = '';
+        this.tempDao.function.parameter = '';
+        this.tempDao.function.variable = '';
+        this.tempDao.function.verbs = '';
+        this.tempDao.function.query = '';
+        this.tempDao.function.return = '';
         switch (this.flowDetail.actionOnData) {
             case 'GpCreate':
                 console.log('flowaction into gpcreate ------  ');

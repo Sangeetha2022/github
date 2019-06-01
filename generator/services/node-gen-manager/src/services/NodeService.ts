@@ -10,7 +10,7 @@ let nodeDao = new NodeDao();
 let nodeWorker = new NodeWorker();
 let daoWorker = new DaoWorker();
 let model = Model;
-let service = Service;
+// let service = Service;
 
 export class NodeService {
     private methods = []
@@ -18,6 +18,35 @@ export class NodeService {
     private controller = [];
     private service = [];
     private dao = [];
+    private daoObj = {
+        entitySchemaName: '',
+        entityModelName: '',
+        entityFileName: '',
+        import: {
+            dependencies: []
+        },
+        variable: {
+            insideClass: { variableName: [], parentName: [] },
+            outsideClass: { variableName: [], parentName: [] }
+        },
+        flowAction: []
+    }
+
+    initalizeDaoVariable() {
+        this.daoObj = {
+            entitySchemaName: '',
+            entityModelName: '',
+            entityFileName: '',
+            import: {
+                dependencies: []
+            },
+            variable: {
+                insideClass: { variableName: [], parentName: [] },
+                outsideClass: { variableName: [], parentName: [] }
+            },
+            flowAction: []
+        }
+    }
 
     public generateNode = (req: Request, callback) => {
         nodeWorker.nodeModelWorker(model, (result) => {
@@ -38,33 +67,33 @@ export class NodeService {
         // const controller = [];
         // const service = [];
         // const dao = [];
-        const constrollerMicroFlows = {
-            GpStart: '',
-            GpVariableStatement: '',
-            GpCheckConnector: '',
-            GpServiceCall: '',
-            GpReturn: '',
-            GpEnd: ''
-        }
-        const tempDao = {
-            GpStart: {
-                dependencyName: [],
-                dependencyPath: []
-            },
-            GpVariable:
-            {
-                insideClass: { variableName: [], parentName: [] },
-                outsideClass: { variableName: [], parentName: [] }
-            },
-            function: {
-                methodName: [],
-                parameter: [],
-                variable: [],
-                verbs: [],
-                query: [],
-                return: []
-            }
-        }
+        // const constrollerMicroFlows = {
+        //     GpStart: '',
+        //     GpVariableStatement: '',
+        //     GpCheckConnector: '',
+        //     GpServiceCall: '',
+        //     GpReturn: '',
+        //     GpEnd: ''
+        // }
+        // const tempDao = {
+        //     GpStart: {
+        //         dependencyName: [],
+        //         dependencyPath: []
+        //     },
+        //     GpVariable:
+        //     {
+        //         insideClass: { variableName: [], parentName: [] },
+        //         outsideClass: { variableName: [], parentName: [] }
+        //     },
+        //     function: {
+        //         methodName: [],
+        //         parameter: [],
+        //         variable: [],
+        //         verbs: [],
+        //         query: [],
+        //         return: []
+        //     }
+        // }
 
 
         if (EntitySchema === undefined && EntitySchema.length === 0) {
@@ -72,9 +101,42 @@ export class NodeService {
         } else {
             asyncLoop(EntitySchema, (entityElement, entityNext) => {
                 console.log('entity schema of each loop are -----  ', entityElement);
+                // initial
+                // this.daoObj.entitySchemaName = '';
+                // this.daoObj.entityModelName = '';
+                // this.daoObj.entityFileName = '';
+                this.initalizeDaoVariable();
+
+                // declare
+                this.daoObj.entitySchemaName = entityElement.schemaName;
+                this.daoObj.entityModelName = entityElement.modelName;
+                this.daoObj.entityFileName = entityElement.fileName;
+
+
                 if (entityElement === undefined) {
                     entityNext();
                 } else {
+                    const gpController = details.flows[0].components.find(
+                        function (element, index, array) {
+                            if (element.name === 'GpExpressController') {
+                                return element;
+                            }
+                        }
+                    )
+                    const gpService = details.flows[0].components.find(
+                        function (element, index, array) {
+                            if (element.name === 'GpExpressService') {
+                                return element;
+                            }
+                        }
+                    )
+                    const gpDao = details.flows[0].components.find(
+                        function (element, index, array) {
+                            if (element.name === 'GpExpressDao') {
+                                return element;
+                            }
+                        }
+                    )
                     asyncLoop(details.flows, (flowElement, flowNext) => {
                         const tempFlow = {
                             name: '',
@@ -88,56 +150,36 @@ export class NodeService {
                         tempFlow.description = flowElement.description;
                         tempFlow.type = flowElement.type;
                         tempFlow.actionOnData = flowElement.actionOnData;
-                        const gpController = details.flows[0].components.find(
-                            function (element, index, array) {
-                                if (element.name === 'GpExpressController') {
-                                    return element;
-                                }
-                            }
-                        )
-                        const gpService = details.flows[0].components.find(
-                            function (element, index, array) {
-                                if (element.name === 'GpExpressService') {
-                                    return element;
-                                }
-                            }
-                        )
-                        const gpDao = details.flows[0].components.find(
-                            function (element, index, array) {
-                                if (element.name === 'GpExpressDao') {
-                                    return element;
-                                }
-                            }
-                        )
                         let test = 0;
                         console.log('before calling dao ----- ', test);
-                        const dao = daoWorker.createDao(tempFlow, gpDao, entityElement);
-                        console.log('daoWork compleleted ---- ', dao);
+                        const dao = daoWorker.createDao(tempFlow, gpDao, entityElement, this.daoObj);
+                        console.log('daoWork compleleted ---- ', util.inspect(dao, { showHidden: true, depth: null }));
                         // import dependencies
-                        tempDao.GpStart.dependencyName = tempDao.GpStart.dependencyName.concat(dao.GpStart.dependencyName);
-                        tempDao.GpStart.dependencyPath = tempDao.GpStart.dependencyPath.concat(dao.GpStart.dependencyPath);
-
+                        this.daoObj.import.dependencies = this.daoObj.import.dependencies.concat(dao.GpStart.dependencies);
+                       
                         // inside variable
-                        tempDao.GpVariable.insideClass.parentName = tempDao.GpVariable.insideClass.parentName.concat(dao.GpVariable.insideClass.parentName);
-                        tempDao.GpVariable.insideClass.variableName = tempDao.GpVariable.insideClass.variableName.concat(dao.GpVariable.insideClass.variableName);
+                        this.daoObj.variable.insideClass.parentName = this.daoObj.variable.insideClass.parentName.concat(dao.GpVariable.insideClass.parentName);
+                        this.daoObj.variable.insideClass.variableName = this.daoObj.variable.insideClass.variableName.concat(dao.GpVariable.insideClass.variableName);
 
                         // outside variable
-                        tempDao.GpVariable.outsideClass.parentName = tempDao.GpVariable.outsideClass.parentName.concat(dao.GpVariable.outsideClass.parentName);
-                        tempDao.GpVariable.outsideClass.variableName = tempDao.GpVariable.outsideClass.variableName.concat(dao.GpVariable.outsideClass.variableName);
+                        this.daoObj.variable.outsideClass.parentName = this.daoObj.variable.outsideClass.parentName.concat(dao.GpVariable.outsideClass.parentName);
+                        this.daoObj.variable.outsideClass.variableName = this.daoObj.variable.outsideClass.variableName.concat(dao.GpVariable.outsideClass.variableName);
 
                         // gp function 
-                        tempDao.function.methodName.push(dao.function.methodName);
-                        tempDao.function.parameter.push(dao.function.parameter);
-                        tempDao.function.variable.push(dao.function.variable);
-                        tempDao.function.verbs.push(dao.function.verbs);
-                        tempDao.function.query.push(dao.function.query);
-                        tempDao.function.return.push(dao.function.return);
-                        console.log('daoWork compleleted after assigned value ---- ', tempDao);
+                        this.daoObj.flowAction.push(dao.function);
+                        // tempDao.function.methodName.push(dao.function.methodName);
+                        // tempDao.function.parameter.push(dao.function.parameter);
+                        // tempDao.function.variable.push(dao.function.variable);
+                        // tempDao.function.verbs.push(dao.function.verbs);
+                        // tempDao.function.query.push(dao.function.query);
+                        // tempDao.function.return.push(dao.function.return);
                         flowNext();
                     }, (err) => {
                         if (err) {
 
                         } else {
+                            console.log('daoWork compleleted after assigned value ---- ', this.daoObj);
+                            this.dao.push(this.daoObj);
                             entityNext();
                         }
                     })
@@ -148,7 +190,9 @@ export class NodeService {
                 if (entityError) {
 
                 } else {
-                    console.log('entity iteration completed');
+                    console.log('entity iteration completed -------   ', this.dao);
+                    daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
+
                 }
             })
         }
