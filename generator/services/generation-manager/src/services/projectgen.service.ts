@@ -86,27 +86,33 @@ export class ProjectgenService {
             console.log('####### project response ----- ', projectResponse);
 
             const projectInfo = JSON.parse(projectResponse);
-            console.log('i am the prblm', projectInfo);
-            this.projectObj.name = projectInfo.body.name;
-            this.projectObj.description = projectInfo.body.description;
-            this.projectObj.defaultHumanLanguage = projectInfo.body.default_human_language;
-            this.projectObj.otherHumanLanguage = projectInfo.body.other_human_languages;
-            this.setTechnicalField(projectInfo);
+            if (projectInfo.body === null) {
+                callback('sorry the project is not available')
+            } else {
+                console.log('i am the prblm', projectInfo);
+                console.log('i am the prblm%%%% body ', projectInfo.body);
+                this.projectObj.name = projectInfo.body.name;
+                this.projectObj.description = projectInfo.body.description;
+                this.projectObj.defaultHumanLanguage = projectInfo.body.default_human_language;
+                this.projectObj.otherHumanLanguage = projectInfo.body.other_human_languages;
+                this.setTechnicalField(projectInfo);
 
-            this.configManagerService.getAllDetails((configResponse) => {
-                // console.log('i am the one u r need', configResponse);
-                const configInfo = JSON.parse(configResponse);
-                console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ", configInfo, '  lenghtt   ', configInfo.body.length);
-                if (configInfo.body !== null && configInfo.body.length > 0 && configInfo.body !== undefined) {
-                    console.log("@@@@@@@@@@@@@ entering into info condition ------------ ")
-                    this.setConfigurationField(configInfo);
-                    console.log('project object are -22222---- ', this.projectObj);
+                this.configManagerService.getAllDetails((configResponse) => {
+                    // console.log('i am the one u r need', configResponse);
+                    const configInfo = JSON.parse(configResponse);
+                    console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ", configInfo, '  lenghtt   ', configInfo.body.length);
+                    if (configInfo.body !== null && configInfo.body.length > 0 && configInfo.body !== undefined) {
+                        console.log("@@@@@@@@@@@@@ entering into info condition ------------ ")
+                        this.setConfigurationField(configInfo);
+                        console.log('project object are -22222---- ', this.projectObj);
 
-                }
-                this.codeGenManagerService.createProjectCode(projectId, this.projectObj, (codeResponse) => {
-                    console.log('hello i need this', codeResponse);
+                    }
+                    this.codeGenManagerService.createProjectCode(projectId, this.projectObj, (codeResponse) => {
+                        console.log('hello i need this', codeResponse);
+                    })
                 })
-            })
+            }
+
         })
     }
 

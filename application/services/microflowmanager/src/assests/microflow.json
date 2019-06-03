@@ -140,52 +140,58 @@
             "sequenceId": 3
         },
         {
-            "_id": "88288340-7003-11e9-abdd-ffb308621fd2",
+            "_id": "88288339-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressController",
             "microFlowStepName": "GpService_call",
             "sequenceId": 4
         },
         {
-            "_id": "88288341-7003-11e9-abdd-ffb308621fd2",
+            "_id": "88288340-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressController",
             "microFlowStepName": "GpReturn",
             "sequenceId": 5
         },
         {
-            "_id": "88288342-7003-11e9-abdd-ffb308621fd2",
+            "_id": "88288341-7003-11e9-abdd-ffb308621fd2",
             "sequenceId": 6,
             "componentName": "GpExpressController",
             "microFlowStepName": "GpEnd"
         },
         {
-            "_id": "88288343-7003-11e9-abdd-ffb308621fd2",
+            "_id": "88288342-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressService",
             "microFlowStepName": "GpStart",
             "sequenceId": 1
         },
         {
+            "_id": "88288343-7003-11e9-abdd-ffb308621fd2",
+            "componentName": "GpExpressService",
+            "microFlowStepName": "GpVariable_statement",
+            "sequenceId": 2
+        },
+        {
             "_id": "88288344-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressService",
             "microFlowStepName": "GpCheck_Connector",
-            "sequenceId": 2
+            "sequenceId": 3
         },
         {
             "_id": "88288345-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressService",
             "microFlowStepName": "GpDaoCall",
-            "sequenceId": 3
+            "sequenceId": 4
         },
         {
             "_id": "8828aa50-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressService",
             "microFlowStepName": "GpReturn",
-            "sequenceId": 4
+            "sequenceId": 5
         },
         {
             "_id": "8828aa51-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressService",
             "microFlowStepName": "GpEnd",
-            "sequenceId": 5
+            "sequenceId": 6
         },
         {
             "_id": "8828aa52-7003-11e9-abdd-ffb308621fd2",
@@ -194,34 +200,40 @@
             "sequenceId": 1
         },
         {
+            "_id": "88288333-7003-11e9-abdd-ffb308621fd2",
+            "componentName": "GpExpressDao",
+            "microFlowStepName": "GpVariable_statement",
+            "sequenceId": 2
+        },
+        {
             "_id": "8828aa53-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressDao",
             "microFlowStepName": "GpCheck_Connector",
-            "sequenceId": 2
+            "sequenceId": 3
         },
         {
             "_id": "8828d160-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressDao",
             "microFlowStepName": "GpVerbKey",
-            "sequenceId": 3
+            "sequenceId": 4
         },
         {
             "_id": "8828d161-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressDao",
             "microFlowStepName": "GpSqlQuery",
-            "sequenceId": 4
+            "sequenceId": 5
         },
         {
             "_id": "8828d162-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressDao",
             "microFlowStepName": "GpReturn",
-            "sequenceId": 5
+            "sequenceId": 6
         },
         {
             "_id": "8828d163-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressDao",
             "microFlowStepName": "GpEnd",
-            "sequenceId": 6
+            "sequenceId": 7
         }
     ]
 }

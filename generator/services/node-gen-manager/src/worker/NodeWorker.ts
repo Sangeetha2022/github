@@ -14,4 +14,11 @@ export class NodeWorker {
         })
 
     }
+
+    nodeModelServiceWorker(service , callback){
+        nodeSupportWorker.nodeModelServiceWorker(service ,(response) =>{
+            console.log('response--->>>',response)
+            callback(response)
+        })
+    }
 }

@@ -91,9 +91,9 @@
                 "8827e700-7003-11e9-abdd-ffb308621fd2",
                 "88285c30-7003-11e9-abdd-ffb308621fd2",
                 "88285c31-7003-11e9-abdd-ffb308621fd2",
+                "88288339-7003-11e9-abdd-ffb308621fd2",
                 "88288340-7003-11e9-abdd-ffb308621fd2",
-                "88288341-7003-11e9-abdd-ffb308621fd2",
-                "88288342-7003-11e9-abdd-ffb308621fd2"
+                "88288341-7003-11e9-abdd-ffb308621fd2"
             ],
             "connector": [
                 "7cbbe202-7877-11e9-bdb0-f73f14ce0e52"
@@ -109,6 +109,7 @@
             "devLanguage": "Node.js",
             "devFramework": "Express",
             "microFlows": [
+                "88288342-7003-11e9-abdd-ffb308621fd2",
                 "88288343-7003-11e9-abdd-ffb308621fd2",
                 "88288344-7003-11e9-abdd-ffb308621fd2",
                 "88288345-7003-11e9-abdd-ffb308621fd2",
@@ -130,10 +131,12 @@
             "devFramework": "Express",
             "microFlows": [
                 "8828aa52-7003-11e9-abdd-ffb308621fd2",
+                "88288333-7003-11e9-abdd-ffb308621fd2",
                 "8828aa53-7003-11e9-abdd-ffb308621fd2",
                 "8828d160-7003-11e9-abdd-ffb308621fd2",
                 "8828d161-7003-11e9-abdd-ffb308621fd2",
-                "8828d162-7003-11e9-abdd-ffb308621fd2"
+                "8828d162-7003-11e9-abdd-ffb308621fd2",
+                "8828d163-7003-11e9-abdd-ffb308621fd2"
             ],
             "description": "dao component for Backend Application"
         }
