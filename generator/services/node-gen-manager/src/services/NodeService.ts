@@ -7,11 +7,13 @@ import * as asyncLoop from 'node-async-loop';
 import { ServiceWorker } from '../worker/ServiceWorker';
 import { ControllerWorker } from '../worker/ControllerWorker';
 import { DaoWorker } from '../worker/DaoWorker';
+import { RouteWorker } from '../worker/RouteWorker';
 
 let nodeDao = new NodeDao();
 let nodeWorker = new NodeWorker();
 let controllerWorker = new ControllerWorker();
 let serviceWorker = new ServiceWorker();
+let routeWorker = new RouteWorker();
 let daoWorker = new DaoWorker();
 let model = Model;
 // let service = Service;
@@ -22,6 +24,7 @@ export class NodeService {
     private controller = [];
     private service = [];
     private dao = [];
+    private route = [];
     private daoObj = {
         entitySchemaName: '',
         entityModelName: '',
@@ -48,6 +51,21 @@ export class NodeService {
         },
         flowAction: []
     }
+
+    private routeObj = {
+        entitySchemaName: '',
+        entityModelName: '',
+        entityFileName: '',
+        import: {
+            dependencies: []
+        },
+        variable: {
+            insideClass: [],
+            outsideClass: []
+        },
+        flowAction: []
+    }
+
     initalizeDaoVariable() {
         this.daoObj = {
             entitySchemaName: '',
@@ -64,6 +82,20 @@ export class NodeService {
         }
 
         this.controllerObj = {
+            entitySchemaName: '',
+            entityModelName: '',
+            entityFileName: '',
+            import: {
+                dependencies: []
+            },
+            variable: {
+                insideClass: [],
+                outsideClass: []
+            },
+            flowAction: []
+        }
+
+        this.routeObj = {
             entitySchemaName: '',
             entityModelName: '',
             entityFileName: '',
@@ -148,6 +180,11 @@ export class NodeService {
                 this.controllerObj.entityModelName = entityElement.modelName;
                 this.controllerObj.entityFileName = entityElement.fileName;
 
+                //routeObj
+                this.routeObj.entitySchemaName = entityElement.schemaName;
+                this.routeObj.entityModelName = entityElement.modelName;
+                this.routeObj.entityFileName = entityElement.fileName;
+
 
                 if (entityElement === undefined) {
                     entityNext();
@@ -188,22 +225,26 @@ export class NodeService {
                         tempFlow.actionOnData = flowElement.actionOnData;
                         const dao = daoWorker.createDao(tempFlow, gpDao, entityElement, this.daoObj);
                         const controller = controllerWorker.createController(tempFlow, gpController, entityElement, this.controllerObj);
+                        const route = routeWorker.createRoutes(tempFlow, entityElement, this.routeObj);
                         console.log('daoWork compleleted ---- ', util.inspect(dao, { showHidden: true, depth: null }));
                         console.log('controllerWork compleleted ---- ', util.inspect(controller, { showHidden: true, depth: null }));
                         // import dependencies
                         this.controllerObj.import.dependencies = this.controllerObj.import.dependencies.concat(controller.GpStart.dependencies);
                         this.daoObj.import.dependencies = this.daoObj.import.dependencies.concat(dao.GpStart.dependencies);
+                        this.routeObj.import.dependencies = this.routeObj.import.dependencies.concat(route.GpStart.dependencies);
 
                         // inside variable
                         this.controllerObj.variable.insideClass = this.controllerObj.variable.insideClass.concat(controller.GpVariable.insideClass);
                         this.daoObj.variable.insideClass = this.daoObj.variable.insideClass.concat(dao.GpVariable.insideClass);
+                        this.routeObj.variable.insideClass = this.routeObj.variable.insideClass.concat(route.GpVariable.insideClass);
 
                         // outside variable
                         this.controllerObj.variable.outsideClass = this.controllerObj.variable.outsideClass.concat(controller.GpVariable.outsideClass);
                         this.daoObj.variable.outsideClass = this.daoObj.variable.outsideClass.concat(dao.GpVariable.outsideClass);
+                        this.routeObj.variable.outsideClass = this.routeObj.variable.outsideClass.concat(route.GpVariable.outsideClass);
 
                         // gp function 
-                        console.log('before pushing into flow action of dao obj    ', )
+                        console.log('before pushing into flow action of dao obj    ')
                         const daoTemp = {
                             methodName: '',
                             parameter: '',
@@ -226,6 +267,19 @@ export class NodeService {
                         }
                         controllerTemp.methodName = controller.function.methodName;
                         this.controllerObj.flowAction.push(controllerTemp);
+
+                        // route function
+                        const routeTemp = {
+                            routeUrl: '',
+                            apiAction: '',
+                            methodName: '',
+                            variableName: ''
+                        }
+                        routeTemp.routeUrl = route.function.routeUrl;
+                        routeTemp.apiAction = route.function.apiAction;
+                        routeTemp.methodName = route.function.methodName;
+                        routeTemp.variableName = route.function.variableName;
+                        this.routeObj.flowAction.push(routeTemp);
                         // tempDao.function.methodName.push(dao.function.methodName);
                         // tempDao.function.parameter.push(dao.function.parameter);
                         // tempDao.function.variable.push(dao.function.variable);
@@ -240,6 +294,7 @@ export class NodeService {
                             console.log('daoWork compleleted after assigned value ---- ', this.daoObj);
                             this.controller.push(this.controllerObj);
                             this.dao.push(this.daoObj);
+                            this.route.push(this.routeObj);
                             entityNext();
                         }
                     })
@@ -253,7 +308,7 @@ export class NodeService {
                     console.log('entity iteration completed -------   ', this.dao);
                     controllerWorker.generateControllerFile(projectGenerationPath, templateLocation, this.controller);
                     daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
-
+                    routeWorker.generateRouteFile(projectGenerationPath, templateLocation, this.route);
                 }
             })
         }

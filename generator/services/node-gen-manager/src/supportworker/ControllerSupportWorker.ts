@@ -6,13 +6,13 @@ export class ControllerSupportWorker {
 
 
 
-    generateControllerFile(generationPath, templatePath, ControllerData, callback) {
+    generateControllerFile(generationPath, templatePath, controllerData, callback) {
         const ControllerPath = path.join(__dirname, `${generationPath}/src/controller`)
         const ControllerTemplatePath = path.resolve(__dirname, templatePath);
         this.createFolders(ControllerPath);
         let generateController = st.loadGroup(require(ControllerTemplatePath + '/controller_stg'));
-        let ControllerFile = generateController.render("controller", [ControllerData]);
-        fs.writeFile(ControllerPath + `/${ControllerData.entityFileName.trim()}Controller.ts`, ControllerFile, function (err) {
+        let ControllerFile = generateController.render("controller", [controllerData]);
+        fs.writeFile(ControllerPath + `/${controllerData.entityFileName.trim()}Controller.ts`, ControllerFile, function (err) {
             if (err) throw err;
             // const temp = {
             //     schemaName: `${modelName.trim()}Schema`,

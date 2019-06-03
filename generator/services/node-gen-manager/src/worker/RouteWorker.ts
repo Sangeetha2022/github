@@ -1,7 +1,11 @@
-export class RouteWorker {
-    
+import * as util from 'util';
+import { RouteSupportWorker } from '../supportworker/RouteSupportWorker';
 
-    private tempDao = {
+let routeSupportWorker = new RouteSupportWorker();
+export class RouteWorker {
+
+
+    private tempRoutes = {
         GpStart: {
             dependencies: []
         },
@@ -12,112 +16,82 @@ export class RouteWorker {
         },
         gpConnector: {},
         function: {
+            routeUrl: '',
+            apiAction: '',
             methodName: '',
-            parameter: '',
-            variable: '',
-            verbs: '',
-            query: '',
-            return: ''
+            variableName: ''
         }
     }
     private flowDetail;
     private entitySchema;
-    private gpDao;
     count = 0;
 
-    createDao(flowDetail, gpDao, entityElement, daoObj) {
-        console.log('dao worker start --- ', flowDetail);
-        console.log('dao worker gpDao value ----->>>>  ', gpDao);
-        console.log('dao worker entityElement value ----->>>>  ', entityElement);
+    createRoutes(flowDetail, entityElement, RoutesObj) {
+        console.log('Routes worker start --- ', flowDetail);
+        console.log('Routes worker entityElement value ----->>>>  ', entityElement);
         this.flowDetail = flowDetail;
         this.entitySchema = entityElement;
-        this.gpDao = gpDao;
-        this.gpStart(daoObj);
-        this.gpVariableStatement(daoObj);
-        this.gpCheckConnector();
-        this.gpFunction();
-        console.log('final create dao values are -----   ', this.tempDao);
-        return this.tempDao;
+        this.gpStart(RoutesObj);
+        this.gpVariableStatement(RoutesObj);
+        this.flowRouting();
+        console.log('final create Routes values are -----   ', this.tempRoutes);
+        return this.tempRoutes;
     }
 
-    generateDaoFile(projectGenerationPath, templateLocationPath, dao) {
-        console.log('projectGenerationPath in dao worker ---- ', projectGenerationPath);
-        console.log('templateLocationPath in dao worker ---- ', templateLocationPath);
-        console.log('dao worker ---- ', dao);
-        console.log('create project node -------  ', util.inspect(dao, { showHidden: true, depth: null }));
-    //    const daoPath = `${projectGenerationPath}/src/dao`;
-        dao.forEach(daoElement => {
-            daoSupportWorker.generateDaoFile(projectGenerationPath, templateLocationPath, daoElement, (response) => {
+    generateRouteFile(projectGenerationPath, templateLocationPath, Routes) {
+        console.log('projectGenerationPath in Routes worker ---- ', projectGenerationPath);
+        console.log('templateLocationPath in Routes worker ---- ', templateLocationPath);
+        console.log('Routes worker ---- ', util.inspect(Routes, { showHidden: true, depth: null }));
+    //    const RoutesPath = `${projectGenerationPath}/src/Routes`;
+        Routes.forEach(RoutesElement => {
+            routeSupportWorker.generateRouteFile(projectGenerationPath, templateLocationPath, RoutesElement, (response) => {
                 console.log('file generated and saved')
             })
         });
     }
 
 
-    gpStart(daoObj) {
-        this.tempDao.GpStart.dependencies = [];
+    gpStart(RoutesObj) {
+        this.tempRoutes.GpStart.dependencies = [];
+        // default
+        // const tempImport.dependencyName.findIndex();
+        console.log(`RoutesObjcec are om count ${this.count} `, RoutesObj);
+        // const mongoPathIndex = RoutesObj.import.dependencies.findIndex(x => x.path == `mongoose`);
+        // // const entityPathIndex = RoutesObj.import.dependencyPath.findIndex(x => x == `../models/${this.entitySchema.fileName}`);
+        // if (mongoPathIndex < 0) {
+        //     // tempImport.dependencyName.push(`* as mongoose`);
+        //     // tempImport.dependencyPath.push(`mongoose`);
+        //     const tempImport = {
+        //         name: '',
+        //         path: ''
+        //     }
+        //     tempImport.name = `* as mongoose`;
+        //     tempImport.path = `mongoose`;
+        //     this.tempRoutes.GpStart.dependencies.push(tempImport);
+        // }
 
-        const gpStart = this.gpDao.microFlows.find(
-            function (element, index, array) {
-                if (element.microFlowStepName === 'GpStart') {
-                    return element;
-                }
-            });
-        if (gpStart !== undefined) {
-            // default
-            // const tempImport.dependencyName.findIndex();
-            console.log(`daoObjcec are om count ${this.count} `, daoObj);
-            const mongoPathIndex = daoObj.import.dependencies.findIndex(x => x.path == `mongoose`);
-            // const entityPathIndex = daoObj.import.dependencyPath.findIndex(x => x == `../models/${this.entitySchema.fileName}`);
-            if (mongoPathIndex < 0) {
-                // tempImport.dependencyName.push(`* as mongoose`);
-                // tempImport.dependencyPath.push(`mongoose`);
-                const tempImport = {
-                    name: '',
-                    path: ''
-                }
-                tempImport.name = `* as mongoose`;
-                tempImport.path = `mongoose`;
-                this.tempDao.GpStart.dependencies.push(tempImport);
+        const controllerIndex = RoutesObj.import.dependencies.findIndex(x => x.path == `../controller/${this.entitySchema.fileName}Controller`);
+        if (controllerIndex < 0) {
+            // tempImport.dependencyName.push(`{ ${this.entitySchema.modelName} }`);
+            console.log(`entityPath inded ar e------  count ${this.count} `, controllerIndex, '  -----  ', `../controller/${this.entitySchema.fileName}Controller`);
+            // tempImport.dependencyPath.push(`../models/${this.entitySchema.fileName}`);
+            const tempImport = {
+                name: '',
+                path: ''
             }
-
-            const entityPathIndex = daoObj.import.dependencies.findIndex(x => x.path == `../models/${this.entitySchema.fileName}`);
-            if (entityPathIndex < 0) {
-                // tempImport.dependencyName.push(`{ ${this.entitySchema.modelName} }`);
-                console.log(`entityPath inded ar e------  count ${this.count} `, entityPathIndex, '  -----  ', `../models/${this.entitySchema.fileName}`);
-                // tempImport.dependencyPath.push(`../models/${this.entitySchema.fileName}`);
-                const tempImport = {
-                    name: '',
-                    path: ''
-                }
-                tempImport.name = `${this.entitySchema.modelName}`;
-                tempImport.path = `../models/${this.entitySchema.fileName}`;
-                this.tempDao.GpStart.dependencies.push(tempImport);
-            }
-
-            // this.importEntitySchema(tempImport, null, 'import');
-            // this.tempDao.GpStart = tempImport;
+            tempImport.name = `${this.entitySchema.fileName}Controller`;
+            tempImport.path = `../controller/${this.entitySchema.fileName}Controller`;
+            this.tempRoutes.GpStart.dependencies.push(tempImport);
         }
-        console.log(`dao worker of gpstart - count ${this.count} `, this.tempDao.GpStart);
+
+        // this.importEntitySchema(tempImport, null, 'import');
+        // this.tempRoutes.GpStart = tempImport;
         this.count++;
     }
 
-    gpVariableStatement(daoObj) {
-        // this.tempDao.GpVariable =
-        //     {
-        //         insideClass: { variableName: [], parentName: [] },
-        //         outsideClass: { variableName: [], parentName: [] }
-        //     };
-        // this.tempDao.GpVariable.insideClass = {
-        //     variableName: [],
-        //     parentName: []
-        // }
-        // this.tempDao.GpVariable.outsideClass = {
-        //     variableName: [],
-        //     parentName: []
-        // }
-        this.tempDao.GpVariable.insideClass = [];
-        this.tempDao.GpVariable.outsideClass = [];
+    gpVariableStatement(RoutesObj) {
+        this.tempRoutes.GpVariable.insideClass = [];
+        this.tempRoutes.GpVariable.outsideClass = [];
         const tempVariable = {
             insideClass: {
                 variableName: [],
@@ -128,166 +102,69 @@ export class RouteWorker {
                 parentName: []
             }
         }
-        const gpVariableStatement = this.gpDao.microFlows.find(
-            function (element, index, array) {
-                if (element.microFlowStepName === 'GpVariable_statement') {
-                    return element;
-                }
-            });
-        if (gpVariableStatement != undefined) {
-            // this.importEntitySchema(null, tempVariable, 'variable');
-            // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ==11=== ', this.entitySchema.modelName);
-            // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ===22== ', daoObj.variable.insideClass.parentName);
-            const insideClassIndex = daoObj.variable.insideClass.findIndex(x => x.parentName == this.entitySchema.modelName);
-            // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ===33== ', insideClassIndex);
-            if (insideClassIndex < 0) {
-                const temp = {
-                    variableName: '',
-                    parentName: ''
-                }
-                temp.variableName = this.entitySchema.fileName;
-                temp.parentName = this.entitySchema.modelName;
-                // tempVariable.insideClass.variableName.push(this.entitySchema.fileName);
-                // tempVariable.insideClass.parentName.push(this.entitySchema.modelName);
-                this.tempDao.GpVariable.insideClass.push(temp);
+
+        // this.importEntitySchema(null, tempVariable, 'variable');
+        // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ==11=== ', this.entitySchema.modelName);
+        // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ===22== ', RoutesObj.variable.insideClass.parentName);
+        const insideClassIndex = RoutesObj.variable.insideClass.findIndex(x => x.parentName == `new ${this.entitySchema.fileName}Controller()`);
+        // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ===33== ', insideClassIndex);
+        if (insideClassIndex < 0) {
+            const temp = {
+                variableName: '',
+                parentName: ''
             }
-
+            temp.variableName = `${this.entitySchema.fileName}: ${this.entitySchema.fileName}Controller`;
+            temp.parentName = `new ${this.entitySchema.fileName}Controller()`;
+            // tempVariable.insideClass.variableName.push(this.entitySchema.fileName);
+            // tempVariable.insideClass.parentName.push(this.entitySchema.modelName);
+            this.tempRoutes.GpVariable.insideClass.push(temp);
         }
-        console.log('dao worker of gpVariableStatement -----  ', gpVariableStatement, '   tempVariable   ', tempVariable);
+
     }
 
-    gpCheckConnector() {
-        console.log('!!@@@@@@@@@@@ -gp check connectors %%^^^^^^^^^^^  ', this.tempDao);
-        const gpCheckConnector = this.gpDao.microFlows.find(
-            function (element, index, array) {
-                if (element.microFlowStepName === 'GpCheck_Connector') {
-                    return element;
-                }
-            });
-        if (gpCheckConnector !== undefined) {
-            if (this.gpDao.connector.length > 0) {
-                // need to add some functionality for avaiable connectors in dao (future)
-            }
-        }
-        console.log('dao worker of gpCheckConnector -----  ', gpCheckConnector);
-    }
-
-    gpFunction() {
-        const GpVerbKey = this.gpDao.microFlows.find(
-            function (element, index, array) {
-                if (element.microFlowStepName === 'GpVerbKey') {
-                    return element;
-                }
-            });
-        const GpSqlQuery = this.gpDao.microFlows.find(
-            function (element, index, array) {
-                if (element.microFlowStepName === 'GpSqlQuery') {
-                    return element;
-                }
-            });
-        if (GpVerbKey !== undefined && GpSqlQuery !== undefined) {
-            this.flowAction();
-        }
-        console.log('dao worker of GpVerbKey -----  ', GpVerbKey);
-    }
-
-    // GpSqlQuery() {
-    //     const GpSqlQuery = this.gpDao.microFlows.find(
-    //         function (element, index, array) {
-    //             if (element.microFlowStepName === 'GpSqlQuery') {
-    //                 return element;
-    //             }
-    //         });
-    //     console.log('dao worker of GpSqlQuery -----  ', GpSqlQuery);
-    // }
-
-    // GpReturn() {
-    //     const GpReturn = this.gpDao.microFlows.find(
-    //         function (element, index, array) {
-    //             if (element.microFlowStepName === 'GpReturn') {
-    //                 return element;
-    //             }
-    //         });
-    //     console.log('dao worker of GpReturn -----  ', GpReturn);
-    // }
-
-    // GpEnd() {
-    //     const GpEnd = this.gpDao.microFlows.find(
-    //         function (element, index, array) {
-    //             if (element.microFlowStepName === 'GpEnd') {
-    //                 return element;
-    //             }
-    //         });
-    //     console.log('dao worker of GpEnd -----  ', GpEnd);
-    // }
-
-    // importEntitySchema(tempImport, tempVariable, actionName) {
-    //     console.log('entity schema are ------- ', this.entitySchema);
-    //     console.log('entity schema are ---tempImport---- ', tempImport);
-    //     console.log('entity schema are ----tempVariable--- ', tempVariable);
-    //     console.log('entity schema are ----actionName--- ', actionName);
-    //     this.entitySchema.forEach(entityElement => {
-    //         switch (actionName) {
-    //             case 'import':
-    //                 tempImport.dependencyName.push(`{ ${entityElement.modelName} }`);
-    //                 tempImport.dependencyPath.push(entityElement.fileName);
-    //                 break;
-    //             case 'variable':
-    //                 tempVariable.insideClass.variableName.push(entityElement.fileName);
-    //                 tempVariable.insideClass.parentName.push(entityElement.modelName);
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     })
-    // }
-
-    flowAction() {
-        this.tempDao.function.methodName = '';
-        this.tempDao.function.parameter = '';
-        this.tempDao.function.variable = '';
-        this.tempDao.function.verbs = '';
-        this.tempDao.function.query = '';
-        this.tempDao.function.return = '';
+    flowRouting() {
+        this.tempRoutes.function.methodName = '';
+        this.tempRoutes.function.variableName = '';
+        this.tempRoutes.function.routeUrl = '';
+        this.tempRoutes.function.apiAction = '';
         switch (this.flowDetail.actionOnData) {
             case 'GpCreate':
-                console.log('flowaction into gpcreate ------  ');
-                this.tempDao.function.methodName = this.flowDetail.actionOnData;
-                this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempDao.function.variable = `let temp = new ${this.entitySchema.modelName}(${this.entitySchema.fileName}Data)`;
-                this.tempDao.function.verbs = `temp.save`;
-                // this.tempDao.method.variable = `let ${entityElement.fileName}`
+                this.tempRoutes.function.routeUrl = `${this.entitySchema.fileName}/save`;
+                this.tempRoutes.function.apiAction = `post`;
+                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpSearch':
-                this.tempDao.function.methodName = this.flowDetail.actionOnData;
-                this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
-                this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
+                this.tempRoutes.function.routeUrl = `${this.entitySchema.fileName}/get/:id`;
+                this.tempRoutes.function.apiAction = `get`;
+                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpUpdate':
-                this.tempDao.function.methodName = this.flowDetail.actionOnData;
-                this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
-                this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
+                this.tempRoutes.function.routeUrl = `${this.entitySchema.fileName}/update`;
+                this.tempRoutes.function.apiAction = `put`;
+                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpDelete':
-                this.tempDao.function.methodName = this.flowDetail.actionOnData;
-                this.tempDao.function.parameter = `${this.entitySchema.fileName}Id, callback`;
-                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findByIdAndRemove`;
-                this.tempDao.function.query = `${this.entitySchema.fileName}Id`;
+                this.tempRoutes.function.routeUrl = `${this.entitySchema.fileName}/delete/:id`;
+                this.tempRoutes.function.apiAction = `delete`;
+                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpGetAllValues':
-                this.tempDao.function.methodName = this.flowDetail.actionOnData;
-                this.tempDao.function.parameter = `callback`;
-                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
+                this.tempRoutes.function.routeUrl = `${this.entitySchema.fileName}/get`;
+                this.tempRoutes.function.apiAction = `get`;
+                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpSearchDetail':
                 break;
             case 'GpSearchForUpdate':
-                this.tempDao.function.methodName = this.flowDetail.actionOnData;
-                this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
-                this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
+                this.tempRoutes.function.routeUrl = `${this.entitySchema.fileName}/get/update`;
+                this.tempRoutes.function.apiAction = `put`;
+                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpDeleteNounRelationship':
                 break;
