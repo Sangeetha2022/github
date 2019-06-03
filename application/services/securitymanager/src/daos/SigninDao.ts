@@ -203,7 +203,7 @@ export class SigninDao {
             expiresIn: 86400
         });
 
-        signinmodel.findByIdAndUpdate(updateuser.id, {$set: { username: updateuser.username, firstname: updateuser.firstname,lastname:updateuser.lastname,email:updateuser.email,role:updateuser.role._id,Idtoken:idtoken }},(err,response)=>{
+        signinmodel.findByIdAndUpdate(updateuser.id, {$set: { username: updateuser.username, firstname: updateuser.firstname,lastname:updateuser.lastname,email:updateuser.email,role:updateuser.role._id,Idtoken:idtoken,installrToken: updateuser.installrToken }},(err,response)=>{
             if(err){
                 callback(err);
             }
