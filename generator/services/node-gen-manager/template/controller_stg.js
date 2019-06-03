@@ -1,6 +1,6 @@
 /*
  * Template group controller
- * Compiled on Mon Jun 03 2019 12:35:59 GMT+0530 (India Standard Time)
+ * Compiled on Mon Jun 03 2019 13:33:46 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -116,24 +116,23 @@ r = function(w, rc) {
             
                      w.write("public ");
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 9, column: 69 }));
-                     w.write("(req: Request, res: Response){\n");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 9, column: 126 }))) {
-                     
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 9, column: 145 }));
-                         w.write(";");
-                     
-                     
-                     }
+                     w.write("(req: Request, res: Response) {\n");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 9, column: 123 }));
+                     w.write(".");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 9, column: 148 }));
+                     w.write("(req, (response) => {");
                      w.write("\n");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 9, column: 175 }));
-                     w.write("(");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 9, column: 194 }))) {
-                     
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 9, column: 210 }));
-                     
-                     
-                     }
-                     w.write(").then((result)\t=>\t{\ncallback(result);\n}).catch((error)=>{\ncallback(error);\n});}");
+                     w.pushIndentation("     ");
+                     w.write("res.status(200);");
+                     w.popIndentation();
+                     w.write("\n");
+                     w.pushIndentation("     ");
+                     w.write("res.json(response);");
+                     w.popIndentation();
+                     w.write("\n");
+                     w.pushIndentation("    ");
+                     w.write("})}");
+                     w.popIndentation();
             }, [
             { name: "flowObj"     }
             ])); 
