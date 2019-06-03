@@ -7,11 +7,11 @@ export class ControllerSupportWorker {
 
 
     generateControllerFile(generationPath, templatePath, ControllerData, callback) {
-        const ControllerPath = path.join(__dirname, `${generationPath}/src/Controller`)
+        const ControllerPath = path.join(__dirname, `${generationPath}/src/controller`)
         const ControllerTemplatePath = path.resolve(__dirname, templatePath);
         this.createFolders(ControllerPath);
-        let generateController = st.loadGroup(require(ControllerTemplatePath + '/Controller_stg'));
-        let ControllerFile = generateController.render("Controller", [ControllerData]);
+        let generateController = st.loadGroup(require(ControllerTemplatePath + '/controller_stg'));
+        let ControllerFile = generateController.render("controller", [ControllerData]);
         fs.writeFile(ControllerPath + `/${ControllerData.entityFileName.trim()}Controller.ts`, ControllerFile, function (err) {
             if (err) throw err;
             // const temp = {
@@ -19,7 +19,7 @@ export class ControllerSupportWorker {
             //     modelName: `${modelName.trim()}Model`,
             //     fileName: modelName.trim()
             // }
-            callback('file generated');
+            callback('controller file generated');
         })
 
     }
