@@ -9,8 +9,8 @@ PROJECTNAME='firstApp'
 GITURL='https://tharanirajan:tharanigithub3@github.com/TharaniRajan/firstApp.git'
 
 #installr
-APITOKEN='FuSnJyGnAoKvOi62dPeCGT2UTKUNA3N1'
-EMAIL='tharanirajan.thamizhmani@10decoders.in'
+APITOKEN='4G66wZx1EqiPc8FFZsBlWoR0vHeztFOj'
+EMAIL='dan.gile@yahoo.com'
 
 get_code(){
 
@@ -42,33 +42,18 @@ build_apk(){
 
 cd "$BASEPATH$WORKSPACE$CODEPATH"
 
-if [ ! -d "www" ] ; then
-    mkdir www
-    cordova platform add android
+
+ionic cordova platform add android
+if [ $? -eq 0 ]; then
+    echo "android platform added sucessfully!"
+    ionic cordova build android --device
     if [ $? -eq 0 ]; then
-        echo "android platform added sucessfully!"
-        cordova build android --device
-        if [ $? -eq 0 ]; then
-            echo "android build success!"
-        else
-            echo "android build failed!"
-        fi
+        echo "android build success!"
     else
-        echo "add android platform failed!"
+        echo "android build failed!"
     fi
 else
-    cordova platform add android
-    if [ $? -eq 0 ]; then
-        echo "android platform added sucessfully!"
-        cordova build android --device
-        if [ $? -eq 0 ]; then
-            echo "android build success!"
-        else
-            echo "android build failed!"
-        fi
-    else
-        echo "android platform already added!"
-    fi
+    echo "add android platform failed!"
 fi
 
 }

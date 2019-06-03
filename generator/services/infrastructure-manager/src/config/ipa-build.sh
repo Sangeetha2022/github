@@ -43,34 +43,19 @@ build_code(){
 
 cd "$BASEPATH$WORKSPACE$CODEPATH"
 
-if [ ! -d "www" ] ; then
-    mkdir www
-    cordova platform add ios
+ionic cordova platform add ios
+if [ $? -eq 0 ]; then
+    echo "ios platform added sucessfully!"
+    ionic cordova build ios
     if [ $? -eq 0 ]; then
-        echo "ios platform added sucessfully!"
-        cordova build ios
-        if [ $? -eq 0 ]; then
-            echo "ios build success!"
-        else
-            echo "ios build failed!"
-        fi
+        echo "ios build success!"
     else
-        echo "add ios platform failed!"
+        echo "ios build failed!"
     fi
 else
-    cordova platform add ios
-    if [ $? -eq 0 ]; then
-        echo "ios platform added sucessfully!"
-        cordova build ios
-        if [ $? -eq 0 ]; then
-            echo "ios build success!"
-        else
-            echo "ios build failed!"
-        fi
-    else
-        echo "ios platform already added!"
-    fi
+    echo "add ios platform failed!"
 fi
+
 
 }
 
