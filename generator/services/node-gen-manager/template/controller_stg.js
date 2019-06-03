@@ -1,6 +1,6 @@
 /*
- * Template group dao
- * Compiled on Mon Jun 03 2019 10:47:01 GMT+0530 (India Standard Time)
+ * Template group controller
+ * Compiled on Mon Jun 03 2019 12:35:59 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -8,16 +8,16 @@ var base = path.dirname(module.filename);
 function getInstance(st, group) {
     "use strict";
 var r;
-var gFile = "dao"; 
+var gFile = "controller"; 
 
-group.name = "dao";
+group.name = "controller";
 
 
 
 
 
 //
-// Template /dao
+// Template /controller
 //
 r = function(w, rc) {
     var g = this.owningGroup,
@@ -48,6 +48,23 @@ r = function(w, rc) {
     w.write("\n");
     if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 3, column: 11 }), "outsideClass", { file: gFile, line: 3, column: 20 }))) {
     
+        st.write(w, s, g, rc, (function() {
+        var tp = [],
+        attr = st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 3, column: 42 }), "outsideClass", { file: gFile, line: 3, column: 51 });
+        tp.push(st.makeSubTemplate(g, function(w, rc) {
+            var g = this.owningGroup,
+            s = this.scope;
+            
+                     w.write("let ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.variableObj, "variableName", { file: gFile, line: 3, column: 96 }));
+                     w.write(" = ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.variableObj, "parentName", { file: gFile, line: 3, column: 125 }));
+                     w.write(";");
+            }, [
+            { name: "variableObj"     }
+            ])); 
+        return st.map(attr, tp);
+        })(), {separator: "\n"});
     
     
     }
@@ -55,7 +72,7 @@ r = function(w, rc) {
     w.write("\n");
     w.write("export class ");
     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 5, column: 21 }));
-    w.write("Dao {");
+    w.write("Controller {");
     w.write("\n");
     w.write("    ");
     if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 6, column: 15 }), "insideClass", { file: gFile, line: 6, column: 24 }))) {
@@ -99,22 +116,20 @@ r = function(w, rc) {
             
                      w.write("public ");
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 9, column: 69 }));
-                     w.write("(");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "parameter", { file: gFile, line: 9, column: 90 }));
-                     w.write("){\n");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 9, column: 118 }))) {
+                     w.write("(req: Request, res: Response){\n");
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 9, column: 126 }))) {
                      
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 9, column: 137 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 9, column: 145 }));
                          w.write(";");
                      
                      
                      }
                      w.write("\n");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 9, column: 167 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 9, column: 175 }));
                      w.write("(");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 9, column: 186 }))) {
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 9, column: 194 }))) {
                      
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 9, column: 202 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 9, column: 210 }));
                      
                      
                      }
@@ -135,7 +150,7 @@ r = function(w, rc) {
 r.args = [
         { name: "object"     }
 ];
-group.addTemplate("/dao", r); 
+group.addTemplate("/controller", r); 
 
 
 return group;

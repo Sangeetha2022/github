@@ -4,10 +4,14 @@ import * as util from 'util';
 import { NodeWorker } from '../worker/NodeWorker';
 import { Model } from '../../asset/utilies'
 import * as asyncLoop from 'node-async-loop';
+import { ServiceWorker } from '../worker/ServiceWorker';
+import { ControllerWorker } from '../worker/ControllerWorker';
 import { DaoWorker } from '../worker/DaoWorker';
 
 let nodeDao = new NodeDao();
 let nodeWorker = new NodeWorker();
+let controllerWorker = new ControllerWorker();
+let serviceWorker = new ServiceWorker();
 let daoWorker = new DaoWorker();
 let model = Model;
 // let service = Service;
@@ -31,9 +35,35 @@ export class NodeService {
         },
         flowAction: []
     }
-
+    private controllerObj = {
+        entitySchemaName: '',
+        entityModelName: '',
+        entityFileName: '',
+        import: {
+            dependencies: []
+        },
+        variable: {
+            insideClass: [],
+            outsideClass: []
+        },
+        flowAction: []
+    }
     initalizeDaoVariable() {
         this.daoObj = {
+            entitySchemaName: '',
+            entityModelName: '',
+            entityFileName: '',
+            import: {
+                dependencies: []
+            },
+            variable: {
+                insideClass: [],
+                outsideClass: []
+            },
+            flowAction: []
+        }
+
+        this.controllerObj = {
             entitySchemaName: '',
             entityModelName: '',
             entityFileName: '',
@@ -108,9 +138,15 @@ export class NodeService {
                 this.initalizeDaoVariable();
 
                 // declare
+                // daoObj
                 this.daoObj.entitySchemaName = entityElement.schemaName;
                 this.daoObj.entityModelName = entityElement.modelName;
                 this.daoObj.entityFileName = entityElement.fileName;
+
+                // controllerObj
+                this.controllerObj.entitySchemaName = entityElement.schemaName;
+                this.controllerObj.entityModelName = entityElement.modelName;
+                this.controllerObj.entityFileName = entityElement.fileName;
 
 
                 if (entityElement === undefined) {
@@ -150,22 +186,25 @@ export class NodeService {
                         tempFlow.description = flowElement.description;
                         tempFlow.type = flowElement.type;
                         tempFlow.actionOnData = flowElement.actionOnData;
-                        let test = 0;
-                        console.log('before calling dao ----- ', test);
                         const dao = daoWorker.createDao(tempFlow, gpDao, entityElement, this.daoObj);
+                        const controller = controllerWorker.createController(tempFlow, gpController, entityElement, this.controllerObj);
                         console.log('daoWork compleleted ---- ', util.inspect(dao, { showHidden: true, depth: null }));
+                        console.log('controllerWork compleleted ---- ', util.inspect(controller, { showHidden: true, depth: null }));
                         // import dependencies
+                        this.controllerObj.import.dependencies = this.controllerObj.import.dependencies.concat(controller.GpStart.dependencies);
                         this.daoObj.import.dependencies = this.daoObj.import.dependencies.concat(dao.GpStart.dependencies);
-                       
+
                         // inside variable
+                        this.controllerObj.variable.insideClass = this.controllerObj.variable.insideClass.concat(controller.GpVariable.insideClass);
                         this.daoObj.variable.insideClass = this.daoObj.variable.insideClass.concat(dao.GpVariable.insideClass);
 
                         // outside variable
+                        this.controllerObj.variable.outsideClass = this.controllerObj.variable.outsideClass.concat(controller.GpVariable.outsideClass);
                         this.daoObj.variable.outsideClass = this.daoObj.variable.outsideClass.concat(dao.GpVariable.outsideClass);
 
                         // gp function 
-                        console.log('before pushing into flow action of dao obj    ', dao.function)
-                        const tempObj = {
+                        console.log('before pushing into flow action of dao obj    ', )
+                        const daoTemp = {
                             methodName: '',
                             parameter: '',
                             variable: '',
@@ -173,13 +212,20 @@ export class NodeService {
                             query: '',
                             return: ''
                         }
-                        tempObj.methodName = dao.function.methodName;
-                        tempObj.parameter = dao.function.parameter;
-                        tempObj.variable = dao.function.variable;
-                        tempObj.verbs = dao.function.verbs;
-                        tempObj.query = dao.function.query;
-                        tempObj.return = dao.function.return;
-                        this.daoObj.flowAction.push(tempObj);
+                        daoTemp.methodName = dao.function.methodName;
+                        daoTemp.parameter = dao.function.parameter;
+                        daoTemp.variable = dao.function.variable;
+                        daoTemp.verbs = dao.function.verbs;
+                        daoTemp.query = dao.function.query;
+                        daoTemp.return = dao.function.return;
+                        this.daoObj.flowAction.push(daoTemp);
+
+                        // gp function controller
+                        const controllerTemp = {
+                            methodName: ''
+                        }
+                        controllerTemp.methodName = controller.function.methodName;
+                        this.controllerObj.flowAction.push(controllerTemp);
                         // tempDao.function.methodName.push(dao.function.methodName);
                         // tempDao.function.parameter.push(dao.function.parameter);
                         // tempDao.function.variable.push(dao.function.variable);
@@ -192,6 +238,7 @@ export class NodeService {
 
                         } else {
                             console.log('daoWork compleleted after assigned value ---- ', this.daoObj);
+                            this.controller.push(this.controllerObj);
                             this.dao.push(this.daoObj);
                             entityNext();
                         }
@@ -204,6 +251,7 @@ export class NodeService {
 
                 } else {
                     console.log('entity iteration completed -------   ', this.dao);
+                    controllerWorker.generateControllerFile(projectGenerationPath, templateLocation, this.controller);
                     daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
 
                 }
