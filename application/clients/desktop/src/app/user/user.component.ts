@@ -65,6 +65,11 @@ export class UserComponent implements OnInit {
         width: 250
       },
       {
+        headerName: 'InstallrToken',
+        field: 'installrToken',
+        width: 250
+      },
+      {
         headerName: 'Role',
         field: 'role.role',
         width: 250
@@ -93,7 +98,7 @@ export class UserComponent implements OnInit {
 
   Editaction(e) {
     const rows = e.rowData;
-    console.log('selectedrow------->>>', rows);
+    // console.log('selectedrow------->>>', rows);
     this.route.navigate(['profile'], { queryParams: { id: rows._id } });
   }
 }

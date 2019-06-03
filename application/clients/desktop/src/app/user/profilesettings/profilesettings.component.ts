@@ -18,7 +18,8 @@ export class ProfilesettingsComponent implements OnInit {
     'email': '',
     'role': {},
     'id': '',
-    'username': ''
+    'username': '',
+    'installrToken':''
   };
   public userDefault = {
     'firstname': '',
@@ -26,7 +27,8 @@ export class ProfilesettingsComponent implements OnInit {
     'email': '',
     'role':{},
     'id': '',
-    'username': ''
+    'username': '',
+    'installrToken':''
   };
   public roles: any[] = [];
   public rolechange: any;
@@ -47,23 +49,25 @@ export class ProfilesettingsComponent implements OnInit {
   Userdetails() {
     this.profileservice.Getuser(this.id).subscribe(data => {
       this.defaultRole = data.body.role;
-      console.log("userdefaulttt------>>>",this.defaultRole)
+      // console.log("userdefaulttt------>>>",this.defaultRole)
       const user = data.body;
       this.Userobject.firstname = user.firstname;
       this.Userobject.lastname = user.lastname;
       this.Userobject.email = user.email;
+      this.Userobject.username = user.username;
       this.Userobject.role = user.role.role;
+      this.Userobject.installrToken = user.installrToken;
 
       this.profileservice.Getroles().subscribe(roledata => {
         this.roles = roledata.body;
         this.defaultUserRole = this.Userobject.role;
-        console.log('-------roles---11111-->>>>', this.Userobject.role);
+        // console.log('-------roles---11111-->>>>', this.Userobject.role);
         const index = this.roles.findIndex(x => x.role === this.Userobject.role);
-        console.log('-------indexvalue-----', index);
+        // console.log('-------indexvalue-----', index);
         if (index > -1) {
           this.roles.splice(index, 1);
         }
-        console.log('-------roles--array--->>>>', this.roles);
+        // console.log('-------roles--array--->>>>', this.roles);
       }, error => {
         console.error('error:', error);
       });
@@ -74,11 +78,11 @@ export class ProfilesettingsComponent implements OnInit {
 
   onChange(event) {
     this.rolechange = '';
-    console.log('selected  event---->>>', event);
+    // console.log('selected  event---->>>', event);
 
     const updaterole = this.roles.find(x => x.role === event);
 
-    console.log('------roledetails---->>>>', updaterole);
+    // console.log('------roledetails---->>>>', updaterole);
 
     this.rolechange = updaterole;
   }
@@ -94,7 +98,7 @@ export class ProfilesettingsComponent implements OnInit {
     const userRole = sessionStorage.getItem('Access');
     
     if(this.Userobject.role === null || this.Userobject.role === undefined){
-      console.log('ifcondtion---->>>>>', this.defaultRole);
+      // console.log('ifcondtion---->>>>>', this.defaultRole);
 
       this.userDefault.firstname =  this.Userobject.firstname;
       this.userDefault.lastname = this.Userobject.lastname;
@@ -102,6 +106,7 @@ export class ProfilesettingsComponent implements OnInit {
       this.userDefault.role = this.defaultRole;
       this.userDefault.id = this.Userobject.id;
       this.userDefault.username = this.Userobject.username;
+      this.userDefault.installrToken = this.Userobject.installrToken;
 
       this.profileservice.Updateuser(this.userDefault).subscribe(data => {
         this.route.navigate(['admin']);

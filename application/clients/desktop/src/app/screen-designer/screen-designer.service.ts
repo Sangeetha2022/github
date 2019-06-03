@@ -30,14 +30,18 @@ export class ScreenDesignerService {
   }
 
   updateScreen(screenId, screenData) {
-  return this.http.put(`${this.sharedService.screenUrl}${Constants.updateScreen}${screenId}`, screenData);
+    return this.http.put(`${this.sharedService.screenUrl}${Constants.updateScreen}${screenId}`, screenData);
+  }
+
+  saveScreen(screenData): Observable<any> {
+    return this.http.post(`${this.sharedService.screenUrl}${Constants.addScreen}`, screenData);
   }
 
   deleteScreen(screenId) {
     return this.http.delete(`${this.sharedService.screenUrl}${Constants.deleteScreen}${screenId}`);
   }
 
-   getScreenByProjectId(projectId): Observable<any> {
+  getScreenByProjectId(projectId): Observable<any> {
     return this.http.get(this.sharedService.screenUrl + Constants.getScreenByProjectId + projectId);
   }
 

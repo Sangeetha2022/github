@@ -58,33 +58,17 @@ build_apk(){
 
 cd &quot;\$BASEPATH\$WORKSPACE\$CODEPATH&quot;
 
-if [ ! -d &quot;www&quot; ] ; then
-    mkdir www
-    cordova platform add android
+ionic cordova platform add android
+if [ \$? -eq 0 ]; then
+    echo "android platform added sucessfully!"
+    ionic cordova build android --device
     if [ \$? -eq 0 ]; then
-        echo &quot;android platform added sucessfully!&quot;
-        cordova build android --device
-        if [ \$? -eq 0 ]; then
-            echo &quot;android build success!&quot;
-        else
-            echo &quot;android build failed!&quot;
-        fi
+        echo "android build success!"
     else
-        echo &quot;add android platform failed!&quot;
+        echo "android build failed!"
     fi
 else
-    cordova platform add android
-    if [ \$? -eq 0 ]; then
-        echo &quot;android platform added sucessfully!&quot;
-        cordova build android --device
-        if [ \$? -eq 0 ]; then
-            echo &quot;android build success!&quot;
-        else
-            echo &quot;android build failed!&quot;
-        fi
-    else
-        echo &quot;android platform already added!&quot;
-    fi
+    echo "add android platform failed!"
 fi
 
 }

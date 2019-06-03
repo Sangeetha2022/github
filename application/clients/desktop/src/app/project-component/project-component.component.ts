@@ -107,6 +107,7 @@ export class EntityManagerComponent implements OnInit {
     screenId: any = [];
     featureName: any = [];
     screenMenuName: any = [];
+    screenTempId: String;
     gridApi: any;
     screenDetails: any = [];
     projectEntity: any = [];
@@ -449,19 +450,30 @@ export class EntityManagerComponent implements OnInit {
         this.displayFeatureModel = 'none';
     }
 
-
-
-
-
     getScreenByProjectId() {
         this.screenService.getScreenByProjectId(this.project_id).subscribe(sData => {
-            this.screenDetails = sData;
+            // this.screenDetails = sData;
+            sData.forEach(screenDetails => {
+                if (screenDetails.isTemplate !== true) {
+                    this.screenDetails.push(screenDetails);
+                } else if (screenDetails.isTemplate === true) {
+                    this.screenTempId = screenDetails._id;
+                }
+            });
+
             console.log('screenDetails are ----- ', this.screenDetails);
         }, (error) => {
             console.log('screenDetails something is not working on backend side');
         });
     }
 
+    editTemplate(screenId) {
+        this.router.navigate(['/desktopscreen'], {
+            queryParams: {
+                projectId: this.project_id, screenId: screenId,
+            }
+        });
+    }
     saveEntity(entityData) {
         this.entity.name = entityData.name;
         this.entity.description = entityData.description;
