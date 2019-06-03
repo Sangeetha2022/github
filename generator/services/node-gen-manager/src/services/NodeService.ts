@@ -38,6 +38,19 @@ export class NodeService {
         },
         flowAction: []
     }
+    private serviceObj = {
+        entitySchemaName: '',
+        entityModelName: '',
+        entityFileName: '',
+        import: {
+            dependencies: []
+        },
+        variable: {
+            insideClass: [],
+            outsideClass: []
+        },
+        flowAction: []
+    }
     private controllerObj = {
         entitySchemaName: '',
         entityModelName: '',
@@ -68,6 +81,20 @@ export class NodeService {
 
     initalizeDaoVariable() {
         this.daoObj = {
+            entitySchemaName: '',
+            entityModelName: '',
+            entityFileName: '',
+            import: {
+                dependencies: []
+            },
+            variable: {
+                insideClass: [],
+                outsideClass: []
+            },
+            flowAction: []
+        }
+
+        this.serviceObj = {
             entitySchemaName: '',
             entityModelName: '',
             entityFileName: '',
@@ -184,6 +211,11 @@ export class NodeService {
                 this.routeObj.entitySchemaName = entityElement.schemaName;
                 this.routeObj.entityModelName = entityElement.modelName;
                 this.routeObj.entityFileName = entityElement.fileName;
+                //serviceObj
+                this.serviceObj.entitySchemaName = entityElement.schemaName;
+                this.serviceObj.entityModelName = entityElement.modelName;
+                this.serviceObj.entityFileName = entityElement.fileName;
+                console.log('=============================== this.serviceObj', this.serviceObj)
 
 
                 if (entityElement === undefined) {
@@ -228,20 +260,24 @@ export class NodeService {
                         const route = routeWorker.createRoutes(tempFlow, entityElement, this.routeObj);
                         console.log('daoWork compleleted ---- ', util.inspect(dao, { showHidden: true, depth: null }));
                         console.log('controllerWork compleleted ---- ', util.inspect(controller, { showHidden: true, depth: null }));
+                        const service = serviceWorker.createService(tempFlow, gpService, entityElement, this.serviceObj);
                         // import dependencies
                         this.controllerObj.import.dependencies = this.controllerObj.import.dependencies.concat(controller.GpStart.dependencies);
                         this.daoObj.import.dependencies = this.daoObj.import.dependencies.concat(dao.GpStart.dependencies);
                         this.routeObj.import.dependencies = this.routeObj.import.dependencies.concat(route.GpStart.dependencies);
 
+                        this.serviceObj.import.dependencies = this.serviceObj.import.dependencies.concat(service.GpStart.dependencies);
                         // inside variable
                         this.controllerObj.variable.insideClass = this.controllerObj.variable.insideClass.concat(controller.GpVariable.insideClass);
                         this.daoObj.variable.insideClass = this.daoObj.variable.insideClass.concat(dao.GpVariable.insideClass);
                         this.routeObj.variable.insideClass = this.routeObj.variable.insideClass.concat(route.GpVariable.insideClass);
+                        this.serviceObj.variable.insideClass = this.serviceObj.variable.insideClass.concat(service.GpVariable.insideClass);
 
                         // outside variable
                         this.controllerObj.variable.outsideClass = this.controllerObj.variable.outsideClass.concat(controller.GpVariable.outsideClass);
                         this.daoObj.variable.outsideClass = this.daoObj.variable.outsideClass.concat(dao.GpVariable.outsideClass);
                         this.routeObj.variable.outsideClass = this.routeObj.variable.outsideClass.concat(route.GpVariable.outsideClass);
+                        this.serviceObj.variable.outsideClass = this.serviceObj.variable.outsideClass.concat(service.GpVariable.outsideClass);
 
                         // gp function 
                         console.log('before pushing into flow action of dao obj    ')
@@ -286,15 +322,33 @@ export class NodeService {
                         // tempDao.function.verbs.push(dao.function.verbs);
                         // tempDao.function.query.push(dao.function.query);
                         // tempDao.function.return.push(dao.function.return);
+
+                        const serviceTemp = {
+                            methodName: '',
+                            parameter: '',
+                            variable: '',
+                            params: '',
+                            return: '',
+                            end: ''
+                        }
+                        serviceTemp.methodName = service.function.methodName;
+                        serviceTemp.parameter = service.function.parameter;
+                        serviceTemp.params = service.function.params;
+                        serviceTemp.variable = service.function.variable;
+                        serviceTemp.return = service.function.return;
+                        serviceTemp.end = service.function.end;
+                        this.serviceObj.flowAction.push(serviceTemp);
+
                         flowNext();
                     }, (err) => {
                         if (err) {
 
                         } else {
-                            console.log('daoWork compleleted after assigned value ---- ', this.daoObj);
+                            console.log('daoWork compleleted after assigned value ---- ', util.inspect(this.serviceObj, { showHidden: true, depth: null }));
                             this.controller.push(this.controllerObj);
                             this.dao.push(this.daoObj);
                             this.route.push(this.routeObj);
+                            this.service.push(this.serviceObj);
                             entityNext();
                         }
                     })
@@ -309,6 +363,11 @@ export class NodeService {
                     controllerWorker.generateControllerFile(projectGenerationPath, templateLocation, this.controller);
                     daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
                     routeWorker.generateRouteFile(projectGenerationPath, templateLocation, this.route);
+                    console.log('============================== pro path', projectGenerationPath)
+                    console.log('============================== templateLocation', templateLocation)
+                    console.log('============================== this.service', this.service)
+                    serviceWorker.generateServiceFile(projectGenerationPath, templateLocation, this.service);
+
                 }
             })
         }
@@ -381,6 +440,12 @@ export class NodeService {
                         microflows: [],
                         connectors: []
                     }
+                    const service = {
+                        name: '',
+                        label: '',
+                        microflows: [],
+                        connectors: []
+                    }
                     const microflow = {
                         GpStart: '',
                         GpVariableStatement: '',
@@ -400,6 +465,9 @@ export class NodeService {
                             console.log('microflow assigned values  ---33--- ', microflow);
                             break;
                         case 'GpExpressService':
+                            service.name = componentElement.name;
+                            service.label = componentElement.label;
+                            const response = this.iterateMicroFlow(methods, componentElement.name, componentElement.microFlows, microflow);
                             break;
                         case 'GpExpressDao':
                             break;
