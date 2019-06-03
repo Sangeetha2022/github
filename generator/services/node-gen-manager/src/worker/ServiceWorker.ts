@@ -70,7 +70,6 @@ export class ServiceWorker {
                 tempImport.name = `{ Request, Response }`;
                 tempImport.path = `express`;
                 this.tempService.GpStart.dependencies.push(tempImport);
-                console.log('============================ tempImport', tempImport)
             }
 
             const sevicePathIndex = serviceObj.import.dependencies.findIndex(x => x.path == `../dao/${this.entitySchema.fileName}Dao`);
@@ -82,7 +81,7 @@ export class ServiceWorker {
                     name: '',
                     path: ''
                 }
-                tempImport.name = `${this.entitySchema.fileName}Dao`;
+                tempImport.name = `{${this.entitySchema.fileName}Dao}`;
                 tempImport.path = `../dao/${this.entitySchema.fileName}Dao`;
                 this.tempService.GpStart.dependencies.push(tempImport);
                 console.log('============================ tempImport', tempImport)
