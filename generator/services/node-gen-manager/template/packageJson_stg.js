@@ -1,6 +1,6 @@
 /*
  * Template group packageJson
- * Compiled on Tue Jun 04 2019 12:07:58 GMT+0530 (India Standard Time)
+ * Compiled on Tue Jun 04 2019 15:01:39 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -28,7 +28,7 @@ r = function(w, rc) {
     w.pushIndentation("  ");
     w.write("\"name\": \"");
     w.popIndentation();
-    st.write(w, s, g, rc, s.name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "name", { file: gFile, line: 3, column: 19 }));
     w.write("\",");
     w.write("\n");
     w.pushIndentation("  ");
@@ -36,8 +36,10 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
-    w.write("\"description\": \"\",");
+    w.write("\"description\": \"");
     w.popIndentation();
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "description", { file: gFile, line: 5, column: 26 }));
+    w.write("\",");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("\"main\": \"dist/server.js\",");
@@ -147,8 +149,7 @@ r = function(w, rc) {
     w.write("\n");
 };
 r.args = [
-        { name: "name"     },
-{ name: "description"     }
+        { name: "object"     }
 ];
 group.addTemplate("/packageJson", r); 
 

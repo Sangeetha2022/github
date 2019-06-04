@@ -1,5 +1,5 @@
 server(object) ::= <<
-$if(object.import)$$object.import.dependencies:{dependency | import $dependency.name$ from '$dependency.path$';};separator="\n"$$endif$
+$if(object.GpStart)$$object.GpStart.dependencies:{dependency | import $dependency.name$ from '$dependency.path$';};separator="\n"$$endif$
 const winston = require('winston');
 require('winston-daily-rotate-file')
 

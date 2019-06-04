@@ -1,8 +1,8 @@
-packageJson(name, description) ::= <<
+packageJson(object) ::= <<
 {
-  "name": "$name$",
+  "name": "$object.name$",
   "version": "1.0.0",
-  "description": "",
+  "description": "$object.description$",
   "main": "dist/server.js",
   "scripts": {
     "test": "ng test",

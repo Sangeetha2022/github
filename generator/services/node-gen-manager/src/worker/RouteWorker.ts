@@ -79,7 +79,7 @@ export class RouteWorker {
                 name: '',
                 path: ''
             }
-            tempImport.name = `${this.entitySchema.fileName}Controller`;
+            tempImport.name = `{ ${this.entitySchema.fileName}Controller }`;
             tempImport.path = `../controller/${this.entitySchema.fileName}Controller`;
             this.tempRoutes.GpStart.dependencies.push(tempImport);
         }
@@ -129,31 +129,31 @@ export class RouteWorker {
         this.tempRoutes.function.apiAction = '';
         switch (this.flowDetail.actionOnData) {
             case 'GpCreate':
-                this.tempRoutes.function.routeUrl = `${this.entitySchema.fileName}/save`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/save`;
                 this.tempRoutes.function.apiAction = `post`;
                 this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpSearch':
-                this.tempRoutes.function.routeUrl = `${this.entitySchema.fileName}/get/:id`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/get/:id`;
                 this.tempRoutes.function.apiAction = `get`;
                 this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpUpdate':
-                this.tempRoutes.function.routeUrl = `${this.entitySchema.fileName}/update`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/update`;
                 this.tempRoutes.function.apiAction = `put`;
                 this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpDelete':
-                this.tempRoutes.function.routeUrl = `${this.entitySchema.fileName}/delete/:id`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/delete/:id`;
                 this.tempRoutes.function.apiAction = `delete`;
                 this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpGetAllValues':
-                this.tempRoutes.function.routeUrl = `${this.entitySchema.fileName}/get`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/get`;
                 this.tempRoutes.function.apiAction = `get`;
                 this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
@@ -161,7 +161,7 @@ export class RouteWorker {
             case 'GpSearchDetail':
                 break;
             case 'GpSearchForUpdate':
-                this.tempRoutes.function.routeUrl = `${this.entitySchema.fileName}/get/update`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/get/update`;
                 this.tempRoutes.function.apiAction = `put`;
                 this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;

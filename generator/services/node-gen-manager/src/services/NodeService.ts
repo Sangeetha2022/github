@@ -8,6 +8,7 @@ import { ServiceWorker } from '../worker/ServiceWorker';
 import { ControllerWorker } from '../worker/ControllerWorker';
 import { DaoWorker } from '../worker/DaoWorker';
 import { RouteWorker } from '../worker/RouteWorker';
+import { CommonWorker } from '../worker/CommonWorker';
 
 let nodeDao = new NodeDao();
 let nodeWorker = new NodeWorker();
@@ -15,6 +16,7 @@ let controllerWorker = new ControllerWorker();
 let serviceWorker = new ServiceWorker();
 let routeWorker = new RouteWorker();
 let daoWorker = new DaoWorker();
+let commonWorker = new CommonWorker();
 let model = Model;
 // let service = Service;
 
@@ -144,11 +146,14 @@ export class NodeService {
     }
 
     public createProjectNode(req: Request, callback) {
-        console.log('create project node -------  ', util.inspect(req.body, { showHidden: true, depth: null }));
+        console.log('create project node ----body---  ',req.body.projectName, util.inspect(req.body, { showHidden: true, depth: null }));
         const details = req.body;
         const templateLocation = details.templateLocation.backendTemplate;
         const projectGenerationPath = details.projectGenerationPath;
         const flows = details.flows;
+        const projectName = req.body.projectName;
+        const featureName = req.body.featureName;
+        const port = 8000;
         const EntitySchema = details.entitySchema.body;
         console.log('flows length are ----##############------- ', details.flows.length);
         // const methods = []
@@ -188,6 +193,9 @@ export class NodeService {
         if (EntitySchema === undefined && EntitySchema.length === 0) {
             callback('No Schema has been found');
         } else {
+            commonWorker.createServerFile(projectGenerationPath, templateLocation, projectName, port);
+            commonWorker.generatePackageJsonFile(projectGenerationPath, templateLocation, featureName);
+            commonWorker.generateTsConfigFile(projectGenerationPath, templateLocation);
             asyncLoop(EntitySchema, (entityElement, entityNext) => {
                 console.log('entity schema of each loop are -----  ', entityElement);
                 // initial
