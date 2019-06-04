@@ -76,7 +76,7 @@ export class ControllerWorker {
                 this.tempController.GpStart.dependencies.push(tempImport);
             }
 
-            const sevicePathIndex = controllerObj.import.dependencies.findIndex(x => x.path == `../services/${this.entitySchema.fileName}Service`);
+            const sevicePathIndex = controllerObj.import.dependencies.findIndex(x => x.path == `../service/${this.entitySchema.fileName}Service`);
             if (sevicePathIndex < 0) {
                 // tempImport.dependencyName.push(`{ ${this.entitySchema.modelName} }`);
                 console.log(`entityPath inded ar e------  count ${this.count} `, sevicePathIndex, '  -----  ', `../models/${this.entitySchema.fileName}`);
@@ -85,8 +85,8 @@ export class ControllerWorker {
                     name: '',
                     path: ''
                 }
-                tempImport.name = `${this.entitySchema.fileName}Service`;
-                tempImport.path = `../services/${this.entitySchema.fileName}Service`;
+                tempImport.name = `{ ${this.entitySchema.fileName}Service }`;
+                tempImport.path = `../service/${this.entitySchema.fileName}Service`;
                 this.tempController.GpStart.dependencies.push(tempImport);
             }
 

@@ -7,12 +7,16 @@ import * as asyncLoop from 'node-async-loop';
 import { ServiceWorker } from '../worker/ServiceWorker';
 import { ControllerWorker } from '../worker/ControllerWorker';
 import { DaoWorker } from '../worker/DaoWorker';
+import { RouteWorker } from '../worker/RouteWorker';
+import { CommonWorker } from '../worker/CommonWorker';
 
 let nodeDao = new NodeDao();
 let nodeWorker = new NodeWorker();
 let controllerWorker = new ControllerWorker();
 let serviceWorker = new ServiceWorker();
+let routeWorker = new RouteWorker();
 let daoWorker = new DaoWorker();
+let commonWorker = new CommonWorker();
 let model = Model;
 // let service = Service;
 
@@ -22,7 +26,21 @@ export class NodeService {
     private controller = [];
     private service = [];
     private dao = [];
+    private route = [];
     private daoObj = {
+        entitySchemaName: '',
+        entityModelName: '',
+        entityFileName: '',
+        import: {
+            dependencies: []
+        },
+        variable: {
+            insideClass: [],
+            outsideClass: []
+        },
+        flowAction: []
+    }
+    private serviceObj = {
         entitySchemaName: '',
         entityModelName: '',
         entityFileName: '',
@@ -48,8 +66,37 @@ export class NodeService {
         },
         flowAction: []
     }
+
+    private routeObj = {
+        entitySchemaName: '',
+        entityModelName: '',
+        entityFileName: '',
+        import: {
+            dependencies: []
+        },
+        variable: {
+            insideClass: [],
+            outsideClass: []
+        },
+        flowAction: []
+    }
+
     initalizeDaoVariable() {
         this.daoObj = {
+            entitySchemaName: '',
+            entityModelName: '',
+            entityFileName: '',
+            import: {
+                dependencies: []
+            },
+            variable: {
+                insideClass: [],
+                outsideClass: []
+            },
+            flowAction: []
+        }
+
+        this.serviceObj = {
             entitySchemaName: '',
             entityModelName: '',
             entityFileName: '',
@@ -76,6 +123,20 @@ export class NodeService {
             },
             flowAction: []
         }
+
+        this.routeObj = {
+            entitySchemaName: '',
+            entityModelName: '',
+            entityFileName: '',
+            import: {
+                dependencies: []
+            },
+            variable: {
+                insideClass: [],
+                outsideClass: []
+            },
+            flowAction: []
+        }
     }
 
     public generateNode = (req: Request, callback) => {
@@ -85,11 +146,14 @@ export class NodeService {
     }
 
     public createProjectNode(req: Request, callback) {
-        console.log('create project node -------  ', util.inspect(req.body, { showHidden: true, depth: null }));
+        console.log('create project node ----body---  ',req.body.projectName, util.inspect(req.body, { showHidden: true, depth: null }));
         const details = req.body;
         const templateLocation = details.templateLocation.backendTemplate;
         const projectGenerationPath = details.projectGenerationPath;
         const flows = details.flows;
+        const projectName = req.body.projectName;
+        const featureName = req.body.featureName;
+        const port = 8000;
         const EntitySchema = details.entitySchema.body;
         console.log('flows length are ----##############------- ', details.flows.length);
         // const methods = []
@@ -129,6 +193,9 @@ export class NodeService {
         if (EntitySchema === undefined && EntitySchema.length === 0) {
             callback('No Schema has been found');
         } else {
+            commonWorker.createServerFile(projectGenerationPath, templateLocation, projectName, port);
+            commonWorker.generatePackageJsonFile(projectGenerationPath, templateLocation, featureName);
+            commonWorker.generateTsConfigFile(projectGenerationPath, templateLocation);
             asyncLoop(EntitySchema, (entityElement, entityNext) => {
                 console.log('entity schema of each loop are -----  ', entityElement);
                 // initial
@@ -147,6 +214,16 @@ export class NodeService {
                 this.controllerObj.entitySchemaName = entityElement.schemaName;
                 this.controllerObj.entityModelName = entityElement.modelName;
                 this.controllerObj.entityFileName = entityElement.fileName;
+
+                //routeObj
+                this.routeObj.entitySchemaName = entityElement.schemaName;
+                this.routeObj.entityModelName = entityElement.modelName;
+                this.routeObj.entityFileName = entityElement.fileName;
+                //serviceObj
+                this.serviceObj.entitySchemaName = entityElement.schemaName;
+                this.serviceObj.entityModelName = entityElement.modelName;
+                this.serviceObj.entityFileName = entityElement.fileName;
+                console.log('=============================== this.serviceObj', this.serviceObj)
 
 
                 if (entityElement === undefined) {
@@ -186,24 +263,32 @@ export class NodeService {
                         tempFlow.description = flowElement.description;
                         tempFlow.type = flowElement.type;
                         tempFlow.actionOnData = flowElement.actionOnData;
-                        const dao = daoWorker.createDao(tempFlow, gpDao, entityElement, this.daoObj);
                         const controller = controllerWorker.createController(tempFlow, gpController, entityElement, this.controllerObj);
+                        const service = serviceWorker.createService(tempFlow, gpService, entityElement, this.serviceObj);
+                        const dao = daoWorker.createDao(tempFlow, gpDao, entityElement, this.daoObj);
+                        const route = routeWorker.createRoutes(tempFlow, entityElement, this.routeObj);
                         console.log('daoWork compleleted ---- ', util.inspect(dao, { showHidden: true, depth: null }));
-                        console.log('controllerWork compleleted ---- ', util.inspect(controller, { showHidden: true, depth: null }));
+                        console.log('service work compleleted ---- ', util.inspect(service, { showHidden: true, depth: null }));
                         // import dependencies
                         this.controllerObj.import.dependencies = this.controllerObj.import.dependencies.concat(controller.GpStart.dependencies);
                         this.daoObj.import.dependencies = this.daoObj.import.dependencies.concat(dao.GpStart.dependencies);
+                        this.routeObj.import.dependencies = this.routeObj.import.dependencies.concat(route.GpStart.dependencies);
 
+                        this.serviceObj.import.dependencies = this.serviceObj.import.dependencies.concat(service.GpStart.dependencies);
                         // inside variable
                         this.controllerObj.variable.insideClass = this.controllerObj.variable.insideClass.concat(controller.GpVariable.insideClass);
                         this.daoObj.variable.insideClass = this.daoObj.variable.insideClass.concat(dao.GpVariable.insideClass);
+                        this.routeObj.variable.insideClass = this.routeObj.variable.insideClass.concat(route.GpVariable.insideClass);
+                        this.serviceObj.variable.insideClass = this.serviceObj.variable.insideClass.concat(service.GpVariable.insideClass);
 
                         // outside variable
                         this.controllerObj.variable.outsideClass = this.controllerObj.variable.outsideClass.concat(controller.GpVariable.outsideClass);
                         this.daoObj.variable.outsideClass = this.daoObj.variable.outsideClass.concat(dao.GpVariable.outsideClass);
+                        this.routeObj.variable.outsideClass = this.routeObj.variable.outsideClass.concat(route.GpVariable.outsideClass);
+                        this.serviceObj.variable.outsideClass = this.serviceObj.variable.outsideClass.concat(service.GpVariable.outsideClass);
 
                         // gp function 
-                        console.log('before pushing into flow action of dao obj    ', )
+                        console.log('before pushing into flow action of dao obj    ')
                         const daoTemp = {
                             methodName: '',
                             parameter: '',
@@ -226,20 +311,50 @@ export class NodeService {
                         }
                         controllerTemp.methodName = controller.function.methodName;
                         this.controllerObj.flowAction.push(controllerTemp);
+
+                        // route function
+                        const routeTemp = {
+                            routeUrl: '',
+                            apiAction: '',
+                            methodName: '',
+                            variableName: ''
+                        }
+                        routeTemp.routeUrl = route.function.routeUrl;
+                        routeTemp.apiAction = route.function.apiAction;
+                        routeTemp.methodName = route.function.methodName;
+                        routeTemp.variableName = route.function.variableName;
+                        this.routeObj.flowAction.push(routeTemp);
                         // tempDao.function.methodName.push(dao.function.methodName);
                         // tempDao.function.parameter.push(dao.function.parameter);
                         // tempDao.function.variable.push(dao.function.variable);
                         // tempDao.function.verbs.push(dao.function.verbs);
                         // tempDao.function.query.push(dao.function.query);
                         // tempDao.function.return.push(dao.function.return);
+
+                        const serviceTemp = {
+                            methodName: '',
+                            requestParameter: '',
+                            responseVariable: '',
+                            variable: '',
+                            return: ''
+                        }
+                        serviceTemp.methodName = service.function.methodName;
+                        serviceTemp.requestParameter = service.function.requestParameter;
+                        serviceTemp.responseVariable = service.function.responseVariable;
+                        serviceTemp.variable = service.function.variable;
+                        serviceTemp.return = service.function.return;
+                        this.serviceObj.flowAction.push(serviceTemp);
+
                         flowNext();
                     }, (err) => {
                         if (err) {
 
                         } else {
-                            console.log('daoWork compleleted after assigned value ---- ', this.daoObj);
+                            console.log('daoWork compleleted after assigned value ---- ', util.inspect(this.serviceObj, { showHidden: true, depth: null }));
                             this.controller.push(this.controllerObj);
                             this.dao.push(this.daoObj);
+                            this.route.push(this.routeObj);
+                            this.service.push(this.serviceObj);
                             entityNext();
                         }
                     })
@@ -250,9 +365,10 @@ export class NodeService {
                 if (entityError) {
 
                 } else {
-                    console.log('entity iteration completed -------   ', this.dao);
                     controllerWorker.generateControllerFile(projectGenerationPath, templateLocation, this.controller);
+                    serviceWorker.generateServiceFile(projectGenerationPath, templateLocation, this.service);
                     daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
+                    routeWorker.generateRouteFile(projectGenerationPath, templateLocation, this.route);
 
                 }
             })
@@ -326,6 +442,12 @@ export class NodeService {
                         microflows: [],
                         connectors: []
                     }
+                    const service = {
+                        name: '',
+                        label: '',
+                        microflows: [],
+                        connectors: []
+                    }
                     const microflow = {
                         GpStart: '',
                         GpVariableStatement: '',
@@ -345,6 +467,9 @@ export class NodeService {
                             console.log('microflow assigned values  ---33--- ', microflow);
                             break;
                         case 'GpExpressService':
+                            service.name = componentElement.name;
+                            service.label = componentElement.label;
+                            const response = this.iterateMicroFlow(methods, componentElement.name, componentElement.microFlows, microflow);
                             break;
                         case 'GpExpressDao':
                             break;
