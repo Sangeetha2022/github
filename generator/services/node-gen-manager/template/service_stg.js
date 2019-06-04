@@ -1,6 +1,6 @@
 /*
  * Template group service
- * Compiled on Mon Jun 03 2019 18:35:42 GMT+0530 (IST)
+ * Compiled on Tue Jun 04 2019 11:35:33 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -116,52 +116,47 @@ r = function(w, rc) {
             
                      w.write("public ");
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 9, column: 69 }));
-                     w.write("(req: Request, callback: CallableFunction){");
+                     w.write("(req: Request, callback){");
                      w.write("\n");
-                     w.write("    ");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 10, column: 16 }))) {
+                     w.write("     ");
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 10, column: 17 }))) {
                      
-                         st.write(w, s, g, rc, (function() {
-                         var tp = [],
-                         attr = st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 10, column: 35 });
-                         tp.push(st.makeSubTemplate(g, function(w, rc) {
-                             var g = this.owningGroup,
-                             s = this.scope;
-                             
-                                      w.write("let ");
-                                      st.write(w, s, g, rc, st.prop(s, g, rc, s.varObj, "variable", { file: gFile, line: 10, column: 65 }));
-                             }, [
-                             { name: "varObj"     }
-                             ])); 
-                         return st.map(attr, tp);
-                         })());
-                         w.write(";");
+                         w.write("const ");
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 10, column: 42 }));
                      
                      
                      }
                      w.write("\n");
-                     w.write("    ");
-                     if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 11, column: 15 }), "outsideClass", { file: gFile, line: 11, column: 24 }))) {
-                     
-                         st.write(w, s, g, rc, (function() {
-                         var tp = [],
-                         attr = st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 11, column: 46 }), "outsideClass", { file: gFile, line: 11, column: 55 });
-                         tp.push(st.makeSubTemplate(g, function(w, rc) {
-                             var g = this.owningGroup,
-                             s = this.scope;
-                             
-                                      st.write(w, s, g, rc, st.prop(s, g, rc, s.variableObj, "variableName", { file: gFile, line: 11, column: 96 }));
-                             }, [
-                             { name: "variableObj"     }
-                             ])); 
-                         return st.map(attr, tp);
-                         })());
-                     
-                     
-                     }
+                     w.pushIndentation("     ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 11, column: 13 }));
+                     w.popIndentation();
                      w.write(".");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 11, column: 128 }));
-                     w.write("(req,(result)\t=>\t{\ncallback(result);\n});}");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 11, column: 38 }));
+                     w.write("(");
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "requestParameter", { file: gFile, line: 11, column: 62 }))) {
+                     
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "requestParameter", { file: gFile, line: 11, column: 89 }));
+                         w.write(",");
+                     
+                     
+                     }
+                     w.write("(");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "responseVariable", { file: gFile, line: 11, column: 124 }));
+                     w.write(")=>{");
+                     w.write("\n");
+                     w.pushIndentation("         ");
+                     w.write("callback(");
+                     w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "responseVariable", { file: gFile, line: 12, column: 27 }));
+                     w.write(");");
+                     w.write("\n");
+                     w.pushIndentation("         ");
+                     w.write("});");
+                     w.popIndentation();
+                     w.write("\n");
+                     w.pushIndentation("    ");
+                     w.write("}");
+                     w.popIndentation();
             }, [
             { name: "flowObj"     }
             ])); 

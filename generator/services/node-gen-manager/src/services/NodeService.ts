@@ -255,12 +255,12 @@ export class NodeService {
                         tempFlow.description = flowElement.description;
                         tempFlow.type = flowElement.type;
                         tempFlow.actionOnData = flowElement.actionOnData;
-                        const dao = daoWorker.createDao(tempFlow, gpDao, entityElement, this.daoObj);
                         const controller = controllerWorker.createController(tempFlow, gpController, entityElement, this.controllerObj);
+                        const service = serviceWorker.createService(tempFlow, gpService, entityElement, this.serviceObj);
+                        const dao = daoWorker.createDao(tempFlow, gpDao, entityElement, this.daoObj);
                         const route = routeWorker.createRoutes(tempFlow, entityElement, this.routeObj);
                         console.log('daoWork compleleted ---- ', util.inspect(dao, { showHidden: true, depth: null }));
-                        console.log('controllerWork compleleted ---- ', util.inspect(controller, { showHidden: true, depth: null }));
-                        const service = serviceWorker.createService(tempFlow, gpService, entityElement, this.serviceObj);
+                        console.log('service work compleleted ---- ', util.inspect(service, { showHidden: true, depth: null }));
                         // import dependencies
                         this.controllerObj.import.dependencies = this.controllerObj.import.dependencies.concat(controller.GpStart.dependencies);
                         this.daoObj.import.dependencies = this.daoObj.import.dependencies.concat(dao.GpStart.dependencies);
@@ -325,18 +325,16 @@ export class NodeService {
 
                         const serviceTemp = {
                             methodName: '',
-                            parameter: '',
+                            requestParameter: '',
+                            responseVariable: '',
                             variable: '',
-                            params: '',
-                            return: '',
-                            end: ''
+                            return: ''
                         }
                         serviceTemp.methodName = service.function.methodName;
-                        serviceTemp.parameter = service.function.parameter;
-                        serviceTemp.params = service.function.params;
+                        serviceTemp.requestParameter = service.function.requestParameter;
+                        serviceTemp.responseVariable = service.function.responseVariable;
                         serviceTemp.variable = service.function.variable;
                         serviceTemp.return = service.function.return;
-                        serviceTemp.end = service.function.end;
                         this.serviceObj.flowAction.push(serviceTemp);
 
                         flowNext();
@@ -359,14 +357,10 @@ export class NodeService {
                 if (entityError) {
 
                 } else {
-                    console.log('entity iteration completed -------   ', this.dao);
                     controllerWorker.generateControllerFile(projectGenerationPath, templateLocation, this.controller);
+                    serviceWorker.generateServiceFile(projectGenerationPath, templateLocation, this.service);
                     daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
                     routeWorker.generateRouteFile(projectGenerationPath, templateLocation, this.route);
-                    console.log('============================== pro path', projectGenerationPath)
-                    console.log('============================== templateLocation', templateLocation)
-                    console.log('============================== this.service', this.service)
-                    serviceWorker.generateServiceFile(projectGenerationPath, templateLocation, this.service);
 
                 }
             })

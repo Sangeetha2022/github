@@ -17,11 +17,10 @@ export class ServiceWorker {
         gpConnector: {},
         function: {
             methodName: '',
-            parameter: '',
+            requestParameter: '',
+            responseVariable: '',
             variable: '',
-            return: '',
-            params: '',
-            end: ''
+            return: ''
         },
     }
     private flowDetail;
@@ -42,9 +41,9 @@ export class ServiceWorker {
 
     generateServiceFile(projectGenerationPath, templateLocationPath, Service) {
         Service.forEach(ServiceElement => {
-            console.log('===============================', util.inspect(ServiceElement, { showHidden: true, depth: null }));
+            console.log('===========generate service files====================', util.inspect(ServiceElement, { showHidden: true, depth: null }));
             serviceSupportWorker.generateServiceFile(projectGenerationPath, templateLocationPath, ServiceElement, (response) => {
-                console.log('file generated and saved')
+                console.log('service file generated and saved')
             })
         });
     }
@@ -146,48 +145,55 @@ export class ServiceWorker {
                 }
             });
         if (GpDaoCall !== undefined) {
-            this.tempService.function.methodName = this.flowDetail.actionOnData;
-            // this.flowAction();
+            // this.tempService.function.methodName = this.flowDetail.actionOnData;
+            this.flowAction();
         }
     }
 
     flowAction() {
         this.tempService.function.methodName = '';
-        this.tempService.function.parameter = '';
+        this.tempService.function.requestParameter = '';
+        this.tempService.function.responseVariable = '';
         this.tempService.function.variable = '';
         this.tempService.function.return = '';
         switch (this.flowDetail.actionOnData) {
             case 'GpCreate':
-                console.log('flowaction into gpcreate ------  ');
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
-                this.tempService.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempService.function.variable = `let temp = new ${this.entitySchema.modelName}(${this.entitySchema.fileName}Data)`;
+                this.tempService.function.requestParameter = `${this.entitySchema.fileName}Data`;
+                this.tempService.function.responseVariable = `response`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.body`;
                 // this.tempService.method.variable = `let ${entityElement.fileName}`
+                console.log('flowaction into gpcreate -services-----  ', this.tempService.function);
                 break;
             case 'GpSearch':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
-                this.tempService.function.parameter = `${this.entitySchema.fileName}Data, callback`;
+                this.tempService.function.requestParameter = `${this.entitySchema.fileName}Id`;
+                this.tempService.function.responseVariable = `response`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Id = req.params.id`;
                 break;
             case 'GpUpdate':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
-                this.tempService.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempService.function.params = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
+                this.tempService.function.requestParameter = `${this.entitySchema.fileName}Data`
+                this.tempService.function.responseVariable = `response`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.body`;
                 break;
             case 'GpDelete':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
-                this.tempService.function.parameter = `${this.entitySchema.fileName}Id, callback`;
-                this.tempService.function.params = `${this.entitySchema.fileName}Id`;
+                this.tempService.function.requestParameter = `${this.entitySchema.fileName}Id`
+                this.tempService.function.responseVariable = `response`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Id = req.params.id`;
                 break;
             case 'GpGetAllValues':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
-                this.tempService.function.parameter = `callback`;
+                this.tempService.function.responseVariable = `response`;
                 break;
             case 'GpSearchDetail':
                 break;
             case 'GpSearchForUpdate':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
-                this.tempService.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempService.function.params = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
+                this.tempService.function.requestParameter = `${this.entitySchema.fileName}Data`
+                this.tempService.function.responseVariable = `response`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.body`;
                 break;
             case 'GpDeleteNounRelationship':
                 break;
