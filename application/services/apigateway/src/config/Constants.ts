@@ -8,6 +8,9 @@ export const featureUrl = 'http://localhost:3006';
 export const loginUrl = 'http://localhost:3007';
 export const camundaUrl = 'http://localhost:3008';
 export const proxyUrl = 'http://localhost:3009';
+export const menuUrl = 'http://localhost:3011';
+export const templatetUrl = 'http://localhost:3012';
+
 
 // generation URL
 
