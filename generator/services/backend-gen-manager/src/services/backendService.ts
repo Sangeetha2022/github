@@ -30,6 +30,7 @@ export class BackendService {
         this.createFolders(backendPath);
         this.createFolders(microservicePath);
         const feature = {
+            featureName: details.name,
             projectGenerationPath: microservicePath,
             templateLocation: details.project.templateLocation,
             projectName: details.project.name,
@@ -164,6 +165,8 @@ export class BackendService {
                 } else {
                     console.log('flow iteration completed %%%%%%%%%%%%% ----- ', util.inspect(feature, { showHidden: true, depth: null }));
                     const node = await this.generateNode(feature);
+                    console.log('node %%%%%%%%%%%%% ----- ', util.inspect(node, { showHidden: true, depth: null }));
+                    callback(node);
                 }
             })
         }
@@ -182,7 +185,7 @@ export class BackendService {
         //     // console.log('filteredComponent ----node- length--  ', filteredComponent.length);
         //     // this.microFlowService.getBackendMicroFlow()
         // }
-        callback();
+        // callback();
         // const backendServiceName = details.project.
     }
 

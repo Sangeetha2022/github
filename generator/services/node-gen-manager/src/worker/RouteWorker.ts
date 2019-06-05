@@ -41,10 +41,32 @@ export class RouteWorker {
     generateRouteFile(projectGenerationPath, templateLocationPath, Routes) {
         console.log('projectGenerationPath in Routes worker ---- ', projectGenerationPath);
         console.log('templateLocationPath in Routes worker ---- ', templateLocationPath);
-        console.log('Routes worker ---- ', util.inspect(Routes, { showHidden: true, depth: null }));
-    //    const RoutesPath = `${projectGenerationPath}/src/Routes`;
+        console.log('######### Routes worker ---- ', util.inspect(Routes, { showHidden: true, depth: null }));
+        const temp = {
+            import: {
+                dependencies: []
+            },
+            variable: {
+                insideClass: [],
+                outsideClass: []
+            },
+            flowAction: []
+        }
+        //    const RoutesPath = `${projectGenerationPath}/src/Routes`;
         Routes.forEach(RoutesElement => {
-            routeSupportWorker.generateRouteFile(projectGenerationPath, templateLocationPath, RoutesElement, (response) => {
+            RoutesElement.import.dependencies.forEach(dependency => {
+                temp.import.dependencies.push(dependency);
+            })
+            RoutesElement.variable.insideClass.forEach(insideClassElement => {
+                temp.variable.insideClass.push(insideClassElement);
+            })
+            RoutesElement.variable.outsideClass.forEach(outsideClassElement => {
+                temp.variable.outsideClass.push(outsideClassElement);
+            })
+            RoutesElement.flowAction.forEach(flowElement => {
+                temp.flowAction.push(flowElement);
+            })
+            routeSupportWorker.generateRouteFile(projectGenerationPath, templateLocationPath, temp, (response) => {
                 console.log('file generated and saved')
             })
         });
@@ -53,28 +75,8 @@ export class RouteWorker {
 
     gpStart(RoutesObj) {
         this.tempRoutes.GpStart.dependencies = [];
-        // default
-        // const tempImport.dependencyName.findIndex();
-        console.log(`RoutesObjcec are om count ${this.count} `, RoutesObj);
-        // const mongoPathIndex = RoutesObj.import.dependencies.findIndex(x => x.path == `mongoose`);
-        // // const entityPathIndex = RoutesObj.import.dependencyPath.findIndex(x => x == `../models/${this.entitySchema.fileName}`);
-        // if (mongoPathIndex < 0) {
-        //     // tempImport.dependencyName.push(`* as mongoose`);
-        //     // tempImport.dependencyPath.push(`mongoose`);
-        //     const tempImport = {
-        //         name: '',
-        //         path: ''
-        //     }
-        //     tempImport.name = `* as mongoose`;
-        //     tempImport.path = `mongoose`;
-        //     this.tempRoutes.GpStart.dependencies.push(tempImport);
-        // }
-
-        const controllerIndex = RoutesObj.import.dependencies.findIndex(x => x.path == `../controller/${this.entitySchema.fileName}Controller`);
+         const controllerIndex = RoutesObj.import.dependencies.findIndex(x => x.path == `../controller/${this.entitySchema.fileName}Controller`);
         if (controllerIndex < 0) {
-            // tempImport.dependencyName.push(`{ ${this.entitySchema.modelName} }`);
-            console.log(`entityPath inded ar e------  count ${this.count} `, controllerIndex, '  -----  ', `../controller/${this.entitySchema.fileName}Controller`);
-            // tempImport.dependencyPath.push(`../models/${this.entitySchema.fileName}`);
             const tempImport = {
                 name: '',
                 path: ''
@@ -83,11 +85,7 @@ export class RouteWorker {
             tempImport.path = `../controller/${this.entitySchema.fileName}Controller`;
             this.tempRoutes.GpStart.dependencies.push(tempImport);
         }
-
-        // this.importEntitySchema(tempImport, null, 'import');
-        // this.tempRoutes.GpStart = tempImport;
-        this.count++;
-    }
+  }
 
     gpVariableStatement(RoutesObj) {
         this.tempRoutes.GpVariable.insideClass = [];
@@ -102,12 +100,7 @@ export class RouteWorker {
                 parentName: []
             }
         }
-
-        // this.importEntitySchema(null, tempVariable, 'variable');
-        // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ==11=== ', this.entitySchema.modelName);
-        // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ===22== ', RoutesObj.variable.insideClass.parentName);
-        const insideClassIndex = RoutesObj.variable.insideClass.findIndex(x => x.parentName == `new ${this.entitySchema.fileName}Controller()`);
-        // console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   ===33== ', insideClassIndex);
+ const insideClassIndex = RoutesObj.variable.insideClass.findIndex(x => x.parentName == `new ${this.entitySchema.fileName}Controller()`);
         if (insideClassIndex < 0) {
             const temp = {
                 variableName: '',
@@ -115,8 +108,6 @@ export class RouteWorker {
             }
             temp.variableName = `${this.entitySchema.fileName}: ${this.entitySchema.fileName}Controller`;
             temp.parentName = `new ${this.entitySchema.fileName}Controller()`;
-            // tempVariable.insideClass.variableName.push(this.entitySchema.fileName);
-            // tempVariable.insideClass.parentName.push(this.entitySchema.modelName);
             this.tempRoutes.GpVariable.insideClass.push(temp);
         }
 
