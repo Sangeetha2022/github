@@ -14,7 +14,7 @@ export class RouteSupportWorker {
         const RouteTemplatePath = path.resolve(__dirname, templatePath);
         let generateRoute = st.loadGroup(require(RouteTemplatePath + '/route_stg'));
         let RouteFile = generateRoute.render("route", [routeObj]);
-        await fs.writeFile(appSource + `/app-routing.modulemodule.ts`, RouteFile, function (err) {
+        await fs.writeFile(appSource + `/app-routing.module.ts`, RouteFile, function (err) {
             if (err) throw err;
             callback('file generated');
         })
