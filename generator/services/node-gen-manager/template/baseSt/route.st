@@ -1,5 +1,5 @@
 route(object) ::=  <<
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 $if(object.import)$$object.import.dependencies:{dependency | import $dependency.name$ from '$dependency.path$';};separator="\n"$$endif$
 $if(object.variable.outsideClass)$$object.variable.outsideClass:{variableObj | let $variableObj.variableName$ = $variableObj.parentName$;};separator="\n"$$endif$
 
