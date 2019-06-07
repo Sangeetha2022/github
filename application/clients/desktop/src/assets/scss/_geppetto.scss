@@ -11,9 +11,9 @@ body {
 
 
 // ======= APP CONTAINER ======= 
-// body {
-// 	@include virtual-footer;
-// }
+body {
+	@include virtual-footer;
+}
 // ======= HEADER ======= 
 div.lang-head {
 	@include container-topBar;
