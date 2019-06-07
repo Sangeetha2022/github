@@ -6,8 +6,9 @@ export class MongoSupportWorker {
 
 
     createProjectModel(modelName, entityType, fields, modelPath, templatePath, callback) {
-        const modelGenerationPath = path.join(__dirname, modelPath);
-        const  mongoTemplatePath = path.resolve(__dirname, templatePath);
+        // const modelGenerationPath = path.join(__dirname, modelPath);
+        const modelGenerationPath = modelPath;
+        const mongoTemplatePath = path.resolve(__dirname, templatePath);
         let generateModel = st.loadGroup(require(mongoTemplatePath + '/model_stg'));
         let modelData = generateModel.render("model", [modelName.trim(), fields]);
         fs.writeFile(modelGenerationPath + `/${modelName.trim()}.ts`, modelData, function (err) {

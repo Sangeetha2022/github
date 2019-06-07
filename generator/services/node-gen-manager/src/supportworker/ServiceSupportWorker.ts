@@ -5,8 +5,8 @@ import * as st from 'stringtemplate-js';
 export class ServiceSupportWorker {
 
     generateServiceFile(generationPath, templatePath, serviceData, callback) {
-        console.log('=========================', serviceData)
-        const servicePath = path.join(__dirname, `${generationPath}/src/service`)
+        // const servicePath = path.join(__dirname, `${generationPath}/src/service`)
+        const servicePath = `${generationPath}/src/service`;
         const serviceTemplatePath = path.resolve(__dirname, templatePath);
         this.createFolders(servicePath);
         let generateService = st.loadGroup(require(serviceTemplatePath + '/service_stg'));

@@ -7,7 +7,8 @@ export class DaoSupportWorker {
 
 
     generateDaoFile(generationPath, templatePath, daoData, callback) {
-        const daoPath = path.join(__dirname, `${generationPath}/src/dao`)
+        // const daoPath = path.join(__dirname, `${generationPath}/src/dao`)
+        const daoPath =  `${generationPath}/src/dao`;
         const daoTemplatePath = path.resolve(__dirname, templatePath);
         this.createFolders(daoPath);
         let generateDao = st.loadGroup(require(daoTemplatePath + '/dao_stg'));

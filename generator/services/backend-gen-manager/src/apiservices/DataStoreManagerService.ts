@@ -1,5 +1,5 @@
-import { ApiAdaptar } from '../../../code-gen-manager/src/config/ApiAdaptar';
-import { SharedService } from '../../../code-gen-manager/src/config/SharedService';
+import { ApiAdaptar } from '../config/ApiAdaptar';
+import { SharedService } from '../config/SharedService';
 
 export class DataStoreManagerService {
 
