@@ -8,7 +8,8 @@ export class CommonSupportWorker {
 
 
     generateCommonFile(generationPath, templatePath, daoData, callback) {
-        const daoPath = path.join(__dirname, `${generationPath}/src/dao`)
+        // const daoPath = path.join(__dirname, `${generationPath}/src/dao`)
+        const daoPath = `${generationPath}/src/dao`;
         const daoTemplatePath = path.resolve(__dirname, templatePath);
         this.createFolders(daoPath);
         let generateCommon = st.loadGroup(require(daoTemplatePath + '/dao_stg'));
@@ -28,7 +29,8 @@ export class CommonSupportWorker {
 
   async generateServerFile(generationPath, templatePath, serverData, callback) {
       console.log('#####server file are ----- ', util.inspect(serverData, { showHidden: true, depth: null }));
-        const serverPath = path.join(__dirname, `${generationPath}/src`)
+        // const serverPath = path.join(__dirname, `${generationPath}/src`)
+        const serverPath = `${generationPath}/src`;
         const serverTemplatePath = path.resolve(__dirname, templatePath);
         this.createFolders(serverPath);
         let generateServer = st.loadGroup(require(serverTemplatePath + '/server_stg'));
@@ -47,7 +49,8 @@ export class CommonSupportWorker {
 
     async generatePackageJsonFile(generationPath, templatePath, packageJsonData, callback) {
         console.log('@@@@@@g generat -----  ', packageJsonData);
-        const packagePath = path.join(__dirname, `${generationPath}`)
+        // const packagePath = path.join(__dirname, `${generationPath}`)
+        const packagePath = `${generationPath}`;
         const packageTemplatePath = path.resolve(__dirname, templatePath);
         this.createFolders(packagePath);
         let generatePackage = st.loadGroup(require(packageTemplatePath + '/packageJson_stg'));
@@ -65,7 +68,8 @@ export class CommonSupportWorker {
     }
 
     async generateTsConfigFile(generationPath, templatePath, callback) {
-        const tsConfigPath = path.join(__dirname, `${generationPath}`)
+        // const tsConfigPath = path.join(__dirname, `${generationPath}`)
+        const tsConfigPath = `${generationPath}`;
         const tsConfigTemplatePath = path.resolve(__dirname, templatePath);
         this.createFolders(tsConfigPath);
         let generateTsConfig = st.loadGroup(require(tsConfigTemplatePath + '/tsconfig_stg'));

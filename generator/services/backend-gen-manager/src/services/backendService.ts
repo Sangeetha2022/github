@@ -214,9 +214,12 @@ export class BackendService {
     }
 
     createFolders(pathElement) {
-        if (!fs.existsSync(path.join(__dirname, pathElement))) {
-            fs.mkdirSync(path.join(__dirname, pathElement))
-        }
+        // if (!fs.existsSync(path.join(__dirname, pathElement))) {
+        //     fs.mkdirSync(path.join(__dirname, pathElement))
+        // }
+        if (!fs.existsSync(pathElement)) {
+            fs.mkdirSync(pathElement)
+          }
     };
 
 
