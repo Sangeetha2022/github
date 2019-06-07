@@ -165,6 +165,12 @@ export class EntityManagerComponent implements OnInit {
     }
 
 
+    generateCode() {
+        console.log(" i am code--->>");
+        this.projectComponentService.codeGenerate(this.project_id).subscribe(data =>{
+            console.log('data--->>', data)
+        })
+    }
     fileSelected(event) {
         this.frontFile = event.target.files;
     }
