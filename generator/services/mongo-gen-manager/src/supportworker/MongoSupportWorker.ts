@@ -5,7 +5,7 @@ import * as st from 'stringtemplate-js';
 export class MongoSupportWorker {
 
 
-    createProjectModel(modelName, fields, modelPath, templatePath, callback) {
+    createProjectModel(modelName, entityType, fields, modelPath, templatePath, callback) {
         const modelGenerationPath = path.join(__dirname, modelPath);
         const  mongoTemplatePath = path.resolve(__dirname, templatePath);
         let generateModel = st.loadGroup(require(mongoTemplatePath + '/model_stg'));
@@ -15,7 +15,8 @@ export class MongoSupportWorker {
             const temp = {
                 schemaName: `${modelName.trim()}Schema`,
                 modelName: `${modelName.trim()}Model`,
-                fileName: modelName.trim()
+                fileName: modelName.trim(),
+                entityType: entityType
             }
             callback(temp)
         })

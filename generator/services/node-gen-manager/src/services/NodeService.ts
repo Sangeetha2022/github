@@ -201,6 +201,8 @@ export class NodeService {
 
                 if (entityElement === undefined) {
                     entityNext();
+                } if (entityElement.entityType === 'secondary') {
+                    entityNext();
                 } else {
                     const gpController = details.flows[0].components.find(
                         function (element, index, array) {
