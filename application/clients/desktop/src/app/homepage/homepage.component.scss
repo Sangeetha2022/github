@@ -17,6 +17,7 @@
     padding-top: 1%;
 }
 .geppetoimage1 {
+    overflow:hidden;
     /* align-items: center; */
     background: linear-gradient(to top right, #1f5679 10%, #eaf4ff 90%);
     /* display: flex; */
@@ -46,6 +47,7 @@
 }
 
 .test_123{
+    overflow:hidden;
     // position: fixed;
 }
 .mat-toolbar.mat-toolbar.mat-primary{
@@ -54,4 +56,9 @@
 
 mat-toolbar.mat-toolbar.mat-primary{
 
+}
+.element::-webkit-scrollbar { width: 0 !important }
+.header_text{
+top: 0px !important;
+margin-top: 0%;
 }
