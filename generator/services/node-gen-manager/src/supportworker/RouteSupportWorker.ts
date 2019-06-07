@@ -7,7 +7,8 @@ export class RouteSupportWorker {
 
 
     generateRouteFile(generationPath, templatePath, routeData, callback) {
-        const RoutePath = path.join(__dirname, `${generationPath}/src/routes`)
+        // const RoutePath = path.join(__dirname, `${generationPath}/src/routes`)
+        const RoutePath = `${generationPath}/src/routes`;
         const RouteTemplatePath = path.resolve(__dirname, templatePath);
         this.createFolders(RoutePath);
         let generateRoute = st.loadGroup(require(RouteTemplatePath + '/route_stg'));

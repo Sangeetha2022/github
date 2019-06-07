@@ -92,6 +92,7 @@ export class CodeGenerationService {
           } else {
             console.log('async loop complated -44--- ', feature);
             const backendResponse = await this.backendGenProject(feature);
+            console.log('backend response in code gen ------- - ', backendResponse);
             next();
           }
         }) // featu // featureElement.entities.forEach(async element => {
@@ -161,8 +162,11 @@ export class CodeGenerationService {
   }
 
   createFolders(pathElement) {
-    if (!fs.existsSync(path.join(__dirname, pathElement))) {
-      fs.mkdirSync(path.join(__dirname, pathElement))
+    // if (!fs.existsSync(path.join(__dirname, pathElement))) {
+    //   fs.mkdirSync(path.join(__dirname, pathElement))
+    // }
+    if (pathElement) {
+      fs.mkdirSync(pathElement)
     }
   };
 }

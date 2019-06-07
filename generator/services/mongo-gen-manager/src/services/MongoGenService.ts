@@ -36,8 +36,11 @@ export class MongoGenService {
     }
 
     createFolder(pathElement) {
-        if (!fs.existsSync(path.join(__dirname, pathElement))) {
-            fs.mkdirSync(path.join(__dirname, pathElement))
-        }
+        // if (!fs.existsSync(path.join(__dirname, pathElement))) {
+        //     fs.mkdirSync(path.join(__dirname, pathElement))
+        // }
+        if (pathElement) {
+            fs.mkdirSync(pathElement)
+          }
     };
 }

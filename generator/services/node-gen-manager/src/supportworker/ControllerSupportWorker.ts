@@ -7,7 +7,8 @@ export class ControllerSupportWorker {
 
 
     generateControllerFile(generationPath, templatePath, controllerData, callback) {
-        const ControllerPath = path.join(__dirname, `${generationPath}/src/controller`)
+        // const ControllerPath = path.join(__dirname, `${generationPath}/src/controller`)
+        const ControllerPath = `${generationPath}/src/controller`;
         const ControllerTemplatePath = path.resolve(__dirname, templatePath);
         this.createFolders(ControllerPath);
         let generateController = st.loadGroup(require(ControllerTemplatePath + '/controller_stg'));

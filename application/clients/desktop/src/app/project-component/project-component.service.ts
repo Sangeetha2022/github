@@ -33,6 +33,11 @@ export class ProjectComponentService {
     private http: HttpClient,
     private handler: HttpBackend,
   ) { }
+  // codegenerate Api
+
+  codeGenerate(projectId: any): Observable<any> {
+    return this.api.get(`${this.restapi.genmanagerUrl}/projectgen/project/${projectId}/get`)
+  }
 
   // new apis for features
   saveFeatures(feature: any): Observable<any> {

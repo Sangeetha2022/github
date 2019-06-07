@@ -109,6 +109,7 @@ export class ProjectgenService {
                     }
                     this.codeGenManagerService.createProjectCode(projectId, this.projectObj, (codeResponse) => {
                         console.log('hello i need this', codeResponse);
+                        callback('code generated');
                     })
                 })
             }
