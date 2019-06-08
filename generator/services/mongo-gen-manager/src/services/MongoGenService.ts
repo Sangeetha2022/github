@@ -39,7 +39,7 @@ export class MongoGenService {
         // if (!fs.existsSync(path.join(__dirname, pathElement))) {
         //     fs.mkdirSync(path.join(__dirname, pathElement))
         // }
-        if (pathElement) {
+        if (!fs.existsSync(pathElement)) {
             fs.mkdirSync(pathElement)
           }
     };

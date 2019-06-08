@@ -18,29 +18,31 @@ export class CodeGenerationService {
   private entityService = new EntityManagerService();
   private backendService = new BackendGenManagerService();
   private flowService = new FlowManagerService();
-  private microFlowService = new MicroFlowManagerService();
-  private clientObj: any = {
-    name: '',
-    defaultHumanLanguage: '',
-    otherHumanLanguage: '',
-    projectPath: '',
-    clientLanguage: '',
-    clientFramework: '',
-    features: []
-  };
-  private backendObj: any = {
-    name: '',
-    defaultHumanLanguage: '',
-    otherHumanLanguage: '',
-    projectPath: '',
-    serverLanguage: '',
-    serverFramework: '',
-    serverDatabase: '',
-    features: []
-  };
-  private clientArray: any[] = [];
-  private backendArray: any[] = [];
+  private applicationPort = 8000;
+  // private microFlowService = new MicroFlowManagerService();
+  // private clientObj: any = {
+  //   name: '',
+  //   defaultHumanLanguage: '',
+  //   otherHumanLanguage: '',
+  //   projectPath: '',
+  //   clientLanguage: '',
+  //   clientFramework: '',
+  //   features: []
+  // };
+  // private backendObj: any = {
+  //   name: '',
+  //   defaultHumanLanguage: '',
+  //   otherHumanLanguage: '',
+  //   projectPath: '',
+  //   serverLanguage: '',
+  //   serverFramework: '',
+  //   serverDatabase: '',
+  //   features: []
+  // };
+  // private clientArray: any[] = [];
+  // private backendArray: any[] = [];
   featureDetails: any;
+  private nodeResponse: any[] = [];
 
   public async createProject(req: Request, callback: CallableFunction) {
     const projectId = req.query.projectId;
@@ -52,15 +54,18 @@ export class CodeGenerationService {
     // get feature by projectId
     const features = await this.getFeatures(projectId);
     const FeatureJSON = JSON.parse(features.toString());
+    this.nodeResponse = [];
     console.log('get feature by project id are ------  ', features, '  length   ', FeatureJSON.body.length);
     asyncLoop(FeatureJSON.body, async (featureElement, next) => {
-     
+
       console.log('starting feature each ovjes area--11----  ', featureElement, ' each feature length  ', featureElement.entities.length);
+
       const feature = {
         name: '',
         description: '',
         flows: [],
         entities: [],
+        applicationPort: 0,
         project: projectDetails
       }
       feature.name = featureElement.name;
@@ -69,7 +74,7 @@ export class CodeGenerationService {
       console.log('flows response rae -11----  ', flows);
       console.log('flows response rae --22---  ', JSON.parse(JSON.stringify(flows)).body);
       feature.flows = JSON.parse(JSON.stringify(flows)).body;
-      
+
       // const entity = await this.getEntityById();
       if (featureElement.entities.length > 0) {
         console.log('entering into if condition 22 ');
@@ -91,19 +96,26 @@ export class CodeGenerationService {
 
           } else {
             console.log('async loop complated -44--- ', feature);
+            feature.applicationPort = this.applicationPort;
             const backendResponse = await this.backendGenProject(feature);
+            this.increaseBackendPortNumber();
             console.log('backend response in code gen ------- - ', backendResponse);
+            console.log('backend response in code gen ------  ', util.inspect(backendResponse, { showHidden: true, depth: null }));
+            let temp;
+            temp = JSON.parse(JSON.stringify(backendResponse)).body.body;
+            this.nodeResponse.push(temp[0]);
+            console.log('nodeResponse for each features ----  ', util.inspect(this.nodeResponse, { showHidden: true, depth: null }));
             next();
           }
         }) // featu // featureElement.entities.forEach(async element => {
-          //      const entity = await this.getEntityById(element.entityId);
-          //      next();
-          //      console.log('entities id of values are ------ ', entity);
-          // });reElement.entities.forEach(async element => {
-          //      const entity = await this.getEntityById(element.entityId);
-          //      next();
-          //      console.log('entities id of values are ------ ', entity);
-          // });
+        //      const entity = await this.getEntityById(element.entityId);
+        //      next();
+        //      console.log('entities id of values are ------ ', entity);
+        // });reElement.entities.forEach(async element => {
+        //      const entity = await this.getEntityById(element.entityId);
+        //      next();
+        //      console.log('entities id of values are ------ ', entity);
+        // });
       } else {
         next();
       }
@@ -112,13 +124,11 @@ export class CodeGenerationService {
       if (err) {
 
       } else {
-        console.log('all featuers are completed');
-        callback();
+        console.log('all featuers are completed ----  ', util.inspect(this.nodeResponse, { showHidden: true, depth: null }));
+        callback('code generation completed');
       }
     })
-
-
-    callback()
+    // callback()
   }
 
   getFeatures(projectId) {
@@ -165,10 +175,14 @@ export class CodeGenerationService {
     // if (!fs.existsSync(path.join(__dirname, pathElement))) {
     //   fs.mkdirSync(path.join(__dirname, pathElement))
     // }
-    if (pathElement) {
+    if (!fs.existsSync(pathElement)) {
       fs.mkdirSync(pathElement)
     }
   };
+
+  increaseBackendPortNumber() {
+    this.applicationPort++;
+  }
 }
 
 //   public async createProjectCode(req: Request, callback: CallableFunction) {

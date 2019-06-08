@@ -31,6 +31,7 @@ export class BackendService {
         this.createFolders(microservicePath);
         const feature = {
             featureName: details.name,
+            applicationPort: details.applicationPort,
             projectGenerationPath: microservicePath,
             templateLocation: details.project.templateLocation,
             projectName: details.project.name,
