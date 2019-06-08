@@ -97,11 +97,16 @@
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label for="label">{{ 'label' | i18next }}</label>
-                <input type="text" class="form-control" placeholder="{{'placeholder_label' | i18next}}" id="label"
-                  formControlName="label" [ngClass]="{ 'is-invalid': submitted && form_control.label.errors }">
-                <div *ngIf="submitted && form_control.label.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.label.errors.required">{{'require_label' | i18next}}</div>
+                <label for="template">Select Template</label>
+                <select class="form-control" id="template" formControlName="template"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.secondaryLanguage.errors }">
+                  <option value="" selected>select template</option>
+                  <option *ngFor="let tempalte of gepTemplates;let i = index" [ngValue]="tempalte">{{ tempalte.name }}
+                  </option>
+                </select>
+                <div *ngIf="submitted && form_control.template.errors" class="invalid-feedback">
+                  <div *ngIf="form_control.template.errors.required">must select one template
+                  </div>
                 </div>
               </div>
             </div>
@@ -161,23 +166,6 @@
                 </select>
                 <div *ngIf="submitted && form_control.secondaryLanguage.errors" class="invalid-feedback">
                   <div *ngIf="form_control.secondaryLanguage.errors.required">{{'require_secondaryLanguage' | i18next}}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="template">Select Template</label>
-                <select class="form-control" id="template" formControlName="template"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.secondaryLanguage.errors }">
-                  <option value="" selected>select template</option>
-                  <option *ngFor="let tempalte of gepTemplates;let i = index" [ngValue]="tempalte">{{ tempalte.name }}
-                  </option>
-                </select>
-                <div *ngIf="submitted && form_control.template.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.template.errors.required">must select one template
                   </div>
                 </div>
               </div>

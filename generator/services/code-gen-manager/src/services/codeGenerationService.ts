@@ -41,6 +41,7 @@ export class CodeGenerationService {
   private clientArray: any[] = [];
   private backendArray: any[] = [];
   featureDetails: any;
+  private nodeResponse: any[] = [];
 
   public async createProject(req: Request, callback: CallableFunction) {
     const projectId = req.query.projectId;
@@ -56,6 +57,7 @@ export class CodeGenerationService {
     asyncLoop(FeatureJSON.body, async (featureElement, next) => {
      
       console.log('starting feature each ovjes area--11----  ', featureElement, ' each feature length  ', featureElement.entities.length);
+     this.nodeResponse = [];
       const feature = {
         name: '',
         description: '',
@@ -93,6 +95,7 @@ export class CodeGenerationService {
             console.log('async loop complated -44--- ', feature);
             const backendResponse = await this.backendGenProject(feature);
             console.log('backend response in code gen ------- - ', backendResponse);
+            this.nodeResponse.push(JSON.parse(JSON.stringify(backendResponse)).body);
             next();
           }
         }) // featu // featureElement.entities.forEach(async element => {
@@ -112,13 +115,11 @@ export class CodeGenerationService {
       if (err) {
 
       } else {
-        console.log('all featuers are completed');
-        callback();
+        console.log('all featuers are completed ----  ', this.nodeResponse);
+        callback('code generation completed');
       }
     })
-
-
-    callback()
+    // callback()
   }
 
   getFeatures(projectId) {
@@ -165,7 +166,7 @@ export class CodeGenerationService {
     // if (!fs.existsSync(path.join(__dirname, pathElement))) {
     //   fs.mkdirSync(path.join(__dirname, pathElement))
     // }
-    if (pathElement) {
+    if (!fs.existsSync(pathElement)) {
       fs.mkdirSync(pathElement)
     }
   };

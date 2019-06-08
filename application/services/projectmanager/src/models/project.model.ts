@@ -9,7 +9,6 @@ export const ProjectSchema = new Schema({
         default: uuid.v1
     },
     name: { type: String, required: 'Enter a project name' },
-    label: { type: String},
     description: { type: String },
     default_module_id: { type: String },
     default_module_label: { type: String },
@@ -33,6 +32,7 @@ export const ProjectSchema = new Schema({
     mobile_css_framework: { type: String },
     desktop_css_framework: { type: String },
     app_ui_template: { type: String },
+    app_ui_template_img: { type: String },
     client_code_pattern: { type: String },
     server_code_pattern: { type: String },
     server_dev_lang: { type: String },
