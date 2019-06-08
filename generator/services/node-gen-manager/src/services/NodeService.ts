@@ -17,7 +17,7 @@ export class NodeService {
 
     // controller
     private controller = [];
-    private port = 8000;
+    // private port = 8000;
     private controllerObj = {
         entitySchemaName: '',
         entityModelName: '',
@@ -162,13 +162,13 @@ export class NodeService {
         const flows = details.flows;
         const projectName = req.body.projectName;
         const featureName = req.body.featureName;
-        this.port++;
+        // this.port++;
         const EntitySchema = details.entitySchema.body;
 
         if (EntitySchema === undefined && EntitySchema.length === 0) {
             callback('No Schema has been found');
         } else {
-            commonWorker.createServerFile(projectGenerationPath, templateLocation, projectName, this.port);
+            commonWorker.createServerFile(projectGenerationPath, templateLocation, projectName, details.applicationPort);
             commonWorker.generatePackageJsonFile(projectGenerationPath, templateLocation, featureName);
             commonWorker.generateTsConfigFile(projectGenerationPath, templateLocation);
             asyncLoop(EntitySchema, (entityElement, entityNext) => {

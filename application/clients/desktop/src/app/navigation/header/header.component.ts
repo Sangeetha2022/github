@@ -21,9 +21,6 @@ export class HeaderComponent implements OnInit {
   versionData: any = {};
   buildVersionData: any = {};
 
-
-  @Output() public sidenavToggle = new EventEmitter();
-
   // tslint:disable-next-line:max-line-length
   constructor(
     @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
@@ -120,13 +117,6 @@ export class HeaderComponent implements OnInit {
   }
   hideAbout() {
     this.displayAboutModel = 'none';
-  }
-
-
-
-
-  public onToggleSidenav = () => {
-    this.sidenavToggle.emit();
   }
 
   Logout() {
