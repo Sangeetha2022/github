@@ -66,7 +66,6 @@ export class ProjectsComponent implements OnInit {
     this.getAllGepTemplates();
     this.createProject = this.formBuilder.group({
       name: ['', Validators.required],
-      label: '',
       appContext: ['', Validators.required],
       description: '',
       primaryLanguage: ['', Validators.required],
@@ -163,7 +162,6 @@ export class ProjectsComponent implements OnInit {
     }
     const dataToSave = {
       name: this.createProject.value.name,
-      label: this.createProject.value.label,
       description: this.createProject.value.description,
       default_module_id: null,
       default_module_label: null,
