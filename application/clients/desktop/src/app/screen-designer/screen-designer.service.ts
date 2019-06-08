@@ -30,7 +30,7 @@ export class ScreenDesignerService {
   }
 
   updateScreen(screenId, screenData) {
-    return this.http.put(`${this.sharedService.screenUrl}${Constants.updateScreen}${screenId}`, screenData);
+    return this.http.post(`${this.sharedService.screenUrl}${Constants.updateScreen}${screenId}`, screenData);
   }
 
   saveScreen(screenData): Observable<any> {
