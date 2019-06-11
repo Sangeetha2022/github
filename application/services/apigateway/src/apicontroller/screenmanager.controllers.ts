@@ -4,12 +4,9 @@ import { Request, Response } from 'express';
 import * as Constants from '../config/Constants';
 import { ApiAdaptar } from '../config/apiAdaptar';
 import Controller from '../interfaces/controller.interface';
-import { EntityController } from './entity.controller';
 
 
-const entityController = new EntityController();
-
-class createUserTemplateController implements Controller {
+class ScreenController implements Controller {
 
     public router = express.Router();
 
@@ -18,13 +15,15 @@ class createUserTemplateController implements Controller {
     }
 
     private initializeRoutes() {
-        this.router.post('/screen/save',this.userTemplateController);
+        this.router.post('/screen/save', this.userTemplateController);
         this.router.get('/screen/get', this.userTemplateController);
-        
+        this.router.get('/screen/getbyprojectid/:projectId', this.getScreenByProject);
+
+
     }
 
     public userTemplateController(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.screenUrl }/screen/save`, req.body).then(user => {
+        new ApiAdaptar().post(`${Constants.screenUrl}/screen/save`, req.body).then(user => {
             res.send(user);
         }).catch(err => {
             res.send(err);
@@ -40,6 +39,15 @@ class createUserTemplateController implements Controller {
         });
     }
 
-   
+
+    public getScreenByProject = (req: Request, res: Response) => {
+        new ApiAdaptar().get(Constants.screenUrl + '/screen/getbyprojectid/' + req.params.projectId).then(proj => {
+            console.log('reponse in main method')
+            res.send(proj);
+        }).catch(err => {
+            res.send(err);
+        });
+    }
+
 }
-export { createUserTemplateController };
+export { ScreenController };
