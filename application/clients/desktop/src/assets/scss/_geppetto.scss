@@ -41,7 +41,8 @@ div.geppetoimage[_ngcontent-c4] {
 // ======= LOGIN ======= 
 app-login {
 	> mat-card.cardsize,
-	.cardsize[_ngcontent-c4] {
+	.cardsize[_ngcontent-c4],
+	.cardsize[_ngcontent-c5] {
 		@include modal-login;
 	}
 }
