@@ -33,13 +33,15 @@ export const loginUrl = 'http://3.84.173.148:30007';
 export const camundaUrl = 'http://3.84.173.148:30008'
 export const proxyUrl = 'http://3.84.173.148:30009';
 export const menuUrl = 'http://3.84.173.148:30011';
+export const templateUrl = 'http://3.84.173.148:30012';
 
 // Generation Url
 export const genmanagerUrl = 'http://3.84.173.148:30500';
 export const configUrl = 'http://3.84.173.148:30501';
-export const codeGenUrl = 'http://3.84.173.148:30502';
-export const backendGenUrl = 'http://3.84.173.148:30503';
-export const datastoreGenUrl = 'http://3.84.173.148:30504';
-export const mongoGenUrl = 'http://3.84.173.148:30505';
-export const nodeGenUrl = 'http://3.84.173.148:30506';
+
+export const codeGenUrl = 'http://3.84.173.148:30508';
+export const backendGenUrl = 'http://3.84.173.148:30509';
+export const datastoreGenUrl = 'http://3.84.173.148:30510';
+export const mongoGenUrl = 'http://3.84.173.148:30511';
+export const nodeGenUrl = 'http://3.84.173.148:30512';
 
