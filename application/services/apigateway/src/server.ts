@@ -17,12 +17,12 @@ import {
     DataStoreController,
     NodeController,
     ConfigurationController,
-    MenubuilderController
+    MenubuilderController,
+    ScreenController
 
 } from './apicontroller';
 
 import { WinstonLogger } from './config/WinstonLogger';
-import { createUserTemplateController } from './apicontroller/screenmanager.controllers';
 import { MicroflowController } from './apicontroller/microflowmanager.controller';
 
 const PORT = 3000;
@@ -37,14 +37,14 @@ let apisController = [
     new Camundacontroller(),
     new FeatureController(),
     new DataStoreController(),
-    new createUserTemplateController(),
     new MicroflowController(),
     new CodeController(),
     new BackendController(),
     new MongoController(),
     new NodeController(),
     new ConfigurationController(),
-    new MenubuilderController()
+    new MenubuilderController(),
+    new ScreenController(),
 
 ]
 
