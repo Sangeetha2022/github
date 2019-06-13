@@ -5,9 +5,11 @@ import {
     MenuManagerService,
     ScreenManagerService,
 } from '../apiservices/index';
-import { RouteWorker } from '../worker/RouteWorker';
+import { HeaderWorker } from '../worker/HeaderWorker';
+import { FooterWorker } from '../worker/FooterWorker';
 
-let routeWorker = new RouteWorker();
+let headerWorker = new HeaderWorker();
+let footerWorker = new FooterWorker();
 export class LandingPageService {
     private menuManagerService = new MenuManagerService();
     private screenManagerService = new ScreenManagerService();
@@ -17,16 +19,25 @@ export class LandingPageService {
         let projectId = req.params.projecId;
         let menuDetails = await this.getScreenByProjectId(projectId)
         let menuData = JSON.parse(menuDetails.toString()).body;
-        let data = JSON.stringify(menuData[0]['gjs-html']);
-        let headerData = data.match(/<\s*header[^>]*>(.*?)<\s*\/header>/g);
-        let sectionData = data.match(/<\s*section[^>]*>(.*?)<\s*\/section>/g);
-        let footerData = data.match(/<\s*footer[^>]*>(.*?)<\s*\/footer>/g);
-        // console.log('===========================', data)
+        let htmlData = JSON.stringify(menuData[0]['gjs-html']);
+        let cssData = JSON.stringify(menuData[0]['gjs-css']);
+        let stylesData = JSON.stringify(menuData[0]['gjs-styles']);
+        let headerData = htmlData.match(/<\s*header[^>]*>(.*?)<\s*\/header>/g);
+        let sectionData = htmlData.match(/<\s*section[^>]*>(.*?)<\s*\/section>/g);
+        let footerData = htmlData.match(/<\s*footer[^>]*>(.*?)<\s*\/footer>/g);
         console.log('=========================== header', headerData)
         console.log('=========================== footer', footerData)
+        // console.log('=========================== css', cssData)
+        // console.log('=========================== styles', stylesData)
 
-        console.log('======================= section ', sectionData)
+        // console.log('======================= section ', sectionData)
         // console.log('=======================', util.inspect(menuData[0], { showHidden: true, depth: null }))
+        let projectGenerationPath = '../../originalcode/'
+        let templateLocation = '../../template'
+        let routeObj = headerData;
+        let footerObj = footerData;
+        headerWorker.generateRouteFile(projectGenerationPath, templateLocation, routeObj);
+        footerWorker.generateRouteFile(projectGenerationPath, templateLocation, footerObj)
 
     }
 
