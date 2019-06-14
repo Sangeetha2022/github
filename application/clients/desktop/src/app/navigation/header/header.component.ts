@@ -52,42 +52,38 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  public user: any;
+  public user:any = {
+    id: ''
+  };
   public view: any;
   public configfields: any;
 
   Accesspermission(response) {
-    console.log('-------------->>>>', response);
     if (response.Project.Access !== undefined) {
       this.permission = response.Project.Access;
       if (this.permission === 'true') {
         const fields = response.Project.Fields;
         this.configfields = fields.config;
-        console.log('------fields-->>>', fields.config);
       }
     } else {
       this.permission = response.Admin;
       this.configfields = 'true';
     }
-    // console.log('--------permission----->>>', this.permission);
   }
 
   ngOnInit() {
     this.i18NextService.events.initialized.subscribe((e) => {
-      console.log('language---->>>>', e)
       if (e) {
         this.updateState(this.i18NextService.language);
       }
     })
 
-    // this.Accesspermission(this.brodcast.gaurdarray);
   }
 
   changeLanguage(lang: string) {
     if (lang !== this.i18NextService.language) {
       this.i18NextService.changeLanguage(lang).then(x => {
         this.updateState(lang);
-        // localStorage.setItem('i18nextLng',lang)
         document.location.reload();
       });
     }
@@ -120,9 +116,8 @@ export class HeaderComponent implements OnInit {
   }
 
   Logout() {
-    this.user = {
-      userid: JSON.parse(sessionStorage.getItem('Userid'))
-    };
+
+    this.user.id = sessionStorage.getItem('Id');
     this.logoutservice.Logout(this.user).subscribe(data => {
       sessionStorage.clear();
       this.router.navigate(['']);
