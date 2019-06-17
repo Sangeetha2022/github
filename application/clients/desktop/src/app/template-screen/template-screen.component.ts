@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TemplateScreenService } from './template-screen.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
+import { ProjectsService } from '../projects/projects.service';
 
 @Component({
   selector: 'app-template-screen',
@@ -23,6 +24,7 @@ export class TemplateScreenComponent implements OnInit {
     private templateScreenService: TemplateScreenService,
     private route: ActivatedRoute,
     private screenDesignerService: ScreenDesignerService,
+    private projectsService: ProjectsService,
     private router: Router,
 
   ) {
@@ -72,9 +74,15 @@ export class TemplateScreenComponent implements OnInit {
         this.projectTemp[0]['gjs-styles'] = this.selectedTemplate['gjs-styles'];
         this.projectTemp[0]['gjs-html'] = this.selectedTemplate['gjs-html'];
         this.projectTemp[0]['gjs-components'] = this.selectedTemplate['gjs-components'];
-        this.screenDesignerService.updateScreen(this.projectTempId, this.selectedTemplate).subscribe(updateScreen => {
-          console.log('================', updateScreen)
-        })
+        const projetData = {
+          app_ui_template: this.selectedTemplate.name,
+          app_ui_template_img: this.selectedTemplate.template_image[0].image
+        };
+        this.screenDesignerService.updateScreen(this.projectTempId, this.projectTemp[0]).subscribe(updateScreen => {
+        });
+        this.projectsService.updateProjectById(this.project_id, projetData).subscribe(updateProj => {
+
+        });
       } else {
         this.selected = false;
       }
