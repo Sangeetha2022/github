@@ -13,11 +13,25 @@ export class BackendController implements Controller {
 
     private initializeRoutes() {
         this.router.route('/backend/project').post(this.createProject);
+        this.router.route('/backend/apigateway/project').post(this.generateApiGateway);
     }
 
     createProject(req: Request, res: Response) {
         new ApiAdaptar().post(
             `${Constants.backendGenUrl}/backend/project`,
+            req.body
+        ).then((response) => {
+            res.send(response);
+        }).catch(err => {
+            console.log('project code generation error ----  ', err);
+            res.send(err);
+        });
+    }
+
+    generateApiGateway(req: Request, res: Response) {
+        console.log('backend services apigateway -----   ');
+        new ApiAdaptar().post(
+            `${Constants.backendGenUrl}/backend/apigateway/project`,
             req.body
         ).then((response) => {
             res.send(response);

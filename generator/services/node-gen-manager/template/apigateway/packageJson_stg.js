@@ -1,6 +1,6 @@
 /*
  * Template group packageJson
- * Compiled on Mon Jun 17 2019 12:41:40 GMT+0530 (India Standard Time)
+ * Compiled on Mon Jun 17 2019 12:41:25 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -106,10 +106,6 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("\"mongoose\": \"^5.4.9\",");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("    ");
     w.write("\"node-vault\": \"^0.9.5\",");
     w.popIndentation();
     w.write("\n");
@@ -118,11 +114,15 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("\"typescript\": \"^3.3.1\",");
+    w.write("\"request\": \"^2.88.0\",");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("\"util\": \"^0.11.1\",");
+    w.write("\"request-promise-native\": \"^1.0.5\",");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("\"typescript\": \"^3.2.4\",");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");

@@ -1,6 +1,6 @@
 /*
  * Template group server
- * Compiled on Tue Jun 04 2019 15:10:33 GMT+0530 (India Standard Time)
+ * Compiled on Mon Jun 17 2019 13:52:29 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -46,16 +46,10 @@ r = function(w, rc) {
     
     }
     w.write("\n");
-    w.write("const winston = require('winston');");
-    w.write("\n");
-    w.write("require('winston-daily-rotate-file')");
-    w.write("\n");
     w.write("\n");
     w.write("const PORT = ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "port", { file: gFile, line: 6, column: 21 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "port", { file: gFile, line: 4, column: 21 }));
     w.write(";");
-    w.write("\n");
-    w.write("const logDir = 'log';");
     w.write("\n");
     w.write("\n");
     w.write("class App {");
@@ -69,20 +63,31 @@ r = function(w, rc) {
     w.write("public routePrv: Routes = new Routes();");
     w.popIndentation();
     w.write("\n");
+    w.pushIndentation("    ");
+    w.write("public logger: WinstonLogger = new WinstonLogger();");
+    w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
     w.write("public mongoUrl: string = '");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "dbConnectionUrl", { file: gFile, line: 14, column: 39 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "dbConnectionUrl", { file: gFile, line: 11, column: 39 }));
     w.write("';");
     w.write("\n");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("constructor() {");
+    w.write("constructor() { ");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("this.config();");
+    w.write("this.logger.setupLogger();");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("        ");
+    w.write("this.logger.configureWinston(this.app);");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("        ");
+    w.write("this.initializeMiddlewares();");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -99,7 +104,7 @@ r = function(w, rc) {
     w.write("\n");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("private config(): void {");
+    w.write("private initializeMiddlewares() {");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -111,19 +116,12 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("this.app.use(express.static('public'));");
-    w.popIndentation();
-    w.write("\n");
-    w.write("\n");
-    w.pushIndentation("        ");
-    w.write("// Enable CORS");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("        ");
     w.write("this.app.use(cors({ credentials: true, origin: true }))");
     w.popIndentation();
     w.write("\n");
+    w.pushIndentation("    ");
     w.write("}");
+    w.popIndentation();
     w.write("\n");
     w.write("\n");
     w.pushIndentation("    ");
@@ -141,6 +139,7 @@ r = function(w, rc) {
     w.pushIndentation("    ");
     w.write("}");
     w.popIndentation();
+    w.write("\n");
     w.write("\n");
     w.write("}");
     w.write("\n");

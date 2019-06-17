@@ -20,7 +20,6 @@ export class CommonWorker {
         }
         this.gpStart();
         this.gpConnection(projectName, port);
-        console.log('!!!!!!!!!!! create server file in services ar e-----  ', this.tempServer);
         this.generateServerFile(projectGenerationPath, templateLocationPath);
     }
 
@@ -37,8 +36,11 @@ export class CommonWorker {
     }
 
     generateTsConfigFile(projectGenerationPath, templateLocationPath) {
-
         commonSupportWorker.generateTsConfigFile(projectGenerationPath, templateLocationPath, (response) => { })
+    }
+
+    generateWinstonLoggerFile(projectGenerationPath, templateLocationPath) {
+        commonSupportWorker.generateWinstonLoggerFile(projectGenerationPath, templateLocationPath);
     }
 
     gpStart() {
@@ -47,7 +49,7 @@ export class CommonWorker {
         this.tempServer.GpStart.dependencies.push({ 'name': '{ Routes }', 'path': './routes/Routes' });
         this.tempServer.GpStart.dependencies.push({ 'name': '* as mongoose', 'path': 'mongoose' });
         this.tempServer.GpStart.dependencies.push({ 'name': '* as cors', 'path': 'cors' });
-        this.tempServer.GpStart.dependencies.push({ 'name': '* as expressWinston', 'path': 'express-winston' });
+        this.tempServer.GpStart.dependencies.push({ 'name': '{ WinstonLogger }', 'path': './config/WinstonLogger' });
     }
 
     gpConnection(projectName, port) {

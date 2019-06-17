@@ -1,0 +1,20 @@
+tsconfig() ::= <<
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "pretty": true,
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "target": "es6",
+        "outDir": "./dist",
+        "baseUrl": "./lib"
+    },
+    "include": [
+        "src/**/*.ts", "src/models/NodeModels.ts",
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
+>>
