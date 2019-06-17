@@ -27,21 +27,15 @@ export class RouteWorker {
     count = 0;
 
     createRoutes(flowDetail, entityElement, RoutesObj) {
-        console.log('Routes worker start --- ', flowDetail);
-        console.log('Routes worker entityElement value ----->>>>  ', entityElement);
         this.flowDetail = flowDetail;
         this.entitySchema = entityElement;
         this.gpStart(RoutesObj);
         this.gpVariableStatement(RoutesObj);
         this.flowRouting();
-        console.log('final create Routes values are -----   ', this.tempRoutes);
         return this.tempRoutes;
     }
 
     generateRouteFile(projectGenerationPath, templateLocationPath, Routes) {
-        console.log('projectGenerationPath in Routes worker ---- ', projectGenerationPath);
-        console.log('templateLocationPath in Routes worker ---- ', templateLocationPath);
-        console.log('######### Routes worker ---- ', util.inspect(Routes, { showHidden: true, depth: null }));
         const temp = {
             import: {
                 dependencies: []

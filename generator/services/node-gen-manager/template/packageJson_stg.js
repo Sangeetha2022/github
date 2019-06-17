@@ -1,6 +1,6 @@
 /*
  * Template group packageJson
- * Compiled on Tue Jun 04 2019 15:01:39 GMT+0530 (India Standard Time)
+ * Compiled on Mon Jun 17 2019 12:41:40 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -110,19 +110,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("\"node-async-loop\": \"^1.2.2\",");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("    ");
     w.write("\"node-vault\": \"^0.9.5\",");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
     w.write("\"nodemon\": \"^1.18.9\",");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("    ");
-    w.write("\"stringtemplate-js\": \"^0.1.1\",");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");

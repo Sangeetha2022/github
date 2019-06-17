@@ -41,7 +41,6 @@ export class ServiceWorker {
 
     generateServiceFile(projectGenerationPath, templateLocationPath, Service) {
         Service.forEach(ServiceElement => {
-            console.log('===========generate service files====================', util.inspect(ServiceElement, { showHidden: true, depth: null }));
             serviceSupportWorker.generateServiceFile(projectGenerationPath, templateLocationPath, ServiceElement, (response) => {
                 console.log('service file generated and saved')
             })
@@ -60,7 +59,6 @@ export class ServiceWorker {
             });
         if (gpStart !== undefined) {
             const expressPathIndex = serviceObj.import.dependencies.findIndex(x => x.path == `express`);
-            console.log('========================================', util.inspect(serviceObj, { showHidden: true, depth: null }));
             if (expressPathIndex < 0) {
                 const tempImport = {
                     name: '',
@@ -73,9 +71,6 @@ export class ServiceWorker {
 
             const sevicePathIndex = serviceObj.import.dependencies.findIndex(x => x.path == `../dao/${this.entitySchema.fileName}Dao`);
             if (sevicePathIndex < 0) {
-                // tempImport.dependencyName.push(`{ ${this.entitySchema.modelName} }`);
-                console.log(`entityPath inded ar e------  count ${this.count} `, sevicePathIndex, '  -----  ', `../models/${this.entitySchema.fileName}`);
-                // tempImport.dependencyPath.push(`../models/${this.entitySchema.fileName}`);
                 const tempImport = {
                     name: '',
                     path: ''
@@ -83,7 +78,6 @@ export class ServiceWorker {
                 tempImport.name = `{${this.entitySchema.fileName}Dao}`;
                 tempImport.path = `../dao/${this.entitySchema.fileName}Dao`;
                 this.tempService.GpStart.dependencies.push(tempImport);
-                console.log('============================ tempImport', tempImport)
             }
 
         }
@@ -162,8 +156,6 @@ export class ServiceWorker {
                 this.tempService.function.requestParameter = `${this.entitySchema.fileName}Data`;
                 this.tempService.function.responseVariable = `response`;
                 this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.body`;
-                // this.tempService.method.variable = `let ${entityElement.fileName}`
-                console.log('flowaction into gpcreate -services-----  ', this.tempService.function);
                 break;
             case 'GpSearch':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;

@@ -12,4 +12,14 @@ export class NodeGenManagerService {
             callback(error);
         })
     }
+
+    generateApiGateway(details, callback) {
+        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/node/apigateway/project`, details).then(
+            data => {
+                callback(data);
+            }
+        ).catch(error => {
+            callback(error);
+        })
+    }
 }

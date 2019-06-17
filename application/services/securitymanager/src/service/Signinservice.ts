@@ -21,8 +21,8 @@ export class Signinservice {
     }
 
     public logoutservice(req: Request, callback) {
-        const user = req.body;
-        signindao.logoutdao(user.userid, (response) => {
+        const user = req.body.id;
+        signindao.logoutdao(user, (response) => {
             callback(response);
         })
     }

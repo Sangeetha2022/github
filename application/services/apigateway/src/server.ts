@@ -18,12 +18,12 @@ import {
     NodeController,
     ConfigurationController,
     MenubuilderController,
+    MicroflowController,
     ScreenController
 
 } from './apicontroller';
 
 import { WinstonLogger } from './config/WinstonLogger';
-import { MicroflowController } from './apicontroller/microflowmanager.controller';
 
 const PORT = 3000;
 

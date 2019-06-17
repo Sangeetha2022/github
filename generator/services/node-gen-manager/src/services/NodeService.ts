@@ -69,6 +69,8 @@ export class NodeService {
         entitySchemaName: '',
         entityModelName: '',
         entityFileName: '',
+        featureName: '',
+        nodePortNumber: '',
         import: {
             dependencies: []
         },
@@ -139,6 +141,8 @@ export class NodeService {
             entitySchemaName: '',
             entityModelName: '',
             entityFileName: '',
+            featureName: '',
+            nodePortNumber: '',
             import: {
                 dependencies: []
             },
@@ -160,6 +164,7 @@ export class NodeService {
         const templateLocation = details.templateLocation.backendTemplate;
         const projectGenerationPath = details.projectGenerationPath;
         const flows = details.flows;
+        const port = details.applicationPort;
         const projectName = req.body.projectName;
         const featureName = req.body.featureName;
         // this.port++;
@@ -168,9 +173,11 @@ export class NodeService {
         if (EntitySchema === undefined && EntitySchema.length === 0) {
             callback('No Schema has been found');
         } else {
-            commonWorker.createServerFile(projectGenerationPath, templateLocation, projectName, details.applicationPort);
+            commonWorker.createServerFile(projectGenerationPath, templateLocation, projectName, port);
             commonWorker.generatePackageJsonFile(projectGenerationPath, templateLocation, featureName);
             commonWorker.generateTsConfigFile(projectGenerationPath, templateLocation);
+            commonWorker.generateWinstonLoggerFile(projectGenerationPath, templateLocation);
+
             asyncLoop(EntitySchema, (entityElement, entityNext) => {
                 // initial
                 this.initalizeDaoVariable();
@@ -197,6 +204,8 @@ export class NodeService {
                 this.routeObj.entitySchemaName = entityElement.schemaName;
                 this.routeObj.entityModelName = entityElement.modelName;
                 this.routeObj.entityFileName = entityElement.fileName;
+                this.routeObj.featureName = details.featureName;
+                this.routeObj.nodePortNumber = port;
 
 
                 if (entityElement === undefined) {

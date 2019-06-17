@@ -8,6 +8,7 @@ export * from './proxy.controller';
 export * from './camunda.controller';
 export * from './menubuilder.controller';
 export * from "./featuremanager.controller";
+export * from "./microflowmanager.controller";
 export * from "./screenmanager.controllers"
 
 // generator

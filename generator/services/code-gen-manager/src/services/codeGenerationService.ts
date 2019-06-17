@@ -29,7 +29,8 @@ export class CodeGenerationService {
   //   clientFramework: '',
   //   features: []
   // };
-  // private backendObj: any = {
+  // private backendObj: any = {  // private backendObj: any = {
+
   //   name: '',
   //   defaultHumanLanguage: '',
   //   otherHumanLanguage: '',
@@ -125,6 +126,14 @@ export class CodeGenerationService {
 
       } else {
         console.log('all featuers are completed ----  ', util.inspect(this.nodeResponse, { showHidden: true, depth: null }));
+        // this.increaseBackendPortNumber();
+        const temp = {
+          projectPath: projectPath,
+          applicationPort: this.applicationPort,
+          project: projectDetails, 
+          nodeResponse: this.nodeResponse
+        }
+        this.generateApiGateway(temp);
         callback('code generation completed');
       }
     })
@@ -163,9 +172,17 @@ export class CodeGenerationService {
     });
   }
 
-  backendGenProject(data) {
+  backendGenProject(details) {
     return new Promise(resolve => {
-      this.backendService.BackendGenProject(data, (data) => {
+      this.backendService.BackendGenProject(details, (data) => {
+        resolve(data);
+      })
+    })
+  }
+
+  generateApiGateway(details) {
+    return new Promise(resolve => {
+      this.backendService.generateApiGateway(details, (data) => {
         resolve(data);
       })
     })
