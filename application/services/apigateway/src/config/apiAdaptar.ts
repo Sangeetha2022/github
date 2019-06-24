@@ -160,7 +160,7 @@ export class ApiAdaptar {
             } else {
                 reject(error);
             }
-        } else {
+        } else if (error !== undefined && error !== null) {
             if (error.port !== undefined && error.port !== null) {
 
                 let errormsg = {

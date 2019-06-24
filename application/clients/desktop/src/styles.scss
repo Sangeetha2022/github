@@ -36,8 +36,14 @@
 
 
  html{ height:100%; }
- body,#app{ min-height:100%; padding:0; margin:0; position:relative; }
- #app,body::after{ content:''; display:block; height:100px; }
+ body,#app{
+  height: auto;
+  position: absolute;
+  top: 84px;
+  left: 0;
+  right: 0;
+  bottom: 0}
+//  #app,body::after{ content:''; display:block; height:100px; }
 
 .ag-cell-edit-input {
     width: 100%;

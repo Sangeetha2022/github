@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as st from 'stringtemplate-js';
 
-export class HeaderSupportWorker {
+export class SpecSupportWorker {
 
     async generateRouteFile(generationPath, templatePath, routeObj, callback) {
         console.log(typeof(routeObj));
@@ -12,12 +12,12 @@ export class HeaderSupportWorker {
         await this.createFolders(sourcePath);
         const appSource = path.join(sourcePath, `/app`)
         await this.createFolders(appSource);
-        const headerSource = path.join(appSource, `/header`)
+        const headerSource = path.join(appSource, `/Footer`)
         await this.createFolders(headerSource);
         const RouteTemplatePath = path.resolve(__dirname, templatePath);
-        let generateRoute = st.loadGroup(require(RouteTemplatePath + '/header_stg'));
-        let RouteFile = generateRoute.render("header", [routeObj]);
-        await fs.writeFile(headerSource + `/header.component.html`, RouteFile, function (err) {
+        let generateRoute = st.loadGroup(require(RouteTemplatePath + '/footer_stg'));
+        let RouteFile = generateRoute.render("footer", [routeObj]);
+        await fs.writeFile(headerSource + `/footer.component.html`, RouteFile, function (err) {
             if (err) throw err;
             callback('file generated');
         })

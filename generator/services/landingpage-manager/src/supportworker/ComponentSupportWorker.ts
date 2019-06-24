@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as st from 'stringtemplate-js';
 
-export class FooterSupportWorker {
+export class ComponentSupportWorker {
 
     async generateRouteFile(generationPath, templatePath, routeObj, callback) {
         console.log(typeof(routeObj));
@@ -15,9 +15,9 @@ export class FooterSupportWorker {
         const headerSource = path.join(appSource, `/Footer`)
         await this.createFolders(headerSource);
         const RouteTemplatePath = path.resolve(__dirname, templatePath);
-        let generateRoute = st.loadGroup(require(RouteTemplatePath + '/footer_stg'));
-        let RouteFile = generateRoute.render("footer", [routeObj]);
-        await fs.writeFile(headerSource + `/footer.component.html`, RouteFile, function (err) {
+        let generateRoute = st.loadGroup(require(RouteTemplatePath + '/component_stg'));
+        let RouteFile = generateRoute.render("component", [routeObj]);
+        await fs.writeFile(headerSource + `/footer.component.ts`, RouteFile, function (err) {
             if (err) throw err;
             callback('file generated');
         })
