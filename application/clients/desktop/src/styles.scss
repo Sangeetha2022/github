@@ -35,14 +35,14 @@
  //-- 
 
 
- html{ height:100%; }
- body,#app{
-  height: auto;
-  position: absolute;
-  top: 84px;
-  left: 0;
-  right: 0;
-  bottom: 0}
+//  html{ height:100%; }
+//  body,#app{
+//   height: auto;
+//   position: absolute;
+//   top: 84px;
+//   left: 0;
+//   right: 0;
+//   bottom: 0}
 //  #app,body::after{ content:''; display:block; height:100px; }
 
 .ag-cell-edit-input {
@@ -53,6 +53,8 @@
 .ck-editor__editable {
   min-height: 500px !important;
 }
+
+
 
 @import "assets/scss/_variables.scss";
 @import "assets/scss/_mixins.scss";

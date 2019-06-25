@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { detect } from 'detect-browser';
 import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 import { AppComponentService } from '../app/app.component.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,11 @@ import { AppComponentService } from '../app/app.component.service';
 export class AppComponent implements OnInit {
   loading = true;
   start = 0;
+  headerFooter: boolean;
 
-  constructor(@Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService) { }
+  constructor(
+    @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
+    private router: Router) { }
 
   ngOnInit() {
     const browser = detect();
@@ -25,5 +29,13 @@ export class AppComponent implements OnInit {
         alert('su navegador no es un chrome, por lo que puede faltar algunas características en la aplicación');
       }
     }
+    this.router.events
+      .subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          const temp = event.url.split('?');
+          this.headerFooter = (temp[0] !== '/desktopscreen');
+        }
+      });
   }
+
 }
