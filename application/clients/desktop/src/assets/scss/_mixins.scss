@@ -12,13 +12,15 @@
 	// padding-bottom: rem-calc(18);
 	// height: 58px;
 
-	.lang-item, .about-span {
+	.lang-item,
+	.about-span {
 		font-weight: bold;
 		color: inherit;
 		text-decoration: none;
 		// font-size: rem-calc(18);
 		font-size: 1rem;
 	}
+
 	.current.lang-item {
 		text-decoration: underline;
 	}
@@ -36,7 +38,9 @@
 }
 
 @mixin header-logo() {
-	img {visibility: hidden;}
+	img {
+		visibility: hidden;
+	}
 
 	background: transparent url('/assets/img/skin/logo-geppetto.svg') center center no-repeat;
 	background-size: contain;
@@ -47,6 +51,7 @@
 		.btn {
 			@include button-header();
 		}
+
 		.dropdown-menu {
 			padding: 0.3rem;
 
@@ -100,7 +105,7 @@
 	color: $white;
 	font-size: rem-calc(20);
 	padding: 0.42em 0.80em;
-	background-color: rgba(255,255,255,0);
+	background-color: rgba(255, 255, 255, 0);
 
 	&:hover {
 		background-color: $white;
@@ -108,7 +113,7 @@
 	}
 }
 
-@mixin button-style($fontSize: 1.2rem,$bottomBorderWidth: 3px) {
+@mixin button-style($fontSize: 1.2rem, $bottomBorderWidth: 3px) {
 	@include button-base;
 	color: $white;
 	background-color: $color_button;
@@ -121,28 +126,27 @@
 	box-shadow: $shadow_button;
 
 	&:hover {
-		background-color: darken($color_button,5%);
-		border-bottom-color: lighten($color_button_border,3%);
+		background-color: darken($color_button, 5%);
+		border-bottom-color: lighten($color_button_border, 3%);
 	}
 }
 
+// Removed the class name for login as the footer was conflicting with the login card
 @mixin modal-login() {
-	@include absolute-centered-in-container();
-	background-color: $color_bg_login;
-	box-shadow: $shadow_modal;
-	margin-top: 2em;
-	margin-bottom: 0;
-	z-index: 1000;
-	border: 1px solid $white;
-	padding-left: 56px;
-	padding-right: 56px;
-	padding-bottom: 1rem;
-	height: auto;
-	
+	top: 0;
+	left: 0;
+	margin: 10% auto;
+	background-color: #f7f7f7;
+	box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.75) !important;
+	border: 1px solid #fafafa;
+	text-align: center;
+	max-width: 43em;
+
 	button {
 		@include button-style(1rem);
 		margin-bottom: 1rem;
 	}
+
 	// .mat-form-field-appearance-outline.mat-form-field-infix {
 	// 	border-color: $color_base_text;
 	// 	padding: 0.5em 0;
@@ -153,19 +157,22 @@
 			padding: 0.3rem 0 0.4rem;
 			border-width: 0.7rem;
 		}
+
 		input[_ngcontent-c4],
 		input[_ngcontent-c5] {
 			border: 0 none;
 		}
 
 		.mat-form-field-appearance-outline .mat-form-field-outline-start {
-		    border-radius: $m_radius 0 0 $m_radius;
+			border-radius: $m_radius 0 0 $m_radius;
 		}
+
 		.mat-form-field-appearance-outline .mat-form-field-outline-end {
-		    border-radius: 0 $m_radius $m_radius 0;
+			border-radius: 0 $m_radius $m_radius 0;
 		}
 
 		&.password {
+
 			.eye[_ngcontent-c4],
 			.eye[_ngcontent-c5] {
 				margin-left: -16px !important;
@@ -173,6 +180,7 @@
 			}
 		}
 	}
+
 	.mat-input-element {
 		@include text-field();
 		font-size: 1.3rem;
@@ -181,19 +189,23 @@
 			color: $color_base_text;
 		}
 
-		&:focus + .mat-form-field-label-wrapper > label,
-		&:focus + .eye + .mat-form-field-label-wrapper > label {
+		&:focus+.mat-form-field-label-wrapper>label,
+		&:focus+.eye+.mat-form-field-label-wrapper>label {
 			margin-bottom: 0;
 			margin-top: 0.25rem;
 			// background-color: $color_bg_login;
 		}
 	}
+
 	.mat-card-header {
 		margin-left: 0;
 		text-align: center;
 		justify-content: center;
 
-		.mat-card-avatar, img {display: none;}
+		.mat-card-avatar,
+		img {
+			display: none;
+		}
 
 		.mat-card-header-text {
 			margin: 0;
@@ -207,6 +219,7 @@
 			}
 		}
 	}
+
 	.loginname[_ngcontent-c4],
 	.loginname[_ngcontent-c5] {
 		margin-top: 2rem;
@@ -231,26 +244,30 @@
 }
 
 @mixin element-accordion() {
-	.mat-accordion > .mat-expansion-panel {
+	.mat-accordion>.mat-expansion-panel {
 		box-shadow: none;
 		color: $black;
 		border: 1px solid $color_accordion_bd;
 		border-bottom-color: $color_accordion_bd_bottom;
 		border-radius: 0;
+
 		&:not(:last-child) {
 			margin-bottom: rem-calc(22);
 		}
 	}
+
 	.mat-expansion-indicator::after {
 		color: $color_geppetto_darkblue;
 		padding: 6px;
 		border-width: 0 4px 4px 0;
 		margin-top: -6px;
 	}
+
 	.mat-expansion-panel-header-title {
 		color: $color_text_light;
 		font-size: rem-calc(24);
 	}
+
 	.mat-expansion-panel-header {
 		font-weight: bold;
 
@@ -262,7 +279,7 @@
 				color: #fff;
 			}
 
-			+ .mat-expansion-panel-content {
+			+.mat-expansion-panel-content {
 				padding-top: 2rem;
 			}
 		}
@@ -273,33 +290,38 @@
 	.sitecard {
 		border: 1px solid $white;
 		padding-top: 60%;
-		
+
 		.sitecard-preview,
 		.sitecard-preview-c {
 			@include absolute-fill-parent-container();
-			
+
 			background-position: top left;
 			background-size: cover;
 		}
+
 		.sitecard-info {
 			z-index: 10;
 			pointer-events: none;
-			text-shadow: 0 0 2px rgba(255,255,255,0.9);
+			text-shadow: 0 0 2px rgba(255, 255, 255, 0.9);
 		}
+
 		.sitecard-title {
 			font-size: rem-calc(27);
 			font-weight: bold;
 			margin-bottom: 0.3rem;
 		}
+
 		.sitecard-desc {
 			max-height: 60px;
 			height: auto;
 			margin-bottom: 1em;
 		}
+
 		.sitecard__pub-info {
 			opacity: 0.9;
 			font-style: italic;
 		}
+
 		.sitecard-actions {
 			position: relative;
 			z-index: 10;
@@ -315,7 +337,9 @@
 				opacity: 0.8;
 				padding: 6px;
 
-				mat-icon {display: none}
+				mat-icon {
+					display: none
+				}
 
 				&:hover {
 					opacity: 1;
@@ -336,25 +360,33 @@
 				&[data-original-title="Edit"]::before {
 					background-image: url('/assets/img/skin/icon_edit_white.svg');
 				}
+
 				&[data-original-title="Clone"]::before {
 					background-image: url('/assets/img/skin/icon_duplicate_white.svg');
 				}
+
 				&[data-original-title="Settings"]::before {
 					background-image: url('/assets/img/skin/icon_download_white.svg');
 				}
+
 				&.entity-action-remove::before {
 					background-image: url('/assets/img/skin/icon_delete_white.svg');
 				}
 			}
 
 			.sitecard-action-c {
-				background-color: rgba($color_geppetto_darkblue,0.8);
+				background-color: rgba($color_geppetto_darkblue, 0.8);
 				border-top: 0 none;
-				border-left: 1px solid rgba(255,255,255,0.4);
-				border-right: 1px solid rgba(255,255,255,0.4);
+				border-left: 1px solid rgba(255, 255, 255, 0.4);
+				border-right: 1px solid rgba(255, 255, 255, 0.4);
 
-				&:first-child {border-left: none;}
-				&:last-child {border-right: none;}
+				&:first-child {
+					border-left: none;
+				}
+
+				&:last-child {
+					border-right: none;
+				}
 			}
 		}
 	}
@@ -366,11 +398,11 @@
 	&::after {
 		display: block;
 		content: "Geppetto 2019. All Rights Reserved";
-		color: rgba(255,255,255,0.71);
+		color: rgba(255, 255, 255, 0.71);
 		background: $color_bg_footer url('/assets/img/skin/decor_puzzle-piece_slanted.svg') 110% 0 no-repeat;
 		background-size: auto 200%;
 		line-height: 120px;
-		padding: 0 calc(50% - #{$m_footer_width / 2}); 
+		padding: 0 calc(50% - #{$m_footer_width / 2});
 		position: fixed;
 		bottom: 0;
 		left: 0;
@@ -383,12 +415,14 @@
 @mixin transition-effect($property: all, $speed: $m_transition-speed, $ease: linear) {
 	transition: $property $speed $ease;
 }
+
 @mixin absolute-centered-in-container() {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%,-50%);
+	transform: translate(-50%, -50%);
 }
+
 @mixin absolute-fill-parent-container() {
 	position: absolute;
 	top: 0;
@@ -398,8 +432,9 @@
 	height: auto;
 	width: auto;
 }
+
 // Utility Functions
 @function rem-calc($size) {
-  $remSize: $size / 16;
-  @return #{$remSize}rem;
+	$remSize: $size / 16;
+	@return #{$remSize}rem;
 }
