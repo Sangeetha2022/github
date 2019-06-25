@@ -16,24 +16,26 @@ export class ProfilesettingsComponent implements OnInit {
     'firstname': '',
     'lastname': '',
     'email': '',
+    'password': '',
     'role': {},
     'id': '',
     'username': '',
-    'installrToken':''
+    'installrToken': ''
   };
   public userDefault = {
     'firstname': '',
     'lastname': '',
     'email': '',
-    'role':{},
+    'password': '',
+    'role': {},
     'id': '',
     'username': '',
-    'installrToken':''
+    'installrToken': ''
   };
   public roles: any[] = [];
   public rolechange: any;
   public defaultUserRole: any;
-  public defaultRole:{}
+  public defaultRole: {}
 
   ngOnInit() {
     this.Queryparams();
@@ -57,6 +59,7 @@ export class ProfilesettingsComponent implements OnInit {
       this.Userobject.username = user.username;
       this.Userobject.role = user.role.role;
       this.Userobject.installrToken = user.installrToken;
+      this.Userobject.password = user.password;
 
       this.profileservice.Getroles().subscribe(roledata => {
         this.roles = roledata.body;
@@ -87,20 +90,20 @@ export class ProfilesettingsComponent implements OnInit {
     this.rolechange = updaterole;
   }
 
-  cancle(){
+  cancle() {
     this.route.navigate(['usermanagement'])
   }
 
   Updateuser() {
-     this.Userobject.role = this.rolechange;
+    this.Userobject.role = this.rolechange;
     this.Userobject.id = this.id;
     this.Userobject.username = this.Userobject.email;
     const userRole = sessionStorage.getItem('Access');
-    
-    if(this.Userobject.role === null || this.Userobject.role === undefined){
+
+    if (this.Userobject.role === null || this.Userobject.role === undefined) {
       // console.log('ifcondtion---->>>>>', this.defaultRole);
 
-      this.userDefault.firstname =  this.Userobject.firstname;
+      this.userDefault.firstname = this.Userobject.firstname;
       this.userDefault.lastname = this.Userobject.lastname;
       this.userDefault.email = this.Userobject.email;
       this.userDefault.role = this.defaultRole;
