@@ -47,6 +47,21 @@
 		.btn {
 			@include button-header();
 		}
+		.dropdown-menu {
+			padding: 0.3rem;
+
+			option {
+				padding: 0.2rem 0.9rem;
+				display: block;
+				border-radius: 3px;
+
+				&:hover {
+					background-color: $color_geppetto_darkblue;
+					color: #fff;
+					cursor: pointer;
+				}
+			}
+		}
 	}
 }
 
@@ -138,7 +153,8 @@
 			padding: 0.3rem 0 0.4rem;
 			border-width: 0.7rem;
 		}
-		input[_ngcontent-c4] {
+		input[_ngcontent-c4],
+		input[_ngcontent-c5] {
 			border: 0 none;
 		}
 
@@ -150,7 +166,8 @@
 		}
 
 		&.password {
-			.eye[_ngcontent-c4] {
+			.eye[_ngcontent-c4],
+			.eye[_ngcontent-c5] {
 				margin-left: -16px !important;
 				margin-top: 6px !important;
 			}
@@ -190,7 +207,8 @@
 			}
 		}
 	}
-	.loginname[_ngcontent-c4] {
+	.loginname[_ngcontent-c4],
+	.loginname[_ngcontent-c5] {
 		margin-top: 2rem;
 	}
 }

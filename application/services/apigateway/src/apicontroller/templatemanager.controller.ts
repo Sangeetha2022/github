@@ -26,7 +26,7 @@ class TemplateController implements Controller {
 
     public addTemplate(req: Request, res: Response) {
         console.log('entering into add project api gateway')
-        new ApiAdaptar().post(Constants.templatetUrl + '/template/save', req.body).then(proj => {
+        new ApiAdaptar().post(Constants.templateUrl + '/template/save', req.body).then(proj => {
             res.send(proj);
         }).catch(err => {
             res.send(err);
@@ -34,7 +34,7 @@ class TemplateController implements Controller {
     }
 
     public updateTemplate(req: Request, res: Response) {
-        new ApiAdaptar().put(Constants.templatetUrl + '/template/update/' + req.params.id, req.body).then(proj => {
+        new ApiAdaptar().put(Constants.templateUrl + '/template/update/' + req.params.id, req.body).then(proj => {
             res.send(proj);
         }).catch(err => {
             res.send(err);
@@ -42,7 +42,7 @@ class TemplateController implements Controller {
     }
 
     public deleteTemplate(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.templatetUrl + '/template/delete/' + req.params.id).then(proj => {
+        new ApiAdaptar().delete(Constants.templateUrl + '/template/delete/' + req.params.id).then(proj => {
             res.send(proj);
         }).catch(err => {
             res.send(err);
@@ -50,7 +50,7 @@ class TemplateController implements Controller {
     }
 
     public getAllTemplates(req: Request, res: Response) {
-        new ApiAdaptar().get(Constants.templatetUrl + '/template/getall').then(allproject => {
+        new ApiAdaptar().get(Constants.templateUrl + '/template/getall').then(allproject => {
             res.send(allproject);
         }).catch(err => {
             res.send(err);
@@ -59,7 +59,7 @@ class TemplateController implements Controller {
 
     public getTemplateByID = (req: Request, res: Response) => {
         console.log('entering into method')
-        new ApiAdaptar().get(Constants.templatetUrl + '/template/get/' + req.params.id).then(proj => {
+        new ApiAdaptar().get(Constants.templateUrl + '/template/get/' + req.params.id).then(proj => {
             console.log('reponse in main method')
             res.send(proj);
         }).catch(err => {
@@ -69,7 +69,7 @@ class TemplateController implements Controller {
 
     public getAllTemplateByProject = (req: Request, res: Response) => {
         console.log('entering into method')
-        new ApiAdaptar().get(Constants.templatetUrl + '/template/get/project/' + req.params.projectid).then(proj => {
+        new ApiAdaptar().get(Constants.templateUrl + '/template/get/project/' + req.params.projectid).then(proj => {
             console.log('reponse in main method')
             res.send(proj);
         }).catch(err => {
