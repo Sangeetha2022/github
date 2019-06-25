@@ -25,8 +25,8 @@
 
 .nav-list li a:hover:before {
   margin-left: 0;
-  opacity: 1;
-  visibility: visible;
+  // opacity: 1;
+  // visibility: visible;
 }
 
 ul, ol {
@@ -64,4 +64,7 @@ ul, ol {
 .mainDiv {
   background: #2d3246;
   margin-top: 6%;
+  // bottom: 0;
+  // width: 100%;
+  // position: absolute;
 }
