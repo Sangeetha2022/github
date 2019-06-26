@@ -6,9 +6,11 @@ export class Common {
         try {
             if (!fs.existsSync(path)) {
               fs.mkdirSync(path)
+              return true;
             }
           } catch (err) {
             console.log('error for createing into -----  ', err);
+            return false;
           }
     };
 }

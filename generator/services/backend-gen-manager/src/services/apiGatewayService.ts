@@ -26,12 +26,4 @@ export class ApiGatewayService {
             });
         })
     }
-
-
-    createFolders(pathElement) {
-        if (!fs.existsSync(pathElement)) {
-            fs.mkdirSync(pathElement)
-        }
-    };
-
 }
