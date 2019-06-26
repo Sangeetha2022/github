@@ -9,7 +9,8 @@ import {
   FlowManagerService,
   EntityManagerService,
   BackendGenManagerService,
-  MicroFlowManagerService
+  MicroFlowManagerService,
+  AuthGenService
 } from '../apiservices/index';
 import { Common } from '../config/Common';
 
@@ -19,6 +20,7 @@ export class CodeGenerationService {
   private entityService = new EntityManagerService();
   private backendService = new BackendGenManagerService();
   private flowService = new FlowManagerService();
+  private authGenService = new AuthGenService ();
   private applicationPort = 8000;
   // private microFlowService = new MicroFlowManagerService();
   // private clientObj: any = {
@@ -53,6 +55,8 @@ export class CodeGenerationService {
     console.log('create project code rae ----- ', projectId, ' ----- ', projectDetails);
     // this.createFolders(`../../../../../generatedcode/${projectDetails.name}`);
     const isPathCreated = Common.createFolders(projectPath);
+    const auth  = await this.authGenPath(projectId,projectDetails);
+    console.log('i am auth ******---->>', auth)
     console.log('path @!!!!!!!!!!!!!!!!!!!!!!! ------ ', isPathCreated);
     if(!isPathCreated) {
      return callback('code generation path may not be exist', 400);
@@ -206,6 +210,15 @@ export class CodeGenerationService {
     return new Promise(resolve => {
       this.backendService.generateApiGateway(details, (data) => {
         resolve(data);
+      })
+    })
+  }
+
+  authGenPath(projectId,projectDetails){
+    console.log('i am auth gennnn--->>>')
+    return new Promise(resolve => {
+      this.authGenService.authPath(projectId , projectDetails , (data) => {
+        resolve(data)
       })
     })
   }
