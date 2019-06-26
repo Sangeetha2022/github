@@ -19,7 +19,8 @@ import {
     ConfigurationController,
     MenubuilderController,
     MicroflowController,
-    ScreenController
+    ScreenController,
+    GenerationController
 
 } from './apicontroller';
 
@@ -45,7 +46,7 @@ let apisController = [
     new ConfigurationController(),
     new MenubuilderController(),
     new ScreenController(),
-
+    new GenerationController()
 ]
 
 class App {

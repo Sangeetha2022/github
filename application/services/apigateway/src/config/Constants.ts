@@ -12,8 +12,9 @@
 // export const templatetUrl = 'http://localhost:3012';
 
 
-// generation URL
+// // generation URL
 
+// export const projectGenUrl = 'http://localhost:5000';
 // export const configUrl = 'http://localhost:5001';
 // export const codeGenUrl = 'http://localhost:5008';
 // export const backendGenUrl = 'http://localhost:5009';
@@ -36,6 +37,7 @@ export const menuUrl = 'http://3.84.173.148:30011';
 export const templateUrl = 'http://3.84.173.148:30012';
 
 // Generation Url
+export const projectGenUrl = 'http://3.84.173.148:30500';
 export const genmanagerUrl = 'http://3.84.173.148:30500';
 export const configUrl = 'http://3.84.173.148:30501';
 
