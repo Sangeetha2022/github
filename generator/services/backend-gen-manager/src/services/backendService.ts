@@ -8,6 +8,7 @@ import * as util from 'util';
 import * as path from 'path';
 import * as asyncLoop from 'node-async-loop';
 import { DataStoreManagerService } from '../apiservices/DataStoreManagerService';
+import { Common } from '../config/Common';
 
 export class BackendService {
     sharedService = new SharedService();
@@ -27,8 +28,8 @@ export class BackendService {
         console.log('backend gen manager create project are ---- ', util.inspect(details, { showHidden: true, depth: null }));
         const backendPath = `${details.project.projectGenerationPath}/${details.project.name}/backend`;
         const microservicePath = `${backendPath}/${details.name}`;
-        this.createFolders(backendPath);
-        this.createFolders(microservicePath);
+        Common.createFolders(backendPath);
+        Common.createFolders(microservicePath);
         const feature = {
             featureName: details.name,
             applicationPort: details.applicationPort,
@@ -214,15 +215,6 @@ export class BackendService {
         })
     }
 
-
-    createFolders(pathElement) {
-        // if (!fs.existsSync(path.join(__dirname, pathElement))) {
-        //     fs.mkdirSync(path.join(__dirname, pathElement))
-        // }
-        if (!fs.existsSync(pathElement)) {
-            fs.mkdirSync(pathElement)
-          }
-    };
 
 
 

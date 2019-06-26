@@ -1,9 +1,23 @@
-.geppetoimage {
-    align-items: center;
-    /* background: linear-gradient(to top right, #1f5679 10%, #eaf4ff 90%); */
-    display: flex;
-    /* flex-basis: 550px; */
-    justify-content: center;
-    height: 100%;
-    overflow: hidden;
-}
+// .geppetoimage {
+//     align-items: center;
+//     /* background: linear-gradient(to top right, #1f5679 10%, #eaf4ff 90%); */
+//     display: flex;
+//     /* flex-basis: 550px; */
+//     justify-content: center;
+//     height: 100%;
+//     overflow: hidden;
+// }
+
+.center { 
+    height: 265px;
+    position: relative;
+  }
+  
+  .center img {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }

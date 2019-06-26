@@ -6,6 +6,7 @@ import { FeedSeedData } from './seed';
 import { MongoConfig } from './config/MongoConfig';
 import * as cors from 'cors';
 import * as expressWinston from 'express-winston';
+import { WinstonLogger } from './config/WinstonLogger';
 const winston = require('winston');
 require('winston-daily-rotate-file')
 
@@ -16,6 +17,8 @@ class App {
 
     public app: express.Application = express();
     public routePrv: Routes = new Routes();
+    public logger: WinstonLogger = new WinstonLogger();
+    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
 
     constructor() {
         this.config();
@@ -33,85 +36,15 @@ class App {
         this.app.use(cors({ credentials: true, origin: true }))
 
         // logger configuration
-        this.app.use(expressWinston.logger({
-            format: winston.format.combine(
-                winston.format.label({ label: 'gep-dev-node-api' }),
-                winston.format.colorize(),
-                winston.format.json()
-
-            ),
-            transports: [
-                new winston.transports.Console(),
-                new (winston.transports.DailyRotateFile)({
-                    level: 'info',
-                    dirname: logDir,
-                    filename: logDir + 'api-%DATE%.log',
-                    datePattern: 'YYYY-MM-DD',
-                    zippedArchive: false,
-                    prepend: true,
-                    json: true,
-                    colorize: false,
-                }),
-            ],
-            statusLevels: false, // default value
-            level: function (req, res) {
-                var level = '';
-                if (res.statusCode >= 100) {
-                    level = 'info';
-                }
-                if (res.statusCode >= 400) {
-                    level = 'warn';
-                }
-                if (res.statusCode >= 500) {
-                    level = 'error';
-                }
-                return level;
-            },
-            exitOnError: false
-        }))
-        this.app.use(expressWinston.errorLogger({
-            format: winston.format.combine(
-                winston.format.label({ label: 'gep-dev-node-api' }),
-                winston.format.colorize(),
-                winston.format.json()
-            ),
-
-            transports: [
-                new winston.transports.Console(),
-                new (winston.transports.DailyRotateFile)({
-                    level: 'info',
-                    dirname: logDir,
-                    filename: logDir + '/error/api-%DATE%.log',
-                    datePattern: 'YYYY-MM-DD',
-                    zippedArchive: false,
-                    prepend: true,
-                    json: true,
-                    colorize: false,
-                }),
-            ],
-            statusLevels: false, // default value
-            level: function (req, res) {
-                var level = '';
-                if (res.statusCode >= 100) {
-                    level = 'info';
-                }
-                if (res.statusCode >= 400) {
-                    level = 'warn';
-                }
-                if (res.statusCode >= 500) {
-                    level = 'error';
-                }
-                return level;
-            },
-            exitOnError: false,
-        }));
+        this.logger.setupLogger();
+        this.logger.configureWinston(this.app);
     }
 
     private mongoSetup(): void {
-        // mongoose.Promise = global.Promise;
-        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        let mongoConfig = new MongoConfig();
-        mongoConfig.mongoConfig();
+        mongoose.Promise = global.Promise;
+        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        // let mongoConfig = new MongoConfig();
+        // mongoConfig.mongoConfig();
     }
 
     private mongoSeedData(): void {

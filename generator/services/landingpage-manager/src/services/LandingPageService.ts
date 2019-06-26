@@ -5,11 +5,16 @@ import {
     MenuManagerService,
     ScreenManagerService,
 } from '../apiservices/index';
-import { HeaderWorker } from '../worker/HeaderWorker';
-import { FooterWorker } from '../worker/FooterWorker';
+import { HtmlWorker } from '../worker/HtmlWorker';
+import { ComponentWorker } from '../worker/ComponentWorker';
+import { CssWorker } from '../worker/CssWorker';
+import { SpecWorker } from '../worker/SpecWorker';
 
-let headerWorker = new HeaderWorker();
-let footerWorker = new FooterWorker();
+let htmlWorker = new HtmlWorker();
+let componentWorker = new ComponentWorker();
+let cssWorker = new CssWorker();
+let specWorker = new SpecWorker();
+
 export class LandingPageService {
     private menuManagerService = new MenuManagerService();
     private screenManagerService = new ScreenManagerService();
@@ -34,11 +39,28 @@ export class LandingPageService {
         // console.log('=======================', util.inspect(menuData[0], { showHidden: true, depth: null }))
         let projectGenerationPath = '../../originalcode/'
         let templateLocation = '../../template'
-        let routeObj = headerData;
-        let footerObj = footerData;
-        headerWorker.generateRouteFile(projectGenerationPath, templateLocation, routeObj);
-        footerWorker.generateRouteFile(projectGenerationPath, templateLocation, footerObj)
+        let headerObj = {
+            name: "header",
+            html: headerData
+        };
+        let footerObj =
+        {
+            name: "footer",
+            html: footerData
+        };
+        if (headerObj) {
+            htmlWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
+            componentWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
+            cssWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
+            specWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
+        }
+        if (footerObj) {
+            htmlWorker.generateRouteFile(projectGenerationPath, templateLocation, footerObj);
+            componentWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
+            cssWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
+            specWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
 
+        }
     }
 
 

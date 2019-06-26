@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as asyncLoop from 'node-async-loop';
 import { MongoWorker } from '../worker/MongoWorker';
+import { Common } from '../config/Common';
 
 export class MongoGenService {
     mongoWorker = new MongoWorker();
@@ -14,8 +15,10 @@ export class MongoGenService {
         const modelPath = `${srcPath}/models`;
         const templatePath = details.templateLocation.mongoTemplate;
         console.log('backend create project values are -----  ', details);
-        this.createFolder(srcPath);
-        this.createFolder(modelPath);
+        // this.createFolder(srcPath);
+        // this.createFolder(modelPath);
+        Common.createFolders(srcPath);
+        Common.createFolders(modelPath);
         asyncLoop(details.entities, (entityElement, entityNext) => {
             if (entityElement === undefined) {
                 entityNext();
@@ -34,13 +37,4 @@ export class MongoGenService {
         })
 
     }
-
-    createFolder(pathElement) {
-        // if (!fs.existsSync(path.join(__dirname, pathElement))) {
-        //     fs.mkdirSync(path.join(__dirname, pathElement))
-        // }
-        if (!fs.existsSync(pathElement)) {
-            fs.mkdirSync(pathElement)
-          }
-    };
 }
