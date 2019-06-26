@@ -2590,6 +2590,14 @@
 			"value": "/home/dhina/Videos/StahlsJenkins/GrapesJS/ang7Grapesjs/Dan/branch/features_screen_designer/geppettotest/generatedcode",
 			"type": "BackEndGeneration",
 			"sub_type": null
+		},
+		{
+			"name": "authGenerationDirectory",
+			"label": "Auth Generation Directory",
+			"description": "location of where we want to generate our backend code",
+			"value": "/home/tendecoders/Desktop/Geppetto/Refactorgeppetto/geppettotest/generator/services/seed",
+			"type": "AuthGeneration",
+			"sub_type": null	
 		}
 	]
 }
