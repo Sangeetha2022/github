@@ -100,8 +100,6 @@ export class ProjectgenService {
                     this.setTechnicalField(projectInfo);
 
                     this.configManagerService.getAllDetails((configResponse) => {
-                        console.log('i am the one u r need', configResponse);
-                        console.log('i am the one u r need 222 ', configResponse.error);
                         const configInfo = JSON.parse(configResponse);
                         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ", configInfo, '  lenghtt   ');
                         if (configInfo.error) {

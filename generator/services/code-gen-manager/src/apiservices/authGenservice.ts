@@ -8,6 +8,7 @@ export class AuthGenService {
         const authPath =`${projectDetails.authTemplatePath}`;
         const generatePath = `${projectDetails.projectGenerationPath}`
         console.log("*******auth genn--->>>", authPath)
+      try {
         new ApiAdaptar().get(`${SharedService.authGen}/auth/?projectID=${projectId}&authPath=${authPath}&projectPath=${generatePath}`).then
         (data =>{
             console.log('auth datda===>>>', data)
@@ -17,7 +18,10 @@ export class AuthGenService {
         }).catch(error => {
             callback(error)
 
-        });
+        });   
+      } catch (error) {
+          console.log('cathc ath error ----- ', error);
+      }
         
 
     }

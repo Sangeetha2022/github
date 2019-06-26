@@ -1,9 +1,4 @@
 import { Request } from 'mongoose';
-import * as fs from 'fs';
-import { ApiAdaptar } from '../config/ApiAdaptar';
-import * as util from 'util';
-import * as path from 'path';
-import * as asyncLoop from 'node-async-loop';
 import { MongoGenManagerService } from '../apiservices/MongoGenManagerService';
 
 export class DataStoreService {
@@ -12,11 +7,15 @@ export class DataStoreService {
 
     public async createProject(req: Request, callback: CallableFunction) {
         const details = req.body;
+      try {
         if(details.serverLanguage.name === 'Node.js' &&
         details.serverFramework.name === 'Express') {
             const mongo = await this.getMongo(details);
             callback(mongo);
         }
+      } catch(error) {
+          callback('Something went wrong in dataStore manager microservices');
+      }
     }
 
 

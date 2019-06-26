@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ButtonRendererComponent } from './rendered/button-renderer/button-renderer.component';
 import { ProjectComponentService } from '../project-component.service';
 import { IEntity } from '../interface/Entity';
+import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ValueParserParams } from 'ag-grid-community';
 import { DataService } from '../../../shared/data.service';
@@ -44,10 +45,12 @@ export class EntityFieldComponent implements OnInit {
   selectedCellRowIndex: any;
   EnteredReserveWord: String;
   projectId: any;
+  featureId: any;
 
   constructor(
     private entityManagerService: ProjectComponentService,
     private router: Router,
+    private location: Location,
     public dialog: MatDialog,
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
@@ -60,9 +63,6 @@ export class EntityFieldComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(params => {
-      this.projectId = params.projectId;
-  });
     this.regexExpression.generateReservedWord();
     this.getEntityType();
   }
@@ -223,7 +223,7 @@ export class EntityFieldComponent implements OnInit {
   }
 
   cancelField() {
-    this.router.navigate(['/project-component'], {queryParams : { projectId: this.projectId }});
+    this.location.back();
   }
 
   updateEntityField(options) {

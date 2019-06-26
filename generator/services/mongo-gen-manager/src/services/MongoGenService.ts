@@ -20,13 +20,17 @@ export class MongoGenService {
         Common.createFolders(srcPath);
         Common.createFolders(modelPath);
         asyncLoop(details.entities, (entityElement, entityNext) => {
-            if (entityElement === undefined) {
-                entityNext();
-            } else {
-                this.mongoWorker.createProjectModel(entityElement, modelPath, templatePath, (data) => {
-                    schemaInfo.push(data);
+            try {
+                if (entityElement === undefined) {
                     entityNext();
-                })
+                } else {
+                    this.mongoWorker.createProjectModel(entityElement, modelPath, templatePath, (data) => {
+                        schemaInfo.push(data);
+                        entityNext();
+                    })
+                }
+            } catch (error) {
+                return callback('Something went wrong in Mongo Generation MicroServices');
             }
         }, (err) => {
             if (err) {

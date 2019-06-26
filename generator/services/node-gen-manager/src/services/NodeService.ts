@@ -173,181 +173,185 @@ export class NodeService {
         if (EntitySchema === undefined && EntitySchema.length === 0) {
             callback('No Schema has been found');
         } else {
-            commonWorker.createServerFile(projectGenerationPath, templateLocation, projectName, port);
-            commonWorker.generatePackageJsonFile(projectGenerationPath, templateLocation, featureName);
-            commonWorker.generateTsConfigFile(projectGenerationPath, templateLocation);
-            commonWorker.generateWinstonLoggerFile(projectGenerationPath, templateLocation);
+            try {
+                commonWorker.createServerFile(projectGenerationPath, templateLocation, projectName, port);
+                commonWorker.generatePackageJsonFile(projectGenerationPath, templateLocation, featureName);
+                commonWorker.generateTsConfigFile(projectGenerationPath, templateLocation);
+                commonWorker.generateWinstonLoggerFile(projectGenerationPath, templateLocation);
 
-            asyncLoop(EntitySchema, (entityElement, entityNext) => {
-                // initial
-                this.initalizeDaoVariable();
+                asyncLoop(EntitySchema, (entityElement, entityNext) => {
+                    // initial
+                    this.initalizeDaoVariable();
 
-                // declare
+                    // declare
 
-                // controllerObj
-                this.controllerObj.entitySchemaName = entityElement.schemaName;
-                this.controllerObj.entityModelName = entityElement.modelName;
-                this.controllerObj.entityFileName = entityElement.fileName;
+                    // controllerObj
+                    this.controllerObj.entitySchemaName = entityElement.schemaName;
+                    this.controllerObj.entityModelName = entityElement.modelName;
+                    this.controllerObj.entityFileName = entityElement.fileName;
 
-                //serviceObj
-                this.serviceObj.entitySchemaName = entityElement.schemaName;
-                this.serviceObj.entityModelName = entityElement.modelName;
-                this.serviceObj.entityFileName = entityElement.fileName;
+                    //serviceObj
+                    this.serviceObj.entitySchemaName = entityElement.schemaName;
+                    this.serviceObj.entityModelName = entityElement.modelName;
+                    this.serviceObj.entityFileName = entityElement.fileName;
 
-                // daoObj
-                this.daoObj.entitySchemaName = entityElement.schemaName;
-                this.daoObj.entityModelName = entityElement.modelName;
-                this.daoObj.entityFileName = entityElement.fileName;
-
-
-                //routeObj
-                this.routeObj.entitySchemaName = entityElement.schemaName;
-                this.routeObj.entityModelName = entityElement.modelName;
-                this.routeObj.entityFileName = entityElement.fileName;
-                this.routeObj.featureName = details.featureName;
-                this.routeObj.nodePortNumber = port;
+                    // daoObj
+                    this.daoObj.entitySchemaName = entityElement.schemaName;
+                    this.daoObj.entityModelName = entityElement.modelName;
+                    this.daoObj.entityFileName = entityElement.fileName;
 
 
-                if (entityElement === undefined) {
-                    entityNext();
-                } if (entityElement.entityType === 'secondary') {
-                    entityNext();
-                } else {
-                    const gpController = details.flows[0].components.find(
-                        function (element, index, array) {
-                            if (element.name === 'GpExpressController') {
-                                return element;
+                    //routeObj
+                    this.routeObj.entitySchemaName = entityElement.schemaName;
+                    this.routeObj.entityModelName = entityElement.modelName;
+                    this.routeObj.entityFileName = entityElement.fileName;
+                    this.routeObj.featureName = details.featureName;
+                    this.routeObj.nodePortNumber = port;
+
+
+                    if (entityElement === undefined) {
+                        entityNext();
+                    } if (entityElement.entityType === 'secondary') {
+                        entityNext();
+                    } else {
+                        const gpController = details.flows[0].components.find(
+                            function (element, index, array) {
+                                if (element.name === 'GpExpressController') {
+                                    return element;
+                                }
                             }
-                        }
-                    )
-                    const gpService = details.flows[0].components.find(
-                        function (element, index, array) {
-                            if (element.name === 'GpExpressService') {
-                                return element;
+                        )
+                        const gpService = details.flows[0].components.find(
+                            function (element, index, array) {
+                                if (element.name === 'GpExpressService') {
+                                    return element;
+                                }
                             }
-                        }
-                    )
-                    const gpDao = details.flows[0].components.find(
-                        function (element, index, array) {
-                            if (element.name === 'GpExpressDao') {
-                                return element;
+                        )
+                        const gpDao = details.flows[0].components.find(
+                            function (element, index, array) {
+                                if (element.name === 'GpExpressDao') {
+                                    return element;
+                                }
                             }
-                        }
-                    )
-                    asyncLoop(details.flows, (flowElement, flowNext) => {
-                        const tempFlow = {
-                            name: '',
-                            label: '',
-                            description: '',
-                            type: '',
-                            actionOnData: ''
-                        }
-                        tempFlow.name = flowElement.name;
-                        tempFlow.label = flowElement.label;
-                        tempFlow.description = flowElement.description;
-                        tempFlow.type = flowElement.type;
-                        tempFlow.actionOnData = flowElement.actionOnData;
-                        const controller = controllerWorker.createController(tempFlow, gpController, entityElement, this.controllerObj);
-                        const service = serviceWorker.createService(tempFlow, gpService, entityElement, this.serviceObj);
-                        const dao = daoWorker.createDao(tempFlow, gpDao, entityElement, this.daoObj);
-                        const route = routeWorker.createRoutes(tempFlow, entityElement, this.routeObj);
+                        )
+                        asyncLoop(details.flows, (flowElement, flowNext) => {
+                            const tempFlow = {
+                                name: '',
+                                label: '',
+                                description: '',
+                                type: '',
+                                actionOnData: ''
+                            }
+                            tempFlow.name = flowElement.name;
+                            tempFlow.label = flowElement.label;
+                            tempFlow.description = flowElement.description;
+                            tempFlow.type = flowElement.type;
+                            tempFlow.actionOnData = flowElement.actionOnData;
+                            const controller = controllerWorker.createController(tempFlow, gpController, entityElement, this.controllerObj);
+                            const service = serviceWorker.createService(tempFlow, gpService, entityElement, this.serviceObj);
+                            const dao = daoWorker.createDao(tempFlow, gpDao, entityElement, this.daoObj);
+                            const route = routeWorker.createRoutes(tempFlow, entityElement, this.routeObj);
 
-                        // import dependencies
-                        this.controllerObj.import.dependencies = this.controllerObj.import.dependencies.concat(controller.GpStart.dependencies);
-                        this.serviceObj.import.dependencies = this.serviceObj.import.dependencies.concat(service.GpStart.dependencies);
-                        this.daoObj.import.dependencies = this.daoObj.import.dependencies.concat(dao.GpStart.dependencies);
-                        this.routeObj.import.dependencies = this.routeObj.import.dependencies.concat(route.GpStart.dependencies);
+                            // import dependencies
+                            this.controllerObj.import.dependencies = this.controllerObj.import.dependencies.concat(controller.GpStart.dependencies);
+                            this.serviceObj.import.dependencies = this.serviceObj.import.dependencies.concat(service.GpStart.dependencies);
+                            this.daoObj.import.dependencies = this.daoObj.import.dependencies.concat(dao.GpStart.dependencies);
+                            this.routeObj.import.dependencies = this.routeObj.import.dependencies.concat(route.GpStart.dependencies);
 
-                        // inside variable
-                        this.controllerObj.variable.insideClass = this.controllerObj.variable.insideClass.concat(controller.GpVariable.insideClass);
-                        this.serviceObj.variable.insideClass = this.serviceObj.variable.insideClass.concat(service.GpVariable.insideClass);
-                        this.daoObj.variable.insideClass = this.daoObj.variable.insideClass.concat(dao.GpVariable.insideClass);
-                        this.routeObj.variable.insideClass = this.routeObj.variable.insideClass.concat(route.GpVariable.insideClass);
+                            // inside variable
+                            this.controllerObj.variable.insideClass = this.controllerObj.variable.insideClass.concat(controller.GpVariable.insideClass);
+                            this.serviceObj.variable.insideClass = this.serviceObj.variable.insideClass.concat(service.GpVariable.insideClass);
+                            this.daoObj.variable.insideClass = this.daoObj.variable.insideClass.concat(dao.GpVariable.insideClass);
+                            this.routeObj.variable.insideClass = this.routeObj.variable.insideClass.concat(route.GpVariable.insideClass);
 
-                        // outside variable
-                        this.controllerObj.variable.outsideClass = this.controllerObj.variable.outsideClass.concat(controller.GpVariable.outsideClass);
-                        this.serviceObj.variable.outsideClass = this.serviceObj.variable.outsideClass.concat(service.GpVariable.outsideClass);
-                        this.daoObj.variable.outsideClass = this.daoObj.variable.outsideClass.concat(dao.GpVariable.outsideClass);
-                        this.routeObj.variable.outsideClass = this.routeObj.variable.outsideClass.concat(route.GpVariable.outsideClass);
+                            // outside variable
+                            this.controllerObj.variable.outsideClass = this.controllerObj.variable.outsideClass.concat(controller.GpVariable.outsideClass);
+                            this.serviceObj.variable.outsideClass = this.serviceObj.variable.outsideClass.concat(service.GpVariable.outsideClass);
+                            this.daoObj.variable.outsideClass = this.daoObj.variable.outsideClass.concat(dao.GpVariable.outsideClass);
+                            this.routeObj.variable.outsideClass = this.routeObj.variable.outsideClass.concat(route.GpVariable.outsideClass);
 
-                        // gp function controller
-                        const controllerTemp = {
-                            methodName: ''
-                        }
-                        controllerTemp.methodName = controller.function.methodName;
-                        this.controllerObj.flowAction.push(controllerTemp);
+                            // gp function controller
+                            const controllerTemp = {
+                                methodName: ''
+                            }
+                            controllerTemp.methodName = controller.function.methodName;
+                            this.controllerObj.flowAction.push(controllerTemp);
 
-                        // gp function services
-                        const serviceTemp = {
-                            methodName: '',
-                            requestParameter: '',
-                            responseVariable: '',
-                            variable: '',
-                            return: ''
-                        }
-                        serviceTemp.methodName = service.function.methodName;
-                        serviceTemp.requestParameter = service.function.requestParameter;
-                        serviceTemp.responseVariable = service.function.responseVariable;
-                        serviceTemp.variable = service.function.variable;
-                        serviceTemp.return = service.function.return;
-                        this.serviceObj.flowAction.push(serviceTemp);
+                            // gp function services
+                            const serviceTemp = {
+                                methodName: '',
+                                requestParameter: '',
+                                responseVariable: '',
+                                variable: '',
+                                return: ''
+                            }
+                            serviceTemp.methodName = service.function.methodName;
+                            serviceTemp.requestParameter = service.function.requestParameter;
+                            serviceTemp.responseVariable = service.function.responseVariable;
+                            serviceTemp.variable = service.function.variable;
+                            serviceTemp.return = service.function.return;
+                            this.serviceObj.flowAction.push(serviceTemp);
 
-                        // gp function dao
-                        const daoTemp = {
-                            methodName: '',
-                            parameter: '',
-                            variable: '',
-                            verbs: '',
-                            query: '',
-                            return: ''
-                        }
-                        daoTemp.methodName = dao.function.methodName;
-                        daoTemp.parameter = dao.function.parameter;
-                        daoTemp.variable = dao.function.variable;
-                        daoTemp.verbs = dao.function.verbs;
-                        daoTemp.query = dao.function.query;
-                        daoTemp.return = dao.function.return;
-                        this.daoObj.flowAction.push(daoTemp);
-
-
-                        // routes function
-                        const routeTemp = {
-                            routeUrl: '',
-                            apiAction: '',
-                            methodName: '',
-                            variableName: ''
-                        }
-                        routeTemp.routeUrl = route.function.routeUrl;
-                        routeTemp.apiAction = route.function.apiAction;
-                        routeTemp.methodName = route.function.methodName;
-                        routeTemp.variableName = route.function.variableName;
-                        this.routeObj.flowAction.push(routeTemp);
-                        flowNext();
-                    }, (err) => {
-                        if (err) {
-
-                        } else {
-                            this.controller.push(this.controllerObj);
-                            this.service.push(this.serviceObj);
-                            this.dao.push(this.daoObj);
-                            this.route.push(this.routeObj);
-                            entityNext();
-                        }
-                    })
-                }
+                            // gp function dao
+                            const daoTemp = {
+                                methodName: '',
+                                parameter: '',
+                                variable: '',
+                                verbs: '',
+                                query: '',
+                                return: ''
+                            }
+                            daoTemp.methodName = dao.function.methodName;
+                            daoTemp.parameter = dao.function.parameter;
+                            daoTemp.variable = dao.function.variable;
+                            daoTemp.verbs = dao.function.verbs;
+                            daoTemp.query = dao.function.query;
+                            daoTemp.return = dao.function.return;
+                            this.daoObj.flowAction.push(daoTemp);
 
 
-            }, (entityError) => {
-                if (entityError) {
+                            // routes function
+                            const routeTemp = {
+                                routeUrl: '',
+                                apiAction: '',
+                                methodName: '',
+                                variableName: ''
+                            }
+                            routeTemp.routeUrl = route.function.routeUrl;
+                            routeTemp.apiAction = route.function.apiAction;
+                            routeTemp.methodName = route.function.methodName;
+                            routeTemp.variableName = route.function.variableName;
+                            this.routeObj.flowAction.push(routeTemp);
+                            flowNext();
+                        }, (err) => {
+                            if (err) {
 
-                } else {
-                    controllerWorker.generateControllerFile(projectGenerationPath, templateLocation, this.controller);
-                    serviceWorker.generateServiceFile(projectGenerationPath, templateLocation, this.service);
-                    daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
-                    routeWorker.generateRouteFile(projectGenerationPath, templateLocation, this.route);
-                    callback(this.route);
-                }
-            })
+                            } else {
+                                this.controller.push(this.controllerObj);
+                                this.service.push(this.serviceObj);
+                                this.dao.push(this.daoObj);
+                                this.route.push(this.routeObj);
+                                entityNext();
+                            }
+                        })
+                    }
+
+
+                }, (entityError) => {
+                    if (entityError) {
+
+                    } else {
+                        controllerWorker.generateControllerFile(projectGenerationPath, templateLocation, this.controller);
+                        serviceWorker.generateServiceFile(projectGenerationPath, templateLocation, this.service);
+                        daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
+                        routeWorker.generateRouteFile(projectGenerationPath, templateLocation, this.route);
+                        callback(this.route);
+                    }
+                })
+            } catch (error) {
+                callback('Something went wrong in Node Gen MicroService');
+            }
         }
     }
 }

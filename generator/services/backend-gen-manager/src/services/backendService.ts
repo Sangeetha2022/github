@@ -21,10 +21,10 @@ export class BackendService {
     public async createProject(req: Request, callback: CallableFunction) {
         const details = req.body;
         // const flows = await this.getFlows(details.flows);
-        console.log('backend server language  ---- ', details.project.serverLanguage);
-        console.log('backend flows length-- ', details.flows.length);
-        console.log('backend flows  component length -0- ', details.flows[0].components.length);
-        console.log('backend flows  component length -1- ', details.flows[1].components.length);
+        // console.log('backend server language  ---- ', details.project.serverLanguage);
+        // console.log('backend flows length-- ', details.flows.length);
+        // console.log('backend flows  component length -0- ', details.flows[0].components.length);
+        // console.log('backend flows  component length -1- ', details.flows[1].components.length);
         console.log('backend gen manager create project are ---- ', util.inspect(details, { showHidden: true, depth: null }));
         const backendPath = `${details.project.projectGenerationPath}/${details.project.name}/backend`;
         const microservicePath = `${backendPath}/${details.name}`;
@@ -45,10 +45,11 @@ export class BackendService {
             entitySchema: [],
             flows: []
         }
-        console.log('all feature value are------  ', feature);
         const dataStore = await this.getDataStore(feature);
         console.log('dataStore values are backend services are --###@@@@@@--- ', dataStore);
         feature.entitySchema = JSON.parse(JSON.stringify(dataStore)).body;
+        console.log('all feature value are------  ', feature);
+
         // const flows = {
         //     name: '',
         //     label: '',
@@ -174,7 +175,7 @@ export class BackendService {
         }
         catch (e) {
             console.log('each catches are-- ----   ', e);
-            callback()
+            callback('Something went wrong in backend gen manager microservices', 400);
         }
 
         // if(details.project.serverLanguage.name === 'Node.js') {

@@ -55,13 +55,18 @@ export class CodeGenerationService {
     console.log('create project code rae ----- ', projectId, ' ----- ', projectDetails);
     // this.createFolders(`../../../../../generatedcode/${projectDetails.name}`);
     const isPathCreated = Common.createFolders(projectPath);
-    const auth  = await this.authGenPath(projectId,projectDetails);
-    console.log('i am auth ******---->>', auth)
+    // try {
+    //   const auth  = await this.authGenPath(projectId,projectDetails);
+    // console.log('i am auth ******---->>', auth)
+    // } catch {
+    //   console.log('auth generation manager microservices might be down #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+    // }
     console.log('path @!!!!!!!!!!!!!!!!!!!!!!! ------ ', isPathCreated);
     if(!isPathCreated) {
      return callback('code generation path may not be exist', 400);
     }
     // get feature by projectId
+    console.log('before getting project features ');
     const features = await this.getFeatures(projectId);
     const FeatureJSON = JSON.parse(features.toString());
     this.nodeResponse = [];
@@ -126,13 +131,15 @@ export class CodeGenerationService {
                   //   // callback();
                   // }
                   console.log('after if executed')
-                  // this.nodeResponse.push(temp[0]);
+                  if(temp != undefined && temp.length > 0) {
+                    this.nodeResponse.push(temp[0]);
+                  }
                   console.log('nodeResponse for each features ----  ', util.inspect(this.nodeResponse, { showHidden: true, depth: null }));
                   next();
                 } catch (err1) {
                   console.log('errr111111111111111111111111');
                   console.log('errr111111111111111111111111 ---- ', err1);
-                  callback('something went wrong in code generation manager after getting the response from backend generation manager', 400);
+                  console.error('something went wrong in code generation manager after getting the response from backend generation manager', 400);
                 }
               }
             })
@@ -140,7 +147,7 @@ export class CodeGenerationService {
             next();
           }
           console.log('ending of loop ');
-        }, (err) => {
+        }, async (err) => {
           if (err) {
             console.log('err in loop are ---- ', err);
           } else {
@@ -152,7 +159,8 @@ export class CodeGenerationService {
               project: projectDetails,
               nodeResponse: this.nodeResponse
             }
-            this.generateApiGateway(temp);
+            console.log('code generation apigateway services before create gateway are ----- ', temp);
+           await this.generateApiGateway(temp);
             callback('code generation completed');
           }
         })

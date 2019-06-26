@@ -654,7 +654,7 @@ export class FeatureDetailsComponent implements OnInit {
         this.getFeatureById();
 
         this.projectComponentService.updateEntity(entityData).subscribe((data) => {
-
+            this.getEntityByFeatureId();
         }, (error) => {
         });
 
@@ -683,11 +683,14 @@ export class FeatureDetailsComponent implements OnInit {
                 ];
                 // tslint:disable-next-line:max-line-length
                 this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails).subscribe(featuredetails => {
+                    if (featuredetails) {
+                        this.getEntityByFeatureId();
+                    }
                 });
 
-                if (data) {
-                    this.getFeatureById();
-                }
+                // if (data) {
+                //     this.getFeatureById();
+                // }
                 // this.getAllEntityByProjectId();
             },
             (error) => {
@@ -717,10 +720,10 @@ export class FeatureDetailsComponent implements OnInit {
                 ];
 
                 this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails).subscribe(featuredetails => {
+                    if (featuredetails) {
+                        this.getEntityByFeatureId();
+                    }
                 });
-                if (data) {
-                    this.getFeatureById();
-                }
             },
             (error) => {
 
