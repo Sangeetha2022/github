@@ -10,7 +10,8 @@ import {
   EntityManagerService,
   BackendGenManagerService,
   MicroFlowManagerService,
-  AuthGenService
+  AuthGenService,
+  FrontendGenManagerService
 } from '../apiservices/index';
 import { Common } from '../config/Common';
 
@@ -20,7 +21,8 @@ export class CodeGenerationService {
   private entityService = new EntityManagerService();
   private backendService = new BackendGenManagerService();
   private flowService = new FlowManagerService();
-  private authGenService = new AuthGenService ();
+  private authGenService = new AuthGenService();
+  private frontendGenService = new FrontendGenManagerService();
   private applicationPort = 8000;
   // private microFlowService = new MicroFlowManagerService();
   // private clientObj: any = {
@@ -62,8 +64,8 @@ export class CodeGenerationService {
     //   console.log('auth generation manager microservices might be down #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
     // }
     console.log('path @!!!!!!!!!!!!!!!!!!!!!!! ------ ', isPathCreated);
-    if(!isPathCreated) {
-     return callback('code generation path may not be exist', 400);
+    if (!isPathCreated) {
+      return callback('code generation path may not be exist', 400);
     }
     // get feature by projectId
     console.log('before getting project features ');
@@ -80,6 +82,7 @@ export class CodeGenerationService {
           console.log('starting feature each ovjes area--11----  ', featureElement, ' each feature length  ', featureElement.entities.length);
 
           const feature = {
+            id: '',
             name: '',
             description: '',
             flows: [],
@@ -87,6 +90,7 @@ export class CodeGenerationService {
             applicationPort: 0,
             project: projectDetails
           }
+          feature.id = featureElement._id;
           feature.name = featureElement.name;
           feature.description = featureElement.description;
           const flows = await this.getFlows(featureElement.flows);
@@ -131,10 +135,18 @@ export class CodeGenerationService {
                   //   // callback();
                   // }
                   console.log('after if executed')
-                  if(temp != undefined && temp.length > 0) {
+                  const frontendObj = {
+                    feature: feature,
+                    project: projectDetails,
+                    nodeResponse: null
+                  }
+                  if (temp != undefined && temp.length > 0) {
                     this.nodeResponse.push(temp[0]);
+                    frontendObj.nodeResponse = temp[0];
                   }
                   console.log('nodeResponse for each features ----  ', util.inspect(this.nodeResponse, { showHidden: true, depth: null }));
+                  const frontendResponse = await this.frontendGenProject(frontendObj);
+                  
                   next();
                 } catch (err1) {
                   console.log('errr111111111111111111111111');
@@ -160,7 +172,7 @@ export class CodeGenerationService {
               nodeResponse: this.nodeResponse
             }
             console.log('code generation apigateway services before create gateway are ----- ', temp);
-           await this.generateApiGateway(temp);
+            await this.generateApiGateway(temp);
             callback('code generation completed');
           }
         })
@@ -214,6 +226,14 @@ export class CodeGenerationService {
     })
   }
 
+  frontendGenProject(details) {
+    return new Promise(resolve => {
+      this.frontendGenService.FrontendGenProject(details, (data) => {
+        resolve(data);
+      })
+    })
+  }
+
   generateApiGateway(details) {
     return new Promise(resolve => {
       this.backendService.generateApiGateway(details, (data) => {
@@ -222,10 +242,10 @@ export class CodeGenerationService {
     })
   }
 
-  authGenPath(projectId,projectDetails){
+  authGenPath(projectId, projectDetails) {
     console.log('i am auth gennnn--->>>')
     return new Promise(resolve => {
-      this.authGenService.authPath(projectId , projectDetails , (data) => {
+      this.authGenService.authPath(projectId, projectDetails, (data) => {
         resolve(data)
       })
     })
