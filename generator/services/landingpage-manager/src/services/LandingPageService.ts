@@ -1,6 +1,8 @@
 import { Request } from 'express';
 import * as util from 'util';
 import * as asyncLoop from 'node-async-loop';
+import { exec } from 'child_process';
+import * as fs from 'fs';
 import {
     MenuManagerService,
     ScreenManagerService,
@@ -24,44 +26,65 @@ export class LandingPageService {
         let projectId = req.params.projecId;
         let menuDetails = await this.getScreenByProjectId(projectId)
         let menuData = JSON.parse(menuDetails.toString()).body;
+
+        // console.log(util.inspect(menuData), { showHidden: true, depth: null, color: true })
+
         let htmlData = JSON.stringify(menuData[0]['gjs-html']);
+        htmlData = htmlData.replace(/\\/g, "");
         let cssData = JSON.stringify(menuData[0]['gjs-css']);
         let stylesData = JSON.stringify(menuData[0]['gjs-styles']);
         let headerData = htmlData.match(/<\s*header[^>]*>(.*?)<\s*\/header>/g);
-        let sectionData = htmlData.match(/<\s*section[^>]*>(.*?)<\s*\/section>/g);
         let footerData = htmlData.match(/<\s*footer[^>]*>(.*?)<\s*\/footer>/g);
-        console.log('=========================== header', headerData)
-        console.log('=========================== footer', footerData)
-        // console.log('=========================== css', cssData)
-        // console.log('=========================== styles', stylesData)
-
-        // console.log('======================= section ', sectionData)
-        // console.log('=======================', util.inspect(menuData[0], { showHidden: true, depth: null }))
         let projectGenerationPath = '../../originalcode/'
+        let frontendGenPath = './originalcode/'
         let templateLocation = '../../template'
-        let headerObj = {
-            name: "header",
-            html: headerData
-        };
-        let footerObj =
-        {
-            name: "footer",
-            html: footerData
-        };
-        if (headerObj) {
-            htmlWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
-            componentWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
-            cssWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
-            specWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
-        }
-        if (footerObj) {
-            htmlWorker.generateRouteFile(projectGenerationPath, templateLocation, footerObj);
-            componentWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
-            cssWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
-            specWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
+        let projectName = "billing";
+        await this.createFolders(frontendGenPath)
+        await exec(`cd ${frontendGenPath} && ng new ${projectName}`, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`exec error: ${error}`);
+                return;
+            }
+            if (stdout) {
+                let headerObj = {
+                    name: { lower: "header", upper: "Header" },
+                    html: headerData
+                };
+                let footerObj = {
+                    name: { lower: "footer", upper: "Footer" },
+                    html: footerData
+                };
+                let cssObj = {
+                    name: { lower: "header", upper: "Header" },
+                    css: cssData
+                }
+                cssWorker.generateRouteFile(projectGenerationPath, templateLocation, cssObj);
 
-        }
+                if (headerObj) {
+                    htmlWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
+                    componentWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
+                    specWorker.generateRouteFile(projectGenerationPath, templateLocation, headerObj);
+                }
+                if (footerObj) {
+                    htmlWorker.generateRouteFile(projectGenerationPath, templateLocation, footerObj);
+                    componentWorker.generateRouteFile(projectGenerationPath, templateLocation, footerObj);
+                    specWorker.generateRouteFile(projectGenerationPath, templateLocation, footerObj);
+
+                }
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+        })
     }
+
+
+    createFolders(path) {
+        if (!fs.existsSync(path)) {
+            fs.mkdirSync(path)
+        }
+    };
 
 
     getMenuByProjectId(projectId) {

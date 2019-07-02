@@ -1,17 +1,17 @@
-component() ::= <<
-import { Component, OnInit } from '@angular/core';
+component(object) ::= <<
+    $if(object)$$object.name.lower:{value | 
+    import{Component, Inject, OnInit\}from '@angular/core';
+    import{ Router, NavigationEnd \} from '@angular/router';
+    @Component({
+        selector: 'app-$value$',
+        templateUrl: './$value$.component.html',
+        styleUrls: ['./$value$.component.css']
+    \}\)
+     };separator="\n"$$endif$
+     $if(object)$$object.name.upper:{value |
+    export class $value$ implements OnInit{
 
-@Component({
-  selector: 'app-test',
-  templateUrl: './test.component.html',
-  styleUrls: ['./test.component.scss']
-})
-export class TestComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+    \}
+    };separator="\n"$$endif$
+   
 >>

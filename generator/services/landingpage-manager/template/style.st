@@ -1,3 +1,3 @@
-css(cObject) ::= <<
+style(cObject) ::= <<
 $if(cObject)$$cObject.css:{cobj | $cobj$}$$endif$
 >>
