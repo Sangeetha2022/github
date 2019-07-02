@@ -20,7 +20,11 @@ import {
     MenubuilderController,
     MicroflowController,
     ScreenController,
-    GenerationController
+    GenerationController,
+    FrontendController,
+    AngularController,
+    GithubController
+
 
 } from './apicontroller';
 
@@ -41,12 +45,15 @@ let apisController = [
     new MicroflowController(),
     new CodeController(),
     new BackendController(),
+    new FrontendController(),
     new MongoController(),
     new NodeController(),
+    new AngularController(),
     new ConfigurationController(),
     new MenubuilderController(),
     new ScreenController(),
-    new GenerationController()
+    new GenerationController(),
+    new GithubController()
 ]
 
 class App {

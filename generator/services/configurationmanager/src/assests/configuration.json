@@ -2579,7 +2579,7 @@
 			"name": "projectGenerationDirectory",
 			"label": "project generation directory",
 			"description": "location of where we want to generate our project code",
-			"value": "../../../../../generatedcode",
+			"value": "/geppetto/generated-code",
 			"type": "ProjectGeneration",
 			"sub_type": null
 		},

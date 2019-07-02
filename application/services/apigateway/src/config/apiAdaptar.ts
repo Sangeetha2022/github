@@ -5,6 +5,8 @@ export class ApiAdaptar {
     post = (url, body) => {
         return new Promise((resolve, reject) => {
             request.post({ url: url, json: body }, (error, response, body) => {
+                console.log("url---------->", url);
+                console.log("body--------->", body);
                 if (body !== undefined) {
                     this.sendResponse(resolve, reject, error, response, body);
                 } else if (body === undefined) {
@@ -15,9 +17,11 @@ export class ApiAdaptar {
     }
 
     get = (url) => {
+        console.log("url", url)
         return new Promise((resolve, reject) => {
             request.get(url, (error, response, body) => {
-                if (body !== undefined) {
+                console.log('=============', body)
+                if (body) {
                     this.sendResponse(resolve, reject, error, response, JSON.parse(body));
                 } else if (body === undefined) {
                     this.sendResponse(resolve, reject, error, response, null);
@@ -51,6 +55,7 @@ export class ApiAdaptar {
     }
 
     private sendResponse = (resolve, reject, error, response, body) => {
+
         if (body !== null) {
             if (response.statusCode === 200) {
                 resolve({
@@ -181,6 +186,8 @@ export class ApiAdaptar {
                 };
                 console.error(errormsg)
                 reject(errormsg);
+            } else {
+                reject(error);
             }
         }
     }
