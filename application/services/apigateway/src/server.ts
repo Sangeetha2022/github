@@ -22,7 +22,9 @@ import {
     ScreenController,
     GenerationController,
     FrontendController,
-    AngularController
+    AngularController,
+    GithubController
+
 
 } from './apicontroller';
 
@@ -50,7 +52,8 @@ let apisController = [
     new ConfigurationController(),
     new MenubuilderController(),
     new ScreenController(),
-    new GenerationController()
+    new GenerationController(),
+    new GithubController()
 ]
 
 class App {

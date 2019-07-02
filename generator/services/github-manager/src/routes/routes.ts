@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ProjectController } from "../controllers/github.controller";
+import { ProjectController } from "../controllers/GithubController";
 
 export class Routes {
 
