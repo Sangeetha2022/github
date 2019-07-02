@@ -12,8 +12,7 @@ logging:
 
 service:
   type: NodePort
-  appdb:
-    nodePort: 30027
+  appbuilderType: LoadBalancer
   systementry:
     port: 80
     nodePort: 31111

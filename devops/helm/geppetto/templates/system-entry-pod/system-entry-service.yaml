@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.app.prefix }}-system-entry
   namespace: {{ .Values.app.namespace }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.service.appbuilderType }}
   ports:
   - name: nginx-app
     port: 80
