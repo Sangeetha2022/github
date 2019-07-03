@@ -1,10 +1,10 @@
 <div class="container">
     <br />
     <h1 style="text-align: center;">Project Components</h1>
-    <div class = 'code' >
-            <button class="btn btn-primary float-right" color="primary" (click)="generateCode()">code 
-                Generate</button>
-        </div>
+    <div class='code'>
+        <button class="btn btn-primary float-right" color="primary" (click)="generateCode()">code
+            Generate</button>
+    </div>
     <br />
     <br />
     <br>
@@ -99,20 +99,42 @@
                 </mat-expansion-panel-header>
                 <mat-card-content>
                     <div class="row">
-                        <div class="btn-group">
-                            <button class="goToButton btn-space" mat-raised-button
-                                (click)="editTemplate(screenTempId)">Modify
-                                Template</button>
-                            <button class="goToButton btn-space" mat-raised-button [routerLink]="['/templates']"
-                                [queryParams]="{projectId: project_id}">Change
-                                Template</button>
-                            <button class="goToButton btn-space" mat-raised-button (click)="GoToDesigner()">Add
-                                Screen</button>
+                        <div class='col-md-7'></div>
+                        <div class='col-md-5'>
+                            <div class="btn-group">
+                                <button class="goToButton btn-space" mat-raised-button
+                                    (click)="editTemplate(screenTempId)">Modify
+                                    Template</button>
+                                <button class="goToButton btn-space" mat-raised-button [routerLink]="['/templates']"
+                                    [queryParams]="{projectId: project_id}">Change
+                                    Template</button>
+                                <button class="goToButton btn-space" mat-raised-button (click)="GoToDesigner()">Add
+                                    Screen</button>
+                            </div>
                         </div>
+
                     </div>
                     <div class="row" style="margin: 0px;">
-                        <div class="col-md-4" *ngFor="let screen of screenDetails; let i = index">
-                            <div class="card">
+                        <div class="col-md-3" *ngFor="let screen of screenDetails; let i = index">
+                            <span class="fa fa-pencil-square-o fa-2x" *ngIf="screen.screenType === 'desktop'"
+                                (click)="editScreen(screen._id, screen.screenType)" aria-hidden="true"></span>
+                            <span *ngIf="screen.screenType === 'desktop'" class="fa fa-desktop"
+                                aria-hidden="true"></span>
+                            <span class="screen_text"
+                                *ngIf="screen.screenType === 'desktop'">{{screen?.screenName}}</span>
+                            <span class="fa fa-trash-o fa-2x" *ngIf="screen.screenType === 'desktop'"
+                                (click)="deleteScreen(screen._id)" aria-hidden="true"></span>
+
+                            <span class="fa fa-pencil-square-o fa-2x mobile-icon-edit"
+                                *ngIf="screen.screenType === 'mobile'"
+                                (click)="editScreen(screen._id, screen.screenType)" aria-hidden="true"></span>
+                            <span *ngIf="screen.screenType === 'mobile'" class="fa fa-mobile" aria-hidden="true"></span>
+                            <span class="mobile-screen-text"
+                                *ngIf="screen.screenType === 'mobile'">{{screen?.screenName}}</span>
+                            <span class="fa fa-trash-o fa-2x mobile-icon-delete" *ngIf="screen.screenType === 'mobile'"
+                                (click)="deleteScreen(screen._id)" aria-hidden="true"></span>
+
+                            <!-- <div class="card">
                                 <div class="card-header">
                                     {{screen?.screenName}}
                                     <img style="float: right; cursor: pointer;"
@@ -126,7 +148,7 @@
                                     <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
                                         [disabled]="entity.is_default">Delete</button>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="col-md-4" *ngIf="screenDetails.length === 0">
                             No Screen Available.

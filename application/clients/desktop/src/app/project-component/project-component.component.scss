@@ -20,6 +20,48 @@
   .feature .modal-body{
   height: 400px;
   overflow-y: auto;
+  }  
+  .fa.fa-desktop{
+    font-size: 200px;
+    color: #184573;
+  }
+  .fa.fa-mobile{
+    font-size: 200px;
+    color: #184573;
+  }
+
+  .mobile-icon-edit{
+    color: #165625 !important;
+    position: absolute !important;
+    bottom: 30% !important;
+    font-size: 20px !important;
+    left: 12% !important;
+    cursor: pointer !important;
+}
+
+.mobile-icon-delete{
+  color: #c11e12 !important;
+    position: absolute !important;
+    right: 68% !important;
+    bottom: 31% !important;
+    font-size: 20px !important;
+    cursor: pointer !important;
+
+}
+
+  .fa.fa-pencil-square-o{
+    color:#165625;
+    position: absolute;
+    bottom: 45%;
+    left: 18%;
+    cursor: pointer;
+  }
+  .fa.fa-trash-o{
+    color: #c11e12;
+    position: absolute;
+    right: 25%;
+    bottom: 46%;
+    cursor: pointer;
   }
   
   .delete .modal-body {
@@ -30,7 +72,6 @@
     margin: 6px;
 }
 
-  
   .example-radio-group {
   display: flex;
   flex-direction: column;
@@ -40,7 +81,21 @@
   .example-radio-button {
   margin: 5px;
   }
+
 .code {
   padding-right: 20px;
   margin-right: -38px;
+}
+.screen_text{
+  position: absolute;
+  left: 22%;
+  top: 15%;
+  font-size: 18px;
+}
+
+.mobile-screen-text{
+  position: absolute;
+  left: 2%;
+  font-size: 20px !important;
+  top: 2%;
 }
