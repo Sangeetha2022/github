@@ -72,8 +72,8 @@ export class CodeGenerationService {
     // this.createFolders(`../../../../../generatedcode/${projectDetails.name}`);
     const isPathCreated = Common.createFolders(projectPath);
     // try {
-    //   const auth  = await this.authGenPath(projectId,projectDetails);
-    // console.log('i am auth ******---->>', auth)
+    console.log('i am auth ******---->>', projectPath);
+    const auth = await this.authGenPath(projectId, projectDetails);
     // } catch {
     //   console.log('auth generation manager microservices might be down #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
     // }

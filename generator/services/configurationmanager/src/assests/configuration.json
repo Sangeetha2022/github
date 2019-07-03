@@ -2595,7 +2595,7 @@
 			"name": "authGenerationDirectory",
 			"label": "Auth Generation Directory",
 			"description": "location of where we want to generate our backend code",
-			"value": "/home/tendecoders/Desktop/Geppetto/Refactorgeppetto/geppettotest/generator/services/seed",
+			"value": "/home/tendecoders/Desktop/Geppetto/LatestGeppetto/geppettotest/generator/services/seed",
 			"type": "AuthGeneration",
 			"sub_type": null	
 		}

@@ -1,0 +1,87 @@
+// .cardsize {
+//   max-width: 43em;
+//   text-align: center;
+//   height: 30em;
+//   left: 45em;
+//   margin-top: -2em;
+//   padding-left: 6em;
+//   padding-right: 5em;
+//   margin-bottom: 9em;
+//   background: grey;
+// }
+
+
+.name {
+  text-align: center;
+  padding-top: 5em !important;
+}
+
+.password {
+  text-align: center;
+}
+
+.loginname {
+  margin-top: 2em;
+  text-align: center;
+}
+
+.imagealign {
+  margin-left: 13em;
+}
+
+input[pw-show-hide]+span {
+  cursor: pointer;
+  display: inline-block;
+  margin-left: .5ch;
+  text-transform: uppercase;
+  width: 4.5ch;
+  text-align: left;
+  line-height: 1;
+  vertical-align: middle;
+
+  small {
+    font-size: .7em;
+    opacity: .5;
+  }
+}
+
+// boring
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  font-size: calc(1em + 1.5vmin)
+}
+
+input {
+  font: inherit;
+  padding: .5ch;
+  border-radius: .4ch;
+  border: 2px solid #999;
+}
+
+body {
+  padding: 100px 0;
+  background-color: #efefef
+}
+
+a,
+a:hover {
+  color: #333
+}
+
+.eye {
+  position: absolute !important;
+  margin: -9px !important;
+  margin-left: -31px !important;
+  margin-top: 4px !important;
+}
