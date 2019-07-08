@@ -19,7 +19,7 @@ export class WinstonLogger {
     public configureWinston(app): void {
         app.use(expressWinston.logger({
             format: winston.format.combine(
-                winston.format.label({ label: 'gep-authorization-gen-api' }),
+                winston.format.label({ label: 'gep-Admin-gen-api' }),
                 winston.format.colorize(),
                 winston.format.json()
             ),
@@ -54,7 +54,7 @@ export class WinstonLogger {
         }))
         app.use(expressWinston.errorLogger({
             format: winston.format.combine(
-                winston.format.label({ label: 'gep-authorization-gen-api' }),
+                winston.format.label({ label: 'gep-Admin-gen-api' }),
                 winston.format.colorize(),
                 winston.format.json()
             ),
