@@ -162,6 +162,7 @@
     border-top: 1px solid rgba(0, 0, 0, .2);
     padding: 0;
     background: #383b42;
+    max-width: 32.333333%;
 }
 
 .sitecard-action-c:first-child {
@@ -216,4 +217,10 @@
 }
 .bottom_align {
     padding-bottom: 15%;
+}
+.container {
+    margin-top: 3%;
+}
+.modal {
+    top: 15%;
 }
