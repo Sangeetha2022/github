@@ -224,3 +224,27 @@
 .modal {
     top: 15%;
 }
+.button-create {
+    background-color: #033668;
+     border-bottom: 3px solid #033668;
+     color:white;
+  }
+  
+.button-create:hover {
+    background-color: #39a521;
+     border-bottom: 3px solid #2d831a; 
+     color:white;
+  }
+.button-close{
+    background-color: #033668;
+    border-bottom: 3px solid #033668;
+    color:white;
+}
+.button-close:hover {
+    background-color: #39a521;
+     border-bottom: 3px solid #2d831a; 
+     color:white;
+  }
+  .form-group {
+    margin-bottom: 2rem;
+}
