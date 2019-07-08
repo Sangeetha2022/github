@@ -23,7 +23,8 @@ import {
     GenerationController,
     FrontendController,
     AngularController,
-    GithubController
+    GithubController,
+    Authgencontroller
 
 
 } from './apicontroller';
@@ -53,7 +54,8 @@ let apisController = [
     new MenubuilderController(),
     new ScreenController(),
     new GenerationController(),
-    new GithubController()
+    new GithubController(),
+    new Authgencontroller()
 ]
 
 class App {
