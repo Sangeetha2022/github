@@ -63,8 +63,38 @@ ul, ol {
 
 .mainDiv {
   background: #2d3246;
-  margin-top: 6%;
-  // bottom: 0;
-  // width: 100%;
-  // position: absolute;
+  bottom: 0;
+  width: 100%;
+  position: absolute;
+}
+
+.footer_align{
+  padding-bottom: 0%;
+}
+.container_new{
+  padding-left: 4%;
+  padding-right: 1%;
+}
+.top_align{
+  padding-top: 2%;
+  text-align: center;
+}
+.line_height{
+  text-align: center;
+  line-height: 0.5;
+}
+hr{
+  color:white;
+}
+.div_border{
+  border-style: solid;
+  border-width: 1px;
+  border-color: darkslategray;
+  min-height: 55px;
+  text-align: center;
+  cursor: pointer;
+}
+.div_right_border{
+  border-right-color: darkslategray;
+  border-right-style: solid;
 }
