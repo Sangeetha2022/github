@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.prefix }}-ops-db
+  namespace: {{ .Values.app.namespace }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: {{ .Values.app.prefix }}-ops-db
+      labels:
+        name: {{ .Values.app.prefix }}-ops-db
+    spec:
+      containers:
+        - name: sonar-postgres-container
+          imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
+          image: postgres:latest
+          env:
+            - name: POSTGRES_PASSWORD
+              value: {{ .Values.database.postgres.pass }}
+            - name: POSTGRES_USER
+              value: {{ .Values.database.postgres.user }}
+            - name: POSTGRES_DB
+              value: {{ .Values.database.postgres.database }}  
+          ports:
+            - containerPort: 5432
+              name: postgres-port
+          volumeMounts:
+            # This name must match the volumes.name below.
+            - name: sonar-postgres-data
+              mountPath: /var/postgresData
+      volumes:
+        - name: sonar-postgres-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.app.prefix }}-ops-postgres-pvc
