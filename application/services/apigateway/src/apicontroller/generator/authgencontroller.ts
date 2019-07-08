@@ -19,7 +19,7 @@ export class Authgencontroller implements Controller {
 
     createLogin(req: Request, res: Response) {
         new ApiAdaptar().get(
-            `${Constants.authgenUrl}/auth?projectID=${req.query.projectID}&authPath=${req.query.authPath}&projectPath=${req.query.projectPath}`).then((response) => {
+            `${Constants.authgenUrl}/auth?projectID=${req.query.projectID}&authPath=${req.query.authPath}&projectPath=${req.query.projectPath}&authTemplate=${req.query.authTemplate}`).then((response) => {
             res.send(response);
         }).catch(err => {
             console.log('Auth generation error ----  ', err);

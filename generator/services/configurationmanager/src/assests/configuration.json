@@ -2598,6 +2598,14 @@
 			"value": "/home/tendecoders/Desktop/Geppetto/LatestGeppetto/geppettotest/generator/services/seed",
 			"type": "AuthGeneration",
 			"sub_type": null	
+		},
+		{
+			"name": "authorizationDirectory",
+			"label": "Authorization Directory",
+			"description": "location of where we want to generate our backend code",
+			"value": "/home/tendecoders/Desktop/Geppetto/LatestGeppetto/geppettotest/generator/services/auth-gen-manager/template",
+			"type": "Authorization",
+			"sub_type": null	
 		}
 	]
 }

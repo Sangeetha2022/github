@@ -17,16 +17,16 @@ export class ScreenWorker{
         let screens = JSON.parse(value);
         let menu = screens.body;
         menu.forEach(element => {
-            console.log('-----menu----', element.menuDetails); 
+            // console.log('-----menu----', element.menuDetails); 
             element.menuDetails.forEach(element2 => {
                 const screendetails = element2.screenmenu;
                 screendetails.forEach(element3 => {
-                    console.log('screens------',element3.description);
+                    // console.log('screens------',element3.description);
                     const screendescription = element3.description;
                     screendescription.screen.forEach(element4 => {
-                        console.log('-------screen----', typeof element4); 
+                        // console.log('-------screen----', typeof element4); 
                         screensname.push(element4);
-                        console.log('------screen----', screensname);
+                        // console.log('------screen----', screensname);
                     });
                 });
             });

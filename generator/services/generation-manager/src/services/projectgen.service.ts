@@ -21,7 +21,8 @@ export class ProjectgenService {
             frontendTemplate: '',
             backendTemplate: '',
             mongoTemplate: '',
-            authTemplatePath: ''
+            authTemplatePath: '',
+            authorizationtemppath: '',
         },
         clientLanguage: {},
         clientFramework: {},
@@ -195,6 +196,14 @@ export class ProjectgenService {
             x.name.toString().toLowerCase() === 'authgenerationdirectory'
         );
         this.projectObj.authTemplatePath = authPath.value;
+
+        //authorization Template location
+        const authorizationPath = configInfo.body.find(x =>
+            x.name.toString().toLowerCase() === 'authorizationdirectory'
+        );
+        this.projectObj.authorizationtemppath = authorizationPath.value;
+
+
         // const frontendSourcePath = configInfo.find(x =>
         //     x.name.toString().toLowerCase() === 'frontendtemplatelocation'
         // );

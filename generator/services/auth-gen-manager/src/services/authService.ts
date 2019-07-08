@@ -2,8 +2,11 @@ import { Request } from 'express'
 import * as fs from 'fs';
 import * as path from 'path';
 import * as makeDir from 'make-dir';
-import { MenuBuilderService } from '../apiservices/index';
+import { MenuBuilderService, EntityMicroService } from '../apiservices/index';
 import { ScreenWorker } from '../worker/ScreenWorker';
+import { ModelWorker } from '../worker/ModelWorker';
+import { CamundaWorker } from '../worker/CamundaWorker';
+import { DmnWorkerFile } from '../worker/DMNWoker';
 export class AuthService {
 
     private authGenFiles: any = {
@@ -11,7 +14,7 @@ export class AuthService {
         projectId: '',
         pathFile: '',
         folder: '',
-        apigatewayfolder: '',
+        templatepath: '',
         proxyFolder: '',
         camundaFolder: '',
         securityPath: '',
@@ -23,14 +26,18 @@ export class AuthService {
 
     }
     private menubuilder = new MenuBuilderService();
+    private entityservice = new EntityMicroService();
+    private camundaworker = new CamundaWorker();
+    private dmnworker = new DmnWorkerFile();
     private workernode = new ScreenWorker();
+    private modelworker = new ModelWorker();
     private sourcePath: any;
     private frontendpath: any;
 
     public auth(req: Request, callback) {
-        console.log('path ---- >>>', req.query.projectID)
-
+        console.log('path ---- >>>', req.query.authTemplate);
         this.authGenFiles.projectpath = req.query.projectPath;
+        this.authGenFiles.templatepath = req.query.authTemplate;
         this.authGenFiles.pathFile = req.query.authPath;
         this.authGenFiles.projectId = req.query.projectID;
         this.sourcePath = path.resolve(`${this.authGenFiles.projectpath}/loginbackend`);
@@ -52,19 +59,13 @@ export class AuthService {
         this.authGenFiles.authProxyPath = `${this.authGenFiles.pathFile}/Auth-Proxy`;
         this.authGenFiles.camundaPath = `${this.authGenFiles.pathFile}/Camunda`;
         this.authGenFiles.FrontendLogin = `${this.authGenFiles.pathFile}/Login`;
-        this.authGenFiles.apigatewaypath = `${this.authGenFiles.pathFile}/apigateway`;
-        console.log('-----login-----', this.authGenFiles.FrontendLogin);
         this.authGenFiles.folder = this.sourcePath + `/securitymanager`;
         this.authGenFiles.proxyFolder = this.sourcePath + `/authproxy`;
         this.authGenFiles.camundaFolder = this.sourcePath + `/camunda`;
-        this.authGenFiles.apigatewayfolder = this.sourcePath + `/apigateway`;
         this.authGenFiles.Logingenerated = this.frontendpath + ``;
 
         if (this.authGenFiles) {
-            if (this.authGenFiles.apigatewaypath) {
-                this.createFolder();
-                this.apigatewayservice(callback);
-            }
+            
             if (this.authGenFiles.securityPath) {
                 this.createFolder();
                 this.securityManagerService(callback)
@@ -82,7 +83,6 @@ export class AuthService {
                 this.Loginfrontcomponents(callback);
             }
         }
-        callback('Authorization backend code generated successfully');
     }
 
     createFolder() {
@@ -112,187 +112,53 @@ export class AuthService {
         }
     }
 
-    public apigatewayservice(callback) {
-        fs.readdirSync(`${this.authGenFiles.apigatewaypath}`).forEach((file) => {
-            if (file === 'package.json') {
-                fs.readFile(`${this.authGenFiles.apigatewaypath}/${file}`, 'utf8', (err, packagejson) => {
-                    fs.writeFile(this.authGenFiles.apigatewayfolder + '/package.json', packagejson, (err) => {
-                        if (err) {
-                            callback(err);
-                        }
-                    })
-                })
-            } else if (file === 'tsconfig.json') {
-                fs.readFile(`${this.authGenFiles.apigatewaypath}/${file}`, 'utf8', (err, tsconfigjson) => {
-                    fs.writeFile(this.authGenFiles.apigatewayfolder + '/tsconfig.json', tsconfigjson, (err) => {
-                        if (err) {
-                            callback(err);
-                        }
-                    })
-                })
-            } else if (file === 'src') {
-                let srcfolder = this.authGenFiles.apigatewayfolder + `/src`;
-                if (!fs.existsSync(srcfolder)) {
-                    fs.mkdirSync(srcfolder);
-                }
-                let apigatewaysrc = `${this.authGenFiles.apigatewaypath}/${file}`
-                //@ts-ignore
-                fs.readdirSync(apigatewaysrc).find(x => {
-                    if (x === "server.ts") {
-                        fs.readFile(`${apigatewaysrc}/${x}`, 'utf8', (err, serverFile) => {
-                            fs.writeFile(srcfolder + `/server.ts`, serverFile, (err) => {
-                                if (err) {
-                                    callback(err)
-                                }
-                            })
-                        })
-                    } else if (x === 'interface') {
-                        let interfacefolder = this.authGenFiles.apigatewayfolder + `/interface`;
-                        if (!fs.existsSync(interfacefolder)) {
-                            fs.mkdirSync(interfacefolder);
-                        }
-                        let interfacefile = `${this.authGenFiles.apigatewaypath}/${file}`;
-                        // @ts-ignore
-                        fs.readdirSync(interfacefile).find(y => {
-                            if (y === 'controller.interface.ts') {
-                                fs.readFile(`${interfacefile}/${x}`, 'utf8', (err, controllerfile) => {
-                                    fs.writeFile(interfacefolder + `/controller.interface.ts`, controllerfile, (err) => {
-                                        if (err) {
-                                            callback(err)
-                                        }
-                                    })
-                                })
-                            }
-                        })
-                    } else if (x === 'config') {
-                        let configfolder = this.authGenFiles.apigatewayfolder + `/config`;
-                        if (!fs.existsSync(configfolder)) {
-                            fs.mkdirSync(configfolder);
-                        }
-                        let configfile = `${this.authGenFiles.apigatewaypath}/${file}`;
-                        // @ts-ignore
-                        fs.readdirSync(configfile).find(z => {
-                            if (z === 'apiAdaptar.ts') {
-                                fs.readFile(`${configfile}/${x}`, 'utf8', (err, apiadaptar) => {
-                                    fs.writeFile(configfolder + `/apiAdaptar.ts`, apiadaptar, (err) => {
-                                        if (err) {
-                                            callback(err)
-                                        }
-                                    })
-                                })
-                            } else if (z === 'Constants.ts') {
-                                fs.readFile(`${configfile}/${x}`, 'utf8', (err, constantsfile) => {
-                                    fs.writeFile(configfolder + `/Constants.ts`, constantsfile, (err) => {
-                                        if (err) {
-                                            callback(err)
-                                        }
-                                    })
-                                })
-                            } else if (z === 'WinstonLogger.ts') {
-                                fs.readFile(`${configfile}/${x}`, 'utf8', (err, loggerfile) => {
-                                    fs.writeFile(configfolder + `/WinstonLogger.ts`, loggerfile, (err) => {
-                                        if (err) {
-                                            callback(err)
-                                        }
-                                    })
-                                })
-                            }
-                        })
-                    } else if (x === 'apicontroller') {
-                        let apicontrollerfolder = this.authGenFiles.apigatewayfolder + `/apicontroller`;
-                        if (!fs.existsSync(apicontrollerfolder)) {
-                            fs.mkdirSync(apicontrollerfolder);
-                        }
-                        let apicontrollerfile = `${this.authGenFiles.apigatewaypath}/${file}`;
-                        // @ts-ignore
-                        fs.readdirSync(apicontrollerfile).find(c => {
-                            if (c === 'index.ts') {
-                                fs.readFile(`${apicontrollerfile}/${x}`, 'utf8', (err, indexfile) => {
-                                    fs.writeFile(apicontrollerfolder + `/index.ts`, indexfile, (err) => {
-                                        if (err) {
-                                            callback(err)
-                                        }
-                                    })
-                                })
-                            } else if (c === 'camunda.controller.ts') {
-                                fs.readFile(`${apicontrollerfile}/${x}`, 'utf8', (err, camundacontroller) => {
-                                    fs.writeFile(apicontrollerfolder + `/camunda.controller.ts`, camundacontroller, (err) => {
-                                        if (err) {
-                                            callback(err)
-                                        }
-                                    })
-                                })
-                            } else if (c === 'login.controller.ts') {
-                                fs.readFile(`${apicontrollerfile}/${x}`, 'utf8', (err, logincontroller) => {
-                                    fs.writeFile(apicontrollerfolder + `/login.controller.ts`, logincontroller, (err) => {
-                                        if (err) {
-                                            callback(err)
-                                        }
-                                    })
-                                })
-                            } else if (c === 'proxy.controller.ts') {
-                                fs.readFile(`${apicontrollerfile}/${x}`, 'utf8', (err, proxycontroller) => {
-                                    fs.writeFile(apicontrollerfolder + `/proxy.controller.ts`, proxycontroller, (err) => {
-                                        if (err) {
-                                            callback(err)
-                                        }
-                                    })
-                                })
-                            }
-                        })
-                    }
-                })
-            }
-        })
-    }
     public Loginfrontcomponents(callback) {
         fs.readdirSync(`${this.authGenFiles.FrontendLogin}`).forEach((file) => {
-            console.log('-------file-----', file);
             if (file === 'login.component.html') {
-                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}, 'utf8`, (err, loginhtml) => {
+                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}`, 'utf8', (err, loginhtml) => {
                     fs.writeFile(this.authGenFiles.Logingenerated + '/login.component.html', loginhtml, (err) => {
                         if (err) {
-                            callback(err);
+                            return (err);
                         }
                     })
                 })
             } else if (file === 'login.component.scss') {
-                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}, 'utf8`, (err, loginhtml) => {
+                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}`, 'utf8', (err, loginhtml) => {
                     fs.writeFile(this.authGenFiles.Logingenerated + '/login.component.scss', loginhtml, (err) => {
                         if (err) {
-                            callback(err);
+                            return (err);
                         }
                     })
                 })
             } else if (file === 'login.component.spec.ts') {
-                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}, 'utf8`, (err, loginhtml) => {
+                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}`, 'utf8', (err, loginhtml) => {
                     fs.writeFile(this.authGenFiles.Logingenerated + '/login.component.spec.ts', loginhtml, (err) => {
                         if (err) {
-                            callback(err);
+                            return (err);
                         }
                     })
                 })
             } else if (file === 'login.component.ts') {
-                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}, 'utf8`, (err, loginhtml) => {
+                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}`, 'utf8', (err, loginhtml) => {
                     fs.writeFile(this.authGenFiles.Logingenerated + '/login.component.ts', loginhtml, (err) => {
                         if (err) {
-                            callback(err);
+                            return (err);
                         }
                     })
                 })
             } else if (file === 'loginservice.service.ts') {
-                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}, 'utf8`, (err, loginhtml) => {
+                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}`, 'utf8', (err, loginhtml) => {
                     fs.writeFile(this.authGenFiles.Logingenerated + '/login.service.ts', loginhtml, (err) => {
                         if (err) {
-                            callback(err);
+                            return (err);
                         }
                     })
                 })
             } else if (file === 'loginservice.service.spec.ts') {
-                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}, 'utf8`, (err, loginhtml) => {
+                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}`, 'utf8', (err, loginhtml) => {
                     fs.writeFile(this.authGenFiles.Logingenerated + '/login.service.spec.ts', loginhtml, (err) => {
                         if (err) {
-                            callback(err);
+                            return (err);
                         }
                     })
                 })
@@ -302,29 +168,21 @@ export class AuthService {
     // AuthProxy
     public authProxyService(callback) {
         fs.readdirSync(`${this.authGenFiles.authProxyPath}`).forEach((file) => {
-            console.log('json----file --->>', file)
 
             if (file === 'package.json') {
-                console.log('json----file --->>', this.authGenFiles.proxyFolder);
-                console.log('json----file --->>', file)
 
                 fs.readFile(`${this.authGenFiles.authProxyPath}/${file}`, 'utf8', (err, jsonFile) => {
-                    console.log('json----file --->>', jsonFile)
                     fs.writeFile(this.authGenFiles.proxyFolder + `/package.json`, jsonFile, (err) => {
                         if (err) {
-                            callback(err)
+                            return (err)
                         }
                     })
                 })
             } else if (file === 'tsconfig.json') {
-                console.log('ts----file --->>', file)
-
                 fs.readFile(`${this.authGenFiles.authProxyPath}/${file}`, 'utf8', (err, tsFile) => {
-                    console.log('ts----file --->>', tsFile)
-
                     fs.writeFile(this.authGenFiles.proxyFolder + `/tsconfig.json`, tsFile, (err) => {
                         if (err) {
-                            callback(err)
+                            return (err)
                         }
                     })
                 })
@@ -341,7 +199,7 @@ export class AuthService {
                         fs.readFile(`${srcFolder}/${x}`, 'utf8', (err, serverFile) => {
                             fs.writeFile(src + `/server.ts`, serverFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
                         })
@@ -354,7 +212,7 @@ export class AuthService {
                         fs.readFile(`${srcFolder}/${x}/ProxyController.ts`, 'utf8', (err, ProxyControllersFile) => {
                             fs.writeFile(contoller + `/ProxyController.ts`, ProxyControllersFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
                         })
@@ -366,7 +224,7 @@ export class AuthService {
                         fs.readFile(`${srcFolder}/${x}/routes.ts`, 'utf8', (err, routeFile) => {
                             fs.writeFile(route + `/routes.ts`, routeFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
 
@@ -380,7 +238,7 @@ export class AuthService {
                         fs.readFile(`${srcFolder}/${x}/Proxyservice.ts`, 'utf8', (err, Proxyservice) => {
                             fs.writeFile(service + `/Proxyservice.ts`, Proxyservice, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
 
@@ -393,7 +251,7 @@ export class AuthService {
                         fs.readFile(`${srcFolder}/${x}/Proxydao.ts`, 'utf8', (err, Proxydao) => {
                             fs.writeFile(dao + `/Proxydao.ts`, Proxydao, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
                         })
@@ -404,9 +262,8 @@ export class AuthService {
                         }
                         fs.readFile(`${srcFolder}/${x}/Signin.ts`, 'utf8', (err, Signin) => {
                             fs.writeFile(model + `/Signin.ts`, Signin, (err) => {
-                                console.log('sucess -read-- :)  ->>', Signin)
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
                         })
@@ -418,16 +275,16 @@ export class AuthService {
                         fs.readFile(`${srcFolder}/${x}/MongoConfig.ts`, 'utf8', (err, mongoconfigFile) => {
                             fs.writeFile(config + `/MongoConfig.ts`, mongoconfigFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 } else if (`${srcFolder}/${x}/Constants.ts`) {
                                     fs.readFile(`${srcFolder}/${x}/Constants.ts`, 'utf8', (err, Constants) => {
                                         fs.writeFile(config + `/Constants.ts`, Constants, (err) => {
                                             if (err) {
-                                                callback(err)
+                                                return (err)
                                             } else {
                                                 fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
                                                     fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
-                                                        callback(err)
+                                                        return (err)
                                                     })
                                                 })
                                             }
@@ -446,14 +303,15 @@ export class AuthService {
     }
 
     //security
-
-    public securityManagerService(callback) {
+    public async securityManagerService(callback) {
+        const entitydetails = await this.getEntities();
+        // console.log('-----entitydetails----', entitydetails);
         fs.readdirSync(`${this.authGenFiles.securityPath}`).forEach((file) => {
             if (file === 'package.json') {
                 fs.readFile(`${this.authGenFiles.securityPath}/${file}`, 'utf8', (err, jsonFile) => {
                     fs.writeFile(this.authGenFiles.folder + `/package.json`, jsonFile, (err) => {
                         if (err) {
-                            callback(err)
+                            return (err)
                         }
                     })
                 })
@@ -461,7 +319,7 @@ export class AuthService {
                 fs.readFile(`${this.authGenFiles.securityPath}/${file}`, 'utf8', (err, tsFile) => {
                     fs.writeFile(this.authGenFiles.folder + `/tsconfig.json`, tsFile, (err) => {
                         if (err) {
-                            callback(err)
+                            return (err)
                         }
                     })
                 })
@@ -471,14 +329,14 @@ export class AuthService {
                 if (!fs.existsSync(src)) {
                     fs.mkdirSync(src);
                 }
-                let srcFolder = `${this.authGenFiles.securityPath}/${file}`
+                let srcFolder = `${this.authGenFiles.securityPath}/${file}`;
                 // @ts-ignore
                 fs.readdirSync(srcFolder).find(x => {
                     if (x === 'server.ts') {
                         fs.readFile(`${srcFolder}/${x}`, 'utf8', (err, serverFile) => {
                             fs.writeFile(src + `/server.ts`, serverFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
                         })
@@ -486,26 +344,26 @@ export class AuthService {
                         fs.readFile(`${srcFolder}/${x}`, 'utf8', (err, seedFile) => {
                             fs.writeFile(src + `/seed.ts`, seedFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
 
                         })
                     } else if (x === 'controllers') {
-                        let contoller = this.authGenFiles.folder + `/controllers`;
-                        if (!fs.existsSync(contoller)) {
-                            fs.mkdirSync(contoller);
+                        let controller = src + `/controllers`;
+                        if (!fs.existsSync(controller)) {
+                            fs.mkdirSync(controller);
                         }
-
+                        console.log('-----controller----', controller);
                         fs.readFile(`${srcFolder}/${x}/Consentcontrollers.ts`, 'utf8', (err, ConsentcontrollersFile) => {
-                            fs.writeFile(contoller + `/Consentcontrollers.ts`, ConsentcontrollersFile, (err) => {
+                            fs.writeFile(controller + `/Consentcontrollers.ts`, ConsentcontrollersFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 } else {
                                     fs.readFile(`${srcFolder}/${x}/Signincontrollers.ts`, 'utf8', (err, Signincontrollers) => {
-                                        fs.writeFile(contoller + `/Signincontrollers.ts`, Signincontrollers, (err) => {
+                                        fs.writeFile(controller + `/Signincontrollers.ts`, Signincontrollers, (err) => {
                                             if (err) {
-                                                callback(err)
+                                                return (err)
                                             }
                                         })
                                     })
@@ -513,31 +371,31 @@ export class AuthService {
                             })
                         })
                     } else if (x === 'routes') {
-                        let route = this.authGenFiles.folder + `/routes`;
+                        let route = src + `/routes`;
                         if (!fs.existsSync(route)) {
                             fs.mkdirSync(route);
                         }
                         fs.readFile(`${srcFolder}/${x}/routes.ts`, 'utf8', (err, routeFile) => {
                             fs.writeFile(route + `/routes.ts`, routeFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
 
                         })
                     } else if (x === 'service') {
-                        let service = this.authGenFiles.folder + `/services`;
+                        let service = src + `/services`;
                         if (!fs.existsSync(service)) {
                             fs.mkdirSync(service);
                         }
                         fs.readFile(`${srcFolder}/${x}/consentservice.ts`, 'utf8', (err, consentServiceFile) => {
                             fs.writeFile(service + `/consentservice.ts`, consentServiceFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 } else {
                                     fs.readFile(`${srcFolder}/${x}/Signinservice.ts`, 'utf8', (err, SigninserviceFile) => {
                                         fs.writeFile(service + `/Signinservice.ts`, SigninserviceFile, (err) => {
-                                            callback(err)
+                                            return (err)
                                         })
                                     })
                                 }
@@ -545,14 +403,14 @@ export class AuthService {
 
                         })
                     } else if (x === 'daos') {
-                        let dao = this.authGenFiles.folder + `/daos`;
+                        let dao = src + `/daos`;
                         if (!fs.existsSync(dao)) {
                             fs.mkdirSync(dao);
                         }
                         fs.readFile(`${srcFolder}/${x}/ConsentDao.ts`, 'utf8', (err, consentDaoFile) => {
                             fs.writeFile(dao + `/ConsentDao.ts`, consentDaoFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 } else {
                                     fs.readFile(`${srcFolder}/${x}/SigninDao.ts`, 'utf8', (err, SigninDaoFile) => {
                                         fs.writeFile(dao + `/SigninDao.ts`, SigninDaoFile, (err) => {
@@ -562,43 +420,42 @@ export class AuthService {
                             })
                         })
                     } else if (x === 'models') {
-                        let model = this.authGenFiles.folder + `/models`;
+                        this.modelworker.createfile(entitydetails, this.authGenFiles.folder, (modeldata => {
+                            // console.log('------workerdata----', modeldata);
+                            // callback(modeldata);
+
+                        }));
+                        let model = src + `/models`;
                         if (!fs.existsSync(model)) {
                             fs.mkdirSync(model);
                         }
                         fs.readFile(`${srcFolder}/${x}/Role.ts`, 'utf8', (err, roleModelFile) => {
                             fs.writeFile(model + `/Role.ts`, roleModelFile, (err) => {
                                 if (err) {
-                                    callback(err)
-                                } else {
-                                    fs.readFile(`${srcFolder}/${x}/User.ts`, 'utf8', (err, userModelFile) => {
-                                        fs.writeFile(model + `/User.ts`, userModelFile, (err) => {
-                                            callback(err)
-                                        })
-                                    })
+                                    return (err)
                                 }
                             })
                         })
                     } else if (x === 'config') {
-                        let config = this.authGenFiles.folder + `/config`;
+                        let config = src + `/config`;
                         if (!fs.existsSync(config)) {
                             fs.mkdirSync(config);
                         }
                         fs.readFile(`${srcFolder}/${x}/Mongoconfig.ts`, 'utf8', (err, mongoconfigFile) => {
                             fs.writeFile(config + `/Mongoconfig.ts`, mongoconfigFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 } else {
                                     fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
                                         fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
-                                            callback(err)
+                                            return (err)
                                         })
                                     })
                                 }
                             })
                         })
                     } else if (x === 'assets') {
-                        let assets = this.authGenFiles.folder + `/assets`;
+                        let assets = src + `/assets`;
                         if (!fs.existsSync(assets)) {
                             fs.mkdirSync(assets);
                         }
@@ -606,14 +463,12 @@ export class AuthService {
                             fs.writeFile(assets + `/role.ts`, assetsFile, (err) => {
                                 if (err) {
 
-                                    callback(err)
+                                    return (err)
                                 }
                             })
                         })
                     }
                 })
-            } else {
-                callback('security file creates')
             }
         })
 
@@ -624,20 +479,25 @@ export class AuthService {
     public async camundaService(callback) {
 
         const screens = await this.getMenubuilder();
-        console.log('-----screens-----', screens);
+        // console.log('-----screens-----', screens);
         this.workernode.createfile(screens, this.authGenFiles.camundaFolder, (data => {
-            console.log('------workerdata----', data);
+            // console.log('------workerdata----', data);
+            return callback(data)
         }));
-        // const workerscreen = await this.workernode.ScreenName(screens,(data=>{
-        //     console.log('------workerdata----',data);
-        // }));
+        this.dmnworker.dmnTable(screens, this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (dmndata => {
+            // callback(dmndata);
+        }));
+
+        this.camundaworker.createConfig(this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (configdata=>{
+
+        }));
         fs.readdirSync(`${this.authGenFiles.camundaPath}`).forEach((file) => {
 
             if (file === 'package.json') {
                 fs.readFile(`${this.authGenFiles.camundaPath}/${file}`, 'utf8', (err, jsonFile) => {
                     fs.writeFile(this.authGenFiles.camundaFolder + `/package.json`, jsonFile, (err) => {
                         if (err) {
-                            callback(err)
+                            return (err)
                         }
                     })
                 })
@@ -645,14 +505,12 @@ export class AuthService {
                 fs.readFile(`${this.authGenFiles.camundaPath}/${file}`, 'utf8', (err, tsFile) => {
                     fs.writeFile(this.authGenFiles.camundaFolder + `/tsconfig.json`, tsFile, (err) => {
                         if (err) {
-                            callback(err)
+                            return (err)
                         }
                     })
                 })
             }
             else if (file === 'src') {
-                let assetsfile = this.authGenFiles.camundaFolder + `/assets`;
-                var screens = ['Landing', 'Project', 'flow-component', 'flow-manager', 'available-connectors'];
                 let src = this.authGenFiles.camundaFolder + `/src`
                 if (!fs.existsSync(src)) {
                     fs.mkdirSync(src);
@@ -664,7 +522,7 @@ export class AuthService {
                         fs.readFile(`${srcFolder}/${x}`, 'utf8', (err, serverFile) => {
                             fs.writeFile(src + `/server.ts`, serverFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
                         })
@@ -672,13 +530,13 @@ export class AuthService {
                         fs.readFile(`${srcFolder}/${x}`, 'utf8', (err, seedFile) => {
                             fs.writeFile(src + `/seed.ts`, seedFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
 
                         })
                     } else if (x === 'controllers') {
-                        let contoller = this.authGenFiles.camundaFolder + `/controllers`;
+                        let contoller = src + `/controllers`;
                         if (!fs.existsSync(contoller)) {
                             fs.mkdirSync(contoller);
                         }
@@ -686,61 +544,61 @@ export class AuthService {
                         fs.readFile(`${srcFolder}/${x}/Camundacontroller.ts`, 'utf8', (err, Camundacontroller) => {
                             fs.writeFile(contoller + `/Camundacontroller.ts`, Camundacontroller, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
                         })
                     } else if (x === 'routes') {
-                        let route = this.authGenFiles.camundaFolder + `/routes`;
+                        let route = src + `/routes`;
                         if (!fs.existsSync(route)) {
                             fs.mkdirSync(route);
                         }
                         fs.readFile(`${srcFolder}/${x}/routes.ts`, 'utf8', (err, routeFile) => {
                             fs.writeFile(route + `/routes.ts`, routeFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
 
                         })
                     } else if (x === 'services') {
-                        let service = this.authGenFiles.camundaFolder + `/services`;
+                        let service = src + `/services`;
                         if (!fs.existsSync(service)) {
                             fs.mkdirSync(service);
                         }
                         fs.readFile(`${srcFolder}/${x}/Camundaservice.ts`, 'utf8', (err, Camundaservice) => {
                             fs.writeFile(service + `/Camundaservice.ts`, Camundaservice, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
 
                         })
                     } else if (x === 'model') {
-                        let model = this.authGenFiles.camundaFolder + `/model`;
+                        let model = src + `/model`;
                         if (!fs.existsSync(model)) {
                             fs.mkdirSync(model);
                         }
                         fs.readFile(`${srcFolder}/${x}/resource.ts`, 'utf8', (err, resource) => {
                             fs.writeFile(model + `/resource.ts`, resource, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 }
                             })
                         })
                     } else if (x === 'config') {
-                        let config = this.authGenFiles.camundaFolder + `/config`;
+                        let config = src + `/config`;
                         if (!fs.existsSync(config)) {
                             fs.mkdirSync(config);
                         }
                         fs.readFile(`${srcFolder}/${x}/Mongoconfig.ts`, 'utf8', (err, mongoconfigFile) => {
                             fs.writeFile(config + `/Mongoconfig.ts`, mongoconfigFile, (err) => {
                                 if (err) {
-                                    callback(err)
+                                    return (err)
                                 } else {
                                     fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
                                         fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
-                                            callback(err)
+                                            return (err)
                                         })
                                     })
                                 }
@@ -757,11 +615,19 @@ export class AuthService {
     getMenubuilder() {
         return new Promise(resolve => {
             this.menubuilder.Menubuilder(this.authGenFiles.projectId, (data) => {
-                console.log('-------authdata-----', data);
+                // console.log('-------authdata-----', data);
                 resolve(data);
             });
 
         });
+    }
 
+    getEntities() {
+        return new Promise(entitymodel => {
+            this.entityservice.Entityservice(this.authGenFiles.projectId, (entityvalue) => {
+                // console.log('------enititiesdata------', entityvalue);
+                entitymodel(entityvalue);
+            })
+        })
     }
 }

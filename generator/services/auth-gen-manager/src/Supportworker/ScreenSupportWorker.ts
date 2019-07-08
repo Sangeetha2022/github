@@ -13,7 +13,10 @@ export class ScreenSupportWorker {
         }
         fs.writeFile(assetsfolder + `/Screen.ts`, modelData, function (err) {
             if (err) throw err;
-            callback('file generated');
+            var response = {
+                body: 'Login file Generated'
+            }
+            callback(response);
         })
 
     }
