@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './loginservice.service';
 import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
@@ -92,25 +88,27 @@ export class LoginComponent implements OnInit {
   }
 
 
-  newUserLogin() {
-    this.loginservice.signup(this.user).subscribe(data => {
-      this.Userdetails = data.Userdetails;
-      console.log('userinfoo--->', this.Userdetails);
-      this.displayModel = 'none';
-      this.isChecked = false;
-      this.user.firstName = '';
-      this.user.lastName = '';
-      if (this.Userdetails.body === 'Email is already exists') {
-        console.log('-----------error message-------');
-        this.errormessage = this.Userdetails.body;
-      } else {
-        if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '' || this.Userdetails.body.Idtoken === undefined) {
-          this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });
-        }
+  // loginUser() {
+  //   console.log('login--->>', this.user)
+  //   this.loginservice.signup(this.user).subscribe(data => {
+  //     this.Userdetails = data.Userdetails;
+  //     console.log('userinfoo--->', this.Userdetails);
+  //     this.displayModel = 'none';
+  //     this.isChecked = false;
+  //     this.user.firstName = '';
+  //     this.user.lastName = '';
+  //     if (this.Userdetails.body === 'Email is already exists') {
+  //       console.log('-----------error message-------');
+  //       this.errormessage = this.Userdetails.body;
+  //     } else {
+  //       if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '' || this.Userdetails.body.Idtoken === undefined) {
+  //         this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });
+  //       }
 
-      }
-    });
-  }
+  //     }
+  //   });
+  // }
+
   hideEye(){
     this.show = !this.show;
   }
