@@ -7,6 +7,7 @@ import { ScreenWorker } from '../worker/ScreenWorker';
 import { ModelWorker } from '../worker/ModelWorker';
 import { CamundaWorker } from '../worker/CamundaWorker';
 import { DmnWorkerFile } from '../worker/DMNWoker';
+import { Routes } from '../assets/route.json';
 export class AuthService {
 
     private authGenFiles: any = {
@@ -65,7 +66,7 @@ export class AuthService {
         this.authGenFiles.Logingenerated = this.frontendpath + ``;
 
         if (this.authGenFiles) {
-            
+
             if (this.authGenFiles.securityPath) {
                 this.createFolder();
                 this.securityManagerService(callback)
@@ -422,7 +423,6 @@ export class AuthService {
                     } else if (x === 'models') {
                         this.modelworker.createfile(entitydetails, this.authGenFiles.folder, (modeldata => {
                             // console.log('------workerdata----', modeldata);
-                            // callback(modeldata);
 
                         }));
                         let model = src + `/models`;
@@ -482,13 +482,13 @@ export class AuthService {
         // console.log('-----screens-----', screens);
         this.workernode.createfile(screens, this.authGenFiles.camundaFolder, (data => {
             // console.log('------workerdata----', data);
-            return callback(data)
+            return callback(Routes)
         }));
         this.dmnworker.dmnTable(screens, this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (dmndata => {
             // callback(dmndata);
         }));
 
-        this.camundaworker.createConfig(this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (configdata=>{
+        this.camundaworker.createConfig(this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (configdata => {
 
         }));
         fs.readdirSync(`${this.authGenFiles.camundaPath}`).forEach((file) => {
