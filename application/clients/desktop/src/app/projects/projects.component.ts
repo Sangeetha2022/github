@@ -348,10 +348,13 @@ export class ProjectsComponent implements OnInit {
   }
 
 
-  getAllGepTemplates() {
+     getAllGepTemplates() {
     this.templateScreenService.getAllTemplates().subscribe(gepTemp => {
       this.gepTemplates = gepTemp;
       this.gepTempImages = this.gepTemplates.template_image;
+    },
+    error => {
+      console.log('Check the browser console to see more info.', 'Error!');
     });
   }
   getAllUserNotify(user_id) {

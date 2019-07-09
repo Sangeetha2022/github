@@ -12,12 +12,25 @@ export class FrontendController implements Controller {
     }
 
     private initializeRoutes() {
-        this.router.route('/frontend/project').post(this.createProject);
+        this.router.route('/frontend/project').post(this.frontendProject);
+        this.router.route('/frontend/template/project').post(this.frontendTemplateProject);
     }
 
-    createProject(req: Request, res: Response) {
+    frontendProject(req: Request, res: Response) {
         new ApiAdaptar().post(
             `${Constants.frontendGenUrl}/frontend/project`,
+            req.body
+        ).then((response) => {
+            res.send(response);
+        }).catch(err => {
+            res.send(err);
+        });
+    }
+
+    frontendTemplateProject(req: Request, res: Response) {
+        console.log('calling frontend template project');
+        new ApiAdaptar().post(
+            `${Constants.frontendGenUrl}/frontend/template/project`,
             req.body
         ).then((response) => {
             res.send(response);

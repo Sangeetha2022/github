@@ -25,7 +25,10 @@ export class CodeGenerationService {
   private authGenService = new AuthGenService();
   private frontendGenService = new FrontendGenManagerService();
   private githubService = new GithubManagerService();
-  private applicationPort = 8000;
+  private NODE_PORT_NUMBER = 8000;
+  private APIGATEWAY_PORT_NUMBER = 3000;
+  private LOCALHOST = 'localhost';
+  // private api
   // private microFlowService = new MicroFlowManagerService();
   // private clientObj: any = {
   //   name: '',
@@ -73,16 +76,31 @@ export class CodeGenerationService {
     console.log('create project code rae ----- ', projectId, ' ----- ', projectDetails);
     // this.createFolders(`../../../../../generatedcode/${projectDetails.name}`);
     const isPathCreated = Common.createFolders(projectPath);
-    // try {
+    try {
     console.log('i am auth ******---->>', projectPath);
-    const auth = await this.authGenPath(projectId, projectDetails,auth_templatepath);
+    const auth = await this.authGenPath(projectId, projectDetails,auth_templatepath).catch(error => {
+      console.log('cannot able to create the auth files');
+    });
     console.log('-------auth gen manager------', auth);
-    // } catch {
-    //   console.log('auth generation manager microservices might be down #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-    // }
+    } catch {
+      console.log('auth generation manager microservices might be down #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+    }
     console.log('path @!!!!!!!!!!!!!!!!!!!!!!! ------ ', isPathCreated);
     if (!isPathCreated) {
       return callback('code generation path may not be exist', 400);
+    }
+    // generate template with basic auth 
+    try {
+      const templateObj = {
+        projectId: projectId,
+        sharedUrl: this.LOCALHOST,
+        apigatewayPortNumber: this.APIGATEWAY_PORT_NUMBER,
+        projectGenerationPath: projectPath,
+        project: projectDetails
+      }
+      await this.frontendTemplateProject(templateObj);
+    } catch {
+      console.log('cannot able to create the template');
     }
     // get feature by projectId
     console.log('before getting project features ');
@@ -129,7 +147,7 @@ export class CodeGenerationService {
               } else {
                 try {
                   console.log('async loop complated -44--- ', feature);
-                  feature.applicationPort = this.applicationPort;
+                  feature.applicationPort = this.NODE_PORT_NUMBER;
                   const backendResponse = await this.backendGenProject(feature);
                   this.increaseBackendPortNumber();
                   console.log('backend response in code gen -------', backendResponse);
@@ -162,8 +180,12 @@ export class CodeGenerationService {
                     frontendObj.nodeResponse = temp[0];
                   }
                   console.log('nodeResponse for each features ----  ', util.inspect(this.nodeResponse, { showHidden: true, depth: null }));
-                  const frontendResponse = await this.frontendGenProject(frontendObj);
 
+                  try {
+                    const frontendResponse = await this.frontendGenProject(frontendObj);
+                  } catch (err) {
+                    console.log('cannot able to generate the frontend component for each screens');
+                  }
                   next();
                 } catch (err1) {
                   console.log('errr111111111111111111111111');
@@ -184,7 +206,7 @@ export class CodeGenerationService {
             // this.increaseBackendPortNumber();
             const temp = {
               projectPath: projectPath,
-              applicationPort: this.applicationPort,
+              applicationPort: this.APIGATEWAY_PORT_NUMBER,
               project: projectDetails,
               nodeResponse: this.nodeResponse
             }
@@ -208,7 +230,7 @@ export class CodeGenerationService {
     return new Promise(resolve => {
       console.log("codegen service-------->", projectId)
       console.log("gitBody------->", gitBody)
-      this.githubService.pushProject(projectId, gitBody,(data) => {
+      this.githubService.pushProject(projectId, gitBody, (data) => {
         resolve(data);
       })
     });
@@ -262,6 +284,14 @@ export class CodeGenerationService {
     })
   }
 
+  frontendTemplateProject(details) {
+    return new Promise(resolve => {
+      this.frontendGenService.FrontendTemplateProject(details, (data) => {
+        resolve(data);
+      })
+    })
+  }
+
   generateApiGateway(details) {
     return new Promise(resolve => {
       this.backendService.generateApiGateway(details, (data) => {
@@ -279,6 +309,6 @@ export class CodeGenerationService {
   }
 
   increaseBackendPortNumber() {
-    this.applicationPort++;
+    this.NODE_PORT_NUMBER++;
   }
 }

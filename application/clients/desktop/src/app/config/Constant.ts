@@ -133,7 +133,7 @@ export class Constants {
     public static get getDefaultEntityByProjectId(): string { return '/default_entity/getbyproject/'; }
 
 
-    //Templates
+    // Templates
 
     public static get getAllTemplates(): string { return '/template/getall'; }
 

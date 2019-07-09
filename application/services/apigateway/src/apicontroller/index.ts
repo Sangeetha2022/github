@@ -24,5 +24,6 @@ export * from './generator/node.controller';
 export * from './generator/angular.controller';
 export * from './generator/github.controller';
 export * from './generator/authgencontroller';
+export * from './generator/angularTemplate.controller';
 
 

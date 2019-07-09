@@ -1,0 +1,82 @@
+import * as util from 'util';
+import * as path from 'path';
+import * as fs from 'fs';
+import { DependencySupportWorker } from '../supportworker/DependencySupportWorker';
+import { Common } from '../config/Common';
+import { ComponentWorker } from './ComponentWorker';
+
+let dependencySupportWorker = new DependencySupportWorker();
+let componentWorker = new ComponentWorker();
+
+export class DependencyWorker {
+    private INDEX_HTML_TEMPLATE_NAME: String = 'index_html';
+    private STYLE_TEMPLATE_NAME: String = 'styles_scss';
+    private APP_ROUTING_TEMPLATE_NAME: String = 'app_routing';
+    private isAssetImage: any[] = ['assets/img/home.jpg'];
+    // componentWorker.TEMPLATE_FOLDERNAME;
+
+    generateIndexHtml(generationPath, templatePath, baseTag, scriptTag, callback) {
+        const temp = {
+            baseTag: baseTag,
+            scriptTag: scriptTag
+        }
+        return dependencySupportWorker.generateIndexHtml(generationPath, templatePath,
+            this.INDEX_HTML_TEMPLATE_NAME, temp, (response) => {
+                callback('index html files are generated')
+            })
+    }
+
+    public generateAppRoutingFile(generationPath, templatePath, menuInformation, callback) {
+        console.log('generate app routing files are -component worker--------  ', util.inspect(menuInformation, { showHidden: true, depth: null }));
+        const routing = {
+            importComponent: [],
+            isAuthImport: false,
+            componentPath: []
+        }
+        const folderName = componentWorker.TEMPLATE_FOLDERNAME;
+        routing.importComponent.push({ classname: folderName.charAt(0).toUpperCase() + folderName.slice(1).toLowerCase(), foldername: folderName });
+        routing.componentPath.push({ path: '', component: folderName.charAt(0).toUpperCase() + folderName.slice(1).toLowerCase(), isAuthProtected: false });
+        dependencySupportWorker.generateAppRouting(generationPath, templatePath, this.APP_ROUTING_TEMPLATE_NAME, routing, (response) => {
+            callback();
+        })
+    }
+
+    generateStyleSCSS(generationPath, templatePath, css, callback) {
+        this.isAssetImage.forEach(assetElement => {
+            const index = css.indexOf(assetElement);
+            if (index > -1) {
+                this.generateAssetFile(assetElement, generationPath, templatePath);
+            }
+        });
+        return dependencySupportWorker.generateStyleSCSS(generationPath, templatePath,
+            this.STYLE_TEMPLATE_NAME, css, (response) => {
+                callback('style.css files are generated');
+            })
+    }
+
+    private generateAssetFile(assetElement, generationPath, templatePath) {
+        let assetGenerationPath = `${generationPath}/src/assets`;
+        switch (assetElement) {
+            case this.isAssetImage[0]:
+                templatePath = path.resolve(__dirname, templatePath);
+                templatePath = `${templatePath}/img/home.jpg`;
+                const temp = `${assetGenerationPath}/img`;
+                Common.createFolders(temp);
+                const img = fs.readFile(templatePath, (err, data) => {
+                    fs.writeFile(`${temp}/home.jpg`, data, 'binary', (err) => {
+                        if (err) {
+                            console.log("There was an error writing the image")
+                        }
+
+                        else {
+                            console.log("There file was written")
+                        }
+                    })
+                })
+                break;
+            default:
+                break;
+        }
+    }
+
+}
