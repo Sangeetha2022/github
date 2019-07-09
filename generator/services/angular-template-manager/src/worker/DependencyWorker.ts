@@ -12,6 +12,13 @@ export class DependencyWorker {
     private INDEX_HTML_TEMPLATE_NAME: String = 'index_html';
     private STYLE_TEMPLATE_NAME: String = 'styles_scss';
     private APP_ROUTING_TEMPLATE_NAME: String = 'app_routing';
+    private SHARED_SERVICE_TEMPLATE_NAME: String = 'shared_service';
+    private STYLE_FILENAME: String = 'styles.scss';
+    private APP_ROUTING_FILENAME: String = 'app-routing.module.ts';
+    private SHARED_FILENAME: String = 'shared.service.ts';
+    private SHARED_FOLDERNAME: String = 'shared';
+    private SRC_FOLDERNAME: String = 'src';
+    private APP_FOLDERNAME: String = 'app';
     private isAssetImage: any[] = ['assets/img/home.jpg'];
     // componentWorker.TEMPLATE_FOLDERNAME;
 
@@ -36,9 +43,12 @@ export class DependencyWorker {
         const folderName = componentWorker.TEMPLATE_FOLDERNAME;
         routing.importComponent.push({ classname: folderName.charAt(0).toUpperCase() + folderName.slice(1).toLowerCase(), foldername: folderName });
         routing.componentPath.push({ path: '', component: folderName.charAt(0).toUpperCase() + folderName.slice(1).toLowerCase(), isAuthProtected: false });
-        dependencySupportWorker.generateAppRouting(generationPath, templatePath, this.APP_ROUTING_TEMPLATE_NAME, routing, (response) => {
-            callback();
-        })
+        // app routing file path
+        const filePath = `${generationPath}/${this.SRC_FOLDERNAME}/${this.APP_FOLDERNAME}`;
+        dependencySupportWorker.generateFiles(templatePath, filePath, this.APP_ROUTING_FILENAME,
+            this.APP_ROUTING_TEMPLATE_NAME, routing, (response) => {
+                callback();
+            })
     }
 
     generateStyleSCSS(generationPath, templatePath, css, callback) {
@@ -48,9 +58,20 @@ export class DependencyWorker {
                 this.generateAssetFile(assetElement, generationPath, templatePath);
             }
         });
-        return dependencySupportWorker.generateStyleSCSS(generationPath, templatePath,
-            this.STYLE_TEMPLATE_NAME, css, (response) => {
+        // styles css file path
+        const filePath = `${generationPath}/${this.SRC_FOLDERNAME}`;
+        return dependencySupportWorker.generateFiles(templatePath, filePath,
+            this.STYLE_FILENAME, this.STYLE_TEMPLATE_NAME, css, (response) => {
                 callback('style.css files are generated');
+            })
+    }
+
+    generateSharedFile(generationPath, templatePath, sharedObj, callback) {
+        // shared file path
+        const filePath = `${generationPath}/${this.SRC_FOLDERNAME}/${this.SHARED_FOLDERNAME}`;
+        return dependencySupportWorker.generateFiles(templatePath, filePath, this.SHARED_FILENAME,
+            this.SHARED_SERVICE_TEMPLATE_NAME, sharedObj, (response) => {
+                callback();
             })
     }
 

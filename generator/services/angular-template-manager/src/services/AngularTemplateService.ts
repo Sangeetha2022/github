@@ -14,14 +14,19 @@ export class AngularTemplateService {
 
     private iterateData: any[] = [];
     private exec = childProcess.exec;
-    private CLIENT_FOLDERNAME = 'client';
-    private DESKTOP_FOLDERNAME = 'client';
     private details = null;
     private generationPath = '';
     private templatePath = '';
     private grapesjsCSS = '';
     private menuDetails = '';
     private apigatewayPortNumber = 0;
+    private sharedObj = {
+        className: 'Shared',
+        variableName: 'apiGateway',
+        protocol: 'http',
+        link: 'localhost',
+        port: 0
+    }
 
     initalizeDaoVariable() {
 
@@ -33,17 +38,18 @@ export class AngularTemplateService {
         const grapesjsComponent = this.details.template[0]['gjs-components'][0];
         this.grapesjsCSS = this.details.template[0]['gjs-css'];
         this.menuDetails = this.details.menuBuilder[0].menuDetails;
+        console.log('menyu details are ---------- ', this.menuDetails);
         this.apigatewayPortNumber = this.details.apigatewayPortNumber;
-        
-        console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
-        console.log('entering into grapejsCSSSSSSSSS --yes--  ', this.grapesjsCSS.indexOf(`home.jpg`));
-        console.log('entering into grapejsCSSSSSSSSS --no--  ', this.grapesjsCSS.indexOf(`hometest.jpg`));
-        this.generationPath = `${this.details.projectGenerationPath}/${this.CLIENT_FOLDERNAME}`;
-        Common.createFolders(this.generationPath);
-        this.generationPath += `/${this.DESKTOP_FOLDERNAME}`;
+        this.sharedObj.port = this.apigatewayPortNumber;
+
+        // console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
+        // console.log('entering into grapejsCSSSSSSSSS --yes--  ', this.grapesjsCSS.indexOf(`home.jpg`));
+        // console.log('entering into grapejsCSSSSSSSSS --no--  ', this.grapesjsCSS.indexOf(`hometest.jpg`));
+        this.generationPath = this.details.projectGenerationPath;
+        console.log('generation path in angular template are -------- ', this.generationPath);
         Common.createFolders(this.generationPath);
         this.templatePath = this.details.project.templateLocation.frontendTemplate;
-        this.exec(`cd ${this.generationPath} && ng new ${this.details.project.name} --style=scss`, (error, stdout, stderr) => {
+        this.exec(`cd ${this.generationPath} && ng new ${this.details.project.name} --routing=false --style=scss --skip-install`, (error, stdout, stderr) => {
             console.log('error exec ----->>>>    ', error);
             console.log('stdout exec ----->>>>    ', stdout);
             console.log('stderr exec ----->>>>    ', stderr);
@@ -56,8 +62,8 @@ export class AngularTemplateService {
     }
 
     public createLandingPage() {
-        console.log('createLanding page function are ---------  ', this.iterateData);
-        console.log('createLanding page function are ----length-----  ', this.iterateData.length);
+        // console.log('createLanding page function are ---------  ', this.iterateData);
+        // console.log('createLanding page function are ----length-----  ', this.iterateData.length);
         if (this.iterateData.length > 0) {
             this.generationPath += `/${this.details.project.name}`;
             var navInfo = this.iterateData.filter(function (element) {
@@ -85,7 +91,7 @@ export class AngularTemplateService {
     public generateAngularApp() {
         commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, (response) => {
             dependencyWorker.generateAppRoutingFile(this.generationPath, this.templatePath, this.menuDetails, (response) => {
-                commonWorker.generateMainFile(this.generationPath, this.templatePath, this.grapesjsCSS, (response) => {
+                commonWorker.generateMainFile(this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, (response) => {
 
                 });
             })

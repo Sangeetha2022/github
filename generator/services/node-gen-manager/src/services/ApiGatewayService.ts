@@ -6,7 +6,7 @@ import { Common } from '../config/Common';
 
 let apiGatewayWorker = new ApiGatewayWorker();
 export class ApiGatewayService {
-
+    private APIGATEWAY_FOLDERNAME = 'apigateway';
     private constantObj = {
         className: '',
         constantArray: []
@@ -22,7 +22,8 @@ export class ApiGatewayService {
         console.log('create apigateway in  node services ----body---  ', util.inspect(req.body, { showHidden: true, depth: null }));
         const details = req.body;
         const portNumber = details.applicationPort;
-        const apiGatewayGenerationPath = `${details.projectPath}/backend/apigateway`;
+        Common.createFolders(details.projectGenerationPath);
+        const apiGatewayGenerationPath = `${details.projectGenerationPath}/${this.APIGATEWAY_FOLDERNAME}`;
         const apiGatewayTemplatePath = `${details.project.templateLocation.backendTemplate}/apigateway`;
         Common.createFolders(apiGatewayGenerationPath);
         asyncLoop(req.body.nodeResponse, (element, next1) => {
@@ -146,7 +147,7 @@ export class ApiGatewayService {
     }
 
     public controllerImport(controllerObj) {
-          controllerObj.import = [];
+        controllerObj.import = [];
         controllerObj.import.push({ name: '* as express', path: 'express' });
         controllerObj.import.push({ name: '{ Request, Response }', path: 'express' });
         controllerObj.import.push({ name: `* as ${this.constantObj.className}`, path: `../config/${this.constantObj.className}` });

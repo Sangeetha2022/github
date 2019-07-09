@@ -23,31 +23,16 @@ export class DependencySupportWorker {
 
     }
 
-
-    generateStyleSCSS(generationPath, templatePath, templateName, information, callback) {
-        const filePath = `${generationPath}/src`;
+    generateFiles(templatePath, filePath, fileName, templateName, information, callback) {
+        // const filePath = `${generationPath}/src`;
         templatePath = path.resolve(__dirname, templatePath);
         Common.createFolders(filePath);
         let renderTemplate = st.loadGroup(require(templatePath + `/${templateName}_stg`));
         let fileData = renderTemplate.render(templateName, [information]);
-        fs.writeFile(filePath + `/styles.scss`, fileData, function (err) {
+        fs.writeFile(filePath + `/${fileName}`, fileData, function (err) {
             if (err) throw err;
-            callback(`styles.scss file generated`);
+            callback(`${fileName} file generated`);
         })
 
     }
-
-    generateAppRouting(generationPath, templatePath, templateName, information, callback) {
-        const filePath = `${generationPath}/src/app`;
-        templatePath = path.resolve(__dirname, templatePath);
-        Common.createFolders(filePath);
-        let renderTemplate = st.loadGroup(require(templatePath + `/${templateName}_stg`));
-        let fileData = renderTemplate.render(templateName, [information]);
-        fs.writeFile(filePath + `/app-routing.module.ts`, fileData, function (err) {
-            if (err) throw err;
-            callback(`app-routing.module.ts file generated`);
-        })
-
-    }
-
 }

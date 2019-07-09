@@ -69,11 +69,13 @@ export class CommonWorker {
         });
     }
 
-    generateMainFile(generationPath, templatePath, templateCss, callback) {
+    generateMainFile(generationPath, templatePath, templateCss, sharedObj, callback) {
         return dependencyWorker.generateIndexHtml(generationPath, templatePath, this.mainHtmlTag, this.scriptTag, (response) => {
             return dependencyWorker.generateStyleSCSS(generationPath, templatePath, templateCss, (response) => {
-                return componentWorker.generateMainModule(generationPath, templatePath, (response) => {
-                    callback('main files are generated');
+                return dependencyWorker.generateSharedFile(generationPath, templatePath, sharedObj, (response) => {
+                    return componentWorker.generateMainModule(generationPath, templatePath, (response) => {
+                        callback('main files are generated');
+                    });
                 });
             });
         });
@@ -262,9 +264,10 @@ export class CommonWorker {
     }
     // add list of menu details in header nav
     setNav(firstEle, secondEle) {
+        console.log('navMensu lengha are ------- ', this.navMenu.length);
+        this.startString += `>`;
+        this.startTag.push(this.startString);
         if (this.navMenu.length > 0) {
-            this.startString += `>`;
-            this.startTag.push(this.startString);
             this.startTag.push(`<div class="list-group panel">`);
             this.navMenu.forEach(menuElement => {
                 const featureInfo = menuElement.featuremenu[0].description.feature;
@@ -307,7 +310,7 @@ export class CommonWorker {
 
     setContent(firstEle) {
         if (firstEle.hasOwnProperty('content')) {
-            console.log('tagname of values rae ----- ', this.tagName);
+            // console.log('tagname of values rae ----- ', this.tagName);
             if (this.startString && firstEle.content) {
                 this.startString += `${firstEle.content}`;
             } else if (!this.startString && firstEle.type != 'textnode') {
@@ -326,30 +329,30 @@ export class CommonWorker {
                 // if (this.tagName == 'title') {
                 //     this.mainHtmlTag.push(`<base href="/" />`);
                 // }
-                console.log('isContentOnly pushed values are ---item.content-- ', firstEle.content, '  --item.type---  ', firstEle.type);
+                // console.log('isContentOnly pushed values are ---item.content-- ', firstEle.content, '  --item.type---  ', firstEle.type);
 
             } else if (!firstEle.content && (this.tagName == 'button')) {
                 this.isContentOnly = true;
                 this.setTagValue();
                 // this.startTag.push(this.startString);
             }
-            console.log('setContent vlaue of isContentOnly is ----  ', this.isContentOnly);
+            // console.log('setContent vlaue of isContentOnly is ----  ', this.isContentOnly);
         }
     }
 
 
     pushValue(firstEle) {
         if (this.tagName && this.tagName != 'option' && !this.isContentOnly && !this.isNotImportant) {
-            console.log('pushed value tagname are -------->>>   ', this.tagName, ' ---firstEle.content---- ', firstEle.content);
+            // console.log('pushed value tagname are -------->>>   ', this.tagName, ' ---firstEle.content---- ', firstEle.content);
             if (this.startString && this.tagName != 'div' && this.tagName != 'form') {
-                if (!firstEle.content && (this.tagName == 'label'
+                if (!firstEle.content && (this.tagName == 'label' || this.tagName == 'footer'
                     || this.tagName == 'section' || firstEle.type == 'header' || this.tagName == 'header'
                     || this.tagName == 'nav' || this.tagName == 'a' || this.tagName == 'svg' ||
                     this.tagName == 'p' || this.tagName == 'br' || this.tagName == 'meta' ||
                     this.tagName == 'link' || this.tagName == 'li' || this.tagName == 'ul' ||
                     this.tagName == 'base' || this.tagName == 'span')) {
                     this.endTag.unshift(`${this.tagName}`);
-                    console.log('@@@@@@@@@@ pushed vlaue are -----------   ', this.endTag);
+                    // console.log('@@@@@@@@@@ pushed vlaue are -----------   ', this.endTag);
                 } else {
                     this.startString += `</${this.tagName}>`
                 }
@@ -388,14 +391,14 @@ export class CommonWorker {
                     test.push(item);
                 }
                 this.tagName = this.tagNameFunction(item);
-                console.log('before pushing the tagname in array ----  ', this.tagName, ' --item type---- ', item.type, ' ---item.content---  ', item.content);
+                // console.log('before pushing the tagname in array ----  ', this.tagName, ' --item type---- ', item.type, ' ---item.content---  ', item.content);
                 if (!item.classes || (item.classes && item.classes[0].name !== this.STATE_SUCCESS_CLASSNAME &&
                     item.classes[0].name !== this.STATE_ERROR_CLASSNAME)) {
                     if (!item.content && item.type === 'textnode') {
                         tempObj.endTagName = this.endTag.shift();
                         if (tempObj.endTagName) {
                             test.push(tempObj);
-                            console.log('if- ', this.tagName, ' --endtagname--  ', tempObj.endTagName);
+                            // console.log('if- ', this.tagName, ' --endtagname--  ', tempObj.endTagName);
                         }
                     } else if (!item.content &&
                         (this.tagName == 'button' || this.tagName == 'a' ||
@@ -407,12 +410,12 @@ export class CommonWorker {
                         )) {
                         tempObj.endTagName = this.tagName;
                         test.push(tempObj);
-                        console.log('2nd else if-', this.tagName, ' --endtagname--  ', tempObj.endTagName);
+                        // console.log('2nd else if-', this.tagName, ' --endtagname--  ', tempObj.endTagName);
                         // console.log('before pushing the tagname in array -textnode--tagname-', this.tagName, ' --endtagname--  ', tempObj.endTagName, ' --endTag---- ', this.endTag);
                     } else if (!this.tagName) {
                         tempObj.endTagName = 'div';
                         test.push(tempObj);
-                        console.log('3nd else if-', this.tagName, ' --endtagname--  ', tempObj.endTagName);
+                        // console.log('3nd else if-', this.tagName, ' --endtagname--  ', tempObj.endTagName);
                     }
                 }
 
@@ -464,7 +467,7 @@ export class CommonWorker {
             }
         }
         if (firstEle.type === 'header') {
-            console.log()
+            // console.log()
             if (firstEle.tagName) {
                 tagName = firstEle.tagName;
             } else {
@@ -474,7 +477,7 @@ export class CommonWorker {
         } else if (!tagName) {
             tagName = 'div';
         }
-        console.log('before return each tagname are ------  ', tagName);
+        // console.log('before return each tagname are ------  ', tagName);
         return tagName;
     }
 

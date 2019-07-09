@@ -102,12 +102,12 @@ export class ProjectgenService {
 
                     this.configManagerService.getAllDetails((configResponse) => {
                         const configInfo = JSON.parse(configResponse);
-                        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ", configInfo, '  lenghtt   ');
+                        // console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ", configInfo, '  lenghtt   ');
                         if (configInfo.error) {
                             callback('Something went wrong in configuration manager', 400);
                         } else if (configInfo.body !== null && configInfo.body.length > 0 && configInfo.body !== undefined) {
                             console.log("@@@@@@@@@@@@@ entering into info condition ------------ ")
-                            this.setConfigurationField(configInfo);
+                            this.setConfigurationField(configInfo.body);
                             console.log('project object are -22222---- ', this.projectObj);
 
                         }
@@ -166,43 +166,48 @@ export class ProjectgenService {
         // }
     }
 
-    setConfigurationField(configInfo) {
+    setConfigurationField(configInformation) {
+        console.log('setconfigfiled config ----->>  ', configInformation.length);
         // project generation path
-        const projectPath = configInfo.body.find(x =>
+        const projectPath = configInformation.find(x =>
             x.name.toString().toLowerCase() === 'projectgenerationdirectory'
         );
         this.projectObj.projectGenerationPath = projectPath.value;
 
         // frontend template location
-        const frontendPath = configInfo.body.find(x =>
+        const frontendPath = configInformation.find(x =>
             x.name.toString().toLowerCase() === 'frontendtemplatelocation'
         );
         this.projectObj.templateLocation.frontendTemplate = frontendPath.value;
 
         // backend template location
-        const backendPath = configInfo.body.find(x =>
+        const backendPath = configInformation.find(x =>
             x.name.toString().toLowerCase() === 'backendtemplatelocation'
         );
         this.projectObj.templateLocation.backendTemplate = backendPath.value;
 
         // mongo template location
-        const mongoTemplatePath = configInfo.body.find(x =>
+        const mongoTemplatePath = configInformation.find(x =>
             x.name.toString().toLowerCase() === 'mongotemplatelocation'
         );
         this.projectObj.templateLocation.mongoTemplate = mongoTemplatePath.value;
-
+        console.log('project object in generation application ------>>>>   ', this.projectObj);
         // auth template location
-        const authPath = configInfo.body.find(x =>
+        const authPath = configInformation.find(x =>
             x.name.toString().toLowerCase() === 'authgenerationdirectory'
         );
-        this.projectObj.authTemplatePath = authPath.value;
+        console.log('project object in generation application --2222---->>>>   ', authPath);
+        this.projectObj.templateLocation.authTemplatePath = authPath.value;
 
         //authorization Template location
-        const authorizationPath = configInfo.body.find(x =>
+        const authorizationPath = configInformation.find(x =>
             x.name.toString().toLowerCase() === 'authorizationdirectory'
         );
-        this.projectObj.authorizationtemppath = authorizationPath.value;
+        console.log('project object in generation application --677787---->>>>   ', authorizationPath);
+        this.projectObj.templateLocation.authorizationtemppath = authorizationPath.value;
+        console.log('project object in generation application --99999999999---->>>>   ', authPath);
 
+        console.log('project object in generation application --3333---->>>>   ', this.projectObj);
 
         // const frontendSourcePath = configInfo.find(x =>
         //     x.name.toString().toLowerCase() === 'frontendtemplatelocation'

@@ -28,6 +28,13 @@ export class CodeGenerationService {
   private NODE_PORT_NUMBER = 8000;
   private APIGATEWAY_PORT_NUMBER = 3000;
   private LOCALHOST = 'localhost';
+  private APPLICATION_FOLDERNAME = 'application';
+  private CLIENT_FOLDERNAME = 'client';
+  private SERVICE_FOLDERNAME = 'services';
+  // private DESKTOP_FOLDERNAME = 'desktop';
+  // private MOBILE_FOLDERNAME = 'mobile';
+
+
   // private api
   // private microFlowService = new MicroFlowManagerService();
   // private clientObj: any = {
@@ -71,17 +78,22 @@ export class CodeGenerationService {
       has_wiki: true
     }
     gitBody.name = projectDetails.name;
-    gitBody.codeGenerationPath = projectDetails.projectGenerationPath;
-    const projectPath = `${projectDetails.projectGenerationPath}/${projectDetails.name}`;
+    // const projectPath = `${projectDetails.projectGenerationPath}/${this.APPLICATION_FOLDERNAME}`;
+    let projectPath = `${projectDetails.projectGenerationPath}/${projectDetails.name}`;
+
+    gitBody.codeGenerationPath = projectPath;
     console.log('create project code rae ----- ', projectId, ' ----- ', projectDetails);
     // this.createFolders(`../../../../../generatedcode/${projectDetails.name}`);
     const isPathCreated = Common.createFolders(projectPath);
+    projectPath += `/${this.APPLICATION_FOLDERNAME}`;
+    Common.createFolders(projectPath);
     try {
-    console.log('i am auth ******---->>', projectPath);
-    const auth = await this.authGenPath(projectId, projectDetails,auth_templatepath).catch(error => {
-      console.log('cannot able to create the auth files');
-    });
-    console.log('-------auth gen manager------', auth);
+      console.log('i am auth ******---->>', projectPath);
+      const auth = await this.authGenPath(projectId, `${projectPath}/${this.SERVICE_FOLDERNAME}`,
+        projectDetails.authTemplatePath, auth_templatepath).catch(error => {
+          console.log('cannot able to create the auth files');
+        });
+      console.log('-------auth gen manager------', auth);
     } catch {
       console.log('auth generation manager microservices might be down #$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
     }
@@ -95,7 +107,7 @@ export class CodeGenerationService {
         projectId: projectId,
         sharedUrl: this.LOCALHOST,
         apigatewayPortNumber: this.APIGATEWAY_PORT_NUMBER,
-        projectGenerationPath: projectPath,
+        projectGenerationPath: `${projectPath}/${this.CLIENT_FOLDERNAME}`,
         project: projectDetails
       }
       await this.frontendTemplateProject(templateObj);
@@ -123,6 +135,7 @@ export class CodeGenerationService {
             flows: [],
             entities: [],
             applicationPort: 0,
+            projectGenerationPath: `${projectPath}/${this.SERVICE_FOLDERNAME}`,
             project: projectDetails
           }
           feature.id = featureElement._id;
@@ -148,7 +161,11 @@ export class CodeGenerationService {
                 try {
                   console.log('async loop complated -44--- ', feature);
                   feature.applicationPort = this.NODE_PORT_NUMBER;
-                  const backendResponse = await this.backendGenProject(feature);
+                  const backendResponse = await this.backendGenProject(feature).catch(
+                    err => {
+                      console.log('cannot able to geneate the backend node services');
+                    }
+                  );
                   this.increaseBackendPortNumber();
                   console.log('backend response in code gen -------', backendResponse);
                   console.log('backend response in code gen ------', util.inspect(backendResponse, { showHidden: true, depth: null }));
@@ -180,12 +197,10 @@ export class CodeGenerationService {
                     frontendObj.nodeResponse = temp[0];
                   }
                   console.log('nodeResponse for each features ----  ', util.inspect(this.nodeResponse, { showHidden: true, depth: null }));
-
-                  try {
-                    const frontendResponse = await this.frontendGenProject(frontendObj);
-                  } catch (err) {
-                    console.log('cannot able to generate the frontend component for each screens');
-                  }
+                  //front generation manager
+                  // const frontendResponse = await this.frontendGenProject(frontendObj).catch(err => {
+                  //   console.log('cannot able to generate the frontend component for each screens');
+                  // });
                   next();
                 } catch (err1) {
                   console.log('errr111111111111111111111111');
@@ -207,12 +222,17 @@ export class CodeGenerationService {
             const temp = {
               projectPath: projectPath,
               applicationPort: this.APIGATEWAY_PORT_NUMBER,
+              projectGenerationPath: `${projectPath}/${this.SERVICE_FOLDERNAME}`,
               project: projectDetails,
               nodeResponse: this.nodeResponse
             }
             console.log('code generation apigateway services before create gateway are ----- ', temp);
-            await this.generateApiGateway(temp);
-            await this.pushTogithub(projectId, gitBody);
+            await this.generateApiGateway(temp).catch(err => {
+              console.log('cannot able to generate the api gateway node services');
+            });
+            await this.pushTogithub(projectId, gitBody).catch(err => {
+              console.log('cannot able to push the code into github repo');
+            });
             callback('code generation completed');
           }
         })
@@ -300,9 +320,9 @@ export class CodeGenerationService {
     })
   }
 
-  authGenPath(projectId, projectDetails, auth_templatepath) {
+  authGenPath(projectId, projectGenerationPath, authPath, auth_templatepath) {
     return new Promise(resolve => {
-      this.authGenService.authPath(projectId, projectDetails,auth_templatepath, (data) => {
+      this.authGenService.authPath(projectId, projectGenerationPath, authPath, auth_templatepath, (data) => {
         resolve(data)
       })
     })

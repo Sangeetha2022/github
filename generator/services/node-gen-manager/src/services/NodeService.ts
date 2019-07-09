@@ -346,6 +346,7 @@ export class NodeService {
                         serviceWorker.generateServiceFile(projectGenerationPath, templateLocation, this.service);
                         daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
                         routeWorker.generateRouteFile(projectGenerationPath, templateLocation, this.route);
+                        console.log('route file of values are -------- ', util.inspect(this.route, { showHidden: true, depth: null }));
                         callback(this.route);
                     }
                 })

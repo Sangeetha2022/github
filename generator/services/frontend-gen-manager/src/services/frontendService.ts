@@ -23,8 +23,9 @@ export class FrontendService {
 
     public async frontendProject(req: Request, callback: CallableFunction) {
         const details = req.body;
+        // Common.createFolders();
         const projectGenerationPath = `${details.project.projectGenerationPath}/${details.project.name}/frontend`;
-        Common.createFolders(projectGenerationPath);
+        // Common.createFolders(projectGenerationPath);
         const feature = {
             featureName: details.feature.name,
             projectGenerationPath: projectGenerationPath,

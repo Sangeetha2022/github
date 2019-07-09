@@ -1,24 +1,15 @@
 import { Request } from 'mongoose';
-import * as fs from 'fs';
 import { SharedService } from '../config/SharedService';
 import { ApiAdaptar } from '../config/ApiAdaptar';
-import { MicroFlowManagerService } from '../apiservices/MicroFlowManagerService';
-import { AngularGenManagerService } from '../apiservices/AngularGenManagerService';
 import * as util from 'util';
-import * as path from 'path';
-import * as asyncLoop from 'node-async-loop';
 import { ScreenManagerService } from '../apiservices/ScreenManagerService';
 import { Common } from '../config/Common';
 import { MenuBuilderManagerService } from '../apiservices/MenuBuilderManagerService';
 import { AngularTemplateManagerService } from '../apiservices/AngularTemplateManagerService';
+import { Constant } from '../config/Constant';
 
 export class FrontendTemplateService {
-    private desktopScreenName = 'desktop';
-    private mobileScreenName = 'mobile';
-    private angular7Name = 'angular7';
     sharedService = new SharedService();
-    // angularGenManagerService = new AngularGenManagerService();
-    // microFlowService = new MicroFlowManagerService();
     screenManagerService = new ScreenManagerService();
     menuBuilderManagerService = new MenuBuilderManagerService();
     angularTemplateManagerService = new AngularTemplateManagerService();
@@ -27,14 +18,14 @@ export class FrontendTemplateService {
 
     public async frontendTemplateProject(req: Request, callback: CallableFunction) {
         const details = req.body;
-        const projectGenerationPath = `${details.project.projectGenerationPath}/${details.project.name}/frontend`;
-        Common.createFolders(projectGenerationPath);
+        Common.createFolders(details.projectGenerationPath);
+        const projectGenerationPath = `${details.projectGenerationPath}/${Constant.DESKTOP_FOLDERNAME}`;
         console.log('create project template vluae are -----------   ', details);
        const templateObj = {
             projectId: details.projectId,
             sharedUrl: details.sharedUrl,
             apigatewayPortNumber: details.apigatewayPortNumber,
-            projectGenerationPath: details.projectGenerationPath,
+            projectGenerationPath: projectGenerationPath,
             project: details.project,
             template: null,
             menuBuilder: null
@@ -51,7 +42,7 @@ export class FrontendTemplateService {
         }
         const menuDetails = await this.getMenuByProjectId(details.projectId);
         const menuJSON = JSON.parse(menuDetails.toString());
-        console.log('menuJSON are ------  ', menuJSON);
+        console.log('menuJSON are ------  ', util.inspect(menuDetails, { showHidden: true, depth: null }));
 
         templateObj.template = templateJSON;
         templateObj.menuBuilder = menuJSON.body;
