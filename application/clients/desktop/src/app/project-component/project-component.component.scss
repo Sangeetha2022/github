@@ -53,13 +53,13 @@
     color:#165625;
     position: absolute;
     bottom: 45%;
-    left: 18%;
+    left: 12%;
     cursor: pointer;
   }
   .fa.fa-trash-o{
     color: #c11e12;
     position: absolute;
-    right: 25%;
+    right: 28%;
     bottom: 46%;
     cursor: pointer;
   }
@@ -101,4 +101,11 @@
 }
 .top_align{
   margin-bottom: 15%;
+}
+.img_size{
+  width:80%;
+}
+
+.bottom_padding{
+  margin-bottom: 5%;
 }
