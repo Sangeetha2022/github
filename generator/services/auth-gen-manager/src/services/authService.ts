@@ -423,7 +423,7 @@ export class AuthService {
                             })
                         })
                     } else if (x === 'models') {
-                        this.modelworker.createfile(entitydetails, this.authGenFiles.folder, (modeldata => {
+                        this.modelworker.createfile(entitydetails, this.authGenFiles.folder, this.authGenFiles.templatepath, (modeldata => {
                             // console.log('------workerdata----', modeldata);
 
                         }));
@@ -482,7 +482,7 @@ export class AuthService {
 
         const screens = await this.getMenubuilder();
         // console.log('-----screens-----', screens);
-        this.workernode.createfile(screens, this.authGenFiles.camundaFolder, (data => {
+        this.workernode.createfile(screens, this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (data => {
             // console.log('------workerdata----', data);
             return callback(Routes)
         }));

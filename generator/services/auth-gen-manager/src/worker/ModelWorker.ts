@@ -4,9 +4,8 @@ import { ModelSupportWorker } from '../Supportworker/ModelSupportWorker';
 export class ModelWorker {
 
     modelsupport = new ModelSupportWorker();
-    createfile(models, generationpath, callback) {
+    createfile(models, generationpath,templatepath, callback) {
         let Modeldetails = this.Modelfile(models.field);
-        let templatepath = `/home/tendecoders/Desktop/Geppetto/LatestGeppetto/geppettotest/generator/services/auth-gen-manager/template`
         this.modelsupport.createUserModel(models.name, Modeldetails, generationpath, templatepath, (response) => {
             callback(response);
         });

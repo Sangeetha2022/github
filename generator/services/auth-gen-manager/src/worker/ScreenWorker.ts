@@ -4,9 +4,8 @@ export class ScreenWorker{
 
     screensupportfile = new ScreenSupportWorker();
 
-    createfile(menuobject,generationpath,callback){
+    createfile(menuobject,generationpath, templatepath,callback){
         let listofscreens = this.ScreenName(menuobject);
-        let templatepath = `/home/tendecoders/Desktop/Geppetto/LatestGeppetto/geppettotest/generator/services/auth-gen-manager/template`
         this.screensupportfile.screenfilegenerate(listofscreens,generationpath,templatepath,(response)=>{
             callback(response);
         })
