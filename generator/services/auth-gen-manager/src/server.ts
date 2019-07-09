@@ -3,8 +3,6 @@ import * as bodyParser from "body-parser";
 import * as cors from 'cors';
 import { WinstonLogger } from './config/Winstonlogger';
 import { Routes } from './routes/routes';
-import { MongoConfig } from './config/MongoConfig';
-import mongoose = require('mongoose');
 
 const PORT = 5017;
 
@@ -21,7 +19,6 @@ class App {
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
         this.routerPrv.routes(this.app);
-        this.mongoSetup();
     }
 
     private initializeMiddlewares() {
@@ -29,15 +26,6 @@ class App {
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(cors({ credentials: true, origin: true }))
     }
-
-    private mongoSetup(): void {
-        // mongoose.Promise = global.Promise;
-        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        let mongoConfig = new MongoConfig();
-        mongoConfig.mongoConfig();
-    }
-
-
 }
 
 new App().app.listen(PORT, () => {

@@ -22,7 +22,7 @@ export class ProjectgenService {
             backendTemplate: '',
             mongoTemplate: '',
             authTemplatePath: '',
-            authorizationtemppath: '',
+            authorizationTempPath: '',
         },
         clientLanguage: {},
         clientFramework: {},
@@ -204,7 +204,7 @@ export class ProjectgenService {
             x.name.toString().toLowerCase() === 'authorizationdirectory'
         );
         console.log('project object in generation application --677787---->>>>   ', authorizationPath);
-        this.projectObj.templateLocation.authorizationtemppath = authorizationPath.value;
+        this.projectObj.templateLocation.authorizationTempPath = authorizationPath.value;
         console.log('project object in generation application --99999999999---->>>>   ', authPath);
 
         console.log('project object in generation application --3333---->>>>   ', this.projectObj);

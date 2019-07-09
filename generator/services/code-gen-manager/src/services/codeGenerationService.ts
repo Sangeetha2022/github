@@ -65,7 +65,7 @@ export class CodeGenerationService {
   public async createProject(req: Request, callback: CallableFunction) {
     const projectId = req.query.projectId;
     const projectDetails = req.body;
-    const auth_templatepath = req.body.authorizationtemppath;
+    // const auth_templatepath = req.body.authorizationtemppath;
     console.log('--------projectdetails0-----', projectDetails);
     const gitBody = {
       name: "",
@@ -90,7 +90,7 @@ export class CodeGenerationService {
     try {
       console.log('i am auth ******---->>', projectPath);
       const auth = await this.authGenPath(projectId, `${projectPath}/${this.SERVICE_FOLDERNAME}`,
-        projectDetails.authTemplatePath, auth_templatepath).catch(error => {
+        projectDetails.templateLocation.authTemplatePath, projectDetails.templateLocation.authorizationTempPath).catch(error => {
           console.log('cannot able to create the auth files');
         });
       console.log('-------auth gen manager------', auth);

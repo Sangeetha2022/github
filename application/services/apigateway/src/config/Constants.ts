@@ -24,7 +24,7 @@ export const nodeGenUrl = 'http://localhost:5012';
 export const angularGenUrl = 'http://localhost:5014';
 export const angularTemplateGenUrl = 'http://localhost:5015';
 export const githubUrl = 'http://localhost:5016';
-export const authgenUrl = 'http://localhost:5018';
+export const authgenUrl = 'http://localhost:5017';
 
 
 
