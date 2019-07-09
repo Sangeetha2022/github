@@ -13,6 +13,11 @@ export class AuthGuard implements CanActivate {
   @Output() getpermission = new EventEmitter();
   // @Output() landingpage = new EventEmitter();
   constructor(private router: Router, public broadcast: Brodcastservice) {
+    this.broadcast.currentusername.subscribe(authgaurdvalue => {
+      console.log('--------authvaluekishan-----', authgaurdvalue);
+      // @ts-ignore
+      this.accessroutes = authgaurdvalue.Access;
+    });
   }
   public jwtoken: any;
   public accessroutes: any;
@@ -39,7 +44,7 @@ export class AuthGuard implements CanActivate {
       const decodedtoken = helper.decodeToken(this.jwtoken);
       console.log('------------token------', decodedtoken.role);
       this.userole = decodedtoken.role;
-      this.accessroutes = JSON.parse(sessionStorage.getItem('Access'));
+      // this.accessroutes = JSON.parse(sessionStorage.getItem('Access'));
       console.log('-----URL---->>>>', window.location.href);
       const url = window.location.href;
       this.routename = url.split('/');

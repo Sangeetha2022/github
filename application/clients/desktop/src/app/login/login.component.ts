@@ -6,6 +6,8 @@ import { MatInputModule } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './loginservice.service';
 import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
+import { Brodcastservice } from '../broadcast.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,7 +16,7 @@ import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular
 export class LoginComponent implements OnInit {
 
   // tslint:disable-next-line:max-line-length
-  constructor(private route: Router, private router: ActivatedRoute, private loginservice: LoginService, private authservice: AuthService) { 
+  constructor(private route: Router, private router: ActivatedRoute, private loginservice: LoginService, private authservice: AuthService, public broadcast: Brodcastservice) {
     this.show = false;
   }
 
@@ -111,7 +113,7 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-  hideEye(){
+  hideEye() {
     this.show = !this.show;
   }
 
@@ -125,8 +127,9 @@ export class LoginComponent implements OnInit {
         console.log('-------ahdbakjvjakjak--------');
         this.Accesslevel = logindetails.Access[0];
         this.permission.push(this.Accesslevel);
+        this.broadcast.sendmessage({ 'Access': this.permission});
         console.log('------------loginresponse-----', this.permission);
-        sessionStorage.setItem('Access', JSON.stringify(this.permission));
+        // sessionStorage.setItem('Access', JSON.stringify(this.permission));
       }
       this.Userdetails = logindetails.Userdetails;
       this.tokenerror = logindetails.error;
