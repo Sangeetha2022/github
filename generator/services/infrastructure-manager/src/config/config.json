@@ -1,10 +1,11 @@
 {
     "LOCAL": {
         "TEMPLATE_URL": "../../template/deployment/local/",
-        "DESTINATION_URL": "/home/balaji/WORK/GEPPETTO/GeppettoNew/generated_code/"
+        "DESTINATION_URL": "/home/decoders/Work/Geppetto/generated_code/"
     },
     "AWS": {
         "TEMPLATE_URL": "../../template/deployment/aws/",
-        "DESTINATION_URL": "/home/balaji/WORK/GEPPETTO/GeppettoNew/generated_code/"
-    }
+        "DESTINATION_URL": "/home/decoders/Work/Geppetto/generated_code/"
+    },
+    "HELM_TEMPLATE":"../../template/deployment/helm"
 }

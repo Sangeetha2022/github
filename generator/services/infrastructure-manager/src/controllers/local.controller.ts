@@ -10,6 +10,7 @@ import { NamespaceService } from '../services/app.namespace';
 import { TerraformService } from '../services/terraform.service';
 import { DevOpsService } from '../services/dev-ops.service';
 import {DockerService} from '../services/docker.service';
+import {HelmService} from '../services/helm.service';
 //import InfrastructureDto from '../dto/infrastructure.dto';
 
 
@@ -21,10 +22,12 @@ let terraformService = new TerraformService()
 let devOpsService = new DevOpsService()
 let dockerService = new DockerService()
 //let infrastructureDto = new InfrastructureDto()
+let helmService = new HelmService()
 
 //local
 const Destination = deployConfig.LOCAL.DESTINATION_URL;
 const Source = path.resolve(__dirname, deployConfig.LOCAL.TEMPLATE_URL);
+const helmSource = path.resolve(__dirname, deployConfig.HELM_TEMPLATE);
 
 
 export class LocalInfrastructureController {
@@ -34,12 +37,13 @@ export class LocalInfrastructureController {
   public generateInfrastructureLocal(req: Request, res: Response) {
 
     var projectDetails = req.body
-    projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
-    projectDetails.project_lowercase = projectDetails.project.toLowercase();
-
+    //projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
+    //projectDetails.project_lowercase = projectDetails.project.toLowerCase();
+    projectDetails.project = projectDetails.project_name;
+    projectDetails.project_lowercase = projectDetails.project.toLowerCase();
 
     //create project folder if not exists
-    let projectFolder =  projectDetails.project;
+    let projectFolder = Destination + projectDetails.project;
     if (!fs.existsSync(projectFolder)) {
       fs.mkdirSync(projectFolder);
     }
@@ -125,6 +129,13 @@ export class LocalInfrastructureController {
         //res.send(200);
       })
     }
+
+    //generate helm templates
+    projectDetails.destinationUrl = deploymentFolder;
+    projectDetails.templateUrl = helmSource;
+    helmService.generate_helm_templates(projectDetails, (response) => {
+      //res.send(200);
+    })
 
 
     res.send({ "status": "building infrastructure started!" });
