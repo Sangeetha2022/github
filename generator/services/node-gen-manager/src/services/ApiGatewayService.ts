@@ -140,10 +140,9 @@ export class ApiGatewayService {
                 apiGatewayWorker.createControllerIndex(apiGatewayGenerationPath, apiGatewayTemplatePath, this.controllerArray);
                 apiGatewayWorker.createServerFile(apiGatewayGenerationPath, apiGatewayTemplatePath, this.controllerArray, portNumber);
                 apiGatewayWorker.createPackageTsConfigFiles(apiGatewayGenerationPath, apiGatewayTemplatePath);
-                // callback('apigateway generated ----- ');
+                callback('apigateway generated ----- ');
             }
         })
-        callback('apigateway generated')
     }
 
     public controllerImport(controllerObj) {

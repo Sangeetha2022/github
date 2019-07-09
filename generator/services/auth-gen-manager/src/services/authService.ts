@@ -8,6 +8,7 @@ import { ModelWorker } from '../worker/ModelWorker';
 import { CamundaWorker } from '../worker/CamundaWorker';
 import { DmnWorkerFile } from '../worker/DMNWoker';
 import { Routes } from '../assets/route.json';
+import { Common } from '../config/Common';
 export class AuthService {
 
     private authGenFiles: any = {
@@ -37,11 +38,12 @@ export class AuthService {
 
     public auth(req: Request, callback) {
         console.log('path ---- >>>', req.query.authTemplate);
-        this.authGenFiles.projectpath = req.query.projectPath;
+        this.sourcePath = this.authGenFiles.projectpath = req.query.projectPath;
         this.authGenFiles.templatepath = req.query.authTemplate;
         this.authGenFiles.pathFile = req.query.authPath;
         this.authGenFiles.projectId = req.query.projectID;
-        this.sourcePath = path.resolve(`${this.authGenFiles.projectpath}/loginbackend`);
+        // this.sourcePath = path.resolve(`${this.authGenFiles.projectpath}/loginbackend`);
+        Common.createFolders(this.authGenFiles.projectpath);
         this.frontendpath = path.resolve(`${this.authGenFiles.projectpath}/loginfrontend`);
         if (this.sourcePath) {
             if (!fs.existsSync(this.sourcePath)) {
