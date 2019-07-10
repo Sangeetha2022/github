@@ -12,7 +12,7 @@ export class DockerService {
 
 
       
-        let destination = projectDetails.destinationUrl + '/docker';
+        let destination = projectDetails.destinationUrl + '/jenkins';
         let templatePath = projectDetails.templateUrl + '/docker';
 
         let systemEntryCodePath = projectDetails.projectUrl + "/app/client/desktop";
@@ -38,7 +38,7 @@ export class DockerService {
 
 
         
-        let destination = projectDetails.destinationUrl + '/docker';
+        let destination = projectDetails.destinationUrl + '/jenkins';
         let templatePath = projectDetails.templateUrl + '/docker';
 
         let systemEntryCodePath = projectDetails.projectUrl + "/app/client/desktop";
