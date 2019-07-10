@@ -52,7 +52,7 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  public user:any = {
+  public user: any = {
     id: ''
   };
   public view: any;
@@ -76,7 +76,7 @@ export class HeaderComponent implements OnInit {
       if (e) {
         this.updateState(this.i18NextService.language);
       }
-    })
+    });
 
   }
 
@@ -116,10 +116,10 @@ export class HeaderComponent implements OnInit {
   }
 
   Logout() {
-
     this.user.id = sessionStorage.getItem('Id');
     this.logoutservice.Logout(this.user).subscribe(data => {
       sessionStorage.clear();
+      this.permission = false;
       this.router.navigate(['']);
     }, error => {
       console.error('error:', error);
