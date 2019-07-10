@@ -12,6 +12,7 @@ import {DevOpsService} from '../services/dev-ops.service';
 import {DockerService} from '../services/docker.service';
 import { IPAService } from '../services/ios.service';
 import { AndroidService } from '../services/android.service';
+import {HelmService} from '../services/helm.service';
 //import InfrastructureDto from '../dto/infrastructure.dto';
 
 
@@ -25,11 +26,14 @@ let dockerService = new DockerService()
 let ipaService = new IPAService()
 let androidService = new AndroidService()
 //let infrastructureDto = new InfrastructureDto()
+let helmService = new HelmService()
+
 
 
 //aws
 const DestinationAWS = deployConfig.AWS.DESTINATION_URL;
 const SourceAWS = path.resolve(__dirname, deployConfig.AWS.TEMPLATE_URL);
+const helmSource = path.resolve(__dirname, deployConfig.HELM_TEMPLATE);
 
 
 
@@ -40,8 +44,10 @@ export class AWSInfrastructureController {
   public generateInfrastructureAWS(req: Request, res: Response) {
 
     var projectDetails = req.body
-    projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
-    projectDetails.project_lowercase = projectDetails.project.toLowercase();
+    //projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
+    //projectDetails.project_lowercase = projectDetails.project.toLowerCase();
+    projectDetails.project = projectDetails.project_name;
+    projectDetails.project_lowercase = projectDetails.project.toLowerCase();
 
 
     //create project folder if not exists
@@ -49,7 +55,7 @@ export class AWSInfrastructureController {
     if (!fs.existsSync(projectFolder)) {
       fs.mkdirSync(projectFolder);
     }
-    let deploymentFolder = projectFolder + "/deployment";
+    let deploymentFolder = projectFolder + "/devops";
     if (!fs.existsSync(deploymentFolder)) {
       fs.mkdirSync(deploymentFolder);
     }
@@ -127,6 +133,12 @@ export class AWSInfrastructureController {
       })
     }
 
+
+
+
+
+
+    projectDetails.destinationUrl = deploymentFolder;
     //generate script for system entry pod image
     if (projectDetails.system_entry_pod) {
       dockerService.generate_build_script_system_entry_pod(projectDetails, (response) => {
@@ -154,6 +166,15 @@ export class AWSInfrastructureController {
         //res.send(200);
       })
     }
+
+
+
+    //generate helm templates
+    projectDetails.templateUrl = helmSource;
+    helmService.generate_helm_templates(projectDetails, (response) => {
+      //res.send(200);
+    })
+
 
 
     res.send("Success!");

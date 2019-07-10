@@ -47,7 +47,7 @@ export class LocalInfrastructureController {
     if (!fs.existsSync(projectFolder)) {
       fs.mkdirSync(projectFolder);
     }
-    let deploymentFolder = projectFolder + "/deployment";
+    let deploymentFolder = projectFolder + "/devops";
     if (!fs.existsSync(deploymentFolder)) {
       fs.mkdirSync(deploymentFolder);
     }
@@ -116,6 +116,10 @@ export class LocalInfrastructureController {
       })
     }
 
+
+    
+
+     projectDetails.destinationUrl = deploymentFolder;
     //generate script for system entry pod image
     if (projectDetails.system_entry_pod) {
       dockerService.generate_build_script_system_entry_pod(projectDetails, (response) => {
@@ -131,7 +135,6 @@ export class LocalInfrastructureController {
     }
 
     //generate helm templates
-    projectDetails.destinationUrl = deploymentFolder;
     projectDetails.templateUrl = helmSource;
     helmService.generate_helm_templates(projectDetails, (response) => {
       //res.send(200);
