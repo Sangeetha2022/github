@@ -21,46 +21,28 @@
   height: 400px;
   overflow-y: auto;
   }  
-  .fa.fa-desktop{
-    font-size: 200px;
-    color: #184573;
-  }
-  .fa.fa-mobile{
-    font-size: 200px;
-    color: #184573;
-  }
 
-  .mobile-icon-edit{
-    color: #165625 !important;
-    position: absolute !important;
-    bottom: 30% !important;
-    font-size: 20px !important;
-    left: 12% !important;
-    cursor: pointer !important;
-}
 
-.mobile-icon-delete{
-  color: #c11e12 !important;
-    position: absolute !important;
-    right: 68% !important;
-    bottom: 31% !important;
-    font-size: 20px !important;
-    cursor: pointer !important;
-
+.image {
+  width: 100px;
+  height: 100px;
+  margin-top: 10%;
+  border-radius: 8px;
+  color: #184573;
 }
 
   .fa.fa-pencil-square-o{
-    color:#165625;
     position: absolute;
-    bottom: 45%;
-    left: 12%;
+    top: 105%;
+    right: 82%;
+    color: green;
     cursor: pointer;
   }
   .fa.fa-trash-o{
-    color: #c11e12;
     position: absolute;
-    right: 28%;
-    bottom: 46%;
+    top: 105%;
+    right: 67%;
+    color: red;
     cursor: pointer;
   }
   
@@ -88,9 +70,7 @@
 }
 .screen_text{
   position: absolute;
-  left: 22%;
-  top: 15%;
-  font-size: 18px;
+  margin-left: 2%;
 }
 
 .mobile-screen-text{
