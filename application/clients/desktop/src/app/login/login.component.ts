@@ -128,6 +128,8 @@ export class LoginComponent implements OnInit {
         this.Accesslevel = logindetails.Access[0];
         this.permission.push(this.Accesslevel);
         this.broadcast.sendmessage({ 'Access': this.permission });
+        this.broadcast.gaurdarray = [];
+        this.broadcast.gaurdarray = this.permission;
         console.log('------------loginresponse-----', this.permission);
         // sessionStorage.setItem('Access', JSON.stringify(this.permission));
       }
