@@ -10,8 +10,9 @@ export class DmnSupportWorker {
         if (!fs.existsSync(dmnFolder)) {
             fs.mkdirSync(dmnFolder);
         }
-        let generateModel = st.loadGroup(require(templatepath + '/dmnfile_stg'));
-        console.log('------generatormodel-----', generateModel);
+        let pathfile = path.resolve(__dirname, templatepath);
+        let generateModel = st.loadGroup(require(pathfile + '/dmnfile_stg'));
+        console.log('------dmnpathfile-----', pathfile);
         let modelData = generateModel.render("dmnfile", [screenname]);
         fs.writeFile(dmnFolder + `/Gep_authorize.dmn`, modelData, function (err) {
             if (err) throw err;

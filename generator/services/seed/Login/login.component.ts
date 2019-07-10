@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './loginservice.service';
 import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
+import { Brodcastservice } from '../broadcast.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,7 +16,7 @@ import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular
 export class LoginComponent implements OnInit {
 
   // tslint:disable-next-line:max-line-length
-  constructor(private route: Router, private router: ActivatedRoute, private loginservice: LoginService, private authservice: AuthService) { 
+  constructor(private route: Router, private router: ActivatedRoute, private loginservice: LoginService, private authservice: AuthService, public broadcast: Brodcastservice) {
     this.show = false;
   }
 
@@ -38,7 +44,7 @@ export class LoginComponent implements OnInit {
   public isChecked: boolean;
   displayModel: String = 'none';
   public show: boolean;
-
+  public openId: String = 'openid';
 
 
   ngOnInit() {
@@ -88,28 +94,26 @@ export class LoginComponent implements OnInit {
   }
 
 
-  // loginUser() {
-  //   console.log('login--->>', this.user)
-  //   this.loginservice.signup(this.user).subscribe(data => {
-  //     this.Userdetails = data.Userdetails;
-  //     console.log('userinfoo--->', this.Userdetails);
-  //     this.displayModel = 'none';
-  //     this.isChecked = false;
-  //     this.user.firstName = '';
-  //     this.user.lastName = '';
-  //     if (this.Userdetails.body === 'Email is already exists') {
-  //       console.log('-----------error message-------');
-  //       this.errormessage = this.Userdetails.body;
-  //     } else {
-  //       if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '' || this.Userdetails.body.Idtoken === undefined) {
-  //         this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });
-  //       }
+  newUserLogin() {
+    this.loginservice.signup(this.user).subscribe(data => {
+      this.Userdetails = data.Userdetails;
+      console.log('userinfoo--->', this.Userdetails);
+      this.displayModel = 'none';
+      this.isChecked = false;
+      this.user.firstName = '';
+      this.user.lastName = '';
+      if (this.Userdetails.body === 'Email is already exists') {
+        console.log('-----------error message-------');
+        this.errormessage = this.Userdetails.body;
+      } else {
+        if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '' || this.Userdetails.body.Idtoken === undefined) {
+          this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });
+        }
 
-  //     }
-  //   });
-  // }
-
-  hideEye(){
+      }
+    });
+  }
+  hideEye() {
     this.show = !this.show;
   }
 
@@ -123,8 +127,9 @@ export class LoginComponent implements OnInit {
         console.log('-------ahdbakjvjakjak--------');
         this.Accesslevel = logindetails.Access[0];
         this.permission.push(this.Accesslevel);
+        this.broadcast.sendmessage({ 'Access': this.permission });
         console.log('------------loginresponse-----', this.permission);
-        sessionStorage.setItem('Access', JSON.stringify(this.permission));
+        // sessionStorage.setItem('Access', JSON.stringify(this.permission));
       }
       this.Userdetails = logindetails.Userdetails;
       this.tokenerror = logindetails.error;
@@ -138,11 +143,7 @@ export class LoginComponent implements OnInit {
         if (this.tokenerror !== undefined) {
           console.log('-------insideifconditioin-----');
           if (this.tokenerror.name === 'TokenExpiredError') {
-            // sessionStorage.clear();
-            // this.loginservice.Logout(this.id).subscribe(data => {
-            this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });        // }, error => {
-            //   console.error('error:', error);
-            // });
+            this.Consent();
           }
         } else {
           sessionStorage.setItem('Id', this.id);
@@ -150,9 +151,9 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('email', this.Userdetails.body.email);
           sessionStorage.setItem('JwtToken', this.Userdetails.body.Idtoken);
           if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '') {
-            this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });
+            this.Consent();
           } else {
-            this.route.navigate(['callback']);
+            this.route.navigate(['project']);
           }
 
         }
@@ -194,8 +195,7 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
         sessionStorage.setItem('email', this.Userdetails.body.email);
         sessionStorage.setItem('JwtToken', this.Userdetails.body.Idtoken);
-        this.route.navigate(['callback']);
-
+        this.route.navigate(['project']);
       }, error => {
         console.error('error:', error);
       });
@@ -209,5 +209,35 @@ export class LoginComponent implements OnInit {
       facebookPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     }
 
+  }
+
+  Consent() {
+    const consentbody = {
+      submit: 'Allow access',
+      scope: this.openId,
+      id: this.id,
+    };
+    this.loginservice.Consent(consentbody).subscribe(consentvalue => {
+      // window.open(consentvalue.redirectUrl, '_self');
+      if (consentvalue.Access !== undefined) {
+        console.log('-------ahdbakjvjakjak--------');
+        this.Accesslevel = consentvalue.Access[0];
+        this.permission.push(this.Accesslevel);
+        console.log('------------loginresponse-----', this.permission);
+        this.broadcast.sendmessage({ 'Access': this.permission });
+        // sessionStorage.setItem('Access', JSON.stringify(this.permission));
+      }
+      this.Userdetails = consentvalue.Userdetails;
+      this.id = this.Userdetails.body._id;
+      this.lastloggedintime = this.Userdetails.body.loggedinDate;
+      this.route.navigate(['project']);
+      console.log('--------idtoken------>>>', this.Userdetails);
+      sessionStorage.setItem('Id', this.id);
+      sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
+      sessionStorage.setItem('email', this.Userdetails.body.email);
+      sessionStorage.setItem('JwtToken', this.Userdetails.body.Idtoken);
+    }, error => {
+      console.error('error: ', error);
+    });
   }
 }

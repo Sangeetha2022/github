@@ -1,0 +1,94 @@
+{
+    "Routes": [
+        {
+            "featureName": "security",
+            "entityModelName": "security",
+            "entityFileName": "security",
+            "nodePortNumber": "3007",
+            "flowAction": [
+                {
+                    "routeUrl": "/signup",
+                    "apiAction": "post",
+                    "methodName": "signup",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/login",
+                    "apiAction": "post",
+                    "methodName": "login",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/consent",
+                    "apiAction": "put",
+                    "methodName": "consent",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/logout",
+                    "apiAction": "put",
+                    "methodName": "logout",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/googlesignin",
+                    "apiAction": "post",
+                    "methodName": "googlecontroller",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/getallusers",
+                    "apiAction": "get",
+                    "methodName": "getallusers",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/getuser/:id",
+                    "apiAction": "get",
+                    "methodName": "getuserbyid",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/getallroles",
+                    "apiAction": "get",
+                    "methodName": "getallroles",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/updateuser",
+                    "apiAction": "put",
+                    "methodName": "updateuser",
+                    "variableName": "User"
+                }
+            ]
+        },
+        {
+            "featureName": "Authproxy",
+            "entityModelName": "Authproxy",
+            "entityFileName": "Authproxy",
+            "nodePortNumber": "3009",
+            "flowAction": [
+                {
+                    "routeUrl": "/proxy",
+                    "apiAction": "post",
+                    "methodName": "usercontroller",
+                    "variableName": "User"
+                }
+            ]
+        },
+        {
+            "featureName": "Camunda",
+            "entityModelName": "Camunda",
+            "entityFileName": "Camunda",
+            "nodePortNumber": "3008",
+            "flowAction": [
+                {
+                    "routeUrl": "/accesslevel",
+                    "apiAction": "post",
+                    "methodName": "camundacontroller",
+                    "variableName": "User"
+                }
+            ]
+        }
+    ]
+}

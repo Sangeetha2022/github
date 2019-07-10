@@ -2594,16 +2594,16 @@
 		{
 			"name": "authGenerationDirectory",
 			"label": "Auth Generation Directory",
-			"description": "location of where we want to generate our backend code",
-			"value": "/home/tendecoders/Desktop/Geppetto/LatestGeppetto/geppettotest/generator/services/seed",
+			"description": "Location for the Login generation seed files",
+			"value": "../../seed",
 			"type": "AuthGeneration",
 			"sub_type": null	
 		},
 		{
 			"name": "authorizationDirectory",
 			"label": "Authorization Directory",
-			"description": "location of where we want to generate our backend code",
-			"value": "/home/tendecoders/Desktop/Geppetto/LatestGeppetto/geppettotest/generator/services/auth-gen-manager/template",
+			"description": "Location for the template path of the string template in the Auth gen manager",
+			"value": "../../template",
 			"type": "Authorization",
 			"sub_type": null	
 		}

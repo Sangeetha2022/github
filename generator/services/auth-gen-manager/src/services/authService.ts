@@ -7,7 +7,7 @@ import { ScreenWorker } from '../worker/ScreenWorker';
 import { ModelWorker } from '../worker/ModelWorker';
 import { CamundaWorker } from '../worker/CamundaWorker';
 import { DmnWorkerFile } from '../worker/DMNWoker';
-import { Routes } from '../assets/route.json';
+import { Routes } from '../../template/route.json';
 import { Common } from '../config/Common';
 export class AuthService {
 
@@ -189,6 +189,14 @@ export class AuthService {
                         }
                     })
                 })
+            } else if (file === 'Dockerfile') {
+                fs.readFile(`${this.authGenFiles.authProxyPath}/${file}`, 'utf8', (err, dockerFile) => {
+                    fs.writeFile(this.authGenFiles.proxyFolder + `/Dockerfile`, dockerFile, (err) => {
+                        if (err) {
+                            return (err)
+                        }
+                    })
+                })
             }
             else if (file === 'src') {
                 let src = this.authGenFiles.proxyFolder + `/src`
@@ -321,6 +329,14 @@ export class AuthService {
             } else if (file === 'tsconfig.json') {
                 fs.readFile(`${this.authGenFiles.securityPath}/${file}`, 'utf8', (err, tsFile) => {
                     fs.writeFile(this.authGenFiles.folder + `/tsconfig.json`, tsFile, (err) => {
+                        if (err) {
+                            return (err)
+                        }
+                    })
+                })
+            } else if (file === 'Dockerfile') {
+                fs.readFile(`${this.authGenFiles.securityPath}/${file}`, 'utf8', (err, dockerFile) => {
+                    fs.writeFile(this.authGenFiles.folder + `/Dockerfile`, dockerFile, (err) => {
                         if (err) {
                             return (err)
                         }
@@ -506,6 +522,14 @@ export class AuthService {
             } else if (file === 'tsconfig.json') {
                 fs.readFile(`${this.authGenFiles.camundaPath}/${file}`, 'utf8', (err, tsFile) => {
                     fs.writeFile(this.authGenFiles.camundaFolder + `/tsconfig.json`, tsFile, (err) => {
+                        if (err) {
+                            return (err)
+                        }
+                    })
+                })
+            } else if (file === 'Dockerfile') {
+                fs.readFile(`${this.authGenFiles.camundaPath}/${file}`, 'utf8', (err, dockerFile) => {
+                    fs.writeFile(this.authGenFiles.camundaFolder + `/Dockerfile`, dockerFile, (err) => {
                         if (err) {
                             return (err)
                         }

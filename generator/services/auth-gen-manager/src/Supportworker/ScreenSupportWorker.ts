@@ -6,7 +6,9 @@ export class ScreenSupportWorker {
 
     screenfilegenerate(screenname, generationnpath, templatepath,callback) {
         let assetsfolder = generationnpath + `/assets`;
-        let generateModel = st.loadGroup(require(templatepath + '/seed_stg'));
+        let pathfile = path.resolve(__dirname, templatepath);
+        console.log('------screenpathfile-----', pathfile);
+        let generateModel = st.loadGroup(require(pathfile + '/seed_stg'));
         let modelData = generateModel.render("seed", [screenname]);
         if (!fs.existsSync(assetsfolder)) {
             fs.mkdirSync(assetsfolder);

@@ -11,7 +11,8 @@ export class ModelSupportWorker {
         if (!fs.existsSync(modelGenerationPath)) {
             fs.mkdirSync(modelGenerationPath);
         }
-        const mongoTemplatePath = path.resolve(templatePath);
+        const mongoTemplatePath = path.resolve(__dirname,templatePath);
+        console.log('------modelpathfile-----', mongoTemplatePath);
         let generateModel = st.loadGroup(require(mongoTemplatePath + '/model_stg'));
         let modelData = generateModel.render("model", [modelName.trim(), fields]);
 
