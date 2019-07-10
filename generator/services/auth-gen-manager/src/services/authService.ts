@@ -47,7 +47,7 @@ export class AuthService {
         this.frontendpath = path.resolve(`${this.authGenFiles.projectpath}/loginfrontend`);
         if (this.sourcePath) {
             if (!fs.existsSync(this.sourcePath)) {
-                console.log('-----coming here for floder creation---', this.sourcePath);
+                console.log('-----coming here for source floder creation---', this.sourcePath);
                 fs.mkdirSync(this.sourcePath);
             }
         }
@@ -215,7 +215,7 @@ export class AuthService {
                             })
                         })
                     } else if (x === 'controllers') {
-                        let contoller = this.authGenFiles.proxyFolder + `/controllers`;
+                        let contoller = src + `/controllers`;
                         if (!fs.existsSync(contoller)) {
                             fs.mkdirSync(contoller);
                         }
@@ -228,7 +228,7 @@ export class AuthService {
                             })
                         })
                     } else if (x === 'routes') {
-                        let route = this.authGenFiles.proxyFolder + `/routes`;
+                        let route = src + `/routes`;
                         if (!fs.existsSync(route)) {
                             fs.mkdirSync(route);
                         }
@@ -242,7 +242,7 @@ export class AuthService {
                         })
                     } else if (x === 'services') {
 
-                        let service = this.authGenFiles.proxyFolder + `/services`;
+                        let service = src + `/services`;
                         if (!fs.existsSync(service)) {
                             fs.mkdirSync(service);
                         }
@@ -255,7 +255,7 @@ export class AuthService {
 
                         })
                     } else if (x === 'dao') {
-                        let dao = this.authGenFiles.proxyFolder + `/daos`;
+                        let dao = src + `/daos`;
                         if (!fs.existsSync(dao)) {
                             fs.mkdirSync(dao);
                         }
@@ -267,7 +267,7 @@ export class AuthService {
                             })
                         })
                     } else if (x === 'model') {
-                        let model = this.authGenFiles.proxyFolder + `/model`;
+                        let model = src + `/model`;
                         if (!fs.existsSync(model)) {
                             fs.mkdirSync(model);
                         }
@@ -279,7 +279,7 @@ export class AuthService {
                             })
                         })
                     } else if (x === 'config') {
-                        let config = this.authGenFiles.proxyFolder + `/config`;
+                        let config = src + `/config`;
                         if (!fs.existsSync(config)) {
                             fs.mkdirSync(config);
                         }

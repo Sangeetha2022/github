@@ -129,9 +129,10 @@ export class ProjectsComponent implements OnInit {
   get form_control() { return this.createProject.controls; }
 
   getAllMyProjects() {
+    this.myAllProjects = [];
     this.projectsService.getMyAllProjects(this.UserId).subscribe(data => {
       if (data) {
-        this.myAllProjects.push(data);
+        this.myAllProjects = data;
       }
       console.log('--------myprojects----', this.myAllProjects);
     }, error => {

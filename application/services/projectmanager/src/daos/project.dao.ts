@@ -21,7 +21,7 @@ export class ProjectDao {
     }
 
     public getAllProject(UserId, callback: CallableFunction) {
-        Project.findOne({ UserId: UserId }, (err, project) => {
+        Project.find({ UserId: UserId }, (err, project) => {
             console.log('-------projectdetails------', project);
             if (err) {
                 callback(err);
