@@ -43,6 +43,10 @@ export class CommonWorker {
         commonSupportWorker.generateWinstonLoggerFile(projectGenerationPath, templateLocationPath);
     }
 
+    generateDockerFile(projectGenerationPath, templateLocationPath, featureName) {
+        commonSupportWorker.generateDockerFile(projectGenerationPath, templateLocationPath, featureName, (response) => { })
+    }
+
     gpStart() {
         this.tempServer.GpStart.dependencies.push({ 'name': '* as express', 'path': 'express' });
         this.tempServer.GpStart.dependencies.push({ 'name': '* as bodyParser', 'path': 'body-parser' });

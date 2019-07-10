@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angul
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Brodcastservice } from './broadcast.service';
+import { Brodcastservice } from '../broadcast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -49,9 +49,9 @@ export class AuthGuard implements CanActivate {
       const url = window.location.href;
       this.routename = url.split('/');
       this.consentroute = this.routename[3];
-      console.log('---------routename-------->>>>', this.routename[3]);
 
-      if (this.accessroutes !== null || this.accessroutes !== undefined) {
+      if (this.accessroutes) {
+        console.log('accessroutes ------  ', this.accessroutes);
         this.accessroutes.forEach(element => {
           console.log('------element----->>>', element);
           const Developer = element['Developer'];

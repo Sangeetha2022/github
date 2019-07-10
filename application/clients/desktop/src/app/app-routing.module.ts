@@ -17,7 +17,7 @@ import { FeatureDetailsComponent } from './project-component/feature-details/fea
 import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
 import { ProfilesettingsComponent } from './user/profilesettings/profilesettings.component';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './auth/auth.guard';
 import { TemplateScreenComponent } from './template-screen/template-screen.component';
 
 const routes: Routes = [

@@ -3,8 +3,10 @@ import * as util from 'util';
 import * as asyncLoop from 'node-async-loop';
 import { ApiGatewayWorker } from '../worker/ApiGatewayWorker';
 import { Common } from '../config/Common';
+import { CommonWorker } from '../worker/CommonWorker';
 
 let apiGatewayWorker = new ApiGatewayWorker();
+let commonWorker = new CommonWorker();
 export class ApiGatewayService {
     private APIGATEWAY_FOLDERNAME = 'apigateway';
     private constantObj = {
@@ -26,7 +28,12 @@ export class ApiGatewayService {
         const apiGatewayGenerationPath = `${details.projectGenerationPath}/${this.APIGATEWAY_FOLDERNAME}`;
         const apiGatewayTemplatePath = `${details.project.templateLocation.backendTemplate}/apigateway`;
         Common.createFolders(apiGatewayGenerationPath);
+        console.log('create node response lenght are --------  ', details.nodeResponse.length)
+
+        // generate docker file
+        commonWorker.generateDockerFile(apiGatewayGenerationPath, apiGatewayTemplatePath, this.APIGATEWAY_FOLDERNAME);
         asyncLoop(req.body.nodeResponse, (element, next1) => {
+            console.log('create node response lenght are --firslevel------  ', element)
             const controllerObj = {
                 className: '',
                 implementName: '',
@@ -54,6 +61,7 @@ export class ApiGatewayService {
 
                 this.constantObj.constantArray.push(temp);
                 asyncLoop(element.flowAction, (routingElement, next2) => {
+                    console.log('async loop routing element are ------  ', routingElement);
                     const controllerDetails = {
                         methodName: '',
                         methodUrl: '',
@@ -132,6 +140,7 @@ export class ApiGatewayService {
             }
         }, (err) => {
             if (err) {
+                console.log('error apigateway -----------  ', err);
                 callback(err);
             } else {
                 apiGatewayWorker.createConstantFile(apiGatewayGenerationPath, apiGatewayTemplatePath, this.constantObj);

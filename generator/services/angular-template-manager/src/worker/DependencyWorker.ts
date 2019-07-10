@@ -13,12 +13,17 @@ export class DependencyWorker {
     private STYLE_TEMPLATE_NAME: String = 'styles_scss';
     private APP_ROUTING_TEMPLATE_NAME: String = 'app_routing';
     private SHARED_SERVICE_TEMPLATE_NAME: String = 'shared_service';
+    private NGINX_DEFAULT_TEMPLATE_NAME: String = 'nginx_default';
+    private DOCKERFILE_TEMPLATE_NAME: String = 'docker_file';
     private STYLE_FILENAME: String = 'styles.scss';
     private APP_ROUTING_FILENAME: String = 'app-routing.module.ts';
     private SHARED_FILENAME: String = 'shared.service.ts';
+    private NGINX_FILENAME: String = 'default.conf';
+    private DOCKERFILE_FILENAME: String = 'Dockerfile';
     private SHARED_FOLDERNAME: String = 'shared';
     private SRC_FOLDERNAME: String = 'src';
     private APP_FOLDERNAME: String = 'app';
+    private NGINX_FOLDERNAME: String = 'nginx';
     private isAssetImage: any[] = ['assets/img/home.jpg'];
     // componentWorker.TEMPLATE_FOLDERNAME;
 
@@ -72,6 +77,18 @@ export class DependencyWorker {
         return dependencySupportWorker.generateFiles(templatePath, filePath, this.SHARED_FILENAME,
             this.SHARED_SERVICE_TEMPLATE_NAME, sharedObj, (response) => {
                 callback();
+            })
+    }
+
+    generateNginxDockerFile(generationPath, templatePath, projectName, callback) {
+        const generateNginxPath = `${generationPath}/${this.NGINX_FOLDERNAME}`;
+        Common.createFolders(generateNginxPath);
+        dependencySupportWorker.generateFiles(templatePath, generateNginxPath, this.NGINX_FILENAME,
+            this.NGINX_DEFAULT_TEMPLATE_NAME, null, (response) => {
+                dependencySupportWorker.generateFiles(templatePath, generationPath, this.DOCKERFILE_FILENAME,
+                    this.DOCKERFILE_TEMPLATE_NAME, projectName, (response) => {
+                        callback();
+                    })
             })
     }
 

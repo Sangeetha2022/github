@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { LoginService } from '../../login/loginservice.service';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Brodcastservice } from '../../broadcast.service';
-import { AuthGuard } from '../../auth.guard';
+import { AuthGuard } from '../../auth/auth.guard';
 import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 import { DataService } from '../../../shared/data.service';
 import { NavigationService } from '../navigation.service';

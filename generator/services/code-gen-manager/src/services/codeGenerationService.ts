@@ -130,13 +130,15 @@ export class CodeGenerationService {
     const FeatureJSON = JSON.parse(features.toString());
     console.log('get feature by project id are ------  ', features, '  length   ', FeatureJSON.body.length);
     if (FeatureJSON.body != undefined && FeatureJSON.body.length === 0) {
-      callback('cannot able to find its features based on this project', 400);
-    } else {
-      try {
-        asyncLoop(FeatureJSON.body, async (featureElement, next) => {
-
-          console.log('starting feature each ovjes area--11----  ', featureElement, ' each feature length  ', featureElement.entities.length);
-
+      console.log('cannot able to find its features based on this project', 400);
+    }
+    try {
+      asyncLoop(FeatureJSON.body, async (featureElement, next) => {
+        console.log('feature element async loop --------  ', featureElement);
+        // console.log('starting feature each ovjes area--11----  ', featureElement, ' each feature length  ', featureElement.entities.length);
+        if (featureElement === undefined) {
+          next();
+        } else {
           const feature = {
             id: '',
             name: '',
@@ -150,16 +152,16 @@ export class CodeGenerationService {
           feature.id = featureElement._id;
           feature.name = featureElement.name;
           feature.description = featureElement.description;
-          const flows = await this.getFlows(featureElement.flows);
-          console.log('flows response rae -11----  ', flows);
-          console.log('flows response rae --22---  ', JSON.parse(JSON.stringify(flows)).body);
-          feature.flows = JSON.parse(JSON.stringify(flows)).body;
+          const flows = await this.getFlows(featureElement.flows).catch(err => { console.log('cannot able to get the flows') });
+          // console.log('flows response rae -11----  ', flows);
+          if (flows) {
+            feature.flows = JSON.parse(JSON.stringify(flows)).body;
+          }
 
           if (featureElement.entities.length > 0) {
-            console.log('entering into if condition 22 ');
             asyncLoop(featureElement.entities, async (featureEntity, entityNext) => {
               console.log('each feature entity ---33---  ', featureEntity);
-              const entity = await this.getEntityById(featureEntity.entityId);
+              const entity = await this.getEntityById(featureEntity.entityId)
               console.log('each feature entity ----3.2111---  ', entity);
               feature.entities.push(JSON.parse(entity.toString()).body)
               entityNext();
@@ -221,36 +223,36 @@ export class CodeGenerationService {
           } else {
             next();
           }
-          console.log('ending of loop ');
-        }, async (err) => {
-          if (err) {
-            console.log('err in loop are ---- ', err);
-          } else {
-            console.log('all featuers are completed ----  ', util.inspect(this.nodeResponse, { showHidden: true, depth: null }));
-            // this.increaseBackendPortNumber();
-            const temp = {
-              projectPath: projectPath,
-              applicationPort: this.APIGATEWAY_PORT_NUMBER,
-              projectGenerationPath: `${projectPath}/${this.SERVICE_FOLDERNAME}`,
-              project: projectDetails,
-              nodeResponse: this.nodeResponse
-            }
-            console.log('code generation apigateway services before create gateway are ----- ', temp);
-            await this.generateApiGateway(temp).catch(err => {
-              console.log('cannot able to generate the api gateway node services');
-            });
-            await this.pushTogithub(projectId, gitBody).catch(err => {
-              console.log('cannot able to push the code into github repo');
-            });
-            callback('code generation completed');
+        }
+      }, async (err) => {
+        if (err) {
+          console.log('err in loop are ---- ', err);
+        } else {
+          console.log('all featuers are completed ----  ', util.inspect(this.nodeResponse, { showHidden: true, depth: null }));
+          // this.increaseBackendPortNumber();
+          const temp = {
+            projectPath: projectPath,
+            applicationPort: this.APIGATEWAY_PORT_NUMBER,
+            projectGenerationPath: `${projectPath}/${this.SERVICE_FOLDERNAME}`,
+            project: projectDetails,
+            nodeResponse: this.nodeResponse
           }
-        })
-      } catch (err) {
-        console.log('error in code generation manager --1111 main-- ');
-        console.log('error in code generation manager ---- ', err);
-        callback('something went wrong in code generation manager', 400);
-      }
+          console.log('code generation apigateway services before create gateway are ----- ', temp);
+          await this.generateApiGateway(temp).catch(err => {
+            console.log('cannot able to generate the api gateway node services');
+          });
+          await this.pushTogithub(projectId, gitBody).catch(err => {
+            console.log('cannot able to push the code into github repo');
+          });
+          callback('code generation completed');
+        }
+      })
+    } catch (err) {
+      console.log('error in code generation manager --1111 main-- ');
+      console.log('error in code generation manager ---- ', err);
+      callback('something went wrong in code generation manager', 400);
     }
+
 
     // callback()
   }

@@ -35,14 +35,15 @@ export class AngularTemplateService {
     public createAngularTemplate(req: Request, callback: CallableFunction) {
 
         this.details = req.body;
+        console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
         const grapesjsComponent = this.details.template[0]['gjs-components'][0];
         this.grapesjsCSS = this.details.template[0]['gjs-css'];
-        this.menuDetails = this.details.menuBuilder[0].menuDetails;
-        console.log('menyu details are ---------- ', this.menuDetails);
+        if(this.details.menuBuilder.length > 0) {
+            this.menuDetails = this.details.menuBuilder[0].menuDetails;
+        }
         this.apigatewayPortNumber = this.details.apigatewayPortNumber;
         this.sharedObj.port = this.apigatewayPortNumber;
 
-        // console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
         // console.log('entering into grapejsCSSSSSSSSS --yes--  ', this.grapesjsCSS.indexOf(`home.jpg`));
         // console.log('entering into grapejsCSSSSSSSSS --no--  ', this.grapesjsCSS.indexOf(`hometest.jpg`));
         this.generationPath = this.details.projectGenerationPath;
@@ -91,10 +92,10 @@ export class AngularTemplateService {
     public generateAngularApp() {
         commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, (response) => {
             dependencyWorker.generateAppRoutingFile(this.generationPath, this.templatePath, this.menuDetails, (response) => {
-                commonWorker.generateMainFile(this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, (response) => {
+                commonWorker.generateMainFile(this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.details.project.name, (response) => {
 
                 });
-            })
+            });
         });
     }
 }

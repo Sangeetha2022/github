@@ -69,8 +69,9 @@ export class CommonWorker {
         });
     }
 
-    generateMainFile(generationPath, templatePath, templateCss, sharedObj, callback) {
-        return dependencyWorker.generateIndexHtml(generationPath, templatePath, this.mainHtmlTag, this.scriptTag, (response) => {
+    generateMainFile(generationPath, templatePath, templateCss, sharedObj, projectName, callback) {
+        return dependencyWorker.generateNginxDockerFile(generationPath, templatePath, projectName, (response) => {
+            return dependencyWorker.generateIndexHtml(generationPath, templatePath, this.mainHtmlTag, this.scriptTag, (response) => {
             return dependencyWorker.generateStyleSCSS(generationPath, templatePath, templateCss, (response) => {
                 return dependencyWorker.generateSharedFile(generationPath, templatePath, sharedObj, (response) => {
                     return componentWorker.generateMainModule(generationPath, templatePath, (response) => {
@@ -79,6 +80,7 @@ export class CommonWorker {
                 });
             });
         });
+    });
 
     }
 

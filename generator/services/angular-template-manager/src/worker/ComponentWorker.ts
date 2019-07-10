@@ -18,7 +18,6 @@ export class ComponentWorker {
 
 
     public createHeaderComponent(generationPath, templatePath, templateHeaderObj, callback) {
-        console.log('create header component are ----------  ', templateHeaderObj);
         const temp = {
             folderName: this.HEADER_FOLDERNAME,
             importDependency: [],
@@ -37,8 +36,6 @@ export class ComponentWorker {
         temp.importDependency.push(tempDependency);
         if (templateHeaderObj.css.length > 0) {
             temp.css = templateHeaderObj.css;
-        } else {
-            temp.css = null;
         }
         return componentSupportWorker.generateHtmlComponent(generationPath, templatePath,
             this.COMPONENT_HTML_TEMPLATE_NAME, temp, (response) => {

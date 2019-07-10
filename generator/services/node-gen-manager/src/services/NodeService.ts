@@ -176,6 +176,7 @@ export class NodeService {
             try {
                 commonWorker.createServerFile(projectGenerationPath, templateLocation, projectName, port);
                 commonWorker.generatePackageJsonFile(projectGenerationPath, templateLocation, featureName);
+                commonWorker.generateDockerFile(projectGenerationPath, templateLocation, featureName);
                 commonWorker.generateTsConfigFile(projectGenerationPath, templateLocation);
                 commonWorker.generateWinstonLoggerFile(projectGenerationPath, templateLocation);
 
