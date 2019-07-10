@@ -58,7 +58,7 @@
                         <!-- </div> -->
                         <!-- </div>  -->
                     </div>
-        
+
                     <div class="col-md-4" *ngIf="projectFeatureData &&
                         projectFeatureData.length === 0">
                         No Feature Available.
@@ -84,16 +84,16 @@
                                     src="../../assets/img/entity3.png">
                             </div>
                             <div class="col-md-6">
-                                <h5>  {{entity.name}}</h5>
+                                <h5> {{entity.name}}</h5>
                                 <p>{{entity.description}}</p>
                                 <div class="row">
                                     <button mat-raised-button color="primary"
-                                    (click)="editEntityField(entity)">Edit</button>
-                                &nbsp;
-                                <button mat-raised-button color="warn"
-                                    [disabled]="entity.is_default"
-                                    (click)="openDeleteModel(entity)">Delete</button>
-                                </div>  
+                                        (click)="editEntityField(entity)">Edit</button>
+                                    &nbsp;
+                                    <button mat-raised-button color="warn"
+                                        [disabled]="entity.is_default"
+                                        (click)="openDeleteModel(entity)">Delete</button>
+                                </div>
                             </div>
                         </div>
 
@@ -163,55 +163,20 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="margin: 0px;">
-                        <div class="col-md-3" *ngFor="let screen of
-                            screenDetails; let i= index">
+                    <div class="row" style="margin: 0px;padding-bottom: 20px;">
+                        <div class="col-md-3" *ngFor="let screen of screenDetails; let i = index">
+                            <span class="screen_text">{{screen?.screenName}}</span>
+                            <img src="../../assets/img/desktop.png" *ngIf="screen.screenType === 'desktop'"
+                                class="image" alt="Desktop">
+                            <img src="../../assets/img/mobile.png" *ngIf="screen.screenType === 'mobile'" class="image"
+                                alt="Mobile">
                             <span class="fa fa-pencil-square-o fa-2x"
-                                *ngIf="screen.screenType === 'desktop'"
-                                (click)="editScreen(screen._id,
-                                screen.screenType)" aria-hidden="true"></span>
-                            <span *ngIf="screen.screenType === 'desktop'"
-                                class="fa fa-desktop"
-                                aria-hidden="true"></span>
-                            <span class="screen_text"
-                                *ngIf="screen.screenType === 'desktop'">{{screen?.screenName}}</span>
-                            <span class="fa fa-trash-o fa-2x"
-                                *ngIf="screen.screenType === 'desktop'"
-                                (click)="deleteScreen(screen._id)"
+                                (click)="editScreen(screen._id, screen.screenType)" aria-hidden="true"></span>
+                            <span class="fa fa-trash-o fa-2x" (click)="deleteScreen(screen._id)"
                                 aria-hidden="true"></span>
 
-                            <span class="fa fa-pencil-square-o fa-2x
-                                mobile-icon-edit"
-                                *ngIf="screen.screenType === 'mobile'"
-                                (click)="editScreen(screen._id,
-                                screen.screenType)" aria-hidden="true"></span>
-                            <span *ngIf="screen.screenType === 'mobile'"
-                                class="fa fa-mobile" aria-hidden="true"></span>
-                            <span class="mobile-screen-text"
-                                *ngIf="screen.screenType === 'mobile'">{{screen?.screenName}}</span>
-                            <span class="fa fa-trash-o fa-2x mobile-icon-delete"
-                                *ngIf="screen.screenType === 'mobile'"
-                                (click)="deleteScreen(screen._id)"
-                                aria-hidden="true"></span>
-
-                            <!-- <div class="card">
-                                <div class="card-header">
-                                    {{screen?.screenName}}
-                                    <img style="float: right; cursor: pointer;"
-                                        src="https://img.icons8.com/metro/26/000000/edit-file.png">
-                                </div>
-                                <div class="card-body">
-
-                                    <button mat-raised-button color="primary"
-                                        (click)="editScreen(screen._id, screen.screenType)">Edit</button>
-                                    &nbsp;
-                                    <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
-                                        [disabled]="entity.is_default">Delete</button>
-                                </div>
-                            </div> -->
                         </div>
-                        <div class="col-md-4" *ngIf="screenDetails.length ===
-                            0">
+                        <div class="col-md-4" *ngIf="screenDetails.length === 0">
                             No Screen Available.
                         </div>
                     </div>

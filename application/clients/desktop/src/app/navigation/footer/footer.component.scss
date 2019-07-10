@@ -66,6 +66,7 @@ ul, ol {
   bottom: 0;
   width: 100%;
   position: absolute;
+  overflow-x: hidden;
 }
 
 .footer_align{
@@ -87,7 +88,7 @@ hr{
   color:white;
 }
 .div_border{
-  border-style: solid;
+  // border-style: solid;
   border-width: 1px;
   border-color: darkslategray;
   min-height: 55px;
