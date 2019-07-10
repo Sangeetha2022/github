@@ -32,7 +32,7 @@ export class LoginService {
   }
 
   Consent(consent: any): Observable<any> {
-    return this.apiservice.put(this.restapi.Apigateway + '/desktop/consent', consent);
+    return this.http.put(this.restapi.Apigateway + '/desktop/consent', consent);
   }
 
 }
