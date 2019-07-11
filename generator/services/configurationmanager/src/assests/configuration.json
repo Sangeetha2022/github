@@ -2595,7 +2595,7 @@
 			"name": "authGenerationDirectory",
 			"label": "Auth Generation Directory",
 			"description": "Location for the Login generation seed files",
-			"value": "../../seed",
+			"value": "/geppetto/seed/",
 			"type": "AuthGeneration",
 			"sub_type": null	
 		},
@@ -2611,7 +2611,7 @@
 			"name": "adminManagerSeedDirectory",
 			"label": "Admin Manager Directory",
 			"description": "Location for the Admin Manager seed files",
-			"value": "../../seed",
+			"value": "/geppetto/seed/",
 			"type": "AdminManager",
 			"sub_type": null	
 		}

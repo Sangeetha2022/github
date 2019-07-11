@@ -12,7 +12,7 @@
         "emitDecoratorMetadata": true
     },
     "include": [
-        "src/**/*.ts",
+        "src/**/*.ts", "../generation-manager/src/apiservices/GithubManagerService.ts",
     ],
     "exclude": [
         "node_modules"
