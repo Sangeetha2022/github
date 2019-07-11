@@ -14,13 +14,11 @@ class App {
     public app = express();
     public routerPrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
-    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
     constructor() {
         this.logger.setupLogger();
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
         this.routerPrv.routes(this.app);
-        this.mongoSetup();
     }
 
     private initializeMiddlewares() {
@@ -29,12 +27,6 @@ class App {
         this.app.use(cors({ credentials: true, origin: true }))
     }
 
-    private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mongoConfig = new MongoConfig();
-        // mongoConfig.mongoConfig();
-    }
 
 
 }

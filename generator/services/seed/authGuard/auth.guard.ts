@@ -1,10 +1,10 @@
 import { Injectable, Output, EventEmitter, Input } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, NavigationStart } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Brodcastservice } from './broadcast.service';
-
+import { Brodcastservice } from '../broadcast.service';
+import 'rxjs/add/operator/filter';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,6 +13,16 @@ export class AuthGuard implements CanActivate {
   @Output() getpermission = new EventEmitter();
   // @Output() landingpage = new EventEmitter();
   constructor(private router: Router, public broadcast: Brodcastservice) {
+    this.broadcast.currentusername.subscribe(authgaurdvalue => {
+      console.log('--------authvaluekishan-----', authgaurdvalue);
+      // @ts-ignore
+      this.accessroutes = authgaurdvalue.Access;
+    });
+    this.router.events.filter(value => value instanceof NavigationStart).subscribe((value: NavigationStart) => {
+      console.log('--------routevalue----', value.url);
+      this.routename = value.url.split('/');
+
+    });
   }
   public jwtoken: any;
   public accessroutes: any;
@@ -39,14 +49,17 @@ export class AuthGuard implements CanActivate {
       const decodedtoken = helper.decodeToken(this.jwtoken);
       console.log('------------token------', decodedtoken.role);
       this.userole = decodedtoken.role;
-      this.accessroutes = JSON.parse(sessionStorage.getItem('Access'));
-      console.log('-----URL---->>>>', window.location.href);
+      // this.accessroutes = JSON.parse(sessionStorage.getItem('Access'));
       const url = window.location.href;
-      this.routename = url.split('/');
-      this.consentroute = this.routename[3];
-      console.log('---------routename-------->>>>', this.routename[3]);
-
-      if (this.accessroutes !== null || this.accessroutes !== undefined) {
+      // this.routename = url.split('/');
+      // this.consentroute = this.routename[3];
+      console.log('-----accessroutes----', this.accessroutes);
+      if (this.accessroutes === undefined) {
+        this.accessroutes = this.broadcast.gaurdarray;
+      }
+      if (this.accessroutes) {
+        console.log('-----URL---->>>>', this.routename[1]);
+        console.log('accessroutes ------  ', this.accessroutes);
         this.accessroutes.forEach(element => {
           console.log('------element----->>>', element);
           const Developer = element['Developer'];
@@ -144,7 +157,7 @@ export class AuthGuard implements CanActivate {
           // this.uservalue = useraccess.Admin.Access.value;
           console.log('----------test---------->>>>', this.viewpermission);
         });
-        if (this.routename[3] === 'landing') {
+        if (this.routename[1] === 'landing') {
           console.log('-----------coming in landing', this.viewpermission);
           // this.router.navigate([]);
           if (this.viewpermission !== 'true') {
@@ -153,16 +166,13 @@ export class AuthGuard implements CanActivate {
             return true;
           }
         }
-        if (this.routename[3] === 'project' || this.routename[3] === 'callback') {
+        if (this.routename[1] === 'project') {
           console.log('-------------coming in project-----');
           if (this.viewpermission !== 'true') {
             return false;
           } else {
             return true;
           }
-        }
-        if (this.routename[3] === this.consentroute) {
-          return true;
         }
       }
     } else {
@@ -171,3 +181,4 @@ export class AuthGuard implements CanActivate {
     }
   }
 }
+
