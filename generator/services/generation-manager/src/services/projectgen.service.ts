@@ -3,6 +3,7 @@ import { ProjectgenDao } from '../daos/projectgen.dao';
 import { ProjectManagerService } from '../apiservices/ProjectManagerService';
 import { ConfigurationManagerService } from '../apiservices/ConfigurationManagerService';
 import { CodeGenManagerService } from '../apiservices/CodeGenManagerService';
+import { InfraStructureManagerService } from '../apiservices/InfrastructureManagerService';
 
 export class ProjectgenService {
 
@@ -10,6 +11,7 @@ export class ProjectgenService {
     private projectManagerService: ProjectManagerService = new ProjectManagerService();
     private configManagerService: ConfigurationManagerService = new ConfigurationManagerService();
     private codeGenManagerService: CodeGenManagerService = new CodeGenManagerService();
+    private infraStructureManagerService: InfraStructureManagerService = new InfraStructureManagerService();
 
     private projectObj: any = {
         name: '',
@@ -113,7 +115,16 @@ export class ProjectgenService {
                         }
                         this.codeGenManagerService.createProjectCode(projectId, this.projectObj, (codeResponse) => {
                             console.log('hello i need this', codeResponse);
-                            callback(codeResponse);
+                            this.projectObj.app_db_pod = true;
+                            this.projectObj.app_pod = true;
+                            this.projectObj.system_entry_pod = true;
+                            this.projectObj.telemetry_pod = { "vault": true, "EFK": false };
+                            this.projectObj.dev_ops_db_pod = false;
+                            this.projectObj.dev_ops_pod = false
+                            this.infraStructureManagerService.generateInfrastructure(projectId, this.projectObj, (infraResponse) => {
+                                console.log('Infra Response:', infraResponse);
+                                callback(codeResponse);
+                            })
                         })
                         // try {
                         //     this.codeGenManagerService.createProjectCode(projectId, this.projectObj, (codeResponse) => {
