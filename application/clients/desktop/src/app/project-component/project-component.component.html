@@ -1,10 +1,11 @@
-<div class="container">
+<div class="container top_align">
     <br />
     <h1 style="text-align: center;">Project Components</h1>
-    <div class = 'code' >
-            <button class="btn btn-primary float-right" color="primary" (click)="generateCode()">code 
-                Generate</button>
-        </div>
+    <div class='code'>
+        <button class="btn btn-primary float-right" color="primary"
+            (click)="generateCode()">code
+            Generate</button>
+    </div>
     <br />
     <br />
     <br>
@@ -17,12 +18,31 @@
                 </mat-expansion-panel-header>
 
                 <div style="padding-right: 20px;">
-                    <button class="btn btn-primary float-right" color="primary" (click)="openFeatureDialog()">Add
+                    <button class="btn btn-primary float-right" color="primary"
+                        (click)="openFeatureDialog()">Add
                         Features</button>
                 </div>
-                <div class="row" style="margin: 0px;" *ngIf="projectFeatureData.length > 0">
-                    <div class="col-md-5" *ngFor="let feature of projectFeatureData; let i = index">
-                        <div class="card">
+                <div class="row" style="margin: 0px;"
+                    *ngIf="projectFeatureData.length> 0">
+                    <div class="col-md-4" *ngFor="let feature of
+                        projectFeatureData; let i= index">
+
+                        <div class="row bottom_padding">
+                            <div class="col-md-3">
+                                <img class="img_size"
+                                    src="../../assets/img/feature4.png">
+                            </div>
+                            <div class="col-md-7">
+                                <h5> {{feature.name}}</h5>
+                                <p>{{feature.description}}</p>
+                                <button class="btn btn-info"
+                                    [routerLink]="['/feature-details']"
+                                    [queryParams]="{featureId: feature._id,
+                                    projectId: project_id}">View
+                                    </button>
+                            </div>
+                        </div>
+                        <!-- <div class="card">
                             <div class="card-header">
                                 {{feature.name}}
                             </div>
@@ -33,12 +53,14 @@
                                     [queryParams]="{featureId: feature._id,  projectId: project_id}">View
                                     Details</button>
                                 <!-- <button class="btn btn-info ml-sm-3" color="primary" (click)="openModal('create')">Create Flow</button> -->
-                                <!-- <button mat-raised-button (click)="openModal('update')">{{ 'update' | i18next }}</button> -->
-                                <!-- <button mat-raised-button color="warn" (click)="deleteRow()">{{ 'delete' | i18next }}</button> -->
-                            </div>
-                        </div>
+                        <!-- <button mat-raised-button (click)="openModal('update')">{{ 'update' | i18next }}</button> -->
+                        <!-- <button mat-raised-button color="warn" (click)="deleteRow()">{{ 'delete' | i18next }}</button> -->
+                        <!-- </div> -->
+                        <!-- </div>  -->
                     </div>
-                    <div class="col-md-4" *ngIf="projectFeatureData && projectFeatureData.length === 0">
+
+                    <div class="col-md-4" *ngIf="projectFeatureData &&
+                        projectFeatureData.length === 0">
                         No Feature Available.
                     </div>
                 </div>
@@ -48,15 +70,39 @@
                     <mat-panel-title> Entities </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div style="padding-right: 20px;">
-                    <button class="createEntityButton" mat-raised-button color="primary" (click)="saveEntityModel()">Add
+                    <button class="createEntityButton" mat-raised-button
+                        color="primary" (click)="saveEntityModel()">Add
                         Entity</button>
                 </div>
                 <div class="row" style="margin: 0px;">
-                    <div class="col-md-4" *ngFor="let entity of projectEntity; let i = index">
-                        <div class="card">
+                    <div class="col-md-4" *ngFor="let entity of projectEntity;
+                        let i= index">
+
+                        <div class="row bottom_padding">
+                            <div class="col-md-3">
+                                <img class="img_size"
+                                    src="../../assets/img/entity3.png">
+                            </div>
+                            <div class="col-md-6">
+                                <h5> {{entity.name}}</h5>
+                                <p>{{entity.description}}</p>
+                                <div class="row">
+                                    <button mat-raised-button color="primary"
+                                        (click)="editEntityField(entity)">Edit</button>
+                                    &nbsp;
+                                    <button mat-raised-button color="warn"
+                                        [disabled]="entity.is_default"
+                                        (click)="openDeleteModel(entity)">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- <div class="card">
                             <div class="card-header">
                                 {{entity.name}}
-                                <img *ngIf="!entity.is_default" style="float: right; cursor: pointer;"
+                                <img *ngIf="!entity.is_default" style="float:
+                                    right; cursor: pointer;"
                                     (click)="editEntity(entity)"
                                     src="https://img.icons8.com/metro/26/000000/edit-file.png">
                             </div>
@@ -66,10 +112,11 @@
                                 <button mat-raised-button color="primary"
                                     (click)="editEntityField(entity)">Edit</button>
                                 &nbsp;
-                                <button mat-raised-button color="warn" [disabled]="entity.is_default"
+                                <button mat-raised-button color="warn"
+                                    [disabled]="entity.is_default"
                                     (click)="openDeleteModel(entity)">Delete</button>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-md-4" *ngIf="projectEntity?.length === 0">
                         No Entity Available.
@@ -91,7 +138,6 @@
     <button mat-raised-button color="warn" (click)="deleteEntity(entity._id)">Delete</button>
     </mat-card-actions>
     </mat-card> -->
-
             </mat-expansion-panel>
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
@@ -99,34 +145,36 @@
                 </mat-expansion-panel-header>
                 <mat-card-content>
                     <div class="row">
-                        <div class="btn-group">
-                            <button class="goToButton btn-space" mat-raised-button
-                                (click)="editTemplate(screenTempId)">Modify
-                                Template</button>
-                            <button class="goToButton btn-space" mat-raised-button [routerLink]="['/templates']"
-                                [queryParams]="{projectId: project_id}">Change
-                                Template</button>
-                            <button class="goToButton btn-space" mat-raised-button (click)="GoToDesigner()">Add
-                                Screen</button>
+                        <div class='col-md-7'></div>
+                        <div class='col-md-5'>
+                            <div class="btn-group">
+                                <button class="goToButton btn-space"
+                                    mat-raised-button
+                                    (click)="editTemplate(screenTempId)">Modify
+                                    Template</button>
+                                <button class="goToButton btn-space"
+                                    mat-raised-button
+                                    [routerLink]="['/templates']"
+                                    [queryParams]="{projectId: project_id}">Change
+                                    Template</button>
+                                <button class="goToButton btn-space"
+                                    mat-raised-button (click)="GoToDesigner()">Add
+                                    Screen</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="row" style="margin: 0px;">
-                        <div class="col-md-4" *ngFor="let screen of screenDetails; let i = index">
-                            <div class="card">
-                                <div class="card-header">
-                                    {{screen?.screenName}}
-                                    <img style="float: right; cursor: pointer;"
-                                        src="https://img.icons8.com/metro/26/000000/edit-file.png">
-                                </div>
-                                <div class="card-body">
+                    <div class="row" style="margin: 0px;padding-bottom: 20px;">
+                        <div class="col-md-3" *ngFor="let screen of screenDetails; let i = index">
+                            <span class="screen_text">{{screen?.screenName}}</span>
+                            <img src="../../assets/img/desktop.png" *ngIf="screen.screenType === 'desktop'"
+                                class="image" alt="Desktop">
+                            <img src="../../assets/img/mobile.png" *ngIf="screen.screenType === 'mobile'" class="image"
+                                alt="Mobile">
+                            <span class="fa fa-pencil-square-o fa-2x"
+                                (click)="editScreen(screen._id, screen.screenType)" aria-hidden="true"></span>
+                            <span class="fa fa-trash-o fa-2x" (click)="deleteScreen(screen._id)"
+                                aria-hidden="true"></span>
 
-                                    <button mat-raised-button color="primary"
-                                        (click)="editScreen(screen._id, screen.screenType)">Edit</button>
-                                    &nbsp;
-                                    <button mat-raised-button color="warn" (click)="deleteScreen(screen._id)"
-                                        [disabled]="entity.is_default">Delete</button>
-                                </div>
-                            </div>
                         </div>
                         <div class="col-md-4" *ngIf="screenDetails.length === 0">
                             No Screen Available.
@@ -154,7 +202,8 @@
     </div>
 </div>
 
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deletePopup}">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top':
+    '100px','display':deletePopup}">
     <div class="modal-dialog modal-sm" role="dialog">
         <div class="modal-content">
             <!-- <div class="modal-header">
@@ -165,16 +214,19 @@
                 <p>Please click confirm to delete this project ? </p>
             </div>
             <div class="modal-footer" style="padding: 5px">
-                <button type="button" class="btn btn-default" (click)="deleteEntity()">Confirm</button>
+                <button type="button" class="btn btn-default"
+                    (click)="deleteEntity()">Confirm</button>
                 &nbsp;
-                <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
+                <button type="button" class="btn btn-default"
+                    (click)="closeDeleteModel()">Cancel</button>
             </div>
         </div>
 
     </div>
 </div>
 
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deleteFPopup}">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top':
+    '100px','display':deleteFPopup}">
     <div class="modal-dialog modal-sm" role="dialog">
         <div class="modal-content">
             <!-- <div class="modal-header">
@@ -185,9 +237,11 @@
                 <p>Please click confirm to delete this Feature ? </p>
             </div>
             <div class="modal-footer" style="padding: 5px">
-                <button type="button" class="btn btn-default" (click)="deleteFeature()">Confirm</button>
+                <button type="button" class="btn btn-default"
+                    (click)="deleteFeature()">Confirm</button>
                 &nbsp;
-                <button type="button" class="btn btn-default" (click)="closeDeleteFModel()">Cancel</button>
+                <button type="button" class="btn btn-default"
+                    (click)="closeDeleteFModel()">Cancel</button>
             </div>
         </div>
 
@@ -195,7 +249,8 @@
 </div>
 
 
-<div class="modal" tabindex="-1" data-keyboard="true" aria-hidden="true" data-backdrop="true" role="dialog"
+<div class="modal" tabindex="-1" data-keyboard="true" aria-hidden="true"
+    data-backdrop="true" role="dialog"
     [ngStyle]="{'top': '100px','display':displayFeatureModel}">
     <div class="modal-dialog modal-lg" role="dialog">
         <div class="feature modal-content">
@@ -203,8 +258,10 @@
                 <div class="container">
                     <h1>Add Feature</h1>
                     <div class="row">
-                        <mat-radio-group layout="row" [(ngModel)]="selectedOption">
-                            <mat-radio-button class="example-radio-button" *ngFor="let option of options"
+                        <mat-radio-group layout="row"
+                            [(ngModel)]="selectedOption">
+                            <mat-radio-button class="example-radio-button"
+                                *ngFor="let option of options"
                                 [value]="option" (change)="radioChange($event)">
                                 {{option}}
                             </mat-radio-button>
@@ -225,13 +282,16 @@
     Feature</label>
     </div> -->
                     </div>
-                    <div *ngIf="showImportFeature" class="dropdown mt-sm-2 mb-sm-2">
+                    <div *ngIf="showImportFeature" class="dropdown mt-sm-2
+                        mb-sm-2">
                         <div class="form-group">
                             <label for="sel1">Import Existing Feature:</label>
-                            <select class="form-control" [(ngModel)]="featureDetails.name"
+                            <select class="form-control"
+                                [(ngModel)]="featureDetails.name"
                                 (change)="onChange($event.target.value)">
                                 <option value="" selected>Select Feature</option>
-                                <option *ngFor="let feature of featureData" value="{{feature.name}}"
+                                <option *ngFor="let feature of featureData"
+                                    value="{{feature.name}}"
                                     ([ngModel])="selectedExistingFeature">{{feature.name}}</option>
                             </select>
                         </div>
@@ -240,11 +300,15 @@
                         <div class="form-group">
                             <!-- feature name -->
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" name="name" [(ngModel)]="featureInfo.name"
-                                #name="ngModel" [ngClass]="{ 'is-invalid': featurForm.submitted && name.invalid }"
+                            <input type="text" class="form-control" name="name"
+                                [(ngModel)]="featureInfo.name"
+                                #name="ngModel" [ngClass]="{ 'is-invalid':
+                                featurForm.submitted && name.invalid }"
                                 required />
-                            <div *ngIf="featurForm.submitted && name.invalid" class="invalid-feedback">
-                                <div *ngIf="name.errors.required">Name is required</div>
+                            <div *ngIf="featurForm.submitted && name.invalid"
+                                class="invalid-feedback">
+                                <div *ngIf="name.errors.required">Name is
+                                    required</div>
                             </div>
                         </div>
 
@@ -252,15 +316,18 @@
                             <!-- <label for="upload">Upload File</label> -->
                             <div class="mb-sm-2">
                                 <label for="name">UI YAML</label><br />
-                                <input #uiFile type="file" (change)="fileSelected($event)" />
+                                <input #uiFile type="file"
+                                    (change)="fileSelected($event)" />
                             </div>
                             <div class="mb-sm-2">
                                 <label for="name">Service YAML</label><br />
-                                <input #serviceFile type="file" (change)="fileSelectedBack($event)" />
+                                <input #serviceFile type="file"
+                                    (change)="fileSelectedBack($event)" />
                             </div>
                             <div class="mb-sm-2">
                                 <label for="name">ApiGateway YAML</label><br />
-                                <input #apiGatewayFile type="file" (change)="fileSelectedApi($event)" />
+                                <input #apiGatewayFile type="file"
+                                    (change)="fileSelectedApi($event)" />
                             </div>
                             <!-- <input type="file" class="form-control" name="upload" (change)="handleFileInput($event.target.files)" accept=".yaml,.yml"/> -->
                         </div>
@@ -269,11 +336,11 @@
     Drag and drop files to upload
     </div>
     </div> -->
-
                         <!-- feature descritpion -->
                         <div class="form-group">
                             <label for="description">Description</label>
-                            <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)"
+                            <ckeditor [editor]="Editor" name="description"
+                                id="editor" (ready)="onReady($event)"
                                 [(ngModel)]="featureInfo.description"></ckeditor>
                             <!-- use this inside ckeditor tag for image upload replace your api with uploadUrl [config]="{ ckfinder :{uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/'}}" -->
                         </div>
@@ -284,13 +351,17 @@
     <button class="btn btn-primary" (click)="createFeature()">Create</button>
     <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>
     </div> -->
-            <div class="modal-footer" style="padding: 5px" *ngIf="showAddFeature || showUploadFeature">
+            <div class="modal-footer" style="padding: 5px" *ngIf="showAddFeature
+                || showUploadFeature">
                 <button class="btn btn-primary" (click)="createFeature()">Create</button>
-                <button type="button" class="btn btn-default" (click)="closeFeatureCreateModel()">Cancel</button>
+                <button type="button" class="btn btn-default"
+                    (click)="closeFeatureCreateModel()">Cancel</button>
             </div>
-            <div class="modal-footer" style="padding: 5px" *ngIf="showImportFeature">
+            <div class="modal-footer" style="padding: 5px"
+                *ngIf="showImportFeature">
                 <button class="btn btn-primary" (click)="addFeature()">Import</button>
-                <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>
+                <button type="button" class="btn btn-default"
+                    (click)="closeFeatureExistingModel()">Cancel</button>
             </div>
         </div>
 

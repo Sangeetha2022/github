@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { LoginService } from '../../login/loginservice.service';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Brodcastservice } from '../../broadcast.service';
-import { AuthGuard } from '../../auth.guard';
+import { AuthGuard } from '../../auth/auth.guard';
 import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 import { DataService } from '../../../shared/data.service';
 import { NavigationService } from '../navigation.service';
@@ -52,7 +52,7 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  public user:any = {
+  public user: any = {
     id: ''
   };
   public view: any;
@@ -76,7 +76,7 @@ export class HeaderComponent implements OnInit {
       if (e) {
         this.updateState(this.i18NextService.language);
       }
-    })
+    });
 
   }
 
@@ -116,10 +116,10 @@ export class HeaderComponent implements OnInit {
   }
 
   Logout() {
-
     this.user.id = sessionStorage.getItem('Id');
     this.logoutservice.Logout(this.user).subscribe(data => {
       sessionStorage.clear();
+      this.permission = false;
       this.router.navigate(['']);
     }, error => {
       console.error('error:', error);

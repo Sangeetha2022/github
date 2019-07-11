@@ -1,6 +1,6 @@
 /*
  * Template group css
- * Compiled on Fri Jun 14 2019 16:39:58 GMT+0530 (IST)
+ * Compiled on Mon Jul 01 2019 15:34:21 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -22,10 +22,28 @@ group.name = "css";
 r = function(w, rc) {
     var g = this.owningGroup,
         s = this.scope;
-
+    
+    if (st.test(s.cObject)) {
+    
+        st.write(w, s, g, rc, (function() {
+        var tp = [],
+        attr = st.prop(s, g, rc, s.cObject, "css", { file: gFile, line: 2, column: 22 });
+        tp.push(st.makeSubTemplate(g, function(w, rc) {
+            var g = this.owningGroup,
+            s = this.scope;
+            
+                     st.write(w, s, g, rc, s.cobj);
+            }, [
+            { name: "cobj"     }
+            ])); 
+        return st.map(attr, tp);
+        })());
+    
+    
+    }
 };
 r.args = [
-        
+        { name: "cObject"     }
 ];
 group.addTemplate("/css", r); 
 

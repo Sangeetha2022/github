@@ -25,4 +25,14 @@ export class BackendGenManagerService {
             callback(error);
         })
     }
+
+    backendAdminManager(data,callback){
+        new ApiAdaptar().post(`${SharedService.backendmanagerURL}/backend/adminmanager`,data).then(
+            data =>{
+                callback(data);
+            }
+        ).catch(error =>{
+            callback(error);
+        });
+    }
 }

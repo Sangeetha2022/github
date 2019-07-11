@@ -22,8 +22,8 @@ export class ProjectsService {
     return this.api.post(this.restapi.projbaseUrl + Constants.addProjectUrl, proj);
   }
 
-  getMyAllProjects(): Observable<any> {
-    return this.api.get(this.restapi.projbaseUrl + Constants.getAllMyProjecturl);
+  getMyAllProjects(UserId): Observable<any> {
+    return this.api.get(`${this.restapi.projbaseUrl + Constants.getAllMyProjecturl}/?UserId=${UserId}`);
   }
 
   deleteProject(id): Observable<any> {

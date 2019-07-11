@@ -59,5 +59,6 @@ export const ProjectSchema = new Schema({
     extra_project_info: { type: String, required: 'Enter a project app context' },
     lotus_notes_cred_enabled: { type: String },
     user_deployment_target: { type: String },
-    server_deployment_target: { type: String }
+    server_deployment_target: { type: String },
+    UserId: { type: String}
 });

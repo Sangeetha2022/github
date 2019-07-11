@@ -12,7 +12,7 @@ export class AuthController {
         authService.auth(req, (response) => {
             console.log('controller --response -->>', response)
             res.status(200);
-            res.send()
+            res.send(response);
 
         })
      

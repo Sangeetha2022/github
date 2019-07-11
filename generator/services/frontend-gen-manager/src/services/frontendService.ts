@@ -21,10 +21,11 @@ export class FrontendService {
     apiAdapter = new ApiAdaptar()
     backend: String;
 
-    public async createProject(req: Request, callback: CallableFunction) {
+    public async frontendProject(req: Request, callback: CallableFunction) {
         const details = req.body;
+        // Common.createFolders();
         const projectGenerationPath = `${details.project.projectGenerationPath}/${details.project.name}/frontend`;
-        Common.createFolders(projectGenerationPath);
+        // Common.createFolders(projectGenerationPath);
         const feature = {
             featureName: details.feature.name,
             projectGenerationPath: projectGenerationPath,
@@ -46,7 +47,7 @@ export class FrontendService {
         // console.log('backend flows  component length -0- ', details.flows[0].components.length);
         // console.log('backend flows  component length -1- ', details.flows[1].components.length);
         console.log('frontend gen manager create project are ---- ', util.inspect(details, { showHidden: true, depth: null }));
-        const screenDetails = await this.getScreens(details.feature.id);
+        const screenDetails = await this.getScreenByFeatureId(details.feature.id);
         console.log('screens project are ---- ', util.inspect(screenDetails, { showHidden: true, depth: null }));
         const screenJSON = JSON.parse(screenDetails.toString());
         console.log('json screens ttest are ---- ', screenJSON);
@@ -195,9 +196,9 @@ export class FrontendService {
         })
     }
 
-    getScreens(featureId) {
+    getScreenByFeatureId(featureId) {
         return new Promise(resolve => {
-            this.screenManagerService.getScreens(featureId, (data) => {
+            this.screenManagerService.getScreenByFeatureId(featureId, (data) => {
                 resolve(data);
             })
         })

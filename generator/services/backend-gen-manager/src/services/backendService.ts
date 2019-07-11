@@ -26,7 +26,7 @@ export class BackendService {
         // console.log('backend flows  component length -0- ', details.flows[0].components.length);
         // console.log('backend flows  component length -1- ', details.flows[1].components.length);
         console.log('backend gen manager create project are ---- ', util.inspect(details, { showHidden: true, depth: null }));
-        const backendPath = `${details.project.projectGenerationPath}/${details.project.name}/backend`;
+        const backendPath = `${details.projectGenerationPath}`;
         const microservicePath = `${backendPath}/${details.name}`;
         Common.createFolders(backendPath);
         Common.createFolders(microservicePath);
@@ -46,7 +46,7 @@ export class BackendService {
             flows: []
         }
         const dataStore = await this.getDataStore(feature);
-        console.log('dataStore values are backend services are --###@@@@@@--- ', dataStore);
+            console.log('dataStore values are backend services are --###@@@@@@--- ', dataStore);
         feature.entitySchema = JSON.parse(JSON.stringify(dataStore)).body;
         console.log('all feature value are------  ', feature);
 
@@ -215,7 +215,6 @@ export class BackendService {
             });
         })
     }
-
 
 
 

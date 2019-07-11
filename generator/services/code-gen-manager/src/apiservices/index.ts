@@ -4,5 +4,5 @@ export * from './EntityManagerService';
 export * from './BackendGenManagerService';
 export * from './FrontendGenManagerService';
 export * from './MicroFlowManagerService';
-export * from './authGenservice';
-export * from './GithubManagerService'
+export * from './AuthGenManagerService';
+export * from './GithubManagerService';

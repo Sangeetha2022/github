@@ -12,7 +12,8 @@ export class ProjectService {
     }
 
     public getAllProject(req: Request, callback: CallableFunction) {
-        projectDao.getAllProject(req, (project) => {
+        const UserId = req.query.UserId;
+        projectDao.getAllProject(UserId, (project) => {
             callback(project)
         })
     }

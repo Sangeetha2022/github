@@ -3,6 +3,7 @@ import * as request from "request-promise-native";
 export class ApiAdaptar {
 
     post = (url, body) => {
+        console.log('post url ', url);
         return new Promise((resolve, reject) => {
             request.post({ url: url, json: body }, (error, response, body) => {
                 console.log("url---------->", url);
@@ -17,7 +18,7 @@ export class ApiAdaptar {
     }
 
     get = (url) => {
-        console.log("url", url)
+        console.log('get url ', url);
         return new Promise((resolve, reject) => {
             request.get(url, (error, response, body) => {
                 console.log('=============', body)
@@ -31,6 +32,7 @@ export class ApiAdaptar {
     }
 
     put = (url, body) => {
+        console.log('put url ', url);
         return new Promise((resolve, reject) => {
             request.put({ url: url, json: body }, (error, response, body) => {
                 if (body !== undefined) {
@@ -43,6 +45,7 @@ export class ApiAdaptar {
     }
 
     delete = (url) => {
+        console.log('delete url ', url);
         return new Promise((resolve, reject) => {
             request.delete(url, (error, response, body) => {
                 if (body !== undefined) {
@@ -55,7 +58,7 @@ export class ApiAdaptar {
     }
 
     private sendResponse = (resolve, reject, error, response, body) => {
-
+        console.log('send response in apiad --errror-- ', error,' --- boidy ---- ',body);
         if (body !== null) {
             if (response.statusCode === 200) {
                 resolve({
@@ -101,76 +104,91 @@ export class ApiAdaptar {
                 });
             } else if (response.statusCode === 400) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "bad request"
                 });
             } else if (response.statusCode === 401) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "unauthorized"
                 });
             } else if (response.statusCode === 402) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "Payment Required"
                 });
             } else if (response.statusCode === 403) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "forbidden"
                 });
             } else if (response.statusCode === 404) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "not found"
                 });
             } else if (response.statusCode === 405) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "method not allowed"
                 });
             } else if (response.statusCode === 406) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "not acceptable"
                 });
             } else if (response.statusCode === 407) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "proxy authentication required"
                 });
             } else if (response.statusCode === 408) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "request timeout"
                 });
             } else if (response.statusCode === 500) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "internal server error"
                 });
             } else if (response.statusCode === 501) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "request method is not supported by the server and cannot be handled"
                 });
             } else if (response.statusCode === 502) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "bad request"
                 });
             } else if (response.statusCode === 503) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "service available"
                 });
             } else if (response.statusCode === 504) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "gateway timeout"
                 });
             } else if (response.statusCode === 505) {
                 reject({
+                    body,
                     code: response.statusCode,
                     message: "HTTP version used in the request is not supported by the server"
                 });

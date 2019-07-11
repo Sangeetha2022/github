@@ -176,6 +176,7 @@ export class NodeService {
             try {
                 commonWorker.createServerFile(projectGenerationPath, templateLocation, projectName, port);
                 commonWorker.generatePackageJsonFile(projectGenerationPath, templateLocation, featureName);
+                commonWorker.generateDockerFile(projectGenerationPath, templateLocation, featureName);
                 commonWorker.generateTsConfigFile(projectGenerationPath, templateLocation);
                 commonWorker.generateWinstonLoggerFile(projectGenerationPath, templateLocation);
 
@@ -346,6 +347,7 @@ export class NodeService {
                         serviceWorker.generateServiceFile(projectGenerationPath, templateLocation, this.service);
                         daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
                         routeWorker.generateRouteFile(projectGenerationPath, templateLocation, this.route);
+                        console.log('route file of values are -------- ', util.inspect(this.route, { showHidden: true, depth: null }));
                         callback(this.route);
                     }
                 })

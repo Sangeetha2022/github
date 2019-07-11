@@ -45,3 +45,15 @@ node_modules/
 # System Files
 Thumbs.db
 .DS_Store
+
+generator/services/auth-gen-manager/package-lock\.json
+
+generator/services/configurationmanager/package-lock\.json
+
+generator/services/datastore-manager/package-lock\.json
+
+generator/services/mongo-gen-manager/package-lock\.json
+
+generator/services/node-gen-manager/package-lock\.json
+
+generator/services/angular-gen-manager/package-lock\.json

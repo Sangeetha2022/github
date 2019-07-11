@@ -1,4 +1,4 @@
-spec() ::= <<
+spec(sObject) ::= <<
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TestComponent } from './test.component';

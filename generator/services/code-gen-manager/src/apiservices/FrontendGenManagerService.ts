@@ -14,4 +14,16 @@ export class FrontendGenManagerService {
             callback(error);
         })
     }
+
+
+    FrontendTemplateProject(data, callback) {
+        console.log('calling fronten ')
+        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/frontend/template/project`, data).then(
+            data => {
+                callback(data);
+            }
+        ).catch(error => {
+            callback(error);
+        })
+    }
 }

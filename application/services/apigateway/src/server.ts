@@ -23,7 +23,9 @@ import {
     GenerationController,
     FrontendController,
     AngularController,
-    GithubController
+    GithubController,
+    Authgencontroller,
+    AngularTemplateController
 
 
 } from './apicontroller';
@@ -53,7 +55,9 @@ let apisController = [
     new MenubuilderController(),
     new ScreenController(),
     new GenerationController(),
-    new GithubController()
+    new GithubController(),
+    new Authgencontroller(),
+    new AngularTemplateController()
 ]
 
 class App {
@@ -69,8 +73,10 @@ class App {
     }
 
     private initializeMiddlewares() {
-        this.app.use(bodyParser.json());
-        this.app.use(bodyParser.urlencoded({ extended: false }));
+        // this.app.use(bodyParser.json());
+        // this.app.use(bodyParser.urlencoded({ extended: false }));
+        this.app.use(bodyParser.json({ limit: '50mb' }));
+        this.app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
         this.app.use(cors({ credentials: true, origin: true }))
     }
 

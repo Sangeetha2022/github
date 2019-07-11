@@ -59,3 +59,18 @@
 @import "assets/scss/_variables.scss";
 @import "assets/scss/_mixins.scss";
 @import "assets/scss/_geppetto.scss";
+
+.modal-footer {
+  justify-content: center;
+}
+.modal-footer .btn+.btn {
+ margin-bottom: auto; 
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 170px;
+}

@@ -1,6 +1,6 @@
 /*
  * Template group spec
- * Compiled on Fri Jun 14 2019 16:39:50 GMT+0530 (IST)
+ * Compiled on Mon Jul 01 2019 15:13:27 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -102,7 +102,7 @@ r = function(w, rc) {
     w.write("\n");
 };
 r.args = [
-        
+        { name: "sObject"     }
 ];
 group.addTemplate("/spec", r); 
 

@@ -6,8 +6,8 @@ let frontendService = new FrontendService();
 
 export class FrontendController {
 
-    public createProject(req: Request, res: Response) {
-        frontendService.createProject(req, (response, status) => {
+    public frontendProject(req: Request, res: Response) {
+        frontendService.frontendProject(req, (response, status) => {
             if (status) {
                 res.status(status);
             } else {

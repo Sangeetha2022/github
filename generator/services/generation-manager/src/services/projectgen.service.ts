@@ -3,6 +3,7 @@ import { ProjectgenDao } from '../daos/projectgen.dao';
 import { ProjectManagerService } from '../apiservices/ProjectManagerService';
 import { ConfigurationManagerService } from '../apiservices/ConfigurationManagerService';
 import { CodeGenManagerService } from '../apiservices/CodeGenManagerService';
+import { InfraStructureManagerService } from '../apiservices/InfrastructureManagerService';
 
 export class ProjectgenService {
 
@@ -10,6 +11,7 @@ export class ProjectgenService {
     private projectManagerService: ProjectManagerService = new ProjectManagerService();
     private configManagerService: ConfigurationManagerService = new ConfigurationManagerService();
     private codeGenManagerService: CodeGenManagerService = new CodeGenManagerService();
+    private infraStructureManagerService: InfraStructureManagerService = new InfraStructureManagerService();
 
     private projectObj: any = {
         name: '',
@@ -21,7 +23,9 @@ export class ProjectgenService {
             frontendTemplate: '',
             backendTemplate: '',
             mongoTemplate: '',
-            authTemplatePath: ''
+            authTemplatePath: '',
+            authorizationTempPath: '',
+            adminManagerTemplatePath:''
         },
         clientLanguage: {},
         clientFramework: {},
@@ -101,18 +105,27 @@ export class ProjectgenService {
 
                     this.configManagerService.getAllDetails((configResponse) => {
                         const configInfo = JSON.parse(configResponse);
-                        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ", configInfo, '  lenghtt   ');
+                        // console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@  ", configInfo, '  lenghtt   ');
                         if (configInfo.error) {
                             callback('Something went wrong in configuration manager', 400);
                         } else if (configInfo.body !== null && configInfo.body.length > 0 && configInfo.body !== undefined) {
                             console.log("@@@@@@@@@@@@@ entering into info condition ------------ ")
-                            this.setConfigurationField(configInfo);
+                            this.setConfigurationField(configInfo.body);
                             console.log('project object are -22222---- ', this.projectObj);
 
                         }
                         this.codeGenManagerService.createProjectCode(projectId, this.projectObj, (codeResponse) => {
                             console.log('hello i need this', codeResponse);
-                            callback(codeResponse);
+                            this.projectObj.app_db_pod = true;
+                            this.projectObj.app_pod = true;
+                            this.projectObj.system_entry_pod = true;
+                            this.projectObj.telemetry_pod = { "vault": true, "EFK": false };
+                            this.projectObj.dev_ops_db_pod = false;
+                            this.projectObj.dev_ops_pod = false
+                            this.infraStructureManagerService.generateInfrastructure(projectId, this.projectObj, (infraResponse) => {
+                                console.log('Infra Response:', infraResponse);
+                                callback(codeResponse);
+                            })
                         })
                         // try {
                         //     this.codeGenManagerService.createProjectCode(projectId, this.projectObj, (codeResponse) => {
@@ -165,36 +178,54 @@ export class ProjectgenService {
         // }
     }
 
-    setConfigurationField(configInfo) {
+    setConfigurationField(configInformation) {
+        console.log('setconfigfiled config ----->>  ', configInformation.length);
         // project generation path
-        const projectPath = configInfo.body.find(x =>
+        const projectPath = configInformation.find(x =>
             x.name.toString().toLowerCase() === 'projectgenerationdirectory'
         );
         this.projectObj.projectGenerationPath = projectPath.value;
 
         // frontend template location
-        const frontendPath = configInfo.body.find(x =>
+        const frontendPath = configInformation.find(x =>
             x.name.toString().toLowerCase() === 'frontendtemplatelocation'
         );
         this.projectObj.templateLocation.frontendTemplate = frontendPath.value;
 
         // backend template location
-        const backendPath = configInfo.body.find(x =>
+        const backendPath = configInformation.find(x =>
             x.name.toString().toLowerCase() === 'backendtemplatelocation'
         );
         this.projectObj.templateLocation.backendTemplate = backendPath.value;
 
         // mongo template location
-        const mongoTemplatePath = configInfo.body.find(x =>
+        const mongoTemplatePath = configInformation.find(x =>
             x.name.toString().toLowerCase() === 'mongotemplatelocation'
         );
         this.projectObj.templateLocation.mongoTemplate = mongoTemplatePath.value;
-
+        console.log('project object in generation application ------>>>>   ', this.projectObj);
         // auth template location
-        const authPath = configInfo.body.find(x =>
+        const authPath = configInformation.find(x =>
             x.name.toString().toLowerCase() === 'authgenerationdirectory'
         );
-        this.projectObj.authTemplatePath = authPath.value;
+        console.log('project object in generation application --2222---->>>>   ', authPath);
+        this.projectObj.templateLocation.authTemplatePath = authPath.value;
+
+        // authorization Template location
+        const authorizationPath = configInformation.find(x =>
+            x.name.toString().toLowerCase() === 'authorizationdirectory'
+        );
+        console.log('project object in generation application --677787---->>>>   ', authorizationPath);
+        this.projectObj.templateLocation.authorizationTempPath = authorizationPath.value;
+        console.log('project object in generation application --99999999999---->>>>   ', authPath);
+        console.log('project object in generation application --3333---->>>>   ', this.projectObj);
+
+        // Seed path for the Admin Manager
+        const adminManagerSeedPath = configInformation.find(x =>
+            x.name.toString().toLowerCase() === 'adminmanagerseeddirectory'
+        );
+        console.log('project object in admin application --kishan---->>>>   ', adminManagerSeedPath);
+        this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value;
         // const frontendSourcePath = configInfo.find(x =>
         //     x.name.toString().toLowerCase() === 'frontendtemplatelocation'
         // );

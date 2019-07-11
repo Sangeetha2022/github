@@ -28,6 +28,7 @@ export class ProjectsComponent implements OnInit {
   createdProject: any = [];
   genNotifyArr: any = [];
   userNotifyArr: any = [];
+  public UserId: any;
   public defaultEntity: any = {
     project_name: '',
     project_description: '',
@@ -62,6 +63,7 @@ export class ProjectsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.UserId = sessionStorage.getItem('Id');
     this.getAllMyProjects();
     this.getAllGepTemplates();
     this.createProject = this.formBuilder.group({
@@ -127,8 +129,12 @@ export class ProjectsComponent implements OnInit {
   get form_control() { return this.createProject.controls; }
 
   getAllMyProjects() {
-    this.projectsService.getMyAllProjects().subscribe(data => {
-      this.myAllProjects = data;
+    this.myAllProjects = [];
+    this.projectsService.getMyAllProjects(this.UserId).subscribe(data => {
+      if (data) {
+        this.myAllProjects = data;
+      }
+      console.log('--------myprojects----', this.myAllProjects);
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });
@@ -207,6 +213,7 @@ export class ProjectsComponent implements OnInit {
       user_deployment_target: null,
       server_deployment_target: null,
       created_date: null,
+      UserId: sessionStorage.getItem('Id')
     };
     const templateDetailsToSave = {
       'gjs-assets': this.createProject.value.template['gjs-assets'],
@@ -217,7 +224,7 @@ export class ProjectsComponent implements OnInit {
       screenName: this.createProject.value.template.name,
       project: '',
       isTemplate: true,
-    }
+    };
 
     this.projectsService.addProject(dataToSave).subscribe(data => {
       if (data) {
@@ -352,7 +359,10 @@ export class ProjectsComponent implements OnInit {
     this.templateScreenService.getAllTemplates().subscribe(gepTemp => {
       this.gepTemplates = gepTemp;
       this.gepTempImages = this.gepTemplates.template_image;
-    });
+    },
+      error => {
+        console.log('Check the browser console to see more info.', 'Error!');
+      });
   }
   getAllUserNotify(user_id) {
 

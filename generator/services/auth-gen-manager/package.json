@@ -30,6 +30,7 @@
     "node-vault": "^0.9.5",
     "nodemon": "^1.18.9",
     "request": "^2.88.0",
+    "stringtemplate-js": "^0.1.1",
     "typescript": "^3.2.4",
     "url-join": "^4.0.0",
     "uuid": "^3.3.2",

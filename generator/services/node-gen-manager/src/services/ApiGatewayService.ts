@@ -3,10 +3,12 @@ import * as util from 'util';
 import * as asyncLoop from 'node-async-loop';
 import { ApiGatewayWorker } from '../worker/ApiGatewayWorker';
 import { Common } from '../config/Common';
+import { CommonWorker } from '../worker/CommonWorker';
 
 let apiGatewayWorker = new ApiGatewayWorker();
+let commonWorker = new CommonWorker();
 export class ApiGatewayService {
-
+    private APIGATEWAY_FOLDERNAME = 'apigateway';
     private constantObj = {
         className: '',
         constantArray: []
@@ -22,10 +24,16 @@ export class ApiGatewayService {
         console.log('create apigateway in  node services ----body---  ', util.inspect(req.body, { showHidden: true, depth: null }));
         const details = req.body;
         const portNumber = details.applicationPort;
-        const apiGatewayGenerationPath = `${details.projectPath}/backend/apigateway`;
+        Common.createFolders(details.projectGenerationPath);
+        const apiGatewayGenerationPath = `${details.projectGenerationPath}/${this.APIGATEWAY_FOLDERNAME}`;
         const apiGatewayTemplatePath = `${details.project.templateLocation.backendTemplate}/apigateway`;
         Common.createFolders(apiGatewayGenerationPath);
+        console.log('create node response lenght are --------  ', details.nodeResponse.length)
+
+        // generate docker file
+        commonWorker.generateDockerFile(apiGatewayGenerationPath, apiGatewayTemplatePath, this.APIGATEWAY_FOLDERNAME);
         asyncLoop(req.body.nodeResponse, (element, next1) => {
+            console.log('create node response lenght are --firslevel------  ', element)
             const controllerObj = {
                 className: '',
                 implementName: '',
@@ -53,6 +61,7 @@ export class ApiGatewayService {
 
                 this.constantObj.constantArray.push(temp);
                 asyncLoop(element.flowAction, (routingElement, next2) => {
+                    console.log('async loop routing element are ------  ', routingElement);
                     const controllerDetails = {
                         methodName: '',
                         methodUrl: '',
@@ -131,6 +140,7 @@ export class ApiGatewayService {
             }
         }, (err) => {
             if (err) {
+                console.log('error apigateway -----------  ', err);
                 callback(err);
             } else {
                 apiGatewayWorker.createConstantFile(apiGatewayGenerationPath, apiGatewayTemplatePath, this.constantObj);
@@ -139,14 +149,13 @@ export class ApiGatewayService {
                 apiGatewayWorker.createControllerIndex(apiGatewayGenerationPath, apiGatewayTemplatePath, this.controllerArray);
                 apiGatewayWorker.createServerFile(apiGatewayGenerationPath, apiGatewayTemplatePath, this.controllerArray, portNumber);
                 apiGatewayWorker.createPackageTsConfigFiles(apiGatewayGenerationPath, apiGatewayTemplatePath);
-                // callback('apigateway generated ----- ');
+                callback('apigateway generated ----- ');
             }
         })
-        callback('apigateway generated')
     }
 
     public controllerImport(controllerObj) {
-          controllerObj.import = [];
+        controllerObj.import = [];
         controllerObj.import.push({ name: '* as express', path: 'express' });
         controllerObj.import.push({ name: '{ Request, Response }', path: 'express' });
         controllerObj.import.push({ name: `* as ${this.constantObj.className}`, path: `../config/${this.constantObj.className}` });

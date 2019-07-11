@@ -39,11 +39,12 @@ export class LocalInfrastructureController {
     var projectDetails = req.body
     //projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
     //projectDetails.project_lowercase = projectDetails.project.toLowerCase();
-    projectDetails.project = projectDetails.project_name;
+    projectDetails.project = projectDetails.name;
     projectDetails.project_lowercase = projectDetails.project.toLowerCase();
 
     //create project folder if not exists
-    let projectFolder = Destination + projectDetails.project;
+    let projectFolder = projectDetails.projectGenerationPath +"/"+ projectDetails.project;
+
     if (!fs.existsSync(projectFolder)) {
       fs.mkdirSync(projectFolder);
     }
@@ -116,8 +117,6 @@ export class LocalInfrastructureController {
       })
     }
 
-
-    
 
      projectDetails.destinationUrl = deploymentFolder;
     //generate script for system entry pod image
