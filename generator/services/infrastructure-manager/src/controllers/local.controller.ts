@@ -44,6 +44,7 @@ export class LocalInfrastructureController {
 
     //create project folder if not exists
     let projectFolder = projectDetails.projectGenerationPath +"/"+ projectDetails.project;
+
     if (!fs.existsSync(projectFolder)) {
       fs.mkdirSync(projectFolder);
     }
@@ -115,8 +116,6 @@ export class LocalInfrastructureController {
         //res.send(200);
       })
     }
-
-
 
 
      projectDetails.destinationUrl = deploymentFolder;

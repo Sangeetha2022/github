@@ -1,0 +1,26 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ .Values.app.prefix }}-generated-code-pv
+  namespace: {{ .Values.app.namespace }}
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: {{ .Values.persistentVolume.generatedCode.storage }}
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: {{ .Values.persistentVolume.generatedCode.path }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Values.app.prefix }}-generated-code-pvc
+  namespace: {{ .Values.app.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistentVolumeClaim.generatedCode.storage }}
