@@ -5,9 +5,8 @@ import * as st from 'stringtemplate-js';
 export class CamundaSupportWorker {
 
     public camundaConfig(camundaFolder ,templatePath , callback){
-        const configFolder = camundaFolder + `/config`;
+        const configFolder = camundaFolder + `/src/config`;
         let pathfile = path.resolve(__dirname, templatePath);
-        console.log('------camundapathfile-----', pathfile);
         const generateModel = st.loadGroup(require(pathfile + '/camunda_stg'));
         let modelData = generateModel.render("camunda");
         if (!fs.existsSync(configFolder)) {

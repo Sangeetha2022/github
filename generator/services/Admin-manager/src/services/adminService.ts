@@ -8,6 +8,7 @@ export class AdminServcie {
         adminPath: '',
         generatorCode: ''
     }
+    private features: any;
 
     public seedPath: any;
     public adminNodeSeedPath: any;
@@ -19,14 +20,16 @@ export class AdminServcie {
 
 
     public admin(req: Request, callback: CallableFunction) {
-        this.adminDetails.id = req.query.projectID;
-        this.adminDetails.adminPath = req.query.authPath;//seed
-        this.adminDetails.generatorCode = req.query.projectPath;//generator code 
+        console.log('------req.query-----',req.query);
+        this.adminDetails.id = req.query.projectId;
+        this.adminDetails.adminPath = req.query.seedpath;//seed
+        this.adminDetails.generatorCode = req.query.projectpath;//generator code 
+        this.features = req.query.features; // Will use in the future for generating Admin screens based on the features
 
         //generate file folder
         this.adminGenerateUi = path.resolve(`${this.adminDetails.generatorCode}/admin`);
         this.adminGenerateNode = path.resolve(`${this.adminDetails.generatorCode}/adminmanager`);
-        this.authGurdGenerate = path.resolve(`${this.adminDetails.generatorCode}/authGurd`)
+        this.authGurdGenerate = path.resolve(`${this.adminDetails.generatorCode}/authGuard`)
 
 
         if (this.adminGenerateUi) {
@@ -49,7 +52,7 @@ export class AdminServcie {
         //read files path
         this.seedPath = `${this.adminDetails.adminPath}/admin`;
         this.adminNodeSeedPath = `${this.adminDetails.adminPath}/adminmanager`;
-        this.authGurdSeedPath = `${this.adminDetails.adminPath}/authGurd`
+        this.authGurdSeedPath = `${this.adminDetails.adminPath}/authGuard`
 
 
         if (this.seedPath) {
@@ -139,11 +142,8 @@ export class AdminServcie {
             console.log('auth file --->>', file)
             if (file === 'auth.guard.spec.ts') {
                 fs.readFile(`${this.authGurdSeedPath}/${file}`, 'utf8', (err, authGurdspc) => {
-                    console.log('auth file -1111111-->>', this.authGurdGenerate)
-                    console.log('auth file -1111111-->>', authGurdspc)
 
                     fs.writeFile(this.authGurdGenerate + '/auth.guard.spec.ts', authGurdspc, (err) => {
-                        console.log('auth file -1111111-->>', authGurdspc)
 
                         if (err) {
                             return (err);
@@ -161,7 +161,7 @@ export class AdminServcie {
                 })
             }
         })
-
+        return callback('Admin files generated');
     }
 
     public adminNodeFiles(callback) {
@@ -198,6 +198,7 @@ export class AdminServcie {
                     fs.mkdirSync(src);
                 }
                 let srcFile = `${this.adminNodeSeedPath}/${file}`;
+                // @ts-ignore
                 fs.readdirSync(srcFile).find(x => {
                     if (x === 'server.ts') {
                         fs.readFile(`${srcFile}/${x}`, 'utf8', (err, serverFile) => {

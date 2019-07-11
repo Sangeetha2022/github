@@ -2606,6 +2606,14 @@
 			"value": "../../template",
 			"type": "Authorization",
 			"sub_type": null	
+		},
+		{
+			"name": "adminManagerSeedDirectory",
+			"label": "Admin Manager Directory",
+			"description": "Location for the Admin Manager seed files",
+			"value": "../../seed",
+			"type": "AdminManager",
+			"sub_type": null	
 		}
 	]
 }

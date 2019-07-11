@@ -157,7 +157,7 @@ export class CodeGenerationService {
           if (flows) {
             feature.flows = JSON.parse(JSON.stringify(flows)).body;
           }
-
+          console.log('-----featureelements------',featureElement.entities.length);
           if (featureElement.entities.length > 0) {
             asyncLoop(featureElement.entities, async (featureEntity, entityNext) => {
               console.log('each feature entity ---33---  ', featureEntity);
@@ -177,6 +177,13 @@ export class CodeGenerationService {
                       console.log('cannot able to geneate the backend node services');
                     }
                   );
+                  const backendAdminManagerResponse = await this.adminBackendManager(features, projectId, `${projectPath}/${this.SERVICE_FOLDERNAME}`, projectDetails.templateLocation.adminManagerTemplatePath).catch(
+                    err => {
+                      console.log('cannot able to geneate the Admin Manager services');
+
+                    }
+                  )
+                  console.log('-------backend adminManager response----', backendAdminManagerResponse);
                   this.increaseBackendPortNumber();
                   console.log('backend response in code gen -------', backendResponse);
                   console.log('backend response in code gen ------', util.inspect(backendResponse, { showHidden: true, depth: null }));
@@ -339,6 +346,19 @@ export class CodeGenerationService {
     })
   }
 
+  adminBackendManager(feature, projectId, projectGenerationPath, seedpath) {
+    const admindata = {
+      feature: feature,
+      projectId: projectId,
+      projectgenpath: projectGenerationPath,
+      seed: seedpath
+    };
+    return new Promise(resolve => {
+      this.backendService.backendAdminManager(admindata, (data) => {
+        resolve(data);
+      })
+    })
+  }
   increaseBackendPortNumber() {
     this.NODE_PORT_NUMBER++;
   }

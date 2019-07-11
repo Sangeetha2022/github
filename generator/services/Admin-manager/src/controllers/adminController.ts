@@ -10,6 +10,7 @@ export class AdminController {
             if (err) {
                 res.send(err);
             } else {
+                console.log('-----response-----',response);
                 res.send(response)
             }
         })
