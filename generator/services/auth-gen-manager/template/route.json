@@ -5,6 +5,20 @@
             "entityModelName": "security",
             "entityFileName": "security",
             "nodePortNumber": "3007",
+            "import": {
+                "dependencies": [
+                    {
+                        "name": "{ import * as jwt }",
+                        "path": "jsonwebtoken"
+                    }
+                ]
+            },
+            "package": [
+                {
+                    "name": "jsonwebtoken",
+                    "version": "8.5.1"
+                }
+            ],
             "flowAction": [
                 {
                     "routeUrl": "/signup",

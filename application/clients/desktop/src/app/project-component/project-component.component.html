@@ -24,7 +24,7 @@
                 </div>
                 <div class="row" style="margin: 0px;"
                     *ngIf="projectFeatureData.length> 0">
-                    <div class="col-md-5" *ngFor="let feature of
+                    <div class="col-md-4" *ngFor="let feature of
                         projectFeatureData; let i= index">
 
                         <div class="row bottom_padding">
@@ -39,7 +39,7 @@
                                     [routerLink]="['/feature-details']"
                                     [queryParams]="{featureId: feature._id,
                                     projectId: project_id}">View
-                                    Details</button>
+                                    </button>
                             </div>
                         </div>
                         <!-- <div class="card">
