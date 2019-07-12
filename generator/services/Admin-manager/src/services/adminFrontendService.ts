@@ -13,6 +13,8 @@ export class AdminFrontendServcie {
 
     public seedPath: any;
     public adminGenerateUi: any;
+    public authGuardSeedPath: any
+    public authGuardGenerate: any;
 
 
     public adminfrontend(req: Request, callback: CallableFunction) {
@@ -21,20 +23,30 @@ export class AdminFrontendServcie {
         this.adminDetails.adminPath = req.query.seedpath;//seed
         this.adminDetails.generatorCode = req.query.projectPath;//generator code 
         this.seedPath = `${this.adminDetails.adminPath}/admin`;
+        this.authGuardSeedPath = `${this.adminDetails.adminPath}/authGuard`
         this.adminGenerateUi = path.resolve(`${this.adminDetails.generatorCode}/admin`);
+        this.authGuardGenerate = path.resolve(`${this.adminDetails.generatorCode}/authGuard`)
 
         if (this.adminGenerateUi) {
             if (!fs.existsSync(this.adminGenerateUi)) {
                 fs.mkdirSync(this.adminGenerateUi);
             }
         }
-
+        if (this.authGuardGenerate) {
+            if (!fs.existsSync(this.authGuardGenerate)) {
+                fs.mkdirSync(this.authGuardGenerate);
+            }
+        }
 
         if (this.seedPath) {
             this.createFolder();
             this.adminFiles(callback)
         }
 
+        if (this.authGuardSeedPath) {
+            this.createFolder();
+            this.authGurdFiles(callback)
+        }
 
     }
 
@@ -45,6 +57,33 @@ export class AdminFrontendServcie {
                 fs.mkdirSync(this.adminGenerateUi);
             }
         }
+    }
+
+    public authGurdFiles(callback) {
+        fs.readdirSync(`${this.authGuardSeedPath}`).forEach((file) => {
+            console.log('auth file --->>', file)
+            if (file === 'auth.guard.spec.ts') {
+                fs.readFile(`${this.authGuardSeedPath}/${file}`, 'utf8', (err, authGurdspc) => {
+
+                    fs.writeFile(this.authGuardGenerate + '/auth.guard.spec.ts', authGurdspc, (err) => {
+
+                        if (err) {
+                            return (err);
+                        }
+                    })
+                })
+            }
+            if (file === 'auth.guard.ts') {
+                fs.readFile(`${this.authGuardSeedPath}/${file}`, 'utf8', (err, authGurdTs) => {
+                    fs.writeFile(this.authGuardGenerate + '/auth.guard.ts', authGurdTs, (err) => {
+                        if (err) {
+                            return (err);
+                        }
+                    })
+                })
+            }
+        })
+        return callback('Admin files generated');
     }
 
 
@@ -96,7 +135,7 @@ export class AdminFrontendServcie {
                         }
                     })
                 })
-                return callback('Admin front end generated');
+                // return callback('Admin front end generated');
             }
         })
 

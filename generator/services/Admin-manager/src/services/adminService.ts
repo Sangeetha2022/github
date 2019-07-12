@@ -12,15 +12,13 @@ export class AdminServcie {
 
     public seedPath: any;
     public adminNodeSeedPath: any;
-    public authGurdSeedPath: any
 
     public adminGenerateUi: any;
     public adminGenerateNode: any;
-    public authGurdGenerate: any;
 
 
     public admin(req: Request, callback: CallableFunction) {
-        console.log('------req.query-----',req.query);
+        console.log('------req.query-----', req.query);
         this.adminDetails.id = req.query.projectId;
         this.adminDetails.adminPath = req.query.seedpath;//seed
         this.adminDetails.generatorCode = req.query.projectpath;//generator code 
@@ -29,39 +27,23 @@ export class AdminServcie {
         //generate file folder
         this.adminGenerateUi = path.resolve(`${this.adminDetails.generatorCode}/admin`);
         this.adminGenerateNode = path.resolve(`${this.adminDetails.generatorCode}/adminmanager`);
-        this.authGurdGenerate = path.resolve(`${this.adminDetails.generatorCode}/authGuard`)
 
-
-        if (this.adminGenerateUi) {
-            if (!fs.existsSync(this.adminGenerateUi)) {
-                fs.mkdirSync(this.adminGenerateUi);
-            }
-        }
 
         if (this.adminGenerateNode) {
             if (!fs.existsSync(this.adminGenerateNode)) {
                 fs.mkdirSync(this.adminGenerateNode);
             }
         }
-        if (this.authGurdGenerate) {
-            if (!fs.existsSync(this.authGurdGenerate)) {
-                fs.mkdirSync(this.authGurdGenerate);
-            }
-        }
+
 
         //read files path
         this.seedPath = `${this.adminDetails.adminPath}/admin`;
         this.adminNodeSeedPath = `${this.adminDetails.adminPath}/adminmanager`;
-        this.authGurdSeedPath = `${this.adminDetails.adminPath}/authGuard`
 
 
         if (this.adminNodeSeedPath) {
             this.createFolder();
             this.adminNodeFiles(callback)
-        }
-        if (this.authGurdSeedPath) {
-            this.createFolder();
-            this.authGurdFiles(callback)
         }
 
     }
@@ -76,32 +58,6 @@ export class AdminServcie {
     }
 
 
-    public authGurdFiles(callback) {
-        fs.readdirSync(`${this.authGurdSeedPath}`).forEach((file) => {
-            console.log('auth file --->>', file)
-            if (file === 'auth.guard.spec.ts') {
-                fs.readFile(`${this.authGurdSeedPath}/${file}`, 'utf8', (err, authGurdspc) => {
-
-                    fs.writeFile(this.authGurdGenerate + '/auth.guard.spec.ts', authGurdspc, (err) => {
-
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-            }
-            if (file === 'auth.guard.ts') {
-                fs.readFile(`${this.authGurdSeedPath}/${file}`, 'utf8', (err, authGurdTs) => {
-                    fs.writeFile(this.authGurdGenerate + '/auth.guard.ts', authGurdTs, (err) => {
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-            }
-        })
-        return callback('Admin files generated');
-    }
 
     public adminNodeFiles(callback) {
         fs.readdirSync(`${this.adminNodeSeedPath}`).forEach((file) => {
