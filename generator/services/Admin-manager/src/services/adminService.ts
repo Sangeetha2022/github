@@ -55,10 +55,6 @@ export class AdminServcie {
         this.authGurdSeedPath = `${this.adminDetails.adminPath}/authGuard`
 
 
-        if (this.seedPath) {
-            this.createFolder();
-            this.adminFiles(callback)
-        }
         if (this.adminNodeSeedPath) {
             this.createFolder();
             this.adminNodeFiles(callback)
@@ -71,11 +67,6 @@ export class AdminServcie {
     }
 
     public createFolder() {
-        if (this.seedPath) {
-            if (!fs.existsSync(this.adminGenerateUi)) {
-                fs.mkdirSync(this.adminGenerateUi);
-            }
-        }
         if (this.adminNodeSeedPath) {
             if (!fs.existsSync(this.adminGenerateNode)) {
                 fs.mkdirSync(this.adminGenerateNode);
@@ -84,58 +75,6 @@ export class AdminServcie {
 
     }
 
-    public adminFiles(callback) {
-        fs.readdirSync(`${this.seedPath}`).forEach((file) => {
-            if (file === 'admin.component.html') {
-                fs.readFile(`${this.seedPath}/${file}`, 'utf8', (err, adminhtml) => {
-                    fs.writeFile(this.adminGenerateUi + '/admin.component.html', adminhtml, (err) => {
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-            }
-            if (file === 'admin.component.scss') {
-                fs.readFile(`${this.seedPath}/${file}`, 'utf8', (err, adminscss) => {
-                    fs.writeFile(this.adminGenerateUi + '/admin.component.scss', adminscss, (err) => {
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-
-            }
-            if (file === 'admin.component.spec.ts') {
-                fs.readFile(`${this.seedPath}/${file}`, 'utf8', (err, adminSpc) => {
-                    fs.writeFile(this.adminGenerateUi + '/admin.component.spec.ts', adminSpc, (err) => {
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-
-            }
-            if (file === 'admin.component.ts') {
-                fs.readFile(`${this.seedPath}/${file}`, 'utf8', (err, adminTs) => {
-                    fs.writeFile(this.adminGenerateUi + '/admin.component.ts', adminTs, (err) => {
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-            }
-            if (file === 'admin.service.ts') {
-                fs.readFile(`${this.seedPath}/${file}`, 'utf8', (err, adminService) => {
-                    fs.writeFile(this.adminGenerateUi + '/admin.service.ts', adminService, (err) => {
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-            }
-        })
-
-    }
 
     public authGurdFiles(callback) {
         fs.readdirSync(`${this.authGurdSeedPath}`).forEach((file) => {
