@@ -38,6 +38,18 @@ div.geppetoimage[_ngcontent-c4] {
 	width: 100%;
 }
 
+app-homepage div.center {
+  background-image: url(assets/img/skin/banner_home.svg);
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  min-height: 400px;
+  background-size: 50% auto;
+}
+
+app-homepage div.center img {
+  visibility: hidden
+}
+
 // ======= LOGIN ======= 
 app-login {
 	> mat-card.cardsize,
