@@ -24,7 +24,7 @@
 
 
 .image {
-  width: 100px;
+  width: auto;
   height: 100px;
   margin-top: 10%;
   border-radius: 8px;
@@ -33,19 +33,19 @@
 
   .fa.fa-pencil-square-o{
     position: absolute;
-    top: 105%;
-    right: 82%;
+    top: 100%;
+    right: 83%;
     color: green;
     cursor: pointer;
   }
   .fa.fa-trash-o{
     position: absolute;
-    top: 105%;
-    right: 67%;
+    top: 100%;
+    right: 51%;
     color: red;
     cursor: pointer;
   }
-  
+
   .delete .modal-body {
   height: 70px;
   overflow-y: auto;
