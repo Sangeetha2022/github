@@ -81,10 +81,6 @@ export class AuthService {
                 this.createFolder();
                 this.camundaService(callback)
             }
-            if (this.authGenFiles.FrontendLogin) {
-                this.createFolder();
-                this.Loginfrontcomponents(callback);
-            }
         }
     }
 
@@ -115,59 +111,6 @@ export class AuthService {
         }
     }
 
-    public Loginfrontcomponents(callback) {
-        fs.readdirSync(`${this.authGenFiles.FrontendLogin}`).forEach((file) => {
-            if (file === 'login.component.html') {
-                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}`, 'utf8', (err, loginhtml) => {
-                    fs.writeFile(this.authGenFiles.Logingenerated + '/login.component.html', loginhtml, (err) => {
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-            } else if (file === 'login.component.scss') {
-                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}`, 'utf8', (err, loginhtml) => {
-                    fs.writeFile(this.authGenFiles.Logingenerated + '/login.component.scss', loginhtml, (err) => {
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-            } else if (file === 'login.component.spec.ts') {
-                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}`, 'utf8', (err, loginhtml) => {
-                    fs.writeFile(this.authGenFiles.Logingenerated + '/login.component.spec.ts', loginhtml, (err) => {
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-            } else if (file === 'login.component.ts') {
-                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}`, 'utf8', (err, loginhtml) => {
-                    fs.writeFile(this.authGenFiles.Logingenerated + '/login.component.ts', loginhtml, (err) => {
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-            } else if (file === 'loginservice.service.ts') {
-                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}`, 'utf8', (err, loginhtml) => {
-                    fs.writeFile(this.authGenFiles.Logingenerated + '/login.service.ts', loginhtml, (err) => {
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-            } else if (file === 'loginservice.service.spec.ts') {
-                fs.readFile(`${this.authGenFiles.FrontendLogin}/${file}`, 'utf8', (err, loginhtml) => {
-                    fs.writeFile(this.authGenFiles.Logingenerated + '/login.service.spec.ts', loginhtml, (err) => {
-                        if (err) {
-                            return (err);
-                        }
-                    })
-                })
-            }
-        })
-    }
     // AuthProxy
     public authProxyService(callback) {
         fs.readdirSync(`${this.authGenFiles.authProxyPath}`).forEach((file) => {

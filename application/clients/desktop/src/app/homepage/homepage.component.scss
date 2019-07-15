@@ -9,7 +9,7 @@
 // }
 
 .center { 
-    height: 265px;
+    height: -webkit-fill-available;
     position: relative;
   }
   
@@ -21,3 +21,19 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
   }
+
+  .bg_img{
+    background-image: url("../../assets/GeppettoSoftware.png"); 
+    // top right no-repeat;
+     background-attachment:fixed; 
+    // background-color: #cccccc;
+    height: -webkit-fill-available;
+    background-position: center;
+    background-repeat: no-repeat;
+    // background-size: cover;
+    position: relative;
+  }
+  // .div_height{
+  // height:-webkit-fill-available;
+
+  // }
