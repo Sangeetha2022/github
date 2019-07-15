@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
+import { Broadcastworker } from '../worker/broadcastWorker'
 
 
 export class AdminFrontendServcie {
@@ -15,15 +16,21 @@ export class AdminFrontendServcie {
     public adminGenerateUi: any;
     public authGuardSeedPath: any
     public authGuardGenerate: any;
+    public adminTemplatePath: any;
+    public boradCastWorker = new Broadcastworker()
 
 
     public adminfrontend(req: Request, callback: CallableFunction) {
+        console.log('req----tempalte-->>', req.query.adminTemplate);
 
         this.adminDetails.id = req.query.projectID;
         this.adminDetails.adminPath = req.query.seedpath;//seed
         this.adminDetails.generatorCode = req.query.projectPath;//generator code 
+        this.adminTemplatePath = req.query.adminTemplate;//templatePath,
+
+
         this.seedPath = `${this.adminDetails.adminPath}/admin`;
-        this.authGuardSeedPath = `${this.adminDetails.adminPath}/authGuard`
+        this.authGuardSeedPath = `${this.adminDetails.adminPath}/authGuard`;
         this.adminGenerateUi = path.resolve(`${this.adminDetails.generatorCode}/admin`);
         this.authGuardGenerate = path.resolve(`${this.adminDetails.generatorCode}/authGuard`)
 
@@ -138,6 +145,14 @@ export class AdminFrontendServcie {
                 // return callback('Admin front end generated');
             }
         })
+        console.log('------template----', this.adminTemplatePath);
+        this.boradCastWorker.brodcastworker(this.adminTemplatePath, this.adminDetails.generatorCode, (data => {
+            console.log('-------datat-----', data);
+        }));
+        // this.workernode.createfile(screens, this.authGenFiles.camundaFolder , this.authGenFiles.templatepath, (data => {
+        //     // console.log('------workerdata----', data);
+        //     return callback(Routes)
+        // }));
 
     }
 
