@@ -45,11 +45,12 @@ export class ApiGatewayWorker {
         })
     }
 
-    createPackageTsConfigFiles(generationPath, templatePath) {
+    createPackageTsConfigFiles(generationPath, templatePath, packageObj) {
         Common.createFolders(generationPath);
         const obj = {
             name: 'ApiGateway',
-            description: 'ApiGateway Node Microservice'
+            description: 'ApiGateway Node Microservice',
+            dependencies: packageObj
         }
         apiGatewaySupportWorker.generatePackageJsonFile(generationPath, templatePath, obj);
         apiGatewaySupportWorker.generateTsconfigFile(generationPath, templatePath);

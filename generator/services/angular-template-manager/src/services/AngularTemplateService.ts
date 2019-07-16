@@ -27,6 +27,7 @@ export class AngularTemplateService {
         link: 'localhost',
         port: 0
     }
+    private projectName = '';
 
     initalizeDaoVariable() {
 
@@ -38,35 +39,51 @@ export class AngularTemplateService {
         console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
         const grapesjsComponent = this.details.template[0]['gjs-components'][0];
         this.grapesjsCSS = this.details.template[0]['gjs-css'];
-        if(this.details.menuBuilder.length > 0) {
+        if (this.details.menuBuilder.length > 0) {
             this.menuDetails = this.details.menuBuilder[0].menuDetails;
         }
         this.apigatewayPortNumber = this.details.apigatewayPortNumber;
         this.sharedObj.port = this.apigatewayPortNumber;
-
+        this.details.project.name.split(" ").forEach((element, index) => {
+            console.log('each foldername are ---------  ', element, '  --indx---  ', index);
+            if (index === 0) {
+                this.projectName = element;
+            } else {
+                this.projectName += element.charAt(0).toUpperCase() + element.slice(1);
+            }
+        })
         // console.log('entering into grapejsCSSSSSSSSS --yes--  ', this.grapesjsCSS.indexOf(`home.jpg`));
         // console.log('entering into grapejsCSSSSSSSSS --no--  ', this.grapesjsCSS.indexOf(`hometest.jpg`));
         this.generationPath = this.details.projectGenerationPath;
         console.log('generation path in angular template are -------- ', this.generationPath);
         Common.createFolders(this.generationPath);
         this.templatePath = this.details.project.templateLocation.frontendTemplate;
-        this.exec(`cd ${this.generationPath} && ng new ${this.details.project.name} --routing=false --style=scss --skip-install`, (error, stdout, stderr) => {
+        this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && ng new ${this.projectName} --routing=false --style=scss --skip-install`, (error, stdout, stderr) => {
             console.log('error exec ----->>>>    ', error);
             console.log('stdout exec ----->>>>    ', stdout);
             console.log('stderr exec ----->>>>    ', stderr);
             if (stdout || stderr) {
                 this.iterateData = JSON.parse(grapesjsComponent);
                 this.createLandingPage();
-                callback('Angular Template Created');
+                 this.generateAngularApp((response) => {
+                    console.log('after await completed')
+                    const temp = {
+                        shared: {
+                            className: this.sharedObj.className,
+                            variableName: this.sharedObj.variableName,
+                        },
+                        applicationPath: this.generationPath
+                    }
+                    callback(temp);
+                 });
+                console.log('after done all the workers');
             }
         });
     }
 
     public createLandingPage() {
-        // console.log('createLanding page function are ---------  ', this.iterateData);
-        // console.log('createLanding page function are ----length-----  ', this.iterateData.length);
         if (this.iterateData.length > 0) {
-            this.generationPath += `/${this.details.project.name}`;
+            this.generationPath += `/${this.projectName}`;
             var navInfo = this.iterateData.filter(function (element) {
                 return element.tagName == 'nav';
             })
@@ -85,15 +102,15 @@ export class AngularTemplateService {
             if (templateInfo.length > 0) {
                 commonWorker.createTemplateHtml(templateInfo);
             }
-            this.generateAngularApp();
+            
         }
     }
 
-    public generateAngularApp() {
-        commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, (response) => {
-            dependencyWorker.generateAppRoutingFile(this.generationPath, this.templatePath, this.menuDetails, (response) => {
-                commonWorker.generateMainFile(this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.details.project.name, (response) => {
-
+    public generateAngularApp(callback) {
+        return commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, this.projectName, (response) => {
+            return dependencyWorker.generateAppRoutingFile(this.generationPath, this.templatePath, this.menuDetails, (response) => {
+                return commonWorker.generateMainFile(this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.projectName, (response) => {
+                    callback(response);
                 });
             });
         });

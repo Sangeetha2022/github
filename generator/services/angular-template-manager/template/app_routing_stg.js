@@ -1,6 +1,6 @@
 /*
  * Template group app_routing
- * Compiled on Mon Jul 08 2019 12:38:47 GMT+0530 (India Standard Time)
+ * Compiled on Tue Jul 16 2019 17:46:50 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -89,7 +89,6 @@ r = function(w, rc) {
             ])); 
         return st.map(attr, tp);
         })(), {separator: "\n"});
-        w.write("\n{ path: '**', redirectTo: '', pathMatch: 'full' }");
     
     
     }

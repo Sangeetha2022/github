@@ -1,3 +1,3 @@
 app_html(apphtmlCode) ::= <<
-$if(apphtmlCode)$$apphtmlCode:{name | <$name$></$name$>};separator="\n"$$endif$
+$if(apphtmlCode)$$apphtmlCode:{object | <$object.name$$if(object.isHeaderFooter)$ *ngIf="headerFooter"$endif$></$object.name$>};separator="\n"$$endif$
 >>

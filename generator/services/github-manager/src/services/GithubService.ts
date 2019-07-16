@@ -11,7 +11,7 @@ export class GitHubService {
 
     checkIfRepoExist = (req: Request, callback: CallableFunction) => {
         const details = req.body;
-        const path = `${details.codeGenerationPath}/${details.name}`;
+        const path = `${details.codeGenerationPath}`;
         git = simplegit(path)
         let creds = {};
     try {

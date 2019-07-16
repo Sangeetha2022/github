@@ -7,12 +7,14 @@ import { Common } from '../config/Common';
 import { MenuBuilderManagerService } from '../apiservices/MenuBuilderManagerService';
 import { AngularTemplateManagerService } from '../apiservices/AngularTemplateManagerService';
 import { Constant } from '../config/Constant';
+import { AuthGenManagerService } from '../apiservices/AuthGenManagerService';
 
 export class FrontendTemplateService {
     sharedService = new SharedService();
     screenManagerService = new ScreenManagerService();
     menuBuilderManagerService = new MenuBuilderManagerService();
     angularTemplateManagerService = new AngularTemplateManagerService();
+    authGenManagerService = new AuthGenManagerService();
     apiAdapter = new ApiAdaptar()
     backend: String;
 
@@ -21,7 +23,7 @@ export class FrontendTemplateService {
         Common.createFolders(details.projectGenerationPath);
         const projectGenerationPath = `${details.projectGenerationPath}/${Constant.DESKTOP_FOLDERNAME}`;
         console.log('create project template vluae are -----------   ', details);
-       const templateObj = {
+        const templateObj = {
             projectId: details.projectId,
             sharedUrl: details.sharedUrl,
             apigatewayPortNumber: details.apigatewayPortNumber,
@@ -48,8 +50,14 @@ export class FrontendTemplateService {
         templateObj.menuBuilder = menuJSON.body;
         try {
             console.log('before calling angular template');
-            await this.generateAngularTemplate(templateObj);
-            console.log('after calling angular template')
+            const templateResponse = await this.generateAngularTemplate(templateObj);
+            console.log('after calling angular template ---  ', templateResponse);
+            const tempFrontend = {
+                templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
+                seedTemplatePath: details.seedTemplatePath,
+                authTemplatePath: details.authTemplatePath
+            }
+            await this.generateAuthFrontendComponent(tempFrontend);
             callback('angular template are generated');
         } catch (err) {
             console.log('err in generating the angualr template')
@@ -69,6 +77,14 @@ export class FrontendTemplateService {
     generateAngularTemplate(details) {
         return new Promise(resolve => {
             this.angularTemplateManagerService.generateAngularTemplate(details, (data) => {
+                resolve(data);
+            });
+        })
+    }
+
+    generateAuthFrontendComponent(details) {
+        return new Promise(resolve => {
+            this.authGenManagerService.generateAuthFrontendComponent(details, (data) => {
                 resolve(data);
             });
         })

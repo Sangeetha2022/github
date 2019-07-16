@@ -21,6 +21,60 @@ $if(object.methods)$$object.methods:{methods |  public $methods.methodName$(req:
         \});
     \}};separator="\n"$$endif$
 
+$if(object.additional.camunda.login)$
+  public $object.additional.camunda.login.methodName$(req: Request, res: Response) {
+        new ApiAdaptar().$object.additional.camunda.login.apiAction$($object.additional.camunda.login.constantName$.$object.additional.camunda.login.nodeName$ + `$object.additional.camunda.login.methodUrl$` $if(object.additional.camunda.login.requestParameter)$, $object.additional.camunda.login.requestParameter$$endif$).then(async ($object.additional.camunda.login.responseParameter$) => {
+            // @ts-ignore
+            const token = $object.additional.camunda.login.responseParameter$.body.Idtoken;
+            // @ts-ignore
+            if ($object.additional.camunda.login.responseParameter$.body.Idtoken === null || $object.additional.camunda.login.responseParameter$.body.Idtoken === '' || $object.additional.camunda.login.responseParameter$.body.Idtoken === undefined) {
+                req.baseUrl === '/mobile' ? res.send({"Userdetails": $object.additional.camunda.login.responseParameter$}) :
+                    req.baseUrl === '/desktop' ? res.send({"Userdetails": $object.additional.camunda.login.responseParameter$}) : res.send(null)
+            } else {
+                const authVerification = await this.Jwtverify(token, $object.additional.camunda.login.responseParameter$);
+                req.baseUrl === '/mobile' ? res.send(authVerification) :
+                    req.baseUrl === '/desktop' ? res.send(authVerification) : res.send(null)
+            }
+        }).catch(err => {
+            res.send(err);
+        });
+    }
+$endif$
+
+$if(object.additional.camunda.consent)$
+   public $object.additional.camunda.consent.methodName$(req: Request, res: Response) {
+        new ApiAdaptar().$object.additional.camunda.consent.apiAction$($object.additional.camunda.consent.constantName$.$object.additional.camunda.consent.nodeName$ + `$object.additional.camunda.consent.methodUrl$` $if(object.additional.camunda.consent.requestParameter)$, $object.additional.camunda.consent.requestParameter$$endif$).then(async ($object.additional.camunda.consent.responseParameter$) => {
+            // @ts-ignore
+            const token = $object.additional.camunda.consent.responseParameter$.body.Idtoken;
+            const authVerification = await this.Jwtverify(token, $object.additional.camunda.consent.responseParameter$);
+            req.baseUrl === '/mobile' ? res.send(authVerification) :
+                req.baseUrl === '/desktop' ? res.send(authVerification) : res.send(null)
+        }).catch(err => {
+            res.send(err);
+        });
+    }
+$endif$
+
+$if(object.additional.camunda.isVerify)$
+public Jwtverify(Idtoken, result) {
+        return new Promise(resolve => {
+            jwt.verify(Idtoken, 'geppettosecret', (err, decoded) => {
+                if (err) {
+                    return ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
+                } else {
+                    new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded).then((response) => {
+                        const temp = {
+                            "Access": JSON.parse(JSON.stringify(response)).body,
+                            "Userdetails": result
+                        }
+                        resolve(temp);
+                    })
+                }
+            })
+        })
+    }
+$endif$
+
 }
 
 >>

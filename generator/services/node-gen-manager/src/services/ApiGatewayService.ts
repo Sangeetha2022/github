@@ -13,7 +13,16 @@ export class ApiGatewayService {
         className: '',
         constantArray: []
     }
+    private packageObj: any[] = [];
     private controllerArray = [];
+    private CAMUNDA_LOGIN_URL = '/login';
+    private CAMUNDA_CONSENT_URL = '/consent';
+    private CAMUNDA_AUTH_PROXY_URL = '/proxy';
+    private URL_NAME = 'URL';
+    private HTTP_NAME = 'http';
+    private LOCALHOST_NAME = 'localhost';
+    private CONTROLLER_NAME = 'Controller';
+    private RESPONSEPARAMETER_NAME = 'result';
 
     public createApiGateway(req: Request, callback) {
         this.constantObj = {
@@ -28,18 +37,23 @@ export class ApiGatewayService {
         const apiGatewayGenerationPath = `${details.projectGenerationPath}/${this.APIGATEWAY_FOLDERNAME}`;
         const apiGatewayTemplatePath = `${details.project.templateLocation.backendTemplate}/apigateway`;
         Common.createFolders(apiGatewayGenerationPath);
-        console.log('create node response lenght are --------  ', details.nodeResponse.length)
 
         // generate docker file
         commonWorker.generateDockerFile(apiGatewayGenerationPath, apiGatewayTemplatePath, this.APIGATEWAY_FOLDERNAME);
         asyncLoop(req.body.nodeResponse, (element, next1) => {
-            console.log('create node response lenght are --firslevel------  ', element)
             const controllerObj = {
                 className: '',
                 implementName: '',
                 import: [],
                 router: [],
-                methods: []
+                methods: [],
+                additional: {
+                    camunda: {
+                        login: null,
+                        consent: null,
+                        isVerify: false
+                    }
+                }
             }
             if (element === undefined) {
                 next1();
@@ -51,17 +65,17 @@ export class ApiGatewayService {
                     httpPort: ''
                 }
                 // temp.nodeName = `${element.entityFileName.toUpperCase()}URL`;
-                temp.nodeName = `${element.featureName.toUpperCase()}URL`;
-                temp.httpProxy = `http`;
-                temp.httpUrl = `localhost`;
+                temp.nodeName = `${element.featureName.toUpperCase()}${this.URL_NAME}`;
+                temp.httpProxy = `${this.HTTP_NAME}`;
+                temp.httpUrl = `${this.LOCALHOST_NAME}`;
                 temp.httpPort = element.nodePortNumber;
 
                 controllerObj.className = element.entityFileName;
-                controllerObj.implementName = `Controller`;
+                controllerObj.implementName = `${this.CONTROLLER_NAME}`;
+                this.setPackageDependencies(element);
 
                 this.constantObj.constantArray.push(temp);
                 asyncLoop(element.flowAction, (routingElement, next2) => {
-                    console.log('async loop routing element are ------  ', routingElement);
                     const controllerDetails = {
                         methodName: '',
                         methodUrl: '',
@@ -85,46 +99,30 @@ export class ApiGatewayService {
                         routeDetails.methodName = routingElement.methodName;
                         routeDetails.variableName = routingElement.variableName;
                         controllerObj.router.push(routeDetails);
-
+                        // controller info
                         controllerDetails.methodName = routingElement.methodName;
                         controllerDetails.apiAction = routingElement.apiAction;
                         controllerDetails.nodeName = temp.nodeName;
-                        controllerDetails.responseParameter = `result`;
-                        this.controllerImport(controllerObj);
-                        switch (routingElement.apiAction) {
-                            case 'post':
-                                controllerDetails.methodUrl = routingElement.routeUrl;
-                                controllerDetails.requestParameter = `req.body`;
-                                break;
-                            case 'put':
-                                const putTemp = routingElement.routeUrl.split(':');
-                                if (putTemp.length > 1) {
-                                    controllerDetails.methodUrl = `${putTemp[0]}req.params.${putTemp[putTemp.length - 1]}`;
-                                } else {
-                                    controllerDetails.methodUrl = routingElement.routeUrl;
-                                }
-                                controllerDetails.requestParameter = `req.body`;
-                                break;
-                            case 'get':
-                                const getTemp = routingElement.routeUrl.split(':');
-                                if (getTemp.length > 1) {
-                                    controllerDetails.methodUrl = `${getTemp[0]}req.params.${getTemp[getTemp.length - 1]}`;
-                                } else {
-                                    controllerDetails.methodUrl = routingElement.routeUrl;
-                                }
-                                break;
-                            case 'delete':
-                                const deleteTemp = routingElement.routeUrl.split(':');
-                                if (deleteTemp.length > 1) {
-                                    controllerDetails.methodUrl = `${deleteTemp[0]}req.params.${deleteTemp[deleteTemp.length - 1]}`;
-                                } else {
-                                    controllerDetails.methodUrl = routingElement.routeUrl;
-                                }
-                                break;
-                            default:
-                                break;
+                        controllerDetails.responseParameter = `${this.RESPONSEPARAMETER_NAME}`;
+                        this.controllerImport(controllerObj, element);
+                        if (routingElement.routeUrl === this.CAMUNDA_LOGIN_URL ||
+                            routingElement.routeUrl === this.CAMUNDA_CONSENT_URL) {
+                            this.setRoutingDetails(routingElement, controllerDetails);
+                            controllerObj.additional.camunda.isVerify = true;
+                            if (routingElement.routeUrl === this.CAMUNDA_LOGIN_URL) {
+                                controllerObj.additional.camunda.login = controllerDetails;
+                            }
+                            if (routingElement.routeUrl === this.CAMUNDA_CONSENT_URL) {
+                                controllerObj.additional.camunda.consent = controllerDetails;
+                            }
+                        } else {
+                            this.setRoutingDetails(routingElement, controllerDetails);
+                            // if (routingElement.routeUrl === this.CAMUNDA_AUTH_PROXY_URL) {
+                            //     controllerObj.additional.camunda.isVerify = controllerDetails;
+                            // }
+                            controllerObj.methods.push(controllerDetails);
+                            
                         }
-                        controllerObj.methods.push(controllerDetails);
                         next2();
                     }
 
@@ -148,19 +146,84 @@ export class ApiGatewayService {
                 apiGatewayWorker.createApiController(apiGatewayGenerationPath, apiGatewayTemplatePath, this.controllerArray);
                 apiGatewayWorker.createControllerIndex(apiGatewayGenerationPath, apiGatewayTemplatePath, this.controllerArray);
                 apiGatewayWorker.createServerFile(apiGatewayGenerationPath, apiGatewayTemplatePath, this.controllerArray, portNumber);
-                apiGatewayWorker.createPackageTsConfigFiles(apiGatewayGenerationPath, apiGatewayTemplatePath);
+                apiGatewayWorker.createPackageTsConfigFiles(apiGatewayGenerationPath, apiGatewayTemplatePath, this.packageObj);
                 callback('apigateway generated ----- ');
             }
         })
     }
 
-    public controllerImport(controllerObj) {
+    private setRoutingDetails(routingElement, controllerDetails) {
+        switch (routingElement.apiAction) {
+            case 'post':
+                controllerDetails.methodUrl = routingElement.routeUrl;
+                controllerDetails.requestParameter = `req.body`;
+                break;
+            case 'put':
+                const putTemp = routingElement.routeUrl.split(':');
+                if (putTemp.length > 1) {
+                    controllerDetails.methodUrl = `${putTemp[0]}req.params.${putTemp[putTemp.length - 1]}`;
+                } else {
+                    controllerDetails.methodUrl = routingElement.routeUrl;
+                }
+                controllerDetails.requestParameter = `req.body`;
+                break;
+            case 'get':
+                const getTemp = routingElement.routeUrl.split(':');
+                if (getTemp.length > 1) {
+                    controllerDetails.methodUrl = `${getTemp[0]}req.params.${getTemp[getTemp.length - 1]}`;
+                } else {
+                    controllerDetails.methodUrl = routingElement.routeUrl;
+                }
+                break;
+            case 'delete':
+                const deleteTemp = routingElement.routeUrl.split(':');
+                if (deleteTemp.length > 1) {
+                    controllerDetails.methodUrl = `${deleteTemp[0]}req.params.${deleteTemp[deleteTemp.length - 1]}`;
+                } else {
+                    controllerDetails.methodUrl = routingElement.routeUrl;
+                }
+                break;
+            default:
+                break;
+        }
+        return controllerDetails;
+    }
+
+    private controllerImport(controllerObj, element) {
         controllerObj.import = [];
         controllerObj.import.push({ name: '* as express', path: 'express' });
         controllerObj.import.push({ name: '{ Request, Response }', path: 'express' });
         controllerObj.import.push({ name: `* as ${this.constantObj.className}`, path: `../config/${this.constantObj.className}` });
         controllerObj.import.push({ name: '{ ApiAdaptar } ', path: '../config/apiAdapter' });
         controllerObj.import.push({ name: 'Controller', path: '../interface/controller.interface' });
+
+        if (element.hasOwnProperty('import') &&
+            element.import.hasOwnProperty('packageDependencies') &&
+            element.import.packageDependencies.length > 0) {
+            element.import.packageDependencies.forEach(dependency => {
+                const temp = {
+                    name: '',
+                    path: ''
+                }
+                temp.name = dependency.name;
+                temp.path = dependency.path;
+                controllerObj.import.push(temp);
+            })
+        }
+    }
+
+    private setPackageDependencies(element) {
+        if (element.hasOwnProperty('package')) {
+            element.package.forEach(packageElement => {
+                const temp = {
+                    name: '',
+                    version: ''
+                }
+                temp.name = packageElement.name;
+                temp.version = packageElement.version;
+                this.packageObj.push(temp);
+            })
+        }
     }
 
 }

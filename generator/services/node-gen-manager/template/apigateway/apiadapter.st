@@ -1,12 +1,16 @@
 apiadapter() ::= <<
-import * as request from "request-promise-native";
+import * as request from 'request-promise-native';
 
 export class ApiAdaptar {
 
     post = (url, body) => {
         return new Promise((resolve, reject) => {
             request.post({ url: url, json: body }, (error, response, body) => {
-                this.sendResponse(resolve, reject, error, response, body);
+                if (body !== undefined) {
+                    this.sendResponse(resolve, reject, error, response, body);
+                } else if (body === undefined) {
+                    this.sendResponse(resolve, reject, error, response, null);
+                }
             });
         });
     }
@@ -26,7 +30,11 @@ export class ApiAdaptar {
     put = (url, body) => {
         return new Promise((resolve, reject) => {
             request.put({ url: url, json: body }, (error, response, body) => {
-                this.sendResponse(resolve, reject, error, response, body);
+                if (body !== undefined) {
+                    this.sendResponse(resolve, reject, error, response, body);
+                } else if (body === undefined) {
+                    this.sendResponse(resolve, reject, error, response, null);
+                }
             });
         });
     }
@@ -34,7 +42,11 @@ export class ApiAdaptar {
     delete = (url) => {
         return new Promise((resolve, reject) => {
             request.delete(url, (error, response, body) => {
-                this.sendResponse(resolve, reject, error, response, body);
+                if (body !== undefined) {
+                    this.sendResponse(resolve, reject, error, response, body);
+                } else if (body === undefined) {
+                    this.sendResponse(resolve, reject, error, response, null);
+                }
             });
         });
     }

@@ -19,6 +19,18 @@ export class ComponentSupportWorker {
 
     }
 
+    generateAppComponentTs(generationPath, templatePath, templateName, information, callback) {
+        const filePath = `${generationPath}/src/${information.folderName.toLowerCase()}`;
+        templatePath = path.resolve(__dirname, templatePath);
+        let generateComponent = st.loadGroup(require(templatePath + `/${templateName}_stg`));
+        let componentFileData = generateComponent.render(templateName, []);
+        fs.writeFile(filePath + `/${information.folderName.toLowerCase()}.component.ts`, componentFileData, function (err) {
+            if (err) throw err;
+            callback(`app.component.ts file generated`);
+        })
+
+    }
+
     generateHtmlComponent(generationPath, templatePath, templateName, information, callback) {
         const className = information.folderName.charAt(0).toUpperCase() + information.folderName.slice(1).toLowerCase();
         const filePath = `${generationPath}/src/app/${information.folderName.toLowerCase()}`;

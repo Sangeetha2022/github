@@ -6,9 +6,9 @@
             "entityFileName": "security",
             "nodePortNumber": "3007",
             "import": {
-                "dependencies": [
+                "packageDependencies": [
                     {
-                        "name": "{ import * as jwt }",
+                        "name": "* as jwt",
                         "path": "jsonwebtoken"
                     }
                 ]
@@ -47,31 +47,31 @@
                 {
                     "routeUrl": "/googlesignin",
                     "apiAction": "post",
-                    "methodName": "googlecontroller",
+                    "methodName": "googleLogin",
                     "variableName": "User"
                 },
                 {
                     "routeUrl": "/getallusers",
                     "apiAction": "get",
-                    "methodName": "getallusers",
+                    "methodName": "getAllUser",
                     "variableName": "User"
                 },
                 {
                     "routeUrl": "/getuser/:id",
                     "apiAction": "get",
-                    "methodName": "getuserbyid",
+                    "methodName": "getUserById",
                     "variableName": "User"
                 },
                 {
                     "routeUrl": "/getallroles",
                     "apiAction": "get",
-                    "methodName": "getallroles",
+                    "methodName": "getAllRole",
                     "variableName": "User"
                 },
                 {
                     "routeUrl": "/updateuser",
                     "apiAction": "put",
-                    "methodName": "updateuser",
+                    "methodName": "updateUser",
                     "variableName": "User"
                 }
             ]
@@ -85,7 +85,7 @@
                 {
                     "routeUrl": "/proxy",
                     "apiAction": "post",
-                    "methodName": "usercontroller",
+                    "methodName": "user",
                     "variableName": "User"
                 }
             ]
@@ -99,7 +99,7 @@
                 {
                     "routeUrl": "/accesslevel",
                     "apiAction": "post",
-                    "methodName": "camundacontroller",
+                    "methodName": "camunda",
                     "variableName": "User"
                 }
             ]

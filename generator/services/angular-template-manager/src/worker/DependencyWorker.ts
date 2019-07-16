@@ -92,6 +92,8 @@ export class DependencyWorker {
             })
     }
 
+
+
     private generateAssetFile(assetElement, generationPath, templatePath) {
         let assetGenerationPath = `${generationPath}/src/assets`;
         switch (assetElement) {

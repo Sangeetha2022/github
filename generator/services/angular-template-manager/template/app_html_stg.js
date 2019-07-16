@@ -1,6 +1,6 @@
 /*
  * Template group app_html
- * Compiled on Fri Jul 05 2019 11:21:42 GMT+0530 (India Standard Time)
+ * Compiled on Tue Jul 16 2019 18:14:25 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -33,12 +33,18 @@ r = function(w, rc) {
             s = this.scope;
             
                      w.write("<");
-                     st.write(w, s, g, rc, s.name);
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "name", { file: gFile, line: 2, column: 49 }));
+                     if (st.test(st.prop(s, g, rc, s.object, "isHeaderFooter", { file: gFile, line: 2, column: 65 }))) {
+                     
+                         w.write(" *ngIf=\"headerFooter\"");
+                     
+                     
+                     }
                      w.write("></");
-                     st.write(w, s, g, rc, s.name);
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "name", { file: gFile, line: 2, column: 120 }));
                      w.write(">");
             }, [
-            { name: "name"     }
+            { name: "object"     }
             ])); 
         return st.map(attr, tp);
         })(), {separator: "\n"});

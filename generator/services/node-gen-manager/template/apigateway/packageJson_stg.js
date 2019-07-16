@@ -1,6 +1,6 @@
 /*
  * Template group packageJson
- * Compiled on Mon Jun 17 2019 12:41:25 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jul 12 2019 12:28:47 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -132,6 +132,29 @@ r = function(w, rc) {
     w.pushIndentation("    ");
     w.write("\"winston-daily-rotate-file\": \"^3.6.0\"");
     w.popIndentation();
+    if (st.test(st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 28, column: 52 }))) {
+    
+        w.write(",\n");
+        st.write(w, s, g, rc, (function() {
+        var tp = [],
+        attr = st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 28, column: 79 });
+        tp.push(st.makeSubTemplate(g, function(w, rc) {
+            var g = this.owningGroup,
+            s = this.scope;
+            
+                     w.write("\t\t \"");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "name", { file: gFile, line: 28, column: 127 }));
+                     w.write("\": \"");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "version", { file: gFile, line: 28, column: 148 }));
+                     w.write("\" ");
+            }, [
+            { name: "dependency"     }
+            ])); 
+        return st.map(attr, tp);
+        })(), {separator: ",\n"});
+    
+    
+    }
     w.write("\n");
     w.pushIndentation("  ");
     w.write("}");

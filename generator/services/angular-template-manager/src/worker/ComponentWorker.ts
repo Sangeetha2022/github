@@ -1,8 +1,9 @@
 import * as util from 'util';
 import { ComponentSupportWorker } from '../supportworker/ComponentSupportWorker';
+import { AssetWorker } from './AssetWorker';
 
 let componentSupportWorker = new ComponentSupportWorker();
-
+let assetWorker = new AssetWorker();
 export class ComponentWorker {
     private COMPONENT_HTML_TEMPLATE_NAME: String = 'component_html';
     private COMPONENT_TS_TEMPLATE_NAME: String = 'component_ts';
@@ -11,6 +12,7 @@ export class ComponentWorker {
     private COMPONENT_MODULE_TEMPLATE_NAME: String = 'component_module';
     private MAIN_MODULE_TEMPLATE_NAME: String = 'app_module';
     private APP_HTML_TEMPLATE_NAME: String = 'app_html';
+    private APP_COMPONENT_TEMPLATE_NAME: String = 'app_component';
     private APP_FOLDERNAME = 'app';
     private HEADER_FOLDERNAME = 'header';
     public TEMPLATE_FOLDERNAME = 'template';
@@ -148,6 +150,7 @@ export class ComponentWorker {
         if (templateMainObj.css.length > 0) {
             temp.css = templateMainObj.css;
         }
+        assetWorker.checkAssetFile(templateMainObj.tag);
         tempDependency.dependencyname = 'Component, OnInit',
             tempDependency.dependencyPath = '@angular/core';
         temp.importDependency.push(tempDependency);
@@ -175,17 +178,25 @@ export class ComponentWorker {
             })
     }
 
+
+
     public generateAppComponentHtml(generationPath, templatePath, callback) {
         const temp = {
             folderName: this.APP_FOLDERNAME,
             tagArray: []
         }
-        temp.tagArray.push(`app-${this.HEADER_FOLDERNAME}`);
-        temp.tagArray.push(`router-outlet`);
-        temp.tagArray.push(`app-${this.FOOTER_FOLDERNAME}`);
+        temp.tagArray.push({ name: `app-${this.HEADER_FOLDERNAME}`, isHeaderFooter: true });
+        temp.tagArray.push({ name: `router-outlet`, isHeaderFooter: false });
+        temp.tagArray.push({ name: `app-${this.FOOTER_FOLDERNAME}`, isHeaderFooter: true });
         return componentSupportWorker.generateAppComponentHtml(generationPath, templatePath,
             this.APP_HTML_TEMPLATE_NAME, temp, (response) => {
-                callback('app component html file are generated');
+                const tempInfo = {
+                    folderName: this.APP_FOLDERNAME
+                }
+                return componentSupportWorker.generateAppComponentTs(generationPath, templatePath,
+                    this.APP_COMPONENT_TEMPLATE_NAME, tempInfo, (response) => {
+                        callback('app component html file are generated');
+                    })
             })
 
     }
