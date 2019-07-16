@@ -114,6 +114,13 @@ export class CodeGenerationService {
     console.log('get feature by project id are ------  ', features, '  length   ', FeatureJSON.body.length);
     if (FeatureJSON.body != undefined && FeatureJSON.body.length === 0) {
       console.log('cannot able to find its features based on this project', 400);
+      const backendAdminManagerResponse = await this.adminBackendManager(features, projectId, `${projectPath}/${this.SERVICE_FOLDERNAME}`, projectDetails.templateLocation.adminManagerTemplatePath).catch(
+        err => {
+          console.log('cannot able to geneate the Admin Manager services');
+
+        })
+      console.log('-------backend adminManager response without features----', backendAdminManagerResponse);
+
     }
     try {
       asyncLoop(FeatureJSON.body, async (featureElement, next) => {

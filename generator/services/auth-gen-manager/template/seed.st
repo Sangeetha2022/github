@@ -1,5 +1,6 @@
 seed(object)   ::= <<
+export const resourcetypes = 
     $if(object)$$object:{value | 
-    export const resources = [{"resources":"$value$"],\}
+    [{"resources":"$value$"],\}
     };separator="\n"$$endif$
 >>

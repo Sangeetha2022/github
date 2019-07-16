@@ -1,11 +1,11 @@
 import mongoose = require('mongoose');
-import { Userschema } from '../models/User';
+import { UserSchema } from '../models/User';
 import { Roleschema } from '../models/Role';
 import * as jwt from 'jsonwebtoken';
 import * as asyncLoop from 'node-async-loop';
 var jwtDecode = require('jwt-decode');
 
-const signinmodel = mongoose.model('User', Userschema);
+const signinmodel = mongoose.model('User', UserSchema);
 const rolemodel = mongoose.model('role', Roleschema);
 export class SigninDao {
 

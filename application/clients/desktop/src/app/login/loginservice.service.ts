@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApiService } from '../config/api.service';
-import { Router } from '@angular/router';
 import { SharedService } from '../../shared/shared.service';
 
 @Injectable({
@@ -10,7 +8,7 @@ import { SharedService } from '../../shared/shared.service';
 })
 export class LoginService {
 
-  constructor(private http: HttpClient, private router: Router, private apiservice: ApiService, private restapi: SharedService) { }
+  constructor(private http: HttpClient, private restapi: SharedService) { }
 
 
   // Getlogin(): Observable<any> {
