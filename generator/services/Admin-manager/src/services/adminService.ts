@@ -161,7 +161,7 @@ export class AdminServcie {
                         })
                     }
                     else if (x === 'service') {
-                        let service = src + `/services`;
+                        let service = src + `/service`;
                         if (!fs.existsSync(service)) {
                             fs.mkdirSync(service);
                         }
@@ -204,6 +204,7 @@ export class AdminServcie {
                         })
                     }
                 });
+                callback("Admin manager service generated");
             }
         })
     }

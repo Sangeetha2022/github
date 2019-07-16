@@ -1,6 +1,6 @@
 /*
  * Template group seed
- * Compiled on Mon Jul 01 2019 19:23:23 GMT+0530 (IST)
+ * Compiled on Tue Jul 16 2019 13:32:03 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -23,6 +23,8 @@ r = function(w, rc) {
     var g = this.owningGroup,
         s = this.scope;
     
+    w.write("export const resourcetypes = ");
+    w.write("\n");
     w.write("    ");
     if (st.test(s.object)) {
     
@@ -33,7 +35,7 @@ r = function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
-                     w.write("export const resources = [{\"resources\":\"");
+                     w.write("[{\"resources\":\"");
                      st.write(w, s, g, rc, s.value);
                      w.write("\"],}");
                      w.write("\n");

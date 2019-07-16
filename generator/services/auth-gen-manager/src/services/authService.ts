@@ -198,7 +198,7 @@ export class AuthService {
 
                         })
                     } else if (x === 'dao') {
-                        let dao = src + `/daos`;
+                        let dao = src + `/dao`;
                         if (!fs.existsSync(dao)) {
                             fs.mkdirSync(dao);
                         }
@@ -350,7 +350,7 @@ export class AuthService {
 
                         })
                     } else if (x === 'service') {
-                        let service = securitysrc + `/services`;
+                        let service = securitysrc + `/service`;
                         if (!fs.existsSync(service)) {
                             fs.mkdirSync(service);
                         }

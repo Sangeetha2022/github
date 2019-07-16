@@ -1,8 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './loginservice.service';
 import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
