@@ -101,6 +101,8 @@ export class CodeGenerationService {
         sharedUrl: this.LOCALHOST,
         apigatewayPortNumber: this.APIGATEWAY_PORT_NUMBER,
         projectGenerationPath: `${projectPath}/${this.CLIENT_FOLDERNAME}`,
+        seedTemplatePath: projectDetails.templateLocation.authTemplatePath,
+        authTemplatePath: projectDetails.templateLocation.authorizationTempPath,
         project: projectDetails
       }
       await this.frontendTemplateProject(templateObj);

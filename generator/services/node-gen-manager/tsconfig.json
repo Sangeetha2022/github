@@ -10,7 +10,7 @@
         "baseUrl": "./lib"
     },
     "include": [
-        "src/**/*.ts", "src/models/NodeModels.ts",
+        "src/**/*.ts",
     ],
     "exclude": [
         "node_modules"

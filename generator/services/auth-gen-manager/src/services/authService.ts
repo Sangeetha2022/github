@@ -34,7 +34,6 @@ export class AuthService {
     private workernode = new ScreenWorker();
     private modelworker = new ModelWorker();
     private sourcePath: any;
-    private frontendpath: any;
 
     public auth(req: Request, callback) {
         console.log('path ---- >>>', req.query.authTemplate);
@@ -42,19 +41,11 @@ export class AuthService {
         this.authGenFiles.templatepath = req.query.authTemplate;
         this.authGenFiles.pathFile = req.query.authPath;
         this.authGenFiles.projectId = req.query.projectID;
-        // this.sourcePath = path.resolve(`${this.authGenFiles.projectpath}/loginbackend`);
         Common.createFolders(this.authGenFiles.projectpath);
-        this.frontendpath = path.resolve(`${this.authGenFiles.projectpath}/loginfrontend`);
         if (this.sourcePath) {
             if (!fs.existsSync(this.sourcePath)) {
                 console.log('-----coming here for source floder creation---', this.sourcePath);
                 fs.mkdirSync(this.sourcePath);
-            }
-        }
-        if (this.frontendpath) {
-            if (!fs.existsSync(this.frontendpath)) {
-                console.log('-----coming here for floder creation---', this.frontendpath);
-                fs.mkdirSync(this.frontendpath);
             }
         }
 
@@ -65,7 +56,6 @@ export class AuthService {
         this.authGenFiles.folder = this.sourcePath + `/securitymanager`;
         this.authGenFiles.proxyFolder = this.sourcePath + `/authproxy`;
         this.authGenFiles.camundaFolder = this.sourcePath + `/camunda`;
-        this.authGenFiles.Logingenerated = this.frontendpath + ``;
 
         if (this.authGenFiles) {
 
@@ -259,7 +249,7 @@ export class AuthService {
     //security
     public async securityManagerService(callback) {
         const entitydetails = await this.getEntities();
-        console.log('-----entitydetails----',this.authGenFiles.folder);
+        console.log('-----entitydetails----', this.authGenFiles.folder);
         fs.readdirSync(`${this.authGenFiles.securityPath}`).forEach((file) => {
             if (file === 'package.json') {
                 fs.readFile(`${this.authGenFiles.securityPath}/${file}`, 'utf8', (err, jsonFile) => {
@@ -271,7 +261,7 @@ export class AuthService {
                 })
             } else if (file === 'tsconfig.json') {
                 fs.readFile(`${this.authGenFiles.securityPath}/${file}`, 'utf8', (err, tsFile) => {
-                    console.log('-----tsconfig----',this.authGenFiles.folder);
+                    console.log('-----tsconfig----', this.authGenFiles.folder);
                     fs.writeFile(this.authGenFiles.folder + `/tsconfig.json`, tsFile, (err) => {
                         if (err) {
                             return (err)
@@ -297,7 +287,7 @@ export class AuthService {
                 fs.readdirSync(srcFolder).find(x => {
                     if (x === 'server.ts') {
                         fs.readFile(`${srcFolder}/${x}`, 'utf8', (err, serverFile) => {
-                            console.log('-----server----',securitysrc);
+                            console.log('-----server----', securitysrc);
 
                             fs.writeFile(securitysrc + `/server.ts`, serverFile, (err) => {
                                 if (err) {
@@ -307,7 +297,7 @@ export class AuthService {
                         })
                     } else if (x === 'seed.ts') {
                         fs.readFile(`${srcFolder}/${x}`, 'utf8', (err, seedFile) => {
-                            console.log('-----seed----',securitysrc);
+                            console.log('-----seed----', securitysrc);
                             fs.writeFile(securitysrc + `/seed.ts`, seedFile, (err) => {
                                 if (err) {
                                     return (err)
@@ -577,7 +567,7 @@ export class AuthService {
         this.camundaworker.createConfig(this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (configdata => {
 
         }));
-        this.workernode.createfile(screens, this.authGenFiles.camundaFolder , this.authGenFiles.templatepath, (data => {
+        this.workernode.createfile(screens, this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (data => {
             // console.log('------workerdata----', data);
             return callback(Routes)
         }));

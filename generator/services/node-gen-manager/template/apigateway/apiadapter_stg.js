@@ -1,6 +1,6 @@
 /*
  * Template group apiadapter
- * Compiled on Fri Jun 14 2019 14:45:31 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jul 12 2019 12:41:04 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -23,7 +23,7 @@ r = function(w, rc) {
     var g = this.owningGroup,
         s = this.scope;
     
-    w.write("import * as request from \"request-promise-native\";");
+    w.write("import * as request from 'request-promise-native';");
     w.write("\n");
     w.write("\n");
     w.write("export class ApiAdaptar {");
@@ -42,7 +42,23 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                ");
+    w.write("if (body !== undefined) {");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                    ");
     w.write("this.sendResponse(resolve, reject, error, response, body);");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                ");
+    w.write("} else if (body === undefined) {");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                    ");
+    w.write("this.sendResponse(resolve, reject, error, response, null);");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                ");
+    w.write("}");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("            ");
@@ -116,7 +132,23 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                ");
+    w.write("if (body !== undefined) {");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                    ");
     w.write("this.sendResponse(resolve, reject, error, response, body);");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                ");
+    w.write("} else if (body === undefined) {");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                    ");
+    w.write("this.sendResponse(resolve, reject, error, response, null);");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                ");
+    w.write("}");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("            ");
@@ -145,7 +177,23 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                ");
+    w.write("if (body !== undefined) {");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                    ");
     w.write("this.sendResponse(resolve, reject, error, response, body);");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                ");
+    w.write("} else if (body === undefined) {");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                    ");
+    w.write("this.sendResponse(resolve, reject, error, response, null);");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                ");
+    w.write("}");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("            ");

@@ -10,4 +10,5 @@ export class SharedService {
 
 
     public static apiGatewayURL: String = SharedService.baseUrl + ":3000";
+    public static authURL: String = SharedService.baseUrl + ":5017";
 }

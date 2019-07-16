@@ -25,6 +25,7 @@ export class DependencySupportWorker {
 
     generateFiles(templatePath, filePath, fileName, templateName, information, callback) {
         // const filePath = `${generationPath}/src`;
+        console.log(`generate file ----${fileName}---  `, fileName, ' --information--  ', information);
         templatePath = path.resolve(__dirname, templatePath);
         Common.createFolders(filePath);
         let renderTemplate = st.loadGroup(require(templatePath + `/${templateName}_stg`));

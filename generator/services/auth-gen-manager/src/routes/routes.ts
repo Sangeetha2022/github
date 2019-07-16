@@ -7,7 +7,7 @@ export class Routes {
     public routes(app): void {
 
         app.route('/auth').get(this.authController.auth);
-        app.route('/auth/frontend').get(this.frontendcontroller.authfrontend);
+        app.route('/auth/frontend').post(this.frontendcontroller.authfrontend);
         
     }
 }
