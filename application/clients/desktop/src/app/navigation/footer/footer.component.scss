@@ -99,3 +99,11 @@ hr{
   border-right-color: darkslategray;
   border-right-style: solid;
 }
+
+@media (min-width: 992px)
+{
+  .medium_device{
+  // min-width:100%;
+}
+
+}
