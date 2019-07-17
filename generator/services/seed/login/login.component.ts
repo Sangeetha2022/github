@@ -134,7 +134,7 @@ export class LoginComponent implements OnInit {
         this.permission.push(this.accessLevel);
         this.broadcast.sendMessage({ 'Access': this.permission });
       }
-      this.userDetails = consentValue.userdetails;
+      this.userDetails = consentValue.Userdetails.body;
       this.id = this.userDetails._id;
       this.lastLoggedInTime = this.userDetails.loggedinDate;
       this.route.navigate(['home']);
