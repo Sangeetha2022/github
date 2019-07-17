@@ -7,7 +7,6 @@ export const gpConfigSchema = new mongoose.Schema({
     },
     name: String,
     label: String,
-    description: String,
     value: String,
     type: String,
     sub_type: String,

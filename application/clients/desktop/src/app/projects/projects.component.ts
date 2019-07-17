@@ -48,7 +48,7 @@ export class ProjectsComponent implements OnInit {
   public codes: any;
   public scopes: any;
   public states: any;
-  public lang:any;
+  public lang: any;
   gepTemplates: any = [];
   constructor(
     private formBuilder: FormBuilder,
@@ -61,8 +61,6 @@ export class ProjectsComponent implements OnInit {
     private route: ActivatedRoute,
     private screenDesignerService: ScreenDesignerService,
     private entityManagerService: ProjectComponentService,
-    
-
   ) {    
      }
 
