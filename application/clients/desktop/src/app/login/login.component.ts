@@ -135,7 +135,8 @@ if(this.loginform.value.email !=='' && this.loginform.value.password !=='' ){
         this.errormessage = this.Userdetails.body;
       } else {
         if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '' || this.Userdetails.body.Idtoken === undefined) {
-          this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });
+          this.Consent();
+          // this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });
         }
 
       }
@@ -147,8 +148,6 @@ if(this.loginform.value.email !=='' && this.loginform.value.password !=='' ){
 
 
   Login() {
-    // this.user.challenge = this.loginchallenge;
-    // this.user.csrftoken = this.token;
     const { invalid, value } = this.loginform;
     this.submitted = true;
     if (invalid) {
@@ -188,6 +187,7 @@ if(this.loginform.value.email !=='' && this.loginform.value.password !=='' ){
           if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '') {
             this.Consent();
           } else {
+            console.log('projecttt--#############################->>>',)
             this.route.navigate(['project']);
           }
 
