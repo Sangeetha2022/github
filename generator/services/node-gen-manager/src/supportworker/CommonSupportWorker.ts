@@ -25,7 +25,7 @@ export class CommonSupportWorker {
          templatePath = path.resolve(__dirname, templatePath);
         let renderTemplate = st.loadGroup(require(templatePath + '/docker_file_stg'));
         let fileData = renderTemplate.render("docker_file", [featureName]);
-        fs.writeFile(generationPath + `/Dockerfile.ts`, fileData, function (err) {
+        fs.writeFile(generationPath + `/Dockerfile`, fileData, function (err) {
             if (err) throw err;
             callback('file generated');
         })

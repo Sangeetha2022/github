@@ -5,6 +5,7 @@ export class ScreenWorker {
     screensupportfile = new ScreenSupportWorker();
 
     createfile(menuobject, generationpath, templatepath, callback) {
+        console.log('createfile ----->>  ', menuobject);
         let listofscreens = this.ScreenName(menuobject);
         console.log('------screenname----', listofscreens);
         this.screensupportfile.screenfilegenerate(listofscreens, generationpath, templatepath, (response) => {

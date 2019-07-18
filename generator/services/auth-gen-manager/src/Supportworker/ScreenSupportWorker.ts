@@ -14,7 +14,7 @@ export class ScreenSupportWorker {
         let generateModel = st.loadGroup(require(pathfile + '/seed_stg'));
         let modelData = generateModel.render("seed", [screenname]);
         console.log('-------assetsfolder----',assetsfolder);
-        fs.writeFile(assetsfolder + `/Screen.ts`, modelData, function (err) {
+        fs.writeFile(assetsfolder + `/screen.ts`, modelData, function (err) {
             if (err) throw err;
             var response = {
                 body: 'Login file Generated'

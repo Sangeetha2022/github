@@ -1,25 +1,24 @@
+server_file(object) ::= <<
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import { WinstonLogger } from './config/Winstonlogger';
 import { Routes } from './routes/routes'
-import { ResourceSeedData } from './seed';
-import { MongoConfig } from './config/Mongoconfig';
 import mongoose = require('mongoose');
-
-const PORT = 3008;
+$if(object.isSeed)$import { SeedService } from './seed';$endif$
+const PORT = $object.port$;
 
 class App {
     public app = express();
     public routerPrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
+    public mongoUrl: string = 'mongodb://$object.projectName$-app-db.$object.projectName$.svc.cluster.local:27017/$object.databaseName$';
 
     constructor() {
         this.config();
         this.routerPrv.routes(this.app);
         this.mongoSetup();
-        this.mongoSeedData();
-
+        $if(object.isSeed)$this.mongoSeedData();$endif$
     }
 
     private config(): void {
@@ -31,21 +30,20 @@ class App {
     }
 
     private mongoSetup(): void {
-        // mongoose.Promise = global.Promise;
-        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        let mongoConfig = new MongoConfig();
-        mongoConfig.mongoConfig();
+        mongoose.Promise = global.Promise;
+        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
     }
 
-
+$if(object.isSeed)$
     private mongoSeedData(): void {
-        let seedData = new ResourceSeedData();
-        seedData.Createresource();
+        let seedData = new SeedService();
+        seedData.create();
     }
-
+$endif$
 
 }
 
 new App().app.listen(PORT, () => {
     console.log('Express server listening on port  ' + PORT);
 })
+>>

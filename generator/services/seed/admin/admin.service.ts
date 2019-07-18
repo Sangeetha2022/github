@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApiService } from '../config/api.service';
 import { Router } from '@angular/router';
 import { SharedService } from '../../shared/shared.service';
 
@@ -10,9 +9,9 @@ import { SharedService } from '../../shared/shared.service';
 })
 export class AdminService {
 
-  constructor(private http: HttpClient, private router: Router, private apiservice: ApiService, private restapi: SharedService) { }
+  constructor(private http: HttpClient, private router: Router, private restapi: SharedService) { }
 
-  Getallusers(): Observable<any> {
-    return this.http.get(this.restapi.Adminmanager + '/admin/getusers');
+  Getallusers() {
+    // return this.http.get(this.restapi.Adminmanager + '/admin/getusers');
   }
 }

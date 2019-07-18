@@ -8,7 +8,7 @@ export class Routes {
 
     public routes(app): void {
         app.route('/admin').get(adminControler.admin);
-        app.route('/admin/frontend').get(adminFrontendController.adminfrontend);
+        app.route('/admin/frontend').post(adminFrontendController.adminFrontend);
 
     }
 

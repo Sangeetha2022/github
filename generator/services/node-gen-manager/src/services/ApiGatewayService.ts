@@ -13,6 +13,7 @@ export class ApiGatewayService {
         className: '',
         constantArray: []
     }
+    private projectName = '';
     private packageObj: any[] = [];
     private controllerArray = [];
     private CAMUNDA_LOGIN_URL = '/login';
@@ -37,7 +38,13 @@ export class ApiGatewayService {
         const apiGatewayGenerationPath = `${details.projectGenerationPath}/${this.APIGATEWAY_FOLDERNAME}`;
         const apiGatewayTemplatePath = `${details.project.templateLocation.backendTemplate}/apigateway`;
         Common.createFolders(apiGatewayGenerationPath);
-
+        details.project.name.split(" ").forEach((element, index) => {
+            if (index === 0) {
+                this.projectName = element;
+            } else {
+                this.projectName += element.charAt(0).toUpperCase() + element.slice(1);
+            }
+        })
         // generate docker file
         commonWorker.generateDockerFile(apiGatewayGenerationPath, apiGatewayTemplatePath, this.APIGATEWAY_FOLDERNAME);
         asyncLoop(req.body.nodeResponse, (element, next1) => {
@@ -67,7 +74,7 @@ export class ApiGatewayService {
                 // temp.nodeName = `${element.entityFileName.toUpperCase()}URL`;
                 temp.nodeName = `${element.featureName.toUpperCase()}${this.URL_NAME}`;
                 temp.httpProxy = `${this.HTTP_NAME}`;
-                temp.httpUrl = `${this.LOCALHOST_NAME}`;
+                temp.httpUrl = `${this.projectName}-app.${this.projectName}.svc.cluster.local`;
                 temp.httpPort = element.nodePortNumber;
 
                 controllerObj.className = element.entityFileName;
@@ -121,7 +128,7 @@ export class ApiGatewayService {
                             //     controllerObj.additional.camunda.isVerify = controllerDetails;
                             // }
                             controllerObj.methods.push(controllerDetails);
-                            
+
                         }
                         next2();
                     }

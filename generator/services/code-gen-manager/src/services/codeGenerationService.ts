@@ -74,7 +74,8 @@ export class CodeGenerationService {
     try {
       console.log('i am auth ******---->>', projectPath);
       const auth = await this.authGenPath(projectId, `${projectPath}/${this.SERVICE_FOLDERNAME}`,
-        projectDetails.templateLocation.authTemplatePath, projectDetails.templateLocation.authorizationTempPath).catch(error => {
+        projectDetails.templateLocation.authTemplatePath,
+         projectDetails.templateLocation.authorizationTempPath, projectDetails.name).catch(error => {
           console.log('cannot able to create the auth files');
         });
       let authJSON = null;
@@ -314,9 +315,9 @@ export class CodeGenerationService {
     })
   }
 
-  authGenPath(projectId, projectGenerationPath, authPath, auth_templatepath) {
+  authGenPath(projectId, projectGenerationPath, authPath, auth_templatepath, projectName) {
     return new Promise(resolve => {
-      this.authGenService.authPath(projectId, projectGenerationPath, authPath, auth_templatepath, (data) => {
+      this.authGenService.authPath(projectId, projectGenerationPath, authPath, auth_templatepath, projectName, (data) => {
         resolve(data)
       })
     })

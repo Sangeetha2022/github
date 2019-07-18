@@ -63,7 +63,9 @@ export class AngularTemplateService {
             console.log('stdout exec ----->>>>    ', stdout);
             console.log('stderr exec ----->>>>    ', stderr);
             if (stdout || stderr) {
+                // this.iterateData = grapesjsComponent;
                 this.iterateData = JSON.parse(grapesjsComponent);
+                console.log('iterateData filter are -----  ', this.iterateData);
                 this.createLandingPage();
                  this.generateAngularApp((response) => {
                     console.log('after await completed')
@@ -83,6 +85,7 @@ export class AngularTemplateService {
 
     public createLandingPage() {
         if (this.iterateData.length > 0) {
+            console.log('iteratedata lengtha are ------- ', this.iterateData.length);
             this.generationPath += `/${this.projectName}`;
             var navInfo = this.iterateData.filter(function (element) {
                 return element.tagName == 'nav';
