@@ -11,14 +11,42 @@ spec:
         app: {{ .Values.app.prefix }}-app
     spec:
       containers:
-        - name: node-container
-          imagePullPolicy: Always
-          image: tharanirajan/{{ .Values.app.prefix }}-app:1.0
+        - name: {{ .Values.deployment.apigateway.name }}-container
+          imagePullPolicy: {{ .Values.deployment.apigateway.imagePullPolicy }}
+          image: {{ .Values.deployment.apigateway.image }}
           ports:
             - name: http-port
               containerPort: 3000
+        - name: {{ .Values.deployment.authproxy.name }}-container
+          imagePullPolicy: {{ .Values.deployment.authproxy.imagePullPolicy }}
+          image: {{ .Values.deployment.authproxy.image }}
+          ports:
+            - name: http-port
+              containerPort: 3009
           env:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
-            - name: VAULT_API
-              value: "http://vault.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+            # - name: VAULT_API
+            #   value: "http://vault.{{ .Values.app.namespace }}.svc.cluster.local:8200"         
+        - name: {{ .Values.deployment.camunda.name }}-container
+          imagePullPolicy: {{ .Values.deployment.camunda.imagePullPolicy }}
+          image: {{ .Values.deployment.camunda.image }}
+          ports:
+            - name: http-port
+              containerPort: 3008
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            # - name: VAULT_API
+            #   value: "http://vault.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+        - name: {{ .Values.deployment.security.name }}-container
+          imagePullPolicy: {{ .Values.deployment.security.imagePullPolicy }}
+          image: {{ .Values.deployment.security.image }}
+          ports:
+            - name: http-port
+              containerPort: 3007
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            # - name: VAULT_API
+            #   value: "http://vault.{{ .Values.app.namespace }}.svc.cluster.local:8200"

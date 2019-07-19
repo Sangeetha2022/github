@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.app.prefix }}-system-entry
+  name: {{ .Values.app.prefix }}-desktop
   namespace: {{ .Values.app.namespace }}
 spec:
   type: NodePort
@@ -9,5 +9,6 @@ spec:
   - name: nginx-app
     port: 80
     targetPort: 80
+    NodePort: 31010
   selector:
-    app: {{ .Values.app.prefix }}-system-entry
+    app: {{ .Values.app.prefix }}-desktop

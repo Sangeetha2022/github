@@ -6,8 +6,8 @@ metadata:
     type: local
 spec:
   capacity:
-    storage: 8Gi
+    storage: {{ .Values.persistentVolume.mongo.storage }}
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /data/mongo/
+    path: /data/db/
