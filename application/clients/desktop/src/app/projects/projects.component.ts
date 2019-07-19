@@ -22,7 +22,8 @@ export class ProjectsComponent implements OnInit {
   displayGenratorModel: String = 'none';
   idToDelete: String = null;
   createProject: FormGroup;
-  languages: string[] = ['English', 'Tamil', 'Spanish'];
+  secondoryLanguages: string[] = ['English', 'Tamil', 'Spanish'];
+  primaryLanguages: string[] = ['English', 'Tamil', 'Spanish'];
   submitted = false;
   myAllProjects: any = [];
   createdProject: any = [];
@@ -47,6 +48,7 @@ export class ProjectsComponent implements OnInit {
   public codes: any;
   public scopes: any;
   public states: any;
+  public lang: any;
   gepTemplates: any = [];
   constructor(
     private formBuilder: FormBuilder,
@@ -59,8 +61,8 @@ export class ProjectsComponent implements OnInit {
     private route: ActivatedRoute,
     private screenDesignerService: ScreenDesignerService,
     private entityManagerService: ProjectComponentService,
-
-  ) { }
+  ) {    
+     }
 
   ngOnInit() {
     this.UserId = sessionStorage.getItem('Id');
@@ -68,13 +70,29 @@ export class ProjectsComponent implements OnInit {
     this.getAllGepTemplates();
     this.createProject = this.formBuilder.group({
       name: ['', Validators.required],
-      appContext: ['', Validators.required],
       description: '',
       primaryLanguage: ['', Validators.required],
       secondaryLanguage: [''],
       template: [''],
     });
 
+    this.lang = navigator.language;
+if (this.lang.includes("ta")) {
+console.log("tamil")
+this.lang = "Tamil"
+this.createProject.controls['primaryLanguage'].setValue(this.lang, {onlySelf: true});
+} else if (this.lang.includes("en")) {
+  this.lang = "English"
+  this.createProject.controls['primaryLanguage'].setValue(this.lang, {onlySelf: true});
+  console.log("eng")
+} else if (this.lang.includes("es")) {
+  this.lang = "Spanish"
+  this.createProject.controls['primaryLanguage'].setValue(this.lang, {onlySelf: true});
+  console.log("span")
+} else {
+  this.lang = "English"
+  this.createProject.controls['primaryLanguage'].setValue(this.lang, {onlySelf: true});
+}
     // socket
     // this.initSocket();
     // this.onEvent();
@@ -208,7 +226,6 @@ export class ProjectsComponent implements OnInit {
       stand_alone_app: null,
       application_type: null,
       lotus_notes_enabled: null,
-      extra_project_info: this.createProject.value.appContext,
       lotus_notes_cred_enabled: null,
       user_deployment_target: null,
       server_deployment_target: null,

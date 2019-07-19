@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './loginservice.service';
 import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
 import { Brodcastservice } from '../broadcast.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -14,20 +15,28 @@ import { Brodcastservice } from '../broadcast.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
+  public errorMessage: String;
+  public isErrorMessage: Boolean;
   // tslint:disable-next-line:max-line-length
-  constructor(private route: Router, private router: ActivatedRoute, private loginservice: LoginService, private authservice: AuthService, public broadcast: Brodcastservice) {
+  constructor(private route: Router, private router: ActivatedRoute, private loginservice: LoginService, private authservice: AuthService, public broadcast: Brodcastservice,private formBuilder: FormBuilder,) {
     this.show = false;
   }
 
   public challenge: any;
   public loginchallenge: any;
   public login: any;
+  public loginform: FormGroup;
   public user = {
     email: '',
     password: '',
     firstName: '',
     lastName: ''
+  };
+  submitted = false;
+  new_user=false;
+  public borderStyle: any = {
+    email: '#ced4da',
+    password: '#ced4da',
   };
   public token: any;
   public href: any;
@@ -53,8 +62,20 @@ export class LoginComponent implements OnInit {
     //   this.googleuser = user;
     //   this.loggedIn = (user != null);
     // });
-
+    this.loginform = this.formBuilder.group({
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      password: ['', Validators.required]
+    });
+    this.loginform.valueChanges.subscribe(() => {
+      this.submitted = false;
+      this.errorMessage = '';
+      this.isErrorMessage = false;
+      this.borderStyle.email = '#ced4da';
+    });
   }
+
+  get f() { return this.loginform.controls; }
+
 
   closeDeleteFModel() {
     this.displayModel = 'none';
@@ -66,13 +87,20 @@ export class LoginComponent implements OnInit {
   }
 
   newuser(value) {
+    const invalid  = this.loginform;
+    this.new_user=true;
+    console.log("invalid -------------------++++++++++",this.loginform.value.email, 'ddsdsd',this.loginform.value.password)
+if(this.loginform.value.email !=='' && this.loginform.value.password !=='' ){
+  this.new_user=false;
+  console.log("murugan")
+  if (value.checked) {
+    this.signup = true;
+    this.displayModel = 'block';
+    this.isChecked = true;
 
-    if (value.checked) {
-      this.signup = true;
-      this.displayModel = 'block';
-      this.isChecked = true;
+  }
+}
 
-    }
   }
 
 
@@ -107,7 +135,8 @@ export class LoginComponent implements OnInit {
         this.errormessage = this.Userdetails.body;
       } else {
         if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '' || this.Userdetails.body.Idtoken === undefined) {
-          this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });
+          this.Consent();
+          // this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });
         }
 
       }
@@ -119,8 +148,11 @@ export class LoginComponent implements OnInit {
 
 
   Login() {
-    // this.user.challenge = this.loginchallenge;
-    // this.user.csrftoken = this.token;
+    const { invalid, value } = this.loginform;
+    this.submitted = true;
+    if (invalid) {
+      return;
+    }
     this.permission = [];
     this.loginservice.Login(this.user).subscribe(logindetails => {
       if (logindetails.Access !== undefined) {
@@ -155,6 +187,7 @@ export class LoginComponent implements OnInit {
           if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '') {
             this.Consent();
           } else {
+            console.log('projecttt--#############################->>>',)
             this.route.navigate(['project']);
           }
 

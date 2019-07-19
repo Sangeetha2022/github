@@ -5,8 +5,8 @@ const adminServcie = new AdminFrontendServcie();
 
 export class AdminFrontendController {
  
-    public adminfrontend(req: Request, res: Response) {
-        adminServcie.adminfrontend(req, (response, err) => {
+    public adminFrontend(req: Request, res: Response) {
+        adminServcie.adminFrontend(req, (response, err) => {
             if (err) {
                 res.send(err);
             } else {

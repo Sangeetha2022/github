@@ -1,6 +1,7 @@
 import { Request } from 'express'
 import * as fs from 'fs';
 import * as path from 'path';
+import * as st from 'stringtemplate-js';
 import * as makeDir from 'make-dir';
 import { MenuBuilderService, EntityMicroService } from '../apiservices/index';
 import { ScreenWorker } from '../worker/ScreenWorker';
@@ -33,14 +34,34 @@ export class AuthService {
     private dmnworker = new DmnWorkerFile();
     private workernode = new ScreenWorker();
     private modelworker = new ModelWorker();
+    private projectName = '';
     private sourcePath: any;
+    private ports = {
+        security: 3007,
+        camunda: 3008,
+        authProxy: 3009
+    }
+    // templateName
+    private SERVER_TEMPLATENAME = 'server_file';
+
+    // fileName
+    private SERVER_FILENAME = 'server';
 
     public auth(req: Request, callback) {
-        console.log('path ---- >>>', req.query.authTemplate);
+        console.log('path ---- >>>', req.query.projectName);
         this.sourcePath = this.authGenFiles.projectpath = req.query.projectPath;
         this.authGenFiles.templatepath = req.query.authTemplate;
         this.authGenFiles.pathFile = req.query.authPath;
         this.authGenFiles.projectId = req.query.projectID;
+        if (req.query.projectName) {
+            req.query.projectName.split(" ").forEach((element, index) => {
+                if (index === 0) {
+                    this.projectName = element;
+                } else {
+                    this.projectName += element.charAt(0).toUpperCase() + element.slice(1);
+                }
+            })
+        }
         Common.createFolders(this.authGenFiles.projectpath);
         if (this.sourcePath) {
             if (!fs.existsSync(this.sourcePath)) {
@@ -243,7 +264,14 @@ export class AuthService {
             }
 
         })
-
+        const temp = {
+            port: this.ports.authProxy,
+            projectName: this.projectName,
+            databaseName: this.projectName,
+            isSeed: false
+        }
+        this.generateServerFile(`${this.authGenFiles.authProxyPath}/src`, this.authGenFiles.templatepath,
+            this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
     }
 
     //security
@@ -426,7 +454,14 @@ export class AuthService {
                 })
             }
         })
-
+        const temp = {
+            port: this.ports.security,
+            projectName: this.projectName,
+            databaseName: this.projectName,
+            isSeed: true
+        }
+        this.generateServerFile(`${this.authGenFiles.securityPath}/src`, this.authGenFiles.templatepath,
+            this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
     }
 
     //camunda
@@ -572,7 +607,27 @@ export class AuthService {
             return callback(Routes)
         }));
 
+        const temp = {
+            port: this.ports.camunda,
+            projectName: this.projectName,
+            databaseName: this.projectName,
+            isSeed: false
+        }
+        this.generateServerFile(`${this.authGenFiles.camundaFolder}/src`, this.authGenFiles.templatepath,
+            this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
+    }
 
+    async generateServerFile(applicationPath, templatePath, templateName, fileName, information) {
+        console.log('generateServerfile are ----- ',applicationPath,' --templatePath---  ',templatePath,' --fileName-- ',fileName,' --information-- ', information)
+        templatePath = path.resolve(__dirname, templatePath);
+        Common.createFolders(applicationPath);
+        let renderTemplate = st.loadGroup(require(templatePath + `/${templateName}_stg`));
+        let fileData = renderTemplate.render(templateName, [information]);
+        await fs.writeFile(applicationPath + `/${fileName}.ts`, fileData, function (err) {
+            if (err) {
+                console.log('error in generating the server file are ---- ', err)
+            };
+        })
     }
 
     getMenubuilder() {

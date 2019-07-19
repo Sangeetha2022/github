@@ -2,7 +2,7 @@
     <br />
     <h1 style="text-align: center;">Project Components</h1>
     <div class='code'>
-        <button class="btn btn-primary float-right" color="primary"
+        <button class="btn btn-primary float-right btn_color" color="primary"
             (click)="generateCode()">code
             Generate</button>
     </div>
@@ -18,7 +18,7 @@
                 </mat-expansion-panel-header>
 
                 <div style="padding-right: 20px;">
-                    <button class="btn btn-primary float-right" color="primary"
+                    <button class="btn btn-primary float-right btn_color" color="primary"
                         (click)="openFeatureDialog()">Add
                         Features</button>
                 </div>
@@ -70,7 +70,7 @@
                     <mat-panel-title> Entities </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div style="padding-right: 20px;">
-                    <button class="createEntityButton" mat-raised-button
+                    <button class="createEntityButton btn_color" mat-raised-button
                         color="primary" (click)="saveEntityModel()">Add
                         Entity</button>
                 </div>
@@ -148,16 +148,16 @@
                         <div class='col-md-7'></div>
                         <div class='col-md-5'>
                             <div class="btn-group">
-                                <button class="goToButton btn-space"
+                                <button class="goToButton btn-space btn_color"
                                     mat-raised-button
                                     (click)="editTemplate(screenTempId)">Modify
                                     Template</button>
-                                <button class="goToButton btn-space"
+                                <button class="goToButton btn-space btn_color"
                                     mat-raised-button
                                     [routerLink]="['/templates']"
                                     [queryParams]="{projectId: project_id}">Change
                                     Template</button>
-                                <button class="goToButton btn-space"
+                                <button class="goToButton btn-space btn_color"
                                     mat-raised-button (click)="GoToDesigner()">Add
                                     Screen</button>
                             </div>
@@ -211,7 +211,7 @@
     <button type="button" class="close">&times;</button>
     </div> -->
             <div class="delete modal-body">
-                <p>Please click confirm to delete this project ? </p>
+                <p>Please confirm to delete this entity ? </p>
             </div>
             <div class="modal-footer" style="padding: 5px">
                 <button type="button" class="btn btn-default"

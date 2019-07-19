@@ -12,21 +12,19 @@ export class DockerService {
 
 
       
-        let destination = projectDetails.destinationUrl + '/jenkins';
+        let destination = projectDetails.destinationUrl + '/buildscript';
         let templatePath = projectDetails.templateUrl + '/docker';
-
-        let systemEntryCodePath = projectDetails.projectUrl + "/app/client/desktop";
 
         if (!fs.existsSync(destination)) {
             fs.mkdirSync(destination);
         }
 
-        //generate script system-entry-jenkins
-        let generateDockerScript = st.loadGroup(require(templatePath + '/jenkins_system_entry_script_stg'));
-        let dockerScript = generateDockerScript.render("jenkins_system_entry_script", [projectDetails.project_lowercase, systemEntryCodePath]);
-        fs.writeFile(destination + '/system-entry-jenkins.xml', dockerScript, function (err) {
+        //generate script to build docker images
+        let generateDockerScript = st.loadGroup(require(templatePath + '/build_script_stg'));
+        let dockerScript = generateDockerScript.render("build_script", [projectDetails.project_lowercase]);
+        fs.writeFile(destination + '/build_script.sh', dockerScript, function (err) {
             if (err) throw err;
-            console.log('system-entry-jenkins script generated!!')
+            console.log(' script generated!!')
            
         })
 

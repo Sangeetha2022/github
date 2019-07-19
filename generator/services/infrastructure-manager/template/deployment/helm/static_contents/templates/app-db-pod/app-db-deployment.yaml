@@ -12,14 +12,14 @@ spec:
     spec:
       containers:
         - name: mongo-container
-          imagePullPolicy: Always
-          image: mongo:3.2
+          imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
+          image: {{ .Values.deployment.mongo.image }}
           ports:
             - name: http-port
               containerPort: 27017
           volumeMounts:
             - name: mongo
-              mountPath: /data/db
+              mountPath: /data/db/
       volumes:
         - name: mongo
           persistentVolumeClaim:

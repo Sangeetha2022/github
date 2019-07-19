@@ -13,12 +13,14 @@ export class FrontendWorker {
     private SIGNUP_FOLDERNAME = 'signup';
     private AUTH_FOLDERNAME = 'auth';
 
+
     // FILE NAME
     private SERVICE_NAME = 'service';
     private MODULE_NAME = 'module';
     private APP_MODULE_FILENAME = `app.module.ts`;
     private APP_ROUTING_MODULE_FILENAME = `app-routing.module.ts`;
     private PACKAGE_FILENAME = 'package.json';
+    private AUTH_GUARD_FILENAME = `${this.AUTH_FOLDERNAME.charAt(0).toUpperCase() + this.AUTH_FOLDERNAME.slice(1)}Guard`;
 
     // TEMPLATE NAME
     private LOGIN_SERVICE_TEMPLATENAME = 'login_service';
@@ -100,6 +102,9 @@ export class FrontendWorker {
 
     createAuthComponent(callback) {
         const AuthApplicationPath = `${this.projectGenerationPath}/src/app/${this.AUTH_FOLDERNAME}`;
+        if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`) < 0) {
+            this.routingModuleInfo.importDependency.push(`import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`);
+        }
         this.generateStaticComponent(AuthApplicationPath, this.AUTH_FOLDERNAME);
         callback();
     }
@@ -293,9 +298,9 @@ export class FrontendWorker {
                         if (appElement.includes(`redirectTo: ''`)) {
                             this.routingModuleInfo.path.unshift(appElement.replace('},', '}'));
                         } else if (appElement.includes(`path: ''`)) {
-                            this.routingModuleInfo.path.push(appElement.replace(`path: ''`, `path: 'home'`).replace('},', '}'));
+                            this.routingModuleInfo.path.push(appElement.replace(`path: ''`, `path: 'home'`).replace('},', `, canActivate:[${this.AUTH_GUARD_FILENAME}] }`));
                         } else {
-                            this.routingModuleInfo.path.push(appElement.replace('},', '}'));
+                            this.routingModuleInfo.path.push(appElement.replace('},', `, canActivate: [${this.AUTH_GUARD_FILENAME}] }`));
                         }
                     }
                 }

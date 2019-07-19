@@ -9,23 +9,33 @@ let dependencySupportWorker = new DependencySupportWorker();
 let componentWorker = new ComponentWorker();
 
 export class DependencyWorker {
+    // template name
     private INDEX_HTML_TEMPLATE_NAME: String = 'index_html';
     private STYLE_TEMPLATE_NAME: String = 'styles_scss';
     private APP_ROUTING_TEMPLATE_NAME: String = 'app_routing';
     private SHARED_SERVICE_TEMPLATE_NAME: String = 'shared_service';
     private NGINX_DEFAULT_TEMPLATE_NAME: String = 'nginx_default';
     private DOCKERFILE_TEMPLATE_NAME: String = 'docker_file';
+
+    // filename
     private STYLE_FILENAME: String = 'styles.scss';
     private APP_ROUTING_FILENAME: String = 'app-routing.module.ts';
     private SHARED_FILENAME: String = 'shared.service.ts';
     private NGINX_FILENAME: String = 'default.conf';
     private DOCKERFILE_FILENAME: String = 'Dockerfile';
+    private DEFAULT_CONF_FILENAME: String = 'default.conf';
+
+    // foldername
     private SHARED_FOLDERNAME: String = 'shared';
     private SRC_FOLDERNAME: String = 'src';
     private APP_FOLDERNAME: String = 'app';
     private NGINX_FOLDERNAME: String = 'nginx';
+    private STATIC_TEMPLATE_FOLDERNAME: String = 'static';
+
+    //asset list
     private isAssetImage: any[] = ['assets/img/home.jpg'];
     // componentWorker.TEMPLATE_FOLDERNAME;
+
 
     generateIndexHtml(generationPath, templatePath, baseTag, scriptTag, callback) {
         const temp = {
@@ -83,12 +93,11 @@ export class DependencyWorker {
     generateNginxDockerFile(generationPath, templatePath, projectName, callback) {
         const generateNginxPath = `${generationPath}/${this.NGINX_FOLDERNAME}`;
         Common.createFolders(generateNginxPath);
-        dependencySupportWorker.generateFiles(templatePath, generateNginxPath, this.NGINX_FILENAME,
-            this.NGINX_DEFAULT_TEMPLATE_NAME, null, (response) => {
-                dependencySupportWorker.generateFiles(templatePath, generationPath, this.DOCKERFILE_FILENAME,
-                    this.DOCKERFILE_TEMPLATE_NAME, projectName, (response) => {
-                        callback();
-                    })
+        dependencySupportWorker.generateStaticFile(generateNginxPath, `${templatePath}/${this.STATIC_TEMPLATE_FOLDERNAME}`,
+            this.DEFAULT_CONF_FILENAME);
+        dependencySupportWorker.generateFiles(templatePath, generationPath, this.DOCKERFILE_FILENAME,
+            this.DOCKERFILE_TEMPLATE_NAME, projectName, (response) => {
+                callback();
             })
     }
 

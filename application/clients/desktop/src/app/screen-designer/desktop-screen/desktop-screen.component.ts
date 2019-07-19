@@ -452,8 +452,73 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         // console.log(' editor ram 11 ---- ', this.editor);
         // console.log(' editor ram 22 ---- ', this.editor.DeviceManager);
         // console.log(' editor ram 22 ---- ', JSON.stringify(this.editor.DeviceManager.getAll()));
+        this.setImportOption();
     }
+    setImportOption() {
+        const pfx = this.editor.getConfig().stylePrefix;
+        const modal = this.editor.Modal;
+        const cmdm = this.editor.Commands;
+        const codeViewer = this.editor.CodeManager.getViewer('CodeMirror').clone();
+        const pnm = this.editor.Panels;
+        const container = document.createElement('div');
+        const btnEdit = document.createElement('button');
+        const _this = this;
 
+        codeViewer.set({
+            codeName: 'htmlmixed',
+            readOnly: 0,
+            theme: 'hopscotch',
+            autoBeautify: true,
+            autoCloseTags: true,
+            autoCloseBrackets: true,
+            lineWrapping: true,
+            styleActiveLine: true,
+            smartIndent: true,
+            indentWithTabs: true
+        });
+
+        btnEdit.innerHTML = 'Import';
+        btnEdit.className = pfx + 'btn-prim ' + pfx + 'btn-import';
+        btnEdit.onclick = function () {
+            const code = codeViewer.editor.getValue();
+            _this.editor.DomComponents.getWrapper().set('content', '');
+            _this.editor.setComponents(code.trim());
+            modal.close();
+        };
+
+        cmdm.add('html-import', {
+            run: function (editor, sender) {
+                sender.set('active', 0);
+                let viewer = codeViewer.editor;
+                modal.setTitle('Edit code');
+                if (!viewer) {
+                    const txtarea = document.createElement('textarea');
+                    container.appendChild(txtarea);
+                    container.appendChild(btnEdit);
+                    codeViewer.init(txtarea);
+                    viewer = codeViewer.editor;
+                }
+                modal.setContent('');
+                modal.setContent(container);
+                codeViewer.setContent('');
+                modal.open();
+                viewer.refresh();
+            }
+        });
+
+        pnm.addButton('options',
+            [
+                {
+                    id: 'import',
+                    className: 'fa fa-download',
+                    command: 'html-import',
+                    attributes: {
+                        title: 'Import Your Template'
+                    }
+                }
+            ]
+        );
+    }
     ngOnDestroy() {
         console.log('Destroy services called');
         this.dataService.setAgGridEntity('');

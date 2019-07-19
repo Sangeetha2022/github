@@ -23,6 +23,18 @@ export class DependencySupportWorker {
 
     }
 
+    public async generateStaticFile(applicationPath, seedFilePath, fileName) {
+        seedFilePath = path.resolve(__dirname, seedFilePath);
+        await fs.readFile(`${seedFilePath}/${fileName}`, 'utf8', (err, result) => {
+            if (result) {
+                fs.writeFile(applicationPath + `/${fileName}`, result, (err) => {
+                    if (err) throw err;
+                    console.log(`${fileName} file generated`);
+                })
+            }
+        })
+    }
+
     generateFiles(templatePath, filePath, fileName, templateName, information, callback) {
         // const filePath = `${generationPath}/src`;
         console.log(`generate file ----${fileName}---  `, fileName, ' --information--  ', information);

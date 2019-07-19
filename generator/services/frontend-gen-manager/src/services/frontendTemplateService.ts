@@ -8,6 +8,7 @@ import { MenuBuilderManagerService } from '../apiservices/MenuBuilderManagerServ
 import { AngularTemplateManagerService } from '../apiservices/AngularTemplateManagerService';
 import { Constant } from '../config/Constant';
 import { AuthGenManagerService } from '../apiservices/AuthGenManagerService';
+import { AdminGenManagerService } from '../apiservices/AdminGenManagerService';
 
 export class FrontendTemplateService {
     sharedService = new SharedService();
@@ -15,6 +16,7 @@ export class FrontendTemplateService {
     menuBuilderManagerService = new MenuBuilderManagerService();
     angularTemplateManagerService = new AngularTemplateManagerService();
     authGenManagerService = new AuthGenManagerService();
+    adminGenManagerService = new AdminGenManagerService();
     apiAdapter = new ApiAdaptar()
     backend: String;
 
@@ -52,12 +54,15 @@ export class FrontendTemplateService {
             console.log('before calling angular template');
             const templateResponse = await this.generateAngularTemplate(templateObj);
             console.log('after calling angular template ---  ', templateResponse);
+            console.log('after calling angular template ---  ', templateResponse);
             const tempFrontend = {
                 templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
                 seedTemplatePath: details.seedTemplatePath,
                 authTemplatePath: details.authTemplatePath
             }
             await this.generateAuthFrontendComponent(tempFrontend);
+            console.log('after calling auth gronten component are  ---  ');
+            await this.generateAdminFrontendComponent(tempFrontend);
             callback('angular template are generated');
         } catch (err) {
             console.log('err in generating the angualr template')
@@ -85,6 +90,14 @@ export class FrontendTemplateService {
     generateAuthFrontendComponent(details) {
         return new Promise(resolve => {
             this.authGenManagerService.generateAuthFrontendComponent(details, (data) => {
+                resolve(data);
+            });
+        })
+    }
+
+    generateAdminFrontendComponent(details) {
+        return new Promise(resolve => {
+            this.adminGenManagerService.generateAdminComponent(details, (data) => {
                 resolve(data);
             });
         })

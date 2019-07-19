@@ -6,8 +6,25 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - name: node-app
+  - name: {{ .Values.service.apigateway.name }}
     port: 3000
     targetPort: 3000
+    nodePort: 30000
+  - name: {{ .Values.service.authproxy.name }}
+    port: 3009
+    targetPort: 3009
+    nodePort: 30009
+  - name: {{ .Values.service.camunda.name }}
+    port: 3008
+    targetPort: 3008
+    nodePort: 30008
+  - name: {{ .Values.service.security.name }}
+    port: 3007
+    targetPort: 3007
+    nodePort: 30007
+  - name: {{ .Values.service.admin.name }}
+    port: 3010
+    targetPort: 3010
+    nodePort: 30010
   selector:
     app: {{ .Values.app.prefix }}-app

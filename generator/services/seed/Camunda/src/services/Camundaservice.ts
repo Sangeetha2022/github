@@ -3,6 +3,10 @@ import { Request, Response, NextFunction } from "express";
 import * as asyncLoop from 'node-async-loop';
 import * as mongoose from 'mongoose';
 import { Resourceschema } from '../model/resource';
+
+import { camundaService } from './../config/camundaService';
+
+
 const request = require('request');
 const resourcemodel = mongoose.model('resource', Resourceschema);
 
@@ -48,7 +52,9 @@ export class CamundaService {
             }
         }
         // var geturl = 'http://3.92.72.204:32676/engine-rest/engine/default/decision-definition/count';
-        var posturl = 'http://3.84.173.148:30060/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate'
+        // var posturl = 'http://3.84.173.148:30060/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate'
+
+        const posturl = `${camundaService.camundaUrl}`;
 
         return new Promise(resolve => {
             request.post({ url: posturl, json: body }, function (error, response, body) {

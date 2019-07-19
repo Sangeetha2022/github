@@ -9,8 +9,8 @@ import { TelemetryService } from '../services/telemetry.service';
 import { NamespaceService } from '../services/app.namespace';
 import { TerraformService } from '../services/terraform.service';
 import { DevOpsService } from '../services/dev-ops.service';
-import {DockerService} from '../services/docker.service';
-import {HelmService} from '../services/helm.service';
+import { DockerService } from '../services/docker.service';
+import { HelmService } from '../services/helm.service';
 //import InfrastructureDto from '../dto/infrastructure.dto';
 
 

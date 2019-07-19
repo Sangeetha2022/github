@@ -4,11 +4,11 @@ import { roletypes } from './assets/role';
 
 const roletypemodel = mongoose.model('Role', Roleschema);
 
-export class RoleSeedData {
+export class SeedService {
 
     constructor() { }
 
-    public Createrole(): void {
+    public create(): void {
         roletypes.map(roles => {
             roletypemodel.findOneAndUpdate({ role: roles['role'] },
                 roles, { new: true }, (err, data) => {
