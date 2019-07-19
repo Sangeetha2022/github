@@ -22,5 +22,9 @@ spec:
     port: 3007
     targetPort: 3007
     nodePort: 30007
+  - name: {{ .Values.service.admin.name }}
+    port: 3010
+    targetPort: 3010
+    nodePort: 30010
   selector:
     app: {{ .Values.app.prefix }}-app

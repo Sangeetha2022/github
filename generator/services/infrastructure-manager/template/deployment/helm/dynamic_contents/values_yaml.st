@@ -35,6 +35,12 @@ service:
     port: 3007
     targetPort: 3007
     nodePort: 30007
+  admin:
+    name: admin
+    type: NodePort
+    port: 3010
+    targetPort: 3010
+    nodePort: 30010
   mongo:
     name: mongo
     type: NodePort
@@ -59,13 +65,16 @@ deployment:
      image: mongo:3.2   
   camunda:
      name: camunda
-     image: $project_name$-apigateway:1.0
+     image: $project_name$-camunda:1.0
   authproxy:
      name: authproxy
      image: $project_name$-authproxy:1.0
   security:
      name: security
      image: $project_name$-security:1.0
+  admin:
+     name: admin
+     image: $project_name$-admin:1.0
   desktop:
      name: desktop
      image: $project_name$-desktop:1.0

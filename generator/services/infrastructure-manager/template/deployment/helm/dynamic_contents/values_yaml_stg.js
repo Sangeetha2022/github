@@ -1,6 +1,6 @@
 /*
  * Template group values_yaml
- * Compiled on Fri Jul 19 2019 00:17:12 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jul 19 2019 17:22:51 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -153,6 +153,30 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
+    w.write("admin:");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("name: admin");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("type: NodePort");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("port: 3010");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("targetPort: 3010");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("nodePort: 30010");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
     w.write("mongo:");
     w.popIndentation();
     w.write("\n");
@@ -249,7 +273,7 @@ r = function(w, rc) {
     w.write("image: ");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
-    w.write("-apigateway:1.0");
+    w.write("-camunda:1.0");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("authproxy:");
@@ -278,6 +302,20 @@ r = function(w, rc) {
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
     w.write("-security:1.0");
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("admin:");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("     ");
+    w.write("name: admin");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("     ");
+    w.write("image: ");
+    w.popIndentation();
+    st.write(w, s, g, rc, s.project_name);
+    w.write("-admin:1.0");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("desktop:");

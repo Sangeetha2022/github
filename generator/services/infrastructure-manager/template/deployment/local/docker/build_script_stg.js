@@ -1,6 +1,6 @@
 /*
  * Template group build_script
- * Compiled on Fri Jul 19 2019 11:15:33 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jul 19 2019 17:37:26 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -52,6 +52,13 @@ r = function(w, rc) {
     w.write("SECURITYIMAGENAME='");
     st.write(w, s, g, rc, s.project_name);
     w.write("-security:1.0'");
+    w.write("\n");
+    w.write("\n");
+    w.write("ADMINCODE='../adminmanager/'");
+    w.write("\n");
+    w.write("ADMINIMAGENAME='");
+    st.write(w, s, g, rc, s.project_name);
+    w.write("-admin:1.0'");
     w.write("\n");
     w.write("\n");
     w.write("DESKTOPCODE='../../client/desktop/");
@@ -214,6 +221,39 @@ r = function(w, rc) {
     w.write("}");
     w.write("\n");
     w.write("\n");
+    w.write("build_admin_image () {");
+    w.write("\n");
+    w.write("\n");
+    w.write("cd $ADMINCODE");
+    w.write("\n");
+    w.write("docker build -t $ADMINIMAGENAME .");
+    w.write("\n");
+    w.write("if [ $? -eq 0 ]; then");
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("echo \"image $ADMINIMAGENAME build successfully loading into kind it take a while...\"");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("kind load docker-image $ADMINIMAGENAME");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("echo \"$ADMINIMAGENAME is successfully loaded into kind\"");
+    w.popIndentation();
+    w.write("\n");
+    w.write("else");
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("echo \"image $ADMINIMAGENAME build failed\"");
+    w.popIndentation();
+    w.write("\n");
+    w.write("fi");
+    w.write("\n");
+    w.write("\n");
+    w.write("}");
+    w.write("\n");
+    w.write("\n");
     w.write("build_appbuilder_image () {");
     w.write("\n");
     w.write("\n");
@@ -262,6 +302,8 @@ r = function(w, rc) {
     w.write("build_authproxy_image");
     w.write("\n");
     w.write("build_security_image");
+    w.write("\n");
+    w.write("build_admin_image");
     w.write("\n");
     w.write("build_appbuilder_image");
     w.write("\n");

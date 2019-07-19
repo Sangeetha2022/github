@@ -13,6 +13,9 @@ AUTHPROXYIMAGENAME='$project_name$-authproxy:1.0'
 SECURITYCODE='../securitymanager/'
 SECURITYIMAGENAME='$project_name$-security:1.0'
 
+ADMINCODE='../adminmanager/'
+ADMINIMAGENAME='$project_name$-admin:1.0'
+
 DESKTOPCODE='../../client/desktop/$project_name$/'
 DESKTOPIMAGENAME='$project_name$-desktop:1.0'
 
@@ -74,6 +77,20 @@ fi
 
 }
 
+build_admin_image () {
+
+cd \$ADMINCODE
+docker build -t \$ADMINIMAGENAME .
+if [ \$? -eq 0 ]; then
+    echo "image \$ADMINIMAGENAME build successfully loading into kind it take a while..."
+    kind load docker-image \$ADMINIMAGENAME
+    echo "\$ADMINIMAGENAME is successfully loaded into kind"
+else
+    echo "image \$ADMINIMAGENAME build failed"
+fi
+
+}
+
 build_appbuilder_image () {
 
 cd \$DESKTOPCODE
@@ -94,6 +111,7 @@ build_apigateway_image
 build_camunda_image
 build_authproxy_image
 build_security_image
+build_admin_image
 build_appbuilder_image
 
 >>
