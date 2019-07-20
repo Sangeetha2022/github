@@ -4,11 +4,11 @@ import * as st from 'stringtemplate-js';
 
 export class CamundaSupportWorker {
 
-    public camundaConfig(camundaFolder ,templatePath , callback){
+    public camundaConfig(camundaFolder, templatePath,projectName, callback) {
         const configFolder = camundaFolder + `/src/config`;
         let pathfile = path.resolve(__dirname, templatePath);
         const generateModel = st.loadGroup(require(pathfile + '/camunda_stg'));
-        let modelData = generateModel.render("camunda");
+        let modelData = generateModel.render("camunda" , [projectName]);
         if (!fs.existsSync(configFolder)) {
             fs.mkdirSync(configFolder);
         }
@@ -18,8 +18,5 @@ export class CamundaSupportWorker {
             callback('file generated');
         })
 
-
-
     }
-
 }

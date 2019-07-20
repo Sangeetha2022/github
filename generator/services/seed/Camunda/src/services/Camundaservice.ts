@@ -51,8 +51,6 @@ export class CamundaService {
                 "resourcetype":{"value":"Screen", "type":"String"}
             }
         }
-        // var geturl = 'http://3.92.72.204:32676/engine-rest/engine/default/decision-definition/count';
-        // var posturl = 'http://3.84.173.148:30060/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate'
 
         const posturl = `${camundaService.camundaUrl}`;
 

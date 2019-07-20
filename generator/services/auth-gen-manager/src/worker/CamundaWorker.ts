@@ -7,11 +7,9 @@ export class CamundaWorker {
     public camundaSupportWorker = new CamundaSupportWorker();
 
 
-    public  createConfig(camundaFolder, authorizeTemplatePath,callback){
-        console.log('camundasupport -->>',authorizeTemplatePath)
+    public  createConfig(camundaFolder, authorizeTemplatePath,projectName ,callback){
         const templatePath = `${authorizeTemplatePath}`;
-        console.log('camundasupport -->>',templatePath)
-        this.camundaSupportWorker.camundaConfig(camundaFolder,templatePath ,(response)=>{
+        this.camundaSupportWorker.camundaConfig(camundaFolder,templatePath,projectName,(response)=>{
             console.log('i am camundaWorker --->>>', response)
             callback(response)
         })
