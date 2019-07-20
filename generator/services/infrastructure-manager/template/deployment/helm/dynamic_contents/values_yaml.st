@@ -53,6 +53,12 @@ service:
     port: 80
     targetPort: 80
     nodePort: 32000
+  camundapod:
+    name: camundapod
+    type: NodePort
+    port: 8080
+    targetPort: 8080
+    nodePort: 30060
 
 deployment:
   defaultImagePullPolicy: IfNotPresent
@@ -78,6 +84,9 @@ deployment:
   desktop:
      name: desktop
      image: $project_name$-desktop:1.0
+  camundapod:
+     name: camundapod
+     image: camunda/camunda-bpm-platform
 
 config:
   vault:

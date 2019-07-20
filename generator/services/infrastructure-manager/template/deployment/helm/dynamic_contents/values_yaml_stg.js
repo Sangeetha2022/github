@@ -1,6 +1,6 @@
 /*
  * Template group values_yaml
- * Compiled on Fri Jul 19 2019 17:22:51 GMT+0530 (IST)
+ * Compiled on Sun Jul 21 2019 02:24:21 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -224,6 +224,30 @@ r = function(w, rc) {
     w.write("nodePort: 32000");
     w.popIndentation();
     w.write("\n");
+    w.pushIndentation("  ");
+    w.write("camundapod:");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("name: camundapod");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("type: NodePort");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("port: 8080");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("targetPort: 8080");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("nodePort: 30060");
+    w.popIndentation();
+    w.write("\n");
     w.write("\n");
     w.write("deployment:");
     w.write("\n");
@@ -330,6 +354,18 @@ r = function(w, rc) {
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
     w.write("-desktop:1.0");
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("camundapod:");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("     ");
+    w.write("name: camundapod");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("     ");
+    w.write("image: camunda/camunda-bpm-platform");
+    w.popIndentation();
     w.write("\n");
     w.write("\n");
     w.write("config:");

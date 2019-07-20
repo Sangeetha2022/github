@@ -1,6 +1,6 @@
 /*
  * Template group build_script
- * Compiled on Fri Jul 19 2019 17:37:26 GMT+0530 (IST)
+ * Compiled on Sun Jul 21 2019 02:50:58 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -70,6 +70,9 @@ r = function(w, rc) {
     w.write("-desktop:1.0'");
     w.write("\n");
     w.write("\n");
+    w.write("HELMPATH = '../../../../devops'");
+    w.write("\n");
+    w.write("\n");
     w.write("echo \"Started to build docker images for pod....\"");
     w.write("\n");
     w.write("\n");
@@ -83,10 +86,8 @@ r = function(w, rc) {
     w.write("if [ $? -eq 0 ]; then");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"image ");
+    w.write("echo \"Image $APIGATEWAYIMAGENAME build successfully, Now loading into KIND its take a while...\"");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-apigateway:1.0 build successfully loading into kind it take a while...\"");
     w.write("\n");
     w.pushIndentation("    ");
     w.write("kind load docker-image $APIGATEWAYIMAGENAME");
@@ -99,10 +100,8 @@ r = function(w, rc) {
     w.write("else");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"image ");
+    w.write("echo \"Image $APIGATEWAYIMAGENAME build failed\"");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-apigateway:1.0 build failed\"");
     w.write("\n");
     w.write("fi");
     w.write("\n");
@@ -120,10 +119,8 @@ r = function(w, rc) {
     w.write("if [ $? -eq 0 ]; then");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"image ");
+    w.write("echo \"Image $CAMUNDAIMAGENAME build successfully, Now loading into KIND its take a while...\"");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-camunda:1.0 build successfully loading into kind it take a while...\"");
     w.write("\n");
     w.pushIndentation("    ");
     w.write("kind load docker-image $CAMUNDAIMAGENAME");
@@ -136,10 +133,8 @@ r = function(w, rc) {
     w.write("else");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"image ");
+    w.write("echo \"Image $CAMUNDAIMAGENAME build failed\"");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-camunda:1.0 build failed\"");
     w.write("\n");
     w.write("fi");
     w.write("\n");
@@ -157,10 +152,8 @@ r = function(w, rc) {
     w.write("if [ $? -eq 0 ]; then");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"image ");
+    w.write("echo \"Image $AUTHPROXYIMAGENAME build successfully, Now loading into KIND its take a while...\"");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-authproxy:1.0 build successfully loading into kind it take a while...\"");
     w.write("\n");
     w.pushIndentation("    ");
     w.write("kind load docker-image $AUTHPROXYIMAGENAME");
@@ -173,10 +166,8 @@ r = function(w, rc) {
     w.write("else");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"image ");
+    w.write("echo \"Image $AUTHPROXYIMAGENAME build failed\"");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-authproxy:1.0 build failed\"");
     w.write("\n");
     w.write("fi");
     w.write("\n");
@@ -194,10 +185,8 @@ r = function(w, rc) {
     w.write("if [ $? -eq 0 ]; then");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"image ");
+    w.write("echo \"Image $SECURITYIMAGENAME build successfully, Now loading into KIND its take a while...\"");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-security:1.0 build successfully loading into kind it take a while...\"");
     w.write("\n");
     w.pushIndentation("    ");
     w.write("kind load docker-image $SECURITYIMAGENAME");
@@ -210,10 +199,8 @@ r = function(w, rc) {
     w.write("else");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"image ");
+    w.write("echo \"Image $SECURITYIMAGENAME build failed\"");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-security:1.0 build failed\"");
     w.write("\n");
     w.write("fi");
     w.write("\n");
@@ -231,7 +218,7 @@ r = function(w, rc) {
     w.write("if [ $? -eq 0 ]; then");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"image $ADMINIMAGENAME build successfully loading into kind it take a while...\"");
+    w.write("echo \"Image $ADMINIMAGENAME build successfully, now loading into KIND its take a while...\"");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -245,7 +232,7 @@ r = function(w, rc) {
     w.write("else");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"image $ADMINIMAGENAME build failed\"");
+    w.write("echo \"Image $ADMINIMAGENAME build failed\"");
     w.popIndentation();
     w.write("\n");
     w.write("fi");
@@ -261,6 +248,8 @@ r = function(w, rc) {
     w.write("\n");
     w.write("npm install");
     w.write("\n");
+    w.write("npm rebuild node-sass");
+    w.write("\n");
     w.write("ng build");
     w.write("\n");
     w.write("docker build -t $DESKTOPIMAGENAME .");
@@ -268,10 +257,8 @@ r = function(w, rc) {
     w.write("if [ $? -eq 0 ]; then");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"image ");
+    w.write("echo \"Image $DESKTOPIMAGENAME build successfully,Now loading into KIND its take a while...\"");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-desktop:1.0 build successfully loading into kind it take a while...\"");
     w.write("\n");
     w.pushIndentation("    ");
     w.write("kind load docker-image $DESKTOPIMAGENAME");
@@ -284,10 +271,31 @@ r = function(w, rc) {
     w.write("else");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"image ");
+    w.write("echo \"Image $DESKTOPIMAGENAME build failed\"");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-desktop:1.0 build failed\"");
+    w.write("\n");
+    w.write("fi");
+    w.write("\n");
+    w.write("\n");
+    w.write("}");
+    w.write("\n");
+    w.write("\n");
+    w.write("helm_install () {");
+    w.write("\n");
+    w.write("\n");
+    w.write("helm install --name helm ./helm");
+    w.write("\n");
+    w.write("if [ $? -eq 0 ]; then");
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("echo \"App Deployment is Done,do port-forward to access your app in browser\"");
+    w.popIndentation();
+    w.write("\n");
+    w.write("else");
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("echo \"App deployment is Failed, there is a problem with helm charts\"");
+    w.popIndentation();
     w.write("\n");
     w.write("fi");
     w.write("\n");
@@ -306,6 +314,8 @@ r = function(w, rc) {
     w.write("build_admin_image");
     w.write("\n");
     w.write("build_appbuilder_image");
+    w.write("\n");
+    w.write("helm_install");
     w.write("\n");
 };
 r.args = [
