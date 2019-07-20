@@ -606,14 +606,14 @@ export class AuthService {
                 })
             }
         })
-        this.camundaworker.createConfig(this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (configdata => {
 
-        }));
         this.workernode.createfile(screens, this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (data => {
             // console.log('------workerdata----', data);
             return callback(Routes)
         }));
 
+        const camundaServiceFile = await this.camundaConfig();
+        
         const temp = {
             port: this.ports.camunda,
             projectName: this.projectName,
@@ -661,6 +661,15 @@ export class AuthService {
             this.authProxyConfig.proxyConfig(this.authGenFiles.templatepath, this.authGenFiles.proxyFolder, this.projectName, (data) => {
                 resolve(data);
             })
+        })
+    }
+
+    camundaConfig() {
+        return new Promise(resolve => {
+            this.camundaworker.createConfig(this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, this.projectName, (configdata => {
+                resolve(configdata)
+            }));
+
         })
 
     }
