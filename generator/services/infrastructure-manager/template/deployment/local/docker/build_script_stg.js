@@ -1,6 +1,6 @@
 /*
  * Template group build_script
- * Compiled on Sun Jul 21 2019 02:50:58 GMT+0530 (IST)
+ * Compiled on Sun Jul 21 2019 03:49:32 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -70,7 +70,7 @@ r = function(w, rc) {
     w.write("-desktop:1.0'");
     w.write("\n");
     w.write("\n");
-    w.write("HELMPATH = '../../../../devops'");
+    w.write("HELMPATH = '../../../../devops/'");
     w.write("\n");
     w.write("\n");
     w.write("echo \"Started to build docker images for pod....\"");
@@ -282,6 +282,10 @@ r = function(w, rc) {
     w.write("\n");
     w.write("helm_install () {");
     w.write("\n");
+    w.write("\n");
+    w.write("cd $HELMPATH");
+    w.write("\n");
+    w.write("helm install --dry-run --debug ./helm");
     w.write("\n");
     w.write("helm install --name helm ./helm");
     w.write("\n");

@@ -19,7 +19,7 @@ ADMINIMAGENAME='$project_name$-admin:1.0'
 DESKTOPCODE='../../client/desktop/$project_name$/'
 DESKTOPIMAGENAME='$project_name$-desktop:1.0'
 
-HELMPATH = '../../../../devops'
+HELMPATH = '../../../../devops/'
 
 echo "Started to build docker images for pod...."
 
@@ -112,6 +112,8 @@ fi
 
 helm_install () {
 
+cd \$HELMPATH
+helm install --dry-run --debug ./helm
 helm install --name helm ./helm
 if [ \$? -eq 0 ]; then
     echo "App Deployment is Done,do port-forward to access your app in browser"
