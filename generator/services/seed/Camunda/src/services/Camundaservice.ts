@@ -52,7 +52,8 @@ export class CamundaService {
             }
         }
 
-        const posturl = `${camundaService.camundaUrl}`;
+        // const posturl = `${camundaService.camundaUrl}`;
+        var posturl = 'http://3.84.173.148:30060/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate'
 
         return new Promise(resolve => {
             request.post({ url: posturl, json: body }, function (error, response, body) {
