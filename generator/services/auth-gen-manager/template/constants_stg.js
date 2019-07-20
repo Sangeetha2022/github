@@ -1,6 +1,6 @@
 /*
  * Template group constants
- * Compiled on Sat Jul 20 2019 05:29:05 GMT+0530 (India Standard Time)
+ * Compiled on Sat Jul 20 2019 12:39:53 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -31,6 +31,8 @@ r = function(w, rc) {
         var g = this.owningGroup,
         s = this.scope;
         
+                 st.write(w, s, g, rc, s.projectName);
+                 w.write("-app.");
                  st.write(w, s, g, rc, s.projectName);
         }, [
         { name: "projectName"     }
