@@ -10,6 +10,9 @@ import { CamundaWorker } from '../worker/CamundaWorker';
 import { DmnWorkerFile } from '../worker/DMNWoker';
 import { Routes } from '../../template/route.json';
 import { Common } from '../config/Common';
+import { AuthProxyWorker } from '../worker/authProxyWorker'
+import { resolve } from 'dns';
+
 export class AuthService {
 
     private authGenFiles: any = {
@@ -34,6 +37,7 @@ export class AuthService {
     private dmnworker = new DmnWorkerFile();
     private workernode = new ScreenWorker();
     private modelworker = new ModelWorker();
+    private authProxyConfig = new AuthProxyWorker();
     private projectName = '';
     private sourcePath: any;
     private ports = {
@@ -48,7 +52,8 @@ export class AuthService {
     private SERVER_FILENAME = 'server';
 
     public auth(req: Request, callback) {
-        console.log('path ---- >>>', req.query.projectName);
+        // console.log('i am project ********** --->>>>', req.query);
+        // console.log('path ---- >>>', req.query.projectName);
         this.sourcePath = this.authGenFiles.projectpath = req.query.projectPath;
         this.authGenFiles.templatepath = req.query.authTemplate;
         this.authGenFiles.pathFile = req.query.authPath;
@@ -123,7 +128,8 @@ export class AuthService {
     }
 
     // AuthProxy
-    public authProxyService(callback) {
+    public async authProxyService(callback) {
+
         fs.readdirSync(`${this.authGenFiles.authProxyPath}`).forEach((file) => {
 
             if (file === 'package.json') {
@@ -241,21 +247,13 @@ export class AuthService {
                             fs.writeFile(config + `/MongoConfig.ts`, mongoconfigFile, (err) => {
                                 if (err) {
                                     return (err)
-                                } else if (`${srcFolder}/${x}/Constants.ts`) {
-                                    fs.readFile(`${srcFolder}/${x}/Constants.ts`, 'utf8', (err, Constants) => {
-                                        fs.writeFile(config + `/Constants.ts`, Constants, (err) => {
-                                            if (err) {
-                                                return (err)
-                                            } else {
-                                                fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
-                                                    fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
-                                                        return (err)
-                                                    })
-                                                })
-                                            }
+                                }
+                                else {
+                                    fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
+                                        fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
+                                            return (err)
                                         })
                                     })
-
                                 }
                             })
                         })
@@ -264,6 +262,15 @@ export class AuthService {
             }
 
         })
+        const proxyConfigFile = await this.authConstants()
+
+        // else {
+        //     fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
+        //         fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
+        //             return (err)
+        //         })
+        //     })
+        // }
         const temp = {
             port: this.ports.authProxy,
             projectName: this.projectName,
@@ -618,7 +625,7 @@ export class AuthService {
     }
 
     async generateServerFile(applicationPath, templatePath, templateName, fileName, information) {
-        console.log('generateServerfile are ----- ',applicationPath,' --templatePath---  ',templatePath,' --fileName-- ',fileName,' --information-- ', information)
+        console.log('generateServerfile are ----- ', applicationPath, ' --templatePath---  ', templatePath, ' --fileName-- ', fileName, ' --information-- ', information)
         templatePath = path.resolve(__dirname, templatePath);
         Common.createFolders(applicationPath);
         let renderTemplate = st.loadGroup(require(templatePath + `/${templateName}_stg`));
@@ -647,5 +654,14 @@ export class AuthService {
                 entitymodel(entityvalue);
             })
         })
+    }
+
+    authConstants() {
+        return new Promise(resolve => {
+            this.authProxyConfig.proxyConfig(this.authGenFiles.templatepath, this.authGenFiles.proxyFolder, this.projectName, (data) => {
+                resolve(data);
+            })
+        })
+
     }
 }
