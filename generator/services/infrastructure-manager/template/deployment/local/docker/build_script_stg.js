@@ -1,6 +1,6 @@
 /*
  * Template group build_script
- * Compiled on Sun Jul 21 2019 03:49:32 GMT+0530 (IST)
+ * Compiled on Sun Jul 21 2019 06:58:33 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -70,7 +70,7 @@ r = function(w, rc) {
     w.write("-desktop:1.0'");
     w.write("\n");
     w.write("\n");
-    w.write("HELMPATH = '../../../../devops/'");
+    w.write("HELMPATH='../../../../devops/'");
     w.write("\n");
     w.write("\n");
     w.write("echo \"Started to build docker images for pod....\"");
@@ -249,6 +249,10 @@ r = function(w, rc) {
     w.write("npm install");
     w.write("\n");
     w.write("npm rebuild node-sass");
+    w.write("\n");
+    w.write("npm uninstall @angular-devkit/build-angular");
+    w.write("\n");
+    w.write("npm install @angular-devkit/build-angular");
     w.write("\n");
     w.write("ng build");
     w.write("\n");
