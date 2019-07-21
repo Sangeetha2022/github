@@ -19,7 +19,7 @@ ADMINIMAGENAME='$project_name$-admin:1.0'
 DESKTOPCODE='../../client/desktop/$project_name$/'
 DESKTOPIMAGENAME='$project_name$-desktop:1.0'
 
-HELMPATH = '../../../../devops/'
+HELMPATH='../../../../devops/'
 
 echo "Started to build docker images for pod...."
 
@@ -98,6 +98,8 @@ build_appbuilder_image () {
 cd \$DESKTOPCODE
 npm install
 npm rebuild node-sass
+npm uninstall @angular-devkit/build-angular
+npm install @angular-devkit/build-angular
 ng build
 docker build -t \$DESKTOPIMAGENAME .
 if [ \$? -eq 0 ]; then
