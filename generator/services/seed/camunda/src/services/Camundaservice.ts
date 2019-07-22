@@ -1,4 +1,4 @@
-import { SharedService } from './../config/sharedService';
+import { camundaService } from '../config/camundaService';
 import { Request, Response, NextFunction } from "express";
 // import * as request from 'request';
 import * as asyncLoop from 'node-async-loop';
@@ -50,7 +50,7 @@ export class CamundaService {
             }
         }
 
-        const postUrl = `${SharedService.camundaPostUrl}/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate`;
+        const postUrl = `${camundaService.camundaUrl}/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate`;
 
         return new Promise(resolve => {
             request.post({ url: postUrl, json: body }, function (error, response, body) {

@@ -569,6 +569,18 @@ export class AuthService {
                                 }
                             })
                         })
+                    } else if (x === 'dmnDeploye') {
+                        let dmnfile = src + `/dmnDeploye`
+
+                        if (!fs.existsSync(dmnfile)) {
+                            fs.mkdirSync(dmnfile);
+                        }
+
+                        fs.readFile(`${srcFolder}/${x}/dmnFile.ts`, 'utf8', (err, dmnfilevalue) => {
+                            fs.writeFile(dmnfile + `/dmnFile.ts`, dmnfilevalue, (err) => {
+                                return (err)
+                            })
+                        })
                     }
                 })
             }
