@@ -1,6 +1,6 @@
 import mongoose = require('mongoose');
 import { Resourceschema } from './model/resource';
-import { resourcetypes } from './assets/Screen';
+import { resourcetypes } from './assets/screen';
 
 const resourcemodel = mongoose.model('Resource', Resourceschema);
 
