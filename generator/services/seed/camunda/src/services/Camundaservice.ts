@@ -1,13 +1,11 @@
+import { SharedService } from './../config/sharedService';
 import { Request, Response, NextFunction } from "express";
 // import * as request from 'request';
 import * as asyncLoop from 'node-async-loop';
 import * as mongoose from 'mongoose';
 import { Resourceschema } from '../model/resource';
+import * as request from 'request';
 
-import { camundaService } from './../config/camundaService';
-
-
-const request = require('request');
 const resourcemodel = mongoose.model('resource', Resourceschema);
 
 let listofresources = [];
@@ -22,7 +20,7 @@ export class CamundaService {
 
         resourcemodel.find().then((result) => {
             asyncLoop(result, (resource, next) => {
-                if(resource.resources === 'Landing'){
+                if (resource.resources === 'Landing') {
                     console.log('------ifcondition-loop-----', resource.resources);
                     this.resourcevalue = resource.resources;
                 }
@@ -48,15 +46,14 @@ export class CamundaService {
         var body = {
             "variables": {
                 "resources": { "value": `${this.resourcevalue}`, "type": "String" },
-                "resourcetype":{"value":"Screen", "type":"String"}
+                "resourcetype": { "value": "Screen", "type": "String" }
             }
         }
 
-        // const posturl = `${camundaService.camundaUrl}`;
-        var posturl = 'http://3.84.173.148:30060/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate'
+        const postUrl = `${SharedService.camundaPostUrl}/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate`;
 
         return new Promise(resolve => {
-            request.post({ url: posturl, json: body }, function (error, response, body) {
+            request.post({ url: postUrl, json: body }, function (error, response, body) {
                 console.log('------error---------', error);
                 console.log('------responsebody---------', body);
                 var responsebody = JSON.stringify(body);
