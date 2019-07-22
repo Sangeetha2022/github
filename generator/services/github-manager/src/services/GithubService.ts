@@ -12,7 +12,7 @@ export class GitHubService {
     checkIfRepoExist = (req: Request, callback: CallableFunction) => {
         const details = req.body;
         const path = `${details.codeGenerationPath}`;
-        git = simplegit(path)
+        git = simplegit(`${details.codeGenerationPath}`)
         let creds = {};
     try {
         git.checkIsRepo().then((status) => {
@@ -50,7 +50,9 @@ export class GitHubService {
 
         let USER = creds.username;
         let PASS = creds.password;
+        let reponame = details.name
         let remote = `https://${USER}:${PASS}@api.github.com/user/repos`
+        let config_url = `https://${USER}:${PASS}@github.com/${USER}/${reponame}`
         await request({
             uri: remote,
             method: "POST",
@@ -60,13 +62,13 @@ export class GitHubService {
                 'Content-Type': 'application/json'
             }
         }).then((resp) => {
-            this.initializeGitAndPushToSource(resp.html_url, creds, callback)
+            this.initializeGitAndPushToSource(config_url, creds, callback)
         }).catch((err) => {
             callback(err.error.message)
         })
     }
 
-    private initializeGitAndPushToSource = (gitRemote, creds, callback) => {
+    private initializeGitAndPushToSource = (config_url, creds, callback) => {
         git.init().then(() => {
             return git.add('.')
         }).then(() => {
@@ -76,7 +78,7 @@ export class GitHubService {
         }).then(() => {
             return git.commit("code commited from geppetto!")
         }).then(() => {
-            return git.addRemote('origin', gitRemote)
+            return git.addRemote('origin', config_url)
         }).then(() => {
             return git.push('origin', 'master');
         }).then(() => {

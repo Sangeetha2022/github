@@ -1,5 +1,5 @@
 
-var vault = require("node-vault")({ apiVersion: 'v1', endpoint: 'http://3.84.173.148:30082', token: 'vault-geppetto-2019' });
+var vault = require("node-vault")({ apiVersion: 'v1', endpoint: 'http://gep-dev-telemetry.gep-dev-201902.svc.cluster.local:8200', token: 'vault-geppetto-2019' });
 
 export class GithubConfig {
     githubConfig(callback) {
