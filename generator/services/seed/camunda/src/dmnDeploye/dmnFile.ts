@@ -21,7 +21,7 @@ export class DmnFile {
             },
             formData: {
                 "data": fs.createReadStream(DmnPath),
-                "deployment-name": "Arul3",
+                "deployment-name": "Gepauthorize",
                 "enable-duplicate-filtering": "true",
                 "deploy-changed-only": "true",
             }
