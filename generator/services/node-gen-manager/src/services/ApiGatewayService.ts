@@ -74,7 +74,7 @@ export class ApiGatewayService {
                 // temp.nodeName = `${element.entityFileName.toUpperCase()}URL`;
                 temp.nodeName = `${element.featureName.toUpperCase()}${this.URL_NAME}`;
                 temp.httpProxy = `${this.HTTP_NAME}`;
-                temp.httpUrl = `${this.projectName}-app.${this.projectName}.svc.cluster.local`;
+                temp.httpUrl = `${this.projectName.toLowerCase()}-app.${this.projectName.toLowerCase()}.svc.cluster.local`;
                 temp.httpPort = element.nodePortNumber;
 
                 controllerObj.className = element.entityFileName;

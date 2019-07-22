@@ -51,6 +51,11 @@ export class AuthService {
     // fileName
     private SERVER_FILENAME = 'server';
 
+    //folderName
+    private CAMUNDA_FOLDERNAME = 'camunda';
+    private AUTH_PROXY_FOLDERNAME = 'Auth-Proxy';
+    private SECURITY_FOLDERNAME = 'securitymanager';
+
     public auth(req: Request, callback) {
         // console.log('i am project ********** --->>>>', req.query);
         // console.log('path ---- >>>', req.query.projectName);
@@ -75,13 +80,12 @@ export class AuthService {
             }
         }
 
-        this.authGenFiles.securityPath = `${this.authGenFiles.pathFile}/securitymanager`;
-        this.authGenFiles.authProxyPath = `${this.authGenFiles.pathFile}/Auth-Proxy`;
-        this.authGenFiles.camundaPath = `${this.authGenFiles.pathFile}/Camunda`;
-        this.authGenFiles.FrontendLogin = `${this.authGenFiles.pathFile}/Login`;
-        this.authGenFiles.folder = this.sourcePath + `/securitymanager`;
+        this.authGenFiles.securityPath = `${this.authGenFiles.pathFile}/${this.SECURITY_FOLDERNAME}`;
+        this.authGenFiles.authProxyPath = `${this.authGenFiles.pathFile}/${this.AUTH_PROXY_FOLDERNAME}`;
+        this.authGenFiles.camundaPath = `${this.authGenFiles.pathFile}/${this.CAMUNDA_FOLDERNAME}`;
+        this.authGenFiles.folder = this.sourcePath + `/${this.SECURITY_FOLDERNAME}`;
         this.authGenFiles.proxyFolder = this.sourcePath + `/authproxy`;
-        this.authGenFiles.camundaFolder = this.sourcePath + `/camunda`;
+        this.authGenFiles.camundaFolder = this.sourcePath + `/${this.CAMUNDA_FOLDERNAME}`;
 
         if (this.authGenFiles) {
 
@@ -115,11 +119,6 @@ export class AuthService {
                 fs.mkdirSync(this.authGenFiles.camundaFolder);
             }
         }
-        if (!this.authGenFiles.FrontendLogin) {
-            if (!fs.existsSync(this.authGenFiles.FrontendLogin)) {
-                fs.mkdirSync(this.authGenFiles.Logingenerated);
-            }
-        }
         if (this.authGenFiles.apigatewaypath) {
             if (!fs.existsSync(this.authGenFiles.apigatewayfolder)) {
                 fs.mkdirSync(this.authGenFiles.apigatewayfolder);
@@ -130,7 +129,7 @@ export class AuthService {
     // AuthProxy
     public async authProxyService(callback) {
 
-        fs.readdirSync(`${this.authGenFiles.authProxyPath}`).forEach((file) => {
+        await fs.readdirSync(`${this.authGenFiles.authProxyPath}`).forEach((file) => {
 
             if (file === 'package.json') {
 
@@ -166,15 +165,7 @@ export class AuthService {
                 let srcFolder = `${this.authGenFiles.authProxyPath}/${file}`
                 // @ts-ignore
                 fs.readdirSync(srcFolder).find(x => {
-                    if (x === 'server.ts') {
-                        fs.readFile(`${srcFolder}/${x}`, 'utf8', (err, serverFile) => {
-                            fs.writeFile(src + `/server.ts`, serverFile, (err) => {
-                                if (err) {
-                                    return (err)
-                                }
-                            })
-                        })
-                    } else if (x === 'controllers') {
+                    if (x === 'controllers') {
                         let contoller = src + `/controllers`;
                         if (!fs.existsSync(contoller)) {
                             fs.mkdirSync(contoller);
@@ -264,20 +255,14 @@ export class AuthService {
         })
         const proxyConfigFile = await this.authConstants()
 
-        // else {
-        //     fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
-        //         fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
-        //             return (err)
-        //         })
-        //     })
-        // }
         const temp = {
             port: this.ports.authProxy,
-            projectName: this.projectName,
-            databaseName: this.projectName,
+            projectName: this.projectName.toLowerCase(),
+            databaseName: this.projectName.toLowerCase(),
             isSeed: false
         }
-        this.generateServerFile(`${this.authGenFiles.authProxyPath}/src`, this.authGenFiles.templatepath,
+        console.log('authProxyPath generation folder are ------before authProxyPath---------   ', this.authGenFiles);
+        this.generateServerFile(`${this.authGenFiles.proxyFolder}/src`, this.authGenFiles.templatepath,
             this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
     }
 
@@ -285,7 +270,7 @@ export class AuthService {
     public async securityManagerService(callback) {
         const entitydetails = await this.getEntities();
         console.log('-----entitydetails----', this.authGenFiles.folder);
-        fs.readdirSync(`${this.authGenFiles.securityPath}`).forEach((file) => {
+        await fs.readdirSync(`${this.authGenFiles.securityPath}`).forEach((file) => {
             if (file === 'package.json') {
                 fs.readFile(`${this.authGenFiles.securityPath}/${file}`, 'utf8', (err, jsonFile) => {
                     fs.writeFile(this.authGenFiles.folder + `/package.json`, jsonFile, (err) => {
@@ -320,17 +305,7 @@ export class AuthService {
                 let srcFolder = `${this.authGenFiles.securityPath}/${file}`;
                 // @ts-ignore
                 fs.readdirSync(srcFolder).find(x => {
-                    if (x === 'server.ts') {
-                        fs.readFile(`${srcFolder}/${x}`, 'utf8', (err, serverFile) => {
-                            console.log('-----server----', securitysrc);
-
-                            fs.writeFile(securitysrc + `/server.ts`, serverFile, (err) => {
-                                if (err) {
-                                    return (err)
-                                }
-                            })
-                        })
-                    } else if (x === 'seed.ts') {
+                    if (x === 'seed.ts') {
                         fs.readFile(`${srcFolder}/${x}`, 'utf8', (err, seedFile) => {
                             console.log('-----seed----', securitysrc);
                             fs.writeFile(securitysrc + `/seed.ts`, seedFile, (err) => {
@@ -463,16 +438,16 @@ export class AuthService {
         })
         const temp = {
             port: this.ports.security,
-            projectName: this.projectName,
-            databaseName: this.projectName,
+            projectName: this.projectName.toLowerCase(),
+            databaseName: this.projectName.toLowerCase(),
             isSeed: true
         }
-        this.generateServerFile(`${this.authGenFiles.securityPath}/src`, this.authGenFiles.templatepath,
+        console.log('security generation folder are ------before generate---------   ', this.authGenFiles);
+        this.generateServerFile(`${this.authGenFiles.folder}/src`, this.authGenFiles.templatepath,
             this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
     }
 
     //camunda
-
     public async camundaService(callback) {
 
         const screens = await this.getMenubuilder();
@@ -481,7 +456,7 @@ export class AuthService {
             // callback(dmndata);
         }));
 
-        fs.readdirSync(`${this.authGenFiles.camundaPath}`).forEach((file) => {
+        await fs.readdirSync(`${this.authGenFiles.camundaPath}`).forEach((file) => {
 
             if (file === 'package.json') {
                 fs.readFile(`${this.authGenFiles.camundaPath}/${file}`, 'utf8', (err, jsonFile) => {
@@ -516,15 +491,7 @@ export class AuthService {
                 let srcFolder = `${this.authGenFiles.camundaPath}/${file}`
                 // @ts-ignore
                 fs.readdirSync(srcFolder).find(x => {
-                    if (x === 'server.ts') {
-                        fs.readFile(`${srcFolder}/${x}`, 'utf8', (err, serverFile) => {
-                            fs.writeFile(src + `/server.ts`, serverFile, (err) => {
-                                if (err) {
-                                    return (err)
-                                }
-                            })
-                        })
-                    } else if (x === 'seed.ts') {
+                    if (x === 'seed.ts') {
                         fs.readFile(`${srcFolder}/${x}`, 'utf8', (err, seedFile) => {
                             fs.writeFile(src + `/seed.ts`, seedFile, (err) => {
                                 if (err) {
@@ -613,13 +580,14 @@ export class AuthService {
         }));
 
         const camundaServiceFile = await this.camundaConfig();
-        
+
         const temp = {
             port: this.ports.camunda,
-            projectName: this.projectName,
-            databaseName: this.projectName,
+            projectName: this.projectName.toLowerCase(),
+            databaseName: this.projectName.toLowerCase(),
             isSeed: false
         }
+        console.log('camunda generation folder are ------before generate---------   ', this.authGenFiles);
         this.generateServerFile(`${this.authGenFiles.camundaFolder}/src`, this.authGenFiles.templatepath,
             this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
     }
@@ -631,9 +599,8 @@ export class AuthService {
         let renderTemplate = st.loadGroup(require(templatePath + `/${templateName}_stg`));
         let fileData = renderTemplate.render(templateName, [information]);
         await fs.writeFile(applicationPath + `/${fileName}.ts`, fileData, function (err) {
-            if (err) {
-                console.log('error in generating the server file are ---- ', err)
-            };
+            if (err) throw err;
+            console.log(`${fileName}.ts has been generated`)
         })
     }
 
