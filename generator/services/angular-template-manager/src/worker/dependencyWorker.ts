@@ -1,12 +1,14 @@
 import * as util from 'util';
 import * as path from 'path';
 import * as fs from 'fs';
-import { DependencySupportWorker } from '../supportworker/DependencySupportWorker';
+import { DependencySupportWorker } from '../supportworker/dependencySupportWorker';
 import { Common } from '../config/Common';
-import { ComponentWorker } from './ComponentWorker';
+import { ComponentWorker } from './componentWorker';
+import { AssetWorker } from './assetWorker';
 
 let dependencySupportWorker = new DependencySupportWorker();
 let componentWorker = new ComponentWorker();
+let assetWorker = new AssetWorker();
 
 export class DependencyWorker {
     // template name
@@ -32,16 +34,13 @@ export class DependencyWorker {
     private NGINX_FOLDERNAME: String = 'nginx';
     private STATIC_TEMPLATE_FOLDERNAME: String = 'static';
 
-    //asset list
-    private isAssetImage: any[] = ['assets/img/home.jpg'];
-    // componentWorker.TEMPLATE_FOLDERNAME;
-
-
     generateIndexHtml(generationPath, templatePath, baseTag, scriptTag, callback) {
         const temp = {
             baseTag: baseTag,
             scriptTag: scriptTag
         }
+        assetWorker.checkAssetFile(baseTag.join(''), generationPath, templatePath);
+        assetWorker.checkAssetFile(scriptTag.join(''), generationPath, templatePath);
         return dependencySupportWorker.generateIndexHtml(generationPath, templatePath,
             this.INDEX_HTML_TEMPLATE_NAME, temp, (response) => {
                 callback('index html files are generated')
@@ -67,12 +66,7 @@ export class DependencyWorker {
     }
 
     generateStyleSCSS(generationPath, templatePath, css, callback) {
-        this.isAssetImage.forEach(assetElement => {
-            const index = css.indexOf(assetElement);
-            if (index > -1) {
-                this.generateAssetFile(assetElement, generationPath, templatePath);
-            }
-        });
+        assetWorker.checkAssetFile(css, generationPath, templatePath);
         // styles css file path
         const filePath = `${generationPath}/${this.SRC_FOLDERNAME}`;
         return dependencySupportWorker.generateFiles(templatePath, filePath,
@@ -101,31 +95,5 @@ export class DependencyWorker {
             })
     }
 
-
-
-    private generateAssetFile(assetElement, generationPath, templatePath) {
-        let assetGenerationPath = `${generationPath}/src/assets`;
-        switch (assetElement) {
-            case this.isAssetImage[0]:
-                templatePath = path.resolve(__dirname, templatePath);
-                templatePath = `${templatePath}/img/home.jpg`;
-                const temp = `${assetGenerationPath}/img`;
-                Common.createFolders(temp);
-                const img = fs.readFile(templatePath, (err, data) => {
-                    fs.writeFile(`${temp}/home.jpg`, data, 'binary', (err) => {
-                        if (err) {
-                            console.log("There was an error writing the image")
-                        }
-
-                        else {
-                            console.log("There file was written")
-                        }
-                    })
-                })
-                break;
-            default:
-                break;
-        }
-    }
 
 }

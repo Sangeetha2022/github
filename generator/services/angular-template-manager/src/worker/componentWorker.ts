@@ -1,6 +1,6 @@
 import * as util from 'util';
-import { ComponentSupportWorker } from '../supportworker/ComponentSupportWorker';
-import { AssetWorker } from './AssetWorker';
+import { ComponentSupportWorker } from '../supportworker/componentSupportWorker';
+import { AssetWorker } from './assetWorker';
 
 let componentSupportWorker = new ComponentSupportWorker();
 let assetWorker = new AssetWorker();
@@ -39,6 +39,7 @@ export class ComponentWorker {
         if (templateHeaderObj.css.length > 0) {
             temp.css = templateHeaderObj.css;
         }
+        assetWorker.checkAssetFile(templateHeaderObj.tag.join(''), generationPath, templatePath);
         return componentSupportWorker.generateHtmlComponent(generationPath, templatePath,
             this.COMPONENT_HTML_TEMPLATE_NAME, temp, (response) => {
                 return componentSupportWorker.generateTsComponent(generationPath, templatePath,
@@ -111,6 +112,7 @@ export class ComponentWorker {
         if (templateFooterObj.css.length > 0) {
             temp.css = templateFooterObj.css;
         }
+        assetWorker.checkAssetFile(templateFooterObj.tag.join(''), generationPath, templatePath);
         return componentSupportWorker.generateHtmlComponent(generationPath, templatePath,
             this.COMPONENT_HTML_TEMPLATE_NAME, temp, (response) => {
                 return componentSupportWorker.generateTsComponent(generationPath, templatePath,
@@ -150,7 +152,7 @@ export class ComponentWorker {
         if (templateMainObj.css.length > 0) {
             temp.css = templateMainObj.css;
         }
-        assetWorker.checkAssetFile(templateMainObj.tag);
+        assetWorker.checkAssetFile(templateMainObj.tag.join(''), generationPath, templatePath);
         tempDependency.dependencyname = 'Component, OnInit',
             tempDependency.dependencyPath = '@angular/core';
         temp.importDependency.push(tempDependency);

@@ -1,6 +1,6 @@
 
-import { AngularTemplateController } from '../controllers/AngularTemplateController';
-import { Request, Response, NextFunction } from 'express';
+import { AngularTemplateController } from '../controllers/angularTemplateController';
+import { Request, Response } from 'express';
 
 export class Routes {
 

@@ -18,103 +18,6 @@
       <output id="output_1" label="admin" name="Admin" typeRef="string" />
       <output id="OutputClause_0vdltyr" label="developer" name="Developer" typeRef="string" />
       <output id="OutputClause_16m831c" label="user" name="Standard User" typeRef="string" />
-      <rule id="DecisionRule_14jfe5c">
-        <inputEntry id="UnaryTests_1evfq7y">
-          <text>"project"</text>
-        </inputEntry>
-        <inputEntry id="UnaryTests_1ngm10z">
-          <text>"microservice"</text>
-        </inputEntry>
-        <outputEntry id="LiteralExpression_0f2sopu">
-          <text>"true"</text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_0w0djbx">
-          <text>"true"</text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_1119s68">
-          <text>"true"</text>
-        </outputEntry>
-      </rule>
-      <rule id="DecisionRule_1e08dzb">
-        <inputEntry id="UnaryTests_1ffot1s">
-          <text>"Project"</text>
-        </inputEntry>
-        <inputEntry id="UnaryTests_0e2g43j">
-          <text>"Screen"</text>
-        </inputEntry>
-        <outputEntry id="LiteralExpression_1vir8it">
-          <text>'{
-  "Admin": {
-    "Access": {
-      "value": "true"
-    }
-  },
-  "Fields": {
-    "Organisation": {
-      "value": "true"
-    },
-    "Userrole": {
-      "value": "true"
-    },
-    "Addrole": {
-      "value": "true"
-    }
-  }
-}'</text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_0moal26">
-          <text>'{
-  "Admin":{
-    "Access":{"value":"false"}
-  },
-  "Project":[{
-    "Access":{"value":"true"},
-    "Fields":[{
-      "AddProject":{
-        "value":"true"
-      }
-    }]
-  }],
-
-  "Feature":[{
-    "Access":{"value":"true"},
-    "Fields":[{
-      "AddFeature":{
-        "value":"true"
-      }
-    }]
-  }]
-}'</text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_0fkvhqp">
-          <text>'{
-  "Admin": {
-    "Access": {
-      "value": "false"
-    }
-  },
-  "Project": [
-    {
-      "Access": {
-        "value": "true"
-      },
-      "Fields": [
-        {
-          "AddProject": {
-            "value": "true"
-          }
-        }
-      ]
-    }
-  ],
-  "Feature": {
-    "Access": {
-      "value": "false"
-    }
-  }
-}'</text>
-        </outputEntry>
-      </rule>
       <rule id="DecisionRule_0113tl1">
         <inputEntry id="UnaryTests_0gp33r0">
           <text>"Landing"</text>
@@ -243,6 +146,7 @@
 }'</text>
         </outputEntry>
       </rule>
-    </decisionTable>
+       
+           </decisionTable>
   </decision>
 </definitions>
