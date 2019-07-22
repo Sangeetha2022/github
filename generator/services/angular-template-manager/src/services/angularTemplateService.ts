@@ -2,9 +2,9 @@ import { Request } from 'express';
 import * as util from 'util';
 import { Common } from '../config/Common';
 import * as childProcess from 'child_process';
-import { ComponentWorker } from '../worker/ComponentWorker';
-import { DependencyWorker } from '../worker/DependencyWorker';
-import { CommonWorker } from '../worker/CommonWorker';
+import { ComponentWorker } from '../worker/componentWorker';
+import { DependencyWorker } from '../worker/dependencyWorker';
+import { CommonWorker } from '../worker/commonWorker';
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { AngularTemplateService } from '../services/AngularTemplateService';
+import { AngularTemplateService } from '../services/angularTemplateService';
 
 let angularTemplateService = new AngularTemplateService();
 

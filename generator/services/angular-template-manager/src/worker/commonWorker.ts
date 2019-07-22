@@ -1,10 +1,11 @@
 import * as asyncForEach from 'async-foreach';
-import { ComponentWorker } from "./ComponentWorker";
-import { DependencyWorker } from "./DependencyWorker";
+import { ComponentWorker } from "./componentWorker";
+import { DependencyWorker } from "./dependencyWorker";
 import * as constant from '../assets/headerComponent';
 
 let componentWorker = new ComponentWorker();
 let dependencyWorker = new DependencyWorker();
+
 export class CommonWorker {
     private forEach = asyncForEach.forEach;
     private firstEle: any = null;
@@ -374,7 +375,7 @@ export class CommonWorker {
                     this.tagName == 'base' || this.tagName == 'span' || this.tagName == 'img' || this.tagName == 'h1' ||
                     this.tagName == 'h2' || this.tagName == 'h3' ||
                     this.tagName == 'h4' || this.tagName == 'h5' ||
-                    this.tagName == 'h6')) {
+                    this.tagName == 'h6' || this.tagName == 'hr')) {
                     this.endTag.unshift(`${this.tagName}`);
                     // console.log('@@@@@@@@@@ pushed vlaue are -----------   ', this.endTag);
                 } else {
@@ -496,6 +497,8 @@ export class CommonWorker {
                 tagName = firstEle.type;
             } else if (firstEle.type == 'tab' || firstEle.type == 'link') {
                 tagName = 'a';
+            } else if (firstEle.type == 'image') {
+                tagName = 'img';
             } else {
                 tagName = 'div';
             }
