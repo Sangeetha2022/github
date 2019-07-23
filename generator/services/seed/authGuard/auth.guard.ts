@@ -149,7 +149,7 @@ export class AuthGuard implements CanActivate {
             };
             this.broadcast.sendmessage({ 'Project': this.projectscreen });
             // this.getpermission.emit(useraccess.Admin.Access.value);
-            this.viewpermission = useraccess.Admin.Access.value;
+            this.viewpermission = useraccess.Project[0].Access.value;
           }
           // console.log('---------test--------', Developer, Admin, User);
           // this.developervalue = developeraccess.Admin.Access.value;

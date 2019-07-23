@@ -5,7 +5,7 @@ import * as request from 'request';
 import { Signinschema } from '../model/Signin';
 import * as Constants from '../config/constants';
 
-const signinmodel = mongoose.model('Signin', Signinschema);
+const signinmodel = mongoose.model('User', Signinschema);
 
 export class Proxydao {
 
