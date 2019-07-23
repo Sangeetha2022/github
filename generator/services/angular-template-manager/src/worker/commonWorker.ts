@@ -51,6 +51,28 @@ export class CommonWorker {
     private scriptTag: any[] = [];
     private mainHtmlTag: any[] = [];
 
+    initializeVariable() {
+        this.templateHeaderObj = {
+            tag: [],
+            css: [],
+            module: []
+        }
+        this.templateFooterObj = {
+            tag: [],
+            css: [],
+            module: []
+        }
+        this.templateMainObj = {
+            tag: [],
+            css: [],
+            module: []
+        }
+
+        this.navMenu = [];
+        this.scriptTag = [];
+        this.mainHtmlTag = [];
+
+    }
 
     generateAngularTemplate(generationPath, templatePath, projectName, callback) {
         // console.log('headerobject before create are ----------   ', this.templateHeaderObj);
@@ -104,7 +126,7 @@ export class CommonWorker {
         this.isTemplate = false;
         this.generateHtml(metaData);
         this.templateHeaderObj.tag = this.startTag;
-        // console.log('header tag bvalues are --------- ', this.startTag);
+        console.log('header tag bvalues are ----templateHeaderObj----- ', this.templateHeaderObj);
         // this.HeaderTag = this.startTag;
         // console.log('after completed all method in child HeaderHtml are   ', `${this.startTag.join(`\n`)}`);
     }
@@ -371,7 +393,7 @@ export class CommonWorker {
                     || this.tagName == 'section' || firstEle.type == 'header' || this.tagName == 'header'
                     || this.tagName == 'nav' || this.tagName == 'a' || this.tagName == 'svg' ||
                     this.tagName == 'p' || this.tagName == 'br' || this.tagName == 'meta' ||
-                    this.tagName == 'link' || this.tagName == 'li' || this.tagName == 'ul' ||
+                    this.tagName == 'link' || this.tagName == 'li' || this.tagName == 'ul' || this.tagName == 'g' ||
                     this.tagName == 'base' || this.tagName == 'span' || this.tagName == 'img' || this.tagName == 'h1' ||
                     this.tagName == 'h2' || this.tagName == 'h3' ||
                     this.tagName == 'h4' || this.tagName == 'h5' ||
@@ -434,13 +456,13 @@ export class CommonWorker {
                     } else if (!item.content &&
                         (this.tagName == 'button' || this.tagName == 'a' ||
                             this.tagName == 'ul' || this.tagName == 'li' || this.tagName == 'div' ||
-                            this.tagName == 'footer' || this.tagName == 'p' ||
+                            this.tagName == 'footer' || this.tagName == 'p' || this.tagName == 'section' ||
                             item.type == 'header' || this.tagName == 'form' ||
                             this.tagName == 'nav' || this.tagName == 'svg' ||
                             this.tagName == 'span' || this.tagName == 'h1' ||
                             this.tagName == 'h2' || this.tagName == 'h3' ||
                             this.tagName == 'h4' || this.tagName == 'h5' ||
-                            this.tagName == 'h6'
+                            this.tagName == 'h6' || this.tagName == 'g'
                         )) {
                         tempObj.endTagName = this.tagName;
                         test.push(tempObj);

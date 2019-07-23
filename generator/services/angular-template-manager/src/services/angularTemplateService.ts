@@ -59,16 +59,16 @@ export class AngularTemplateService {
         Common.createFolders(this.generationPath);
         this.templatePath = this.details.project.templateLocation.frontendTemplate;
         this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && ng new ${this.projectName} --routing=false --style=scss --skip-install`, (error, stdout, stderr) => {
-            console.log('error exec ----->>>>    ', error);
-            console.log('stdout exec ----->>>>    ', stdout);
-            console.log('stderr exec ----->>>>    ', stderr);
+            // console.log('error exec ----->>>>    ', error);
+            // console.log('stdout exec ----->>>>    ', stdout);
+            // console.log('stderr exec ----->>>>    ', stderr);
             if (stdout || stderr) {
                 // this.iterateData = grapesjsComponent;
                 this.iterateData = JSON.parse(grapesjsComponent);
-                console.log('iterateData filter are -----  ', this.iterateData);
+                // console.log('iterateData filter are -----  ', this.iterateData);
                 this.createLandingPage();
-                 this.generateAngularApp((response) => {
-                    console.log('after await completed')
+                this.generateAngularApp((response) => {
+                    // console.log('after await completed')
                     const temp = {
                         shared: {
                             className: this.sharedObj.className,
@@ -77,7 +77,7 @@ export class AngularTemplateService {
                         applicationPath: this.generationPath
                     }
                     callback(temp);
-                 });
+                });
                 console.log('after done all the workers');
             }
         });
@@ -87,6 +87,7 @@ export class AngularTemplateService {
         if (this.iterateData.length > 0) {
             console.log('iteratedata lengtha are ------- ', this.iterateData.length);
             this.generationPath += `/${this.projectName}`;
+            commonWorker.initializeVariable();
             var navInfo = this.iterateData.filter(function (element) {
                 return element.tagName == 'nav';
             })
@@ -105,7 +106,7 @@ export class AngularTemplateService {
             if (templateInfo.length > 0) {
                 commonWorker.createTemplateHtml(templateInfo);
             }
-            
+
         }
     }
 

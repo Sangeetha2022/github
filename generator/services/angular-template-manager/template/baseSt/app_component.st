@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     .subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const temp = event.url.split('?');
-        this.headerFooter = (temp[0] !== '/' && temp[0] !== '/signup');
+        this.headerFooter = (temp[0] !== '/' && temp[0] !== '/signup' && temp[0] !== '/login');
       }
     });
   }
