@@ -16,3 +16,232 @@
     text-align: left;
     vertical-align: middle;
   }   
+
+  .img_size{
+    width:80%;
+  }
+  
+.image {
+  width: auto;
+  height: 100px;
+  margin-top: 10%;
+  border-radius: 8px;
+  color: #184573;
+}
+.fa.fa-pencil-square-o{
+  position: absolute;
+  top: 100%;
+  right: 83%;
+  color: green;
+  cursor: pointer;
+}
+.fa.fa-trash-o{
+  position: absolute;
+  top: 100%;
+  right: 51%;
+  color: red;
+  cursor: pointer;
+}
+
+
+
+.entity-card {
+  max-width: 300px;
+  }
+  
+  .createEntityButton {
+  float: right;
+  }
+  
+  .goToButton {
+  background-color: green;
+  color: white;
+  }
+  
+  :host ::ng-deep .ck-editor__editable {
+  min-height: 200px !important;
+  }
+  .modal-dialog{
+  overflow-y: initial !important
+  }
+  .feature .modal-body{
+  height: 400px;
+  overflow-y: auto;
+  }  
+
+
+.image {
+  width: auto;
+  height: 100px;
+  margin-top: 10%;
+  border-radius: 8px;
+  color: #184573;
+}
+
+  .fa.fa-pencil-square-o{
+    position: absolute;
+    top: 100%;
+    right: 83%;
+    color: green;
+    cursor: pointer;
+  }
+  .fa.fa-trash-o{
+    position: absolute;
+    top: 100%;
+    right: 51%;
+    color: red;
+    cursor: pointer;
+  }
+
+  .delete .modal-body {
+  height: 70px;
+  overflow-y: auto;
+  }
+  .btn-space {
+    margin: 6px;
+}
+
+  .example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  }
+  
+  .example-radio-button {
+  margin: 5px;
+  }
+
+.code {
+  padding-right: 20px;
+  margin-right: -38px;
+}
+.screen_text{
+  position: absolute;
+  margin-left: 2%;
+}
+
+.mobile-screen-text{
+  position: absolute;
+  left: 2%;
+  font-size: 20px !important;
+  top: 2%;
+}
+.top_align{
+  margin-bottom: 20%;
+}
+.img_size{
+  width:80%;
+}
+
+.bottom_padding{
+  margin-bottom: 5%;
+}
+.entity-card {
+  max-width: 300px;
+  }
+  
+  .createEntityButton {
+  float: right;
+  }
+  
+  .goToButton {
+  background-color: green;
+  color: white;
+  }
+  
+  :host ::ng-deep .ck-editor__editable {
+  min-height: 200px !important;
+  }
+  .modal-dialog{
+  overflow-y: initial !important
+  }
+  .feature .modal-body{
+  height: 400px;
+  overflow-y: auto;
+  }  
+
+
+.image {
+  width: auto;
+  height: 100px;
+  margin-top: 10%;
+  border-radius: 8px;
+  color: #184573;
+}
+
+  .fa.fa-pencil-square-o{
+    position: absolute;
+    top: 100%;
+    right: 83%;
+    color: green;
+    cursor: pointer;
+  }
+  .fa.fa-trash-o{
+    position: absolute;
+    top: 100%;
+    right: 51%;
+    color: red;
+    cursor: pointer;
+  }
+
+  .delete .modal-body {
+  height: 70px;
+  overflow-y: auto;
+  }
+  .btn-space {
+    margin: 6px;
+}
+
+  .example-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  }
+  
+  .example-radio-button {
+  margin: 5px;
+  }
+
+.code {
+  padding-right: 20px;
+  margin-right: -38px;
+}
+.screen_text{
+  position: absolute;
+  margin-left: 2%;
+}
+
+.mobile-screen-text{
+  position: absolute;
+  left: 2%;
+  font-size: 20px !important;
+  top: 2%;
+}
+.top_align{
+  margin-bottom: 20%;
+  margin-top: 3%;
+}
+.img_size{
+  width:80%;
+}
+
+.bottom_padding{
+  margin-bottom: 5%;
+}
+.btn_color{
+  background-color: #033668;
+  border-bottom: 3px solid #033668; 
+}
+.btn_color:hover{
+  background-color: #39a521;
+  border-bottom: 3px solid #2d831a; 
+}
+.btn-space{
+  margin-right: 5%;
+}
+.flow_popup{
+  vertical-align:top;
+    min-width: 50%;
+    margin-top: 3%;
+}
+
