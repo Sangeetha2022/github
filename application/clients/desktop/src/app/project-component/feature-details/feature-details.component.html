@@ -23,7 +23,7 @@
             <div class="row bottom_padding">
                 <div class="col-md-3">
                     <img class="img_size" *ngIf="!entity.is_default" style="float: right; cursor: pointer;" (click)="editEntity(entity)"
-                        src="../../assets/img/feature4.png">
+                        src="../../assets/img/entity3.png">
                 </div>
                 <div class="col-md-7">
                     <h5> {{entity.name}}</h5>
@@ -102,9 +102,8 @@
                   alt="Mobile">
               <span class="fa fa-pencil-square-o fa-2x"
                   (click)="editScreen(screen._id, screen.screenType)" aria-hidden="true"></span>
-              <span class="fa fa-trash-o fa-2x" (click)="deleteScreen(screen._id)"
+              <span  [ngClass]="screen.screenType === 'desktop' ? 'fa fa-trash-o fa-2x desktop_only':'fa fa-trash-o fa-2x'" (click)="deleteScreen(screen._id)"
                   aria-hidden="true"></span>
-
           </div>
           <div class="col-md-4" *ngIf="screenDetails.length === 0">
               No Screen Available.
