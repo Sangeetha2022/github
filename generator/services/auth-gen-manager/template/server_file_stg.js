@@ -1,6 +1,6 @@
 /*
  * Template group server_file
- * Compiled on Thu Jul 18 2019 21:18:17 GMT+0530 (India Standard Time)
+ * Compiled on Tue Jul 23 2019 16:21:12 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -42,8 +42,15 @@ r = function(w, rc) {
     
     }
     w.write("\n");
+    if (st.test(st.prop(s, g, rc, s.object, "isDmnFile", { file: gFile, line: 9, column: 11 }))) {
+    
+        w.write("import { DmnFile } from './dmnDeploye/dmnFile';");
+    
+    
+    }
+    w.write("\n");
     w.write("const PORT = ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "port", { file: gFile, line: 9, column: 21 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "port", { file: gFile, line: 10, column: 21 }));
     w.write(";");
     w.write("\n");
     w.write("\n");
@@ -64,11 +71,11 @@ r = function(w, rc) {
     w.pushIndentation("    ");
     w.write("public mongoUrl: string = 'mongodb://");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "projectName", { file: gFile, line: 15, column: 49 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "projectName", { file: gFile, line: 16, column: 49 }));
     w.write("-app-db.");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "projectName", { file: gFile, line: 15, column: 77 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "projectName", { file: gFile, line: 16, column: 77 }));
     w.write(".svc.cluster.local:27017/");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "databaseName", { file: gFile, line: 15, column: 122 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "databaseName", { file: gFile, line: 16, column: 122 }));
     w.write("';");
     w.write("\n");
     w.write("\n");
@@ -89,9 +96,17 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.write("        ");
-    if (st.test(st.prop(s, g, rc, s.object, "isSeed", { file: gFile, line: 21, column: 19 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "isSeed", { file: gFile, line: 22, column: 19 }))) {
     
         w.write("this.mongoSeedData();");
+    
+    
+    }
+    w.write("\n");
+    w.write("        ");
+    if (st.test(st.prop(s, g, rc, s.object, "isDmnFile", { file: gFile, line: 23, column: 19 }))) {
+    
+        w.write("this.DeployDMNfile();");
     
     
     }
@@ -144,7 +159,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "isSeed", { file: gFile, line: 37, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "isSeed", { file: gFile, line: 39, column: 11 }))) {
     
         w.write("\n");
         w.pushIndentation("    ");
@@ -157,6 +172,30 @@ r = function(w, rc) {
         w.write("\n");
         w.pushIndentation("        ");
         w.write("seedData.create();");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("    ");
+        w.write("}");
+        w.popIndentation();
+        w.write("\n");
+    
+    
+    }
+    w.write("\n");
+    w.write("\n");
+    if (st.test(st.prop(s, g, rc, s.object, "isDmnFile", { file: gFile, line: 46, column: 11 }))) {
+    
+        w.write("\n");
+        w.pushIndentation("    ");
+        w.write("private DeployDMNfile(): void {");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write("let dmnfile = new DmnFile();");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write("dmnfile.dmnFileDeploye();");
         w.popIndentation();
         w.write("\n");
         w.pushIndentation("    ");
