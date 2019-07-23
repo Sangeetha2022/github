@@ -11,6 +11,5 @@ spec:
  - name: mongo-db
    port: 27017
    targetPort: 27017
-   nodePort: 30027
  selector:
    name: {{ .Values.app.prefix }}-app-db

@@ -1,6 +1,6 @@
 /*
  * Template group values_yaml
- * Compiled on Sun Jul 21 2019 02:24:21 GMT+0530 (IST)
+ * Compiled on Wed Jul 24 2019 02:37:47 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -76,10 +76,6 @@ r = function(w, rc) {
     w.write("targetPort: 3000");
     w.popIndentation();
     w.write("\n");
-    w.pushIndentation("    ");
-    w.write("nodePort: 30000");
-    w.popIndentation();
-    w.write("\n");
     w.pushIndentation("  ");
     w.write("camunda:");
     w.popIndentation();
@@ -98,10 +94,6 @@ r = function(w, rc) {
     w.write("\n");
     w.pushIndentation("    ");
     w.write("targetPort: 3008");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("    ");
-    w.write("nodePort: 30008");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -124,16 +116,12 @@ r = function(w, rc) {
     w.write("targetPort: 3009");
     w.popIndentation();
     w.write("\n");
-    w.pushIndentation("    ");
-    w.write("nodePort: 30009");
-    w.popIndentation();
-    w.write("\n");
     w.pushIndentation("  ");
     w.write("security:");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("name: security");
+    w.write("name: securitymanager");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -148,16 +136,12 @@ r = function(w, rc) {
     w.write("targetPort: 3007");
     w.popIndentation();
     w.write("\n");
-    w.pushIndentation("    ");
-    w.write("nodePort: 30007");
-    w.popIndentation();
-    w.write("\n");
     w.pushIndentation("  ");
     w.write("admin:");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("name: admin");
+    w.write("name: adminmanager");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -170,10 +154,6 @@ r = function(w, rc) {
     w.write("\n");
     w.pushIndentation("    ");
     w.write("targetPort: 3010");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("    ");
-    w.write("nodePort: 30010");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -196,10 +176,6 @@ r = function(w, rc) {
     w.write("targetPort: 27017");
     w.popIndentation();
     w.write("\n");
-    w.pushIndentation("    ");
-    w.write("nodePort: 30027");
-    w.popIndentation();
-    w.write("\n");
     w.pushIndentation("  ");
     w.write("desktop:");
     w.popIndentation();
@@ -218,10 +194,6 @@ r = function(w, rc) {
     w.write("\n");
     w.pushIndentation("    ");
     w.write("targetPort: 80");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("    ");
-    w.write("nodePort: 32000");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -244,10 +216,6 @@ r = function(w, rc) {
     w.write("targetPort: 8080");
     w.popIndentation();
     w.write("\n");
-    w.pushIndentation("    ");
-    w.write("nodePort: 30060");
-    w.popIndentation();
-    w.write("\n");
     w.write("\n");
     w.write("deployment:");
     w.write("\n");
@@ -268,7 +236,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: ");
+    w.write("image: geppettotest/");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
     w.write("-apigateway:1.0");
@@ -294,7 +262,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: ");
+    w.write("image: geppettotest/");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
     w.write("-camunda:1.0");
@@ -308,7 +276,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: ");
+    w.write("image: geppettotest/");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
     w.write("-authproxy:1.0");
@@ -318,28 +286,28 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("name: security");
+    w.write("name: securitymanager");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: ");
+    w.write("image: geppettotest/");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
-    w.write("-security:1.0");
+    w.write("-securitymanager:1.0");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("admin:");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("name: admin");
+    w.write("name: adminmanager");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: ");
+    w.write("image: geppettotest/");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
-    w.write("-admin:1.0");
+    w.write("-adminmanager:1.0");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("desktop:");
@@ -350,7 +318,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: ");
+    w.write("image: geppettotest/");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
     w.write("-desktop:1.0");

@@ -9,6 +9,5 @@ spec:
   - name: {{ .Values.service.camundapod.name }}
     port: 8080
     targetPort: 8080
-    nodePort: 30060
   selector:
     app: {{ .Values.app.prefix }}-camunda-pod
