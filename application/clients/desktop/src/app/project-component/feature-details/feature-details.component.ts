@@ -127,7 +127,9 @@ export class FeatureDetailsComponent implements OnInit {
     // This is the default title property created by the angular cli. Its responsible for the app works
     isPrimaryEntityPresent: boolean;
     deletePopup: string;
+    deletescreenPopup:string;
     selectedEntityId: any;
+    selectedScreenId: any;
     flowInFeatureColumn: any[];
     entitydetails: { 'entities': { 'entityType': any; 'entityId': any; }; 'name': any; 'description': any; 'updated_date': number; }[];
     updateEntityId: any;
@@ -358,14 +360,10 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     deleteScreen(screenId) {
-        this.screenService.deleteScreen(screenId).subscribe(
-            (data) => {
-                this.getFeatureById();
-            },
-            (error) => {
-
-            }
-        );
+        this.deletescreenPopup = 'block';
+        console.log(screenId);
+        this.selectedScreenId=screenId;
+        
     }
 
 
@@ -965,5 +963,21 @@ export class FeatureDetailsComponent implements OnInit {
 
             }
         );
+    }
+
+    
+    deleteScreenPopup() {
+        this.deletescreenPopup = 'none';
+        this.screenService.deleteScreen( this.selectedScreenId).subscribe(
+            (data) => {
+                this.getFeatureById();
+            },
+            (error) => {
+
+            }
+        );
+    }
+    closedeleteScreenPopup(){
+        this.deletescreenPopup = 'none';
     }
 }

@@ -74,6 +74,7 @@ html {
 body {
   margin-bottom:0px;
   overflow-x: hidden;
+  padding-bottom: 12%;
 }
 
 app-projects .container .sitecard {
@@ -82,4 +83,17 @@ app-projects .container .sitecard {
 }
 .container .sitecard .sitecard-info {
   height: 77% ;
+}
+.component_top{
+  margin-top: 3%;
+}
+.mat-dialog-actions{
+  justify-content: center;
+}
+app-projects .container .sitecard .sitecard-actions {
+  position: relative;
+  z-index: 10;
+  margin-right: 0;
+  bottom: 0;
+  margin-left: 0;
 }

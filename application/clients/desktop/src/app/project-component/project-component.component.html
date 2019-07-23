@@ -164,7 +164,7 @@
                         </div>
                     </div>
                     <div class="row" style="margin: 0px;padding-bottom: 20px;">
-                        <div class="col-md-3" *ngFor="let screen of screenDetails; let i = index">
+                        <div class="col-md-3 bottom_padding" *ngFor="let screen of screenDetails; let i = index">
                             <span class="screen_text">{{screen?.screenName}}</span>
                             <img src="../../assets/img/desktop.png" *ngIf="screen.screenType === 'desktop'"
                                 class="image" alt="Desktop">

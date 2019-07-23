@@ -27,13 +27,23 @@
     // top right no-repeat;
      background-attachment:fixed; 
     // background-color: #cccccc;
-    height: -webkit-fill-available;
+    // height: -webkit-fill-available;
     background-position: center;
     background-repeat: no-repeat;
     // background-size: cover;
-    position: relative;
+    // position: relative;
+    width: 30%;
+    height: 80%;
+    /* background: url(your-url) no-repeat center; */
+    /* background-size: 100% 100%; */
+    position: fixed;
+    background-position: center;
   }
   // .div_height{
-  // height:-webkit-fill-available;
-
+  // .element::-webkit-scrollbar { width: 0 !important }
+  // .element { overflow: -moz-scrollbars-none; }
+  // .element { -ms-overflow-style: none; }
   // }
+  // ::-webkit-scrollbar {
+  //   display: none;
+// }
