@@ -119,16 +119,16 @@ export class LocalInfrastructureController {
 
 
      projectDetails.destinationUrl = deploymentFolder;
-    //generate script for system entry pod image
+    //generate script for local
     if (projectDetails.system_entry_pod) {
-      dockerService.generate_build_script_system_entry_pod(projectDetails, (response) => {
+      dockerService.generate_build_script_local(projectDetails, (response) => {
         //res.send(200);
       })
     }
 
-    //generate script for app pod image
+    //generate script for cloud
     if (projectDetails.app_pod) {
-      dockerService.generate_build_script_app_pod(projectDetails, (response) => {
+      dockerService.generate_build_script_cloud(projectDetails, (response) => {
         //res.send(200);
       })
     }

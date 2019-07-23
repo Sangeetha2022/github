@@ -20,7 +20,7 @@ export class CamundaService {
 
         resourcemodel.find().then((result) => {
             asyncLoop(result, (resource, next) => {
-                if (resource.resources === 'Landing') {
+                if (resource.resources === 'home') {
                     console.log('------ifcondition-loop-----', resource.resources);
                     this.resourcevalue = resource.resources;
                 }
