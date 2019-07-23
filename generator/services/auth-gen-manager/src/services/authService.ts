@@ -597,7 +597,7 @@ export class AuthService {
             port: this.ports.camunda,
             projectName: this.projectName.toLowerCase(),
             databaseName: this.projectName.toLowerCase(),
-            isSeed: false
+            isSeed: true
         }
         console.log('camunda generation folder are ------before generate---------   ', this.authGenFiles);
         this.generateServerFile(`${this.authGenFiles.camundaFolder}/src`, this.authGenFiles.templatepath,

@@ -31,9 +31,22 @@ $if(object.additional.camunda.login)$
                 req.baseUrl === '/mobile' ? res.send({"Userdetails": $object.additional.camunda.login.responseParameter$}) :
                     req.baseUrl === '/desktop' ? res.send({"Userdetails": $object.additional.camunda.login.responseParameter$}) : res.send(null)
             } else {
-                const authVerification = await this.Jwtverify(token, $object.additional.camunda.login.responseParameter$);
-                req.baseUrl === '/mobile' ? res.send(authVerification) :
-                    req.baseUrl === '/desktop' ? res.send(authVerification) : res.send(null)
+                          $if(object.additional.camunda.isVerify)$
+            jwt.verify(token, 'geppettosecret', (err, decoded) => {
+                if (err) {
+                    return ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
+                } else {
+                    new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded).then((response) => {
+                        const temp = {
+                            "Access": JSON.parse(JSON.stringify(response)).body,
+                            "Userdetails": result
+                        }
+                req.baseUrl === '/mobile' ? res.send(temp) :
+                req.baseUrl === '/desktop' ? res.send(temp) : res.send(null)
+                    })
+                }
+            })
+$endif$
             }
         }).catch(err => {
             res.send(err);
@@ -46,19 +59,8 @@ $if(object.additional.camunda.consent)$
         new ApiAdaptar().$object.additional.camunda.consent.apiAction$($object.additional.camunda.consent.constantName$.$object.additional.camunda.consent.nodeName$ + `$object.additional.camunda.consent.methodUrl$` $if(object.additional.camunda.consent.requestParameter)$, $object.additional.camunda.consent.requestParameter$$endif$).then(async ($object.additional.camunda.consent.responseParameter$) => {
             // @ts-ignore
             const token = $object.additional.camunda.consent.responseParameter$.body.Idtoken;
-            const authVerification = await this.Jwtverify(token, $object.additional.camunda.consent.responseParameter$);
-            req.baseUrl === '/mobile' ? res.send(authVerification) :
-                req.baseUrl === '/desktop' ? res.send(authVerification) : res.send(null)
-        }).catch(err => {
-            res.send(err);
-        });
-    }
-$endif$
-
-$if(object.additional.camunda.isVerify)$
-public Jwtverify(Idtoken, result) {
-        return new Promise(resolve => {
-            jwt.verify(Idtoken, 'geppettosecret', (err, decoded) => {
+            $if(object.additional.camunda.isVerify)$
+            jwt.verify(token, 'geppettosecret', (err, decoded) => {
                 if (err) {
                     return ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
                 } else {
@@ -67,14 +69,17 @@ public Jwtverify(Idtoken, result) {
                             "Access": JSON.parse(JSON.stringify(response)).body,
                             "Userdetails": result
                         }
-                        resolve(temp);
+                req.baseUrl === '/mobile' ? res.send(temp) :
+                req.baseUrl === '/desktop' ? res.send(temp) : res.send(null)
                     })
                 }
             })
-        })
+$endif$
+        }).catch(err => {
+            res.send(err);
+        });
     }
 $endif$
-
 }
 
 >>

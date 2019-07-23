@@ -1,6 +1,6 @@
 /*
  * Template group apicontroller
- * Compiled on Fri Jul 12 2019 12:05:17 GMT+0530 (India Standard Time)
+ * Compiled on Tue Jul 23 2019 12:52:29 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -255,19 +255,69 @@ r = function(w, rc) {
         w.write("} else {");
         w.popIndentation();
         w.write("\n");
-        w.pushIndentation("                ");
-        w.write("const authVerification = await this.Jwtverify(token, ");
-        w.popIndentation();
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 34, column: 77 }), "camunda", { file: gFile, line: 34, column: 88 }), "login", { file: gFile, line: 34, column: 96 }), "responseParameter", { file: gFile, line: 34, column: 102 }));
-        w.write(");");
-        w.write("\n");
-        w.pushIndentation("                ");
-        w.write("req.baseUrl === '/mobile' ? res.send(authVerification) :");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                    ");
-        w.write("req.baseUrl === '/desktop' ? res.send(authVerification) : res.send(null)");
-        w.popIndentation();
+        w.write("                          ");
+        if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 34, column: 37 }), "camunda", { file: gFile, line: 34, column: 48 }), "isVerify", { file: gFile, line: 34, column: 56 }))) {
+        
+            w.write("\n");
+            w.pushIndentation("            ");
+            w.write("jwt.verify(token, 'geppettosecret', (err, decoded) => {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("if (err) {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write("return ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("} else {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write("new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded).then((response) => {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                        ");
+            w.write("const temp = {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                            ");
+            w.write("\"Access\": JSON.parse(JSON.stringify(response)).body,");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                            ");
+            w.write("\"Userdetails\": result");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                        ");
+            w.write("}");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("req.baseUrl === '/mobile' ? res.send(temp) :");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("req.baseUrl === '/desktop' ? res.send(temp) : res.send(null)");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write("})");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("}");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("            ");
+            w.write("})");
+            w.popIndentation();
+            w.write("\n");
+        
+        
+        }
         w.write("\n");
         w.pushIndentation("            ");
         w.write("}");
@@ -294,35 +344,35 @@ r = function(w, rc) {
     }
     w.write("\n");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 44, column: 11 }), "camunda", { file: gFile, line: 44, column: 22 }), "consent", { file: gFile, line: 44, column: 30 }))) {
+    if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 57, column: 11 }), "camunda", { file: gFile, line: 57, column: 22 }), "consent", { file: gFile, line: 57, column: 30 }))) {
     
         w.write("\n");
         w.pushIndentation("   ");
         w.write("public ");
         w.popIndentation();
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 45, column: 18 }), "camunda", { file: gFile, line: 45, column: 29 }), "consent", { file: gFile, line: 45, column: 37 }), "methodName", { file: gFile, line: 45, column: 45 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 58, column: 18 }), "camunda", { file: gFile, line: 58, column: 29 }), "consent", { file: gFile, line: 58, column: 37 }), "methodName", { file: gFile, line: 58, column: 45 }));
         w.write("(req: Request, res: Response) {");
         w.write("\n");
         w.pushIndentation("        ");
         w.write("new ApiAdaptar().");
         w.popIndentation();
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 46, column: 33 }), "camunda", { file: gFile, line: 46, column: 44 }), "consent", { file: gFile, line: 46, column: 52 }), "apiAction", { file: gFile, line: 46, column: 60 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 59, column: 33 }), "camunda", { file: gFile, line: 59, column: 44 }), "consent", { file: gFile, line: 59, column: 52 }), "apiAction", { file: gFile, line: 59, column: 60 }));
         w.write("(");
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 46, column: 79 }), "camunda", { file: gFile, line: 46, column: 90 }), "consent", { file: gFile, line: 46, column: 98 }), "constantName", { file: gFile, line: 46, column: 106 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 59, column: 79 }), "camunda", { file: gFile, line: 59, column: 90 }), "consent", { file: gFile, line: 59, column: 98 }), "constantName", { file: gFile, line: 59, column: 106 }));
         w.write(".");
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 46, column: 128 }), "camunda", { file: gFile, line: 46, column: 139 }), "consent", { file: gFile, line: 46, column: 147 }), "nodeName", { file: gFile, line: 46, column: 155 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 59, column: 128 }), "camunda", { file: gFile, line: 59, column: 139 }), "consent", { file: gFile, line: 59, column: 147 }), "nodeName", { file: gFile, line: 59, column: 155 }));
         w.write(" + `");
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 46, column: 176 }), "camunda", { file: gFile, line: 46, column: 187 }), "consent", { file: gFile, line: 46, column: 195 }), "methodUrl", { file: gFile, line: 46, column: 203 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 59, column: 176 }), "camunda", { file: gFile, line: 59, column: 187 }), "consent", { file: gFile, line: 59, column: 195 }), "methodUrl", { file: gFile, line: 59, column: 203 }));
         w.write("` ");
-        if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 46, column: 226 }), "camunda", { file: gFile, line: 46, column: 237 }), "consent", { file: gFile, line: 46, column: 245 }), "requestParameter", { file: gFile, line: 46, column: 253 }))) {
+        if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 59, column: 226 }), "camunda", { file: gFile, line: 59, column: 237 }), "consent", { file: gFile, line: 59, column: 245 }), "requestParameter", { file: gFile, line: 59, column: 253 }))) {
         
             w.write(", ");
-            st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 46, column: 281 }), "camunda", { file: gFile, line: 46, column: 292 }), "consent", { file: gFile, line: 46, column: 300 }), "requestParameter", { file: gFile, line: 46, column: 308 }));
+            st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 59, column: 281 }), "camunda", { file: gFile, line: 59, column: 292 }), "consent", { file: gFile, line: 59, column: 300 }), "requestParameter", { file: gFile, line: 59, column: 308 }));
         
         
         }
         w.write(").then(async (");
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 46, column: 354 }), "camunda", { file: gFile, line: 46, column: 365 }), "consent", { file: gFile, line: 46, column: 373 }), "responseParameter", { file: gFile, line: 46, column: 381 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 59, column: 354 }), "camunda", { file: gFile, line: 59, column: 365 }), "consent", { file: gFile, line: 59, column: 373 }), "responseParameter", { file: gFile, line: 59, column: 381 }));
         w.write(") => {");
         w.write("\n");
         w.pushIndentation("            ");
@@ -332,22 +382,72 @@ r = function(w, rc) {
         w.pushIndentation("            ");
         w.write("const token = ");
         w.popIndentation();
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 48, column: 34 }), "camunda", { file: gFile, line: 48, column: 45 }), "consent", { file: gFile, line: 48, column: 53 }), "responseParameter", { file: gFile, line: 48, column: 61 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 61, column: 34 }), "camunda", { file: gFile, line: 61, column: 45 }), "consent", { file: gFile, line: 61, column: 53 }), "responseParameter", { file: gFile, line: 61, column: 61 }));
         w.write(".body.Idtoken;");
         w.write("\n");
-        w.pushIndentation("            ");
-        w.write("const authVerification = await this.Jwtverify(token, ");
-        w.popIndentation();
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 49, column: 73 }), "camunda", { file: gFile, line: 49, column: 84 }), "consent", { file: gFile, line: 49, column: 92 }), "responseParameter", { file: gFile, line: 49, column: 100 }));
-        w.write(");");
-        w.write("\n");
-        w.pushIndentation("            ");
-        w.write("req.baseUrl === '/mobile' ? res.send(authVerification) :");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                ");
-        w.write("req.baseUrl === '/desktop' ? res.send(authVerification) : res.send(null)");
-        w.popIndentation();
+        w.write("            ");
+        if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 62, column: 23 }), "camunda", { file: gFile, line: 62, column: 34 }), "isVerify", { file: gFile, line: 62, column: 42 }))) {
+        
+            w.write("\n");
+            w.pushIndentation("            ");
+            w.write("jwt.verify(token, 'geppettosecret', (err, decoded) => {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("if (err) {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write("return ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("} else {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write("new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded).then((response) => {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                        ");
+            w.write("const temp = {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                            ");
+            w.write("\"Access\": JSON.parse(JSON.stringify(response)).body,");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                            ");
+            w.write("\"Userdetails\": result");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                        ");
+            w.write("}");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("req.baseUrl === '/mobile' ? res.send(temp) :");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("req.baseUrl === '/desktop' ? res.send(temp) : res.send(null)");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write("})");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("}");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("            ");
+            w.write("})");
+            w.popIndentation();
+            w.write("\n");
+        
+        
+        }
         w.write("\n");
         w.pushIndentation("        ");
         w.write("}).catch(err => {");
@@ -368,81 +468,6 @@ r = function(w, rc) {
     
     
     }
-    w.write("\n");
-    w.write("\n");
-    if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 58, column: 11 }), "camunda", { file: gFile, line: 58, column: 22 }), "isVerify", { file: gFile, line: 58, column: 30 }))) {
-    
-        w.write("\n");
-        w.write("public Jwtverify(Idtoken, result) {");
-        w.write("\n");
-        w.pushIndentation("        ");
-        w.write("return new Promise(resolve => {");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("            ");
-        w.write("jwt.verify(Idtoken, 'geppettosecret', (err, decoded) => {");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                ");
-        w.write("if (err) {");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                    ");
-        w.write("return ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                ");
-        w.write("} else {");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                    ");
-        w.write("new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded).then((response) => {");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                        ");
-        w.write("const temp = {");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                            ");
-        w.write("\"Access\": JSON.parse(JSON.stringify(response)).body,");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                            ");
-        w.write("\"Userdetails\": result");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                        ");
-        w.write("}");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                        ");
-        w.write("resolve(temp);");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                    ");
-        w.write("})");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("                ");
-        w.write("}");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("            ");
-        w.write("})");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("        ");
-        w.write("})");
-        w.popIndentation();
-        w.write("\n");
-        w.pushIndentation("    ");
-        w.write("}");
-        w.popIndentation();
-        w.write("\n");
-    
-    
-    }
-    w.write("\n");
     w.write("\n");
     w.write("}");
     w.write("\n");

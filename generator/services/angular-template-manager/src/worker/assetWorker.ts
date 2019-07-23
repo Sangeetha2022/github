@@ -13,6 +13,16 @@ export class AssetWorker {
         'favicon.ico',
         'hsbc-logo.svg',
         'students.jpg',
+        'cisco1.jpg',
+        'cisco2.jpg',
+        'cisco3.jpg',
+        'cisco4.jpg',
+        'ciscoAboutImg.jpg',
+        'ciscohamburger.png',
+        'ciscoHome.jpg',
+        'ciscoImage.jpg',
+        'ciscoLock.jpg',
+        'ciscologo.png',
         'tpl-img-blue-mount--small.jpg',
         'tpl-img-cliff--small.jpg',
         'tpl-img-green-ch.jpg',
@@ -32,10 +42,13 @@ export class AssetWorker {
     private JAVASCRIPT_FOLDERNAME = 'js';
 
     checkAssetFile(arrayData, generationPath, templatePath) {
-        let isFound = false;
         this.ASSET_IMAGE_NAME.forEach(imageElement => {
             const index = arrayData.indexOf(imageElement);
+
             if (index > -1) {
+                if (imageElement === 'hsbc-logo.svg') {
+                    console.log('element name ---- ', imageElement, '  --index--   ', index, ' --arrayval-- ', arrayData);
+                }
                 this.generateAssetFile(imageElement, generationPath, templatePath, this.IMAGE_FOLDERNAME);
             }
         });
