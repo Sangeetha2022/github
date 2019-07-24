@@ -35,7 +35,7 @@ export class DmnWorkerFile {
             });
         } else {
             console.log('----else part----');
-            screensname = ['Landing', 'admin'];
+            screensname = ['home'];
         }
         return screensname;
     }

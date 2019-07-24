@@ -4,11 +4,11 @@ import { resourcetypes } from './assets/screen';
 
 const resourcemodel = mongoose.model('Resource', Resourceschema);
 
-export class ResourceSeedData {
+export class SeedService {
 
     constructor() { }
 
-    public Createresource(): void {
+    public create(): void {
         resourcetypes.map(something =>{
             resourcemodel.findOneAndUpdate({resources: something['resources']},
             something, {new: true}, (err, data)=>{

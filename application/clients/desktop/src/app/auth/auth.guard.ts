@@ -174,6 +174,23 @@ export class AuthGuard implements CanActivate {
             return true;
           }
         }
+        if (this.routename[1] === 'admin') {
+          console.log('-------------coming in Admin page-----');
+          if (this.viewpermission !== 'true') {
+            return false;
+          } else {
+            return true;
+          }
+        }
+        if (this.routename[1] === 'usermanagement') {
+          console.log('-------------coming in User management-----');
+          if (this.viewpermission !== 'true') {
+            return false;
+          } else {
+            return true;
+          }
+        }
+
       }
     } else {
       this.router.navigate(['']);

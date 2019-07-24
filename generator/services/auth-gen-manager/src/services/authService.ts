@@ -259,6 +259,7 @@ export class AuthService {
             port: this.ports.authProxy,
             projectName: this.projectName.toLowerCase(),
             databaseName: this.projectName.toLowerCase(),
+            isDmnFile: false,
             isSeed: false
         }
         console.log('authProxyPath generation folder are ------before authProxyPath---------   ', this.authGenFiles);
@@ -440,6 +441,7 @@ export class AuthService {
             port: this.ports.security,
             projectName: this.projectName.toLowerCase(),
             databaseName: this.projectName.toLowerCase(),
+            isDmnFile: false,
             isSeed: true
         }
         console.log('security generation folder are ------before generate---------   ', this.authGenFiles);
@@ -597,7 +599,8 @@ export class AuthService {
             port: this.ports.camunda,
             projectName: this.projectName.toLowerCase(),
             databaseName: this.projectName.toLowerCase(),
-            isSeed: false
+            isDmnFile: true,
+            isSeed: true
         }
         console.log('camunda generation folder are ------before generate---------   ', this.authGenFiles);
         this.generateServerFile(`${this.authGenFiles.camundaFolder}/src`, this.authGenFiles.templatepath,
