@@ -49,6 +49,7 @@ export class ProjectsComponent implements OnInit {
   public scopes: any;
   public states: any;
   public lang: any;
+  public defaultscreenvalue: any;
   gepTemplates: any = [];
   constructor(
     private formBuilder: FormBuilder,
@@ -61,8 +62,8 @@ export class ProjectsComponent implements OnInit {
     private route: ActivatedRoute,
     private screenDesignerService: ScreenDesignerService,
     private entityManagerService: ProjectComponentService,
-  ) {    
-     }
+  ) {
+  }
 
   ngOnInit() {
     this.UserId = sessionStorage.getItem('Id');
@@ -77,22 +78,22 @@ export class ProjectsComponent implements OnInit {
     });
 
     this.lang = navigator.language;
-if (this.lang.includes("ta")) {
-console.log("tamil")
-this.lang = "Tamil"
-this.createProject.controls['primaryLanguage'].setValue(this.lang, {onlySelf: true});
-} else if (this.lang.includes("en")) {
-  this.lang = "English"
-  this.createProject.controls['primaryLanguage'].setValue(this.lang, {onlySelf: true});
-  console.log("eng")
-} else if (this.lang.includes("es")) {
-  this.lang = "Spanish"
-  this.createProject.controls['primaryLanguage'].setValue(this.lang, {onlySelf: true});
-  console.log("span")
-} else {
-  this.lang = "English"
-  this.createProject.controls['primaryLanguage'].setValue(this.lang, {onlySelf: true});
-}
+    if (this.lang.includes("ta")) {
+      console.log("tamil")
+      this.lang = "Tamil"
+      this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
+    } else if (this.lang.includes("en")) {
+      this.lang = "English"
+      this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
+      console.log("eng")
+    } else if (this.lang.includes("es")) {
+      this.lang = "Spanish"
+      this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
+      console.log("span")
+    } else {
+      this.lang = "English"
+      this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
+    }
     // socket
     // this.initSocket();
     // this.onEvent();
@@ -253,6 +254,12 @@ this.createProject.controls['primaryLanguage'].setValue(this.lang, {onlySelf: tr
         this.projectsService.createProjectDefaults(data._id).subscribe(
           (defaultRes) => {
           }, (error) => { });
+        this.projectsService.createScreendefaults(data._id).subscribe(
+          (defaultscreen) => {
+            this.defaultscreenvalue = defaultscreen;
+          }, (error) => {
+            console.error('Error:', error);
+          });
         // this.defaultEntity.user_id = "12345"
         // this.defaultEntity.user_name = "david",
         // this.defaultEntity.project_id = data._id;

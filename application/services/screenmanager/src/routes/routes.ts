@@ -1,10 +1,12 @@
 
 import { ScreenController } from '../controllers/ScreenController';
+import { DefaultScreencontroller } from '../controllers/defaultScreencontroller';
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {
 
     public screenController: ScreenController = new ScreenController();
+    public defaultController: DefaultScreencontroller = new DefaultScreencontroller();
 
     public routes(app): void {
 
@@ -21,5 +23,8 @@ export class Routes {
         app.route('/screen/getbyprojectid/:projectId').get(this.screenController.getAllScreenByProjectId);
         app.route('/screen/getbyprojectandfeatureid/:projectId/:featureId').get(this.screenController.getAllScreenByProjectAndFeatureId);
         app.route('/screen/getbyfeatureid/:id').get(this.screenController.getAllScreenByFeatureId);
+
+        // default screen created for new project
+        app.route('/projects/default/screen').get(this.defaultController.createdefaultscreen);
     }
 }
