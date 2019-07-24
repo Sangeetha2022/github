@@ -7,7 +7,7 @@ APPLICATION='/$project_name$'
 
 MICROSERVICEPATH='/application/services'
 
-HELMPATH='/devops/helm'
+HELMPATH='/devops'
 
 
 DESKTOPCODE='/application/client/desktop/$project_name$/'
@@ -86,9 +86,9 @@ helm install --dry-run --debug ./helm
 helm install --name $project_name$ ./helm
 if [ \$? -eq 0 ]; then
     echo "App Deployment is Done"
-    export NODE_PORT=\$(kubectl get --namespace $project_name$ -o jsonpath="{.spec.ports[0].nodePort}" services $project_name$-desktop)
-    export NODE_IP=\$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
-    echo "api address : http://\$NODE_IP:\$NODE_PORT"
+    #export NODE_PORT=\$(kubectl get --namespace $project_name$ -o jsonpath="{.spec.ports[0].nodePort}" services $project_name$-desktop)
+    #export NODE_IP=\$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
+    #echo "App Url : http://\$NODE_IP:\$NODE_PORT"
 
 else
     echo "App deployment is Failed, there is a problem with helm charts"
