@@ -19,6 +19,7 @@ export class AngularTemplateService {
     private templatePath = '';
     private grapesjsCSS = '';
     private menuDetails = '';
+    private templateName = '';
     private apigatewayPortNumber = 0;
     private sharedObj = {
         className: 'Shared',
@@ -39,6 +40,7 @@ export class AngularTemplateService {
         console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
         const grapesjsComponent = this.details.template[0]['gjs-components'][0];
         this.grapesjsCSS = this.details.template[0]['gjs-css'];
+        this.templateName = this.details.template[0].screenName;
         if (this.details.menuBuilder.length > 0) {
             this.menuDetails = this.details.menuBuilder[0].menuDetails;
         }
@@ -111,7 +113,7 @@ export class AngularTemplateService {
     }
 
     public generateAngularApp(callback) {
-        return commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, this.projectName, (response) => {
+        return commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, this.templateName, (response) => {
             return dependencyWorker.generateAppRoutingFile(this.generationPath, this.templatePath, this.menuDetails, (response) => {
                 return commonWorker.generateMainFile(this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.projectName, (response) => {
                     callback(response);

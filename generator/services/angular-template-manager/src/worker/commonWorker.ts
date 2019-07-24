@@ -74,10 +74,10 @@ export class CommonWorker {
 
     }
 
-    generateAngularTemplate(generationPath, templatePath, projectName, callback) {
-        // console.log('headerobject before create are ----------   ', this.templateHeaderObj);
+    generateAngularTemplate(generationPath, templatePath, templateName, callback) {
+        console.log('headerobject before create are --TEMPLATENAME--------   ', templateName);
         if (this.templateHeaderObj.tag.length === 0 && this.templateHeaderObj.css.length === 0) {
-            this.templateHeaderObj.tag.push(constant.sideBar.htmlTag[0].replace(this.CHANGENAME, projectName));
+            this.templateHeaderObj.tag.push(constant.sideBar.htmlTag[0].replace(this.CHANGENAME, templateName.toUpperCase().replace('TEMPLATE', '')));
             this.templateHeaderObj.css = constant.sideBar.css;
             constant.sideBar.script.forEach(scriptElement => {
                 this.scriptTag.push(scriptElement);
@@ -368,7 +368,7 @@ export class CommonWorker {
                 // }
                 // console.log('isContentOnly pushed values are ---item.content-- ', firstEle.content, '  --item.type---  ', firstEle.type);
 
-            } else if (!firstEle.content && (this.tagName == 'button')) {
+            } else if (!firstEle.content && (this.tagName == 'button' || this.tagName == 'input')) {
                 this.isContentOnly = true;
                 this.setTagValue();
                 // this.startTag.push(this.startString);
