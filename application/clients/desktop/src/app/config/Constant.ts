@@ -28,6 +28,7 @@ export class Constants {
     public static get addProjectDefaults(): String { return '/projects/default/create'; }
     public static get updateProjectById(): String { return '/projects/my/update'; }
     public static get getProjectById(): String { return '/projects/my/getbyid'; }
+    public static get addProjectScreenDefault(): String { return '/projects/default/screen'; }
 
 
     // Flow apis

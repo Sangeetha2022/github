@@ -34,6 +34,10 @@ export class ProjectsService {
     return this.api.get(`${this.restapi.entityUrl}${Constants.addProjectDefaults}/?projectId=${projectId}`);
   }
 
+  createScreendefaults(projectId: String): Observable<any> {
+    return this.api.get(`${this.restapi.screenUrl}${Constants.addProjectScreenDefault}/?projectId=${projectId}`);
+  }
+
   updateProjectById(projectId: String, projectDetails: any): Observable<any> {
     return this.api.put(`${this.restapi.projbaseUrl}${Constants.updateProjectById}/${projectId}`, projectDetails);
   }
