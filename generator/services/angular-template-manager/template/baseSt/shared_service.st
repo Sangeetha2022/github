@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 })
 export class $object.className$Service {
 
-public $object.variableName$: String = '$object.protocol$://$object.link$:$object.port$';
+public apiGateway: String = 'http://'+window.location.hostname+':31234';
 
 }
 $endif$
