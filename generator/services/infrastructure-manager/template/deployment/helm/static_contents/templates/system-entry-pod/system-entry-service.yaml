@@ -9,6 +9,5 @@ spec:
   - name: nginx-app
     port: 80
     targetPort: 80
-    NodePort: 31010
   selector:
     app: {{ .Values.app.prefix }}-desktop

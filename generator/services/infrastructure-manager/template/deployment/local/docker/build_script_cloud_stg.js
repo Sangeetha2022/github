@@ -1,6 +1,6 @@
 /*
  * Template group build_script_cloud
- * Compiled on Tue Jul 23 2019 20:39:33 GMT+0530 (India Standard Time)
+ * Compiled on Wed Jul 24 2019 13:32:57 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -235,6 +235,23 @@ r = function(w, rc) {
     w.pushIndentation("    ");
     w.write("echo \"App Deployment is Done\"");
     w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("export NODE_PORT=$(kubectl get --namespace ");
+    w.popIndentation();
+    st.write(w, s, g, rc, s.project_name);
+    w.write(" -o jsonpath=\"{.spec.ports[0].nodePort}\" services ");
+    st.write(w, s, g, rc, s.project_name);
+    w.write("-desktop)");
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath=\"{.items[0].status.addresses[0].address}\")");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("echo \"api address : http://$NODE_IP:$NODE_PORT\"");
+    w.popIndentation();
+    w.write("\n");
     w.write("\n");
     w.write("else");
     w.write("\n");
