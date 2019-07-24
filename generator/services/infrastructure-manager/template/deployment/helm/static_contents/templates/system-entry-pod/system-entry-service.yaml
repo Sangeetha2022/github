@@ -7,7 +7,7 @@ spec:
   type: NodePort
   ports:
   - name: nginx-app
-    port: 80
-    targetPort: 80
+    port: {{ .Values.service.desktop.port }}
+    targetPort: {{ .Values.service.desktop.targetPort }}
   selector:
     app: {{ .Values.app.prefix }}-desktop

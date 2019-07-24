@@ -1,6 +1,6 @@
 /*
  * Template group build_script_cloud
- * Compiled on Wed Jul 24 2019 15:21:04 GMT+0530 (IST)
+ * Compiled on Wed Jul 24 2019 17:09:57 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -237,7 +237,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("#export NODE_PORT=$(kubectl get --namespace ");
+    w.write("export NODE_PORT=$(kubectl get --namespace ");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
     w.write(" -o jsonpath=\"{.spec.ports[0].nodePort}\" services ");
@@ -245,11 +245,11 @@ r = function(w, rc) {
     w.write("-desktop)");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("#export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath=\"{.items[0].status.addresses[0].address}\")");
+    w.write("export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath=\"{.items[0].status.addresses[1].address}\")");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("#echo \"App Url : http://$NODE_IP:$NODE_PORT\"");
+    w.write("echo \"App Url : http://$NODE_IP:$NODE_PORT\"");
     w.popIndentation();
     w.write("\n");
     w.write("\n");
