@@ -1,6 +1,6 @@
 /*
  * Template group values_yaml
- * Compiled on Wed Jul 24 2019 02:37:47 GMT+0530 (IST)
+ * Compiled on Wed Jul 24 2019 18:41:04 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -74,6 +74,10 @@ r = function(w, rc) {
     w.write("\n");
     w.pushIndentation("    ");
     w.write("targetPort: 3000");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("nodePort: 31234");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
