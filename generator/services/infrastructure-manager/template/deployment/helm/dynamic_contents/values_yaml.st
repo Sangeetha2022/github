@@ -16,6 +16,7 @@ service:
     type: NodePort
     port: 3000  
     targetPort: 3000
+    nodePort: 31234
   camunda:
     name: camunda
     type: NodePort
