@@ -1,6 +1,6 @@
 /*
  * Template group shared_service
- * Compiled on Tue Jul 09 2019 13:24:19 GMT+0530 (India Standard Time)
+ * Compiled on Wed Jul 24 2019 13:13:43 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -42,15 +42,7 @@ r = function(w, rc) {
         w.write("Service {");
         w.write("\n");
         w.write("\n");
-        w.write("public ");
-        st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "variableName", { file: gFile, line: 10, column: 15 }));
-        w.write(": String = '");
-        st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "protocol", { file: gFile, line: 10, column: 48 }));
-        w.write("://");
-        st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "link", { file: gFile, line: 10, column: 68 }));
-        w.write(":");
-        st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "port", { file: gFile, line: 10, column: 82 }));
-        w.write("';");
+        w.write("public apiGateway: String = 'http://'+window.location.hostname+':31234';");
         w.write("\n");
         w.write("\n");
         w.write("}");
