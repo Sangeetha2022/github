@@ -7,7 +7,7 @@ export const sideBar = {
 
       <ul class="list-unstyled components">
           <li>
-              <a [routerLink]="['/']">Home</a>
+              <a class="text" [routerLink]="['/']">Home</a>
           </li>
       </ul>
   </nav>
@@ -25,6 +25,10 @@ export const sideBar = {
     background: #7386D5;
     color: #fff;
     transition: all 0.3s;
+  }
+
+  .text {
+    color: white;
   }
   
   #sidebar.active {
