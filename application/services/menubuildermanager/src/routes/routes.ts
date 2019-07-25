@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import { MenuBuilderController } from "../controllers/menubuilder.controller";
+import { DefaultMenuController } from "../controllers/defaultmenu.controller";
 
 export class Routes {
 
-    public menuBuilderController: MenuBuilderController = new MenuBuilderController()
+    public menuBuilderController: MenuBuilderController = new MenuBuilderController();
+    public defaultMenuController: DefaultMenuController = new DefaultMenuController();
 
     public routes(app): void {
 
@@ -20,5 +22,8 @@ export class Routes {
         app.route('/menu/delete/:id').delete(this.menuBuilderController.deleteMenu)
         app.route('/menu/getbyprojectid/:projectId').get(this.menuBuilderController.getMenuByProjectId);
         app.route('/menu/updatemenubyproject/:projectId').put(this.menuBuilderController.updateMenuByProjectId);
+
+        // default menu
+        app.route('/menu/default').get(this.defaultMenuController.createDefaultMenu);
     }
 }
