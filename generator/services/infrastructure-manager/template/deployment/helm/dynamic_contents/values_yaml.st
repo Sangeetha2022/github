@@ -64,16 +64,16 @@ deployment:
      image: mongo:3.2   
   camunda:
      name: camunda
-     image: geppettotest/$project_name$-camunda:1.0
+     image: geppettotest/default-camunda:1.0
   authproxy:
      name: authproxy
-     image: geppettotest/$project_name$-authproxy:1.0
+     image: geppettotest/default-authproxy:1.0
   security:
      name: securitymanager
-     image: geppettotest/$project_name$-securitymanager:1.0
+     image: geppettotest/default-securitymanager:1.0
   admin:
      name: adminmanager
-     image: geppettotest/$project_name$-adminmanager:1.0
+     image: geppettotest/default-adminmanager:1.0
   desktop:
      name: desktop
      image: geppettotest/$project_name$-desktop:1.0

@@ -1,97 +1,18 @@
 build_script(project_name,base_path) ::= <<
 #!bin/bash
 
-APIGATEWAYCODE='../../application/services/apigateway/'
-APIGATEWAYIMAGENAME='$project_name$-apigateway:1.0'
+APPLICATION='/$project_name$'
 
-CAMUNDACODE='../camunda/'
-CAMUNDAIMAGENAME='$project_name$-camunda:1.0'
+CUSTOMSERVICEPATH='../../../services/custom_services'
 
-AUTHPROXYCODE='../authproxy/'
-AUTHPROXYIMAGENAME='$project_name$-authproxy:1.0'
+HELMPATH='../../devops'
 
-SECURITYCODE='../securitymanager/'
-SECURITYIMAGENAME='$project_name$-security:1.0'
 
-ADMINCODE='../adminmanager/'
-ADMINIMAGENAME='$project_name$-admin:1.0'
-
-DESKTOPCODE='../../client/desktop/$project_name$/'
-DESKTOPIMAGENAME='$project_name$-desktop:1.0'
-
-HELMPATH='../../../../devops/'
+DESKTOPCODE='../../application/client/desktop/$project_name$'
+DESKTOPIMAGENAME='geppettotest/$project_name$-desktop:1.0'
 
 echo "Started to build docker images for pod...."
 
-build_apigateway_image () {
-
-cd \$APIGATEWAYCODE
-docker build -t \$APIGATEWAYIMAGENAME .
-if [ \$? -eq 0 ]; then
-    echo "Image \$APIGATEWAYIMAGENAME build successfully, Now loading into KIND its take a while..."
-    kind load docker-image \$APIGATEWAYIMAGENAME
-    echo "\$APIGATEWAYIMAGENAME is successfully loaded into kind"
-else
-    echo "Image \$APIGATEWAYIMAGENAME build failed"
-fi
-
-}
-
-build_camunda_image () {
-
-cd \$CAMUNDACODE
-docker build -t \$CAMUNDAIMAGENAME .
-if [ \$? -eq 0 ]; then
-    echo "Image \$CAMUNDAIMAGENAME build successfully, Now loading into KIND its take a while..."
-    kind load docker-image \$CAMUNDAIMAGENAME
-    echo "\$CAMUNDAIMAGENAME is successfully loaded into kind"
-else
-    echo "Image \$CAMUNDAIMAGENAME build failed"
-fi
-
-}
-
-build_authproxy_image () {
-
-cd \$AUTHPROXYCODE
-docker build -t \$AUTHPROXYIMAGENAME .
-if [ \$? -eq 0 ]; then
-    echo "Image \$AUTHPROXYIMAGENAME build successfully, Now loading into KIND its take a while..."
-    kind load docker-image \$AUTHPROXYIMAGENAME
-    echo "\$AUTHPROXYIMAGENAME is successfully loaded into kind"
-else
-    echo "Image \$AUTHPROXYIMAGENAME build failed"
-fi
-
-}
-
-build_security_image () {
-
-cd \$SECURITYCODE
-docker build -t \$SECURITYIMAGENAME .
-if [ \$? -eq 0 ]; then
-    echo "Image \$SECURITYIMAGENAME build successfully, Now loading into KIND its take a while..."
-    kind load docker-image \$SECURITYIMAGENAME
-    echo "\$SECURITYIMAGENAME is successfully loaded into kind"
-else
-    echo "Image \$SECURITYIMAGENAME build failed"
-fi
-
-}
-
-build_admin_image () {
-
-cd \$ADMINCODE
-docker build -t \$ADMINIMAGENAME .
-if [ \$? -eq 0 ]; then
-    echo "Image \$ADMINIMAGENAME build successfully, now loading into KIND its take a while..."
-    kind load docker-image \$ADMINIMAGENAME
-    echo "\$ADMINIMAGENAME is successfully loaded into kind"
-else
-    echo "Image \$ADMINIMAGENAME build failed"
-fi
-
-}
 
 build_appbuilder_image () {
 
@@ -103,12 +24,57 @@ npm install @angular-devkit/build-angular
 ng build
 docker build -t \$DESKTOPIMAGENAME .
 if [ \$? -eq 0 ]; then
-    echo "Image \$DESKTOPIMAGENAME build successfully,Now loading into KIND its take a while..."
     kind load docker-image \$DESKTOPIMAGENAME
-    echo "\$DESKTOPIMAGENAME is successfully loaded into kind"
+    echo "\$DESKTOPIMAGENAME is successfully pushed"
 else
-    echo "Image \$DESKTOPIMAGENAME build failed"
+    echo "Image \$DESKTOPIMAGENAME-desktop:1.0 build failed"
 fi
+
+}
+
+
+build_customservices(){
+
+cd \$CUSTOMSERVICEPATH
+
+for d in * ; do
+    
+    echo "building : \$d"
+    cd \$d
+    if [ \$? -eq 0 ]; then
+        docker build -t geppettotest\$APPLICATION-\$d:1.0 .
+        if [ \$? -eq 0 ]; then
+            echo "geppettotest\$APPLICATION-\$d:1.0 build succesfully"
+            echo "Image loading into KIND...."
+            # docker push geppettotest\$APPLICATION-\$d:1.0
+            kind load docker-image geppettotest\$APPLICATION-\$d:1.0
+            sleep 2
+            cd ..
+        else
+            echo "geppettotest\$APPLICATION-\$d:1.0 build failed"
+        fi        
+    else
+        echo "\$d is not a folder!"
+    fi
+      
+      done
+
+}
+
+
+clean_images(){
+
+docker rmi -f \$DESKTOPIMAGENAME
+
+for d in * ; do
+    docker rmi -f geppettotest\$APPLICATION-\$d:1.0
+    if [ \$? -eq 0 ]; then
+        echo "geppettotest\$APPLICATION-\$d:1.0 deleted"
+        cd ..
+    else
+        echo "error in deleting geppettotest\$APPLICATION-\$d:1.0"
+    fi
+done
 
 }
 
@@ -116,21 +82,20 @@ helm_install () {
 
 cd \$HELMPATH
 helm install --dry-run --debug ./helm
-helm install --name helm ./helm
+helm install --name testdemo3 ./helm
 if [ \$? -eq 0 ]; then
-    echo "App Deployment is Done,do port-forward to access your app in browser"
+    echo "App Deployment is Done"
 else
     echo "App deployment is Failed, there is a problem with helm charts"
 fi
 
 }
 
-build_apigateway_image
-build_camunda_image
-build_authproxy_image
-build_security_image
-build_admin_image
+
 build_appbuilder_image
+build_customservices
+clean_images
 helm_install
+
 
 >>
