@@ -562,7 +562,7 @@ export class EntityManagerComponent implements OnInit {
                 const array = [];
 
                 this.menuBuilderDetails.forEach(menuData => {
-                    if (menuData.menu_option === true) {
+                    if (menuData.menu_option === true && menuData.isDefault === false) {
                         this.dataMenu = menuData.menuDetails;
                         menuData.feature.forEach(feData => {
                             if (feData !== null) {
@@ -622,7 +622,6 @@ export class EntityManagerComponent implements OnInit {
                                                     .subscribe(fMenu => {
                                                         if (fMenu) {
                                                             this.database.initialize(fMenu.menuDetails);
-
                                                         }
                                                     });
                                             }
@@ -635,6 +634,11 @@ export class EntityManagerComponent implements OnInit {
                                 );
                             }
                         });
+                    }else{
+                    if (menuData.menu_option === true && menuData.isDefault === true) {
+                        this.dataMenu = menuData
+                      this.database.initialize(this.dataMenu);
+                    }
                     }
                 });
             }

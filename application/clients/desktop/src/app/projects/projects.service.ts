@@ -34,8 +34,14 @@ export class ProjectsService {
     return this.api.get(`${this.restapi.entityUrl}${Constants.addProjectDefaults}/?projectId=${projectId}`);
   }
 
-  createScreendefaults(projectId: String): Observable<any> {
+  createDefaultScreens(projectId: String): Observable<any> {
     return this.api.get(`${this.restapi.screenUrl}${Constants.addProjectScreenDefault}/?projectId=${projectId}`);
+  }
+
+  createDefaultMenu(projectId: String, primaryLanguage: String, secondaryLanguage: String): Observable<any> {
+    console.log('service create defaulet --- ', primaryLanguage, ' --secon-- ', secondaryLanguage);
+    // tslint:disable-next-line:max-line-length
+    return this.api.get(`${this.restapi.menuUrl}${Constants.defaultMenu}/?projectId=${projectId}&primaryLanguage=${primaryLanguage}&secondaryLanguage=${secondaryLanguage}`);
   }
 
   updateProjectById(projectId: String, projectDetails: any): Observable<any> {

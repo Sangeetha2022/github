@@ -1,6 +1,6 @@
 /*
  * Template group values_yaml
- * Compiled on Wed Jul 24 2019 18:41:04 GMT+0530 (IST)
+ * Compiled on Thu Jul 25 2019 18:42:58 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -266,10 +266,8 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: geppettotest/");
+    w.write("image: geppettotest/default-camunda:1.0");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-camunda:1.0");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("authproxy:");
@@ -280,10 +278,8 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: geppettotest/");
+    w.write("image: geppettotest/default-authproxy:1.0");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-authproxy:1.0");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("security:");
@@ -294,10 +290,8 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: geppettotest/");
+    w.write("image: geppettotest/default-securitymanager:1.0");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-securitymanager:1.0");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("admin:");
@@ -308,10 +302,8 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: geppettotest/");
+    w.write("image: geppettotest/default-adminmanager:1.0");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
-    w.write("-adminmanager:1.0");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("desktop:");

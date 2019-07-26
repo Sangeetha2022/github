@@ -78,20 +78,20 @@ export class ProjectsComponent implements OnInit {
     });
 
     this.lang = navigator.language;
-    if (this.lang.includes("ta")) {
-      console.log("tamil")
-      this.lang = "Tamil"
+    if (this.lang.includes('ta')) {
+      console.log('tamil');
+      this.lang = 'Tamil';
       this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
-    } else if (this.lang.includes("en")) {
-      this.lang = "English"
+    } else if (this.lang.includes('en')) {
+      this.lang = 'English';
       this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
-      console.log("eng")
-    } else if (this.lang.includes("es")) {
-      this.lang = "Spanish"
+      console.log('eng');
+    } else if (this.lang.includes('es')) {
+      this.lang = 'Spanish';
       this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
-      console.log("span")
+      console.log('span');
     } else {
-      this.lang = "English"
+      this.lang = 'English';
       this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
     }
     // socket
@@ -251,15 +251,26 @@ export class ProjectsComponent implements OnInit {
         this.screenDesignerService.saveScreen(templateDetailsToSave).subscribe(screenData => {
         });
         this.dataService.setProjectInfo(data);
+        // create default entity
         this.projectsService.createProjectDefaults(data._id).subscribe(
           (defaultRes) => {
           }, (error) => { });
-        this.projectsService.createScreendefaults(data._id).subscribe(
+        // create default screens
+        this.projectsService.createDefaultScreens(data._id).subscribe(
           (defaultscreen) => {
             this.defaultscreenvalue = defaultscreen;
           }, (error) => {
             console.error('Error:', error);
           });
+        // create default menus
+        console.log('create project values are ------- ', dataToSave);
+        this.projectsService.createDefaultMenu(
+          data._id,
+          dataToSave.default_human_language,
+          dataToSave.other_human_languages
+        ).subscribe(
+          (defaultMenuResponse) => {
+          }, (error) => { });
         // this.defaultEntity.user_id = "12345"
         // this.defaultEntity.user_name = "david",
         // this.defaultEntity.project_id = data._id;

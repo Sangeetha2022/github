@@ -1,5 +1,11 @@
 export class SharedService {
+    
+    //local
+      // public static systementryBaseUrl = "http://localhost";
   
-  public static apiGatewayURL: String = `http://3.84.173.148:30000`;
-
-}
+    //kubernetes
+      public static systementryBaseUrl = "http://gep-dev-system-entry.gep-dev-201902.svc.cluster.local";
+      
+      public static apiGatewayURL: String = SharedService.systementryBaseUrl + ":3000";
+  
+  }

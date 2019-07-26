@@ -6,8 +6,8 @@ const MenuBuilder = mongoose.model('menu_builder', MenuBuilderSchema);
 
 export class MenuBuilderDao {
 
-    public addMenu(req: Request, callback: CallableFunction) {
-        let newProject = new MenuBuilder(req.body);
+    public addMenu(menuObject, callback: CallableFunction) {
+        let newProject = new MenuBuilder(menuObject);
         newProject.save((err, project) => {
             if (err) {
                 callback(err);

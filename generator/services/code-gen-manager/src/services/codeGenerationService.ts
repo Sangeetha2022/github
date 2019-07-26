@@ -25,9 +25,13 @@ export class CodeGenerationService {
   private NODE_PORT_NUMBER = 8000;
   private APIGATEWAY_PORT_NUMBER = 3000;
   private LOCALHOST = 'localhost';
+
+  // folderName
   private APPLICATION_FOLDERNAME = 'application';
   private CLIENT_FOLDERNAME = 'client';
   private SERVICE_FOLDERNAME = 'services';
+  private DEFAULT_SERVICE_FOLDERNAME = 'default_services';
+  private CUSTOM_SERVICE_FOLDERNAME = 'custom_services';
   // private DESKTOP_FOLDERNAME = 'desktop';
   // private MOBILE_FOLDERNAME = 'mobile';
 
@@ -71,11 +75,13 @@ export class CodeGenerationService {
     const isPathCreated = Common.createFolders(projectPath);
     projectPath += `/${this.APPLICATION_FOLDERNAME}`;
     Common.createFolders(projectPath);
+    const applicationServicePath = `${projectPath}/${this.SERVICE_FOLDERNAME}`;
+    Common.createFolders(applicationServicePath);
     try {
       console.log('i am auth ******---->>', projectPath);
-      const auth = await this.authGenPath(projectId, `${projectPath}/${this.SERVICE_FOLDERNAME}`,
+      const auth = await this.authGenPath(projectId, `${applicationServicePath}/${this.DEFAULT_SERVICE_FOLDERNAME}`,
         projectDetails.templateLocation.authTemplatePath,
-         projectDetails.templateLocation.authorizationTempPath, projectDetails.name).catch(error => {
+        projectDetails.templateLocation.authorizationTempPath, projectDetails.name).catch(error => {
           console.log('cannot able to create the auth files');
         });
       let authJSON = null;
@@ -117,7 +123,7 @@ export class CodeGenerationService {
     console.log('get feature by project id are ------  ', features, '  length   ', FeatureJSON.body.length);
     if (FeatureJSON.body != undefined && FeatureJSON.body.length === 0) {
       console.log('cannot able to find its features based on this project', 400);
-      const backendAdminManagerResponse = await this.adminBackendManager(features, projectId, `${projectPath}/${this.SERVICE_FOLDERNAME}`, projectDetails.templateLocation.adminManagerTemplatePath).catch(
+      const backendAdminManagerResponse = await this.adminBackendManager(features, projectId, `${applicationServicePath}/${this.DEFAULT_SERVICE_FOLDERNAME}`, projectDetails.templateLocation.adminManagerTemplatePath).catch(
         err => {
           console.log('cannot able to geneate the Admin Manager services');
 
@@ -139,7 +145,7 @@ export class CodeGenerationService {
             flows: [],
             entities: [],
             applicationPort: 0,
-            projectGenerationPath: `${projectPath}/${this.SERVICE_FOLDERNAME}`,
+            projectGenerationPath: `${applicationServicePath}/${this.CUSTOM_SERVICE_FOLDERNAME}`,
             project: projectDetails
           }
           feature.id = featureElement._id;
@@ -233,7 +239,7 @@ export class CodeGenerationService {
           const temp = {
             projectPath: projectPath,
             applicationPort: this.APIGATEWAY_PORT_NUMBER,
-            projectGenerationPath: `${projectPath}/${this.SERVICE_FOLDERNAME}`,
+            projectGenerationPath: `${applicationServicePath}/${this.CUSTOM_SERVICE_FOLDERNAME}`,
             project: projectDetails,
             nodeResponse: this.nodeResponse
           }

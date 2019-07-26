@@ -6,7 +6,8 @@ let menuBuilderDao = new MenuBuilderDao()
 export class MenuBuilderService {
 
     public addMenu(req: Request, callback: CallableFunction) {
-        menuBuilderDao.addMenu(req, (menuBuilder) => {
+        const menu = req.body;
+        menuBuilderDao.addMenu(menu, (menuBuilder) => {
             callback(menuBuilder)
         })
     }
