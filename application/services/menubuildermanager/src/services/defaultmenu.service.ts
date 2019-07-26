@@ -29,7 +29,7 @@ export class DefaultMenuService {
                 })
             })
         })
-        callback({Message: 'default menus are successfully added'});
+        callback({ Message: 'default menus are successfully added' });
     }
 
     public async insertMenu(key, element, callback) {
@@ -39,7 +39,7 @@ export class DefaultMenuService {
         // console.log('insert menyu keys are ----typeof-- ', typeof (key));
         console.log('insert menyu keys are ----typeof-- ', elementKey.toString().toLowerCase() == this.primaryLanguage.toString().toLowerCase() ? true : false);
         console.log('insert menyu keys are ----elementKey-- ', elementKey.toString().toLowerCase());
-        console.log('insert menyu keys are ----primaryLanguage-- ',this.primaryLanguage.toString().toLowerCase());
+        console.log('insert menyu keys are ----primaryLanguage-- ', this.primaryLanguage.toString().toLowerCase());
         const temp = {
             menu_option: elementKey.toString().toLowerCase() == this.primaryLanguage.toString().toLowerCase() ? true : false,
             language: `${elementKey.charAt(0).toUpperCase() + elementKey.slice(1).toLowerCase()}`,
@@ -50,13 +50,17 @@ export class DefaultMenuService {
             ],
             menuDetails: [
                 {
-                    featuremenu: [
+                    screenmenu: [
                         {
                             name: {
-                                feature: element[key],
+                                screen: [
+                                    element[key]
+                                ]
                             },
                             description: {
-                                feature: element[key],
+                                screen: [
+                                    element[key]
+                                ]
                             }
                         }
                     ]
