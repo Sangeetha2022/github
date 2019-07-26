@@ -41,6 +41,7 @@ export class DefaultMenuService {
         console.log('insert menyu keys are ----elementKey-- ', elementKey.toString().toLowerCase());
         console.log('insert menyu keys are ----primaryLanguage-- ', this.primaryLanguage.toString().toLowerCase());
         const temp = {
+            isDefault: true,
             menu_option: elementKey.toString().toLowerCase() == this.primaryLanguage.toString().toLowerCase() ? true : false,
             language: `${elementKey.charAt(0).toUpperCase() + elementKey.slice(1).toLowerCase()}`,
             project: this.projectId,
@@ -53,14 +54,11 @@ export class DefaultMenuService {
                     screenmenu: [
                         {
                             name: {
-                                screen: [
-                                    element[key]
-                                ]
+                                screen: element[key]
+                                
                             },
                             description: {
-                                screen: [
-                                    element[key]
-                                ]
+                                screen: element[key]                           
                             }
                         }
                     ]
