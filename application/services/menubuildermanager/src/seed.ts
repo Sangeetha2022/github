@@ -7,7 +7,7 @@ export class SeedService {
 
     public create(): void {
         menus.map(element => {
-            defaultMenuModel.findOneAndUpdate({ english: element['english'] },
+            defaultMenuModel.findOneAndUpdate({ _id: element._id },
                 element, { new: true }, (err, data) => {
                     if (data === null) {
                         let defaultMenu = new defaultMenuModel(element);

@@ -8,9 +8,9 @@ export const defaultMenuSchema = new Schema({
         type: String,
         default: uuid.v1
     },
-    english: { type: String, default: null },
-    tamil: { type: String, default: null },
-    spanish: { type: String, default: null }
+    english: { type: Array, default: null },
+    tamil: { type: Array, default: null },
+    spanish: { type: Array, default: null }
 }, { versionKey: false });
 
 export const defaultMenuModel = mongoose.model('default_menus', defaultMenuSchema);
