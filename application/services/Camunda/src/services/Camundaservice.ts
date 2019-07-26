@@ -5,6 +5,8 @@ import * as mongoose from 'mongoose';
 import { Resourceschema } from '../model/resource';
 const request = require('request');
 const resourcemodel = mongoose.model('resource', Resourceschema);
+import { SharedService } from '../config/Sharedservice';
+
 
 let listofresources = [];
 
@@ -48,7 +50,7 @@ export class CamundaService {
             }
         }
         // var geturl = 'http://3.92.72.204:32676/engine-rest/engine/default/decision-definition/count';
-        var posturl = 'http://3.84.173.148:30060/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate'
+        var posturl = `${SharedService.camundaURL}/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate`;
 
         return new Promise(resolve => {
             request.post({ url: posturl, json: body }, function (error, response, body) {
