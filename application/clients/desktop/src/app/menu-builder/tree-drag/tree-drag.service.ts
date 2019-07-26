@@ -31,6 +31,7 @@ export class TreeDragService {
 
   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
   menuBuilder: any;
+  public defaultMenuData:any;
   menu: any = [];
   get data(): TodoItemNode[] { return this.dataChange.value; }
   constructor() {
