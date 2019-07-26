@@ -30,6 +30,9 @@ export class Constants {
     public static get getProjectById(): String { return '/projects/my/getbyid'; }
     public static get addProjectScreenDefault(): String { return '/projects/default/screen'; }
 
+    // menu apis
+    public static get defaultMenu(): String { return '/menu/default'; }
+
 
     // Flow apis
     public static get addFlowCompToFlowUrl(): string { return '/add/flow_comp'; }
