@@ -14,7 +14,7 @@ export class AuthProxySupportWorker {
 
         let pathfile = path.resolve(__dirname, configPathTemplate);
         const generateModel = st.loadGroup(require(pathfile + '/constants_stg'));
-        let modelData = generateModel.render("constants", [projectName.toLowerCase()]);
+        let modelData = generateModel.render("constants");
         // if (!fs.existsSync(configFolder)) {
         //     fs.mkdirSync(configFolder);
         // }
