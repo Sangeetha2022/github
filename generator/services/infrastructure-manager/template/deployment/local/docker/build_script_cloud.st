@@ -5,7 +5,7 @@ BASEPATH='/home/ec2-user/generated_code'
 
 APPLICATION='/$project_name$'
 
-MICROSERVICEPATH='/application/services'
+MICROSERVICEPATH='/application/services/custom_services'
 
 HELMPATH='/devops'
 

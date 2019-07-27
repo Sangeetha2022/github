@@ -26,8 +26,10 @@ spec:
           env:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
-            # - name: VAULT_API
-            #   value: "http://vault.{{ .Values.app.namespace }}.svc.cluster.local:8200"         
+            - name: MONGO_DB_URL
+              value: "mongodb://{{ .Values.app.prefix }}-app-db.{{ .Values.app.prefix }}.svc.cluster.local:27017/{{ .Values.app.prefix }}"
+            - name: CAMUNDA_URL
+              value: "http://{{ .Values.app.prefix }}-app.{{ .Values.app.prefix }}.svc.cluster.local:3008"          
         - name: {{ .Values.deployment.camunda.name }}-container
           imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
           image: {{ .Values.deployment.camunda.image }}
@@ -37,6 +39,10 @@ spec:
           env:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
+            - name: MONGO_DB_URL
+              value: "mongodb://{{ .Values.app.prefix }}-app-db.{{ .Values.app.prefix }}.svc.cluster.local:27017/{{ .Values.app.prefix }}"
+            - name: CAMUNDAPOD_URL
+              value: "http://{{ .Values.app.prefix }}-camunda-pod.{{ .Values.app.prefix }}.svc.cluster.local:8080"
             # - name: VAULT_API
             #   value: "http://vault.{{ .Values.app.namespace }}.svc.cluster.local:8200"
         - name: {{ .Values.deployment.admin.name }}-container
@@ -59,6 +65,6 @@ spec:
           env:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
-            # - name: VAULT_API
-            #   value: "http://vault.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+            - name: MONGO_DB_URL
+              value: "mongodb://{{ .Values.app.prefix }}-app-db.{{ .Values.app.prefix }}.svc.cluster.local:27017/{{ .Values.app.prefix }}"
         
