@@ -46,10 +46,19 @@ export class CommonWorker {
     private MAINMENU_ATTRIBUTE = 'MainMenu';
     private HREF_BASE = '/';
     private CHANGENAME: any = 'changename';
+    private LOADHEADERNAV: any = 'loadnav';
 
     private navMenu: any[] = [];
     private scriptTag: any[] = [];
     private mainHtmlTag: any[] = [];
+
+    // html tags
+    private ANCHOR_TAG: String = 'a';
+    private UNORDERED_TAG: String = 'ul';
+    private LIST_TAG: String = 'li';
+
+    // nav header
+    private LOGOUT_MENU = 'logout';
 
     initializeVariable() {
         this.templateHeaderObj = {
@@ -74,10 +83,62 @@ export class CommonWorker {
 
     }
 
-    generateAngularTemplate(generationPath, templatePath, templateName, callback) {
+    generateAngularTemplate(generationPath, templatePath, templateName, menuList, callback) {
         console.log('headerobject before create are --TEMPLATENAME--------   ', templateName);
         if (this.templateHeaderObj.tag.length === 0 && this.templateHeaderObj.css.length === 0) {
-            this.templateHeaderObj.tag.push(constant.sideBar.htmlTag[0].replace(this.CHANGENAME, templateName.toUpperCase().replace('TEMPLATE', '')));
+            let headerNav = constant.sideBar.htmlTag[0].replace(this.CHANGENAME, templateName.toUpperCase().replace('TEMPLATE', ''));
+            let loadHeaderNav = '';
+            if (menuList && menuList.length > 0) {
+                menuList.forEach(menuElement => {
+                    if (menuElement.parent.length == 0 && menuElement.children.length > 0) {
+                        menuElement.children.forEach(childElement => {
+                            if (childElement.name !== this.LOGOUT_MENU) {
+
+                                loadHeaderNav += `<${this.LIST_TAG}>
+                               <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+                               </${this.LIST_TAG}>`
+
+                            } else {
+
+                                loadHeaderNav += `<${this.LIST_TAG}>
+                                <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
+                                </${this.LIST_TAG}>`
+
+                            }
+
+                        })
+                    } else if (menuElement.parent) {
+
+                        loadHeaderNav += `<li>
+                        <a class="text" href="#${menuElement.parent[0]}" data-toggle="collapse" aria-expanded="false"
+                         class="dropdown-toggle">${menuElement.parent[0]}</a>
+                        <ul class="collapse list-unstyled" id="${menuElement.parent[0]}">`;
+
+                    }
+                    if (menuElement.parent.length != 0 && menuElement.children.length != 0) {
+                        menuElement.children.forEach(childElement => {
+                            if (childElement.name !== this.LOGOUT_MENU) {
+
+                                loadHeaderNav += `<${this.LIST_TAG}>
+                               <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+                               </${this.LIST_TAG}>`;
+
+                            } else {
+
+                                loadHeaderNav += `<${this.LIST_TAG}>
+                                <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
+                                </${this.LIST_TAG}>`;
+
+                            }
+                            loadHeaderNav += `</ul>
+                            </li>`;
+
+                        })
+                    }
+                })
+                headerNav = headerNav.replace(this.LOADHEADERNAV, loadHeaderNav);
+                this.templateHeaderObj.tag.push(headerNav);
+            }
             this.templateHeaderObj.css = constant.sideBar.css;
             constant.sideBar.script.forEach(scriptElement => {
                 this.scriptTag.push(scriptElement);

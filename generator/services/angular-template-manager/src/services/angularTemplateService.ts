@@ -19,6 +19,7 @@ export class AngularTemplateService {
     private templatePath = '';
     private grapesjsCSS = '';
     private menuDetails = '';
+    private menuList = [];
     private templateName = '';
     private apigatewayPortNumber = 0;
     private sharedObj = {
@@ -42,7 +43,41 @@ export class AngularTemplateService {
         this.grapesjsCSS = this.details.template[0]['gjs-css'];
         this.templateName = this.details.template[0].screenName;
         if (this.details.menuBuilder.length > 0) {
-            this.menuDetails = this.details.menuBuilder[0].menuDetails;
+            this.menuList = [];
+            // this.menuDetails = this.details.menuBuilder[0].menuDetails;
+            console.log('menudetails before length are ---- ', this.details.menuBuilder.length);
+            const addArray = this.details.menuBuilder.filter(x => x.language.toLowerCase() == this.details.project.defaultHumanLanguage.toLowerCase())
+            console.log('menudetails after length are ---- ', addArray.length);
+            console.log('menudetails after length are -addArrau--- ', util.inspect(addArray, { showHidden: true, depth: null }));
+            const menu = {
+                parent: [],
+                children: []
+            }
+            addArray.forEach(element => {
+                if (element.menuDetails.length > 0) {
+                    if (element.menuDetails[0].featuremenu && element.menuDetails[0].featuremenu.length > 0) {
+                        menu.parent.push(element.menuDetails[0].featuremenu[0].description.feature);
+                    }
+                    if (element.menuDetails[0].screenmenu.length > 0) {
+                        element.menuDetails[0].screenmenu.forEach((screenMenu, screenMenuIndex) => {
+                            screenMenu.name.screen.forEach((screenMenuName, screenNameIndex) => {
+                                console.log('each screenMenuName ----  ', screenMenuName);
+                                console.log('each screenNameIndex ----  ', screenNameIndex);
+                                const temp = {
+                                    route: '',
+                                    name: ''
+                                }
+                                temp.route = screenMenuName;
+                                temp.name = screenMenu.description.screen[screenNameIndex];
+                                menu.children.push(temp);
+                            });
+                        })
+                        console.log('after added inside ----  ', menu);
+                    }
+                    this.menuList.push(menu);
+                }
+            })
+            console.log('after added outside ----  ', util.inspect(this.menuList, { showHidden: true, depth: null }));
         }
         this.apigatewayPortNumber = this.details.apigatewayPortNumber;
         this.sharedObj.port = this.apigatewayPortNumber;
@@ -113,8 +148,8 @@ export class AngularTemplateService {
     }
 
     public generateAngularApp(callback) {
-        return commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, this.templateName, (response) => {
-            return dependencyWorker.generateAppRoutingFile(this.generationPath, this.templatePath, this.menuDetails, (response) => {
+        return commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, this.templateName, this.menuList, (response) => {
+            return dependencyWorker.generateAppRoutingFile(this.generationPath, this.templatePath, this.menuList, (response) => {
                 return commonWorker.generateMainFile(this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.projectName, (response) => {
                     callback(response);
                 });

@@ -12,6 +12,7 @@ export class FrontendWorker {
     private LOGIN_FOLDERNAME = 'login';
     private SIGNUP_FOLDERNAME = 'signup';
     private AUTH_FOLDERNAME = 'auth';
+    private HEADER_FOLDERNAME = 'header';
 
 
     // FILE NAME
@@ -28,6 +29,8 @@ export class FrontendWorker {
     private MODIFY_APP_MODULE_TEMPLATENAME = `modify_app_module`;
     private MODIFY_APP_ROUTNG_TEMPLATENAME = `modify_app_routing`;
 
+    // Methods
+    private logoutMethod = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
     private isAppModule = {
         declaration: false,
         imports: false,
@@ -78,6 +81,7 @@ export class FrontendWorker {
         }
     }
 
+    // create login component from seed files
     createLoginComponent(details, callback) {
         this.initializeData();
         this.projectGenerationPath = details.templateResponse.applicationPath;
@@ -92,6 +96,7 @@ export class FrontendWorker {
         callback();
     }
 
+    // create signup component from seed files
     createSignupComponent(callback) {
         const signupApplicationPath = `${this.projectGenerationPath}/src/app/${this.SIGNUP_FOLDERNAME}`;
         this.generateStaticComponent(signupApplicationPath, this.SIGNUP_FOLDERNAME);
@@ -100,12 +105,20 @@ export class FrontendWorker {
         callback();
     }
 
+    // create auth component from seed files
     createAuthComponent(callback) {
         const AuthApplicationPath = `${this.projectGenerationPath}/src/app/${this.AUTH_FOLDERNAME}`;
         if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`) < 0) {
             this.routingModuleInfo.importDependency.push(`import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`);
         }
         this.generateStaticComponent(AuthApplicationPath, this.AUTH_FOLDERNAME);
+        callback();
+    }
+
+    // add method in header component
+    generateAppFile(callback) {
+        const headerComponentPath = `${this.projectGenerationPath}/src/app`;
+        this.modifyAppFile(headerComponentPath, this.HEADER_FOLDERNAME);
         callback();
     }
 
@@ -191,6 +204,10 @@ export class FrontendWorker {
             this.appModuleInfo.importDependency.push(this.httpClient.importDependency);
             this.appModuleInfo.imports.push(this.httpClient.imports);
         }
+
+        console.log('final app module importing ----- ', this.appModuleInfo);
+        console.log('final routing modules importing ----- ', this.routingModuleInfo);
+        
         this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath,
             this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo);
 
@@ -199,6 +216,72 @@ export class FrontendWorker {
             this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo);
         // console.log('modifyu files values are -------  ', this.appModuleInfo);
         // console.log('modifyu files values are -app routing files a------  ', this.routingModuleInfo);
+    }
+
+    modifyAppFile(appPath, fileName) {
+        console.log('modufle app file path are ----  ', `${appPath}/${fileName}/${fileName}/${fileName}.component.ts`)
+        const modifyFile = fs.readFileSync(`${appPath}/${fileName}/${fileName}.component.ts`).toString().split("\n");
+        // modifyFile.forEach((appElement, index) => {
+        //     console.log('filename of appfile are --------  ', appElement);
+        //     const isImportService = false;
+        //     if (appElement.includes(`import`) && isImportService) {
+
+        //     }
+        // });
+        console.log('modify app file values are ----  ', modifyFile);
+        const importIndex = modifyFile.findIndex(x => /import.*/.test(x));
+        console.log('import index ----->>>>>>>>>>  ', importIndex);
+        if (importIndex > -1) {
+            modifyFile.splice(importIndex + 1, 0, `import { ${this.LOGIN_FOLDERNAME.charAt(0).toUpperCase() + this.LOGIN_FOLDERNAME.slice(1).toLowerCase()}Service } from '../${this.LOGIN_FOLDERNAME.toLowerCase()}/${this.LOGIN_FOLDERNAME.toLowerCase()}.service';`)
+            modifyFile.splice(importIndex + 2, 0, `import { Router } from '@angular/router';`)
+        }
+        let constructorIndex = modifyFile.findIndex(x => /constructor.*/.test(x));
+        if (constructorIndex > -1) {
+            const temp = [`private loginService: LoginService`, `private router: Router`];
+            modifyFile.splice(constructorIndex + 1, 0, temp.join(',\n'));
+        }
+        let methodCount = 0;
+        modifyFile.forEach((methodElement, methodIndex) => {
+            if (methodElement == `}`) {
+                methodCount = methodIndex;
+            }
+        })
+        if (methodCount > -1) {
+            console.log('methodcount are ----->>   ', methodCount);
+            modifyFile.splice(methodCount, 0, this.logoutMethod);
+        }
+        // let count = modifyFile.length - 1;
+        // const methodCount = 0;
+        // do {
+        //     if (modifyFile[count] == `}`) {
+
+        //     } else {
+        //         count--;
+        //     }
+        // } while (count > 0);
+        // if (methodCount > 0) {
+        //     console.log('methodcount are ----->>   ', methodCount);
+        //     const temp = ` logout() {
+        //         const temp = {
+        //           id: sessionStorage.getItem('Id')
+        //         }
+        //         this.loginService.Logout(temp).subscribe(data => {
+        //           sessionStorage.clear();
+        //           this.router.navigate(['']);
+        //         }, error => {
+        //           console.error('error:', error);
+        //         });
+        //       }`
+        //     modifyFile.splice(modifyFile.length, 0, temp);
+        // }
+        // console.log('constructorIndex index ----->>>>>>>>>>  ', constructorIndex);
+        // const index = modifyFile.lastIndexOf(`}`)
+        // if(index > -1) {
+
+        // }
+        // console.log('last } index ----->>>>>>>>>>  ', index);
+        this.frontendSupportWorker.writeStaticFile(`${appPath}/${fileName}`, `${fileName}.component.ts`, modifyFile);
+
     }
 
     modifyAppModuleFile(appModulePath) {
@@ -298,7 +381,7 @@ export class FrontendWorker {
                         if (appElement.includes(`redirectTo: ''`)) {
                             this.routingModuleInfo.path.unshift(appElement.replace('},', '}'));
                         } else if (appElement.includes(`path: ''`)) {
-                            this.routingModuleInfo.path.push(appElement.replace(`path: ''`, `path: 'home'`).replace('},', `, canActivate:[${this.AUTH_GUARD_FILENAME}] }`));
+                            this.routingModuleInfo.path.push(appElement.replace(`path: ''`, `path: 'home'`).replace('},', `, canActivate: [${this.AUTH_GUARD_FILENAME}] }`));
                         } else {
                             this.routingModuleInfo.path.push(appElement.replace('},', `, canActivate: [${this.AUTH_GUARD_FILENAME}] }`));
                         }

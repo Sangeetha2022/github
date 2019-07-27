@@ -105,7 +105,9 @@ export class FrontendWorker {
         const appModulePath = `${this.projectGenerationPath}/src/app`;
         this.modifyAppModuleFile(appModulePath);
         // future use
-        // this.modifyAppRoutingModuleFile(appModulePath);
+        this.modifyAppRoutingModuleFile(appModulePath);
+        this.routingModuleInfo.importDependency.push(`import { ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component } from './${this.ADMIN_FOLDERNAME.toLowerCase()}/${this.ADMIN_FOLDERNAME.toLowerCase()}.component';`);
+        this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
         this.modifyPackageJsonFile();
         // modify app module
         // import httpclientmodule in app module files
@@ -123,14 +125,15 @@ export class FrontendWorker {
             this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo);
 
         // future use of modify app routing file
-        // this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
-        //     this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo);
-        // console.log('modifyu files values are -------  ', this.appModuleInfo);
-        // console.log('modifyu files values are -app routing files a------  ', this.routingModuleInfo);
+        this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
+            this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo);
+        console.log('modifyu files values are -------  ', this.appModuleInfo);
+        console.log('modifyu files values are -app routing files a------  ', this.routingModuleInfo);
     }
 
     modifyAppModuleFile(appModulePath) {
         appModulePath += `/${this.APP_MODULE_FILENAME}`;
+        console.log('modify app module file are -------  ',  fs.readFileSync(appModulePath).toString().split("\n"));
         fs.readFileSync(appModulePath).toString().split("\n").forEach(appElement => {
             if (appElement.includes('import') && appElement.includes('from')) {
                 console.log('all import depenc are -11-  ', this.appModuleInfo);
@@ -200,6 +203,7 @@ export class FrontendWorker {
 
     modifyAppRoutingModuleFile(appRoutingModulePath) {
         appRoutingModulePath += `/${this.APP_ROUTING_MODULE_FILENAME}`;
+        console.log('modify app routing module file are -------  ',  fs.readFileSync(appRoutingModulePath).toString().split("\n"));
         fs.readFileSync(appRoutingModulePath).toString().split("\n").forEach(appElement => {
             console.log('app routing each one are -------  ', appElement);
             if (appElement.includes('import') && appElement.includes('from')) {
@@ -215,21 +219,19 @@ export class FrontendWorker {
             if (appElement.includes('routes: Routes')) {
                 this.isRoutingModule.path = true;
             }
-            if (appElement.includes(']')) {
+            if (appElement.includes(']') && !appElement.includes(`canActivate`)) {
                 this.isRoutingModule.path = false;
 
             }
             if (this.isRoutingModule.path) {
-                console.log('is appElement.includes( path matched  ', appElement.includes(`path: ''`));
-                if (!appElement.includes('[') && !appElement.includes(']')) {
-                    if (this.routingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
-                        if (appElement.includes(`redirectTo: ''`)) {
-                            this.routingModuleInfo.path.unshift(appElement.replace('},', '}'));
-                        } else if (appElement.includes(`path: ''`)) {
-                            this.routingModuleInfo.path.push(appElement.replace(`path: ''`, `path: 'home'`).replace('},', `, canActivate:[${this.AUTH_GUARD_FILENAME}] }`));
-                        } else {
-                            this.routingModuleInfo.path.push(appElement.replace('},', `, canActivate: [${this.AUTH_GUARD_FILENAME}] }`));
-                        }
+                console.log('inside the routingmodule path are   ', appElement, ' --routingpath-- ', this.isRoutingModule.path);
+                if (appElement.includes(`canActivate`)) {
+                    if (this.routingModuleInfo.path.findIndex(x => x == appElement) < 0) {
+                        this.routingModuleInfo.path.push(appElement.replace('},', '}'));
+                    }
+                } else if (appElement && !appElement.includes('[') && !appElement.includes(']')) {
+                    if (this.routingModuleInfo.path.findIndex(x => x == appElement) < 0) {
+                        this.routingModuleInfo.path.push(appElement.replace('},', '}'));
                     }
                 }
             }
