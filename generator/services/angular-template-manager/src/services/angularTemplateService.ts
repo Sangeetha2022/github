@@ -135,7 +135,7 @@ export class AngularTemplateService {
                 return element.tagName != 'nav' && element.tagName != 'footer';
             })
             if (navInfo.length > 0) {
-                commonWorker.createHeaderHtml(navInfo, this.menuDetails);
+                commonWorker.createHeaderHtml(navInfo, this.menuList);
             }
             if (footerInfo.length > 0) {
                 commonWorker.createFooterHtml(footerInfo);

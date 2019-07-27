@@ -361,22 +361,81 @@ export class CommonWorker {
         // console.log('navMensu lengha are ------- ', this.navMenu.length);
         this.startString += `>`;
         this.startTag.push(this.startString);
+        let isParentDiv = false;
         if (this.navMenu.length > 0) {
-            this.startTag.push(`<div class="list-group panel">`);
-            this.navMenu.forEach(menuElement => {
-                const featureInfo = menuElement.featuremenu[0].description.feature;
-                const screenInfo = menuElement.screenmenu[0];
-                this.startTag.push(`<a href="#${featureInfo}" data-toggle="collapse" data-parent="#MainMenu" class="list-group-item list-group-item-success">
-                ${featureInfo}
-                <i class="fa fa-caret-down"></i></a>`);
-                this.startTag.push(`<div id="${featureInfo}" class="collapse">`);
-                // this.startTag.push(`<a [routerLink]="['/feature-details']" class="list-group-item">create</a>`);
-                screenInfo.description.screen.forEach((screenElement, index) => {
-                    this.startTag.push(`<a [routerLink]="['/${screenElement}']" class="list-group-item">${screenElement}</a>`);
-                });
-                this.startTag.push(`</div>`);
+            // this.startTag.push(`<div class="list-group panel">`);
+            this.navMenu.forEach(navElement => {
+                // this.startTag.push(`<div class="list-group panel">`);
+                if (navElement.parent.length == 0 && navElement.children.length > 0) {
+                    navElement.children.forEach(childElement => {
+                        this.startTag.push(`<div class="list-group panel">`);
+                        if (childElement.name !== this.LOGOUT_MENU) {
+                            this.startTag.push(`<a class="list-group-item list-group-item-success" [routerLink]="['/${childElement.route}']">${childElement.name}</a>`);
+                            //     loadHeaderNav += `<${this.LIST_TAG}>
+                            //    <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+                            //    </${this.LIST_TAG}>`
+
+                        } else {
+                            this.startTag.push(`<a class="list-group-item list-group-item-success" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>`);
+                            // loadHeaderNav += `<${this.LIST_TAG}>
+                            // <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
+                            // </${this.LIST_TAG}>`
+
+                        }
+                        this.startTag.push(`</div>`);
+                    })
+                } else if (navElement.parent) {
+ isParentDiv = true;
+                    this.startTag.push(`<div class="list-group panel">`);
+                    this.startTag.push(`<a href="#${navElement.parent[0]}" class="list-group-item list-group-item-success" data-toggle="collapse"
+                        data-parent="#MainMenu">${navElement.parent[0]} <i class="fa fa-caret-down"></i></a>`);
+                        this.startTag.push(`<div class="collapse" id="${navElement.parent[0]}">`);
+                    // loadHeaderNav += `<li>
+                    // <a class="text" href="#${menuElement.parent[0]}" data-toggle="collapse" aria-expanded="false"
+                    //  class="dropdown-toggle">${menuElement.parent[0]}</a>
+                    // <ul class="collapse list-unstyled" id="${menuElement.parent[0]}">`;
+
+                }
+                if (navElement.parent.length != 0 && navElement.children.length != 0) {
+                    navElement.children.forEach(childElement => {
+                        if (childElement.name !== this.LOGOUT_MENU) {
+
+                            //     loadHeaderNav += `<${this.LIST_TAG}>
+                            //    <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+                            //    </${this.LIST_TAG}>`;
+                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item" [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
+                        } else {
+
+                            // loadHeaderNav += `<${this.LIST_TAG}>
+                            // <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
+                            // </${this.LIST_TAG}>`;
+                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item" (click)="${this.LOGOUT_MENU}()">${childElement.name}</${this.ANCHOR_TAG}>`);
+                        }
+                        // loadHeaderNav += `</ul>
+                        // </li>`;
+
+                    })
+                }
+
+                if(isParentDiv) {
+                    this.startTag.push(`</div>`);
+                    this.startTag.push(`</div>`);
+                }
             })
-            this.startTag.push(`</div>`);
+            // this.navMenu.forEach(menuElement => {
+            //     const featureInfo = menuElement.featuremenu[0].description.feature;
+            //     const screenInfo = menuElement.screenmenu[0];
+            //     this.startTag.push(`<a href="#${featureInfo}" data-toggle="collapse" data-parent="#MainMenu" class="list-group-item list-group-item-success">
+            //     ${featureInfo}
+            //     <i class="fa fa-caret-down"></i></a>`);
+            //     this.startTag.push(`<div id="${featureInfo}" class="collapse">`);
+            //     // this.startTag.push(`<a [routerLink]="['/feature-details']" class="list-group-item">create</a>`);
+            //     screenInfo.description.screen.forEach((screenElement, index) => {
+            //         this.startTag.push(`<a [routerLink]="['/${screenElement}']" class="list-group-item">${screenElement}</a>`);
+            //     });
+            //     this.startTag.push(`</div>`);
+            // })
+            // this.startTag.push(`</div>`);
             this.templateHeaderObj.css.push(`.list-group.panel {
     border: 0;
     border-radius: 0;
