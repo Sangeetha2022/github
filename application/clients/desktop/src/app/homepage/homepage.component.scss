@@ -8,42 +8,74 @@
 //     overflow: hidden;
 // }
 
-.center { 
-    height: -webkit-fill-available;
-    position: relative;
+.center {
+  height: -webkit-fill-available;
+  position: relative;
+}
+
+.center img {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.bg_img {
+  background-image: url("../../assets/GeppettoSoftware.png");
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 30%;
+  height: 80%;
+  position: fixed;
+  background-position: center;
+}
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575px) {
+  div.bg_img.bg_img {
+    min-width: 100%;
+    width: 30%;
+    height: 50%;
+    position: unset;
   }
-  
-  .center img {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
+  .div_height {
+    min-height: unset !important;
+    display: unset;
   }
 
-  .bg_img{
-    background-image: url("../../assets/GeppettoSoftware.png"); 
-    // top right no-repeat;
-     background-attachment:fixed; 
-    // background-color: #cccccc;
-    // height: -webkit-fill-available;
-    background-position: center;
-    background-repeat: no-repeat;
-    // background-size: cover;
-    // position: relative;
-    width: 30%;
-    height: 80%;
-    /* background: url(your-url) no-repeat center; */
-    /* background-size: 100% 100%; */
-    position: fixed;
-    background-position: center;
-  }
-  // .div_height{
-  // .element::-webkit-scrollbar { width: 0 !important }
-  // .element { overflow: -moz-scrollbars-none; }
-  // .element { -ms-overflow-style: none; }
-  // }
-  // ::-webkit-scrollbar {
-  //   display: none;
-// }
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767px) {
+
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991px) {
+  .bg_img {
+    width: 100%;
+}
+ .div_height {
+  display: unset;
+}
+}
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199px) {
+  .bg_img {
+    width: 100%;
+}
+ .div_height {
+  display: unset;
+}
+}
+
+// iphone 5 only......
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px)
+and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71) and (orientation:portrait)
+{
+
+}
