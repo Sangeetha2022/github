@@ -1,3 +1,3 @@
-constants(object) ::= <<
-export const camundaUrl = 'http://$object:{projectName | $projectName$-app.$projectName$};separator=",\n"$.svc.cluster.local:3008';
+constants() ::= <<
+export const camundaUrl = process.env.CAMUNDA_URL;
 >>

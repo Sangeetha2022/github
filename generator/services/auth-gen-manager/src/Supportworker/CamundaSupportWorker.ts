@@ -8,7 +8,7 @@ export class CamundaSupportWorker {
         const configFolder = camundaFolder + `/src/config`;
         let pathfile = path.resolve(__dirname, templatePath);
         const generateModel = st.loadGroup(require(pathfile + '/camunda_stg'));
-        let modelData = generateModel.render("camunda" , [projectName.toLowerCase()]);
+        let modelData = generateModel.render("camunda");
         if (!fs.existsSync(configFolder)) {
             fs.mkdirSync(configFolder);
         }
