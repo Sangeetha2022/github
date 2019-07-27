@@ -13,7 +13,8 @@ class App {
     public app = express();
     public routerPrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
-    public mongoUrl: string = 'mongodb://$object.projectName$-app-db.$object.projectName$.svc.cluster.local:27017/$object.databaseName$';
+    public mongoUrl: string = process.env.MONGO_DB_URL;
+
 
     constructor() {
         this.config();
