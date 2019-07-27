@@ -4,7 +4,7 @@ import { FrontendWorker } from '../worker/frontendWorker';
 export class AuthFrontendService {
     private frontendWorker = new FrontendWorker();
 
-   
+
     public authfrontendservice(req: Request, callback) {
         console.log('entering into services file')
         console.log('auth frontend services are --------------   ', req.body, ' ---req.body.applicationPath-- ', req.body.applicationPath);
@@ -12,7 +12,9 @@ export class AuthFrontendService {
         this.frontendWorker.createLoginComponent(details, (response) => {
             this.frontendWorker.createSignupComponent((response) => {
                 this.frontendWorker.createAuthComponent((response) => {
-                    this.frontendWorker.modifyFiles();
+                    this.frontendWorker.generateAppFile((response) => {
+                        this.frontendWorker.modifyFiles();
+                    })
                 })
             })
         });

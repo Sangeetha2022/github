@@ -1,6 +1,6 @@
 /*
  * Template group build_script
- * Compiled on Thu Jul 25 2019 18:26:12 GMT+0530 (IST)
+ * Compiled on Sat Jul 27 2019 15:54:07 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -231,7 +231,9 @@ r = function(w, rc) {
     w.write("\n");
     w.write("helm install --dry-run --debug ./helm");
     w.write("\n");
-    w.write("helm install --name testdemo3 ./helm");
+    w.write("helm install --name ");
+    st.write(w, s, g, rc, s.project_name);
+    w.write(" ./helm");
     w.write("\n");
     w.write("if [ $? -eq 0 ]; then");
     w.write("\n");

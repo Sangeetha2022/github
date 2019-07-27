@@ -4,11 +4,8 @@ export const sideBar = {
       <div class="sidebar-header">
           <h3>changename</h3>
       </div>
-
       <ul class="list-unstyled components">
-          <li>
-              <a class="text" [routerLink]="['/']">Home</a>
-          </li>
+  loadnav
       </ul>
   </nav>
   <div id="content" class="active">
@@ -87,6 +84,7 @@ export const sideBar = {
     position: absolute;
     top: 0;
     right: 0;
+    z-index: 999;
   }
   
   #content.active {
