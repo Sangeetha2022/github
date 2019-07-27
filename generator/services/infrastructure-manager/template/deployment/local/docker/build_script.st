@@ -82,7 +82,7 @@ helm_install () {
 
 cd \$HELMPATH
 helm install --dry-run --debug ./helm
-helm install --name testdemo3 ./helm
+helm install --name $project_name$ ./helm
 if [ \$? -eq 0 ]; then
     echo "App Deployment is Done"
 else
