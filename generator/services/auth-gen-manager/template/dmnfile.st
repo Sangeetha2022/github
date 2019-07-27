@@ -20,14 +20,14 @@ dmnfile(object) ::=<<
       <output id="OutputClause_0vdltyr" label="developer" name="Developer" typeRef="string" />
       <output id="OutputClause_16m831c" label="user" name="Standard User" typeRef="string" />
       $if(object)$$object:{value |
-            <rule id="DecisionRule_0113tl1">
-        <inputEntry id="UnaryTests_0gp33r0">
-          <text>"$value$"</text>
+        <rule id="DecisionRule_$value.DecisionRuleId$">
+        <inputEntry id="UnaryTests_$value.UnaryTestsId$">
+          <text>"$value.screen$"</text>
         </inputEntry>
-        <inputEntry id="UnaryTests_1wy6o8k">
+        <inputEntry id="UnaryTests_$value.UnaryTests2Id$">
           <text>"Screen"</text>
         </inputEntry>
-        <outputEntry id="LiteralExpression_1pjblha">
+        <outputEntry id="LiteralExpression_$value.LiteralExpressionId$">
           <text>'{
   "Admin": [{
     "Access": {
@@ -76,7 +76,7 @@ dmnfile(object) ::=<<
   \}]
 \}'</text>
         </outputEntry>
-        <outputEntry id="LiteralExpression_1wrsfdb">
+        <outputEntry id="LiteralExpression_$value.LiteralExpression2Id$">
           <text>'{
   "Admin":{
     "Access":{"value":"false"\}
@@ -116,7 +116,7 @@ dmnfile(object) ::=<<
   \}]
 \}'</text>
         </outputEntry>
-        <outputEntry id="LiteralExpression_1pfp1gh">
+        <outputEntry id="LiteralExpression_$value.LiteralExpression3Id$">
           <text>'{
   "Admin": {
     "Access": {
@@ -152,5 +152,4 @@ dmnfile(object) ::=<<
            </decisionTable>
   </decision>
 </definitions>
-
 >>

@@ -1,6 +1,6 @@
 /*
  * Template group dmnfile
- * Compiled on Mon Jul 08 2019 12:55:59 GMT+0530 (IST)
+ * Compiled on Sat Jul 27 2019 16:34:39 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -109,16 +109,20 @@ r = function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
-                     w.write("<rule id=\"DecisionRule_0113tl1\">");
+                     w.write("<rule id=\"DecisionRule_");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "DecisionRuleId", { file: gFile, line: 23, column: 38 }));
+                     w.write("\">");
                      w.write("\n");
                      w.pushIndentation("        ");
-                     w.write("<inputEntry id=\"UnaryTests_0gp33r0\">");
+                     w.write("<inputEntry id=\"UnaryTests_");
                      w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "UnaryTestsId", { file: gFile, line: 24, column: 42 }));
+                     w.write("\">");
                      w.write("\n");
                      w.pushIndentation("          ");
                      w.write("<text>\"");
                      w.popIndentation();
-                     st.write(w, s, g, rc, s.value);
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "screen", { file: gFile, line: 25, column: 24 }));
                      w.write("\"</text>");
                      w.write("\n");
                      w.pushIndentation("        ");
@@ -126,8 +130,10 @@ r = function(w, rc) {
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("        ");
-                     w.write("<inputEntry id=\"UnaryTests_1wy6o8k\">");
+                     w.write("<inputEntry id=\"UnaryTests_");
                      w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "UnaryTests2Id", { file: gFile, line: 27, column: 42 }));
+                     w.write("\">");
                      w.write("\n");
                      w.pushIndentation("          ");
                      w.write("<text>\"Screen\"</text>");
@@ -138,8 +144,10 @@ r = function(w, rc) {
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("        ");
-                     w.write("<outputEntry id=\"LiteralExpression_1pjblha\">");
+                     w.write("<outputEntry id=\"LiteralExpression_");
                      w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "LiteralExpressionId", { file: gFile, line: 30, column: 50 }));
+                     w.write("\">");
                      w.write("\n");
                      w.pushIndentation("          ");
                      w.write("<text>'{");
@@ -332,8 +340,10 @@ r = function(w, rc) {
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("        ");
-                     w.write("<outputEntry id=\"LiteralExpression_1wrsfdb\">");
+                     w.write("<outputEntry id=\"LiteralExpression_");
                      w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "LiteralExpression2Id", { file: gFile, line: 79, column: 50 }));
+                     w.write("\">");
                      w.write("\n");
                      w.pushIndentation("          ");
                      w.write("<text>'{");
@@ -490,8 +500,10 @@ r = function(w, rc) {
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("        ");
-                     w.write("<outputEntry id=\"LiteralExpression_1pfp1gh\">");
+                     w.write("<outputEntry id=\"LiteralExpression_");
                      w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "LiteralExpression3Id", { file: gFile, line: 119, column: 50 }));
+                     w.write("\">");
                      w.write("\n");
                      w.pushIndentation("          ");
                      w.write("<text>'{");
@@ -634,7 +646,6 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.write("</definitions>");
-    w.write("\n");
 };
 r.args = [
         { name: "object"     }

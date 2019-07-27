@@ -58,7 +58,8 @@ export class FrontendTemplateService {
             const tempFrontend = {
                 templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
                 seedTemplatePath: details.seedTemplatePath,
-                authTemplatePath: details.authTemplatePath
+                authTemplatePath: details.authTemplatePath,
+                adminTemplatePath: details.project.templateLocation.frontendTemplate
             }
             await this.generateAuthFrontendComponent(tempFrontend);
             console.log('after calling auth gronten component are  ---  ');
