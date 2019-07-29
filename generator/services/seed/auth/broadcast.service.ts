@@ -10,7 +10,7 @@ export class BroadcastService {
 
 
   public guardArray: any[] = [];
-  private currentUserNameStore = new BehaviorSubject<{}>({});
+  private currentUserNameStore = new BehaviorSubject<any>({});
 
   public currentUserName = this.currentUserNameStore.asObservable();
 

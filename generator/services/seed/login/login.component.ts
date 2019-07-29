@@ -90,6 +90,8 @@ export class LoginComponent implements OnInit {
         this.broadcast.sendMessage({ 'Access': this.permission });
         this.broadcast.guardArray = [];
         this.broadcast.guardArray = this.permission;
+
+        sessionStorage.setItem('Access', JSON.stringify (this.permission));
       }
       this.userDetails = logindetails.Userdetails.body;
       this.tokenError = logindetails.error;

@@ -12,6 +12,23 @@ export const sideBar = {
       <a id="nav-toggle"><span></span></a>
   </div>
 </div>`],
+components: {
+  scriptVariable: [
+`$`
+  ],
+  componentOnInit: [
+    `const el = document.querySelector('#nav-toggle');
+    if (el) {
+      el.addEventListener('click', function () {
+        this.classList.toggle('active');
+        this.classList.toggle('change');
+        $('#sidebar, #content').toggleClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+      });
+    }`
+  ]
+},
   css: [`#sidebar {
     width: 250px;
     position: fixed;
@@ -196,20 +213,6 @@ export const sideBar = {
   script: [
     `<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>`,
     `<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>`,
-    `<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>`,
-    `<script type="text/javascript">
-    $(document).ready(function () {
-        var el = document.querySelector("#nav-toggle");
-        if (el) {
-            el.addEventListener("click", function () {
-                this.classList.toggle("active");
-                this.classList.toggle("change");
-                $('#sidebar, #content').toggleClass('active');
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-            });;
-        }
-    });
-</script>`
+    `<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>`
   ]
 }

@@ -5,6 +5,7 @@ import {
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BroadcastService } from './broadcast.service';
+
 import 'rxjs/add/operator/filter';
 @Injectable({
   providedIn: 'root'
@@ -50,9 +51,8 @@ export class AuthGuard implements CanActivate {
       const decodedToken = helper.decodeToken(this.jwtToken);
       this.userRole = decodedToken.role;
       const url = window.location.href;
-      if (this.accessRoutes === undefined) {
-        this.accessRoutes = this.broadcastService.guardArray;
-      }
+      this.accessRoutes = JSON.parse(sessionStorage.getItem('Access'));
+
       if (this.accessRoutes) {
         this.accessRoutes.forEach(element => {
           const Developer = element['Developer'];
@@ -136,7 +136,7 @@ export class AuthGuard implements CanActivate {
         if (this.routeName[1] === 'home') {
           return true;
         }
-        if (this.routeName[1] === 'project') {
+        if (this.routeName[1] === 'admin') {
           if (this.viewPermission !== 'true') {
             return false;
           } else {
