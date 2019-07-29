@@ -1,6 +1,6 @@
 /*
  * Template group login_service
- * Compiled on Mon Jul 15 2019 19:29:50 GMT+0530 (India Standard Time)
+ * Compiled on Mon Jul 29 2019 16:33:44 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -116,11 +116,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("return this.http.post(this.");
+    w.write("return this.http.put(this.");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 28, column: 39 }), "objectName", { file: gFile, line: 28, column: 46 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 28, column: 38 }), "objectName", { file: gFile, line: 28, column: 45 }));
     w.write(".");
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 28, column: 66 }), "variableName", { file: gFile, line: 28, column: 73 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 28, column: 65 }), "variableName", { file: gFile, line: 28, column: 72 }));
     w.write(" + '/desktop/logout', user);");
     w.write("\n");
     w.pushIndentation("  ");
