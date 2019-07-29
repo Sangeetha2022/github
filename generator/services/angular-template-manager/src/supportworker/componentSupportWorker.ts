@@ -51,7 +51,7 @@ export class ComponentSupportWorker {
         templatePath = path.resolve(__dirname, templatePath);
         Common.createFolders(filePath);
         let generateComponent = st.loadGroup(require(templatePath + `/${templateName}_stg`));
-        let componentFileData = generateComponent.render(templateName, [className, information.folderName, information.importDependency]);
+        let componentFileData = generateComponent.render(templateName, [className, information]);
         fs.writeFile(filePath + `/${information.folderName.toLowerCase()}.component.ts`, componentFileData, function (err) {
             if (err) throw err;
             callback(`${className}.component.ts file generated`);

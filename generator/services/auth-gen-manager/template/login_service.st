@@ -25,7 +25,7 @@ export class $object.className$Service {
   }
 
   Logout(user: any): Observable<any> {
-    return this.http.post(this.$object.shared.objectName$.$object.shared.variableName$ + '/desktop/logout', user);
+    return this.http.put(this.$object.shared.objectName$.$object.shared.variableName$ + '/desktop/logout', user);
   }
 
   Consent(consent: any): Observable<any> {

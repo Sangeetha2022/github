@@ -20,6 +20,10 @@ export class CommonWorker {
     private isContentOnly: Boolean = false;
     private templateHeaderObj = {
         tag: [],
+        component: {
+            scriptVariable: [],
+            componentOnInit: []
+        },
         css: [],
         module: []
     }
@@ -58,11 +62,18 @@ export class CommonWorker {
     private LIST_TAG: String = 'li';
 
     // nav header
+    private ADMIN_MENU = 'admin';
     private LOGOUT_MENU = 'logout';
 
+    //component variable
+    private HEADER_ADMIN_VARIABLE = 'isAdminUser';
     initializeVariable() {
         this.templateHeaderObj = {
             tag: [],
+            component: {
+                scriptVariable: [],
+                componentOnInit: []
+            },
             css: [],
             module: []
         }
@@ -92,17 +103,23 @@ export class CommonWorker {
                 menuList.forEach(menuElement => {
                     if (menuElement.parent.length == 0 && menuElement.children.length > 0) {
                         menuElement.children.forEach(childElement => {
-                            if (childElement.name !== this.LOGOUT_MENU) {
+                            if (childElement.name == this.ADMIN_MENU) {
 
                                 loadHeaderNav += `<${this.LIST_TAG}>
-                               <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+                               <a class="text" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${childElement.route}']">${childElement.name}</a>
                                </${this.LIST_TAG}>`
 
-                            } else {
+                            } else if (childElement.name == this.LOGOUT_MENU) {
 
                                 loadHeaderNav += `<${this.LIST_TAG}>
                                 <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
                                 </${this.LIST_TAG}>`
+
+                            } else {
+
+                                loadHeaderNav += `<${this.LIST_TAG}>
+                               <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+                               </${this.LIST_TAG}>`
 
                             }
 
@@ -117,17 +134,23 @@ export class CommonWorker {
                     }
                     if (menuElement.parent.length != 0 && menuElement.children.length != 0) {
                         menuElement.children.forEach(childElement => {
-                            if (childElement.name !== this.LOGOUT_MENU) {
+                            if (childElement.name == this.ADMIN_MENU) {
 
                                 loadHeaderNav += `<${this.LIST_TAG}>
-                               <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
-                               </${this.LIST_TAG}>`;
+                               <a class="text" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+                               </${this.LIST_TAG}>`
 
-                            } else {
+                            } else if (childElement.name == this.LOGOUT_MENU) {
 
                                 loadHeaderNav += `<${this.LIST_TAG}>
                                 <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
                                 </${this.LIST_TAG}>`;
+
+                            } else {
+
+                                loadHeaderNav += `<${this.LIST_TAG}>
+                               <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+                               </${this.LIST_TAG}>`;
 
                             }
                             loadHeaderNav += `</ul>
@@ -138,6 +161,9 @@ export class CommonWorker {
                 })
                 headerNav = headerNav.replace(this.LOADHEADERNAV, loadHeaderNav);
                 this.templateHeaderObj.tag.push(headerNav);
+                // add script sidebar script in header component
+                this.templateHeaderObj.component.scriptVariable = constant.sideBar.components.scriptVariable;
+                this.templateHeaderObj.component.componentOnInit = constant.sideBar.components.componentOnInit;
             }
             this.templateHeaderObj.css = constant.sideBar.css;
             constant.sideBar.script.forEach(scriptElement => {
@@ -369,14 +395,18 @@ export class CommonWorker {
                 if (navElement.parent.length == 0 && navElement.children.length > 0) {
                     navElement.children.forEach(childElement => {
                         this.startTag.push(`<div class="list-group panel">`);
-                        if (childElement.name !== this.LOGOUT_MENU) {
-                            this.startTag.push(`<a class="list-group-item list-group-item-success" [routerLink]="['/${childElement.route}']">${childElement.name}</a>`);
+                        if (childElement.name == this.ADMIN_MENU) {
+
+                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item list-group-item-success" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
+
+                        } else if (childElement.name == this.LOGOUT_MENU) {
+                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item list-group-item-success" (click)="${this.LOGOUT_MENU}()">${childElement.name}</${this.ANCHOR_TAG}>`);
                             //     loadHeaderNav += `<${this.LIST_TAG}>
                             //    <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
                             //    </${this.LIST_TAG}>`
 
                         } else {
-                            this.startTag.push(`<a class="list-group-item list-group-item-success" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>`);
+                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item list-group-item-success" [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
                             // loadHeaderNav += `<${this.LIST_TAG}>
                             // <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
                             // </${this.LIST_TAG}>`
@@ -385,11 +415,11 @@ export class CommonWorker {
                         this.startTag.push(`</div>`);
                     })
                 } else if (navElement.parent) {
- isParentDiv = true;
+                    isParentDiv = true;
                     this.startTag.push(`<div class="list-group panel">`);
-                    this.startTag.push(`<a href="#${navElement.parent[0]}" class="list-group-item list-group-item-success" data-toggle="collapse"
-                        data-parent="#MainMenu">${navElement.parent[0]} <i class="fa fa-caret-down"></i></a>`);
-                        this.startTag.push(`<div class="collapse" id="${navElement.parent[0]}">`);
+                    this.startTag.push(`<${this.ANCHOR_TAG} href="#${navElement.parent[0]}" class="list-group-item list-group-item-success" data-toggle="collapse"
+                        data-parent="#MainMenu">${navElement.parent[0]} <i class="fa fa-caret-down"></i></${this.ANCHOR_TAG}>`);
+                    this.startTag.push(`<div class="collapse" id="${navElement.parent[0]}">`);
                     // loadHeaderNav += `<li>
                     // <a class="text" href="#${menuElement.parent[0]}" data-toggle="collapse" aria-expanded="false"
                     //  class="dropdown-toggle">${menuElement.parent[0]}</a>
@@ -398,18 +428,18 @@ export class CommonWorker {
                 }
                 if (navElement.parent.length != 0 && navElement.children.length != 0) {
                     navElement.children.forEach(childElement => {
-                        if (childElement.name !== this.LOGOUT_MENU) {
+                        if (childElement.name == this.ADMIN_MENU) {
 
-                            //     loadHeaderNav += `<${this.LIST_TAG}>
-                            //    <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
-                            //    </${this.LIST_TAG}>`;
-                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item" [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
+                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item list-group-item-success" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
+
+                        } else if (childElement.name == this.LOGOUT_MENU) {
+                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item" (click)="${this.LOGOUT_MENU}()">${childElement.name}</${this.ANCHOR_TAG}>`);
                         } else {
 
                             // loadHeaderNav += `<${this.LIST_TAG}>
                             // <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
                             // </${this.LIST_TAG}>`;
-                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item" (click)="${this.LOGOUT_MENU}()">${childElement.name}</${this.ANCHOR_TAG}>`);
+                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item" [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
                         }
                         // loadHeaderNav += `</ul>
                         // </li>`;
@@ -417,7 +447,7 @@ export class CommonWorker {
                     })
                 }
 
-                if(isParentDiv) {
+                if (isParentDiv) {
                     this.startTag.push(`</div>`);
                     this.startTag.push(`</div>`);
                 }

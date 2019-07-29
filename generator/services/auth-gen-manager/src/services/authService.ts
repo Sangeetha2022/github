@@ -7,7 +7,7 @@ import { MenuBuilderService, EntityMicroService } from '../apiservices/index';
 import { ScreenWorker } from '../worker/ScreenWorker';
 import { ModelWorker } from '../worker/ModelWorker';
 import { CamundaWorker } from '../worker/CamundaWorker';
-import { DmnWorkerFile } from '../worker/DMNWoker';
+import { DmnWorkerFile } from '../worker/DMNWorker';
 import { Routes } from '../../template/route.json';
 import { Common } from '../config/Common';
 import { AuthProxyWorker } from '../worker/authProxyWorker'

@@ -13,7 +13,7 @@ export class FrontendWorker {
     private SIGNUP_FOLDERNAME = 'signup';
     private AUTH_FOLDERNAME = 'auth';
     private HEADER_FOLDERNAME = 'header';
-
+    private BROADCAST_FOLDERNAME = 'broadcast';
 
     // FILE NAME
     private SERVICE_NAME = 'service';
@@ -31,6 +31,8 @@ export class FrontendWorker {
 
     // Methods
     private logoutMethod = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
+    private broadcastMethod = `\tthis.broadcastService.currentUserName.subscribe(headerPermission => {\n\t\t\tif (headerPermission && headerPermission.Project && headerPermission.Project.Fields && headerPermission.Project.Fields.config === 'true') {\n\t\t\t this.isAdminUser = true;\n\t\t\t } else {\n\t\t\t\t this.isAdminUser = false;\n\t\t\t }\n\t});`;
+
     private isAppModule = {
         declaration: false,
         imports: false,
@@ -207,7 +209,7 @@ export class FrontendWorker {
 
         console.log('final app module importing ----- ', this.appModuleInfo);
         console.log('final routing modules importing ----- ', this.routingModuleInfo);
-        
+
         this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath,
             this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo);
 
@@ -232,13 +234,38 @@ export class FrontendWorker {
         const importIndex = modifyFile.findIndex(x => /import.*/.test(x));
         console.log('import index ----->>>>>>>>>>  ', importIndex);
         if (importIndex > -1) {
-            modifyFile.splice(importIndex + 1, 0, `import { ${this.LOGIN_FOLDERNAME.charAt(0).toUpperCase() + this.LOGIN_FOLDERNAME.slice(1).toLowerCase()}Service } from '../${this.LOGIN_FOLDERNAME.toLowerCase()}/${this.LOGIN_FOLDERNAME.toLowerCase()}.service';`)
-            modifyFile.splice(importIndex + 2, 0, `import { Router } from '@angular/router';`)
+            modifyFile.splice(importIndex + 1, 0, `import { Router } from '@angular/router';`)
+            modifyFile.splice(importIndex + 2, 0, `import { ${this.LOGIN_FOLDERNAME.charAt(0).toUpperCase() + this.LOGIN_FOLDERNAME.slice(1).toLowerCase()}Service } from '../${this.LOGIN_FOLDERNAME.toLowerCase()}/${this.LOGIN_FOLDERNAME.toLowerCase()}.service';`)
+            modifyFile.splice(importIndex + 3, 0, `import { ${this.BROADCAST_FOLDERNAME.charAt(0).toUpperCase() + this.BROADCAST_FOLDERNAME.slice(1).toLowerCase()}Service } from '../${this.AUTH_FOLDERNAME.toLowerCase()}/${this.BROADCAST_FOLDERNAME.toLowerCase()}.service';`)
         }
         let constructorIndex = modifyFile.findIndex(x => /constructor.*/.test(x));
         if (constructorIndex > -1) {
-            const temp = [`private loginService: LoginService`, `private router: Router`];
+            // constructor params
+            const temp = [
+                `private router: Router`,
+                `private ${this.LOGIN_FOLDERNAME.toLowerCase()}Service: ${this.LOGIN_FOLDERNAME.charAt(0).toUpperCase() + this.LOGIN_FOLDERNAME.slice(1).toLowerCase()}Service`,
+                `public ${this.BROADCAST_FOLDERNAME.toLowerCase()}Service: ${this.BROADCAST_FOLDERNAME.charAt(0).toUpperCase() + this.BROADCAST_FOLDERNAME.slice(1).toLowerCase()}Service`
+            ];
             modifyFile.splice(constructorIndex + 1, 0, temp.join(',\n'));
+
+            // variable declarations
+            const tempVariable = [
+                `public isAdminUser = false`
+            ]
+            modifyFile.splice(constructorIndex, 0, tempVariable.join(';\n'));
+        }
+        let constructorMethodIndex = modifyFile.findIndex(x => /\)*.\{\s+\}/.test(x));
+        if (constructorMethodIndex > -1) {
+            const tempMethod = [
+                `) {`,
+                this.broadcastMethod,
+                `}`
+            ]
+            // let temp = `) }`;
+            // temp += tempMethod.join('\n');
+            // temp += 
+            console.log('constructor method index values are ', modifyFile[constructorMethodIndex])
+            modifyFile.splice(constructorMethodIndex, 1, tempMethod.join('\n'));
         }
         let methodCount = 0;
         modifyFile.forEach((methodElement, methodIndex) => {

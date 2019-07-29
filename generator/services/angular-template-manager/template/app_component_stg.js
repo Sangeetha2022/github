@@ -1,6 +1,6 @@
 /*
  * Template group app_component
- * Compiled on Tue Jul 16 2019 17:46:28 GMT+0530 (India Standard Time)
+ * Compiled on Mon Jul 29 2019 10:57:10 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -84,7 +84,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("this.headerFooter = (temp[0] !== '/' && temp[0] !== '/signup');");
+    w.write("this.headerFooter = (temp[0] !== '/' && temp[0] !== '/signup' && temp[0] !== '/login');");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");

@@ -24,6 +24,9 @@ export class ComponentWorker {
             folderName: this.HEADER_FOLDERNAME,
             importDependency: [],
             tagArray: templateHeaderObj.tag,
+            scriptVariable: [],
+            componentOnInit: [],
+            componentMethod: [],
             imports: [],
             declarations: [],
             exports: [],
@@ -38,6 +41,14 @@ export class ComponentWorker {
         temp.importDependency.push(tempDependency);
         if (templateHeaderObj.css.length > 0) {
             temp.css = templateHeaderObj.css;
+        }
+        if (templateHeaderObj.component &&
+            templateHeaderObj.component.scriptVariable.length > 0) {
+            temp.scriptVariable = templateHeaderObj.component.scriptVariable;
+        }
+        if (templateHeaderObj.component &&
+            templateHeaderObj.component.componentOnInit.length > 0) {
+            temp.componentOnInit = templateHeaderObj.component.componentOnInit;
         }
         assetWorker.checkAssetFile(templateHeaderObj.tag.join(''), generationPath, templatePath);
         return componentSupportWorker.generateHtmlComponent(generationPath, templatePath,
@@ -96,6 +107,9 @@ export class ComponentWorker {
         const temp = {
             folderName: this.FOOTER_FOLDERNAME,
             importDependency: [],
+            scriptVariable: [],
+            componentOnInit: [],
+            componentMethod: [],
             imports: [],
             declarations: [],
             exports: [],
@@ -140,6 +154,9 @@ export class ComponentWorker {
         const temp = {
             folderName: this.TEMPLATE_FOLDERNAME,
             importDependency: [],
+            scriptVariable: [],
+            componentOnInit: [],
+            componentMethod: [],
             tagArray: templateMainObj.tag,
             imports: [],
             declarations: [],
@@ -185,6 +202,9 @@ export class ComponentWorker {
     public generateAppComponentHtml(generationPath, templatePath, callback) {
         const temp = {
             folderName: this.APP_FOLDERNAME,
+            scriptVariable: [],
+            componentOnInit: [],
+            componentMethod: [],
             tagArray: []
         }
         temp.tagArray.push({ name: `app-${this.HEADER_FOLDERNAME}`, isHeaderFooter: true });
@@ -208,6 +228,9 @@ export class ComponentWorker {
             folderName: this.APP_FOLDERNAME,
             declarations: [],
             importDependency: [],
+            scriptVariable: [],
+            componentOnInit: [],
+            componentMethod: [],
             imports: [],
             providers: [],
             bootstrap: []

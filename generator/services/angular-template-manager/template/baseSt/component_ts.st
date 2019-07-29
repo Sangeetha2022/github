@@ -1,27 +1,26 @@
-component_ts(className, folderName,
- importDependency, importComponent,
- componentVariable, componentConstructorParams, componentOnInit, componentMethod) ::= <<
-$if(importDependency)$$importDependency:{name | import { $name.dependencyname$ \} from '$name.dependencyPath$';};separator="\n"$$endif$
-$if(importComponent)$$importComponent:{name | import { $name.classname$ \} from '$name.path$';};separator="\n"$$endif$
+component_ts(className, object) ::= <<
+$if(object.importDependency)$$object.importDependency:{name | import { $name.dependencyname$ \} from '$name.dependencyPath$';};separator="\n"$$endif$
+$if(object.importComponent)$$object.importComponent:{name | import { $name.classname$ \} from '$name.path$';};separator="\n"$$endif$
 
+$if(object.scriptVariable)$$object.scriptVariable:{name | declare var $name$: any;};separator="\n"$$endif$
 @Component({
-  selector: 'app-$folderName$',
-  templateUrl: './$folderName$.component.html',
-  styleUrls: ['./$folderName$.component.scss']
+  selector: 'app-$object.folderName$',
+  templateUrl: './$object.folderName$.component.html',
+  styleUrls: ['./$object.folderName$.component.scss']
 })
 export class $className$Component implements OnInit {
-$if(componentVariable)$
-$componentVariable:{name |public $name$;};separator="\n"$
+$if(object.componentVariable)$
+$object.componentVariable:{name |public $name$;};separator="\n"$
 $endif$
   constructor(
-$if(componentConstructorParams)$$componentConstructorParams:{name | $name$};separator="\n"$$endif$
+$if(object.componentConstructorParams)$$object.componentConstructorParams:{name | $name$};separator="\n"$$endif$
   ) { }
 
   ngOnInit() {
-    $if(componentOnInit)$$componentOnInit:{name | $name$;};separator="\n"$$endif$
+    $if(object.componentOnInit)$$object.componentOnInit:{name | $name$;};separator="\n"$$endif$
   }
 
-     $if(componentMethod)$$componentMethod:{name | $name$};separator="\n"$$endif$
+     $if(object.componentMethod)$$object.componentMethod:{name | $name$};separator="\n"$$endif$
 
 }
 
