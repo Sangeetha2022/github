@@ -22,8 +22,12 @@ export class MenuBuilderComponent implements OnInit {
   menuBuilderDetails: any = [];
   description: String;
   selectedMenu: String;
+  currenLang: String;
   project_id: String;
+  oldMenu: any = [];
+  newMenu: any = [];
   menuDetails: any = [];
+  currentMenu: any = [];
   getMenu: Boolean;
   descriptionBeforeUpdate: String;
   createRow: Boolean = false;
@@ -92,7 +96,7 @@ export class MenuBuilderComponent implements OnInit {
       (data) => {
         this.description = data;
         this.descriptionBeforeUpdate = data;
-        this.menuDetails.forEach(menuData => {
+        this.currentMenu.forEach(menuData => {
           if (menuData.featuremenu[0].description.feature === this.descriptionBeforeUpdate) {
             this.name = menuData.featuremenu[0].name.feature;
           } else {
@@ -115,6 +119,10 @@ export class MenuBuilderComponent implements OnInit {
         this.menuLang = [];
         menuBuilderData.forEach(mData => {
           this.menuLang.push(mData.language);
+          if (mData.menu_option === true) {
+            this.currenLang = mData.language;
+            this.currentMenu = mData.menuDetails;
+          }
           if (!this.getMenu) {
             if (mData.menu_option === true) {
               this.menuBuilderDetails = mData;
@@ -132,10 +140,31 @@ export class MenuBuilderComponent implements OnInit {
         });
 
         if (this.getMenu) {
-          menuBuilderData.forEach((meData, index) => {
-            if (meData.language === this.selectedLang) {
+          menuBuilderData.forEach(meData => {
+            meData.project_languages.forEach(lang => {
+              if (lang === meData.language) {
+                if (this.currenLang === meData.language) {
+                  this.oldMenu = meData.menuDetails;
+
+                } else if (this.selectedLang === meData.language) {
+
+                  this.newMenu = meData.menuDetails;
+                }
+              }
+            })
+            if (meData.language !== this.selectedLang) {
+              meData.menu_option = false;
+              this.updateMenuById(meData._id, meData);
+            } else if (meData.language === this.selectedLang) {
               meData.menu_option = true;
               meData.language = this.selectedLang;
+              if (this.oldMenu.length > this.newMenu.length) {
+                this.oldMenu.forEach((mdata, index) => {
+                  if (index !== 0) {
+                    this.newMenu.push(mdata);
+                  }
+                });
+              }
               let FeatureDiff = menuBuilderData[0].feature
                 .filter(x => !menuBuilderData[1].feature.includes(x))
                 .concat(menuBuilderData[1].feature.filter(x => !menuBuilderData[0].feature.includes(x)));
@@ -145,11 +174,6 @@ export class MenuBuilderComponent implements OnInit {
               this.menuDetails = meData.menuDetails;
               this.updateMenuById(meData._id, meData);
               this.database.initialize(meData.menuDetails);
-
-            }
-            if (meData.language !== this.selectedLang) {
-              meData.menu_option = false;
-              this.updateMenuById(meData._id, meData);
 
             }
           });
@@ -172,33 +196,19 @@ export class MenuBuilderComponent implements OnInit {
         });
       }
     });
-    let difference = this.menuBuilderDetails.project_languages
-      .filter(x => !this.menuLang.includes(x))
-      .concat(this.menuLang.filter(x => !this.menuBuilderDetails.project_languages.includes(x)));
-    if (difference.length === 0) {
-      this.createRow = true;
-    }
     this.menuLang.forEach(lang => {
-      if (!this.createRow) {
-        if (this.secondaryLang !== undefined) {
-          if (lang !== this.secondaryLang) {
-            this.menuBuilderDetails.language = this.primaryLang;
-            this.menuBuilderDetails.menu_option = false;
-            this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
-            delete this.menuBuilderDetails._id;
-            delete this.menuBuilderDetails.updated_date;
-            delete this.menuBuilderDetails.created_date;
-            this.menuBuilderDetails.menu_option = true;
-            this.menuBuilderDetails.language = this.selectedLang;
-            this.menuBuilderService.createMenu(this.menuBuilderDetails).subscribe(menuData => {
-              this.database.initialize(menuData.menuDetails);
-            });
-          }
-        } else if (lang === this.primaryLang) {
-          this.database.initialize(this.menuBuilderDetails.menuDetails);
+      if (this.secondaryLang !== undefined) {
+        if (lang !== this.secondaryLang) {
+          this.menuBuilderDetails.language = this.primaryLang;
+          this.menuBuilderDetails.menu_option = false;
           this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
+          delete this.menuBuilderDetails._id;
+          delete this.menuBuilderDetails.updated_date;
+          delete this.menuBuilderDetails.created_date;
+          this.menuBuilderDetails.menu_option = true;
+          this.menuBuilderDetails.language = this.selectedLang;
         }
-      } else {
+      } else if (lang === this.primaryLang) {
         this.database.initialize(this.menuBuilderDetails.menuDetails);
         this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
       }
@@ -213,21 +223,10 @@ export class MenuBuilderComponent implements OnInit {
       this.description = '';
     });
   }
-
-  updatemenu(projectId, menu) {
-    this.menuBuilderService.updateMenubyProject(projectId, menu)
-      .subscribe(fMenu => {
-        if (fMenu) {
-
-        }
-      });
-  }
   onChangeLang(event) {
     this.secondaryLang = event;
     this.selectedLang = this.secondaryLang;
-    if (this.menuLang.length === 2) {
-      this.getMenu = true;
-    }
+    this.getMenu = true;
     this.getMenuByProjectId();
   }
 }
