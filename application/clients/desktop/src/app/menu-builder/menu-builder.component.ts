@@ -27,6 +27,7 @@ export class MenuBuilderComponent implements OnInit {
   oldMenu: any = [];
   newMenu: any = [];
   menuDetails: any = [];
+  menuId: String;
   currentMenu: any = [];
   getMenu: Boolean;
   descriptionBeforeUpdate: String;
@@ -122,6 +123,7 @@ export class MenuBuilderComponent implements OnInit {
           if (mData.menu_option === true) {
             this.currenLang = mData.language;
             this.currentMenu = mData.menuDetails;
+            this.menuId = mData._id;
           }
           if (!this.getMenu) {
             if (mData.menu_option === true) {
@@ -140,30 +142,30 @@ export class MenuBuilderComponent implements OnInit {
         });
 
         if (this.getMenu) {
+          this.newMenu = [];
+          this.oldMenu = [];
           menuBuilderData.forEach(meData => {
-            meData.project_languages.forEach(lang => {
-              if (lang === meData.language) {
-                if (this.currenLang === meData.language) {
-                  this.oldMenu = meData.menuDetails;
 
-                } else if (this.selectedLang === meData.language) {
+            if (this.currenLang === meData.language) {
 
-                  this.newMenu = meData.menuDetails;
-                }
-              }
-            })
+              this.oldMenu = meData.menuDetails;
+
+            } else if (this.selectedLang === meData.language) {
+
+              this.newMenu = meData.menuDetails;
+
+            }
+
             if (meData.language !== this.selectedLang) {
               meData.menu_option = false;
+              this.menuId = meData._id;
               this.updateMenuById(meData._id, meData);
             } else if (meData.language === this.selectedLang) {
               meData.menu_option = true;
               meData.language = this.selectedLang;
               if (this.oldMenu.length > this.newMenu.length) {
-                this.oldMenu.forEach((mdata, index) => {
-                  if (index !== 0) {
-                    this.newMenu.push(mdata);
-                  }
-                });
+                let diff = this.oldMenu[this.oldMenu.length - 1];
+                this.newMenu.push(diff);
               }
               let FeatureDiff = menuBuilderData[0].feature
                 .filter(x => !menuBuilderData[1].feature.includes(x))
@@ -172,6 +174,7 @@ export class MenuBuilderComponent implements OnInit {
                 meData.feature.push(FeatureDiff[0]);
               }
               this.menuDetails = meData.menuDetails;
+              this.menuId = meData._id;
               this.updateMenuById(meData._id, meData);
               this.database.initialize(meData.menuDetails);
 
@@ -183,7 +186,8 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   updateMenuBuilder(description) {
-    this.menuDetails.map(element => {
+    console.log("description", description)
+    this.menuDetails.forEach(element => {
       if (element.featuremenu[0].description.feature === this.descriptionBeforeUpdate) {
         element.featuremenu[0].description.feature = description;
       } else {
@@ -196,23 +200,29 @@ export class MenuBuilderComponent implements OnInit {
         });
       }
     });
-    this.menuLang.forEach(lang => {
-      if (this.secondaryLang !== undefined) {
-        if (lang !== this.secondaryLang) {
-          this.menuBuilderDetails.language = this.primaryLang;
-          this.menuBuilderDetails.menu_option = false;
-          this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
-          delete this.menuBuilderDetails._id;
-          delete this.menuBuilderDetails.updated_date;
-          delete this.menuBuilderDetails.created_date;
-          this.menuBuilderDetails.menu_option = true;
-          this.menuBuilderDetails.language = this.selectedLang;
-        }
-      } else if (lang === this.primaryLang) {
-        this.database.initialize(this.menuBuilderDetails.menuDetails);
-        this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
-      }
-    });
+
+    // this.database.initialize(this.menuDetails);
+    // console.log("id", this.menuId)
+    // this.updateMenuById(this.menuId, this.menuDetails);
+    // this.getMenuByProjectId();
+    // console.log("this.menuDetails", this.menuDetails)
+    // this.menuLang.forEach(lang => {
+    //   if (this.secondaryLang !== undefined) {
+    //     if (lang !== this.secondaryLang) {
+    //       this.menuBuilderDetails.language = this.primaryLang;
+    //       this.menuBuilderDetails.menu_option = false;
+    //       this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
+    //       delete this.menuBuilderDetails._id;
+    //       delete this.menuBuilderDetails.updated_date;
+    //       delete this.menuBuilderDetails.created_date;
+    //       this.menuBuilderDetails.menu_option = true;
+    //       this.menuBuilderDetails.language = this.selectedLang;
+    //     }
+    //   } else if (lang === this.primaryLang) {
+    //     this.database.initialize(this.menuBuilderDetails.menuDetails);
+    //     this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
+    //   }
+    // });
   }
   updateMenuById(id, menu) {
     this.menuBuilderService.updateMenuById(id, menu).subscribe(fMenu => {

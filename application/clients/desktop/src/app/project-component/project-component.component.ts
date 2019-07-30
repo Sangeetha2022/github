@@ -623,7 +623,7 @@ export class EntityManagerComponent implements OnInit {
                                                                 }
                                                             });
                                                         });
-                                                        this.menuBuilder.menuDetails.splice(0, 0, this.dataMenu[0])
+                                                        this.menuBuilder.menuDetails.splice(0, 0, this.dataMenu[0]);
 
                                                     }
 
