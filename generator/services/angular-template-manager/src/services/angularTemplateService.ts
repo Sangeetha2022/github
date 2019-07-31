@@ -30,6 +30,7 @@ export class AngularTemplateService {
         port: 0
     }
     private projectName = '';
+    private DEFAULT_FEATURENAME = 'default';
 
     initalizeDaoVariable() {
 
@@ -46,37 +47,36 @@ export class AngularTemplateService {
             this.menuList = [];
             // this.menuDetails = this.details.menuBuilder[0].menuDetails;
             console.log('menudetails before length are ---- ', this.details.menuBuilder.length);
-            const addArray = this.details.menuBuilder.filter(x => x.language.toLowerCase() == this.details.project.defaultHumanLanguage.toLowerCase())
-            console.log('menudetails after length are ---- ', addArray.length);
-            console.log('menudetails after length are -addArrau--- ', util.inspect(addArray, { showHidden: true, depth: null }));
-            const menu = {
-                parent: [],
-                children: []
-            }
-            addArray.forEach(element => {
-                if (element.menuDetails.length > 0) {
-                    if (element.menuDetails[0].featuremenu && element.menuDetails[0].featuremenu.length > 0) {
-                        menu.parent.push(element.menuDetails[0].featuremenu[0].description.feature);
-                    }
-                    if (element.menuDetails[0].screenmenu.length > 0) {
-                        element.menuDetails[0].screenmenu.forEach((screenMenu, screenMenuIndex) => {
-                            screenMenu.name.screen.forEach((screenMenuName, screenNameIndex) => {
-                                console.log('each screenMenuName ----  ', screenMenuName);
-                                console.log('each screenNameIndex ----  ', screenNameIndex);
-                                const temp = {
-                                    route: '',
-                                    name: ''
-                                }
-                                temp.route = screenMenuName;
-                                temp.name = screenMenu.description.screen[screenNameIndex];
-                                menu.children.push(temp);
-                            });
-                        })
-                        console.log('after added inside ----  ', menu);
-                    }
-                    this.menuList.push(menu);
-                }
-            })
+            const primaryLanguageMenuList = this.details.menuBuilder.filter(x => x.language.toLowerCase() == this.details.project.defaultHumanLanguage.toLowerCase())
+            console.log('menudetails after length are ---- ', primaryLanguageMenuList.length);
+            console.log('menudetails after length are -addArrau--- ', util.inspect(primaryLanguageMenuList, { showHidden: true, depth: null }));
+            this.menuList = primaryLanguageMenuList;
+            //             primaryLanguageMenuList.forEach(element => {
+            //                 console.log('each array of menus are --------   ', element);
+            //                 if (element && element.menuDetails.length > 0) {
+            //                     element.menuDetails.forEach(menuElement => {
+            //                         const menu = {
+            //                             parent: [],
+            //                             children: []
+            //                         }
+            //                         if (menuElement.featuremenu[0].name.feature != this.DEFAULT_FEATURENAME) {
+            //                             menu.parent.push(menuElement.featuremenu[0].description.feature);
+            //                         }
+            //                         if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
+            //                             menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
+            //                                 const temp = {
+            //                                     route: '',
+            //                                     name: ''
+            //                                 }
+            //                                 temp.route = screenElement;
+            //                                 temp.name = menuElement.screenmenu[0].description.screen[screenIndex];
+            //                                 menu.children.push(temp);
+            //                             })
+            //                         }
+            //                         this.menuList.push(menu);
+            //                     })
+            // }
+            //             })
             console.log('after added outside ----  ', util.inspect(this.menuList, { showHidden: true, depth: null }));
         }
         this.apigatewayPortNumber = this.details.apigatewayPortNumber;

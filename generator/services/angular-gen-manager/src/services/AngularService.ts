@@ -20,7 +20,7 @@ export class AngularService {
 
         const temp = JSON.parse(req.body.desktop[0]['gjs-components'][0]);
         console.log('create angular html metadata ---@#$$$$--full temp--    ', temp);
-        generateHtmlWorker.generateHtml(temp, details);
+        generateHtmlWorker.createTemplateHtml(temp, details);
         // console.log('create angular html metadata ---@#$$$$--33--    ', temp.length);
         // console.log('create angular html metadata ---@#$$$$--44--    ', temp[0]);
 

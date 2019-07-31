@@ -62,8 +62,12 @@ export class CommonWorker {
     private LIST_TAG: String = 'li';
 
     // nav header
+    private HOME_MENU = 'home';
     private ADMIN_MENU = 'admin';
     private LOGOUT_MENU = 'logout';
+
+    // feature name
+    private DEFAULT_FEATURENAME = 'default';
 
     //component variable
     private HEADER_ADMIN_VARIABLE = 'isAdminUser';
@@ -99,72 +103,151 @@ export class CommonWorker {
         if (this.templateHeaderObj.tag.length === 0 && this.templateHeaderObj.css.length === 0) {
             let headerNav = constant.sideBar.htmlTag[0].replace(this.CHANGENAME, templateName.toUpperCase().replace('TEMPLATE', ''));
             let loadHeaderNav = '';
+            let topNav = [];
+            let mainNav = [];
+            let BottomNav = [];
             if (menuList && menuList.length > 0) {
-                menuList.forEach(menuElement => {
-                    if (menuElement.parent.length == 0 && menuElement.children.length > 0) {
-                        menuElement.children.forEach(childElement => {
-                            if (childElement.name == this.ADMIN_MENU) {
-
-                                loadHeaderNav += `<${this.LIST_TAG}>
-                               <a class="text" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${childElement.route}']">${childElement.name}</a>
-                               </${this.LIST_TAG}>`
-
-                            } else if (childElement.name == this.LOGOUT_MENU) {
-
-                                loadHeaderNav += `<${this.LIST_TAG}>
-                                <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
-                                </${this.LIST_TAG}>`
-
+                menuList.forEach(element => {
+                    console.log('each array of menus are --------   ', element);
+                    if (element && element.menuDetails.length > 0) {
+                        element.menuDetails.forEach(menuElement => {
+                            // const menu = {
+                            //     parent: [],
+                            //     children: []
+                            // }
+                            if (menuElement.featuremenu[0].name.feature != this.DEFAULT_FEATURENAME) {
+                                // menu.parent.push(menuElement.featuremenu[0].description.feature);
+                                mainNav.push(`<li>
+                                <a href="#${menuElement.featuremenu[0].name.feature}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text">${menuElement.featuremenu[0].name.feature}</a>
+                                <ul class="collapse list-unstyled" id="${menuElement.featuremenu[0].name.feature}">`)
+                                if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
+                                    menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
+                                        // const temp = {
+                                        //     route: '',
+                                        //     name: ''
+                                        // }
+                                        // temp.route = screenElement;
+                                        // temp.name = menuElement.screenmenu[0].description.screen[screenIndex];
+                                        // menu.children.push(temp);
+                                        mainNav.push(`<li>
+                                        <a class="text" [routerLink]="['/${screenElement}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                    </li>`)
+                                    })
+                                }
+                                mainNav.push(`</ul>
+                                </li>`)
                             } else {
-
-                                loadHeaderNav += `<${this.LIST_TAG}>
-                               <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
-                               </${this.LIST_TAG}>`
-
+                                if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
+                                    menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
+                                        // const temp = {
+                                        //     route: '',
+                                        //     name: ''
+                                        // }
+                                        // temp.route = screenElement;
+                                        // temp.name = menuElement.screenmenu[0].description.screen[screenIndex];
+                                        // menu.children.push(temp);
+                                        let temp = null;
+                                        switch (screenElement) {
+                                            case this.HOME_MENU:
+                                                topNav.push(` <li>
+                                                <a class="text" [routerLink]="['/${screenElement}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                            </li>`);
+                                                break;
+                                            case this.ADMIN_MENU:
+                                                mainNav.push(` <li>
+                                                <a class="text" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${screenElement}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                            </li>`);
+                                                break;
+                                            case this.LOGOUT_MENU:
+                                                BottomNav.push(` <li>
+                                                <a class="text" (click)="${this.LOGOUT_MENU.toLowerCase()}()">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                            </li>`);
+                                                break;
+                                            default:
+                                                mainNav.push(` <li>
+                                                    <a class="text" [routerLink]="['/${screenElement}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                                </li>`);
+                                                break;
+                                        }
+                                    })
+                                }
                             }
-
-                        })
-                    } else if (menuElement.parent) {
-
-                        loadHeaderNav += `<li>
-                        <a class="text" href="#${menuElement.parent[0]}" data-toggle="collapse" aria-expanded="false"
-                         class="dropdown-toggle">${menuElement.parent[0]}</a>
-                        <ul class="collapse list-unstyled" id="${menuElement.parent[0]}">`;
-
-                    }
-                    if (menuElement.parent.length != 0 && menuElement.children.length != 0) {
-                        menuElement.children.forEach(childElement => {
-                            if (childElement.name == this.ADMIN_MENU) {
-
-                                loadHeaderNav += `<${this.LIST_TAG}>
-                               <a class="text" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${childElement.route}']">${childElement.name}</a>
-                               </${this.LIST_TAG}>`
-
-                            } else if (childElement.name == this.LOGOUT_MENU) {
-
-                                loadHeaderNav += `<${this.LIST_TAG}>
-                                <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
-                                </${this.LIST_TAG}>`;
-
-                            } else {
-
-                                loadHeaderNav += `<${this.LIST_TAG}>
-                               <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
-                               </${this.LIST_TAG}>`;
-
-                            }
-                            loadHeaderNav += `</ul>
-                            </li>`;
-
                         })
                     }
                 })
+                loadHeaderNav = `${topNav.join(`\n`)}${mainNav.join(`\n`)}${BottomNav.join(`\n`)}`;
                 headerNav = headerNav.replace(this.LOADHEADERNAV, loadHeaderNav);
                 this.templateHeaderObj.tag.push(headerNav);
                 // add script sidebar script in header component
                 this.templateHeaderObj.component.scriptVariable = constant.sideBar.components.scriptVariable;
                 this.templateHeaderObj.component.componentOnInit = constant.sideBar.components.componentOnInit;
             }
+            // if (menuList && menuList.length > 0) {
+            //     menuList.forEach(menuElement => {
+            //         if (menuElement.parent.length == 0 && menuElement.children.length > 0) {
+            //             menuElement.children.forEach(childElement => {
+            //                 if (childElement.name == this.ADMIN_MENU) {
+
+            //                     loadHeaderNav += `<${this.LIST_TAG}>
+            //                    <a class="text" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+            //                    </${this.LIST_TAG}>`
+
+            //                 } else if (childElement.name == this.LOGOUT_MENU) {
+
+            //                     loadHeaderNav += `<${this.LIST_TAG}>
+            //                     <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
+            //                     </${this.LIST_TAG}>`
+
+            //                 } else {
+
+            //                     loadHeaderNav += `<${this.LIST_TAG}>
+            //                    <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+            //                    </${this.LIST_TAG}>`
+
+            //                 }
+
+            //             })
+            //         } else if (menuElement.parent) {
+
+            //             loadHeaderNav += `<li>
+            //             <a class="text" href="#${menuElement.parent[0]}" data-toggle="collapse" aria-expanded="false"
+            //              class="dropdown-toggle">${menuElement.parent[0]}</a>
+            //             <ul class="collapse list-unstyled" id="${menuElement.parent[0]}">`;
+
+            //         }
+            //         if (menuElement.parent.length != 0 && menuElement.children.length != 0) {
+            //             menuElement.children.forEach(childElement => {
+            //                 if (childElement.name == this.ADMIN_MENU) {
+
+            //                     loadHeaderNav += `<${this.LIST_TAG}>
+            //                    <a class="text" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+            //                    </${this.LIST_TAG}>`
+
+            //                 } else if (childElement.name == this.LOGOUT_MENU) {
+
+            //                     loadHeaderNav += `<${this.LIST_TAG}>
+            //                     <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
+            //                     </${this.LIST_TAG}>`;
+
+            //                 } else {
+
+            //                     loadHeaderNav += `<${this.LIST_TAG}>
+            //                    <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+            //                    </${this.LIST_TAG}>`;
+
+            //                 }
+            //                 loadHeaderNav += `</ul>
+            //                 </li>`;
+
+            //             })
+            //         }
+            //     })
+            //     headerNav = headerNav.replace(this.LOADHEADERNAV, loadHeaderNav);
+            //     this.templateHeaderObj.tag.push(headerNav);
+            //     // add script sidebar script in header component
+            //     this.templateHeaderObj.component.scriptVariable = constant.sideBar.components.scriptVariable;
+            //     this.templateHeaderObj.component.componentOnInit = constant.sideBar.components.componentOnInit;
+            // }
             this.templateHeaderObj.css = constant.sideBar.css;
             constant.sideBar.script.forEach(scriptElement => {
                 this.scriptTag.push(scriptElement);
@@ -388,84 +471,98 @@ export class CommonWorker {
         this.startString += `>`;
         this.startTag.push(this.startString);
         let isParentDiv = false;
-        if (this.navMenu.length > 0) {
-            // this.startTag.push(`<div class="list-group panel">`);
-            this.navMenu.forEach(navElement => {
-                // this.startTag.push(`<div class="list-group panel">`);
-                if (navElement.parent.length == 0 && navElement.children.length > 0) {
-                    navElement.children.forEach(childElement => {
-                        this.startTag.push(`<div class="list-group panel">`);
-                        if (childElement.name == this.ADMIN_MENU) {
-
-                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item list-group-item-success" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
-
-                        } else if (childElement.name == this.LOGOUT_MENU) {
-                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item list-group-item-success" (click)="${this.LOGOUT_MENU}()">${childElement.name}</${this.ANCHOR_TAG}>`);
-                            //     loadHeaderNav += `<${this.LIST_TAG}>
-                            //    <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
-                            //    </${this.LIST_TAG}>`
-
+        let topNav = [];
+        let mainNav = [];
+        let BottomNav = [];
+        if (this.navMenu && this.navMenu.length > 0) {
+            this.navMenu.forEach(element => {
+                console.log('each array of menus are --------   ', element);
+                if (element && element.menuDetails.length > 0) {
+                    element.menuDetails.forEach(menuElement => {
+                        // const menu = {
+                        //     parent: [],
+                        //     children: []
+                        // }
+                        if (menuElement.featuremenu[0].name.feature != this.DEFAULT_FEATURENAME) {
+                            // menu.parent.push(menuElement.featuremenu[0].description.feature);
+                            // mainNav.push(`<li>
+                            // <a href="#${menuElement.featuremenu[0].name.feature}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text">${menuElement.featuremenu[0].name.feature}</a>
+                            // <ul class="collapse list-unstyled" id="${menuElement.featuremenu[0].name.feature}">`)
+                            mainNav.push(`<div class="list-group panel">
+                            <${this.ANCHOR_TAG} href="#${menuElement.featuremenu[0].name.feature}" class="list-group-item list-group-item-success" data-toggle="collapse"
+                              data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></${this.ANCHOR_TAG}>
+                            <div class="collapse" id="${menuElement.featuremenu[0].name.feature}">`);
+                            if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
+                                menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
+                                    // const temp = {
+                                    //     route: '',
+                                    //     name: ''
+                                    // }
+                                    // temp.route = screenElement;
+                                    // temp.name = menuElement.screenmenu[0].description.screen[screenIndex];
+                                    // menu.children.push(temp);
+                                    mainNav.push(`<${this.ANCHOR_TAG} class="list-group-item" [routerLink]="['/${screenElement}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>`);
+                                    //     mainNav.push(`<li>
+                                    //     <a class="text" [routerLink]="['/${screenElement}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                    // </li>`)
+                                })
+                            }
+                            mainNav.push(`</div>`);
+                            mainNav.push(`</div>`);
                         } else {
-                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item list-group-item-success" [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
-                            // loadHeaderNav += `<${this.LIST_TAG}>
-                            // <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
-                            // </${this.LIST_TAG}>`
-
+                            if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
+                                menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
+                                    // const temp = {
+                                    //     route: '',
+                                    //     name: ''
+                                    // }
+                                    // temp.route = screenElement;
+                                    // temp.name = menuElement.screenmenu[0].description.screen[screenIndex];
+                                    // menu.children.push(temp);
+                                    let temp = null;
+                                    switch (screenElement) {
+                                        case this.HOME_MENU:
+                                            //     topNav.push(` <li>
+                                            //     <a class="text" [routerLink]="['/${screenElement}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                            // </li>`);
+                                            topNav.push(`<div class="list-group panel">
+                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" [routerLink]="['/${screenElement}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>
+                                      </div>`);
+                                            break;
+                                        case this.ADMIN_MENU:
+                                            //     mainNav.push(` <li>
+                                            //     <a class="text" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${screenElement}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                            // </li>`);
+                                            mainNav.push(`<div class="list-group panel" *ngIf='${this.HEADER_ADMIN_VARIABLE}'>
+                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" [routerLink]="['/${screenElement}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>
+                                      </div>`);
+                                            break;
+                                        case this.LOGOUT_MENU:
+                                            //     BottomNav.push(` <li>
+                                            //     <a class="text" (click)="${this.LOGOUT_MENU.toLowerCase()}()">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                            // </li>`);
+                                            BottomNav.push(`<div class="list-group panel">
+                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" (click)="${this.LOGOUT_MENU.toLowerCase()}()">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>
+                                      </div>`);
+                                            break;
+                                        default:
+                                            // mainNav.push(` <li>
+                                            //     <a class="text" [routerLink]="['/${screenElement}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                            // </li>`);
+                                            mainNav.push(`<div class="list-group panel">
+                                            <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" [routerLink]="['/${screenElement}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>
+                                          </div>`);
+                                            break;
+                                    }
+                                })
+                            }
                         }
-                        this.startTag.push(`</div>`);
                     })
-                } else if (navElement.parent) {
-                    isParentDiv = true;
-                    this.startTag.push(`<div class="list-group panel">`);
-                    this.startTag.push(`<${this.ANCHOR_TAG} href="#${navElement.parent[0]}" class="list-group-item list-group-item-success" data-toggle="collapse"
-                        data-parent="#MainMenu">${navElement.parent[0]} <i class="fa fa-caret-down"></i></${this.ANCHOR_TAG}>`);
-                    this.startTag.push(`<div class="collapse" id="${navElement.parent[0]}">`);
-                    // loadHeaderNav += `<li>
-                    // <a class="text" href="#${menuElement.parent[0]}" data-toggle="collapse" aria-expanded="false"
-                    //  class="dropdown-toggle">${menuElement.parent[0]}</a>
-                    // <ul class="collapse list-unstyled" id="${menuElement.parent[0]}">`;
-
-                }
-                if (navElement.parent.length != 0 && navElement.children.length != 0) {
-                    navElement.children.forEach(childElement => {
-                        if (childElement.name == this.ADMIN_MENU) {
-
-                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item list-group-item-success" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
-
-                        } else if (childElement.name == this.LOGOUT_MENU) {
-                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item" (click)="${this.LOGOUT_MENU}()">${childElement.name}</${this.ANCHOR_TAG}>`);
-                        } else {
-
-                            // loadHeaderNav += `<${this.LIST_TAG}>
-                            // <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
-                            // </${this.LIST_TAG}>`;
-                            this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item" [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
-                        }
-                        // loadHeaderNav += `</ul>
-                        // </li>`;
-
-                    })
-                }
-
-                if (isParentDiv) {
-                    this.startTag.push(`</div>`);
-                    this.startTag.push(`</div>`);
                 }
             })
-            // this.navMenu.forEach(menuElement => {
-            //     const featureInfo = menuElement.featuremenu[0].description.feature;
-            //     const screenInfo = menuElement.screenmenu[0];
-            //     this.startTag.push(`<a href="#${featureInfo}" data-toggle="collapse" data-parent="#MainMenu" class="list-group-item list-group-item-success">
-            //     ${featureInfo}
-            //     <i class="fa fa-caret-down"></i></a>`);
-            //     this.startTag.push(`<div id="${featureInfo}" class="collapse">`);
-            //     // this.startTag.push(`<a [routerLink]="['/feature-details']" class="list-group-item">create</a>`);
-            //     screenInfo.description.screen.forEach((screenElement, index) => {
-            //         this.startTag.push(`<a [routerLink]="['/${screenElement}']" class="list-group-item">${screenElement}</a>`);
-            //     });
-            //     this.startTag.push(`</div>`);
-            // })
-            // this.startTag.push(`</div>`);
+            this.startTag.push(topNav.join('\n'));
+            this.startTag.push(mainNav.join('\n'));
+            this.startTag.push(BottomNav.join('\n'));
             this.templateHeaderObj.css.push(`.list-group.panel {
     border: 0;
     border-radius: 0;
@@ -485,7 +582,97 @@ export class CommonWorker {
     color: white !important;
     border-radius: none !important;
   }`)
+            // loadHeaderNav = `${topNav.join(`\n`)}${mainNav.join(`\n`)}${BottomNav.join(`\n`)}`;
+            //      headerNav = headerNav.replace(this.LOADHEADERNAV, loadHeaderNav);
+            // this.templateHeaderObj.tag.push(headerNav);
+            // add script sidebar script in header component
+            // this.templateHeaderObj.component.scriptVariable = constant.sideBar.components.scriptVariable;
+            // this.templateHeaderObj.component.componentOnInit = constant.sideBar.components.componentOnInit;
         }
+        //         if (this.navMenu.length > 0) {
+        //             // this.startTag.push(`<div class="list-group panel">`);
+        //             this.navMenu.forEach(navElement => {
+        //                 // this.startTag.push(`<div class="list-group panel">`);
+        //                 if (navElement.parent.length == 0 && navElement.children.length > 0) {
+        //                     navElement.children.forEach(childElement => {
+        //                         this.startTag.push(`<div class="list-group panel">`);
+        //                         if (childElement.name == this.ADMIN_MENU) {
+
+        //                             this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item list-group-item-success" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
+
+        //                         } else if (childElement.name == this.LOGOUT_MENU) {
+        //                             this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item list-group-item-success" (click)="${this.LOGOUT_MENU}()">${childElement.name}</${this.ANCHOR_TAG}>`);
+        //                             //     loadHeaderNav += `<${this.LIST_TAG}>
+        //                             //    <a class="text" [routerLink]="['/${childElement.route}']">${childElement.name}</a>
+        //                             //    </${this.LIST_TAG}>`
+
+        //                         } else {
+        //                             this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item list-group-item-success" [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
+        //                             // loadHeaderNav += `<${this.LIST_TAG}>
+        //                             // <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
+        //                             // </${this.LIST_TAG}>`
+
+        //                         }
+        //                         this.startTag.push(`</div>`);
+        //                     })
+        //                 } else if (navElement.parent) {
+        //                     isParentDiv = true;
+        //                     this.startTag.push(`<div class="list-group panel">`);
+        //                     this.startTag.push(`<${this.ANCHOR_TAG} href="#${navElement.parent[0]}" class="list-group-item list-group-item-success" data-toggle="collapse"
+        //                         data-parent="#MainMenu">${navElement.parent[0]} <i class="fa fa-caret-down"></i></${this.ANCHOR_TAG}>`);
+        //                     this.startTag.push(`<div class="collapse" id="${navElement.parent[0]}">`);
+        //                     // loadHeaderNav += `<li>
+        //                     // <a class="text" href="#${menuElement.parent[0]}" data-toggle="collapse" aria-expanded="false"
+        //                     //  class="dropdown-toggle">${menuElement.parent[0]}</a>
+        //                     // <ul class="collapse list-unstyled" id="${menuElement.parent[0]}">`;
+
+        //                 }
+        //                 if (navElement.parent.length != 0 && navElement.children.length != 0) {
+        //                     navElement.children.forEach(childElement => {
+        //                         if (childElement.name == this.ADMIN_MENU) {
+
+        //                             this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item list-group-item-success" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
+
+        //                         } else if (childElement.name == this.LOGOUT_MENU) {
+        //                             this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item" (click)="${this.LOGOUT_MENU}()">${childElement.name}</${this.ANCHOR_TAG}>`);
+        //                         } else {
+
+        //                             // loadHeaderNav += `<${this.LIST_TAG}>
+        //                             // <a class="text" (click)="${this.LOGOUT_MENU}()">${childElement.name}</a>
+        //                             // </${this.LIST_TAG}>`;
+        //                             this.startTag.push(`<${this.ANCHOR_TAG} class="list-group-item" [routerLink]="['/${childElement.route}']">${childElement.name}</${this.ANCHOR_TAG}>`);
+        //                         }
+        //                         // loadHeaderNav += `</ul>
+        //                         // </li>`;
+
+        //                     })
+        //                 }
+
+        //                 if (isParentDiv) {
+        //                     this.startTag.push(`</div>`);
+        //                     this.startTag.push(`</div>`);
+        //                 }
+        //             })
+        //            this.templateHeaderObj.css.push(`.list-group.panel {
+        //     border: 0;
+        //     border-radius: 0;
+        //     margin-bottom: 0;
+        //   }
+
+        //   .list-group-item {
+        //     border: none !important;
+        //     background-color: rgba(0, 0, 0, 0.5);
+        //     font-size: 18px;
+        //     color: white !important;
+        //   }
+
+        //   .list-group-item-success {
+        //     background-color: rgba(0, 0, 0, 0.65);
+        //     font-size: 20px;
+        //     color: white !important;
+        //     border-radius: none !important;
+        //   }`)
+        //         }
 
         this.getNextValue(secondEle);
 
