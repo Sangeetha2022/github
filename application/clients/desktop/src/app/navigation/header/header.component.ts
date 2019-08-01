@@ -124,6 +124,13 @@ export class HeaderComponent implements OnInit {
     }, error => {
       console.error('error:', error);
     });
+    this.closeNav();
   }
 
+  openNav(){
+    document.getElementById("myNav").style.height = "50%";
+  }
+   closeNav() {
+    document.getElementById("myNav").style.height = "0%";
+  }
 }
