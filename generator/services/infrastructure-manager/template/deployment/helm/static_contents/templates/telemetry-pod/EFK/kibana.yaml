@@ -9,7 +9,7 @@ spec:
   type: NodePort
   ports:
   - port: 5601
-    nodePort: 30562
+    nodePort: 30560
   selector:
     app: kibana
 ---
@@ -28,7 +28,7 @@ spec:
   template:
     metadata:
       labels:
-	app: kibana
+        app: kibana
     spec:
       containers:
       - name: kibana
@@ -42,4 +42,4 @@ spec:
           - name: ELASTICSEARCH_URL
             value: http://elasticsearch.{{ .Values.logging.namespace }}.svc.cluster.local:9200/
         ports:
-	      - containerPort: 5601
+        - containerPort: 5601

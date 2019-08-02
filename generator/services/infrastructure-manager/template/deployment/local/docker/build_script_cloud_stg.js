@@ -1,6 +1,6 @@
 /*
  * Template group build_script_cloud
- * Compiled on Sat Jul 27 2019 13:11:44 GMT+0530 (IST)
+ * Compiled on Fri Aug 02 2019 20:29:36 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -249,8 +249,19 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
+    w.write("export LOGGING_PORT=$(kubectl get --namespace ");
+    w.popIndentation();
+    st.write(w, s, g, rc, s.project_name);
+    w.write("-logging -o jsonpath=\"{.spec.ports[0].nodePort}\" services kibana)");
+    w.write("\n");
+    w.pushIndentation("    ");
     w.write("echo \"App Url : http://$NODE_IP:$NODE_PORT\"");
     w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("echo \"Logging Url : http://$NODE_IP:$LOGGING_PORT\"");
+    w.popIndentation();
+    w.write("\n");
     w.write("\n");
     w.write("\n");
     w.write("else");
