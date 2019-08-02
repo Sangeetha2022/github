@@ -1,6 +1,6 @@
 /*
  * Template group values_yaml
- * Compiled on Thu Jul 25 2019 18:42:58 GMT+0530 (IST)
+ * Compiled on Fri Aug 02 2019 17:42:23 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -43,6 +43,15 @@ r = function(w, rc) {
     w.write("namespace: ");
     w.popIndentation();
     st.write(w, s, g, rc, s.project_name);
+    w.write("\n");
+    w.write("\n");
+    w.write("logging:");
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("namespace: ");
+    w.popIndentation();
+    st.write(w, s, g, rc, s.project_name);
+    w.write("-logging");
     w.write("\n");
     w.write("\n");
     w.write("service:");
