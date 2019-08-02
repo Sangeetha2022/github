@@ -265,7 +265,7 @@ export class EntityManagerComponent implements OnInit {
                 console.log('saved features are ---- ', featureData);
                 this.displayFeatureModel = 'none';
                 this.menuBuilder = {
-                    feature: [], project: '', language: this.menuLanguages[0],
+                    feature: [], project: '', language: '',
                     menuDetails: [], project_languages: this.menuLanguages, menu_option: true
                 };
                 this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
@@ -275,9 +275,10 @@ export class EntityManagerComponent implements OnInit {
                             if (menuData.menu_option === true) {
                                 this.menuBuilder.feature = menuData.feature;
                                 this.menuBuilder.project = this.project_id;
+                                this.menuBuilder.language = menuData.language;
                                 this.menuBuilder.feature.push(featureData._id);
                                 this.menuBuilder.menuDetails = menuData.menuDetails;
-                                this.menuBuilderService.updateMenuById(menuBuilderData[0]._id, this.menuBuilder)
+                                this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
                                     .subscribe(fMenu => {
                                         console.log('=========', fMenu);
                                     });
@@ -622,17 +623,11 @@ export class EntityManagerComponent implements OnInit {
                                                             });
                                                         });
                                                         if (this.menuBuilder.menuDetails[0].featuremenu[0].name.feature !== 'default') {
-                                                            // if (this.dataMenu[0].featuremenu[0].name.feature !== 'default') {
                                                             this.menuBuilder.menuDetails.splice(0, 0, this.dataMenu[0]);
-                                                            // }
                                                         }
                                                     }
-
-                                                    console.log("==================", this.menuBuilder)
-
                                                     this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
                                                         .subscribe(fMenu => {
-                                                            console.log("===================== i upadte u", fMenu)
                                                             if (fMenu) {
                                                                 this.database.initialize(fMenu.menuDetails);
                                                             }
