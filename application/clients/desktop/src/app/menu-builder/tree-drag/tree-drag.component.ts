@@ -149,7 +149,6 @@ export class TreeDragComponent {
   }
 
   logNode(node) {
-    console.log(node.item);
     this.selectedItem = node.item;
     this.dataService.setSelectedMenuInfo(this.selectedItem);
     this.menuBuilder.getSelectedMenu();

@@ -4,7 +4,7 @@ import * as asyncLoop from 'node-async-loop';
 import {
     MenuManagerService,
 } from '../apiservices/index';
-import { GenerateHtmlWorker } from '../worker/GenerateHtmlWorker';
+import { GenerateHtmlWorker } from '../worker/generateHtmlWorker';
 
 let generateHtmlWorker = new GenerateHtmlWorker();
 export class AngularService {
@@ -12,15 +12,15 @@ export class AngularService {
     }
     async createAngularProject(req: Request, callback: CallableFunction) {
 
-        console.log('create angular project value are ----- ', util.inspect(req.body, { showHidden: true, depth: null }));
+        // console.log('create angular project value are ----- ', util.inspect(req.body, { showHidden: true, depth: null }));
         callback();
         const details = req.body;
         // console.log('create angular html metadata ---@#$$$$-11---    ', req.body.desktop.length);
         // console.log('create angular html metadata ---@#$$$$-json-22--    ', JSON.parse(req.body.desktop[0]['gjs-components'][0]));
-
+        // more desktop screens in one features
         const temp = JSON.parse(req.body.desktop[0]['gjs-components'][0]);
-        console.log('create angular html metadata ---@#$$$$--full temp--    ', temp);
-        generateHtmlWorker.generateHtml(temp, details);
+        console.log('create angular html metadata ---@#$$$$--full temp--    ', details.desktop[0].screenName);
+        generateHtmlWorker.generate(temp, details.desktop[0], details.desktop[0].screenName, details);
         // console.log('create angular html metadata ---@#$$$$--33--    ', temp.length);
         // console.log('create angular html metadata ---@#$$$$--44--    ', temp[0]);
 

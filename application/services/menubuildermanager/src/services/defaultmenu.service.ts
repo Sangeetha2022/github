@@ -19,12 +19,10 @@ export class DefaultMenuService {
             // callback(response)
             console.log('get all default menus are ---   ', response);
             response.forEach(menuElement => {
-                console.log('elemnet -------  ', menuElement.toObject());
-                console.log('elemnet keys ---------  ', Object.keys(menuElement.toObject()));
                 const menuKeys = Object.keys(menuElement.toObject());
                 menuKeys.forEach(elementKey => {
                     if (elementKey != '_id') {
-                        this.insertMenu(elementKey, menuElement, callback);
+                            this.insertMenu(elementKey, menuElement, callback);
                     }
                 })
             })
@@ -33,15 +31,8 @@ export class DefaultMenuService {
     }
 
     public async insertMenu(key, element, callback) {
-        // console.log('insert menyu keys are ------ ', key);
-        // console.log('insert menyu keys are ----typeof-- ', typeof (key));
         const elementKey = "" + key;
-        // console.log('insert menyu keys are ----typeof-- ', typeof (key));
-        console.log('insert menyu keys are ----typeof-- ', elementKey.toString().toLowerCase() == this.primaryLanguage.toString().toLowerCase() ? true : false);
-        console.log('insert menyu keys are ----elementKey-- ', elementKey.toString().toLowerCase());
-        console.log('insert menyu keys are ----primaryLanguage-- ', this.primaryLanguage.toString().toLowerCase());
         const temp = {
-            isDefault: true,
             menu_option: elementKey.toString().toLowerCase() == this.primaryLanguage.toString().toLowerCase() ? true : false,
             language: `${elementKey.charAt(0).toUpperCase() + elementKey.slice(1).toLowerCase()}`,
             project: this.projectId,
@@ -51,14 +42,24 @@ export class DefaultMenuService {
             ],
             menuDetails: [
                 {
+                    featuremenu: [
+                        {
+                            name: {
+                                feature: "default",
+                            },
+                            description: {
+                                feature: "default",
+                            }
+                        }
+                    ],
                     screenmenu: [
                         {
                             name: {
                                 screen: element[key]
-                                
+
                             },
                             description: {
-                                screen: element[key]                           
+                                screen: element[key]
                             }
                         }
                     ]

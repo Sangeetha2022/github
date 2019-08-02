@@ -10,7 +10,6 @@ export const MenuBuilderSchema = new Schema({
     },
     project: { type: String, ref: 'projects' },
     menu_option: { type: Boolean, default: null },
-    isDefault: { type: Boolean, default: false },
     language: { type: String, default: null },
     project_languages: { type: Array, default: null },
     feature: { type: Array, default: null },

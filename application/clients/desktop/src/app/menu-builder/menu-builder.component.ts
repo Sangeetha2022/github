@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MenuBuilderService } from './menu-builder.service';
 import { TreeDragService } from './tree-drag/tree-drag.service';
 import { EntityManagerComponent } from '../project-component/project-component.component';
+import { ProjectComponentService } from '../project-component/project-component.service';
+import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
 
 @Component({
   selector: 'app-menu-builder',
@@ -19,14 +21,25 @@ export class MenuBuilderComponent implements OnInit {
   selectedLang: String;
   menuLang: any = [];
   name: String;
+  menuFId: any;
   menuBuilderDetails: any = [];
+  screenMenuName: any;
   description: String;
   selectedMenu: String;
+  currenLang: String;
+  menuFName: any;
   project_id: String;
+  featureDetailsData: any;
+  oldMenu: any = [];
+  newMenu: any = [];
   menuDetails: any = [];
+  currentMenu: any = [];
+  screenId: any;
   getMenu: Boolean;
   descriptionBeforeUpdate: String;
   createRow: Boolean = false;
+  menuBuilder: any;
+  dataMenu: any;
 
   // state: ITreeState = {
   //   expandedNodeIds: {
@@ -75,6 +88,8 @@ export class MenuBuilderComponent implements OnInit {
     private route: ActivatedRoute,
     private menuBuilderService: MenuBuilderService,
     private projectComp: EntityManagerComponent,
+    private screenService: ScreenDesignerService,
+    private projectComponentService: ProjectComponentService,
   ) {
   }
 
@@ -92,7 +107,7 @@ export class MenuBuilderComponent implements OnInit {
       (data) => {
         this.description = data;
         this.descriptionBeforeUpdate = data;
-        this.menuDetails.forEach(menuData => {
+        this.currentMenu.forEach(menuData => {
           if (menuData.featuremenu[0].description.feature === this.descriptionBeforeUpdate) {
             this.name = menuData.featuremenu[0].name.feature;
           } else {
@@ -115,6 +130,10 @@ export class MenuBuilderComponent implements OnInit {
         this.menuLang = [];
         menuBuilderData.forEach(mData => {
           this.menuLang.push(mData.language);
+          if (mData.menu_option === true) {
+            this.currenLang = mData.language;
+            this.currentMenu = mData.menuDetails;
+          }
           if (!this.getMenu) {
             if (mData.menu_option === true) {
               this.menuBuilderDetails = mData;
@@ -132,25 +151,112 @@ export class MenuBuilderComponent implements OnInit {
         });
 
         if (this.getMenu) {
-          menuBuilderData.forEach((meData, index) => {
-            if (meData.language === this.selectedLang) {
-              meData.menu_option = true;
-              meData.language = this.selectedLang;
-              let FeatureDiff = menuBuilderData[0].feature
-                .filter(x => !menuBuilderData[1].feature.includes(x))
-                .concat(menuBuilderData[1].feature.filter(x => !menuBuilderData[0].feature.includes(x)));
-              if (FeatureDiff.length === 1) {
-                meData.feature.push(FeatureDiff[0]);
-              }
-              this.menuDetails = meData.menuDetails;
-              this.updateMenuById(meData._id, meData);
-              this.database.initialize(meData.menuDetails);
-
+          this.newMenu = [];
+          this.oldMenu = [];
+          menuBuilderData.forEach(meData => {
+            this.dataMenu = meData.menuDetails;
+            if (this.currenLang === meData.language) {
+              this.oldMenu = meData;
+            } else if (this.selectedLang === meData.language) {
+              this.newMenu = meData;
             }
+
             if (meData.language !== this.selectedLang) {
               meData.menu_option = false;
               this.updateMenuById(meData._id, meData);
+            } else if (meData.language === this.selectedLang) {
+              meData.menu_option = true;
+              meData.language = this.selectedLang;
+              console.log(this.oldMenu.feature)
+              console.log(this.newMenu.feature)
+              var FeatureDiff;
+              if (this.newMenu.feature !== undefined && this.oldMenu.feature !== undefined) {
+                FeatureDiff = this.oldMenu.feature
+                  .filter(x => !this.newMenu.feature.includes(x));
+                if (FeatureDiff.length > 0) {
+                  const array = [];
+                  FeatureDiff.forEach(featureId => {
+                    if (!meData.feature.includes(featureId)) {
+                      meData.feature.push(featureId);
+                      this.featureDetailsData = [];
+                      this.projectComponentService.getFeatureById(featureId).subscribe(
+                        feature => {
+                          this.featureDetailsData = feature;
+                          this.menuFId = this.featureDetailsData._id;
+                          this.menuFName = this.featureDetailsData.name;
+                          const fMenuData = {
+                            feature: this.menuFName,
+                            featureId: this.menuFId,
+                          };
+                          this.screenService.getScreenByFeatureId(featureId).subscribe(data => {
+                            if (data.length !== 0) {
+                              this.screenMenuName = [];
+                              this.screenId = [];
+                              data.forEach(sData => {
+                                this.screenId.push(sData._id);
+                                this.screenMenuName.push(sData.screenName);
+                              });
+                              const screenData = {
+                                screen: this.screenMenuName,
+                                screenId: this.screenId
+                              };
+                              const obj = {
+                                featuremenu: [{ name: fMenuData, description: fMenuData }],
+                                screenmenu: [{
+                                  name: screenData,
+                                  description: screenData
+                                }],
+                              };
+                              array.push(obj);
+                              this.menuBuilder = meData;
+                              this.menuBuilder.menuDetails = array;
+                              if (this.dataMenu.length !== 0) {
+                                this.dataMenu.forEach(meData => {
+                                  this.menuBuilder.menuDetails.forEach(menu => {
+                                    if (meData.featuremenu.length > 0) {
+                                      if (menu.featuremenu[0].name.featureId === meData.featuremenu[0].name.featureId) {
+                                        menu.featuremenu[0].description = meData.featuremenu[0].description;
+                                        if (menu.screenmenu[0].name.screenId !== undefined && meData.screenmenu[0].name.screenId !== undefined) {
+                                          const intersection = menu.screenmenu[0].name.screenId.filter(x => meData.screenmenu[0].name.screenId.includes(x));
+                                          if (intersection.length !== 0) {
+                                            intersection.forEach(sId => {
+                                              meData.screenmenu[0].name.screenId.forEach((dSId, index) => {
+                                                if (sId === dSId) {
+                                                  menu.screenmenu[0].description.screen[index] = meData.screenmenu[0].description.screen[index];
+                                                }
+                                              });
+                                            });
+                                          }
+                                        }
+                                      }
+                                    }
+                                  });
+                                });
+                                if (this.menuBuilder.menuDetails[0].featuremenu[0].name.feature !== 'default') {
+                                  this.menuBuilder.menuDetails.splice(0, 0, this.dataMenu[0]);
+                                }
+                              }
+                              this.menuBuilderService.updateMenuById(meData._id, this.menuBuilder)
+                                .subscribe(fMenu => {
+                                  if (fMenu) {
+                                    this.database.initialize(fMenu.menuDetails);
+                                  }
+                                });
+                            }
+                          });
 
+                        },
+                        error => {
+
+                        }
+                      );
+                    }
+                  });
+                  this.menuDetails = meData.menuDetails;
+                  this.updateMenuById(meData._id, meData);
+                  this.database.initialize(meData.menuDetails);
+                }
+              }
             }
           });
         }
@@ -159,7 +265,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   updateMenuBuilder(description) {
-    this.menuDetails.map(element => {
+    this.menuDetails.forEach(element => {
       if (element.featuremenu[0].description.feature === this.descriptionBeforeUpdate) {
         element.featuremenu[0].description.feature = description;
       } else {
@@ -172,33 +278,20 @@ export class MenuBuilderComponent implements OnInit {
         });
       }
     });
-    let difference = this.menuBuilderDetails.project_languages
-      .filter(x => !this.menuLang.includes(x))
-      .concat(this.menuLang.filter(x => !this.menuBuilderDetails.project_languages.includes(x)));
-    if (difference.length === 0) {
-      this.createRow = true;
-    }
+
     this.menuLang.forEach(lang => {
-      if (!this.createRow) {
-        if (this.secondaryLang !== undefined) {
-          if (lang !== this.secondaryLang) {
-            this.menuBuilderDetails.language = this.primaryLang;
-            this.menuBuilderDetails.menu_option = false;
-            this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
-            delete this.menuBuilderDetails._id;
-            delete this.menuBuilderDetails.updated_date;
-            delete this.menuBuilderDetails.created_date;
-            this.menuBuilderDetails.menu_option = true;
-            this.menuBuilderDetails.language = this.selectedLang;
-            this.menuBuilderService.createMenu(this.menuBuilderDetails).subscribe(menuData => {
-              this.database.initialize(menuData.menuDetails);
-            });
-          }
-        } else if (lang === this.primaryLang) {
-          this.database.initialize(this.menuBuilderDetails.menuDetails);
+      if (this.secondaryLang !== undefined) {
+        if (lang !== this.secondaryLang) {
+          this.menuBuilderDetails.language = this.primaryLang;
+          this.menuBuilderDetails.menu_option = false;
           this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
+          delete this.menuBuilderDetails._id;
+          delete this.menuBuilderDetails.updated_date;
+          delete this.menuBuilderDetails.created_date;
+          this.menuBuilderDetails.menu_option = true;
+          this.menuBuilderDetails.language = this.selectedLang;
         }
-      } else {
+      } else if (lang === this.primaryLang) {
         this.database.initialize(this.menuBuilderDetails.menuDetails);
         this.updateMenuById(this.menuBuilderDetails._id, this.menuBuilderDetails);
       }
@@ -213,21 +306,10 @@ export class MenuBuilderComponent implements OnInit {
       this.description = '';
     });
   }
-
-  updatemenu(projectId, menu) {
-    this.menuBuilderService.updateMenubyProject(projectId, menu)
-      .subscribe(fMenu => {
-        if (fMenu) {
-
-        }
-      });
-  }
   onChangeLang(event) {
     this.secondaryLang = event;
     this.selectedLang = this.secondaryLang;
-    if (this.menuLang.length === 2) {
-      this.getMenu = true;
-    }
+    this.getMenu = true;
     this.getMenuByProjectId();
   }
 }

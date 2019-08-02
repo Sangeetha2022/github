@@ -136,6 +136,8 @@ export class LoginComponent implements OnInit {
         this.accessLevel = consentValue.Access[0];
         this.permission.push(this.accessLevel);
         this.broadcast.sendMessage({ 'Access': this.permission });
+        sessionStorage.setItem('Access', JSON.stringify (this.permission));
+
       }
       this.userDetails = consentValue.Userdetails.body;
       this.id = this.userDetails._id;

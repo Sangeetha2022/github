@@ -2,28 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { TodoItemNode } from './interface/TodoItemNode';
 
-
-/**
- * The Json object for to-do list data.
- */
-const TREE_DATA = {
-  Groceries: {
-    'Almond Meal flour': null,
-    'Organic eggs': null,
-    'Protein Powder': null,
-    Fruits: {
-      Apple: null,
-      Berries: ['Blueberry', 'Raspberry'],
-      Orange: null
-    }
-  },
-  Vegetables: {
-    Carrot: null,
-    Tomato: null,
-    Potato: null
-  }
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -31,34 +9,42 @@ export class TreeDragService {
 
   dataChange = new BehaviorSubject<TodoItemNode[]>([]);
   menuBuilder: any;
-  public defaultMenuData:any;
+  public defaultMenuData: any;
   menu: any = [];
   get data(): TodoItemNode[] { return this.dataChange.value; }
   constructor() {
   }
 
   initialize(menu: any) {
-    if(menu.isDefault===false){
-      let array = [];
-    let count = 0;
+    // if(menu.isDefault===false){
+    let array = [];
+    let count: any;
     if (menu.length > 0) {
+      count = 0;
       menu.forEach(element => {
-        console.log(element)
         count = count + 1;
-        array[element.featuremenu[0].description.feature] = element.screenmenu[0].description.screen;
+        if (element.featuremenu.length > 0) {
+          array[element.featuremenu[0].description.feature] = element.screenmenu[0].description.screen;
+          this.menuBuilder = array;
+          const data = this.buildFileTree(this.menuBuilder, 0);
+          this.dataChange.next(data);
+        } else {
+          this.defaultMenuData = menu[0].screenmenu[0].description.screen;
+          const data = this.buildFileTree(this.defaultMenuData, 0);
+          this.dataChange.next(data);
+        }
       });
-    }
-    if (count === menu.length) {
+    } else {
       this.menuBuilder = array;
       const data = this.buildFileTree(this.menuBuilder, 0);
       this.dataChange.next(data);
     }
-    }
-    else if(menu.isDefault===true){
-      this.defaultMenuData = menu.menuDetails[0].screenmenu[0].description.screen
-      const data = this.buildFileTree(this.defaultMenuData, 0);
-      this.dataChange.next(data);
-    }
+    // }
+    // else if(menu.isDefault===true){
+    //   this.defaultMenuData = menu.menuDetails[0].screenmenu[0].description.screen
+    //   const data = this.buildFileTree(this.defaultMenuData, 0);
+    //   this.dataChange.next(data);
+    // }
   }
 
   buildFileTree(obj: object, level: number): TodoItemNode[] {
@@ -66,7 +52,6 @@ export class TreeDragService {
       const value = obj[key];
       const node = new TodoItemNode();
       node.item = key;
-
       if (value != null) {
         if (typeof value === 'object') {
           node.children = this.buildFileTree(value, level + 1);

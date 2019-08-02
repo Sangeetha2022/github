@@ -14,6 +14,7 @@ export class FrontendController implements Controller {
     private initializeRoutes() {
         this.router.route('/frontend/project').post(this.frontendProject);
         this.router.route('/frontend/template/project').post(this.frontendTemplateProject);
+        this.router.route('/frontend/template/ionic').post(this.frontendIonicTemplateProject);
     }
 
     frontendProject(req: Request, res: Response) {
@@ -28,9 +29,19 @@ export class FrontendController implements Controller {
     }
 
     frontendTemplateProject(req: Request, res: Response) {
-        console.log('calling frontend template project');
         new ApiAdaptar().post(
             `${Constants.frontendGenUrl}/frontend/template/project`,
+            req.body
+        ).then((response) => {
+            res.send(response);
+        }).catch(err => {
+            res.send(err);
+        });
+    }
+
+    frontendIonicTemplateProject(req: Request, res: Response) {
+        new ApiAdaptar().post(
+            `${Constants.frontendGenUrl}/frontend/template/ionic`,
             req.body
         ).then((response) => {
             res.send(response);

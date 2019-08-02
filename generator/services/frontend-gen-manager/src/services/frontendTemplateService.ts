@@ -24,7 +24,7 @@ export class FrontendTemplateService {
         const details = req.body;
         Common.createFolders(details.projectGenerationPath);
         const projectGenerationPath = `${details.projectGenerationPath}/${Constant.DESKTOP_FOLDERNAME}`;
-        console.log('create project template vluae are -----------   ', details);
+        // console.log('create project template vluae are -----------   ', details);
         const templateObj = {
             projectId: details.projectId,
             sharedUrl: details.sharedUrl,
@@ -35,9 +35,9 @@ export class FrontendTemplateService {
             menuBuilder: null
         }
         const screenDetails = await this.getScreenByProjectId(details.projectId);
-        console.log('screens project are ---- ', util.inspect(screenDetails, { showHidden: true, depth: null }));
+        // console.log('screens project are ---- ', util.inspect(screenDetails, { showHidden: true, depth: null }));
         const screenJSON = JSON.parse(screenDetails.toString());
-        console.log('json screens ttest are ---- ', screenJSON);
+        // console.log('json screens ttest are ---- ', screenJSON);
         let templateJSON = null;
         if (screenJSON) {
             templateJSON = screenJSON.body.filter((data) => {
@@ -46,24 +46,25 @@ export class FrontendTemplateService {
         }
         const menuDetails = await this.getMenuByProjectId(details.projectId);
         const menuJSON = JSON.parse(menuDetails.toString());
-        console.log('menuJSON are ------  ', util.inspect(menuDetails, { showHidden: true, depth: null }));
+        // console.log('menuJSON are ------  ', util.inspect(menuDetails, { showHidden: true, depth: null }));
 
         templateObj.template = templateJSON;
         templateObj.menuBuilder = menuJSON.body;
         try {
-            console.log('before calling angular template');
+            // console.log('before calling angular template');
             const templateResponse = await this.generateAngularTemplate(templateObj);
             console.log('after calling angular template ---  ', templateResponse);
-            console.log('after calling angular template ---  ', templateResponse);
-            const tempFrontend = {
-                templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
-                seedTemplatePath: details.seedTemplatePath,
-                authTemplatePath: details.authTemplatePath,
-                adminTemplatePath: details.project.templateLocation.frontendTemplate
+            if (templateResponse) {
+                const tempFrontend = {
+                    templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
+                    seedTemplatePath: details.seedTemplatePath,
+                    authTemplatePath: details.authTemplatePath,
+                    adminTemplatePath: details.project.templateLocation.frontendTemplate
+                }
+                await this.generateAuthFrontendComponent(tempFrontend);
+                console.log('after calling auth gronten component are  ---  ');
+                await this.generateAdminFrontendComponent(tempFrontend);
             }
-            await this.generateAuthFrontendComponent(tempFrontend);
-            console.log('after calling auth gronten component are  ---  ');
-            await this.generateAdminFrontendComponent(tempFrontend);
             callback('angular template are generated');
         } catch (err) {
             console.log('err in generating the angualr template')

@@ -1,5 +1,5 @@
 
-import { AngularController } from '../controllers/AngularController';
+import { AngularController } from '../controllers/angularController';
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {

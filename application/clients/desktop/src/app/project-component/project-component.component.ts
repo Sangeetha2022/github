@@ -265,22 +265,24 @@ export class EntityManagerComponent implements OnInit {
                 console.log('saved features are ---- ', featureData);
                 this.displayFeatureModel = 'none';
                 this.menuBuilder = {
-                    feature: [], project: '', language: this.menuLanguages[0],
+                    feature: [], project: '', language: '',
                     menuDetails: [], project_languages: this.menuLanguages, menu_option: true
                 };
                 this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
                     if (menuBuilderData.length !== 0) {
-                        this.menuBuilder.feature = menuBuilderData[0].feature;
-                        this.menuBuilder.project = this.project_id;
-                        this.menuBuilder.feature.push(featureData._id);
-                        this.menuBuilderService.updateMenuById(menuBuilderData[0]._id, this.menuBuilder)
-                            .subscribe(fMenu => {
-                                console.log('=========', fMenu);
-                            });
-                    } else {
-                        this.menuBuilder.feature.push(featureData._id);
-                        this.menuBuilder.project = this.project_id;
-                        this.menuBuilderService.createMenu(this.menuBuilder).subscribe(menuData => {
+                        menuBuilderData.forEach(menuData => {
+                            console.log(menuData.menu_option)
+                            if (menuData.menu_option === true) {
+                                this.menuBuilder.feature = menuData.feature;
+                                this.menuBuilder.project = this.project_id;
+                                this.menuBuilder.language = menuData.language;
+                                this.menuBuilder.feature.push(featureData._id);
+                                this.menuBuilder.menuDetails = menuData.menuDetails;
+                                this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
+                                    .subscribe(fMenu => {
+                                        console.log('=========', fMenu);
+                                    });
+                            }
                         });
                     }
                 });
@@ -465,7 +467,6 @@ export class EntityManagerComponent implements OnInit {
                 }
             });
 
-            console.log('screenDetails are ----- ', this.screenDetails);
         }, (error) => {
             console.log('screenDetails something is not working on backend side');
         });
@@ -562,83 +563,88 @@ export class EntityManagerComponent implements OnInit {
                 const array = [];
 
                 this.menuBuilderDetails.forEach(menuData => {
-                    if (menuData.menu_option === true && menuData.isDefault === false) {
+                    if (menuData.menu_option === true) {
                         this.dataMenu = menuData.menuDetails;
-                        menuData.feature.forEach(feData => {
-                            if (feData !== null) {
-                                this.featureDetailsData = [];
-                                this.projectComponentService.getFeatureById(feData).subscribe(
-                                    feature => {
-                                        this.featureDetailsData = feature;
-                                        this.menuFId = this.featureDetailsData._id;
-                                        this.menuFName = this.featureDetailsData.name;
-                                        const fMenuData = {
-                                            feature: this.menuFName,
-                                            featureId: this.menuFId,
-                                        };
-
-                                        this.screenService.getScreenByFeatureId(feData).subscribe(data => {
-                                            if (data.length !== 0) {
-                                                this.screenMenuName = [];
-                                                this.screenId = [];
-                                                data.forEach(sData => {
-                                                    this.screenId.push(sData._id);
-                                                    this.screenMenuName.push(sData.screenName);
-                                                });
-                                                const screenData = {
-                                                    screen: this.screenMenuName,
-                                                    screenId: this.screenId
-                                                };
-                                                const obj = {
-                                                    featuremenu: [{ name: fMenuData, description: fMenuData }],
-                                                    screenmenu: [{
-                                                        name: screenData,
-                                                        description: screenData
-                                                    }],
-                                                };
-                                                array.push(obj);
-                                                this.menuBuilder = menuData;
-                                                this.menuBuilder.menuDetails = array;
-                                                if (this.dataMenu.length !== 0) {
-                                                    this.dataMenu.forEach(meData => {
-                                                        this.menuBuilder.menuDetails.forEach(menu => {
-                                                            if (menu.featuremenu[0].name.featureId === meData.featuremenu[0].name.featureId) {
-                                                                menu.featuremenu[0].description = meData.featuremenu[0].description;
-                                                                const intersection = menu.screenmenu[0].name.screenId.filter(x => meData.screenmenu[0].name.screenId.includes(x));
-                                                                if (intersection.length !== 0) {
-                                                                    intersection.forEach(sId => {
-                                                                        meData.screenmenu[0].name.screenId.forEach((dSId, index) => {
-                                                                            if (sId === dSId) {
-                                                                                menu.screenmenu[0].description.screen[index] = meData.screenmenu[0].description.screen[index];
+                        if (menuData.feature.length > 0) {
+                            menuData.feature.forEach(feData => {
+                                if (feData !== null) {
+                                    this.featureDetailsData = [];
+                                    this.projectComponentService.getFeatureById(feData).subscribe(
+                                        feature => {
+                                            this.featureDetailsData = feature;
+                                            this.menuFId = this.featureDetailsData._id;
+                                            this.menuFName = this.featureDetailsData.name;
+                                            const fMenuData = {
+                                                feature: this.menuFName,
+                                                featureId: this.menuFId,
+                                            };
+                                            this.screenService.getScreenByFeatureId(feData).subscribe(data => {
+                                                if (data.length !== 0) {
+                                                    this.screenMenuName = [];
+                                                    this.screenId = [];
+                                                    data.forEach(sData => {
+                                                        this.screenId.push(sData._id);
+                                                        this.screenMenuName.push(sData.screenName);
+                                                    });
+                                                    const screenData = {
+                                                        screen: this.screenMenuName,
+                                                        screenId: this.screenId
+                                                    };
+                                                    const obj = {
+                                                        featuremenu: [{ name: fMenuData, description: fMenuData }],
+                                                        screenmenu: [{
+                                                            name: screenData,
+                                                            description: screenData
+                                                        }],
+                                                    };
+                                                    array.push(obj);
+                                                    this.menuBuilder = menuData;
+                                                    this.menuBuilder.menuDetails = array;
+                                                    if (this.dataMenu.length !== 0) {
+                                                        this.dataMenu.forEach(meData => {
+                                                            this.menuBuilder.menuDetails.forEach(menu => {
+                                                                if (meData.featuremenu.length > 0) {
+                                                                    if (menu.featuremenu[0].name.featureId === meData.featuremenu[0].name.featureId) {
+                                                                        menu.featuremenu[0].description = meData.featuremenu[0].description;
+                                                                        if (menu.screenmenu[0].name.screenId !== undefined && meData.screenmenu[0].name.screenId !== undefined) {
+                                                                            const intersection = menu.screenmenu[0].name.screenId.filter(x => meData.screenmenu[0].name.screenId.includes(x));
+                                                                            if (intersection.length !== 0) {
+                                                                                intersection.forEach(sId => {
+                                                                                    meData.screenmenu[0].name.screenId.forEach((dSId, index) => {
+                                                                                        if (sId === dSId) {
+                                                                                            menu.screenmenu[0].description.screen[index] = meData.screenmenu[0].description.screen[index];
+                                                                                        }
+                                                                                    });
+                                                                                });
                                                                             }
-                                                                        });
-                                                                    });
+                                                                        }
+                                                                    }
                                                                 }
+                                                            });
+                                                        });
+                                                        if (this.menuBuilder.menuDetails[0].featuremenu[0].name.feature !== 'default') {
+                                                            this.menuBuilder.menuDetails.splice(0, 0, this.dataMenu[0]);
+                                                        }
+                                                    }
+                                                    this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
+                                                        .subscribe(fMenu => {
+                                                            if (fMenu) {
+                                                                this.database.initialize(fMenu.menuDetails);
                                                             }
                                                         });
-                                                    });
                                                 }
-                                                this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
-                                                    .subscribe(fMenu => {
-                                                        if (fMenu) {
-                                                            this.database.initialize(fMenu.menuDetails);
-                                                        }
-                                                    });
-                                            }
-                                        });
+                                            });
 
-                                    },
-                                    error => {
+                                        },
+                                        error => {
 
-                                    }
-                                );
-                            }
-                        });
-                    }else{
-                    if (menuData.menu_option === true && menuData.isDefault === true) {
-                        this.dataMenu = menuData
-                      this.database.initialize(this.dataMenu);
-                    }
+                                        }
+                                    );
+                                }
+                            });
+                        } else {
+                            this.database.initialize(this.dataMenu);
+                        }
                     }
                 });
             }
