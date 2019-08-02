@@ -7,6 +7,9 @@ app:
   prefix: $project_name$
   namespace: $project_name$
 
+logging:
+  namespace: $project_name$-logging
+
 service:
   type: NodePort
   appbuilderType: NodePort
