@@ -2,28 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { TodoItemNode } from './interface/TodoItemNode';
 
-
-/**
- * The Json object for to-do list data.
- */
-const TREE_DATA = {
-  Groceries: {
-    'Almond Meal flour': null,
-    'Organic eggs': null,
-    'Protein Powder': null,
-    Fruits: {
-      Apple: null,
-      Berries: ['Blueberry', 'Raspberry'],
-      Orange: null
-    }
-  },
-  Vegetables: {
-    Carrot: null,
-    Tomato: null,
-    Potato: null
-  }
-};
-
 @Injectable({
   providedIn: 'root'
 })
@@ -70,13 +48,10 @@ export class TreeDragService {
   }
 
   buildFileTree(obj: object, level: number): TodoItemNode[] {
-    console.log("todo obj", obj)
     return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
       const value = obj[key];
       const node = new TodoItemNode();
       node.item = key;
-      console.log(node.item)
-
       if (value != null) {
         if (typeof value === 'object') {
           node.children = this.buildFileTree(value, level + 1);

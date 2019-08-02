@@ -466,7 +466,6 @@ export class EntityManagerComponent implements OnInit {
                 }
             });
 
-            console.log('screenDetails are ----- ', this.screenDetails);
         }, (error) => {
             console.log('screenDetails something is not working on backend side');
         });
@@ -578,7 +577,6 @@ export class EntityManagerComponent implements OnInit {
                                                 feature: this.menuFName,
                                                 featureId: this.menuFId,
                                             };
-
                                             this.screenService.getScreenByFeatureId(feData).subscribe(data => {
                                                 if (data.length !== 0) {
                                                     this.screenMenuName = [];
@@ -623,12 +621,18 @@ export class EntityManagerComponent implements OnInit {
                                                                 }
                                                             });
                                                         });
-                                                        this.menuBuilder.menuDetails.splice(0, 0, this.dataMenu[0]);
-
+                                                        if (this.menuBuilder.menuDetails[0].featuremenu[0].name.feature !== 'default') {
+                                                            // if (this.dataMenu[0].featuremenu[0].name.feature !== 'default') {
+                                                            this.menuBuilder.menuDetails.splice(0, 0, this.dataMenu[0]);
+                                                            // }
+                                                        }
                                                     }
+
+                                                    console.log("==================", this.menuBuilder)
 
                                                     this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
                                                         .subscribe(fMenu => {
+                                                            console.log("===================== i upadte u", fMenu)
                                                             if (fMenu) {
                                                                 this.database.initialize(fMenu.menuDetails);
                                                             }
