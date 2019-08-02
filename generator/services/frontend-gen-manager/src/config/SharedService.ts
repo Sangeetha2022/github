@@ -14,5 +14,6 @@ export class SharedService {
     public static apiGatewayURL: String = SharedService.systementryBaseUrl + ":3000";
     public static authURL: String = SharedService.generatorBaseUrl + ":5017";
     public static adminURL: String = SharedService.generatorBaseUrl + ":5018";
+    public static ionicURL: String = SharedService.generatorBaseUrl + ":5019";
     public static systembaseurl: String = SharedService.generatorBaseUrl + ":5003";
 }

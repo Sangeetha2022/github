@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { AngularService } from '../services/AngularService';
+import { AngularService } from '../services/angularService';
 
 let angularService = new AngularService();
 

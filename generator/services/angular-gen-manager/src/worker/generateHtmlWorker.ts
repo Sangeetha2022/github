@@ -1,8 +1,11 @@
 import * as util from 'util';
 import * as asyncForEach from 'async-foreach';
+import { ComponentWorker } from './componentWorker';
+import { Constant } from '../config/Constant';
 // import { RouteSupportWorker } from '../supportworker/RouteSupportWorker';
 
 // let routeSupportWorker = new RouteSupportWorker();
+let componentWorker = new ComponentWorker();
 export class GenerateHtmlWorker {
 
     private forEach = asyncForEach.forEach;
@@ -16,73 +19,70 @@ export class GenerateHtmlWorker {
     private parentTest: any[] = [];
     private isNotImportant: Boolean = false;
     private isContentOnly: Boolean = false;
-    private templateHeaderObj = {
-        tag: [],
-        component: {
-            scriptVariable: [],
-            componentOnInit: []
-        },
-        css: [],
-        module: []
-    }
-    private templateMainObj = {
-        tag: [],
-        css: [],
-        module: []
-    }
-    private templateFooterObj = {
-        tag: [],
-        css: [],
-        module: []
+
+
+    // entity and flows for Each screens
+    private entityDetails = [];
+    private flowDetails = [];
+
+    // set other dependencies 
+    private entities = [];
+    private flowList = [];
+    private endPointList = [];
+
+    private tsComponent = {
+        variableList: [],
+        flowMethod: []
     }
 
-    // private HEADERNAME: String = 'header';
-    // private FOOTERNAME: String = 'footer';
-    // private TEMPLATENAME: String = 'template';
-
-    private isTemplate: Boolean = false;
-
-    private NAV_CLASS_NAME: String = 'list-group panel';
-    private STATE_SUCCESS_CLASSNAME: String = 'state-success';
-    private STATE_ERROR_CLASSNAME: String = 'state-error';
-    private MAINMENU_ATTRIBUTE = 'MainMenu';
-    private HREF_BASE = '/';
-    private CHANGENAME: any = 'changename';
-    private LOADHEADERNAV: any = 'loadnav';
-
-    private navMenu: any[] = [];
-    private scriptTag: any[] = [];
-    private mainHtmlTag: any[] = [];
-
-    // html tags
-    private ANCHOR_TAG: String = 'a';
-    private UNORDERED_TAG: String = 'ul';
-    private LIST_TAG: String = 'li';
-
-    // nav header
-    private HOME_MENU = 'home';
-    private ADMIN_MENU = 'admin';
-    private LOGOUT_MENU = 'logout';
-
-    // feature name
-    private DEFAULT_FEATURENAME = 'default';
-
-    //component variable
-    private HEADER_ADMIN_VARIABLE = 'isAdminUser';
-
-    createTemplateHtml(metaData, details) {
+    generate(metaData, screenDetails, componentName, details) {
         this.startTag = [];
         this.endTag = [];
-        this.mainHtmlTag = [];
-        this.scriptTag = [];
-        this.isTemplate = true;
+        this.entityDetails = screenDetails.entity_info;
+        this.flowDetails = screenDetails.flows_info;
+        // list of other dependencies
+        this.entities = details.entities;
+        this.flowList = details.flows;
+        this.endPointList = details.nodeResponse;
+
         this.generateHtml(metaData);
-        this.templateMainObj.tag = this.startTag;
+        // this.templateMainObj.tag = this.startTag;
         // this.TemplateTag = this.startTag;
         console.log('after completed all method in child startTag are   ', `${this.startTag.join(`\n`)}`);
+        console.log('tscomponent object are ------  ', util.inspect(this.tsComponent, { showHidden: true, depth: null }));
+        this.generateComponent(componentName, details, (response) => { });
         // console.log('after completed all method in child scriptTag are   ', `${this.startTag.join(`\n`)}`);
         // console.log('after completed all method in child templateTag are   ', `${this.startTag.join(`\n`)}`);
     }
+
+    generateComponent(componentName, details, callback) {
+        console.log('generate component are ---- ', util.inspect(details, { showHidden: true, depth: null }));
+        console.log('html tag result in generate component are -----  ', this.startTag);
+        const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
+        const packagePath = details.projectGenerationPath;
+        const templatePath = details.templateLocation.frontendTemplate;
+        componentWorker.generateComponentHtml(applicationPath, templatePath, componentName, this.startTag, (response) => {
+            componentWorker.generateComponentTs(applicationPath, templatePath, componentName, this.tsComponent, (response) => {
+                componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.startTag, (response) => {
+                    componentWorker.generateComponentSpec(applicationPath, templatePath, componentName, this.startTag, (response) => {
+                        componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.startTag, (response) => {
+                            this.modifyDependency(applicationPath, packagePath, (response) => {
+                                callback();
+                            })
+                        })
+                    })
+                })
+            })
+        })
+    }
+
+    modifyDependency(applicationPath, packagePath, callback) {
+
+        componentWorker.modifyDependency(applicationPath, packagePath, (response) => {
+            callback();
+        })
+    }
+
 
     generateHtml(grapesJSMetadata) {
         this.forEach(grapesJSMetadata, (item, index, arr) => {
@@ -141,10 +141,10 @@ export class GenerateHtmlWorker {
             this.isContentOnly = false;
             // set html classes
             this.setClasses(firstEle, secondEle);
-            // set html traits
-            this.setTraits(firstEle);
             // set html attributes
             this.setAttributes(firstEle);
+            // set html traits
+            this.setTraits(firstEle);
             // set html contents
             this.setContent(firstEle);
             // based on value push it into startTag and endTag
@@ -163,7 +163,7 @@ export class GenerateHtmlWorker {
             const className = this.getClassName(firstEle);
             // console.log('set each classNmaes are -------- ', className);
             if (className) {
-                if (className == this.STATE_SUCCESS_CLASSNAME || className == this.STATE_ERROR_CLASSNAME) {
+                if (className == Constant.STATE_SUCCESS_CLASSNAME || className == Constant.STATE_ERROR_CLASSNAME) {
                     this.isNotImportant = true;
                 } else {
                     this.startString += `<${this.tagName} class='${className}'`
@@ -186,10 +186,6 @@ export class GenerateHtmlWorker {
         return temp;
     }
 
-    setTraits(firstEle) {
-        if (firstEle.hasOwnProperty('traits')) {
-        }
-    }
 
     setAttributes(firstEle) {
         if (firstEle.hasOwnProperty('attributes') && this.tagName !== 'form') {
@@ -201,7 +197,7 @@ export class GenerateHtmlWorker {
                 if (element === 'name' && firstEle.name) {
                     this.startString += ` ${element}='${firstEle.name}'`;
                 } else {
-                    if (this.tagName != 'base' && element === 'href' && firstEle.attributes[element] === this.HREF_BASE) {
+                    if (this.tagName != 'base' && element === 'href' && firstEle.attributes[element] === Constant.HREF_BASE) {
                         this.startString += ` [routerLink]="['${firstEle.attributes[element]}']"`;
                     } else {
                         this.startString += ` ${element}='${firstEle.attributes[element]}'`;
@@ -220,6 +216,51 @@ export class GenerateHtmlWorker {
         } else {
             if (this.startString) {
                 this.startString += `>`;
+            }
+        }
+    }
+
+    setTraits(firstEle) {
+        if (firstEle.hasOwnProperty('traits')) {
+            const variableTemp = {
+                entityId: '',
+                entityName: '',
+                fields: []
+            }
+            console.log(' entityDetails are -----  ', this.entityDetails);
+            console.log(' flowDetails are -----  ', this.flowDetails);
+            if (this.entityDetails.length > 0 || this.flowDetails.length > 0) {
+                firstEle.traits.forEach(traitElement => {
+                    const entityIndex = this.entityDetails.findIndex(x => x.elementName == traitElement.value);
+                    const flowIndex = this.flowDetails.findIndex(x => x.elementName == traitElement.value);
+                    console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex);
+                    if (entityIndex > -1) {
+                        console.log('identified entity index are -----  ', this.entityDetails[entityIndex]);
+                        const entityObject = this.entities.find(x => x._id == this.entityDetails[entityIndex].entityId);
+                        console.log('entities object are ----------  ', entityObject);
+                        this.startString += ` [(ngModel)]="${entityObject.name}.${this.entityDetails[entityIndex].fields.name}"`;
+                        const variableObject = this.tsComponent.variableList.find(x => x.entityId == this.entityDetails[entityIndex].entityId);
+                        console.log('variableList ------>>>>  ', variableObject);
+                        if (variableObject) {
+                            variableObject.fields.push(this.entityDetails[entityIndex].fields.name);
+                        } else {
+                            variableTemp.entityId = this.entityDetails[entityIndex].entityId;
+                            variableTemp.entityName = entityObject.name;
+                            variableTemp.fields.push(this.entityDetails[entityIndex].fields.name);
+                            this.tsComponent.variableList.push(variableTemp);
+                        }
+                    }
+                    if (flowIndex > -1) {
+                        console.log('identitied flow index are -----  ', this.flowDetails[flowIndex]);
+                        const flowObject = this.flowList.find(x => x._id == this.flowDetails[flowIndex].flow);
+                        console.log('flowObject ---------->>>   ', flowObject);
+                        this.startString += ` (click)="${flowObject.name}()"`;
+
+                        if (!this.tsComponent.flowMethod.find(x => x._id == this.flowDetails[flowIndex].flow)) {
+                            this.tsComponent.flowMethod.push(flowObject);
+                        }
+                    }
+                })
             }
         }
     }
@@ -329,8 +370,9 @@ export class GenerateHtmlWorker {
                 }
                 this.tagName = this.tagNameFunction(item);
                 // console.log('before pushing the tagname in array ----  ', this.tagName, ' --item type---- ', item.type, ' ---item.content---  ', item.content);
-                if (!item.classes || (item.classes && item.classes.length === 0) || (item.classes && item.classes.length > 0 && item.classes[0].name !== this.STATE_SUCCESS_CLASSNAME &&
-                    item.classes[0].name !== this.STATE_ERROR_CLASSNAME)) {
+                if (!item.classes || (item.classes && item.classes.length === 0) || (item.classes && item.classes.length > 0 &&
+                    item.classes[0].name !== Constant.STATE_SUCCESS_CLASSNAME &&
+                    item.classes[0].name !== Constant.STATE_ERROR_CLASSNAME)) {
                     if (!item.content && item.type === 'textnode') {
                         tempObj.endTagName = this.endTag.shift();
                         if (tempObj.endTagName) {
@@ -410,7 +452,6 @@ export class GenerateHtmlWorker {
             }
         }
         if (firstEle.type === 'header') {
-            // console.log()
             if (firstEle.tagName) {
                 tagName = firstEle.tagName;
             } else {
@@ -420,260 +461,6 @@ export class GenerateHtmlWorker {
         } else if (!tagName) {
             tagName = 'div';
         }
-        // console.log('before return each tagname are ------  ', tagName);
         return tagName;
     }
-
-
-
-
-
-    // private forEach = asyncForEach.forEach;
-    // private firstEle: any = null;
-    // private secondEle: any[] = [];
-    // private finalString: String = '';
-    // private startTag: any[] = [];
-    // private endTag: any[] = [];
-    // private tagName: String = null;
-    // private startString: String = '';
-    // private count: number = 0;
-    // private parentTest: any[] = [];
-    // private isNotImportant: Boolean = false;
-    // private isContentOnly: Boolean = false;
-
-    // generateHtml(grapesJSMetadata, details) {
-    //     this.forEach(grapesJSMetadata, (item, index, arr) => {
-    //         var tempObj = { endTagName: '' };
-    //         if (index === 0) {
-    //             this.firstEle = item;
-    //         } else {
-    //             this.parentTest.push(item);
-    //         }
-    //         this.tagName = this.tagNameFunction(item);
-    //         console.log('tagName for each iterate value are -parent----   ', this.tagName);
-    //         if (item.type === 'textnode') {
-    //             tempObj.endTagName = 'label';
-    //             this.parentTest.push(tempObj);
-    //         } else if (!this.tagName || this.tagName == 'div') {
-    //             tempObj.endTagName = 'div';
-    //             this.parentTest.push(tempObj);
-    //         } else if (this.tagName == 'form') {
-    //             tempObj.endTagName = 'form';
-    //             this.parentTest.push(tempObj);
-    //         } else if (this.tagName == 'section') {
-    //             tempObj.endTagName = 'section';
-    //             this.parentTest.push(tempObj);
-    //         }
-    //         if (index === grapesJSMetadata.length - 1) {
-    //             if (this.parentTest.length > 0) {
-    //                 this.secondEle.unshift(this.parentTest);
-    //             }
-    //             console.log(`finallllll iterate ----parent-------------${this.count}---------    `, this.secondEle);
-    //             this.generateChildHtml(this.firstEle, this.secondEle);
-    //             console.log('after completed all method in child are--------11--------  ', this.startTag);
-    //             console.log('after completed all method in child are--------22--------  ', this.endTag);
-    //             console.log('after completed all method in child are---thirdEle-----33--------  ', `${this.startTag.join(`\n`)}`);
-    //         }
-    //     })
-    // }
-
-    // generateChildHtml(firstEle, secondEle) {
-    //     // console.log(`firstElE -11--${this.count}-- `, firstEle);
-    //     // // console.log(`secondElE -22--${count}-- `, secondEle, '------lenght----- ', secondEle.length);
-    //     // console.log(`startTag -33--${this.count}-- `, this.startTag, '------lenght----- ', this.startTag.length);
-    //     // // console.log(`endTag -44--${count}-- `, endTag, '------lenght----- ', endTag.length);
-    //     // console.log(`finalString -55--${this.count}-- `, firstEle.type);
-    //     this.tagName = '';
-    //     this.startString = '';
-    //     if (firstEle && firstEle.hasOwnProperty('endTagName')) {
-    //         // console.log('firstELEMent endTagName ----  ', firstEle.endTagName);
-    //         this.startTag.push(`</${firstEle.endTagName}>`);
-    //         this.getNextValue(secondEle);
-    //     } else if (firstEle) {
-    //         this.tagName = this.tagNameFunction(firstEle);
-    //         if (firstEle.type == 'textnode') {
-    //             this.startTag.push(firstEle.content);
-    //         } else if (!this.tagName) {
-    //             this.tagName = 'div';
-    //         }
-    //         this.isNotImportant = false;
-    //         this.isContentOnly = false;
-    //         // set html classes
-    //         this.setClasses(firstEle);
-    //         // set html traits
-    //         this.setTraits(firstEle);
-    //         // set html attributes
-    //         this.setAttributes(firstEle);
-    //         // set html contents
-    //         this.setContent(firstEle);
-    //         // based on value push it into startTag and endTag
-    //         this.pushValue(firstEle);
-    //         // check if the current html contents child components or not if it
-    //         this.childComponents(firstEle);
-    //     }
-    // }
-
-    // setClasses(firstEle) {
-    //     if (firstEle.hasOwnProperty('classes')) {
-    //         if (!firstEle.hasOwnProperty('tagName') && !this.tagName) {
-    //             this.tagName = 'div';
-    //         }
-    //         let className = firstEle.classes[0].name;
-    //         if (className == 'state-success' || className == 'state-error') {
-    //             this.isNotImportant = true;
-    //         }
-    //         this.startString += `<${this.tagName} class='${className}'`
-    //     }
-    // }
-
-    // setTraits(firstEle) {
-    //     if (firstEle.hasOwnProperty('traits')) {
-    //     }
-    // }
-
-    // setAttributes(firstEle) {
-    //     if (firstEle.hasOwnProperty('attributes') && this.tagName !== 'form') {
-    //         let attributes = Object.keys(firstEle.attributes);
-    //         if (!this.startString) {
-    //             this.startString += `<${this.tagName}`
-    //         }
-    //         attributes.forEach(element => {
-    //             if (element === 'name' && firstEle.name) {
-    //                 this.startString += ` ${element}='${firstEle.name}'`;
-    //             } else {
-    //                 this.startString += ` ${element}='${firstEle.attributes[element]}'`;
-    //             }
-
-    //         })
-    //         if (this.tagName === 'input') {
-    //             this.startString += `/>`;
-    //         } else {
-    //             this.startString += `>`;
-    //         }
-    //     } else {
-    //         if (this.startString) {
-    //             this.startString += `>`;
-    //         }
-    //     }
-    // }
-
-    // setContent(firstEle) {
-    //     if (firstEle.hasOwnProperty('content')) {
-    //         if (this.startString && firstEle.content) {
-    //             this.startString += `${firstEle.content}`;
-    //         } else if (!this.startString && firstEle.type != 'textnode') {
-    //             this.isContentOnly = true;
-    //             this.startString += `<${this.tagName}>${firstEle.content}`;
-    //             this.startTag.push(this.startString);
-    //         }
-    //     }
-    // }
-
-
-    // pushValue(firstEle) {
-    //     if (this.tagName != 'option' && !this.isContentOnly && !this.isNotImportant) {
-    //         // console.log('open tagName are -------->>>   ', firstEle.open, ' ---open---- ', (firstEle.open === false));
-    //         if (this.startString && this.tagName === 'input') {
-    //             this.startTag.push(this.startString);
-    //         } else if (this.startString && this.tagName != 'div' && this.tagName != 'form') {
-    //             if (!firstEle.content && (this.tagName == 'label'
-    //                 || this.tagName == 'section' || firstEle.type == 'header'
-    //                 || this.tagName == 'nav' || this.tagName == 'a' || this.tagName == 'svg')) {
-    //                 this.endTag.unshift(`${this.tagName}`)
-    //             } else {
-    //                 this.startString += `</${this.tagName}>`
-    //             }
-    //             this.startTag.push(this.startString);
-    //         } else if (this.startString) {
-    //             this.startTag.push(this.startString);
-    //         }
-    //     }
-    // }
-
-    // childComponents(firstEle) {
-    //     if (firstEle.hasOwnProperty('components')) {
-    //         let firstTemp = null;
-    //         var test = [];
-    //         this.forEach(firstEle.components, (item, index, arr) => {
-    //             let tempObj = { endTagName: null };
-    //             if (index === 0) {
-    //                 firstTemp = item;
-    //             } else {
-    //                 test.push(item);
-    //             }
-    //             this.tagName = this.tagNameFunction(item);
-    //             if (!item.classes || (item.classes && item.classes[0].name !== 'state-success' &&
-    //                 item.classes[0].name !== 'state-error')) {
-    //                 if (item.type === 'textnode') {
-    //                     tempObj.endTagName = this.endTag.shift();
-    //                     test.push(tempObj);
-    //                 } else if (!this.tagName || this.tagName == 'div'
-    //                     || this.tagName == 'form' || this.tagName == 'nav' ||
-    //                     this.tagName == 'a' || this.tagName == 'svg') {
-    //                     tempObj.endTagName = this.tagName;
-    //                     test.push(tempObj);
-    //                 }
-    //             }
-
-    //             if (index === firstEle.components.length - 1) {
-    //                 this.count++;
-    //                 if (test.length > 0) {
-    //                     this.secondEle.unshift(test);
-    //                 }
-    //                 this.generateChildHtml(firstTemp, this.secondEle);
-    //             }
-    //         })
-    //     } else {
-    //         this.getNextValue(this.secondEle);
-    //     }
-    // }
-
-
-
-    // getNextValue(secondEle) {
-    //     let testTemp = secondEle.shift();
-    //     var temp = '';
-    //     if (testTemp) {
-    //         temp = testTemp.shift();
-    //         if (testTemp.length > 0) {
-    //             secondEle.unshift(testTemp);
-    //         }
-    //     } else {
-    //         temp = testTemp;
-    //     }
-    //     if (temp != undefined) {
-    //         this.generateChildHtml(temp, secondEle);
-    //     }
-    // }
-
-    // tagNameFunction(firstEle) {
-    //     let tagName = '';
-    //     if (firstEle.hasOwnProperty('tagName')) {
-    //         tagName = firstEle.tagName;
-    //     } else if (firstEle.hasOwnProperty('type')) {
-    //         if (
-    //             firstEle.type != 'grid-row' && firstEle.type != 'grid-item' &&
-    //             (firstEle.type == 'label' || firstEle.type == 'section')
-    //         ) {
-    //             tagName = firstEle.type;
-    //         } else if (firstEle.type == 'tab') {
-    //             tagName = 'a';
-    //         } else {
-    //             tagName = 'div';
-    //         }
-    //     }
-    //     if (firstEle.type === 'header') {
-    //         console.log()
-    //         if (firstEle.tagName) {
-    //             tagName = firstEle.tagName;
-    //         } else {
-    //             tagName = 'h1';
-    //         }
-
-    //     } else if (!tagName) {
-    //         tagName = 'div';
-    //     }
-    //     console.log('before return each tagname are ------  ', tagName);
-    //     return tagName;
-    // }
 }

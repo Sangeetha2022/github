@@ -27,4 +27,14 @@ export class FrontendGenManagerService {
             callback(error);
         })
     }
+
+    FrontendIonicTemplateProject(data, callback) {
+        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/frontend/template/ionic`, data).then(
+            data => {
+                callback(data);
+            }
+        ).catch(error => {
+            callback(error);
+        })
+    }
 }

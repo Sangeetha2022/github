@@ -102,19 +102,26 @@ export class CodeGenerationService {
       return callback('code generation path may not be exist', 400);
     }
     // generate template with basic auth 
+    const templateObj = {
+      projectId: projectId,
+      sharedUrl: this.LOCALHOST,
+      apigatewayPortNumber: this.APIGATEWAY_PORT_NUMBER,
+      projectGenerationPath: `${projectPath}/${this.CLIENT_FOLDERNAME}`,
+      seedTemplatePath: projectDetails.templateLocation.authTemplatePath,
+      authTemplatePath: projectDetails.templateLocation.authorizationTempPath,
+      project: projectDetails
+    }
+    // angular template
     try {
-      const templateObj = {
-        projectId: projectId,
-        sharedUrl: this.LOCALHOST,
-        apigatewayPortNumber: this.APIGATEWAY_PORT_NUMBER,
-        projectGenerationPath: `${projectPath}/${this.CLIENT_FOLDERNAME}`,
-        seedTemplatePath: projectDetails.templateLocation.authTemplatePath,
-        authTemplatePath: projectDetails.templateLocation.authorizationTempPath,
-        project: projectDetails
-      }
       await this.frontendTemplateProject(templateObj);
     } catch {
-      console.log('cannot able to create the template');
+      console.log('cannot able to create the angular template');
+    }
+    // ionic template
+    try {
+      await this.frontendIonicTemplateProject(templateObj);
+    } catch {
+      console.log('cannot able to create the ionic template');
     }
     // get feature by projectId
     console.log('before getting project features ');
@@ -204,7 +211,9 @@ export class CodeGenerationService {
                   //   // callback();
                   // }
                   console.log('after if executed')
+                  // with entities generate the frontend screens
                   const frontendObj = {
+                    projectGenerationPath: `${projectPath}/${this.CLIENT_FOLDERNAME}`,
                     feature: feature,
                     project: projectDetails,
                     nodeResponse: null
@@ -227,6 +236,18 @@ export class CodeGenerationService {
               }
             })
           } else {
+            // without entities generate the frontend screens
+            const frontendObj = {
+              projectGenerationPath: `${projectPath}/${this.CLIENT_FOLDERNAME}`,
+              feature: feature,
+              project: projectDetails,
+              nodeResponse: null
+            }
+            console.log('generate the feature screen without entities ----  ');
+            //front generation manager
+            // const frontendResponse = await this.frontendGenProject(frontendObj).catch(err => {
+            //   console.log('cannot able to generate the frontend component for each screens');
+            // });
             next();
           }
         }
@@ -308,6 +329,14 @@ export class CodeGenerationService {
   frontendTemplateProject(details) {
     return new Promise(resolve => {
       this.frontendGenService.FrontendTemplateProject(details, (data) => {
+        resolve(data);
+      })
+    })
+  }
+
+  frontendIonicTemplateProject(details) {
+    return new Promise(resolve => {
+      this.frontendGenService.FrontendIonicTemplateProject(details, (data) => {
         resolve(data);
       })
     })

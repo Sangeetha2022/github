@@ -9,6 +9,7 @@ import * as path from 'path';
 import * as asyncLoop from 'node-async-loop';
 import { ScreenManagerService } from '../apiservices/ScreenManagerService';
 import { Common } from '../config/Common';
+import { Constant } from '../config/Constant';
 
 export class FrontendService {
     private desktopScreenName = 'desktop';
@@ -24,8 +25,10 @@ export class FrontendService {
     public async frontendProject(req: Request, callback: CallableFunction) {
         const details = req.body;
         // Common.createFolders();
-        const projectGenerationPath = `${details.project.projectGenerationPath}/${details.project.name}/frontend`;
-        // Common.createFolders(projectGenerationPath);
+        // const projectGenerationPath = `${details.project.projectGenerationPath}/${details.project.name}/frontend`;
+        let projectGenerationPath = `${details.projectGenerationPath}/${Constant.DESKTOP_FOLDERNAME}`;
+        Common.createFolders(projectGenerationPath);
+        projectGenerationPath += `/${details.project.name}`
         const feature = {
             featureName: details.feature.name,
             projectGenerationPath: projectGenerationPath,
@@ -73,6 +76,7 @@ export class FrontendService {
                 } else {
                     console.log(`each flows are --@@@@@@@@@@@  ${flowCount}  `, flowElement);
                     const flows = {
+                        _id: '',
                         name: '',
                         label: '',
                         description: '',
@@ -87,6 +91,7 @@ export class FrontendService {
                         flowCount++;
                         flowNext();
                     } else {
+                        flows._id = flowElement._id;
                         flows.name = flowElement.name;
                         flows.label = flowElement.label;
                         flows.description = flowElement.description;
