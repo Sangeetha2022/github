@@ -1,4 +1,5 @@
-import { Injectable, Output, EventEmitter, Input } from '@angular/core';
+authguard(object) ::= <<
+    import { Injectable, Output, EventEmitter, Input } from '@angular/core';
 import {
   CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, GuardsCheckStart
 } from '@angular/router';
@@ -133,9 +134,12 @@ export class AuthGuard implements CanActivate {
             this.viewPermission = userAccess.Admin.Access.value;
           }
         });
-        if (this.routeName[1] === 'home') {
-          return true;
-        }
+	 $if(object)$$object:{value |  
+      if(this.routeName[1] === '$value$') {
+         return true;
+     \}
+      };separator="\n"$$endif$
+      
         if (this.routeName[1] === 'admin') {
           if (this.viewPermission !== 'true') {
             return false;
@@ -151,3 +155,5 @@ export class AuthGuard implements CanActivate {
   }
 }
 
+
+>>
