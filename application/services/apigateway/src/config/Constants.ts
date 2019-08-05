@@ -1,11 +1,11 @@
 
 //local
-const appUrl = "http://localhost";
-const generationUrl = "http://localhost";
+// const appUrl = "http://localhost";
+// const generationUrl = "http://localhost";
 
 //kubernetes
-// const appUrl = "http://gep-dev-app.gep-dev-201902.svc.cluster.local";
-// const generationUrl = "http://gep-dev-generator.gep-dev-201902.svc.cluster.local";
+const appUrl = "http://gep-dev-app.gep-dev-201902.svc.cluster.local";
+const generationUrl = "http://gep-dev-generator.gep-dev-201902.svc.cluster.local";
 
 // app 
 export const projectUrl = appUrl + ":3003";
@@ -15,7 +15,7 @@ export const featureUrl = appUrl + ":3006";
 export const flowUrl = appUrl + ":3001";
 export const microUrl = appUrl + ":3002";
 export const menuUrl = appUrl + ":3011";
-export const templatetUrl = appUrl + ":3012";
+export const templateUrl = appUrl + ":3012";
 export const loginUrl = appUrl + ":3007";
 export const camundaUrl = appUrl + ":3008";
 export const proxyUrl = appUrl + ":3009";

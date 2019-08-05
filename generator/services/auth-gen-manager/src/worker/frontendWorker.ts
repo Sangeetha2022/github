@@ -7,6 +7,7 @@ export class FrontendWorker {
     private projectGenerationPath = '';
     private seedPath = '';
     private authTemplatePath = '';
+    private routingMenus: any = [];
 
     // FOLDER NAME
     private LOGIN_FOLDERNAME = 'login';
@@ -84,7 +85,7 @@ export class FrontendWorker {
     }
 
     // create login component from seed files
-    createLoginComponent(details, callback) {
+    async createLoginComponent(details, callback) {
         this.initializeData();
         this.projectGenerationPath = details.templateResponse.applicationPath;
         this.seedPath = details.seedTemplatePath;
@@ -98,6 +99,7 @@ export class FrontendWorker {
         callback();
     }
 
+
     // create signup component from seed files
     createSignupComponent(callback) {
         const signupApplicationPath = `${this.projectGenerationPath}/src/app/${this.SIGNUP_FOLDERNAME}`;
@@ -108,14 +110,40 @@ export class FrontendWorker {
     }
 
     // create auth component from seed files
-    createAuthComponent(callback) {
+    createAuthComponent(menus, callback) {
+        this.allMenus(menus);
+        const templateName = `/authguard`;
+        const fileName = `/auth.guard.ts`
         const AuthApplicationPath = `${this.projectGenerationPath}/src/app/${this.AUTH_FOLDERNAME}`;
         if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`) < 0) {
             this.routingModuleInfo.importDependency.push(`import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`);
         }
         this.generateStaticComponent(AuthApplicationPath, this.AUTH_FOLDERNAME);
+        this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateName, this.routingMenus);
         callback();
+
     }
+
+    //screenMenus
+    allMenus(menus) {
+        menus.forEach(menuElement => {
+            if (menuElement.menu_option == true) {
+                menuElement.menuDetails.forEach(elementScreenMenu => {
+                    elementScreenMenu.screenmenu.forEach(elementScreenMenuDescription => {
+                        elementScreenMenuDescription.description.screen.forEach(allMenus => {
+                            const menuDetails = allMenus.toLowerCase();
+                            if (menuDetails !== 'admin') {
+                                this.routingMenus.push(menuDetails);
+                            }
+                        })
+                    }), (err => {
+                        return err;
+                    })
+                })
+            }
+        })
+    }
+
 
     // add method in header component
     generateAppFile(callback) {
@@ -128,9 +156,10 @@ export class FrontendWorker {
         const loginSeedPath = `${this.seedPath}/${folderName}`;
         Common.createFolders(applicationPath);
         await fs.readdirSync(`${this.seedPath}/${folderName}`).forEach(fileElement => {
-            console.log('each files names are -------   ', fileElement);
             this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement);
         })
+
+
     }
 
     async generateServiceComponent(sharedObj, folderName, templateName, applicationPath) {

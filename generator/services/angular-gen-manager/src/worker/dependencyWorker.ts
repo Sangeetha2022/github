@@ -21,7 +21,7 @@ export class DependencyWorker {
             })
         }
         console.log('insert other dependency app routing file are -----  ', file.join(`\n`));
-        return this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.APP_ROUTING_FILENAME,
+         this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.APP_ROUTING_FILENAME,
             file.join(`\n`), (response) => { })
     }
 
@@ -65,7 +65,7 @@ export class DependencyWorker {
             })
         }
         console.log('insert other dependency app module file are -----  ', file.join(`\n`));
-        return this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.APP_MODULE_FILENAME,
+         this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.APP_MODULE_FILENAME,
             file.join(`\n`), (response) => { })
     }
 
@@ -75,7 +75,7 @@ export class DependencyWorker {
         console.log('after read package json file are -----  ', file);
         const index = file.findIndex(x => /router/.test(x));
         console.log('package file index ------  ', index);
-        return this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.PACKAGE_JSON_FILENAME,
+         this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.PACKAGE_JSON_FILENAME,
             file.join(`\n`), (response) => { })
     }
 }

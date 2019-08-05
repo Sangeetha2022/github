@@ -8,7 +8,7 @@ class App {
     public app: express.Application = express();
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
-    public mongoUrl: string = '$object.dbConnectionUrl$';
+    public mongoUrl: string = process.env.MONGO_DB_URL;
 
     constructor() { 
         this.logger.setupLogger();

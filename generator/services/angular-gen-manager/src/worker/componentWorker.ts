@@ -155,12 +155,15 @@ export class ComponentWorker {
         temp.importDependency.push({ dependencyName: 'NgModule', dependencyPath: '@angular/core' });
         temp.importDependency.push({ dependencyName: 'CommonModule', dependencyPath: '@angular/common' });
         temp.importDependency.push({ dependencyName: 'RouterModule', dependencyPath: '@angular/router' });
+        temp.importDependency.push({ dependencyName: 'FormsModule, ReactiveFormsModule', dependencyPath: '@angular/forms' });
         // add component class with path
         temp.importDependency.push({ dependencyName: `${temp.className}Component`, dependencyPath: `./${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}` });
 
         // imports default
         temp.imports = [];
         temp.imports.push(`CommonModule`, `RouterModule`);
+        // forms imports
+        temp.imports.push(`FormsModule`, `ReactiveFormsModule`);
 
         // declarations default
         temp.declarations = [];
@@ -193,6 +196,7 @@ export class ComponentWorker {
     }
 
     public modifyDependency(applicationPath, packagePath, callback) {
+        console.log('modify dependency in component workers are --111---- ');
         if (this.routeModule.routePath.length > 0) {
             dependencyWorker.modifyAppRouteFile(applicationPath, this.routeModule);
         }
@@ -202,6 +206,7 @@ export class ComponentWorker {
         if (this.packageModule.length > 0) {
             dependencyWorker.modifyPackageFile(packagePath, this.packageModule);
         }
+        console.log(' before callback dependency are ----2222--- ');
         callback();
     }
 

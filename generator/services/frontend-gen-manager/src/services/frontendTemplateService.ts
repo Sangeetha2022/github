@@ -37,6 +37,7 @@ export class FrontendTemplateService {
         const screenDetails = await this.getScreenByProjectId(details.projectId);
         // console.log('screens project are ---- ', util.inspect(screenDetails, { showHidden: true, depth: null }));
         const screenJSON = JSON.parse(screenDetails.toString());
+        console.log('i am secrrennnn-@@@@@---->.',)
         // console.log('json screens ttest are ---- ', screenJSON);
         let templateJSON = null;
         if (screenJSON) {
@@ -50,6 +51,7 @@ export class FrontendTemplateService {
 
         templateObj.template = templateJSON;
         templateObj.menuBuilder = menuJSON.body;
+
         try {
             // console.log('before calling angular template');
             const templateResponse = await this.generateAngularTemplate(templateObj);
@@ -59,7 +61,9 @@ export class FrontendTemplateService {
                     templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
                     seedTemplatePath: details.seedTemplatePath,
                     authTemplatePath: details.authTemplatePath,
-                    adminTemplatePath: details.project.templateLocation.frontendTemplate
+                    adminTemplatePath: details.project.templateLocation.frontendTemplate,
+                    screenMenus: templateObj.menuBuilder
+
                 }
                 await this.generateAuthFrontendComponent(tempFrontend);
                 console.log('after calling auth gronten component are  ---  ');
@@ -108,6 +112,7 @@ export class FrontendTemplateService {
     getScreenByProjectId(projectId) {
         return new Promise(resolve => {
             this.screenManagerService.getScreenByProjectId(projectId, (data) => {
+                console.log('data---screen---')
                 resolve(data);
             })
         })

@@ -9,9 +9,10 @@ export class AuthFrontendService {
         console.log('entering into services file')
         console.log('auth frontend services are --------------   ', req.body, ' ---req.body.applicationPath-- ', req.body.applicationPath);
         const details = req.body;
+        const menus = req.body.screenMenus
         this.frontendWorker.createLoginComponent(details, (response) => {
             this.frontendWorker.createSignupComponent((response) => {
-                this.frontendWorker.createAuthComponent((response) => {
+                this.frontendWorker.createAuthComponent(menus,(response) => {
                     this.frontendWorker.generateAppFile((response) => {
                         this.frontendWorker.modifyFiles();
                     })
