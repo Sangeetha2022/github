@@ -11,8 +11,8 @@ export class DockerService {
     public generate_build_script_local(projectDetails, callback: CallableFunction) {
 
 
-      
-        let destination = projectDetails.destinationUrl + '/buildscript';
+        let destination = projectDetails.localUrl + '/buildscript';
+        console.log("localfolder--->", destination);
         let templatePath = projectDetails.templateUrl + '/docker';
 
         if (!fs.existsSync(destination)) {
@@ -22,9 +22,9 @@ export class DockerService {
         //generate script to build docker images
         let generateDockerScript = st.loadGroup(require(templatePath + '/build_script_stg'));
         let dockerScript = generateDockerScript.render("build_script", [projectDetails.project_lowercase]);
-        fs.writeFile(destination + '/build_script.sh', dockerScript, function (err) {
+        fs.writeFile(destination + '/geppetto_build.sh', dockerScript, function (err) {
             if (err) throw err;
-            console.log(' script generated!!')
+            console.log('geppetto_build_script for local is generated!!')
            
         })
 
@@ -33,7 +33,7 @@ export class DockerService {
 
        public generate_build_script_cloud(projectDetails, callback: CallableFunction) {
         
-        let destination = projectDetails.destinationUrl + '/jenkins';
+        let destination = projectDetails.cloudUrl + '/buildscript';
         let templatePath = projectDetails.templateUrl + '/docker';
 
         if (!fs.existsSync(destination)) {
@@ -43,9 +43,9 @@ export class DockerService {
         //generate script cloud
         let generateDockerScript = st.loadGroup(require(templatePath + '/build_script_cloud_stg'));
         let dockerScript = generateDockerScript.render("build_script_cloud", [projectDetails.project_lowercase]);
-        fs.writeFile(destination + '/build_script_cloud.sh', dockerScript, function (err) {
+        fs.writeFile(destination + '/geppetto_build.sh', dockerScript, function (err) {
             if (err) throw err;
-            console.log('cloud-script generated!!')   
+            console.log('geppetto_build_script for cloud is generated!!')   
         })
     }
 
@@ -74,9 +74,5 @@ export class DockerService {
 
 
     // }
-
-
-
-
 
     }

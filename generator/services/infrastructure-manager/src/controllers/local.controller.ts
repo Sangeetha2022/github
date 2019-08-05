@@ -52,70 +52,75 @@ export class LocalInfrastructureController {
     if (!fs.existsSync(deploymentFolder)) {
       fs.mkdirSync(deploymentFolder);
     }
-    let envFolder = deploymentFolder + "/local";
-    if (!fs.existsSync(envFolder)) {
-      fs.mkdirSync(envFolder);
+    let localenvFolder = deploymentFolder + "/local";
+    if (!fs.existsSync(localenvFolder)) {
+      fs.mkdirSync(localenvFolder);
+    }
+    let cloudenvFolder = deploymentFolder + "/cloud";
+    if (!fs.existsSync(cloudenvFolder)) {
+      fs.mkdirSync(cloudenvFolder);
     }
 
 
-    projectDetails.destinationUrl = envFolder;
+    projectDetails.localUrl = localenvFolder;
+    projectDetails.cloudUrl = cloudenvFolder;    
     projectDetails.templateUrl = Source;
     projectDetails.projectUrl = projectFolder;
 
     // //app namsespace
-    namespaceService.generate_namespace(projectDetails, (response) => {
-      //res.send(200);
-    })
+    // namespaceService.generate_namespace(projectDetails, (response) => {
+    //   //res.send(200);
+    // })
 
     //app db
-    if (projectDetails.app_db_pod) {
-      appService.generate_app_db_pod(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
+    // if (projectDetails.app_db_pod) {
+    //   appService.generate_app_db_pod(projectDetails, (response) => {
+    //     //res.send(200);
+    //   })
+    // }
 
     //app node service
-    if (projectDetails.app_pod) {
-      appService.generate_app_pod(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
+    // if (projectDetails.app_pod) {
+    //   appService.generate_app_pod(projectDetails, (response) => {
+    //     //res.send(200);
+    //   })
+    // }
 
     //app ui
-    if (projectDetails.system_entry_pod) {
-      systemEntryService.generate_system_entry_pod(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
+    // if (projectDetails.system_entry_pod) {
+    //   systemEntryService.generate_system_entry_pod(projectDetails, (response) => {
+    //     //res.send(200);
+    //   })
+    // }
 
-    //telemetry vault
-    if (projectDetails.telemetry_pod.vault) {
-      telemetryService.generate_telemetry_pod_vault(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
+    // //telemetry vault
+    // if (projectDetails.telemetry_pod.vault) {
+    //   telemetryService.generate_telemetry_pod_vault(projectDetails, (response) => {
+    //     //res.send(200);
+    //   })
+    // }
 
     //telemetry logging EFK
-    if (projectDetails.telemetry_pod.EFK) {
-      telemetryService.generate_telemetry_pod_EFK(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
+    // if (projectDetails.telemetry_pod.EFK) {
+    //   telemetryService.generate_telemetry_pod_EFK(projectDetails, (response) => {
+    //     //res.send(200);
+    //   })
+    // }
 
 
     // //dev-ops db
-    if (projectDetails.dev_ops_db_pod) {
-      devOpsService.generate_devops_db(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
+    // if (projectDetails.dev_ops_db_pod) {
+    //   devOpsService.generate_devops_db(projectDetails, (response) => {
+    //     //res.send(200);
+    //   })
+    // }
 
     //dev-ops
-    if (projectDetails.dev_ops_pod) {
-      devOpsService.generate_devops(projectDetails, (response) => {
-        //res.send(200);
-      })
-    }
+    // if (projectDetails.dev_ops_pod) {
+    //   devOpsService.generate_devops(projectDetails, (response) => {
+    //     //res.send(200);
+    //   })
+    // }
 
 
      projectDetails.destinationUrl = deploymentFolder;
@@ -134,7 +139,7 @@ export class LocalInfrastructureController {
     }
 
     //generate helm templates
-    projectDetails.templateUrl = helmSource;
+    projectDetails.helmTemplateUrl = helmSource;
     helmService.generate_helm_templates(projectDetails, (response) => {
       //res.send(200);
     })

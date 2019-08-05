@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.prefix }}-desktop
+  namespace: {{ .Values.app.namespace }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.prefix }}-desktop
+    spec:
+      containers:
+        - name: {{ .Values.deployment.desktop.name }}-contianer
+          imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
+          image: {{ .Values.deployment.desktop.image }}
+          ports:
+            - name: http-port
+              containerPort: 80

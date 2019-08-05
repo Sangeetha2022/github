@@ -1,6 +1,6 @@
 /*
  * Template group build_script_cloud
- * Compiled on Sat Jul 27 2019 13:11:44 GMT+0530 (IST)
+ * Compiled on Mon Aug 05 2019 20:05:05 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -37,7 +37,7 @@ r = function(w, rc) {
     w.write("MICROSERVICEPATH='/application/services/custom_services'");
     w.write("\n");
     w.write("\n");
-    w.write("HELMPATH='/devops'");
+    w.write("HELMPATH='/devops/cloud'");
     w.write("\n");
     w.write("\n");
     w.write("\n");
