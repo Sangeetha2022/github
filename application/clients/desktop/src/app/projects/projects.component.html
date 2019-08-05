@@ -88,10 +88,12 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="name">{{ 'name' | i18next }}</label>
-                <input type="text" class="form-control" placeholder="{{'placeholder_name' | i18next}}" id="name"
-                  formControlName="name" [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
+                <input type="text" class="form-control" placeholder="{{'placeholder_name' | i18next}}"
+                  onkeypress=" return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 8 || (event.charCode >= 48 && event.charCode <= 57))"
+                  id="name" formControlName="name" [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
                 <div *ngIf="submitted && form_control.name.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.name.errors.required">{{'require_name' | i18next}}</div>
+                  <div *ngIf="form_control.name.errors.required">special characters are not allowed only
+                    {{'require_name' | i18next}}</div>
                 </div>
               </div>
             </div>
@@ -112,18 +114,19 @@
             </div>
           </div>
 
-   
+
 
           <div class="row">
             <div class="col-md-6">
               <div class="form-group">
                 <label for="primary-language">{{ 'primary_language' | i18next }}</label>
-                <select class="form-control" id="primary-language" [(ngModel)]=createProject.value.primaryLanguage formControlName="primaryLanguage"
+                <select class="form-control" id="primary-language" [(ngModel)]=createProject.value.primaryLanguage
+                  formControlName="primaryLanguage"
                   [ngClass]="{ 'is-invalid': submitted && form_control.primaryLanguage.errors }">
                   <!-- <option value="" selected>{{'select_primary' | i18next}}</option> -->
                   <option *ngFor="let p of primaryLanguages" [ngValue]="p">{{ p }}</option>
                 </select>
-                <br/>
+                <br />
                 <!-- <input class="form-control" id="primary-language" [(ngModel)]="lang" formControlName="primaryLanguage"> -->
                 <div *ngIf="submitted && form_control.primaryLanguage.errors" class="invalid-feedback">
                   <div *ngIf="form_control.primaryLanguage.errors.required">{{'require_primaryLanguage' | i18next}}
@@ -150,7 +153,7 @@
 
 
           <div class="row">
-              <!-- <div class="col-md-6">
+            <!-- <div class="col-md-6">
                 <div class="form-group">
                   <label for="app-context">{{ 'app_context' | i18next }}</label>
                   <input type="text" class="form-control" placeholder="{{'placeholder_appContext' | i18next}}"
@@ -161,9 +164,9 @@
                   </div>
                 </div>
               </div> -->
-  
-              <div class="col-md-6">
-                <!-- <div class="form-group">
+
+            <div class="col-md-6">
+              <!-- <div class="form-group">
                   <label for="description">{{ 'description' | i18next }}</label>
                   <textarea class="form-control" rows="1" id="description"
                     placeholder="{{'placeholder_description' | i18next}}" formControlName="description"
@@ -172,8 +175,8 @@
                     <div *ngIf="form_control.description.errors.required">{{'require_description' | i18next}}</div>
                   </div>
                 </div> -->
-              </div>
             </div>
+          </div>
         </form>
       </div>
       <div class="modal-footer">

@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ProjectComponentService } from '../project-component/project-component.service';
 import { TemplateScreenService } from '../template-screen/template-screen.service';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
+import { LowerCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-projects',
@@ -70,7 +71,11 @@ export class ProjectsComponent implements OnInit {
     this.getAllMyProjects();
     this.getAllGepTemplates();
     this.createProject = this.formBuilder.group({
-      name: ['', Validators.required],
+      // const control = new FormControl('1', Validators.pattern('[a-zA-Z ]*'));
+      name: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('')
+      ])],
       description: '',
       primaryLanguage: ['', Validators.required],
       secondaryLanguage: [''],
@@ -107,6 +112,13 @@ export class ProjectsComponent implements OnInit {
 
     // this.Queryparams();
   }
+
+  // disable() {
+  //   return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 8 || (event.charCode >= 48 && event.charCode <= 57))
+
+
+  // }
+
 
   Queryparams() {
     this.route.queryParams.subscribe(params => {
@@ -181,12 +193,19 @@ export class ProjectsComponent implements OnInit {
   }
 
   projectCreate() {
+
+
     this.submitted = true;
+
     if (this.createProject.invalid) {
       return;
+
     }
+    console.log("jeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", this.createProject.value.name.toLowerCase());
     const dataToSave = {
-      name: this.createProject.value.name,
+
+      name: this.createProject.value.name.toLowerCase(),
+
       description: this.createProject.value.description,
       default_module_id: null,
       default_module_label: null,
