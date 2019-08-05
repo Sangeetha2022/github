@@ -13,6 +13,7 @@
         <mat-radio-group [(ngModel)]="modelObject.entityType" #radioGroup="matRadioGroup">
             <mat-radio-button [disabled]="isPrimaryEntityPresent" value="primary">Primary</mat-radio-button>
             &nbsp;&nbsp;
+        
             <mat-radio-button value="secondary">Secondary</mat-radio-button>
         </mat-radio-group>
     </div>
@@ -29,24 +30,26 @@
         [animateRows]="true" (cellDoubleClicked)="routeNextPage()" (selectionChanged)="onSelectionChanged($event)"
         (gridReady)="onGridReady($event)" domLayout='autoHeight' [frameworkComponents]="frameworkComponents">
     </ag-grid-angular>
+<br>
     <div>
         <mat-radio-group [(ngModel)]="modelObject.entityType" #radioGroup="matRadioGroup">
             <mat-radio-button [disabled]="isPrimaryEntityPresent"  value="primary">Primary</mat-radio-button>
             &nbsp;&nbsp;
+        
             <mat-radio-button  value="secondary">Secondary</mat-radio-button>
         </mat-radio-group>
-    </div>
+    </div>&nbsp;&nbsp;
 </div>
 <div *ngIf="hide" mat-dialog-actions>
     <mat-radio-group layout="row" [(ngModel)]="selectedOption">
-        <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option"
+        <mat-radio-button class="example-radio-button left_align" *ngFor="let option of options" [value]="option"
             (change)="radioChange($event)">
             {{option}}
         </mat-radio-button>
     </mat-radio-group>
 </div>
 <br />
-<br />
+
 <div class="center_align">
     <button class="right_align" mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
     <button mat-raised-button color="primary" [mat-dialog-close]="modelObject">Add</button>

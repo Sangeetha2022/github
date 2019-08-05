@@ -37,7 +37,7 @@ r = function(w, rc) {
     w.write("MICROSERVICEPATH='/application/services/custom_services'");
     w.write("\n");
     w.write("\n");
-    w.write("HELMPATH='/devops'");
+    w.write("HELMPATH='/devops/cloud'");
     w.write("\n");
     w.write("\n");
     w.write("\n");

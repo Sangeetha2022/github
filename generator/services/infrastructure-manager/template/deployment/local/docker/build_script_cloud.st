@@ -7,7 +7,7 @@ APPLICATION='/$project_name$'
 
 MICROSERVICEPATH='/application/services/custom_services'
 
-HELMPATH='/devops'
+HELMPATH='/devops/cloud'
 
 
 DESKTOPCODE='/application/client/desktop/$project_name$/'
