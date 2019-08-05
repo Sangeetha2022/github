@@ -1,6 +1,6 @@
 /*
  * Template group component_ts
- * Compiled on Wed Jul 31 2019 21:39:14 GMT+0530 (India Standard Time)
+ * Compiled on Fri Aug 02 2019 18:02:51 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -158,7 +158,7 @@ r = function(w, rc) {
             { name: "name"     }
             ])); 
         return st.map(attr, tp);
-        })(), {separator: "\n"});
+        })(), {separator: ",\n"});
     
     
     }
@@ -198,12 +198,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.write("\n");
-    w.write("     ");
-    if (st.test(st.prop(s, g, rc, s.object, "componentMethod", { file: gFile, line: 23, column: 16 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "componentMethod", { file: gFile, line: 23, column: 11 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "componentMethod", { file: gFile, line: 23, column: 41 });
+        attr = st.prop(s, g, rc, s.object, "componentMethod", { file: gFile, line: 23, column: 36 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;

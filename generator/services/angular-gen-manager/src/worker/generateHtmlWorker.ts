@@ -35,6 +35,11 @@ export class GenerateHtmlWorker {
         flowMethod: []
     }
 
+    private serviceComponent = {
+        variableList: [],
+        flowMethod: []
+    }
+
     generate(metaData, screenDetails, componentName, details) {
         this.startTag = [];
         this.endTag = [];
@@ -62,12 +67,14 @@ export class GenerateHtmlWorker {
         const packagePath = details.projectGenerationPath;
         const templatePath = details.templateLocation.frontendTemplate;
         componentWorker.generateComponentHtml(applicationPath, templatePath, componentName, this.startTag, (response) => {
-            componentWorker.generateComponentTs(applicationPath, templatePath, componentName, this.tsComponent, (response) => {
-                componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.startTag, (response) => {
-                    componentWorker.generateComponentSpec(applicationPath, templatePath, componentName, this.startTag, (response) => {
-                        componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.startTag, (response) => {
-                            this.modifyDependency(applicationPath, packagePath, (response) => {
-                                callback();
+            componentWorker.generateComponentTs(applicationPath, templatePath, componentName, this.tsComponent, this.entities, (response) => {
+                componentWorker.generateComponentService(applicationPath, templatePath, componentName, this.tsComponent, this.endPointList, (response) => {
+                    componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.startTag, (response) => {
+                        componentWorker.generateComponentSpec(applicationPath, templatePath, componentName, this.startTag, (response) => {
+                            componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.startTag, (response) => {
+                                this.modifyDependency(applicationPath, packagePath, (response) => {
+                                    callback();
+                                })
                             })
                         })
                     })
@@ -255,9 +262,32 @@ export class GenerateHtmlWorker {
                         const flowObject = this.flowList.find(x => x._id == this.flowDetails[flowIndex].flow);
                         console.log('flowObject ---------->>>   ', flowObject);
                         this.startString += ` (click)="${flowObject.name}()"`;
+                        const flowTemp = {
+                            _id: flowObject._id,
+                            name: flowObject.name,
+                            label: flowObject.label,
+                            description: flowObject.description,
+                            type: flowObject.type,
+                            actionOnData: flowObject.actionOnData,
+                            createWithDefaultActivity: flowObject.createWithDefaultActivity,
+                            components: []
 
+                        }
+                        // component method
                         if (!this.tsComponent.flowMethod.find(x => x._id == this.flowDetails[flowIndex].flow)) {
-                            this.tsComponent.flowMethod.push(flowObject);
+                            const componentFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_COMPONENT);
+                            if (componentFlow) {
+                                flowTemp.components = componentFlow;
+                            }
+                            this.tsComponent.flowMethod.push(flowTemp);
+                        }
+                        // service method
+                        if (!this.serviceComponent.flowMethod.find(x => x._id == this.flowDetails[flowIndex].flow)) {
+                            const serviceFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_SERVICE);
+                            if (serviceFlow) {
+                                flowTemp.components = serviceFlow;
+                            }
+                            this.serviceComponent.flowMethod.push(flowTemp);
                         }
                     }
                 })

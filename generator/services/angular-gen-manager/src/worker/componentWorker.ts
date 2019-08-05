@@ -1,9 +1,14 @@
 import { ComponentSupportWorker } from "../supportworker/componentSupportWorker";
 import { DependencyWorker } from "./dependencyWorker";
 import { Constant } from "../config/Constant";
+import * as util from 'util';
+import { FlowComponentWorker } from "./flowComponentWorker";
+import { FlowServiceWorker } from "./flowServiceWorker";
 
 const componentSupportWorker = new ComponentSupportWorker();
 const dependencyWorker = new DependencyWorker();
+const flowComponentWorker = new FlowComponentWorker();
+const flowServiceWorker = new FlowServiceWorker();
 
 export class ComponentWorker {
 
@@ -63,21 +68,20 @@ export class ComponentWorker {
                 callback();
             });
     }
-    public generateComponentTs(applicationPath, templatePath, componentName, information, callback) {
+    public generateComponentTs(applicationPath, templatePath, componentName, information, entities, callback) {
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
-            importDependency: null,
-            importComponent: null,
-            scriptVariable: null,
-            componentVariable: null,
-            componentConstructorParams: null,
-            componentOnInit: null,
-            componentMethod: null
+            importDependency: [],
+            importComponent: [],
+            scriptVariable: [],
+            componentVariable: [],
+            componentConstructorParams: [],
+            componentOnInit: [],
+            componentMethod: []
         }
-        this.componentObject = information;
+        // this.componentObject = information;
         // add default import dependency path
-        temp.importDependency = [];
         temp.importDependency.push({ dependencyName: 'Component, OnInit', dependencyPath: '@angular/core' });
 
         // add component routes in app-routing.module.ts file
@@ -86,7 +90,7 @@ export class ComponentWorker {
             this.routeModule.importDependency.push(importDependencyPath);
             this.routeModule.routePath.push(`{ path: '${temp.folderName.toLowerCase()}', component: ${temp.className}Component, canActivate: [AuthGuard] },`);
         }
-        this.checkConnector(temp.folderName);
+        flowComponentWorker.generateComponentFlow(information, temp, entities);
         componentSupportWorker.generateComponent(applicationPath, templatePath,
             `${componentName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}.${Constant.TS_EXTENSION}`,
             Constant.TS_TEMPLATENAME, temp, (response) => {
@@ -94,84 +98,36 @@ export class ComponentWorker {
             });
     }
 
-    private checkConnector(componentName) {
-        // flow method with connector
-        this.componentObject.flowMethod.forEach(flowElement => {
-            flowElement.connector.forEach(connectorElement => {
-                if (connectorElement.isDefault && !connectorElement.isDisabled) {
-                    this.addComponentMethod(flowElement, componentName);
-                }
-            })
-        })
-    }
-
-    private addComponentMethod(flowElement, componentName) {
-        const serviceClassName = `${componentName.charAt(0).toUpperCase()}${componentName.slice(1)}${Constant.SERVICE_EXTENSION.charAt(0).toUpperCase()}${Constant.SERVICE_EXTENSION.slice(1)}`;
-        switch (flowElement.actionOnData) {
-            case Constant.GP_CREATE_FLOW:
-                let temp = `${flowElement.name}() {`;
-                temp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${flowElement.name}(this.${this.componentObject.variableList[0].entityName})`;
-                temp += `\n  .subscribe(`;
-                temp += `\n    data => {`;
-                temp += `\n       console.log('data created successfully');`;
-                temp += `\n    },`;
-                temp += `\n    error => {`;
-                temp += `\n       console.log('cannot able to create the data');`;
-                temp += `\n    }`;
-                temp += `\n    );`;
-                temp += `\n}`;
-                break;
-            case Constant.GP_SEARCH_FLOW:
-                break;
-            case Constant.GP_UPDATE_FLOW:
-                break;
-            case Constant.GP_DELETE_FLOW:
-                break;
-            case Constant.GP_GETALLVALUES_FLOW:
-                break;
-            case Constant.GP_SEARCHDETAIL_FLOW:
-                break;
-            case Constant.GP_SEARCHFORUPDATE_FLOW:
-                break;
-            case Constant.GP_DELETENOUNRELATIONSHIP_FLOW:
-                break;
-            case Constant.GP_FILEUPLOAD_FLOW:
-                break;
-            case Constant.GP_DELETENOUNBYRELATION_FLOW:
-                break;
-            case Constant.GP_CANCEL_FLOW:
-                break;
-            case Constant.GP_GETNOUNFROMRELATION_FLOW:
-                break;
-            case Constant.GP_APPSTARTUP_FLOW:
-                break;
-            case Constant.GP_GRIDEXPORTCSV_FLOW:
-                break;
-            case Constant.GP_CREATERELATIONSHIP_FLOW:
-                break;
-            case Constant.GP_RECORDVIDEO_FLOW:
-                break;
-            case Constant.GP_GETNOUNBYRELATIONSHIP_FLOW:
-                break;
-            case Constant.GP_TAKEPHOTO_FLOW:
-                break;
-            case Constant.GP_CUSTOM_FLOW:
-                break;
-            case Constant.GP_GETNOUNBYID_FLOW:
-                break;
-            case Constant.GP_DELETEBYPARENTID_FLOW:
-                break;
-            case Constant.GP_GETNOUNBYPARENTID_FLOW:
-                break;
-            default:
-                break;
-
+    public generateComponentService(applicationPath, templatePath, componentName, information, endpoints, callback) {
+        const temp = {
+            folderName: componentName.toLowerCase(),
+            className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
+            importDependency: [],
+            importComponent: [],
+            serviceVariable: null,
+            serviceConstructorParams: [],
+            serviceMethod: []
         }
+        // // this.componentObject = information;
+        // // add default import dependency path
+        // temp.importDependency.push({ dependencyName: 'Component, OnInit', dependencyPath: '@angular/core' });
+
+        // // add component routes in app-routing.module.ts file
+        // const importDependencyPath = `import { ${temp.className}Component } from './${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}';`;
+        // if (this.routeModule.importDependency.findIndex(x => x == importDependencyPath) < 0) {
+        //     this.routeModule.importDependency.push(importDependencyPath);
+        //     this.routeModule.routePath.push(`{ path: '${temp.folderName.toLowerCase()}', component: ${temp.className}Component, canActivate: [AuthGuard] },`);
+        // }
+        flowServiceWorker.generateServiceComponentFlow(information, temp, endpoints);
+        console.log('component service worker are ----  ', temp);
+        componentSupportWorker.generateComponent(applicationPath, templatePath,
+            `${componentName.toLowerCase()}.${Constant.SERVICE_EXTENSION}.${Constant.TS_EXTENSION}`,
+            Constant.SERIVCE_TEMPLATENAME, temp, (response) => {
+                callback();
+            });
     }
 
-    private setImport() { }
-
-    // private set
+    
 
     public generateComponentCss(applicationPath, templatePath, componentName, information, callback) {
         const temp = {

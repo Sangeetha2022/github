@@ -96,7 +96,6 @@ components: {
   #content {
     width: calc(100% - 250px);
     padding: 40px;
-    min-height: 100vh;
     transition: all 0.3s;
     position: absolute;
     top: 0;

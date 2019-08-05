@@ -12,7 +12,7 @@ export class AngularService {
     }
     async createAngularProject(req: Request, callback: CallableFunction) {
 
-        // console.log('create angular project value are ----- ', util.inspect(req.body, { showHidden: true, depth: null }));
+        console.log('create angular project value are ----- ', util.inspect(req.body, { showHidden: true, depth: null }));
         callback();
         const details = req.body;
         // console.log('create angular html metadata ---@#$$$$-11---    ', req.body.desktop.length);

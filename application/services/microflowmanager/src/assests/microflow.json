@@ -9,7 +9,7 @@
         {
             "_id": "8828d165-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpAngularComponent",
-            "microFlowStepName": "GpOptons",
+            "microFlowStepName": "GpOptions",
             "sequenceId": 2
         },
         {
@@ -40,7 +40,7 @@
         {
             "_id": "88291f82-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpAngularService",
-            "microFlowStepName": "GpOptons",
+            "microFlowStepName": "GpOptions",
             "sequenceId": 2
         },
         {
@@ -70,7 +70,7 @@
         {
             "_id": "8828f874-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpIonicAngularComponent",
-            "microFlowStepName": "GpOptons",
+            "microFlowStepName": "GpOptions",
             "sequenceId": 2
         },
         {
@@ -100,7 +100,7 @@
         {
             "_id": "88294692-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpIonicAngularService",
-            "microFlowStepName": "GpOptons",
+            "microFlowStepName": "GpOptions",
             "sequenceId": 2
         },
         {

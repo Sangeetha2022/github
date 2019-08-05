@@ -9,6 +9,34 @@ export class Constant {
     public static SRC_FOLDERNAME = 'src';
     public static APP_FOLDERNAME = 'app';
 
+    // flow 
+    public static GP_ANGULAR_COMPONENT = `gpangularcomponent`;
+    public static GP_ANGULAR_SERVICE = `gpangularservice`;
+
+    // microflow stepName
+    public static COMPONENT_HEADER_MICROFLOW = `gpheaders`;
+    public static COMPONENT_OPTIONS_MICROFLOW = `gpoptions`;
+    public static COMPONENT_CODETOADD_MICROFLOW = `gpcodetoadd`;
+    public static COMPONENT_CHECKCONNECTOR_MICROFLOW = `gpcheck_connector`;
+    public static COMPONENT_REQUEST_MICROFLOW = `gprequest`;
+
+    // access modifier
+    public static PUBLIC_ACCESS_MODIFIER = `public`;
+    public static PRIVATE_ACCESS_MODIFIER = `private`;
+
+    // entities
+    public static PRIMARY_NAME = `primary`;
+    public static STRING_DATATYPE = `string`;
+    public static BOOLEAN_DATATYPE = `boolean`;
+
+    // connector
+    public static DEFAULT_CONNECTOR_NAME = `default`;
+    public static AVAILABLE_CONNECTOR_NAME = `available`;
+
+    // routes
+    public static DESKTOP_ROUTE = `desktop`;
+
+
     // file extension
     public static HTML_EXTENSION = `html`;
     public static TS_EXTENSION = `ts`;
@@ -21,6 +49,7 @@ export class Constant {
     // templateName
     public static HTML_TEMPLATENAME = 'component_html';
     public static TS_TEMPLATENAME = 'component_ts';
+    public static SERIVCE_TEMPLATENAME = `component_service`;
     public static CSS_TEMPLATENAME = 'component_css';
     public static MODULE_TEMPLATENAME = 'component_module';
     public static SPEC_TEMPLATENAME = 'component_spec';
@@ -29,6 +58,7 @@ export class Constant {
     public static APP_ROUTING_FILENAME = 'app-routing.module.ts';
     public static APP_MODULE_FILENAME = 'app.module.ts';
     public static PACKAGE_JSON_FILENAME = 'package.json';
+    public static SHARED_FILENAME = `shared`;
 
     // list of flow action
     public static GP_CREATE_FLOW = `GpCreate`;

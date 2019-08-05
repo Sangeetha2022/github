@@ -35,12 +35,16 @@ export class DependencyWorker {
     private STATIC_TEMPLATE_FOLDERNAME: String = 'static';
 
     generateIndexHtml(generationPath, templatePath, baseTag, scriptTag, callback) {
+        // const index = baseTag.join('').findIndex(element => element.includes('gjs-base.css'));
+        // console.log('gjs-base css is present are -----  ', index);
         const temp = {
             baseTag: baseTag,
             scriptTag: scriptTag
         }
+        console.log('generate index html file in angular template ------ ', temp);
         assetWorker.checkAssetFile(baseTag.join(''), generationPath, templatePath);
         assetWorker.checkAssetFile(scriptTag.join(''), generationPath, templatePath);
+        
         return dependencySupportWorker.generateIndexHtml(generationPath, templatePath,
             this.INDEX_HTML_TEMPLATE_NAME, temp, (response) => {
                 callback('index html files are generated')
