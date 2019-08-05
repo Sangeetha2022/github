@@ -87,6 +87,7 @@ export class EntityModelComponent implements OnInit {
             this.create = true;
             this.hide = false;
         }
+       
         if (event.value === 'Select Existing Entity') {
             this.existing = true;
             this.hide = false;
@@ -107,7 +108,7 @@ export class EntityModelComponent implements OnInit {
 
         this.columnDefs = [
             {
-                width: 250,
+                 width: 250,
                 checkboxSelection: true,
             },
             {
