@@ -67,6 +67,7 @@ ul, ol {
   width: 100%;
   position: absolute;
   overflow-x: hidden;
+  // height: 160px;
 }
 
 .footer_align{
@@ -105,5 +106,88 @@ hr{
   .medium_device{
   // min-width:100%;
 }
+
+}
+.top_row{
+  padding-top: 2%;
+  font-size: 9pt;
+}
+
+.footer_img{
+  width: 30%;
+  margin-bottom: 3%;
+}
+
+
+// .main_footer {
+//   width:100%; margin:auto; position:relative; float:left;
+// }
+
+.footer_content {
+// width:1024px;
+// float:left;
+// background-color:#333;
+// min-height:150px;
+}
+
+.footer_ul {
+// float:left;
+// font-size:14px;
+// width:25%;
+// margin-left:43px;
+// color:#FFF;
+
+}
+
+
+
+.footer_ul li {
+// list-style-type:none;
+// text-align:left;
+// padding-top:8px;
+// padding-bottom:5px;
+}
+
+.footer_ul li a:hover {
+text-decoration:underline;
+font-size:16px;
+}
+
+
+
+.footer_ul li a {
+color:#0FF;
+  text-decoration:none;
+}
+
+.bold1 {
+font-family:Cambria;
+font-weight:bolder;
+color:#09F;
+}
+
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575px){
+  .mobile_view{
+    min-width: 100%;
+  }
+  .m_address{
+    min-width: 74%;
+  }
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767px) {
+  
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991px) {
+  
+}
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199px) {
 
 }

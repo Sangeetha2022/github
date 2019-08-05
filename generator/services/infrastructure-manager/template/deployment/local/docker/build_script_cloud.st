@@ -88,7 +88,10 @@ if [ \$? -eq 0 ]; then
     echo "App Deployment is Done"
     export NODE_PORT=\$(kubectl get --namespace $project_name$ -o jsonpath="{.spec.ports[0].nodePort}" services $project_name$-desktop)
     export NODE_IP=\$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[1].address}")
+    export LOGGING_PORT=\$(kubectl get --namespace $project_name$-logging -o jsonpath="{.spec.ports[0].nodePort}" services kibana)
     echo "App Url : http://\$NODE_IP:\$NODE_PORT"
+    echo "Logging Url : http://\$NODE_IP:\$LOGGING_PORT"
+
 
 else
     echo "App deployment is Failed, there is a problem with helm charts"

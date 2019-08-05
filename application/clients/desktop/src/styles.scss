@@ -97,3 +97,37 @@ app-projects .container .sitecard .sitecard-actions {
   bottom: 0;
   margin-left: 0;
 }
+.ok_btn{
+  background: #3f51b5;
+}
+.delete_btn{
+  background:#f44336;
+}
+
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575px) {
+  app-login > mat-card.cardsize, app-login .cardsize, app-login .cardsize {
+    margin-bottom: 18rem !important;
+  }
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767px) {
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991px) {
+
+}
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199px) {
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px)
+and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71) and (orientation:portrait)
+{
+  app-login > mat-card.cardsize, app-login .cardsize, app-login .cardsize {
+    margin-bottom: 17rem !important;
+  }
+}
