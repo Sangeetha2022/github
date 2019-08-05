@@ -223,10 +223,11 @@ export class CodeGenerationService {
                     frontendObj.nodeResponse = temp[0];
                   }
                   console.log('nodeResponse for each features ----  ', util.inspect(this.nodeResponse, { showHidden: true, depth: null }));
-                  //front generation manager
-                  // const frontendResponse = await this.frontendGenProject(frontendObj).catch(err => {
-                  //   console.log('cannot able to generate the frontend component for each screens');
-                  // });
+                  // front generation manager
+                  const frontendResponse = await this.frontendGenProject(frontendObj).catch(err => {
+                    console.log('cannot able to generate the frontend component for each screens');
+                  });
+                  console.log('get response from frontend feature screens with entities');
                   next();
                 } catch (err1) {
                   console.log('errr111111111111111111111111');
@@ -244,10 +245,11 @@ export class CodeGenerationService {
               nodeResponse: null
             }
             console.log('generate the feature screen without entities ----  ');
-            //front generation manager
-            // const frontendResponse = await this.frontendGenProject(frontendObj).catch(err => {
-            //   console.log('cannot able to generate the frontend component for each screens');
-            // });
+            // front generation manager
+            const frontendResponse = await this.frontendGenProject(frontendObj).catch(err => {
+              console.log('cannot able to generate the frontend component for each screens');
+            });
+            console.log('get response from frontend feature screens without entities');
             next();
           }
         }

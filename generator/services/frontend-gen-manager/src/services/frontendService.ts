@@ -168,13 +168,18 @@ export class FrontendService {
 
                 } else {
                     console.log('flow iteration completed %%%%%%%%%%%%% ----- ', util.inspect(feature, { showHidden: true, depth: null }));
+                    let angularDesktopResponse = null;
                     if (desktopJSON.length > 0) {
                         feature.desktop = desktopJSON;
-                        const angularDesktopResponse = await this.generateAngular(feature);
+                        angularDesktopResponse = await this.generateAngular(feature);
+                        console.log('final angular desktop response values are -----  ', angularDesktopResponse);
                     }
                     if (mobileJSON.length > 0) {
                         feature.mobile = mobileJSON;
                     }
+                    console.log('final flow of angular desktop response ----->>  ')
+                    callback(angularDesktopResponse);
+
                     // const node = await this.generateNode(feature);
                     // console.log('node %%%%%%%%%%%%% ----- ', util.inspect(node, { showHidden: true, depth: null }));
                     // callback(node);
@@ -187,7 +192,6 @@ export class FrontendService {
             // callback('Something went wrong in backend gen manager microservices', 400);
         }
 
-        callback();
     }
 
     generateAngular(details) {

@@ -40,7 +40,7 @@ export class GenerateHtmlWorker {
         flowMethod: []
     }
 
-    generate(metaData, screenDetails, componentName, details) {
+    generate(metaData, screenDetails, componentName, details, callback) {
         this.startTag = [];
         this.endTag = [];
         this.entityDetails = screenDetails.entity_info;
@@ -55,7 +55,11 @@ export class GenerateHtmlWorker {
         // this.TemplateTag = this.startTag;
         console.log('after completed all method in child startTag are   ', `${this.startTag.join(`\n`)}`);
         console.log('tscomponent object are ------  ', util.inspect(this.tsComponent, { showHidden: true, depth: null }));
-        this.generateComponent(componentName, details, (response) => { });
+        this.generateComponent(componentName, details, callback);
+        // this.generateComponent(componentName, details, (response) => {
+        //     console.log('generateComponent vale in  are -----  ', )
+        //     callback({ Message: 'Feature Screen created successfully' })
+        // });
         // console.log('after completed all method in child scriptTag are   ', `${this.startTag.join(`\n`)}`);
         // console.log('after completed all method in child templateTag are   ', `${this.startTag.join(`\n`)}`);
     }
@@ -72,9 +76,8 @@ export class GenerateHtmlWorker {
                     componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.startTag, (response) => {
                         componentWorker.generateComponentSpec(applicationPath, templatePath, componentName, this.startTag, (response) => {
                             componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.startTag, (response) => {
-                                this.modifyDependency(applicationPath, packagePath, (response) => {
-                                    callback();
-                                })
+                                console.log('component worker in generate component modeule in-----  ');
+                                this.modifyDependency(applicationPath, packagePath, callback)
                             })
                         })
                     })
@@ -84,9 +87,10 @@ export class GenerateHtmlWorker {
     }
 
     modifyDependency(applicationPath, packagePath, callback) {
-
+        console.log('modifydependency calling in gnerateHTML Workere s');
         componentWorker.modifyDependency(applicationPath, packagePath, (response) => {
-            callback();
+            console.log('modify dependency response rare ----  ');
+            callback({ Message: `Feature Screen created successfully` });
         })
     }
 
@@ -150,8 +154,6 @@ export class GenerateHtmlWorker {
             this.setClasses(firstEle, secondEle);
             // set html attributes
             this.setAttributes(firstEle);
-            // set html traits
-            this.setTraits(firstEle);
             // set html contents
             this.setContent(firstEle);
             // based on value push it into startTag and endTag
@@ -215,12 +217,16 @@ export class GenerateHtmlWorker {
                 }
 
             })
+            // set html traits
+            this.setTraits(firstEle);
             if (this.tagName === 'input' || this.tagName === 'meta' || this.tagName === 'link') {
                 this.startString += `/>`;
             } else {
                 this.startString += `>`;
             }
         } else {
+            // set html traits
+            this.setTraits(firstEle);
             if (this.startString) {
                 this.startString += `>`;
             }

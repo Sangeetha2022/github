@@ -1,6 +1,6 @@
 /*
  * Template group server
- * Compiled on Mon Jun 17 2019 13:52:29 GMT+0530 (India Standard Time)
+ * Compiled on Mon Aug 05 2019 15:03:11 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -68,10 +68,8 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("public mongoUrl: string = '");
+    w.write("public mongoUrl: string = process.env.MONGO_DB_URL;");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "dbConnectionUrl", { file: gFile, line: 11, column: 39 }));
-    w.write("';");
     w.write("\n");
     w.write("\n");
     w.pushIndentation("    ");
