@@ -1,6 +1,6 @@
 /*
  * Template group build_script
- * Compiled on Mon Aug 05 2019 20:04:51 GMT+0530 (IST)
+ * Compiled on Tue Aug 06 2019 14:44:36 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -38,7 +38,7 @@ r = function(w, rc) {
     w.write("\n");
     w.write("\n");
     w.write("\n");
-    w.write("DESKTOPCODE='../../application/client/desktop/");
+    w.write("DESKTOPCODE='../../../application/client/desktop/");
     st.write(w, s, g, rc, s.project_name);
     w.write("'");
     w.write("\n");

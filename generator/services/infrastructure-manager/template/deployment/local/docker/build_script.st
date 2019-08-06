@@ -8,7 +8,7 @@ CUSTOMSERVICEPATH='../../../services/custom_services'
 HELMPATH='../../devops/local'
 
 
-DESKTOPCODE='../../application/client/desktop/$project_name$'
+DESKTOPCODE='../../../application/client/desktop/$project_name$'
 DESKTOPIMAGENAME='geppettotest/$project_name$-desktop:1.0'
 
 echo "Started to build docker images for pod...."
