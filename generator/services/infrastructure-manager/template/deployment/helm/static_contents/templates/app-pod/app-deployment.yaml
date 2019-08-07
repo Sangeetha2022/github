@@ -11,12 +11,6 @@ spec:
         app: {{ .Values.app.prefix }}-app
     spec:
       containers:
-        - name: {{ .Values.deployment.apigateway.name }}-container
-          imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
-          image: {{ .Values.deployment.apigateway.image }}
-          ports:
-            - name: http-port
-              containerPort: 3000
         - name: {{ .Values.deployment.authproxy.name }}-container
           imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
           image: {{ .Values.deployment.authproxy.image }}

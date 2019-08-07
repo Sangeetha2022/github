@@ -1,16 +1,13 @@
 build_script_cloud(project_name,base_path) ::= <<
 #!bin/bash
 
-BASEPATH='/home/ec2-user/generated_code'
-
 APPLICATION='/$project_name$'
 
-MICROSERVICEPATH='/application/services/custom_services'
+CUSTOMSERVICEPATH='../../../services/custom_services'
 
-HELMPATH='/devops/cloud'
+HELMPATH='../../devops/cloud'
 
-
-DESKTOPCODE='/application/client/desktop/$project_name$/'
+DESKTOPCODE='../../../application/client/desktop/$project_name$'
 DESKTOPIMAGENAME='geppettotest/$project_name$-desktop:1.0'
 
 echo "Started to build docker images for pod...."
@@ -18,7 +15,7 @@ echo "Started to build docker images for pod...."
 
 build_appbuilder_image () {
 
-cd \$BASEPATH\$APPLICATION\$DESKTOPCODE
+cd \$DESKTOPCODE
 npm install
 npm rebuild node-sass
 npm uninstall @angular-devkit/build-angular
@@ -37,7 +34,7 @@ fi
 
 build_microservices(){
 
-cd \$BASEPATH\$APPLICATION\$MICROSERVICEPATH
+cd \$CUSTOMSERVICEPATH
 
 for d in * ; do
     
@@ -66,7 +63,6 @@ clean_images(){
 
 docker rmi -f \$DESKTOPIMAGENAME
 
-cd \$BASEPATH\$APPLICATION\$MICROSERVICEPATH
 for d in * ; do
     docker rmi -f geppettotest\$APPLICATION-\$d:1.0
     if [ \$? -eq 0 ]; then
@@ -81,16 +77,19 @@ done
 
 helm_install () {
 
-cd \$BASEPATH\$APPLICATION\$HELMPATH
+cd \$HELMPATH
 helm install --dry-run --debug ./helm
 helm install --name $project_name$ ./helm
 if [ \$? -eq 0 ]; then
     echo "App Deployment is Done"
-    export NODE_PORT=\$(kubectl get --namespace $project_name$ -o jsonpath="{.spec.ports[0].nodePort}" services $project_name$-desktop)
+    export NODE_PORT=\$(kubectl get --namespace $project_name$ -o jsonpath="{.spec.ports[0].nodePort}" services $project_name$-system-entry)
     export NODE_IP=\$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[1].address}")
     export LOGGING_PORT=\$(kubectl get --namespace $project_name$-logging -o jsonpath="{.spec.ports[0].nodePort}" services kibana)
+    echo "------------------------"
     echo "App Url : http://\$NODE_IP:\$NODE_PORT"
+    echo "------------------------"
     echo "Logging Url : http://\$NODE_IP:\$LOGGING_PORT"
+    echo "------------------------"
 
 
 else
