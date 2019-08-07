@@ -1,6 +1,6 @@
 /*
  * Template group build_script_cloud
- * Compiled on Fri Aug 02 2019 20:29:36 GMT+0530 (IST)
+ * Compiled on Wed Aug 07 2019 17:28:28 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -26,24 +26,20 @@ r = function(w, rc) {
     w.write("#!bin/bash");
     w.write("\n");
     w.write("\n");
-    w.write("BASEPATH='/home/ec2-user/generated_code'");
-    w.write("\n");
-    w.write("\n");
     w.write("APPLICATION='/");
     st.write(w, s, g, rc, s.project_name);
     w.write("'");
     w.write("\n");
     w.write("\n");
-    w.write("MICROSERVICEPATH='/application/services/custom_services'");
+    w.write("CUSTOMSERVICEPATH='../../../services/custom_services'");
     w.write("\n");
     w.write("\n");
-    w.write("HELMPATH='/devops/cloud'");
+    w.write("HELMPATH='../../devops/cloud'");
     w.write("\n");
     w.write("\n");
-    w.write("\n");
-    w.write("DESKTOPCODE='/application/client/desktop/");
+    w.write("DESKTOPCODE='../../../application/client/desktop/");
     st.write(w, s, g, rc, s.project_name);
-    w.write("/'");
+    w.write("'");
     w.write("\n");
     w.write("DESKTOPIMAGENAME='geppettotest/");
     st.write(w, s, g, rc, s.project_name);
@@ -57,7 +53,7 @@ r = function(w, rc) {
     w.write("build_appbuilder_image () {");
     w.write("\n");
     w.write("\n");
-    w.write("cd $BASEPATH$APPLICATION$DESKTOPCODE");
+    w.write("cd $DESKTOPCODE");
     w.write("\n");
     w.write("npm install");
     w.write("\n");
@@ -97,7 +93,7 @@ r = function(w, rc) {
     w.write("build_microservices(){");
     w.write("\n");
     w.write("\n");
-    w.write("cd $BASEPATH$APPLICATION$MICROSERVICEPATH");
+    w.write("cd $CUSTOMSERVICEPATH");
     w.write("\n");
     w.write("\n");
     w.write("for d in * ; do");
@@ -181,8 +177,6 @@ r = function(w, rc) {
     w.write("docker rmi -f $DESKTOPIMAGENAME");
     w.write("\n");
     w.write("\n");
-    w.write("cd $BASEPATH$APPLICATION$MICROSERVICEPATH");
-    w.write("\n");
     w.write("for d in * ; do");
     w.write("\n");
     w.pushIndentation("    ");
@@ -222,7 +216,7 @@ r = function(w, rc) {
     w.write("helm_install () {");
     w.write("\n");
     w.write("\n");
-    w.write("cd $BASEPATH$APPLICATION$HELMPATH");
+    w.write("cd $HELMPATH");
     w.write("\n");
     w.write("helm install --dry-run --debug ./helm");
     w.write("\n");
@@ -242,7 +236,7 @@ r = function(w, rc) {
     st.write(w, s, g, rc, s.project_name);
     w.write(" -o jsonpath=\"{.spec.ports[0].nodePort}\" services ");
     st.write(w, s, g, rc, s.project_name);
-    w.write("-desktop)");
+    w.write("-system-entry)");
     w.write("\n");
     w.pushIndentation("    ");
     w.write("export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath=\"{.items[0].status.addresses[1].address}\")");
@@ -255,11 +249,23 @@ r = function(w, rc) {
     w.write("-logging -o jsonpath=\"{.spec.ports[0].nodePort}\" services kibana)");
     w.write("\n");
     w.pushIndentation("    ");
+    w.write("echo \"------------------------\"");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
     w.write("echo \"App Url : http://$NODE_IP:$NODE_PORT\"");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
+    w.write("echo \"------------------------\"");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
     w.write("echo \"Logging Url : http://$NODE_IP:$LOGGING_PORT\"");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("echo \"------------------------\"");
     w.popIndentation();
     w.write("\n");
     w.write("\n");

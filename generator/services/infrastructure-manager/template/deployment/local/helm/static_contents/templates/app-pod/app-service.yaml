@@ -6,10 +6,6 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - name: {{ .Values.service.apigateway.name }}
-    port: {{ .Values.service.apigateway.port }}
-    targetPort: {{ .Values.service.apigateway.targetPort }}
-    nodePort: {{ .Values.service.apigateway.nodePort }}
   - name: {{ .Values.service.authproxy.name }}
     port: {{ .Values.service.authproxy.port }}
     targetPort: {{ .Values.service.authproxy.targetPort }}
