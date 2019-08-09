@@ -16,6 +16,7 @@ import { TreeDragService } from '../menu-builder/tree-drag/tree-drag.service';
 import { ProjectsService } from '../projects/projects.service';
 import { IFlow } from '../flow-manager/interface/flow';
 import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-project-component',
@@ -38,6 +39,7 @@ export class EntityManagerComponent implements OnInit {
     apiManFile: any;
     screenName: any = [];
     menuFeatureName: any = [];
+    projectName: any;
     allowImport: Boolean = false;
     dataMenu: any;
     featureId: any = [];
@@ -137,6 +139,7 @@ export class EntityManagerComponent implements OnInit {
         private screenService: ScreenDesignerService,
         private route: ActivatedRoute,
         private database: TreeDragService,
+        private toastr: ToastrService,
 
     ) {
 
@@ -166,7 +169,27 @@ export class EntityManagerComponent implements OnInit {
 
 
     generateCode() {
+        this.toastr.success('PROJECT: ' + this.projectName, 'Generation Requested!', {
+            closeButton: false,
+            disableTimeOut: false
+        });
         this.projectComponentService.codeGenerate(this.project_id).subscribe(data => {
+            if (data) {
+                // tslint:disable-next-line: max-line-length
+                this.toastr.success('Github URL: https://github.com/gepinfo/' + this.projectName + '.git', 'Generation Completed!', {
+                    closeButton: true,
+                    disableTimeOut: true
+                }).onTap.subscribe(action => {
+                    window.open('https://github.com/gepinfo/' + this.projectName + '.git', '_blank');
+                });
+            }
+        }, error => {
+            if (error) {
+                this.toastr.error('Failed!', 'Generation Failed', {
+                    closeButton: false,
+                    disableTimeOut: false
+                });
+            }
         });
     }
     fileSelected(event) {
@@ -234,6 +257,7 @@ export class EntityManagerComponent implements OnInit {
 
     getProjectById() {
         this.projectService.getProjectById(this.project_id).subscribe(proj => {
+            this.projectName = proj.name;
             if (proj) {
                 this.menuLanguages.push(proj.default_human_language);
                 if (proj.other_human_languages !== '') {
