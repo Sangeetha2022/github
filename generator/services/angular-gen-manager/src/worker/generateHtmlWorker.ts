@@ -28,7 +28,7 @@ export class GenerateHtmlWorker {
     // set other dependencies 
     private entities = [];
     private flowList = [];
-    private endPointList = [];
+    private endPointList: any;
 
     private tsComponent = {
         variableList: [],
@@ -37,12 +37,32 @@ export class GenerateHtmlWorker {
 
     private serviceComponent = {
         variableList: [],
-        flowMethod: []
+        flowMethod: [],
+        apiEndPoints: []
     }
 
-    generate(metaData, screenDetails, componentName, details, callback) {
+    private componentStyle = [];
+    private selectOption = `<option *ngFor="let option of option" [ngValue]="option.key">{{option.value}}</option>`;
+
+    generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
         this.startTag = [];
         this.endTag = [];
+        // component
+        this.tsComponent = {
+            variableList: [],
+            flowMethod: []
+        }
+
+        // service
+        this.serviceComponent = {
+            variableList: [],
+            flowMethod: [],
+            apiEndPoints: []
+        }
+        this.componentStyle = [];
+        // add default styles
+        this.componentStyle.push(screenStyles);
+
         this.entityDetails = screenDetails.entity_info;
         this.flowDetails = screenDetails.flows_info;
         // list of other dependencies
@@ -67,17 +87,19 @@ export class GenerateHtmlWorker {
     generateComponent(componentName, details, callback) {
         console.log('generate component are ---- ', util.inspect(details, { showHidden: true, depth: null }));
         console.log('html tag result in generate component are -----  ', this.startTag);
+        console.log('generate service component are -----  ', this.serviceComponent);
         const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
         const packagePath = details.projectGenerationPath;
         const templatePath = details.templateLocation.frontendTemplate;
         componentWorker.generateComponentHtml(applicationPath, templatePath, componentName, this.startTag, (response) => {
             componentWorker.generateComponentTs(applicationPath, templatePath, componentName, this.tsComponent, this.entities, (response) => {
-                componentWorker.generateComponentService(applicationPath, templatePath, componentName, this.tsComponent, this.endPointList, (response) => {
-                    componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.startTag, (response) => {
+                componentWorker.generateComponentService(applicationPath, templatePath, componentName, this.serviceComponent, (response) => {
+                    componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.componentStyle, (response) => {
                         componentWorker.generateComponentSpec(applicationPath, templatePath, componentName, this.startTag, (response) => {
                             componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.startTag, (response) => {
                                 console.log('component worker in generate component modeule in-----  ');
-                                this.modifyDependency(applicationPath, packagePath, callback)
+                                // this.modifyDependency(applicationPath, packagePath, callback)
+                                callback();
                             })
                         })
                     })
@@ -86,8 +108,10 @@ export class GenerateHtmlWorker {
         })
     }
 
-    modifyDependency(applicationPath, packagePath, callback) {
+    modifyDependency(details, callback) {
         console.log('modifydependency calling in gnerateHTML Workere s');
+        const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
+        const packagePath = details.projectGenerationPath;
         componentWorker.modifyDependency(applicationPath, packagePath, (response) => {
             console.log('modify dependency response rare ----  ');
             callback({ Message: `Feature Screen created successfully` });
@@ -174,7 +198,7 @@ export class GenerateHtmlWorker {
             if (className) {
                 if (className == Constant.STATE_SUCCESS_CLASSNAME || className == Constant.STATE_ERROR_CLASSNAME) {
                     this.isNotImportant = true;
-                } else {
+                } else if (className.toLowerCase() != 'radio') {
                     this.startString += `<${this.tagName} class='${className}'`
                 }
             }
@@ -204,7 +228,13 @@ export class GenerateHtmlWorker {
             }
             attributes.forEach(element => {
                 if (element === 'name' && firstEle.name) {
-                    this.startString += ` ${element}='${firstEle.name}'`;
+                    // added previour
+                    if (this.startString.includes('radio')) {
+                        console.log('is radio buttone are -----  ', this.startString);
+                        this.startString += ` ${element}='${firstEle.attributes[element]}'`;
+                    } else {
+                        this.startString += ` ${element}='${firstEle.name}'`;
+                    }
                 } else {
                     if (this.tagName != 'base' && element === 'href' && firstEle.attributes[element] === Constant.HREF_BASE) {
                         this.startString += ` [routerLink]="['${firstEle.attributes[element]}']"`;
@@ -247,13 +277,15 @@ export class GenerateHtmlWorker {
                     const entityIndex = this.entityDetails.findIndex(x => x.elementName == traitElement.value);
                     const flowIndex = this.flowDetails.findIndex(x => x.elementName == traitElement.value);
                     console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex);
+                    // adding data binding
                     if (entityIndex > -1) {
                         console.log('identified entity index are -----  ', this.entityDetails[entityIndex]);
                         const entityObject = this.entities.find(x => x._id == this.entityDetails[entityIndex].entityId);
                         console.log('entities object are ----------  ', entityObject);
-                        this.startString += ` [(ngModel)]="${entityObject.name}.${this.entityDetails[entityIndex].fields.name}"`;
+                        this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${this.entityDetails[entityIndex].fields.name.replace(' ', '')}"`;
                         const variableObject = this.tsComponent.variableList.find(x => x.entityId == this.entityDetails[entityIndex].entityId);
                         console.log('variableList ------>>>>  ', variableObject);
+                        console.log('startString ---ngModels--->>>>  ', this.startString);
                         if (variableObject) {
                             variableObject.fields.push(this.entityDetails[entityIndex].fields.name);
                         } else {
@@ -263,6 +295,7 @@ export class GenerateHtmlWorker {
                             this.tsComponent.variableList.push(variableTemp);
                         }
                     }
+                    // adding flows action
                     if (flowIndex > -1) {
                         console.log('identitied flow index are -----  ', this.flowDetails[flowIndex]);
                         const flowObject = this.flowList.find(x => x._id == this.flowDetails[flowIndex].flow);
@@ -295,9 +328,44 @@ export class GenerateHtmlWorker {
                             }
                             this.serviceComponent.flowMethod.push(flowTemp);
                         }
+                        console.log('the endpointlist in generate htm lworker aer ae- ----   ', this.endPointList);
+                        const api = this.endPointList.flowAction.find(x => x.methodName == flowObject.name);
+                        console.log('finded api are ----  ', api);
+                        if (this.serviceComponent.apiEndPoints.findIndex(x => x.methodName == flowObject.name) < 0) {
+                            this.serviceComponent.apiEndPoints.push(api);
+                            console.log('after added api endpoints in ')
+                        }
                     }
                 })
             }
+            if (this.tagName == 'input') {
+                if (this.startString.includes('radio')) {
+                    console.log('radio input tytpes firsteleme are ----  ', firstEle);
+                    console.log('radio input tytpes startString are ----  ', this.startString);
+                    console.log('radio input entiteis are ----- ', this.entities);
+                }
+            }
+            if (this.tagName == 'select') {
+                console.log('select firstELEM are ---- ', firstEle);
+                console.log('select secondELE are ---- ', this.secondEle);
+                console.log('select startString are ---- ', this.startString);
+                this.getSelectOptions(firstEle.components);
+            }
+        }
+    }
+
+    getSelectOptions(optionComponent) {
+        if (optionComponent.length > 0) {
+            let temp = `option = [`;
+            optionComponent.forEach((optionElement, index) => {
+                temp += `\n{ key: '${optionElement.attributes.value}', value: '${optionElement.content}' }`;
+                if (optionComponent.length - 1 != index) {
+                    temp += `,`;
+                }
+            })
+            temp += `\n]`;
+            this.tsComponent.variableList.push(temp);
+            console.log('getselect optons list are -----  ', this.tsComponent.variableList);
         }
     }
 
@@ -348,7 +416,12 @@ export class GenerateHtmlWorker {
     pushValue(firstEle) {
         if (this.tagName && this.tagName != 'option' && !this.isContentOnly && !this.isNotImportant) {
             // console.log('pushed value tagname are -------->>>   ', this.tagName, ' ---firstEle.content---- ', firstEle.content);
-            if (this.startString && this.tagName != 'div' && this.tagName != 'form') {
+            if (this.tagName == 'select') {
+                this.startString += '\n' + this.selectOption;
+                this.startString += `</${this.tagName}>`;
+                console.log('select tagname in push values are -----  ', this.startString);
+                this.setTagValue();
+            } else if (this.startString && this.tagName != 'div' && this.tagName != 'form') {
                 if (!firstEle.content && (this.tagName == 'label' || this.tagName == 'footer'
                     || this.tagName == 'section' || firstEle.type == 'header' || this.tagName == 'header'
                     || this.tagName == 'nav' || this.tagName == 'a' || this.tagName == 'svg' ||
@@ -419,12 +492,11 @@ export class GenerateHtmlWorker {
                         (this.tagName == 'button' || this.tagName == 'a' ||
                             this.tagName == 'ul' || this.tagName == 'li' || this.tagName == 'div' ||
                             this.tagName == 'footer' || this.tagName == 'p' || this.tagName == 'section' ||
-                            item.type == 'header' || this.tagName == 'form' ||
-                            this.tagName == 'nav' || this.tagName == 'svg' ||
-                            this.tagName == 'span' || this.tagName == 'h1' ||
-                            this.tagName == 'h2' || this.tagName == 'h3' ||
-                            this.tagName == 'h4' || this.tagName == 'h5' ||
-                            this.tagName == 'h6' || this.tagName == 'g'
+                            item.type == 'header' || this.tagName == 'form' || this.tagName == 'nav' ||
+                            this.tagName == 'svg' || this.tagName == 'span' || this.tagName == 'h1' ||
+                            this.tagName == 'h2' || this.tagName == 'h3' || this.tagName == 'h4' ||
+                            this.tagName == 'h5' || this.tagName == 'h6' || this.tagName == 'g' ||
+                            this.tagName == 'label'
                         )) {
                         tempObj.endTagName = this.tagName;
                         test.push(tempObj);

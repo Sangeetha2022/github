@@ -31,6 +31,20 @@ export class ComponentSupportWorker {
 
     }
 
+    generateAppComponentSCSS(generationPath, templatePath, templateName, information, callback) {
+        const filePath = `${generationPath}/src/${information.folderName.toLowerCase()}`;
+        templatePath = path.resolve(__dirname, templatePath);
+        let generateComponent = st.loadGroup(require(templatePath + `/${templateName}_stg`));
+        let componentFileData = generateComponent.render(templateName, [information.css.join(`\n`)]);
+        fs.writeFile(filePath + `/${information.folderName.toLowerCase()}.component.scss`, componentFileData, function (err) {
+            if (err) throw err;
+            callback(`app.component.scss file generated`);
+        })
+
+    }
+
+    // common components
+
     generateHtmlComponent(generationPath, templatePath, templateName, information, callback) {
         const className = information.folderName.charAt(0).toUpperCase() + information.folderName.slice(1).toLowerCase();
         const filePath = `${generationPath}/src/app/${information.folderName.toLowerCase()}`;

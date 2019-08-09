@@ -12,12 +12,12 @@ export const sideBar = {
       <a id="nav-toggle"><span></span></a>
   </div>
 </div>`],
-components: {
-  scriptVariable: [
-`$`
-  ],
-  componentOnInit: [
-    `const el = document.querySelector('#nav-toggle');
+  components: {
+    scriptVariable: [
+      `$`
+    ],
+    componentOnInit: [
+      `const el = document.querySelector('#nav-toggle');
     if (el) {
       el.addEventListener('click', function () {
         this.classList.toggle('active');
@@ -27,8 +27,8 @@ components: {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
       });
     }`
-  ]
-},
+    ]
+  },
   css: [`#sidebar {
     width: 250px;
     position: fixed;
@@ -223,3 +223,171 @@ components: {
     `<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>`
   ]
 }
+
+export const templateScreen = [
+  {
+    name: 'HSBC TEMPLATE', styles: [
+      {
+        name: '.homepage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '0'
+        }, {
+          cssName: 'background-color',
+          cssValue: 'white'
+        }]
+      },
+      {
+        name: '.otherpage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '70px'
+        }, {
+          cssName: 'background-color',
+          cssValue: '#191d10'
+        }]
+      }
+    ]
+  },
+  {
+    name: 'CISCO TEMPLATE', styles: [
+      {
+        name: '.homepage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '0'
+        }, {
+          cssName: 'background-color',
+          cssValue: 'white'
+        }]
+      },
+      {
+        name: '.otherpage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '70px'
+        }, {
+          cssName: 'background-color',
+          cssValue: '#2abdeb'
+        }]
+      }
+    ]
+  },
+  {
+    name: 'ENJOY THE TRAVEL', styles: [
+      {
+        name: '.homepage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '0'
+        }, {
+          cssName: 'background-color',
+          cssValue: 'white'
+        }]
+      },
+      {
+        name: '.otherpage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '70px'
+        }, {
+          cssName: 'background-color',
+          cssValue: '#4b424deb'
+        }]
+      }
+    ]
+  },
+  {
+    name: 'NIGHT CITY EVENTS', styles: [
+      {
+        name: '.homepage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '0'
+        }, {
+          cssName: 'background-color',
+          cssValue: 'white'
+        }]
+      },
+      {
+        name: '.otherpage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '70px'
+        }, {
+          cssName: 'background-color',
+          cssValue: '#191d10'
+        }]
+      }
+    ]
+  }, {
+    name: 'TWO SIDE TEMPLATE', styles: [
+      {
+        name: '.homepage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '0'
+        }, {
+          cssName: 'background-color',
+          cssValue: 'white'
+        }]
+      },
+      {
+        name: '.otherpage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '70px'
+        }, {
+          cssName: 'background-color',
+          cssValue: '#191d10'
+        }]
+      }
+    ]
+  }, {
+    name: 'RIGHT TEAM', styles: [
+      {
+        name: '.homepage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '0'
+        }, {
+          cssName: 'background-color',
+          cssValue: 'white'
+        }]
+      },
+      {
+        name: '.otherpage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '70px'
+        }, {
+          cssName: 'background-color',
+          cssValue: '#191d10'
+        }]
+      }
+    ]
+  }, {
+    name: 'NIGHT VOYAGER', styles: [
+      {
+        name: '.homepage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '0'
+        }, {
+          cssName: 'background-color',
+          cssValue: 'white'
+        }]
+      },
+      {
+        name: '.otherpage',
+        css: [{
+          cssName: 'padding-top',
+          cssValue: '70px'
+        }, {
+          cssName: 'background-color',
+          cssValue: '#191d10'
+        }]
+      }
+    ]
+  }
+];

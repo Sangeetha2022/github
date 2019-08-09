@@ -220,6 +220,10 @@ export class DaoWorker {
             case 'GpCustom':
                 break;
             case 'GpGetNounById':
+                this.tempDao.function.methodName = this.flowDetail.actionOnData;
+                this.tempDao.function.parameter = `${this.entitySchema.fileName}Id, callback`;
+                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findById`;
+                this.tempDao.function.query = `${this.entitySchema.fileName}Id`;
                 break;
             case 'GpDeleteByParentId':
                 break;

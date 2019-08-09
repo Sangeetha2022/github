@@ -212,6 +212,10 @@ export class ServiceWorker {
             case 'GpCustom':
                 break;
             case 'GpGetNounById':
+                this.tempService.function.methodName = this.flowDetail.actionOnData;
+                this.tempService.function.requestParameter = `${this.entitySchema.fileName}Id`
+                this.tempService.function.responseVariable = `response`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Id = req.params.id`;
                 break;
             case 'GpDeleteByParentId':
                 break;

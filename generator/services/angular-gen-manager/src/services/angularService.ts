@@ -19,10 +19,20 @@ export class AngularService {
         // more desktop screens in one features
         const temp = JSON.parse(req.body.desktop[0]['gjs-components'][0]);
         console.log('create angular html metadata ---@#$$$$--full temp--    ', details.desktop[0].screenName);
-        generateHtmlWorker.generate(temp, details.desktop[0], details.desktop[0].screenName, details, (response) => {
-            console.log('angular service  response are 0-----  ', response);
-            callback(response);
-        });
+        details.desktop.forEach((featureScreenElement, index) => {
+            generateHtmlWorker.generate(JSON.parse(featureScreenElement['gjs-components'][0]), featureScreenElement['gjs-css'], featureScreenElement, featureScreenElement.screenName, details, (response) => {
+                console.log('angular service  response are -----  ', response);
+                if (index == details.desktop.length - 1) {
+                    generateHtmlWorker.modifyDependency(details, (response) => {
+                        callback(response);
+                    })
+                }
+            });
+        })
+        // generateHtmlWorker.generate(temp, details.desktop[0], details.desktop[0].screenName, details, (response) => {
+        //     console.log('angular service  response are 0-----  ', response);
+        //     callback(response);
+        // });
         // console.log('create angular html metadata ---@#$$$$--33--    ', temp.length);
         // console.log('create angular html metadata ---@#$$$$--44--    ', temp[0]);
 

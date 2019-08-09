@@ -20,7 +20,7 @@ export class DependencyWorker {
                 file.splice(pathIndex - 1, 0, information.routePath[elementIndex]);
             })
         }
-        console.log('insert other dependency app routing file are -----  ', file.join(`\n`));
+        console.log('insert dependency app routing file are -----  ', file.join(`\n`));
          this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.APP_ROUTING_FILENAME,
             file.join(`\n`), (response) => { })
     }

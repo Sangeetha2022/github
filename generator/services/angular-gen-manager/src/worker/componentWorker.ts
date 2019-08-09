@@ -98,7 +98,7 @@ export class ComponentWorker {
             });
     }
 
-    public generateComponentService(applicationPath, templatePath, componentName, information, endpoints, callback) {
+    public generateComponentService(applicationPath, templatePath, componentName, information, callback) {
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
@@ -118,7 +118,7 @@ export class ComponentWorker {
         //     this.routeModule.importDependency.push(importDependencyPath);
         //     this.routeModule.routePath.push(`{ path: '${temp.folderName.toLowerCase()}', component: ${temp.className}Component, canActivate: [AuthGuard] },`);
         // }
-        flowServiceWorker.generateServiceComponentFlow(information, temp, endpoints);
+        flowServiceWorker.generateServiceComponentFlow(information, temp);
         console.log('component service worker are ----  ', temp);
         componentSupportWorker.generateComponent(applicationPath, templatePath,
             `${componentName.toLowerCase()}.${Constant.SERVICE_EXTENSION}.${Constant.TS_EXTENSION}`,
@@ -133,7 +133,7 @@ export class ComponentWorker {
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
-            tag: []
+            tag: information
         }
         componentSupportWorker.generateComponent(applicationPath, templatePath,
             `${componentName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}.${Constant.SCSS_EXTENSION}`,
