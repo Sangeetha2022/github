@@ -43,6 +43,7 @@ export class CommonWorker {
     // private TEMPLATENAME: String = 'template';
 
     private isTemplate: Boolean = false;
+    private templateName: String = '';
 
     private NAV_CLASS_NAME: String = 'list-group panel';
     private STATE_SUCCESS_CLASSNAME: String = 'state-success';
@@ -100,6 +101,7 @@ export class CommonWorker {
 
     generateAngularTemplate(generationPath, templatePath, templateName, menuList, callback) {
         console.log('headerobject before create are --TEMPLATENAME--------   ', templateName);
+        this.templateName = templateName;
         if (this.templateHeaderObj.tag.length === 0 && this.templateHeaderObj.css.length === 0) {
             let headerNav = constant.sideBar.htmlTag[0].replace(this.CHANGENAME, templateName.toUpperCase().replace('TEMPLATE', ''));
             let loadHeaderNav = '';
@@ -118,8 +120,8 @@ export class CommonWorker {
                             if (menuElement.featuremenu[0].name.feature != this.DEFAULT_FEATURENAME) {
                                 // menu.parent.push(menuElement.featuremenu[0].description.feature);
                                 mainNav.push(`<li>
-                                <a href="#${menuElement.featuremenu[0].name.feature}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text">${menuElement.featuremenu[0].name.feature}</a>
-                                <ul class="collapse list-unstyled" id="${menuElement.featuremenu[0].name.feature}">`)
+                                <a href="#${menuElement.featuremenu[0].name.feature.replace(' ','')}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text">${menuElement.featuremenu[0].name.feature}</a>
+                                <ul class="collapse list-unstyled" id="${menuElement.featuremenu[0].name.feature.replace(' ','')}">`)
                                 if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
                                     menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
                                         // const temp = {
@@ -190,7 +192,7 @@ export class CommonWorker {
         return componentWorker.createHeaderComponent(generationPath, templatePath, this.templateHeaderObj, (response) => {
             return componentWorker.createTemplateComponent(generationPath, templatePath, this.templateMainObj, (response) => {
                 return componentWorker.createFooterComponent(generationPath, templatePath, this.templateFooterObj, (response) => {
-                    return componentWorker.generateAppComponentHtml(generationPath, templatePath, (response) => {
+                    return componentWorker.generateAppComponentHtml(generationPath, templatePath, this.templateName, (response) => {
                         callback('angular template files are generated')
                     });
 
@@ -216,7 +218,7 @@ export class CommonWorker {
 
     }
 
-     createHeaderHtml(metaData, navMenu) {
+    createHeaderHtml(metaData, navMenu) {
         this.startTag = [];
         this.endTag = [];
         this.navMenu = navMenu;
@@ -404,9 +406,9 @@ export class CommonWorker {
                     element.menuDetails.forEach(menuElement => {
                         if (menuElement.featuremenu[0].name.feature != this.DEFAULT_FEATURENAME) {
                             mainNav.push(`<div class="list-group panel">
-                            <${this.ANCHOR_TAG} href="#${menuElement.featuremenu[0].name.feature}" class="list-group-item list-group-item-success" data-toggle="collapse"
+                            <${this.ANCHOR_TAG} href="#${menuElement.featuremenu[0].name.feature.replace(' ','')}" class="list-group-item list-group-item-success" data-toggle="collapse"
                               data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></${this.ANCHOR_TAG}>
-                            <div class="collapse" id="${menuElement.featuremenu[0].name.feature}">`);
+                            <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ','')}">`);
                             if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
                                 menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
                                     mainNav.push(`<${this.ANCHOR_TAG} class="list-group-item" [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>`);

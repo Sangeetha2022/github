@@ -8,7 +8,7 @@ export class FlowServiceWorker {
     private componentName: String = null;
     private currentFlow: any = null;
     private serviceFileDetails: any;
-    private endPointList: any[] = [];
+    private endPointList: any;
 
     private sharedObject = {
         className: `${Constant.SHARED_FILENAME.charAt(0).toUpperCase() + Constant.SHARED_FILENAME.slice(1)}${Constant.SERVICE_EXTENSION.charAt(0).toUpperCase() + Constant.SERVICE_EXTENSION.slice(1).toLowerCase()}`,
@@ -26,11 +26,11 @@ export class FlowServiceWorker {
         path: `rxjs`
     }
 
-    generateServiceComponentFlow(serviceObject, temp, endPointList) {
+    generateServiceComponentFlow(serviceObject, temp) {
         this.serviceObject = serviceObject;
         this.componentName = temp.folderName;
         this.serviceFileDetails = temp;
-        this.endPointList = endPointList;
+        this.endPointList = serviceObject.apiEndPoints;
         console.log('endpoint list in flow service worker  are ----  ', this.endPointList);
         this.checkConnector();
         console.log('final services file datesil are ----  ', this.serviceFileDetails);
@@ -58,20 +58,23 @@ export class FlowServiceWorker {
         if (this.checkMicroFlowSteps(Constant.COMPONENT_CODETOADD_MICROFLOW) &&
             this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
             if (connectorType == Constant.DEFAULT_CONNECTOR_NAME) {
-                if (Array.isArray(this.endPointList)) {
-                    this.endPointList.forEach(endpointElement => {
-                        this.addEndPointApis(endpointElement);
-                    });
-                } else {
-                    this.addEndPointApis(this.endPointList);
-                }
+                // if (Array.isArray(this.endPointList.flowMethod)) {
+                //     this.endPointList.flowMethod.forEach(endpointElement => {
+                //         this.addEndPointApis(endpointElement);
+                //     });
+                // } else {
+                //     this.addEndPointApis(this.endPointList.flowMethod);
+                // }
+                // this.endPointList.forEach(endPointElement => {
+                //     this.addEndPointApis(endPointElement);
+                // })
+                this.addEndPointApis();
             }
         }
     }
 
-    private addEndPointApis(endPointObject) {
-        console.log('add end point object are ---- ', endPointObject);
-        endPointObject.flowAction.forEach(actionElement => {
+    private addEndPointApis() {
+        this.endPointList.forEach(actionElement => {
             let temp = `${actionElement.methodName}(${actionElement.variableName}: any): ${this.observableObject.className}<any> {`;
             temp += `\n    return this.${this.httpObject.object}.${actionElement.apiAction}(this.${this.sharedObject.object}.apiGateway + ${this.checkApiParams(actionElement)});`;
             temp += `\n}`;
@@ -92,10 +95,14 @@ export class FlowServiceWorker {
             case 'post':
                 return `'/${Constant.DESKTOP_ROUTE}${actionElement.routeUrl}', ${actionElement.variableName}`;
             case 'put':
+                const temp = actionElement.routeUrl.split(':');
+                console.log('put apiaction routeUrl ----  ', temp);
                 return `'/${Constant.DESKTOP_ROUTE}${actionElement.routeUrl}', ${actionElement.variableName}`;
             case 'get':
                 return `'/${Constant.DESKTOP_ROUTE}${actionElement.routeUrl}', ${actionElement.variableName}`;
             case 'delete':
+                const delTemp = actionElement.routeUrl.split(':');
+                console.log('delete apiaction routeUrl ----  ', delTemp);
                 return `'/${Constant.DESKTOP_ROUTE}${actionElement.routeUrl}', ${actionElement.variableName}`;
             default:
                 break;

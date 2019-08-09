@@ -1,6 +1,7 @@
 import * as util from 'util';
 import { ComponentSupportWorker } from '../supportworker/componentSupportWorker';
 import { AssetWorker } from './assetWorker';
+import { templateScreen } from '../assets/headerComponent';
 
 let componentSupportWorker = new ComponentSupportWorker();
 let assetWorker = new AssetWorker();
@@ -199,7 +200,7 @@ export class ComponentWorker {
 
 
 
-    public generateAppComponentHtml(generationPath, templatePath, callback) {
+    public generateAppComponentHtml(generationPath, templatePath, templateName, callback) {
         const temp = {
             folderName: this.APP_FOLDERNAME,
             scriptVariable: [],
@@ -207,9 +208,28 @@ export class ComponentWorker {
             componentMethod: [],
             tagArray: []
         }
-        temp.tagArray.push({ name: `app-${this.HEADER_FOLDERNAME}`, isHeaderFooter: true });
-        temp.tagArray.push({ name: `router-outlet`, isHeaderFooter: false });
-        temp.tagArray.push({ name: `app-${this.FOOTER_FOLDERNAME}`, isHeaderFooter: true });
+        // app html 
+        temp.tagArray.push({ name: `app-${this.HEADER_FOLDERNAME}`, isHeaderFooter: true, isRouter: false });
+        temp.tagArray.push({ name: `router-outlet`, isHeaderFooter: false, isRouter: true });
+        temp.tagArray.push({ name: `app-${this.FOOTER_FOLDERNAME}`, isHeaderFooter: true, isRouter: false });
+        // app css 
+        console.log('app css template name are ----  ', templateName);
+        const findTemplate = templateScreen.find(x => x.name == templateName);
+        console.log('findedtemplate are --- ----  ', findTemplate);
+        let constructCSS = [];
+        if (findTemplate) {
+            findTemplate.styles.forEach(styleElement => {
+                constructCSS.push(`${styleElement.name} {`);
+                styleElement.css.forEach(cssElement => {
+                    constructCSS.push(`${cssElement.cssName}: ${cssElement.cssValue};`);
+                })
+                constructCSS.push(`}`);
+                constructCSS.push();
+            })
+        } else {
+            // need to add the default css in app components
+        }
+
         return componentSupportWorker.generateAppComponentHtml(generationPath, templatePath,
             this.APP_HTML_TEMPLATE_NAME, temp, (response) => {
                 const tempInfo = {
@@ -217,7 +237,15 @@ export class ComponentWorker {
                 }
                 return componentSupportWorker.generateAppComponentTs(generationPath, templatePath,
                     this.APP_COMPONENT_TEMPLATE_NAME, tempInfo, (response) => {
-                        callback('app component html file are generated');
+                        const tempStyle = {
+                            folderName: this.APP_FOLDERNAME,
+                            css: constructCSS
+                        }
+                        console.log('temp style are -----   ', tempStyle);
+                        return componentSupportWorker.generateAppComponentSCSS(generationPath, templatePath,
+                            this.COMPONENT_SCSS_TEMPLATE_NAME, tempStyle, (response) => {
+                                callback('app component html file are generated');
+                            })
                     })
             })
 

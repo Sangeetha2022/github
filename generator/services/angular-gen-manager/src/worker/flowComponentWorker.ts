@@ -51,33 +51,75 @@ export class FlowComponentWorker {
         switch (this.currentFlow.actionOnData) {
             case Constant.GP_CREATE_FLOW:
                 console.log('check request method are -----  ', this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW));
-                let temp = `${this.currentFlow.name}() {`;
+                let createTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    temp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
-                    temp += `\n  .subscribe(`;
-                    temp += `\n    data => {`;
-                    temp += `\n       console.log('data created successfully');`;
-                    temp += `\n    },`;
-                    temp += `\n    error => {`;
-                    temp += `\n       console.log('cannot able to create the data');`;
-                    temp += `\n    }`;
-                    temp += `\n    );`;
+                    createTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
+                    createTemp += `\n  .subscribe(`;
+                    createTemp += `\n    data => {`;
+                    createTemp += `\n       console.log('data created successfully');`;
+                    createTemp += `\n    },`;
+                    createTemp += `\n    error => {`;
+                    createTemp += `\n       console.log('cannot able to create the data');`;
+                    createTemp += `\n    }`;
+                    createTemp += `\n    );`;
                     // calling constructor methods
                     this.addConstructor(`${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}`, serviceClassName);
 
                     // calling component headers
                     this.componentHeaders(headers.className, headers.path);
                 }
-                temp += `\n}`;
+                createTemp += `\n}`;
                 // component methods
-                this.componentFileDetails.componentMethod.push(temp);
-                console.log('create component are -----  ', temp);
+                this.componentFileDetails.componentMethod.push(createTemp);
+                console.log('create component are -----  ', createTemp);
                 break;
             case Constant.GP_SEARCH_FLOW:
                 break;
             case Constant.GP_UPDATE_FLOW:
+                let updateTemp = `${this.currentFlow.name}() {`;
+                if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
+                    updateTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
+                    updateTemp += `\n  .subscribe(`;
+                    updateTemp += `\n    data => {`;
+                    updateTemp += `\n       console.log('data updated successfully --- ', data);`;
+                    updateTemp += `\n    },`;
+                    updateTemp += `\n    error => {`;
+                    updateTemp += `\n       console.log('cannot able to update the data --- ', error);`;
+                    updateTemp += `\n    }`;
+                    updateTemp += `\n    );`;
+                    // calling constructor methods
+                    this.addConstructor(`${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}`, serviceClassName);
+
+                    // calling component headers
+                    this.componentHeaders(headers.className, headers.path);
+                }
+                updateTemp += `\n}`;
+                // component methods
+                this.componentFileDetails.componentMethod.push(updateTemp);
+                console.log('update component are -----  ', updateTemp);
                 break;
             case Constant.GP_DELETE_FLOW:
+                let deleteTemp = `${this.currentFlow.name}() {`;
+                if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
+                    deleteTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
+                    deleteTemp += `\n  .subscribe(`;
+                    deleteTemp += `\n    data => {`;
+                    deleteTemp += `\n       console.log('data deleted successfully --- ', data);`;
+                    deleteTemp += `\n    },`;
+                    deleteTemp += `\n    error => {`;
+                    deleteTemp += `\n       console.log('cannot able to delete the data --- ', error);`;
+                    deleteTemp += `\n    }`;
+                    deleteTemp += `\n    );`;
+                    // calling constructor methods
+                    this.addConstructor(`${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}`, serviceClassName);
+
+                    // calling component headers
+                    this.componentHeaders(headers.className, headers.path);
+                }
+                deleteTemp += `\n}`;
+                // component methods
+                this.componentFileDetails.componentMethod.push(deleteTemp);
+                console.log('delete component are -----  ', deleteTemp);
                 break;
             case Constant.GP_GETALLVALUES_FLOW:
                 break;
@@ -110,6 +152,27 @@ export class FlowComponentWorker {
             case Constant.GP_CUSTOM_FLOW:
                 break;
             case Constant.GP_GETNOUNBYID_FLOW:
+                let getByIdTemp = `${this.currentFlow.name}() {`;
+                if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
+                    getByIdTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
+                    getByIdTemp += `\n  .subscribe(`;
+                    getByIdTemp += `\n    data => {`;
+                    getByIdTemp += `\n       console.log('data deleted successfully --- ', data);`;
+                    getByIdTemp += `\n    },`;
+                    getByIdTemp += `\n    error => {`;
+                    getByIdTemp += `\n       console.log('cannot able to delete the data --- ', error);`;
+                    getByIdTemp += `\n    }`;
+                    getByIdTemp += `\n    );`;
+                    // calling constructor methods
+                    this.addConstructor(`${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}`, serviceClassName);
+
+                    // calling component headers
+                    this.componentHeaders(headers.className, headers.path);
+                }
+                getByIdTemp += `\n}`;
+                // component methods
+                this.componentFileDetails.componentMethod.push(getByIdTemp);
+                console.log('getByIdTemp component are -----  ', getByIdTemp);
                 break;
             case Constant.GP_DELETEBYPARENTID_FLOW:
                 break;
@@ -138,6 +201,7 @@ export class FlowComponentWorker {
 
     private addComponentVariable() {
         this.componentObject.variableList.forEach(element => {
+            // for entities variable in component.ts
             const entitiesObject = this.entities.find(x => x._id == element.entityId && x.entity_type == Constant.PRIMARY_NAME);
             console.log('entitiesObject are ------  ', entitiesObject);
             if (entitiesObject) {
@@ -147,6 +211,9 @@ export class FlowComponentWorker {
                 })
                 temp += `\n}`
                 this.componentFileDetails.componentVariable.push(temp);
+            } else {
+                // for other variable in component.ts
+                this.componentFileDetails.componentVariable.push(element);
             }
         })
     }

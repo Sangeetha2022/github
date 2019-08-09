@@ -69,7 +69,7 @@ export class RouteWorker {
 
     gpStart(RoutesObj) {
         this.tempRoutes.GpStart.dependencies = [];
-         const controllerIndex = RoutesObj.import.dependencies.findIndex(x => x.path == `../controller/${this.entitySchema.fileName}Controller`);
+        const controllerIndex = RoutesObj.import.dependencies.findIndex(x => x.path == `../controller/${this.entitySchema.fileName}Controller`);
         if (controllerIndex < 0) {
             const tempImport = {
                 name: '',
@@ -79,7 +79,7 @@ export class RouteWorker {
             tempImport.path = `../controller/${this.entitySchema.fileName}Controller`;
             this.tempRoutes.GpStart.dependencies.push(tempImport);
         }
-  }
+    }
 
     gpVariableStatement(RoutesObj) {
         this.tempRoutes.GpVariable.insideClass = [];
@@ -94,7 +94,7 @@ export class RouteWorker {
                 parentName: []
             }
         }
- const insideClassIndex = RoutesObj.variable.insideClass.findIndex(x => x.parentName == `new ${this.entitySchema.fileName}Controller()`);
+        const insideClassIndex = RoutesObj.variable.insideClass.findIndex(x => x.parentName == `new ${this.entitySchema.fileName}Controller()`);
         if (insideClassIndex < 0) {
             const temp = {
                 variableName: '',
@@ -120,6 +120,7 @@ export class RouteWorker {
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpSearch':
+                // search and getNounById both are same
                 this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/get/:id`;
                 this.tempRoutes.function.apiAction = `get`;
                 this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
@@ -176,6 +177,10 @@ export class RouteWorker {
             case 'GpCustom':
                 break;
             case 'GpGetNounById':
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/get/:id`;
+                this.tempRoutes.function.apiAction = `get`;
+                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpDeleteByParentId':
                 break;

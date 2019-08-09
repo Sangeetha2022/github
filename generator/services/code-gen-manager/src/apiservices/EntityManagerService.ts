@@ -4,7 +4,7 @@ import { SharedService } from '../config/SharedService';
 export class EntityManagerService {
 
     getEntityById(entityId, callback) {
-        console.log('getflow by name ----- ', entityId);
+        console.log('getEntity by id ----- ', entityId);
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/entity/get/${entityId}`).then(
             data => {
                 callback(data);
