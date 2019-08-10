@@ -1,11 +1,12 @@
 import { Request, response } from 'express';
 import { SigninDao } from '../daos/SigninDao';
+const logger = require('../config/Logger');
 
 let signindao = new SigninDao();
 export class Signinservice {
 
     public signupservice(req: Request, callback) {
-        console.log('requst----->',req.body);
+        console.log('requst----->', req.body);
         const users = req.body;
         signindao.signindao(users, (response) => {
             callback(response);
@@ -13,6 +14,7 @@ export class Signinservice {
     }
 
     public loginservice(req: Request, callback) {
+        logger.info('Signinservice.ts : loginservice');
         const logindetails = req.body;
         console.log('------------loginrequest----', logindetails);
         signindao.logindao(logindetails, (response) => {
@@ -27,38 +29,38 @@ export class Signinservice {
         })
     }
 
-    public googleservice(req: Request,callback){
+    public googleservice(req: Request, callback) {
         const googledata = req.body;
-        signindao.googledao(googledata,(response) =>{
+        signindao.googledao(googledata, (response) => {
             callback(response);
         })
     }
 
-    public getalluserservice(req:Request,callback){
-        signindao.getalluserdao((response)=>{
+    public getalluserservice(req: Request, callback) {
+        signindao.getalluserdao((response) => {
             callback(response);
         })
     }
 
-    public getbyiduserservice(req:Request, callback){
+    public getbyiduserservice(req: Request, callback) {
         console.log('-------paramsid------', req.params.id);
         const userId = req.params.id;
-        signindao.getbyiduserdao(userId,(response)=>{
+        signindao.getbyiduserdao(userId, (response) => {
             callback(response);
         })
     }
 
-    public getrolesservice(req:Request,callback){
+    public getrolesservice(req: Request, callback) {
 
-        signindao.getrolesdao((response)=>{
+        signindao.getrolesdao((response) => {
             callback(response);
         })
     }
 
-    public updateuserservice(req:Request,callback){
+    public updateuserservice(req: Request, callback) {
         const userdetails = req.body;
 
-        signindao.updateuserdao(userdetails,(response)=>{
+        signindao.updateuserdao(userdetails, (response) => {
             callback(response);
         })
     }

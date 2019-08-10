@@ -1,11 +1,11 @@
 import { Request, Response, response } from 'express';
 import { Signinservice } from '../service/Signinservice';
+const logger = require('../config/Logger');
 
 let signinservice = new Signinservice;
 export class Signincontroller {
 
     public signup(req: Request, res: Response) {
-
         signinservice.signupservice(req, (response) => {
             res.status(201);
             res.json(response);
@@ -13,6 +13,7 @@ export class Signincontroller {
     }
 
     public login(req: Request, res: Response) {
+        logger.info('Signincontroller.ts : login');
         signinservice.loginservice(req, (response) => {
             res.status(200);
             res.json(response);

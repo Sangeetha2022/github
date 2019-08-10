@@ -6,6 +6,7 @@ import { Resourceschema } from '../model/resource';
 const request = require('request');
 const resourcemodel = mongoose.model('resource', Resourceschema);
 import { SharedService } from '../config/Sharedservice';
+const logger = require('../config/Logger');
 
 
 let listofresources = [];
@@ -17,7 +18,7 @@ export class CamundaService {
     constructor() { }
 
     public camundarequest(req: Request, callback): void {
-
+        logger.info('Camundaservice.ts : camundarequest');
         resourcemodel.find().then((result) => {
             asyncLoop(result, (resource, next) => {
                 if(resource.resources === 'Landing'){
@@ -42,6 +43,7 @@ export class CamundaService {
     }
 
     public camundaauthorization() {
+        logger.info('Camundaservice.ts : camundaauthorization');
         console.log('----------resource-----', this.resourcevalue);
         var body = {
             "variables": {

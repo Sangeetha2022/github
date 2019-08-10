@@ -1,11 +1,12 @@
 import mongoose = require('mongoose');
-import { UserSchema } from '../models/User';
+import { Userschema } from '../models/User';
 import { Roleschema } from '../models/Role';
 import * as jwt from 'jsonwebtoken';
 import * as asyncLoop from 'node-async-loop';
 var jwtDecode = require('jwt-decode');
+const logger = require('../config/Logger');
 
-const signinmodel = mongoose.model('User', UserSchema);
+const signinmodel = mongoose.model('User', Userschema);
 const rolemodel = mongoose.model('role', Roleschema);
 export class SigninDao {
 
@@ -80,6 +81,8 @@ export class SigninDao {
     }
 
     public logindao(logindetails, callback) {
+        logger.info('SigninDao.ts : logindao');
+        logger.info('response send to apigateway');
         signinmodel.findOneAndUpdate({ email: logindetails.email, password: logindetails.password }, { $set: { loggedinDate: new Date() } }, function (err, response) {
             if (err) {
                 callback(err);
