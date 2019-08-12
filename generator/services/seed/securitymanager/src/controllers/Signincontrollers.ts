@@ -6,6 +6,7 @@ let signinservice = new Signinservice;
 export class Signincontroller {
 
     public signup(req: Request, res: Response) {
+        logger.info('Signincontroller.ts : signup');
         signinservice.signupservice(req, (response) => {
             res.status(201);
             res.json(response);

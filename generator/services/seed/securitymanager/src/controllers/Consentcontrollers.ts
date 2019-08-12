@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Consentservice } from '../service/consentservice';
+const logger = require('../config/Logger');
 
 let consentservice = new Consentservice;
 

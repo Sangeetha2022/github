@@ -6,7 +6,7 @@ let signindao = new SigninDao();
 export class Signinservice {
 
     public signupservice(req: Request, callback) {
-        console.log('requst----->', req.body);
+        logger.info('Signinservice.ts : signupservice');
         const users = req.body;
         signindao.signindao(users, (response) => {
             callback(response);
@@ -16,7 +16,6 @@ export class Signinservice {
     public loginservice(req: Request, callback) {
         logger.info('Signinservice.ts : loginservice');
         const logindetails = req.body;
-        console.log('------------loginrequest----', logindetails);
         signindao.logindao(logindetails, (response) => {
             callback(response)
         });
@@ -43,7 +42,6 @@ export class Signinservice {
     }
 
     public getbyiduserservice(req: Request, callback) {
-        console.log('-------paramsid------', req.params.id);
         const userId = req.params.id;
         signindao.getbyiduserdao(userId, (response) => {
             callback(response);

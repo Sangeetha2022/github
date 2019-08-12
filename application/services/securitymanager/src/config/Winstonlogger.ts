@@ -28,7 +28,7 @@ export class WinstonLogger {
                 new (winston.transports.DailyRotateFile)({
                     level: 'info',
                     dirname: logDir,
-                    filename: logDir + 'api-%DATE%.log',
+                    filename: logDir + '/api-%DATE%.log',
                     datePattern: 'YYYY-MM-DD',
                     zippedArchive: false,
                     prepend: true,

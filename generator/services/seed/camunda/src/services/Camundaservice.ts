@@ -5,8 +5,8 @@ import * as mongoose from 'mongoose';
 import { Resourceschema } from '../model/resource';
 const request = require('request');
 const resourcemodel = mongoose.model('resource', Resourceschema);
-import { SharedService } from '../config/Sharedservice';
 const logger = require('../config/Logger');
+import { camundaService } from '../config/camundaService';
 
 
 let listofresources = [];
@@ -21,15 +21,14 @@ export class CamundaService {
         logger.info('Camundaservice.ts : camundarequest');
         resourcemodel.find().then((result) => {
             asyncLoop(result, (resource, next) => {
-                if(resource.resources === 'Landing'){
-                    console.log('------ifcondition-loop-----', resource.resources);
+                if (resource.resources === 'home') {
                     this.resourcevalue = resource.resources;
                 }
                 listofresources.push(resource.resources);
                 next();
             }, async (err) => {
                 if (err) {
-                    console.log('----------erro----', err);
+                    return err;
                 }
                 else {
                     let camundaresponse = await this.camundaauthorization();
@@ -37,27 +36,24 @@ export class CamundaService {
                 }
             })
         }).catch((error) => {
-            console.log('------Error--------', error);
+            return error;
         })
 
     }
 
     public camundaauthorization() {
         logger.info('Camundaservice.ts : camundaauthorization');
-        console.log('----------resource-----', this.resourcevalue);
         var body = {
             "variables": {
                 "resources": { "value": `${this.resourcevalue}`, "type": "String" },
-                "resourcetype":{"value":"Screen", "type":"String"}
+                "resourcetype": { "value": "Screen", "type": "String" }
             }
         }
         // var geturl = 'http://3.92.72.204:32676/engine-rest/engine/default/decision-definition/count';
-        var posturl = `${SharedService.camundaURL}/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate`;
+        const postUrl = `${camundaService.camundaUrl}/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate`;
 
         return new Promise(resolve => {
-            request.post({ url: posturl, json: body }, function (error, response, body) {
-                console.log('------error---------', error);
-                console.log('------responsebody---------', body);
+            request.post({ url: postUrl, json: body }, function (error, response, body) {
                 var responsebody = JSON.stringify(body);
                 var finaldata = JSON.parse(responsebody);
                 var responsevalue = finaldata[0];

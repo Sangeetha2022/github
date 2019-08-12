@@ -1,5 +1,6 @@
 import { Request } from 'express';
 import { ConsentDao } from '../daos/ConsentDao';
+const logger = require('../config/Logger');
 
 let consentdao = new ConsentDao();
 

@@ -5,6 +5,7 @@ import * as jwt from 'jsonwebtoken';
 
 const signinmodel = mongoose.model('User', Userschema);
 const rolemodel = mongoose.model('role', Roleschema)
+const logger = require('../config/Logger');
 
 export class ConsentDao {
     public consentdao(consentdata, callback) {

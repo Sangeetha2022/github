@@ -3,7 +3,7 @@ import * as jwt from 'jsonwebtoken';
 import * as request from 'request';
 
 import { Signinschema } from '../model/Signin';
-import * as Constants from '../config/Constants';
+import * as Constants from '../config/constants';
 const logger = require('../config/Logger');
 
 const signinmodel = mongoose.model('Signin', Signinschema);
