@@ -1,10 +1,10 @@
 import mongoose = require('mongoose');
-import { Userschema } from '../models/User';
+import { UserSchema } from '../models/User';
 import { Roleschema } from '../models/Role';
 import * as jwt from 'jsonwebtoken';
 const logger = require('../config/Logger');
 
-const signinmodel = mongoose.model('User', Userschema);
+const signinmodel = mongoose.model('User', UserSchema);
 const rolemodel = mongoose.model('role', Roleschema)
 
 export class ConsentDao {
