@@ -19,6 +19,9 @@ const logger = createLogger({
   // change level if in dev environment versus production
   level: env === 'development' ? 'verbose' : 'info',
   format: format.combine(
+    format.label({ label: 'gep-dev-camunda-api' }),
+    format.colorize(),
+    format.json(),
     format.timestamp({
       format: 'YYYY-MM-DD HH:mm:ss'
     }),
