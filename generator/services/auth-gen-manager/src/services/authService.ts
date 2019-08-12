@@ -57,7 +57,6 @@ export class AuthService {
     private SECURITY_FOLDERNAME = 'securitymanager';
 
     public auth(req: Request, callback) {
-        // console.log('i am project ********** --->>>>', req.query);
         // console.log('path ---- >>>', req.query.projectName);
         this.sourcePath = this.authGenFiles.projectpath = req.query.projectPath;
         this.authGenFiles.templatepath = req.query.authTemplate;
@@ -79,6 +78,7 @@ export class AuthService {
                 fs.mkdirSync(this.sourcePath);
             }
         }
+
 
         this.authGenFiles.securityPath = `${this.authGenFiles.pathFile}/${this.SECURITY_FOLDERNAME}`;
         this.authGenFiles.authProxyPath = `${this.authGenFiles.pathFile}/${this.AUTH_PROXY_FOLDERNAME}`;
@@ -239,13 +239,16 @@ export class AuthService {
                                 if (err) {
                                     return (err)
                                 }
-                                else {
-                                    fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
-                                        fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
-                                            return (err)
-                                        })
-                                    })
-                                }
+                            })
+                        })
+                        fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
+                            fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
+                                return (err)
+                            })
+                        })
+                        fs.readFile(`${srcFolder}/${x}/Logger.ts`, 'utf8', (err, flowloggerFile) => {
+                            fs.writeFile(config + `/Logger.ts`, flowloggerFile, (err) => {
+                                return (err)
                             })
                         })
                     }
@@ -411,13 +414,17 @@ export class AuthService {
                             fs.writeFile(config + `/Mongoconfig.ts`, mongoconfigFile, (err) => {
                                 if (err) {
                                     return (err)
-                                } else {
-                                    fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
-                                        fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
-                                            return (err)
-                                        })
-                                    })
                                 }
+                            })
+                        })
+                        fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
+                            fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
+                                return (err)
+                            })
+                        })
+                        fs.readFile(`${srcFolder}/${x}/Logger.ts`, 'utf8', (err, flowloggerFile) => {
+                            fs.writeFile(config + `/Logger.ts`, flowloggerFile, (err) => {
+                                return (err)
                             })
                         })
                     } else if (x === 'assets') {
@@ -562,13 +569,17 @@ export class AuthService {
                             fs.writeFile(config + `/Mongoconfig.ts`, mongoconfigFile, (err) => {
                                 if (err) {
                                     return (err)
-                                } else {
-                                    fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
-                                        fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
-                                            return (err)
-                                        })
-                                    })
                                 }
+                            })
+                        })
+                        fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
+                            fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
+                                return (err)
+                            })
+                        })
+                        fs.readFile(`${srcFolder}/${x}/Logger.ts`, 'utf8', (err, flowloggerFile) => {
+                            fs.writeFile(config + `/Logger.ts`, flowloggerFile, (err) => {
+                                return (err)
                             })
                         })
                     } else if (x === 'dmnDeploye') {

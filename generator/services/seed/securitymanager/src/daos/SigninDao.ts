@@ -4,6 +4,7 @@ import { Roleschema } from '../models/Role';
 import * as jwt from 'jsonwebtoken';
 import * as asyncLoop from 'node-async-loop';
 var jwtDecode = require('jwt-decode');
+const logger = require('../config/Logger');
 
 const signinmodel = mongoose.model('User', UserSchema);
 const rolemodel = mongoose.model('role', Roleschema);
@@ -15,16 +16,16 @@ export class SigninDao {
     private userDetails: any;
     private mailboolean: boolean;
     public signindao(userData, callback) {
+        logger.info('SigninDao.ts : signupservice');
         rolemodel.find().then(result => {
             asyncLoop(result, (roles, next) => {
                 if (roles.role === 'Standarduser') {
                     this.signuprole = roles._id;
-                    console.log('signuprole---->', this.signuprole)
                 }
                 next();
             }, (err) => {
                 if (err) {
-                    console.log('----------erro----', err);
+                    return err;
                 }
             })
 
@@ -38,9 +39,7 @@ export class SigninDao {
                 'Idtoken': '',
                 'installrToken': userData.installrToken
             };
-            console.log('userdetails---->', this.userDetails)
             signinmodel.find().then(data => {
-                console.log('----------------data-------->>>', data.length);
                 if (data.length !== 0) {
                     asyncLoop(data, (users, next) => {
                         if (users.email === this.userDetails.email) {
@@ -51,7 +50,7 @@ export class SigninDao {
                         next();
                     }, (error) => {
                         if (error) {
-                            console.log('----------erro----', error);
+                            return error;
                         }
                     });
                     if (this.mailboolean === true) {
@@ -80,6 +79,8 @@ export class SigninDao {
     }
 
     public logindao(logindetails, callback) {
+        logger.info('SigninDao.ts : logindao');
+        logger.info('response send to apigateway');
         signinmodel.findOneAndUpdate({ email: logindetails.email, password: logindetails.password }, { $set: { loggedinDate: new Date() } }, function (err, response) {
             if (err) {
                 callback(err);
@@ -107,22 +108,18 @@ export class SigninDao {
 
         rolemodel.find().then((result) => {
             asyncLoop(result, (roles, next) => {
-                console.log('--------roles----', roles);
                 if (roles.role === 'Standarduser') {
                     this.userrole = roles._id;
                     this.rolevalue = roles.role;
-                    console.log('--------id-----', roles._id);
                 }
                 next();
             }, (err) => {
                 if (err) {
-                    console.log('----------erro----', err);
+                    return err;
                 }
             })
-            console.log('------googleuser------->>>', this.userrole);
             // @ts-ignore
             let token = jwtDecode(googledata.idtoken);
-            console.log('----decodedtoken---->>>', token);
             const userobject = {
                 'firstname': token.given_name,
                 'lastname': token.family_name,
@@ -133,7 +130,6 @@ export class SigninDao {
             };
             let googlelogin = new signinmodel(userobject);
             googlelogin.save().then((result) => {
-                console.log('---------googleuser--->>>>', result);
                 var payload = {
                     username: result.username,
                     firstname: result.firstname,
@@ -188,7 +184,6 @@ export class SigninDao {
 
     public updateuserdao(updateuser, callback) {
 
-        console.log('------updateuserindaoe-----', updateuser);
 
         var payload = {
             username: updateuser.email,
@@ -197,14 +192,14 @@ export class SigninDao {
             email: updateuser.email,
             id: updateuser.id,
             role: updateuser.role.role,
-            installrToken : updateuser.installrToken
+            installrToken: updateuser.installrToken
         }
         var idtoken = jwt.sign(payload, 'geppettosecret', {
             expiresIn: 86400
         });
 
-        signinmodel.findByIdAndUpdate(updateuser.id, {$set: { username: updateuser.username, firstname: updateuser.firstname,lastname:updateuser.lastname,email:updateuser.email,role:updateuser.role._id,Idtoken:idtoken,installrToken: updateuser.installrToken }},(err,response)=>{
-            if(err){
+        signinmodel.findByIdAndUpdate(updateuser.id, { $set: { username: updateuser.username, firstname: updateuser.firstname, lastname: updateuser.lastname, email: updateuser.email, role: updateuser.role._id, Idtoken: idtoken, installrToken: updateuser.installrToken } }, (err, response) => {
+            if (err) {
                 callback(err);
             }
             var updaterespone = {
@@ -215,7 +210,7 @@ export class SigninDao {
                 id: updateuser.id,
                 role: updateuser.role._id,
                 Idtoken: idtoken,
-                installrToken : updateuser.installrToken
+                installrToken: updateuser.installrToken
             }
             callback(updaterespone);
         })
