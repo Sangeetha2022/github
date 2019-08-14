@@ -149,6 +149,7 @@ export class ProjectsComponent implements OnInit {
     this.displayModel = 'none';
     this.delmodal = 'none';
     this.submitted = false;
+    this.isProjectExit = false;
     this.createProject.clearValidators();
     this.createProject.reset();
   }
