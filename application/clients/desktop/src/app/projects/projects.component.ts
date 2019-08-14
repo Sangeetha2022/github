@@ -50,6 +50,8 @@ export class ProjectsComponent implements OnInit {
   public scopes: any;
   public states: any;
   public lang: any;
+  public isProjectExit: boolean = false;
+  public projectName: String = '';
   public defaultscreenvalue: any;
   gepTemplates: any = [];
   constructor(
@@ -192,8 +194,8 @@ export class ProjectsComponent implements OnInit {
     this.router.navigate(['/project-component'], { queryParams: { projectId: project._id } });
   }
 
-  projectCreate() {
-
+  async projectCreate() {
+    this.isProjectExit = false;
 
     this.submitted = true;
 
@@ -201,6 +203,8 @@ export class ProjectsComponent implements OnInit {
       return;
 
     }
+    this.projectName = this.createProject.value.name.toLowerCase();
+
     console.log("jeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", this.createProject.value.name.toLowerCase());
     const dataToSave = {
 
@@ -263,52 +267,70 @@ export class ProjectsComponent implements OnInit {
       isTemplate: true,
     };
 
-    this.projectsService.addProject(dataToSave).subscribe(data => {
+    this.projectsService.getMyAllProjects(this.UserId).subscribe(async (data) => {
       if (data) {
-        templateDetailsToSave.project = data._id;
-        this.created_date = data.created_date;
-        this.screenDesignerService.saveScreen(templateDetailsToSave).subscribe(screenData => {
+        this.myAllProjects = data;
+        await this.myAllProjects.forEach(userProjects => {
+          if (userProjects.name === this.projectName) {
+            this.isProjectExit = true;
+            console.log('=============', this.isProjectExit)
+          }
         });
-        this.dataService.setProjectInfo(data);
-        // create default entity
-        this.projectsService.createProjectDefaults(data._id).subscribe(
-          (defaultRes) => {
-          }, (error) => { });
-        // create default screens
-        this.projectsService.createDefaultScreens(data._id).subscribe(
-          (defaultscreen) => {
-            this.defaultscreenvalue = defaultscreen;
-          }, (error) => {
-            console.error('Error:', error);
+        if (!this.isProjectExit) {
+          this.projectsService.addProject(dataToSave).subscribe(data => {
+            if (data) {
+              templateDetailsToSave.project = data._id;
+              this.created_date = data.created_date;
+              this.screenDesignerService.saveScreen(templateDetailsToSave).subscribe(screenData => {
+              });
+              this.dataService.setProjectInfo(data);
+              // create default entity
+              this.projectsService.createProjectDefaults(data._id).subscribe(
+                (defaultRes) => {
+                }, (error) => { });
+              // create default screens
+              this.projectsService.createDefaultScreens(data._id).subscribe(
+                (defaultscreen) => {
+                  this.defaultscreenvalue = defaultscreen;
+                }, (error) => {
+                  console.error('Error:', error);
+                });
+              // create default menus
+              console.log('create project values are ------- ', dataToSave);
+              this.projectsService.createDefaultMenu(
+                data._id,
+                dataToSave.default_human_language,
+                dataToSave.other_human_languages
+              ).subscribe(
+                (defaultMenuResponse) => {
+                }, (error) => { });
+              // this.defaultEntity.user_id = "12345"
+              // this.defaultEntity.user_name = "david",
+              // this.defaultEntity.project_id = data._id;
+              // this.defaultEntity.project_name = data.name;
+              // this.defaultEntity.project_description = data.description;
+
+              // console.log("i am the entity u want",this.defaultEntity)
+              // this.entityManagerService.addDefaultEntity(this.defaultEntity).subscribe(data=>{
+              //   this.dataService.setDefaultEntityInfo(data)
+              // }),(error)=>{
+              //   console.log(error);
+              // }
+
+            }
+            this.getAllMyProjects();
+          }, error => {
+            console.log('Check the browser console to see more info.', 'Error!');
           });
-        // create default menus
-        console.log('create project values are ------- ', dataToSave);
-        this.projectsService.createDefaultMenu(
-          data._id,
-          dataToSave.default_human_language,
-          dataToSave.other_human_languages
-        ).subscribe(
-          (defaultMenuResponse) => {
-          }, (error) => { });
-        // this.defaultEntity.user_id = "12345"
-        // this.defaultEntity.user_name = "david",
-        // this.defaultEntity.project_id = data._id;
-        // this.defaultEntity.project_name = data.name;
-        // this.defaultEntity.project_description = data.description;
 
-        // console.log("i am the entity u want",this.defaultEntity)
-        // this.entityManagerService.addDefaultEntity(this.defaultEntity).subscribe(data=>{
-        //   this.dataService.setDefaultEntityInfo(data)
-        // }),(error)=>{
-        //   console.log(error);
-        // }
-
+          this.onCloseHandled();
+        }
       }
-      this.getAllMyProjects();
+      console.log('--------myprojects----', this.myAllProjects);
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });
-    this.onCloseHandled();
+    console.log('===============', this.isProjectExit)
   }
 
   // generation

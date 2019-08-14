@@ -95,6 +95,7 @@
                   <div *ngIf="form_control.name.errors.required">special characters are not allowed only
                     {{'require_name' | i18next}}</div>
                 </div>
+                <div *ngIf="isProjectExit" style="color: red">project name already exist</div>
               </div>
             </div>
             <div class="col-md-6">
