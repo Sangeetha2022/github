@@ -6,87 +6,87 @@ let signinservice = new Signinservice;
 export class Signincontroller {
 
     public signup(req: Request, res: Response) {
-        logger.info('Enter into signup');
+        logger.info('Enter into Signincontrollers.ts: signup');
         signinservice.signupservice(req, (response) => {
             res.status(201);
             res.json(response);
-            logger.info('Exit from signup');
+            logger.info('Exit from Signincontrollers.ts: signup');
         })
     }
 
     public login(req: Request, res: Response) {
-        logger.info('Enter into login');
+        logger.info('Enter into Signincontrollers.ts: login');
         signinservice.loginservice(req, (response) => {
             res.status(200);
             res.json(response);
-            logger.info('Exit from login');
+            logger.info('Exit from Signincontrollers.ts: login');
 
         })
 
     }
 
     public logout(req: Request, res: Response) {
-        logger.info('Enter into logout');
+        logger.info('Enter into Signincontrollers.ts: logout');
 
         signinservice.logoutservice(req, (response) => {
             res.status(200);
             res.json(response);
-            logger.info('Exit from logout');
+            logger.info('Exit from Signincontrollers.ts: logout');
 
         })
     }
 
     public googlecontroller(req: Request, res: Response) {
-        logger.info('Enter into googlecontroller');
+        logger.info('Enter into Signincontrollers.ts: googlecontroller');
 
         signinservice.googleservice(req, (response) => {
             res.status(200);
             res.json(response);
-            logger.info('Exit from googlecontroller');
+            logger.info('Exit from Signincontrollers.ts: googlecontroller');
 
         })
     }
 
     public getallusers(req: Request, res: Response) {
-        logger.info('Enter into getallusers');
+        logger.info('Enter into Signincontrollers.ts: getallusers');
 
         signinservice.getalluserservice(req, (response) => {
             res.status(200);
             res.json(response);
-            logger.info('Exit from getallusers');
+            logger.info('Exit from Signincontrollers.ts: getallusers');
 
         });
     }
 
     public getuserbyid(req: Request, res: Response) {
-        logger.info('Enter into getuserbyid');
+        logger.info('Enter into Signincontrollers.ts: getuserbyid');
 
         signinservice.getbyiduserservice(req, (response) => {
             res.status(200);
             res.json(response);
-            logger.info('Exit from getuserbyid');
+            logger.info('Exit from Signincontrollers.ts: getuserbyid');
 
         })
     }
 
     public getallroles(req: Request, res: Response) {
-        logger.info('Enter into getallroles');
+        logger.info('Enter into Signincontrollers.ts: getallroles');
 
         signinservice.getrolesservice(req, (response) => {
             res.status(200);
             res.json(response);
-            logger.info('Exit from getallroles');
+            logger.info('Exit from Signincontrollers.ts: getallroles');
 
         })
     }
 
     public updateuser(req: Request, res: Response) {
-        logger.info('Enter into updateuser');
+        logger.info('Enter into Signincontrollers.ts: updateuser');
 
         signinservice.updateuserservice(req, (response) => {
             res.status(200);
             res.json(response);
-            logger.info('Exit from updateuser');
+            logger.info('Exit from Signincontrollers.ts: updateuser');
 
         })
     }

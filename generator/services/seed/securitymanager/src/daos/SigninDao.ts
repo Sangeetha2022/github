@@ -16,7 +16,7 @@ export class SigninDao {
     private userDetails: any;
     private mailboolean: boolean;
     public signindao(userData, callback) {
-        logger.info('Enter into signindao');
+        logger.info('Enter into SigninDao.ts: signindao');
         rolemodel.find().then(result => {
             asyncLoop(result, (roles, next) => {
                 if (roles.role === 'Standarduser') {
@@ -56,12 +56,12 @@ export class SigninDao {
                     if (this.mailboolean === true) {
                         var mailresponse = 'Email is already exists';
                         callback(mailresponse);
-                        logger.info('Exit from signindao');
+                        logger.info('Exit from SigninDao.ts: signindao');
                     } else {
                         let logincreds = new signinmodel(this.userDetails);
                         logincreds.save().then((result) => {
                             callback(result);
-                            logger.info('Exit from signindao');
+                            logger.info('Exit from SigninDao.ts: signindao');
                         }).catch((error) => {
                             callback(error);
                         })
@@ -70,7 +70,7 @@ export class SigninDao {
                     let logincreds = new signinmodel(this.userDetails);
                     logincreds.save().then((result) => {
                         callback(result);
-                        logger.info('Exit from signindao');
+                        logger.info('Exit from SigninDao.ts: signindao');
 
                     }).catch((error) => {
                         callback(error);
@@ -83,7 +83,7 @@ export class SigninDao {
     }
 
     public logindao(logindetails, callback) {
-        logger.info('Enter into logindao');
+        logger.info('Enter into SigninDao.ts: logindao');
         signinmodel.findOneAndUpdate({ email: logindetails.email, password: logindetails.password }, { $set: { loggedinDate: new Date() } }, function (err, response) {
             if (err) {
                 callback(err);
@@ -91,31 +91,31 @@ export class SigninDao {
             if (response === null) {
                 response = 'Incorrect Username or Password';
                 callback(response);
-                logger.info('Exit from logindao');
+                logger.info('Exit from SigninDao.ts: logindao');
 
             } else {
                 callback(response);
-                logger.info('Exit from logindao');
+                logger.info('Exit from SigninDao.ts: logindao');
 
             }
         })
     }
 
     public logoutdao(userid, callback) {
-        logger.info('Enter into logoutdao');
+        logger.info('Enter into SigninDao.ts: logoutdao');
 
         signinmodel.findByIdAndUpdate(userid, { $set: { loggedoutDate: new Date() } }, function (err, result) {
             if (err) {
                 callback(err);
             }
             callback(result);
-            logger.info('Exit from logoutdao');
+            logger.info('Exit from SigninDao.ts: logoutdao');
 
         })
     }
 
     public googledao(googledata, callback) {
-        logger.info('Enter into googledao');
+        logger.info('Enter into SigninDao.ts: googledao');
 
         rolemodel.find().then((result) => {
             asyncLoop(result, (roles, next) => {
@@ -158,7 +158,7 @@ export class SigninDao {
                     }
                     response.Idtoken = idtoken;
                     callback(response);
-                    logger.info('Exit from googledao');
+                    logger.info('Exit from SigninDao.ts: googledao');
 
                 });
             });
@@ -168,13 +168,13 @@ export class SigninDao {
     }
 
     public getalluserdao(callback) {
-        logger.info('Enter into getalluserdao');
+        logger.info('Enter into SigninDao.ts: getalluserdao');
 
         signinmodel.find().populate({
             path: 'role', model: rolemodel
         }).then(result => {
             callback(result);
-            logger.info('Exit from getalluserdao');
+            logger.info('Exit from SigninDao.ts: getalluserdao');
 
         }).catch((error => {
             callback(error);
@@ -182,13 +182,13 @@ export class SigninDao {
     }
 
     public getbyiduserdao(userId, callback) {
-        logger.info('Enter into getbyiduserdao');
+        logger.info('Enter into SigninDao.ts: getbyiduserdao');
 
         signinmodel.findById(userId).populate({
             path: 'role', model: rolemodel
         }).then(result => {
             callback(result);
-            logger.info('Exit from getbyiduserdao');
+            logger.info('Exit from SigninDao.ts: getbyiduserdao');
 
         }).catch((error => {
             callback(error);
@@ -196,11 +196,11 @@ export class SigninDao {
     }
 
     public getrolesdao(callback) {
-        logger.info('Enter into getrolesdao');
+        logger.info('Enter into SigninDao.ts: getrolesdao');
 
         rolemodel.find().then(result => {
             callback(result);
-            logger.info('Exit from getrolesdao');
+            logger.info('Exit from SigninDao.ts: getrolesdao');
 
         }).catch((error) => {
             callback(error);
@@ -208,7 +208,7 @@ export class SigninDao {
     }
 
     public updateuserdao(updateuser, callback) {
-        logger.info('Enter into updateuserdao');
+        logger.info('Enter into SigninDao.ts: updateuserdao');
 
 
         var payload = {
@@ -239,7 +239,7 @@ export class SigninDao {
                 installrToken: updateuser.installrToken
             }
             callback(updaterespone);
-            logger.info('Exit from updateuserdao');
+            logger.info('Exit from SigninDao.ts: updateuserdao');
 
         })
     }

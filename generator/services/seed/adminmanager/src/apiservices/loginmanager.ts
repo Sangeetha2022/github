@@ -5,11 +5,11 @@ const logger = require('../config/Logger');
 export class Loginmanagerservice {
 
     getallUser(callback) {
-        logger.info('Enter into getallUser');
+        logger.info('Enter into loginmanager.ts: getallUser');
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/getallusers`).then(
             data => {
                 callback(data);
-        logger.info('Exit from getallUser');
+        logger.info('Exit from loginmanager.ts: getallUser');
 
             }
         ).catch(error => {
@@ -18,11 +18,11 @@ export class Loginmanagerservice {
     }
 
     getuserbyid(id,callback) {
-        logger.info('Enter into getuserbyid');
+        logger.info('Enter into loginmanager.ts: getuserbyid');
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/getuser/${id}`).then(
             data => {
                 callback(data);
-        logger.info('Exit from getuserbyid');
+        logger.info('Exit from loginmanager.ts: getuserbyid');
 
             }
         ).catch(error => {
@@ -32,11 +32,11 @@ export class Loginmanagerservice {
     }
 
     getallroles(callback) {
-        logger.info('Enter into getallroles');
+        logger.info('Enter into loginmanager.ts: getallroles');
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/getallroles`).then(
             data => {
                 callback(data);
-        logger.info('Exit from getallroles');
+        logger.info('Exit from loginmanager.ts: getallroles');
 
             }
         ).catch(error => {
@@ -45,11 +45,11 @@ export class Loginmanagerservice {
     }
 
     Updateuser(body,callback) {
-        logger.info('Enter into Updateuser');
+        logger.info('Enter into loginmanager.ts: Updateuser');
         new ApiAdaptar().put(`${SharedService.apiGatewayURL}/desktop/updateuser`,body).then(
             data => {
                 callback(data);
-        logger.info('Exit from Updateuser');
+        logger.info('Exit from loginmanager.ts: Updateuser');
 
             }
         ).catch(error => {

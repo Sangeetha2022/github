@@ -7,12 +7,12 @@ let proxyservice = new Proxyservice;
 export class Proxycontroller {
 
     public usercontroller(req: Request, res: Response) {
-        logger.info('Enter into usercontroller');
+        logger.info('Enter into ProxyController.ts: usercontroller');
         var userdetails = req.body;
         proxyservice.userservice(userdetails, (response) => {
             res.status(200);
             res.json(response);
-            logger.info('Exit from usercontroller');
+            logger.info('Exit from ProxyController.ts: usercontroller');
         })
     }
 }

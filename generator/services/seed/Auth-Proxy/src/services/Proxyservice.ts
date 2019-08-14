@@ -7,10 +7,10 @@ let proxydao = new Proxydao;
 export class Proxyservice {
 
     public userservice(userdetails, callback) {
-        logger.info('Enter into userservice');
+        logger.info('Enter into Proxyservice.ts: userservice');
         proxydao.userdao(userdetails, (response) => {
             callback(response);
-            logger.info('Exit from userservice');
+            logger.info('Exit from Proxyservice.ts: userservice');
         })
     }
 }
