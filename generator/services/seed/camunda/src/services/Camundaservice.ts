@@ -18,7 +18,7 @@ export class CamundaService {
     constructor() { }
 
     public camundarequest(req: Request, callback): void {
-        logger.info('Camundaservice.ts : camundarequest');
+        logger.info('Enter into camundarequest');
         resourcemodel.find().then((result) => {
             asyncLoop(result, (resource, next) => {
                 if (resource.resources === 'home') {
@@ -33,6 +33,7 @@ export class CamundaService {
                 else {
                     let camundaresponse = await this.camundaauthorization();
                     callback(camundaresponse);
+                    logger.info('Exit from camundarequest');
                 }
             })
         }).catch((error) => {
@@ -42,7 +43,7 @@ export class CamundaService {
     }
 
     public camundaauthorization() {
-        logger.info('Camundaservice.ts : camundaauthorization');
+        logger.info('Enter into camundaauthorization');
         var body = {
             "variables": {
                 "resources": { "value": `${this.resourcevalue}`, "type": "String" },
@@ -51,6 +52,7 @@ export class CamundaService {
         }
         // var geturl = 'http://3.92.72.204:32676/engine-rest/engine/default/decision-definition/count';
         const postUrl = `${camundaService.camundaUrl}/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate`;
+        logger.info('Exit from camundaauthorization');
 
         return new Promise(resolve => {
             request.post({ url: postUrl, json: body }, function (error, response, body) {

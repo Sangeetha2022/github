@@ -183,22 +183,30 @@ export class AdminServcie {
                             fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
                                 if (err) {
                                     return (err)
-                                } else {
-                                    fs.readFile(`${srcFile}/${x}/Sharedservice.ts`, 'utf8', (err, SharedserviceFile) => {
-                                        fs.writeFile(config + `/Sharedservice.ts`, SharedserviceFile, (err) => {
-                                            if (err) {
-                                                return (err)
-                                            } else {
-                                                fs.readFile(`${srcFile}/${x}/ApiAdaptar.ts`, 'utf8', (err, ApiAdaptarFile) => {
-                                                    fs.writeFile(config + `/ApiAdaptar.ts`, ApiAdaptarFile, (err) => {
-                                                        if (err) {
-                                                            return (err)
-                                                        }
-                                                    })
-                                                })
-                                            }
-                                        })
-                                    })
+                                }
+                            })
+                        })
+
+                        fs.readFile(`${srcFile}/${x}/Sharedservice.ts`, 'utf8', (err, SharedserviceFile) => {
+                            fs.writeFile(config + `/Sharedservice.ts`, SharedserviceFile, (err) => {
+                                if (err) {
+                                    return (err)
+                                }
+                            })
+                        })
+
+                        fs.readFile(`${srcFile}/${x}/Logger.ts`, 'utf8', (err, loggerFile) => {
+                            fs.writeFile(config + `/Logger.ts`, loggerFile, (err) => {
+                                if (err) {
+                                    return (err)
+                                }
+                            })
+                        })
+
+                        fs.readFile(`${srcFile}/${x}/ApiAdaptar.ts`, 'utf8', (err, ApiAdaptarFile) => {
+                            fs.writeFile(config + `/ApiAdaptar.ts`, ApiAdaptarFile, (err) => {
+                                if (err) {
+                                    return (err)
                                 }
                             })
                         })
