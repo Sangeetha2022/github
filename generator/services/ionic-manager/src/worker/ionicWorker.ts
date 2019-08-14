@@ -4,10 +4,6 @@ import { IonicSupportWorker } from '../supportworker/ionicSupportWorker';
 
 export class IonicWorker {
     private ionicSupportWorker = new IonicSupportWorker();
-    private projectGenerationPath = '';
-    private seedPath = '';
-    private authTemplatePath = '';
-    private routingMenus: any = [];
 
     private ionicFolderpath = 'ionic/img';
     private homeFolderpath = 'ionic/home';
@@ -15,14 +11,13 @@ export class IonicWorker {
     private landingFolderpath = 'ionic/landing';
     private appFolderpath = 'ionic/app';
     private loginserviceFolderpath = 'ionic/login-service';
-    private providersfolder = 'providers'
 
 
     assetImages(projectDetails, callback) {
         const Details = projectDetails;
         const imgPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/assets/imgs`;
         console.log("imgPath----->", imgPath);
-        const seedPath = Details.project.seedTemplatePath
+        const seedPath = Details.project.templateLocation.authTemplatePath
         this.generateImg(imgPath, this.ionicFolderpath, seedPath);
         callback();
     }
@@ -31,7 +26,7 @@ export class IonicWorker {
         const Details = projectDetails;
         const homePath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/pages/home`;
         console.log("homecomponentPath----->", homePath);
-        const seedPath = Details.project.seedTemplatePath
+        const seedPath = Details.project.templateLocation.authTemplatePath
         this.generateStaticComponent(homePath, this.homeFolderpath, seedPath);
         callback();
     }
@@ -40,7 +35,7 @@ export class IonicWorker {
         const Details = projectDetails;
         const loginPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/pages/login`;
         console.log("logincomponentPath----->", loginPath);
-        const seedPath = Details.project.seedTemplatePath
+        const seedPath = Details.project.templateLocation.authTemplatePath
         this.generateStaticComponent(loginPath, this.loginFolderpath, seedPath);
         callback();
     }
@@ -49,7 +44,7 @@ export class IonicWorker {
         const Details = projectDetails;
         const landingPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/landing`;
         console.log("landingcomponentPath----->", landingPath);
-        const seedPath = Details.project.seedTemplatePath
+        const seedPath = Details.project.templateLocation.authTemplatePath
         this.generateStaticComponent(landingPath, this.landingFolderpath, seedPath);
         callback();
     }
@@ -58,7 +53,7 @@ export class IonicWorker {
         const Details = projectDetails;
         const appPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/app/`;
         console.log("appcomponentPath----->", appPath);
-        const seedPath = Details.project.seedTemplatePath
+        const seedPath = Details.project.templateLocation.authTemplatePath
         this.generateStaticComponent(appPath, this.appFolderpath, seedPath);
         callback();
     }
@@ -69,7 +64,7 @@ export class IonicWorker {
         Common.createFolders(providersPath);
         const loginservicePath = `${providersPath}/login-service`;
         console.log("loginservicePath----->", loginservicePath);
-        const seedPath = Details.project.seedTemplatePath
+        const seedPath = Details.project.templateLocation.authTemplatePath
         this.generateStaticComponent(loginservicePath, this.loginserviceFolderpath, seedPath);
         callback();
     }
