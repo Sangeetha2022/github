@@ -11,7 +11,7 @@ const signinmodel = mongoose.model('Signin', Signinschema);
 export class Proxydao {
 
     public userdao(userdetails, callback) {
-        logger.info('Proxydao.ts : userdao');
+        logger.info('Enter into userdao');
 
         var role = userdetails.role;
         var jsonbody = {
@@ -22,13 +22,13 @@ export class Proxydao {
                 }
             }
         }
-        logger.info('calling the camunda microservice');
         var posturl = `${Constants.camundaUrl}/accesslevel`
 
         var camundaresponse = [];
         request.post({ url: posturl, json: jsonbody }, function (error, response, body) {
             camundaresponse.push(body);
             callback(camundaresponse);
+            logger.info('Exit from userdao');
         })
     }
 }

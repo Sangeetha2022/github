@@ -7,10 +7,11 @@ let camunda = new CamundaService;
 export class CamundaController {
 
     public camundacontroller (req: Request, res: Response){
-        logger.info('Camundacontroller.ts : camundacontroller');
+        logger.info('Enter into camundacontroller');
         camunda.camundarequest(req,(response) => {
             res.status(200);
-            res.json(response)    
+            res.json(response)  
+        logger.info('Exit from camundacontroller');
         })
     }
 }

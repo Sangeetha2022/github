@@ -16,7 +16,7 @@ export class SigninDao {
     private userDetails: any;
     private mailboolean: boolean;
     public signindao(userData, callback) {
-        logger.info('SigninDao.ts : signupservice');
+        logger.info('Enter into signindao');
         rolemodel.find().then(result => {
             asyncLoop(result, (roles, next) => {
                 if (roles.role === 'Standarduser') {
@@ -56,10 +56,12 @@ export class SigninDao {
                     if (this.mailboolean === true) {
                         var mailresponse = 'Email is already exists';
                         callback(mailresponse);
+                        logger.info('Exit from signindao');
                     } else {
                         let logincreds = new signinmodel(this.userDetails);
                         logincreds.save().then((result) => {
                             callback(result);
+                            logger.info('Exit from signindao');
                         }).catch((error) => {
                             callback(error);
                         })
@@ -68,6 +70,8 @@ export class SigninDao {
                     let logincreds = new signinmodel(this.userDetails);
                     logincreds.save().then((result) => {
                         callback(result);
+                        logger.info('Exit from signindao');
+
                     }).catch((error) => {
                         callback(error);
                     })
@@ -79,8 +83,7 @@ export class SigninDao {
     }
 
     public logindao(logindetails, callback) {
-        logger.info('SigninDao.ts : logindao');
-        logger.info('response send to apigateway');
+        logger.info('Enter into logindao');
         signinmodel.findOneAndUpdate({ email: logindetails.email, password: logindetails.password }, { $set: { loggedinDate: new Date() } }, function (err, response) {
             if (err) {
                 callback(err);
@@ -88,23 +91,31 @@ export class SigninDao {
             if (response === null) {
                 response = 'Incorrect Username or Password';
                 callback(response);
+                logger.info('Exit from logindao');
+
             } else {
                 callback(response);
+                logger.info('Exit from logindao');
+
             }
         })
     }
 
     public logoutdao(userid, callback) {
+        logger.info('Enter into logoutdao');
 
         signinmodel.findByIdAndUpdate(userid, { $set: { loggedoutDate: new Date() } }, function (err, result) {
             if (err) {
                 callback(err);
             }
             callback(result);
+            logger.info('Exit from logoutdao');
+
         })
     }
 
     public googledao(googledata, callback) {
+        logger.info('Enter into googledao');
 
         rolemodel.find().then((result) => {
             asyncLoop(result, (roles, next) => {
@@ -147,6 +158,8 @@ export class SigninDao {
                     }
                     response.Idtoken = idtoken;
                     callback(response);
+                    logger.info('Exit from googledao');
+
                 });
             });
 
@@ -155,34 +168,47 @@ export class SigninDao {
     }
 
     public getalluserdao(callback) {
+        logger.info('Enter into getalluserdao');
+
         signinmodel.find().populate({
             path: 'role', model: rolemodel
         }).then(result => {
             callback(result);
+            logger.info('Exit from getalluserdao');
+
         }).catch((error => {
             callback(error);
         }))
     }
 
     public getbyiduserdao(userId, callback) {
+        logger.info('Enter into getbyiduserdao');
+
         signinmodel.findById(userId).populate({
             path: 'role', model: rolemodel
         }).then(result => {
             callback(result);
+            logger.info('Exit from getbyiduserdao');
+
         }).catch((error => {
             callback(error);
         }))
     }
 
     public getrolesdao(callback) {
+        logger.info('Enter into getrolesdao');
+
         rolemodel.find().then(result => {
             callback(result);
+            logger.info('Exit from getrolesdao');
+
         }).catch((error) => {
             callback(error);
         })
     }
 
     public updateuserdao(updateuser, callback) {
+        logger.info('Enter into updateuserdao');
 
 
         var payload = {
@@ -213,6 +239,8 @@ export class SigninDao {
                 installrToken: updateuser.installrToken
             }
             callback(updaterespone);
+            logger.info('Exit from updateuserdao');
+
         })
     }
 }
