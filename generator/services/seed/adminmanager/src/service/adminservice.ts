@@ -8,7 +8,7 @@ export class Adminservice {
     private loginservice = new Loginmanagerservice();
 
     public admin(req:Request, callback: CallableFunction){
-        logger.info('Enter into admin');
+        logger.info('Enter into adminservice.ts: admin');
 
         this.loginservice.getallUser((response) => {
             callback(response.body);
@@ -18,34 +18,34 @@ export class Adminservice {
     }
 
     public admingetuser(req:Request, callback:CallableFunction){
-        logger.info('Enter into admingetuser');
+        logger.info('Enter into adminservice.ts: admingetuser');
 
         const id = req.params.id
         this.loginservice.getuserbyid(id,(response)=>{
             callback(response.body);
-        logger.info('Exit from admingetuser');
+        logger.info('Exit from adminservice.ts: admingetuser');
 
         })
     }
 
     public admingetroles(req:Request,callback:CallableFunction){
-        logger.info('Enter into admingetroles');
+        logger.info('Enter into adminservice.ts: admingetroles');
 
         this.loginservice.getallroles((response)=>{
             callback(response.body);
-        logger.info('Exit from admingetroles');
+        logger.info('Exit from adminservice.ts: admingetroles');
 
         })
     }
 
     public adminupdateuser(req:Request, callback:CallableFunction){
-        logger.info('Enter into adminupdateuser');
+        logger.info('Enter into adminservice.ts: adminupdateuser');
 
         const userdetails = req.body;
 
         this.loginservice.Updateuser(userdetails,(response)=>{
             callback(response.body);
-        logger.info('Exit from adminupdateuser');
+        logger.info('Exit from adminservice.ts: adminupdateuser');
 
         })
     }

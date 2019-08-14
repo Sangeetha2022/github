@@ -6,11 +6,11 @@ let consentdao = new ConsentDao();
 
 export class Consentservice {
     public consentservice(req: Request, callback) {
-        logger.info('Enter into consentservice');
+        logger.info('Enter into consentservice.ts: consentservice');
         const consentbody = req.body;
         consentdao.consentdao(consentbody, (response) => {
             callback(response);
-            logger.info('Exit from Consentcontroller');
+            logger.info('Exit from consentservice.ts: Consentcontroller');
         });
 
     }

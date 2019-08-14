@@ -9,7 +9,7 @@ const rolemodel = mongoose.model('role', Roleschema)
 
 export class ConsentDao {
     public consentdao(consentdata, callback) {
-        logger.info('ConsentDao.ts : consentdao');
+        logger.info('Enter into ConsentDao.ts : consentdao');
 
         if (consentdata.scope === 'openid' && consentdata.submit === 'Allow access') {
             signinmodel.findById(consentdata.id).populate({
@@ -32,6 +32,7 @@ export class ConsentDao {
                     }
                     response.Idtoken = token;
                     callback(response);
+                    logger.info('Exit from ConsentDao.ts : consentdao');
                 });
             })
         }

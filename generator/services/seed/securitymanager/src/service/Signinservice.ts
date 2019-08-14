@@ -6,11 +6,11 @@ let signindao = new SigninDao();
 export class Signinservice {
 
     public signupservice(req: Request, callback) {
-        logger.info('Enter into signupservice');
+        logger.info('Enter into Signinservice.ts: signupservice');
         const users = req.body;
         signindao.signindao(users, (response) => {
             callback(response);
-            logger.info('Exit from signupservice');
+            logger.info('Exit from Signinservice.ts: signupservice');
 
         });
     }
@@ -20,74 +20,74 @@ export class Signinservice {
         const logindetails = req.body;
         signindao.logindao(logindetails, (response) => {
             callback(response)
-            logger.info('Exit from loginservice');
+            logger.info('Exit from Signinservice.ts: loginservice');
 
         });
     }
 
     public logoutservice(req: Request, callback) {
-        logger.info('Enter into logoutservice');
+        logger.info('Enter into Signinservice.ts: logoutservice');
 
         const user = req.body.id;
         signindao.logoutdao(user, (response) => {
             callback(response);
-            logger.info('Exit from logoutservice');
+            logger.info('Exit from Signinservice.ts: logoutservice');
 
         })
     }
 
     public googleservice(req: Request, callback) {
-        logger.info('Enter into googleservice');
+        logger.info('Enter into Signinservice.ts: googleservice');
 
         const googledata = req.body;
         signindao.googledao(googledata, (response) => {
             callback(response);
-            logger.info('Exit from googleservice');
+            logger.info('Exit from Signinservice.ts: googleservice');
 
         })
     }
 
     public getalluserservice(req: Request, callback) {
-        logger.info('Enter into getalluserservice');
+        logger.info('Enter into Signinservice.ts: getalluserservice');
 
         signindao.getalluserdao((response) => {
             callback(response);
-            logger.info('Exit from getalluserservice');
+            logger.info('Exit from Signinservice.ts: getalluserservice');
 
         })
     }
 
     public getbyiduserservice(req: Request, callback) {
-        logger.info('Enter into getbyiduserservice');
+        logger.info('Enter into Signinservice.ts: getbyiduserservice');
 
         const userId = req.params.id;
         signindao.getbyiduserdao(userId, (response) => {
 
             callback(response);
-            logger.info('Exit from getbyiduserservice');
+            logger.info('Exit from Signinservice.ts: getbyiduserservice');
 
         })
     }
 
     public getrolesservice(req: Request, callback) {
 
-        logger.info('Enter into getrolesservice');
+        logger.info('Enter into Signinservice.ts: getrolesservice');
 
         signindao.getrolesdao((response) => {
             callback(response);
-            logger.info('Exit from getrolesservice');
+            logger.info('Exit from Signinservice.ts: getrolesservice');
 
         })
     }
 
     public updateuserservice(req: Request, callback) {
-        logger.info('Enter into updateuserservice');
+        logger.info('Enter into Signinservice.ts: updateuserservice');
 
         const userdetails = req.body;
 
         signindao.updateuserdao(userdetails, (response) => {
             callback(response);
-            logger.info('Exit from updateuserservice');
+            logger.info('Exit from Signinservice.ts: updateuserservice');
 
         })
     }

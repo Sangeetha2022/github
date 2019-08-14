@@ -11,7 +11,7 @@ const signinmodel = mongoose.model('Signin', Signinschema);
 export class Proxydao {
 
     public userdao(userdetails, callback) {
-        logger.info('Enter into userdao');
+        logger.info('Enter into Proxydao.ts: userdao');
 
         var role = userdetails.role;
         var jsonbody = {
@@ -28,7 +28,7 @@ export class Proxydao {
         request.post({ url: posturl, json: jsonbody }, function (error, response, body) {
             camundaresponse.push(body);
             callback(camundaresponse);
-            logger.info('Exit from userdao');
+            logger.info('Exit from Proxydao.ts: userdao');
         })
     }
 }
