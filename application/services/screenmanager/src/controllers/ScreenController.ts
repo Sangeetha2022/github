@@ -13,6 +13,7 @@ export class ScreenController {
     }
 
     public getAllScreen(req: Request, res: Response) {
+        console.log('entering into get all screensare ')
         screenService.getAllScreen(req, (response) => {
             res.status(200);
             res.json(response);
@@ -43,7 +44,7 @@ export class ScreenController {
 
     public getAllScreenByProjectId(req: Request, res: Response) {
         screenService.getAllScreenByProjectId(req, (response) => {
-            console.log('screen response in controller aer ---- ', response);
+            // console.log('screen response in controller aer ---- ', response);
             res.status(200);
             res.json(response);
         })
@@ -59,6 +60,15 @@ export class ScreenController {
 
     public getAllScreenByFeatureId(req: Request, res: Response) {
         screenService.getAllScreenByFeatureId(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
+    public getTemplateByProjectId(req: Request, res: Response) {
+        console.log('entering into getscreentemplate in screencontroller')
+        screenService.getTemplateByProjectId(req, (response) => {
+            console.log('get template screens in controller aer ---- ', response.isTemplate);
             res.status(200);
             res.json(response);
         })

@@ -4,6 +4,7 @@ import { Constant } from "../config/Constant";
 import * as util from 'util';
 import { FlowComponentWorker } from "./flowComponentWorker";
 import { FlowServiceWorker } from "./flowServiceWorker";
+import * as componentDependency from '../assets/componentDependency';
 
 const componentSupportWorker = new ComponentSupportWorker();
 const dependencyWorker = new DependencyWorker();
@@ -26,24 +27,19 @@ export class ComponentWorker {
 
     private packageModule = [];
 
-    private componentObject: any;
-
-
-    private tscomponent = {
+    private moduleComponent = {
         importDependency: [],
-        importComponent: [],
-        scriptVariable: [],
-        componentVariable: [],
-        componentConstructorParams: [],
-        componentOnInit: [],
-        componentMethod: []
+        imports: [],
+        declarations: []
     }
 
-    initializedata() {
+    intializeRouteModule() {
         this.routeModule = {
             importDependency: [],
             routePath: []
         }
+    }
+    intializeAppModule() {
         this.appModule = {
             importDependency: [],
             declarations: [],
@@ -51,12 +47,13 @@ export class ComponentWorker {
             providers: [],
             bootstrap: []
         }
-
+    }
+    intializePackageModule() {
         this.packageModule = [];
     }
 
     public generateComponentHtml(applicationPath, templatePath, componentName, information, callback) {
-        this.initializedata();
+        console.log('before set routeModule HTML ts are -routeModule--->>  ', this.routeModule);
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
@@ -69,17 +66,20 @@ export class ComponentWorker {
             });
     }
     public generateComponentTs(applicationPath, templatePath, componentName, information, entities, callback) {
+        console.log('before set routeModule generate component ts are -routeModule--->>  ', this.routeModule);
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
             importDependency: [],
             importComponent: [],
+            importAsteriskDependency: [],
             scriptVariable: [],
             componentVariable: [],
             componentConstructorParams: [],
             componentOnInit: [],
             componentMethod: []
         }
+
         // this.componentObject = information;
         // add default import dependency path
         temp.importDependency.push({ dependencyName: 'Component, OnInit', dependencyPath: '@angular/core' });
@@ -90,7 +90,34 @@ export class ComponentWorker {
             this.routeModule.importDependency.push(importDependencyPath);
             this.routeModule.routePath.push(`{ path: '${temp.folderName.toLowerCase()}', component: ${temp.className}Component, canActivate: [AuthGuard] },`);
         }
+        // check other method and dependency in component 
+        if (information.otherMethodNames.length > 0) {
+            // modules
+            this.moduleComponent = {
+                importDependency: [],
+                imports: [],
+                declarations: []
+            }
+            information.otherMethodNames.forEach(otherElement => {
+                const findDependencies = componentDependency.component.find(x => x.name == otherElement);
+                if (findDependencies) {
+                    if (!temp.importAsteriskDependency.find(x => x.dependencyPath == findDependencies.componentDependencies[0].dependencyPath)) {
+                        // add component dependencies
+                        temp.importAsteriskDependency = temp.importAsteriskDependency.concat(findDependencies.componentDependencies);
+                        // dependencies variable list added
+                        information.dependenciesVariableList = information.dependenciesVariableList.concat(findDependencies.variableList);
+                        // add dependencies in component modules
+                        this.moduleComponent.importDependency = this.moduleComponent.importDependency.concat(findDependencies.module.dependencies);
+                        this.moduleComponent.imports = this.moduleComponent.imports.concat(findDependencies.module.imports);
+                        // add in package.json
+                        this.packageModule = this.packageModule.concat(findDependencies.packageDependencyList);
+
+                    }
+                }
+            })
+        }
         flowComponentWorker.generateComponentFlow(information, temp, entities);
+
         componentSupportWorker.generateComponent(applicationPath, templatePath,
             `${componentName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}.${Constant.TS_EXTENSION}`,
             Constant.TS_TEMPLATENAME, temp, (response) => {
@@ -99,6 +126,7 @@ export class ComponentWorker {
     }
 
     public generateComponentService(applicationPath, templatePath, componentName, information, callback) {
+        console.log('before set routeModule SERVICE ts are -routeModule--->>  ', this.routeModule);
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
@@ -127,7 +155,7 @@ export class ComponentWorker {
             });
     }
 
-    
+
 
     public generateComponentCss(applicationPath, templatePath, componentName, information, callback) {
         const temp = {
@@ -135,6 +163,8 @@ export class ComponentWorker {
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
             tag: information
         }
+        console.log('before set routeModule SCSS ts are -routeModule--->>  ', this.routeModule);
+        console.log('before generate component css are ----  ', temp);
         componentSupportWorker.generateComponent(applicationPath, templatePath,
             `${componentName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}.${Constant.SCSS_EXTENSION}`,
             Constant.CSS_TEMPLATENAME, temp, (response) => {
@@ -145,13 +175,13 @@ export class ComponentWorker {
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
-            importDependency: null,
-            imports: null,
-            declarations: null,
+            importDependency: [],
+            imports: [],
+            declarations: [],
             exports: null
         }
+        console.log('before set routeModule MODULE ts are -routeModule--->>  ', this.routeModule);
         // add default module dependency path
-        temp.importDependency = [];
         temp.importDependency.push({ dependencyName: 'NgModule', dependencyPath: '@angular/core' });
         temp.importDependency.push({ dependencyName: 'CommonModule', dependencyPath: '@angular/common' });
         temp.importDependency.push({ dependencyName: 'RouterModule', dependencyPath: '@angular/router' });
@@ -160,14 +190,19 @@ export class ComponentWorker {
         temp.importDependency.push({ dependencyName: `${temp.className}Component`, dependencyPath: `./${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}` });
 
         // imports default
-        temp.imports = [];
         temp.imports.push(`CommonModule`, `RouterModule`);
         // forms imports
         temp.imports.push(`FormsModule`, `ReactiveFormsModule`);
 
         // declarations default
-        temp.declarations = [];
         temp.declarations.push(`${temp.className}Component`)
+
+        // adding other component module dependencies
+        console.log('add other component modeules are ---- ', this.moduleComponent);
+        console.log('add other temp modeules are ---- ', temp);
+        temp.importDependency = temp.importDependency.concat(this.moduleComponent.importDependency);
+        temp.imports = temp.imports.concat(this.moduleComponent.imports);
+        temp.declarations = temp.declarations.concat(this.moduleComponent.declarations);
 
         // add component module in app.module.ts
         const moduleClassName = `${temp.className}Module`;
@@ -188,6 +223,7 @@ export class ComponentWorker {
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
             tag: []
         }
+        console.log('before set routeModule SPEC ts are -routeModule--->>  ', this.routeModule);
         componentSupportWorker.generateComponent(applicationPath, templatePath,
             `${componentName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}.${Constant.SPEC_EXTENSION}.${Constant.TS_EXTENSION}`,
             Constant.SPEC_TEMPLATENAME, temp, (response) => {
@@ -199,12 +235,17 @@ export class ComponentWorker {
         console.log('modify dependency in component workers are --111---- ');
         if (this.routeModule.routePath.length > 0) {
             dependencyWorker.modifyAppRouteFile(applicationPath, this.routeModule);
+            // this.routeModule.importDependency = [];
+            // this.routeModule.routePath = [];
+            this.intializeRouteModule();
         }
         if (this.appModule.importDependency.length > 0) {
             dependencyWorker.modifyAppModuleFile(applicationPath, this.appModule);
+            this.intializeAppModule();
         }
         if (this.packageModule.length > 0) {
             dependencyWorker.modifyPackageFile(packagePath, this.packageModule);
+            this.intializePackageModule();
         }
         console.log(' before callback dependency are ----2222--- ');
         callback();

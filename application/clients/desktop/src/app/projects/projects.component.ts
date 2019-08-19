@@ -192,6 +192,17 @@ export class ProjectsComponent implements OnInit {
   editProject(project) {
     console.log('edit project are --------- ', project);
     this.dataService.setProjectInfo(project);
+    this.screenDesignerService.getScreenTemplateByProjectId(project._id)
+      .subscribe(
+        data => {
+          console.log('after get the project template from the screens ----  ', data);
+          localStorage.setItem('stylesheets', JSON.stringify(data[0]['stylesheets']));
+          localStorage.setItem('scripts', JSON.stringify(data[0]['scripts']));
+          localStorage.setItem('css_guidelines', JSON.stringify(data[0]['css-guidelines']));
+        },
+        error => {
+          console.log('cannot able to get the project template');
+        });
     this.router.navigate(['/project-component'], { queryParams: { projectId: project._id } });
   }
 
@@ -263,6 +274,9 @@ export class ProjectsComponent implements OnInit {
       'gjs-styles': this.createProject.value.template['gjs-styles'],
       'gjs-html': this.createProject.value.template['gjs-html'],
       'gjs-components': this.createProject.value.template['gjs-components'],
+      'stylesheets': this.createProject.value.template['stylesheets'],
+      'scripts': this.createProject.value.template['scripts'],
+      'css-guidelines': this.createProject.value.template['css-guidelines'],
       screenName: this.createProject.value.template.name,
       project: '',
       isTemplate: true,

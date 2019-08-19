@@ -2,6 +2,9 @@ import * as util from 'util';
 import * as asyncForEach from 'async-foreach';
 import { ComponentWorker } from './componentWorker';
 import { Constant } from '../config/Constant';
+import * as componentDependency from '../assets/componentDependency';
+import { threadId } from 'worker_threads';
+// import { styles } from '../assets/cssGuidline';
 // import { RouteSupportWorker } from '../supportworker/RouteSupportWorker';
 
 // let routeSupportWorker = new RouteSupportWorker();
@@ -20,6 +23,11 @@ export class GenerateHtmlWorker {
     private isNotImportant: Boolean = false;
     private isContentOnly: Boolean = false;
 
+    private CKEDITOR_HTMLID_NAME = 'ckeditortextarea';
+    private TEXTAREA_TAGNAME = 'textarea';
+    private CKEDITOR_TAGNAME = 'ckeditor';
+    private CKEDITOR_SPAN_IDNAME = 'ckeditorspan';
+    private isCKeditorSpan = false;
 
     // entity and flows for Each screens
     private entityDetails = [];
@@ -32,49 +40,65 @@ export class GenerateHtmlWorker {
 
     private tsComponent = {
         variableList: [],
-        flowMethod: []
+        dependenciesVariableList: [],
+        flowMethod: [],
+        otherMethodNames: []
     }
 
     private serviceComponent = {
         variableList: [],
+        dependenciesVariableList: [],
         flowMethod: [],
         apiEndPoints: []
     }
 
     private componentStyle = [];
     private selectOption = `<option *ngFor="let option of option" [ngValue]="option.key">{{option.value}}</option>`;
+    private cssGuidelines = [];
+    private ckeditorEntities: any = null;
 
+    initializeData() {
+        // add cssGuidelines
+        this.cssGuidelines = [];
+    }
     generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
         this.startTag = [];
         this.endTag = [];
         // component
         this.tsComponent = {
             variableList: [],
-            flowMethod: []
+            dependenciesVariableList: [],
+            flowMethod: [],
+            otherMethodNames: []
         }
 
         // service
         this.serviceComponent = {
             variableList: [],
+            dependenciesVariableList: [],
             flowMethod: [],
             apiEndPoints: []
         }
+
         this.componentStyle = [];
         // add default styles
         this.componentStyle.push(screenStyles);
 
+
+        console.log('generatehtlmworker componentstyles are ----  ', this.componentStyle);
         this.entityDetails = screenDetails.entity_info;
         this.flowDetails = screenDetails.flows_info;
         // list of other dependencies
         this.entities = details.entities;
         this.flowList = details.flows;
         this.endPointList = details.nodeResponse;
+        this.cssGuidelines = details.cssGuidelines;
 
         this.generateHtml(metaData);
         // this.templateMainObj.tag = this.startTag;
         // this.TemplateTag = this.startTag;
         console.log('after completed all method in child startTag are   ', `${this.startTag.join(`\n`)}`);
-        console.log('tscomponent object are ------  ', util.inspect(this.tsComponent, { showHidden: true, depth: null }));
+        // console.log('tscomponent object are ------  ', util.inspect(this.tsComponent, { showHidden: true, depth: null }));
         this.generateComponent(componentName, details, callback);
         // this.generateComponent(componentName, details, (response) => {
         //     console.log('generateComponent vale in  are -----  ', )
@@ -85,19 +109,21 @@ export class GenerateHtmlWorker {
     }
 
     generateComponent(componentName, details, callback) {
-        console.log('generate component are ---- ', util.inspect(details, { showHidden: true, depth: null }));
-        console.log('html tag result in generate component are -----  ', this.startTag);
-        console.log('generate service component are -----  ', this.serviceComponent);
+        // console.log('generate component are ---- ', util.inspect(details, { showHidden: true, depth: null }));
+        // console.log('html tag result in generate component are -----  ', this.startTag);
+        // console.log('generate service component are -----  ', this.serviceComponent);
+        console.log('generatecomponent name in generatehtmlworkers are -----  ', componentName);
         const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
         const packagePath = details.projectGenerationPath;
         const templatePath = details.templateLocation.frontendTemplate;
         componentWorker.generateComponentHtml(applicationPath, templatePath, componentName, this.startTag, (response) => {
             componentWorker.generateComponentTs(applicationPath, templatePath, componentName, this.tsComponent, this.entities, (response) => {
                 componentWorker.generateComponentService(applicationPath, templatePath, componentName, this.serviceComponent, (response) => {
+                    // console.log('before calling generatecomponentcss from generatehtlm -----  ', this.componentStyle);
                     componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.componentStyle, (response) => {
                         componentWorker.generateComponentSpec(applicationPath, templatePath, componentName, this.startTag, (response) => {
                             componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.startTag, (response) => {
-                                console.log('component worker in generate component modeule in-----  ');
+                                // console.log('component worker in generate component modeule in-----  ');
                                 // this.modifyDependency(applicationPath, packagePath, callback)
                                 callback();
                             })
@@ -114,6 +140,7 @@ export class GenerateHtmlWorker {
         const packagePath = details.projectGenerationPath;
         componentWorker.modifyDependency(applicationPath, packagePath, (response) => {
             console.log('modify dependency response rare ----  ');
+            this.initializeData();
             callback({ Message: `Feature Screen created successfully` });
         })
     }
@@ -160,6 +187,7 @@ export class GenerateHtmlWorker {
         // console.log(`secondElE -22--${this.count}-- `, secondEle);
         this.tagName = '';
         this.startString = '';
+        this.isCKeditorSpan = false;
         if (firstEle && firstEle.hasOwnProperty('endTagName')) {
             this.startTag.push(`</${firstEle.endTagName}>`);
             this.getNextValue(secondEle);
@@ -193,7 +221,15 @@ export class GenerateHtmlWorker {
             if (!firstEle.hasOwnProperty('tagName') && !this.tagName) {
                 this.tagName = 'div';
             }
-            const className = this.getClassName(firstEle);
+            let className = this.getClassName(firstEle);
+
+            const defaultClassNames = this.addClassName('class');
+            if (defaultClassNames) {
+                if (!className.includes(defaultClassNames) && className.toLowerCase() != 'radio') {
+                    className += ` ${this.addClassName('class')}`;
+                }
+            }
+            // console.log('finded class name are -----  ', css[this.tagName]);
             // console.log('set each classNmaes are -------- ', className);
             if (className) {
                 if (className == Constant.STATE_SUCCESS_CLASSNAME || className == Constant.STATE_ERROR_CLASSNAME) {
@@ -202,7 +238,40 @@ export class GenerateHtmlWorker {
                     this.startString += `<${this.tagName} class='${className}'`
                 }
             }
+
+        } else {
+            const defaultClassNames = this.addClassName('class');
+            if (defaultClassNames) {
+                this.startString += `<${this.tagName} class='${defaultClassNames}'`
+            }
         }
+    }
+
+    addClassName(cssTypes) {
+        // additional
+        const cssGuides = this.cssGuidelines.find(x => x.tagName == this.tagName);
+        if (cssGuides) {
+            if (cssTypes == 'class') {
+                return cssGuides.className;
+            }
+        } else {
+            return null;
+        }
+        // if (this.tagName == 'form') {
+        //     return 'form';
+        // }
+        // if (this.tagName == 'input') {
+        //     return `form-control`;
+        // }
+        // if (this.tagName == 'select') {
+        //     return `form-control`;
+        // }
+        // if (this.tagName == 'textarea') {
+        //     return `form-control`;
+        // }
+        // if (this.tagName == 'button') {
+        //     return `btn btn-primary`;
+        // }
     }
 
     getClassName(firstEle) {
@@ -219,6 +288,13 @@ export class GenerateHtmlWorker {
         return temp;
     }
 
+    removeClassName(removeTagName) {
+        const temp = this.cssGuidelines.find(x => x.tagName == removeTagName);
+        if (temp) {
+            this.startString = this.startString.replace(temp.className, '');
+        }
+    }
+
 
     setAttributes(firstEle) {
         if (firstEle.hasOwnProperty('attributes') && this.tagName !== 'form') {
@@ -231,9 +307,13 @@ export class GenerateHtmlWorker {
                     // added previour
                     if (this.startString.includes('radio')) {
                         console.log('is radio buttone are -----  ', this.startString);
+                        this.removeClassName('input');
                         this.startString += ` ${element}='${firstEle.attributes[element]}'`;
                     } else {
                         this.startString += ` ${element}='${firstEle.name}'`;
+                    }
+                    if (this.startString.includes('checkbox')) {
+                        this.removeClassName('input');
                     }
                 } else {
                     if (this.tagName != 'base' && element === 'href' && firstEle.attributes[element] === Constant.HREF_BASE) {
@@ -261,39 +341,42 @@ export class GenerateHtmlWorker {
                 this.startString += `>`;
             }
         }
+        // checking and add the ckeditor5
+        console.log('each tagname are -----  ', this.tagName);
+        console.log('each startString are -----  ', this.startString);
+        if (this.tagName == this.TEXTAREA_TAGNAME && this.startString.includes(this.CKEDITOR_HTMLID_NAME)) {
+            console.log('entering into change textarea into ckeditor5 --- ', this.startString);
+            this.startString = this.startString.replace(this.tagName.toString(), this.CKEDITOR_TAGNAME);
+            const findckeditorDependencies = componentDependency.component.find(x => x.name == this.CKEDITOR_TAGNAME);
+            this.removeClassName('textarea');
+            if (findckeditorDependencies) {
+                this.startString = this.startString.replace('>', ` ${findckeditorDependencies.htmlDependencies}>`);
+            }
+            this.tagName = this.CKEDITOR_TAGNAME;
+            // adding ckeditor5 in tscomponent dependencies
+            this.tsComponent.otherMethodNames.push(this.CKEDITOR_TAGNAME);
+        }
     }
 
     setTraits(firstEle) {
         if (firstEle.hasOwnProperty('traits')) {
-            const variableTemp = {
-                entityId: '',
-                entityName: '',
-                fields: []
-            }
-            console.log(' entityDetails are -----  ', this.entityDetails);
-            console.log(' flowDetails are -----  ', this.flowDetails);
+
             if (this.entityDetails.length > 0 || this.flowDetails.length > 0) {
                 firstEle.traits.forEach(traitElement => {
                     const entityIndex = this.entityDetails.findIndex(x => x.elementName == traitElement.value);
                     const flowIndex = this.flowDetails.findIndex(x => x.elementName == traitElement.value);
                     console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex);
-                    // adding data binding
-                    if (entityIndex > -1) {
-                        console.log('identified entity index are -----  ', this.entityDetails[entityIndex]);
-                        const entityObject = this.entities.find(x => x._id == this.entityDetails[entityIndex].entityId);
-                        console.log('entities object are ----------  ', entityObject);
-                        this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${this.entityDetails[entityIndex].fields.name.replace(' ', '')}"`;
-                        const variableObject = this.tsComponent.variableList.find(x => x.entityId == this.entityDetails[entityIndex].entityId);
-                        console.log('variableList ------>>>>  ', variableObject);
-                        console.log('startString ---ngModels--->>>>  ', this.startString);
-                        if (variableObject) {
-                            variableObject.fields.push(this.entityDetails[entityIndex].fields.name);
-                        } else {
-                            variableTemp.entityId = this.entityDetails[entityIndex].entityId;
-                            variableTemp.entityName = entityObject.name;
-                            variableTemp.fields.push(this.entityDetails[entityIndex].fields.name);
-                            this.tsComponent.variableList.push(variableTemp);
-                        }
+                    // span with data binding 
+                    if (entityIndex > -1 && this.tagName == 'span') {
+                        console.log('span values are -----  ', this.startString);
+                        console.log('span entities details are -----  ', this.entityDetails[entityIndex]);
+                        this.ckeditorEntities = this.entityDetails[entityIndex];
+                        // this.childComponents(firstEle);
+                        // this.getNextValue(this.secondEle);
+                        this.isCKeditorSpan = true;
+                    } else if (entityIndex > -1 && !this.isCKeditorSpan) {
+                        console.log('entering into else if else if enditityINdex values')
+                        this.setDataBinding(this.entityDetails[entityIndex], this.tagName);
                     }
                     // adding flows action
                     if (flowIndex > -1) {
@@ -337,20 +420,50 @@ export class GenerateHtmlWorker {
                         }
                     }
                 })
+                // add ckeditor ngModels
+                if (this.ckeditorEntities && !this.isCKeditorSpan) {
+                    console.log('entering into else if ckeditroentities --- ', this.tagName);
+                    this.setDataBinding(this.ckeditorEntities, this.tagName);
+                    this.ckeditorEntities = null;
+                    // adding data binding
+                }
             }
             if (this.tagName == 'input') {
                 if (this.startString.includes('radio')) {
-                    console.log('radio input tytpes firsteleme are ----  ', firstEle);
-                    console.log('radio input tytpes startString are ----  ', this.startString);
-                    console.log('radio input entiteis are ----- ', this.entities);
+                    // console.log('radio input tytpes firsteleme are ----  ', firstEle);
+                    // console.log('radio input tytpes startString are ----  ', this.startString);
+                    // console.log('radio input entiteis are ----- ', this.entities);
                 }
             }
             if (this.tagName == 'select') {
-                console.log('select firstELEM are ---- ', firstEle);
-                console.log('select secondELE are ---- ', this.secondEle);
-                console.log('select startString are ---- ', this.startString);
+                // console.log('select firstELEM are ---- ', firstEle);
+                // console.log('select secondELE are ---- ', this.secondEle);
+                // console.log('select startString are ---- ', this.startString);
                 this.getSelectOptions(firstEle.components);
             }
+        }
+    }
+
+    setDataBinding(entityDetails, tagName) {
+        const variableTemp = {
+            entityId: '',
+            entityName: '',
+            fields: []
+        }
+        console.log('identified entity index are -----  ', entityDetails, ' ---tagname---  ', tagName);
+        const entityObject = this.entities.find(x => x._id == entityDetails.entityId);
+        console.log('entities object are ----------  ', entityObject);
+        this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}"`;
+        const variableObject = this.tsComponent.variableList.find(x => x.entityId == entityDetails.entityId);
+        console.log('variableList ------>>>>  ', variableObject);
+        console.log('startString ---ngModels--->>>>  ', this.startString);
+        if (variableObject) {
+            variableObject.fields.push(entityDetails.fields.name);
+        } else {
+            variableTemp.entityId = entityDetails.entityId;
+            variableTemp.entityName = entityObject.name;
+            variableTemp.fields.push(entityDetails.fields.name);
+            this.tsComponent.variableList.push(variableTemp);
         }
     }
 
@@ -381,7 +494,7 @@ export class GenerateHtmlWorker {
                 if (this.tagName == 'script' || this.tagName == 'title' ||
                     (firstEle.content &&
                         (this.tagName == 'p' || firstEle.type == 'header' ||
-                            this.tagName == 'span' || this.tagName == 'div'))
+                            this.tagName == 'span' || this.tagName == 'div' || this.tagName == 'label'))
                 ) {
                     // console.log('set content of firstelement --tagname-- ', this.tagName)
                     this.startString += `</${this.tagName}>`
@@ -410,11 +523,17 @@ export class GenerateHtmlWorker {
             }
             // console.log('setContent vlaue of isContentOnly is ----  ', this.isContentOnly, ' --complete---  ', this.startTag);
         }
+        if (firstEle.content == 'Email') {
+            console.log('firstEle content ------  ', this.startString, ' ---isContentOnly-- ', this.isContentOnly, ' -isNotImportant-- ', this.isNotImportant);
+        }
     }
 
 
     pushValue(firstEle) {
-        if (this.tagName && this.tagName != 'option' && !this.isContentOnly && !this.isNotImportant) {
+        if (this.tagName && this.tagName != 'option' &&
+            !this.isContentOnly &&
+            !this.isNotImportant &&
+            !this.startString.includes(this.CKEDITOR_SPAN_IDNAME)) {
             // console.log('pushed value tagname are -------->>>   ', this.tagName, ' ---firstEle.content---- ', firstEle.content);
             if (this.tagName == 'select') {
                 this.startString += '\n' + this.selectOption;
@@ -432,7 +551,6 @@ export class GenerateHtmlWorker {
                     this.tagName == 'h4' || this.tagName == 'h5' ||
                     this.tagName == 'h6' || this.tagName == 'hr')) {
                     this.endTag.unshift(`${this.tagName}`);
-                    // console.log('@@@@@@@@@@ pushed vlaue are -----------   ', this.endTag);
                 } else {
                     this.startString += `</${this.tagName}>`
                 }
@@ -442,9 +560,9 @@ export class GenerateHtmlWorker {
                 this.startString += `</${this.tagName}>`;
                 this.setTagValue();
             } else if (this.startString) {
-                // this.startTag.push(this.startString);
                 this.setTagValue();
             }
+        } else {
         }
     }
 
@@ -488,7 +606,7 @@ export class GenerateHtmlWorker {
                             test.push(tempObj);
                             // console.log('if- ', this.tagName, ' --endtagname--  ', tempObj.endTagName);
                         }
-                    } else if (!item.content &&
+                    } else if (!item.content && this.checkTagAttributes(item) &&
                         (this.tagName == 'button' || this.tagName == 'a' ||
                             this.tagName == 'ul' || this.tagName == 'li' || this.tagName == 'div' ||
                             this.tagName == 'footer' || this.tagName == 'p' || this.tagName == 'section' ||
@@ -538,6 +656,15 @@ export class GenerateHtmlWorker {
         // console.log('getNext value ------------  ', temp);
         if (temp != undefined) {
             this.generateChildHtml(temp, secondEle);
+        }
+    }
+
+    checkTagAttributes(element) {
+        const tagName = this.tagNameFunction(element);
+        if (element.attributes && element.attributes.id == 'ckeditorspan') {
+            return false;
+        } else {
+            return true;
         }
     }
 

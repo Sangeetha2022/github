@@ -54,6 +54,9 @@ export const ScreenSchema = new Schema({
     feature: { type: String, ref: 'feature_details', default: null },
     screenType: { type: String, default: null },
     isTemplate: { type: Boolean, default: false },
+    stylesheets: [],
+    scripts: [],
+    'css-guidelines': [],
     created_at: {
         type: Date,
         default: Date.now

@@ -23,6 +23,7 @@ export class Routes {
         app.route('/screen/getbyprojectid/:projectId').get(this.screenController.getAllScreenByProjectId);
         app.route('/screen/getbyprojectandfeatureid/:projectId/:featureId').get(this.screenController.getAllScreenByProjectAndFeatureId);
         app.route('/screen/getbyfeatureid/:id').get(this.screenController.getAllScreenByFeatureId);
+        app.route('/screen/template').get(this.screenController.getTemplateByProjectId);
 
         // default screen created for new project
         app.route('/projects/default/screen').get(this.defaultController.createdefaultscreen);

@@ -21,7 +21,7 @@ export class DependencyWorker {
             })
         }
         console.log('insert dependency app routing file are -----  ', file.join(`\n`));
-         this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.APP_ROUTING_FILENAME,
+        this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.APP_ROUTING_FILENAME,
             file.join(`\n`), (response) => { })
     }
 
@@ -65,7 +65,7 @@ export class DependencyWorker {
             })
         }
         console.log('insert other dependency app module file are -----  ', file.join(`\n`));
-         this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.APP_MODULE_FILENAME,
+        this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.APP_MODULE_FILENAME,
             file.join(`\n`), (response) => { })
     }
 
@@ -74,8 +74,18 @@ export class DependencyWorker {
         const file = this.dependencySupportWorker.readFile(applicationPath, Constant.PACKAGE_JSON_FILENAME);
         console.log('after read package json file are -----  ', file);
         const index = file.findIndex(x => /router/.test(x));
-        console.log('package file index ------  ', index);
-         this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.PACKAGE_JSON_FILENAME,
+        if (index) {
+            information.forEach(element => {
+                const splitted = element.split(":");
+                console.log('index a splitString ----  ', splitted[0]);
+                const regExpression = new RegExp(splitted[0]);
+                if (file.findIndex(x => regExpression.test(x)) < 0) {
+                    file.splice(index, 0, element);
+                }
+
+            })
+        }
+        this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.PACKAGE_JSON_FILENAME,
             file.join(`\n`), (response) => { })
     }
 }

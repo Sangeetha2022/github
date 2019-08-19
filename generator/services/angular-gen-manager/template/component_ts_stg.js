@@ -1,6 +1,6 @@
 /*
  * Template group component_ts
- * Compiled on Fri Aug 02 2019 18:02:51 GMT+0530 (India Standard Time)
+ * Compiled on Mon Aug 19 2019 15:30:54 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -69,12 +69,35 @@ r = function(w, rc) {
     
     }
     w.write("\n");
-    w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "scriptVariable", { file: gFile, line: 5, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "importAsteriskDependency", { file: gFile, line: 4, column: 11 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "scriptVariable", { file: gFile, line: 5, column: 35 });
+        attr = st.prop(s, g, rc, s.object, "importAsteriskDependency", { file: gFile, line: 4, column: 45 });
+        tp.push(st.makeSubTemplate(g, function(w, rc) {
+            var g = this.owningGroup,
+            s = this.scope;
+            
+                     w.write("import ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyName", { file: gFile, line: 4, column: 91 }));
+                     w.write(" from '");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyPath", { file: gFile, line: 4, column: 119 }));
+                     w.write("';");
+            }, [
+            { name: "name"     }
+            ])); 
+        return st.map(attr, tp);
+        })(), {separator: "\n"});
+    
+    
+    }
+    w.write("\n");
+    w.write("\n");
+    if (st.test(st.prop(s, g, rc, s.object, "scriptVariable", { file: gFile, line: 6, column: 11 }))) {
+    
+        st.write(w, s, g, rc, (function() {
+        var tp = [],
+        attr = st.prop(s, g, rc, s.object, "scriptVariable", { file: gFile, line: 6, column: 35 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
@@ -96,33 +119,33 @@ r = function(w, rc) {
     w.pushIndentation("  ");
     w.write("selector: 'app-");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 7, column: 25 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 8, column: 25 }));
     w.write("',");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("templateUrl: './");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 8, column: 26 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 9, column: 26 }));
     w.write(".component.html',");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("styleUrls: ['./");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 9, column: 25 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 10, column: 25 }));
     w.write(".component.scss']");
     w.write("\n");
     w.write("})");
     w.write("\n");
     w.write("export class ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 11, column: 21 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 12, column: 21 }));
     w.write("Component implements OnInit {");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "componentVariable", { file: gFile, line: 12, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "componentVariable", { file: gFile, line: 13, column: 11 }))) {
     
         w.write("\n");
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "componentVariable", { file: gFile, line: 13, column: 8 });
+        attr = st.prop(s, g, rc, s.object, "componentVariable", { file: gFile, line: 14, column: 8 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
@@ -144,11 +167,11 @@ r = function(w, rc) {
     w.write("constructor(");
     w.popIndentation();
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "componentConstructorParams", { file: gFile, line: 16, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "componentConstructorParams", { file: gFile, line: 17, column: 11 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "componentConstructorParams", { file: gFile, line: 16, column: 47 });
+        attr = st.prop(s, g, rc, s.object, "componentConstructorParams", { file: gFile, line: 17, column: 47 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
@@ -173,11 +196,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.write("    ");
-    if (st.test(st.prop(s, g, rc, s.object, "componentOnInit", { file: gFile, line: 20, column: 15 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "componentOnInit", { file: gFile, line: 21, column: 15 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "componentOnInit", { file: gFile, line: 20, column: 40 });
+        attr = st.prop(s, g, rc, s.object, "componentOnInit", { file: gFile, line: 21, column: 40 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
@@ -198,11 +221,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "componentMethod", { file: gFile, line: 23, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "componentMethod", { file: gFile, line: 24, column: 11 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "componentMethod", { file: gFile, line: 23, column: 36 });
+        attr = st.prop(s, g, rc, s.object, "componentMethod", { file: gFile, line: 24, column: 36 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;

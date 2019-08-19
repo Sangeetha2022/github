@@ -1,9 +1,6 @@
 import { Request, response } from 'express';
 import * as util from 'util';
 import * as asyncLoop from 'node-async-loop';
-import {
-    MenuManagerService,
-} from '../apiservices/index';
 import { GenerateHtmlWorker } from '../worker/generateHtmlWorker';
 
 let generateHtmlWorker = new GenerateHtmlWorker();
@@ -17,17 +14,34 @@ export class AngularService {
         // console.log('create angular html metadata ---@#$$$$-11---    ', req.body.desktop.length);
         // console.log('create angular html metadata ---@#$$$$-json-22--    ', JSON.parse(req.body.desktop[0]['gjs-components'][0]));
         // more desktop screens in one features
-        const temp = JSON.parse(req.body.desktop[0]['gjs-components'][0]);
-        console.log('create angular html metadata ---@#$$$$--full temp--    ', details.desktop[0].screenName);
-        details.desktop.forEach((featureScreenElement, index) => {
+        // const temp = JSON.parse(req.body.desktop[0]['gjs-components'][0]);
+        // console.log('create angular html metadata ---@#$$$$--full temp--    ', details.desktop[0].screenName);
+        // details.desktop.forEach((featureScreenElement, index) => {
+        //     console.log('screen name ----  ', featureScreenElement.screenName);
+        //     console.log('screen css ----  ', featureScreenElement['gjs-css']);
+        //     generateHtmlWorker.generate(JSON.parse(featureScreenElement['gjs-components'][0]), featureScreenElement['gjs-css'], featureScreenElement, featureScreenElement.screenName, details, (response) => {
+        //         console.log('angular service  response are -----  ', response);
+        //         if (index == details.desktop.length - 1) {
+        //             generateHtmlWorker.modifyDependency(details, (response) => {
+        //                 callback(response);
+        //             })
+        //         }
+        //     });
+        // })
+        asyncLoop(details.desktop, (featureScreenElement, next) => {
             generateHtmlWorker.generate(JSON.parse(featureScreenElement['gjs-components'][0]), featureScreenElement['gjs-css'], featureScreenElement, featureScreenElement.screenName, details, (response) => {
-                console.log('angular service  response are -----  ', response);
-                if (index == details.desktop.length - 1) {
-                    generateHtmlWorker.modifyDependency(details, (response) => {
-                        callback(response);
-                    })
-                }
+                next();
             });
+        }, (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                generateHtmlWorker.modifyDependency(details, (response) => {
+                    // callback(response);
+                    callback({ Message: 'feature screens are generated successfully' });
+                })
+                // console.log({ Message: 'feature screens are generated successfully' });
+            }
         })
         // generateHtmlWorker.generate(temp, details.desktop[0], details.desktop[0].screenName, details, (response) => {
         //     console.log('angular service  response are 0-----  ', response);

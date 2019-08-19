@@ -31,9 +31,9 @@ export class FlowServiceWorker {
         this.componentName = temp.folderName;
         this.serviceFileDetails = temp;
         this.endPointList = serviceObject.apiEndPoints;
-        console.log('endpoint list in flow service worker  are ----  ', this.endPointList);
+        // console.log('endpoint list in flow service worker  are ----  ', this.endPointList);
         this.checkConnector();
-        console.log('final services file datesil are ----  ', this.serviceFileDetails);
+        // console.log('final services file datesil are ----  ', this.serviceFileDetails);
     }
 
     // GpCheck_Connector
@@ -43,7 +43,7 @@ export class FlowServiceWorker {
         this.serviceObject.flowMethod.forEach(flowElement => {
             this.currentFlow = null;
             this.currentFlow = flowElement;
-            console.log('each flowElement are ----  ', util.inspect(flowElement, { showHidden: true, depth: null }))
+            // console.log('each flowElement are ----  ', util.inspect(flowElement, { showHidden: true, depth: null }))
             flowElement.components.connector.forEach(connectorElement => {
                 if (connectorElement.isDefault && !connectorElement.isDisabled) {
                     this.addComponentMethod(Constant.DEFAULT_CONNECTOR_NAME);

@@ -56,6 +56,11 @@ export class FrontendWorker {
         imports: `HttpClientModule`
     }
 
+    private adminAppRoutingModule = {
+        importDependency: `import { ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component } from './${this.ADMIN_FOLDERNAME.toLowerCase()}/${this.ADMIN_FOLDERNAME.toLowerCase()}.component';`,
+        imports: `{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`
+    }
+
     private isRoutingModule = {
         path: false
     }
@@ -87,17 +92,20 @@ export class FrontendWorker {
         this.seedPath = details.seedTemplatePath;
         this.templatePath = details.adminTemplatePath;
         const applicationPath = `${this.projectGenerationPath}/src/app/${this.ADMIN_FOLDERNAME}`;
-        this.generateStaticComponent(applicationPath, this.ADMIN_FOLDERNAME);
-        callback();
+        this.generateStaticComponent(applicationPath, this.ADMIN_FOLDERNAME, callback);
     }
 
 
-    async generateStaticComponent(applicationPath, folderName) {
+    async generateStaticComponent(applicationPath, folderName, callback) {
         const loginSeedPath = `${this.seedPath}/${folderName}`;
         Common.createFolders(applicationPath);
-        await fs.readdirSync(`${this.seedPath}/${folderName}`).forEach(fileElement => {
+        await fs.readdirSync(`${this.seedPath}/${folderName}`).forEach((fileElement, index, array) => {
             console.log('each files names are -------   ', fileElement);
-            this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement);
+            this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
+                if (index === array.length - 1) {
+                    callback('static component files are written successfully');
+                }
+            });
         })
     }
 
@@ -106,8 +114,10 @@ export class FrontendWorker {
         this.modifyAppModuleFile(appModulePath);
         // future use
         this.modifyAppRoutingModuleFile(appModulePath);
-        this.routingModuleInfo.importDependency.push(`import { ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component } from './${this.ADMIN_FOLDERNAME.toLowerCase()}/${this.ADMIN_FOLDERNAME.toLowerCase()}.component';`);
-        this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+        if (this.routingModuleInfo.importDependency.findIndex(x => x == this.adminAppRoutingModule.importDependency) < 0) {
+            this.routingModuleInfo.importDependency.push(`import { ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component } from './${this.ADMIN_FOLDERNAME.toLowerCase()}/${this.ADMIN_FOLDERNAME.toLowerCase()}.component';`);
+            this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+        }
         this.modifyPackageJsonFile();
         // modify app module
         // import httpclientmodule in app module files
@@ -122,18 +132,18 @@ export class FrontendWorker {
             this.appModuleInfo.imports.push(this.adminComponent.module.imports);
         }
         this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
-            this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo);
+            this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo, (response) => { });
 
         // future use of modify app routing file
         this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
-            this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo);
+            this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo, (response) => { });
         console.log('modifyu files values are -------  ', this.appModuleInfo);
         console.log('modifyu files values are -app routing files a------  ', this.routingModuleInfo);
     }
 
     modifyAppModuleFile(appModulePath) {
         appModulePath += `/${this.APP_MODULE_FILENAME}`;
-        console.log('modify app module file are -------  ',  fs.readFileSync(appModulePath).toString().split("\n"));
+        console.log('modify app module file are -------  ', fs.readFileSync(appModulePath).toString().split("\n"));
         fs.readFileSync(appModulePath).toString().split("\n").forEach(appElement => {
             if (appElement.includes('import') && appElement.includes('from')) {
                 console.log('all import depenc are -11-  ', this.appModuleInfo);
@@ -203,7 +213,7 @@ export class FrontendWorker {
 
     modifyAppRoutingModuleFile(appRoutingModulePath) {
         appRoutingModulePath += `/${this.APP_ROUTING_MODULE_FILENAME}`;
-        console.log('modify app routing module file are -------  ',  fs.readFileSync(appRoutingModulePath).toString().split("\n"));
+        console.log('modify app routing module file are -------  ', fs.readFileSync(appRoutingModulePath).toString().split("\n"));
         fs.readFileSync(appRoutingModulePath).toString().split("\n").forEach(appElement => {
             console.log('app routing each one are -------  ', appElement);
             if (appElement.includes('import') && appElement.includes('from')) {
@@ -236,6 +246,7 @@ export class FrontendWorker {
                 }
             }
         })
+        console.log('app rouint after read and wirte -----  ', this.routingModuleInfo);
     }
 
     modifyPackageJsonFile() {
@@ -251,7 +262,7 @@ export class FrontendWorker {
                     packageInfo.splice(index + 10, 0, packageElement);
                 }
             })
-            this.frontendSupportWorker.writeStaticFile(this.projectGenerationPath, this.PACKAGE_FILENAME, packageInfo);
+            this.frontendSupportWorker.writeStaticFile(this.projectGenerationPath, this.PACKAGE_FILENAME, packageInfo, (response) => { });
         }
         console.log('after added values in package are -------  ', packageInfo);
 

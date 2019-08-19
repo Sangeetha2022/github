@@ -214,6 +214,7 @@ export class CodeGenerationService {
                   // with entities generate the frontend screens
                   const frontendObj = {
                     projectGenerationPath: `${projectPath}/${this.CLIENT_FOLDERNAME}`,
+                    projectId: projectId,
                     feature: feature,
                     project: projectDetails,
                     nodeResponse: null
@@ -240,6 +241,7 @@ export class CodeGenerationService {
             // without entities generate the frontend screens
             const frontendObj = {
               projectGenerationPath: `${projectPath}/${this.CLIENT_FOLDERNAME}`,
+              projectId: projectId,
               feature: feature,
               project: projectDetails,
               nodeResponse: null

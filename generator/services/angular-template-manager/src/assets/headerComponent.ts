@@ -2,7 +2,12 @@ export const sideBar = {
   htmlTag: [`<div class="wrapper">
   <nav id="sidebar" class="active">
       <div class="sidebar-header">
-          <h3>changename</h3>
+          <div class="marginClass">
+            <h4>changename</h4>
+          </div>
+          <div class="marginClass">
+            <a class="close" id="closeIcon"></a>
+          </div>
       </div>
       <ul class="list-unstyled components">
   loadnav
@@ -17,16 +22,22 @@ export const sideBar = {
       `$`
     ],
     componentOnInit: [
-      `const el = document.querySelector('#nav-toggle');
-    if (el) {
-      el.addEventListener('click', function () {
-        this.classList.toggle('active');
-        this.classList.toggle('change');
-        $('#sidebar, #content').toggleClass('active');
-        $('.collapse.in').toggleClass('in');
-        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-      });
-    }`
+     `const el = document.querySelector('#nav-toggle');
+      const closeIcon = document.querySelector('#closeIcon');
+      if (closeIcon && el) {
+        closeIcon.addEventListener('click', function() {
+          document.getElementById('nav-toggle').click();
+        });
+      }
+      if (el) {
+        el.addEventListener('click', function() {
+          this.classList.toggle('active');
+          this.classList.toggle('change');
+          $('#sidebar, #content').toggleClass('active');
+          $('.collapse.in').toggleClass('in');
+          $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+        });
+      }`
     ]
   },
   css: [`#sidebar {
@@ -41,6 +52,39 @@ export const sideBar = {
     transition: all 0.3s;
   }
 
+  .close {
+    position: absolute;
+    right: 32px;
+    top: 18px;
+    width: 32px;
+    height: 32px;
+  }
+  .close:before, .close:after {
+    position: absolute;
+    left: 30px;
+    content: ' ';
+    height: 29px;
+    width: 4px;
+    background-color: #fff;
+  }
+  .close:before {
+    transform: rotate(45deg);
+  }
+  .close:after {
+    transform: rotate(-45deg);
+  }
+  
+
+  .closeClass {
+    color: white;
+    cursor: pointer;
+  }
+
+  .marginClass {
+    margin: auto;
+    padding: 0;
+  }
+
   .text {
     color: white;
   }
@@ -52,6 +96,7 @@ export const sideBar = {
   #sidebar .sidebar-header {
     padding: 20px;
     background: #6d7fcc;
+    display: flex;
   }
   
   #sidebar ul.components {
@@ -94,12 +139,12 @@ export const sideBar = {
   }
   
   #content {
-    width: calc(100% - 250px);
     padding: 40px;
     transition: all 0.3s;
-    position: absolute;
     top: 0;
     right: 0;
+    contentstyle
+
   }
   
   #content.active {
@@ -185,14 +230,14 @@ export const sideBar = {
   
   @media only screen and(max-width:600px){
     #nav-toggle.change {
-      margin-left: -18%;
+      margin-left: -58%;
       margin-top: -1%;
   }
   }
   
   @media only screen and(min-width:600px){
     #nav-toggle.change {
-      margin-left: -12%;
+      margin-left: -50%;
   }
   }
   
@@ -228,23 +273,10 @@ export const templateScreen = [
   {
     name: 'HSBC TEMPLATE', styles: [
       {
-        name: '.homepage',
+        name: '#content',
         css: [{
-          cssName: 'padding-top',
-          cssValue: '0'
-        }, {
           cssName: 'background-color',
-          cssValue: 'white'
-        }]
-      },
-      {
-        name: '.otherpage',
-        css: [{
-          cssName: 'padding-top',
-          cssValue: '70px'
-        }, {
-          cssName: 'background-color',
-          cssValue: '#191d10'
+          cssValue: '#262712'
         }]
       }
     ]
@@ -252,21 +284,8 @@ export const templateScreen = [
   {
     name: 'CISCO TEMPLATE', styles: [
       {
-        name: '.homepage',
+        name: '#content',
         css: [{
-          cssName: 'padding-top',
-          cssValue: '0'
-        }, {
-          cssName: 'background-color',
-          cssValue: 'white'
-        }]
-      },
-      {
-        name: '.otherpage',
-        css: [{
-          cssName: 'padding-top',
-          cssValue: '70px'
-        }, {
           cssName: 'background-color',
           cssValue: '#2abdeb'
         }]
@@ -276,23 +295,10 @@ export const templateScreen = [
   {
     name: 'ENJOY THE TRAVEL', styles: [
       {
-        name: '.homepage',
+        name: '#content',
         css: [{
-          cssName: 'padding-top',
-          cssValue: '0'
-        }, {
           cssName: 'background-color',
-          cssValue: 'white'
-        }]
-      },
-      {
-        name: '.otherpage',
-        css: [{
-          cssName: 'padding-top',
-          cssValue: '70px'
-        }, {
-          cssName: 'background-color',
-          cssValue: '#4b424deb'
+          cssValue: '#37273a'
         }]
       }
     ]
@@ -300,94 +306,220 @@ export const templateScreen = [
   {
     name: 'NIGHT CITY EVENTS', styles: [
       {
-        name: '.homepage',
+        name: '#content',
         css: [{
-          cssName: 'padding-top',
-          cssValue: '0'
-        }, {
           cssName: 'background-color',
-          cssValue: 'white'
-        }]
-      },
-      {
-        name: '.otherpage',
-        css: [{
-          cssName: 'padding-top',
-          cssValue: '70px'
-        }, {
-          cssName: 'background-color',
-          cssValue: '#191d10'
+          cssValue: '#15202e'
         }]
       }
     ]
   }, {
     name: 'TWO SIDE TEMPLATE', styles: [
       {
-        name: '.homepage',
+        name: '#content',
         css: [{
-          cssName: 'padding-top',
-          cssValue: '0'
-        }, {
           cssName: 'background-color',
-          cssValue: 'white'
-        }]
-      },
-      {
-        name: '.otherpage',
-        css: [{
-          cssName: 'padding-top',
-          cssValue: '70px'
-        }, {
-          cssName: 'background-color',
-          cssValue: '#191d10'
+          cssValue: '#da6777'
         }]
       }
     ]
   }, {
     name: 'RIGHT TEAM', styles: [
       {
-        name: '.homepage',
+        name: '#content',
         css: [{
-          cssName: 'padding-top',
-          cssValue: '0'
-        }, {
           cssName: 'background-color',
-          cssValue: 'white'
-        }]
-      },
-      {
-        name: '.otherpage',
-        css: [{
-          cssName: 'padding-top',
-          cssValue: '70px'
-        }, {
-          cssName: 'background-color',
-          cssValue: '#191d10'
+          cssValue: '#3d3b3e'
         }]
       }
     ]
   }, {
     name: 'NIGHT VOYAGER', styles: [
       {
-        name: '.homepage',
+        name: '#content',
         css: [{
-          cssName: 'padding-top',
-          cssValue: '0'
-        }, {
           cssName: 'background-color',
-          cssValue: 'white'
+          cssValue: '#262c35'
         }]
-      },
+      }
+    ]
+  }, {
+    name: 'GEPPETTONEW TEMPLATE', styles: [
       {
-        name: '.otherpage',
+        name: '#content',
         css: [{
-          cssName: 'padding-top',
-          cssValue: '70px'
-        }, {
           cssName: 'background-color',
-          cssValue: '#191d10'
+          cssValue: '#162230'
         }]
       }
     ]
   }
 ];
+
+// export const templateScreen = [
+//   {
+//     name: 'HSBC TEMPLATE', styles: [
+//       {
+//         name: '.homepage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '0'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: 'white'
+//         }]
+//       },
+//       {
+//         name: '.otherpage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '70px'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: '#191d10'
+//         }]
+//       }
+//     ]
+//   },
+//   {
+//     name: 'CISCO TEMPLATE', styles: [
+//       {
+//         name: '.homepage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '0'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: 'white'
+//         }]
+//       },
+//       {
+//         name: '.otherpage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '70px'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: '#2abdeb'
+//         }]
+//       }
+//     ]
+//   },
+//   {
+//     name: 'ENJOY THE TRAVEL', styles: [
+//       {
+//         name: '.homepage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '0'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: 'white'
+//         }]
+//       },
+//       {
+//         name: '.otherpage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '70px'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: '#4b424deb'
+//         }]
+//       }
+//     ]
+//   },
+//   {
+//     name: 'NIGHT CITY EVENTS', styles: [
+//       {
+//         name: '.homepage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '0'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: 'white'
+//         }]
+//       },
+//       {
+//         name: '.otherpage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '70px'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: '#191d10'
+//         }]
+//       }
+//     ]
+//   }, {
+//     name: 'TWO SIDE TEMPLATE', styles: [
+//       {
+//         name: '.homepage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '0'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: 'white'
+//         }]
+//       },
+//       {
+//         name: '.otherpage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '70px'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: '#191d10'
+//         }]
+//       }
+//     ]
+//   }, {
+//     name: 'RIGHT TEAM', styles: [
+//       {
+//         name: '.homepage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '0'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: 'white'
+//         }]
+//       },
+//       {
+//         name: '.otherpage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '70px'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: '#191d10'
+//         }]
+//       }
+//     ]
+//   }, {
+//     name: 'NIGHT VOYAGER', styles: [
+//       {
+//         name: '.homepage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '0'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: 'white'
+//         }]
+//       },
+//       {
+//         name: '.otherpage',
+//         css: [{
+//           cssName: 'padding-top',
+//           cssValue: '70px'
+//         }, {
+//           cssName: 'background-color',
+//           cssValue: '#191d10'
+//         }]
+//       }
+//     ]
+//   }
+// ];

@@ -22,4 +22,15 @@ export class ScreenManagerService {
             callback(error);
         })
     }
+
+    getTemplateByProjectId(projectId, callback) {
+        console.log('template project id are ----  ', projectId);
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/screen/template?projectId=${projectId}`).then(
+            data => {
+                callback(data);
+            }
+        ).catch(error => {
+            callback(error);
+        })
+    }
 }

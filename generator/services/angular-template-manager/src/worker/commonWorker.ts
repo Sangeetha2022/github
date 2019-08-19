@@ -52,6 +52,7 @@ export class CommonWorker {
     private HREF_BASE = '/';
     private CHANGENAME: any = 'changename';
     private LOADHEADERNAV: any = 'loadnav';
+    private SIDEBARSTYLE: any = 'contentstyle';
 
     private navMenu: any[] = [];
     private scriptTag: any[] = [];
@@ -120,8 +121,8 @@ export class CommonWorker {
                             if (menuElement.featuremenu[0].name.feature != this.DEFAULT_FEATURENAME) {
                                 // menu.parent.push(menuElement.featuremenu[0].description.feature);
                                 mainNav.push(`<li>
-                                <a href="#${menuElement.featuremenu[0].name.feature.replace(' ','')}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text">${menuElement.featuremenu[0].name.feature}</a>
-                                <ul class="collapse list-unstyled" id="${menuElement.featuremenu[0].name.feature.replace(' ','')}">`)
+                                <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text">${menuElement.featuremenu[0].name.feature}</a>
+                                <ul class="collapse list-unstyled" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`)
                                 if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
                                     menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
                                         // const temp = {
@@ -184,7 +185,22 @@ export class CommonWorker {
                 this.templateHeaderObj.component.scriptVariable = constant.sideBar.components.scriptVariable;
                 this.templateHeaderObj.component.componentOnInit = constant.sideBar.components.componentOnInit;
             }
-            this.templateHeaderObj.css = constant.sideBar.css;
+            const findTemplate = constant.templateScreen.find(x => x.name == templateName);
+            let temp = '';
+            if (findTemplate) {
+                findTemplate.styles.forEach(templateStyles => {
+                    if (templateStyles.name === '#content') {
+                        templateStyles.css.forEach(templateCss => {
+                            temp += `${templateCss.cssName}: ${templateCss.cssValue};\n`;
+                        })
+                    }
+                })
+            }
+            if (!temp) {
+                temp += `background-color: black`;
+            }
+            this.templateHeaderObj.css.push(constant.sideBar.css[0].replace(this.SIDEBARSTYLE, temp));
+
             constant.sideBar.script.forEach(scriptElement => {
                 this.scriptTag.push(scriptElement);
             })
@@ -406,9 +422,9 @@ export class CommonWorker {
                     element.menuDetails.forEach(menuElement => {
                         if (menuElement.featuremenu[0].name.feature != this.DEFAULT_FEATURENAME) {
                             mainNav.push(`<div class="list-group panel">
-                            <${this.ANCHOR_TAG} href="#${menuElement.featuremenu[0].name.feature.replace(' ','')}" class="list-group-item list-group-item-success" data-toggle="collapse"
+                            <${this.ANCHOR_TAG} href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse"
                               data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></${this.ANCHOR_TAG}>
-                            <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ','')}">`);
+                            <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
                             if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
                                 menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
                                     mainNav.push(`<${this.ANCHOR_TAG} class="list-group-item" [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>`);

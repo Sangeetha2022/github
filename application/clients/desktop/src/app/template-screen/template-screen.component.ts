@@ -74,11 +74,17 @@ export class TemplateScreenComponent implements OnInit {
         this.projectTemp[0]['gjs-styles'] = this.selectedTemplate['gjs-styles'];
         this.projectTemp[0]['gjs-html'] = this.selectedTemplate['gjs-html'];
         this.projectTemp[0]['gjs-components'] = this.selectedTemplate['gjs-components'];
+        this.projectTemp[0]['stylesheets'] = this.selectedTemplate['stylesheets'];
+        this.projectTemp[0]['scripts'] = this.selectedTemplate['scripts'];
+        this.projectTemp[0]['css-guidelines'] = this.selectedTemplate['css-guidelines'];
         const projetData = {
           app_ui_template: this.selectedTemplate.name,
           app_ui_template_img: this.selectedTemplate.template_image[0].image
         };
         this.screenDesignerService.updateScreen(this.projectTempId, this.projectTemp[0]).subscribe(updateScreen => {
+          localStorage.setItem('stylesheets', JSON.stringify(this.projectTemp[0]['stylesheets']));
+          localStorage.setItem('scripts', JSON.stringify(this.projectTemp[0]['scripts']));
+          localStorage.setItem('css_guidelines', JSON.stringify(this.projectTemp[0]['css-guidelines']));
         });
         this.projectsService.updateProjectById(this.project_id, projetData).subscribe(updateProj => {
 

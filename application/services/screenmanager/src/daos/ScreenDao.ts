@@ -4,7 +4,7 @@ import { ScreenSchema } from '../models/Screen';
 import { FeatureDetailsSchema } from '../models/featuredetails.model';
 
 const screenModel = mongoose.model('screen', ScreenSchema);
-const featureDetailModel = mongoose.model('feature_details',FeatureDetailsSchema)
+const featureDetailModel = mongoose.model('feature_details', FeatureDetailsSchema)
 
 export class ScreenDao {
     constructor() { }
@@ -32,13 +32,13 @@ export class ScreenDao {
     public getScreenById(req, callback) {
         let screenId = req.params.id;
         screenModel.find({ _id: screenId }).
-        exec(function (err, result) {
-            if (err) {
-                callback(err);
-            } else {
-                callback(result);
-            }
-        })
+            exec(function (err, result) {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback(result);
+                }
+            })
     }
 
     public updateScreen(req, callback) {
@@ -96,6 +96,19 @@ export class ScreenDao {
     public getAllScreenByFeatureId(req, callback) {
         let featureId = req.params.featureId;
         screenModel.find({ feature: req.params.id }).populate({ path: 'feature', model: featureDetailModel }).
+            exec(function (err, result) {
+                if (err) {
+                    callback(err);
+                } else {
+                    callback(result);
+                }
+            })
+
+    }
+
+    public getTemplateByProjectId(projectId, callback) {
+        console.log('get template by projectid in screenDao -----  ', projectId);
+        screenModel.find({ $and: [{ isTemplate: true }, { project: projectId }] }).
             exec(function (err, result) {
                 if (err) {
                     callback(err);

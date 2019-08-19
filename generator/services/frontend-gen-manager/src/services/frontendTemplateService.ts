@@ -34,22 +34,14 @@ export class FrontendTemplateService {
             template: null,
             menuBuilder: null
         }
-        const screenDetails = await this.getScreenByProjectId(details.projectId);
+        const templateDetails = await this.getTemplateByProjectId(details.projectId);
         // console.log('screens project are ---- ', util.inspect(screenDetails, { showHidden: true, depth: null }));
-        const screenJSON = JSON.parse(screenDetails.toString());
-        console.log('i am secrrennnn-@@@@@---->.',)
-        // console.log('json screens ttest are ---- ', screenJSON);
-        let templateJSON = null;
-        if (screenJSON) {
-            templateJSON = screenJSON.body.filter((data) => {
-                return data.isTemplate === true;
-            })
-        }
+        const templateJSON = JSON.parse(templateDetails.toString());
         const menuDetails = await this.getMenuByProjectId(details.projectId);
         const menuJSON = JSON.parse(menuDetails.toString());
         // console.log('menuJSON are ------  ', util.inspect(menuDetails, { showHidden: true, depth: null }));
 
-        templateObj.template = templateJSON;
+        templateObj.template = templateJSON.body;
         templateObj.menuBuilder = menuJSON.body;
 
         try {
@@ -113,6 +105,14 @@ export class FrontendTemplateService {
         return new Promise(resolve => {
             this.screenManagerService.getScreenByProjectId(projectId, (data) => {
                 console.log('data---screen---')
+                resolve(data);
+            })
+        })
+    }
+
+    getTemplateByProjectId(projectId) {
+        return new Promise(resolve => {
+            this.screenManagerService.getTemplateByProjectId(projectId, (data) => {
                 resolve(data);
             })
         })

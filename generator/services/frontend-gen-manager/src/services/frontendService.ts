@@ -40,6 +40,7 @@ export class FrontendService {
             clientFramework: details.project.clientFramework,
             entities: details.feature.entities,
             nodeResponse: details.nodeResponse,
+            cssGuidelines: [],
             desktop: null,
             mobile: null,
             flows: []
@@ -65,6 +66,12 @@ export class FrontendService {
         const mobileJSON = screenJSON.body.filter((data) => {
             return data.screenType === this.mobileScreenName;
         })
+        const templateDetails = await this.getTemplateByProjectId(details.projectId);
+        // console.log('screens project are ---- ', util.inspect(screenDetails, { showHidden: true, depth: null }));
+        const templateJSON = JSON.parse(templateDetails.toString());
+        if (templateJSON) {
+            feature.cssGuidelines = templateJSON.body[0]['css-guidelines'];
+        }
         console.log('desktop json values rae ---@@@@@------- ', desktopJSON, ' ---length0---- ', desktopJSON.length);
         console.log('mobile json values rae ----######------ ', mobileJSON, ' ---length---- ', mobileJSON.length);
         let flowCount = 0;
@@ -213,6 +220,14 @@ export class FrontendService {
     getScreenByFeatureId(featureId) {
         return new Promise(resolve => {
             this.screenManagerService.getScreenByFeatureId(featureId, (data) => {
+                resolve(data);
+            })
+        })
+    }
+
+    getTemplateByProjectId(projectId) {
+        return new Promise(resolve => {
+            this.screenManagerService.getTemplateByProjectId(projectId, (data) => {
                 resolve(data);
             })
         })
