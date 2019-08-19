@@ -13,7 +13,7 @@ export class Signincontroller {
     }
 
     public login(req: Request, res: Response) {
-        logger.info('Signincontroller.ts : login');
+        // logger.info('Signincontroller.ts : login');
         signinservice.loginservice(req, (response) => {
             res.status(200);
             res.json(response);

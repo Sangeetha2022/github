@@ -81,8 +81,8 @@ export class SigninDao {
     }
 
     public logindao(logindetails, callback) {
-        logger.info('SigninDao.ts : logindao');
-        logger.info('response send to apigateway');
+        // logger.info('SigninDao.ts : logindao');
+        // logger.info('response send to apigateway');
         signinmodel.findOneAndUpdate({ email: logindetails.email, password: logindetails.password }, { $set: { loggedinDate: new Date() } }, function (err, response) {
             if (err) {
                 callback(err);

@@ -73,8 +73,8 @@ export class Logincontroller implements Controller {
     }
 
     public login(req: Request, res: Response) {
-        logger.info('login.controller.ts : login');
-        logger.info('calling the securitymanager microservice');
+        // logger.info('login.controller.ts : login');
+        // logger.info('calling the securitymanager microservice');
         new ApiAdaptar().post(`${Constants.loginUrl}/login`, req.body).then((user) => {
             // @ts-ignore
             const Userdetails = user;
@@ -113,7 +113,7 @@ export class Logincontroller implements Controller {
     }
 
     public Consent(req: Request, res: Response) {
-        logger.info('login.controller.ts : Consent');
+        // logger.info('login.controller.ts : Consent');
         new ApiAdaptar().put(`${Constants.loginUrl}/consent`, req.body).then((consentresponse) => {
             // @ts-ignore
             var token = consentresponse.body.Idtoken;
@@ -124,7 +124,7 @@ export class Logincontroller implements Controller {
                     console.log('---------hey an err--->>>', err);
                     // res.send({ 'status': 'Unauthorized', 'error': err,'Userdetails':user });
                 } else {
-                    logger.info('calling the Auth-proxy microservice');
+                    // logger.info('calling the Auth-proxy microservice');
                     var url = `${Constants.proxyUrl}/proxy`;
                     request.post({ url: url, json: decoded }, (error, response, body) => {
                         var loginresponse = {
