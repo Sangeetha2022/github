@@ -159,9 +159,9 @@ export class ServiceWorker {
                 break;
             case 'GpSearch':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
-                this.tempService.function.requestParameter = `${this.entitySchema.fileName}Id`;
+                this.tempService.function.requestParameter = `${this.entitySchema.fileName}Data`;
                 this.tempService.function.responseVariable = `response`;
-                this.tempService.function.variable = ` ${this.entitySchema.fileName}Id = req.params.id`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.query`;
                 break;
             case 'GpUpdate':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
