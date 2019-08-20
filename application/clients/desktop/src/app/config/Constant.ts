@@ -118,6 +118,7 @@ export class Constants {
     public static get getScreenByProjectAndFeatureId(): string { return '/screen/getbyprojectandfeatureid/'; }
     public static get getScreenByProjectId(): string { return '/screen/getbyprojectid/'; }
     public static get getScreenByFeatureId(): string { return '/screen/getbyfeatureid/'; }
+    public static get getScreenTemplateByProjectId(): string { return '/screen/template'; }
 
     // Feature Flow
     public static get addFeatureFlow(): string { return '/feature-flow/save'; }

@@ -9,7 +9,7 @@ const logger = require('../config/Logger');
 
 export class ConsentDao {
     public consentdao(consentdata, callback) {
-        logger.info('ConsentDao.ts : consentdao');
+        // logger.info('ConsentDao.ts : consentdao');
 
         if (consentdata.scope === 'openid' && consentdata.submit === 'Allow access') {
             signinmodel.findById(consentdata.id).populate({

@@ -1,6 +1,7 @@
 component_ts(object) ::= <<
 $if(object.importDependency)$$object.importDependency:{name | import { $name.dependencyName$ \} from '$name.dependencyPath$';};separator="\n"$$endif$
 $if(object.importComponent)$$object.importComponent:{name | import { $name.classname$ \} from '$name.path$';};separator="\n"$$endif$
+$if(object.importAsteriskDependency)$$object.importAsteriskDependency:{name | import $name.dependencyName$ from '$name.dependencyPath$';};separator="\n"$$endif$
 
 $if(object.scriptVariable)$$object.scriptVariable:{name | declare var $name$: any;};separator="\n"$$endif$
 @Component({

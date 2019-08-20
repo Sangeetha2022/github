@@ -14,9 +14,9 @@ export class Signinservice {
     }
 
     public loginservice(req: Request, callback) {
-        logger.info('Signinservice.ts : loginservice');
+        // logger.info('Signinservice.ts : loginservice');
         const logindetails = req.body;
-        console.log('------------loginrequest----', logindetails);
+        // console.log('------------loginrequest----', logindetails);
         signindao.logindao(logindetails, (response) => {
             callback(response)
         });

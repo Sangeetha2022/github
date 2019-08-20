@@ -210,25 +210,25 @@ export class ComponentWorker {
         }
         // app html 
         temp.tagArray.push({ name: `app-${this.HEADER_FOLDERNAME}`, isHeaderFooter: true, isRouter: false });
-        temp.tagArray.push({ name: `router-outlet`, isHeaderFooter: false, isRouter: true });
+        temp.tagArray.push({ name: `router-outlet`, isHeaderFooter: false, isRouter: false });
         temp.tagArray.push({ name: `app-${this.FOOTER_FOLDERNAME}`, isHeaderFooter: true, isRouter: false });
         // app css 
         console.log('app css template name are ----  ', templateName);
-        const findTemplate = templateScreen.find(x => x.name == templateName);
-        console.log('findedtemplate are --- ----  ', findTemplate);
-        let constructCSS = [];
-        if (findTemplate) {
-            findTemplate.styles.forEach(styleElement => {
-                constructCSS.push(`${styleElement.name} {`);
-                styleElement.css.forEach(cssElement => {
-                    constructCSS.push(`${cssElement.cssName}: ${cssElement.cssValue};`);
-                })
-                constructCSS.push(`}`);
-                constructCSS.push();
-            })
-        } else {
-            // need to add the default css in app components
-        }
+        // const findTemplate = templateScreen.find(x => x.name == templateName);
+        // console.log('findedtemplate are --- ----  ', findTemplate);
+        // let constructCSS = [];
+        // if (findTemplate) {
+        //     findTemplate.styles.forEach(styleElement => {
+        //         constructCSS.push(`${styleElement.name} {`);
+        //         styleElement.css.forEach(cssElement => {
+        //             constructCSS.push(`${cssElement.cssName}: ${cssElement.cssValue};`);
+        //         })
+        //         constructCSS.push(`}`);
+        //         constructCSS.push();
+        //     })
+        // } else {
+        //     // need to add the default css in app components
+        // }
 
         return componentSupportWorker.generateAppComponentHtml(generationPath, templatePath,
             this.APP_HTML_TEMPLATE_NAME, temp, (response) => {
@@ -239,7 +239,7 @@ export class ComponentWorker {
                     this.APP_COMPONENT_TEMPLATE_NAME, tempInfo, (response) => {
                         const tempStyle = {
                             folderName: this.APP_FOLDERNAME,
-                            css: constructCSS
+                            css: []
                         }
                         console.log('temp style are -----   ', tempStyle);
                         return componentSupportWorker.generateAppComponentSCSS(generationPath, templatePath,

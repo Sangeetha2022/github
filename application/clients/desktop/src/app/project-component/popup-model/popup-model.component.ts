@@ -1,5 +1,7 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ProjectComponentService } from '../project-component.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -7,14 +9,19 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
     selector: 'app-popup-model',
     templateUrl: 'popup-model.component.html'
 })
-export class PopupModelComponent {
+export class PopupModelComponent implements OnInit {
     public modelObject: any = {
         name: '',
         description: '',
         entityType: ''
     };
+    public project_id: String;
     public isPrimaryEntityPresent: boolean;
+    public entityIsExist: Boolean = false;
+    public projectEntityData: any;
     constructor(
+        private projectComponentService: ProjectComponentService,
+        private route: ActivatedRoute,
         public dialogRef: MatDialogRef<PopupModelComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         console.log('popup --- ', data);
@@ -40,6 +47,28 @@ export class PopupModelComponent {
         }
     }
 
+    ngOnInit() {
+        this.route.queryParams.subscribe(params => {
+            this.project_id = params.projectId;
+        });
+        this.getProjectEntity();
+    }
+
+    getProjectEntity() {
+        this.projectComponentService.getEntityByProjectId(this.project_id).subscribe(projectEntity => {
+            this.projectEntityData = projectEntity;
+        });
+    }
+
+    isEntityExist() {
+        const index = this.projectEntityData.findIndex(x =>
+            x.name === this.modelObject.name);
+        if (index > -1) {
+            this.entityIsExist = true;
+        } else {
+            this.entityIsExist = false;
+        }
+    }
     onNoClick(): void {
         this.dialogRef.close();
     }

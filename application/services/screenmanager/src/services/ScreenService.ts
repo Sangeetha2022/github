@@ -55,4 +55,11 @@ export class ScreenService {
             callback(response);
         });
     }
+
+    public getTemplateByProjectId(req: Request, callback) {
+        const projectId = req.query.projectId;
+        screenDao.getTemplateByProjectId(projectId, (response) => {
+            callback(response);
+        });
+    }
 }

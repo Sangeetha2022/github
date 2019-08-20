@@ -2,8 +2,9 @@
 <div mat-dialog-content style="text-align: center">
   <p>Name</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="modelObject.name">
+    <input matInput [(ngModel)]="modelObject.name" (ngModelChange)="isEntityExist($event)">
   </mat-form-field>
+  <div *ngIf="entityIsExist" style="color: red">Entity name already exist</div>
   <p>Description</p>
   <mat-form-field>
     <input matInput [(ngModel)]="modelObject.description">
@@ -19,5 +20,6 @@
 <br />
 <div mat-dialog-actions>
   <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
-  <button mat-raised-button color="primary" [mat-dialog-close]="modelObject" cdkFocusInitial>Ok</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="modelObject" [disabled]="entityIsExist"
+    cdkFocusInitial>Ok</button>
 </div>

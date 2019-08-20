@@ -16,24 +16,49 @@ export class FlowComponentWorker {
         this.componentFileDetails = temp;
         this.entities = entities;
         this.checkConnector();
-        console.log('final componeon file datesil are ----  ', this.componentFileDetails);
+        // console.log('final componeon file datesil are ----  ', this.componentFileDetails);
     }
 
     // GpCheck_Connector
     private checkConnector() {
         // flow method with connector
-        console.log('check component connector flow methods are ----  ', this.componentObject);
-        this.componentObject.flowMethod.forEach(flowElement => {
-            this.currentFlow = null;
-            this.currentFlow = flowElement;
-            console.log('each flowElement are ----  ', util.inspect(flowElement, { showHidden: true, depth: null }))
-            flowElement.components.connector.forEach(connectorElement => {
-                if (connectorElement.isDefault && !connectorElement.isDisabled) {
-                    this.addComponentMethod(Constant.DEFAULT_CONNECTOR_NAME);
-                    this.componentOption();
-                }
+        console.log('flowComponent componentObject are ---- ', this.componentObject);
+        // if variable list is empty need to add the primary entities in the variable list
+        if (this.componentObject.variableList.length > 0 && !this.componentObject.variableList[0].entityName) {
+            const variableTemp = {
+                entityId: '',
+                entityName: '',
+                fields: []
+            }
+            const primaryEntity = this.entities.find(x => x.entity_type == Constant.PRIMARY_NAME);
+            if (primaryEntity) {
+                variableTemp.entityId = primaryEntity._id;
+                variableTemp.entityName = primaryEntity.name;
+                this.componentObject.variableList.push(variableTemp);
+            }
+        }
+
+        // if(componentDependency.component)
+        // console.log('check component connector flow methods are ----  ', this.componentObject);
+        if (this.componentObject.flowMethod.length > 0) {
+            this.componentObject.flowMethod.forEach(flowElement => {
+                this.currentFlow = null;
+                this.currentFlow = flowElement;
+                // console.log('each flowElement are ----  ', util.inspect(flowElement, { showHidden: true, depth: null }))
+                flowElement.components.connector.forEach(connectorElement => {
+                    if (connectorElement.isDefault && !connectorElement.isDisabled) {
+                        this.addComponentMethod(Constant.DEFAULT_CONNECTOR_NAME);
+                        this.componentOption();
+                    }
+                })
             })
-        })
+        } else {
+            if (this.componentObject.dependenciesVariableList &&
+                this.componentObject.dependenciesVariableList.length > 0) {
+                console.log('component object dependencie variable list are ---- ', this.componentObject.dependenciesVariableList.length);
+                this.componentFileDetails.componentVariable = this.componentFileDetails.componentVariable.concat(this.componentObject.dependenciesVariableList);
+            }
+        }
     }
 
     // GpCodeToAdd and GpRequest
@@ -50,10 +75,10 @@ export class FlowComponentWorker {
         }
         switch (this.currentFlow.actionOnData) {
             case Constant.GP_CREATE_FLOW:
-                console.log('check request method are -----  ', this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW));
+                // console.log('check request method are -----  ', this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW));
                 let createTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    createTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
+                    createTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[this.componentObject.variableList.findIndex(x => x.entityName != undefined)].entityName})`;
                     createTemp += `\n  .subscribe(`;
                     createTemp += `\n    data => {`;
                     createTemp += `\n       console.log('data created successfully');`;
@@ -71,7 +96,7 @@ export class FlowComponentWorker {
                 createTemp += `\n}`;
                 // component methods
                 this.componentFileDetails.componentMethod.push(createTemp);
-                console.log('create component are -----  ', createTemp);
+                // console.log('create component are -----  ', createTemp);
                 break;
             case Constant.GP_SEARCH_FLOW:
                 break;
@@ -96,7 +121,7 @@ export class FlowComponentWorker {
                 updateTemp += `\n}`;
                 // component methods
                 this.componentFileDetails.componentMethod.push(updateTemp);
-                console.log('update component are -----  ', updateTemp);
+                // console.log('update component are -----  ', updateTemp);
                 break;
             case Constant.GP_DELETE_FLOW:
                 let deleteTemp = `${this.currentFlow.name}() {`;
@@ -119,7 +144,7 @@ export class FlowComponentWorker {
                 deleteTemp += `\n}`;
                 // component methods
                 this.componentFileDetails.componentMethod.push(deleteTemp);
-                console.log('delete component are -----  ', deleteTemp);
+                // console.log('delete component are -----  ', deleteTemp);
                 break;
             case Constant.GP_GETALLVALUES_FLOW:
                 break;
@@ -172,7 +197,7 @@ export class FlowComponentWorker {
                 getByIdTemp += `\n}`;
                 // component methods
                 this.componentFileDetails.componentMethod.push(getByIdTemp);
-                console.log('getByIdTemp component are -----  ', getByIdTemp);
+                // console.log('getByIdTemp component are -----  ', getByIdTemp);
                 break;
             case Constant.GP_DELETEBYPARENTID_FLOW:
                 break;
@@ -195,15 +220,17 @@ export class FlowComponentWorker {
     // GpOptons
     private componentOption() {
         if (this.checkMicroFlowSteps(Constant.COMPONENT_OPTIONS_MICROFLOW)) {
+            this.componentObject.variableList = this.componentObject.variableList.concat(this.componentObject.dependenciesVariableList);
             this.addComponentVariable();
         }
     }
 
     private addComponentVariable() {
+        console.log('ts component variable are -----  ', this.componentObject.variableList);
         this.componentObject.variableList.forEach(element => {
             // for entities variable in component.ts
             const entitiesObject = this.entities.find(x => x._id == element.entityId && x.entity_type == Constant.PRIMARY_NAME);
-            console.log('entitiesObject are ------  ', entitiesObject);
+            // console.log('entitiesObject are ------  ', entitiesObject);
             if (entitiesObject) {
                 let temp = `${entitiesObject.name} = {`;
                 entitiesObject.field.forEach((fieldElement, fieldIndex) => {
@@ -219,14 +246,14 @@ export class FlowComponentWorker {
     }
 
     checkDataType(fieldElement) {
-        console.log('filed element test datatype are ---- ', fieldElement.data_type);
+        // console.log('filed element test datatype are ---- ', fieldElement.data_type);
         return fieldElement.data_type.toLowerCase() ==
             Constant.STRING_DATATYPE ? `''` : fieldElement.data_type.toLowerCase() ==
                 Constant.BOOLEAN_DATATYPE ? false : null;
     }
 
     isLastIndex(array, index) {
-        console.log('is last index arrays are ---  ', array);
+        // console.log('is last index arrays are ---  ', array);
         return array.length - 1 == index ? '' : ',';
     }
 

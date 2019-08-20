@@ -4,6 +4,7 @@ import { IEntity } from '../../../../project-component/interface/Entity';
 import * as dictionary from 'nanoid-dictionary';
 import * as generate from 'nanoid/generate';
 
+declare var ClassicEditor: any;
 declare var agGrid: any;
 @Injectable({
   providedIn: 'root'
@@ -534,9 +535,7 @@ export class TraitsService {
 
 
 
-  addCKEditorTraits(editor, buttonName) {
 
-  }
 
   getData() {
     this.entityOptions = [];
@@ -567,6 +566,60 @@ export class TraitsService {
     );
   }
 
+  addCKEditorTraits(editor, buttonName) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    // typemodels
+    // const typeModel = comps.getType(buttonName).model;
+    comps.addType(buttonName, {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          script: function () {
+            const initCKeditor = function () {
+              ClassicEditor.create(document.querySelector('#ckeditortextarea'))
+                .then(obj => {
+                  console.log(obj);
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            };
+            if (typeof ClassicEditor === 'undefined') {
+              const script = document.createElement('script');
+              script.onload = initCKeditor;
+              script.src = 'https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js';
+              document.body.appendChild(script);
+            } else {
+              initCKeditor();
+            }
+          },
+          traits: [{
+            label: 'name',
+            name: 'name',
+            changeProp: 1,
+            type: 'text'
+          }],
+
+        })
+      },
+        {
+          isComponent: function (el) {
+            if (el.tagName === buttonName) {
+              return {
+                type: buttonName
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
 
   addGridTraits(editor, buttonName) {
     this.getData();

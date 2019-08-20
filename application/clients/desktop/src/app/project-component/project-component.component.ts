@@ -113,6 +113,7 @@ export class EntityManagerComponent implements OnInit {
     gridApi: any;
     screenDetails: any = [];
     projectEntity: any = [];
+    isFeatureExist: Boolean;
     public allEntity: IEntity[] = [];
     public FeatureEntity: any = [];
     public deletePopup: String = 'none';
@@ -229,7 +230,6 @@ export class EntityManagerComponent implements OnInit {
     }
 
     openDialog(isSaveOption, objectValue): void {
-        alert('cxcc');
         let dialogDataValue;
         if (isSaveOption) {
             dialogDataValue = {};
@@ -282,41 +282,60 @@ export class EntityManagerComponent implements OnInit {
     }
 
     createFeature() {
-        this.featureInfo.description = this.featureInfo.description.replace(/<[^>]*>/g, '');
+        this.isFeatureExist = false;
+        this.featureInfo.name.toLowerCase();
         this.featureInfo.project = this.project_id;
-        this.projectComponentService.saveFeatures(this.featureInfo).subscribe(
-            (featureData) => {
-                console.log('saved features are ---- ', featureData);
-                this.displayFeatureModel = 'none';
-                this.menuBuilder = {
-                    feature: [], project: '', language: '',
-                    menuDetails: [], project_languages: this.menuLanguages, menu_option: true
-                };
-                this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
-                    if (menuBuilderData.length !== 0) {
-                        menuBuilderData.forEach(menuData => {
-                            console.log(menuData.menu_option)
-                            if (menuData.menu_option === true) {
-                                this.menuBuilder.feature = menuData.feature;
-                                this.menuBuilder.project = this.project_id;
-                                this.menuBuilder.language = menuData.language;
-                                this.menuBuilder.feature.push(featureData._id);
-                                this.menuBuilder.menuDetails = menuData.menuDetails;
-                                this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
-                                    .subscribe(fMenu => {
-                                        console.log('=========', fMenu);
-                                    });
-                            }
-                        });
+
+        this.projectComponentService.getFeatureByProjectId(this.project_id).subscribe(projFeature => {
+            if (projFeature.length > 0) {
+                projFeature.forEach(feature => {
+                    if (feature.name === this.featureInfo.name) {
+                        this.isFeatureExist = true;
                     }
                 });
-                this.getFeatureByProjectId();
-            },
-            (error) => {
-
             }
-        );
+
+            if (!this.isFeatureExist) {
+                this.featureInfo.description = this.featureInfo.description.replace(/<[^>]+>/g, '');
+                this.featureInfo.description.trim();
+                this.projectComponentService.saveFeatures(this.featureInfo).subscribe(
+                    (featureData) => {
+                        this.featureInfo = { name: '', description: '', project: '' };
+                        console.log('saved features are ---- ', featureData);
+                        this.displayFeatureModel = 'none';
+                        this.menuBuilder = {
+                            feature: [], project: '', language: '',
+                            menuDetails: [], project_languages: this.menuLanguages, menu_option: true
+                        };
+                        this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
+                            if (menuBuilderData.length !== 0) {
+                                menuBuilderData.forEach(menuData => {
+                                    console.log(menuData.menu_option)
+                                    if (menuData.menu_option === true) {
+                                        this.menuBuilder.feature = menuData.feature;
+                                        this.menuBuilder.project = this.project_id;
+                                        this.menuBuilder.language = menuData.language;
+                                        this.menuBuilder.feature.push(featureData._id);
+                                        this.menuBuilder.menuDetails = menuData.menuDetails;
+                                        this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
+                                            .subscribe(fMenu => {
+                                                console.log('=========', fMenu);
+                                            });
+                                    }
+                                });
+                            }
+                        });
+                        this.getFeatureByProjectId();
+                    },
+                    (error) => {
+
+                    }
+                );
+            }
+
+        });
     }
+
 
     // getProjectDetails() {
     //     this.projectComponentService.getAllFeatureByProjectId(this.project_id).subscribe(data => {

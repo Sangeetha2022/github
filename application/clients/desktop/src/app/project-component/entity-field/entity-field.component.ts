@@ -38,13 +38,18 @@ export class EntityFieldComponent implements OnInit {
     updated_at: new Date(),
     field: []
   };
+
+  public editedProp: string;
   public isValid: Boolean = true;
   // public entity: any;
   allEntity: IEntity[];
   selectCellRenderedValue: String;
+  currentRowData: any;
   selectedCellRowIndex: any;
   EnteredReserveWord: String;
   projectId: any;
+  propertyPopup: String = 'none';
+  propertiesIsExist: Boolean = false;
   featureId: any;
 
   constructor(
@@ -219,11 +224,41 @@ export class EntityFieldComponent implements OnInit {
   }
   updateField() {
     this.entity.field = this.getRowData();
+    this.entity.field.forEach(prop => {
+      prop.name = prop.name.toLowerCase();
+    });
     this.updateEntityField(false);
   }
 
   cancelField() {
     this.location.back();
+  }
+
+  onCellValueChanged(event) {
+    const rowIndex = event.rowIndex;
+    const currentEntity = [];
+    this.gridApi.forEachNode(function (node, index) {
+      if (index !== rowIndex) {
+        currentEntity.push(node.data.name);
+      }
+    });
+
+    const index = currentEntity.findIndex(x =>
+      x === event.data.name);
+
+    if (index > -1) {
+      this.propertiesIsExist = true;
+    } else {
+      this.propertiesIsExist = false;
+    }
+
+    if (this.propertiesIsExist) {
+      this.propertyPopup = 'block';
+    }
+  }
+
+  closeModel() {
+    this.propertyPopup = 'none';
   }
 
   updateEntityField(options) {

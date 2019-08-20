@@ -190,7 +190,8 @@ u {
 
 .label {
   display: inline-block;
-  padding: 5px 0
+  padding: 5px 0;
+  color: black !important;
 }
 
 .label-checkbox {

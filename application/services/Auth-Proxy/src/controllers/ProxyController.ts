@@ -7,7 +7,7 @@ let proxyservice = new Proxyservice;
 export class Proxycontroller {
 
     public usercontroller(req: Request, res: Response) {
-        logger.info('ProxyController.ts : usercontroller');
+        // logger.info('ProxyController.ts : usercontroller');
         var userdetails = req.body;
         proxyservice.userservice(userdetails, (response) => {
             res.status(200);

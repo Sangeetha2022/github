@@ -6,6 +6,7 @@ export class AssetWorker {
 
     private assetSupportWorker = new AssetSupportWorker();
     private ASSET_IMAGE_NAME: any[] = [
+        'stack.jpg',
         'home.jpg',
         'achivement.jpg',
         'bg-banner.jpg',

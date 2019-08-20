@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TraitsService } from '../traits/traits.service';
 
-declare var ClassicEditor: any;
-declare var agGrid: any;
 @Injectable({
   providedIn: 'root'
 })
@@ -90,56 +88,17 @@ export class BlockService {
             </svg>
 `,
       category: 'Basic',
-      // attributes: {
-      //   class: 'fa f'
-      // },
-      content: {
-        content: `
-      <textarea name="content" id="editor">This is some sample content.</textarea>
+      content: `
+      <div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
+      <span id="ckeditorspan" style="display: unset;" data-gjs-type="ckeditor5">
+      <textarea name="content" id="ckeditortextarea">This is some sample content.</textarea>
+      </span>
+      </div>
       `,
-        script: function () {
-          const initCKeditor = function () {
-            ClassicEditor.create(document.querySelector('#editor'))
-              .then(obj => {
-                console.log(obj);
-              })
-              .catch(error => {
-                console.error(error);
-              });
-          };
-          if (typeof ClassicEditor === 'undefined') {
-            const script = document.createElement('script');
-            script.onload = initCKeditor;
-            script.src = 'https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js';
-            document.body.appendChild(script);
-          } else {
-            initCKeditor();
-          }
-        },
-        style: {
-          'padding-top': '10px',
-          'padding-right': '2px',
-          'padding-left': '2px',
-          'padding-bottom': '10px'
-        },
-        'entity-name': 'testets',
-        traits: [{
-          type: 'text',
-          label: 'Name',
-          name: 'entity-name',
-          placeholder: 'Lorem ipsum',
-          changeProp: 1,
-        }, {
-          type: 'text',
-          label: 'Data Binding',
-          name: 'entity-data-binding',
-          placeholder: 'Lorem ipsum',
-          changeProp: 1,
-        }],
-      },
       draggable: true,
       removable: true
     });
+    this.traitService.addCKEditorTraits(editor, 'ckeditor5');
   }
 
   addAgGrid(editor) {

@@ -26,7 +26,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { TraitsService } from './services/traits/traits.service';
 import { ActivatedRoute } from '@angular/router';
 import { Constants } from 'src/app/config/Constant';
-
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 declare var grapesjs: any;
 declare var jQuery: any;
@@ -38,6 +38,7 @@ declare var jQuery: any;
 export class DesktopScreenComponent implements OnInit, OnDestroy {
     editor: any;
     @ViewChild('myModal') myModal: ElementRef;
+    public Editor = ClassicEditor;
     blocksOption: any[] = [{
         'option': 'Basic Elements',
         'value': ''
@@ -109,6 +110,9 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     screenType: String;
     screenArrayByProjectId: any;
     screenNameExist: Boolean = false;
+    stylesheets: any[] = [];
+    scripts: any[] = [];
+    cssGuidelines: any[] = [];
 
     constructor(
         private screenDesignerService: ScreenDesignerService,
@@ -184,6 +188,13 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 this.screenType = params.screenType;
             }
         });
+        console.log('stylesheets json are ----  ', JSON.parse(localStorage.getItem('stylesheets')));
+        console.log('scripts json are ----  ', JSON.parse(localStorage.getItem('scripts')));
+        console.log('css_guidelines json are ----  ', JSON.parse(localStorage.getItem('css_guidelines')));
+        this.stylesheets = JSON.parse(localStorage.getItem('stylesheets'));
+        this.scripts = JSON.parse(localStorage.getItem('scripts'));
+        this.cssGuidelines = JSON.parse(localStorage.getItem('css_guidelines'));
+
         // this.columnDefs = [
         //     {
         //         headerName: 'Name',
@@ -250,12 +261,27 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.saveTemplateURL = `${this.sharedService.screenUrl}${Constants.addScreen}`;
         this.updateTemplateURL = `${this.sharedService.screenUrl}${Constants.updateScreen}`;
         this.saveChildURL = this.sharedService.screenUrl + '/childTemplate/save';
-        const addStyles = [];
+        let addStyles = [];
+        let addScripts = [];
         const plugins = ['gjs-grapedrop-preset'];
         const updateParams = {
             method: 'PATCH',
         };
-        addStyles.push('./assets/css/gjs-base.css');
+        if (this.stylesheets) {
+            addStyles = this.stylesheets;
+        }
+        if (this.scripts) {
+            addScripts = this.scripts;
+        }
+        console.log('final addStyles are ---- ', addStyles);
+        console.log('final addScripts are ---- ', addScripts);
+        console.log('final cssGuideleines are ---- ', this.cssGuidelines);
+        // add multiple styles
+        // addStyles.push('./assets/css/gjs-base.css');
+        // addStyles.push('./assets/css/bootstrap.min.css');
+        // addStyles.push('./assets/css/grapesjscustom1.css');
+        // addStyles.push('./assets/css/grapesjscustom2.css');
+        // addStyles.push('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css');
         grapesjs.plugins.add('mobile-plugin', function (editor, options) {
             // remove the devices switcher
             // editor.getConfig().showDevices = false;
@@ -386,8 +412,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 }
             },
             canvas: {
-                styles: [addStyles],
-                scripts: []
+                styles: addStyles,
+                scripts: addScripts
             },
             assetManager: {
                 assets: [],
@@ -489,6 +515,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         cmdm.add('html-import', {
             run: function (editor, sender) {
                 sender.set('active', 0);
+                // alert('import html called')
                 let viewer = codeViewer.editor;
                 modal.setTitle('Edit code');
                 if (!viewer) {
@@ -825,6 +852,21 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                     label: 'Field',
                     name: 'Field'
                 });
+
+        // ckeditor traits
+        this.editor.DomComponents.getType('ckeditor5').model
+            .prototype.defaults.traits.push({
+                type: 'select',
+                label: this.traitsName,
+                name: this.traitsName,
+                options: EntityBinding,
+                changeProp: 1
+
+            }, {
+                    type: 'entityFieldButton',
+                    label: 'Field',
+                    name: 'Field'
+                });
     }
 
 
@@ -971,39 +1013,99 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             }
             // $this.editor.DomComponents.getWrapper().find('#somid')[0];
             const allInputModels = model.find('input');
-            const allRadioModels = model.find('.radio');
+            const allRadioModels = model.find('input[type="radio"i]');
             const allTextAreaModels = model.find('textarea');
             const allOptionModels = model.find('select');
-            const allButtonModels = model.find('.button');
-            const allCheckBoxModels = model.find('.checkbox');
+            const allButtonModels = model.find('button');
+            const allCheckBoxModels = model.find('input[type="checkbox"i]');
             const allImageBlockModels = model.find('.gpd-image-block');
             const allImageModels = model.find('.gjs-plh-image');
+            const allLabelModels = model.find('label');
+            // const ckeditorDiv = model.find('#ckeditordiv');
+            const ckeditorspan = model.find('#ckeditorspan');
+            const allCKeditorModels = model.find('#ckeditortextarea');
+            const ckeditorTextAreaModels = model.find('span #ckeditortextarea');
+
             // const agGridModels = model.find('[data-gjs-type="grid-type"]');
             // console.log('ag grid models before drop ----- ', agGridModels);
             // console.log('before drop the element component ----models--- ', allInputModels);
             // console.log('before drop the element component ----textArea--- ', allTextAreaModels);
+            // console.log('all input models are ----- ', allInputModels);
+            // console.log('all radio models are ----- ', allRadioModels);
+            // console.log('all ButtonModels are ----- ', allButtonModels);
+            // console.log('all labelmodels are ----- ', allLabelModels);
+            // console.log('all textareamodels are ----- ', allTextAreaModels);
+            // console.log('all CKeditorModels are ----- ', allCKeditorModels);
+            // console.log('all ckeditorDiv are ----- ', ckeditorDiv);
+            // console.log('all ckeditorspan are ----- ', ckeditorspan);
+            console.log('all spanTextareaModels are ----- ', ckeditorTextAreaModels);
+            // label
+            allLabelModels.forEach(element => {
+                // element.set({
+                //     attributes: {
+                //         class: 'form-control'
+                //     }
+                // });
+                // element.addClass('form-control');
+                // const temp = $this.cssGuidelines.find(x => x.tagName === 'input');
+                // if (temp) {
+                //     element.addClass(temp.className);
+                // }
+                console.log('input models are ----  ', element);
+                $this.setElementCSS(element, 'label', null);
+            });
             // input
             allInputModels.forEach(element => {
-                element.attributes.traits.target.set('name', `textbox_${element.ccid}`);
+                // element.set({
+                //     attributes: {
+                //         class: 'form-control'
+                //     }
+                // });
+                // element.addClass('form-control');
+                // const temp = $this.cssGuidelines.find(x => x.tagName === 'input');
+                // if (temp) {
+                //     element.addClass(temp.className);
+                // }
+                console.log('input models are ----  ', element);
+                $this.setElementCSS(element, 'input', null);
+                element.attributes.traits.target.set('name', `input_${element.ccid}`);
             });
             // radio
             allRadioModels.forEach(element => {
+                // const temp = $this.cssGuidelines.find(x => x.tagName === 'input');
+                // if (temp) {
+                //     element.addClass(temp.className);
+                // }
+                // element.removeClass('form-control');
+                console.log('redio models are ----  ', element);
+                if (element) {
+                    $this.setElementCSS(element, 'radio', 'input');
+                }
+                console.log('each radiobutton elemenr are ----  ', element);
                 element.attributes.traits.target.set('name', `radio_${element.ccid}`);
             });
             // TextArea
             allTextAreaModels.forEach(element => {
+                // element.addClass('form-control');
+                $this.setElementCSS(element, 'textarea', null);
                 element.attributes.traits.target.set('name', `textbox_${element.ccid}`);
             });
             // input options
             allOptionModels.forEach(element => {
+                // element.addClass('form-control');
+                $this.setElementCSS(element, 'select', null);
                 element.attributes.traits.target.set('name', `select_${element.ccid}`);
             });
             // checkbox
             allCheckBoxModels.forEach(element => {
+                // element.removeClass('form-control');
+                $this.setElementCSS(element, 'checkbox', 'input');
                 element.attributes.traits.target.set('name', `checkbox_${element.ccid}`);
             });
             // button
             allButtonModels.forEach(element => {
+                // element.addClass('btn btn-primary');
+                $this.setElementCSS(element, 'button', null);
                 element.attributes.traits.target.set('name', `button_${element.ccid}`);
             });
             // image blocks
@@ -1013,6 +1115,17 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             // images
             allImageModels.forEach(element => {
                 element.attributes.traits.target.set('name', `image_${element.ccid}`);
+            });
+            // ckeditor
+            // set dynamic name in ckeditor span
+            ckeditorspan.forEach(element => {
+                element.attributes.traits.target.set('name', `ckeditor_${element.ccid}`);
+            });
+            // remove unwanted classes and add the classname if available
+            ckeditorTextAreaModels.forEach(element => {
+                console.log('ckeditor models are ----  ', element);
+                $this.setElementCSS(element, 'ckeditor', 'textarea');
+                element.attributes.traits.target.set('name', `ckeditor_${element.ccid}`);
             });
         });
         // this.editor.on('change:traits:entity', function (model) {
@@ -1083,6 +1196,20 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         //     // allImageBlockModels.forEach(models => models.setAttributes({ name: `imageblocks_${generate(dictionary.numbers, 6)}` }));
         //     // allImageModels.forEach(models => models.setAttributes({ name: `image_${generate(dictionary.numbers, 6)}` }));
         // });
+    }
+
+    setElementCSS(element, tagName, removeTagClassName) {
+        const temp = this.cssGuidelines.find(x => x.tagName === tagName);
+        console.log('set element css ar e----  ', temp, '  --tagname--  ', tagName, '  --removeTagClassName- ', removeTagClassName);
+        if (temp) {
+            element.addClass(temp.className);
+        }
+        if (removeTagClassName) {
+            const removeTemp = this.cssGuidelines.find(x => x.tagName === removeTagClassName);
+            if (removeTemp) {
+                element.removeClass(removeTemp.className);
+            }
+        }
     }
 
     getProjectDetails() {
@@ -1246,6 +1373,20 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
 
     updateScreeName() {
         const $this = this;
+        // const domc = this.editor.DomComponents;
+        // const typeModel = domc.getType('ckeditor5').model;
+        // console.log('ckeditor5 typemodeules are =====>>>  ', typeModel);
+        // domc.addType('ckeditor5', {
+        //     model: {
+        //         toJSON() {
+        //             console.log('before render toJSON ')
+        //             const result = typeModel.prototype.toJSON.apply(this);
+        //             delete result.traits;
+
+        //             return result;
+        //         }
+        //     }
+        // });
         this.saveRemoteStorage();
         this.createFeatureIfNotExist();
         this.closeScreeName();

@@ -18,7 +18,7 @@ export class CamundaService {
     constructor() { }
 
     public camundarequest(req: Request, callback): void {
-        logger.info('Camundaservice.ts : camundarequest');
+        // logger.info('Camundaservice.ts : camundarequest');
         resourcemodel.find().then((result) => {
             asyncLoop(result, (resource, next) => {
                 if(resource.resources === 'Landing'){
@@ -43,7 +43,7 @@ export class CamundaService {
     }
 
     public camundaauthorization() {
-        logger.info('Camundaservice.ts : camundaauthorization');
+        // logger.info('Camundaservice.ts : camundaauthorization');
         console.log('----------resource-----', this.resourcevalue);
         var body = {
             "variables": {
