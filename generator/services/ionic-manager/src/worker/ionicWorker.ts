@@ -11,6 +11,7 @@ export class IonicWorker {
     private landingFolderpath = 'ionic/landing';
     private appFolderpath = 'ionic/app';
     private loginserviceFolderpath = 'ionic/login-service';
+    private appiconFolderpath = 'ionic/icon'
 
 
     assetImages(projectDetails, callback) {
@@ -19,6 +20,15 @@ export class IonicWorker {
         console.log("imgPath----->", imgPath);
         const seedPath = Details.project.templateLocation.authTemplatePath
         this.generateImg(imgPath, this.ionicFolderpath, seedPath);
+        callback();
+    }
+
+    appIcon(projectDetails, callback) {
+        const Details = projectDetails;
+        const iconPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/resources`;
+        console.log("iconPath----->", iconPath);
+        const seedPath = Details.project.templateLocation.authTemplatePath
+        this.generateImg(iconPath, this.appiconFolderpath, seedPath);
         callback();
     }
 
