@@ -166,9 +166,9 @@ export class DaoWorker {
                 break;
             case 'GpSearch':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
-                this.tempDao.function.parameter = `${this.entitySchema.fileName}Id, callback`;
-                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findById`;
-                this.tempDao.function.query = `${this.entitySchema.fileName}Id`;
+                this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
+                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
+                this.tempDao.function.query = `{$and: [${this.entitySchema.fileName}Data]}`;
                 break;
             case 'GpUpdate':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;

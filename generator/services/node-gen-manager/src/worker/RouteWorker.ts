@@ -121,7 +121,7 @@ export class RouteWorker {
                 break;
             case 'GpSearch':
                 // search and getNounById both are same
-                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/get/:id`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/search`;
                 this.tempRoutes.function.apiAction = `get`;
                 this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
