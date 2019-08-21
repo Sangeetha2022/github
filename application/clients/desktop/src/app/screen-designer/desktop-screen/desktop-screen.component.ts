@@ -4,7 +4,6 @@ import { BlockService } from './services/blocks/block.service';
 import { LanguageService } from './services/languages/language.service';
 import { StylesService } from './services/styles/styles.service';
 import { PanelService } from './services/panels/panel.service';
-import { CommandService } from './services/commands/command.service';
 import { DataService } from '../../../shared/data.service';
 
 import * as constant from '../../../assets/data/constant.json';
@@ -27,6 +26,7 @@ import { TraitsService } from './services/traits/traits.service';
 import { ActivatedRoute } from '@angular/router';
 import { Constants } from 'src/app/config/Constant';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CustomTraitsService } from './services/traits/custom-traits.service';
 
 declare var grapesjs: any;
 declare var jQuery: any;
@@ -121,7 +121,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         private styleService: StylesService,
         private panelService: PanelService,
         private traitService: TraitsService,
-        private commandService: CommandService,
+        private customTriatService: CustomTraitsService,
         private projectComponentService: ProjectComponentService,
         private flowManagerService: FlowManagerService,
         private dataService: DataService,
@@ -799,7 +799,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         // console.log('ram setdefaul types are ----- ', traitsName);
         // this.editor.DomComponents.getType('input').model.prototype.init().listenTo(this, 'change:2345', this.newENtity);
         // console.log('ram 12345@@ ----  ',this.editor.DomComponents.getType('input').model.prototype.init());
-        this.traitsButton();
+        this.customTriatService.entityFieldButton(this);
         this.editor.DomComponents.getType('input').model
             .prototype.defaults.traits.push({
                 type: 'select',
@@ -869,37 +869,6 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 });
     }
 
-
-    traitsButton() {
-        const $this = this;
-        this.editor.TraitManager.addType('entityFieldButton', {
-            events: {
-                'click': function () {
-                    console.log('traits button before if --- ', this.target.changed['entity']);
-                    if (this.target.changed['entity'] !== undefined
-                        && this.target.changed['entity'] !== 'none') {
-                        $this.isFieldPopupModal = true;
-                        $this.ref.detectChanges();
-                        console.log('traits button after if --- ', $this.isFieldPopupModal);
-                    }
-                },
-            },
-            getInputEl() {
-                // tslint:disable-next-line:prefer-const
-                let button = <HTMLElement>document.createElement('button');
-                button.id = 'fieldButton';
-                button.style.width = '100%';
-                button.style.backgroundColor = '#4CAF50';
-                button.style.border = 'none';
-                button.style.color = 'white';
-                button.style.backgroundColor = '#008CBA';
-                button.style.fontSize = '12px !important';
-                button.style.cursor = 'pointer';
-                button.appendChild(document.createTextNode('Field'));
-                return button;
-            },
-        });
-    }
 
     beforeDropElement() {
         const $this = this;
@@ -1004,6 +973,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.editor.on('block:drag:stop', function (model) {
             // console.log('before drop the element component ------- ', this);
             console.log('before drop the element component ----models--- ', model);
+            // get dropped element with its types
             const wrapperType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="grid-type"]');
             if (wrapperType.length > 0) {
                 // alert(true);
@@ -1023,7 +993,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             const allLabelModels = model.find('label');
             // const ckeditorDiv = model.find('#ckeditordiv');
             const ckeditorspan = model.find('#ckeditorspan');
-            const allCKeditorModels = model.find('#ckeditortextarea');
+            // const allCKeditorModels = model.find('#ckeditortextarea');
             const ckeditorTextAreaModels = model.find('span #ckeditortextarea');
 
             // const agGridModels = model.find('[data-gjs-type="grid-type"]');
@@ -1056,28 +1026,11 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             });
             // input
             allInputModels.forEach(element => {
-                // element.set({
-                //     attributes: {
-                //         class: 'form-control'
-                //     }
-                // });
-                // element.addClass('form-control');
-                // const temp = $this.cssGuidelines.find(x => x.tagName === 'input');
-                // if (temp) {
-                //     element.addClass(temp.className);
-                // }
-                console.log('input models are ----  ', element);
                 $this.setElementCSS(element, 'input', null);
                 element.attributes.traits.target.set('name', `input_${element.ccid}`);
             });
             // radio
             allRadioModels.forEach(element => {
-                // const temp = $this.cssGuidelines.find(x => x.tagName === 'input');
-                // if (temp) {
-                //     element.addClass(temp.className);
-                // }
-                // element.removeClass('form-control');
-                console.log('redio models are ----  ', element);
                 if (element) {
                     $this.setElementCSS(element, 'radio', 'input');
                 }
@@ -1086,25 +1039,21 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             });
             // TextArea
             allTextAreaModels.forEach(element => {
-                // element.addClass('form-control');
                 $this.setElementCSS(element, 'textarea', null);
                 element.attributes.traits.target.set('name', `textbox_${element.ccid}`);
             });
             // input options
             allOptionModels.forEach(element => {
-                // element.addClass('form-control');
                 $this.setElementCSS(element, 'select', null);
                 element.attributes.traits.target.set('name', `select_${element.ccid}`);
             });
             // checkbox
             allCheckBoxModels.forEach(element => {
-                // element.removeClass('form-control');
                 $this.setElementCSS(element, 'checkbox', 'input');
                 element.attributes.traits.target.set('name', `checkbox_${element.ccid}`);
             });
             // button
             allButtonModels.forEach(element => {
-                // element.addClass('btn btn-primary');
                 $this.setElementCSS(element, 'button', null);
                 element.attributes.traits.target.set('name', `button_${element.ccid}`);
             });
@@ -1123,7 +1072,6 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             });
             // remove unwanted classes and add the classname if available
             ckeditorTextAreaModels.forEach(element => {
-                console.log('ckeditor models are ----  ', element);
                 $this.setElementCSS(element, 'ckeditor', 'textarea');
                 element.attributes.traits.target.set('name', `ckeditor_${element.ccid}`);
             });
@@ -1225,7 +1173,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
 
     addCustomBlocks() {
         this.blockService.addCKeditor5(this.editor);
-        this.blockService.addAgGrid(this.editor);
+        this.blockService.addAgGrid(this.editor, this.project_id);
         this.blockService.addSpecialButton(this.editor);
         this.blockService.addSpecialDropdown(this.editor);
     }

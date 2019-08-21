@@ -67,6 +67,7 @@ import { ProfilesettingsComponent } from './user/profilesettings/profilesettings
 import { TemplateScreenComponent } from './template-screen/template-screen.component';
 import { TemplateScreenModule } from './template-screen/template-screen.module';
 import { FooterComponent } from './navigation/footer/footer.component';
+import { ValidatorService } from 'src/shared/validator.service';
 
 const i18nextOptions = {
   whitelist: ['en', 'ta', 'es'],
@@ -207,6 +208,7 @@ export const I18N_PROVIDERS = [
     LoginService,
     Consentservice,
     HomepageService,
+    ValidatorService,
     LandingService,
     {
       provide: HTTP_INTERCEPTORS,

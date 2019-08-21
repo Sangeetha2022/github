@@ -4,7 +4,11 @@
   <mat-form-field>
     <input matInput [(ngModel)]="modelObject.name" (ngModelChange)="isEntityExist($event)">
   </mat-form-field>
-  <div *ngIf="entityIsExist" style="color: red">Entity name already exist</div>
+  <div *ngIf="entityIsExist" style="color: red">name already exist</div>
+  <div *ngIf="invalidName" style="color: red">name must starts
+    with alphapet,special charaters not allowed</div>
+  <div *ngIf="isReserveWord" style="color: red">name must not be reserve
+    word</div>
   <p>Description</p>
   <mat-form-field>
     <input matInput [(ngModel)]="modelObject.description">

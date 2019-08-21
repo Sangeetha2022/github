@@ -101,7 +101,7 @@ export class BlockService {
     this.traitService.addCKEditorTraits(editor, 'ckeditor5');
   }
 
-  addAgGrid(editor) {
+  addAgGrid(editor, projectId) {
     // editor ag-grid custom blocks added
     editor.BlockManager.add('agGrid', {
       id: 'agGrid',
@@ -135,7 +135,7 @@ export class BlockService {
       draggable: true,
       removable: true
     });
-    this.traitService.addGridTraits(editor, 'grid-type');
+    this.traitService.addGridTraits(editor, 'grid-type', projectId);
   }
 
 

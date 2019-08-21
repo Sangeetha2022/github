@@ -2,12 +2,11 @@ import { Request } from 'express';
 import * as util from 'util';
 import { Common } from '../config/Common';
 import { IonicWorker } from '../worker/ionicWorker';
-import * as childProcess from 'child_process';
+import { exec } from 'child_process';
 
 
 export class AndroidAppService {
-    private ionicWorker = new IonicWorker();   
-    private exec = childProcess.exec;
+    private ionicWorker = new IonicWorker();
     private projectName = '';
     private generationPath = '';
     private ANDROID_FOLDERNAME = 'android';
@@ -23,33 +22,78 @@ export class AndroidAppService {
                 this.projectName += element.charAt(0).toUpperCase() + element.slice(1);
             }
         })
-        
+
 
         this.generationPath = projectDetails.projectGenerationPath;
         Common.createFolders(this.generationPath);
         this.generationPath += `/${this.ANDROID_FOLDERNAME}`;
         Common.createFolders(this.generationPath);
-        this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && ionic start ${this.projectName} sidemenu --cordova --type=ionic-angular --no-deps`, (error, stdout, stderr) => {
-            console.log('error exec ----->>>>    ', error);
-            console.log('stdout exec ----->>>>    ', stdout);
-            console.log('stderr exec ----->>>>    ', stderr);
-            if (stdout || stderr) {
-                this.ionicWorker.homeComponent(projectDetails,(response) => {
-                  this.ionicWorker.loginComponent(projectDetails,(response) => {
-                    this.ionicWorker.landingComponent(projectDetails,(response) => {
-                      this.ionicWorker.appComponent(projectDetails,(response) => {
-                        this.ionicWorker.loginservice(projectDetails,(response) => { 
-                            this.ionicWorker.assetImages(projectDetails,(response) => { 
-                            })
-                          })
-                        })
-                      })
-                   })
-                })
-                callback({ Message: 'ionic app for android generated successfully' })
-            } else {
-                callback({ Message: 'cannot able to generate ionic app successfully' })
+        exec(`cd ${this.generationPath} && ionic start ${this.projectName} sidemenu --cordova --type=ionic-angular --no-deps`, (error, stdout, stderr) => {
+            if (stderr) {
+                console.log("stderr", stderr);
             }
+            else {
+                if (stdout) {
+                    this.ionicWorker.homeComponent(projectDetails, (response) => {
+                        this.ionicWorker.loginComponent(projectDetails, (response) => {
+                            this.ionicWorker.landingComponent(projectDetails, (response) => {
+                                this.ionicWorker.appComponent(projectDetails, (response) => {
+                                    this.ionicWorker.loginservice(projectDetails, (response) => {
+                                        this.ionicWorker.assetImages(projectDetails, (response) => {
+                                            this.ionicWorker.appIcon(projectDetails, (response) => {
+                                                exec(`cd ${this.generationPath}/${this.projectName} && ionic cordova resources android -i` , (error, stdout, stderr)=> {
+                                                    if (stderr) {
+                                                        console.log("stderr", stderr)
+                                                    }
+                                                    else {
+                                                        if (stdout) {
+                                                            console.log("stdout", stdout);
+                                                        }
+                                                    }
+                                                    if (error !== null) {
+                                                        console.log('exec error: ' + error);
+                                                    }
+                                                });
+                                            })
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    })
+                    callback({ "status": "success" });
+                }
+            }
+            if (error !== null) {
+                console.log('exec error: ' + error);
+                callback({ "status": "failed" });
+            }
+
+            //         if (stdout || stderr) {
+            //             this.ionicWorker.homeComponent(projectDetails,(response) => {
+            //               this.ionicWorker.loginComponent(projectDetails,(response) => {
+            //                 this.ionicWorker.landingComponent(projectDetails,(response) => {
+            //                   this.ionicWorker.appComponent(projectDetails,(response) => {
+            //                     this.ionicWorker.loginservice(projectDetails,(response) => { 
+            //                        this.ionicWorker.assetImages(projectDetails,(response) => { 
+            //                           this.ionicWorker.appIcon(projectDetails,(response) => { 
+            //                           })
+            //                         })
+            //                       })
+            //                     })
+            //                   })
+            //                })
+            //             })
+            //             exec(`pwd`), (error, stdout, stderr) => {
+            //                 console.log("----inside cd--->")
+            //                 console.log('resources exec----->>>>    ', error);
+            //                 console.log('resources exec----->>>>    ', stdout);
+            //                 console.log('stderesourcesrr exec----->>>>    ', stderr);
+            //               }
+            //             callback({ Message: 'ionic app for android generated successfully' })
+            //         } else {
+            //             callback({ Message: 'cannot able to generate ionic app successfully' })
+            //         }
 
         });
     }

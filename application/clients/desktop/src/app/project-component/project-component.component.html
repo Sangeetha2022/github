@@ -282,9 +282,13 @@
                             <!-- feature name -->
                             <label for="name">Name</label>
                             <input type="text" class="form-control" name="name" [(ngModel)]="featureInfo.name"
-                                #name="ngModel" [ngClass]="{ 'is-invalid':
+                                (ngModelChange)="onFeatureChange($event)" #name="ngModel" [ngClass]="{ 'is-invalid':
                                 featurForm.submitted && name.invalid }" required />
                             <div *ngIf="isFeatureExist" style="color: red">Feature name already exist</div>
+                            <div *ngIf="invalidName" style="color: red">name must starts
+                                with alphapet,special charaters not allowed</div>
+                            <div *ngIf="isReserveWord" style="color: red">name must not be reserve
+                                word</div>
                             <div *ngIf="featurForm.submitted && name.invalid" class="invalid-feedback">
                                 <div *ngIf="name.errors.required">Name is
                                     required</div>

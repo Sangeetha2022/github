@@ -9,6 +9,7 @@ import { ProjectComponentService } from '../project-component/project-component.
 import { TemplateScreenService } from '../template-screen/template-screen.service';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
 import { LowerCasePipe } from '@angular/common';
+import { ValidatorService } from 'src/shared/validator.service';
 
 @Component({
   selector: 'app-projects',
@@ -45,12 +46,15 @@ export class ProjectsComponent implements OnInit {
     scope: '',
     state: ''
   };
+  public currentName: String;
   public tokens: any;
   public codes: any;
   public scopes: any;
   public states: any;
+  public invalidName: Boolean;
   public lang: any;
-  public isProjectExit: boolean = false;
+  public isProjectExit: Boolean = false;
+  public isReserveWord: Boolean;
   public projectName: String = '';
   public defaultscreenvalue: any;
   gepTemplates: any = [];
@@ -61,6 +65,7 @@ export class ProjectsComponent implements OnInit {
     private dataService: DataService,
     private router: Router,
     private toastr: ToastrService,
+    private validatorService: ValidatorService,
     private templateScreenService: TemplateScreenService,
     private route: ActivatedRoute,
     private screenDesignerService: ScreenDesignerService,
@@ -82,6 +87,15 @@ export class ProjectsComponent implements OnInit {
       primaryLanguage: ['', Validators.required],
       secondaryLanguage: [''],
       template: [''],
+    });
+
+    this.createProject.get('name').valueChanges.subscribe(name => {
+      this.currentName = name;
+      if (this.currentName.length <= 0) {
+        this.invalidName = false;
+        this.isProjectExit = false;
+        this.isReserveWord = false;
+      }
     });
 
     this.lang = navigator.language;
@@ -150,6 +164,8 @@ export class ProjectsComponent implements OnInit {
     this.delmodal = 'none';
     this.submitted = false;
     this.isProjectExit = false;
+    this.invalidName = false;
+    this.isReserveWord = false;
     this.createProject.clearValidators();
     this.createProject.reset();
   }
@@ -173,6 +189,12 @@ export class ProjectsComponent implements OnInit {
       console.log('Check the browser console to see more info.', 'Error!');
     });
   }
+
+  // nameOnChnage(event) {
+  //   this.createProject.get('name').valueChanges.subscribe(values => {
+  //     console.log(values);
+  //   });
+  // }
 
   openDeleteModel(proj) {
     this.idToDelete = proj._id;
@@ -208,6 +230,7 @@ export class ProjectsComponent implements OnInit {
 
   async projectCreate() {
     this.isProjectExit = false;
+    this.invalidName = false;
 
     this.submitted = true;
 
@@ -216,8 +239,18 @@ export class ProjectsComponent implements OnInit {
 
     }
     this.projectName = this.createProject.value.name.toLowerCase();
-
-    console.log("jeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", this.createProject.value.name.toLowerCase());
+    this.validatorService.checkNamingConvention(this.projectName);
+    this.validatorService.checkReserveWords(this.projectName);
+    this.validatorService.currentProjectInfo.subscribe(data => {
+      if (data === null) {
+        this.invalidName = true;
+      } else {
+        this.invalidName = false;
+      }
+    });
+    this.validatorService.currentProjectReserveWordInfo.subscribe(reserveWord => {
+      this.isReserveWord = reserveWord;
+    });
     const dataToSave = {
 
       name: this.createProject.value.name.toLowerCase(),
@@ -288,10 +321,9 @@ export class ProjectsComponent implements OnInit {
         await this.myAllProjects.forEach(userProjects => {
           if (userProjects.name === this.projectName) {
             this.isProjectExit = true;
-            console.log('=============', this.isProjectExit)
           }
         });
-        if (!this.isProjectExit) {
+        if (!this.isProjectExit && !this.invalidName && !this.isReserveWord) {
           this.projectsService.addProject(dataToSave).subscribe(data => {
             if (data) {
               templateDetailsToSave.project = data._id;

@@ -3,6 +3,8 @@ import { DataService } from '../../../../../shared/data.service';
 import { IEntity } from '../../../../project-component/interface/Entity';
 import * as dictionary from 'nanoid-dictionary';
 import * as generate from 'nanoid/generate';
+import { CustomTraitsService } from './custom-traits.service';
+import { ProjectComponentService } from 'src/app/project-component/project-component.service';
 
 declare var ClassicEditor: any;
 declare var agGrid: any;
@@ -19,18 +21,16 @@ export class TraitsService {
     field: '',
     entity: ''
   }];
-  public testPrivate: String = '';
-  // public screenObj: any = {
-  //   button: {
-  //   htmlId: undefined,
-  //   componentId: undefined,
-  //   action: undefined
-  //   }
-  // };
+  public verbOptions: any[] = [
+    { key: 'click', value: 'onClick' },
+    { key: 'focus', value: 'onFocus' },
+    { key: 'blur', value: 'onBlur' }
+  ];
   public screenArray: any[] = [];
-  public clientFramework: any = 'Angular 7';
   constructor(
     private dataService: DataService,
+    private projectComponentService: ProjectComponentService,
+    private customTraitService: CustomTraitsService
   ) { this.initVariable(); }
 
   initVariable() {
@@ -38,226 +38,14 @@ export class TraitsService {
   }
 
   initMethod(editor) {
-    // action button add
-    const $this = this;
-    editor.TraitManager.addType('uniqueId', {
-      events: {
-        'keyup': 'onChange',  // trigger parent onChange method on keyup
-      },
-
-      /**
-      * Returns the input element
-      * @return {HTMLElement}
-      */
-      getInputEl: function () {
-        if (!this.inputEl) {
-          const input = document.createElement('textarea');
-          console.log('unique id element values rae ---- ', this.target, ' ', this);
-          // input.value = this.target.ccid;
-          input.disabled = true;
-          this.inputEl = input;
-        }
-        return this.inputEl;
-      },
-
-      /**
-       * Triggered when the value of the model is changed
-       */
-      onValueChange: function () {
-        this.target.set('content', this.model.get('value'));
-      }
-    });
-
-    // entity field button
-    // editor.TraitManager.addType('uniqueElementId', {
-    //   events: {
-    //     'click': function () {
-    //       // console.log('print button clicked');
-    //       // console.log('ram $this ---- ', $this);
-    //       // console.log('ram this ---- ', this);
-    //       // const eventPopupModel = document.getElementById('EventPopup');
-    //       // console.log('print eventPopupModel values are ------ ', eventPopupModel);
-    //       // eventPopupModel.style.display = 'block';
-    //       // const modal = <HTMLElement>document.querySelector('#modalDiv');
-    //       // console.log('entityFieldButton 34455 ----- ', modal, ' ---- ', this);
-    //       // console.log('entityFieldButton 34455 --2222--- ', modal, ' ---- ', this.target.changed['entity']);
-    //       // if (this.target.changed['entity'] !== undefined) {
-    //       //   modal.style.display = 'block';
-    //       //   $this.ref.detectChanges()
-    //       // }
-    //       // if (selectedEntity !== undefined) {
-    //         // modal.style.display = 'block';
-    //         // const constructObj = {
-    //         //   entity: '',
-    //         //   defalutColumn: '',
-    //         //   customColumn: ''
-    //         // };
-    //         // $this.dataService.setAgGridEntity(constructObj);
-    //       // }
-    //     },
-    //   },
-    //   getInputEl() {
-    //     // tslint:disable-next-line:prefer-const
-    //     let button = <HTMLElement>document.createElement('button');
-    //     button.id = 'fieldButton';
-    //     button.style.width = '100%';
-    //     button.style.backgroundColor = '#4CAF50';
-    //     button.style.border = 'none';
-    //     button.style.color = 'white';
-    //     button.style.backgroundColor = '#008CBA';
-    //     button.style.fontSize = '12px !important';
-    //     button.style.cursor = 'pointer';
-    //     button.appendChild(document.createTextNode('Field'));
-    //     return button;
-    //   },
-    // });
-
-    // content example
-    // editor.TraitManager.addType('entityDropdown', {
-    //   events: {
-    //     'click': function () {
-    //       console.log('print button clicked');
-    //       console.log('ram $this ---- ', $this);
-    //       console.log('ram this ---- ', this);
-    //       const eventPopupModel = document.getElementById('EventPopup');
-    //       console.log('print eventPopupModel values are ------ ', eventPopupModel);
-    //       eventPopupModel.style.display = 'block';
-    //     },
-    //   },
-    //   getInputEl() {
-    //     // tslint:disable-next-line:prefer-const
-    //     let button = <HTMLElement>document.createElement('button');
-    //     button.id = 'fieldButton';
-    //     button.style.width = '100%';
-    //     button.style.backgroundColor = '#4CAF50';
-    //     button.style.border = 'none';
-    //     button.style.color = 'white';
-    //     button.style.backgroundColor = '#008CBA';
-    //     button.style.fontSize = '12px !important';
-    //     button.style.cursor = 'pointer';
-    //     button.appendChild(document.createTextNode('Field'));
-    //     return button;
-    //   },
-    // });
-
-
-    this.initializeButtonMethod(editor);
     this.initializeInputMethod(editor);
     this.initializeTextAreaMethod(editor);
     this.initializeSelectMethod(editor);
     this.initializeCheckboxMethod(editor);
     this.initializeRadioMethod(editor);
+    this.initializeButtonMethod(editor);
 
   }
-
-  initializeButtonMethod(editor) {
-    const $this = this;
-    const comps = editor.DomComponents;
-    const defaultType = comps.getType('default');
-    const defaultModel = defaultType.model;
-    // console.log('ram defaultType doms are ---- ', comps);
-    // console.log('ram defaultType 11 ---- ', defaultType);
-    // console.log('ram defaultModel 22 ---- ', defaultModel);
-    // content traits
-    // Each new type extends the default Trait
-    editor.TraitManager.addType('content', {
-      events: {
-        'keyup': 'onChange',  // trigger parent onChange method on keyup
-      },
-
-      /**
-      * Returns the input element
-      * @return {HTMLElement}
-      */
-      getInputEl: function () {
-        if (!this.inputEl) {
-          const input = document.createElement('textarea');
-          input.value = this.target.get('content');
-          this.inputEl = input;
-        }
-        return this.inputEl;
-      },
-
-      /**
-       * Triggered when the value of the model is changed
-       */
-      onValueChange: function () {
-        this.target.set('content', this.model.get('value'));
-      }
-    });
-
-    // action button add
-    editor.TraitManager.addType('actionButton', {
-      events: {
-        'click': function () {
-          // console.log('print button clicked');
-          const eventPopupModel = document.getElementById('EventPopup');
-          // console.log('print eventPopupModel values are ------ ', eventPopupModel);
-          eventPopupModel.style.display = 'block';
-        },
-      },
-      getInputEl() {
-        // tslint:disable-next-line:prefer-const
-        let button = <HTMLElement>document.createElement('button');
-        button.id = 'fieldButton';
-        button.style.width = '100%';
-        button.style.backgroundColor = '#4CAF50';
-        button.style.border = 'none';
-        button.style.color = 'white';
-        button.style.backgroundColor = '#008CBA';
-        button.style.fontSize = '12px !important';
-        button.style.cursor = 'pointer';
-        button.appendChild(document.createTextNode('Flow'));
-        return button;
-      },
-    });
-
-    comps.addType('button', {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          droppable: false,
-          traits: [{
-            type: 'content',
-            label: 'contentName',
-            name: 'contentname',
-            changeProp: 1
-          },
-          {
-            label: 'Name',
-            name: 'name',
-            type: 'text',
-            changeProp: 1
-          },
-          {
-            'name': 'actionButton',
-            'label': 'Action',
-            'type': 'actionButton',
-          }],
-
-        }),
-        init() {
-          this.listenTo(this, 'change:name', this.ElementName);
-        },
-        ElementName() {
-
-        }
-      },
-        {
-          isComponent: function (el) {
-            if (el.tagName === 'BUTTON') {
-              return {
-                type: 'button'
-              };
-            }
-          },
-        }),
-
-      // Define the View
-      view: defaultType.view,
-    });
-  }
-
 
   // input values are ---
   initializeInputMethod(editor) {
@@ -265,7 +53,6 @@ export class TraitsService {
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    console.log('@@#### intialize input methods are ----- ', editor);
     comps.addType('input', {
       model: defaultModel.extend({
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
@@ -285,14 +72,7 @@ export class TraitsService {
             },
             { type: 'checkbox', name: 'required', label: 'Required' }
           ]
-        }),
-        init() {
-          this.listenTo(this, 'change:name', this.ElementName);
-
-        },
-        ElementName() {
-
-        }
+        })
       },
         {
           isComponent: function (el) {
@@ -328,13 +108,7 @@ export class TraitsService {
             { type: 'checkbox', name: 'required', label: 'Required' },
           ],
 
-        }),
-        init() {
-          this.listenTo(this, 'change:name', this.ElementName);
-        },
-        ElementName() {
-
-        }
+        })
       },
         {
           isComponent: function (el) {
@@ -370,13 +144,7 @@ export class TraitsService {
             { type: 'checkbox', name: 'required', label: 'Required' }
           ],
 
-        }),
-        init() {
-          this.listenTo(this, 'change:name', this.ElementName);
-        },
-        ElementName() {
-
-        }
+        })
       },
         {
           isComponent: function (el) {
@@ -401,60 +169,6 @@ export class TraitsService {
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
-    // content traits
-    // Each new type extends the default Trait
-    editor.TraitManager.addType('content', {
-      events: {
-        'keyup': 'onChange',  // trigger parent onChange method on keyup
-      },
-
-      /**
-      * Returns the input element
-      * @return {HTMLElement}
-      */
-      getInputEl: function () {
-        if (!this.inputEl) {
-          const input = document.createElement('textarea');
-          input.value = this.target.get('content');
-          this.inputEl = input;
-        }
-        return this.inputEl;
-      },
-
-      /**
-       * Triggered when the value of the model is changed
-       */
-      onValueChange: function () {
-        this.target.set('content', this.model.get('value'));
-      }
-    });
-
-    // action button add
-    editor.TraitManager.addType('actionButton', {
-      events: {
-        'click': function () {
-          console.log('print button clicked');
-          const eventPopupModel = document.getElementById('EventPopup');
-          console.log('print eventPopupModel values are ------ ', eventPopupModel);
-          eventPopupModel.style.display = 'block';
-        },
-      },
-      getInputEl() {
-        // tslint:disable-next-line:prefer-const
-        let button = <HTMLElement>document.createElement('button');
-        button.id = 'fieldButton';
-        button.style.width = '100%';
-        button.style.backgroundColor = '#4CAF50';
-        button.style.border = 'none';
-        button.style.color = 'white';
-        button.style.backgroundColor = '#008CBA';
-        button.style.fontSize = '12px !important';
-        button.style.cursor = 'pointer';
-        button.appendChild(document.createTextNode('Flow'));
-        return button;
-      },
-    });
-
     comps.addType('radio', {
       model: defaultModel.extend({
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
@@ -466,13 +180,7 @@ export class TraitsService {
           { type: 'checkbox', name: 'required', label: 'Required' },
           { label: 'Checked', type: 'checkbox', name: 'checked', changeProp: 1 }],
 
-        }),
-        init() {
-          this.listenTo(this, 'change:name', this.ElementName);
-        },
-        ElementName() {
-
-        }
+        })
       },
         {
           isComponent: function (el) {
@@ -509,13 +217,7 @@ export class TraitsService {
           { type: 'checkbox', name: 'required', label: 'Required' },
           { label: 'Checked', type: 'checkbox', name: 'checked', changeProp: 1 }],
 
-        }),
-        init() {
-          this.listenTo(this, 'change:name', this.ElementName);
-        },
-        ElementName() {
-
-        }
+        })
       },
         {
           isComponent: function (el) {
@@ -533,17 +235,67 @@ export class TraitsService {
     });
   }
 
+  // button traits
+  initializeButtonMethod(editor) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    // content traits
+    this.customTraitService.content(editor);
+    // flows action button traits
+    this.customTraitService.flowsActionButton(editor);
+
+    comps.addType('button', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [{
+            type: 'content',
+            label: 'contentName',
+            name: 'contentname',
+            changeProp: 1
+          },
+          {
+            label: 'Name',
+            name: 'name',
+            type: 'text',
+            changeProp: 1
+          },
+          {
+            'name': 'actionButton',
+            'label': 'Action',
+            'type': 'actionButton',
+          }],
+
+        })
+      },
+        {
+          isComponent: function (el) {
+            if (el.tagName === 'BUTTON') {
+              return {
+                type: 'button'
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
 
 
 
-
-  getData() {
+  getEntityData(projectId) {
     this.entityOptions = [];
     this.fieldOptions = [];
-    this.dataService.currentAllEntityInfo.subscribe(
+    this.projectComponentService.getEntityByProjectId(projectId).subscribe(
       (data) => {
         this.allEntity = data;
-        console.log('all entity in traits are ----- ', this.allEntity);
+        console.log('all entity in traits service file are ----- ', this.allEntity);
         this.entityOptions.push({ value: 'none', name: 'none' });
         data.forEach((Entityelement) => {
           const temp = {
@@ -621,8 +373,8 @@ export class TraitsService {
     });
   }
 
-  addGridTraits(editor, buttonName) {
-    this.getData();
+  addGridTraits(editor, buttonName, projectId) {
+    this.getEntityData(projectId);
     const $this = this;
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
@@ -637,149 +389,15 @@ export class TraitsService {
       { value: 'col4_id', name: 'd' },
       { value: 'col5_id', name: 'e' }
     ];
-    const agGridArray = this.agGridValue;
-
-    // add button
-    editor.TraitManager.addType('addButton', {
-      /**
-       * Returns the input element
-       * @return {HTMLElement}
-       */
-      events: {
-        'click': function () {
-          console.log('addButton is this working -----  ', this.target.view.el.gridOptions.columnDefs);
-          const count = this.target.view.el.gridOptions.columnDefs.length + 1;
-          const columnDefs = this.target.view.el.gridOptions.columnDefs;
-          columnDefs.push({
-            headerName: `column_${count}`,
-            field: 'a',
-            sortable: true,
-            colId: `col${count}_id`
-          });
-          this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
-          this.target.view.el.gridOptions.api.sizeColumnsToFit();
-          columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
-          const colTraits = this.target.get('traits').where({ name: 'colname' })[0];
-          colTraits.set('options', columnOptions);
-          editor.TraitManager.getTraitsViewer().render();
-          console.log('sessionStorage count are ', count, ' --- ', { value: `col${count}_id`, name: `column_${count}` });
-          // const modal = <HTMLElement>document.querySelector('#agGridModal');
-          // console.log('ag Grid modal are ----- ', modal);
-          // if (selectedEntity !== undefined) {
-          //   // modal.style.display = 'block';
-          //   localDataService.setAgGridEntity(selectedEntity);
-          // }
-          // trigger when btn is clicked
-        },
-      },
-      getInputEl() {
-        // var button = document.createElement('button');
-        // button.id = 'btnLogin';
-        // button.value = 'Login';
-        // return button;
-        // tslint:disable-next-line:prefer-const
-        let button = <HTMLElement>document.createElement('button');
-        button.id = 'addButton';
-        button.style.width = '100%';
-        button.style.backgroundColor = '#4CAF50';
-        button.style.border = 'none';
-        button.style.color = 'white';
-        button.style.backgroundColor = '#008CBA';
-        button.style.fontSize = '16px';
-        button.style.cursor = 'pointer';
-        //       button.style =
-        //         'width: 100%;   background-color: #4CAF50; \
-        // border: none; \
-        // color: white; \
-        // font-size: 16px; \
-        // cursor: pointer; background-color: #008CBA;';
-        button.appendChild(document.createTextNode('+'));
-        return button;
-      },
-    });
-
-    // remove button
-    editor.TraitManager.addType('removeButton', {
-      /**
-       * Returns the input element
-       * @return {HTMLElement}
-       */
-      events: {
-        'click': function () {
-          const columnDefs = this.target.view.el.gridOptions.columnDefs;
-          columnDefs.pop();
-          this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
-          this.target.view.el.gridOptions.api.sizeColumnsToFit();
-          columnOptions.pop();
-          const colTraits = this.target.get('traits').where({ name: 'colname' })[0];
-          colTraits.set('options', columnOptions);
-          editor.TraitManager.getTraitsViewer().render();
-        },
-      },
-      getInputEl() {
-        const button = <HTMLElement>document.createElement('button');
-        button.id = 'removeButton';
-        button.style.width = '100%';
-        button.style.backgroundColor = 'rgba(186, 43, 0, 0.73)';
-        button.style.border = 'none';
-        button.style.color = 'white';
-        button.style.fontSize = '16px';
-        button.style.cursor = 'pointer';
-        button.appendChild(document.createTextNode('-'));
-        return button;
-      },
-    });
-
+console.log('entityOptions values are ---- ', this.entityOptions);
+console.log('fieldOptions values are ---- ', this.fieldOptions);
+    // add rows trits
+    this.customTraitService.addGridRowButton(editor, columnOptions);
+    // remove rows triats
+    this.customTraitService.removeGridRowButton(editor, columnOptions);
     // add field binding button
-    editor.TraitManager.addType('fieldButton', {
-      /**
-       * Returns the input element
-       * @return {HTMLElement}
-       */
-      events: {
-        'click': function () {
-          console.log('is this working -----  ', selectedEntity);
-          console.log('is this working events of this ------ ', this);
-          // console.log('onFieldOptions editor in traits ', editor.getSelected());
-          const modal = <HTMLElement>document.querySelector('#agGridModal');
-          console.log('ag Grid modal are ----- ', modal);
-          if (selectedEntity !== undefined) {
-            // modal.style.display = 'block';
-            const constructObj = {
-              entity: selectedEntity,
-              defalutColumn: this.target.view.el.gridOptions.columnDefs,
-              customColumn: columnOptions
-            };
-            $this.dataService.setAgGridEntity(constructObj);
-          }
-          // trigger when btn is clicked
-        },
-      },
-      getInputEl() {
-        // var button = document.createElement('button');
-        // button.id = 'btnLogin';
-        // button.value = 'Login';
-        // return button;
-        // tslint:disable-next-line:prefer-const
-        let button = <HTMLElement>document.createElement('button');
-        button.id = 'fieldButton';
-        button.style.width = '100%';
-        button.style.backgroundColor = '#4CAF50';
-        button.style.border = 'none';
-        button.style.color = 'white';
-        button.style.backgroundColor = '#008CBA';
-        button.style.fontSize = '12px !important';
-        button.style.cursor = 'pointer';
-        //       button.style =
-        //         'width: 100%;   background-color: #4CAF50; \
-        // border: none; \
-        // color: white; \
-        // font-size: 16px; \
-        // cursor: pointer; background-color: #008CBA;';
-        button.appendChild(document.createTextNode('Field'));
-        return button;
-      },
-    });
+    this.customTraitService.gridFieldButton(editor, this, selectedEntity, columnOptions);
+
     comps.addType(buttonName, {
       model: defaultModel.extend({
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
@@ -921,7 +539,14 @@ export class TraitsService {
           {
             'name': 'fieldButton',
             'label': 'bind',
-            'type': 'fieldButton',
+            'type': 'fieldGridButton',
+          },
+          {
+            type: 'select',
+            label: 'verb',
+            name: 'verbs',
+            changeProp: 1,
+            options: this.verbOptions,
           },
           {
             'name': 'addButton',

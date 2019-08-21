@@ -24,7 +24,8 @@ export class FlowComponentWorker {
         // flow method with connector
         console.log('flowComponent componentObject are ---- ', this.componentObject);
         // if variable list is empty need to add the primary entities in the variable list
-        if (this.componentObject.variableList.length > 0 && !this.componentObject.variableList[0].entityName) {
+        if (this.componentObject.variableList.length == 0 || 
+            !this.componentObject.variableList[0].entityName) {
             const variableTemp = {
                 entityId: '',
                 entityName: '',
