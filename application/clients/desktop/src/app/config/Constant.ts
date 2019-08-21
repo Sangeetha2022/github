@@ -159,7 +159,7 @@ export class Constants {
         OuterWidth,Packages,pageXoffset,pageYoffset,parent,parseFloat,parseInt,Password,
         personalbar,Plugin,print,prompt,prototype,Radio,ref,RegExpreleaseEvents,Reset,resizeBy,resizeTo,routeEvent,scroll,
         scrollbars,scrollBy,scrollTo,Select,self,setInterval,setTimeout,status,statusbar,stop,String,
-        Submit,sun,taint,Text,Textarea,toolbar,top,toString,unescape,untaint,unwatch,valueOf,watch,window`;
+        Submit,sun,taint,Text,Textarea,toolbar,top,toString,unescape,untaint,unwatch,valueOf,watch,window,id`;
     }
 
     public static get getConstantSpecialCharacters(): String {

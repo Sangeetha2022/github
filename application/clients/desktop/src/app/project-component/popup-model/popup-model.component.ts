@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ProjectComponentService } from '../project-component.service';
 import { ActivatedRoute } from '@angular/router';
+import { ValidatorService } from 'src/shared/validator.service';
 
 
 
@@ -18,11 +19,14 @@ export class PopupModelComponent implements OnInit {
     public project_id: String;
     public isPrimaryEntityPresent: boolean;
     public entityIsExist: Boolean = false;
+    invalidName: Boolean;
+    isReserveWord: Boolean;
     public projectEntityData: any;
     constructor(
         private projectComponentService: ProjectComponentService,
         private route: ActivatedRoute,
         public dialogRef: MatDialogRef<PopupModelComponent>,
+        private validatorService: ValidatorService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         console.log('popup --- ', data);
         if (data.savedEntity !== undefined && Object.keys(data.savedEntity).length > 0) {
@@ -61,6 +65,21 @@ export class PopupModelComponent implements OnInit {
     }
 
     isEntityExist() {
+        this.invalidName = false;
+        if (this.modelObject.name.length > 0) {
+            this.validatorService.checkNamingConvention(this.modelObject.name);
+            this.validatorService.checkReserveWords(this.modelObject.name);
+            this.validatorService.currentProjectInfo.subscribe(data => {
+                if (data === null) {
+                    this.invalidName = true;
+                } else {
+                    this.invalidName = false;
+                }
+            });
+        }
+        this.validatorService.currentProjectReserveWordInfo.subscribe(reserveWord => {
+            this.isReserveWord = reserveWord;
+        });
         const index = this.projectEntityData.findIndex(x =>
             x.name === this.modelObject.name);
         if (index > -1) {

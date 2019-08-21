@@ -92,10 +92,13 @@
                   onkeypress=" return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 8 || (event.charCode >= 48 && event.charCode <= 57))"
                   id="name" formControlName="name" [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
                 <div *ngIf="submitted && form_control.name.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.name.errors.required">special characters are not allowed only
-                    {{'require_name' | i18next}}</div>
+                  <div *ngIf="form_control.name.errors.required"> {{'require_name' | i18next}}</div>
                 </div>
-                <div *ngIf="isProjectExit" style="color: red">project name already exist</div>
+                <div *ngIf="isProjectExit" style="color: red">name already exist</div>
+                <div *ngIf="invalidName" style="color: red">name must starts
+                  with alphapet,special charaters not allowed</div>
+                <div *ngIf="isReserveWord" style="color: red">name must not be reserve
+                  word</div>
               </div>
             </div>
             <div class="col-md-6">

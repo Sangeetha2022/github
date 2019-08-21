@@ -17,6 +17,7 @@ import { ProjectsService } from '../projects/projects.service';
 import { IFlow } from '../flow-manager/interface/flow';
 import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
 import { ToastrService } from 'ngx-toastr';
+import { ValidatorService } from 'src/shared/validator.service';
 
 @Component({
     selector: 'app-project-component',
@@ -105,6 +106,8 @@ export class EntityManagerComponent implements OnInit {
         field: []
     };
     createFeatureData: any = [];
+    invalidName: Boolean;
+    isReserveWord: Boolean;
     gridColumnApi: any;
     screenId: any = [];
     featureName: any = [];
@@ -141,6 +144,8 @@ export class EntityManagerComponent implements OnInit {
         private route: ActivatedRoute,
         private database: TreeDragService,
         private toastr: ToastrService,
+        private validatorService: ValidatorService,
+
 
     ) {
 
@@ -286,6 +291,19 @@ export class EntityManagerComponent implements OnInit {
         this.featureInfo.name.toLowerCase();
         this.featureInfo.project = this.project_id;
 
+        this.validatorService.checkNamingConvention(this.featureInfo.name);
+        this.validatorService.checkReserveWords(this.featureInfo.name);
+        this.validatorService.currentProjectInfo.subscribe(data => {
+            if (data === null) {
+                this.invalidName = true;
+            } else {
+                this.invalidName = false;
+            }
+        });
+        this.validatorService.currentProjectReserveWordInfo.subscribe(reserveWord => {
+            this.isReserveWord = reserveWord;
+        });
+
         this.projectComponentService.getFeatureByProjectId(this.project_id).subscribe(projFeature => {
             if (projFeature.length > 0) {
                 projFeature.forEach(feature => {
@@ -295,7 +313,7 @@ export class EntityManagerComponent implements OnInit {
                 });
             }
 
-            if (!this.isFeatureExist) {
+            if (!this.isFeatureExist && !this.invalidName && !this.isReserveWord) {
                 this.featureInfo.description = this.featureInfo.description.replace(/<[^>]+>/g, '');
                 this.featureInfo.description.trim();
                 this.projectComponentService.saveFeatures(this.featureInfo).subscribe(
@@ -336,6 +354,15 @@ export class EntityManagerComponent implements OnInit {
         });
     }
 
+    onFeatureChange(event) {
+        console.log(event);
+        if (event.length <= 0) {
+            this.isFeatureExist = false;
+            this.isReserveWord = false;
+            this.invalidName = false;
+
+        }
+    }
 
     // getProjectDetails() {
     //     this.projectComponentService.getAllFeatureByProjectId(this.project_id).subscribe(data => {
