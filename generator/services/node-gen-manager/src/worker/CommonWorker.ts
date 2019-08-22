@@ -43,6 +43,10 @@ export class CommonWorker {
         commonSupportWorker.generateWinstonLoggerFile(projectGenerationPath, templateLocationPath);
     }
 
+    generateLoggerFile(projectGenerationPath, templateLocationPath) {
+        commonSupportWorker.generateLoggerFile(projectGenerationPath, templateLocationPath);
+    }
+
     generateDockerFile(projectGenerationPath, templateLocationPath, featureName) {
         commonSupportWorker.generateDockerFile(projectGenerationPath, templateLocationPath, featureName, (response) => { })
     }

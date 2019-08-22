@@ -179,6 +179,7 @@ export class NodeService {
                 commonWorker.generateDockerFile(projectGenerationPath, templateLocation, featureName);
                 commonWorker.generateTsConfigFile(projectGenerationPath, templateLocation);
                 commonWorker.generateWinstonLoggerFile(projectGenerationPath, templateLocation);
+                commonWorker.generateLoggerFile(projectGenerationPath, templateLocation);
 
                 asyncLoop(EntitySchema, (entityElement, entityNext) => {
                     // initial

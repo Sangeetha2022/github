@@ -14,7 +14,7 @@ EMAIL='dan.gile@yahoo.com'
 
 get_code(){
 
-cd "$BASEPATH$WORKSPACE"
+cd "$BASEPATH$WORKSPACE$PROJECTPATH"
 
 
 if [ ! -d "$PROJECTNAME" ] ; then
@@ -42,11 +42,10 @@ build_apk(){
 
 cd "$BASEPATH$WORKSPACE$CODEPATH"
 
-
-ionic cordova platform add android
+cordova platform add android
 if [ $? -eq 0 ]; then
     echo "android platform added sucessfully!"
-    ionic cordova build android --device
+    cordova build android --device
     if [ $? -eq 0 ]; then
         echo "android build success!"
     else

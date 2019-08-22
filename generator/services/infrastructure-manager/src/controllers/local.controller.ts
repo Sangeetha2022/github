@@ -138,6 +138,11 @@ export class LocalInfrastructureController {
       })
     }
 
+    //generate apk script
+      dockerService.apk_build_mobile(projectDetails, (response) => {
+        //res.send(200);
+      })
+
     //generate helm templates
     projectDetails.helmTemplateUrl = helmSource;
     helmService.generate_helm_templates(projectDetails, (response) => {
