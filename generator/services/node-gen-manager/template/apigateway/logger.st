@@ -1,3 +1,4 @@
+logger() ::= <<
 const { createLogger, format, transports } = require('winston');
 require('winston-daily-rotate-file');
 const fs = require('fs');
@@ -11,7 +12,7 @@ if (!fs.existsSync(logDir)) {
 }
 
 const dailyRotateFileTransport = new transports.DailyRotateFile({
-  filename: `${logDir}/flow-%DATE%.log`,
+  filename: `\${logDir}/flow-%DATE%.log`,
   datePattern: 'YYYY-MM-DD'
 });
 
@@ -19,10 +20,13 @@ const logger = createLogger({
   // change level if in dev environment versus production
   level: env === 'development' ? 'verbose' : 'info',
   format: format.combine(
+    format.label({ label: 'gep-dev-node-api' }),
+    format.colorize(),
+    format.json(),
     format.timestamp({
       format: 'YYYY-MM-DD HH:mm:ss'
     }),
-    format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
+    format.printf(info => `\${info.timestamp} \${info.level}: \${info.message}`)
   ),
   transports: [
     new transports.Console({
@@ -32,10 +36,9 @@ const logger = createLogger({
       json: true,
       colorize: false,
       format: format.combine(
-        format.label({ label: 'gep-dev-camunda-api' }),
         format.colorize(),
         format.printf(
-          info => `${info.timestamp} ${info.level}: ${info.message}`
+          info => `\${info.timestamp} \${info.level}: \${info.message}`
         )
       )
     }),
@@ -44,3 +47,5 @@ const logger = createLogger({
 });
 
 module.exports = logger;
+
+>>

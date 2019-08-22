@@ -350,6 +350,19 @@
             ],
             "actionOnData": "GpUpdate",
             "createWithDefaultActivity": 1
+        },
+        {
+            "_id": "a33043a1-7619-11e9-8b28-fb1133df239c",
+            "name": "GpRoute",
+            "label": "route",
+            "description": "redirect to other screen",
+            "type": "basic",
+            "components": [
+                "a332b4a2-7619-11e9-8b28-fb1133df238c",
+                "a33377f1-7619-11e9-8b28-fb1133df238c"
+            ],
+            "actionOnData": "GpRoute",
+            "createWithDefaultActivity": 1
         }
     ]
 }

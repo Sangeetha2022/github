@@ -37,9 +37,20 @@ export class ApiGatewaySupportWorker {
     generateWinstonLoggerFile(configPath, apiGatewayTemplatePath) {
         let generateWinstonLogger = st.loadGroup(require(apiGatewayTemplatePath + '/winston_stg'));
         let winstonLoggerFile = generateWinstonLogger.render("winston");
-        fs.writeFile(configPath + `/WinstonLogger.ts`, winstonLoggerFile, function (err) {
+        fs.writeFile(configPath + `/WinstonLogger.ts`, winstonLoggerFile, (err) => {
             if (err) throw err;
+            this.generateLoggerFile(configPath, apiGatewayTemplatePath);
             console.log('winston logger files generated');
+        })
+    }
+
+    generateLoggerFile(configPath, apiGatewayTemplatePath) {
+        let generateLogger = st.loadGroup(require(apiGatewayTemplatePath + '/logger_stg'));
+        let loggerFile = generateLogger.render("logger");
+        fs.writeFile(configPath + `/Logger.ts`, loggerFile, function (err) {
+            if (err) throw err;
+            
+            console.log('logger files generated');
         })
     }
 

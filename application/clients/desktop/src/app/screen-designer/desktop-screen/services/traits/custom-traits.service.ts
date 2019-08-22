@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class CustomTraitsService {
 
-    content(editor) {
-        editor.TraitManager.addType('content', {
+    content($this) {
+        $this.editor.TraitManager.addType('content', {
             events: {
                 'keyup': 'onChange',  // trigger parent onChange method on keyup
             },
@@ -25,14 +25,44 @@ export class CustomTraitsService {
         });
     }
 
-    flowsActionButton(editor) {
+    flowsActionButton($this) {
         // action button add
-        editor.TraitManager.addType('actionButton', {
+        $this.editor.TraitManager.addType('actionButton', {
             events: {
                 'click': function () {
                     // console.log('print button clicked');
                     const eventPopupModel = document.getElementById('EventPopup');
                     // console.log('print eventPopupModel values are ------ ', eventPopupModel);
+                    $this.isGridEvent = false;
+                    eventPopupModel.style.display = 'block';
+                },
+            },
+            getInputEl() {
+                // tslint:disable-next-line:prefer-const
+                let button = <HTMLElement>document.createElement('button');
+                button.id = 'fieldButton';
+                button.style.width = '100%';
+                button.style.backgroundColor = '#4CAF50';
+                button.style.border = 'none';
+                button.style.color = 'white';
+                button.style.backgroundColor = '#008CBA';
+                button.style.fontSize = '12px !important';
+                button.style.cursor = 'pointer';
+                button.appendChild(document.createTextNode('Flow'));
+                return button;
+            },
+        });
+    }
+
+    gridActionFlowButton($this) {
+        // action button add
+        $this.editor.TraitManager.addType('gridActionButton', {
+            events: {
+                'click': function () {
+                    // console.log('print button clicked');
+                    const eventPopupModel = document.getElementById('EventPopup');
+                    // console.log('print eventPopupModel values are ------ ', eventPopupModel);
+                    $this.isGridEvent = true;
                     eventPopupModel.style.display = 'block';
                 },
             },
@@ -100,7 +130,7 @@ export class CustomTraitsService {
                     this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                     this.target.view.el.gridOptions.api.sizeColumnsToFit();
                     columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
-                    const colTraits = this.target.get('traits').where({ name: 'colname' })[0];
+                    const colTraits = this.target.get('traits').where({ name: 'columns' })[0];
                     colTraits.set('options', columnOptions);
                     editor.TraitManager.getTraitsViewer().render();
                     // console.log('sessionStorage count are ', count, ' --- ', { value: `col${count}_id`, name: `column_${count}` });
@@ -139,7 +169,9 @@ export class CustomTraitsService {
                     this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                     this.target.view.el.gridOptions.api.sizeColumnsToFit();
                     columnOptions.pop();
-                    const colTraits = this.target.get('traits').where({ name: 'colname' })[0];
+                    const colTraits = this.target.get('traits').where({ name: 'columns' })[0];
+                    console.log('llist of columnOptions ra e-11--- ', columnOptions);
+                    console.log('llist of colTraits ra e--22-- ', colTraits);
                     colTraits.set('options', columnOptions);
                     editor.TraitManager.getTraitsViewer().render();
                 },
@@ -159,21 +191,48 @@ export class CustomTraitsService {
         });
     }
 
-    gridFieldButton(editor, $this, selectedEntity, columnOptions) {
-        editor.TraitManager.addType('fieldGridButton', {
+    gridFieldButton($this) {
+        $this.editor.TraitManager.addType('fieldGridButton', {
             events: {
                 'click': function () {
-                    const modal = <HTMLElement>document.querySelector('#agGridModal');
-                    if (selectedEntity !== undefined) {
-                        // modal.style.display = 'block';
-                        const constructObj = {
-                            entity: selectedEntity,
-                            defalutColumn: this.target.view.el.gridOptions.columnDefs,
-                            customColumn: columnOptions
-                        };
-                        $this.dataService.setAgGridEntity(constructObj);
-                    }
+                    // const modal = <HTMLElement>document.querySelector('#agGridModal');
+                    // if (selectedEntity !== undefined) {
+                    //     // modal.style.display = 'block';
+                    //     const constructObj = {
+                    //         entity: selectedEntity,
+                    //         defalutColumn: this.target.view.el.gridOptions.columnDefs,
+                    //         customColumn: columnOptions
+                    //     };
+                    //     $this.dataService.setAgGridEntity(constructObj);
+                    // }
                     // trigger when btn is clicked
+                    console.log('on entity triats changed ----  ', this.target.changed['entity']);
+                    console.log('on entity columnDefs changed ----  ', this.target.view.el.gridOptions.columnDefs);
+                    console.log('EntityField of data are -$this----  ', $this);
+                    console.log('EntityField of data are -$this.columnOptions----  ', $this.columnOptions);
+                    // console.log('columns target changed are ', this.target.get('columns'));
+                    console.log('this.traits where are 11 ', this);
+                    // console.log('this.traits where are 22 ', this.target.find('traits'));
+                    console.log('agGridArray are 33 ', $this.agGridArray);
+                    console.log('this.traits where are 44 ', this.target.changed['entity']);
+                    console.log('this.traits where are 55 ', this.target.attributes.entity);
+                    let entityId = null;
+                    if (this.target.changed['entity']) {
+                        entityId = this.target.changed['entity'];
+                    } else if (this.target.attributes.entity !== 'none') {
+                        entityId = this.target.attributes.entity;
+                    }
+                    const entityFound = $this.EntityField.find(x => x._id === entityId);
+                    if (entityFound) {
+                        $this.selectedEntity = entityFound;
+                        $this.allEntityField = entityFound.field;
+                        $this.defaultColumn = this.target.view.el.gridOptions.columnDefs;
+                        $this.isGridPopup = true;
+                        $this.ref.detectChanges();
+                        console.log('traits button after if --- ', $this.isGridPopup);
+                    }
+                    // $this.isGridPopup = true;
+                    // $this.ref.detectChanges();
                 },
             },
             getInputEl() {

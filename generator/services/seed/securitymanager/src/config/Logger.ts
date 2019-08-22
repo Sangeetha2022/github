@@ -32,6 +32,7 @@ const logger = createLogger({
       json: true,
       colorize: false,
       format: format.combine(
+        format.label({ label: 'gep-dev-login-api' }),
         format.colorize(),
         format.printf(
           info => `${info.timestamp} ${info.level}: ${info.message}`
