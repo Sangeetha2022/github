@@ -49,6 +49,26 @@ export class DockerService {
         })
     }
 
+    public apk_build_mobile(projectDetails, callback: CallableFunction) {
+
+        let destination = projectDetails.cloudUrl + '/buildscript';
+        console.log("localfolder--->", destination);
+        let templatePath = projectDetails.templateUrl + '/docker';
+
+        if (!fs.existsSync(destination)) {
+            fs.mkdirSync(destination);
+        }
+
+        //generate script to build mobile script
+        let generateDockerScript = st.loadGroup(require(templatePath + '/apk_build_stg'));
+        let dockerScript = generateDockerScript.render("apk_build", [projectDetails.project_lowercase]);
+        fs.writeFile(destination + '/apk_build.sh', dockerScript, function (err) {
+            if (err) throw err;
+            console.log('apk build script is generated!!')
+           
+        })
+    }
+
 
     // public generate_build_script_app_pod(projectDetails, callback: CallableFunction) {
 
