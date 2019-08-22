@@ -970,7 +970,8 @@ export class FeatureDetailsComponent implements OnInit {
         this.deletescreenPopup = 'none';
         this.screenService.deleteScreen(this.selectedScreenId).subscribe(
             (data) => {
-                this.getFeatureById();
+                this.getScreenByFeatureId();
+
             },
             (error) => {
 
