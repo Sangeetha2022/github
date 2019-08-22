@@ -77,10 +77,10 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         default_field: []
     };
     screenFlows: any[] = [];
+    routeFlows: any[] = [];
     // selectColumn:,
     // selectEntity,
     // selectField,
-    columnsOption: any[] = [];
     listOfFLows: any[] = [];
     gridApi: any;
     gridColumnApi: any;
@@ -113,7 +113,25 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     stylesheets: any[] = [];
     scripts: any[] = [];
     cssGuidelines: any[] = [];
-
+    public verbOptions: any[] = [
+        { key: 'click', value: 'onClick' },
+        { key: 'focus', value: 'onFocus' },
+        { key: 'blur', value: 'onBlur' }
+    ];
+    public columnOptions = [
+        { value: 'col1_id', name: 'a' },
+        { value: 'col2_id', name: 'b' },
+        { value: 'col3_id', name: 'c' },
+        { value: 'col4_id', name: 'd' },
+        { value: 'col5_id', name: 'e' }
+    ];
+    public routeDetails: any = {
+        screen: '',
+        verb: 'click',
+        type: 'none'
+    };
+    public isRoutePopup = false;
+    public isGridEvent = false;
     constructor(
         private screenDesignerService: ScreenDesignerService,
         private blockService: BlockService,
@@ -121,7 +139,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         private styleService: StylesService,
         private panelService: PanelService,
         private traitService: TraitsService,
-        private customTriatService: CustomTraitsService,
+        private customTraitService: CustomTraitsService,
         private projectComponentService: ProjectComponentService,
         private flowManagerService: FlowManagerService,
         private dataService: DataService,
@@ -431,6 +449,98 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 clearProperties: 1,
             }
         });
+        // try test
+        // this.editor.Canvas.getDocument().head.appendChild(`<script> const initAgGrid = () => {
+        //     const columnDefs = [
+        //       {
+        //         headerName: 'A',
+        //         field: 'a',
+        //         sortable: true,
+        //         colId: 'col1_id'
+        //       },
+        //       {
+        //         headerName: 'B',
+        //         field: 'b.name',
+        //         sortable: true,
+        //         colId: 'col2_id'
+        //       },
+        //       {
+        //         headerName: 'C',
+        //         field: 'c.name',
+        //         sortable: true,
+        //         colId: 'col3_id'
+        //       },
+        //       {
+        //         headerName: 'D',
+        //         field: 'd.name',
+        //         sortable: true,
+        //         colId: 'col4_id'
+        //       },
+        //       {
+        //         headerName: 'E',
+        //         field: 'e.name',
+        //         sortable: true,
+        //         colId: 'col5_id'
+        //       }
+        //     ];
+
+        //     function createRowData() {
+        //       const rowData = [];
+        //       for (let i = 0; i < 100; i++) {
+        //         // create sample row item
+        //         const rowItem = {
+        //           // is is simple
+        //           a: 'aa' + Math.floor(Math.random() * 10000),
+        //           // but b, c, d and e are all complex objects
+        //           b: {
+        //             name: 'bb' + Math.floor(Math.random() * 10000)
+        //           },
+        //           c: {
+        //             name: 'cc' + Math.floor(Math.random() * 10000)
+        //           },
+        //           d: {
+        //             name: 'dd' + Math.floor(Math.random() * 10000)
+        //           },
+        //           e: {
+        //             name: 'ee' + Math.floor(Math.random() * 10000)
+        //           },
+        //           f: {
+        //             name: 'ee' + Math.floor(Math.random() * 10000)
+        //           }
+        //         };
+        //         rowData.push(rowItem);
+        //       }
+        //       return rowData;
+        //     }
+        //     this.gridOptions = {
+        //       defaultColDef: {
+        //         editable: true
+        //       },
+        //       columnDefs: columnDefs,
+        //       rowData: createRowData(),
+        //       components: {
+        //         boldRenderer: function (params) {
+        //           return '<b>' + params.value.name + '</b>';
+        //         }
+        //       },
+        //       onGridReady: function (params) {
+        //         params.api.sizeColumnsToFit();
+
+        //         window.addEventListener('resize', function () {
+        //           setTimeout(function () {
+        //             params.api.sizeColumnsToFit();
+        //           });
+        //         });
+        //       },
+        //       paginationAutoPageSize: true,
+        //       pagination: true,
+        //     };
+        //     const gridDiv = document.querySelector('#myGrid');
+        //     // tslint:disable-next-line:no-unused-expression
+        //     new agGrid.Grid(gridDiv, this.gridOptions);
+        //     this.gridOptions.cacheQuickFilter = false;
+        //     this.gridOptions.api.sizeColumnsToFit();
+        //   };</script>`);
         this.traitService.initMethod(this.editor);
         this.getEntity();
         this.getEntityType();
@@ -441,7 +551,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         this.declareBlockLanguage();
         this.styleManager();
         this.panelManager();
-        this.agGridEntity();
+        // this.agGridEntity();
         this.getScreenById();
         this.getScreenByProjectId();
         // this.traitService.initializeRadioMethod(this.editor);
@@ -548,8 +658,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     }
     ngOnDestroy() {
         console.log('Destroy services called');
-        this.dataService.setAgGridEntity('');
-        this.currentAgGridData.unsubscribe();
+        // this.dataService.setAgGridEntity('');
+        // this.currentAgGridData.unsubscribe();
     }
 
     onFieldOptions(event) {
@@ -559,7 +669,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             entity: '',
             entityfield: ''
         };
-        console.log('this.agGridFields.value.selectColumn ----  ', this.agGridFields.value.selectColumn);
+        console.log('this.agGridFields.value.selectColumn -11---  ', this.agGridArray);
+        console.log('this.agGridFields.value.selectColumn --22--  ', this.agGridFields.value.selectColumn);
         if (this.agGridFields.value.selectColumn !== '' &&
             this.agGridFields.value.selectField !== '') {
             agGridObject.columnid = this.agGridFields.value.selectColumn.value;
@@ -580,9 +691,11 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
 
     saveRemoteStorage() {
         console.log('save remote storage ------- ', this.screenEntityModel);
+        console.log('save remote storage agGridArray------- ', this.agGridArray);
         this.RemoteStorage.set('params', {
             grid_fields: this.agGridObject,
             flows_info: this.screenFlows,
+            route_info: this.routeFlows,
             screenName: this.screenName,
             is_grid_present: this.is_grid_present,
             entity_info: this.screenEntityModel,
@@ -634,6 +747,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                             this.agGridObject = this.existScreenDetail[0]['grid_fields'];
                             this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
                             this.screenFlows = this.existScreenDetail[0]['flows_info'];
+                            this.routeFlows = this.existScreenDetail[0]['route_info'];
                             this.screenName = this.existScreenDetail[0]['screenName'];
                         }
 
@@ -709,23 +823,77 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         eventPopupModel.style.display = 'none';
     }
 
-    // save flows
+    saveRouteDetails() {
+        const tempIndex = this.routeFlows.findIndex(x => x.elementName === this.editor.getSelected().attributes.name);
+        if (tempIndex > -1) {
+            this.routeFlows[tempIndex].screenId = this.routeDetails.screen._id;
+            this.routeFlows[tempIndex].screenName = this.routeDetails.screen.screenName;
+            this.routeFlows[tempIndex].routeType = this.routeDetails.type;
+            this.saveRemoteStorage();
+        } else {
+            const routeObj = {
+                htmlId: '',
+                componentId: '',
+                elementName: '',
+                flow: '',
+                screenId: '',
+                screenName: '',
+                routeType: ''
+            };
+            routeObj.htmlId = this.editor.getSelected().ccid;
+            routeObj.componentId = this.editor.getSelected().cid;
+            routeObj.elementName = this.editor.getSelected().attributes.name;
+            routeObj.flow = this.selectedFlow[0]._id;
+            routeObj.screenId = this.routeDetails.screen._id;
+            routeObj.screenName = this.routeDetails.screen.screenName;
+            routeObj.routeType = this.routeDetails.type;
+            this.routeFlows.push(routeObj);
+            this.saveFlowDetails(this.routeDetails.verb);
+        }
+
+        this.isRoutePopup = false;
+        console.log('save route detaisl rare -----  ', this.routeFlows);
+    }
+
+    closeRoute() {
+        this.isRoutePopup = false;
+    }
+
+    // save event flows
     saveEvent() {
+        this.saveFlowDetails(null);
+        this.closeEventPopup();
+    }
+
+    // save flow details
+    saveFlowDetails(verbInfo) {
         const flowObj = {
             htmlId: '',
             componentId: '',
             elementName: '',
+            verb: '',
             flow: ''
         };
         // console.log('selected component after upload an flows ---- ', this.editor.selected())
         flowObj.htmlId = this.editor.getSelected().ccid;
         flowObj.componentId = this.editor.getSelected().cid;
         flowObj.elementName = this.editor.getSelected().attributes.name;
+        if (verbInfo) {
+            flowObj.verb = verbInfo;
+        }
         flowObj.flow = this.selectedFlow[0]._id;
         this.screenFlows.push(flowObj);
         this.saveRemoteStorage();
-        this.closeEventPopup();
         this.traitService.setScreenInfo(flowObj.htmlId, flowObj.componentId, this.selectedFlow[0]);
+    }
+
+    saveGridEvent() {
+        console.log('save grid events --11---    ', this.selectedFlow);
+        console.log('routeDetails ---22--    ', this.routeDetails);
+        if (this.selectedFlow) {
+            this.isRoutePopup = true;
+            this.closeEventPopup();
+        }
     }
 
     onSelectionChanged() {
@@ -799,7 +967,13 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         // console.log('ram setdefaul types are ----- ', traitsName);
         // this.editor.DomComponents.getType('input').model.prototype.init().listenTo(this, 'change:2345', this.newENtity);
         // console.log('ram 12345@@ ----  ',this.editor.DomComponents.getType('input').model.prototype.init());
-        this.customTriatService.entityFieldButton(this);
+        // custom traits for entity field button
+        this.customTraitService.entityFieldButton(this);
+        // custom traits for content textarea
+        this.customTraitService.content(this);
+        // custom traits for flows action button
+        this.customTraitService.flowsActionButton(this);
+        // input traits
         this.editor.DomComponents.getType('input').model
             .prototype.defaults.traits.push({
                 type: 'select',
@@ -813,6 +987,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                     label: 'Field',
                     name: 'Field'
                 });
+
+        // select traits
         this.editor.DomComponents.getType('select').model
             .prototype.defaults.traits.push({
                 type: 'select',
@@ -826,6 +1002,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                     label: 'Field',
                     name: 'Field'
                 });
+
+        // radio traits
         this.editor.DomComponents.getType('radio').model
             .prototype.defaults.traits.push({
                 type: 'select',
@@ -839,6 +1017,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                     label: 'Field',
                     name: 'Field'
                 });
+        // textarea traits
         this.editor.DomComponents.getType('textarea').model
             .prototype.defaults.traits.push({
                 type: 'select',
@@ -852,7 +1031,19 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                     label: 'Field',
                     name: 'Field'
                 });
-
+        // button traits
+        this.editor.DomComponents.getType('button').model
+            .prototype.defaults.traits.push({
+                type: 'content',
+                label: 'contentName',
+                name: 'contentname',
+                changeProp: 1
+            },
+                {
+                    'name': 'actionButton',
+                    'label': 'Action',
+                    'type': 'actionButton',
+                });
         // ckeditor traits
         this.editor.DomComponents.getType('ckeditor5').model
             .prototype.defaults.traits.push({
@@ -867,6 +1058,56 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                     label: 'Field',
                     name: 'Field'
                 });
+        this.setGridDefaultType(EntityBinding);
+    }
+
+    setGridDefaultType(EntityBinding) {
+        this.agGridArray = [];
+        // add rows trits
+        this.customTraitService.addGridRowButton(this.editor, this.columnOptions);
+        // remove rows triats
+        this.customTraitService.removeGridRowButton(this.editor, this.columnOptions);
+        // add field binding button
+        this.customTraitService.gridFieldButton(this);
+        // custom traits for grid action buttons
+        this.customTraitService.gridActionFlowButton(this);
+
+        this.editor.DomComponents.getType('grid-type').model
+            .prototype.defaults.traits.push(
+                {
+                    type: 'select',
+                    label: this.traitsName,
+                    name: this.traitsName,
+                    changeProp: 1,
+                    options: EntityBinding,
+                },
+                {
+                    'name': 'fieldButton',
+                    'label': 'bind',
+                    'type': 'fieldGridButton',
+                },
+                {
+                    type: 'select',
+                    label: 'verb',
+                    name: 'verbs',
+                    changeProp: 1,
+                    options: this.verbOptions,
+                },
+                {
+                    'name': 'gridActionButton',
+                    'label': 'Action',
+                    'type': 'gridActionButton',
+                },
+                {
+                    'name': 'addButton',
+                    'label': 'Add',
+                    'type': 'addButton',
+                },
+                {
+                    'name': 'removeButton',
+                    'label': `Remove`,
+                    'type': 'removeButton',
+                });
     }
 
 
@@ -878,8 +1119,27 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             //  addATButtons();
         });
         this.editor.on(`component:remove`, function (model) {
+            console.log('removed model list are ----- ', model);
+            console.log('removed model components are ----- ', model.get('components'));
             const parentComponent = model.get('components');
             let componentIndex = 0;
+            if (model.attributes && model.attributes.name) {
+                componentIndex = $this.routeFlows.findIndex(x =>
+                    x.elementName === model.attributes.name
+                );
+
+                if (componentIndex > -1) {
+                    // remove flows first if present in flows_info
+                    const flowInfoIndex = $this.screenFlows.findIndex(x => x.elementName === $this.routeFlows[componentIndex].elementName);
+                    console.log('remove parent routeflow componeontIndex =111ww== ', flowInfoIndex);
+                    console.log('remove parent routeflow componeontIndex =222== ', parentComponent);
+                    if (flowInfoIndex > -1) {
+                        $this.screenFlows.splice(flowInfoIndex, 1);
+                    }
+                    $this.routeFlows.splice(componentIndex, 1);
+
+                }
+            }
             if (parentComponent.length === 0) {
                 componentIndex = $this.screenEntityModel.findIndex(x =>
                     x.elementName === parentComponent.parent.attributes.name
@@ -950,8 +1210,16 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 x.elementName === model._previousAttributes.name);
             if (flowIndex > -1) {
                 $this.screenFlows[flowIndex].elementName = model.attributes.name;
-                $this.saveRemoteStorage();
             }
+            const routeIndex = $this.routeFlows.findIndex(x =>
+                x.elementName === model._previousAttributes.name);
+            console.log('updaten grid name route index ar e--11-- ', routeIndex);
+            console.log('updaten grid name _previousAttributes ar e--22-- ', model);
+            console.log('updaten grid name _previousAttributes ar e--33-- ', model._previousAttributes.name);
+            if (routeIndex > -1) {
+                $this.routeFlows[routeIndex].elementName = model.attributes.name;
+            }
+            $this.saveRemoteStorage();
 
         });
 
@@ -1173,7 +1441,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
 
     addCustomBlocks() {
         this.blockService.addCKeditor5(this.editor);
-        this.blockService.addAgGrid(this.editor, this.project_id);
+        this.blockService.addAgGrid(this);
         this.blockService.addSpecialButton(this.editor);
         this.blockService.addSpecialDropdown(this.editor);
     }
@@ -1201,27 +1469,26 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         // const modal = <HTMLElement>document.querySelector('#agGridModal');
         // modal.style.display = 'none';
         this.isGridPopup = false;
-        this.agGridArray = [];
         this.allEntityField = [];
         this.ref.detectChanges();
     }
 
-    agGridEntity() {
-        this.currentAgGridData = this.dataService.currentAgGridEntitySource.subscribe(
-            data => {
-                console.log('agGridEntity values are -------  ', data);
-                if (data) {
-                    this.selectedEntity = data.entity;
-                    this.allEntityField = data.entity.field;
-                    this.columnsOption = data.customColumn;
-                    this.defaultColumn = data.defalutColumn;
-                    this.isGridPopup = true;
-                    this.agGridArray = [];
-                    this.ref.detectChanges();
-                }
-            }
-        );
-    }
+    // agGridEntity() {
+    //     this.currentAgGridData = this.dataService.currentAgGridEntitySource.subscribe(
+    //         data => {
+    //             console.log('agGridEntity values are -------  ', data);
+    //             if (data) {
+    //                 this.selectedEntity = data.entity;
+    //                 this.allEntityField = data.entity.field;
+    //                 this.columnsOption = data.customColumn;
+    //                 this.defaultColumn = data.defalutColumn;
+    //                 this.isGridPopup = true;
+    //                 this.agGridArray = [];
+    //                 this.ref.detectChanges();
+    //             }
+    //         }
+    //     );
+    // }
 
     onGridReady(params) {
         this.gridApi = params.api;
@@ -1233,15 +1500,15 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     //     return element ? element.headerName : null;
     //   }
 
-    showPopupModal() {
-        // this.isGridPopup = true;
-        // console.log('showPopup mdoels -====  ', this.isGridPopup);
-        // this.agGridArray = [];
-        const modal = <HTMLElement>document.querySelector('#agGridModal');
-        console.log('agGridEntity ag Grid modal are --main--- ', modal);
-        modal.style.display = 'block';
-        this.agGridArray = [];
-    }
+    // showPopupModal() {
+    //     // this.isGridPopup = true;
+    //     // console.log('showPopup mdoels -====  ', this.isGridPopup);
+    //     // this.agGridArray = [];
+    //     const modal = <HTMLElement>document.querySelector('#agGridModal');
+    //     console.log('agGridEntity ag Grid modal are --main--- ', modal);
+    //     modal.style.display = 'block';
+    //     this.agGridArray = [];
+    // }
 
     onCloseModel() {
         // const modal = <HTMLElement>document.querySelector('#modalDiv');

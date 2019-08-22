@@ -9,9 +9,10 @@
         <form class="m-3" [formGroup]="agGridFields">
           <div class="form-group row">
             <label for="column">column</label>
-            <select class="form-control" id="column" formControlName="selectColumn" [ngClass]="{ 'is-invalid': submitted && form_control.selectColumn.errors }">
+            <select class="form-control" id="column" formControlName="selectColumn"
+              [ngClass]="{ 'is-invalid': submitted && form_control.selectColumn.errors }">
               <option value="" selected>none</option>
-              <option *ngFor="let col of columnsOption" [ngValue]="col">{{ col.name }}</option>
+              <option *ngFor="let col of columnOptions" [ngValue]="col">{{ col.name }}</option>
             </select>
             <div *ngIf="submitted && form_control.selectColumn.errors" class="invalid-feedback">
               <div *ngIf="form_control.selectColumn.errors.required">This field is required
@@ -20,8 +21,8 @@
           </div>
           <div class="form-group row">
             <label for="fields">fields</label>
-            <select class="form-control" id="fields" (ngModelChange)='onFieldOptions($event)' formControlName="selectField"
-              [ngClass]="{ 'is-invalid': submitted && form_control.selectField.errors }">
+            <select class="form-control" id="fields" (ngModelChange)='onFieldOptions($event)'
+              formControlName="selectField" [ngClass]="{ 'is-invalid': submitted && form_control.selectField.errors }">
               <option value="" selected>none</option>
               <option *ngFor="let field of allEntityField" [ngValue]="field.name">{{ field.name }}</option>
             </select>
@@ -51,11 +52,7 @@
 </div>
 
 
-
-<!-- <div id="testDiv">Hello Ramkumar</div> -->
-
-<div class="modal" id="myModal" tabindex="-1" role="dialog" 
-   style="display: none">
+<div class="modal" id="myModal" tabindex="-1" role="dialog" style="display: none">
   <div class="modal-dialog modal-md" role="dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -68,16 +65,17 @@
         <div class="form-group row">
           <label for="screen-name" class="col-sm-4 col-form-label">Screen Name</label>
           <div class="col-sm-8">
-            <input type="text" [(ngModel)]="screenName" (ngModelChange)="isScreenNameExist()"
-             class="form-control" id="screen-name">
-             <small *ngIf="screenNameExist" style="font-style: italic;
+            <input type="text" [(ngModel)]="screenName" (ngModelChange)="isScreenNameExist()" class="form-control"
+              id="screen-name">
+            <small *ngIf="screenNameExist" style="font-style: italic;
              color: red;">This screen Name is Exist.</small>
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="closeScreeName()">Close</button>
-        <button type="button" [disabled]="screenNameExist" class="btn btn-primary" (click)="updateScreeName()">Update</button>
+        <button type="button" [disabled]="screenNameExist" class="btn btn-primary"
+          (click)="updateScreeName()">Update</button>
       </div>
     </div>
   </div>
@@ -87,23 +85,20 @@
 <div id="EventPopup" class="modal" tabindex="-1" role="dialog" style="display: none">
   <div class="modal-dialog modal-lg" role="dialog">
     <div class="modal-content">
-        <div class="modal-header" style="display: block;">
-            <button type="button" class="close" (click)="cancelEvent()"
-             data-dismiss="modal" aria-hidden="true">x</button>
-            <h3>Choose an Event</h3>
-        </div>
-        <div class="modal-body">
-        
-      <div class="container">
-          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnDefs"
-          [rowSelection]="rowSelection" [rowData]="rowData" [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight'
-          [pagination]="true"
-          [paginationPageSize]="10"
-          [floatingFilter]="true"
-          (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
+      <div class="modal-header" style="display: block;">
+        <button type="button" class="close" (click)="cancelEvent()" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3>Choose an Event</h3>
+      </div>
+      <div class="modal-body">
+
+        <div class="container">
+          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
+            [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="rowData" [animateRows]="true"
+            [defaultColDef]="defaultColDef" domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10"
+            [floatingFilter]="true" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
           </ag-grid-angular>
 
-    <!-- <form class="m-3" [formGroup]="eventFlows">
+          <!-- <form class="m-3" [formGroup]="eventFlows">
       <div class="form-group row">
         <label for="column">Choose an Event</label>
         <select class="form-control" id="column" formControlName="selectEvent" [ngClass]="{ 'is-invalid': submitted && form_control.selectColumn.errors }">
@@ -116,12 +111,13 @@
         </div>
       </div>
     </form> -->
-  </div> 
         </div>
+      </div>
       <div class="modal-footer">
         <div class="form-group">
-          <button type="button" class="btn button-create" (click)="saveEvent()">ok</button>
-          <button type="button" class="btn button-close" (click)="cancelEvent()">cancel</button>
+          <button type="button" *ngIf="!isGridEvent" class="btn btn-primary button-create" (click)="saveEvent()">ok</button>
+          <button type="button" *ngIf="isGridEvent" class="btn btn-primary button-create" (click)="saveGridEvent()">ok</button>
+          <button type="button" class="btn btn-danger button-close" (click)="cancelEvent()">cancel</button>
         </div>
       </div>
     </div>
@@ -162,6 +158,47 @@
     </div>
   </div>
 </div>
+
+<!-- Route popup model -->
+<div *ngIf="isRoutePopup" id="routeModal" class="modal" tabindex="-1" role="dialog" style="display: block">
+  <div class="modal-dialog modal-md" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Routes</h4>
+      </div>
+      <div class="container">
+        <form class="m-3">
+          <div class="form-group row">
+            <b for="Screen">Screen</b>
+            <select class="form-control" name="screenOptions" [(ngModel)]="routeDetails.screen" id="Screen">
+              <option value="" selected>none</option>
+              <ng-container *ngFor="let screenObj of screenArrayByProjectId">
+                <option *ngIf="!screenObj.isTemplate && screenObj._id != screen_id" [ngValue]="screenObj">
+                  <span>{{ screenObj.screenName }}</span>
+                </option>
+              </ng-container>
+            </select>
+          </div>
+          <div class="row">
+            <b>Type</b>
+          </div>
+          <div class="row">
+              <label class="radio-inline"><input type="radio" value="none" [(ngModel)]="routeDetails.type" name="routeOption">None</label>
+              <label class="radio-inline"><input type="radio" value="pathVariable" [(ngModel)]="routeDetails.type" name="routeOption">Path Variable</label>
+              <label class="radio-inline"><input type="radio" value="queryParameter" [(ngModel)]="routeDetails.type" name="routeOption">Query Parameter</label>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group">
+          <button type="button" class="btn btn-primary button-create" (click)="saveRouteDetails()">ok</button>
+          <button type="button" class="btn btn-danger button-close" (click)="closeRoute()">cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div id="publish-panel" class="panel-modal" style="display: none">
   <div class="modal-body">
@@ -357,5 +394,3 @@
     </div>
   </div>
 </div>
-
-

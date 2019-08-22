@@ -101,41 +101,26 @@ export class BlockService {
     this.traitService.addCKEditorTraits(editor, 'ckeditor5');
   }
 
-  addAgGrid(editor, projectId) {
+  addAgGrid($this) {
     // editor ag-grid custom blocks added
-    editor.BlockManager.add('agGrid', {
+    $this.editor.BlockManager.add('agGrid', {
       id: 'agGrid',
       label: 'agGrid',
       category: 'Basic',
       attributes: {
         class: 'fa fa-table'
       },
-      content: {
-        components: `<div class="test-container">
-    <div class="test-header">
+      content: `<div data-gjs-type="grid-type" style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
+    <div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
         <input type="text" id="filter-text-box" placeholder="Filter..." oninput="onFilterTextBoxChanged()"/>
     </div>
-    <div style="display: flex; flex-direction: row">
-        <div style=" overflow: hidden; flex-grow: 1">
     <div id="myGrid" style="width: 100%; height: 100%;" class="ag-theme-balham"></div>
-    </div>
-    </div>
 
 </div>`,
-        type: 'grid-type',
-        // activeOnRender: 1,
-        style: {
-          'padding-top': '10px',
-          'padding-right': '10px',
-          'padding-left': '10px',
-          'padding-bottom': '10px',
-          'background-color': '#ffffff',
-        }
-      },
       draggable: true,
       removable: true
     });
-    this.traitService.addGridTraits(editor, 'grid-type', projectId);
+    this.traitService.addGridTraits($this, 'grid-type');
   }
 
 
