@@ -9,8 +9,8 @@ export class Consentservice {
         logger.info('Enter into consentservice.ts: consentservice');
         const consentbody = req.body;
         consentdao.consentdao(consentbody, (response) => {
-            callback(response);
             logger.info('Exit from consentservice.ts: Consentcontroller');
+            callback(response);
         });
 
     }

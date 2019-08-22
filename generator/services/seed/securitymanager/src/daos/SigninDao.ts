@@ -55,13 +55,13 @@ export class SigninDao {
                     });
                     if (this.mailboolean === true) {
                         var mailresponse = 'Email is already exists';
-                        callback(mailresponse);
                         logger.info('Exit from SigninDao.ts: signindao');
+                        callback(mailresponse);
                     } else {
                         let logincreds = new signinmodel(this.userDetails);
                         logincreds.save().then((result) => {
-                            callback(result);
                             logger.info('Exit from SigninDao.ts: signindao');
+                            callback(result);
                         }).catch((error) => {
                             callback(error);
                         })
@@ -69,8 +69,8 @@ export class SigninDao {
                 } else {
                     let logincreds = new signinmodel(this.userDetails);
                     logincreds.save().then((result) => {
-                        callback(result);
                         logger.info('Exit from SigninDao.ts: signindao');
+                        callback(result);
 
                     }).catch((error) => {
                         callback(error);
@@ -90,12 +90,12 @@ export class SigninDao {
             }
             if (response === null) {
                 response = 'Incorrect Username or Password';
-                callback(response);
                 logger.info('Exit from SigninDao.ts: logindao');
+                callback(response);
 
             } else {
-                callback(response);
                 logger.info('Exit from SigninDao.ts: logindao');
+                callback(response);
 
             }
         })
@@ -108,8 +108,8 @@ export class SigninDao {
             if (err) {
                 callback(err);
             }
-            callback(result);
             logger.info('Exit from SigninDao.ts: logoutdao');
+            callback(result);
 
         })
     }
@@ -157,8 +157,8 @@ export class SigninDao {
                         callback(err);
                     }
                     response.Idtoken = idtoken;
-                    callback(response);
                     logger.info('Exit from SigninDao.ts: googledao');
+                    callback(response);
 
                 });
             });
@@ -173,8 +173,8 @@ export class SigninDao {
         signinmodel.find().populate({
             path: 'role', model: rolemodel
         }).then(result => {
-            callback(result);
             logger.info('Exit from SigninDao.ts: getalluserdao');
+            callback(result);
 
         }).catch((error => {
             callback(error);
@@ -187,8 +187,8 @@ export class SigninDao {
         signinmodel.findById(userId).populate({
             path: 'role', model: rolemodel
         }).then(result => {
-            callback(result);
             logger.info('Exit from SigninDao.ts: getbyiduserdao');
+            callback(result);
 
         }).catch((error => {
             callback(error);
@@ -199,8 +199,8 @@ export class SigninDao {
         logger.info('Enter into SigninDao.ts: getrolesdao');
 
         rolemodel.find().then(result => {
-            callback(result);
             logger.info('Exit from SigninDao.ts: getrolesdao');
+            callback(result);
 
         }).catch((error) => {
             callback(error);
@@ -238,8 +238,8 @@ export class SigninDao {
                 Idtoken: idtoken,
                 installrToken: updateuser.installrToken
             }
-            callback(updaterespone);
             logger.info('Exit from SigninDao.ts: updateuserdao');
+            callback(updaterespone);
 
         })
     }

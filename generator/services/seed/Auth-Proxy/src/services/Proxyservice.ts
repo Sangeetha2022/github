@@ -9,8 +9,8 @@ export class Proxyservice {
     public userservice(userdetails, callback) {
         logger.info('Enter into Proxyservice.ts: userservice');
         proxydao.userdao(userdetails, (response) => {
-            callback(response);
             logger.info('Exit from Proxyservice.ts: userservice');
+            callback(response);
         })
     }
 }
