@@ -1,6 +1,6 @@
 /*
  * Template group service
- * Compiled on Wed Jun 05 2019 12:13:26 GMT+0530 (India Standard Time)
+ * Compiled on Thu Aug 22 2019 17:00:10 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -118,36 +118,52 @@ r = function(w, rc) {
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 9, column: 69 }));
                      w.write("(req: Request, callback){");
                      w.write("\n");
+                     w.pushIndentation("    ");
+                     w.write("logger.info('Enter into ");
+                     w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 10, column: 36 }));
+                     w.write("Service.ts: ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 10, column: 72 }));
+                     w.write("')");
+                     w.write("\n");
                      w.write("     ");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 10, column: 17 }))) {
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 11, column: 17 }))) {
                      
                          w.write("const ");
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 10, column: 42 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 11, column: 42 }));
                      
                      
                      }
                      w.write("\n");
                      w.pushIndentation("     ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 11, column: 13 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 12, column: 13 }));
                      w.popIndentation();
                      w.write(".");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 11, column: 38 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 12, column: 38 }));
                      w.write("(");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "requestParameter", { file: gFile, line: 11, column: 62 }))) {
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "requestParameter", { file: gFile, line: 12, column: 62 }))) {
                      
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "requestParameter", { file: gFile, line: 11, column: 89 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "requestParameter", { file: gFile, line: 12, column: 89 }));
                          w.write(",");
                      
                      
                      }
                      w.write("(");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "responseVariable", { file: gFile, line: 11, column: 124 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "responseVariable", { file: gFile, line: 12, column: 124 }));
                      w.write(")=>{");
+                     w.write("\n");
+                     w.pushIndentation("             ");
+                     w.write("logger.info('Exit from ");
+                     w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 13, column: 44 }));
+                     w.write("Service.ts: ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 13, column: 80 }));
+                     w.write("')");
                      w.write("\n");
                      w.pushIndentation("         ");
                      w.write("callback(");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "responseVariable", { file: gFile, line: 12, column: 27 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "responseVariable", { file: gFile, line: 14, column: 27 }));
                      w.write(");");
                      w.write("\n");
                      w.pushIndentation("         ");

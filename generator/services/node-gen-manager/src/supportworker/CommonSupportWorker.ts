@@ -82,4 +82,16 @@ export class CommonSupportWorker {
             console.log('winston logger files generated');
         })
     }
+
+    generateLoggerFile(generationPath, templatePath) {
+        const configPath = `${generationPath}/src/config`;
+        const loggerTemplatePath = path.resolve(__dirname, templatePath);
+        Common.createFolders(configPath);
+        let generateLogger = st.loadGroup(require(loggerTemplatePath + '/logger_stg'));
+        let loggerFile = generateLogger.render("logger");
+        fs.writeFile(configPath + `/Logger.ts`, loggerFile, function (err) {
+            if (err) throw err;
+            console.log('logger files generated');
+        })
+    }
 }

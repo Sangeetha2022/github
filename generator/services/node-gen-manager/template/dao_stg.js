@@ -1,6 +1,6 @@
 /*
  * Template group dao
- * Compiled on Mon Jun 03 2019 10:47:01 GMT+0530 (India Standard Time)
+ * Compiled on Thu Aug 22 2019 17:00:08 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -46,7 +46,9 @@ r = function(w, rc) {
     
     }
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 3, column: 11 }), "outsideClass", { file: gFile, line: 3, column: 20 }))) {
+    w.write("const logger = require('../config/Logger');");
+    w.write("\n");
+    if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 4, column: 11 }), "outsideClass", { file: gFile, line: 4, column: 20 }))) {
     
     
     
@@ -54,23 +56,23 @@ r = function(w, rc) {
     w.write("\n");
     w.write("\n");
     w.write("export class ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 5, column: 21 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 6, column: 21 }));
     w.write("Dao {");
     w.write("\n");
     w.write("    ");
-    if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 6, column: 15 }), "insideClass", { file: gFile, line: 6, column: 24 }))) {
+    if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 7, column: 15 }), "insideClass", { file: gFile, line: 7, column: 24 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 6, column: 45 }), "insideClass", { file: gFile, line: 6, column: 54 });
+        attr = st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 7, column: 45 }), "insideClass", { file: gFile, line: 7, column: 54 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
                      w.write("private ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.variableObj, "variableName", { file: gFile, line: 6, column: 102 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.variableObj, "variableName", { file: gFile, line: 7, column: 102 }));
                      w.write(" = ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.variableObj, "parentName", { file: gFile, line: 6, column: 131 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.variableObj, "parentName", { file: gFile, line: 7, column: 131 }));
                      w.write(";");
             }, [
             { name: "variableObj"     }
@@ -88,37 +90,45 @@ r = function(w, rc) {
     w.pushIndentation("    ");
     w.write("\n");
     w.popIndentation();
-    if (st.test(st.prop(s, g, rc, s.object, "flowAction", { file: gFile, line: 9, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "flowAction", { file: gFile, line: 10, column: 11 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "flowAction", { file: gFile, line: 9, column: 31 });
+        attr = st.prop(s, g, rc, s.object, "flowAction", { file: gFile, line: 10, column: 31 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
                      w.write("public ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 9, column: 69 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 10, column: 69 }));
                      w.write("(");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "parameter", { file: gFile, line: 9, column: 90 }));
-                     w.write("){\n");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 9, column: 118 }))) {
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "parameter", { file: gFile, line: 10, column: 90 }));
+                     w.write("){\nlogger.info('Enter into ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 10, column: 138 }));
+                     w.write("Dao.ts: ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 10, column: 170 }));
+                     w.write("')\n");
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 10, column: 199 }))) {
                      
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 9, column: 137 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 10, column: 218 }));
                          w.write(";");
                      
                      
                      }
                      w.write("\n");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 9, column: 167 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 10, column: 248 }));
                      w.write("(");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 9, column: 186 }))) {
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 10, column: 267 }))) {
                      
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 9, column: 202 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 10, column: 283 }));
                      
                      
                      }
-                     w.write(").then((result)\t=>\t{\ncallback(result);\n}).catch((error)=>{\ncallback(error);\n});}");
+                     w.write(").then((result)\t=>\t{\nlogger.info('Exit from ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 10, column: 357 }));
+                     w.write("Dao.ts: ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 10, column: 389 }));
+                     w.write("');\ncallback(result);\n}).catch((error)=>{\ncallback(error);\n});}");
             }, [
             { name: "flowObj"     }
             ])); 
