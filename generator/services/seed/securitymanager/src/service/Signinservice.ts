@@ -9,8 +9,8 @@ export class Signinservice {
         logger.info('Enter into Signinservice.ts: signupservice');
         const users = req.body;
         signindao.signindao(users, (response) => {
-            callback(response);
             logger.info('Exit from Signinservice.ts: signupservice');
+            callback(response);
 
         });
     }
@@ -19,8 +19,8 @@ export class Signinservice {
         logger.info('Enter into loginservice');
         const logindetails = req.body;
         signindao.logindao(logindetails, (response) => {
-            callback(response)
             logger.info('Exit from Signinservice.ts: loginservice');
+            callback(response)
 
         });
     }
@@ -30,8 +30,8 @@ export class Signinservice {
 
         const user = req.body.id;
         signindao.logoutdao(user, (response) => {
-            callback(response);
             logger.info('Exit from Signinservice.ts: logoutservice');
+            callback(response);
 
         })
     }
@@ -41,8 +41,8 @@ export class Signinservice {
 
         const googledata = req.body;
         signindao.googledao(googledata, (response) => {
-            callback(response);
             logger.info('Exit from Signinservice.ts: googleservice');
+            callback(response);
 
         })
     }
@@ -51,8 +51,8 @@ export class Signinservice {
         logger.info('Enter into Signinservice.ts: getalluserservice');
 
         signindao.getalluserdao((response) => {
-            callback(response);
             logger.info('Exit from Signinservice.ts: getalluserservice');
+            callback(response);
 
         })
     }
@@ -62,9 +62,8 @@ export class Signinservice {
 
         const userId = req.params.id;
         signindao.getbyiduserdao(userId, (response) => {
-
-            callback(response);
             logger.info('Exit from Signinservice.ts: getbyiduserservice');
+            callback(response);
 
         })
     }
@@ -74,8 +73,8 @@ export class Signinservice {
         logger.info('Enter into Signinservice.ts: getrolesservice');
 
         signindao.getrolesdao((response) => {
-            callback(response);
             logger.info('Exit from Signinservice.ts: getrolesservice');
+            callback(response);
 
         })
     }
@@ -86,8 +85,8 @@ export class Signinservice {
         const userdetails = req.body;
 
         signindao.updateuserdao(userdetails, (response) => {
-            callback(response);
             logger.info('Exit from Signinservice.ts: updateuserservice');
+            callback(response);
 
         })
     }

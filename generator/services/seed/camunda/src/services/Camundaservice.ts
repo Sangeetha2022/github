@@ -32,8 +32,8 @@ export class CamundaService {
                 }
                 else {
                     let camundaresponse = await this.camundaauthorization();
-                    callback(camundaresponse);
                     logger.info('Exit from Camundaservice.ts: camundarequest');
+                    callback(camundaresponse);
                 }
             })
         }).catch((error) => {

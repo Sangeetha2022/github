@@ -31,8 +31,8 @@ export class ConsentDao {
                         callback(err);
                     }
                     response.Idtoken = token;
-                    callback(response);
                     logger.info('Exit from ConsentDao.ts : consentdao');
+                    callback(response);
                 });
             })
         }

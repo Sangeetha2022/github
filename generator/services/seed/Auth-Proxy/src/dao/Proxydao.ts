@@ -27,8 +27,8 @@ export class Proxydao {
         var camundaresponse = [];
         request.post({ url: posturl, json: jsonbody }, function (error, response, body) {
             camundaresponse.push(body);
-            callback(camundaresponse);
             logger.info('Exit from Proxydao.ts: userdao');
+            callback(camundaresponse);
         })
     }
 }
