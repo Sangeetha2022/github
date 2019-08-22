@@ -5,6 +5,10 @@ import { IonicSupportWorker } from '../supportworker/ionicSupportWorker';
 export class IonicWorker {
     private ionicSupportWorker = new IonicSupportWorker();
 
+    private hsbc: any = {
+        ionicFolderpath: 'ionic/hsbc/img',
+        homeFolderpath: 'ionic/hsbc/home',
+    }
     private ionicFolderpath = 'ionic/img';
     private homeFolderpath = 'ionic/home';
     private loginFolderpath = 'ionic/login';
@@ -13,13 +17,17 @@ export class IonicWorker {
     private loginserviceFolderpath = 'ionic/login-service';
     private appiconFolderpath = 'ionic/icon'
 
-
     assetImages(projectDetails, callback) {
         const Details = projectDetails;
         const imgPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/assets/imgs`;
-        console.log("imgPath----->", imgPath);
         const seedPath = Details.project.templateLocation.authTemplatePath
-        this.generateImg(imgPath, this.ionicFolderpath, seedPath);
+        if (projectDetails.templateName === 'HSBC TEMPLATE') {
+            const ionicFolderLocation = this.hsbc.ionicFolderpath;
+            this.generateImg(imgPath, ionicFolderLocation, seedPath);
+        }
+        else if (projectDetails.templateName !== 'HSBC TEMPLATE') {
+            this.generateImg(imgPath, this.ionicFolderpath, seedPath);
+        }
         callback();
     }
 
@@ -35,9 +43,15 @@ export class IonicWorker {
     homeComponent(projectDetails, callback) {
         const Details = projectDetails;
         const homePath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/pages/home`;
-        console.log("homecomponentPath----->", homePath);
         const seedPath = Details.project.templateLocation.authTemplatePath
-        this.generateStaticComponent(homePath, this.homeFolderpath, seedPath);
+        if (projectDetails.templateName === 'HSBC TEMPLATE') {
+            const ionicFolderLocation = this.hsbc.homeFolderpath;
+            this.generateStaticComponent(homePath, ionicFolderLocation, seedPath);
+
+        }
+        else if (projectDetails.templateName !== 'HSBC TEMPLATE') {
+            this.generateStaticComponent(homePath, this.homeFolderpath, seedPath);
+        }
         callback();
     }
 
