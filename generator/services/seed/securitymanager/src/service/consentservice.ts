@@ -1,15 +1,15 @@
 import { Request } from 'express';
 import { ConsentDao } from '../daos/ConsentDao';
-const logger = require('../config/Logger');
+import { CustomLogger } from '../config/Logger'
 
 let consentdao = new ConsentDao();
 
 export class Consentservice {
     public consentservice(req: Request, callback) {
-        logger.info('Enter into consentservice.ts: consentservice');
+        new CustomLogger().showLogger('info', 'Enter into consentservice.ts: consentservice');
         const consentbody = req.body;
         consentdao.consentdao(consentbody, (response) => {
-            logger.info('Exit from consentservice.ts: Consentcontroller');
+            new CustomLogger().showLogger('info', 'Exit from consentservice.ts: Consentcontroller');
             callback(response);
         });
 

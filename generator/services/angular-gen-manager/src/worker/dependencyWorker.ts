@@ -88,4 +88,32 @@ export class DependencyWorker {
         this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.PACKAGE_JSON_FILENAME,
             file.join(`\n`), (response) => { })
     }
+
+    // style.scss file
+    public modifyGlobalStyles(applicationPath, information) {
+        console.log('modify global stlyes are ------  ', applicationPath);
+        console.log('modify global stlyes information are ------  ', information);
+        let file = this.dependencySupportWorker.readFile(applicationPath, Constant.STYLE_SCSS_FILENAME);
+        console.log('readded files are -----  ', file);
+        if (information.import.length > 0) {
+            file.splice(1, 0, information.import.join('\n'));
+        }
+        if (information.others.length > 0) {
+            file = file.concat(information.others);
+        }
+        // const index = file.findIndex(x => /router/.test(x));
+        // if (index) {
+        //     information.forEach(element => {
+        //         const splitted = element.split(":");
+        //         console.log('index a splitString ----  ', splitted[0]);
+        //         const regExpression = new RegExp(splitted[0]);
+        //         if (file.findIndex(x => regExpression.test(x)) < 0) {
+        //             file.splice(index, 0, element);
+        //         }
+
+        //     })
+        // }
+        this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.STYLE_SCSS_FILENAME,
+            file.join(`\n`), (response) => { })
+    }
 }

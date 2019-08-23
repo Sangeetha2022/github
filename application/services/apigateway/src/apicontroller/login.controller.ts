@@ -5,7 +5,6 @@ import * as Constants from '../config/Constants';
 import { ApiAdaptar } from '../config/apiAdaptar';
 import * as jwt from 'jsonwebtoken';
 import * as request from 'request';
-const logger = require('../config/Logger');
 
 export class Logincontroller implements Controller {
 

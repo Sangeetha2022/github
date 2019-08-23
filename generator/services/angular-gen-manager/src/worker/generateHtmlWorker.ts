@@ -4,11 +4,14 @@ import { ComponentWorker } from './componentWorker';
 import { Constant } from '../config/Constant';
 import * as componentDependency from '../assets/componentDependency';
 import { threadId } from 'worker_threads';
+import { ComponentSpecializedWorker } from './componentSpecializedWorker';
 // import { styles } from '../assets/cssGuidline';
 // import { RouteSupportWorker } from '../supportworker/RouteSupportWorker';
 
 // let routeSupportWorker = new RouteSupportWorker();
 let componentWorker = new ComponentWorker();
+let componentSpecializedWorker = new ComponentSpecializedWorker();
+
 export class GenerateHtmlWorker {
 
     private forEach = asyncForEach.forEach;
@@ -22,13 +25,7 @@ export class GenerateHtmlWorker {
     private parentTest: any[] = [];
     private isNotImportant: Boolean = false;
     private isContentOnly: Boolean = false;
-
-    private CKEDITOR_HTMLID_NAME = 'ckeditortextarea';
-    private TEXTAREA_TAGNAME = 'textarea';
-    private CKEDITOR_TAGNAME = 'ckeditor';
-    private CKEDITOR_SPAN_IDNAME = 'ckeditorspan';
-    private isCKeditorSpan = false;
-
+    private isCKeditorSpan: Boolean = false;
     // entity and flows for Each screens
     private entityDetails = [];
     private flowDetails = [];
@@ -42,6 +39,7 @@ export class GenerateHtmlWorker {
         variableList: [],
         dependenciesVariableList: [],
         flowMethod: [],
+        elementDependedMethod: [],
         otherMethodNames: []
     }
 
@@ -51,8 +49,13 @@ export class GenerateHtmlWorker {
         flowMethod: [],
         apiEndPoints: []
     }
+    private screenInfo: any;
 
     private componentStyle = [];
+    private globalStyle = {
+        import: [],
+        others: []
+    }
     private selectOption = `<option *ngFor="let option of option" [ngValue]="option.key">{{option.value}}</option>`;
     private cssGuidelines = [];
     private ckeditorEntities: any = null;
@@ -69,6 +72,7 @@ export class GenerateHtmlWorker {
             variableList: [],
             dependenciesVariableList: [],
             flowMethod: [],
+            elementDependedMethod: [],
             otherMethodNames: []
         }
 
@@ -84,7 +88,13 @@ export class GenerateHtmlWorker {
         // add default styles
         this.componentStyle.push(screenStyles);
 
+        // initialize global styles
+        this.globalStyle = {
+            import: [],
+            others: []
+        }
 
+        this.screenInfo = screenDetails;
         console.log('generatehtlmworker componentstyles are ----  ', this.componentStyle);
         this.entityDetails = screenDetails.entity_info;
         this.flowDetails = screenDetails.flows_info;
@@ -134,11 +144,13 @@ export class GenerateHtmlWorker {
         })
     }
 
+
     modifyDependency(details, callback) {
         console.log('modifydependency calling in gnerateHTML Workere s');
-        const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
         const packagePath = details.projectGenerationPath;
-        componentWorker.modifyDependency(applicationPath, packagePath, (response) => {
+        const srcPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}`;
+        const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
+        componentWorker.modifyDependency(packagePath, srcPath, applicationPath, this.globalStyle, (response) => {
             console.log('modify dependency response rare ----  ');
             this.initializeData();
             callback({ Message: `Feature Screen created successfully` });
@@ -203,7 +215,7 @@ export class GenerateHtmlWorker {
             this.isNotImportant = false;
             this.isContentOnly = false;
             // set html classes
-            this.setClasses(firstEle, secondEle);
+            this.setClasses(firstEle);
             // set html attributes
             this.setAttributes(firstEle);
             // set html contents
@@ -215,7 +227,7 @@ export class GenerateHtmlWorker {
         }
     }
 
-    setClasses(firstEle, secondEle) {
+    setClasses(firstEle) {
         if (firstEle.hasOwnProperty('classes')) {
             // console.log('firstEle classes are ---- ', firstEle.classes[0], ' ---firstELE classes length-- ', firstEle.classes.length);
             if (!firstEle.hasOwnProperty('tagName') && !this.tagName) {
@@ -223,10 +235,10 @@ export class GenerateHtmlWorker {
             }
             let className = this.getClassName(firstEle);
 
-            const defaultClassNames = this.addClassName('class');
+            const defaultClassNames = componentSpecializedWorker.addClassName(this, 'class');
             if (defaultClassNames) {
                 if (!className.includes(defaultClassNames) && className.toLowerCase() != 'radio') {
-                    className += ` ${this.addClassName('class')}`;
+                    className += ` ${componentSpecializedWorker.addClassName(this, 'class')}`;
                 }
             }
             // console.log('finded class name are -----  ', css[this.tagName]);
@@ -240,39 +252,14 @@ export class GenerateHtmlWorker {
             }
 
         } else {
-            const defaultClassNames = this.addClassName('class');
+            const defaultClassNames = componentSpecializedWorker.addClassName(this, 'class');
             if (defaultClassNames) {
                 this.startString += `<${this.tagName} class='${defaultClassNames}'`
             }
         }
     }
 
-    addClassName(cssTypes) {
-        // additional
-        const cssGuides = this.cssGuidelines.find(x => x.tagName == this.tagName);
-        if (cssGuides) {
-            if (cssTypes == 'class') {
-                return cssGuides.className;
-            }
-        } else {
-            return null;
-        }
-        // if (this.tagName == 'form') {
-        //     return 'form';
-        // }
-        // if (this.tagName == 'input') {
-        //     return `form-control`;
-        // }
-        // if (this.tagName == 'select') {
-        //     return `form-control`;
-        // }
-        // if (this.tagName == 'textarea') {
-        //     return `form-control`;
-        // }
-        // if (this.tagName == 'button') {
-        //     return `btn btn-primary`;
-        // }
-    }
+
 
     getClassName(firstEle) {
         let temp = '';
@@ -288,14 +275,6 @@ export class GenerateHtmlWorker {
         return temp;
     }
 
-    removeClassName(removeTagName) {
-        const temp = this.cssGuidelines.find(x => x.tagName == removeTagName);
-        if (temp) {
-            this.startString = this.startString.replace(temp.className, '');
-        }
-    }
-
-
     setAttributes(firstEle) {
         if (firstEle.hasOwnProperty('attributes') && this.tagName !== 'form') {
             let attributes = Object.keys(firstEle.attributes);
@@ -306,14 +285,13 @@ export class GenerateHtmlWorker {
                 if (element === 'name' && firstEle.name) {
                     // added previour
                     if (this.startString.includes('radio')) {
-                        console.log('is radio buttone are -----  ', this.startString);
-                        this.removeClassName('input');
+                        componentSpecializedWorker.removeClassName(this, 'input');
                         this.startString += ` ${element}='${firstEle.attributes[element]}'`;
                     } else {
                         this.startString += ` ${element}='${firstEle.name}'`;
                     }
                     if (this.startString.includes('checkbox')) {
-                        this.removeClassName('input');
+                        componentSpecializedWorker.removeClassName(this, 'input');
                     }
                 } else {
                     if (this.tagName != 'base' && element === 'href' && firstEle.attributes[element] === Constant.HREF_BASE) {
@@ -341,21 +319,7 @@ export class GenerateHtmlWorker {
                 this.startString += `>`;
             }
         }
-        // checking and add the ckeditor5
-        console.log('each tagname are -----  ', this.tagName);
-        console.log('each startString are -----  ', this.startString);
-        if (this.tagName == this.TEXTAREA_TAGNAME && this.startString.includes(this.CKEDITOR_HTMLID_NAME)) {
-            console.log('entering into change textarea into ckeditor5 --- ', this.startString);
-            this.startString = this.startString.replace(this.tagName.toString(), this.CKEDITOR_TAGNAME);
-            const findckeditorDependencies = componentDependency.component.find(x => x.name == this.CKEDITOR_TAGNAME);
-            this.removeClassName('textarea');
-            if (findckeditorDependencies) {
-                this.startString = this.startString.replace('>', ` ${findckeditorDependencies.htmlDependencies}>`);
-            }
-            this.tagName = this.CKEDITOR_TAGNAME;
-            // adding ckeditor5 in tscomponent dependencies
-            this.tsComponent.otherMethodNames.push(this.CKEDITOR_TAGNAME);
-        }
+        componentSpecializedWorker.checkSpecialElement(this);
     }
 
     setTraits(firstEle) {
@@ -383,20 +347,32 @@ export class GenerateHtmlWorker {
                         console.log('identitied flow index are -----  ', this.flowDetails[flowIndex]);
                         const flowObject = this.flowList.find(x => x._id == this.flowDetails[flowIndex].flow);
                         console.log('flowObject ---------->>>   ', flowObject);
-                        this.startString += ` (click)="${flowObject.name}()"`;
-                        const flowTemp = {
-                            _id: flowObject._id,
-                            name: flowObject.name,
-                            label: flowObject.label,
-                            description: flowObject.description,
-                            type: flowObject.type,
-                            actionOnData: flowObject.actionOnData,
-                            createWithDefaultActivity: flowObject.createWithDefaultActivity,
+                        let flowTemp = {
+                            _id: '',
+                            name: '',
+                            label: '',
+                            description: '',
+                            type: '',
+                            actionOnData: '',
+                            createWithDefaultActivity: '',
                             components: []
+                        };
+                        if (flowObject) {
+                            this.startString += ` (click)="${flowObject.name}()"`;
+                            flowTemp = {
+                                _id: flowObject._id,
+                                name: flowObject.name,
+                                label: flowObject.label,
+                                description: flowObject.description,
+                                type: flowObject.type,
+                                actionOnData: flowObject.actionOnData,
+                                createWithDefaultActivity: flowObject.createWithDefaultActivity,
+                                components: []
 
+                            }
                         }
                         // component method
-                        if (!this.tsComponent.flowMethod.find(x => x._id == this.flowDetails[flowIndex].flow)) {
+                        if (flowObject && !this.tsComponent.flowMethod.find(x => x._id == this.flowDetails[flowIndex].flow)) {
                             const componentFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_COMPONENT);
                             if (componentFlow) {
                                 flowTemp.components = componentFlow;
@@ -404,7 +380,7 @@ export class GenerateHtmlWorker {
                             this.tsComponent.flowMethod.push(flowTemp);
                         }
                         // service method
-                        if (!this.serviceComponent.flowMethod.find(x => x._id == this.flowDetails[flowIndex].flow)) {
+                        if (flowObject && !this.serviceComponent.flowMethod.find(x => x._id == this.flowDetails[flowIndex].flow)) {
                             const serviceFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_SERVICE);
                             if (serviceFlow) {
                                 flowTemp.components = serviceFlow;
@@ -412,10 +388,26 @@ export class GenerateHtmlWorker {
                             this.serviceComponent.flowMethod.push(flowTemp);
                         }
                         console.log('the endpointlist in generate htm lworker aer ae- ----   ', this.endPointList);
-                        const api = this.endPointList.flowAction.find(x => x.methodName == flowObject.name);
-                        console.log('finded api are ----  ', api);
-                        if (this.serviceComponent.apiEndPoints.findIndex(x => x.methodName == flowObject.name) < 0) {
-                            this.serviceComponent.apiEndPoints.push(api);
+                        if (flowObject && this.serviceComponent.apiEndPoints.findIndex(x => x.methodName == flowObject.name) < 0) {
+                            const api = this.endPointList.flowAction.find(x => x.methodName == flowObject.actionOnData);
+                            console.log('finded api are ----  ', api);
+                            const temp = {
+                                flowName: '',
+                                flowActionOnData: '',
+                                flowType: '',
+                                routeUrl: '',
+                                apiAction: '',
+                                methodName: '',
+                                variableName: ''
+                            }
+                            temp.flowName = flowObject.name;
+                            temp.flowActionOnData = flowObject.actionOnData;
+                            temp.flowType = flowObject.type;
+                            temp.routeUrl = api.routeUrl;
+                            temp.apiAction = api.apiAction;
+                            temp.methodName = api.methodName;
+                            temp.variableName = api.variableName;
+                            this.serviceComponent.apiEndPoints.push(temp);
                             console.log('after added api endpoints in ')
                         }
                     }
@@ -533,7 +525,7 @@ export class GenerateHtmlWorker {
         if (this.tagName && this.tagName != 'option' &&
             !this.isContentOnly &&
             !this.isNotImportant &&
-            !this.startString.includes(this.CKEDITOR_SPAN_IDNAME)) {
+            !this.isCKeditorSpan) {
             // console.log('pushed value tagname are -------->>>   ', this.tagName, ' ---firstEle.content---- ', firstEle.content);
             if (this.tagName == 'select') {
                 this.startString += '\n' + this.selectOption;
@@ -606,7 +598,8 @@ export class GenerateHtmlWorker {
                             test.push(tempObj);
                             // console.log('if- ', this.tagName, ' --endtagname--  ', tempObj.endTagName);
                         }
-                    } else if (!item.content && this.checkTagAttributes(item) &&
+                    } else if (!item.content &&
+                        componentSpecializedWorker.checkTagAttributes(this, item) &&
                         (this.tagName == 'button' || this.tagName == 'a' ||
                             this.tagName == 'ul' || this.tagName == 'li' || this.tagName == 'div' ||
                             this.tagName == 'footer' || this.tagName == 'p' || this.tagName == 'section' ||
@@ -656,15 +649,6 @@ export class GenerateHtmlWorker {
         // console.log('getNext value ------------  ', temp);
         if (temp != undefined) {
             this.generateChildHtml(temp, secondEle);
-        }
-    }
-
-    checkTagAttributes(element) {
-        const tagName = this.tagNameFunction(element);
-        if (element.attributes && element.attributes.id == 'ckeditorspan') {
-            return false;
-        } else {
-            return true;
         }
     }
 

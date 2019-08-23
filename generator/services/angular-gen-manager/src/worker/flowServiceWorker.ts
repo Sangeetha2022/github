@@ -74,9 +74,15 @@ export class FlowServiceWorker {
     }
 
     private addEndPointApis() {
+        console.log('angular component service endpoint api list are ---- ', this.endPointList);
         this.endPointList.forEach(actionElement => {
+            const tempMethod = this.checkApiAdditionalInformation(true, actionElement);
             let temp = `${actionElement.methodName}(${actionElement.variableName}: any): ${this.observableObject.className}<any> {`;
-            temp += `\n    return this.${this.httpObject.object}.${actionElement.apiAction}(this.${this.sharedObject.object}.apiGateway + ${this.checkApiParams(actionElement)});`;
+            console.log('temp mehtod true rae ----- ', tempMethod);
+            if (tempMethod && tempMethod.serviceMethodVariable) {
+                temp += `\n ${tempMethod.serviceMethodVariable}`
+            }
+            temp += `\n return this.${this.httpObject.object}.${actionElement.apiAction}(this.${this.sharedObject.object}.apiGateway + ${this.checkApiParams(actionElement)});`;
             temp += `\n}`;
             this.serviceFileDetails.serviceMethod.push(temp)
         })
@@ -99,13 +105,43 @@ export class FlowServiceWorker {
                 console.log('put apiaction routeUrl ----  ', temp);
                 return `'/${Constant.DESKTOP_ROUTE}${actionElement.routeUrl}', ${actionElement.variableName}`;
             case 'get':
-                return `'/${Constant.DESKTOP_ROUTE}${actionElement.routeUrl}', ${actionElement.variableName}`;
+                const additional = this.checkApiAdditionalInformation(false, actionElement);
+                console.log('additionalt get check api params are ----->>>   ', additional);
+                return `\`/${Constant.DESKTOP_ROUTE}${actionElement.routeUrl}${additional ? additional.urlQuery ? additional.urlQuery : '' : ''}\`${additional ? additional.requestParameter ? `, ${actionElement.variableName}` : '' : ''}`;
             case 'delete':
                 const delTemp = actionElement.routeUrl.split(':');
                 console.log('delete apiaction routeUrl ----  ', delTemp);
                 return `'/${Constant.DESKTOP_ROUTE}${actionElement.routeUrl}', ${actionElement.variableName}`;
             default:
                 break;
+        }
+    }
+
+    // check is additional method or query url needed
+    private checkApiAdditionalInformation(isMethodVariable, actionElement) {
+        console.log('action element list are ---actionElement-- ', actionElement);
+        console.log('action element list are --isMethodVariable--- ', isMethodVariable);
+        const additional = {
+            serviceMethodVariable: '',
+            urlQuery: '',
+            requestParameter: ''
+        }
+        switch (actionElement.flowActionOnData) {
+            case Constant.GP_SEARCH_FLOW:
+                // additional variable
+                additional.serviceMethodVariable = `const temp = [];`;
+                additional.serviceMethodVariable += `\n const objectKeyPair = Object.entries(ticket);`;
+                additional.serviceMethodVariable += `\n objectKeyPair.forEach((element, index) => {`;
+                additional.serviceMethodVariable += `\n   if (element[1]) {`;
+                additional.serviceMethodVariable += `\n      temp.push(\`\${element[0]}=\${element[1]}\`);`;
+                additional.serviceMethodVariable += `\n   }`;
+                additional.serviceMethodVariable += `\n  });`;
+
+                // additional query or route variables
+                additional.urlQuery = `\${temp.length > 0 ? \`?\${temp.join('&')}\` : ''}`;
+                return additional;
+            default:
+                return null;
         }
     }
 

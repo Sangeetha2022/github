@@ -58,7 +58,19 @@ export class Constant {
     public static APP_ROUTING_FILENAME = 'app-routing.module.ts';
     public static APP_MODULE_FILENAME = 'app.module.ts';
     public static PACKAGE_JSON_FILENAME = 'package.json';
+    public static STYLE_SCSS_FILENAME = 'styles.scss';
     public static SHARED_FILENAME = `shared`;
+
+     // ckeditor element details
+     public static CKEDITOR_HTMLID_NAME = 'ckeditortextarea';
+     public static TEXTAREA_TAGNAME = 'textarea';
+     public static CKEDITOR_TAGNAME = 'ckeditor';
+     public static CKEDITOR_SPAN_IDNAME = 'ckeditorspan';
+ 
+     // grid element details
+     public static AGGRID_HTMLID_NAME = 'myGrid';
+     public static AGGRID_TAGNAME = 'ag-grid-angular';
+     public static GRID_READY_METHODNAME = 'gridReady';
 
     // list of flow action
     public static GP_CREATE_FLOW = `GpCreate`;

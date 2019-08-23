@@ -48,7 +48,17 @@ export const ScreenSchema = new Schema({
         htmlId: { type: String, default: null },
         componentId: { type: String, default: null },
         elementName: { type: String, default: null },
+        verb: { type: String, default: 'click' },
         flow: { type: String, ref: 'flows' }
+    }],
+    route_info: [{
+        htmlId: { type: String, default: null },
+        componentId: { type: String, default: null },
+        elementName: { type: String, default: null },
+        flow: { type: String, ref: 'flows' },
+        screenId: { type: String, default: null },
+        screenName: { type: String, default: null },
+        routeType: { type: String, default: null }
     }],
     project: { type: String, ref: 'projects', default: null },
     feature: { type: String, ref: 'feature_details', default: null },

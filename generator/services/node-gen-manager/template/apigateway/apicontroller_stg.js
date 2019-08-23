@@ -1,6 +1,6 @@
 /*
  * Template group apicontroller
- * Compiled on Thu Aug 22 2019 11:50:36 GMT+0530 (IST)
+ * Compiled on Fri Aug 23 2019 19:04:34 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -46,7 +46,7 @@ r = function(w, rc) {
     
     }
     w.write("\n");
-    w.write("const logger = require('../config/Logger');");
+    w.write("import { CustomLogger } from '../config/Logger'");
     w.write("\n");
     w.write("\n");
     w.write("export class ");
@@ -128,11 +128,11 @@ r = function(w, rc) {
                      w.write("(req: Request, res: Response) {");
                      w.write("\n");
                      w.pushIndentation("            ");
-                     w.write("logger.info('Enter into ");
+                     w.write("new CustomLogger().showLogger('info', 'Enter into ");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 17, column: 44 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 17, column: 70 }));
                      w.write("Controller.ts: ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.methods, "methodName", { file: gFile, line: 17, column: 78 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.methods, "methodName", { file: gFile, line: 17, column: 104 }));
                      w.write("');");
                      w.write("\n");
                      w.pushIndentation("        ");
@@ -170,11 +170,11 @@ r = function(w, rc) {
                      w.write(") : res.send(null)");
                      w.write("\n");
                      w.pushIndentation("            ");
-                     w.write("logger.info('Exit from ");
+                     w.write("new CustomLogger().showLogger('info', 'Exit from ");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 21, column: 43 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 21, column: 69 }));
                      w.write("Controller.ts: ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.methods, "methodName", { file: gFile, line: 21, column: 77 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.methods, "methodName", { file: gFile, line: 21, column: 103 }));
                      w.write("');");
                      w.write("\n");
                      w.pushIndentation("        ");
@@ -212,11 +212,11 @@ r = function(w, rc) {
         w.write("(req: Request, res: Response) {");
         w.write("\n");
         w.pushIndentation("                  ");
-        w.write("logger.info('Enter into ");
+        w.write("new CustomLogger().showLogger('info', 'Enter into ");
         w.popIndentation();
-        st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 29, column: 50 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 29, column: 76 }));
         w.write("Controller.ts: ");
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 29, column: 83 }), "camunda", { file: gFile, line: 29, column: 94 }), "login", { file: gFile, line: 29, column: 102 }), "methodName", { file: gFile, line: 29, column: 108 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 29, column: 109 }), "camunda", { file: gFile, line: 29, column: 120 }), "login", { file: gFile, line: 29, column: 128 }), "methodName", { file: gFile, line: 29, column: 134 }));
         w.write("');");
         w.write("\n");
         w.pushIndentation("        ");
@@ -330,11 +330,11 @@ r = function(w, rc) {
             w.popIndentation();
             w.write("\n");
             w.pushIndentation("                  ");
-            w.write("logger.info('Exit from ");
+            w.write("new CustomLogger().showLogger('info', 'Exit from ");
             w.popIndentation();
-            st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 50, column: 49 }));
+            st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 50, column: 75 }));
             w.write("Controller.ts: ");
-            st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 50, column: 82 }), "camunda", { file: gFile, line: 50, column: 93 }), "login", { file: gFile, line: 50, column: 101 }), "methodName", { file: gFile, line: 50, column: 107 }));
+            st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 50, column: 108 }), "camunda", { file: gFile, line: 50, column: 119 }), "login", { file: gFile, line: 50, column: 127 }), "methodName", { file: gFile, line: 50, column: 133 }));
             w.write("');");
             w.write("\n");
             w.pushIndentation("                    ");
@@ -388,11 +388,11 @@ r = function(w, rc) {
         w.write("(req: Request, res: Response) {");
         w.write("\n");
         w.pushIndentation("                         ");
-        w.write("logger.info('Enter into ");
+        w.write("new CustomLogger().showLogger('info', 'Enter into ");
         w.popIndentation();
-        st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 64, column: 57 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 64, column: 83 }));
         w.write("Controller.ts: ");
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 64, column: 90 }), "camunda", { file: gFile, line: 64, column: 101 }), "consent", { file: gFile, line: 64, column: 109 }), "methodName", { file: gFile, line: 64, column: 117 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 64, column: 116 }), "camunda", { file: gFile, line: 64, column: 127 }), "consent", { file: gFile, line: 64, column: 135 }), "methodName", { file: gFile, line: 64, column: 143 }));
         w.write("');");
         w.write("\n");
         w.pushIndentation("        ");
@@ -476,11 +476,11 @@ r = function(w, rc) {
             w.popIndentation();
             w.write("\n");
             w.pushIndentation("                         ");
-            w.write("logger.info('Exit from ");
+            w.write("new CustomLogger().showLogger('info', 'Exit from ");
             w.popIndentation();
-            st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 80, column: 56 }));
+            st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 80, column: 82 }));
             w.write("Controller.ts: ");
-            st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 80, column: 89 }), "camunda", { file: gFile, line: 80, column: 100 }), "consent", { file: gFile, line: 80, column: 108 }), "methodName", { file: gFile, line: 80, column: 116 }));
+            st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 80, column: 115 }), "camunda", { file: gFile, line: 80, column: 126 }), "consent", { file: gFile, line: 80, column: 134 }), "methodName", { file: gFile, line: 80, column: 142 }));
             w.write("');");
             w.write("\n");
             w.pushIndentation("                    ");

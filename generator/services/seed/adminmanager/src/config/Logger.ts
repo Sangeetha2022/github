@@ -1,46 +1,45 @@
-const { createLogger, format, transports } = require('winston');
-require('winston-daily-rotate-file');
-const fs = require('fs');
-const path = require('path');
+import { createLogger, format, transports } from 'winston';
+import * as DailyRotateFile from "winston-daily-rotate-file";
+import * as  fs from 'fs';
 
-const env = process.env.NODE_ENV || 'development';
-const logDir = 'log';
 
-if (!fs.existsSync(logDir)) {
-  fs.mkdirSync(logDir);
+export class CustomLogger {
+
+  public logger = createLogger({
+    level: 'info',
+    format: format.combine(
+      format.label({ label: 'gep-dev-admin-api' }),
+      format.colorize(),
+      format.json(),
+      format.timestamp({
+        format: 'YYYY-MM-DD HH:mm:ss'
+      }),
+      format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
+    ),
+    transports: [
+      new transports.Console(),
+      new DailyRotateFile({
+        filename: `log/flow-%DATE%.log`,
+        datePattern: 'YYYY-MM-DD'
+      })
+    ]
+  });
+
+  showLogger(level, log) {
+    const logDir = 'log';
+    if (!fs.existsSync(logDir)) {
+      fs.mkdirSync(logDir);
+    }
+    if (level === 'info') {
+      return this.logger.info(log);
+    } else if (level === 'error') {
+      return this.logger.error(log);
+    } else if (level === 'warn') {
+      return this.logger.warn(log);
+    } else if (level === 'silly') {
+      return this.logger.silly(log);
+    } else if (level === 'debug') {
+      return this.logger.debug(log);
+    }
+  }
 }
-
-const dailyRotateFileTransport = new transports.DailyRotateFile({
-  filename: `${logDir}/flow-%DATE%.log`,
-  datePattern: 'YYYY-MM-DD'
-});
-
-const logger = createLogger({
-  // change level if in dev environment versus production
-  level: env === 'development' ? 'verbose' : 'info',
-  format: format.combine(
-    format.timestamp({
-      format: 'YYYY-MM-DD HH:mm:ss'
-    }),
-    format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
-  ),
-  transports: [
-    new transports.Console({
-      level: 'info',
-      zippedArchive: false,
-      prepend: true,
-      json: true,
-      colorize: false,
-      format: format.combine(
-        format.label({ label: 'gep-dev-admin-api' }),
-        format.colorize(),
-        format.printf(
-          info => `${info.timestamp} ${info.level}: ${info.message}`
-        )
-      )
-    }),
-    dailyRotateFileTransport
-  ]
-});
-
-module.exports = logger;

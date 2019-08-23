@@ -70,6 +70,7 @@ export class ComponentWorker {
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
+            dependedComponentNames: [],
             importDependency: [],
             importComponent: [],
             importAsteriskDependency: [],
@@ -99,22 +100,35 @@ export class ComponentWorker {
                 declarations: []
             }
             information.otherMethodNames.forEach(otherElement => {
-                const findDependencies = componentDependency.component.find(x => x.name == otherElement);
-                if (findDependencies) {
-                    if (!temp.importAsteriskDependency.find(x => x.dependencyPath == findDependencies.componentDependencies[0].dependencyPath)) {
-                        // add component dependencies
-                        temp.importAsteriskDependency = temp.importAsteriskDependency.concat(findDependencies.componentDependencies);
-                        // dependencies variable list added
-                        information.dependenciesVariableList = information.dependenciesVariableList.concat(findDependencies.variableList);
-                        // add dependencies in component modules
-                        this.moduleComponent.importDependency = this.moduleComponent.importDependency.concat(findDependencies.module.dependencies);
-                        this.moduleComponent.imports = this.moduleComponent.imports.concat(findDependencies.module.imports);
-                        // add in package.json
-                        this.packageModule = this.packageModule.concat(findDependencies.packageDependencyList);
+                if (!temp.dependedComponentNames.find(x => x == otherElement)) {
+                    temp.dependedComponentNames.push(otherElement);
+                    const findDependencies = componentDependency.component.find(x => x.name == otherElement);
+                    if (findDependencies) {
+                        if (findDependencies.componentDependencies && findDependencies.componentDependencies.length > 0) {
+                            // add component dependencies
+                            temp.importAsteriskDependency = temp.importAsteriskDependency.concat(findDependencies.componentDependencies);
+                        }
+                        if (findDependencies.componentVariableList && findDependencies.componentVariableList.length > 0) {
+                            // dependencies variable list added
+                            information.dependenciesVariableList = information.dependenciesVariableList.concat(findDependencies.componentVariableList);
+                        }
+                        if (findDependencies.module.dependencies && findDependencies.module.dependencies.length > 0) {
+                            // add dependencies in component modules
+                            this.moduleComponent.importDependency = this.moduleComponent.importDependency.concat(findDependencies.module.dependencies);
+                            this.moduleComponent.imports = this.moduleComponent.imports.concat(findDependencies.module.imports);
+                        }
+                        if (findDependencies.packageDependencyList && findDependencies.packageDependencyList.length > 0) {
+                            // add in package.json
+                            this.packageModule = this.packageModule.concat(findDependencies.packageDependencyList);
+                        }
 
                     }
                 }
             })
+        }
+        // adding the method from generatehtmlworker files
+        if (information.elementDependedMethod.length > 0) {
+            temp.componentMethod = temp.componentMethod.concat(information.elementDependedMethod);
         }
         flowComponentWorker.generateComponentFlow(information, temp, entities);
 
@@ -231,7 +245,7 @@ export class ComponentWorker {
             });
     }
 
-    public modifyDependency(applicationPath, packagePath, callback) {
+    public modifyDependency(packagePath, srcPath, applicationPath, globalStyle, callback) {
         console.log('modify dependency in component workers are --111---- ');
         if (this.routeModule.routePath.length > 0) {
             dependencyWorker.modifyAppRouteFile(applicationPath, this.routeModule);
@@ -246,6 +260,9 @@ export class ComponentWorker {
         if (this.packageModule.length > 0) {
             dependencyWorker.modifyPackageFile(packagePath, this.packageModule);
             this.intializePackageModule();
+        }
+        if (globalStyle.import.length > 0 || globalStyle.others.length > 0) {
+            dependencyWorker.modifyGlobalStyles(srcPath, globalStyle);
         }
         console.log(' before callback dependency are ----2222--- ');
         callback();

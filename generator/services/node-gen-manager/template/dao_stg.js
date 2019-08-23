@@ -1,6 +1,6 @@
 /*
  * Template group dao
- * Compiled on Thu Aug 22 2019 17:00:08 GMT+0530 (IST)
+ * Compiled on Fri Aug 23 2019 19:12:37 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -46,7 +46,7 @@ r = function(w, rc) {
     
     }
     w.write("\n");
-    w.write("const logger = require('../config/Logger');");
+    w.write("import { CustomLogger } from '../config/Logger'");
     w.write("\n");
     if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 4, column: 11 }), "outsideClass", { file: gFile, line: 4, column: 20 }))) {
     
@@ -103,31 +103,31 @@ r = function(w, rc) {
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 10, column: 69 }));
                      w.write("(");
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "parameter", { file: gFile, line: 10, column: 90 }));
-                     w.write("){\nlogger.info('Enter into ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 10, column: 138 }));
+                     w.write("){\nnew CustomLogger().showLogger('info', 'Enter into ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 10, column: 164 }));
                      w.write("Dao.ts: ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 10, column: 170 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 10, column: 196 }));
                      w.write("')\n");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 10, column: 199 }))) {
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 10, column: 225 }))) {
                      
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 10, column: 218 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 10, column: 244 }));
                          w.write(";");
                      
                      
                      }
                      w.write("\n");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 10, column: 248 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 10, column: 274 }));
                      w.write("(");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 10, column: 267 }))) {
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 10, column: 293 }))) {
                      
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 10, column: 283 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 10, column: 309 }));
                      
                      
                      }
-                     w.write(").then((result)\t=>\t{\nlogger.info('Exit from ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 10, column: 357 }));
+                     w.write(").then((result)\t=>\t{\nnew CustomLogger().showLogger('info', 'Exit from ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 10, column: 409 }));
                      w.write("Dao.ts: ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 10, column: 389 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 10, column: 441 }));
                      w.write("');\ncallback(result);\n}).catch((error)=>{\ncallback(error);\n});}");
             }, [
             { name: "flowObj"     }

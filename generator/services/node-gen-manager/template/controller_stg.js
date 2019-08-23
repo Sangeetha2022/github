@@ -1,6 +1,6 @@
 /*
  * Template group controller
- * Compiled on Thu Aug 22 2019 13:20:54 GMT+0530 (IST)
+ * Compiled on Fri Aug 23 2019 19:12:22 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -46,7 +46,7 @@ r = function(w, rc) {
     
     }
     w.write("\n");
-    w.write("const logger = require('../config/Logger');");
+    w.write("import { CustomLogger } from '../config/Logger'");
     w.write("\n");
     if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.object, "variable", { file: gFile, line: 4, column: 11 }), "outsideClass", { file: gFile, line: 4, column: 20 }))) {
     
@@ -125,11 +125,11 @@ r = function(w, rc) {
                      w.write("(req, (response) => {");
                      w.write("\n");
                      w.pushIndentation("                ");
-                     w.write("logger.info('Enter into ");
+                     w.write("new CustomLogger().showLogger('info', 'Enter into ");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 11, column: 48 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 11, column: 74 }));
                      w.write("Controller.ts: ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 11, column: 87 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 11, column: 113 }));
                      w.write("');");
                      w.write("\n");
                      w.pushIndentation("     ");
@@ -141,11 +141,11 @@ r = function(w, rc) {
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("                ");
-                     w.write("logger.info('Exit from ");
+                     w.write("new CustomLogger().showLogger('info', 'Exit from ");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 14, column: 47 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 14, column: 73 }));
                      w.write("Controller.ts: ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 14, column: 86 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 14, column: 112 }));
                      w.write("');");
                      w.write("\n");
                      w.pushIndentation("    ");
