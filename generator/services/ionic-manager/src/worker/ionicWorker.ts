@@ -5,6 +5,7 @@ import { IonicSupportWorker } from '../supportworker/ionicSupportWorker';
 export class IonicWorker {
     private ionicSupportWorker = new IonicSupportWorker();
 
+
     private hsbc: any = {
         ionicFolderpath: 'ionic/hsbc/img',
         homeFolderpath: 'ionic/hsbc/home',
@@ -20,14 +21,16 @@ export class IonicWorker {
     assetImages(projectDetails, callback) {
         const Details = projectDetails;
         const imgPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/assets/imgs`;
-        const seedPath = Details.project.templateLocation.authTemplatePath
+        const seedPath = Details.project.templateLocation.authTemplatePath;
+        console.log('i am project --->>>', projectDetails.templateName);
         if (projectDetails.templateName === 'HSBC TEMPLATE') {
             const ionicFolderLocation = this.hsbc.ionicFolderpath;
             this.generateImg(imgPath, ionicFolderLocation, seedPath);
         }
-        else if (projectDetails.templateName !== 'HSBC TEMPLATE') {
+        else {
             this.generateImg(imgPath, this.ionicFolderpath, seedPath);
         }
+
         callback();
     }
 
@@ -47,9 +50,8 @@ export class IonicWorker {
         if (projectDetails.templateName === 'HSBC TEMPLATE') {
             const ionicFolderLocation = this.hsbc.homeFolderpath;
             this.generateStaticComponent(homePath, ionicFolderLocation, seedPath);
-
         }
-        else if (projectDetails.templateName !== 'HSBC TEMPLATE') {
+        else {
             this.generateStaticComponent(homePath, this.homeFolderpath, seedPath);
         }
         callback();
