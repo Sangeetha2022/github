@@ -49,7 +49,6 @@ echo "email status:\$EMAILSTATUS"
 echo "Check you e-mail for apk from installr...!"
 }
 
-get_code
 build_apk
 upload_apk
 

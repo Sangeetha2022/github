@@ -61,12 +61,14 @@ export class AndroidAppService {
                             })
                         })
                     })
-                    callback({ "status": "success" });
                 }
             }
             if (error !== null) {
                 console.log('exec error: ' + error);
                 callback({ "status": "failed" });
+            }
+            else {
+                callback({ "status": "success" });
             }
 
             //         if (stdout || stderr) {
