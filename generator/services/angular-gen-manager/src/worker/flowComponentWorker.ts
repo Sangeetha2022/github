@@ -24,7 +24,7 @@ export class FlowComponentWorker {
         // flow method with connector
         console.log('flowComponent componentObject are ---- ', this.componentObject);
         // if variable list is empty need to add the primary entities in the variable list
-        if (this.componentObject.variableList.length == 0 || 
+        if (this.componentObject.variableList.length == 0 ||
             !this.componentObject.variableList[0].entityName) {
             const variableTemp = {
                 entityId: '',
@@ -56,9 +56,17 @@ export class FlowComponentWorker {
         } else {
             if (this.componentObject.dependenciesVariableList &&
                 this.componentObject.dependenciesVariableList.length > 0) {
-                console.log('component object dependencie variable list are ---- ', this.componentObject.dependenciesVariableList.length);
-                this.componentFileDetails.componentVariable = this.componentFileDetails.componentVariable.concat(this.componentObject.dependenciesVariableList);
+                console.log('before component object dependencie variable list are --11-- ', this.componentObject.dependenciesVariableList, '  --lenght--- ', this.componentObject.dependenciesVariableList.length);
+                console.log('before component object dependencie variable list are --22-- ', this.componentFileDetails);
+                this.componentObject.variableList = this.componentObject.variableList.concat(this.componentObject.dependenciesVariableList);
             }
+            if (this.componentObject.variableList.length > 0) {
+                console.log('after finalized our ocmpone ar ---111- ', this.componentObject);
+                console.log('after finalized our ocmpone ar --2222-- ', this.componentFileDetails);
+                console.log('after finalized our ocmpone ar --333-- ', this.componentObject.variableList);
+               this.addComponentVariable();
+            }
+
         }
     }
 
@@ -100,6 +108,27 @@ export class FlowComponentWorker {
                 // console.log('create component are -----  ', createTemp);
                 break;
             case Constant.GP_SEARCH_FLOW:
+                    let searchTemp = `${this.currentFlow.name}() {`;
+                    if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
+                        searchTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
+                        searchTemp += `\n  .subscribe(`;
+                        searchTemp += `\n    data => {`;
+                        searchTemp += `\n       console.log('data searched successfully --- ', data);`;
+                        searchTemp += `\n       this.rowData = data.body;`;
+                        searchTemp += `\n    },`;
+                        searchTemp += `\n    error => {`;
+                        searchTemp += `\n       console.log('cannot able to search the data --- ', error);`;
+                        searchTemp += `\n    }`;
+                        searchTemp += `\n    );`;
+                        // calling constructor methods
+                        this.addConstructor(`${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}`, serviceClassName);
+    
+                        // calling component headers
+                        this.componentHeaders(headers.className, headers.path);
+                    }
+                    searchTemp += `\n}`;
+                    // component methods
+                    this.componentFileDetails.componentMethod.push(searchTemp);
                 break;
             case Constant.GP_UPDATE_FLOW:
                 let updateTemp = `${this.currentFlow.name}() {`;

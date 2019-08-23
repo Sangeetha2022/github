@@ -673,6 +673,10 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         console.log('this.agGridFields.value.selectColumn --22--  ', this.agGridFields.value.selectColumn);
         if (this.agGridFields.value.selectColumn !== '' &&
             this.agGridFields.value.selectField !== '') {
+            const isColExist = this.agGridArray.findIndex(x => x.columnid === this.agGridFields.value.selectColumn.value);
+            if (isColExist > -1) {
+                this.agGridArray.splice(isColExist, 1);
+            }
             agGridObject.columnid = this.agGridFields.value.selectColumn.value;
             agGridObject.columnname = this.agGridFields.value.selectColumn.name;
             agGridObject.entity = this.selectedEntity.name;
@@ -882,6 +886,10 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             flowObj.verb = verbInfo;
         }
         flowObj.flow = this.selectedFlow[0]._id;
+        const isFlowExist = this.screenFlows.findIndex(x => x.elementName === this.editor.getSelected().attributes.name);
+        if (isFlowExist > -1) {
+            this.screenFlows.splice(isFlowExist, 1);
+        }
         this.screenFlows.push(flowObj);
         this.saveRemoteStorage();
         this.traitService.setScreenInfo(flowObj.htmlId, flowObj.componentId, this.selectedFlow[0]);
@@ -890,9 +898,13 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     saveGridEvent() {
         console.log('save grid events --11---    ', this.selectedFlow);
         console.log('routeDetails ---22--    ', this.routeDetails);
-        if (this.selectedFlow) {
+        if (this.selectedFlow &&
+            this.selectedFlow[0].name.toLowerCase() === 'gproute') {
             this.isRoutePopup = true;
             this.closeEventPopup();
+        } else {
+            this.closeEventPopup();
+            this.saveFlowDetails(null);
         }
     }
 

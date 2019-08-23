@@ -112,7 +112,7 @@ export class BlockService {
       },
       content: `<div data-gjs-type="grid-type" style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
     <div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
-        <input type="text" id="filter-text-box" placeholder="Filter..." oninput="onFilterTextBoxChanged()"/>
+        <input type="text" id="textSearch" placeholder="Filter..." enter="onFilterTextBoxChanged($event)"/>
     </div>
     <div id="myGrid" style="width: 100%; height: 100%;" class="ag-theme-balham"></div>
 

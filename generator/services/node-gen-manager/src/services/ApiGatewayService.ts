@@ -106,12 +106,17 @@ export class ApiGatewayService {
                         routeDetails.methodName = routingElement.methodName;
                         routeDetails.variableName = routingElement.variableName;
                         controllerObj.router.push(routeDetails);
+
                         // controller info
                         controllerDetails.methodName = routingElement.methodName;
                         controllerDetails.apiAction = routingElement.apiAction;
                         controllerDetails.nodeName = temp.nodeName;
                         controllerDetails.responseParameter = `${this.RESPONSEPARAMETER_NAME}`;
+
+                        // import controller component dependencies
                         this.controllerImport(controllerObj, element);
+
+                        // check camunda login and constent method to generate in apigateway
                         if (routingElement.routeUrl === this.CAMUNDA_LOGIN_URL ||
                             routingElement.routeUrl === this.CAMUNDA_CONSENT_URL) {
                             this.setRoutingDetails(routingElement, controllerDetails);
@@ -162,33 +167,37 @@ export class ApiGatewayService {
     private setRoutingDetails(routingElement, controllerDetails) {
         switch (routingElement.apiAction) {
             case 'post':
-                controllerDetails.methodUrl = routingElement.routeUrl;
+                // controllerDetails.methodUrl = routingElement.routeUrl;
+                controllerDetails.methodUrl = `\${req.url}`;
                 controllerDetails.requestParameter = `req.body`;
                 break;
             case 'put':
                 const putTemp = routingElement.routeUrl.split(':');
-                if (putTemp.length > 1) {
-                    controllerDetails.methodUrl = `${putTemp[0]}req.params.${putTemp[putTemp.length - 1]}`;
-                } else {
-                    controllerDetails.methodUrl = routingElement.routeUrl;
-                }
+                // if (putTemp.length > 1) {
+                //     controllerDetails.methodUrl = `${putTemp[0]}req.params.${putTemp[putTemp.length - 1]}`;
+                // } else {
+                //     controllerDetails.methodUrl = routingElement.routeUrl;
+                // }
+                controllerDetails.methodUrl = `\${req.url}`;
                 controllerDetails.requestParameter = `req.body`;
                 break;
             case 'get':
                 const getTemp = routingElement.routeUrl.split(':');
-                if (getTemp.length > 1) {
-                    controllerDetails.methodUrl = `${getTemp[0]}req.params.${getTemp[getTemp.length - 1]}`;
-                } else {
-                    controllerDetails.methodUrl = routingElement.routeUrl;
-                }
+                // if (getTemp.length > 1) {
+                //     controllerDetails.methodUrl = `${getTemp[0]}req.params.${getTemp[getTemp.length - 1]}`;
+                // } else {
+                //     controllerDetails.methodUrl = routingElement.routeUrl;
+                // }
+                controllerDetails.methodUrl = `\${req.url}`;
                 break;
             case 'delete':
                 const deleteTemp = routingElement.routeUrl.split(':');
-                if (deleteTemp.length > 1) {
-                    controllerDetails.methodUrl = `${deleteTemp[0]}req.params.${deleteTemp[deleteTemp.length - 1]}`;
-                } else {
-                    controllerDetails.methodUrl = routingElement.routeUrl;
-                }
+                // if (deleteTemp.length > 1) {
+                //     controllerDetails.methodUrl = `${deleteTemp[0]}req.params.${deleteTemp[deleteTemp.length - 1]}`;
+                // } else {
+                //     controllerDetails.methodUrl = routingElement.routeUrl;
+                // }
+                controllerDetails.methodUrl = `\${req.url}`;
                 break;
             default:
                 break;
