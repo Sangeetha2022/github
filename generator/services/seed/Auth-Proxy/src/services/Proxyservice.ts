@@ -1,15 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import { Proxydao } from '../dao/Proxydao';
-const logger = require('../config/Logger');
+import { CustomLogger } from '../config/Logger'
 
 let proxydao = new Proxydao;
 
 export class Proxyservice {
 
     public userservice(userdetails, callback) {
-        logger.info('Enter into Proxyservice.ts: userservice');
+        new CustomLogger().showLogger('info', 'Enter into Proxyservice.ts: userservice');
         proxydao.userdao(userdetails, (response) => {
-            logger.info('Exit from Proxyservice.ts: userservice');
+            new CustomLogger().showLogger('info', 'Exit from Proxyservice.ts: userservice');
             callback(response);
         })
     }

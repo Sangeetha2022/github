@@ -2,14 +2,14 @@ import mongoose = require('mongoose');
 import { UserSchema } from '../models/User';
 import { Roleschema } from '../models/Role';
 import * as jwt from 'jsonwebtoken';
-const logger = require('../config/Logger');
+import { CustomLogger } from '../config/Logger'
 
 const signinmodel = mongoose.model('User', UserSchema);
 const rolemodel = mongoose.model('role', Roleschema)
 
 export class ConsentDao {
     public consentdao(consentdata, callback) {
-        logger.info('Enter into ConsentDao.ts : consentdao');
+        new CustomLogger().showLogger('info', 'Enter into ConsentDao.ts : consentdao');
 
         if (consentdata.scope === 'openid' && consentdata.submit === 'Allow access') {
             signinmodel.findById(consentdata.id).populate({
@@ -31,7 +31,7 @@ export class ConsentDao {
                         callback(err);
                     }
                     response.Idtoken = token;
-                    logger.info('Exit from ConsentDao.ts : consentdao');
+                    new CustomLogger().showLogger('info', 'Exit from ConsentDao.ts : consentdao');
                     callback(response);
                 });
             })
