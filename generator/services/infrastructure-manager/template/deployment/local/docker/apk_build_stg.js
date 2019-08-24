@@ -1,6 +1,6 @@
 /*
  * Template group apk_build
- * Compiled on Thu Aug 22 2019 17:33:13 GMT+0530 (IST)
+ * Compiled on Sat Aug 24 2019 15:57:15 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -47,7 +47,7 @@ r = function(w, rc) {
     w.write("cd \"$PROJECTPATH$PROJECTNAME\"");
     w.write("\n");
     w.write("\n");
-    w.write("cordova platform add android");
+    w.write("ionic cordova platform add android");
     w.write("\n");
     w.write("if [ $? -eq 0 ]; then");
     w.write("\n");
@@ -58,13 +58,17 @@ r = function(w, rc) {
     w.write("else");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"android platform already added..!!\"");
+    w.write("echo \"add android platform failed ..!!\"");
     w.popIndentation();
     w.write("\n");
     w.write("fi");
     w.write("\n");
     w.write("\n");
-    w.write("cordova build android --device");
+    w.write("npm i -D -E @ionic/app-scripts");
+    w.write("\n");
+    w.write("npm i");
+    w.write("\n");
+    w.write("ionic cordova build android --device");
     w.write("\n");
     w.pushIndentation("    ");
     w.write("if [ $? -eq 0 ]; then");
@@ -117,12 +121,10 @@ r = function(w, rc) {
     w.write("\n");
     w.write("echo \"email status:$EMAILSTATUS\"");
     w.write("\n");
-    w.write("echo \"Check you e-mail for apk from installr...!\"");
+    w.write("echo \"Check your e-mail for apk from installr...!\"");
     w.write("\n");
     w.write("}");
     w.write("\n");
-    w.write("\n");
-    w.write("get_code");
     w.write("\n");
     w.write("build_apk");
     w.write("\n");

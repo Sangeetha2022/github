@@ -13,14 +13,16 @@ build_apk(){
 
 cd "\$PROJECTPATH\$PROJECTNAME"
 
-cordova platform add android
+ionic cordova platform add android
 if [ \$? -eq 0 ]; then
     echo "android platform added sucessfully..!!"
 else
-    echo "android platform already added..!!"
+    echo "add android platform failed ..!!"
 fi
 
-cordova build android --device
+npm i -D -E @ionic/app-scripts
+npm i
+ionic cordova build android --device
     if [ \$? -eq 0 ]; then
         echo "android build success..!!"
     else
@@ -46,7 +48,7 @@ EMAILRESPONSE=`curl -H "X-InstallrAppToken: \$APITOKEN" https://www.installrapp.
 EMAILSTATUS=`echo \$EMAILRESPONSE | jq -r .result`
 
 echo "email status:\$EMAILSTATUS"
-echo "Check you e-mail for apk from installr...!"
+echo "Check your e-mail for apk from installr...!"
 }
 
 build_apk
