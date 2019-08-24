@@ -28,7 +28,7 @@ export class AndroidAppService {
         Common.createFolders(this.generationPath);
         this.generationPath += `/${this.ANDROID_FOLDERNAME}`;
         Common.createFolders(this.generationPath);
-        exec(`cd ${this.generationPath} && ionic start ${this.projectName} sidemenu --cordova --type=ionic-angular --no-deps`, (error, stdout, stderr) => {
+        exec(`cd ${this.generationPath} && ionic start ${this.projectName} sidemenu --cordova --type=ionic-angular --no-deps --no-git`, (error, stdout, stderr) => {
             if (stderr) {
                 console.log("stderr", stderr);
             }
