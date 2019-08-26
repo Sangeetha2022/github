@@ -143,6 +143,11 @@ export class LocalInfrastructureController {
         //res.send(200);
       })
 
+    //generate ipa script
+    dockerService.ipa_build_mobile(projectDetails, (response) => {
+      //res.send(200);
+    })
+
     //generate helm templates
     projectDetails.helmTemplateUrl = helmSource;
     helmService.generate_helm_templates(projectDetails, (response) => {
