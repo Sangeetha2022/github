@@ -34,14 +34,14 @@ export class AndroidAppService {
             }
             else {
                 if (stdout) {
-                    this.ionicWorker.homeComponent(projectDetails, (response) => {
-                        this.ionicWorker.loginComponent(projectDetails, (response) => {
-                            this.ionicWorker.landingComponent(projectDetails, (response) => {
-                                this.ionicWorker.appComponent(projectDetails, (response) => {
-                                    this.ionicWorker.loginservice(projectDetails, (response) => {
-                                        this.ionicWorker.assetImages(projectDetails, (response) => {
-                                            this.ionicWorker.appIcon(projectDetails, (response) => {
-                                                exec(`cd ${this.generationPath}/${this.projectName} && ionic cordova resources android -i` , (error, stdout, stderr)=> {
+                    this.ionicWorker.homeComponent(projectDetails, this.generationPath, (response) => {
+                        this.ionicWorker.loginComponent(projectDetails, this.generationPath, (response) => {
+                            this.ionicWorker.landingComponent(projectDetails,  this.generationPath,(response) => {
+                                this.ionicWorker.appComponent(projectDetails,  this.generationPath,(response) => {
+                                    this.ionicWorker.loginservice(projectDetails, this.generationPath, (response) => {
+                                        this.ionicWorker.assetImages(projectDetails, this.generationPath, (response) => {
+                                            this.ionicWorker.appIcon(projectDetails, this.generationPath, (response) => {
+                                                exec(`cd ${this.generationPath}/${this.projectName} && ionic cordova resources android -i`, (error, stdout, stderr) => {
                                                     if (stderr) {
                                                         console.log("stderr", stderr)
                                                     }

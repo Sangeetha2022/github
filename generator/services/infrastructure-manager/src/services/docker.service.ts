@@ -5,11 +5,11 @@ import * as st from 'stringtemplate-js';
 import * as deployConfig from '../config/config.json';
 import { exec } from 'child_process';
 
+const jenkins = require('jenkins')({ baseUrl: 'http://geppetto:geppetto2019@207.254.45.42:8080/', crumbIssuer: true });
 
 export class DockerService {
 
     public generate_build_script_local(projectDetails, callback: CallableFunction) {
-
 
         let destination = projectDetails.localUrl + '/buildscript';
         console.log("localfolder--->", destination);
@@ -25,14 +25,11 @@ export class DockerService {
         fs.writeFile(destination + '/geppetto_build.sh', dockerScript, function (err) {
             if (err) throw err;
             console.log('geppetto_build_script for local is generated!!')
-           
         })
-
-
     }
 
-       public generate_build_script_cloud(projectDetails, callback: CallableFunction) {
-        
+    public generate_build_script_cloud(projectDetails, callback: CallableFunction) {
+
         let destination = projectDetails.cloudUrl + '/buildscript';
         let templatePath = projectDetails.templateUrl + '/docker';
 
@@ -45,7 +42,7 @@ export class DockerService {
         let dockerScript = generateDockerScript.render("build_script_cloud", [projectDetails.project_lowercase]);
         fs.writeFile(destination + '/geppetto_build.sh', dockerScript, function (err) {
             if (err) throw err;
-            console.log('geppetto_build_script for cloud is generated!!')   
+            console.log('geppetto_build_script for cloud is generated!!')
         })
     }
 
@@ -65,7 +62,7 @@ export class DockerService {
         fs.writeFile(destination + '/apk_build.sh', dockerScript, function (err) {
             if (err) throw err;
             console.log('apk build script is generated!!')
-           
+
         })
     }
 
@@ -85,15 +82,61 @@ export class DockerService {
         fs.writeFile(destination + '/ipa_build.sh', dockerScript, function (err) {
             if (err) throw err;
             console.log('ipa build script is generated!!')
-           
+
         })
+    }
+
+    public ipa_build_jenkins_mobile(projectDetails, callback: CallableFunction) {
+
+        let destination = projectDetails.cloudUrl + '/buildscript';
+        console.log("localfolder--->", destination);
+        let templatePath = projectDetails.templateUrl + '/docker';
+
+        if (!fs.existsSync(destination)) {
+            fs.mkdirSync(destination);
+        }
+
+        //generate script to build mobile jenkins script
+        let generateDockerScript = st.loadGroup(require(templatePath + '/ipa_build_jenkins_stg'));
+        let dockerScript = generateDockerScript.render("ipa_build_jenkins", [projectDetails.project_lowercase]);
+        var ipa_build_xml = fs.writeFile(destination + '/ipa_build_jenkins.xml', dockerScript, function (err) {
+            if (err) throw err;
+            console.log('ipa build jenkins script is generated!!');
+            createJenkinsJobSystemEntry();
+        })
+
+        //create generated project job
+        function createJenkinsJobSystemEntry() {
+            console.log("destination----->", destination);
+            console.log("projectDetails.project_lowercase---->", projectDetails.project_lowercase);
+
+            var project_ipa_build_XML = fs.readFileSync(destination + '/ipa_build_jenkins.xml', 'utf8');
+
+            jenkins.job.create(projectDetails.project_lowercase, project_ipa_build_XML, function (err) {
+                if (err) throw err;
+                console.log(projectDetails.project_lowercase + " job created successfully!");
+                triggerJenkinsJobSystemEntry();
+            });
+        }
+
+          //build generated project
+          function triggerJenkinsJobSystemEntry() {
+            jenkins.job.build(projectDetails.project_lowercase, function (err, data) {
+                if (err) {
+                    console.log("Error in " + projectDetails.project_lowercase + " job trigger:", err);
+                }
+                if (data) {
+                    console.log(projectDetails.project_lowercase + " job triggered successfully!");
+                }
+            });
+        } 
     }
 
 
     // public generate_build_script_app_pod(projectDetails, callback: CallableFunction) {
 
 
-        
+
     //     let destination = projectDetails.destinationUrl + '/jenkins';
     //     let templatePath = projectDetails.templateUrl + '/docker';
 
@@ -109,10 +152,10 @@ export class DockerService {
     //     fs.writeFile(destination + '/app-pod-jenkins.xml', dockerScript, function (err) {
     //         if (err) throw err;
     //         console.log('app-pod-jenkins script generated!!')
-           
+
     //     })
 
 
     // }
 
-    }
+}
