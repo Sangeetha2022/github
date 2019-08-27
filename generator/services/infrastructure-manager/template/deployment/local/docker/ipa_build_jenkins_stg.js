@@ -1,6 +1,6 @@
 /*
  * Template group ipa_build_jenkins
- * Compiled on Tue Aug 27 2019 12:50:44 GMT+0530 (IST)
+ * Compiled on Tue Aug 27 2019 13:32:35 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -89,6 +89,8 @@ r = function(w, rc) {
     w.write("WORKSPACE=&apos;/ipa_build&apos;");
     w.write("\n");
     w.write("CODEPATH=&apos;/");
+    st.write(w, s, g, rc, s.project_name);
+    w.write("/application/client/mobile/ios/");
     st.write(w, s, g, rc, s.project_name);
     w.write("&apos;");
     w.write("\n");
