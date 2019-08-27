@@ -2,10 +2,12 @@ import { Request } from 'express';
 import * as util from 'util';
 import { Common } from '../config/Common';
 import * as childProcess from 'child_process';
+import { IonicWorker } from '../worker/ionicWorker'
 
 
 export class IosAppService {
 
+    private ionicWorker = new IonicWorker();
     private exec = childProcess.exec;
     private projectName = '';
     private generationPath = '';
@@ -26,20 +28,52 @@ export class IosAppService {
         Common.createFolders(this.generationPath);
         this.generationPath += `/${this.IOS_FOLDERNAME}`;
         Common.createFolders(this.generationPath);
-        this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && ionic start ${this.projectName} tabs --cordova --type=ionic-angular --no-deps`, (error, stdout, stderr) => {
-            console.log('error exec ----->>>>    ', error);
-            console.log('stdout exec ----->>>>    ', stdout);
-            console.log('stderr exec ----->>>>    ', stderr);
-            if (stdout || stderr) {
-                callback({ Message: 'ionic app for ios generated successfully' })
-            } else {
-                callback({ Message: 'cannot able to generate ionic app successfully' })
-            }
+        // console.log('generation--path---ios--->>', this.generationPath)
 
+        this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && ionic start ${this.projectName} tabs --cordova --type=ionic-angular --no-deps`, (error, stdout, stderr) => {
+            if (stderr) {
+                console.log("stderr", stderr);
+            }
+            else {
+                if (stdout) {
+                    this.ionicWorker.homeComponent(projectDetails, this.generationPath, (response) => {
+                        this.ionicWorker.loginComponent(projectDetails, this.generationPath, (response) => {
+                            this.ionicWorker.landingComponent(projectDetails, this.generationPath, (response) => {
+                                this.ionicWorker.appComponent(projectDetails, this.generationPath, (response) => {
+                                    this.ionicWorker.loginservice(projectDetails, this.generationPath, (response) => {
+                                        this.ionicWorker.assetImages(projectDetails, this.generationPath, (response) => {
+                                            this.ionicWorker.appIcon(projectDetails, this.generationPath, (response) => {
+                                                this.exec(`cd ${this.generationPath}/${this.projectName} && ionic cordova resources ios -i`, (error, stdout, stderr) => {
+                                                    if (stderr) {
+                                                        console.log("stderr", stderr)
+                                                    }
+                                                    else {
+                                                        if (stdout) {
+                                                            console.log("stdout", stdout);
+                                                        }
+                                                    }
+                                                    if (error !== null) {
+                                                        console.log('exec error: ' + error);
+                                                    }
+                                                });
+
+                                            })
+                                        })
+                                    })
+                                })
+                            })
+                        })
+                    })
+                }
+            }
+            if (error !== null) {
+                console.log('exec error: ' + error);
+                callback({ "status": "failed" });
+            }
+            else {
+                callback({ "status": "success" });
+            }
         });
     }
-
-
-
 }
 

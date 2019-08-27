@@ -18,9 +18,9 @@ export class IonicWorker {
     private loginserviceFolderpath = 'ionic/login-service';
     private appiconFolderpath = 'ionic/icon'
 
-    assetImages(projectDetails, callback) {
+    assetImages(projectDetails, andriodIsoApp, callback) {
         const Details = projectDetails;
-        const imgPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/assets/imgs`;
+        const imgPath = `${andriodIsoApp}/${projectDetails.project.name}/src/assets/imgs`;
         const seedPath = Details.project.templateLocation.authTemplatePath;
         console.log('i am project --->>>', projectDetails.templateName);
         if (projectDetails.templateName === 'HSBC TEMPLATE') {
@@ -34,18 +34,18 @@ export class IonicWorker {
         callback();
     }
 
-    appIcon(projectDetails, callback) {
+    appIcon(projectDetails,andriodIsoApp, callback) {
         const Details = projectDetails;
-        const iconPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/resources`;
+        const iconPath = `${andriodIsoApp}/${projectDetails.project.name}/resources`;
         console.log("iconPath----->", iconPath);
         const seedPath = Details.project.templateLocation.authTemplatePath
         this.generateImg(iconPath, this.appiconFolderpath, seedPath);
         callback();
     }
 
-    homeComponent(projectDetails, callback) {
+    homeComponent(projectDetails,andriodIsoApp,callback) {
         const Details = projectDetails;
-        const homePath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/pages/home`;
+        const homePath = `${andriodIsoApp}/${projectDetails.project.name}/src/pages/home`;
         const seedPath = Details.project.templateLocation.authTemplatePath
         if (projectDetails.templateName === 'HSBC TEMPLATE') {
             const ionicFolderLocation = this.hsbc.homeFolderpath;
@@ -57,36 +57,37 @@ export class IonicWorker {
         callback();
     }
 
-    loginComponent(projectDetails, callback) {
+    loginComponent(projectDetails, andriodIsoApp, callback) {
         const Details = projectDetails;
-        const loginPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/pages/login`;
+        // const loginPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/pages/login`;
+        const loginPath = `${andriodIsoApp}/${projectDetails.project.name}/src/pages/login`;
         console.log("logincomponentPath----->", loginPath);
         const seedPath = Details.project.templateLocation.authTemplatePath
         this.generateStaticComponent(loginPath, this.loginFolderpath, seedPath);
         callback();
     }
 
-    landingComponent(projectDetails, callback) {
+    landingComponent(projectDetails, andriodIsoApp, callback) {
         const Details = projectDetails;
-        const landingPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/landing`;
+        const landingPath = `${andriodIsoApp}/${projectDetails.project.name}/src/landing`;
         console.log("landingcomponentPath----->", landingPath);
         const seedPath = Details.project.templateLocation.authTemplatePath
         this.generateStaticComponent(landingPath, this.landingFolderpath, seedPath);
         callback();
     }
 
-    appComponent(projectDetails, callback) {
+    appComponent(projectDetails, andriodIsoApp, callback) {
         const Details = projectDetails;
-        const appPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/app/`;
+        const appPath = `${andriodIsoApp}/${projectDetails.project.name}/src/app/`;
         console.log("appcomponentPath----->", appPath);
         const seedPath = Details.project.templateLocation.authTemplatePath
         this.generateStaticComponent(appPath, this.appFolderpath, seedPath);
         callback();
     }
 
-    loginservice(projectDetails, callback) {
+    loginservice(projectDetails, andriodIsoApp, callback) {
         const Details = projectDetails;
-        const providersPath = `${projectDetails.projectGenerationPath}/android/${projectDetails.project.name}/src/providers`
+        const providersPath = `${andriodIsoApp}/${projectDetails.project.name}/src/providers`
         Common.createFolders(providersPath);
         const loginservicePath = `${providersPath}/login-service`;
         console.log("loginservicePath----->", loginservicePath);
