@@ -67,6 +67,7 @@ export class CommonWorker {
     private HOME_MENU = 'home';
     private ADMIN_MENU = 'admin';
     private LOGOUT_MENU = 'logout';
+    private LOGIN_MENU = 'login';
 
     // feature name
     private DEFAULT_FEATURENAME = 'default';
@@ -153,7 +154,7 @@ export class CommonWorker {
                                         switch (screenElement) {
                                             case this.HOME_MENU:
                                                 topNav.push(` <li>
-                                                <a class="text" [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                                <a class="text" *ngIf='userId!=null'  [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
                                             </li>`);
                                                 break;
                                             case this.ADMIN_MENU:
@@ -161,9 +162,14 @@ export class CommonWorker {
                                                 <a class="text" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
                                             </li>`);
                                                 break;
+                                            case this.LOGIN_MENU:
+                                                BottomNav.push(` <li>
+                                                <a class="text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                            </li>`);
+                                                break;
                                             case this.LOGOUT_MENU:
                                                 BottomNav.push(` <li>
-                                                <a class="text" (click)="${this.LOGOUT_MENU.toLowerCase()}()">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                                <a class="text" *ngIf='userId!=null' (click)="${this.LOGOUT_MENU.toLowerCase()}()">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
                                             </li>`);
                                                 break;
                                             default:
@@ -438,8 +444,13 @@ export class CommonWorker {
                                     switch (screenElement) {
                                         case this.HOME_MENU:
                                             topNav.push(`<div class="list-group panel">
-                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>
+                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" *ngIf='userId!=null'  [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>
                                       </div>`);
+                                            break;
+                                        case this.LOGIN_MENU:
+                                            BottomNav.push(` <li>
+                                                <a class="text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                            </li>`);
                                             break;
                                         case this.ADMIN_MENU:
                                             mainNav.push(`<div class="list-group panel" *ngIf='${this.HEADER_ADMIN_VARIABLE}'>
@@ -448,7 +459,7 @@ export class CommonWorker {
                                             break;
                                         case this.LOGOUT_MENU:
                                             BottomNav.push(`<div class="list-group panel">
-                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" (click)="${this.LOGOUT_MENU.toLowerCase()}()">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>
+                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" *ngIf='userId!=null' (click)="${this.LOGOUT_MENU.toLowerCase()}()">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>
                                       </div>`);
                                             break;
                                         default:

@@ -1,6 +1,6 @@
 /*
  * Template group app_routing
- * Compiled on Tue Jul 16 2019 17:46:50 GMT+0530 (India Standard Time)
+ * Compiled on Tue Aug 27 2019 12:25:58 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
