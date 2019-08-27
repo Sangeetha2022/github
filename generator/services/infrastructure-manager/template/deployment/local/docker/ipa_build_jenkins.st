@@ -18,7 +18,7 @@ ipa_build_jenkins(project_name,base_path) ::= <<
 
 BASEPATH=&apos;/Users/administrator/.jenkins/workspace&apos;
 WORKSPACE=&apos;/ipa_build&apos;
-CODEPATH=&apos;/$project_name$&apos;
+CODEPATH=&apos;/$project_name$/application/client/mobile/ios/$project_name$&apos;
 PROJECTNAME=&apos;$project_name$&apos;
 CRTLOCATION=&apos;/Users/administrator/Documents/IonicTest/output/363e98b5-8a62-4070-9d18-b18dbb5cb7bf.mobileprovision&apos;
 
