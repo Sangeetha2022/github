@@ -42,6 +42,8 @@ export class FlowComponentWorker {
         // if(componentDependency.component)
         // console.log('check component connector flow methods are ----  ', this.componentObject);
         if (this.componentObject.flowMethod.length > 0) {
+            // dependenices variables are added
+            this.componentObject.variableList = this.componentObject.variableList.concat(this.componentObject.dependenciesVariableList);
             this.componentObject.flowMethod.forEach(flowElement => {
                 this.currentFlow = null;
                 this.currentFlow = flowElement;
@@ -49,10 +51,10 @@ export class FlowComponentWorker {
                 flowElement.components.connector.forEach(connectorElement => {
                     if (connectorElement.isDefault && !connectorElement.isDisabled) {
                         this.addComponentMethod(Constant.DEFAULT_CONNECTOR_NAME);
-                        this.componentOption();
                     }
                 })
             })
+            this.componentOption();
         } else {
             if (this.componentObject.dependenciesVariableList &&
                 this.componentObject.dependenciesVariableList.length > 0) {
@@ -64,7 +66,7 @@ export class FlowComponentWorker {
                 console.log('after finalized our ocmpone ar ---111- ', this.componentObject);
                 console.log('after finalized our ocmpone ar --2222-- ', this.componentFileDetails);
                 console.log('after finalized our ocmpone ar --333-- ', this.componentObject.variableList);
-               this.addComponentVariable();
+                this.addComponentVariable();
             }
 
         }
@@ -108,27 +110,27 @@ export class FlowComponentWorker {
                 // console.log('create component are -----  ', createTemp);
                 break;
             case Constant.GP_SEARCH_FLOW:
-                    let searchTemp = `${this.currentFlow.name}() {`;
-                    if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                        searchTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
-                        searchTemp += `\n  .subscribe(`;
-                        searchTemp += `\n    data => {`;
-                        searchTemp += `\n       console.log('data searched successfully --- ', data);`;
-                        searchTemp += `\n       this.rowData = data.body;`;
-                        searchTemp += `\n    },`;
-                        searchTemp += `\n    error => {`;
-                        searchTemp += `\n       console.log('cannot able to search the data --- ', error);`;
-                        searchTemp += `\n    }`;
-                        searchTemp += `\n    );`;
-                        // calling constructor methods
-                        this.addConstructor(`${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}`, serviceClassName);
-    
-                        // calling component headers
-                        this.componentHeaders(headers.className, headers.path);
-                    }
-                    searchTemp += `\n}`;
-                    // component methods
-                    this.componentFileDetails.componentMethod.push(searchTemp);
+                let searchTemp = `${this.currentFlow.name}() {`;
+                if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
+                    searchTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
+                    searchTemp += `\n  .subscribe(`;
+                    searchTemp += `\n    data => {`;
+                    searchTemp += `\n       console.log('data searched successfully --- ', data);`;
+                    searchTemp += `\n       this.rowData = data.body;`;
+                    searchTemp += `\n    },`;
+                    searchTemp += `\n    error => {`;
+                    searchTemp += `\n       console.log('cannot able to search the data --- ', error);`;
+                    searchTemp += `\n    }`;
+                    searchTemp += `\n    );`;
+                    // calling constructor methods
+                    this.addConstructor(`${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}`, serviceClassName);
+
+                    // calling component headers
+                    this.componentHeaders(headers.className, headers.path);
+                }
+                searchTemp += `\n}`;
+                // component methods
+                this.componentFileDetails.componentMethod.push(searchTemp);
                 break;
             case Constant.GP_UPDATE_FLOW:
                 let updateTemp = `${this.currentFlow.name}() {`;
@@ -154,9 +156,23 @@ export class FlowComponentWorker {
                 // console.log('update component are -----  ', updateTemp);
                 break;
             case Constant.GP_DELETE_FLOW:
+                const serviceRequestParams = `${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE}`;
+                let isDeleteExist = false;
+                this.componentFileDetails.componentVariable.forEach(element => {
+                    if (element.includes(serviceRequestParams)) {
+                        isDeleteExist = true;
+                    }
+                });
+                if (!isDeleteExist && this.componentObject.variableList.length > 0) {
+                    this.componentObject.variable.forEach(element => {
+                        if (element.includes(serviceRequestParams)) {
+                            isDeleteExist = true;
+                        }
+                    })
+                }
                 let deleteTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    deleteTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
+                    deleteTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${isDeleteExist ? serviceRequestParams : this.componentObject.variableList[0].entityName})`;
                     deleteTemp += `\n  .subscribe(`;
                     deleteTemp += `\n    data => {`;
                     deleteTemp += `\n       console.log('data deleted successfully --- ', data);`;
@@ -177,6 +193,28 @@ export class FlowComponentWorker {
                 // console.log('delete component are -----  ', deleteTemp);
                 break;
             case Constant.GP_GETALLVALUES_FLOW:
+                let getAllValueTemp = `${this.currentFlow.name}() {`;
+                if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
+                    getAllValueTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}()`;
+                    getAllValueTemp += `\n  .subscribe(`;
+                    getAllValueTemp += `\n    data => {`;
+                    getAllValueTemp += `\n       console.log('successfully get all data --- ', data);`;
+                    getAllValueTemp += `\n       this.rowData = data.body;`;
+                    getAllValueTemp += `\n    },`;
+                    getAllValueTemp += `\n    error => {`;
+                    getAllValueTemp += `\n       console.log('cannot able to get all data --- ', error);`;
+                    getAllValueTemp += `\n    }`;
+                    getAllValueTemp += `\n    );`;
+                    // calling constructor methods
+                    this.addConstructor(`${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}`, serviceClassName);
+
+                    // calling component headers
+                    this.componentHeaders(headers.className, headers.path);
+                }
+                getAllValueTemp += `\n}`;
+                // component methods
+                this.componentFileDetails.componentMethod.push(getAllValueTemp);
+                // console.log('update component are -----  ', updateTemp);
                 break;
             case Constant.GP_SEARCHDETAIL_FLOW:
                 break;
@@ -207,15 +245,16 @@ export class FlowComponentWorker {
             case Constant.GP_CUSTOM_FLOW:
                 break;
             case Constant.GP_GETNOUNBYID_FLOW:
-                let getByIdTemp = `${this.currentFlow.name}() {`;
+                let getByIdTemp = `${this.currentFlow.name}(${this.componentObject.variableList[0].entityName}Id) {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    getByIdTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
+                    getByIdTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${this.componentObject.variableList[0].entityName}Id)`;
                     getByIdTemp += `\n  .subscribe(`;
                     getByIdTemp += `\n    data => {`;
-                    getByIdTemp += `\n       console.log('data deleted successfully --- ', data);`;
+                    getByIdTemp += `\n       console.log('successfully get the data by id --- ', data);`;
+                    getByIdTemp += `\n       this.${this.componentObject.variableList[0].entityName} = data.body;`;
                     getByIdTemp += `\n    },`;
                     getByIdTemp += `\n    error => {`;
-                    getByIdTemp += `\n       console.log('cannot able to delete the data --- ', error);`;
+                    getByIdTemp += `\n       console.log('cannot able to get the data using its id--- ', error);`;
                     getByIdTemp += `\n    }`;
                     getByIdTemp += `\n    );`;
                     // calling constructor methods
@@ -247,10 +286,13 @@ export class FlowComponentWorker {
         return (this.currentFlow.components.microFlows.findIndex(x => x.microFlowStepName.toLowerCase() == microFlowStepName) > -1);
     }
 
+    private componentOnInit() {
+        // if()
+    }
+
     // GpOptons
     private componentOption() {
         if (this.checkMicroFlowSteps(Constant.COMPONENT_OPTIONS_MICROFLOW)) {
-            this.componentObject.variableList = this.componentObject.variableList.concat(this.componentObject.dependenciesVariableList);
             this.addComponentVariable();
         }
     }
@@ -290,19 +332,22 @@ export class FlowComponentWorker {
 
 
     private addConstructor(constructorObject, className) {
-        this.componentFileDetails.componentConstructorParams.push(
-            `${Constant.PRIVATE_ACCESS_MODIFIER} ${constructorObject}: ${className}`
-        );
+        const temp = `${Constant.PRIVATE_ACCESS_MODIFIER} ${constructorObject}: ${className}`;
+        if (!this.componentFileDetails.componentConstructorParams.find(x => x == temp)) {
+            this.componentFileDetails.componentConstructorParams.push(temp);
+        }
     }
 
     // GpHeaders
     private componentHeaders(classname, path) {
-        const temp = {
-            classname: '',
-            path: ''
+        if (!this.componentFileDetails.importComponent.find(x => x.classname === classname && x.path === path)) {
+            const temp = {
+                classname: '',
+                path: ''
+            }
+            temp.classname = classname;
+            temp.path = path;
+            this.componentFileDetails.importComponent.push(temp);
         }
-        temp.classname = classname;
-        temp.path = path;
-        this.componentFileDetails.importComponent.push(temp);
     }
 }

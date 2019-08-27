@@ -828,29 +828,49 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     }
 
     saveRouteDetails() {
+        const GetByIdFlowObj = this.listOfFLows.find(x => x.name === 'GpGetNounById');
+        console.log('get flows objects are ---- ', GetByIdFlowObj);
         const tempIndex = this.routeFlows.findIndex(x => x.elementName === this.editor.getSelected().attributes.name);
         if (tempIndex > -1) {
             this.routeFlows[tempIndex].screenId = this.routeDetails.screen._id;
             this.routeFlows[tempIndex].screenName = this.routeDetails.screen.screenName;
             this.routeFlows[tempIndex].routeType = this.routeDetails.type;
+            // update getByNounId for route
+            if (GetByIdFlowObj) {
+                this.routeFlows[tempIndex].screenFlow = GetByIdFlowObj._id;
+                this.routeFlows[tempIndex].screenFlowName = GetByIdFlowObj.name;
+            }
+            this.routeFlows[tempIndex].methodName =
+                `${this.selectedFlow[0].name}${this.routeFlows.length > 1 ? this.routeFlows.length : ''}`;
+
             this.saveRemoteStorage();
         } else {
             const routeObj = {
                 htmlId: '',
                 componentId: '',
                 elementName: '',
-                flow: '',
+                routeFlow: '',
                 screenId: '',
                 screenName: '',
-                routeType: ''
+                routeType: '',
+                methodName: '',
+                screenFlow: '',
+                screenFlowName: ''
             };
             routeObj.htmlId = this.editor.getSelected().ccid;
             routeObj.componentId = this.editor.getSelected().cid;
             routeObj.elementName = this.editor.getSelected().attributes.name;
-            routeObj.flow = this.selectedFlow[0]._id;
+            routeObj.routeFlow = this.selectedFlow[0]._id;
             routeObj.screenId = this.routeDetails.screen._id;
             routeObj.screenName = this.routeDetails.screen.screenName;
             routeObj.routeType = this.routeDetails.type;
+            // add the routing method name
+            routeObj.methodName = `${this.selectedFlow[0].name}${this.routeFlows.length > 1 ? this.routeFlows.length : ''}`;
+            // add the screensflow
+            if (GetByIdFlowObj) {
+                routeObj.screenFlow = GetByIdFlowObj._id;
+                routeObj.screenFlowName = GetByIdFlowObj.name;
+            }
             this.routeFlows.push(routeObj);
             this.saveFlowDetails(this.routeDetails.verb);
         }

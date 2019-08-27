@@ -5,11 +5,13 @@ import * as util from 'util';
 import { FlowComponentWorker } from "./flowComponentWorker";
 import { FlowServiceWorker } from "./flowServiceWorker";
 import * as componentDependency from '../assets/componentDependency';
+import { ElementRouteWorker } from "./elementRouteWorker";
 
 const componentSupportWorker = new ComponentSupportWorker();
 const dependencyWorker = new DependencyWorker();
 const flowComponentWorker = new FlowComponentWorker();
 const flowServiceWorker = new FlowServiceWorker();
+const elementRouteWorker = new ElementRouteWorker();
 
 export class ComponentWorker {
 
@@ -33,13 +35,13 @@ export class ComponentWorker {
         declarations: []
     }
 
-    intializeRouteModule() {
+    initializeRouteModule() {
         this.routeModule = {
             importDependency: [],
             routePath: []
         }
     }
-    intializeAppModule() {
+    initializeAppModule() {
         this.appModule = {
             importDependency: [],
             declarations: [],
@@ -48,8 +50,16 @@ export class ComponentWorker {
             bootstrap: []
         }
     }
-    intializePackageModule() {
+    initializePackageModule() {
         this.packageModule = [];
+    }
+
+    initializeOtherInfo() {
+        this.moduleComponent = {
+            importDependency: [],
+            imports: [],
+            declarations: []
+        }
     }
 
     public generateComponentHtml(applicationPath, templatePath, componentName, information, callback) {
@@ -66,7 +76,7 @@ export class ComponentWorker {
             });
     }
     public generateComponentTs(applicationPath, templatePath, componentName, information, entities, callback) {
-        console.log('before set routeModule generate component ts are -routeModule--->>  ', this.routeModule);
+        console.log('before set routeModule generate component ts are -routeModule--->>  ', information);
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
@@ -90,6 +100,9 @@ export class ComponentWorker {
         if (this.routeModule.importDependency.findIndex(x => x == importDependencyPath) < 0) {
             this.routeModule.importDependency.push(importDependencyPath);
             this.routeModule.routePath.push(`{ path: '${temp.folderName.toLowerCase()}', component: ${temp.className}Component, canActivate: [AuthGuard] },`);
+        }
+        if (information.routeList.length > 0) {
+            elementRouteWorker.checkGpRoute(information.routeList, temp);
         }
         // check other method and dependency in component 
         if (information.otherMethodNames.length > 0) {
@@ -246,23 +259,24 @@ export class ComponentWorker {
     }
 
     public modifyDependency(packagePath, srcPath, applicationPath, globalStyle, callback) {
-        console.log('modify dependency in component workers are --111---- ');
+        console.log('modify dependency in component workers are --111---- ', globalStyle);
         if (this.routeModule.routePath.length > 0) {
             dependencyWorker.modifyAppRouteFile(applicationPath, this.routeModule);
             // this.routeModule.importDependency = [];
             // this.routeModule.routePath = [];
-            this.intializeRouteModule();
+            this.initializeRouteModule();
         }
         if (this.appModule.importDependency.length > 0) {
             dependencyWorker.modifyAppModuleFile(applicationPath, this.appModule);
-            this.intializeAppModule();
+            this.initializeAppModule();
         }
         if (this.packageModule.length > 0) {
             dependencyWorker.modifyPackageFile(packagePath, this.packageModule);
-            this.intializePackageModule();
+            this.initializePackageModule();
         }
         if (globalStyle.import.length > 0 || globalStyle.others.length > 0) {
             dependencyWorker.modifyGlobalStyles(srcPath, globalStyle);
+            this.initializeOtherInfo();
         }
         console.log(' before callback dependency are ----2222--- ');
         callback();

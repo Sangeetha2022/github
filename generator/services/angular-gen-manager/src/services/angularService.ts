@@ -28,21 +28,35 @@ export class AngularService {
         //         }
         //     });
         // })
-        asyncLoop(details.desktop, (featureScreenElement, next) => {
-            generateHtmlWorker.generate(JSON.parse(featureScreenElement['gjs-components'][0]), featureScreenElement['gjs-css'], featureScreenElement, featureScreenElement.screenName, details, (response) => {
-                next();
-            });
-        }, (err) => {
-            if (err) {
-                console.log(err);
-            } else {
+        const primaryScreens = details.desktop.filter(x => x.route_info.length > 0);
+        const secondaryScreens = details.desktop.filter(x => x.route_info.length == 0);
+        console.log('all screen lenght ---- ', details.desktop.length);
+        console.log('primary screen lenght ---- ', primaryScreens.length);
+        console.log('secondary screen lenght ---- ', secondaryScreens.length);
+        this.iterateScreens(primaryScreens, details, (response) => {
+            this.iterateScreens(secondaryScreens, details, (response) => {
                 generateHtmlWorker.modifyDependency(details, (response) => {
                     // callback(response);
                     callback({ Message: 'feature screens are generated successfully' });
                 })
-                // console.log({ Message: 'feature screens are generated successfully' });
-            }
-        })
+            })
+        });
+        // working fine
+        // asyncLoop(details.desktop, (featureScreenElement, next) => {
+        //     generateHtmlWorker.generate(JSON.parse(featureScreenElement['gjs-components'][0]), featureScreenElement['gjs-css'], featureScreenElement, featureScreenElement.screenName, details, (response) => {
+        //         next();
+        //     });
+        // }, (err) => {
+        //     if (err) {
+        //         console.log(err);
+        //     } else {
+        //         generateHtmlWorker.modifyDependency(details, (response) => {
+        //             // callback(response);
+        //             callback({ Message: 'feature screens are generated successfully' });
+        //         })
+        //         // console.log({ Message: 'feature screens are generated successfully' });
+        //     }
+        // })
         // generateHtmlWorker.generate(temp, details.desktop[0], details.desktop[0].screenName, details, (response) => {
         //     console.log('angular service  response are 0-----  ', response);
         //     callback(response);
@@ -62,6 +76,30 @@ export class AngularService {
         // let templateLocation = '../../template'
         // let routeObj = menuData[0].menuDetails[0].screenmenu[0];
         // routeWorker.generateRouteFile(projectGenerationPath, templateLocation, routeObj);
+    }
+
+    iterateScreens(screenInfo, details, callback) {
+        console.log('outside asyncloop screenfinfo are ----- ', screenInfo);
+        asyncLoop(screenInfo, (featureScreenElement, next) => {
+            console.log('inside asyncloop screenfinfo are ----- ', featureScreenElement);
+            if (featureScreenElement) {
+                generateHtmlWorker.generate(JSON.parse(featureScreenElement['gjs-components'][0]), featureScreenElement['gjs-css'], featureScreenElement, featureScreenElement.screenName, details, (response) => {
+                    next();
+                });
+            } else {
+                next();
+            }
+        }, (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                // generateHtmlWorker.modifyDependency(details, (response) => {
+                // callback(response);
+                callback({ Message: 'feature screens are generated successfully' });
+                // })
+                // console.log({ Message: 'feature screens are generated successfully' });
+            }
+        })
     }
 
 
