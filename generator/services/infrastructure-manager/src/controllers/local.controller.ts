@@ -143,8 +143,13 @@ export class LocalInfrastructureController {
         //res.send(200);
       })
 
+    // //generate ipa script
+    // dockerService.ipa_build_mobile(projectDetails, (response) => {
+    //   //res.send(200);
+    // })
+
     //generate ipa script
-    dockerService.ipa_build_mobile(projectDetails, (response) => {
+    dockerService.ipa_build_jenkins_mobile(projectDetails, (response) => {
       //res.send(200);
     })
 
