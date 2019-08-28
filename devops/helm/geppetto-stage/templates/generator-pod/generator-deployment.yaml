@@ -1,0 +1,295 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.prefix }}-generator
+  namespace: {{ .Values.app.namespace }}
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.prefix }}-generator
+    spec:
+      containers:
+        - name: {{ .Values.deployment.generationmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.generationmanager.image }}
+          ports:
+            - name: http-port
+              containerPort: 5000
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - name: {{ .Values.app.prefix }}-generated-code
+              mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+        - name: {{ .Values.deployment.configurationmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.configurationmanager.image }}
+          ports: 
+            - name: http-port
+              containerPort: 5001
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.redis.name }}-container
+          image: {{ .Values.deployment.redis.image }}
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+          - containerPort: 6379
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code   
+        - name: deploymentmanager-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: tharanirajan/{{ .Values.app.prefix }}-deploymentmanager:1.0
+          ports:
+            - name: http-port
+              containerPort: 5005
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: buildmanager-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: tharanirajan/{{ .Values.app.prefix }}-build-manager:1.0
+          ports:
+            - name: http-port
+              containerPort: 5006
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.codegenmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.codegenmanager.image }}
+          ports:
+            - name: http-port
+              containerPort: 5008
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.backendgenmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.backendgenmanager.image }}
+          ports:
+            - name: http-port
+              containerPort: 5009
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.datastoremanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.datastoremanager.image }}
+          ports: 
+            - name: http-port
+              containerPort: 5010
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.mongogenmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.mongogenmanager.image }}
+          ports:
+            - name: http-port
+              containerPort: 5011
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.nodegenmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.nodegenmanager.image }} 
+          ports:
+            - name: http-port
+              containerPort: 5012
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.githubmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.githubmanager.image }} 
+          ports:
+            - name: http-port
+              containerPort: 5016
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.infrastructuremanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.infrastructuremanager.image }} 
+          ports:
+            - name: http-port
+              containerPort: 5004
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.frontendmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.frontendmanager.image }} 
+          ports:
+            - name: http-port
+              containerPort: 5013
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.angulargenmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.angulargenmanager.image }} 
+          ports:
+            - name: http-port
+              containerPort: 5014
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.angulartemplatemanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.angulartemplatemanager.image }} 
+          ports:
+            - name: http-port
+              containerPort: 5015
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.authgenmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.authgenmanager.image }} 
+          ports:
+            - name: http-port
+              containerPort: 5017
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.admingenmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.admingenmanager.image }} 
+          ports:
+            - name: http-port
+              containerPort: 5018
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.ionicmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.ionicmanager.image }} 
+          ports:
+            - name: http-port
+              containerPort: 5019
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.buildmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.buildmanager.image }} 
+          ports:
+            - name: http-port
+              containerPort: 5006
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+        - name: {{ .Values.deployment.deploymentmanager.name }}-container
+          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          image: {{ .Values.deployment.deploymentmanager.image }} 
+          ports:
+            - name: http-port
+              containerPort: 5006
+          env:
+            - name: {{ .Values.app.prefix }}-app-db
+              value: {{ .Values.app.prefix }}-app-db
+            - name: VAULT_API
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
+          volumeMounts:
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              name: {{ .Values.app.prefix }}-generated-code
+
+      volumes:
+        - name: {{ .Values.app.prefix }}-generated-code
+          persistentVolumeClaim:
+            claimName: '{{ .Values.app.prefix }}-generated-code-pvc'

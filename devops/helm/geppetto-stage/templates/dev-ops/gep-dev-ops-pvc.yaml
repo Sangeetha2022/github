@@ -1,0 +1,26 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: {{ .Values.app.prefix }}-ops-pv
+  namespace: {{ .Values.app.namespace }}
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: {{ .Values.persistentVolume.jenkins.storage }}
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /var/jenkins_home/
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Values.app.prefix }}-ops-pvc
+  namespace: {{ .Values.app.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.persistentVolumeClaim.jenkins.storage }}

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.app.prefix }}-system-entry
+  namespace: {{ .Values.app.namespace }}
+spec:
+  type: {{ .Values.service.appbuilderType }}
+  ports:
+  - name: {{ .Values.service.systementry.name }}-app
+    port: {{ .Values.service.systementry.port }}
+    targetPort: {{ .Values.service.systementry.targetPort }}
+    nodePort: {{ .Values.service.systementry.nodePort }}
+  - name: {{ .Values.service.apigateway.name }}-app
+    port: {{ .Values.service.apigateway.port }}
+    targetPort: {{ .Values.service.apigateway.targetPort }}
+    nodePort: {{ .Values.service.apigateway.nodePort }}
+  selector:
+    app: {{ .Values.app.prefix }}-system-entry

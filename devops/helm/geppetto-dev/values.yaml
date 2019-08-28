@@ -1,0 +1,346 @@
+# Default values for geppetto.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+app:
+  prefix: gep-dev
+  namespace: gep-dev-201902
+
+logging:
+  namespace: gep-dev-logging
+
+
+service:
+  type: NodePort
+  appbuilderType: NodePort
+  systementry:
+    name: nginx
+    port: 80
+    targetPort: 80
+    nodePort: 31111
+  apigateway:
+    name: apigatway
+    port: 3000
+    targetPort: 3000
+    nodePort: 30000
+  mongo:
+    name: mongo
+    port: 27017
+    targetPort: 27017
+    nodePort: 30027
+  #services
+  flowmanager:
+    name: flowmanager
+    port: 3001
+    targetPort: 3001
+    nodePort: 30001
+  microflowmanager:
+    name: microflowmanager
+    port: 3002
+    targetPort: 3002
+    nodePort: 30002
+  projectmanager:
+    name: projectmanager
+    port: 3003
+    targetPort: 3003
+    nodePort: 30003
+  screenmanager:
+    name: screenmanager
+    port: 3004
+    targetPort: 3004
+    nodePort: 30004
+  entitymanager:
+    name: entitymanager
+    port: 3005
+    targetPort: 3005
+    nodePort: 30005
+  featuremanager:
+    name: featuremanager
+    port: 3006
+    targetPort: 3006
+    nodePort: 30006
+  securitymanager:
+    name: securitymanager
+    port: 3007
+    targetPort: 3007
+    nodePort: 30007
+  camundamanager:
+    name: camundamanager
+    port: 3008
+    targetPort: 3008
+    nodePort: 30008
+  proxymanager:
+    name: proxymanager
+    port: 3009
+    targetPort: 3009
+    nodePort: 30009
+  adminmanager:
+    name: adminmanager
+    port: 3010
+    targetPort: 3010
+    nodePort: 30010
+  menubuildermanager:
+    name: menubuildermanager
+    port: 3011
+    targetPort: 3011
+    nodePort: 30011
+  templatemanager:
+    name: templatemanager
+    port: 3012
+    targetPort: 3012
+    nodePort: 30012
+  #Generation
+  generationmanager:
+    name: generationmanager
+    port: 5000
+    targetPort: 5000
+    nodePort: 30500
+  configurationmanager:
+    name: configurationmanager
+    port: 5001
+    targetPort: 5001
+    nodePort: 30501
+  redis:
+    name: redis
+    port: 6379
+    targetPort: 6379
+    nodePort: 30501
+  deploymentmanager:
+    name: deploymentmanager
+    port: 5005
+    targetPort: 5005
+    nodePort: 30505
+  buildmanager:
+    name: buildmanager
+    port: 5006
+    targetPort: 5006
+    nodePort: 30506
+  codegenmanager:
+    name: codegenmanager
+    port: 5008
+    targetPort: 5008
+    nodePort: 30508
+  backendgenmanager:
+    name: backendgenmanager
+    port: 5009
+    targetPort: 5009
+    nodePort: 30509
+  datastoremanager:
+    name: datastoremanager
+    port: 5010
+    targetPort: 5010
+    nodePort: 30510
+  mongogenmanager:
+    name: mongogenmanager
+    port: 5011
+    targetPort: 5011
+    nodePort: 30511
+  nodegenmanager:
+    name: nodegenmanager
+    port: 5012
+    targetPort: 5012
+    nodePort: 30512
+  githubmanager:
+    name: githubmanager
+    port: 5016
+    targetPort: 5016
+    nodePort: 30516
+  infrastructuremanager:
+    name: infrastructuremanager
+    port: 5004
+    targetPort: 5004
+    nodePort: 30504
+  frontendmanager:
+    name: frontendmanager
+    port: 5013
+    targetPort: 5013
+    nodePort: 30513
+  angulargenmanager:
+    name: angulargenmanager
+    port: 5014
+    targetPort: 5014
+    nodePort: 30514
+  angulartemplatemanager:
+    name: angulartemplatemanager
+    port: 5015
+    targetPort: 5015
+    nodePort: 30515
+  authgenmanager:
+    name: authgenmanager
+    port: 5017
+    targetPort: 5017
+    nodePort: 30517
+  admingenmanager:
+    name: authgenmanager
+    port: 5018
+    targetPort: 5018
+    nodePort: 30518
+  ionicmanager:
+    name: ionicmanager
+    port: 5019
+    targetPort: 5019
+    nodePort: 30519
+
+deployment:
+  defaultImagePullPolicy: IfNotPresent
+  customImagePullPolicy: Always
+  systementry:
+    name: nginx
+    image: tharanirajan/gep-dev-appbuilder:1.0
+  mongo: 
+    name: mongo
+    image: mongo:3.2
+  apigateway:
+    name: apigateway
+    image: tharanirajan/gep-dev-apigateway:1.0
+  flowmanager:
+    name: flowmanager
+    image: tharanirajan/gep-dev-flowmanager:1.0
+  microflowmanager:
+    name: microflowmanager
+    image: tharanirajan/gep-dev-microflowmanager:1.0
+  projectmanager:
+    name: projectmanager
+    image: tharanirajan/gep-dev-projectmanager:1.0
+  screenmanager:
+    name: screenmanager
+    image: tharanirajan/gep-dev-screenmanager:1.0
+  entitymanager:
+    name: entitymanager
+    image: tharanirajan/gep-dev-entitymanager:1.0
+  featuremanager:
+    name: featuremanager
+    image: tharanirajan/gep-dev-featuremanager:1.0
+  securitymanager:
+    name: securitymanager
+    image: tharanirajan/gep-dev-securitymanager:1.0
+  camundamanager:
+    name: camundamanager
+    image: tharanirajan/gep-dev-camundamanager:1.0
+  proxymanager:
+    name: proxymanager
+    image: tharanirajan/gep-dev-proxymanager:1.0
+  adminmanager:
+    name: adminmanager
+    image: tharanirajan/gep-dev-adminmanager:1.0
+  menubuildermanager:
+    name: menubuildermanager
+    image: tharanirajan/gep-dev-menubuildermanager:1.0
+  templatemanager:
+    name: templatemanager
+    image: tharanirajan/gep-dev-templatemanager:1.0
+  #Generator
+  generationmanager:
+    name: generationmanager
+    image: tharanirajan/gep-dev-generationmanager:1.0
+  configurationmanager:
+    name: configurationmanager
+    image: tharanirajan/gep-dev-configmanager:1.0
+  codegenmanager:
+    name: codegenmanager
+    image: tharanirajan/gep-dev-codegenmanager:1.0
+  backendgenmanager:
+    name: backendgenmanager
+    image: tharanirajan/gep-dev-backendgenmanager:1.0
+  datastoremanager:
+    name: datastoremanager
+    image: tharanirajan/gep-dev-datastore-manager:1.0
+  mongogenmanager:
+    name: mongogenmanager
+    image: tharanirajan/gep-dev-mongogenmanager:1.0
+  nodegenmanager:
+    name: nodegenmanager
+    image: tharanirajan/gep-dev-nodegenmanager:1.0
+  githubmanager:
+    name: githubmanager
+    image: tharanirajan/gep-dev-githubmanager:1.0
+  infrastructuremanager:
+    name: infrastructuremanager
+    image: tharanirajan/gep-dev-infrastructuremanager:1.0
+  frontendmanager:
+    name: frontendmanager
+    image: tharanirajan/gep-dev-frontendmanager:1.0
+  angulargenmanager:
+    name: angulargenmanager
+    image: tharanirajan/gep-dev-angulargenmanager:1.0
+  angulartemplatemanager:
+    name: angulartemplatemanager
+    image: tharanirajan/gep-dev-angulartemplatemanager:1.0
+  authgenmanager:
+    name: authgenmanager
+    image: tharanirajan/gep-dev-authgenmanager:1.0
+  admingenmanager:
+    name: admingenmanager
+    image: tharanirajan/gep-dev-admingenmanager:1.0
+  ionicmanager:
+    name: ionicmanager
+    image: tharanirajan/gep-dev-ionicmanager:1.0
+  buildmanager:
+    name: buildmanager
+    image: tharanirajan/gep-dev-build-manager:1.0
+  deploymentmanager:
+    name: deploymentmanager
+    image: tharanirajan/gep-dev-deployment-manager:1.0
+  redis:
+    name: redis
+    image: redis
+  
+    
+persistentVolume:
+  mongodb:
+    storage: 8Gi
+  jenkins:
+    storage: 5Gi 
+  generatedCode:
+    storage: 10Gi  
+    path: "/geppetto/generated-code/"  
+
+persistentVolumeClaim:
+  mongodb:
+    storage: 8Gi
+  jenkins:
+    storage: 5Gi
+  generatedCode:
+    storage: 10Gi    
+
+database:
+  postgres:
+    database: sonar
+    user: sonar
+    pass: T@ng3456 
+
+config:
+  vault:
+    rootToken: vault-geppetto-2019
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
