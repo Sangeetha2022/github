@@ -128,7 +128,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     public routeDetails: any = {
         screen: '',
         verb: 'click',
-        type: 'none'
+        type: 'queryParameter'
     };
     public isRoutePopup = false;
     public isGridEvent = false;
@@ -1271,12 +1271,12 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             });
         });
         this.editor.on('block:drag:stop', function (model) {
-            // console.log('before drop the element component ------- ', this);
-            console.log('before drop the element component ----models--- ', model);
+
             // get dropped element with its types
             const wrapperType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="grid-type"]');
             if (wrapperType.length > 0) {
-                // alert(true);
+                $this.is_grid_present = true;
+                $this.saveRemoteStorage();
                 wrapperType.forEach(element => {
                     element.attributes.traits.target.set('name', `grid_${element.ccid}`);
                 });

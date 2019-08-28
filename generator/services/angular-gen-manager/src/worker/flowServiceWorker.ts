@@ -133,9 +133,10 @@ export class FlowServiceWorker {
         }
         switch (actionElement.flowActionOnData) {
             case Constant.GP_SEARCH_FLOW:
+                additional.methodRequestVariable = `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
                 // additional variable
                 additional.serviceMethodVariable = `const temp = [];`;
-                additional.serviceMethodVariable += `\n const objectKeyPair = Object.entries(ticket);`;
+                additional.serviceMethodVariable += `\n const objectKeyPair = Object.entries(${actionElement.variableName});`;
                 additional.serviceMethodVariable += `\n objectKeyPair.forEach((element, index) => {`;
                 additional.serviceMethodVariable += `\n   if (element[1]) {`;
                 additional.serviceMethodVariable += `\n      temp.push(\`\${element[0]}=\${element[1]}\`);`;
@@ -147,19 +148,16 @@ export class FlowServiceWorker {
                 return additional;
             case Constant.GP_DELETE_FLOW:
                 additional.methodRequestVariable = `${actionElement.variableName}Id: ${Constant.STRING_DATATYPE}`;
-                additional.urlQuery = `\${${additional.methodRequestVariable}}`;
+                additional.urlQuery = `\${${actionElement.variableName}Id}`;
                 return additional;
             case Constant.GP_GETNOUNBYID_FLOW:
                 additional.methodRequestVariable = `${actionElement.variableName}Id: ${Constant.STRING_DATATYPE}`;
-                additional.urlQuery = `\${${additional.methodRequestVariable}}`;
+                additional.urlQuery = `\${${actionElement.variableName}Id}`;
                 return additional;
             case Constant.GP_GETALLVALUES_FLOW:
                 additional.methodRequestVariable = ``;
                 return additional;
             case Constant.GP_CREATE_FLOW:
-                additional.methodRequestVariable = `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
-                return additional;
-            case Constant.GP_SEARCH_FLOW:
                 additional.methodRequestVariable = `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
                 return additional;
             case Constant.GP_UPDATE_FLOW:
@@ -205,9 +203,6 @@ export class FlowServiceWorker {
                 additional.methodRequestVariable = `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
                 return additional;
             case Constant.GP_CUSTOM_FLOW:
-                additional.methodRequestVariable = `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
-                return additional;
-            case Constant.GP_GETNOUNBYID_FLOW:
                 additional.methodRequestVariable = `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
                 return additional;
             case Constant.GP_DELETEBYPARENTID_FLOW:

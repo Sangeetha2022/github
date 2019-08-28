@@ -501,27 +501,29 @@ export class GenerateHtmlWorker {
     }
 
     setEndPoints(flowObject) {
-        // console.log('the endpointlist in generate htm lworker aer ae- ----   ', this.endPointList);
+        console.log('the endpointlist in generate htm lworker aer ae- ----   ', this.endPointList);
         if (flowObject && this.serviceComponent.apiEndPoints.findIndex(x => x.methodName == flowObject.name) < 0) {
-            const api = this.endPointList.flowAction.find(x => x.methodName == flowObject.actionOnData);
-            // console.log('finded api are ----  ', api);
-            const temp = {
-                flowName: '',
-                flowActionOnData: '',
-                flowType: '',
-                routeUrl: '',
-                apiAction: '',
-                methodName: '',
-                variableName: ''
+            if (this.endPointList) {
+                const api = this.endPointList.flowAction.find(x => x.methodName == flowObject.actionOnData);
+                // console.log('finded api are ----  ', api);
+                const temp = {
+                    flowName: '',
+                    flowActionOnData: '',
+                    flowType: '',
+                    routeUrl: '',
+                    apiAction: '',
+                    methodName: '',
+                    variableName: ''
+                }
+                temp.flowName = flowObject.name;
+                temp.flowActionOnData = flowObject.actionOnData;
+                temp.flowType = flowObject.type;
+                temp.routeUrl = api.routeUrl;
+                temp.apiAction = api.apiAction;
+                temp.methodName = api.methodName;
+                temp.variableName = api.variableName;
+                this.serviceComponent.apiEndPoints.push(temp);
             }
-            temp.flowName = flowObject.name;
-            temp.flowActionOnData = flowObject.actionOnData;
-            temp.flowType = flowObject.type;
-            temp.routeUrl = api.routeUrl;
-            temp.apiAction = api.apiAction;
-            temp.methodName = api.methodName;
-            temp.variableName = api.variableName;
-            this.serviceComponent.apiEndPoints.push(temp);
         }
     }
 
@@ -533,18 +535,21 @@ export class GenerateHtmlWorker {
         }
         // console.log('identified entity index are -----  ', entityDetails, ' ---tagname---  ', tagName);
         const entityObject = this.entities.find(x => x._id == entityDetails.entityId);
-        // console.log('entities object are ----------  ', entityObject);
-        this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}"`;
-        const variableObject = this.tsComponent.variableList.find(x => x.entityId == entityDetails.entityId);
-        // console.log('variableList ------>>>>  ', variableObject);
-        // console.log('startString ---ngModels--->>>>  ', this.startString);
-        if (variableObject) {
-            variableObject.fields.push(entityDetails.fields.name);
-        } else {
-            variableTemp.entityId = entityDetails.entityId;
-            variableTemp.entityName = entityObject.name;
-            variableTemp.fields.push(entityDetails.fields.name);
-            this.tsComponent.variableList.push(variableTemp);
+        console.log('entities object are ----------  ', entityObject);
+        console.log('entities entityDetails are ----------  ', entityDetails);
+        if (entityObject) {
+            this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}"`;
+            const variableObject = this.tsComponent.variableList.find(x => x.entityId == entityDetails.entityId);
+            // console.log('variableList ------>>>>  ', variableObject);
+            // console.log('startString ---ngModels--->>>>  ', this.startString);
+            if (variableObject) {
+                variableObject.fields.push(entityDetails.fields.name);
+            } else {
+                variableTemp.entityId = entityDetails.entityId;
+                variableTemp.entityName = entityObject.name;
+                variableTemp.fields.push(entityDetails.fields.name);
+                this.tsComponent.variableList.push(variableTemp);
+            }
         }
     }
 
