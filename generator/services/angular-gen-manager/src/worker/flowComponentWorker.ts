@@ -159,20 +159,28 @@ export class FlowComponentWorker {
                 const serviceRequestParams = `${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE}`;
                 let isDeleteExist = false;
                 this.componentFileDetails.componentVariable.forEach(element => {
-                    if (element.includes(serviceRequestParams)) {
+                    if (typeof (element) != 'object' &&
+                        element.includes(serviceRequestParams)) {
                         isDeleteExist = true;
                     }
                 });
                 if (!isDeleteExist && this.componentObject.variableList.length > 0) {
-                    this.componentObject.variable.forEach(element => {
-                        if (element.includes(serviceRequestParams)) {
+                    this.componentObject.variableList.forEach(element => {
+                        console.log('each element are ------ ', element);
+                        console.log('each element types are ------ ', typeof (element));
+                        if (typeof (element) != 'object' &&
+                            element.includes(serviceRequestParams)) {
                             isDeleteExist = true;
                         }
                     })
                 }
+                // if delete variable is not present then we need to add it
+                if (!isDeleteExist) {
+                    this.componentFileDetails.componentVariable.push(`${this.componentObject.variableList[0].entityName}${Constant.IDVARIABLE}`);
+                }
                 let deleteTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    deleteTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${isDeleteExist ? serviceRequestParams : this.componentObject.variableList[0].entityName})`;
+                    deleteTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${isDeleteExist ? serviceRequestParams : `${this.componentObject.variableList[0].entityName}${Constant.IDVARIABLE}`})`;
                     deleteTemp += `\n  .subscribe(`;
                     deleteTemp += `\n    data => {`;
                     deleteTemp += `\n       console.log('data deleted successfully --- ', data);`;

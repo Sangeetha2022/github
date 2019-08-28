@@ -19,9 +19,13 @@ export class ComponentSpecializedWorker {
     }];
     checkSpecialElement($this) {
 
+
+        // check ckeditor span tag
+        if ($this.startString.includes(Constant.CKEDITOR_SPAN_IDNAME)) {
+            $this.isCKeditorSpan = true;
+        }
+
         // checking and add the ckeditor5
-        // console.log('each tagname are -----  ', $this.tagName);
-        // console.log('each startString are -----  ', $this.startString);
         if ($this.tagName == Constant.TEXTAREA_TAGNAME && $this.startString.includes(Constant.CKEDITOR_HTMLID_NAME)) {
             console.log('entering into change textarea into ckeditor5 --- ', $this.startString);
             $this.startString = $this.startString.replace($this.tagName.toString(), Constant.CKEDITOR_TAGNAME);
