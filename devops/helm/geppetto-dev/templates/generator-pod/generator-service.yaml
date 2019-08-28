@@ -6,46 +6,78 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-  - name: generation-manager
-    port: 5000
-    targetPort: 5000
-    nodePort: 30500 
-  - name: configuration-manager
-    port: 5001
-    targetPort: 5001
-    nodePort: 30501
-  - name: redis-container
-    port: 6379
-    targetPort: 6379
-    nodePort: 30379
-  - name: deployment-manager
-    port: 5005
-    targetPort: 5005
-    nodePort: 30505
-  - name: build-manager
-    port: 5006
-    targetPort: 5006
-    nodePort: 30506
-  - name: codegen-manager
-    port: 5008
-    targetPort: 5008
-    nodePort: 30508
-  - name: backendgen-manager
-    port: 5009
-    targetPort: 5009
-    nodePort: 30509
-  - name: datastore-manager
-    port: 5010
-    targetPort: 5010
-    nodePort: 30510
-  - name: mongo-manager
-    port: 5011
-    targetPort: 5011
-    nodePort: 30511
-  - name: nodegen-manager
-    port: 5012
-    targetPort: 5012
-    nodePort: 30512
+  - name: {{ .Values.service.generationmanager.name }}
+    port: {{ .Values.service.generationmanager.port }}
+    targetPort: {{ .Values.service.generationmanager.targetPort }}
+    nodePort: {{ .Values.service.generationmanager.nodePort }} 
+  - name: {{ .Values.service.configurationmanager.name }}
+    port: {{ .Values.service.configurationmanager.port }}
+    targetPort: {{ .Values.service.configurationmanager.targetPort }}
+    nodePort: {{ .Values.service.configurationmanager.nodePort }}
+  - name: {{ .Values.service.redis.name }}
+    port: {{ .Values.service.redis.port }}
+    targetPort: {{ .Values.service.redis.targetPort }}
+    nodePort: {{ .Values.service.redis.nodePort }}
+  - name: {{ .Values.service.deploymentmanager.name }}
+    port: {{ .Values.service.deploymentmanager.port }}
+    targetPort: {{ .Values.service.deploymentmanager.targetPort }}
+    nodePort: {{ .Values.service.deploymentmanager.nodePort }}
+  - name: {{ .Values.service.buildmanager.name }}
+    port: {{ .Values.service.buildmanager.port }}
+    targetPort: {{ .Values.service.buildmanager.targetPort }}
+    nodePort: {{ .Values.service.buildmanager.nodePort }}
+  - name: {{ .Values.service.codegenmanager.name }}
+    port: {{ .Values.service.codegenmanager.port }}
+    targetPort: {{ .Values.service.codegenmanager.targetPort }}
+    nodePort: {{ .Values.service.codegenmanager.nodePort }}
+  - name: {{ .Values.service.backendgenmanager.name }}
+    port: {{ .Values.service.backendgenmanager.port }}
+    targetPort: {{ .Values.service.backendgenmanager.targetPort }}
+    nodePort: {{ .Values.service.backendgenmanager.nodePort }}
+  - name: {{ .Values.service.datastoremanager.name }}
+    port: {{ .Values.service.datastoremanager.port }}
+    targetPort: {{ .Values.service.datastoremanager.targetPort }}
+    nodePort: {{ .Values.service.datastoremanager.nodePort }}
+  - name: {{ .Values.service.mongogenmanager.name }}
+    port: {{ .Values.service.mongogenmanager.port }}
+    targetPort: {{ .Values.service.mongogenmanager.targetPort }}
+    nodePort: {{ .Values.service.mongogenmanager.namnodePorte }}
+  - name: {{ .Values.service.nodegenmanager.name }}
+    port: {{ .Values.service.nodegenmanager.port }}
+    targetPort: {{ .Values.service.nodegenmanager.targetPort }}
+    nodePort: {{ .Values.service.nodegenmanager.nodePort }}
+  - name: {{ .Values.service.githubmanager.name }}
+    port: {{ .Values.service.githubmanager.port }}
+    targetPort: {{ .Values.service.githubmanager.targetPort }}
+    nodePort: {{ .Values.service.githubmanager.nodePort }}
+  - name: {{ .Values.service.infrastructuremanager.name }}
+    port: {{ .Values.service.infrastructuremanager.port }}
+    targetPort: {{ .Values.service.infrastructuremanager.targetPort }}
+    nodePort: {{ .Values.service.infrastructuremanager.nodePort }}
+  - name: {{ .Values.service.frontendmanager.name }}
+    port: {{ .Values.service.frontendmanager.port }}
+    targetPort: {{ .Values.service.frontendmanager.targetPort }}
+    nodePort: {{ .Values.service.frontendmanager.nodePort }}
+  - name: {{ .Values.service.angulargenmanager.name }}
+    port: {{ .Values.service.angulargenmanager.port }}
+    targetPort: {{ .Values.service.angulargenmanager.targetPort }}
+    nodePort: {{ .Values.service.angulargenmanager.nodePort }}
+  - name: {{ .Values.service.angulartemplatemanager.name }}
+    port: {{ .Values.service.angulartemplatemanager.port }}
+    targetPort: {{ .Values.service.angulartemplatemanager.targetPort }}
+    nodePort: {{ .Values.service.angulartemplatemanager.nodePort }}
+  - name: {{ .Values.service.authgenmanager.name }}
+    port: {{ .Values.service.authgenmanager.port }}
+    targetPort: {{ .Values.service.authgenmanager.targetPort }}
+    nodePort: {{ .Values.service.authgenmanager.nodePort }}
+  - name: {{ .Values.service.admingenmanager.name }}
+    port: {{ .Values.service.admingenmanager.port }}
+    targetPort: {{ .Values.service.admingenmanager.targetPort }}
+    nodePort: {{ .Values.service.admingenmanager.nodePort }}
+  - name: {{ .Values.service.ionicmanager.name }}
+    port: {{ .Values.service.ionicmanager.port }}
+    targetPort: {{ .Values.service.ionicmanager.targetPort }}
+    nodePort: {{ .Values.service.ionicmanager.nodePort }}
 
   selector:
     app: {{ .Values.app.prefix }}-generator
