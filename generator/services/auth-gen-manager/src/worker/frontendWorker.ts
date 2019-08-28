@@ -12,6 +12,7 @@ export class FrontendWorker {
     // FOLDER NAME
     private LOGIN_FOLDERNAME = 'login';
     private SIGNUP_FOLDERNAME = 'signup';
+    private HOME_FOLDERNAME = 'home';
     private AUTH_FOLDERNAME = 'auth';
     private HEADER_FOLDERNAME = 'header';
     private BROADCAST_FOLDERNAME = 'broadcast';
@@ -31,7 +32,7 @@ export class FrontendWorker {
     private MODIFY_APP_ROUTNG_TEMPLATENAME = `modify_app_routing`;
 
     // Methods
-    private logoutMethod = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
+    private logoutMethod = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\tthis.userId = sessionStorage.getItem('Id');\n\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
     private broadcastMethod = `\tthis.broadcastService.currentUserName.subscribe(headerPermission => {\n\t\t\tif (headerPermission && headerPermission.Project && headerPermission.Project.Fields && headerPermission.Project.Fields.config === 'true') {\n\t\t\t this.isAdminUser = true;\n\t\t\t } else {\n\t\t\t\t this.isAdminUser = false;\n\t\t\t }\n\t});`;
 
     private isAppModule = {
@@ -109,6 +110,15 @@ export class FrontendWorker {
         callback();
     }
 
+     // create home component from seed files
+ createHomeComponent(callback) {
+    const homeApplicationPath = `${this.projectGenerationPath}/src/app/${this.HOME_FOLDERNAME}`;
+    this.generateStaticComponent(homeApplicationPath, this.HOME_FOLDERNAME);
+    this.generateModule(this.HOME_FOLDERNAME,
+        this.MODULE_TEMPLATENAME, homeApplicationPath);
+    callback();
+}
+
     // create auth component from seed files
     createAuthComponent(menus, callback) {
         this.allMenus(menus);
@@ -123,6 +133,8 @@ export class FrontendWorker {
         callback();
 
     }
+
+
 
     //screenMenus
     allMenus(menus) {
@@ -189,13 +201,12 @@ export class FrontendWorker {
         }
         // app routing module
         if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`) < 0) {
-            if (folderName == this.LOGIN_FOLDERNAME) {
-                this.routingModuleInfo.path.push(`{ path: '', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, pathMatch: 'full' }`);
-            }
+            // if (folderName == this.LOGIN_FOLDERNAME) {
+            //     this.routingModuleInfo.path.push(`{ path: '', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, pathMatch: 'full' }`);
+            // }
             this.routingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`);
             this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);
         }
-
 
         const temp = {
             importDependency: [],
@@ -279,7 +290,8 @@ export class FrontendWorker {
 
             // variable declarations
             const tempVariable = [
-                `public isAdminUser = false`
+                `public isAdminUser = false`,
+                `public userId: string;`
             ]
             modifyFile.splice(constructorIndex, 0, tempVariable.join(';\n'));
         }
@@ -411,7 +423,7 @@ export class FrontendWorker {
 
     modifyAppRoutingModuleFile(appRoutingModulePath) {
         appRoutingModulePath += `/${this.APP_ROUTING_MODULE_FILENAME}`;
-        fs.readFileSync(appRoutingModulePath).toString().split("\n").forEach(appElement => {
+        fs.readFileSync(appRoutingModulePath).toString().split("\n").forEach((appElement, index) => {
             console.log('app routing each one are -------  ', appElement);
             if (appElement.includes('import') && appElement.includes('from')) {
                 if (this.routingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
@@ -436,8 +448,8 @@ export class FrontendWorker {
                     if (this.routingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
                         if (appElement.includes(`redirectTo: ''`)) {
                             this.routingModuleInfo.path.unshift(appElement.replace('},', '}'));
-                        } else if (appElement.includes(`path: ''`)) {
-                            this.routingModuleInfo.path.push(appElement.replace(`path: ''`, `path: 'home'`).replace('},', `, canActivate: [${this.AUTH_GUARD_FILENAME}] }`));
+                        } else if (appElement.includes(`component: TemplateComponent`)) {
+                            this.routingModuleInfo.path.push(appElement.replace(`{ path: \'\', component: TemplateComponent },`, `{ path: \'\', component: TemplateComponent , pathMatch: \'full\' }`));
                         } else {
                             this.routingModuleInfo.path.push(appElement.replace('},', `, canActivate: [${this.AUTH_GUARD_FILENAME}] }`));
                         }

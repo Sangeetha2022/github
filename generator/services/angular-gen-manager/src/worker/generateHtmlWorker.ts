@@ -22,7 +22,7 @@ export class GenerateHtmlWorker {
     private tagName: String = null;
     private startString: String = '';
     private count: number = 0;
-    private parentTest: any[] = [];
+    private parentHtmlTags: any[] = [];
     private isNotImportant: Boolean = false;
     private isContentOnly: Boolean = false;
     private isCKeditorSpan: Boolean = false;
@@ -34,10 +34,12 @@ export class GenerateHtmlWorker {
     private entities = [];
     private flowList = [];
     private endPointList: any;
+    private generatedScreens: any[] = [];
 
     private tsComponent = {
         variableList: [],
         dependenciesVariableList: [],
+        routeList: [],
         flowMethod: [],
         elementDependedMethod: [],
         otherMethodNames: []
@@ -63,6 +65,12 @@ export class GenerateHtmlWorker {
     initializeData() {
         // add cssGuidelines
         this.cssGuidelines = [];
+
+        // initialize global styles
+        this.globalStyle = {
+            import: [],
+            others: []
+        }
     }
     generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
         this.startTag = [];
@@ -71,6 +79,7 @@ export class GenerateHtmlWorker {
         this.tsComponent = {
             variableList: [],
             dependenciesVariableList: [],
+            routeList: [],
             flowMethod: [],
             elementDependedMethod: [],
             otherMethodNames: []
@@ -87,12 +96,6 @@ export class GenerateHtmlWorker {
         this.componentStyle = [];
         // add default styles
         this.componentStyle.push(screenStyles);
-
-        // initialize global styles
-        this.globalStyle = {
-            import: [],
-            others: []
-        }
 
         this.screenInfo = screenDetails;
         console.log('generatehtlmworker componentstyles are ----  ', this.componentStyle);
@@ -127,6 +130,7 @@ export class GenerateHtmlWorker {
         const packagePath = details.projectGenerationPath;
         const templatePath = details.templateLocation.frontendTemplate;
         componentWorker.generateComponentHtml(applicationPath, templatePath, componentName, this.startTag, (response) => {
+            this.checkRoutes();
             componentWorker.generateComponentTs(applicationPath, templatePath, componentName, this.tsComponent, this.entities, (response) => {
                 componentWorker.generateComponentService(applicationPath, templatePath, componentName, this.serviceComponent, (response) => {
                     // console.log('before calling generatecomponentcss from generatehtlm -----  ', this.componentStyle);
@@ -144,14 +148,70 @@ export class GenerateHtmlWorker {
         })
     }
 
+    checkRoutes() {
+        console.log('check route list sra --1-- ', this.tsComponent);
+        console.log('check route generatedScreens -2--- ', this.generatedScreens);
+        const screenIndex = this.generatedScreens.findIndex(x => x.screenId == this.screenInfo._id);
+        console.log('screenIndex checkRoutes ---- ', screenIndex);
+        if (screenIndex > -1) {
+            const temp = this.generatedScreens[screenIndex];
+            const flowObject = this.flowList.find(x => x._id == temp.screenFlow);
+            console.log('check routes flowObject ---------->>>   ', flowObject);
+            let flowTemp = {
+                _id: '',
+                name: '',
+                label: '',
+                description: '',
+                type: '',
+                actionOnData: '',
+                createWithDefaultActivity: '',
+                components: []
+            };
+            if (flowObject && !this.tsComponent.flowMethod.find(x => x._id == flowObject._id)) {
+                flowTemp = {
+                    _id: flowObject._id,
+                    name: flowObject.name,
+                    label: flowObject.label,
+                    description: flowObject.description,
+                    type: flowObject.type,
+                    actionOnData: flowObject.actionOnData,
+                    createWithDefaultActivity: flowObject.createWithDefaultActivity,
+                    components: []
+
+                }
+                // set component dependencies method and variable
+                this.setComponentDependencies(flowObject, flowTemp);
+
+                // set services dependencies method and variable
+                this.setServiceDependencies(flowObject, flowTemp);
+
+                // set component services api's
+                this.setEndPoints(flowObject);
+
+                // set component route list
+                this.setComponentRouteList(temp, 'child');
+                console.log('setted ts component ---->>>  ', this.tsComponent);
+                console.log('setted services  ---->>>  ', this.serviceComponent);
+
+            }
+            this.generatedScreens.splice(screenIndex, 1);
+        }
+    }
+
+    setComponentRouteList(routeObj, action) {
+        const temp = {
+            route: routeObj,
+            action: action
+        }
+        this.tsComponent.routeList.push(temp);
+    }
 
     modifyDependency(details, callback) {
-        console.log('modifydependency calling in gnerateHTML Workere s');
+        console.log('modifydependency calling in gnerateHTML Workere s , ', this.globalStyle);
         const packagePath = details.projectGenerationPath;
         const srcPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}`;
         const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
         componentWorker.modifyDependency(packagePath, srcPath, applicationPath, this.globalStyle, (response) => {
-            console.log('modify dependency response rare ----  ');
             this.initializeData();
             callback({ Message: `Feature Screen created successfully` });
         })
@@ -164,30 +224,30 @@ export class GenerateHtmlWorker {
             if (index === 0) {
                 this.firstEle = item;
             } else {
-                this.parentTest.push(item);
+                this.parentHtmlTags.push(item);
             }
             this.tagName = this.tagNameFunction(item);
             // console.log('tagName for each iterate value are -parent----   ', this.tagName, ' --item.content--  ', item.content);
             if (item.type === 'textnode') {
                 tempObj.endTagName = 'label';
-                this.parentTest.push(tempObj);
+                this.parentHtmlTags.push(tempObj);
             } else if (!this.tagName || this.tagName == 'div') {
                 tempObj.endTagName = 'div';
-                this.parentTest.push(tempObj);
+                this.parentHtmlTags.push(tempObj);
             } else if (this.tagName == 'form') {
                 tempObj.endTagName = 'form';
-                this.parentTest.push(tempObj);
+                this.parentHtmlTags.push(tempObj);
             } else if (this.tagName == 'section') {
                 tempObj.endTagName = 'section';
-                this.parentTest.push(tempObj);
+                this.parentHtmlTags.push(tempObj);
             } else if (!item.content &&
                 (this.tagName == 'nav' || this.tagName == 'header' || this.tagName == 'footer')) {
                 tempObj.endTagName = this.tagName;
-                this.parentTest.push(tempObj);
+                this.parentHtmlTags.push(tempObj);
             }
             if (index === grapesJSMetadata.length - 1) {
-                if (this.parentTest.length > 0) {
-                    this.secondEle.unshift(this.parentTest);
+                if (this.parentHtmlTags.length > 0) {
+                    this.secondEle.unshift(this.parentHtmlTags);
                 }
                 this.generateChildHtml(this.firstEle, this.secondEle);
             }
@@ -324,27 +384,30 @@ export class GenerateHtmlWorker {
 
     setTraits(firstEle) {
         if (firstEle.hasOwnProperty('traits')) {
-
-            if (this.entityDetails.length > 0 || this.flowDetails.length > 0) {
+            // checking entities from databinding and flows for methods in component
+            if (this.entityDetails.length > 0 || this.flowDetails.length > 0 || this.screenInfo.route_info.length > 0) {
                 firstEle.traits.forEach(traitElement => {
+                    // console.log('triat firstelement are -----   ', traitElement);
                     const entityIndex = this.entityDetails.findIndex(x => x.elementName == traitElement.value);
                     const flowIndex = this.flowDetails.findIndex(x => x.elementName == traitElement.value);
-                    console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex);
+                    const routeIndex = this.screenInfo.route_info.findIndex(x => x.elementName == traitElement.value);
+
+                    // console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex, '  --routeIndex--  ', routeIndex);
                     // span with data binding 
                     if (entityIndex > -1 && this.tagName == 'span') {
-                        console.log('span values are -----  ', this.startString);
-                        console.log('span entities details are -----  ', this.entityDetails[entityIndex]);
+                        // console.log('span values are -----  ', this.startString);
+                        // console.log('span entities details are -----  ', this.entityDetails[entityIndex]);
                         this.ckeditorEntities = this.entityDetails[entityIndex];
                         // this.childComponents(firstEle);
                         // this.getNextValue(this.secondEle);
                         this.isCKeditorSpan = true;
                     } else if (entityIndex > -1 && !this.isCKeditorSpan) {
-                        console.log('entering into else if else if enditityINdex values')
+                        // console.log('entering into else if else if enditityINdex values')
                         this.setDataBinding(this.entityDetails[entityIndex], this.tagName);
                     }
                     // adding flows action
                     if (flowIndex > -1) {
-                        console.log('identitied flow index are -----  ', this.flowDetails[flowIndex]);
+                        // console.log('identitied flow index are -----  ', this.flowDetails[flowIndex]);
                         const flowObject = this.flowList.find(x => x._id == this.flowDetails[flowIndex].flow);
                         console.log('flowObject ---------->>>   ', flowObject);
                         let flowTemp = {
@@ -371,68 +434,94 @@ export class GenerateHtmlWorker {
 
                             }
                         }
-                        // component method
-                        if (flowObject && !this.tsComponent.flowMethod.find(x => x._id == this.flowDetails[flowIndex].flow)) {
-                            const componentFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_COMPONENT);
-                            if (componentFlow) {
-                                flowTemp.components = componentFlow;
-                            }
-                            this.tsComponent.flowMethod.push(flowTemp);
+                        // set component dependencies method and variable
+                        this.setComponentDependencies(flowObject, flowTemp);
+
+                        // set services dependencies method and variable
+                        this.setServiceDependencies(flowObject, flowTemp);
+
+                        // set component services api's
+                        this.setEndPoints(flowObject);
+                    }
+                    // check routing info and decide whether we add it in html or ts
+                    if (routeIndex > -1) {
+                        const routeObj = this.screenInfo.route_info[routeIndex];
+                        console.log('routeindex routeObj ---11-- ', routeObj);
+                        console.log('routeindex generatedScreens ----- ', this.generatedScreens);
+                        const isExistIndex = this.generatedScreens.findIndex(x => x.elementName === routeObj.elementName);
+                        if (isExistIndex > -1) {
+                            this.generatedScreens.splice(isExistIndex, 1);
+                        } else {
+                            this.generatedScreens.push(routeObj);
                         }
-                        // service method
-                        if (flowObject && !this.serviceComponent.flowMethod.find(x => x._id == this.flowDetails[flowIndex].flow)) {
-                            const serviceFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_SERVICE);
-                            if (serviceFlow) {
-                                flowTemp.components = serviceFlow;
-                            }
-                            this.serviceComponent.flowMethod.push(flowTemp);
-                        }
-                        console.log('the endpointlist in generate htm lworker aer ae- ----   ', this.endPointList);
-                        if (flowObject && this.serviceComponent.apiEndPoints.findIndex(x => x.methodName == flowObject.name) < 0) {
-                            const api = this.endPointList.flowAction.find(x => x.methodName == flowObject.actionOnData);
-                            console.log('finded api are ----  ', api);
-                            const temp = {
-                                flowName: '',
-                                flowActionOnData: '',
-                                flowType: '',
-                                routeUrl: '',
-                                apiAction: '',
-                                methodName: '',
-                                variableName: ''
-                            }
-                            temp.flowName = flowObject.name;
-                            temp.flowActionOnData = flowObject.actionOnData;
-                            temp.flowType = flowObject.type;
-                            temp.routeUrl = api.routeUrl;
-                            temp.apiAction = api.apiAction;
-                            temp.methodName = api.methodName;
-                            temp.variableName = api.variableName;
-                            this.serviceComponent.apiEndPoints.push(temp);
-                            console.log('after added api endpoints in ')
+                        // set component route list
+                        this.setComponentRouteList(routeObj, 'parent');
+                        console.log('routeindex are ---11-- ', routeIndex);
+                        console.log('routeindex are ---22-- ', this.screenInfo.is_grid_present);
+                        if (this.screenInfo.is_grid_present) {
+                            componentSpecializedWorker.checkAGGridAction(this, routeObj);
                         }
                     }
                 })
+
                 // add ckeditor ngModels
                 if (this.ckeditorEntities && !this.isCKeditorSpan) {
-                    console.log('entering into else if ckeditroentities --- ', this.tagName);
+                    // console.log('entering into else if ckeditroentities --- ', this.tagName);
                     this.setDataBinding(this.ckeditorEntities, this.tagName);
                     this.ckeditorEntities = null;
-                    // adding data binding
                 }
             }
-            if (this.tagName == 'input') {
-                if (this.startString.includes('radio')) {
-                    // console.log('radio input tytpes firsteleme are ----  ', firstEle);
-                    // console.log('radio input tytpes startString are ----  ', this.startString);
-                    // console.log('radio input entiteis are ----- ', this.entities);
-                }
-            }
+            // check if tag is select, yes then we need to add its option in component ts file
             if (this.tagName == 'select') {
-                // console.log('select firstELEM are ---- ', firstEle);
-                // console.log('select secondELE are ---- ', this.secondEle);
-                // console.log('select startString are ---- ', this.startString);
                 this.getSelectOptions(firstEle.components);
             }
+        }
+    }
+
+    setComponentDependencies(flowObject, flowTemp) {
+        // component method
+        if (flowObject && !this.tsComponent.flowMethod.find(x => x._id == flowTemp._id)) {
+            const componentFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_COMPONENT);
+            if (componentFlow) {
+                flowTemp.components = componentFlow;
+            }
+            this.tsComponent.flowMethod.push(flowTemp);
+        }
+    }
+
+    setServiceDependencies(flowObject, flowTemp) {
+        // service method
+        if (flowObject && !this.serviceComponent.flowMethod.find(x => x._id == flowTemp._id)) {
+            const serviceFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_SERVICE);
+            if (serviceFlow) {
+                flowTemp.components = serviceFlow;
+            }
+            this.serviceComponent.flowMethod.push(flowTemp);
+        }
+    }
+
+    setEndPoints(flowObject) {
+        // console.log('the endpointlist in generate htm lworker aer ae- ----   ', this.endPointList);
+        if (flowObject && this.serviceComponent.apiEndPoints.findIndex(x => x.methodName == flowObject.name) < 0) {
+            const api = this.endPointList.flowAction.find(x => x.methodName == flowObject.actionOnData);
+            // console.log('finded api are ----  ', api);
+            const temp = {
+                flowName: '',
+                flowActionOnData: '',
+                flowType: '',
+                routeUrl: '',
+                apiAction: '',
+                methodName: '',
+                variableName: ''
+            }
+            temp.flowName = flowObject.name;
+            temp.flowActionOnData = flowObject.actionOnData;
+            temp.flowType = flowObject.type;
+            temp.routeUrl = api.routeUrl;
+            temp.apiAction = api.apiAction;
+            temp.methodName = api.methodName;
+            temp.variableName = api.variableName;
+            this.serviceComponent.apiEndPoints.push(temp);
         }
     }
 
@@ -442,13 +531,13 @@ export class GenerateHtmlWorker {
             entityName: '',
             fields: []
         }
-        console.log('identified entity index are -----  ', entityDetails, ' ---tagname---  ', tagName);
+        // console.log('identified entity index are -----  ', entityDetails, ' ---tagname---  ', tagName);
         const entityObject = this.entities.find(x => x._id == entityDetails.entityId);
-        console.log('entities object are ----------  ', entityObject);
+        // console.log('entities object are ----------  ', entityObject);
         this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}"`;
         const variableObject = this.tsComponent.variableList.find(x => x.entityId == entityDetails.entityId);
-        console.log('variableList ------>>>>  ', variableObject);
-        console.log('startString ---ngModels--->>>>  ', this.startString);
+        // console.log('variableList ------>>>>  ', variableObject);
+        // console.log('startString ---ngModels--->>>>  ', this.startString);
         if (variableObject) {
             variableObject.fields.push(entityDetails.fields.name);
         } else {
@@ -516,7 +605,7 @@ export class GenerateHtmlWorker {
             // console.log('setContent vlaue of isContentOnly is ----  ', this.isContentOnly, ' --complete---  ', this.startTag);
         }
         if (firstEle.content == 'Email') {
-            console.log('firstEle content ------  ', this.startString, ' ---isContentOnly-- ', this.isContentOnly, ' -isNotImportant-- ', this.isNotImportant);
+            // console.log('firstEle content ------  ', this.startString, ' ---isContentOnly-- ', this.isContentOnly, ' -isNotImportant-- ', this.isNotImportant);
         }
     }
 

@@ -28,6 +28,7 @@ export class Constant {
     public static PRIMARY_NAME = `primary`;
     public static STRING_DATATYPE = `string`;
     public static BOOLEAN_DATATYPE = `boolean`;
+    public static ANY_DATATYPE = `any`;
 
     // connector
     public static DEFAULT_CONNECTOR_NAME = `default`;
@@ -61,17 +62,23 @@ export class Constant {
     public static STYLE_SCSS_FILENAME = 'styles.scss';
     public static SHARED_FILENAME = `shared`;
 
-     // ckeditor element details
-     public static CKEDITOR_HTMLID_NAME = 'ckeditortextarea';
-     public static TEXTAREA_TAGNAME = 'textarea';
-     public static CKEDITOR_TAGNAME = 'ckeditor';
-     public static CKEDITOR_SPAN_IDNAME = 'ckeditorspan';
- 
-     // grid element details
-     public static AGGRID_HTMLID_NAME = 'myGrid';
-     public static AGGRID_TAGNAME = 'ag-grid-angular';
-     public static GRID_READY_METHODNAME = 'gridReady';
+    // ckeditor element details
+    public static CKEDITOR_HTMLID_NAME = 'ckeditortextarea';
+    public static TEXTAREA_TAGNAME = 'textarea';
+    public static CKEDITOR_TAGNAME = 'ckeditor';
+    public static CKEDITOR_SPAN_IDNAME = 'ckeditorspan';
 
+    // grid element details
+    public static AGGRID_HTMLID_NAME = 'myGrid';
+    public static AGGRID_TAGNAME = 'ag-grid-angular';
+    public static GRID_READY_METHODNAME = 'gridReady';
+
+    // component router and its navigate details
+    public static ROUTER_DEPENDENCY_NAME = 'router';
+    public static ACTIVATEDROUTER_DEPENDENCY_NAME = 'activatedRoute';
+    public static QUERY_VARIABLE_NAME = 'query';
+    public static IDVARIABLE = 'Id';
+  
     // list of flow action
     public static GP_CREATE_FLOW = `GpCreate`;
     public static GP_SEARCH_FLOW = `GpSearch`;

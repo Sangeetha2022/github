@@ -1,5 +1,35 @@
 export const component = [
     {
+        name: 'router',
+        componentDependencies: [
+            {
+                dependencyName: 'Router',
+                dependencyPath: '@angular/router'
+            }
+        ],
+        componentConstructor: [
+            {
+                variableName: 'router',
+                dependencyName: 'Router'
+            }
+        ]
+    },
+    {
+        name: 'activatedRoute',
+        componentDependencies: [
+            {
+                dependencyName: 'ActivatedRoute',
+                dependencyPath: '@angular/router'
+            }
+        ],
+        componentConstructor: [
+            {
+                variableName: 'activatedRoute',
+                dependencyName: 'ActivatedRoute'
+            }
+        ]
+    },
+    {
         name: 'ckeditor',
         htmlDependencies: [`[editor]='Editor'`],
         componentVariableList: [`Editor = ClassicEditor`],
@@ -48,15 +78,18 @@ export const component = [
             `rowData: any = []`
         ],
         componentDynamicVariable: {
+            gridApiName: 'gridApi',
             columnDefName: 'columnDefs'
         },
         componentDependedMethod: [
             {
                 name: 'gridReady',
-                method: `onGridReady(params) {\nthis.gridApi = params.api;\nthis.gridApi.sizeColumnsToFit();\nthis.gridColumnApi = params.columnApi;\n}`},
+                method: `onGridReady(params) {\nthis.gridApi = params.api;\nthis.gridApi.sizeColumnsToFit();\nthis.gridColumnApi = params.columnApi;\n}`
+            },
             {
                 name: 'textSearch',
-                method: `onFilterTextBoxChanged(event) {\nthis.gridApi.setQuickFilter(event.target.value);\n}`}
+                method: `onFilterTextBoxChanged(event) {\nthis.gridApi.setQuickFilter(event.target.value);\n}`
+            }
         ],
         module: {
             dependencies: [

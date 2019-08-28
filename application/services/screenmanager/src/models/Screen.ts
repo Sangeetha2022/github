@@ -58,7 +58,10 @@ export const ScreenSchema = new Schema({
         flow: { type: String, ref: 'flows' },
         screenId: { type: String, default: null },
         screenName: { type: String, default: null },
-        routeType: { type: String, default: null }
+        routeType: { type: String, default: null },
+        methodName: { type: String, default: null },
+        screenFlow: { type: String, default: null },
+        screenFlowName: { type: String, default: null }
     }],
     project: { type: String, ref: 'projects', default: null },
     feature: { type: String, ref: 'feature_details', default: null },

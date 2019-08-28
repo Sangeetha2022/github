@@ -9,7 +9,6 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class AppComponent implements OnInit {
   headerFooter: boolean;
-  isRouteHome: boolean;
 
   constructor(
     private router: Router
@@ -19,9 +18,8 @@ export class AppComponent implements OnInit {
     .subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const temp = event.url.split('?');
-        this.headerFooter = (temp[0] !== '/' && temp[0] !== '/signup' && temp[0] !== '/login');
-        this.isRouteHome = (temp[0] !== '/home' && temp[0] !== '/' && temp[0] !== '/signup' && temp[0] !== '/login');
-      }
+        this.headerFooter = (temp[0] !== '/signup' && temp[0] !== '/login');
+        }
     });
   }
 }

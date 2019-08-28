@@ -1,6 +1,6 @@
 /*
  * Template group app_component
- * Compiled on Tue Aug 06 2019 11:31:00 GMT+0530 (India Standard Time)
+ * Compiled on Tue Aug 27 2019 11:31:32 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -50,10 +50,6 @@ r = function(w, rc) {
     w.write("headerFooter: boolean;");
     w.popIndentation();
     w.write("\n");
-    w.pushIndentation("  ");
-    w.write("isRouteHome: boolean;");
-    w.popIndentation();
-    w.write("\n");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("constructor(");
@@ -88,14 +84,10 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("this.headerFooter = (temp[0] !== '/' && temp[0] !== '/signup' && temp[0] !== '/login');");
+    w.write("this.headerFooter = (temp[0] !== '/signup' && temp[0] !== '/login');");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("this.isRouteHome = (temp[0] !== '/home' && temp[0] !== '/' && temp[0] !== '/signup' && temp[0] !== '/login');");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("      ");
     w.write("}");
     w.popIndentation();
     w.write("\n");
