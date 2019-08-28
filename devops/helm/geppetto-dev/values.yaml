@@ -256,10 +256,10 @@ deployment:
     image: tharanirajan/gep-dev-githubmanager:1.0
   infrastructuremanager:
     name: infrastructuremanager
-    image: tharanirajan/gep-dev-infrastructuremanager:1.0
+    image: tharanirajan/gep-dev-infrastructure-manager:1.0
   frontendmanager:
     name: frontendmanager
-    image: tharanirajan/gep-dev-frontendmanager:1.0
+    image: tharanirajan/gep-dev-frontendgenmanager:1.0
   angulargenmanager:
     name: angulargenmanager
     image: tharanirajan/gep-dev-angulargenmanager:1.0
