@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: {{ .Values.app.prefix }}-ops-db
+  name: {{ .Values.app.prefix }}-ops-db
+  namespace: {{ .Values.app.namespace }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: sonar-postgres
+      port: 5432
+      targetPort: 5432
+      nodePort: 30543
+  selector:
+    name: {{ .Values.app.prefix }}-ops-db
