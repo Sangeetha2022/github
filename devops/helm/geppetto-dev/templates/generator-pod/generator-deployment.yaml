@@ -50,34 +50,6 @@ spec:
           volumeMounts:
             - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
               name: {{ .Values.app.prefix }}-generated-code   
-        - name: deploymentmanager-container
-          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/{{ .Values.app.prefix }}-deploymentmanager:1.0
-          ports:
-            - name: http-port
-              containerPort: 5005
-          env:
-            - name: {{ .Values.app.prefix }}-app-db
-              value: {{ .Values.app.prefix }}-app-db
-            - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
-          volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
-              name: {{ .Values.app.prefix }}-generated-code
-        - name: buildmanager-container
-          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/{{ .Values.app.prefix }}-build-manager:1.0
-          ports:
-            - name: http-port
-              containerPort: 5006
-          env:
-            - name: {{ .Values.app.prefix }}-app-db
-              value: {{ .Values.app.prefix }}-app-db
-            - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
-          volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
-              name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.codegenmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
           image: {{ .Values.deployment.codegenmanager.image }}
@@ -279,7 +251,7 @@ spec:
           image: {{ .Values.deployment.deploymentmanager.image }} 
           ports:
             - name: http-port
-              containerPort: 5006
+              containerPort: 5005
           env:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
