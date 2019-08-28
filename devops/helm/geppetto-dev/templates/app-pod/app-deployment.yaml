@@ -11,9 +11,9 @@ spec:
         app: {{ .Values.app.prefix }}-app
     spec:
       containers:
-        - name: flowmanager-container
+        - name: {{ .Values.deployment.flowmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/gep-dev-flowmanager:1.0
+          image: {{ .Values.deployment.flowmanager.image }}
           ports:
             - name: http-port
               containerPort: 3001
@@ -21,10 +21,10 @@ spec:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telimetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"    
-        - name: microflowmanager-container
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"    
+        - name: {{ .Values.deployment.microflowmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/gep-dev-microflowmanager:1.0
+          image: {{ .Values.deployment.microflowmanager.image }}
           ports:
             - name: http-port
               containerPort: 3002
@@ -32,10 +32,10 @@ spec:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telimetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
-        - name: projectmanager-container
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+        - name: {{ .Values.deployment.projectmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/gep-dev-projectmanager:1.0
+          image: {{ .Values.deployment.projectmanager.image }}
           ports:
             - name: http-port
               containerPort: 3003
@@ -43,10 +43,10 @@ spec:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telimetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
-        - name: screenmanager-container
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+        - name: {{ .Values.deployment.screenmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/gep-dev-screenmanager:1.0
+          image: {{ .Values.deployment.screenmanager.image }}
           ports:
             - name: http-port
               containerPort: 3004
@@ -54,10 +54,10 @@ spec:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telimetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
-        - name: entitymanager-container
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+        - name: {{ .Values.deployment.entitymanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/gep-dev-entitymanager:1.0
+          image: {{ .Values.deployment.entitymanager.image }}
           ports:
             - name: http-port
               containerPort: 3005
@@ -65,10 +65,10 @@ spec:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telimetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
-        - name: featuremanager-container
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+        - name: {{ .Values.deployment.featuremanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/gep-dev-featuremanager:1.0
+          image: {{ .Values.deployment.featuremanager.image }}
           ports:
             - name: http-port
               containerPort: 3006
@@ -76,10 +76,10 @@ spec:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telimetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
-        - name: securitymanager-container
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+        - name: {{ .Values.deployment.securitymanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/gep-dev-securitymanager:1.0
+          image: {{ .Values.deployment.securitymanager.image }}
           ports:
             - name: http-port
               containerPort: 3007
@@ -87,10 +87,10 @@ spec:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telimetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
-        - name: camundamanager-container
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+        - name: {{ .Values.deployment.camundamanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/gep-dev-camundamanager:1.0
+          image: {{ .Values.deployment.camundamanager.image }}
           ports:
             - name: http-port
               containerPort: 3008
@@ -98,10 +98,10 @@ spec:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telimetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
-        - name: proxymanager-container
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+        - name: {{ .Values.deployment.proxymanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/gep-dev-proxymanager:1.0
+          image: {{ .Values.deployment.proxymanager.image }}
           ports:
             - name: http-port
               containerPort: 3009
@@ -109,10 +109,10 @@ spec:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telimetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
-        - name: adminmanager-container
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+        - name: {{ .Values.deployment.adminmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/gep-dev-adminmanager:1.0
+          image: {{ .Values.deployment.adminmanager.image }}
           ports:
             - name: http-port
               containerPort: 3010
@@ -120,10 +120,10 @@ spec:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telimetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
-        - name: menubuildermanager-container
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+        - name: {{ .Values.deployment.menubuildermanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/gep-dev-menubuildermanager:1.0
+          image: {{ .Values.deployment.menubuildermanager.image }}
           ports:
             - name: http-port
               containerPort: 3011
@@ -131,10 +131,10 @@ spec:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telimetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
-        - name: templatemanager-container
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+        - name: {{ .Values.deployment.templatemanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
-          image: tharanirajan/gep-dev-templatemanager:1.0
+          image: {{ .Values.deployment.templatemanager.image }}
           ports:
             - name: http-port
               containerPort: 3012
@@ -142,5 +142,5 @@ spec:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: VAULT_API
-              value: "http://{{ .Values.app.prefix }}-telimetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
+              value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.namespace }}.svc.cluster.local:8200"
 

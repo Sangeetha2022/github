@@ -11,9 +11,9 @@ spec:
         name: {{ .Values.app.prefix }}-app-db
     spec:
       containers:
-        - name: mongo-container
+        - name: {{ .Values.deployment.mongo.name}}-container
           imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
-          image: mongo:3.2
+          image: {{ .Values.deployment.mongo.image }}
           ports:
             - name: http-port
               containerPort: 27017

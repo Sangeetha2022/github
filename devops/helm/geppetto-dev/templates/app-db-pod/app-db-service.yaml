@@ -8,9 +8,9 @@ metadata:
 spec:
  type: {{ .Values.service.type }}
  ports:
- - name: mongo-db
-   port: 27017
-   targetPort: 27017
-   nodePort: 30027
+ - name: {{ .Values.service.mongo.name }}-db
+   port: {{ .Values.service.mongo.port }}
+   targetPort: {{ .Values.service.mongo.targetPort }}
+   nodePort: {{ .Values.service.mongo.nodePort }}
  selector:
    name: {{ .Values.app.prefix }}-app-db
