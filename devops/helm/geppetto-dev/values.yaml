@@ -171,7 +171,7 @@ service:
     targetPort: 5017
     nodePort: 30517
   admingenmanager:
-    name: authgenmanager
+    name: admingenmanager
     port: 5018
     targetPort: 5018
     nodePort: 30518
