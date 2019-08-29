@@ -13,7 +13,7 @@ class App {
     public app: express.Application = express();
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
-    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoDev';
+    public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoStage';
 
 
     constructor() {

@@ -191,43 +191,43 @@ deployment:
     image: mongo:3.2
   apigateway:
     name: apigateway
-    image: tharanirajan/gep-dev-apigateway:1.0
+    image: geppettoapp/gep-stage-apigateway:1.0
   flowmanager:
     name: flowmanager
-    image: tharanirajan/gep-dev-flowmanager:1.0
+    image: geppettoapp/gep-stage-flowmanager:1.0
   microflowmanager:
     name: microflowmanager
-    image: tharanirajan/gep-dev-microflowmanager:1.0
+    image: geppettoapp/gep-stage-microflowmanager:1.0
   projectmanager:
     name: projectmanager
-    image: tharanirajan/gep-dev-projectmanager:1.0
+    image: geppettoapp/gep-stage-projectmanager:1.0
   screenmanager:
     name: screenmanager
-    image: tharanirajan/gep-dev-screenmanager:1.0
+    image: geppettoapp/gep-stage-screenmanager:1.0
   entitymanager:
     name: entitymanager
-    image: tharanirajan/gep-dev-entitymanager:1.0
+    image: geppettoapp/gep-stage-entitymanager:1.0
   featuremanager:
     name: featuremanager
-    image: tharanirajan/gep-dev-featuremanager:1.0
+    image: geppettoapp/gep-stage-featuremanager:1.0
   securitymanager:
     name: securitymanager
-    image: tharanirajan/gep-dev-securitymanager:1.0
+    image: geppettoapp/gep-stage-securitymanager:1.0
   camundamanager:
     name: camundamanager
-    image: tharanirajan/gep-dev-camundamanager:1.0
+    image: geppettoapp/gep-stage-camundamanager:1.0
   proxymanager:
     name: proxymanager
-    image: tharanirajan/gep-dev-proxymanager:1.0
+    image: geppettoapp/gep-stage-proxymanager:1.0
   adminmanager:
     name: adminmanager
-    image: tharanirajan/gep-dev-adminmanager:1.0
+    image: geppettoapp/gep-stage-adminmanager:1.0
   menubuildermanager:
     name: menubuildermanager
-    image: tharanirajan/gep-dev-menubuildermanager:1.0
+    image: geppettoapp/gep-stage-menubuildermanager:1.0
   templatemanager:
     name: templatemanager
-    image: tharanirajan/gep-dev-templatemanager:1.0
+    image: geppettoapp/gep-stage-templatemanager:1.0
   #Generator
   generationmanager:
     name: generationmanager
