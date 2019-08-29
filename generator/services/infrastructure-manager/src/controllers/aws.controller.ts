@@ -7,12 +7,12 @@ import { AppService } from '../services/app.service';
 import { SystemEntryService } from '../services/system-entry.service';
 import { TelemetryService } from '../services/telemetry.service';
 import { NamespaceService } from '../services/app.namespace';
-import {TerraformService} from '../services/terraform.service';
-import {DevOpsService} from '../services/dev-ops.service';
-import {DockerService} from '../services/docker.service';
+import { TerraformService } from '../services/terraform.service';
+import { DevOpsService } from '../services/dev-ops.service';
+import { DockerService } from '../services/docker.service';
 import { IPAService } from '../services/ios.service';
 import { AndroidService } from '../services/android.service';
-import {HelmService} from '../services/helm.service';
+import { HelmService } from '../services/helm.service';
 //import InfrastructureDto from '../dto/infrastructure.dto';
 
 
@@ -39,7 +39,7 @@ const helmSource = path.resolve(__dirname, deployConfig.HELM_TEMPLATE);
 
 export class AWSInfrastructureController {
 
-
+  private backendList: any[] = [];
 
   public generateInfrastructureAWS(req: Request, res: Response) {
 
@@ -64,6 +64,18 @@ export class AWSInfrastructureController {
       fs.mkdirSync(envFolder);
     }
 
+    projectDetails.customBackendList.forEach(backendElement => {
+      if (backendElement.isCustomCode) {
+        const temp = {
+          name: '',
+          port: ''
+        }
+
+        temp.name = backendElement.featureName;
+        temp.port = backendElement.nodePortNumber;
+        this.backendList.push(temp);
+      }
+    })
 
     projectDetails.destinationUrl = envFolder;
     projectDetails.templateUrl = SourceAWS;
@@ -77,8 +89,8 @@ export class AWSInfrastructureController {
 
     //terraform for aws
     terraformService.generate_aws_terraform(projectDetails, (response) => {
-        if (response.status === "success") {
-        }
+      if (response.status === "success") {
+      }
     })
 
 
@@ -141,14 +153,14 @@ export class AWSInfrastructureController {
     projectDetails.destinationUrl = deploymentFolder;
     //generate script for system entry pod image
     if (projectDetails.system_entry_pod) {
-      dockerService.generate_build_script_local(projectDetails, (response) => {
+      dockerService.generate_build_script_local(projectDetails, this.backendList, (response) => {
         //res.send(200);
       })
     }
 
     //generate script for app pod image
     if (projectDetails.app_pod) {
-      dockerService.generate_build_script_cloud(projectDetails, (response) => {
+      dockerService.generate_build_script_cloud(projectDetails, this.backendList, (response) => {
         //res.send(200);
       })
     }
@@ -160,8 +172,8 @@ export class AWSInfrastructureController {
       })
     }
 
-     //generate script for android build
-     if (projectDetails.android_build) {
+    //generate script for android build
+    if (projectDetails.android_build) {
       androidService.generate_build_script_android(projectDetails, (response) => {
         //res.send(200);
       })
@@ -171,7 +183,7 @@ export class AWSInfrastructureController {
 
     //generate helm templates
     projectDetails.templateUrl = helmSource;
-    helmService.generate_helm_templates(projectDetails, (response) => {
+    helmService.generate_helm_templates(projectDetails, this.backendList, (response) => {
       //res.send(200);
     })
 

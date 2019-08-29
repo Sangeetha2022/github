@@ -11,6 +11,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpDeleteNounRelationship",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -29,6 +30,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpFileUpload",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -43,6 +45,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpDeleteNounByRelation",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -53,6 +56,7 @@
             "type": "basic",
             "components": [],
             "actionOnData": "GpCancel",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -67,6 +71,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpGetNounFromRelation",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -86,6 +91,7 @@
 
             ],
             "actionOnData": "GpAppStartup",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -100,6 +106,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpGridExportCSV",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -110,6 +117,7 @@
             "type": "complex",
             "components": [],
             "actionOnData": "GpCreateRelationship",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -128,6 +136,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpRecordVideo",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -142,6 +151,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpGetNounByRelationship",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -160,6 +170,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpSearchDetail",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -178,6 +189,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpTakePhoto",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -196,6 +208,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpCustom",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -214,6 +227,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpGetNounById",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -228,6 +242,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpDeleteByParentId",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -242,6 +257,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpGetNounByParentId",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -260,6 +276,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpSearchForUpdate",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -278,6 +295,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpGetAllValues",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 1
         }, {
             "_id": "86258750-7003-11e9-bc38-a5d67b7d1e0e",
@@ -295,6 +313,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpCreate",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 1
         },
         {
@@ -313,6 +332,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpDelete",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 1
         },
         {
@@ -331,6 +351,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpSearch",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
         {
@@ -349,6 +370,7 @@
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpUpdate",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 1
         },
         {
@@ -362,6 +384,7 @@
                 "a33377f1-7619-11e9-8b28-fb1133df238c"
             ],
             "actionOnData": "GpRoute",
+            "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 1
         }
     ]

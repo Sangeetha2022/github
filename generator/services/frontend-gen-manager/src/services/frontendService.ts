@@ -24,6 +24,7 @@ export class FrontendService {
 
     public async frontendProject(req: Request, callback: CallableFunction) {
         const details = req.body;
+        let screenFlows = [];
         // Common.createFolders();
         // const projectGenerationPath = `${details.project.projectGenerationPath}/${details.project.name}/frontend`;
         let projectGenerationPath = `${details.projectGenerationPath}/${Constant.DESKTOP_FOLDERNAME}`;
@@ -72,8 +73,25 @@ export class FrontendService {
         if (templateJSON) {
             feature.cssGuidelines = templateJSON.body[0]['css-guidelines'];
         }
-        console.log('desktop json values rae ---@@@@@------- ', desktopJSON, ' ---length0---- ', desktopJSON.length);
-        console.log('mobile json values rae ----######------ ', mobileJSON, ' ---length---- ', mobileJSON.length);
+        // const start = new Date()
+        // const hrstart = process.hrtime()
+        // console.info('starting Execution time: %dms', start)
+        // console.info('starting Execution time (hr): %ds %dms', hrstart[0], hrstart[1] / 1000000)
+        // // const test = new Date();
+        // // const end = test - start,
+
+        // screenJSON.body.forEach(screenElement => {
+        //     console.log('secreen object are -----  ', screenElement);
+        //     screenFlows = screenFlows.concat(screenElement.flows_info);
+        // });
+
+        // let hrend = process.hrtime(hrstart)
+        // // console.info('ending Execution time: %dms', end)
+        // console.info('ending Execution time (hr): %ds %dms', hrend[0], hrend[1] / 1000000);
+        // console.log('after added in screenFlows -----  ', screenFlows);
+
+        // console.log('desktop json values rae ---@@@@@------- ', desktopJSON, ' ---length0---- ', desktopJSON.length);
+        // console.log('mobile json values rae ----######------ ', mobileJSON, ' ---length---- ', mobileJSON.length);
         let flowCount = 0;
         let flowComponentCount = 0;
         try {

@@ -39,12 +39,12 @@ export class AuthGuard implements CanActivate {
   public routeEvent(router: Router) {
     router.events.subscribe(e => {
       if (e instanceof GuardsCheckStart) {
-        this.routeName = e.url.split('/');
+        this.routeName = e.url.replace(/\?[a-z].*/g, '').replace(/\/:[a-z].*/g, '').replace(/\//g, '');
       }
     });
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    this.routeName = state.url.split('/');
+    this.routeName = state.url.replace(/\?[a-z].*/g, '').replace(/\/:[a-z].*/g, '').replace(/\//g, '');
     this.userId = sessionStorage.getItem('Id');
     if (this.userId !== null) {
       this.jwtToken = sessionStorage.getItem('JwtToken');
@@ -135,12 +135,12 @@ export class AuthGuard implements CanActivate {
           }
         });
 	 $if(object)$$object:{value |  
-      if(this.routeName[1] === '$value$') {
+      if(this.routeName === '$value$') {
          return true;
      \}
       };separator="\n"$$endif$
       
-        if (this.routeName[1] === 'admin') {
+        if (this.routeName === 'admin') {
           if (this.viewPermission !== 'true') {
             return false;
           } else {

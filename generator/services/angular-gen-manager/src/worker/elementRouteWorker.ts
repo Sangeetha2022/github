@@ -68,12 +68,13 @@ export class ElementRouteWorker {
                 tempMethod += `\n .queryParams`;
                 tempMethod += `\n .subscribe(params => {`;
                 tempMethod += `\n this.${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE} = params.id;`;
+                tempMethod += `\n this.${routeElement.route.screenFlowName}(this.${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE})`;
                 tempMethod += `\n})`;
                 componentObject.componentOnInit.push(tempMethod);
 
-                // calling component method from ngOnInit method in same file
-                const callMethod = `\n    this.${routeElement.route.screenFlowName}(this.${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE})`;
-                componentObject.componentOnInit.push(callMethod);
+                // calling component method from ngOnInit method in same file --> future use
+                // const callMethod = `\n    this.${routeElement.route.screenFlowName}(this.${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE})`;
+                // componentObject.componentOnInit.push(callMethod);
 
                 // component variables 
                 componentObject.componentVariable.push(`${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE}: ${Constant.STRING_DATATYPE}`)
