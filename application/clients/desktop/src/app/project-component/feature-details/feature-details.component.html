@@ -16,29 +16,29 @@
         </div>
 
 
-        <div class="row" style="margin: 0px;"
-        *ngIf="featureEntityDetails.length> 0">
-        <div class="col-md-4" *ngFor="let entity of featureEntityDetails; let i = index">
+        <div class="row" style="margin: 0px;" *ngIf="featureEntityDetails.length> 0">
+          <div class="col-md-4" *ngFor="let entity of featureEntityDetails; let i = index">
 
             <div class="row bottom_padding">
-                <div class="col-md-3">
-                    <img class="img_size" *ngIf="!entity.is_default" style="float: right; cursor: pointer;" (click)="editEntity(entity)"
-                        src="../../assets/img/entity3.png">
-                </div>
-                <div class="col-md-7">
-                    <h5> {{entity.name}}</h5>
-                    <p>{{entity.description}}</p>
-                    <button class="btn-space" mat-raised-button color="primary" (click)="editEntityField(entity)">Edit</button>
-                    <button mat-raised-button color="warn" [disabled]="entity.is_default"
-                    (click)="openDeleteModel(entity)">Delete</button>
-                </div>
+              <div class="col-md-3">
+                <img class="img_size" *ngIf="!entity.is_default" style="float: right; cursor: pointer;"
+                  (click)="editEntity(entity)" src="../../assets/img/entity3.png">
+              </div>
+              <div class="col-md-7">
+                <h5> {{entity.name}}</h5>
+                <p>{{entity.description}}</p>
+                <button class="btn-space" mat-raised-button color="primary"
+                  (click)="editEntityField(entity)">Edit</button>
+                <button mat-raised-button color="warn" [disabled]="entity.is_default"
+                  (click)="openDeleteModel(entity)">Delete</button>
+              </div>
             </div>
-        </div>
+          </div>
 
-        <div class="col-md-4" class="col-md-4" *ngIf="featureEntityDetails.length === 0">
+          <div class="col-md-4" class="col-md-4" *ngIf="featureEntityDetails.length === 0">
             No Feature Available.
+          </div>
         </div>
-    </div>
 
 
         <!-- <div class="row" style="margin: 0px;">
@@ -90,25 +90,24 @@
 
         <mat-card-content>
 
-          <button class="btn btn-success float-right btn_color" mat-raised-button (click)="GoToDesigner()">Add Screen</button>
+          <button class="btn btn-success float-right btn_color" mat-raised-button (click)="GoToDesigner()">Add
+            Screen</button>
         </mat-card-content>
 
         <div class="row" style="margin: 0px;padding-bottom: 20px;">
           <div class="col-md-3 bottom_padding" *ngFor="let screen of screenDetails; let i = index">
-              <span class="screen_text">{{screen?.screenName}}</span>
-              <img src="../../assets/img/desktop.png" *ngIf="screen.screenType === 'desktop'"
-                  class="image" alt="Desktop">
-              <img src="../../assets/img/mobile.png" *ngIf="screen.screenType === 'mobile'" class="image"
-                  alt="Mobile">
-              <span class="fa fa-pencil-square-o fa-2x"
-                  (click)="editScreen(screen._id, screen.screenType)" aria-hidden="true"></span>
-              <span  [ngClass]="screen.screenType === 'desktop' ? 'fa fa-trash-o fa-2x desktop_only':'fa fa-trash-o fa-2x'" (click)="deleteScreen(screen._id)"
-                  aria-hidden="true"></span>
+            <span class="screen_text">{{screen?.screenName}}</span>
+            <img src="../../assets/img/desktop.png" *ngIf="screen.screenType === 'desktop'" class="image" alt="Desktop">
+            <img src="../../assets/img/mobile.png" *ngIf="screen.screenType === 'mobile'" class="image" alt="Mobile">
+            <span class="fa fa-pencil-square-o fa-2x" (click)="editScreen(screen._id, screen.screenType)"
+              aria-hidden="true"></span>
+            <span [ngClass]="screen.screenType === 'desktop' ? 'fa fa-trash-o fa-2x desktop_only':'fa fa-trash-o fa-2x'"
+              (click)="deleteScreen(screen._id)" aria-hidden="true"></span>
           </div>
           <div class="col-md-4" *ngIf="screenDetails.length === 0">
-              No Screen Available.
+            No Screen Available.
           </div>
-      </div>
+        </div>
 
 
 
@@ -148,12 +147,12 @@
         </div>
         <div class="row">
           <div class="flowTable container mt-sm-3" *ngIf="flowInFeatureRowData.length>0">
-          
+
             <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
-              [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData"
-              [animateRows]="true" [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true"
-              [paginationPageSize]="10" [suppressRowClickSelection]="true" [suppressRowClickSelection]="true"
-               [frameworkComponents]="frameworkComponents" [floatingFilter]="true"
+              [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData" [animateRows]="true"
+              [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10"
+              [suppressRowClickSelection]="true" [suppressRowClickSelection]="true"
+              [frameworkComponents]="frameworkComponents" [floatingFilter]="true"
               (gridReady)="onFeatureFlowGridReady($event)">
             </ag-grid-angular>
           </div>
@@ -227,7 +226,6 @@
         <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -248,6 +246,142 @@
         <button type="button" class="btn btn-default" (click)="closedeleteScreenPopup()">Cancel</button>
       </div>
     </div>
-
   </div>
 </div>
+
+    <!-- <div class="modal-connector" *ngIf="customeConncetor" > -->
+        <!-- class="modal-header" -->
+        <!-- <div class="title">
+          Available APIs/Methods
+        </div>
+      <div class="modal-body" style="min-height: 200px; max-height: 300px; overflow-x: scroll;">
+        <div class="m-3">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" placeholder="enter Dev Framework" id="name">
+              </div>
+              <div class="form-group">
+                <label for="url">End Point</label>
+                <input type="text" class="form-control" placeholder="enter Dev Framework" id="url">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea rows="5" type="text" class="form-control" placeholder="enter Dev Framework" id="description"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row">
+              <div class="col-md-6">
+                <h4>APIs and Methods</h4>
+              </div>
+                    <button class="btn btn-primary" type="button">Add Connector 
+                    Properties</button>
+                </div>
+              </div>
+            </div>
+          </div> -->
+        <!-- </div> -->
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModel}">
+  <div class="modal-dialog modal-lg" role="dialog">
+    <div class="modal-content">
+      <div class="container">
+        <form class="m-3">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" [readonly]="!editable" [(ngModel)]="modifyFlows.flowName" name="flowName">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="label">Label</label>
+                <input type="text" class="form-control" id="label" [readonly]="!editable" [(ngModel)]="modifyFlows.flowLable" name="flowLable" >
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" rows="1" id="description" [readonly]="!editable" [(ngModel)]="modifyFlows.flowDescription" name="flowDescription"></textarea>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="action">Action</label>
+                <input type="text" class="form-control" [readonly]="!editable" [(ngModel)]= "modifyFlows.flowAction" name="flowAction">
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn button-create ok_btn" id="AddConnector"  (click)="addCustomeConnector()"
+         >Add custom connector</button>
+        </form>
+      </div>
+      <div *ngIf="customeConncetor">
+          <!-- <div class="title">
+              Available APIs/Methods
+            </div> -->
+          <div class="modal-body" style="min-height: 200px; max-height: 300px;">
+            <div class="m-3">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" placeholder="enter Dev Framework" id="name">
+                  </div>
+                  <div class="form-group">
+                    <label for="url">End Point</label>
+                    <input type="text" class="form-control" placeholder="enter Dev Framework" id="url">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea rows="5" type="text" class="form-control" placeholder="enter Dev Framework" id="description"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h4>APIs and Methods</h4>
+                  </div>
+                        <button class="btn btn-primary" type="button">Add Connector 
+                        Properties</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn button-create ok_btn" id="update">Update</button>
+          <button type="button" class="btn button-close delete_btn" id="update" (click)= "flowCancle()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- </div> -->
+<!-- <div class="row" style="margin: 0px;">
+  <div class="col-md-12" style="display: contents;">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-header">Flow: <span>{{selectedFlow[0].name}}</span></div>
+        <div class="card-body">
+          <h6><b>Flow Components</b></h6>
+          <span></span>
+        </div>
+        <div class="card-body">
+          <h6><b>Micro Flow</b></h6>
+          <span><br /></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
