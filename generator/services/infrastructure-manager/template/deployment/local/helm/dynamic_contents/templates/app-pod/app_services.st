@@ -1,3 +1,4 @@
+app_services(object) ::=<<
 apiVersion: v1
 kind: Service
 metadata:
@@ -18,5 +19,11 @@ spec:
   - name: {{ .Values.service.admin.name }}
     port: {{ .Values.service.admin.port }}
     targetPort: {{ .Values.service.admin.targetPort }}
+$if(object.custom_node)$$object.custom_node:{custom_node | 
+$\ $$\ $- name: {{ .Values.service.$custom_node.name$.name \}\}
+    port: {{ .Values.service.$custom_node.name$.port \}\}
+    targetPort: {{ .Values.service.$custom_node.name$.targetPort \}\}
+};separator="\n"$$endif$
   selector:
     app: {{ .Values.app.prefix }}-app
+>>

@@ -32,18 +32,20 @@ const helmSource = path.resolve(__dirname, deployConfig.HELM_TEMPLATE);
 
 export class LocalInfrastructureController {
 
-
+  // private backendList: any[] = [];
 
   public generateInfrastructureLocal(req: Request, res: Response) {
 
-    var projectDetails = req.body
+    const projectDetails = req.body
+    console.log('this values are ---- ', this);
+    const backendList = [];
     //projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
     //projectDetails.project_lowercase = projectDetails.project.toLowerCase();
     projectDetails.project = projectDetails.name;
     projectDetails.project_lowercase = projectDetails.project.toLowerCase();
 
     //create project folder if not exists
-    let projectFolder = projectDetails.projectGenerationPath +"/"+ projectDetails.project;
+    let projectFolder = projectDetails.projectGenerationPath + "/" + projectDetails.project;
 
     if (!fs.existsSync(projectFolder)) {
       fs.mkdirSync(projectFolder);
@@ -61,9 +63,21 @@ export class LocalInfrastructureController {
       fs.mkdirSync(cloudenvFolder);
     }
 
+    projectDetails.customBackendList.forEach(backendElement => {
+      if (backendElement.isCustomCode) {
+        const temp = {
+          name: '',
+          port: ''
+        }
+
+        temp.name = backendElement.featureName;
+        temp.port = backendElement.nodePortNumber;
+        backendList.push(temp);
+      }
+    })
 
     projectDetails.localUrl = localenvFolder;
-    projectDetails.cloudUrl = cloudenvFolder;    
+    projectDetails.cloudUrl = cloudenvFolder;
     projectDetails.templateUrl = Source;
     projectDetails.projectUrl = projectFolder;
 
@@ -123,25 +137,25 @@ export class LocalInfrastructureController {
     // }
 
 
-     projectDetails.destinationUrl = deploymentFolder;
+    projectDetails.destinationUrl = deploymentFolder;
     //generate script for local
     if (projectDetails.system_entry_pod) {
-      dockerService.generate_build_script_local(projectDetails, (response) => {
+      dockerService.generate_build_script_local(projectDetails, backendList, (response) => {
         //res.send(200);
       })
     }
 
     //generate script for cloud
     if (projectDetails.app_pod) {
-      dockerService.generate_build_script_cloud(projectDetails, (response) => {
+      dockerService.generate_build_script_cloud(projectDetails, backendList, (response) => {
         //res.send(200);
       })
     }
 
     //generate apk script
-      dockerService.apk_build_mobile(projectDetails, (response) => {
-        //res.send(200);
-      })
+    dockerService.apk_build_mobile(projectDetails, (response) => {
+      //res.send(200);
+    })
 
     // //generate ipa script
     // dockerService.ipa_build_mobile(projectDetails, (response) => {
@@ -155,7 +169,7 @@ export class LocalInfrastructureController {
 
     //generate helm templates
     projectDetails.helmTemplateUrl = helmSource;
-    helmService.generate_helm_templates(projectDetails, (response) => {
+    helmService.generate_helm_templates(projectDetails, backendList, (response) => {
       //res.send(200);
     })
 

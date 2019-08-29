@@ -272,7 +272,7 @@ export class CodeGenerationService {
           await this.generateApiGateway(temp).catch(err => {
             console.log('cannot able to generate the api gateway node services');
           });
-          callback('code generation completed');
+          callback(this.nodeResponse);
         }
       })
     } catch (err) {

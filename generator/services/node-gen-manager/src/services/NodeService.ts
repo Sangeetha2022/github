@@ -70,6 +70,7 @@ export class NodeService {
         entityModelName: '',
         entityFileName: '',
         featureName: '',
+        isCustomCode: false,
         nodePortNumber: '',
         import: {
             dependencies: []
@@ -143,6 +144,7 @@ export class NodeService {
             entityFileName: '',
             featureName: '',
             nodePortNumber: '',
+            isCustomCode: false,
             import: {
                 dependencies: []
             },
@@ -208,6 +210,7 @@ export class NodeService {
                     this.routeObj.entityModelName = entityElement.modelName;
                     this.routeObj.entityFileName = entityElement.fileName;
                     this.routeObj.featureName = details.featureName;
+                    this.routeObj.isCustomCode = true;
                     this.routeObj.nodePortNumber = port;
 
 

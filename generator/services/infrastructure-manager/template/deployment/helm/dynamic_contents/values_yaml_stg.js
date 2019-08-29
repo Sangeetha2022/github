@@ -1,6 +1,6 @@
 /*
  * Template group values_yaml
- * Compiled on Fri Aug 02 2019 17:42:23 GMT+0530 (IST)
+ * Compiled on Thu Aug 29 2019 20:01:36 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -24,7 +24,7 @@ r = function(w, rc) {
         s = this.scope;
     
     w.write("# Default values for ");
-    st.write(w, s, g, rc, s.project_name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "project_name", { file: gFile, line: 2, column: 29 }));
     w.write(".");
     w.write("\n");
     w.write("# This is a YAML-formatted file.");
@@ -37,12 +37,12 @@ r = function(w, rc) {
     w.pushIndentation("  ");
     w.write("prefix: ");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "project_name", { file: gFile, line: 7, column: 18 }));
     w.write("\n");
     w.pushIndentation("  ");
     w.write("namespace: ");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "project_name", { file: gFile, line: 8, column: 21 }));
     w.write("\n");
     w.write("\n");
     w.write("logging:");
@@ -50,7 +50,7 @@ r = function(w, rc) {
     w.pushIndentation("  ");
     w.write("namespace: ");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "project_name", { file: gFile, line: 11, column: 21 }));
     w.write("-logging");
     w.write("\n");
     w.write("\n");
@@ -229,6 +229,47 @@ r = function(w, rc) {
     w.write("targetPort: 8080");
     w.popIndentation();
     w.write("\n");
+    if (st.test(st.prop(s, g, rc, s.object, "custom_node", { file: gFile, line: 58, column: 11 }))) {
+    
+        st.write(w, s, g, rc, (function() {
+        var tp = [],
+        attr = st.prop(s, g, rc, s.object, "custom_node", { file: gFile, line: 58, column: 32 });
+        tp.push(st.makeSubTemplate(g, function(w, rc) {
+            var g = this.owningGroup,
+            s = this.scope;
+            
+                     w.write("  ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 59, column: 21 }));
+                     w.write(": ");
+                     w.write("\n");
+                     w.pushIndentation("    ");
+                     w.write("name: ");
+                     w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 60, column: 23 }));
+                     w.write("\n");
+                     w.pushIndentation("    ");
+                     w.write("type: NodePort");
+                     w.popIndentation();
+                     w.write("\n");
+                     w.pushIndentation("    ");
+                     w.write("port: ");
+                     w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 62, column: 23 }));
+                     w.write("\n");
+                     w.pushIndentation("    ");
+                     w.write("targetPort: ");
+                     w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 63, column: 29 }));
+                     w.write("\n");
+            }, [
+            { name: "custom_node"     }
+            ])); 
+        return st.map(attr, tp);
+        })(), {separator: "\n"});
+    
+    
+    }
+    w.write("\n");
     w.write("\n");
     w.write("deployment:");
     w.write("\n");
@@ -251,7 +292,7 @@ r = function(w, rc) {
     w.pushIndentation("     ");
     w.write("image: geppettotest/");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "project_name", { file: gFile, line: 71, column: 33 }));
     w.write("-apigateway:1.0");
     w.write("\n");
     w.pushIndentation("  ");
@@ -325,8 +366,43 @@ r = function(w, rc) {
     w.pushIndentation("     ");
     w.write("image: geppettotest/");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "project_name", { file: gFile, line: 89, column: 33 }));
     w.write("-desktop:1.0");
+    w.write("\n");
+    if (st.test(st.prop(s, g, rc, s.object, "custom_node", { file: gFile, line: 90, column: 11 }))) {
+    
+        st.write(w, s, g, rc, (function() {
+        var tp = [],
+        attr = st.prop(s, g, rc, s.object, "custom_node", { file: gFile, line: 90, column: 32 });
+        tp.push(st.makeSubTemplate(g, function(w, rc) {
+            var g = this.owningGroup,
+            s = this.scope;
+            
+                     w.write("  ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 91, column: 21 }));
+                     w.write(": ");
+                     w.write("\n");
+                     w.pushIndentation("    ");
+                     w.write("name: ");
+                     w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 92, column: 23 }));
+                     w.write("\n");
+                     w.pushIndentation("    ");
+                     w.write("image: geppettotest/");
+                     w.popIndentation();
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "project_name", { file: gFile, line: 93, column: 32 }));
+                     w.write("-");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 93, column: 59 }));
+                     w.write(":1.0");
+                     w.write("\n");
+            }, [
+            { name: "custom_node"     }
+            ])); 
+        return st.map(attr, tp);
+        })(), {separator: "\n"});
+    
+    
+    }
     w.write("\n");
     w.pushIndentation("  ");
     w.write("camundapod:");
@@ -350,7 +426,7 @@ r = function(w, rc) {
     w.pushIndentation("    ");
     w.write("rootToken: vault-");
     w.popIndentation();
-    st.write(w, s, g, rc, s.project_name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "project_name", { file: gFile, line: 101, column: 29 }));
     w.write("-2019");
     w.write("\n");
     w.write("\n");
@@ -476,7 +552,7 @@ r = function(w, rc) {
     w.write("affinity: {}");
 };
 r.args = [
-        { name: "project_name"     }
+        { name: "object"     }
 ];
 group.addTemplate("/values_yaml", r); 
 
