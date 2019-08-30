@@ -5,7 +5,7 @@ APPLICATION='/$project_name$'
 
 CUSTOMSERVICEPATH='../../../services/custom_services'
 
-HELMPATH='../../../devops/cloud'
+HELMPATH='../devops/cloud'
 
 DESKTOPCODE='../../../application/client/desktop/$project_name$'
 DESKTOPIMAGENAME='geppettotest/$project_name$-desktop:1.0'

@@ -126,6 +126,8 @@ export class DockerService {
                         console.log(projectDetails.project_lowercase + " job created successfully!");
                         triggerJenkinsJobSystemEntry();
                     });
+                } else {
+                    triggerJenkinsJobSystemEntry();
                 }
             });
         }

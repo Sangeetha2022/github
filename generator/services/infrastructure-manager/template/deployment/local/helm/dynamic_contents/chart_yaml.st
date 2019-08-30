@@ -1,7 +1,7 @@
-chart_yaml(project_name) ::= <<
+chart_yaml(object) ::= <<
 apiVersion: v1
 appVersion: "1.0"
 description: A Helm chart for Kubernetes
-name: $project_name$
+name: $object.project_name$
 version: 0.1.0
 >>
