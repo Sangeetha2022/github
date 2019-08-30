@@ -1,6 +1,6 @@
 /*
  * Template group app_deployment
- * Compiled on Thu Aug 29 2019 20:33:48 GMT+0530 (India Standard Time)
+ * Compiled on Fri Aug 30 2019 14:31:59 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -276,8 +276,8 @@ r = function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
-                     w.write("\t- name: {{ .Values.deployment.");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 66, column: 47 }));
+                     w.write("        - name: {{ .Values.deployment.");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 66, column: 75 }));
                      w.write(".name }}-container");
                      w.write("\n");
                      w.pushIndentation("          ");
