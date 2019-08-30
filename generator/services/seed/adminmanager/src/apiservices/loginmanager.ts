@@ -1,15 +1,15 @@
 import { ApiAdaptar } from '../config/ApiAdaptar';
 import { SharedService } from '../config/Sharedservice';
-const logger = require('../config/Logger');
+import { CustomLogger } from '../config/Logger'
 
 export class Loginmanagerservice {
 
     getallUser(callback) {
-        logger.info('Enter into loginmanager.ts: getallUser');
+        new CustomLogger().showLogger('info', 'Enter into loginmanager.ts: getallUser');
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/getallusers`).then(
             data => {
                 callback(data);
-        logger.info('Exit from loginmanager.ts: getallUser');
+        new CustomLogger().showLogger('info', 'Exit from loginmanager.ts: getallUser');
 
             }
         ).catch(error => {
@@ -18,11 +18,11 @@ export class Loginmanagerservice {
     }
 
     getuserbyid(id,callback) {
-        logger.info('Enter into loginmanager.ts: getuserbyid');
+        new CustomLogger().showLogger('info', 'Enter into loginmanager.ts: getuserbyid');
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/getuser/${id}`).then(
             data => {
                 callback(data);
-        logger.info('Exit from loginmanager.ts: getuserbyid');
+        new CustomLogger().showLogger('info', 'Exit from loginmanager.ts: getuserbyid');
 
             }
         ).catch(error => {
@@ -32,11 +32,11 @@ export class Loginmanagerservice {
     }
 
     getallroles(callback) {
-        logger.info('Enter into loginmanager.ts: getallroles');
+        new CustomLogger().showLogger('info', 'Enter into loginmanager.ts: getallroles');
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/getallroles`).then(
             data => {
                 callback(data);
-        logger.info('Exit from loginmanager.ts: getallroles');
+        new CustomLogger().showLogger('info', 'Exit from loginmanager.ts: getallroles');
 
             }
         ).catch(error => {
@@ -45,11 +45,11 @@ export class Loginmanagerservice {
     }
 
     Updateuser(body,callback) {
-        logger.info('Enter into loginmanager.ts: Updateuser');
+        new CustomLogger().showLogger('info', 'Enter into loginmanager.ts: Updateuser');
         new ApiAdaptar().put(`${SharedService.apiGatewayURL}/desktop/updateuser`,body).then(
             data => {
                 callback(data);
-        logger.info('Exit from loginmanager.ts: Updateuser');
+        new CustomLogger().showLogger('info', 'Exit from loginmanager.ts: Updateuser');
 
             }
         ).catch(error => {
