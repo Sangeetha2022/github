@@ -64,7 +64,7 @@ spec:
               value: "mongodb://{{ .Values.app.prefix }}-app-db.{{ .Values.app.prefix }}.svc.cluster.local:27017/{{ .Values.app.prefix }}"
 $if(object.custom_node)$$object.custom_node:{custom_node | 
 $\ $$\ $$\ $$\ $$\ $$\ $$\ $$\ $- name: {{ .Values.deployment.$custom_node.name$.name \}\}-container
-          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy \}\}
+          imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy \}\}
           image: {{ .Values.deployment.$custom_node.name$.image \}\}
           ports:
             - name: http-port
