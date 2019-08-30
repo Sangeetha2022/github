@@ -291,7 +291,7 @@ persistentVolume:
     storage: 5Gi 
   generatedCode:
     storage: 10Gi  
-    path: "/geppetto/generated-code/"  
+    path: "/geppetto/"  
 
 persistentVolumeClaim:
   mongodb:
