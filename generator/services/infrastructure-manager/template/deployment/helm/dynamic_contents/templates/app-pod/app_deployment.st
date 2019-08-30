@@ -63,7 +63,7 @@ spec:
             - name: MONGO_DB_URL
               value: "mongodb://{{ .Values.app.prefix }}-app-db.{{ .Values.app.prefix }}.svc.cluster.local:27017/{{ .Values.app.prefix }}"
 $if(object.custom_node)$$object.custom_node:{custom_node | 
-$\t$- name: {{ .Values.deployment.$custom_node.name$.name \}\}-container
+$\ $$\ $$\ $$\ $$\ $$\ $$\ $$\ $- name: {{ .Values.deployment.$custom_node.name$.name \}\}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy \}\}
           image: {{ .Values.deployment.$custom_node.name$.image \}\}
           ports:
