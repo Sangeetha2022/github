@@ -1,6 +1,6 @@
 /*
  * Template group app_deployment
- * Compiled on Fri Aug 30 2019 14:32:20 GMT+0530 (India Standard Time)
+ * Compiled on Fri Aug 30 2019 21:41:20 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -281,7 +281,7 @@ r = function(w, rc) {
                      w.write(".name }}-container");
                      w.write("\n");
                      w.pushIndentation("          ");
-                     w.write("imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}");
+                     w.write("imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}");
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("          ");

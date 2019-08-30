@@ -12,13 +12,13 @@ spec:
     spec:
       containers:
         - name: {{ .Values.deployment.desktop.name }}-contianer
-          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
           image: {{ .Values.deployment.desktop.image }}
           ports:
             - name: http-port
               containerPort: 80
         - name: {{ .Values.deployment.apigateway.name }}-container
-          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
           image: {{ .Values.deployment.apigateway.image }}
           ports:
             - name: http-port
