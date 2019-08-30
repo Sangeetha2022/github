@@ -185,7 +185,7 @@ deployment:
   customImagePullPolicy: Always
   systementry:
     name: nginx
-    image: tharanirajan/gep-dev-appbuilder:1.0
+    image: geppettoapp/gep-stage-appbuilder:1.0
   mongo: 
     name: mongo
     image: mongo:3.2
@@ -231,60 +231,59 @@ deployment:
   #Generator
   generationmanager:
     name: generationmanager
-    image: tharanirajan/gep-dev-generationmanager:1.0
+    image: geppettoapp/gep-stage-generationmanager:1.0
   configurationmanager:
     name: configurationmanager
-    image: tharanirajan/gep-dev-configmanager:1.0
+    image: geppettoapp/gep-stage-configmanager:1.0
   codegenmanager:
     name: codegenmanager
-    image: tharanirajan/gep-dev-codegenmanager:1.0
+    image: geppettoapp/gep-stage-codegenmanager:1.0
   backendgenmanager:
     name: backendgenmanager
-    image: tharanirajan/gep-dev-backendgenmanager:1.0
+    image: geppettoapp/gep-stage-backendgenmanager:1.0
   datastoremanager:
     name: datastoremanager
-    image: tharanirajan/gep-dev-datastore-manager:1.0
+    image: geppettoapp/gep-stage-datastoremanager:1.0
   mongogenmanager:
     name: mongogenmanager
-    image: tharanirajan/gep-dev-mongogenmanager:1.0
+    image: geppettoapp/gep-stage-mongogenmanager:1.0
   nodegenmanager:
     name: nodegenmanager
-    image: tharanirajan/gep-dev-nodegenmanager:1.0
+    image: geppettoapp/gep-stage-nodegenmanager:1.0
   githubmanager:
     name: githubmanager
-    image: tharanirajan/gep-dev-githubmanager:1.0
+    image: geppettoapp/gep-stage-githubmanager:1.0
   infrastructuremanager:
     name: infrastructuremanager
-    image: tharanirajan/gep-dev-infrastructure-manager:1.0
+    image: geppettoapp/gep-stage-infrastructuremanager:1.0
   frontendmanager:
     name: frontendmanager
-    image: tharanirajan/gep-dev-frontendgenmanager:1.0
+    image: geppettoapp/gep-stage-frontendgenmanager:1.0
   angulargenmanager:
     name: angulargenmanager
-    image: tharanirajan/gep-dev-angulargenmanager:1.0
+    image: geppettoapp/gep-stage-angulargenmanager:1.0
   angulartemplatemanager:
     name: angulartemplatemanager
-    image: tharanirajan/gep-dev-angulartemplatemanager:1.0
+    image: geppettoapp/gep-stage-angulartemplatemanager:1.0
   authgenmanager:
     name: authgenmanager
-    image: tharanirajan/gep-dev-authgenmanager:1.0
+    image: geppettoapp/gep-stage-authgenmanager:1.0
   admingenmanager:
     name: admingenmanager
-    image: tharanirajan/gep-dev-admingenmanager:1.0
+    image: geppettoapp/gep-stage-admingenmanager:1.0
   ionicmanager:
     name: ionicmanager
-    image: tharanirajan/gep-dev-ionicmanager:1.0
+    image: geppettoapp/gep-stage-ionicmanager:1.0
   buildmanager:
     name: buildmanager
-    image: tharanirajan/gep-dev-build-manager:1.0
+    image: geppettoapp/gep-stage-buildmanager:1.0
   deploymentmanager:
     name: deploymentmanager
-    image: tharanirajan/gep-dev-deployment-manager:1.0
+    image: geppettoapp/gep-stage-deploymentmanager:1.0
   redis:
     name: redis
     image: redis
   
-    
 persistentVolume:
   mongodb:
     storage: 8Gi
