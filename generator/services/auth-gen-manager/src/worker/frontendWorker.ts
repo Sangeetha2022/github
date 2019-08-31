@@ -110,14 +110,14 @@ export class FrontendWorker {
         callback();
     }
 
-     // create home component from seed files
- createHomeComponent(callback) {
-    const homeApplicationPath = `${this.projectGenerationPath}/src/app/${this.HOME_FOLDERNAME}`;
-    this.generateStaticComponent(homeApplicationPath, this.HOME_FOLDERNAME);
-    this.generateModule(this.HOME_FOLDERNAME,
-        this.MODULE_TEMPLATENAME, homeApplicationPath);
-    callback();
-}
+    // create home component from seed files
+    createHomeComponent(callback) {
+        const homeApplicationPath = `${this.projectGenerationPath}/src/app/${this.HOME_FOLDERNAME}`;
+        this.generateStaticComponent(homeApplicationPath, this.HOME_FOLDERNAME);
+        this.generateModule(this.HOME_FOLDERNAME,
+            this.MODULE_TEMPLATENAME, homeApplicationPath);
+        callback();
+    }
 
     // create auth component from seed files
     createAuthComponent(menus, callback) {
@@ -205,7 +205,12 @@ export class FrontendWorker {
             //     this.routingModuleInfo.path.push(`{ path: '', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, pathMatch: 'full' }`);
             // }
             this.routingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`);
-            this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);
+            if (folderName === 'home') {
+                this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+            }
+            else {
+                this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);
+            }
         }
 
         const temp = {

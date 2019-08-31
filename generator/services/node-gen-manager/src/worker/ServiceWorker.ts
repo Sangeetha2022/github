@@ -155,25 +155,25 @@ export class ServiceWorker {
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
                 this.tempService.function.requestParameter = `${this.entitySchema.fileName}Data`;
                 this.tempService.function.responseVariable = `response`;
-                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.body`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.body;`;
                 break;
             case 'GpSearch':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
                 this.tempService.function.requestParameter = `${this.entitySchema.fileName}Data`;
                 this.tempService.function.responseVariable = `response`;
-                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.query`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.query;`;
                 break;
             case 'GpUpdate':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
                 this.tempService.function.requestParameter = `${this.entitySchema.fileName}Data`
                 this.tempService.function.responseVariable = `response`;
-                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.body`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.body;`;
                 break;
             case 'GpDelete':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
                 this.tempService.function.requestParameter = `${this.entitySchema.fileName}Id`
                 this.tempService.function.responseVariable = `response`;
-                this.tempService.function.variable = ` ${this.entitySchema.fileName}Id = req.params.id`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Id = req.params.id;`;
                 break;
             case 'GpGetAllValues':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
@@ -185,7 +185,7 @@ export class ServiceWorker {
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
                 this.tempService.function.requestParameter = `${this.entitySchema.fileName}Data`
                 this.tempService.function.responseVariable = `response`;
-                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.body`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.body;`;
                 break;
             case 'GpDeleteNounRelationship':
                 break;
@@ -215,7 +215,7 @@ export class ServiceWorker {
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
                 this.tempService.function.requestParameter = `${this.entitySchema.fileName}Id`
                 this.tempService.function.responseVariable = `response`;
-                this.tempService.function.variable = ` ${this.entitySchema.fileName}Id = req.params.id`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Id = req.params.id;`;
                 break;
             case 'GpDeleteByParentId':
                 break;

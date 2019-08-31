@@ -1,11 +1,11 @@
-values_yaml(project_name) ::= <<
-# Default values for $project_name$.
+values_yaml(object) ::= <<
+# Default values for $object.project_name$.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 app:
-  prefix: $project_name$
-  namespace: $project_name$
+  prefix: $object.project_name$
+  namespace: $object.project_name$
 
 service:
   type: NodePort
@@ -52,13 +52,20 @@ service:
     type: NodePort
     port: 8080
     targetPort: 8080
+$if(object.custom_node)$$object.custom_node:{custom_node | 
+$\ $$\ $$custom_node.name$: 
+    name: $custom_node.name$
+    type: NodePort
+    port: $custom_node.port$
+    targetPort: $custom_node.port$
+};separator="\n"$$endif$
 
 deployment:
   defaultImagePullPolicy: IfNotPresent
   customImagePullPolicy: Always
   apigateway:
      name: apigateway
-     image: geppettotest/$project_name$-apigateway:1.0
+     image: geppettotest/$object.project_name$-apigateway:1.0
   mongo:
      name: mongo
      image: mongo:3.2   
@@ -76,14 +83,19 @@ deployment:
      image: geppettotest/default-adminmanager:1.0
   desktop:
      name: desktop
-     image: geppettotest/$project_name$-desktop:1.0
+     image: geppettotest/$object.project_name$-desktop:1.0
+$if(object.custom_node)$$object.custom_node:{custom_node | 
+$\ $$\ $$custom_node.name$: 
+    name: $custom_node.name$
+    image: geppettotest/$object.project_name$-$custom_node.name$:1.0
+};separator="\n"$$endif$
   camundapod:
      name: camundapod
      image: camunda/camunda-bpm-platform
 
 config:
   vault:
-    rootToken: vault-$project_name$-2019
+    rootToken: vault-$object.project_name$-2019
 
 persistentVolume:
   mongo:

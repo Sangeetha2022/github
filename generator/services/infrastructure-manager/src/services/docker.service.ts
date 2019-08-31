@@ -9,8 +9,9 @@ const jenkins = require('jenkins')({ baseUrl: 'http://geppetto:geppetto2019@207.
 
 export class DockerService {
 
-    public generate_build_script_local(projectDetails, callback: CallableFunction) {
+    public generate_build_script_local(projectDetails, backendList, callback: CallableFunction) {
 
+        console.log('backendList app pods local script ----  ', backendList);
         let destination = projectDetails.localUrl + '/buildscript';
         console.log("localfolder--->", destination);
         let templatePath = projectDetails.templateUrl + '/docker';
@@ -28,8 +29,9 @@ export class DockerService {
         })
     }
 
-    public generate_build_script_cloud(projectDetails, callback: CallableFunction) {
+    public generate_build_script_cloud(projectDetails, backendList, callback: CallableFunction) {
 
+        console.log('backendList app pods in script coluds are ---  ', backendList);
         let destination = projectDetails.cloudUrl + '/buildscript';
         let templatePath = projectDetails.templateUrl + '/docker';
 
@@ -112,15 +114,26 @@ export class DockerService {
 
             var project_ipa_build_XML = fs.readFileSync(destination + '/ipa_build_jenkins.xml', 'utf8');
 
-            jenkins.job.create(projectDetails.project_lowercase, project_ipa_build_XML, function (err) {
+            // check is job is already exist in jenkins
+            jenkins.job.exists(projectDetails.project_lowercase, function (err, exists) {
                 if (err) throw err;
-                console.log(projectDetails.project_lowercase + " job created successfully!");
-                triggerJenkinsJobSystemEntry();
+                console.log('exists or not ', exists);
+
+                // if not exist then we create a new job in jenkins
+                if (!exists) {
+                    jenkins.job.create(projectDetails.project_lowercase, project_ipa_build_XML, function (err) {
+                        if (err) throw err;
+                        console.log(projectDetails.project_lowercase + " job created successfully!");
+                        triggerJenkinsJobSystemEntry();
+                    });
+                } else {
+                    triggerJenkinsJobSystemEntry();
+                }
             });
         }
 
-          //build generated project
-          function triggerJenkinsJobSystemEntry() {
+        //build generated project
+        function triggerJenkinsJobSystemEntry() {
             jenkins.job.build(projectDetails.project_lowercase, function (err, data) {
                 if (err) {
                     console.log("Error in " + projectDetails.project_lowercase + " job trigger:", err);
@@ -129,7 +142,7 @@ export class DockerService {
                     console.log(projectDetails.project_lowercase + " job triggered successfully!");
                 }
             });
-        } 
+        }
     }
 
 

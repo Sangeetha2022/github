@@ -123,7 +123,8 @@ export class ProjectgenService {
                             this.projectObj.system_entry_pod = true;
                             this.projectObj.telemetry_pod = { "vault": true, "EFK": false };
                             this.projectObj.dev_ops_db_pod = false;
-                            this.projectObj.dev_ops_pod = false
+                            this.projectObj.dev_ops_pod = false;
+                            this.projectObj.customBackendList = codeResponse.body;
                             this.infraStructureManagerService.generateInfrastructure(projectId, this.projectObj, async (infraResponse) => {
                                 console.log('Infra Response:', infraResponse);
                                 const gitBody = {
@@ -141,7 +142,7 @@ export class ProjectgenService {
                                 await this.pushTogithub(projectId, gitBody).catch(err => {
                                     console.log('cannot able to push the code into github repo');
                                 });
-                                callback(codeResponse);
+                                callback('code generation completed');
                             })
                         })
                         // try {

@@ -17,6 +17,23 @@
     vertical-align: middle;
   }   
 
+  .modal-dialog {
+    position: relative;
+    width: 81% !important ;
+    margin: 0.5rem;
+    pointer-events: none;
+}
+
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center !important;
+    padding: 1rem;
+    border-top: 1px solid #ffffff !important;
+    border-bottom-right-radius: 0.3rem;
+    border-bottom-left-radius: 0.3rem;
+}
+
   .img_size{
     width:80%;
   }
@@ -249,3 +266,45 @@
 .component_top{
   margin-bottom: 6%;
 }
+
+#AddConnector{
+  background-color: #033668;
+  border-bottom: 3px solid #033668;
+  color:white;
+}
+
+#update{
+  color:white;
+}
+
+.modal-connector {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 86%;
+  margin-left: 7%;
+  margin-top: -4%;
+  pointer-events: auto;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.3rem;
+  outline: 0;
+}
+
+.connetor-Header {
+  background-color: rgba(0, 0, 0, .15);
+    border-bottom: none;
+    display: flex;
+    align-items: center !important;
+    justify-content: center;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: .3rem;
+    border-top-right-radius: .3rem;
+
+}
+
+
+
+

@@ -15,9 +15,10 @@ let flowSchema = mongoose.Schema({
   ],
   actionOnData: String,
   createWithDefaultActivity: Number,
+  flowType:String,
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   updatedAt: {
     type: Date,

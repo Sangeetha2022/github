@@ -5,7 +5,7 @@ APPLICATION='/$project_name$'
 
 CUSTOMSERVICEPATH='../../../services/custom_services'
 
-HELMPATH='../../../devops/cloud'
+HELMPATH='../devops/cloud'
 
 DESKTOPCODE='../../../application/client/desktop/$project_name$'
 DESKTOPIMAGENAME='geppettotest/$project_name$-desktop:1.0'
@@ -20,6 +20,8 @@ npm install
 npm rebuild node-sass
 npm uninstall @angular-devkit/build-angular
 npm install @angular-devkit/build-angular
+# if directory is exist
+[ -d "\$(pwd)/dist" ] && rm -rf dist
 ng build
 docker build -t \$DESKTOPIMAGENAME .
 if [ \$? -eq 0 ]; then

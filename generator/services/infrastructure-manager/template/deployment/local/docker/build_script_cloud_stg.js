@@ -1,6 +1,6 @@
 /*
  * Template group build_script_cloud
- * Compiled on Tue Aug 20 2019 19:54:56 GMT+0530 (India Standard Time)
+ * Compiled on Fri Aug 30 2019 17:07:39 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -34,7 +34,7 @@ r = function(w, rc) {
     w.write("CUSTOMSERVICEPATH='../../../services/custom_services'");
     w.write("\n");
     w.write("\n");
-    w.write("HELMPATH='../../../devops/cloud'");
+    w.write("HELMPATH='../devops/cloud'");
     w.write("\n");
     w.write("\n");
     w.write("DESKTOPCODE='../../../application/client/desktop/");
@@ -62,6 +62,10 @@ r = function(w, rc) {
     w.write("npm uninstall @angular-devkit/build-angular");
     w.write("\n");
     w.write("npm install @angular-devkit/build-angular");
+    w.write("\n");
+    w.write("# if directory is exist");
+    w.write("\n");
+    w.write("[ -d \"$(pwd)/dist\" ] && rm -rf dist");
     w.write("\n");
     w.write("ng build");
     w.write("\n");

@@ -30,7 +30,7 @@ export class IosAppService {
         Common.createFolders(this.generationPath);
         // console.log('generation--path---ios--->>', this.generationPath)
 
-        this.exec(`cd ${this.generationPath} && ionic start ${this.projectName} sidemenu --cordova --type=ionic-angular --no-deps --no-git`, (error, stdout, stderr) => {
+        this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && ionic start ${this.projectName} tabs --cordova --type=ionic-angular --no-deps`, (error, stdout, stderr) => {
             if (stderr) {
                 console.log("stderr", stderr);
             }

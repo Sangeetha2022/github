@@ -79,7 +79,7 @@ export class FeatureDetailsComponent implements OnInit {
     flow_comp: any = [];
     showFeatureFlow: boolean;
     featureFlow: any = [];
-    public screenData: Iscreen = {
+        public screenData: Iscreen = {
         screenName: '',
         description: '',
         featureName: '',
@@ -122,6 +122,7 @@ export class FeatureDetailsComponent implements OnInit {
     fName: any;
     screenArray: any = [];
     finalArray: any = [];
+    public customeConncetor: Boolean;
 
     public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
     // This is the default title property created by the angular cli. Its responsible for the app works
@@ -134,6 +135,13 @@ export class FeatureDetailsComponent implements OnInit {
     entitydetails: { 'entities': { 'entityType': any; 'entityId': any; }; 'name': any; 'description': any; 'updated_date': number; }[];
     updateEntityId: any;
     entityid: any;
+    public modifyFlows: any = {
+        flowName: '',
+        flowLable: '',
+        flowDescription: '',
+        flowAction: '',
+    };
+
 
     constructor(
         private featureDetailsService: FeatureDetailsService,
@@ -196,6 +204,18 @@ export class FeatureDetailsComponent implements OnInit {
                     onClick: this.removeRow.bind(this),
                     label: 'Remove'
                 }
+            },
+            {
+                headerName: 'Modify',
+                width: 100,
+                cellRenderer: 'buttonRenderer',
+                editable: false,
+                sortable: false,
+                filter: false,
+                cellRendererParams: {
+                    onClick: this.modify.bind(this),
+                    label: 'Modify'
+                }
             }
         ];
 
@@ -252,6 +272,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('arul feature-name--->>>', this.selectedFeatureName);
         this.route.queryParams.subscribe(params => {
             if (params.featureId !== undefined && params.featureId !== null) {
                 this.feature_id = params.featureId;
@@ -279,10 +300,13 @@ export class FeatureDetailsComponent implements OnInit {
         // this.formDatafromYAML(doc);
     }
 
+
     getFeatureById() {
         this.projectComponentService.getFeatureById(this.feature_id).subscribe(
             feature => {
+                console.log('i am the fature--->>', feature.name);
                 this.featureInfo = feature;
+                this.selectedFeatureName = feature.name;
                 this.getAllFlows();
                 // this.flowInFeatureRowData = feature.flows;
             },
@@ -410,6 +434,28 @@ export class FeatureDetailsComponent implements OnInit {
         // const rows = e.rowData;
 
     }
+    modify(e) {
+        console.log('i am modify--->>', e.rowData.actionOnData);
+        if (e.rowData.flowType === 'GeppettoFlow') {
+            this.modifyFlows.flowName = e.rowData.name;
+            this.modifyFlows.flowLable = e.rowData.label;
+            this.modifyFlows.flowDescription = e.rowData.description;
+            this.modifyFlows.flowAction = e.rowData.actionOnData;
+            this.displayModel = 'block';
+        }
+    }
+
+    addCustomeConnector() {
+        this.customeConncetor = true;
+
+    }
+
+    flowCancle() {
+        this.displayModel = 'none';
+        this.customeConncetor = false;
+
+    }
+
 
 
     onRowSelectionChanged() {

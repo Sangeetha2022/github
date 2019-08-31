@@ -1,6 +1,6 @@
 /*
  * Template group chart_yaml
- * Compiled on Tue Jul 09 2019 13:07:49 GMT+0530 (India Standard Time)
+ * Compiled on Fri Aug 30 2019 12:01:01 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -30,12 +30,12 @@ r = function(w, rc) {
     w.write("description: A Helm chart for Kubernetes");
     w.write("\n");
     w.write("name: ");
-    st.write(w, s, g, rc, s.project_name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "project_name", { file: gFile, line: 5, column: 14 }));
     w.write("\n");
     w.write("version: 0.1.0");
 };
 r.args = [
-        { name: "project_name"     }
+        { name: "object"     }
 ];
 group.addTemplate("/chart_yaml", r); 
 

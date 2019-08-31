@@ -1,6 +1,6 @@
 /*
  * Template group authguard
- * Compiled on Mon Aug 05 2019 11:19:31 GMT+0530 (India Standard Time)
+ * Compiled on Thu Aug 29 2019 16:52:08 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -151,7 +151,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("this.routeName = e.url.split('/');");
+    w.write("this.routeName = e.url.replace(/\\?[a-z].*/g, '').replace(/\\/:[a-z].*/g, '').replace(/\\//g, '');");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
@@ -171,7 +171,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("this.routeName = state.url.split('/');");
+    w.write("this.routeName = state.url.replace(/\\?[a-z].*/g, '').replace(/\\/:[a-z].*/g, '').replace(/\\//g, '');");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -537,7 +537,7 @@ r = function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
-                     w.write("if(this.routeName[1] === '");
+                     w.write("if(this.routeName === '");
                      st.write(w, s, g, rc, s.value);
                      w.write("') {");
                      w.write("\n");
@@ -563,7 +563,7 @@ r = function(w, rc) {
     w.write("\n");
     w.popIndentation();
     w.pushIndentation("        ");
-    w.write("if (this.routeName[1] === 'admin') {");
+    w.write("if (this.routeName === 'admin') {");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("          ");
