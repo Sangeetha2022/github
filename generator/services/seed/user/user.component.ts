@@ -34,8 +34,8 @@ export class UserComponent implements OnInit {
 
   Users() {
     this.adminservice.Getallusers().subscribe(data => {
-      this.rowData = data.body;
-      this.Userdetails = data.body;
+      this.rowData = data.body.body;
+      this.Userdetails = data.body.body;
     }, error => {
       console.error('error:', error);
     });

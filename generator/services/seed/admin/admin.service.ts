@@ -12,6 +12,6 @@ export class AdminService {
   constructor(private http: HttpClient, private router: Router, private restapi: SharedService) { }
 
   Getallusers(): Observable<any> {
-    return this.http.get(this.restapi.adminManager + '/admin/getusers');
+    return this.http.get(this.restapi.apiGateway + '/desktop/admin/getusers');
   }
 }

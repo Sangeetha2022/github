@@ -13,14 +13,14 @@ export class UserService {
 
 
   Getuser(userid: any): Observable<any> {
-    return this.http.get(this.restapi.adminManager + `/admin/getuser/${userid}`);
+    return this.http.get(this.restapi.apiGateway + `/desktop/admin/getuser/${userid}`);
   }
 
   Getroles(): Observable<any> {
-    return this.http.get(this.restapi.adminManager + '/admin/getallroles');
+    return this.http.get(this.restapi.apiGateway + '/desktop/admin/getallroles');
   }
 
   Updateuser(userobject: any): Observable<any> {
-    return this.http.put(this.restapi.adminManager + '/admin/updateuser', userobject);
+    return this.http.put(this.restapi.apiGateway + '/desktop/admin/updateuser', userobject);
   }
 }

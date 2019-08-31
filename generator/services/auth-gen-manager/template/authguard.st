@@ -55,6 +55,10 @@ export class AuthGuard implements CanActivate {
       this.accessRoutes = JSON.parse(sessionStorage.getItem('Access'));
 
       if (this.accessRoutes) {
+         if (this.routeName.includes('profile?id=')) {
+          this.routename = this.routeName.split('?');
+          this.routeName = this.routename[0];
+        }
         this.accessRoutes.forEach(element => {
           const Developer = element['Developer'];
           const Admin = element['Admin'];
@@ -141,6 +145,28 @@ export class AuthGuard implements CanActivate {
       };separator="\n"$$endif$
       
         if (this.routeName === 'admin') {
+          if (this.viewPermission !== 'true') {
+            return false;
+          } else {
+            return true;
+          }
+        }
+
+        if (this.routeName === 'profile') {
+          if (this.viewPermission !== 'true') {
+            return false;
+          } else {
+            return true;
+          }
+        }
+        if (this.routeName === 'admin') {
+          if (this.viewPermission !== 'true') {
+            return false;
+          } else {
+            return true;
+          }
+        }
+        if (this.routeName === 'usermanagement') {
           if (this.viewPermission !== 'true') {
             return false;
           } else {

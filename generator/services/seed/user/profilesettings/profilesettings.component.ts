@@ -50,9 +50,9 @@ export class ProfilesettingsComponent implements OnInit {
 
   Userdetails() {
     this.profileservice.Getuser(this.id).subscribe(data => {
-      this.defaultRole = data.body.role;
+      this.defaultRole = data.body.body.role;
       // console.log("userdefaulttt------>>>",this.defaultRole)
-      const user = data.body;
+      const user = data.body.body;
       this.Userobject.firstname = user.firstname;
       this.Userobject.lastname = user.lastname;
       this.Userobject.email = user.email;
@@ -62,7 +62,7 @@ export class ProfilesettingsComponent implements OnInit {
       this.Userobject.password = user.password;
 
       this.profileservice.Getroles().subscribe(roledata => {
-        this.roles = roledata.body;
+        this.roles = roledata.body.body;
         this.defaultUserRole = this.Userobject.role;
         // console.log('-------roles---11111-->>>>', this.Userobject.role);
         const index = this.roles.findIndex(x => x.role === this.Userobject.role);

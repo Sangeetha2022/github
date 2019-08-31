@@ -46,7 +46,9 @@ export class FrontendWorker {
     }
     private authPackageDependency = [
         `   "rxjs-compat": "6.5.2",`,
-        `   "@auth0/angular-jwt": "2.1.2",`
+        `   "@auth0/angular-jwt": "2.1.2",`,
+        `   "ag-grid-angular": "^20.0.0",`,
+        `   "ag-grid-community": "^20.0.0",`
     ]
 
     private appModuleInfo: any = {
@@ -288,7 +290,6 @@ export class FrontendWorker {
                     this.routingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
                 } else if (folderName === 'home') {
                     this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
-
                 } else {
                     this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);
                 }
