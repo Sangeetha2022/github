@@ -24,7 +24,7 @@ spec:
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
             - name: {{ .Values.app.prefix }}-generated-code
-              mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+              mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
         - name: {{ .Values.deployment.configurationmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
           image: {{ .Values.deployment.configurationmanager.image }}
@@ -37,7 +37,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.redis.name }}-container
           image: {{ .Values.deployment.redis.image }}
@@ -48,7 +48,7 @@ spec:
           ports:
           - containerPort: 6379
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code   
         - name: {{ .Values.deployment.codegenmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -62,7 +62,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.backendgenmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -76,7 +76,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.datastoremanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -90,7 +90,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.mongogenmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -104,7 +104,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.nodegenmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -118,7 +118,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.githubmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -132,7 +132,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.infrastructuremanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -146,7 +146,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.frontendmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -160,7 +160,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.angulargenmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -174,7 +174,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.angulartemplatemanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -188,7 +188,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.authgenmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -202,7 +202,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.admingenmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -216,7 +216,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.ionicmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -230,7 +230,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.buildmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -244,7 +244,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
         - name: {{ .Values.deployment.deploymentmanager.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
@@ -258,7 +258,7 @@ spec:
             - name: VAULT_API
               value: "http://{{ .Values.app.prefix }}-telemetry.{{ .Values.app.prefix }}-201902.svc.cluster.local:8200"
           volumeMounts:
-            - mountPath: {{ .Values.persistentVolume.generatedCode.path }}
+            - mountPath: {{ .Values.persistentVolume.generatedCode.path1 }}
               name: {{ .Values.app.prefix }}-generated-code
 
       volumes:
