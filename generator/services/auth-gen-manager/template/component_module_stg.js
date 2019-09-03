@@ -1,6 +1,6 @@
 /*
  * Template group component_module
- * Compiled on Mon Jul 15 2019 19:29:45 GMT+0530 (India Standard Time)
+ * Compiled on Tue Sep 03 2019 14:47:20 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -82,10 +82,21 @@ r = function(w, rc) {
     }
     w.write("\n");
     w.write("  ");
-    if (st.test(st.prop(s, g, rc, s.modules, "exports", { file: gFile, line: 7, column: 14 }))) {
+    if (st.test(st.prop(s, g, rc, s.modules, "entryComponents", { file: gFile, line: 7, column: 14 }))) {
+    
+        w.write("entryComponents: [\n");
+        st.write(w, s, g, rc, st.prop(s, g, rc, s.modules, "entryComponents", { file: gFile, line: 7, column: 62 }));
+        w.write("\n]");
+    
+    
+    }
+    w.write(",");
+    w.write("\n");
+    w.write("  ");
+    if (st.test(st.prop(s, g, rc, s.modules, "exports", { file: gFile, line: 8, column: 14 }))) {
     
         w.write("exports: [\n");
-        st.write(w, s, g, rc, st.prop(s, g, rc, s.modules, "exports", { file: gFile, line: 7, column: 46 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, s.modules, "exports", { file: gFile, line: 8, column: 46 }));
         w.write("\n]");
     
     
@@ -94,7 +105,7 @@ r = function(w, rc) {
     w.write("})");
     w.write("\n");
     w.write("export class ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.modules, "className", { file: gFile, line: 9, column: 22 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.modules, "className", { file: gFile, line: 10, column: 22 }));
     w.write("Module { }");
 };
 r.args = [

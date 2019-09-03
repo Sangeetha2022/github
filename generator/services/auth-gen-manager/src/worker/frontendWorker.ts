@@ -56,6 +56,7 @@ export class FrontendWorker {
         imports: [],
         declarations: [],
         providers: [],
+        entryComponents: [],
         boostrap: [],
         className: null
     }
@@ -80,6 +81,7 @@ export class FrontendWorker {
             imports: [],
             declarations: [],
             providers: [],
+            entryComponents: [],
             boostrap: [],
             className: null
         }
@@ -223,6 +225,7 @@ export class FrontendWorker {
         }
         const tempImports = [];
         const tempDeclarations = [];
+        const tempEntryComponents = [];
 
         // app module dependency
         // this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
@@ -241,6 +244,7 @@ export class FrontendWorker {
             importDependency: [],
             imports: null,
             declarations: null,
+            entryComponents: null,
             className: folderName.charAt(0).toUpperCase() + folderName.slice(1)
         }
         if (folderName !== 'profilesettings') {
@@ -259,7 +263,8 @@ export class FrontendWorker {
                     tempImports.push(`AgGridModule.withComponents([])`);
                     tempDeclarations.push(`ProfilesettingsComponent`);
                     tempDeclarations.push(`ButtonRendererComponent`);
-
+                    tempEntryComponents.push(`ButtonRendererComponent`)
+                    console.log('================================== entry', tempEntryComponents)
                 }
                 tempImports.push(`CommonModule`);
                 tempImports.push(`FormsModule`);
@@ -269,6 +274,7 @@ export class FrontendWorker {
 
                 temp.imports = tempImports.join(',\n');
                 temp.declarations = tempDeclarations.join(',\n');
+                temp.entryComponents = tempEntryComponents.join(',\n');
             }
         }
         // app routing module
