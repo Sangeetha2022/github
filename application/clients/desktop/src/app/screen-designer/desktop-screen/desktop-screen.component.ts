@@ -130,6 +130,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         verb: 'click',
         type: 'queryParameter'
     };
+    public buttonVerb: String = 'click';
+    public selectedFlowObj: any = null;
     public isRoutePopup = false;
     public isGridEvent = false;
     constructor(
@@ -541,7 +543,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         //     this.gridOptions.cacheQuickFilter = false;
         //     this.gridOptions.api.sizeColumnsToFit();
         //   };</script>`);
-        this.traitService.initMethod(this.editor);
+        this.traitService.initMethod(this);
         this.getEntity();
         this.getEntityType();
         this.getAllFlows();
@@ -885,7 +887,11 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
 
     // save event flows
     saveEvent() {
-        this.saveFlowDetails(null);
+        let temp = null;
+        if (this.buttonVerb) {
+            temp = this.buttonVerb;
+        }
+        this.saveFlowDetails(temp);
         this.closeEventPopup();
     }
 
@@ -1064,6 +1070,7 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                     name: 'Field'
                 });
         // button traits
+        const buttonVerbOptions = this.verbOptions.filter(x => x.key === 'click');
         this.editor.DomComponents.getType('button').model
             .prototype.defaults.traits.push({
                 type: 'content',
@@ -1071,6 +1078,13 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
                 name: 'contentname',
                 changeProp: 1
             },
+                {
+                    type: 'select',
+                    label: 'verb',
+                    name: 'verbs',
+                    changeProp: 1,
+                    options: buttonVerbOptions,
+                },
                 {
                     'name': 'actionButton',
                     'label': 'Action',
@@ -1255,20 +1269,24 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
 
         });
 
-        // select entity
+        // select entity if triats values changed then its called
         this.editor.on(`component:update:${this.traitsName}`, function (model) {
             $this.selectedEntityModel = model.changed['entity'];
             $this.selectedHtmlElement.htmlId = model.ccid;
             $this.selectedHtmlElement.componentId = model.cid;
             $this.selectedHtmlElement.elementName = model.attributes.name;
-            $this.EntityField.forEach(entityElement => {
-                if (entityElement._id === model.changed['entity']) {
-                    $this.fields = entityElement.field.filter((el) => {
-                        return (el.name.toLowerCase() !== 'createdat' &&
-                            el.name.toLowerCase() !== 'updatedat');
-                    });
-                }
-            });
+            // $this.EntityField.forEach(entityElement => {
+            //     console.log('entity component update 1--  ', entityElement);
+            //     console.log('entity component update 2--  ', model.changed['entity']);
+            //     if (entityElement._id === model.changed['entity']) {
+            //         $this.fields = entityElement.field.filter((el) => {
+            //             return (el.name.toLowerCase() !== 'createdat' &&
+            //                 el.name.toLowerCase() !== 'updatedat');
+            //         });
+            //     }
+            //     console.log('entity component update fields 3--  ', $this.fields);
+
+            // });
         });
         this.editor.on('block:drag:stop', function (model) {
 
@@ -1354,6 +1372,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
             });
             // button
             allButtonModels.forEach(element => {
+                // set default verbs for button
+                $this.buttonVerb = 'click';
                 $this.setElementCSS(element, 'button', null);
                 element.attributes.traits.target.set('name', `button_${element.ccid}`);
             });

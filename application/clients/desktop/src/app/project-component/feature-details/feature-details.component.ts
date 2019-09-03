@@ -378,6 +378,7 @@ export class FeatureDetailsComponent implements OnInit {
         this.router.navigate(['/desktopscreen'], {
             queryParams: {
                 projectId: this.project_id, screenId: screenId,
+                featureId: this.feature_id,
                 screenType: screenType
             }
         });

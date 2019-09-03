@@ -42,14 +42,19 @@ export class ComponentSpecializedWorker {
 
         // check and add ag-grid
         if ($this.screenInfo.is_grid_present && $this.startString.includes(Constant.AGGRID_HTMLID_NAME)) {
+            // let findAgGridDependencies;
             const findAgGridDependencies = componentDependency.component.find(x => x.name == Constant.AGGRID_TAGNAME);
             if (findAgGridDependencies) {
                 console.log('befroe set grid html are ---- ', this.GRID_HTML, ' --join---  ', this.GRID_HTML.join(' '));
-                if (this.GRID_HTML.length > 0) {
+                if (this.isGridVariable()) {
                     findAgGridDependencies.htmlDependencies.splice(findAgGridDependencies.htmlDependencies.length - 1, 0, this.GRID_HTML.join(' '));
-                    console.log('findckedeid --findAgGridDependencies--  ', findAgGridDependencies.htmlDependencies);
                 }
                 $this.startString = `<${Constant.AGGRID_TAGNAME} ${findAgGridDependencies.htmlDependencies.join(' ')}>`;
+
+                // destroy the attached html variables
+                if (this.isGridVariable()) {
+                    findAgGridDependencies.htmlDependencies.splice(findAgGridDependencies.htmlDependencies.indexOf(this.GRID_HTML.join(' ')), 1);
+                }
                 $this.tagName = Constant.AGGRID_TAGNAME;
 
                 // adding ag-grid in tscomponent dependencies
@@ -101,6 +106,14 @@ export class ComponentSpecializedWorker {
             return false;
         } else {
             return true;
+        }
+    }
+
+    isGridVariable() {
+        if (this.GRID_HTML.length > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 

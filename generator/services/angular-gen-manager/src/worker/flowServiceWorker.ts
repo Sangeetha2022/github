@@ -70,7 +70,9 @@ export class FlowServiceWorker {
                 //     this.addEndPointApis(endPointElement);
                 // })
                 const temp = this.endPointList.find(x => x.flowName === this.currentFlow.name);
-                this.addEndPointApis(temp);
+                if (temp) {
+                    this.addEndPointApis(temp);
+                }
             }
         }
     }
@@ -221,7 +223,11 @@ export class FlowServiceWorker {
     // }
 
     private checkMicroFlowSteps(microFlowStepName) {
-        return (this.currentFlow.components.microFlows.findIndex(x => x.microFlowStepName.toLowerCase() == microFlowStepName) > -1);
+        if (this.currentFlow && this.currentFlow.components) {
+            return (this.currentFlow.components.microFlows.findIndex(x => x.microFlowStepName.toLowerCase() == microFlowStepName) > -1);
+        } else {
+            return false;
+        }
     }
 
     // GpOptons

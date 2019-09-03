@@ -37,20 +37,20 @@ export class TraitsService {
     this.screenArray = [];
   }
 
-  initMethod(editor) {
-    this.initializeInputMethod(editor);
-    this.initializeTextAreaMethod(editor);
-    this.initializeSelectMethod(editor);
-    this.initializeCheckboxMethod(editor);
-    this.initializeRadioMethod(editor);
-    this.initializeButtonMethod(editor);
+  initMethod(screenGlobalVariable) {
+    this.initializeInputMethod(screenGlobalVariable);
+    this.initializeTextAreaMethod(screenGlobalVariable);
+    this.initializeSelectMethod(screenGlobalVariable);
+    this.initializeCheckboxMethod(screenGlobalVariable);
+    this.initializeRadioMethod(screenGlobalVariable);
+    this.initializeButtonMethod(screenGlobalVariable);
 
   }
 
   // input values are ---
-  initializeInputMethod(editor) {
+  initializeInputMethod(screenGlobalVariable) {
     const $this = this;
-    const comps = editor.DomComponents;
+    const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
     comps.addType('input', {
@@ -91,9 +91,9 @@ export class TraitsService {
   }
 
   // Select values are ---
-  initializeSelectMethod(editor) {
+  initializeSelectMethod(screenGlobalVariable) {
     const $this = this;
-    const comps = editor.DomComponents;
+    const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
@@ -127,9 +127,9 @@ export class TraitsService {
   }
 
   // textarea are ---
-  initializeTextAreaMethod(editor) {
+  initializeTextAreaMethod(screenGlobalVariable) {
     const $this = this;
-    const comps = editor.DomComponents;
+    const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
@@ -163,9 +163,9 @@ export class TraitsService {
   }
 
   // Radio values are ---
-  initializeRadioMethod(editor) {
+  initializeRadioMethod(screenGlobalVariable) {
     const $this = this;
-    const comps = editor.DomComponents;
+    const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
@@ -200,9 +200,9 @@ export class TraitsService {
   }
 
   // checkbox values are ---
-  initializeCheckboxMethod(editor) {
+  initializeCheckboxMethod(screenGlobalVariable) {
     const $this = this;
-    const comps = editor.DomComponents;
+    const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
@@ -236,9 +236,9 @@ export class TraitsService {
   }
 
   // button traits
-  initializeButtonMethod(editor) {
+  initializeButtonMethod(screenGlobalVariable) {
     const $this = this;
-    const comps = editor.DomComponents;
+    const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
@@ -254,7 +254,16 @@ export class TraitsService {
             changeProp: 1
           }],
 
-        })
+        }),
+        init() {
+          this.listenTo(this, 'change:verbs', this.verb);
+        },
+        verb() {
+          const verbObj = screenGlobalVariable.verbOptions.find(x => x.value === this.changed['verbs']);
+          if (verbObj) {
+            screenGlobalVariable.buttonVerb = verbObj.key;
+          }
+        }
       },
         {
           isComponent: function (el) {
