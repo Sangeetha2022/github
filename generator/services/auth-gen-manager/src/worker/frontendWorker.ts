@@ -264,7 +264,6 @@ export class FrontendWorker {
                     tempDeclarations.push(`ProfilesettingsComponent`);
                     tempDeclarations.push(`ButtonRendererComponent`);
                     tempEntryComponents.push(`ButtonRendererComponent`)
-                    console.log('================================== entry', tempEntryComponents)
                 }
                 tempImports.push(`CommonModule`);
                 tempImports.push(`FormsModule`);

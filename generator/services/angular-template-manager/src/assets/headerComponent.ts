@@ -37,6 +37,7 @@ export const sideBar = {
           $('.collapse.in').toggleClass('in');
           $('a[aria-expanded=true]').attr('aria-expanded', 'false');
         });
+        this.isAdminUser = false;
         this.userId = sessionStorage.getItem('Id');
       }`
     ]
