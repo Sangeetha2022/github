@@ -56,8 +56,8 @@ export class AuthGuard implements CanActivate {
 
       if (this.accessRoutes) {
          if (this.routeName.includes('profile?id=')) {
-          this.routename = this.routeName.split('?');
-          this.routeName = this.routename[0];
+          this.routeName = this.routeName.split('?');
+          this.routeName = this.routeName[0];
         }
         this.accessRoutes.forEach(element => {
           const Developer = element['Developer'];

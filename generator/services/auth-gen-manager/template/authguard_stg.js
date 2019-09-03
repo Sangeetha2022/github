@@ -1,6 +1,6 @@
 /*
  * Template group authguard
- * Compiled on Sun Sep 01 2019 01:12:34 GMT+0530 (IST)
+ * Compiled on Tue Sep 03 2019 12:08:25 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -216,11 +216,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("          ");
-    w.write("this.routename = this.routeName.split('?');");
+    w.write("this.routeName = this.routeName.split('?');");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("          ");
-    w.write("this.routeName = this.routename[0];");
+    w.write("this.routeName = this.routeName[0];");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
