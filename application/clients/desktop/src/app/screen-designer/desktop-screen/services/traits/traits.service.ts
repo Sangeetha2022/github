@@ -37,20 +37,20 @@ export class TraitsService {
     this.screenArray = [];
   }
 
-  initMethod(editor) {
-    this.initializeInputMethod(editor);
-    this.initializeTextAreaMethod(editor);
-    this.initializeSelectMethod(editor);
-    this.initializeCheckboxMethod(editor);
-    this.initializeRadioMethod(editor);
-    this.initializeButtonMethod(editor);
+  initMethod(screenGlobalVariable) {
+    this.initializeInputMethod(screenGlobalVariable);
+    this.initializeTextAreaMethod(screenGlobalVariable);
+    this.initializeSelectMethod(screenGlobalVariable);
+    this.initializeCheckboxMethod(screenGlobalVariable);
+    this.initializeRadioMethod(screenGlobalVariable);
+    this.initializeButtonMethod(screenGlobalVariable);
 
   }
 
   // input values are ---
-  initializeInputMethod(editor) {
+  initializeInputMethod(screenGlobalVariable) {
     const $this = this;
-    const comps = editor.DomComponents;
+    const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
     comps.addType('input', {
@@ -91,9 +91,9 @@ export class TraitsService {
   }
 
   // Select values are ---
-  initializeSelectMethod(editor) {
+  initializeSelectMethod(screenGlobalVariable) {
     const $this = this;
-    const comps = editor.DomComponents;
+    const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
@@ -127,9 +127,9 @@ export class TraitsService {
   }
 
   // textarea are ---
-  initializeTextAreaMethod(editor) {
+  initializeTextAreaMethod(screenGlobalVariable) {
     const $this = this;
-    const comps = editor.DomComponents;
+    const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
@@ -163,9 +163,9 @@ export class TraitsService {
   }
 
   // Radio values are ---
-  initializeRadioMethod(editor) {
+  initializeRadioMethod(screenGlobalVariable) {
     const $this = this;
-    const comps = editor.DomComponents;
+    const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
@@ -200,9 +200,9 @@ export class TraitsService {
   }
 
   // checkbox values are ---
-  initializeCheckboxMethod(editor) {
+  initializeCheckboxMethod(screenGlobalVariable) {
     const $this = this;
-    const comps = editor.DomComponents;
+    const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
@@ -236,9 +236,9 @@ export class TraitsService {
   }
 
   // button traits
-  initializeButtonMethod(editor) {
+  initializeButtonMethod(screenGlobalVariable) {
     const $this = this;
-    const comps = editor.DomComponents;
+    const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
@@ -254,7 +254,16 @@ export class TraitsService {
             changeProp: 1
           }],
 
-        })
+        }),
+        init() {
+          this.listenTo(this, 'change:verbs', this.verb);
+        },
+        verb() {
+          const verbObj = screenGlobalVariable.verbOptions.find(x => x.value === this.changed['verbs']);
+          if (verbObj) {
+            screenGlobalVariable.buttonVerb = verbObj.key;
+          }
+        }
       },
         {
           isComponent: function (el) {
@@ -338,82 +347,104 @@ export class TraitsService {
     const defaultModel = defaultType.model;
     let selectedEntityName = '';
     let selectedEntity;
-    let selectedColumnName = 'col1_id';
-
+    let selectedColumnId = 'col1_id';
+    const gridOptionsInString = JSON.stringify(screensVariable.agGridObject);
+    console.log('screenvariable gridOptions are -----  ', screensVariable.agGridObject);
+    console.log('before set to screensVariable.columnOptions --v---  ', screensVariable.columnOptions);
+    const secGridString = JSON.stringify(screensVariable.agGridObject.custom_field);
     comps.addType(buttonName, {
       model: defaultModel.extend({
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
           draggable: '*',
           droppable: false,
+          myModelCount: 5,
+          myModelPropName: '{name: age}',
+          gridOptions: gridOptionsInString,
+          secGrid: secGridString,
           script: function () {
+            const gridOptions = JSON.parse('{[ gridOptions ]}');
             const initAgGrid = () => {
-              const columnDefs = [
-                {
-                  headerName: 'A',
-                  field: 'a',
-                  sortable: true,
-                  colId: 'col1_id'
-                },
-                {
-                  headerName: 'B',
-                  field: 'b.name',
-                  sortable: true,
-                  colId: 'col2_id'
-                },
-                {
-                  headerName: 'C',
-                  field: 'c.name',
-                  sortable: true,
-                  colId: 'col3_id'
-                },
-                {
-                  headerName: 'D',
-                  field: 'd.name',
-                  sortable: true,
-                  colId: 'col4_id'
-                },
-                {
-                  headerName: 'E',
-                  field: 'e.name',
-                  sortable: true,
-                  colId: 'col5_id'
+              let columnDefs = [];
+              let rowData = [];
+              if (gridOptions &&
+                gridOptions.custom_field &&
+                gridOptions.custom_field.length > 0) {
+                columnDefs = [];
+                for (const key of gridOptions.custom_field) {
+                  for (let i = 0; i < 30; i++) {
+                    const newObject = gridOptions.custom_field.reduce((o, objectKey) =>
+                      Object.assign(o, { [objectKey.columnname]: `${objectKey.columnname}${Math.floor(Math.random() * 10000)}` }), {});
+                    rowData.push(newObject);
+                  }
+                  const temp = {
+                    headerName: '',
+                    field: '',
+                    sortable: true,
+                    colId: ''
+                  };
+                  temp.headerName = key.columnname;
+                  temp.field = key.columnname;
+                  temp.colId = key.columnid;
+                  columnDefs.push(temp);
                 }
-              ];
+              } else {
+                columnDefs = [
+                  {
+                    headerName: 'A',
+                    field: 'a',
+                    sortable: true,
+                    colId: 'col1_id'
+                  },
+                  {
+                    headerName: 'B',
+                    field: 'b',
+                    sortable: true,
+                    colId: 'col2_id'
+                  },
+                  {
+                    headerName: 'C',
+                    field: 'c',
+                    sortable: true,
+                    colId: 'col3_id'
+                  },
+                  {
+                    headerName: 'D',
+                    field: 'd',
+                    sortable: true,
+                    colId: 'col4_id'
+                  },
+                  {
+                    headerName: 'E',
+                    field: 'e',
+                    sortable: true,
+                    colId: 'col5_id'
+                  }
+                ];
+                rowData = createRowData();
+              }
 
               function createRowData() {
-                const rowData = [];
+                const tempData = [];
                 for (let i = 0; i < 100; i++) {
                   // create sample row item
                   const rowItem = {
                     // is is simple
                     a: 'aa' + Math.floor(Math.random() * 10000),
-                    // but b, c, d and e are all complex objects
-                    b: {
-                      name: 'bb' + Math.floor(Math.random() * 10000)
-                    },
-                    c: {
-                      name: 'cc' + Math.floor(Math.random() * 10000)
-                    },
-                    d: {
-                      name: 'dd' + Math.floor(Math.random() * 10000)
-                    },
-                    e: {
-                      name: 'ee' + Math.floor(Math.random() * 10000)
-                    },
-                    f: {
-                      name: 'ee' + Math.floor(Math.random() * 10000)
-                    }
+                    b: 'bb' + Math.floor(Math.random() * 10000),
+                    c: 'cc' + Math.floor(Math.random() * 10000),
+                    d: 'dd' + Math.floor(Math.random() * 10000),
+                    e: 'ee' + Math.floor(Math.random() * 10000)
                   };
-                  rowData.push(rowItem);
+                  tempData.push(rowItem);
                 }
-                return rowData;
+                return tempData;
               }
               this.gridOptions = {
                 defaultColDef: {
                   editable: true
                 },
                 columnDefs: columnDefs,
-                rowData: createRowData(),
+                rowData: rowData,
                 components: {
                   boldRenderer: function (params) {
                     return '<b>' + params.value.name + '</b>';
@@ -493,10 +524,10 @@ export class TraitsService {
         columnName() {
 
           console.log('sessionStorage details are --this---- ', this);
-          console.log('sessionStorage details are --this-222--- ', this.view.el.gridOptions, selectedColumnName);
+          console.log('sessionStorage details are --this-222--- ', this.view.el.gridOptions, selectedColumnId);
           const enteredColName = this.changed['colname'];
-          const colTraits = this.get('traits').where({ name: 'colname' })[0];
-          const selectedColumns = this.view.el.gridOptions.api.getColumnDef(selectedColumnName);
+          const colTraits = this.get('traits').where({ name: 'columns' })[0];
+          const selectedColumns = this.view.el.gridOptions.api.getColumnDef(selectedColumnId);
           console.log('sessionStorage get all columnDef --333--- ', selectedColumns);
           selectedColumns.headerName = enteredColName;
           this.view.el.gridOptions.api.refreshHeader();
@@ -508,12 +539,22 @@ export class TraitsService {
             screensVariable.agGridArray[indexFound].columnname = enteredColName;
           }
           screensVariable.columnOptions.forEach(columnElement => {
-            if (columnElement.value === selectedColumnName) {
+            if (columnElement.value === selectedColumnId) {
               columnElement.name = enteredColName;
+              console.log('entered into screen valr ---- ', columnElement);
+              const customField = screensVariable.agGridObject.custom_field.find(x => x.columnid === selectedColumnId);
+              if (customField) {
+                customField.columnname = enteredColName;
+              }
+              console.log('after set tge grid ojbect c ---  ', screensVariable.agGridObject.custom_field);
+              screensVariable.saveRemoteStorage();
             }
           });
+          console.log('after set the column Options values are ----   ', screensVariable.columnOptions);
           colTraits.set('options', screensVariable.columnOptions);
+          // this.changed['colname'] = '';
           screensVariable.editor.TraitManager.getTraitsViewer().render();
+          // this.changed['colname'] = '';
         },
         entities() {
           // let isExist = false;
@@ -556,7 +597,7 @@ export class TraitsService {
 
         },
         gridColumns() {
-          selectedColumnName = this.changed['columns'];
+          selectedColumnId = this.changed['columns'];
         }
       },
         {

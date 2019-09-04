@@ -30,11 +30,17 @@ export class CustomTraitsService {
         $this.editor.TraitManager.addType('actionButton', {
             events: {
                 'click': function () {
-                    // console.log('print button clicked');
+                    const element = $this.screenFlows.filter(x => x.elementName === this.target.attributes.name);
                     const eventPopupModel = document.getElementById('EventPopup');
-                    // console.log('print eventPopupModel values are ------ ', eventPopupModel);
+                    if (element && element.length > 0) {
+                        $this.selectedFlowObj = $this.listOfFLows.filter(x => x._id === element[0].flow);
+                    } else {
+                        $this.selectedFlowObj = null;
+                    }
                     $this.isGridEvent = false;
                     eventPopupModel.style.display = 'block';
+                    $this.gridApi.deselectAll();
+                    $this.ref.detectChanges();
                 },
             },
             getInputEl() {
@@ -89,11 +95,23 @@ export class CustomTraitsService {
             events: {
                 'click': function () {
                     console.log('traits button before if --- ', this.target.changed['entity']);
-                    if (this.target.changed['entity'] !== undefined
-                        && this.target.changed['entity'] !== 'none') {
+                    const traitEntity = this.target.changed['entity'];
+                    if (traitEntity !== undefined
+                        && traitEntity !== 'none') {
                         $this.isFieldPopupModal = true;
+                        $this.EntityField.forEach(entityElement => {
+                            console.log('entity component update 1--  ', entityElement);
+                            console.log('entity component update 2--  ', traitEntity);
+                            if (entityElement._id === traitEntity) {
+                                $this.fields = entityElement.field.filter((el) => {
+                                    return (el.name.toLowerCase() !== 'createdat' &&
+                                        el.name.toLowerCase() !== 'updatedat');
+                                });
+                            }
+                            console.log('entity component update fields 3--  ', $this.fields);
+
+                        });
                         $this.ref.detectChanges();
-                        console.log('traits button after if --- ', $this.isFieldPopupModal);
                     }
                 },
             },
@@ -114,25 +132,36 @@ export class CustomTraitsService {
         });
     }
 
-    addGridRowButton(editor, columnOptions) {
+    addGridRowButton($this) {
         // add button
-        editor.TraitManager.addType('addButton', {
+        $this.editor.TraitManager.addType('addButton', {
             events: {
                 'click': function () {
+                    const agGridObject = {
+                        columnid: '',
+                        columnname: '',
+                        entity: '',
+                        entityfield: ''
+                    };
                     const count = this.target.view.el.gridOptions.columnDefs.length + 1;
                     const columnDefs = this.target.view.el.gridOptions.columnDefs;
+                    agGridObject.columnid = `col${count}_id`;
+                    agGridObject.columnname = `column_${count}`;
                     columnDefs.push({
-                        headerName: `column_${count}`,
-                        field: 'a',
+                        headerName: agGridObject.columnname,
+                        field: $this.columnOptions[0].name,
                         sortable: true,
-                        colId: `col${count}_id`
+                        colId: agGridObject.columnid
                     });
+                    $this.agGridObject.default_field.push(agGridObject);
+                    $this.agGridObject.custom_field.push(agGridObject);
                     this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                     this.target.view.el.gridOptions.api.sizeColumnsToFit();
-                    columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
+                    $this.columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
                     const colTraits = this.target.get('traits').where({ name: 'columns' })[0];
-                    colTraits.set('options', columnOptions);
-                    editor.TraitManager.getTraitsViewer().render();
+                    $this.saveRemoteStorage();
+                    colTraits.set('options', $this.columnOptions);
+                    $this.editor.TraitManager.getTraitsViewer().render();
                     // console.log('sessionStorage count are ', count, ' --- ', { value: `col${count}_id`, name: `column_${count}` });
                     // const modal = <HTMLElement>document.querySelector('#agGridModal');
                     // console.log('ag Grid modal are ----- ', modal);
@@ -159,21 +188,23 @@ export class CustomTraitsService {
         });
     }
 
-    removeGridRowButton(editor, columnOptions) {
+    removeGridRowButton($this) {
         // remove button
-        editor.TraitManager.addType('removeButton', {
+        $this.editor.TraitManager.addType('removeButton', {
             events: {
                 'click': function () {
                     const columnDefs = this.target.view.el.gridOptions.columnDefs;
                     columnDefs.pop();
+                    console.log('removing grid options and value')
                     this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                     this.target.view.el.gridOptions.api.sizeColumnsToFit();
-                    columnOptions.pop();
+                    $this.columnOptions.pop();
+                    $this.agGridObject.default_field.pop();
+                    $this.agGridObject.custom_field.pop();
+                    $this.saveRemoteStorage();
                     const colTraits = this.target.get('traits').where({ name: 'columns' })[0];
-                    console.log('llist of columnOptions ra e-11--- ', columnOptions);
-                    console.log('llist of colTraits ra e--22-- ', colTraits);
-                    colTraits.set('options', columnOptions);
-                    editor.TraitManager.getTraitsViewer().render();
+                    colTraits.set('options', $this.columnOptions);
+                    $this.editor.TraitManager.getTraitsViewer().render();
                 },
             },
             getInputEl() {
@@ -206,16 +237,6 @@ export class CustomTraitsService {
                     //     $this.dataService.setAgGridEntity(constructObj);
                     // }
                     // trigger when btn is clicked
-                    console.log('on entity triats changed ----  ', this.target.changed['entity']);
-                    console.log('on entity columnDefs changed ----  ', this.target.view.el.gridOptions.columnDefs);
-                    console.log('EntityField of data are -$this----  ', $this);
-                    console.log('EntityField of data are -$this.columnOptions----  ', $this.columnOptions);
-                    // console.log('columns target changed are ', this.target.get('columns'));
-                    console.log('this.traits where are 11 ', this);
-                    // console.log('this.traits where are 22 ', this.target.find('traits'));
-                    console.log('agGridArray are 33 ', $this.agGridArray);
-                    console.log('this.traits where are 44 ', this.target.changed['entity']);
-                    console.log('this.traits where are 55 ', this.target.attributes.entity);
                     let entityId = null;
                     if (this.target.changed['entity']) {
                         entityId = this.target.changed['entity'];
@@ -229,7 +250,6 @@ export class CustomTraitsService {
                         $this.defaultColumn = this.target.view.el.gridOptions.columnDefs;
                         $this.isGridPopup = true;
                         $this.ref.detectChanges();
-                        console.log('traits button after if --- ', $this.isGridPopup);
                     }
                     // $this.isGridPopup = true;
                     // $this.ref.detectChanges();

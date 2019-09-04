@@ -328,7 +328,7 @@ export class EntityManagerComponent implements OnInit {
                         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
                             if (menuBuilderData.length !== 0) {
                                 menuBuilderData.forEach(menuData => {
-                                    console.log(menuData.menu_option)
+                                    console.log(menuData.menu_option);
                                     if (menuData.menu_option === true) {
                                         this.menuBuilder.feature = menuData.feature;
                                         this.menuBuilder.project = this.project_id;
@@ -461,7 +461,8 @@ export class EntityManagerComponent implements OnInit {
     //                 this.features.project_id = this.project_id;
     //                 this.projectComponentService.addFeature(this.features).subscribe(featureData => {
     //                     if (featureData) {
-    //                         this.menuBuilder = { feature: [], project: '', language: this.menuLanguages[0], menuDetails: [], project_languages: this.menuLanguages, menu_option: true };
+    //                         this.menuBuilder = { feature: [], project: '', language: this.menuLanguages[0],
+    //  menuDetails: [], project_languages: this.menuLanguages, menu_option: true };
     //                         this.menuBuilder.project = this.project_id;
     //                         this.menuBuilder.feature.push(this.createFeatureData._id);
     //                         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
@@ -602,9 +603,9 @@ export class EntityManagerComponent implements OnInit {
     closeDeleteModel() {
         this.deletePopup = 'none';
     }
-    editEntityField(entity: IEntity) {
+    editEntityField(entity: any) {
         this.dataService.setEntity(entity);
-        this.router.navigate(['/entity-field']);
+        this.router.navigate(['/entity-field'], { queryParams: { entityId: entity._id }, });
     }
 
     editEntity(entity) {

@@ -91,6 +91,38 @@
             ]
         },
         {
+            "featureName": "Admin",
+            "entityModelName": "Admin",
+            "entityFileName": "Admin",
+            "nodePortNumber": "3010",
+            "flowAction": [
+                {
+                    "routeUrl": "/admin/getusers",
+                    "apiAction": "get",
+                    "methodName": "getAllUser",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/admin/getuser/:id",
+                    "apiAction": "get",
+                    "methodName": "getUserById",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/admin/getallroles",
+                    "apiAction": "get",
+                    "methodName": "getAllRoles",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/admin/updateuser",
+                    "apiAction": "put",
+                    "methodName": "updateUser",
+                    "variableName": "User"
+                }
+            ]
+        },
+        {
             "featureName": "Camunda",
             "entityModelName": "Camunda",
             "entityFileName": "Camunda",

@@ -119,9 +119,9 @@ export class EntityDao {
             })
     }
 
-    public getentityfeatures(callback) {
+    public getentityfeatures(projectId, callback) {
 
-        entityModel.find({ feature_id: '' }).then((result) => {
+        entityModel.find({ feature_id: '', project_id: projectId }).then((result) => {
             callback(result);
         }).catch((error) => {
             callback(error);

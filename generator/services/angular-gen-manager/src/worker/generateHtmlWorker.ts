@@ -413,6 +413,7 @@ export class GenerateHtmlWorker {
                         let flowTemp = {
                             _id: '',
                             name: '',
+                            verb: '',
                             label: '',
                             description: '',
                             type: '',
@@ -421,10 +422,11 @@ export class GenerateHtmlWorker {
                             components: []
                         };
                         if (flowObject) {
-                            this.startString += ` (click)="${flowObject.name}()"`;
+                            this.startString += ` (${this.flowDetails[flowIndex].verb})="${flowObject.name}()"`;
                             flowTemp = {
                                 _id: flowObject._id,
                                 name: flowObject.name,
+                                verb: this.flowDetails[flowIndex].verb,
                                 label: flowObject.label,
                                 description: flowObject.description,
                                 type: flowObject.type,

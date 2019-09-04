@@ -1,6 +1,6 @@
 /*
  * Template group shared_service
- * Compiled on Wed Jul 24 2019 13:13:43 GMT+0530 (India Standard Time)
+ * Compiled on Tue Sep 03 2019 12:20:30 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);

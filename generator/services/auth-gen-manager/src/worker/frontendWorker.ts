@@ -13,6 +13,9 @@ export class FrontendWorker {
     private LOGIN_FOLDERNAME = 'login';
     private SIGNUP_FOLDERNAME = 'signup';
     private HOME_FOLDERNAME = 'home';
+    private USER_FOLDERNAME = 'user';
+    private PROFILE_SETTINGS_FOLDERNAME = 'profilesettings';
+    private BUTTON_RENDERER_FOLDERNAME = 'button-renderer';
     private AUTH_FOLDERNAME = 'auth';
     private HEADER_FOLDERNAME = 'header';
     private BROADCAST_FOLDERNAME = 'broadcast';
@@ -43,7 +46,9 @@ export class FrontendWorker {
     }
     private authPackageDependency = [
         `   "rxjs-compat": "6.5.2",`,
-        `   "@auth0/angular-jwt": "2.1.2",`
+        `   "@auth0/angular-jwt": "2.1.2",`,
+        `   "ag-grid-angular": "^20.0.0",`,
+        `   "ag-grid-community": "^20.0.0",`
     ]
 
     private appModuleInfo: any = {
@@ -51,6 +56,7 @@ export class FrontendWorker {
         imports: [],
         declarations: [],
         providers: [],
+        entryComponents: [],
         boostrap: [],
         className: null
     }
@@ -75,6 +81,7 @@ export class FrontendWorker {
             imports: [],
             declarations: [],
             providers: [],
+            entryComponents: [],
             boostrap: [],
             className: null
         }
@@ -118,6 +125,24 @@ export class FrontendWorker {
             this.MODULE_TEMPLATENAME, homeApplicationPath);
         callback();
     }
+
+  // create user component from seed files
+    createUserComponent(callback) {
+        const userApplicationPath = `${this.projectGenerationPath}/src/app/${this.USER_FOLDERNAME}`;
+        const profileApplicationPath = `${userApplicationPath}/${this.PROFILE_SETTINGS_FOLDERNAME}`;
+        const buttonRendererApplicationPath = `${userApplicationPath}/${this.BUTTON_RENDERER_FOLDERNAME}`;
+        this.generateStaticComponent(userApplicationPath, this.USER_FOLDERNAME);
+        this.generateStaticComponent(profileApplicationPath, this.PROFILE_SETTINGS_FOLDERNAME);
+        this.generateStaticComponent(buttonRendererApplicationPath, this.BUTTON_RENDERER_FOLDERNAME);
+        this.generateModule(this.USER_FOLDERNAME,
+            this.MODULE_TEMPLATENAME, userApplicationPath);
+        this.generateModule(this.PROFILE_SETTINGS_FOLDERNAME,
+            this.MODULE_TEMPLATENAME, profileApplicationPath);
+        this.generateModule(this.BUTTON_RENDERER_FOLDERNAME,
+            this.MODULE_TEMPLATENAME, buttonRendererApplicationPath);
+        callback();
+    }
+
 
     // create auth component from seed files
     createAuthComponent(menus, callback) {
@@ -165,9 +190,14 @@ export class FrontendWorker {
     }
 
     async generateStaticComponent(applicationPath, folderName) {
-        const loginSeedPath = `${this.seedPath}/${folderName}`;
+        let loginSeedPath;
+        if (folderName === 'profilesettings' || folderName === 'button-renderer') {
+            loginSeedPath = `${this.seedPath}/user/${folderName}`;
+        } else {
+            loginSeedPath = `${this.seedPath}/${folderName}`;
+        }
         Common.createFolders(applicationPath);
-        await fs.readdirSync(`${this.seedPath}/${folderName}`).forEach(fileElement => {
+        await fs.readdirSync(loginSeedPath).forEach(fileElement => {
             this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement);
         })
 
@@ -188,28 +218,27 @@ export class FrontendWorker {
     }
 
     async generateModule(folderName, templateName, applicationPath) {
-        const fileName = `${folderName}.${this.MODULE_NAME}.ts`;
+        let fileName;
+        if (folderName !== 'button-renderer') {
+            if (folderName !== 'profilesettings') {
+                fileName = `${folderName}.${this.MODULE_NAME}.ts`;
+            }
+        }
         const tempImports = [];
         const tempDeclarations = [];
+        const tempEntryComponents = [];
 
         // app module dependency
         // this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
         // this.appModuleInfo.imports.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)}`);
-        if (this.appModuleInfo.importDependency.findIndex(x => x == `import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`) < 0) {
-            this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
-            this.appModuleInfo.imports.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)}`);
-        }
-        // app routing module
-        if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`) < 0) {
-            // if (folderName == this.LOGIN_FOLDERNAME) {
-            //     this.routingModuleInfo.path.push(`{ path: '', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, pathMatch: 'full' }`);
-            // }
-            this.routingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`);
-            if (folderName === 'home') {
-                this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
-            }
-            else {
-                this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);
+        if (folderName !== 'profilesettings') {
+            if (folderName !== 'button-renderer') {
+                if (this.appModuleInfo.importDependency.findIndex(x => x == `import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`) < 0) {
+                    this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
+                    this.appModuleInfo.imports.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)}`);
+                    console.log('-----------------inside if appmodule with folder-----------------', this.appModuleInfo, folderName)
+                }
+
             }
         }
 
@@ -217,25 +246,67 @@ export class FrontendWorker {
             importDependency: [],
             imports: null,
             declarations: null,
+            entryComponents: null,
             className: folderName.charAt(0).toUpperCase() + folderName.slice(1)
         }
-        temp.importDependency.push({ dependencyname: 'NgModule', dependencyPath: '@angular/core' });
-        temp.importDependency.push({ dependencyname: 'CommonModule', dependencyPath: '@angular/common' });
-        temp.importDependency.push({ dependencyname: 'FormsModule', dependencyPath: '@angular/forms' });
-        temp.importDependency.push({ dependencyname: 'RouterModule', dependencyPath: '@angular/router' });
-        temp.importDependency.push({ dependencyname: `${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component`, dependencyPath: `./${folderName}.component` });
+        if (folderName !== 'profilesettings') {
+            if (folderName !== 'button-renderer') {
+                temp.importDependency.push({ dependencyname: 'NgModule', dependencyPath: '@angular/core' });
+                temp.importDependency.push({ dependencyname: 'CommonModule', dependencyPath: '@angular/common' });
+                temp.importDependency.push({ dependencyname: 'FormsModule', dependencyPath: '@angular/forms' });
+                temp.importDependency.push({ dependencyname: 'RouterModule', dependencyPath: '@angular/router' });
+                temp.importDependency.push({ dependencyname: `${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component`, dependencyPath: `./${folderName}.component` });
 
+                if (folderName === 'user') {
+                    temp.importDependency.push({ dependencyname: 'AgGridModule', dependencyPath: 'ag-grid-angular' });
+                    temp.importDependency.push({ dependencyname: `ProfilesettingsComponent`, dependencyPath: `./profilesettings/profilesettings.component` });
+                    temp.importDependency.push({ dependencyname: `ButtonRendererComponent`, dependencyPath: `./button-renderer/button-renderer.component` });
 
-        tempImports.push(`CommonModule`);
-        tempImports.push(`FormsModule`);
-        tempImports.push(`RouterModule`);
+                    tempImports.push(`AgGridModule.withComponents([])`);
+                    tempDeclarations.push(`ProfilesettingsComponent`);
+                    tempDeclarations.push(`ButtonRendererComponent`);
+                    tempEntryComponents.push(`ButtonRendererComponent`)
+                }
+                tempImports.push(`CommonModule`);
+                tempImports.push(`FormsModule`);
+                tempImports.push(`RouterModule`);
 
-        tempDeclarations.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component`);
+                tempDeclarations.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component`);
 
-        temp.imports = tempImports.join(',\n');
-        temp.declarations = tempDeclarations.join(',\n');
-
-        this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp);
+                temp.imports = tempImports.join(',\n');
+                temp.declarations = tempDeclarations.join(',\n');
+                temp.entryComponents = tempEntryComponents.join(',\n');
+            }
+        }
+        // app routing module
+        if (folderName !== 'button-renderer') {
+            if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`) < 0) {
+                // if (folderName == this.LOGIN_FOLDERNAME) {
+                //     this.routingModuleInfo.path.push(`{ path: '', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, pathMatch: 'full' }`);
+                // }
+                if (folderName === 'profilesettings') {
+                    this.routingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './user/${folderName}/${folderName}.component';`);
+                } else {
+                    this.routingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`);
+                }
+                if (folderName === 'profilesettings') {
+                    let pathName = folderName.split('settings')[0]
+                    this.routingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                } else if (folderName === 'user') {
+                    let pathName = `${folderName}management`
+                    this.routingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                } else if (folderName === 'home') {
+                    this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                } else {
+                    this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);
+                }
+            }
+        }
+        if (folderName !== 'button-renderer') {
+            if (folderName !== 'profilesettings') {
+                this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp);
+            }
+        }
     }
 
     modifyFiles() {
@@ -366,7 +437,6 @@ export class FrontendWorker {
                 if (this.appModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
                     this.appModuleInfo.importDependency.unshift(appElement);
                 }
-
             }
             if (appElement.includes('declarations')) {
                 this.isAppModule.declaration = true;
@@ -428,7 +498,7 @@ export class FrontendWorker {
 
     modifyAppRoutingModuleFile(appRoutingModulePath) {
         appRoutingModulePath += `/${this.APP_ROUTING_MODULE_FILENAME}`;
-        fs.readFileSync(appRoutingModulePath).toString().split("\n").forEach((appElement, index) => {
+        fs.readFileSync(appRoutingModulePath).toString().split("\n").forEach((appElement) => {
             console.log('app routing each one are -------  ', appElement);
             if (appElement.includes('import') && appElement.includes('from')) {
                 if (this.routingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
@@ -448,7 +518,7 @@ export class FrontendWorker {
 
             }
             if (this.isRoutingModule.path) {
-                console.log('is appElement.includes( path matched  ', appElement.includes(`path: ''`));
+                console.log('is appElement.includes( path matched  ', appElement);
                 if (!appElement.includes('[') && !appElement.includes(']')) {
                     if (this.routingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
                         if (appElement.includes(`redirectTo: ''`)) {

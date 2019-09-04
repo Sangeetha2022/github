@@ -474,6 +474,9 @@ export class CommonWorker {
                     })
                 }
             })
+            //add oninit script
+            this.templateHeaderObj.component.componentOnInit = [`this.userId = sessionStorage.getItem('Id');`];
+
             this.startTag.push(topNav.join('\n'));
             this.startTag.push(mainNav.join('\n'));
             this.startTag.push(BottomNav.join('\n'));

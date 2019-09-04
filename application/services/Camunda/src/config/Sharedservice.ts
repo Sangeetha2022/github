@@ -4,6 +4,6 @@ export class SharedService {
       // public static camundaBaseUrl = "http://localhost";
   
     //kubernetes   
-      public static camundaURL: String = "http://3.92.46.131:30060";
+      public static camundaURL: String = "http://3.216.79.208:30060";
   
   }

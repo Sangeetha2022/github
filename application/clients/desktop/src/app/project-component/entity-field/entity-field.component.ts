@@ -38,7 +38,7 @@ export class EntityFieldComponent implements OnInit {
     updated_at: new Date(),
     field: []
   };
-
+  public currentEntityId: String;
   public editedProp: string;
   public isValid: Boolean = true;
   // public entity: any;
@@ -54,6 +54,7 @@ export class EntityFieldComponent implements OnInit {
 
   constructor(
     private entityManagerService: ProjectComponentService,
+    private projectComponentService: ProjectComponentService,
     private router: Router,
     private location: Location,
     public dialog: MatDialog,
@@ -68,6 +69,15 @@ export class EntityFieldComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(params => {
+      console.log('activated routes in screen designer are ----- ', params);
+      if (params.entityId !== undefined && params.entityId !== null) {
+        this.currentEntityId = params.entityId;
+      }
+      if (params.featureId !== undefined && params.featureId !== null) {
+        this.featureId = params.featureId;
+      }
+    });
     this.regexExpression.generateReservedWord();
     this.getEntityType();
   }
@@ -147,23 +157,52 @@ export class EntityFieldComponent implements OnInit {
   }
 
   getEntity() {
-    this.dataService.currentSelectedEntityInfo.subscribe(
-      (data) => {
-        this.entity = data;
-        if (this.entity.field.length > 0) {
-          this.rowData = this.entity.field;
+    // this.dataService.currentSelectedEntityInfo.subscribe(
+    //   (data) => {
+    //     if (data) {
+    //       console.log('cureent selected entitye inf orae ----  ', data);
+    //       this.currentEntityId = data._id;
+    //       this.entity = data;
+    //       if (this.entity.field.length > 0) {
+    //         this.rowData = this.entity.field;
+    //       }
+    //     }
+    //   },
+    //   (error) => { });
+    this.projectComponentService.getByIdEntity(this.currentEntityId).subscribe(
+      data => {
+        if (data) {
+          this.entity = data;
+          if (this.entity.field.length > 0) {
+            this.rowData = this.entity.field;
+          }
         }
       },
-      (error) => { });
+      error => { }
+    );
     this.getAllEntity();
   }
 
   getAllEntity() {
 
-    this.dataService.currentAllEntityInfo.subscribe(
-      (data) => {
-        this.allEntity = data;
-      }
+    // this.dataService.currentAllEntityInfo.subscribe(
+    //   (data) => {
+    //     this.allEntity = data;
+    //   }
+    // );
+    if (this.featureId) {
+      this.getEntityByFeatureId();
+    }
+  }
+
+  getEntityByFeatureId() {
+    this.projectComponentService.getEntityByFeatureId(this.featureId).subscribe(
+      data => {
+        if (data && data.length > 0) {
+          this.allEntity = data.filter(x => x._id !== this.currentEntityId);
+        }
+      },
+      error => { }
     );
   }
 
@@ -237,8 +276,8 @@ export class EntityFieldComponent implements OnInit {
   onCellValueChanged(event) {
     const rowIndex = event.rowIndex;
     const currentEntity = [];
-    this.gridApi.forEachNode(function (node, index) {
-      if (index !== rowIndex) {
+    this.gridApi.forEachNode(function (node, nodIndex) {
+      if (nodIndex !== rowIndex) {
         currentEntity.push(node.data.name);
       }
     });

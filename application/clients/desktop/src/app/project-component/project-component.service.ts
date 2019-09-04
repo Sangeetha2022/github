@@ -103,8 +103,8 @@ export class ProjectComponentService {
     return this.http.delete(this.restapi.featureUrl + `/feature/deleteentity/${featureid}/${entityid}`);
   }
 
-  Getentities(): Observable<any> {
-    return this.http.get(this.restapi.entityUrl + '/feature/getentities');
+  Getentities(projectId): Observable<any> {
+    return this.http.get(this.restapi.entityUrl + `/feature/getentities?projectId=${projectId}`);
   }
 
 
