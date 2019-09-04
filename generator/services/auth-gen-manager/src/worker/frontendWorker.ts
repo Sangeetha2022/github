@@ -126,7 +126,7 @@ export class FrontendWorker {
         callback();
     }
 
-    // create user component from seed files
+  // create user component from seed files
     createUserComponent(callback) {
         const userApplicationPath = `${this.projectGenerationPath}/src/app/${this.USER_FOLDERNAME}`;
         const profileApplicationPath = `${userApplicationPath}/${this.PROFILE_SETTINGS_FOLDERNAME}`;
@@ -142,6 +142,7 @@ export class FrontendWorker {
             this.MODULE_TEMPLATENAME, buttonRendererApplicationPath);
         callback();
     }
+
 
     // create auth component from seed files
     createAuthComponent(menus, callback) {
@@ -237,6 +238,7 @@ export class FrontendWorker {
                     this.appModuleInfo.imports.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)}`);
                     console.log('-----------------inside if appmodule with folder-----------------', this.appModuleInfo, folderName)
                 }
+
             }
         }
 
