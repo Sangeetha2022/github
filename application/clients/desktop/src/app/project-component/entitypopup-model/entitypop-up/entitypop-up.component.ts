@@ -19,7 +19,8 @@ export class EntityModelComponent implements OnInit {
         description: '',
         entityType: '',
         selectentity: '',
-        entity_id: ''
+        entity_id: '',
+        field: []
     };
     public projectId: any;
     public selectedentity: any = [];
@@ -153,6 +154,7 @@ export class EntityModelComponent implements OnInit {
         this.modelObject.description = this.selectedentity[0].description;
         this.modelObject.selectentity = 'Existing';
         this.modelObject.entity_id = this.selectedentity[0]._id;
+        this.modelObject.field = this.selectedentity[0].field;
         // console.log('-------------entitytype----', this.modelObject.entityType);
         // this.selectedentity[0].entity_type = this.entitytype;
         // this.entityselected = {
