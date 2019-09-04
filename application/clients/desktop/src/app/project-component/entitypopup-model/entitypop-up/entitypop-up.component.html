@@ -51,6 +51,7 @@
 <br />
 
 <div class="center_align">
-    <button class="right_align" mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
-    <button mat-raised-button color="primary" [mat-dialog-close]="modelObject">Add</button>
+    <button *ngIf='hide' class="right_align" mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
+    <button *ngIf='!hide' class="right_align" mat-raised-button color="warn" (click)="showOptions()">Back</button>
+    <button mat-raised-button color="primary" [disabled]="hide || (existing && rowData.length == 0)" [mat-dialog-close]="modelObject">Add</button>
 </div>

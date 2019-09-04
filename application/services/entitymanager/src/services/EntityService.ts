@@ -79,7 +79,8 @@ export class EntityService {
     }
 
     public getentityfeatures(req: Request, callback: CallableFunction) {
-        entityDao.getentityfeatures((response) => {
+        const projectId = req.query.projectId;
+        entityDao.getentityfeatures(projectId, (response) => {
             callback(response);
         })
     }

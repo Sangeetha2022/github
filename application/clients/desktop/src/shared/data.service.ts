@@ -68,7 +68,7 @@ export class DataService {
     currentAllEntityInfo = this.allEntitySource.asObservable();
 
     // selected entity details
-    private entityInfoSource = new BehaviorSubject<IEntity>(this.entity);
+    private entityInfoSource = new BehaviorSubject<any>(this.entity);
     currentSelectedEntityInfo = this.entityInfoSource.asObservable();
 
     // screen agGrid Field binding info

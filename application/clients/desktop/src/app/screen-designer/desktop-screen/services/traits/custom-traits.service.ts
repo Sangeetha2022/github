@@ -132,25 +132,36 @@ export class CustomTraitsService {
         });
     }
 
-    addGridRowButton(editor, columnOptions) {
+    addGridRowButton($this) {
         // add button
-        editor.TraitManager.addType('addButton', {
+        $this.editor.TraitManager.addType('addButton', {
             events: {
                 'click': function () {
+                    const agGridObject = {
+                        columnid: '',
+                        columnname: '',
+                        entity: '',
+                        entityfield: ''
+                    };
                     const count = this.target.view.el.gridOptions.columnDefs.length + 1;
                     const columnDefs = this.target.view.el.gridOptions.columnDefs;
+                    agGridObject.columnid = `col${count}_id`;
+                    agGridObject.columnname = `column_${count}`;
                     columnDefs.push({
-                        headerName: `column_${count}`,
-                        field: 'a',
+                        headerName: agGridObject.columnname,
+                        field: $this.columnOptions[0].name,
                         sortable: true,
-                        colId: `col${count}_id`
+                        colId: agGridObject.columnid
                     });
+                    $this.agGridObject.default_field.push(agGridObject);
+                    $this.agGridObject.custom_field.push(agGridObject);
                     this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                     this.target.view.el.gridOptions.api.sizeColumnsToFit();
-                    columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
+                    $this.columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
                     const colTraits = this.target.get('traits').where({ name: 'columns' })[0];
-                    colTraits.set('options', columnOptions);
-                    editor.TraitManager.getTraitsViewer().render();
+                    $this.saveRemoteStorage();
+                    colTraits.set('options', $this.columnOptions);
+                    $this.editor.TraitManager.getTraitsViewer().render();
                     // console.log('sessionStorage count are ', count, ' --- ', { value: `col${count}_id`, name: `column_${count}` });
                     // const modal = <HTMLElement>document.querySelector('#agGridModal');
                     // console.log('ag Grid modal are ----- ', modal);
@@ -177,21 +188,23 @@ export class CustomTraitsService {
         });
     }
 
-    removeGridRowButton(editor, columnOptions) {
+    removeGridRowButton($this) {
         // remove button
-        editor.TraitManager.addType('removeButton', {
+        $this.editor.TraitManager.addType('removeButton', {
             events: {
                 'click': function () {
                     const columnDefs = this.target.view.el.gridOptions.columnDefs;
                     columnDefs.pop();
+                    console.log('removing grid options and value')
                     this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                     this.target.view.el.gridOptions.api.sizeColumnsToFit();
-                    columnOptions.pop();
+                    $this.columnOptions.pop();
+                    $this.agGridObject.default_field.pop();
+                    $this.agGridObject.custom_field.pop();
+                    $this.saveRemoteStorage();
                     const colTraits = this.target.get('traits').where({ name: 'columns' })[0];
-                    console.log('llist of columnOptions ra e-11--- ', columnOptions);
-                    console.log('llist of colTraits ra e--22-- ', colTraits);
-                    colTraits.set('options', columnOptions);
-                    editor.TraitManager.getTraitsViewer().render();
+                    colTraits.set('options', $this.columnOptions);
+                    $this.editor.TraitManager.getTraitsViewer().render();
                 },
             },
             getInputEl() {

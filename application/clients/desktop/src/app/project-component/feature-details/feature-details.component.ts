@@ -79,7 +79,7 @@ export class FeatureDetailsComponent implements OnInit {
     flow_comp: any = [];
     showFeatureFlow: boolean;
     featureFlow: any = [];
-        public screenData: Iscreen = {
+    public screenData: Iscreen = {
         screenName: '',
         description: '',
         featureName: '',
@@ -656,9 +656,9 @@ export class FeatureDetailsComponent implements OnInit {
     //     this.flowCompGrid.sizeColumnsToFit();
     // }
 
-    editEntityField(entity: IEntity) {
+    editEntityField(entity: any) {
         this.dataService.setEntity(entity);
-        this.router.navigate(['/entity-field']);
+        this.router.navigate(['/entity-field'], { queryParams: { entityId: entity._id, featureId: this.feature_id } });
     }
 
     saveEntityModel() {
@@ -710,6 +710,7 @@ export class FeatureDetailsComponent implements OnInit {
         this.entity.name = entityData.name;
         this.entity.description = entityData.description;
         this.entity.project_id = this.project_id;
+        console.log('saving entitye details are ----  ', entityData);
         this.projectComponentService.createEntity(this.entity).subscribe(
             (data) => {
                 this.updateEntityId = data._id;
@@ -739,7 +740,7 @@ export class FeatureDetailsComponent implements OnInit {
                 // this.getAllEntityByProjectId();
             },
             (error) => {
-
+                console.log('error cannot able to save the entities ', error);
             }
         );
     }
@@ -781,6 +782,7 @@ export class FeatureDetailsComponent implements OnInit {
     openDialog(isSaveOption, objectValue): void {
         const dialogDataValue = {
             savedEntity: {},
+            projectId: this.project_id,
             isPrimaryEntityPresent: this.isPrimaryEntityPresent,
         };
         if (isSaveOption) {
@@ -795,8 +797,8 @@ export class FeatureDetailsComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(entityData => {
             console.log('cancel entity pop ----- ', entityData);
-            this.entityid = entityData.entity_id;
             if (entityData) {
+                this.entityid = entityData.entity_id;
                 this.entity.project_id = this.project_id;
                 this.entity.feature_id = this.feature_id;
                 this.entity.name = entityData.name;
@@ -1004,7 +1006,7 @@ export class FeatureDetailsComponent implements OnInit {
         this.deletePopup = 'none';
         this.projectComponentService.deleteEntity(this.selectedEntityId).subscribe(
             (data) => {
-                this.getFeatureById();
+                this.getEntityByFeatureId();
             },
             (error) => {
 

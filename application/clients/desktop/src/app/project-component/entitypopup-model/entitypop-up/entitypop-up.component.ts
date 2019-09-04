@@ -21,10 +21,11 @@ export class EntityModelComponent implements OnInit {
         selectentity: '',
         entity_id: ''
     };
+    public projectId: any;
     public selectedentity: any = [];
     public entityselected: any;
     public isPrimaryEntityPresent: boolean;
-    public rowData;
+    public rowData = [];
     public rowSelection;
     public columnDefs;
     public gridApi;
@@ -38,6 +39,7 @@ export class EntityModelComponent implements OnInit {
         public dialogRef: MatDialogRef<EntityModelComponent>, private projectservice: ProjectComponentService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
         console.log('popup --- ', data);
+        this.projectId = data.projectId;
         if (data.savedEntity !== undefined && Object.keys(data.savedEntity).length > 0) {
             // alert('entered ');
             this.modelObject.name = data.savedEntity.name;
@@ -65,9 +67,11 @@ export class EntityModelComponent implements OnInit {
 
     ngOnInit() {
         this.hide = true;
-        this.projectservice.Getentities().subscribe(data => {
+        this.projectservice.Getentities(this.projectId).subscribe(data => {
             console.log('--------entitydata------->>>', data);
-            this.rowData = data;
+            if (data && data.length > 0) {
+                this.rowData = data;
+            }
         }, error => {
             console.error('error:', error);
         });
@@ -86,9 +90,11 @@ export class EntityModelComponent implements OnInit {
         if (event.value === 'Create Entity') {
             this.create = true;
             this.hide = false;
+            this.dialogRef.updateSize('400px', 'auto');
         }
-       
+
         if (event.value === 'Select Existing Entity') {
+            this.dialogRef.updateSize('550px', '320px');
             this.existing = true;
             this.hide = false;
         }
@@ -108,7 +114,7 @@ export class EntityModelComponent implements OnInit {
 
         this.columnDefs = [
             {
-                 width: 250,
+                width: 100,
                 checkboxSelection: true,
             },
             {
@@ -133,6 +139,12 @@ export class EntityModelComponent implements OnInit {
         this.gridApi = params.api;
         this.gridApi.sizeColumnsToFit();
         this.gridColumnApi = params.columnApi;
+    }
+
+    showOptions() {
+        this.hide = true;
+        this.create = this.existing = false;
+        this.dialogRef.updateSize('400px', '200px');
     }
 
     onSelectionChanged() {
