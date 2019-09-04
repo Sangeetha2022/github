@@ -6,7 +6,7 @@ import * as deployConfig from '../config/config.json';
 import * as util from 'util';
 import { exec } from 'child_process';
 import * as ncp from 'ncp';
-import { HelmSupportWorker } from '../supportWorkers/helm.supportworker.js';
+import { HelmSupportWorker } from '../supportWorkers/helm.supportworker';
 
 let helmSupportWorker = new HelmSupportWorker();
 export class HelmService {
