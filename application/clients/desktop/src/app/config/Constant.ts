@@ -6,6 +6,17 @@ export class Constants {
     public static DESKTOP_ROUTER = '/desktop';
     public static MOBILE_ROUTER = '/mobile';
 
+    //login---->>
+
+    public static get signup(): string { return this.DESKTOP_ROUTER + '/signup'; }
+    public static get googlelogin(): string { return this.DESKTOP_ROUTER + '/googlesignin'; }
+    public static get Login(): string { return this.DESKTOP_ROUTER + '/login'; }
+    public static get Logout(): string { return this.DESKTOP_ROUTER + '/logout'; }
+    public static get Consent(): string { return this.DESKTOP_ROUTER + '/consent'; }
+
+
+
+
     public static get saveUrl(): string { return this.DESKTOP_ROUTER + '/save'; }
     public static get updateUrl(): string {  return this.DESKTOP_ROUTER + '/update/'; }
     public static get getAllUrl(): string {  return this.DESKTOP_ROUTER + '/getall'; }
