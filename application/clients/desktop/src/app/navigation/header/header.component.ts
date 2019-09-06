@@ -82,6 +82,7 @@ export class HeaderComponent implements OnInit {
 
   changeLanguage(lang: string) {
     if (lang !== this.i18NextService.language) {
+      this.Logout();
       this.i18NextService.changeLanguage(lang).then(x => {
         this.updateState(lang);
         document.location.reload();
@@ -127,10 +128,10 @@ export class HeaderComponent implements OnInit {
     this.closeNav();
   }
 
-  openNav(){
+  openNav() {
     document.getElementById("myNav").style.height = "50%";
   }
-   closeNav() {
+  closeNav() {
     document.getElementById("myNav").style.height = "0%";
   }
 }
