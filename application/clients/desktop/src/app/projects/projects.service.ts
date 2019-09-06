@@ -18,28 +18,28 @@ export class ProjectsService {
   }
 
   addProject(proj): Observable<any> {
-    return this.api.post(this.restapi.Apigateway + Constants.addProjectUrl, proj);
+    return this.api.post(this.restapi.Apigateway + Constants.saveProject, proj);
   }
 
-  getMyAllProjects(UserId): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllMyProjecturl}/?UserId=${UserId}`);
+  getProjectByUserId(UserId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectByUserId}/${UserId}`);
   }
 
   deleteProject(id): Observable<any> {
-    return this.api.delete(this.restapi.Apigateway + Constants.deleteMyProjectUrl + id);
+    return this.api.delete(this.restapi.Apigateway + Constants.deleteProject + id);
   }
 
-  createProjectDefaults(projectId: String): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.addProjectDefaults}/?projectId=${projectId}`);
+  createDefaultEntity(projectId: String): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultEntity}/?projectId=${projectId}`);
   }
 
   createDefaultScreens(projectId: String): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.addProjectScreenDefault}/?projectId=${projectId}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultScreens}/?projectId=${projectId}`);
   }
 
   createDefaultMenu(projectId: String, primaryLanguage: String, secondaryLanguage: String): Observable<any> {
     // tslint:disable-next-line:max-line-length
-    return this.api.get(`${this.restapi.Apigateway}${Constants.defaultMenu}/?projectId=${projectId}&primaryLanguage=${primaryLanguage}&secondaryLanguage=${secondaryLanguage}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultMenu}/?projectId=${projectId}&primaryLanguage=${primaryLanguage}&secondaryLanguage=${secondaryLanguage}`);
   }
 
   updateProjectById(projectId: String, projectDetails: any): Observable<any> {
@@ -67,7 +67,7 @@ export class ProjectsService {
   }
 
   // socket
-  public getProjectNotify(project_id) {
+  public getProjectNotify(project_id): Observable<any> {
     const observable = new Observable(observer => {
       this.socket.on('gen_notify_' + project_id, (data) => {
         observer.next(data);
@@ -83,11 +83,11 @@ export class ProjectsService {
     this.socket.emit('gen_notify', projectgen);
   }
 
-  getAllNotifyProject(project_id) {
+  getAllNotifyProject(project_id): Observable<any> {
     return this.http.get(`${this.restapi.Apigateway}${Constants.getAllNotifyProject}/${project_id}`);
   }
 
-  getAllUserNotify(user_id) {
+  getAllUserNotify(user_id): Observable<any> {
     return this.http.get(`${this.restapi.Apigateway}${Constants.getAllUserNotify}/${user_id}`);
   }
 

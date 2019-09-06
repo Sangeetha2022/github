@@ -73,7 +73,7 @@ export class ConnectorManagerComponent implements OnInit {
       this.projectService.updateProjectById(this.projectInfo._id, this.projectInfo)
         .subscribe(
           data => {
-            this.dataService.setProjectInfo(data);
+            this.dataService.setProjectInfo(data.response);
           },
           error => {
 

@@ -27,20 +27,20 @@ export class Constants {
     public static get addFilesUrl(): string { return this.DESKTOP_ROUTER + '/addfile'; }
 
     // project apis
-    public static get addProjectUrl(): string { return this.DESKTOP_ROUTER + '/projects/add'; }
-    public static get deleteMyProjectUrl(): string { return this.DESKTOP_ROUTER + '/projects/delete/'; }
-    public static get getAllMyProjecturl(): string { return this.DESKTOP_ROUTER + '/projects/getall'; }
-    public static get addProjectDefaults(): String { return this.DESKTOP_ROUTER + '/projects/default/create'; }
+    public static get saveProject(): string { return this.DESKTOP_ROUTER + '/projects/add'; }
+    public static get deleteProject(): string { return this.DESKTOP_ROUTER + '/projects/delete/'; }
+    public static get getProjectByUserId(): string { return this.DESKTOP_ROUTER + '/projects/getbyuserid'; }
+    public static get createDefaultEntity(): String { return this.DESKTOP_ROUTER + '/projects/default/create'; }
     public static get updateProjectById(): String { return this.DESKTOP_ROUTER + '/projects/update'; }
     public static get getProjectById(): String { return this.DESKTOP_ROUTER + '/projects/getbyid'; }
-    public static get addProjectScreenDefault(): String { return this.DESKTOP_ROUTER + '/projects/default/screen'; }
+    public static get createDefaultScreens(): String { return this.DESKTOP_ROUTER + '/projects/default/screen'; }
 
     // menu apis
     public static get saveMenu(): String { return this.DESKTOP_ROUTER + '/menu/save'; }
     public static get getMenuByProjectId(): String { return this.DESKTOP_ROUTER + '/menu/getbyprojectid'; }
     public static get updateMenuById(): String { return this.DESKTOP_ROUTER + '/menu/update'; }
     public static get updateMenuByProjectId(): String { return this.DESKTOP_ROUTER + '/menu/updatemenubyproject'; }
-    public static get defaultMenu(): String { return this.DESKTOP_ROUTER + '/menu/default'; }
+    public static get createDefaultMenu(): String { return this.DESKTOP_ROUTER + '/menu/default'; }
 
 
     // Flow apis
@@ -79,7 +79,7 @@ export class Constants {
     public static get getAllFeature(): String { return this.DESKTOP_ROUTER + '/feature/getall'; }
     public static get getFeatureById(): String { return this.DESKTOP_ROUTER + '/feature/get'; }
     public static get getFeatureByProjectId(): String { return this.DESKTOP_ROUTER + '/feature/project/get'; }
-    public static get getAllFeatureByFeatureid(): String { return this.DESKTOP_ROUTER + '/feature/details/getallbyfeatureid'; };
+    public static get getAllFeatureByFeatureid(): String { return this.DESKTOP_ROUTER + '/feature/details/getallbyfeatureid'; }
     public static get deleteFeature(): String { return this.DESKTOP_ROUTER + '/feature/delete'; }
 
 

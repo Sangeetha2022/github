@@ -19,10 +19,11 @@ class ProjectController implements Controller {
 
     private initializeRoutes() {
         this.router.post('/projects/add', this.addProject);
-        this.router.put('/projects/:id/update', this.updateProject);
-        this.router.get('/projects/getall', this.getAllMyProject);
-        this.router.get('/projects/:id/get', this.getByProjectId);
+        this.router.get('/projects/getall', this.getAllProject);
+        this.router.get('/projects/getbyid/:id', this.getByProjectId);
+        this.router.put('/projects/update/:id', this.updateProject);
         this.router.delete('/projects/delete/:id', this.deleteProject);
+        this.router.get('/projects/getbyuserid/:id', this.getProjectByUserId);
     }
 
     public addProject(req: Request, res: Response) {
@@ -47,7 +48,6 @@ class ProjectController implements Controller {
     }
 
     public deleteProject(req: Request, res: Response) {
-        console.log('delete project url in project controller -------- ', Constants.projectUrl + '/projects/my/delete' + req.params.id)
         new ApiAdaptar().delete(Constants.projectUrl + '/projects/delete/' + req.params.id).then(result => {
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
@@ -57,7 +57,18 @@ class ProjectController implements Controller {
         });
     }
 
-    public getAllMyProject(req: Request, res: Response) {
+    public getProjectByUserId(req: Request, res: Response) {
+        console.log('enteirng into get project by userid are -----  ', Constants.projectUrl + '/projects/getbyuserid/' + req.params.id)
+        new ApiAdaptar().get(Constants.projectUrl + '/projects/getbyuserid/' + req.params.id).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+    public getAllProject(req: Request, res: Response) {
         new ApiAdaptar().get(Constants.projectUrl + '/projects/getall').then(result => {
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);

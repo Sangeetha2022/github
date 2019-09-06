@@ -144,7 +144,7 @@ export class EntityManagerComponent implements OnInit {
         private validatorService: ValidatorService,
 
 
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -249,12 +249,12 @@ export class EntityManagerComponent implements OnInit {
     }
 
     getProjectById() {
-        this.projectService.getProjectById(this.project_id).subscribe(proj => {
-            this.projectName = proj.name;
-            if (proj) {
-                this.menuLanguages.push(proj.default_human_language);
-                if (proj.other_human_languages !== '') {
-                    this.menuLanguages.push(proj.other_human_languages);
+        this.projectService.getProjectById(this.project_id).subscribe(response => {
+            if (response) {
+                this.projectName = response.body.name;
+                this.menuLanguages.push(response.default_human_language);
+                if (response.other_human_languages !== '') {
+                    this.menuLanguages.push(response.other_human_languages);
                 }
                 this.menuBuilder.project_languages = this.menuLanguages;
                 this.menuBuilder.language = this.menuLanguages[0];
@@ -650,7 +650,7 @@ export class EntityManagerComponent implements OnInit {
     }
 
 
-     onReady(eventData) {
+    onReady(eventData) {
         eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
         };
     }
