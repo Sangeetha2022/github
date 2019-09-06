@@ -67,9 +67,6 @@ export class DataService {
     private allEntitySource = new BehaviorSubject<IEntity[]>([]);
     currentAllEntityInfo = this.allEntitySource.asObservable();
 
-    // selected entity details
-    private entityInfoSource = new BehaviorSubject<any>(this.entity);
-    currentSelectedEntityInfo = this.entityInfoSource.asObservable();
 
     // screen agGrid Field binding info
     private agGridInfoSource = new BehaviorSubject<any[]>([]);
@@ -100,10 +97,6 @@ export class DataService {
 
     setSelectedMenuInfo(details: any) {
         this.selectedMenuInfoSource.next(details);
-    }
-    // set selected entity
-    setEntity(entity: any) {
-        this.entityInfoSource.next(entity);
     }
 
     // set all entity details

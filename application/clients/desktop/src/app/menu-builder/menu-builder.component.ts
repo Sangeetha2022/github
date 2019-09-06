@@ -87,7 +87,6 @@ export class MenuBuilderComponent implements OnInit {
     private database: TreeDragService,
     private route: ActivatedRoute,
     private menuBuilderService: MenuBuilderService,
-    private projectComp: EntityManagerComponent,
     private screenService: ScreenDesignerService,
     private projectComponentService: ProjectComponentService,
   ) {
@@ -125,7 +124,8 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getMenuByProjectId() {
-    this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
+    this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(response => {
+      const menuBuilderData = response.body;
       if (menuBuilderData.length !== 0) {
         this.menuLang = [];
         menuBuilderData.forEach(mData => {
@@ -167,9 +167,7 @@ export class MenuBuilderComponent implements OnInit {
             } else if (meData.language === this.selectedLang) {
               meData.menu_option = true;
               meData.language = this.selectedLang;
-              console.log(this.oldMenu.feature)
-              console.log(this.newMenu.feature)
-              var FeatureDiff;
+              let FeatureDiff;
               if (this.newMenu.feature !== undefined && this.oldMenu.feature !== undefined) {
                 FeatureDiff = this.oldMenu.feature
                   .filter(x => !this.newMenu.feature.includes(x));
@@ -181,7 +179,7 @@ export class MenuBuilderComponent implements OnInit {
                       this.featureDetailsData = [];
                       this.projectComponentService.getFeatureById(featureId).subscribe(
                         feature => {
-                          this.featureDetailsData = feature;
+                          this.featureDetailsData = feature.body;
                           this.menuFId = this.featureDetailsData._id;
                           this.menuFName = this.featureDetailsData.name;
                           const fMenuData = {
@@ -189,10 +187,10 @@ export class MenuBuilderComponent implements OnInit {
                             featureId: this.menuFId,
                           };
                           this.screenService.getScreenByFeatureId(featureId).subscribe(data => {
-                            if (data.length !== 0) {
+                            if (data.body && data.body.length !== 0) {
                               this.screenMenuName = [];
                               this.screenId = [];
-                              data.forEach(sData => {
+                              data.body.forEach(sData => {
                                 this.screenId.push(sData._id);
                                 this.screenMenuName.push(sData.screenName);
                               });
@@ -211,17 +209,21 @@ export class MenuBuilderComponent implements OnInit {
                               this.menuBuilder = meData;
                               this.menuBuilder.menuDetails = array;
                               if (this.dataMenu.length !== 0) {
+                                // tslint:disable-next-line:no-shadowed-variable
                                 this.dataMenu.forEach(meData => {
                                   this.menuBuilder.menuDetails.forEach(menu => {
                                     if (meData.featuremenu.length > 0) {
                                       if (menu.featuremenu[0].name.featureId === meData.featuremenu[0].name.featureId) {
                                         menu.featuremenu[0].description = meData.featuremenu[0].description;
+                                        // tslint:disable-next-line:max-line-length
                                         if (menu.screenmenu[0].name.screenId !== undefined && meData.screenmenu[0].name.screenId !== undefined) {
+                                          // tslint:disable-next-line:max-line-length
                                           const intersection = menu.screenmenu[0].name.screenId.filter(x => meData.screenmenu[0].name.screenId.includes(x));
                                           if (intersection.length !== 0) {
                                             intersection.forEach(sId => {
                                               meData.screenmenu[0].name.screenId.forEach((dSId, index) => {
                                                 if (sId === dSId) {
+                                                  // tslint:disable-next-line:max-line-length
                                                   menu.screenmenu[0].description.screen[index] = meData.screenmenu[0].description.screen[index];
                                                 }
                                               });
@@ -238,8 +240,8 @@ export class MenuBuilderComponent implements OnInit {
                               }
                               this.menuBuilderService.updateMenuById(meData._id, this.menuBuilder)
                                 .subscribe(fMenu => {
-                                  if (fMenu) {
-                                    this.database.initialize(fMenu.menuDetails);
+                                  if (fMenu.body) {
+                                    this.database.initialize(fMenu.body.menuDetails);
                                   }
                                 });
                             }

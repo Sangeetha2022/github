@@ -68,14 +68,14 @@ export class HeaderLanguageComponent implements OnInit {
     this.displayAboutModel = 'block';
 
     this.configurationService.getVersion('version').subscribe(data => {
-      this.versionData = data;
+      this.versionData = data.body;
     },
       error => {
         console.log('Check the browser console to see more info.', 'Error!');
       });
 
     this.configurationService.getBuildVersion('build_version').subscribe(data => {
-      this.buildVersionData = data;
+      this.buildVersionData = data.body;
     },
       error => {
         console.log('Check the browser console to see more info.', 'Error!');

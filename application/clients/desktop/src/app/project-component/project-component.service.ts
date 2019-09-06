@@ -1,37 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ApiService } from '../config/api.service';
 import { SharedService } from '../../shared/shared.service';
-import { IEntity } from './interface/Entity';
 import { Constants } from '../config/Constant';
 import { HttpClient, HttpBackend } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectComponentService {
 
-  private entity: IEntity = <IEntity>{
-    name: '',
-    description: '',
-    entity_type: '',
-    project_id: '',
-    feature_id: '',
-    created_by: '',
-    last_modified_by: '',
-    updated_at: new Date(),
-    field: []
-  };
-
-  entityInfoSource = null;
-
-
   constructor(
     private api: ApiService,
     private restapi: SharedService,
     private http: HttpClient,
-    private handler: HttpBackend,
   ) { }
 
 
@@ -121,9 +103,5 @@ export class ProjectComponentService {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityTypes}`);
   }
 
-  // data sharing
-  setEntity(entity: any) {
-    this.entityInfoSource.next(entity);
-  }
 
 }

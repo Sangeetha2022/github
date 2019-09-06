@@ -82,7 +82,7 @@ export class EntityFieldComponent implements OnInit {
   getEntityType() {
     this.entityManagerService.getAllEntityType().subscribe(
       (data) => {
-        data.forEach(element => {
+        data.body.forEach(element => {
           this.getEntityTypeValue.push(element.typename);
         });
         this.agGridInitialization();
@@ -155,8 +155,8 @@ export class EntityFieldComponent implements OnInit {
   getEntity() {
     this.projectComponentService.getByIdEntity(this.currentEntityId).subscribe(
       data => {
-        if (data) {
-          this.entity = data;
+        if (data.body) {
+          this.entity = data.body;
           if (this.entity.field.length > 0) {
             this.rowData = this.entity.field;
           }
@@ -176,8 +176,8 @@ export class EntityFieldComponent implements OnInit {
   getEntityByFeatureId() {
     this.projectComponentService.getEntityByFeatureId(this.featureId).subscribe(
       data => {
-        if (data && data.length > 0) {
-          this.allEntity = data.filter(x => x._id !== this.currentEntityId);
+        if (data.body && data.body.length > 0) {
+          this.allEntity = data.body.filter(x => x._id !== this.currentEntityId);
         }
       },
       error => { }

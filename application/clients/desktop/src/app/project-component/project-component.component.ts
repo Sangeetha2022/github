@@ -168,7 +168,7 @@ export class EntityManagerComponent implements OnInit {
             disableTimeOut: false
         });
         this.projectComponentService.codeGenerate(this.project_id).subscribe(data => {
-            if (data) {
+            if (data.body) {
                 // tslint:disable-next-line: max-line-length
                 this.toastr.success('Github URL: https://github.com/gepinfo/' + this.projectName + '.git', 'Generation Completed!', {
                     closeButton: true,
@@ -250,7 +250,7 @@ export class EntityManagerComponent implements OnInit {
 
     getProjectById() {
         this.projectService.getProjectById(this.project_id).subscribe(response => {
-            if (response) {
+            if (response.body) {
                 this.projectName = response.body.name;
                 this.menuLanguages.push(response.default_human_language);
                 if (response.other_human_languages !== '') {
@@ -264,9 +264,9 @@ export class EntityManagerComponent implements OnInit {
 
     getFeatureByProjectId() {
         this.projectComponentService.getFeatureByProjectId(this.project_id).subscribe(
-            features => {
-                console.log('get features by project id are ----- ', features);
-                this.projectFeatureData = features;
+            response => {
+                console.log('get features by project id are ----- ', response);
+                this.projectFeatureData = response.body;
             },
             error => {
 
@@ -293,8 +293,8 @@ export class EntityManagerComponent implements OnInit {
         });
 
         this.projectComponentService.getFeatureByProjectId(this.project_id).subscribe(projFeature => {
-            if (projFeature.length > 0) {
-                projFeature.forEach(feature => {
+            if (projFeature.body.length > 0) {
+                projFeature.body.forEach(feature => {
                     if (feature.name === this.featureInfo.name) {
                         this.isFeatureExist = true;
                     }
@@ -307,26 +307,25 @@ export class EntityManagerComponent implements OnInit {
                 this.projectComponentService.saveFeatures(this.featureInfo).subscribe(
                     (featureData) => {
                         this.featureInfo = { name: '', description: '', project: '' };
-                        console.log('saved features are ---- ', featureData);
                         this.displayFeatureModel = 'none';
                         this.menuBuilder = {
                             feature: [], project: '', language: '',
                             menuDetails: [], project_languages: this.menuLanguages, menu_option: true
                         };
                         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
-                            if (menuBuilderData.length !== 0) {
-                                menuBuilderData.forEach(menuData => {
+                            if (menuBuilderData.body && menuBuilderData.body.length !== 0) {
+                                menuBuilderData.body.forEach(menuData => {
                                     console.log(menuData.menu_option);
                                     if (menuData.menu_option === true) {
                                         this.menuBuilder.feature = menuData.feature;
                                         this.menuBuilder.project = this.project_id;
                                         this.menuBuilder.language = menuData.language;
-                                        this.menuBuilder.feature.push(featureData._id);
+                                        this.menuBuilder.feature.push(featureData.body._id);
                                         this.menuBuilder.menuDetails = menuData.menuDetails;
                                         this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
                                             .subscribe(fMenu => {
                                                 console.log('=========', fMenu);
-                                            });
+                                            }, error => console.log('cannot able to update the menu details'));
                                     }
                                 });
                             }
@@ -420,15 +419,18 @@ export class EntityManagerComponent implements OnInit {
     }
 
     getScreenByProjectId() {
-        this.screenService.getScreenByProjectId(this.project_id).subscribe(sData => {
+        this.screenService.getScreenByProjectId(this.project_id).subscribe(response => {
             // this.screenDetails = sData;
-            sData.forEach(screenDetails => {
-                if (screenDetails.isTemplate !== true) {
-                    this.screenDetails.push(screenDetails);
-                } else if (screenDetails.isTemplate === true) {
-                    this.screenTempId = screenDetails._id;
-                }
-            });
+            console.log('get screen by projectId ---  ', response);
+            if (response.body) {
+                response.body.forEach(element => {
+                    if (!element.isTemplate) {
+                        this.screenDetails.push(element);
+                    } else {
+                        this.screenTempId = element._id;
+                    }
+                });
+            }
 
         }, (error) => {
             console.log('screenDetails something is not working on backend side');
@@ -471,7 +473,7 @@ export class EntityManagerComponent implements OnInit {
     getAllEntityByProjectId() {
         this.projectComponentService.getEntityByProjectId(this.project_id).subscribe(
             (data) => {
-                this.allEntity = data;
+                this.allEntity = data.body;
                 this.projectEntity = this.allEntity;
                 this.dataService.setAllEntity(this.allEntity);
             },
@@ -489,7 +491,6 @@ export class EntityManagerComponent implements OnInit {
         this.deletePopup = 'none';
     }
     editEntityField(entity: any) {
-        this.dataService.setEntity(entity);
         this.router.navigate(['/entity-field'], { queryParams: { entityId: entity._id }, });
     }
 
@@ -514,8 +515,8 @@ export class EntityManagerComponent implements OnInit {
     getMenuBuilderByProjectId() {
         this.menuFeatureName = [];
         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
-            if (menuBuilderData.length !== 0) {
-                this.menuBuilderDetails = menuBuilderData;
+            if (menuBuilderData.body && menuBuilderData.body.length !== 0) {
+                this.menuBuilderDetails = menuBuilderData.body;
                 const array = [];
 
                 this.menuBuilderDetails.forEach(menuData => {
@@ -526,19 +527,19 @@ export class EntityManagerComponent implements OnInit {
                                 if (feData !== null) {
                                     this.featureDetailsData = [];
                                     this.projectComponentService.getFeatureById(feData).subscribe(
-                                        feature => {
-                                            this.featureDetailsData = feature;
+                                        response => {
+                                            this.featureDetailsData = response.body;
                                             this.menuFId = this.featureDetailsData._id;
                                             this.menuFName = this.featureDetailsData.name;
                                             const fMenuData = {
                                                 feature: this.menuFName,
                                                 featureId: this.menuFId,
                                             };
-                                            this.screenService.getScreenByFeatureId(feData).subscribe(data => {
-                                                if (data.length !== 0) {
+                                            this.screenService.getScreenByFeatureId(feData).subscribe(screenResponse => {
+                                                if (screenResponse.body && screenResponse.body.length !== 0) {
                                                     this.screenMenuName = [];
                                                     this.screenId = [];
-                                                    data.forEach(sData => {
+                                                    screenResponse.body.forEach(sData => {
                                                         this.screenId.push(sData._id);
                                                         this.screenMenuName.push(sData.screenName);
                                                     });
@@ -588,9 +589,9 @@ export class EntityManagerComponent implements OnInit {
                                                         }
                                                     }
                                                     this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
-                                                        .subscribe(fMenu => {
-                                                            if (fMenu) {
-                                                                this.database.initialize(fMenu.menuDetails);
+                                                        .subscribe(menuResponse => {
+                                                            if (menuResponse.body) {
+                                                                this.database.initialize(menuResponse.body.menuDetails);
                                                             }
                                                         });
                                                 }
@@ -656,7 +657,7 @@ export class EntityManagerComponent implements OnInit {
     }
     deleteFeature() {
         this.projectComponentService.deleteFeature(this.selectedFeatureId).subscribe(data => {
-        });
+        }, error => console.log('cannot able to delete the feature'));
         this.closeDeleteFModel();
     }
 

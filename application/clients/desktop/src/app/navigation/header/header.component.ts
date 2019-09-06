@@ -25,9 +25,11 @@ export class HeaderComponent implements OnInit {
   constructor(
     @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
     private configurationService: ConfigManagerService,
-
     private dataService: DataService,
-    private logoutservice: LoginService, private router: Router, public brodcast: Brodcastservice, private gaurdservice: AuthGuard) {
+    private logoutservice: LoginService,
+    private router: Router,
+     public brodcast: Brodcastservice
+      ) {
     this.brodcast.currentusername.subscribe(headerpermission => {
       if (headerpermission !== undefined) {
         this.headergaurd = headerpermission;
@@ -97,14 +99,14 @@ export class HeaderComponent implements OnInit {
     this.displayAboutModel = 'block';
 
     this.configurationService.getVersion('version').subscribe(data => {
-      this.versionData = data;
+      this.versionData = data.body;
     },
       error => {
         console.log('Check the browser console to see more info.', 'Error!');
       });
 
     this.configurationService.getBuildVersion('build_version').subscribe(data => {
-      this.buildVersionData = data;
+      this.buildVersionData = data.body;
     },
       error => {
         console.log('Check the browser console to see more info.', 'Error!');

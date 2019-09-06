@@ -20,11 +20,11 @@ export class ScreenDesignerService {
     return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByProjectAndFeatureId}/${projectId}/${featureId}`);
   }
 
-  getScreenById(screenId) {
+  getScreenById(screenId): Observable<any> {
     return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByID}/${screenId}`);
   }
 
-  updateScreen(screenId, screenData) {
+  updateScreen(screenId, screenData): Observable<any> {
     return this.http.post(`${this.sharedService.Apigateway}${Constants.updateScreen}/${screenId}`, screenData);
   }
 
@@ -32,7 +32,7 @@ export class ScreenDesignerService {
     return this.http.post(`${this.sharedService.Apigateway}${Constants.addScreen}`, screenData);
   }
 
-  deleteScreen(screenId) {
+  deleteScreen(screenId): Observable<any> {
     return this.http.delete(`${this.sharedService.Apigateway}${Constants.deleteScreen}/${screenId}`);
   }
 

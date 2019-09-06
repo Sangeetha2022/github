@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TemplateScreenService } from './template-screen.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
 import { ProjectsService } from '../projects/projects.service';
 
@@ -25,8 +25,6 @@ export class TemplateScreenComponent implements OnInit {
     private route: ActivatedRoute,
     private screenDesignerService: ScreenDesignerService,
     private projectsService: ProjectsService,
-    private router: Router,
-
   ) {
   }
 
@@ -39,15 +37,15 @@ export class TemplateScreenComponent implements OnInit {
   }
 
   getAllGepTemplates() {
-    this.templateScreenService.getAllTemplates().subscribe(gepTemp => {
-      this.gepTemplates = gepTemp;
+    this.templateScreenService.getAllTemplates().subscribe(response => {
+      this.gepTemplates = response.body;
       this.gepTempImages = this.gepTemplates.template_image;
-      this.screenDesignerService.getScreenByProjectId(this.project_id).subscribe(projScreen => {
-        this.projectTemp = projScreen;
-        this.projectTempId = projScreen[0]._id;
+      this.screenDesignerService.getScreenByProjectId(this.project_id).subscribe(screenResponse => {
+        this.projectTemp = screenResponse.body;
+        this.projectTempId = this.projectTemp[0]._id;
         this.selectedIndex = [];
         this.gepTemplates.forEach((element, index) => {
-          if (element.name === projScreen[0].screenName) {
+          if (element.name === this.projectTemp[0].screenName) {
             this.selectedIndex.push(index);
             this.selected = true;
             // this.selectedTemplate = template;
@@ -87,8 +85,7 @@ export class TemplateScreenComponent implements OnInit {
           localStorage.setItem('css_guidelines', JSON.stringify(this.projectTemp[0]['css-guidelines']));
         });
         this.projectsService.updateProjectById(this.project_id, projetData).subscribe(updateProj => {
-
-        });
+        }, error => console.log('cannot able to update the project'));
       } else {
         this.selected = false;
       }

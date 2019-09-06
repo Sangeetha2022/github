@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/shared/data.service';
 import { Iscreen } from './interface/screen';
 import { ActivatedRoute, Router } from '@angular/router';
 import yaml from 'js-yaml';
@@ -102,7 +101,6 @@ export class FeatureDetailsComponent implements OnInit {
 
     constructor(
         private projectComponentService: ProjectComponentService,
-        private dataService: DataService,
         private screenService: ScreenDesignerService,
         private route: ActivatedRoute,
         private router: Router,
@@ -243,10 +241,9 @@ export class FeatureDetailsComponent implements OnInit {
 
     getFeatureById() {
         this.projectComponentService.getFeatureById(this.feature_id).subscribe(
-            feature => {
-                console.log('i am the fature--->>', feature.name);
-                this.featureInfo = feature;
-                this.selectedFeatureName = feature.name;
+            response => {
+                this.featureInfo = response.body;
+                this.selectedFeatureName = response.body.name;
                 this.getAllFlows();
             },
             error => {
@@ -259,10 +256,10 @@ export class FeatureDetailsComponent implements OnInit {
         this.screenService.getScreenByFeatureId(this.feature_id).subscribe(
             (screenData) => {
                 console.log('get screen by feature id are -------  ', screenData);
-                this.screenDetails = screenData;
+                this.screenDetails = screenData.body;
             },
             (error) => {
-
+                console.log('cannot able to get the screen based on featureId  ', error);
             }
         );
     }
@@ -270,7 +267,7 @@ export class FeatureDetailsComponent implements OnInit {
     getEntityByFeatureId() {
         this.projectComponentService.getEntityByFeatureId(this.feature_id).subscribe(
             (entityData) => {
-                this.featureEntityDetails = entityData;
+                this.featureEntityDetails = entityData.body;
                 this.isPrimaryEntityPresent = this.featureEntityDetails.some(x => x.entity_type === 'primary');
             },
             (error) => {
@@ -281,16 +278,16 @@ export class FeatureDetailsComponent implements OnInit {
 
     getAllFlows() {
         this.projectComponentService.getAllFlows().subscribe(
-            flows => {
+            response => {
                 const flowsInFeature = [];
-                if (flows) {
+                if (response) {
+                    const flows = response.body;
                     if (this.featureInfo.flows.length === 0) {
-                        this.rowData = flows;
+                        this.rowData = flows.body;
                     } else {
                         this.featureInfo.flows.forEach(flowElement => {
                             const index = flows.findIndex(x => x._id === flowElement);
                             if (index > -1) {
-                                // alert('splice the exist flwos');
                                 flowsInFeature.push(flows[index]);
                                 flows.splice(index, 1);
                             }
@@ -340,8 +337,8 @@ export class FeatureDetailsComponent implements OnInit {
             });
         }
         this.projectComponentService.updateFeature(this.featureInfo).subscribe(
-            feature => {
-                this.featureInfo = feature;
+            response => {
+                this.featureInfo = response.body;
                 this.displayFeatureFlowModal = 'none';
                 this.flowInFeatureRowData = this.featureInfo.flows;
                 this.getAllFlows();
@@ -400,7 +397,6 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     editEntityField(entity: any) {
-        this.dataService.setEntity(entity);
         this.router.navigate(['/entity-field'], { queryParams: { entityId: entity._id, featureId: this.feature_id } });
     }
 
@@ -440,15 +436,15 @@ export class FeatureDetailsComponent implements OnInit {
         this.entity.project_id = this.project_id;
         console.log('saving entitye details are ----  ', entityData);
         this.projectComponentService.createEntity(this.entity).subscribe(
-            (data) => {
-                this.updateEntityId = data._id;
+            (response) => {
+                this.updateEntityId = response.body._id;
                 this.entitydetails = [];
                 this.entitydetails = [
                     {
                         'entities':
                         {
                             'entityType': entityData.entity_type,
-                            'entityId': data._id
+                            'entityId': response.body._id
                         },
                         'name': entityData.name,
                         'description': entityData.description,
@@ -457,7 +453,7 @@ export class FeatureDetailsComponent implements OnInit {
                 ];
                 // tslint:disable-next-line:max-line-length
                 this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails).subscribe(featuredetails => {
-                    if (featuredetails) {
+                    if (featuredetails.body) {
                         this.getEntityByFeatureId();
                     }
                 });
@@ -616,7 +612,7 @@ export class FeatureDetailsComponent implements OnInit {
 
     getScreenDetailsByFeatureId() {
         this.projectComponentService.getAllFeatureDetailsByFeatureId(this.feature_id).subscribe(data => {
-            this.featureDetailsData = data;
+            this.featureDetailsData = data.body;
             this.featureDetailsData.map(featureData => {
                 this.featureScreenName.push(featureData.flow.screenName);
             });
@@ -631,7 +627,7 @@ export class FeatureDetailsComponent implements OnInit {
 
     getAllEntity() {
         this.projectComponentService.getAllEntity().subscribe(data => {
-            this.featureEntityData = data;
+            this.featureEntityData = data.body;
         });
     }
 
