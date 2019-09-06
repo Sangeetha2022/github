@@ -11,6 +11,7 @@ export * from './featuremanager.controller';
 export * from './microflowmanager.controller';
 export * from './screenmanager.controllers';
 export * from './admin.controller';
+export * from './templatemanager.controller';
 
 // generator
 

@@ -26,9 +26,9 @@ import {
     GithubController,
     Authgencontroller,
     AngularTemplateController,
-    AdminController
-
-
+    AdminController,
+    TemplateController
+    
 
 } from './apicontroller';
 
@@ -60,7 +60,8 @@ let apisController = [
     new GithubController(),
     new Authgencontroller(),
     new AngularTemplateController(),
-    new AdminController()
+    new AdminController(),
+    new TemplateController()
 ]
 
 class App {
