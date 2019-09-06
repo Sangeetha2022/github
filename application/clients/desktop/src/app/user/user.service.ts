@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ApiService } from '../config/api.service';
 import { Router } from '@angular/router';
 import { SharedService } from '../../shared/shared.service';
+import { Constants } from '../config/Constant';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,14 @@ export class UserService {
 
 
   Getuser(userid: any): Observable<any> {
-    return this.http.get(this.restapi.Adminmanager + `/admin/getuser/${userid}`);
+    return this.http.get(`${this.restapi.Apigateway}${Constants.getuserById}/${userid}`);
   }
 
   Getroles(): Observable<any> {
-    return this.http.get(this.restapi.Adminmanager + '/admin/getallroles');
+    return this.http.get(`${this.restapi.Apigateway}${Constants.getAllRoles}`);
   }
 
   Updateuser(userobject: any): Observable<any> {
-    return this.http.put(this.restapi.Adminmanager + '/admin/updateuser', userobject);
+    return this.http.put(`${this.restapi.Apigateway}${Constants.updateUsers}`, userobject);
   }
 }
