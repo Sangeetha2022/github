@@ -13,6 +13,12 @@ export class Constants {
     public static get Logout(): string { return this.DESKTOP_ROUTER + '/logout'; }
     public static get Consent(): string { return this.DESKTOP_ROUTER + '/consent'; }
 
+    // Admin
+    public static get getUsers(): string { return this.DESKTOP_ROUTER + '/admin/getusers'; }
+    public static get getuserById(): string { return this.DESKTOP_ROUTER + '/admin/getuser/:id'; }
+    public static get getAllRoles(): string { return this.DESKTOP_ROUTER + '/admin/getallroles'; }
+    public static get updateUsers(): string { return this.DESKTOP_ROUTER + '/admin/updateuser'; }
+
     // flow apis
     public static get saveFlow(): string { return this.DESKTOP_ROUTER + '/flow/save'; }
     public static get updateFlow(): string { return this.DESKTOP_ROUTER + '/flow/update'; }
@@ -62,8 +68,6 @@ export class Constants {
 
     // LinkedConnector
     public static get getLinkedConnectorByName(): string { return this.DESKTOP_ROUTER + '/linked_connector/getbyname/'; }
-
-
 
 
     // Feature
@@ -117,8 +121,8 @@ export class Constants {
 
 
     // Templates
-
     public static get getAllTemplates(): string { return this.DESKTOP_ROUTER + '/template/getall'; }
+
 
     // generation
     public static get projectSocket(): string { return this.DESKTOP_ROUTER + '/generate'; }
