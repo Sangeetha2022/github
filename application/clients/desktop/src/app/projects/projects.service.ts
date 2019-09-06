@@ -18,15 +18,15 @@ export class ProjectsService {
   }
 
   addProject(proj): Observable<any> {
-    return this.api.post(this.restapi.projbaseUrl + Constants.addProjectUrl, proj);
+    return this.api.post(this.restapi.Apigateway + Constants.addProjectUrl, proj);
   }
 
   getMyAllProjects(UserId): Observable<any> {
-    return this.api.get(`${this.restapi.projbaseUrl + Constants.getAllMyProjecturl}/?UserId=${UserId}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllMyProjecturl}/?UserId=${UserId}`);
   }
 
   deleteProject(id): Observable<any> {
-    return this.api.delete(this.restapi.projbaseUrl + Constants.deleteMyProjectUrl + id);
+    return this.api.delete(this.restapi.Apigateway + Constants.deleteMyProjectUrl + id);
   }
 
   createProjectDefaults(projectId: String): Observable<any> {
@@ -43,11 +43,11 @@ export class ProjectsService {
   }
 
   updateProjectById(projectId: String, projectDetails: any): Observable<any> {
-    return this.api.put(`${this.restapi.projbaseUrl}${Constants.updateProjectById}/${projectId}`, projectDetails);
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateProjectById}/${projectId}`, projectDetails);
   }
 
   getProjectById(projectId: String): Observable<any> {
-    return this.api.get(`${this.restapi.projbaseUrl}${Constants.getProjectById}/${projectId}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectById}/${projectId}`);
   }
 
   // websocket connections

@@ -21,12 +21,12 @@ export class Constants {
     public static get addFilesUrl(): string { return this.DESKTOP_ROUTER + '/addfile'; }
 
     // project apis
-    public static get addProjectUrl(): string { return this.DESKTOP_ROUTER + '/projects/my/add'; }
-    public static get deleteMyProjectUrl(): string { return this.DESKTOP_ROUTER + '/projects/my/delete/'; }
-    public static get getAllMyProjecturl(): string { return this.DESKTOP_ROUTER + '/projects/my/getall'; }
+    public static get addProjectUrl(): string { return this.DESKTOP_ROUTER + '/projects/add'; }
+    public static get deleteMyProjectUrl(): string { return this.DESKTOP_ROUTER + '/projects/delete/'; }
+    public static get getAllMyProjecturl(): string { return this.DESKTOP_ROUTER + '/projects/getall'; }
     public static get addProjectDefaults(): String { return this.DESKTOP_ROUTER + '/projects/default/create'; }
-    public static get updateProjectById(): String { return this.DESKTOP_ROUTER + '/projects/my/update'; }
-    public static get getProjectById(): String { return this.DESKTOP_ROUTER + '/projects/my/getbyid'; }
+    public static get updateProjectById(): String { return this.DESKTOP_ROUTER + '/projects/update'; }
+    public static get getProjectById(): String { return this.DESKTOP_ROUTER + '/projects/getbyid'; }
     public static get addProjectScreenDefault(): String { return this.DESKTOP_ROUTER + '/projects/default/screen'; }
 
     // menu apis
