@@ -46,7 +46,7 @@ export class ProjectComponentService {
 
   // codegenerate Api
   codeGenerate(projectId: any): Observable<any> {
-    return this.api.get(`${this.restapi.genmanagerUrl}${Constants.projectGeneration}${projectId}${Constants.GET}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.projectGeneration}/${projectId}${Constants.GET}`);
   }
 
   // new apis for features

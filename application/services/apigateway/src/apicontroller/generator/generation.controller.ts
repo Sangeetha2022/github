@@ -12,16 +12,57 @@ export class GenerationController implements Controller {
     }
 
     private initializeRoutes() {
-        this.router.route('/projectgen/project/:id/get').get(this.createProject);
+        this.router.route('/generate/:projectId').post(this.project);
+        this.router.route('/projectgen/project/:id/get').get(this.generateProject);
+        this.router.route('/projectgen/project/:projectId').get(this.getAllNotifyProject);
+        this.router.route('/projectgen/user/:userId').get(this.getAllUserNotify);
     }
 
-    createProject(req: Request, res: Response) {
+    project(req: Request, res: Response) {
+        new ApiAdaptar().post(
+            `${Constants.projectGenUrl}/generate/${req.params.projectId}`, req.body
+        ).then((result) => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+    generateProject(req: Request, res: Response) {
         new ApiAdaptar().get(
             `${Constants.projectGenUrl}/projectgen/project/${req.params.id}/get`,
-        ).then((response) => {
-            res.send(response);
+        ).then((result) => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+    getAllNotifyProject(req: Request, res: Response) {
+        new ApiAdaptar().get(
+            `${Constants.projectGenUrl}/projectgen/project/${req.params.projectId}`,
+        ).then((result) => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+    getAllUserNotify(req: Request, res: Response) {
+        new ApiAdaptar().get(
+            `${Constants.projectGenUrl}/projectgen/user/${req.params.userId}`,
+        ).then((result) => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 

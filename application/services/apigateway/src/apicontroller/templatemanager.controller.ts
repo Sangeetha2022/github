@@ -25,55 +25,62 @@ class TemplateController implements Controller {
     }
 
     public addTemplate(req: Request, res: Response) {
-        console.log('entering into add project api gateway')
-        new ApiAdaptar().post(Constants.templateUrl + '/template/save', req.body).then(proj => {
-            res.send(proj);
+        new ApiAdaptar().post(Constants.templateUrl + '/template/save', req.body).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public updateTemplate(req: Request, res: Response) {
-        new ApiAdaptar().put(Constants.templateUrl + '/template/update/' + req.params.id, req.body).then(proj => {
-            res.send(proj);
+        new ApiAdaptar().put(Constants.templateUrl + '/template/update/' + req.params.id, req.body).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public deleteTemplate(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.templateUrl + '/template/delete/' + req.params.id).then(proj => {
-            res.send(proj);
+        new ApiAdaptar().delete(Constants.templateUrl + '/template/delete/' + req.params.id).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getAllTemplates(req: Request, res: Response) {
-        new ApiAdaptar().get(Constants.templateUrl + '/template/getall').then(allproject => {
-            res.send(allproject);
+        new ApiAdaptar().get(Constants.templateUrl + '/template/getall').then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getTemplateByID = (req: Request, res: Response) => {
-        console.log('entering into method')
-        new ApiAdaptar().get(Constants.templateUrl + '/template/get/' + req.params.id).then(proj => {
-            console.log('reponse in main method')
-            res.send(proj);
+        new ApiAdaptar().get(Constants.templateUrl + '/template/get/' + req.params.id).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getAllTemplateByProject = (req: Request, res: Response) => {
-        console.log('entering into method')
-        new ApiAdaptar().get(Constants.templateUrl + '/template/get/project/' + req.params.projectid).then(proj => {
-            console.log('reponse in main method')
-            res.send(proj);
+        new ApiAdaptar().get(Constants.templateUrl + '/template/get/project/' + req.params.projectid).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 

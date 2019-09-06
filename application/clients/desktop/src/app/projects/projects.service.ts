@@ -53,7 +53,7 @@ export class ProjectsService {
   // websocket connections
 
   public initSocket(): void {
-    this.socket = socketIo(this.restapi.genmanagerUrl);
+    this.socket = socketIo(this.restapi.Apigateway);
   }
 
   public onEvent(event: String): Observable<any> {
@@ -63,7 +63,7 @@ export class ProjectsService {
   }
 
   public generateProject(projectgen) {
-    return this.http.post(this.restapi.genmanagerUrl + '/generate/' + projectgen.project_id, projectgen);
+    return this.http.post(`${this.restapi.Apigateway}${Constants.projectSocket}/${projectgen.project_id}`, projectgen);
   }
 
   // socket
@@ -84,11 +84,11 @@ export class ProjectsService {
   }
 
   getAllNotifyProject(project_id) {
-    return this.http.get(this.restapi.genmanagerUrl + '/projectgen/project/' + project_id);
+    return this.http.get(`${this.restapi.Apigateway}${Constants.getAllNotifyProject}/${project_id}`);
   }
 
   getAllUserNotify(user_id) {
-    return this.http.get(this.restapi.genmanagerUrl + '/projectgen/user/' + user_id);
+    return this.http.get(`${this.restapi.Apigateway}${Constants.getAllUserNotify}/${user_id}`);
   }
 
 

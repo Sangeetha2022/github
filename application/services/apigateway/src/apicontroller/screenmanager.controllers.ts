@@ -29,85 +29,105 @@ class ScreenController implements Controller {
     }
 
     public saveScreen(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.screenUrl}/screen/save`, req.body).then(screen => {
-            res.send(screen);
+        new ApiAdaptar().post(`${Constants.screenUrl}/screen/save`, req.body).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
 
     public getAllScreens(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/get`).then(screen => {
-            res.send(screen);
+        new ApiAdaptar().get(`${Constants.screenUrl}/screen/get`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getScreenById(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/get/${req.params.id}`).then(screen => {
-            res.send(screen);
+        new ApiAdaptar().get(`${Constants.screenUrl}/screen/get/${req.params.id}`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public updateScreen(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.screenUrl}/screen/update/${req.params.id}`, req.body).then(screen => {
-            res.send(screen);
+        new ApiAdaptar().put(`${Constants.screenUrl}/screen/update/${req.params.id}`, req.body).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
 
     public deleteScreen(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/delete/${req.params.id}`).then(screen => {
-            res.send(screen);
+        new ApiAdaptar().get(`${Constants.screenUrl}/screen/delete/${req.params.id}`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getAllScreenByProjectId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyprojectid/${req.params.projectId}`).then(screen => {
-            res.send(screen);
+        new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyprojectid/${req.params.projectId}`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
 
     public getAllScreenByProjectAndFeatureId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyprojectandfeatureid/${req.params.projectId}/${req.params.featureId}`).then(screen => {
-            res.send(screen);
+        new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyprojectandfeatureid/${req.params.projectId}/${req.params.featureId}`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getAllScreenByFeatureId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyfeatureid/${req.params.id}`).then(screen => {
-            res.send(screen);
+        new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyfeatureid/${req.params.id}`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getTemplateByProjectId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/template?projectId=${req.query.projectId}`).then(screen => {
-            res.send(screen);
+        new ApiAdaptar().get(`${Constants.screenUrl}/screen/template?projectId=${req.query.projectId}`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public createDefaultScreen(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/projects/default/screen?projectId=${req.query.projectId}`).then(screen => {
-            res.send(screen);
+        new ApiAdaptar().get(`${Constants.screenUrl}/projects/default/screen?projectId=${req.query.projectId}`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 }

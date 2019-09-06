@@ -29,7 +29,6 @@ export class SharedService {
     public Adminmanager: String = SharedService.BaseHost + ':30010';
 
     // // Generator Services
-    public genmanagerUrl: String = SharedService.BaseHost + ':30500';
     public configUrl: String = SharedService.BaseHost + ':30501';
 
     public browser_language: String;

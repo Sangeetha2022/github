@@ -46,7 +46,7 @@ export class Constants {
     public static get getAllFlowComponentUrl(): string { return this.DESKTOP_ROUTER + '/flow_component/getall'; }
 
 
-    // Generation Flow apis
+    // Flow apis
     public static get getAllGenFlowsUrl(): string { return this.DESKTOP_ROUTER + '/generation_flow/getall'; }
     public static get addGenFlowsUrl(): string { return this.DESKTOP_ROUTER + '/generation_flow/add'; }
     public static get updateGenFlowsUrl(): string { return this.DESKTOP_ROUTER + '/generation_flow/update/'; }
@@ -121,7 +121,10 @@ export class Constants {
     public static get getAllTemplates(): string { return this.DESKTOP_ROUTER + '/template/getall'; }
 
     // generation
-    public static get projectGeneration(): string { return this.DESKTOP_ROUTER + '/projectgen/project/'; }
+    public static get projectSocket(): string { return this.DESKTOP_ROUTER + '/generate'; }
+    public static get getAllNotifyProject(): string { return this.DESKTOP_ROUTER + '/projectgen/project'; }
+    public static get getAllUserNotify(): string { return this.DESKTOP_ROUTER + '/projectgen/user'; }
+    public static get projectGeneration(): string { return this.DESKTOP_ROUTER + '/projectgen/project'; }
     public static GET = '/get';
 
     // regex Constant Expressions
