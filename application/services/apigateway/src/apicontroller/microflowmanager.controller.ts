@@ -31,52 +31,62 @@ class MicroflowController implements Controller {
     }
 
     public saveMicroFlow(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.featureUrl}/microflow/save`, req.body).then(micro => {
-            res.send(micro);
+        new ApiAdaptar().post(`${Constants.featureUrl}/microflow/save`, req.body).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public updateMicroFlow(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.microUrl}/microflow/update`, req.body).then(micro => {
-            res.send(micro);
+        new ApiAdaptar().put(`${Constants.microUrl}/microflow/update`, req.body).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public deleteMicroFlow(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.microUrl}/microflow/delete?microflowId=${req.query.microflowId}`).then(micro => {
-            res.send(micro);
+        new ApiAdaptar().delete(`${Constants.microUrl}/microflow/delete?microflowId=${req.query.microflowId}`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getAllMicroFlow(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.microUrl}/microflow/getall`).then(allmicro => {
-            res.send(allmicro);
+        new ApiAdaptar().get(`${Constants.microUrl}/microflow/getall`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getMicroFlowByID(req: Request, res: Response) {
         new ApiAdaptar().get(`${Constants.microUrl}/microflow/get?microflowId=${req.query.microflowId}`).then(result => {
-            res.send(result)
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getMicroFlow(req: Request, res: Response) {
-        console.log('api get microflows id are --11-- ', req.body);
-        console.log('api get microflows id are --22-- ', `${Constants.microUrl}/microflow/component/get`);
         new ApiAdaptar().post(`${Constants.microUrl}/microflow/component/get`, req.body).then(result => {
-            res.send(result)
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
@@ -84,17 +94,21 @@ class MicroflowController implements Controller {
 
     public getBackendMicroFlow(req: Request, res: Response) {
         new ApiAdaptar().post(`${Constants.microUrl}/microflow/component/backend/get`, req.body).then(result => {
-            res.send(result)
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getMicroFlowByProjectId(req: Request, res: Response) {
         new ApiAdaptar().get(`${Constants.microUrl}/microflow/project/get?projectId=${req.query.projectId}`).then(result => {
-            res.send(result)
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 

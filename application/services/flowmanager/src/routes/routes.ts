@@ -18,18 +18,13 @@ export class Routes {
         app.route('/flow/get').get(this.flowController.getFlowById);
         app.route('/flow/feature/get').post(this.flowController.getFeatureFlows);
         app.route('/flow/feature/language/get').post(this.flowController.getFeatureFlowsByLanguage);
-        // app.route('/flow/feature/backend/get').post(this.flowController.getBackendFlow);
         app.route('/flow/delete').delete(this.flowController.deleteFlow);
         app.route('/flow/project/get').get(this.flowController.getFlowByProjectId);
 
         
         //flow routes
-        // app.route('/flow/save').post(this.flowController.saveFlow);
-        // app.route('/flow/getall').get(this.flowComponentController.getAllFlows);
         // app.route('/flow/getbyid/:id').get(this.flowController.getFlowByID);
         // app.route('/flow/getbyid/:id/details').get(this.flowController.getFlowDetails);
-        // app.route('/flow/delete/:id').delete(this.flowController.deleteFlow);
-        // app.route('/flow/update/:id').put(this.flowController.updateFlow);
         // app.route('/flow/get/:name/name').get(this.flowController.getFlowByname);
 
         // app.route('/flow/:id/add/flow_comp').post(this.flowController.addFlowComponent);

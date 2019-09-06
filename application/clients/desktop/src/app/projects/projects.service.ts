@@ -31,7 +31,7 @@ export class ProjectsService {
   }
 
   createProjectDefaults(projectId: String): Observable<any> {
-    return this.api.get(`${this.restapi.entityUrl}${Constants.addProjectDefaults}/?projectId=${projectId}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.addProjectDefaults}/?projectId=${projectId}`);
   }
 
   createDefaultScreens(projectId: String): Observable<any> {

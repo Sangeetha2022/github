@@ -17,9 +17,7 @@ public isPrimaryEntityPresent: boolean;
 constructor(
     public dialogRef: MatDialogRef<PopupModelComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log('popup --- ', data);
     if (data.savedEntity !== undefined && Object.keys(data.savedEntity).length > 0) {
-        // alert('entered ');
         this.modelObject.name = data.savedEntity.name;
         this.modelObject.description = data.savedEntity.description;
         this.modelObject.entityType = data.savedEntity.entity_type;

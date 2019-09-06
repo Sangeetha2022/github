@@ -33,161 +33,97 @@ export class ProjectComponentService {
     private http: HttpClient,
     private handler: HttpBackend,
   ) { }
-  // codegenerate Api
 
+
+
+  // new service for feature details
+  getAllFeatureDetailsByFeatureId(id): Observable<any> {
+    return this.api.get(this.restapi.Apigateway + Constants.getAllFeatureDetailsByFeatureId + id);
+  }
+  getAllFeatureByFeatureid(id): Observable<any> {
+    return this.api.get(this.restapi.Apigateway + `${Constants.getAllFeatureByFeatureid}/${id}`);
+  }
+
+  // codegenerate Api
   codeGenerate(projectId: any): Observable<any> {
-    return this.api.get(`${this.restapi.genmanagerUrl}/projectgen/project/${projectId}/get`)
+    return this.api.get(`${this.restapi.genmanagerUrl}${Constants.projectGeneration}${projectId}${Constants.GET}`);
   }
 
   // new apis for features
   saveFeatures(feature: any): Observable<any> {
-    return this.api.post(`${this.restapi.featureUrl}${Constants.saveFeature}`, feature);
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveFeature}`, feature);
   }
   updateFeature(feature: any): Observable<any> {
-    return this.api.put(`${this.restapi.featureUrl}${Constants.updateFeature}`, feature);
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFeature}`, feature);
   }
   getAllFeature(): Observable<any> {
-    return this.api.get(`${this.restapi.featureUrl}${Constants.getAllFeature}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFeature}`);
   }
   getFeatureById(featureId: String): Observable<any> {
-    return this.api.get(`${this.restapi.featureUrl}${Constants.getFeatureById}?featureId=${featureId}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getFeatureById}?featureId=${featureId}`);
   }
   getFeatureByProjectId(projectId: any): Observable<any> {
-    return this.api.get(`${this.restapi.featureUrl}${Constants.getFeatureByProjectId}?projectId=${projectId}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getFeatureByProjectId}?projectId=${projectId}`);
   }
   deleteFeature(featureId: any): Observable<any> {
-    return this.api.delete(`${this.restapi.featureUrl}${Constants.saveFeature}?featureId=${featureId}`);
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.saveFeature}?featureId=${featureId}`);
   }
 
 
   getAllFlows(): Observable<any> {
-    return this.api.get(`${this.restapi.flowbaseUrl}${Constants.getAllFlow}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFlow}`);
   }
 
 
   getEntityByFeatureId(featureId): Observable<any> {
-    return this.api.get(`${this.restapi.entityUrl}${Constants.getEntityByFeatureId}?featureId=${featureId}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getEntityByFeatureId}?featureId=${featureId}`);
   }
 
 
-  // old
   createEntity(entity: any): Observable<any> {
-    return this.api.post(this.restapi.entityUrl + '/entity/save', entity);
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveEntity}`, entity);
   }
   updateEntity(entity: any): Observable<any> {
-    return this.api.put(this.restapi.entityUrl + '/entity/update', entity);
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateEntity}`, entity);
   }
 
-  saveFeatureEntity(featureEntity: any): Observable<any> {
-    console.log('hiiiiiiservice ----->>>>', featureEntity);
-    return this.api.post(this.restapi.featureUrl + Constants.saveFeatureEntity, featureEntity);
-  }
   deleteEntity(entityId: String): Observable<any> {
-    return this.api.delete(this.restapi.entityUrl + `/entity/delete/${entityId}`);
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteEntity}` + `/${entityId}`);
   }
   getByIdEntity(entityId: any): Observable<any> {
-    return this.api.get(this.restapi.entityUrl + `/entity/get/${entityId}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getEntity}/${entityId}`);
   }
   getEntityByProjectId(projectId: String): Observable<any> {
-    return this.api.get(this.restapi.entityUrl + `/entity/get?projectId=${projectId}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getEntity}?projectId=${projectId}`);
   }
   getAllEntity(): Observable<any> {
-    return this.api.get(this.restapi.entityUrl + '/entity/getall');
+    return this.api.get(`${this.restapi.Apigateway}${Constants.allEntity}`);
   }
 
   Updatefeaturedetailsentity(featureid: any, entitydetails: any): Observable<any> {
-    return this.http.put(this.restapi.featureUrl + `/feature/updateEntity/${featureid}`, entitydetails);
+    return this.http.put(`${this.restapi.Apigateway}${Constants.featureUpdateEntity}${featureid}`, entitydetails);
   }
 
   Deletefeaturedetailsentity(featureid: any, entityid: any): Observable<any> {
-    return this.http.delete(this.restapi.featureUrl + `/feature/deleteentity/${featureid}/${entityid}`);
+    return this.http.delete(`${this.restapi.Apigateway}${Constants.featuredeleteEntity}/${featureid}/${entityid}`);
   }
 
-  Getentities(projectId): Observable<any> {
-    return this.http.get(this.restapi.entityUrl + `/feature/getentities?projectId=${projectId}`);
+  getGlobalEntityByProjectId(projectId): Observable<any> {
+    return this.http.get(`${this.restapi.Apigateway}${Constants.getGlobalEntityByProjectId}?projectId=${projectId}`);
   }
 
 
   updateEntityField(entity: any): Observable<any> {
-    return this.api.put(this.restapi.entityUrl + '/entity/field/update', entity);
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateEntityFields}`, entity);
   }
 
   getAllEntityType(): Observable<any> {
-    return this.api.get(this.restapi.entityUrl + '/entity_type/get');
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityTypes}`);
   }
 
   // data sharing
   setEntity(entity: any) {
     this.entityInfoSource.next(entity);
   }
-
-  // Feature
-  addFeature(feature) {
-    return this.api.post(this.restapi.featureUrl + Constants.feature + Constants.saveUrl, feature);
-
-  }
-
-  addFeatureFlow(featureFlow) {
-    return this.api.post(this.restapi.featureUrl + Constants.addFeatureFlow, featureFlow);
-  }
-
-  addFeatureDetails(feature) {
-    return this.api.post(this.restapi.featureUrl + Constants.addFeatureDetails, feature);
-
-  }
-
-  addFeatureDetailsWithFile(feature) {
-    this.http = new HttpClient(this.handler);
-    return this.http.post(`${this.restapi.featureUrl}${Constants.addFeatureDetails}`, feature);
-  }
-
-  // getAllFeature() {
-  //   return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getAllUrl);
-  // }
-  getAllFeatureByProjectId(id) {
-    return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getFeatureByProjectId + id);
-  }
-
-  getAllFeatureDetails() {
-    return this.api.get(this.restapi.featureUrl + Constants.getAllFeatureDetails);
-  }
-
-  getFeatureDetailsById(id) {
-    return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.getByIdUrl + id);
-  }
-
-
-
-  // getFeatureById(id) {
-  //   return this.api.get(this.restapi.featureUrl + Constants.feature + Constants.getByIdUrl + id);
-  // }
-
-  // deleteFeature(id) {
-  //   return this.api.delete(this.restapi.featureUrl + Constants.feature + Constants.deleteUrl + id);
-  // }
-
-  // updateFeature(feature) {
-  //   const featureId = feature.id;
-  //   return this.api.put(this.restapi.featureUrl + Constants.feature + Constants.updateUrl + featureId, feature);
-  // }
-
-  uploadeFeaturefile(file) {
-    // const formData: FormData = new FormData();
-    // formData.append('fileKey', file, file.name);
-    return this.api.post(this.restapi.featureUrl + Constants.feature + Constants.detailsUrl + Constants.addFilesUrl, file);
-  }
-
-  // Default Entity
-
-  // addDefaultEntity(defaultEntity) {
-  //   console.log("hello udhaya u r waiting", defaultEntity)
-  //   return this.api.post(this.restapi.entityUrl + Constants.addDefaultEntity, defaultEntity);
-
-  // }
-
-  // getDefaultEntityByProjectId(id) {
-  //   return this.api.get(this.restapi.entityUrl + Constants.getDefaultEntityByProjectId + id)
-
-  // }
 
 }

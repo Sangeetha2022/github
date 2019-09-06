@@ -8,13 +8,11 @@ import { IFeature } from './interface/Feature';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { IFeatureDetails } from './interface/FeatureDetails';
-import { FeatureDetailsService } from './feature-details/feature-details.service';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
 import { IMenu } from './interface/Menu';
 import { MenuBuilderService } from '../menu-builder/menu-builder.service';
 import { TreeDragService } from '../menu-builder/tree-drag/tree-drag.service';
 import { ProjectsService } from '../projects/projects.service';
-import { IFlow } from '../flow-manager/interface/flow';
 import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
 import { ToastrService } from 'ngx-toastr';
 import { ValidatorService } from 'src/shared/validator.service';
@@ -138,7 +136,6 @@ export class EntityManagerComponent implements OnInit {
         private projectComponentService: ProjectComponentService,
         private projectService: ProjectsService,
         private menuBuilderService: MenuBuilderService,
-        private featureDetailsService: FeatureDetailsService,
         private dataService: DataService,
         private screenService: ScreenDesignerService,
         private route: ActivatedRoute,
@@ -147,12 +144,7 @@ export class EntityManagerComponent implements OnInit {
         private validatorService: ValidatorService,
 
 
-    ) {
-
-        // if (this.selectFeature === true) {
-        // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
-        // }
-    }
+    ) {}
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
@@ -163,13 +155,9 @@ export class EntityManagerComponent implements OnInit {
         }
         this.getProjectById();
         this.getSelectedProject();
-        // this.getProjectDetails();
         this.getFeatureByProjectId();
         this.getScreenByProjectId();
         this.getAllEntityByProjectId();
-        // this.getDefaultEntityByProjectId();
-        // this.getAllFeature();
-        // this.getAllFeatureDetails();
         this.getMenuBuilderByProjectId();
     }
 
@@ -364,33 +352,6 @@ export class EntityManagerComponent implements OnInit {
         }
     }
 
-    // getProjectDetails() {
-    //     this.projectComponentService.getAllFeatureByProjectId(this.project_id).subscribe(data => {
-    //         this.projectFeatureData = [];
-    //         if (data !== null) {
-    //             this.featureId = [];
-    //             data.map(fdata => {
-    //                 this.featureId.push(fdata.feature_id);
-    //                 // this.getScreenDetails(fdata.feature_id._id);
-    //             });
-    //         }
-    //         if (this.featureId !== null) {
-    //             this.featureId.map(fdata => {
-    //                 this.projectComponentService.getFeatureDetailsById(fdata._id).subscribe(fedata => {
-    //                     if (data !== undefined) {
-    //                         this.projectFeatureData.push(fedata);
-    //                         this.dataService.setProjectFeatureInfo(this.projectFeatureData);
-    //                         if (this.projectFeatureData !== undefined) {
-    //                             this.projectFeatureData.map((featuredata, index) => {
-    //                                 this.projectFeatureData[index].description = featuredata.description.replace(/<[^>]*>/g, '');
-    //                             });
-    //                         }
-    //                     }
-    //                 });
-    //             });
-    //         }
-    //     });
-    // }
 
     onChange(selected) {
         if (selected) {
@@ -427,74 +388,6 @@ export class EntityManagerComponent implements OnInit {
             }
         );
     }
-
-
-
-    // createFeature() {
-    //     if (this.selectedOption === 'Upload Feature') {
-    //         this.formData.append('front_mang_file', this.frontFile[0]);
-    //         this.formData.append('backed_mang_file', this.backendFile[0]);
-    //         this.formData.append('api_mang_file', this.apiManFile[0]);
-    //         this.formData.append('name', this.featureDetails.name);
-    //         this.formData.append('description', this.featureDetails.description);
-
-    //         this.projectComponentService.addFeatureDetailsWithFile(this.formData).subscribe((data) => {
-
-    //             if (data) {
-    //                 this.frontFile = '',
-    //                     this.backendFile = '',
-    //                     this.apiManFile = '',
-    //                     this.featureDetails.name = '',
-    //                     this.featureDetails.description = '',
-    //                     this.createFeatureData = data;
-    //                 this.closeFeatureCreateModel();
-    //                 this.getAllFeatureDetails();
-    //             }
-    //         }, (error) => {
-    //             console.log('something happens in feature microservice');
-    //         });
-    //     } else if (this.selectedOption === 'Create Feature') {
-    //         this.projectComponentService.addFeatureDetails(this.featureDetails).subscribe((data) => {
-    //             if (data) {
-    //                 this.createFeatureData = data;
-    //                 this.features.feature_id = this.createFeatureData._id;
-    //                 this.features.project_id = this.project_id;
-    //                 this.projectComponentService.addFeature(this.features).subscribe(featureData => {
-    //                     if (featureData) {
-    //                         this.menuBuilder = { feature: [], project: '', language: this.menuLanguages[0],
-    //  menuDetails: [], project_languages: this.menuLanguages, menu_option: true };
-    //                         this.menuBuilder.project = this.project_id;
-    //                         this.menuBuilder.feature.push(this.createFeatureData._id);
-    //                         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
-    //                             if (menuBuilderData.length !== 0) {
-    //                                 this.menuBuilder.feature = menuBuilderData[0].feature;
-    //                                 this.menuBuilder.feature.push(featureData.feature_id);
-    //                                 this.menuBuilderService.updateMenuById(menuBuilderData[0]._id, this.menuBuilder)
-    //                                     .subscribe(fMenu => {
-    //                                         console.log('=========', fMenu);
-    //                                     });
-    //                             } else {
-    //                                 this.menuBuilderService.createMenu(this.menuBuilder).subscribe(menuData => {
-    //                                 });
-    //                             }
-    //                         });
-
-    //                         this.getProjectDetails();
-    //                         this.closeFeatureExistingModel();
-    //                         this.getMenuBuilderByProjectId();
-    //                     }
-    //                 });
-    //                 this.featureDetails.name = '',
-    //                     this.featureDetails.description = '',
-    //                     this.closeFeatureCreateModel();
-    //                 this.getAllFeatureDetails();
-    //             }
-    //         }, (error) => {
-    //             console.log('something happens in feature microservice');
-    //         });
-    //     }
-    // }
-
     openFeatureDialog(): void {
         if (this.uiFile) {
             this.uiFile.nativeElement.value = '';
@@ -521,7 +414,6 @@ export class EntityManagerComponent implements OnInit {
             this.featureDetails.description = '',
             this.displayFeatureModel = 'none';
 
-        // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
     }
     closeFeatureExistingModel() {
         this.displayFeatureModel = 'none';
@@ -581,17 +473,10 @@ export class EntityManagerComponent implements OnInit {
             (data) => {
                 this.allEntity = data;
                 this.projectEntity = this.allEntity;
-                console.log('ProjectEntity data are ------ ', this.allEntity);
-                // this.allEntity.map(entityData => {
-                //     if (entityData.feature_id === undefined && entityData.project_id === null) {
-                //         this.projectEntity.push(entityData);
-                //     }
-                // });
-                console.log('ProjectEntity 22333 ---- ', this.projectEntity);
                 this.dataService.setAllEntity(this.allEntity);
             },
             (error) => {
-                console.log('error in ProjectEntity ---- ', error);
+                console.log('cannot able to get all entity based on projectId ---- ', error);
             }
         );
     }
@@ -675,14 +560,19 @@ export class EntityManagerComponent implements OnInit {
                                                         this.dataMenu.forEach(meData => {
                                                             this.menuBuilder.menuDetails.forEach(menu => {
                                                                 if (meData.featuremenu.length > 0) {
+                                                                    // tslint:disable-next-line:max-line-length
                                                                     if (menu.featuremenu[0].name.featureId === meData.featuremenu[0].name.featureId) {
                                                                         menu.featuremenu[0].description = meData.featuremenu[0].description;
+                                                                        // tslint:disable-next-line:max-line-length
                                                                         if (menu.screenmenu[0].name.screenId !== undefined && meData.screenmenu[0].name.screenId !== undefined) {
+                                                                            // tslint:disable-next-line:max-line-length
                                                                             const intersection = menu.screenmenu[0].name.screenId.filter(x => meData.screenmenu[0].name.screenId.includes(x));
                                                                             if (intersection.length !== 0) {
                                                                                 intersection.forEach(sId => {
+                                                                                    // tslint:disable-next-line:max-line-length
                                                                                     meData.screenmenu[0].name.screenId.forEach((dSId, index) => {
                                                                                         if (sId === dSId) {
+                                                                                            // tslint:disable-next-line:max-line-length
                                                                                             menu.screenmenu[0].description.screen[index] = meData.screenmenu[0].description.screen[index];
                                                                                         }
                                                                                     });
@@ -730,19 +620,8 @@ export class EntityManagerComponent implements OnInit {
         );
     }
 
-    // getDefaultEntityByProjectId() {
-    // this.projectComponentService.getDefaultEntityByProjectId(this.selectedProject._id).subscribe(data => {
-    // // data.map((data,index)=>{
-    // this.selecteddefaultEntity = [data];
-
-
-    // // let defaultEntity = Object.values(this.selecteddefaultEntity);
-    // });
-    // }
-
     GoToDesigner() {
         this.openScreenDialog();
-        // this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id } });
     }
 
     openScreenDialog(): void {
@@ -770,134 +649,18 @@ export class EntityManagerComponent implements OnInit {
         this.deleteFPopup = 'none';
     }
 
-    updateFeature() {
-        // this.projectComponentService.getFeatureById(this.features.id).subscribe(data => {
-        // if (data.connectProject === true) {
-        // alert("Already Imported");
-        // this.closeFeatureExistingModel();
-        // } else {
-        // console.log("Asadadffaffdf", this.features)
-        // this.projectComponentService.updateFeature(this.features).subscribe(data => {
-        // console.log(data);
-        // if (data) {
-        // this.closeFeatureExistingModel();
-        // }
-        // });
 
-        // }
-        // });
-    }
-
-    addFeature() {
-        this.projectComponentService.getAllFeatureByProjectId(this.features.project_id).subscribe(data => {
-            data.map(pfdata => {
-                if (pfdata.feature_id._id === this.features.feature_id) {
-                    this.allowImport = true;
-                }
-            });
-            if (this.allowImport) {
-                alert('Already Imported');
-                this.closeFeatureExistingModel();
-            }
-            if (!this.allowImport) {
-                this.projectComponentService.addFeature(this.features).subscribe(featureData => {
-                    if (featureData) {
-                        this.menuBuilder.feature.push(featureData.feature_id);
-                        this.menuBuilder.project = this.project_id;
-                        this.menuBuilderService.createMenu(this.menuBuilder).subscribe(menuData => {
-                            if (menuData) {
-                                this.getMenuBuilderByProjectId();
-                            }
-                        });
-                        this.getFeatureByProjectId();
-                        this.closeFeatureExistingModel();
-                    }
-                });
-                this.featureDetailsService.getFeatureEntityByFeatureId(this.features.feature_id).subscribe(entityFeatureData => {
-                    this.featureEntityData = entityFeatureData;
-                    this.featureEntityData.map((entityData, index) => {
-                        this.featureEntityField.push(entityData);
-                    });
-                    this.featureEntityField.map(fieldElement => {
-                        this.entity.name = fieldElement.name;
-                        this.entity.feature_id = this.features.feature_id;
-                        this.entity.description = fieldElement.description;
-                        this.entity.project_id = this.features.project_id;
-                        this.entity.field = fieldElement.field;
-                        this.projectComponentService.createEntity(this.entity).subscribe(
-                            (entityData) => {
-                            },
-                            (error) => {
-
-                            }
-                        );
-                    });
-
-                });
-
-
-            }
-        });
-    }
-
-    addFeatureDetails() {
-        this.projectComponentService.addFeatureDetails(this.features).subscribe(data => {
-            // if (data) {
-            // this.getAllFeature();
-            // }
-        });
-    }
-
-    getAllFeatureDetails() {
-        this.projectComponentService.getAllFeatureDetails().subscribe(data => {
-            this.featureData = data;
-            this.featureData.forEach((featureElement, index) => {
-                if (featureElement.description !== undefined) {
-                    this.featureData[index].description = featureElement.description.replace(/<[^>]*>/g, '');
-                }
-            });
-        });
-    }
-    // getAllFeature() {
-    // this.projectComponentService.getAllFeature().subscribe(data => {
-    // this.featureData = data;
-    // this.featureConnectProject = [];
-    // data.map(data => {
-    // if (data.connectProject === true) {
-    // this.featureConnectProject.push(data);
-
-    // }
-    // })
-    // // tslint:disable-next-line:no-shadowed-variable
-    // this.featureData.map((data, index) => {
-    // this.featureData[index].description = data.description.replace(/<[^>]*>/g, '');
-    // });
-    // });
-    // }
-
-    onReady(eventData) {
+     onReady(eventData) {
         eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
-            // console.log("aiosaohofhodaofdfdf>>>>>>>>>>++++++++",btoa(loader.file));
-            // return new UploadAdapter(loader);
         };
     }
-    // getAllFeature() {
-    // this.projectComponentService.getAllFeature().subscribe(data => {
-    // this.featureData = data;
-    // this.featureConnectProject = [];
-    // data.map(data => {
-    // if (data.connectProject === true) {
-    // this.featureConnectProject.push(data);
-
     deleteFeature() {
         this.projectComponentService.deleteFeature(this.selectedFeatureId).subscribe(data => {
         });
         this.closeDeleteFModel();
-        // this.getAllFeature();
     }
 
     editScreen(screenId, screenType) {
-        console.log('screen id are ----- ', screenId, screenType);
         this.router.navigate(['/desktopscreen'], {
             queryParams: {
                 projectId: this.project_id, screenId: screenId,
@@ -917,34 +680,3 @@ export class EntityManagerComponent implements OnInit {
         );
     }
 }
-
-
-// image uploader for ckeditor
-
-// export class UploadAdapter {
-// private loader;
-// constructor(loader: any) {
-// this.loader = loader;
-// console.log(this.readThis(loader.file));
-// }
-
-// public upload(): Promise<any> {
-// //"data:image/png;base64,"+ btoa(binaryString)
-// return this.readThis(this.loader.file);
-// }
-
-// readThis(file: File): Promise<any> {
-// console.log(file)
-// let imagePromise: Promise<any> = new Promise((resolve, reject) => {
-// var myReader: FileReader = new FileReader();
-// myReader.onloadend = (e) => {
-// let image = myReader.result;
-// console.log(image);
-// return { default: "data:image/png;base64," + image };
-// resolve();
-// }
-// myReader.readAsDataURL(file);
-// });
-// return imagePromise;
-// }
-

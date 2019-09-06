@@ -51,7 +51,6 @@ import { LandingService } from './landingpage/landingservice.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FeatureDetailsService } from './project-component/feature-details/feature-details.service';
 import { MenuBuilderModule } from './menu-builder/menu-builder.module';
 // import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
 // import { GoogleLoginProvider } from 'angularx-social-login';
@@ -198,7 +197,6 @@ export const I18N_PROVIDERS = [
   ],
   providers: [
     ApiService,
-    FeatureDetailsService,
     AppComponentService,
     ProjectsService,
     FlowManagerService,
