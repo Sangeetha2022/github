@@ -26,10 +26,12 @@ export class ConfigurationController implements Controller {
         new ApiAdaptar().post(
             `${Constants.configUrl}/generation_flow/add`,
             req.body
-        ).then((response) => {
-            res.send(response);
+        ).then((result) => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
@@ -37,60 +39,72 @@ export class ConfigurationController implements Controller {
         new ApiAdaptar().put(
             `${Constants.configUrl}/generation_flow/update/${req.params.id}`,
             req.body
-        ).then((response) => {
-            res.send(response);
+        ).then((result) => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     getAllGenerationFlow(req: Request, res: Response) {
         new ApiAdaptar().get(
             `${Constants.configUrl}/generation_flow/getall`
-        ).then((response) => {
-            res.send(response);
+        ).then((result) => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     getGenerationFlowByID(req: Request, res: Response) {
         new ApiAdaptar().get(
             `${Constants.configUrl}/generation_flow/getbyid/${req.params.id}`
-        ).then((response) => {
-            res.send(response);
+        ).then((result) => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     getGenerationFlowByName(req: Request, res: Response) {
         new ApiAdaptar().get(
             `${Constants.configUrl}/generation_flow/getbyname/${req.params.name}`
-        ).then((response) => {
-            res.send(response);
+        ).then((result) => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     deleteGenerationFlow(req: Request, res: Response) {
         new ApiAdaptar().delete(
             `${Constants.configUrl}/generation_flow/delete/${req.params.id}`
-        ).then((response) => {
-            res.send(response);
+        ).then((result) => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     getTechPropertyFlow(req: Request, res: Response) {
         new ApiAdaptar().get(
             `${Constants.configUrl}/generation_flow/getproperties`
-        ).then((response) => {
-            res.send(response);
+        ).then((result) => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 }

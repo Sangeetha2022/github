@@ -1,7 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
-import { DataService } from '../../shared/data.service';
-import { NavigationService } from '../navigation/navigation.service';
+import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
@@ -15,9 +12,6 @@ export class HomepageComponent implements OnInit {
   public lastloggedintime: any;
 
   constructor(
-    @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
-    private dataService: DataService,
-    private navigationService: NavigationService,
     private router: Router,
   ) {
     this.router.events.subscribe((event) => {

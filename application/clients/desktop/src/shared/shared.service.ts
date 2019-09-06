@@ -28,11 +28,6 @@ export class SharedService {
     public loginUrl: String = SharedService.BaseHost + ':30007';
     public Adminmanager: String = SharedService.BaseHost + ':30010';
 
-    // // Generator Services
-    public configUrl: String = SharedService.BaseHost + ':30501';
-
-    public browser_language: String;
-
 }
 
 

@@ -47,12 +47,12 @@ export class Constants {
 
 
     // Flow apis
-    public static get getAllGenFlowsUrl(): string { return this.DESKTOP_ROUTER + '/generation_flow/getall'; }
-    public static get addGenFlowsUrl(): string { return this.DESKTOP_ROUTER + '/generation_flow/add'; }
-    public static get updateGenFlowsUrl(): string { return this.DESKTOP_ROUTER + '/generation_flow/update/'; }
-    public static get deleteGenFlowsUrl(): string { return this.DESKTOP_ROUTER + '/generation_flow/delete/'; }
-    public static get getGenFlowsByCompNameUrl(): string { return this.DESKTOP_ROUTER + '/generation_flow/getbyname/'; }
-    public static get getTechProperties(): string { return this.DESKTOP_ROUTER + '/generation_flow/getproperties'; }
+    public static get getAllConfig(): string { return this.DESKTOP_ROUTER + '/generation_flow/getall'; }
+    public static get saveConfig(): string { return this.DESKTOP_ROUTER + '/generation_flow/add'; }
+    public static get updateConfig(): string { return this.DESKTOP_ROUTER + '/generation_flow/update'; }
+    public static get deleteConfig(): string { return this.DESKTOP_ROUTER + '/generation_flow/delete'; }
+    public static get getProjectVersion(): string { return this.DESKTOP_ROUTER + '/generation_flow/getbyname'; }
+    public static get getConfigTechProperties(): string { return this.DESKTOP_ROUTER + '/generation_flow/getproperties'; }
 
     // Micro Flow apis
     public static get addMicroFlow(): string { return this.DESKTOP_ROUTER + '/microflow/save'; }
