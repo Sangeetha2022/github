@@ -15,42 +15,37 @@ export class ScreenDesignerService {
     private sharedService: SharedService
   ) { }
 
-  getProjectDetails(): Observable<any> {
-    return this.http.get(this.sharedService.screenUrl + `project/get`).pipe(
-      map(res => res[0])
-    );
-  }
 
   getScreenByProjectAndFeatureId(projectId, featureId): Observable<any> {
-    return this.http.get(this.sharedService.screenUrl + Constants.getScreenByProjectAndFeatureId + projectId + '/' + featureId);
+    return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByProjectAndFeatureId}/${projectId}/${featureId}`);
   }
 
   getScreenById(screenId) {
-    return this.http.get(`${this.sharedService.screenUrl}${Constants.getScreenByID}${screenId}`);
+    return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByID}/${screenId}`);
   }
 
   updateScreen(screenId, screenData) {
-    return this.http.post(`${this.sharedService.screenUrl}${Constants.updateScreen}${screenId}`, screenData);
+    return this.http.post(`${this.sharedService.Apigateway}${Constants.updateScreen}/${screenId}`, screenData);
   }
 
   saveScreen(screenData): Observable<any> {
-    return this.http.post(`${this.sharedService.screenUrl}${Constants.addScreen}`, screenData);
+    return this.http.post(`${this.sharedService.Apigateway}${Constants.addScreen}`, screenData);
   }
 
   deleteScreen(screenId) {
-    return this.http.delete(`${this.sharedService.screenUrl}${Constants.deleteScreen}${screenId}`);
+    return this.http.delete(`${this.sharedService.Apigateway}${Constants.deleteScreen}/${screenId}`);
   }
 
   getScreenByProjectId(projectId): Observable<any> {
-    return this.http.get(this.sharedService.screenUrl + Constants.getScreenByProjectId + projectId);
+    return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByProjectId}/${projectId}`);
   }
 
   getScreenByFeatureId(featureId): Observable<any> {
-    return this.http.get(this.sharedService.screenUrl + Constants.getScreenByFeatureId + featureId);
+    return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByFeatureId}/${featureId}`);
   }
 
   getScreenTemplateByProjectId(projectId): Observable<any> {
-    return this.http.get(`${this.sharedService.screenUrl}${Constants.getScreenTemplateByProjectId}?projectId=${projectId}`);
+    return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenTemplateByProjectId}?projectId=${projectId}`);
   }
 
 }

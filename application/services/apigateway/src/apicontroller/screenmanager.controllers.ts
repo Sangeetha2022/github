@@ -24,6 +24,7 @@ class ScreenController implements Controller {
         this.router.get('/screen/getbyprojectandfeatureid/:projectId/:featureId', this.getAllScreenByProjectAndFeatureId);
         this.router.get('/screen/getbyfeatureid/:id', this.getAllScreenByFeatureId);
         this.router.get('/screen/template', this.getTemplateByProjectId);
+        this.router.get('/projects/default/screen', this.createDefaultScreen);
 
     }
 
@@ -96,6 +97,14 @@ class ScreenController implements Controller {
 
     public getTemplateByProjectId(req: Request, res: Response) {
         new ApiAdaptar().get(`${Constants.screenUrl}/screen/template?projectId=${req.query.projectId}`).then(screen => {
+            res.send(screen);
+        }).catch(err => {
+            res.send(err);
+        });
+    }
+
+    public createDefaultScreen(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.screenUrl}/projects/default/screen?projectId=${req.query.projectId}`).then(screen => {
             res.send(screen);
         }).catch(err => {
             res.send(err);

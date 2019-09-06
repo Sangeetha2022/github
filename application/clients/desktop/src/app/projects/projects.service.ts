@@ -34,7 +34,7 @@ export class ProjectsService {
   }
 
   createDefaultScreens(projectId: String): Observable<any> {
-    return this.api.get(`${this.restapi.screenUrl}${Constants.addProjectScreenDefault}/?projectId=${projectId}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.addProjectScreenDefault}/?projectId=${projectId}`);
   }
 
   createDefaultMenu(projectId: String, primaryLanguage: String, secondaryLanguage: String): Observable<any> {

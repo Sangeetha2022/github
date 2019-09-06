@@ -57,7 +57,6 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
     defaultLanguage: String = 'en';
     saveTemplateURL: String;
     updateTemplateURL: String;
-    saveChildURL: String;
     allEntity: any[] = [];
     allEntityField: any[] = [];
     selectedEntity: any;
@@ -278,9 +277,8 @@ export class DesktopScreenComponent implements OnInit, OnDestroy {
         // this.eventFlows = this.formBuilder.group({
         //     selectEvent: ['', Validators.required]
         // });
-        this.saveTemplateURL = `${this.sharedService.screenUrl}${Constants.addScreen}`;
-        this.updateTemplateURL = `${this.sharedService.screenUrl}${Constants.updateScreen}`;
-        this.saveChildURL = this.sharedService.screenUrl + '/childTemplate/save';
+        this.saveTemplateURL = `${this.sharedService.Apigateway}${Constants.addScreen}`;
+        this.updateTemplateURL = `${this.sharedService.Apigateway}${Constants.updateScreen}`;
         let addStyles = [];
         let addScripts = [];
         const plugins = ['gjs-grapedrop-preset'];
