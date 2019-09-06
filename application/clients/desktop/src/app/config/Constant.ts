@@ -30,6 +30,10 @@ export class Constants {
     public static get addProjectScreenDefault(): String { return this.DESKTOP_ROUTER + '/projects/default/screen'; }
 
     // menu apis
+    public static get saveMenu(): String { return this.DESKTOP_ROUTER + '/menu/save'; }
+    public static get getMenuByProjectId(): String { return this.DESKTOP_ROUTER + '/menu/getbyprojectid'; }
+    public static get updateMenuById(): String { return this.DESKTOP_ROUTER + '/menu/update'; }
+    public static get updateMenuByProjectId(): String { return this.DESKTOP_ROUTER + '/menu/updatemenubyproject'; }
     public static get defaultMenu(): String { return this.DESKTOP_ROUTER + '/menu/default'; }
 
 

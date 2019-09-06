@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from '../config/api.service';
-import { Router } from '@angular/router';
-import { Observable, Subject, BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Constants } from '../config/Constant';
 import { SharedService } from 'src/shared/shared.service';
 import * as socketIo from 'socket.io-client';
@@ -39,9 +38,8 @@ export class ProjectsService {
   }
 
   createDefaultMenu(projectId: String, primaryLanguage: String, secondaryLanguage: String): Observable<any> {
-    console.log('service create defaulet --- ', primaryLanguage, ' --secon-- ', secondaryLanguage);
     // tslint:disable-next-line:max-line-length
-    return this.api.get(`${this.restapi.menuUrl}${Constants.defaultMenu}/?projectId=${projectId}&primaryLanguage=${primaryLanguage}&secondaryLanguage=${secondaryLanguage}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.defaultMenu}/?projectId=${projectId}&primaryLanguage=${primaryLanguage}&secondaryLanguage=${secondaryLanguage}`);
   }
 
   updateProjectById(projectId: String, projectDetails: any): Observable<any> {
