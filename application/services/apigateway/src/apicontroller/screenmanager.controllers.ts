@@ -71,7 +71,7 @@ class ScreenController implements Controller {
 
 
     public deleteScreen(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/delete/${req.params.id}`).then(result => {
+        new ApiAdaptar().delete(`${Constants.screenUrl}/screen/delete/${req.params.id}`).then(result => {
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
