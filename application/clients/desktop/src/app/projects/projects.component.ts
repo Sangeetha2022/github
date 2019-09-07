@@ -465,7 +465,7 @@ export class ProjectsComponent implements OnInit {
     this.projectsService.getAllUserNotify(user_id).subscribe(data => {
       this.userNotifyArr = data.body;
       console.log('userNotifydata:', data);
-      if (this.userNotifyArr.length !== 0) {
+      if (this.userNotifyArr && this.userNotifyArr.length !== 0) {
         this.toastr.info('PROJECT : ' + this.userNotifyArr[this.userNotifyArr.length - 1].project_name
           + ', STATUS : ' + this.userNotifyArr[this.userNotifyArr.length - 1].status_message,
           'Generation Notification!', {

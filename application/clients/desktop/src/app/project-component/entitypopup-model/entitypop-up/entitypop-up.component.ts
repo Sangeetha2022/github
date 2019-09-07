@@ -66,8 +66,8 @@ export class EntityModelComponent implements OnInit {
     ngOnInit() {
         this.hide = true;
         this.projectservice.getGlobalEntityByProjectId(this.projectId).subscribe(data => {
-            if (data && data.length > 0) {
-                this.rowData = data;
+            if (data.body && data.body.length > 0) {
+                this.rowData = data.body;
             }
         }, error => {
             console.error('error:', error);

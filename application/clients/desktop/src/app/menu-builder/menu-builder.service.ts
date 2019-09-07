@@ -23,10 +23,10 @@ export class MenuBuilderService {
 
   }
   updateMenuById(id, menu): Observable<any> {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.getMenuByProjectId}/${id}`, menu);
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateMenuById}/${id}`, menu);
   }
 
-  updateMenubyProject(projectId, menu) {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.getMenuByProjectId}/${projectId}`, menu);
+  updateMenubyProjectId(projectId, menu) {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateMenuByProjectId}/${projectId}`, menu);
   }
 }

@@ -95,7 +95,7 @@ export class Constants {
     public static get getScreenByID(): string { return this.DESKTOP_ROUTER + '/screen/get'; }
     public static get deleteScreen(): string { return this.DESKTOP_ROUTER + '/screen/delete'; }
     public static get getScreenByFeatureName(): string { return this.DESKTOP_ROUTER + '/screen/getbyfeature/'; }
-    public static get updateScreen(): string { return this.DESKTOP_ROUTER + '/screen/update'; }
+    public static get updateScreen(): string { return this.DESKTOP_ROUTER + '/screen/update/'; }
     public static get getScreenByProjectAndFeatureId(): string { return this.DESKTOP_ROUTER + '/screen/getbyprojectandfeatureid/'; }
     public static get getScreenByProjectId(): string { return this.DESKTOP_ROUTER + '/screen/getbyprojectid'; }
     public static get getScreenByFeatureId(): string { return this.DESKTOP_ROUTER + '/screen/getbyfeatureid'; }

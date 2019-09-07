@@ -16,7 +16,7 @@ export class ConfigManagerService {
   }
 
   deleteConfig(id): Observable<any> {
-    return this.api.delete(`${this.restapi.Apigateway}${Constants.saveConfig}/${id}`);
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteConfig}/${id}`);
   }
 
   updateConfig(config): Observable<any> {

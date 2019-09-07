@@ -29,8 +29,8 @@ export class EntityManagerComponent implements OnInit {
     @ViewChild('apiGatewayFile') apiGatewayFile: ElementRef;
     public Editor = ClassicEditor;
     showUploadFeature: Boolean;
-    showImportFeature: Boolean = true;
-    showAddFeature: Boolean;
+    showImportFeature: Boolean;
+    showAddFeature: Boolean = true;
     frontFile: any;
     backendFile: any;
     rowSelection: any;
@@ -52,7 +52,7 @@ export class EntityManagerComponent implements OnInit {
         feature_id: '',
         // explanation:'',
     };
-    selectedOption: string;
+    selectedOption: String = 'Create Feature';
     options: string[] = ['Import Feature', 'Upload Feature', 'Create Feature'];
     public featureDetails: IFeatureDetails = {
         id: '',
@@ -150,9 +150,6 @@ export class EntityManagerComponent implements OnInit {
         this.route.queryParams.subscribe(params => {
             this.project_id = params.projectId;
         });
-        if (this.showImportFeature === true) {
-            this.selectedOption = 'Import Feature';
-        }
         this.getProjectById();
         this.getSelectedProject();
         this.getFeatureByProjectId();
@@ -265,7 +262,6 @@ export class EntityManagerComponent implements OnInit {
     getFeatureByProjectId() {
         this.projectComponentService.getFeatureByProjectId(this.project_id).subscribe(
             response => {
-                console.log('get features by project id are ----- ', response);
                 this.projectFeatureData = response.body;
             },
             error => {
@@ -315,7 +311,6 @@ export class EntityManagerComponent implements OnInit {
                         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
                             if (menuBuilderData.body && menuBuilderData.body.length !== 0) {
                                 menuBuilderData.body.forEach(menuData => {
-                                    console.log(menuData.menu_option);
                                     if (menuData.menu_option === true) {
                                         this.menuBuilder.feature = menuData.feature;
                                         this.menuBuilder.project = this.project_id;
@@ -324,7 +319,6 @@ export class EntityManagerComponent implements OnInit {
                                         this.menuBuilder.menuDetails = menuData.menuDetails;
                                         this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
                                             .subscribe(fMenu => {
-                                                console.log('=========', fMenu);
                                             }, error => console.log('cannot able to update the menu details'));
                                     }
                                 });
@@ -342,7 +336,6 @@ export class EntityManagerComponent implements OnInit {
     }
 
     onFeatureChange(event) {
-        console.log(event);
         if (event.length <= 0) {
             this.isFeatureExist = false;
             this.isReserveWord = false;
@@ -420,8 +413,6 @@ export class EntityManagerComponent implements OnInit {
 
     getScreenByProjectId() {
         this.screenService.getScreenByProjectId(this.project_id).subscribe(response => {
-            // this.screenDetails = sData;
-            console.log('get screen by projectId ---  ', response);
             if (response.body) {
                 response.body.forEach(element => {
                     if (!element.isTemplate) {

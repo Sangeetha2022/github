@@ -283,8 +283,8 @@ export class FeatureDetailsComponent implements OnInit {
                 if (response) {
                     const flows = response.body;
                     if (this.featureInfo.flows.length === 0) {
-                        this.rowData = flows.body;
-                    } else {
+                        this.rowData = flows;
+                } else {
                         this.featureInfo.flows.forEach(flowElement => {
                             const index = flows.findIndex(x => x._id === flowElement);
                             if (index > -1) {
