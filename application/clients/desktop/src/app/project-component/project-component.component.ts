@@ -700,6 +700,7 @@ export class EntityManagerComponent implements OnInit {
                                                     this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
                                                         .subscribe(fMenu => {
                                                             if (fMenu) {
+                                                                this.dataService.setMenuBuilder(fMenu.menuDetails);
                                                                 this.database.initialize(fMenu.menuDetails);
                                                             }
                                                         });

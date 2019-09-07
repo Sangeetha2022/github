@@ -74,6 +74,9 @@ ScreenPopupComponent,
 FieldPopupModalComponent,
 EntityModelComponent,
 EditPopupComponent,
-]
+],
+exports: [
+    EntityManagerComponent,
+  ],
 })
 export class ProjectComponentModule { }

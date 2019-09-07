@@ -90,11 +90,13 @@ export class ProjectsComponent implements OnInit {
     });
 
     this.createProject.get('name').valueChanges.subscribe(name => {
-      this.currentName = name;
-      if (this.currentName.length <= 0) {
-        this.invalidName = false;
-        this.isProjectExit = false;
-        this.isReserveWord = false;
+      if (name) {
+        this.currentName = name;
+        if (this.currentName.length <= 0) {
+          this.invalidName = false;
+          this.isProjectExit = false;
+          this.isReserveWord = false;
+        }
       }
     });
 
