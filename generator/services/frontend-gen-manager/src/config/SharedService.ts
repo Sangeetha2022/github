@@ -5,8 +5,8 @@ export class SharedService {
     // public static generatorBaseUrl = "http://localhost";
 
     //kubernetes
-    public static systementryBaseUrl = "http://gep-stage-system-entry.gep-stage-201908.svc.cluster.local";
-    public static generatorBaseUrl = "http://gep-stage-generator.gep-stage-201908.svc.cluster.local";
+    public static systementryBaseUrl = "http://gep-dev-system-entry.gep-dev-201902.svc.cluster.local";
+    public static generatorBaseUrl = "http://gep-dev-generator.gep-dev-201902.svc.cluster.local";
 
     public static apiGatewayURL: String = SharedService.systementryBaseUrl + ":3000";
     public static authURL: String = SharedService.generatorBaseUrl + ":5017";
