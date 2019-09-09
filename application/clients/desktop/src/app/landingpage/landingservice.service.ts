@@ -10,9 +10,4 @@ import { SharedService } from '../../shared/shared.service';
 export class LandingService {
 
   constructor(private http: HttpClient, private api: ApiService, private restapi: SharedService) { }
-
-
-  landingpage(body): Observable<any> {
-    return this.api.post(this.restapi.loginUrl + '/authorize', body);
-  }
 }

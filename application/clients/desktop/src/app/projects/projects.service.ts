@@ -13,10 +13,6 @@ export class ProjectsService {
   constructor(private http: HttpClient, private api: ApiService, private restapi: SharedService) {
   }
 
-  landingpage(body): Observable<any> {
-    return this.api.post(this.restapi.loginUrl + '/authorize', body);
-  }
-
   addProject(proj): Observable<any> {
     return this.api.post(this.restapi.Apigateway + Constants.saveProject, proj);
   }
