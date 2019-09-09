@@ -14,16 +14,16 @@ import { ScreenDesignerService } from '../screen-designer/screen-designer.servic
   styleUrls: ['./menu-builder.component.scss']
 })
 export class MenuBuilderComponent implements OnInit {
-  private languages: any = [];
+  public languages: any = [];
   private primaryLang: String;
   private secondaryLang: String;
-  private selectedLang: String;
+  public selectedLang: String;
   private menuLang: any = [];
-  private name: String;
+  public name: String;
   private menuFId: any;
   private menuBuilderDetails: any = [];
   private screenMenuName: any;
-  private description: String;
+  public description: String;
   private selectedMenu: String;
   private currentLang: String;
   private menu: any;

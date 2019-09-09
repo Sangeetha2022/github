@@ -2,7 +2,7 @@
 <div mat-dialog-content style="text-align: center">
   <p>Name</p>
   <mat-form-field>
-    <input matInput [(ngModel)]="modelObject.name" (ngModelChange)="isEntityExist($event)">
+    <input matInput [(ngModel)]="modelObject.name" (ngModelChange)="isEntityExist()">
   </mat-form-field>
   <div *ngIf="entityIsExist" style="color: red">name already exist</div>
   <div *ngIf="invalidName" style="color: red">name must starts

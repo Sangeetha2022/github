@@ -29,6 +29,7 @@ export class FlowManagerComponent implements OnInit {
   flow_name: String;
   gridColumnApi;
   getGenFlow: any;
+  public submitted: Boolean = false;
   dataFlow: any;
   dataFlowComponent: any;
   selectedFlow: any = [];
@@ -77,6 +78,8 @@ export class FlowManagerComponent implements OnInit {
     this.getAllFlows();
   }
 
+  get form_control() { return this.createFlowForm.controls; }
+
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
@@ -118,15 +121,18 @@ export class FlowManagerComponent implements OnInit {
 
   onCloseHandled() {
     this.displayModel = 'none';
+    this.submitted = false;
     this.createFlowForm.clearValidators();
     this.createFlowForm.reset();
   }
 
   onCloseHandledForUpdate() {
+    this.submitted = false;
     this.displayModel = 'none';
   }
 
   createFlowModel() {
+    this.submitted = true;
     this.flowManagerService.saveFlow(this.createFlowForm.getRawValue())
       .subscribe(
         (data) => {
@@ -151,6 +157,7 @@ export class FlowManagerComponent implements OnInit {
   }
 
   updateFlowModel() {
+    this.submitted = true;
     this.flowManagerService.updateFlow(this.flow, this.flow['_id']).subscribe(
       (data) => {
         this.onCloseHandled();

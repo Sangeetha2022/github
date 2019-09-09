@@ -33,7 +33,7 @@
             <div class="form-group field_size">
               <label class="text">Password</label>
               <input type="password" class="form-control center" id="exampleInputPassword1" formControlName="password" placeholder="Password" name='user'
-              [type]="show ? 'text' : 'password'" pw-show-hide="icon" [(ngModel)]='user.password' (keyup.enter)="Login(user)" [ngStyle]="{'border-color': borderStyle.password}">
+              [type]="show ? 'text' : 'password'" pw-show-hide="icon" [(ngModel)]='user.password' (keyup.enter)="Login()" [ngStyle]="{'border-color': borderStyle.password}">
 
               <span class="input-group-addon eye">
                 <i  [ngClass]= "show ? 'fa fa-eye' : 'fa fa-eye-slash'"  aria-hidden="true" (click)="hideEye()"></i>
@@ -41,12 +41,12 @@
             </div>
           </form>
     
-        <mat-checkbox class="example-margin" (change)="newuser($event,check)" [(ngModel)]="isChecked" >New User</mat-checkbox>
+        <mat-checkbox class="example-margin" (change)="newuser($event)" [(ngModel)]="isChecked" >New User</mat-checkbox>
         <div  style="color:red; text-align: center" *ngIf="new_user">Please Enter email and Password</div>
         <br>
         <mat-card-actions>
             <div>
-                <button mat-raised-button (click)='Login(user)' color="primary">Login</button>
+                <button mat-raised-button (click)='Login()' color="primary">Login</button>
                 <div style="color:red; text-align: center">
                     {{errormessage}}
                 </div>

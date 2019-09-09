@@ -37,6 +37,7 @@ export class FeatureDetailsComponent implements OnInit {
     featureEntity: any = [];
     frameworkComponents: { buttonRenderer: any; };
     displayModel: String = 'none';
+    public isReadOnly: Boolean = false;
     featureScreenName: any = [];
     columnFeatureDefs: any = [];
     columnFeatureEntityData: any = [];

@@ -24,7 +24,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitecture-manager.module';
 import { ToastrModule } from 'ngx-toastr';
 import { FeatureDetailsComponent } from './feature-details/feature-details.component';
-import { FileSelectDirective } from 'ng2-file-upload';
+// import { FileSelectDirective } from 'ng2-file-upload';
 import { MenuBuilderModule } from '../menu-builder/menu-builder.module';
 import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
 import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
@@ -40,7 +40,7 @@ PopupModelComponent,
 ButtonRendererComponent,
 FieldPopupModalComponent,
 FeatureDetailsComponent,
-FileSelectDirective,
+// FileSelectDirective,
 ScreenPopupComponent,
 EntityModelComponent,
 EditPopupComponent
