@@ -206,6 +206,23 @@ export class MenuBuilderComponent implements OnInit {
       }
     });
   }
+
+  updateMenuBuilder(description) {
+    this.menuDetails.forEach(element => {
+      if (element.featuremenu[0].description.feature === this.descriptionBeforeUpdate) {
+        element.featuremenu[0].description.feature = description;
+      } else {
+        element.screenmenu.forEach(sData => {
+          sData.description.screen.forEach((screen, index) => {
+            if (screen === this.descriptionBeforeUpdate) {
+              sData.description.screen.splice(index, 1, description);
+            }
+          });
+        });
+      }
+    });
+    this.updateMenuById(this.currentMenuDetails._id, this.currentMenuDetails);
+  }
   updateMenuById(id, menu) {
     this.menuBuilderService.updateMenuById(id, menu).subscribe(fMenu => {
       this.database.initialize(fMenu.body.menuDetails);
