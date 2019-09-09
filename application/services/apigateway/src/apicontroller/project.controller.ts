@@ -18,56 +18,75 @@ class ProjectController implements Controller {
     }
 
     private initializeRoutes() {
-        this.router.post('/projects/my/add', this.addProject);
-        this.router.put('/projects/my/:id/update', this.updateProject);
-        this.router.get('/projects/my/getall', this.getAllMyProject);
-        this.router.get('/projects/my/:id/get', this.getByProjectId);
-        this.router.delete('/projects/my/delete/:id', this.deleteProject);
+        this.router.post('/projects/add', this.addProject);
+        this.router.get('/projects/getall', this.getAllProject);
+        this.router.get('/projects/getbyid/:id', this.getByProjectId);
+        this.router.put('/projects/update/:id', this.updateProject);
+        this.router.delete('/projects/delete/:id', this.deleteProject);
+        this.router.get('/projects/getbyuserid/:id', this.getProjectByUserId);
     }
 
     public addProject(req: Request, res: Response) {
         console.log('entering into add project api gateway')
-        new ApiAdaptar().post(Constants.projectUrl + '/projects/my/add', req.body).then(proj => {
-            res.send(proj);
+        new ApiAdaptar().post(Constants.projectUrl + '/projects/add', req.body).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public updateProject(req: Request, res: Response) {
-        new ApiAdaptar().put(Constants.projectUrl + '/projects/my/update/' + req.params.id, req.body).then(proj => {
-            res.send(proj);
+        new ApiAdaptar().put(Constants.projectUrl + '/projects/update/' + req.params.id, req.body).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public deleteProject(req: Request, res: Response) {
-        console.log('delete project url in project controller -------- ', Constants.projectUrl + '/projects/my/delete' + req.params.id)
-        new ApiAdaptar().delete(Constants.projectUrl + '/projects/my/delete/' + req.params.id).then(proj => {
-            res.send(proj);
+        new ApiAdaptar().delete(Constants.projectUrl + '/projects/delete/' + req.params.id).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
-    public getAllMyProject(req: Request, res: Response) {
-        new ApiAdaptar().get(Constants.projectUrl + '/projects/my/getall').then(allproject => {
-            res.send(allproject);
+    public getProjectByUserId(req: Request, res: Response) {
+        console.log('enteirng into get project by userid are -----  ', Constants.projectUrl + '/projects/getbyuserid/' + req.params.id)
+        new ApiAdaptar().get(Constants.projectUrl + '/projects/getbyuserid/' + req.params.id).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+    public getAllProject(req: Request, res: Response) {
+        new ApiAdaptar().get(Constants.projectUrl + '/projects/getall').then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getByProjectId = (req: Request, res: Response) => {
         console.log('entering into method')
-        new ApiAdaptar().get(Constants.projectUrl + '/projects/my/getbyid/' + req.params.id).then(proj => {
+        new ApiAdaptar().get(Constants.projectUrl + '/projects/getbyid/' + req.params.id).then(result => {
             console.log('reponse in main method')
-            res.send(proj);
-            // req.baseUrl === '/mobile' ? res.send(proj) :
-            //     req.baseUrl === '/desktop' ? res.send(proj) : res.send(null)
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 

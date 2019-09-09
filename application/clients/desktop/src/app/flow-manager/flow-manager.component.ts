@@ -84,10 +84,9 @@ export class FlowManagerComponent implements OnInit {
   }
 
   getAllFlows() {
-    this.flowManagerService.getAllFlows().subscribe((flowData) => {
-      this.dataFlow = flowData;
-      console.log('dataFlow', this.dataFlow);
-      this.rowData = flowData;
+    this.flowManagerService.getAllFlows().subscribe((flowResponse) => {
+      this.dataFlow = flowResponse.body;
+      this.rowData = this.dataFlow;
 
     });
   }
@@ -100,14 +99,8 @@ export class FlowManagerComponent implements OnInit {
   }
 
   routeNextPage(event) {
-    console.log('route next page values rae----- ', event);
     this.dataService.setFlow(event.data);
     this.router.navigate(['flow-component']);
-    // this.dataService.currentflowSource.subscribe(data => {
-    //   console.log('get route next page in flows ------  ', data);
-    //   this.flow_name = data.name;
-    // });
-    // this.router.navigate(['flow-component'], { queryParams: { name: this.flow_name } });
   }
 
   openModal(type) {
@@ -137,7 +130,6 @@ export class FlowManagerComponent implements OnInit {
     this.flowManagerService.saveFlow(this.createFlowForm.getRawValue())
       .subscribe(
         (data) => {
-          console.log('successfully added gen flow -- ', data);
           this.onCloseHandled();
           this.getAllFlows();
         },
@@ -150,7 +142,6 @@ export class FlowManagerComponent implements OnInit {
   deleteRow() {
     this.flowManagerService.deleteFlow(this.selectedFlow[0]._id).subscribe(
       (data) => {
-        console.log('delete flow manager -- ', data);
         this.getAllFlows();
       },
       (error) => {
@@ -160,7 +151,6 @@ export class FlowManagerComponent implements OnInit {
   }
 
   updateFlowModel() {
-    console.log('= = >> ', this.flow);
     this.flowManagerService.updateFlow(this.flow, this.flow['_id']).subscribe(
       (data) => {
         this.onCloseHandled();

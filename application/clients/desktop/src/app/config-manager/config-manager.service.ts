@@ -12,23 +12,34 @@ export class ConfigManagerService {
   constructor(private api: ApiService, private restapi: SharedService) { }
 
   saveConfig(config): Observable<any> {
-    return this.api.post(this.restapi.configUrl + Constants.addGenFlowsUrl, config);
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveConfig}`, config);
   }
 
   deleteConfig(id): Observable<any> {
-    return this.api.delete(this.restapi.configUrl + Constants.deleteGenFlowsUrl + id);
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteConfig}/${id}`);
   }
 
   updateConfig(config): Observable<any> {
     const id = config._id;
-    return this.api.put(this.restapi.configUrl + Constants.updateGenFlowsUrl + id, config);
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateConfig}/${id}`, config);
   }
 
   getAllConfig(): Observable<any> {
-    return this.api.get(this.restapi.configUrl + Constants.getAllGenFlowsUrl);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllConfig}`);
   }
 
   getTechProperties(): Observable<any> {
-    return this.api.get(this.restapi.configUrl + Constants.getTechProperties);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getConfigTechProperties}`);
+  }
+
+
+  getVersion(name): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectVersion}/${name}`);
+  }
+
+  getBuildVersion(name): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectVersion}/${name}`);
   }
 }
+
+

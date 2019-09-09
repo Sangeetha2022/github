@@ -81,7 +81,6 @@ export class ConfigManagerComponent implements OnInit {
   }
   onSelectionChanged() {
     this.selectedConfig = this.gridApi.getSelectedRows();
-    console.log('i am the selected one', this.selectedConfig);
 
   }
   onPageSizeChanged(newPageSize) {
@@ -97,14 +96,6 @@ export class ConfigManagerComponent implements OnInit {
     if (type === 'update') {
       this.checkUpdate = false;
       this.configManager = this.selectedConfig[0];
-      // this.configManager.id = this.selectedConfig[0]._id;
-      // this.configManager.name = this.selectedConfig[0].name;
-      // this.configManager.description = this.selectedConfig[0].description;
-      // this.configManager.label = this.selectedConfig[0].label;
-      // this.configManager.type = this.selectedConfig[0].type;
-      // this.configManager.value = this.selectedConfig[0].value;
-      // this.configManager.sub_type = this.selectedConfig[0].sub_type;
-
       this.displayModel = 'block';
     }
   }
@@ -112,8 +103,6 @@ export class ConfigManagerComponent implements OnInit {
   onCloseHandled() {
     this.displayModel = 'none';
     this.configManager = { name: '', value: '', type: '', sub_type: '', label: '', id: '', description: '' };
-    // this.createFlowForm.clearValidators();
-    // this.createFlowForm.reset();
   }
 
   onCloseHandledForUpdate() {
@@ -124,8 +113,7 @@ export class ConfigManagerComponent implements OnInit {
 
   getAllConfig() {
     this.configManagerService.getAllConfig().subscribe(data => {
-      this.rowData = data;
-      console.log(data);
+      this.rowData = data.body;
     });
   }
 
@@ -133,7 +121,6 @@ export class ConfigManagerComponent implements OnInit {
     this.configManagerService.saveConfig(this.configManager)
       .subscribe(
         (data) => {
-          console.log('successfully added gen flow -- ', data);
           this.onCloseHandled();
           this.getAllConfig();
         },
@@ -157,7 +144,7 @@ export class ConfigManagerComponent implements OnInit {
 
   deleteRow() {
     this.configManagerService.deleteConfig(this.selectedConfig[0]._id).subscribe(data => {
+      this.getAllConfig();
     });
-    this.getAllConfig();
   }
 }

@@ -3,6 +3,7 @@ import { ModalService } from '../_services';
 import { ConfigManagerService } from '../config-manager/config-manager.service';
 import { DataService } from 'src/shared/data.service';
 import { ProjectsService } from '../projects/projects.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-techarchitecture-manager',
@@ -23,20 +24,10 @@ export class ConnectorManagerComponent implements OnInit {
   constructor(private modalService: ModalService,
     private configManagerService: ConfigManagerService,
     private dataService: DataService,
-    private projectService: ProjectsService) { }
+    private projectService: ProjectsService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
-  // connector: Connector = {
-  //   id: '',
-  //   name: '',
-  //   description: '',
-  //   url: '',
-  //   properties: []
-  // }
-
-  // connectorForm: FormGroup;
-  // properties: FormArray;
-  // private fieldArray: Array<any> = [];
-  // showModal: String = 'none';
   clientLanguage: String;
   technical: any = {
     clientLanguage: [],
@@ -48,21 +39,29 @@ export class ConnectorManagerComponent implements OnInit {
     deploymentServer: []
   };
   projectInfo: any;
+  projectId: String;
 
   ngOnInit() {
-    this.getProject();
-    this.getTechProperties();
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.projectId = params.projectId;
+    });
+    this.getProjectById();
   }
 
-  getProject() {
-    this.dataService.currentProjectInfo.subscribe(
-      data => {
-        this.projectInfo = data;
-      });
+  getProjectById() {
+    this.projectService.getProjectById(this.projectId).subscribe(
+      response => {
+        this.projectInfo = response.body;
+        this.getTechProperties();
+      },
+      error => {
+        console.error('cannot able to get the project by its Id ', error);
+      }
+    );
   }
 
   updateProject() {
-    if (this.projectInfo !== null) {
+    if (this.projectInfo) {
       this.projectInfo.clientlanguage = this.selected.clientLanguage._id;
       this.projectInfo.clientframework = this.selected.clientFramework._id;
       this.projectInfo.serverlanguage = this.selected.serverLanguage._id;
@@ -73,7 +72,7 @@ export class ConnectorManagerComponent implements OnInit {
       this.projectService.updateProjectById(this.projectInfo._id, this.projectInfo)
         .subscribe(
           data => {
-            this.dataService.setProjectInfo(data);
+            this.dataService.setProjectInfo(data.body.response);
           },
           error => {
 
@@ -96,12 +95,12 @@ export class ConnectorManagerComponent implements OnInit {
   getTechProperties() {
     this.configManagerService.getTechProperties().subscribe(
       data => {
-        data.forEach(element => {
+        data.body.forEach(element => {
           switch (element['type']) {
             case 'GpClientLanguage':
               this.technical.clientLanguage.push(element);
-              if (this.projectInfo.clientlanguage !== null) {
-                if (element['_id'] === this.projectInfo.clientlanguage) {
+              if (this.projectInfo && this.projectInfo.clientlanguage) {
+                if (element['_id'] === this.projectInfo.clientlanguage._id) {
                   this.selected.clientLanguage = element;
                 }
               } else if (element['label'] === 'Javascript') {
@@ -110,8 +109,8 @@ export class ConnectorManagerComponent implements OnInit {
               break;
             case 'GpClientDevFramework':
               this.technical.clientFramework.push(element);
-              if (this.projectInfo.clientframework !== null) {
-                if (element['_id'] === this.projectInfo.clientframework) {
+              if (this.projectInfo && this.projectInfo.clientframework) {
+                if (element['_id'] === this.projectInfo.clientframework._id) {
                   this.selected.clientFramework = element;
                 }
               } else if (element['label'] === 'Angular 7') {
@@ -120,8 +119,8 @@ export class ConnectorManagerComponent implements OnInit {
               break;
             case 'GpServerLanguage':
               this.technical.serverLanguage.push(element);
-              if (this.projectInfo.serverlanguage !== null) {
-                if (element['_id'] === this.projectInfo.serverlanguage) {
+              if (this.projectInfo && this.projectInfo.serverlanguage) {
+                if (element['_id'] === this.projectInfo.serverlanguage._id) {
                   this.selected.serverLanguage = element;
                 }
               } else if (element['label'] === 'NodeJS') {
@@ -130,8 +129,8 @@ export class ConnectorManagerComponent implements OnInit {
               break;
             case 'GpServerDevFramework':
               this.technical.serverFramework.push(element);
-              if (this.projectInfo.serverframework !== null) {
-                if (element['_id'] === this.projectInfo.serverframework) {
+              if (this.projectInfo && this.projectInfo.serverframework) {
+                if (element['_id'] === this.projectInfo.serverframework._id) {
                   this.selected.serverFramework = element;
                 }
               } else if (element['label'] === 'Express') {
@@ -140,8 +139,8 @@ export class ConnectorManagerComponent implements OnInit {
               break;
             case 'GpServerDBMS':
               this.technical.database.push(element);
-              if (this.projectInfo.serverdatabase !== null) {
-                if (element['_id'] === this.projectInfo.serverdatabase) {
+              if (this.projectInfo && this.projectInfo.serverdatabase) {
+                if (element['_id'] === this.projectInfo.serverdatabase._id) {
                   this.selected.database = element;
                 }
               } else if (element['label'] === 'MongoDB') {
@@ -150,8 +149,8 @@ export class ConnectorManagerComponent implements OnInit {
               break;
             case 'GpUserDeploymentTarget':
               this.technical.deploymentTarget.push(element);
-              if (this.projectInfo.servertarget !== null) {
-                if (element['_id'] === this.projectInfo.servertarget) {
+              if (this.projectInfo && this.projectInfo.servertarget) {
+                if (element['_id'] === this.projectInfo.servertarget._id) {
                   this.selected.deploymentTarget = element;
                 }
               } else if (element['label'] === 'Live') {
@@ -160,8 +159,8 @@ export class ConnectorManagerComponent implements OnInit {
               break;
             case 'GpUserDeploymentServer':
               this.technical.deploymentServer.push(element);
-              if (this.projectInfo.server_deployment_type !== null) {
-                if (element['_id'] === this.projectInfo.server_deployment_type) {
+              if (this.projectInfo && this.projectInfo.server_deployment_type) {
+                if (element['_id'] === this.projectInfo.server_deployment_type._id) {
                   this.selected.deploymentServer = element;
                 }
               } else if (element['label'] === 'AWS') {
@@ -178,34 +177,4 @@ export class ConnectorManagerComponent implements OnInit {
 
       });
   }
-
-  // openModal = (id: string) => {
-  //   this.modalService.open(id);
-  // }
-
-  // closeModal = (id: string) => {
-  //   this.modalService.close(id);
-  // }
-
-  // addProperties(): void {
-  //   this.properties = this.connectorForm.get('properties') as FormArray;
-  //   this.properties.push(this.createProp());
-  // }
-
-  // generateForm() {
-  //   this.connectorForm = this.formBuilder.group({
-  //     name: '',
-  //     description: '',
-  //     url: '',
-  //     properties: this.formBuilder.array([this.createProp()])
-  //   })
-  // }
-
-  // createProp(): FormGroup {
-  //   return this.formBuilder.group({
-  //     key: '',
-  //     value: ''
-  //   });
-  // }
-
 }

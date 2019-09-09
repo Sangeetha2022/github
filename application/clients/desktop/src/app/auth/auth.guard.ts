@@ -53,8 +53,9 @@ export class AuthGuard implements CanActivate {
       if (this.accessroutes === undefined) {
         this.accessroutes = this.broadcast.gaurdarray;
       }
+      console.log('accessroutes routername are ------    ', this.routename);
       if (this.accessroutes) {
-        if (this.routename[1].includes('profile?id=')) {
+        if (this.routename && this.routename[1].includes('profile?id=')) {
           this.routename = this.routename[1].split('?');
           this.routename[1] = this.routename[0];
         }
@@ -143,7 +144,7 @@ export class AuthGuard implements CanActivate {
           // this.adminvalue = adminaccess.Admin.Access.value;
           // this.uservalue = useraccess.Admin.Access.value;
         });
-        if (this.routename[1] === 'landing') {
+        if (this.routename && this.routename[1] === 'landing') {
           // this.router.navigate([]);
           if (this.viewpermission !== 'true') {
             return false;
@@ -151,28 +152,28 @@ export class AuthGuard implements CanActivate {
             return true;
           }
         }
-        if (this.routename[1] === 'project') {
+        if (this.routename && this.routename[1] === 'project') {
           if (this.viewpermission !== 'true') {
             return false;
           } else {
             return true;
           }
         }
-        if (this.routename[1] === 'profile') {
+        if (this.routename && this.routename[1] === 'profile') {
           if (this.viewpermission !== 'true') {
             return false;
           } else {
             return true;
           }
         }
-        if (this.routename[1] === 'admin') {
+        if (this.routename && this.routename[1] === 'admin') {
           if (this.viewpermission !== 'true') {
             return false;
           } else {
             return true;
           }
         }
-        if (this.routename[1] === 'usermanagement') {
+        if (this.routename && this.routename[1] === 'usermanagement') {
           if (this.viewpermission !== 'true') {
             return false;
           } else {

@@ -11,20 +11,20 @@ export class FlowManagerService {
   constructor( private api: ApiService, private restapi: SharedService) {
   }
 
-  saveFlow(proj): Observable<any> {
-    return this.api.post(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.saveUrl, proj);
+  saveFlow(details): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveFlow}`, details);
   }
 
   deleteFlow(id): Observable<any> {
-    return this.api.delete(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.deleteUrl + id);
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteFlow}?flowId=${id}`);
   }
 
   updateFlow(flow, id): Observable<any> {
-    return this.api.put(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.updateUrl + id, flow);
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFlow}`, flow);
   }
 
   getAllFlows(): Observable<any> {
-    return this.api.get(this.restapi.flowbaseUrl + Constants.flowUrl + Constants.getAllUrl);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFlow}`);
   }
 
 }

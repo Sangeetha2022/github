@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '../config/api.service';
 import { SharedService } from 'src/shared/shared.service';
 import { Observable } from 'rxjs';
+import { Constants } from '../config/Constant';
 
 @Injectable({
   providedIn: 'root'
@@ -14,18 +15,18 @@ export class MenuBuilderService {
   ) { }
 
   createMenu(menu: any): Observable<any> {
-    return this.api.post(this.restapi.menuUrl + '/menu/save', menu);
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveMenu}`, menu);
   }
 
   getMenuBuilderByProjectId(id): Observable<any> {
-    return this.api.get(this.restapi.menuUrl + '/menu/getbyprojectid/' + id);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getMenuByProjectId}/${id}`);
 
   }
   updateMenuById(id, menu): Observable<any> {
-    return this.api.put(this.restapi.menuUrl + '/menu/update/' + id, menu);
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateMenuById}/${id}`, menu);
   }
 
-  updateMenubyProject(id, menu) {
-    return this.api.put(this.restapi.menuUrl + '/menu/updatemenubyproject/' + id, menu);
+  updateMenubyProjectId(projectId, menu) {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateMenuByProjectId}/${projectId}`, menu);
   }
 }

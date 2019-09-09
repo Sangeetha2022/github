@@ -45,7 +45,7 @@ export class ProjectController {
     }
 
     public getProjectByUserId(req: Request, res: Response) {
-        projectService.getProjectByID(req, (user) => {
+        projectService.getProjectByUserId(req, (user) => {
             res.status(200);
             res.json(user);
         })

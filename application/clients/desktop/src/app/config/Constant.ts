@@ -3,145 +3,133 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class Constants {
 
-    public static get saveUrl(): string { return '/save'; }
-    public static get updateUrl(): string { return '/update/'; }
-    public static get getAllUrl(): string { return '/getall'; }
+    public static DESKTOP_ROUTER = '/desktop';
+    public static MOBILE_ROUTER = '/mobile';
 
-    public static get getByIdUrl(): string { return '/getbyid/'; }
-    public static get deleteUrl(): string { return '/delete/'; }
-    public static get detailsUrl(): string { return '/details'; }
-    public static get addFilesUrl(): string { return '/addfile'; }
-    // public static get getFeatureByProjectId(): string { return '/getbyprojectid/'; }
+    // login apis
+    public static get signup(): string { return this.DESKTOP_ROUTER + '/signup'; }
+    public static get googlelogin(): string { return this.DESKTOP_ROUTER + '/googlesignin'; }
+    public static get Login(): string { return this.DESKTOP_ROUTER + '/login'; }
+    public static get Logout(): string { return this.DESKTOP_ROUTER + '/logout'; }
+    public static get Consent(): string { return this.DESKTOP_ROUTER + '/consent'; }
 
-    public static get flowUrl(): string { return '/flow'; }
+    // Admin
+    public static get getUsers(): string { return this.DESKTOP_ROUTER + '/admin/getusers'; }
+    public static get getuserById(): string { return this.DESKTOP_ROUTER + '/admin/getuser/:id'; }
+    public static get getAllRoles(): string { return this.DESKTOP_ROUTER + '/admin/getallroles'; }
+    public static get updateUsers(): string { return this.DESKTOP_ROUTER + '/admin/updateuser'; }
 
-    public static get featureflowUrl(): string { return '/feature-flow'; }
-    public static get flowCompUrl(): string { return '/flow/flow_comp'; }
-    public static get flowCompentUrl(): string { return '/flow_comp'; }
-    public static get addDConnectorUrl(): string { return '/add/dconnector'; }
-    public static get updateDConnectorUrl(): string { return '/update/dconnector'; }
+    // flow apis
+    public static get saveFlow(): string { return this.DESKTOP_ROUTER + '/flow/save'; }
+    public static get updateFlow(): string { return this.DESKTOP_ROUTER + '/flow/update'; }
+    public static get getAllFlow(): String { return this.DESKTOP_ROUTER + '/flow/getall'; }
+    public static get deleteFlow(): string { return this.DESKTOP_ROUTER + '/flow/delete'; }
+    public static get addFilesUrl(): string { return this.DESKTOP_ROUTER + '/addfile'; }
 
     // project apis
-    public static get addProjectUrl(): string { return '/projects/my/add'; }
-    public static get deleteMyProjectUrl(): string { return '/projects/my/delete/'; }
-    public static get getAllMyProjecturl(): string { return '/projects/my/getall'; }
-    public static get addProjectDefaults(): String { return '/projects/default/create'; }
-    public static get updateProjectById(): String { return '/projects/my/update'; }
-    public static get getProjectById(): String { return '/projects/my/getbyid'; }
-    public static get addProjectScreenDefault(): String { return '/projects/default/screen'; }
+    public static get saveProject(): string { return this.DESKTOP_ROUTER + '/projects/add'; }
+    public static get deleteProject(): string { return this.DESKTOP_ROUTER + '/projects/delete/'; }
+    public static get getProjectByUserId(): string { return this.DESKTOP_ROUTER + '/projects/getbyuserid'; }
+    public static get createDefaultEntity(): String { return this.DESKTOP_ROUTER + '/projects/default/create'; }
+    public static get updateProjectById(): String { return this.DESKTOP_ROUTER + '/projects/update'; }
+    public static get getProjectById(): String { return this.DESKTOP_ROUTER + '/projects/getbyid'; }
+    public static get createDefaultScreens(): String { return this.DESKTOP_ROUTER + '/projects/default/screen'; }
 
     // menu apis
-    public static get defaultMenu(): String { return '/menu/default'; }
+    public static get saveMenu(): String { return this.DESKTOP_ROUTER + '/menu/save'; }
+    public static get getMenuByProjectId(): String { return this.DESKTOP_ROUTER + '/menu/getbyprojectid'; }
+    public static get updateMenuById(): String { return this.DESKTOP_ROUTER + '/menu/update'; }
+    public static get updateMenuByProjectId(): String { return this.DESKTOP_ROUTER + '/menu/updatemenubyproject'; }
+    public static get createDefaultMenu(): String { return this.DESKTOP_ROUTER + '/menu/default'; }
 
 
     // Flow apis
-    public static get addFlowCompToFlowUrl(): string { return '/add/flow_comp'; }
-    public static get addDConnectorToFlowUrl(): string { return '/add/lconnector'; }
-    public static get updateDConnectorToFlowUrl(): string { return '/update/lconnector'; }
-    public static get updateFlowCompToFlowUrl(): string { return '/update/flow_comp'; }
-    // public static get deleteFlowUrl(): string { return this.flow + '/delete/'; }
+    public static get addDConnectorToFlowUrl(): string { return this.DESKTOP_ROUTER + '/add/lconnector'; }
+    public static get updateDConnectorToFlowUrl(): string { return this.DESKTOP_ROUTER + '/update/lconnector'; }
 
     // Flow Componets apis
-    public static get addFlowCompUrl(): string { return '/flow_component/save'; }
-    public static get updateFlowCompUrl(): string { return '/flow_component/update/'; }
-    public static get getAllFlowComponentUrl(): string { return '/flow_component/getall'; }
+    public static get updateFlowCompUrl(): string { return this.DESKTOP_ROUTER + '/flow_component/update/'; }
+    public static get getAllFlowComponentUrl(): string { return this.DESKTOP_ROUTER + '/flow_component/getall'; }
 
 
-    // Generation Flow apis
-    public static get getAllGenFlowsUrl(): string { return '/generation_flow/getall'; }
-    public static get addGenFlowsUrl(): string { return '/generation_flow/add'; }
-    public static get updateGenFlowsUrl(): string { return '/generation_flow/update/'; }
-    public static get deleteGenFlowsUrl(): string { return '/generation_flow/delete/'; }
-    public static get getGenFlowsByCompNameUrl(): string { return '/generation_flow/getbyname/'; }
-    public static get getTechProperties(): string { return '/generation_flow/getproperties'; }
+    // Flow apis
+    public static get getAllConfig(): string { return this.DESKTOP_ROUTER + '/generation_flow/getall'; }
+    public static get saveConfig(): string { return this.DESKTOP_ROUTER + '/generation_flow/add'; }
+    public static get updateConfig(): string { return this.DESKTOP_ROUTER + '/generation_flow/update'; }
+    public static get deleteConfig(): string { return this.DESKTOP_ROUTER + '/generation_flow/delete'; }
+    public static get getProjectVersion(): string { return this.DESKTOP_ROUTER + '/generation_flow/getbyname'; }
+    public static get getConfigTechProperties(): string { return this.DESKTOP_ROUTER + '/generation_flow/getproperties'; }
 
     // Micro Flow apis
-    public static get addMicroFlowUrl(): string { return '/microflow/save'; }
-    public static get getMicroFlow(): string { return '/microflow/component/get'; }
-    public static get updateMicroFlowUrl(): string { return '/microflow/update'; }
-    public static get deleteMicroFlowUrl(): string { return '/microflow/delete/'; }
-    public static get getMicroFlowsByCompNameUrl(): string { return '/microflow/getbycomp/'; }
-
-    // Connector
-    public static get getAllConnector(): string { return '/connector/getall'; }
-    public static get addConnector(): string { return '/connector/add'; }
-    public static get upadateConnector(): string { return '/connector/update/'; }
-    public static get deleteConnector(): string { return '/connector/delete/'; }
+    public static get addMicroFlow(): string { return this.DESKTOP_ROUTER + '/microflow/save'; }
+    public static get getMicroFlow(): string { return this.DESKTOP_ROUTER + '/microflow/component/get'; }
+    public static get updateMicroFlow(): string { return this.DESKTOP_ROUTER + '/microflow/update'; }
 
 
     // LinkedConnector
-    public static get getLinkedConnectorByName(): string { return '/linked_connector/getbyname/'; }
-    // public static get addConnector(): string { return '/connector/add' ;}
-    // public static get upadateConnector(): string { return '/connector/update' ;}
-    // public static get deleteConnector(): string { return '/connector/delete/' ;}
-
-
+    public static get getLinkedConnectorByName(): string { return this.DESKTOP_ROUTER + '/linked_connector/getbyname/'; }
 
 
     // Feature
-    public static get feature(): string { return '/feature'; }
+    public static get feature(): string { return this.DESKTOP_ROUTER + '/feature'; }
 
     // new Feature
-    public static get saveFeature(): String { return '/feature/save'; }
-    public static get updateFeature(): String { return '/feature/update'; }
-    public static get getAllFeature(): String { return '/feature/getall'; }
-    public static get getFeatureById(): String { return '/feature/get'; }
-    public static get getFeatureByProjectId(): String { return '/feature/project/get'; }
-    public static get deleteFeature(): String { return '/feature/delete'; }
-
-    // new flows
-    public static get getAllFlow(): String { return '/flow/getall'; }
+    public static get saveFeature(): String { return this.DESKTOP_ROUTER + '/feature/save'; }
+    public static get updateFeature(): String { return this.DESKTOP_ROUTER + '/feature/update'; }
+    public static get getAllFeature(): String { return this.DESKTOP_ROUTER + '/feature/getall'; }
+    public static get getFeatureById(): String { return this.DESKTOP_ROUTER + '/feature/get'; }
+    public static get getFeatureByProjectId(): String { return this.DESKTOP_ROUTER + '/feature/project/get'; }
+    public static get getAllFeatureByFeatureid(): String { return this.DESKTOP_ROUTER + '/feature/details/getallbyfeatureid'; }
+    public static get deleteFeature(): String { return this.DESKTOP_ROUTER + '/feature/delete'; }
 
 
     // old  Feature Details
-    public static get getAllFeatureDetails(): string { return '/feature/details/getall'; }
-    public static get getAllFeatureDetailsByFeatureId(): string { return '/feature/details/getbyfeatureid/'; }
-    public static get addFeatureDetails(): string { return '/feature/details/addfile'; }
-    public static get getFeatureDetailsById(): string { return '/feature/details/getbyid/'; }
+    public static get getAllFeatureDetailsByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature/details/getbyfeatureid/'; }
 
     // Feature Flow
-    // public static get getAllFeatureFlow(): string { return '/feature-flow/getall'; }
-    public static get getAllFeatureFlowByFeatureId(): string { return '/feature-flow/getbyfeatureid/'; }
-    public static get getFeatureFlowById(): string { return '/feature-flow/getbyid/'; }
-    public static get getFeatureFlowCompByFlowId(): string { return '/feature-comp/getbyflowid/'; }
-    public static get getFeatureEntityByFeatureId(): string { return '/feature/details/getentitybyfeatureid/'; }
-    // public static get deleteFeatureFlowById(): string { return '/feature-flow/delete/'; }
-    // public static get updateFeatureFlow(): string { return '/feature-flow/update/:id'; }
+    public static get getFeatureFlowById(): string { return this.DESKTOP_ROUTER + '/feature-flow/getbyid/'; }
+    public static get getFeatureEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature/details/getentitybyfeatureid/'; }
 
     // Feature Screen
-    public static get addScreen(): string { return '/screen/save'; }
-    public static get getAllScreen(): string { return '/screen/getall'; }
-    public static get getScreenByID(): string { return '/screen/get/'; }
-    public static get deleteScreen(): string { return '/screen/delete/'; }
-    public static get getScreenByFeatureName(): string { return '/screen/getbyfeature/'; }
-    public static get updateScreen(): string { return '/screen/update/'; }
-    public static get getScreenByProjectAndFeatureId(): string { return '/screen/getbyprojectandfeatureid/'; }
-    public static get getScreenByProjectId(): string { return '/screen/getbyprojectid/'; }
-    public static get getScreenByFeatureId(): string { return '/screen/getbyfeatureid/'; }
-    public static get getScreenTemplateByProjectId(): string { return '/screen/template'; }
+    public static get addScreen(): string { return this.DESKTOP_ROUTER + '/screen/save'; }
+    public static get getScreenByID(): string { return this.DESKTOP_ROUTER + '/screen/get'; }
+    public static get deleteScreen(): string { return this.DESKTOP_ROUTER + '/screen/delete'; }
+    public static get getScreenByFeatureName(): string { return this.DESKTOP_ROUTER + '/screen/getbyfeature/'; }
+    public static get updateScreen(): string { return this.DESKTOP_ROUTER + '/screen/update/'; }
+    public static get getScreenByProjectAndFeatureId(): string { return this.DESKTOP_ROUTER + '/screen/getbyprojectandfeatureid/'; }
+    public static get getScreenByProjectId(): string { return this.DESKTOP_ROUTER + '/screen/getbyprojectid'; }
+    public static get getScreenByFeatureId(): string { return this.DESKTOP_ROUTER + '/screen/getbyfeatureid'; }
+    public static get getScreenTemplateByProjectId(): string { return this.DESKTOP_ROUTER + '/screen/template'; }
 
-    // Feature Flow
-    public static get addFeatureFlow(): string { return '/feature-flow/save'; }
-    public static get deleteFeatureFlowById(): string { return '/feature-flow/delete/'; }
-
-    // public static get getFeatureFlowByFeatureId(): string { return '/feature-flow/getbyid/'; }
 
     // Entity
-    public static get getEntityByFeatureId(): string { return '/entity/feature/get'; }
-    // Feature Entity
-
-    public static get getAllEntity(): string { return '/feature-entity/getall'; }
-    public static get saveFeatureEntity(): string { return '/feature-entity/save'; }
+    public static get saveEntity(): string { return this.DESKTOP_ROUTER + '/entity/save'; }
+    public static get updateEntity(): string { return this.DESKTOP_ROUTER + '/entity/update'; }
+    public static get getEntity(): string { return this.DESKTOP_ROUTER + '/entity/get'; }
+    public static get deleteEntity(): string { return this.DESKTOP_ROUTER + '/entity/delete'; }
+    public static get allEntity(): string { return this.DESKTOP_ROUTER + '/entity/getall'; }
+    public static get featureUpdateEntity(): string { return this.DESKTOP_ROUTER + '/feature/updateEntity/'; }
+    public static get featuredeleteEntity(): string { return this.DESKTOP_ROUTER + '/feature/deleteentity'; }
+    public static get getGlobalEntityByProjectId(): string { return this.DESKTOP_ROUTER + '/entity/global'; }
+    public static get updateEntityFields(): string { return this.DESKTOP_ROUTER + '/entity/field/update'; }
+    public static get getAllEntityTypes(): string { return this.DESKTOP_ROUTER + '/entity_type/get'; }
+    public static get getEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/entity/feature/get'; }
 
     // Default Entity
-    public static get addDefaultEntity(): string { return '/default_entity/save'; }
-    public static get getDefaultEntityByProjectId(): string { return '/default_entity/getbyproject/'; }
+    public static get addDefaultEntity(): string { return this.DESKTOP_ROUTER + '/default_entity/save'; }
+    public static get getDefaultEntityByProjectId(): string { return this.DESKTOP_ROUTER + '/default_entity/getbyproject/'; }
 
 
     // Templates
+    public static get getAllTemplates(): string { return this.DESKTOP_ROUTER + '/template/getall'; }
 
-    public static get getAllTemplates(): string { return '/template/getall'; }
 
+    // generation
+    public static get projectSocket(): string { return this.DESKTOP_ROUTER + '/generate'; }
+    public static get getAllNotifyProject(): string { return this.DESKTOP_ROUTER + '/projectgen/project'; }
+    public static get getAllUserNotify(): string { return this.DESKTOP_ROUTER + '/projectgen/user'; }
+    public static get projectGeneration(): string { return this.DESKTOP_ROUTER + '/projectgen/project'; }
+    public static GET = '/get';
 
     // regex Constant Expressions
 

@@ -22,67 +22,89 @@ class MenubuilderController implements Controller {
         this.router.delete('/menu/delete/:id', this.deleteMenu)
         this.router.get('/menu/getbyprojectid/:projectId', this.getMenuByProjectId);
         this.router.put('/menu/updatemenubyproject/:projectId', this.updateMenuByProjectId);
+        this.router.get('/menu/default', this.addDefaultMenu);
     }
 
     public addMenu(req: Request, res: Response) {
-        new ApiAdaptar().post(Constants.menuUrl + '/menu/save', req.body).then(proj => {
-            res.send(proj);
+        new ApiAdaptar().post(Constants.menuUrl + '/menu/save', req.body).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public updateMenu(req: Request, res: Response) {
-        new ApiAdaptar().put(Constants.menuUrl + '/menu/update/' + req.params.id, req.body).then(proj => {
-            res.send(proj);
+        new ApiAdaptar().put(Constants.menuUrl + '/menu/update/' + req.params.id, req.body).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public deleteMenu(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.menuUrl + '/menu/delete/' + req.params.id).then(proj => {
-            res.send(proj);
+        new ApiAdaptar().delete(Constants.menuUrl + '/menu/delete/' + req.params.id).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getAllMenu(req: Request, res: Response) {
-        new ApiAdaptar().get(Constants.menuUrl + '/menu/getall').then(allproject => {
-            res.send(allproject);
+        new ApiAdaptar().get(Constants.menuUrl + '/menu/getall').then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getMenuById = (req: Request, res: Response) => {
-        new ApiAdaptar().get(Constants.menuUrl + '/menu/getbyid/' + req.params.id).then(proj => {
-            res.send(proj);
-            // req.baseUrl === '/mobile' ? res.send(proj) :
-            //     req.baseUrl === '/desktop' ? res.send(proj) : res.send(null)
+        new ApiAdaptar().get(Constants.menuUrl + '/menu/getbyid/' + req.params.id).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public getMenuByProjectId = (req: Request, res: Response) => {
-        new ApiAdaptar().get(Constants.menuUrl + '/menu/getbyprojectid/' + req.params.projectId).then(proj => {
-            res.send(proj);
-            // req.baseUrl === '/mobile' ? res.send(proj) :
-            //     req.baseUrl === '/desktop' ? res.send(proj) : res.send(null)
+        new ApiAdaptar().get(Constants.menuUrl + '/menu/getbyprojectid/' + req.params.projectId).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
 
     public updateMenuByProjectId(req: Request, res: Response) {
-        new ApiAdaptar().put(Constants.menuUrl + '/menu/updatemenubyproject/' + req.params.projectId, req.body).then(proj => {
-            res.send(proj);
+        new ApiAdaptar().put(Constants.menuUrl + '/menu/updatemenubyproject/' + req.params.projectId, req.body).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
-            res.send(err);
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
+
+    public addDefaultMenu = (req: Request, res: Response) => {
+        new ApiAdaptar().get(Constants.menuUrl + `/menu/default/?projectId=${req.query.projectId}&primaryLanguage=${req.query.primaryLanguage}&secondaryLanguage=${req.query.secondaryLanguage}`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
 
 }
 

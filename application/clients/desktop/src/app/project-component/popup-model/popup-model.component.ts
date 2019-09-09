@@ -60,7 +60,7 @@ export class PopupModelComponent implements OnInit {
 
     getProjectEntity() {
         this.projectComponentService.getEntityByProjectId(this.project_id).subscribe(projectEntity => {
-            this.projectEntityData = projectEntity;
+            this.projectEntityData = projectEntity.body;
         });
     }
 

@@ -5,10 +5,9 @@ import { AppInterceptor } from '../app.interceptor';
 import { HeaderLanguageComponent } from './header-controls/header.language.component';
 import { HeaderComponent } from './header/header.component';
 import { I18NextModule } from 'angular-i18next';
-import { MatIconModule, MatToolbarModule } from '@angular/material';
+import { MatToolbarModule } from '@angular/material';
 import { AppRoutingModule } from '../app-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { NavigationService } from './navigation.service';
 
 @NgModule({
   declarations: [
@@ -31,8 +30,7 @@ import { NavigationService } from './navigation.service';
       provide: HTTP_INTERCEPTORS,
       useClass: AppInterceptor,
       multi: true,
-    },
-    NavigationService
+    }
   ]
 })
 export class NavigationModule { }

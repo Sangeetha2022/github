@@ -10,10 +10,6 @@ import { SharedService } from '../../shared/shared.service';
 })
 export class HomepageService {
 
-  constructor(private http: HttpClient, private router: Router, private apiservice: ApiService, private restapi: SharedService) { }
-
-  Home(): Observable<any> {
-    return this.apiservice.get(this.restapi.loginUrl + '/home');
-  }
+  constructor(private http: HttpClient, private router: Router, private apiservice: ApiService, private restapi: SharedService) { } 
 
 }

@@ -1,14 +1,11 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { Component, Injectable, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { TodoItemNode } from './interface/TodoItemNode';
 import { TreeDragService } from './tree-drag.service';
 import { DataService } from 'src/shared/data.service';
 import { ActivatedRoute } from '@angular/router';
-import { FeatureDetailsService } from 'src/app/project-component/feature-details/feature-details.service';
-import { MenuBuilderService } from '../menu-builder.service';
-import { ScreenDesignerService } from 'src/app/screen-designer/screen-designer.service';
 import { MenuBuilderComponent } from '../menu-builder.component';
 
 
@@ -26,7 +23,7 @@ export class TodoItemFlatNode {
   templateUrl: './tree-drag.component.html',
   styleUrls: ['./tree-drag.component.scss']
 })
-export class TreeDragComponent {
+export class TreeDragComponent implements OnInit {
   /** Map from flat node to nested node. This helps us finding the nested node to be modified */
   flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
 
@@ -70,10 +67,7 @@ export class TreeDragComponent {
   constructor(
     private database: TreeDragService,
     private route: ActivatedRoute,
-    private menuBuilderService: MenuBuilderService,
-    private featureDetailsService: FeatureDetailsService,
     private dataService: DataService,
-    private screenService: ScreenDesignerService,
     private menuBuilder: MenuBuilderComponent,
 
   ) {
@@ -163,7 +157,7 @@ export class TreeDragComponent {
   handleDragStart(event, node) {
     // Required by Firefox (https://stackoverflow.com/questions/19055264/why-doesnt-html5-drag-and-drop-work-in-firefox)
     event.dataTransfer.setData('foo', 'bar');
-    //event.dataTransfer.setDragImage(this.emptyItem.nativeElement, 0, 0);
+    // event.dataTransfer.setDragImage(this.emptyItem.nativeElement, 0, 0);
     this.dragNode = node;
     this.treeControl.collapse(node);
   }
@@ -181,7 +175,7 @@ export class TreeDragComponent {
       if ((Date.now() - this.dragNodeExpandOverTime) > this.dragNodeExpandOverWaitTimeMs) {
         if (!this.treeControl.isExpanded(node)) {
           this.treeControl.expand(node);
-          //this.cd.detectChanges();
+          // this.cd.detectChanges();
         }
       }
     } else {
@@ -224,22 +218,6 @@ export class TreeDragComponent {
     this.dragNodeExpandOverArea = NaN;
     event.preventDefault();
   }
-
-  // getStyle(node: TodoItemFlatNode) {
-  //   if (this.dragNode === node) {
-  //     return 'drag-start';
-  //   } else if (this.dragNodeExpandOverNode === node) {
-  //     switch (this.dragNodeExpandOverArea) {
-  //       case 1:
-  //         return 'drop-above';
-  //       case -1:
-  //         return 'drop-below';
-  //       default:
-  //         return 'drop-center'
-  //     }
-  //   }
-  // }
-
 
   deleteItem(node: TodoItemFlatNode) {
     this.database.deleteItem(this.flatNodeMap.get(node));

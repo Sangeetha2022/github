@@ -38,10 +38,8 @@ export class EntityModelComponent implements OnInit {
     constructor(
         public dialogRef: MatDialogRef<EntityModelComponent>, private projectservice: ProjectComponentService,
         @Inject(MAT_DIALOG_DATA) public data: any) {
-        console.log('popup --- ', data);
         this.projectId = data.projectId;
         if (data.savedEntity !== undefined && Object.keys(data.savedEntity).length > 0) {
-            // alert('entered ');
             this.modelObject.name = data.savedEntity.name;
             this.modelObject.description = data.savedEntity.description;
             this.modelObject.entityType = data.savedEntity.entity_type;
@@ -67,10 +65,9 @@ export class EntityModelComponent implements OnInit {
 
     ngOnInit() {
         this.hide = true;
-        this.projectservice.Getentities(this.projectId).subscribe(data => {
-            console.log('--------entitydata------->>>', data);
-            if (data && data.length > 0) {
-                this.rowData = data;
+        this.projectservice.getGlobalEntityByProjectId(this.projectId).subscribe(data => {
+            if (data.body && data.body.length > 0) {
+                this.rowData = data.body;
             }
         }, error => {
             console.error('error:', error);
@@ -101,7 +98,6 @@ export class EntityModelComponent implements OnInit {
     }
 
     typechange(event) {
-        console.log('-------------entitytype----', event.value);
         if (event.value === 'primary') {
             this.entitytype = 'Primary';
         }
@@ -153,13 +149,5 @@ export class EntityModelComponent implements OnInit {
         this.modelObject.description = this.selectedentity[0].description;
         this.modelObject.selectentity = 'Existing';
         this.modelObject.entity_id = this.selectedentity[0]._id;
-        // console.log('-------------entitytype----', this.modelObject.entityType);
-        // this.selectedentity[0].entity_type = this.entitytype;
-        // this.entityselected = {
-        //     'Entity': this.selectedentity,
-        //     'Entitytype': this.entitytype,
-        //     'choose': 'Existing'
-        // };
-        console.log('---------selcetedrow--------->>>', this.selectedentity, this.modelObject.entityType);
     }
 }

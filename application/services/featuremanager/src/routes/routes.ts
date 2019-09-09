@@ -31,7 +31,6 @@ export class Routes {
         // // Feature Details
         // app.route('/feature/details/addfile').post(this.featureDetailsController.uploadeFeaturefile);
         // app.route('/feature/details/getall').get(this.featureDetailsController.getAllFeatureDetails);
-        // app.route('/feature/details/getbyid/:id').get(this.featureDetailsController.getFeatureDetailsById);
         // app.route('/feature/details/getbyfeatureid/:id').get(this.featureDetailsController.getFeatureDetailsByFeatureid);
         // app.route('/feature/details/getallbyfeatureid/:id').get(this.featureDetailsController.getAllFeatureByFeatureid);
         // app.route('/feature/details/getentitybyfeatureid/:id').get(this.featureDetailsController.getFeatureEntityByFeatureid);
