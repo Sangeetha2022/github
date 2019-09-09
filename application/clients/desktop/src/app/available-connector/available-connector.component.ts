@@ -44,7 +44,6 @@ export class AvailableConnectorComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getAllConnector();
     this.setUpAgGrid();
   }
 
@@ -62,11 +61,7 @@ export class AvailableConnectorComponent implements OnInit {
     });
   }
 
-  deleteConnector() {
-    this.componentFlowsService.deleteConnector(this.connector.id).subscribe(data => {
-    });
-    this.getAllConnector();
-  }
+  deleteConnector() {}
 
   onShowAPI() {
     this.showApiModal = 'block';
@@ -99,39 +94,9 @@ export class AvailableConnectorComponent implements OnInit {
   }
 
 
-  createConnector() {
-    this.componentFlowsService.saveConnector(this.connector).subscribe(data => {
+  createConnector() {}
 
-    });
-    this.getAllConnector();
-    this.closeModal();
-
-  }
-
-  updateConnector() {
-    this.addedApiProperties = [];
-    this.addedProperties = [];
-
-    this.connector.properties.map(data => {
-      if (data.key !== '' || data.value !== '') {
-        this.addedProperties.push(data);
-      }
-    });
-    this.connector.properties = this.addedProperties;
-    if (this.selectedAvaConProp) {
-      this.connector.available_apis[this.selcetedIndex].properties.map((data, index) => {
-        if (data.key !== '' || data.value !== '') {
-          this.addedApiProperties.push(data);
-        }
-      });
-      this.connector.available_apis[this.selcetedIndex].properties = this.addedApiProperties;
-    }
-    this.componentFlowsService.updateConnector(this.connector).subscribe(data => {
-
-    });
-    this.getAllConnector();
-    this.closeModal();
-  }
+  updateConnector() {}
 
   selectAvaConnector() {
     this.selectedAvaConnector = this.connectorFlowGrid.getSelectedRows();
@@ -144,11 +109,6 @@ export class AvailableConnectorComponent implements OnInit {
     this.selcetedIndex = index;
   }
 
-  getAllConnector() {
-    this.componentFlowsService.getAllConnector().subscribe(data => {
-      this.connectorData = data;
-    });
-  }
 
   onGridConnectorReady(params) {
     this.connectorFlowGrid = params.api;

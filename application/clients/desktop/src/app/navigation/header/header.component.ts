@@ -1,11 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { LoginService } from '../../login/loginservice.service';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Brodcastservice } from '../../broadcast.service';
 import { AuthGuard } from '../../auth/auth.guard';
 import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 import { DataService } from '../../../shared/data.service';
-import { NavigationService } from '../navigation.service';
+import { ConfigManagerService } from 'src/app/config-manager/config-manager.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -26,10 +26,12 @@ export class HeaderComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   constructor(
     @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
-    private navigationService: NavigationService,
-
+    private configurationService: ConfigManagerService,
     private dataService: DataService,
-    private logoutservice: LoginService, private router: Router, public brodcast: Brodcastservice, private gaurdservice: AuthGuard) {
+    private logoutservice: LoginService,
+    private router: Router,
+     public brodcast: Brodcastservice
+      ) {
     this.brodcast.currentusername.subscribe(headerpermission => {
       if (headerpermission !== undefined) {
         this.headergaurd = headerpermission;
@@ -119,15 +121,15 @@ export class HeaderComponent implements OnInit {
   showAbout() {
     this.displayAboutModel = 'block';
 
-    this.navigationService.getVersion('version').subscribe(data => {
-      this.versionData = data;
+    this.configurationService.getVersion('version').subscribe(data => {
+      this.versionData = data.body;
     },
       error => {
         console.log('Check the browser console to see more info.', 'Error!');
       });
 
-    this.navigationService.getBuildVersion('build_version').subscribe(data => {
-      this.buildVersionData = data;
+    this.configurationService.getBuildVersion('build_version').subscribe(data => {
+      this.buildVersionData = data.body;
     },
       error => {
         console.log('Check the browser console to see more info.', 'Error!');
@@ -151,9 +153,9 @@ export class HeaderComponent implements OnInit {
   }
 
   openNav() {
-    document.getElementById("myNav").style.height = "50%";
+    document.getElementById('myNav').style.height = '50%';
   }
   closeNav() {
-    document.getElementById("myNav").style.height = "0%";
+    document.getElementById('myNav').style.height = '0%';
   }
 }

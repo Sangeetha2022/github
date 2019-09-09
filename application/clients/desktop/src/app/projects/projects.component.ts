@@ -5,10 +5,8 @@ import { ProjectsService } from '../projects/projects.service';
 import { DataService } from '../../shared/data.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ProjectComponentService } from '../project-component/project-component.service';
 import { TemplateScreenService } from '../template-screen/template-screen.service';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
-import { LowerCasePipe } from '@angular/common';
 import { ValidatorService } from 'src/shared/validator.service';
 
 @Component({
@@ -68,15 +66,14 @@ export class ProjectsComponent implements OnInit {
     private validatorService: ValidatorService,
     private templateScreenService: TemplateScreenService,
     private route: ActivatedRoute,
-    private screenDesignerService: ScreenDesignerService,
-    private entityManagerService: ProjectComponentService,
+    private screenDesignerService: ScreenDesignerService
   ) {
   }
 
   ngOnInit() {
     this.UserId = sessionStorage.getItem('Id');
-    this.getAllMyProjects();
-    this.getAllGepTemplates();
+    this.getProjectByUserId();
+    this.getAllTemplates();
     this.createProject = this.formBuilder.group({
       // const control = new FormControl('1', Validators.pattern('[a-zA-Z ]*'));
       name: ['', Validators.compose([
@@ -90,13 +87,11 @@ export class ProjectsComponent implements OnInit {
     });
 
     this.createProject.get('name').valueChanges.subscribe(name => {
-      if (name) {
-        this.currentName = name;
-        if (this.currentName.length <= 0) {
-          this.invalidName = false;
-          this.isProjectExit = false;
-          this.isReserveWord = false;
-        }
+      this.currentName = name;
+      if (this.currentName && this.currentName.length <= 0) {
+        this.invalidName = false;
+        this.isProjectExit = false;
+        this.isReserveWord = false;
       }
     });
 
@@ -127,15 +122,8 @@ export class ProjectsComponent implements OnInit {
       this.getAllUserNotify(user_id);
       sessionStorage.setItem('onNotify', 'off');
     }
-
-    // this.Queryparams();
   }
 
-  // disable() {
-  //   return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 8 || (event.charCode >= 48 && event.charCode <= 57))
-
-
-  // }
 
 
   Queryparams() {
@@ -148,13 +136,6 @@ export class ProjectsComponent implements OnInit {
     this.params.code = this.codes;
     this.params.scope = this.scopes;
     this.params.state = this.states;
-
-    this.projectsService.landingpage(this.params).subscribe(data => {
-      this.tokens = data.body;
-      sessionStorage.setItem('Tokens', JSON.stringify(this.tokens));
-    }, error => {
-      console.error('error:', error);
-    });
 
   }
 
@@ -180,11 +161,11 @@ export class ProjectsComponent implements OnInit {
   }
   get form_control() { return this.createProject.controls; }
 
-  getAllMyProjects() {
+  getProjectByUserId() {
     this.myAllProjects = [];
-    this.projectsService.getMyAllProjects(this.UserId).subscribe(data => {
+    this.projectsService.getProjectByUserId(this.UserId).subscribe(data => {
       if (data) {
-        this.myAllProjects = data;
+        this.myAllProjects = data.body;
       }
       console.log('--------myprojects----', this.myAllProjects);
     }, error => {
@@ -207,7 +188,7 @@ export class ProjectsComponent implements OnInit {
     this.projectsService.deleteProject(this.idToDelete).subscribe(data => {
       console.log('data', data);
       this.delmodal = 'none';
-      this.getAllMyProjects();
+      this.getProjectByUserId();
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });
@@ -220,9 +201,10 @@ export class ProjectsComponent implements OnInit {
       .subscribe(
         data => {
           console.log('after get the project template from the screens ----  ', data);
-          localStorage.setItem('stylesheets', JSON.stringify(data[0]['stylesheets']));
-          localStorage.setItem('scripts', JSON.stringify(data[0]['scripts']));
-          localStorage.setItem('css_guidelines', JSON.stringify(data[0]['css-guidelines']));
+          const response = data.body;
+          localStorage.setItem('stylesheets', JSON.stringify(response[0]['stylesheets']));
+          localStorage.setItem('scripts', JSON.stringify(response[0]['scripts']));
+          localStorage.setItem('css_guidelines', JSON.stringify(response[0]['css-guidelines']));
         },
         error => {
           console.log('cannot able to get the project template');
@@ -317,76 +299,63 @@ export class ProjectsComponent implements OnInit {
       isTemplate: true,
     };
 
-    this.projectsService.getMyAllProjects(this.UserId).subscribe(async (data) => {
+    this.projectsService.getProjectByUserId(this.UserId).subscribe(async (data) => {
       if (data) {
-        this.myAllProjects = data;
+        this.myAllProjects = data.body;
         await this.myAllProjects.forEach(userProjects => {
           if (userProjects.name === this.projectName) {
             this.isProjectExit = true;
           }
         });
         if (!this.isProjectExit && !this.invalidName && !this.isReserveWord) {
-          this.projectsService.addProject(dataToSave).subscribe(data => {
-            if (data) {
-              templateDetailsToSave.project = data._id;
-              this.created_date = data.created_date;
+          this.projectsService.addProject(dataToSave).subscribe(response => {
+            if (response) {
+              const projectDetail = response.body;
+              templateDetailsToSave.project = projectDetail._id;
+              this.created_date = projectDetail.created_date;
               this.screenDesignerService.saveScreen(templateDetailsToSave).subscribe(screenData => {
               });
-              this.dataService.setProjectInfo(data);
+              this.dataService.setProjectInfo(projectDetail);
               // create default entity
-              this.projectsService.createProjectDefaults(data._id).subscribe(
+              this.projectsService.createDefaultEntity(projectDetail._id).subscribe(
                 (defaultRes) => {
-                }, (error) => { });
-              // create default screens
-              this.projectsService.createDefaultScreens(data._id).subscribe(
-                (defaultscreen) => {
-                  this.defaultscreenvalue = defaultscreen;
                 }, (error) => {
-                  console.error('Error:', error);
+                  console.error('cannot able to create the default entity for this project ', error);
+                });
+              // create default screens
+              this.projectsService.createDefaultScreens(projectDetail._id).subscribe(
+                (defaultscreen) => {
+                  this.defaultscreenvalue = defaultscreen.response;
+                }, (error) => {
+                  console.error('cannot able to create the default screens for this project', error);
                 });
               // create default menus
               console.log('create project values are ------- ', dataToSave);
               this.projectsService.createDefaultMenu(
-                data._id,
+                projectDetail._id,
                 dataToSave.default_human_language,
                 dataToSave.other_human_languages
               ).subscribe(
                 (defaultMenuResponse) => {
-                }, (error) => { });
-              // this.defaultEntity.user_id = "12345"
-              // this.defaultEntity.user_name = "david",
-              // this.defaultEntity.project_id = data._id;
-              // this.defaultEntity.project_name = data.name;
-              // this.defaultEntity.project_description = data.description;
-
-              // console.log("i am the entity u want",this.defaultEntity)
-              // this.entityManagerService.addDefaultEntity(this.defaultEntity).subscribe(data=>{
-              //   this.dataService.setDefaultEntityInfo(data)
-              // }),(error)=>{
-              //   console.log(error);
-              // }
-
+                }, (error) => {
+                  console.error('cannot able to create the default menu for this project ', error);
+                });
             }
-            this.getAllMyProjects();
+            this.getProjectByUserId();
           }, error => {
-            console.log('Check the browser console to see more info.', 'Error!');
+            console.error('cannot able to save the project', error);
           });
 
           this.onCloseHandled();
         }
       }
-      console.log('--------myprojects----', this.myAllProjects);
     }, error => {
-      console.log('Check the browser console to see more info.', 'Error!');
+      console.error('cannot able to get all the projects.', error);
     });
-    console.log('===============', this.isProjectExit)
   }
 
   // generation
   generateProject(project) {
-    console.log('project-------->', project);
-    // this.displayGenratorModel = 'block';
-
     const projectgen = {
       project_id: project._id,
       project_name: project.name,
@@ -401,13 +370,10 @@ export class ProjectsComponent implements OnInit {
       parent_gen_id: '0'
 
     };
-
-
-
     this.projectsService.generateProject(projectgen).subscribe(data => {
       console.log('data', data);
 
-      // this.getAllMyProjects();
+      // this.getProjectByUserId();
       this.getProjectNotify(projectgen.project_id);
 
       this.toastr.success('PROJECT: ' + projectgen.project_name, 'Generation Requested!', {
@@ -419,7 +385,6 @@ export class ProjectsComponent implements OnInit {
         closeButton: true,
         disableTimeOut: true
       });
-      console.log('Check the browser console to see more info.', 'Error!');
     });
   }
 
@@ -444,9 +409,9 @@ export class ProjectsComponent implements OnInit {
 
       console.log('socket data---->', data);
 
-      this.genNotifyArr.push(data);
+      this.genNotifyArr.push(data.body);
       let currentNotify: any;
-      currentNotify = data;
+      currentNotify = data.body;
       if (currentNotify.project_id !== undefined) {
         if (currentNotify.status !== 'gen_requested') {
 
@@ -464,25 +429,24 @@ export class ProjectsComponent implements OnInit {
           closeButton: true,
           disableTimeOut: true
         });
-        console.log('Check the browser console to see more info.', 'Error!');
       });
 
   }
 
   getAllNotifyByProject(project_id) {
     this.projectsService.getAllNotifyProject(project_id).subscribe(data => {
-      this.genNotifyArr = data;
+      this.genNotifyArr = data.body;
     },
       error => {
-        console.log('Check the browser console to see more info.', 'Error!');
+        console.log('cannot able to get all the notification for this project ', error);
       });
 
   }
 
 
-  getAllGepTemplates() {
+  getAllTemplates() {
     this.templateScreenService.getAllTemplates().subscribe(gepTemp => {
-      this.gepTemplates = gepTemp;
+      this.gepTemplates = gepTemp.body;
       this.gepTempImages = this.gepTemplates.template_image;
     },
       error => {
@@ -492,9 +456,9 @@ export class ProjectsComponent implements OnInit {
   getAllUserNotify(user_id) {
 
     this.projectsService.getAllUserNotify(user_id).subscribe(data => {
-      this.userNotifyArr = data;
+      this.userNotifyArr = data.body;
       console.log('userNotifydata:', data);
-      if (this.userNotifyArr.length !== 0) {
+      if (this.userNotifyArr && this.userNotifyArr.length !== 0) {
         this.toastr.info('PROJECT : ' + this.userNotifyArr[this.userNotifyArr.length - 1].project_name
           + ', STATUS : ' + this.userNotifyArr[this.userNotifyArr.length - 1].status_message,
           'Generation Notification!', {

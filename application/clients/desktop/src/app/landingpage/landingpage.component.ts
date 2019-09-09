@@ -60,12 +60,5 @@ export class LandingpageComponent implements OnInit {
     this.params.code = this.codes;
     this.params.scope = this.scopes;
     this.params.state = this.states;
-
-    this.landingservice.landingpage(this.params).subscribe(data => {
-      this.tokens = data.body;
-      sessionStorage.setItem('Tokens', JSON.stringify(this.tokens));
-    }, error => {
-      console.error('error:', error);
-    });
   }
 }

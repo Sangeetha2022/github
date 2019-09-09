@@ -8,13 +8,11 @@ import { IFeature } from './interface/Feature';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { IFeatureDetails } from './interface/FeatureDetails';
-import { FeatureDetailsService } from './feature-details/feature-details.service';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
 import { IMenu } from './interface/Menu';
 import { MenuBuilderService } from '../menu-builder/menu-builder.service';
 import { TreeDragService } from '../menu-builder/tree-drag/tree-drag.service';
 import { ProjectsService } from '../projects/projects.service';
-import { IFlow } from '../flow-manager/interface/flow';
 import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
 import { ToastrService } from 'ngx-toastr';
 import { ValidatorService } from 'src/shared/validator.service';
@@ -31,8 +29,8 @@ export class EntityManagerComponent implements OnInit {
     @ViewChild('apiGatewayFile') apiGatewayFile: ElementRef;
     public Editor = ClassicEditor;
     showUploadFeature: Boolean;
-    showImportFeature: Boolean = true;
-    showAddFeature: Boolean;
+    showImportFeature: Boolean;
+    showAddFeature: Boolean = true;
     frontFile: any;
     backendFile: any;
     rowSelection: any;
@@ -54,7 +52,7 @@ export class EntityManagerComponent implements OnInit {
         feature_id: '',
         // explanation:'',
     };
-    selectedOption: string;
+    selectedOption: String = 'Create Feature';
     options: string[] = ['Import Feature', 'Upload Feature', 'Create Feature'];
     public featureDetails: IFeatureDetails = {
         id: '',
@@ -138,7 +136,6 @@ export class EntityManagerComponent implements OnInit {
         private projectComponentService: ProjectComponentService,
         private projectService: ProjectsService,
         private menuBuilderService: MenuBuilderService,
-        private featureDetailsService: FeatureDetailsService,
         private dataService: DataService,
         private screenService: ScreenDesignerService,
         private route: ActivatedRoute,
@@ -147,29 +144,17 @@ export class EntityManagerComponent implements OnInit {
         private validatorService: ValidatorService,
 
 
-    ) {
-
-        // if (this.selectFeature === true) {
-        // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
-        // }
-    }
+    ) { }
 
     ngOnInit() {
         this.route.queryParams.subscribe(params => {
             this.project_id = params.projectId;
         });
-        if (this.showImportFeature === true) {
-            this.selectedOption = 'Import Feature';
-        }
         this.getProjectById();
         this.getSelectedProject();
-        // this.getProjectDetails();
         this.getFeatureByProjectId();
         this.getScreenByProjectId();
         this.getAllEntityByProjectId();
-        // this.getDefaultEntityByProjectId();
-        // this.getAllFeature();
-        // this.getAllFeatureDetails();
         this.getMenuBuilderByProjectId();
     }
 
@@ -180,7 +165,7 @@ export class EntityManagerComponent implements OnInit {
             disableTimeOut: false
         });
         this.projectComponentService.codeGenerate(this.project_id).subscribe(data => {
-            if (data) {
+            if (data.body) {
                 // tslint:disable-next-line: max-line-length
                 this.toastr.success('Github URL: https://github.com/gepinfo/' + this.projectName + '.git', 'Generation Completed!', {
                     closeButton: true,
@@ -261,12 +246,12 @@ export class EntityManagerComponent implements OnInit {
     }
 
     getProjectById() {
-        this.projectService.getProjectById(this.project_id).subscribe(proj => {
-            this.projectName = proj.name;
-            if (proj) {
-                this.menuLanguages.push(proj.default_human_language);
-                if (proj.other_human_languages !== '') {
-                    this.menuLanguages.push(proj.other_human_languages);
+        this.projectService.getProjectById(this.project_id).subscribe(response => {
+            if (response.body) {
+                this.projectName = response.body.name;
+                this.menuLanguages.push(response.default_human_language);
+                if (response.other_human_languages !== '') {
+                    this.menuLanguages.push(response.other_human_languages);
                 }
                 this.menuBuilder.project_languages = this.menuLanguages;
                 this.menuBuilder.language = this.menuLanguages[0];
@@ -276,9 +261,8 @@ export class EntityManagerComponent implements OnInit {
 
     getFeatureByProjectId() {
         this.projectComponentService.getFeatureByProjectId(this.project_id).subscribe(
-            features => {
-                console.log('get features by project id are ----- ', features);
-                this.projectFeatureData = features;
+            response => {
+                this.projectFeatureData = response.body;
             },
             error => {
 
@@ -305,8 +289,8 @@ export class EntityManagerComponent implements OnInit {
         });
 
         this.projectComponentService.getFeatureByProjectId(this.project_id).subscribe(projFeature => {
-            if (projFeature.length > 0) {
-                projFeature.forEach(feature => {
+            if (projFeature.body.length > 0) {
+                projFeature.body.forEach(feature => {
                     if (feature.name === this.featureInfo.name) {
                         this.isFeatureExist = true;
                     }
@@ -319,26 +303,23 @@ export class EntityManagerComponent implements OnInit {
                 this.projectComponentService.saveFeatures(this.featureInfo).subscribe(
                     (featureData) => {
                         this.featureInfo = { name: '', description: '', project: '' };
-                        console.log('saved features are ---- ', featureData);
                         this.displayFeatureModel = 'none';
                         this.menuBuilder = {
                             feature: [], project: '', language: '',
                             menuDetails: [], project_languages: this.menuLanguages, menu_option: true
                         };
                         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
-                            if (menuBuilderData.length !== 0) {
-                                menuBuilderData.forEach(menuData => {
-                                    console.log(menuData.menu_option);
+                            if (menuBuilderData.body && menuBuilderData.body.length !== 0) {
+                                menuBuilderData.body.forEach(menuData => {
                                     if (menuData.menu_option === true) {
                                         this.menuBuilder.feature = menuData.feature;
                                         this.menuBuilder.project = this.project_id;
                                         this.menuBuilder.language = menuData.language;
-                                        this.menuBuilder.feature.push(featureData._id);
+                                        this.menuBuilder.feature.push(featureData.body._id);
                                         this.menuBuilder.menuDetails = menuData.menuDetails;
                                         this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
                                             .subscribe(fMenu => {
-                                                console.log('=========', fMenu);
-                                            });
+                                            }, error => console.log('cannot able to update the menu details'));
                                     }
                                 });
                             }
@@ -355,7 +336,6 @@ export class EntityManagerComponent implements OnInit {
     }
 
     onFeatureChange(event) {
-        console.log(event);
         if (event.length <= 0) {
             this.isFeatureExist = false;
             this.isReserveWord = false;
@@ -364,33 +344,6 @@ export class EntityManagerComponent implements OnInit {
         }
     }
 
-    // getProjectDetails() {
-    //     this.projectComponentService.getAllFeatureByProjectId(this.project_id).subscribe(data => {
-    //         this.projectFeatureData = [];
-    //         if (data !== null) {
-    //             this.featureId = [];
-    //             data.map(fdata => {
-    //                 this.featureId.push(fdata.feature_id);
-    //                 // this.getScreenDetails(fdata.feature_id._id);
-    //             });
-    //         }
-    //         if (this.featureId !== null) {
-    //             this.featureId.map(fdata => {
-    //                 this.projectComponentService.getFeatureDetailsById(fdata._id).subscribe(fedata => {
-    //                     if (data !== undefined) {
-    //                         this.projectFeatureData.push(fedata);
-    //                         this.dataService.setProjectFeatureInfo(this.projectFeatureData);
-    //                         if (this.projectFeatureData !== undefined) {
-    //                             this.projectFeatureData.map((featuredata, index) => {
-    //                                 this.projectFeatureData[index].description = featuredata.description.replace(/<[^>]*>/g, '');
-    //                             });
-    //                         }
-    //                     }
-    //                 });
-    //             });
-    //         }
-    //     });
-    // }
 
     onChange(selected) {
         if (selected) {
@@ -427,74 +380,6 @@ export class EntityManagerComponent implements OnInit {
             }
         );
     }
-
-
-
-    // createFeature() {
-    //     if (this.selectedOption === 'Upload Feature') {
-    //         this.formData.append('front_mang_file', this.frontFile[0]);
-    //         this.formData.append('backed_mang_file', this.backendFile[0]);
-    //         this.formData.append('api_mang_file', this.apiManFile[0]);
-    //         this.formData.append('name', this.featureDetails.name);
-    //         this.formData.append('description', this.featureDetails.description);
-
-    //         this.projectComponentService.addFeatureDetailsWithFile(this.formData).subscribe((data) => {
-
-    //             if (data) {
-    //                 this.frontFile = '',
-    //                     this.backendFile = '',
-    //                     this.apiManFile = '',
-    //                     this.featureDetails.name = '',
-    //                     this.featureDetails.description = '',
-    //                     this.createFeatureData = data;
-    //                 this.closeFeatureCreateModel();
-    //                 this.getAllFeatureDetails();
-    //             }
-    //         }, (error) => {
-    //             console.log('something happens in feature microservice');
-    //         });
-    //     } else if (this.selectedOption === 'Create Feature') {
-    //         this.projectComponentService.addFeatureDetails(this.featureDetails).subscribe((data) => {
-    //             if (data) {
-    //                 this.createFeatureData = data;
-    //                 this.features.feature_id = this.createFeatureData._id;
-    //                 this.features.project_id = this.project_id;
-    //                 this.projectComponentService.addFeature(this.features).subscribe(featureData => {
-    //                     if (featureData) {
-    //                         this.menuBuilder = { feature: [], project: '', language: this.menuLanguages[0],
-    //  menuDetails: [], project_languages: this.menuLanguages, menu_option: true };
-    //                         this.menuBuilder.project = this.project_id;
-    //                         this.menuBuilder.feature.push(this.createFeatureData._id);
-    //                         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
-    //                             if (menuBuilderData.length !== 0) {
-    //                                 this.menuBuilder.feature = menuBuilderData[0].feature;
-    //                                 this.menuBuilder.feature.push(featureData.feature_id);
-    //                                 this.menuBuilderService.updateMenuById(menuBuilderData[0]._id, this.menuBuilder)
-    //                                     .subscribe(fMenu => {
-    //                                         console.log('=========', fMenu);
-    //                                     });
-    //                             } else {
-    //                                 this.menuBuilderService.createMenu(this.menuBuilder).subscribe(menuData => {
-    //                                 });
-    //                             }
-    //                         });
-
-    //                         this.getProjectDetails();
-    //                         this.closeFeatureExistingModel();
-    //                         this.getMenuBuilderByProjectId();
-    //                     }
-    //                 });
-    //                 this.featureDetails.name = '',
-    //                     this.featureDetails.description = '',
-    //                     this.closeFeatureCreateModel();
-    //                 this.getAllFeatureDetails();
-    //             }
-    //         }, (error) => {
-    //             console.log('something happens in feature microservice');
-    //         });
-    //     }
-    // }
-
     openFeatureDialog(): void {
         if (this.uiFile) {
             this.uiFile.nativeElement.value = '';
@@ -521,22 +406,22 @@ export class EntityManagerComponent implements OnInit {
             this.featureDetails.description = '',
             this.displayFeatureModel = 'none';
 
-        // this.features = { id: '', description: '', name: '', connectProject: this.features.connectProject };
     }
     closeFeatureExistingModel() {
         this.displayFeatureModel = 'none';
     }
 
     getScreenByProjectId() {
-        this.screenService.getScreenByProjectId(this.project_id).subscribe(sData => {
-            // this.screenDetails = sData;
-            sData.forEach(screenDetails => {
-                if (screenDetails.isTemplate !== true) {
-                    this.screenDetails.push(screenDetails);
-                } else if (screenDetails.isTemplate === true) {
-                    this.screenTempId = screenDetails._id;
-                }
-            });
+        this.screenService.getScreenByProjectId(this.project_id).subscribe(response => {
+            if (response.body) {
+                response.body.forEach(element => {
+                    if (!element.isTemplate) {
+                        this.screenDetails.push(element);
+                    } else {
+                        this.screenTempId = element._id;
+                    }
+                });
+            }
 
         }, (error) => {
             console.log('screenDetails something is not working on backend side');
@@ -579,19 +464,12 @@ export class EntityManagerComponent implements OnInit {
     getAllEntityByProjectId() {
         this.projectComponentService.getEntityByProjectId(this.project_id).subscribe(
             (data) => {
-                this.allEntity = data;
+                this.allEntity = data.body;
                 this.projectEntity = this.allEntity;
-                console.log('ProjectEntity data are ------ ', this.allEntity);
-                // this.allEntity.map(entityData => {
-                //     if (entityData.feature_id === undefined && entityData.project_id === null) {
-                //         this.projectEntity.push(entityData);
-                //     }
-                // });
-                console.log('ProjectEntity 22333 ---- ', this.projectEntity);
                 this.dataService.setAllEntity(this.allEntity);
             },
             (error) => {
-                console.log('error in ProjectEntity ---- ', error);
+                console.log('cannot able to get all entity based on projectId ---- ', error);
             }
         );
     }
@@ -604,7 +482,6 @@ export class EntityManagerComponent implements OnInit {
         this.deletePopup = 'none';
     }
     editEntityField(entity: any) {
-        this.dataService.setEntity(entity);
         this.router.navigate(['/entity-field'], { queryParams: { entityId: entity._id }, });
     }
 
@@ -629,8 +506,8 @@ export class EntityManagerComponent implements OnInit {
     getMenuBuilderByProjectId() {
         this.menuFeatureName = [];
         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
-            if (menuBuilderData.length !== 0) {
-                this.menuBuilderDetails = menuBuilderData;
+            if (menuBuilderData.body && menuBuilderData.body.length !== 0) {
+                this.menuBuilderDetails = menuBuilderData.body;
                 const array = [];
 
                 this.menuBuilderDetails.forEach(menuData => {
@@ -641,19 +518,19 @@ export class EntityManagerComponent implements OnInit {
                                 if (feData !== null) {
                                     this.featureDetailsData = [];
                                     this.projectComponentService.getFeatureById(feData).subscribe(
-                                        feature => {
-                                            this.featureDetailsData = feature;
+                                        response => {
+                                            this.featureDetailsData = response.body;
                                             this.menuFId = this.featureDetailsData._id;
                                             this.menuFName = this.featureDetailsData.name;
                                             const fMenuData = {
                                                 feature: this.menuFName,
                                                 featureId: this.menuFId,
                                             };
-                                            this.screenService.getScreenByFeatureId(feData).subscribe(data => {
-                                                if (data.length !== 0) {
+                                            this.screenService.getScreenByFeatureId(feData).subscribe(screenResponse => {
+                                                if (screenResponse.body && screenResponse.body.length !== 0) {
                                                     this.screenMenuName = [];
                                                     this.screenId = [];
-                                                    data.forEach(sData => {
+                                                    screenResponse.body.forEach(sData => {
                                                         this.screenId.push(sData._id);
                                                         this.screenMenuName.push(sData.screenName);
                                                     });
@@ -675,14 +552,19 @@ export class EntityManagerComponent implements OnInit {
                                                         this.dataMenu.forEach(meData => {
                                                             this.menuBuilder.menuDetails.forEach(menu => {
                                                                 if (meData.featuremenu.length > 0) {
+                                                                    // tslint:disable-next-line:max-line-length
                                                                     if (menu.featuremenu[0].name.featureId === meData.featuremenu[0].name.featureId) {
                                                                         menu.featuremenu[0].description = meData.featuremenu[0].description;
+                                                                        // tslint:disable-next-line:max-line-length
                                                                         if (menu.screenmenu[0].name.screenId !== undefined && meData.screenmenu[0].name.screenId !== undefined) {
+                                                                            // tslint:disable-next-line:max-line-length
                                                                             const intersection = menu.screenmenu[0].name.screenId.filter(x => meData.screenmenu[0].name.screenId.includes(x));
                                                                             if (intersection.length !== 0) {
                                                                                 intersection.forEach(sId => {
+                                                                                    // tslint:disable-next-line:max-line-length
                                                                                     meData.screenmenu[0].name.screenId.forEach((dSId, index) => {
                                                                                         if (sId === dSId) {
+                                                                                            // tslint:disable-next-line:max-line-length
                                                                                             menu.screenmenu[0].description.screen[index] = meData.screenmenu[0].description.screen[index];
                                                                                         }
                                                                                     });
@@ -698,10 +580,9 @@ export class EntityManagerComponent implements OnInit {
                                                         }
                                                     }
                                                     this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
-                                                        .subscribe(fMenu => {
-                                                            if (fMenu) {
-                                                                this.dataService.setMenuBuilder(fMenu.menuDetails);
-                                                                this.database.initialize(fMenu.menuDetails);
+                                                        .subscribe(menuResponse => {
+                                                            if (menuResponse.body) {
+                                                                this.database.initialize(menuResponse.body.menuDetails);
                                                             }
                                                         });
                                                 }
@@ -731,19 +612,8 @@ export class EntityManagerComponent implements OnInit {
         );
     }
 
-    // getDefaultEntityByProjectId() {
-    // this.projectComponentService.getDefaultEntityByProjectId(this.selectedProject._id).subscribe(data => {
-    // // data.map((data,index)=>{
-    // this.selecteddefaultEntity = [data];
-
-
-    // // let defaultEntity = Object.values(this.selecteddefaultEntity);
-    // });
-    // }
-
     GoToDesigner() {
         this.openScreenDialog();
-        // this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id } });
     }
 
     openScreenDialog(): void {
@@ -771,134 +641,18 @@ export class EntityManagerComponent implements OnInit {
         this.deleteFPopup = 'none';
     }
 
-    updateFeature() {
-        // this.projectComponentService.getFeatureById(this.features.id).subscribe(data => {
-        // if (data.connectProject === true) {
-        // alert("Already Imported");
-        // this.closeFeatureExistingModel();
-        // } else {
-        // console.log("Asadadffaffdf", this.features)
-        // this.projectComponentService.updateFeature(this.features).subscribe(data => {
-        // console.log(data);
-        // if (data) {
-        // this.closeFeatureExistingModel();
-        // }
-        // });
-
-        // }
-        // });
-    }
-
-    addFeature() {
-        this.projectComponentService.getAllFeatureByProjectId(this.features.project_id).subscribe(data => {
-            data.map(pfdata => {
-                if (pfdata.feature_id._id === this.features.feature_id) {
-                    this.allowImport = true;
-                }
-            });
-            if (this.allowImport) {
-                alert('Already Imported');
-                this.closeFeatureExistingModel();
-            }
-            if (!this.allowImport) {
-                this.projectComponentService.addFeature(this.features).subscribe(featureData => {
-                    if (featureData) {
-                        this.menuBuilder.feature.push(featureData.feature_id);
-                        this.menuBuilder.project = this.project_id;
-                        this.menuBuilderService.createMenu(this.menuBuilder).subscribe(menuData => {
-                            if (menuData) {
-                                this.getMenuBuilderByProjectId();
-                            }
-                        });
-                        this.getFeatureByProjectId();
-                        this.closeFeatureExistingModel();
-                    }
-                });
-                this.featureDetailsService.getFeatureEntityByFeatureId(this.features.feature_id).subscribe(entityFeatureData => {
-                    this.featureEntityData = entityFeatureData;
-                    this.featureEntityData.map((entityData, index) => {
-                        this.featureEntityField.push(entityData);
-                    });
-                    this.featureEntityField.map(fieldElement => {
-                        this.entity.name = fieldElement.name;
-                        this.entity.feature_id = this.features.feature_id;
-                        this.entity.description = fieldElement.description;
-                        this.entity.project_id = this.features.project_id;
-                        this.entity.field = fieldElement.field;
-                        this.projectComponentService.createEntity(this.entity).subscribe(
-                            (entityData) => {
-                            },
-                            (error) => {
-
-                            }
-                        );
-                    });
-
-                });
-
-
-            }
-        });
-    }
-
-    addFeatureDetails() {
-        this.projectComponentService.addFeatureDetails(this.features).subscribe(data => {
-            // if (data) {
-            // this.getAllFeature();
-            // }
-        });
-    }
-
-    getAllFeatureDetails() {
-        this.projectComponentService.getAllFeatureDetails().subscribe(data => {
-            this.featureData = data;
-            this.featureData.forEach((featureElement, index) => {
-                if (featureElement.description !== undefined) {
-                    this.featureData[index].description = featureElement.description.replace(/<[^>]*>/g, '');
-                }
-            });
-        });
-    }
-    // getAllFeature() {
-    // this.projectComponentService.getAllFeature().subscribe(data => {
-    // this.featureData = data;
-    // this.featureConnectProject = [];
-    // data.map(data => {
-    // if (data.connectProject === true) {
-    // this.featureConnectProject.push(data);
-
-    // }
-    // })
-    // // tslint:disable-next-line:no-shadowed-variable
-    // this.featureData.map((data, index) => {
-    // this.featureData[index].description = data.description.replace(/<[^>]*>/g, '');
-    // });
-    // });
-    // }
 
     onReady(eventData) {
         eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
-            // console.log("aiosaohofhodaofdfdf>>>>>>>>>>++++++++",btoa(loader.file));
-            // return new UploadAdapter(loader);
         };
     }
-    // getAllFeature() {
-    // this.projectComponentService.getAllFeature().subscribe(data => {
-    // this.featureData = data;
-    // this.featureConnectProject = [];
-    // data.map(data => {
-    // if (data.connectProject === true) {
-    // this.featureConnectProject.push(data);
-
     deleteFeature() {
         this.projectComponentService.deleteFeature(this.selectedFeatureId).subscribe(data => {
-        });
+        }, error => console.log('cannot able to delete the feature'));
         this.closeDeleteFModel();
-        // this.getAllFeature();
     }
 
     editScreen(screenId, screenType) {
-        console.log('screen id are ----- ', screenId, screenType);
         this.router.navigate(['/desktopscreen'], {
             queryParams: {
                 projectId: this.project_id, screenId: screenId,
@@ -918,34 +672,3 @@ export class EntityManagerComponent implements OnInit {
         );
     }
 }
-
-
-// image uploader for ckeditor
-
-// export class UploadAdapter {
-// private loader;
-// constructor(loader: any) {
-// this.loader = loader;
-// console.log(this.readThis(loader.file));
-// }
-
-// public upload(): Promise<any> {
-// //"data:image/png;base64,"+ btoa(binaryString)
-// return this.readThis(this.loader.file);
-// }
-
-// readThis(file: File): Promise<any> {
-// console.log(file)
-// let imagePromise: Promise<any> = new Promise((resolve, reject) => {
-// var myReader: FileReader = new FileReader();
-// myReader.onloadend = (e) => {
-// let image = myReader.result;
-// console.log(image);
-// return { default: "data:image/png;base64," + image };
-// resolve();
-// }
-// myReader.readAsDataURL(file);
-// });
-// return imagePromise;
-// }
-

@@ -22,7 +22,6 @@ export class ButtonRendererComponent implements ICellRendererAngularComp {
 
   agInit(params): void {
     this.params = params;
-    console.log('agInit for button ---- ', params);
     if (this.params.data.is_default) {
       this.isDisabled = this.params.data.is_default;
     }
@@ -30,7 +29,6 @@ export class ButtonRendererComponent implements ICellRendererAngularComp {
   }
 
   refresh(params?: any): boolean {
-    console.log('refresh for button ---- ', params);
     return true;
   }
 

@@ -55,13 +55,11 @@ export class EntityFieldComponent implements OnInit {
   constructor(
     private entityManagerService: ProjectComponentService,
     private projectComponentService: ProjectComponentService,
-    private router: Router,
     private location: Location,
     public dialog: MatDialog,
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
     private regexExpression: RegexExpression,
-    private dataService: DataService
   ) {
     this.frameworkComponents = {
       buttonRenderer: ButtonRendererComponent,
@@ -70,7 +68,6 @@ export class EntityFieldComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
-      console.log('activated routes in screen designer are ----- ', params);
       if (params.entityId !== undefined && params.entityId !== null) {
         this.currentEntityId = params.entityId;
       }
@@ -85,7 +82,7 @@ export class EntityFieldComponent implements OnInit {
   getEntityType() {
     this.entityManagerService.getAllEntityType().subscribe(
       (data) => {
-        data.forEach(element => {
+        data.body.forEach(element => {
           this.getEntityTypeValue.push(element.typename);
         });
         this.agGridInitialization();
@@ -147,7 +144,6 @@ export class EntityFieldComponent implements OnInit {
         entity_id: null
       }
     ];
-    // this.rowSelection = 'multiple';
     this.defaultColDef = {
       editable: true,
       sortable: true,
@@ -157,22 +153,10 @@ export class EntityFieldComponent implements OnInit {
   }
 
   getEntity() {
-    // this.dataService.currentSelectedEntityInfo.subscribe(
-    //   (data) => {
-    //     if (data) {
-    //       console.log('cureent selected entitye inf orae ----  ', data);
-    //       this.currentEntityId = data._id;
-    //       this.entity = data;
-    //       if (this.entity.field.length > 0) {
-    //         this.rowData = this.entity.field;
-    //       }
-    //     }
-    //   },
-    //   (error) => { });
     this.projectComponentService.getByIdEntity(this.currentEntityId).subscribe(
       data => {
-        if (data) {
-          this.entity = data;
+        if (data.body) {
+          this.entity = data.body;
           if (this.entity.field.length > 0) {
             this.rowData = this.entity.field;
           }
@@ -184,13 +168,7 @@ export class EntityFieldComponent implements OnInit {
   }
 
   getAllEntity() {
-
-    // this.dataService.currentAllEntityInfo.subscribe(
-    //   (data) => {
-    //     this.allEntity = data;
-    //   }
-    // );
-    if (this.featureId) {
+ if (this.featureId) {
       this.getEntityByFeatureId();
     }
   }
@@ -198,8 +176,8 @@ export class EntityFieldComponent implements OnInit {
   getEntityByFeatureId() {
     this.projectComponentService.getEntityByFeatureId(this.featureId).subscribe(
       data => {
-        if (data && data.length > 0) {
-          this.allEntity = data.filter(x => x._id !== this.currentEntityId);
+        if (data.body && data.body.length > 0) {
+          this.allEntity = data.body.filter(x => x._id !== this.currentEntityId);
         }
       },
       error => { }
@@ -313,9 +291,6 @@ export class EntityFieldComponent implements OnInit {
         this.toastr.error('something went wrong, entity are not stored');
       });
   }
-  // get() {
-  //   console.log('get row data in entity field are --------- ', this.getRowData());
-  // }
 
   getRowData() {
     const rowData = [];
@@ -340,7 +315,6 @@ export class EntityFieldComponent implements OnInit {
 
   // The value setter function/method
   nameValueSetter(params: ValueParserParams) {
-    // const regexExpr = /`|\~|\!|\@|\#|\$|\%|\^|\&|\*|\(|\)|\+|\=|\[|\{|\]|\}|\||\\|\'|\<|\,|\.|\>|\?|\/|\""|\"|\;|\:|\s/;
     const regexExpr = new RegExp(this.regexExpression.getSpecialCharacter().toString(), 'g');
     const reservedRegexExpr = new RegExp(this.regexExpression.getReservedWord(), 'i');
     if (regexExpr.test(params.newValue) || /[0-9]/.test(params.newValue.toString().charAt(0))) {

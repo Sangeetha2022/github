@@ -27,7 +27,7 @@ export class Routes {
         app.route('/entity/feature/get').get(this.entityController.getEntityByFeatureId);
 
         // need some clarification from kishan
-        app.route('/feature/getentities').get(this.entityController.getentityfeatures);
+        app.route('/entity/global').get(this.entityController.getentityfeatures);
 
         // entity field
         app.route('/entity/field/update').put(this.entityController.updateEntityField);

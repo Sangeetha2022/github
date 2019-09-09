@@ -6,8 +6,4 @@ import { BehaviorSubject, Subject } from 'rxjs';
 export class AppComponentService {
   constructor() {
   }
-  changeMessage(message: string) {
-  }
-  changeSub(message: string) {
-  }
 }
