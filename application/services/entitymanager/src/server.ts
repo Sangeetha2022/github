@@ -41,10 +41,10 @@ class App {
     }
 
     private mongoSetup(): void {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mongoConfig = new MongoConfig();
-        // mongoConfig.mongoConfig();
+        // mongoose.Promise = global.Promise;
+        // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        let mongoConfig = new MongoConfig();
+        mongoConfig.mongoConfig();
     }
 
     private mongoSeedData(): void {
