@@ -11,10 +11,6 @@ export class LoginService {
 
   constructor(private http: HttpClient, private restapi: SharedService) { }
 
-
-  // Getlogin(): Observable<any> {
-  //   return this.http.get(this.restapi.loginUrl + '/googlelogin');
-  // }
   signup(user: any): Observable<any> {
     return this.http.post(this.restapi.Apigateway + Constants.signup, user);
   }

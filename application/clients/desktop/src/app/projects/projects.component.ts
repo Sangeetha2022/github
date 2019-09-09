@@ -137,13 +137,6 @@ export class ProjectsComponent implements OnInit {
     this.params.scope = this.scopes;
     this.params.state = this.states;
 
-    this.projectsService.landingpage(this.params).subscribe(data => {
-      this.tokens = data.body;
-      sessionStorage.setItem('Tokens', JSON.stringify(this.tokens));
-    }, error => {
-      console.error('error:', error);
-    });
-
   }
 
   openModal() {

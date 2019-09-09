@@ -25,6 +25,4 @@ export class SharedService {
 
     // App Service
     public Apigateway: String = SharedService.BaseHost + ':30000';
-    public loginUrl: String = SharedService.BaseHost + ':30007';
-
 }
