@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
-import { DataService } from '../../../../../shared/data.service';
 import { IEntity } from '../../../../project-component/interface/Entity';
-import * as dictionary from 'nanoid-dictionary';
-import * as generate from 'nanoid/generate';
-import { CustomTraitsService } from './custom-traits.service';
-import { ProjectComponentService } from 'src/app/project-component/project-component.service';
 
 declare var ClassicEditor: any;
 declare var agGrid: any;
+declare var Highcharts: any;
 @Injectable({
   providedIn: 'root'
 })
@@ -21,21 +17,8 @@ export class TraitsService {
     field: '',
     entity: ''
   }];
-  // public verbOptions: any[] = [
-  //   { key: 'click', value: 'onClick' },
-  //   { key: 'focus', value: 'onFocus' },
-  //   { key: 'blur', value: 'onBlur' }
-  // ];
-  public screenArray: any[] = [];
-  constructor(
-    private dataService: DataService,
-    private projectComponentService: ProjectComponentService,
-    private customTraitService: CustomTraitsService
-  ) { this.initVariable(); }
+  constructor() { }
 
-  initVariable() {
-    this.screenArray = [];
-  }
 
   initMethod(screenGlobalVariable) {
     this.initializeInputMethod(screenGlobalVariable);
@@ -76,7 +59,6 @@ export class TraitsService {
       },
         {
           isComponent: function (el) {
-            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
             if (el.tagName === 'INPUT') {
               return {
                 type: 'input'
@@ -112,7 +94,6 @@ export class TraitsService {
       },
         {
           isComponent: function (el) {
-            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
             if (el.tagName === 'SELECT') {
               return {
                 type: 'select'
@@ -148,7 +129,6 @@ export class TraitsService {
       },
         {
           isComponent: function (el) {
-            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
             if (el.tagName === 'TEXTAREA' && el.type === 'textarea') {
               return {
                 type: 'textarea'
@@ -184,8 +164,6 @@ export class TraitsService {
       },
         {
           isComponent: function (el) {
-            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
-            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ');
             if (el.tagName === 'INPUT' && el.type === 'radio') {
               return {
                 type: 'radio'
@@ -221,7 +199,6 @@ export class TraitsService {
       },
         {
           isComponent: function (el) {
-            console.log('ram iscomponent for radio tagname and ttype', el.tagName, '  ---  ', el);
             if (el.tagName === 'INPUT' && el.type === 'checkbox') {
               return {
                 type: 'checkbox'
@@ -648,7 +625,7 @@ export class TraitsService {
   //   );
   // }
 
-  addSpecialButtonTraits(editor, buttonName) {
+  addPopupModalTraits(editor, buttonName) {
     const $this = this;
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
@@ -658,25 +635,14 @@ export class TraitsService {
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
           draggable: '*',
           droppable: false,
-          traits: [{
-            label: 'name',
-            name: 'name',
-            changeProp: 1,
-            type: 'text'
-          }, {
-            type: 'select',
-            label: 'entities',
-            name: 'entities',
-            changeProp: 1,
-            options: this.entityOptions,
-          }, {
-            type: 'select',
-            label: 'attributes',
-            name: 'entityattributes',
-            changeProp: 1,
-            options: [],
-          }],
-
+          components: '<button>Modal</button>',
+          style: {
+            'padding-top': '10px',
+            'padding-right': '2px',
+            'padding-left': '2px',
+            'padding-bottom': '10px'
+          },
+          traits: []
         }),
         init() {
           this.listenTo(this, 'change:name', this.ElementName);
@@ -728,12 +694,25 @@ export class TraitsService {
     const $this = this;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
+    const labelSelectOption = [
+      'name'
+    ];
 
     comps.addType(buttonName, {
       model: defaultModel.extend({
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
           draggable: '*',
           droppable: false,
+          components: `<select>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          </select>`,
+          style: {
+            'padding-top': '10px',
+            'padding-right': '2px',
+            'padding-left': '2px',
+            'padding-bottom': '10px'
+          },
           traits: [{
             label: 'name',
             name: 'name',
@@ -799,23 +778,129 @@ export class TraitsService {
     });
   }
 
-  setScreenInfo(htmlId, componentId, flow) {
-    const screenObj = {
-      button: {
-        htmlId: undefined,
-        componentId: undefined,
-        action: undefined
-      }
-    };
-    screenObj.button.htmlId = htmlId;
-    screenObj.button.componentId = componentId;
-    screenObj.button.action = flow;
-    this.screenArray.push(screenObj);
-    console.log('button rnder html set screen info ------ ', this.screenArray);
-  }
 
-  getScreenInfo() {
-    return this.screenArray;
+  addHighChartTraits(editor, buttonName) {
+    const comps = editor.DomComponents;
+    const $this = this;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    const labelSelectOption = [
+      'name'
+    ];
+
+    comps.addType(buttonName, {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          components: `<div id="containerchart" style="width:100%; height:400px;"></div>`,
+          script: function () {
+            const initHighChart = function () {
+              const myChart = Highcharts.chart('containerchart', {
+                chart: {
+                  type: 'bar'
+                },
+                title: {
+                  text: 'Fruit Consumption'
+                },
+                xAxis: {
+                  categories: ['Apples', 'Bananas', 'Oranges']
+                },
+                yAxis: {
+                  title: {
+                    text: 'Fruit eaten'
+                  }
+                },
+                series: [{
+                  name: 'Jane',
+                  data: [1, 0, 4]
+                }, {
+                  name: 'John',
+                  data: [5, 7, 3]
+                }]
+              });
+              // });
+            };
+            let exists = false;
+            const url = 'https://code.highcharts.com/highcharts.js';
+            const scripts = document.getElementsByTagName('script');
+            for (let i = scripts.length; i--;) {
+              if (scripts[i].src === url) {
+                exists = true;
+              }
+            }
+            if (!exists) {
+              const script = document.createElement('script');
+              script.onload = initHighChart;
+              script.src = url;
+              document.body.appendChild(script);
+            } else {
+              initHighChart();
+            }
+          },
+          traits: [{
+            label: 'name',
+            name: 'name',
+            type: 'text',
+            changeProp: 1
+          }, {
+            type: 'select',
+            label: 'entities',
+            name: 'entities',
+            changeProp: 1,
+            options: this.entityOptions,
+          }, {
+            type: 'select',
+            label: 'attributes',
+            name: 'entityattributes',
+            changeProp: 1,
+            options: [],
+          }],
+
+        }),
+        init() {
+          this.listenTo(this, 'change:name', this.ElementName);
+          this.listenTo(this, 'change:entities', this.entity);
+          this.listenTo(this, 'change:entityattributes', this.attributeVal); // listen for active event
+        },
+        ElementName() {
+
+        },
+        entity() {
+          const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
+          const changedValue = this.changed['entities'];
+          const options = [];
+          if ($this.allEntity.length > 0) {
+            $this.allEntity.forEach(entityElement => {
+              if (entityElement.name === changedValue) {
+                entityElement.field.forEach(childElement => {
+                  const temp = {
+                    value: childElement.Name,
+                    name: childElement.Name
+                  };
+                  options.push(temp);
+                });
+              }
+            });
+          }
+          entityTrait.set('options', options);
+          editor.TraitManager.getTraitsViewer().render();
+        },
+        attributeVal() {
+        }
+      },
+        {
+          isComponent: function (el) {
+            if (el.tagName === buttonName) {
+              return {
+                type: buttonName
+              };
+            }
+          },
+        }),
+
+      view: defaultType.view,
+    });
   }
 
 }

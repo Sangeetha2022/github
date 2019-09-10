@@ -37,7 +37,44 @@ export class CustomTraitsService {
                     } else {
                         $this.selectedFlowObj = null;
                     }
-                    $this.isGridEvent = false;
+                    // $this.rowSelection = 'single';
+                    $this.isLifeCycleRow = false;
+                    eventPopupModel.style.display = 'block';
+                    $this.gridApi.deselectAll();
+                    $this.ref.detectChanges();
+                },
+            },
+            getInputEl() {
+                // tslint:disable-next-line:prefer-const
+                let button = <HTMLElement>document.createElement('button');
+                button.id = 'fieldButton';
+                button.style.width = '100%';
+                button.style.backgroundColor = '#4CAF50';
+                button.style.border = 'none';
+                button.style.color = 'white';
+                button.style.backgroundColor = '#008CBA';
+                button.style.fontSize = '12px !important';
+                button.style.cursor = 'pointer';
+                button.appendChild(document.createTextNode('Flow'));
+                return button;
+            },
+        });
+    }
+
+    MultiflowsActionButton($this) {
+        // action button add
+        $this.editor.TraitManager.addType('multiflowButton', {
+            events: {
+                'click': function () {
+                    const element = $this.screenFlows.filter(x => x.elementName === this.target.attributes.name);
+                    const eventPopupModel = document.getElementById('EventPopup');
+                    if (element && element.length > 0) {
+                        $this.selectedFlowObj = $this.listOfFLows.filter(x => x._id === element[0].flow);
+                    } else {
+                        $this.selectedFlowObj = null;
+                    }
+                    // $this.rowSelection = 'multiple';
+                    $this.isLifeCycleRow = true;
                     eventPopupModel.style.display = 'block';
                     $this.gridApi.deselectAll();
                     $this.ref.detectChanges();
@@ -68,7 +105,6 @@ export class CustomTraitsService {
                     // console.log('print button clicked');
                     const eventPopupModel = document.getElementById('EventPopup');
                     // console.log('print eventPopupModel values are ------ ', eventPopupModel);
-                    $this.isGridEvent = true;
                     eventPopupModel.style.display = 'block';
                 },
             },
