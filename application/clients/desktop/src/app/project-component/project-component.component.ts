@@ -582,6 +582,7 @@ export class EntityManagerComponent implements OnInit {
                                                     this.menuBuilderService.updateMenuById(menuData._id, this.menuBuilder)
                                                         .subscribe(menuResponse => {
                                                             if (menuResponse.body) {
+                                                                this.dataService.setMenuBuilder(menuResponse.body.menuDetails);
                                                                 this.database.initialize(menuResponse.body.menuDetails);
                                                             }
                                                         });
@@ -597,6 +598,7 @@ export class EntityManagerComponent implements OnInit {
                             });
                         } else {
                             this.database.initialize(this.dataMenu);
+                            this.dataService.setMenuBuilder(this.dataMenu);
                         }
                     }
                 });
