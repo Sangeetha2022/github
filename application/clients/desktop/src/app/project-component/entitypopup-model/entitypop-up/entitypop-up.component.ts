@@ -19,7 +19,8 @@ export class EntityModelComponent implements OnInit {
         description: '',
         entityType: '',
         selectentity: '',
-        entity_id: ''
+        entity_id: '',
+        field: []
     };
     public projectId: any;
     public selectedentity: any = [];

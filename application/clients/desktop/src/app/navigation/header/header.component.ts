@@ -15,6 +15,8 @@ export class HeaderComponent implements OnInit {
   hideElement: boolean;
   public headergaurd: any;
   public permission: any;
+  public currentLanguage: String;
+  public confirmLangChangeModal: String = 'none';
   language = 'en';
   languages = ['en', 'ta', 'es'];
   displayAboutModel: String = 'none';
@@ -82,12 +84,33 @@ export class HeaderComponent implements OnInit {
 
   }
 
-  changeLanguage(lang: string) {
+  confirmLangModel(lang) {
+    this.user.id = sessionStorage.getItem('Id');
+    if (this.user.id !== null) {
+      this.confirmLangChangeModal = 'block';
+      this.currentLanguage = lang;
+    } else {
+      this.changeLanguage(lang);
+      this.onCloseHandled();
+    }
+  }
+
+  confirmLangChange() {
+    this.changeLanguage(this.currentLanguage);
+    this.onCloseHandled();
+  }
+
+  onCloseHandled() {
+    this.confirmLangChangeModal = 'none';
+  }
+
+  changeLanguage(lang) {
     if (lang !== this.i18NextService.language) {
       this.i18NextService.changeLanguage(lang).then(x => {
         this.updateState(lang);
-        document.location.reload();
+        // document.location.reload();
       });
+      this.Logout();
     }
   }
 

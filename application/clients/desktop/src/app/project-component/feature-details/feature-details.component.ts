@@ -37,6 +37,7 @@ export class FeatureDetailsComponent implements OnInit {
     featureEntity: any = [];
     frameworkComponents: { buttonRenderer: any; };
     displayModel: String = 'none';
+    public isReadOnly: Boolean = false;
     featureScreenName: any = [];
     columnFeatureDefs: any = [];
     columnFeatureEntityData: any = [];
@@ -522,6 +523,7 @@ export class FeatureDetailsComponent implements OnInit {
                 this.entity.name = entityData.name;
                 this.entity.description = entityData.description;
                 this.entity.entity_type = entityData.entityType;
+                this.entity.field = entityData.field;
                 if (entityData !== undefined) {
                     if (objectValue === null) {
                         if (entityData.selectentity === 'Existing') {

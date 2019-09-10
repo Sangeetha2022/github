@@ -5,6 +5,7 @@ import * as path from 'path';
 import * as deployConfig from '../config/config.json';
 import { AppService } from '../services/app.service';
 import { SystemEntryService } from '../services/system-entry.service';
+import { MongoService } from '../services/mongo.service';
 import { TelemetryService } from '../services/telemetry.service';
 import { NamespaceService } from '../services/app.namespace';
 import { TerraformService } from '../services/terraform.service';
@@ -17,6 +18,7 @@ import { HelmService } from '../services/helm.service';
 
 
 let namespaceService = new NamespaceService()
+let mongoService = new MongoService()
 let appService = new AppService()
 let systemEntryService = new SystemEntryService()
 let telemetryService = new TelemetryService()
@@ -179,7 +181,8 @@ export class AWSInfrastructureController {
       })
     }
 
-
+    // generate mongoscript
+    mongoService.generate_mongo_script_cloud(projectDetails, (response) => { })
 
     //generate helm templates
     projectDetails.templateUrl = helmSource;

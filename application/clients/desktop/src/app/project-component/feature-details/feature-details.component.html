@@ -182,7 +182,7 @@
             [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData"
             [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight'
             [pagination]="true" [paginationPageSize]="10" [floatingFilter]="true"
-            (selectionChanged)="onRowSelectionChanged($event)" (gridReady)="onGridReady($event)">
+            (selectionChanged)="onRowSelectionChanged()" (gridReady)="onGridReady($event)">
           </ag-grid-angular>
 
           <!-- <form class="m-3" [formGroup]="eventFlows">
@@ -296,13 +296,13 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" [readonly]="!editable" [(ngModel)]="modifyFlows.flowName" name="flowName">
+                <input type="text" class="form-control" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowName" name="flowName">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="label">Label</label>
-                <input type="text" class="form-control" id="label" [readonly]="!editable" [(ngModel)]="modifyFlows.flowLable" name="flowLable" >
+                <input type="text" class="form-control" id="label" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowLable" name="flowLable" >
               </div>
             </div>
           </div>
@@ -310,13 +310,13 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="description">Description</label>
-                <textarea class="form-control" rows="1" id="description" [readonly]="!editable" [(ngModel)]="modifyFlows.flowDescription" name="flowDescription"></textarea>
+                <textarea class="form-control" rows="1" id="description" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowDescription" name="flowDescription"></textarea>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="action">Action</label>
-                <input type="text" class="form-control" [readonly]="!editable" [(ngModel)]= "modifyFlows.flowAction" name="flowAction">
+                <input type="text" class="form-control" [readonly]="!isReadOnly" [(ngModel)]= "modifyFlows.flowAction" name="flowAction">
               </div>
             </div>
           </div>

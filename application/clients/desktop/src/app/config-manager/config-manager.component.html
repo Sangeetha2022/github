@@ -15,9 +15,10 @@
         <option value="1000">1000</option>
       </select>
     </div>
-    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnDefs"
-    [rowSelection]="rowSelection" [rowData]="rowData" [pagination]="true" [paginationPageSize]="paginationPageSize" domLayout='autoHeight'
-    [paginationNumberFormatter]="paginationNumberFormatter" [animateRows]="true" [defaultColDef]="defaultColDef"
+    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
+      [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="rowData" [pagination]="true"
+      [paginationPageSize]="paginationPageSize" domLayout='autoHeight'
+      [paginationNumberFormatter]="paginationNumberFormatter" [animateRows]="true" [defaultColDef]="defaultColDef"
       (selectionChanged)="onSelectionChanged()" [floatingFilter]="true" (gridReady)="onGridReady($event)">
     </ag-grid-angular>
   </div>
@@ -32,22 +33,16 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="name">{{ 'name' | i18next }}</label>
-                <input type="text" class="form-control" placeholder="{{'placeholder_name' | i18next}}" id="name" name="name"
-                  [(ngModel)]="configManager.name" [ngClass]="{ 'is-invalid': submitted && form_control.name.errors }">
-                <div *ngIf="submitted && form_control.name.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.name.errors.required">{{'require_name' | i18next}}</div>
-                </div>
+                <input type="text" class="form-control" placeholder="{{'placeholder_name' | i18next}}" id="name"
+                  name="name" [(ngModel)]="configManager.name">
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group">
                 <label for="label">{{ 'label' | i18next }}</label>
-                <input type="text" class="form-control" placeholder="{{'placeholder_label' | i18next}}" id="label" name="label"
-                  [(ngModel)]="configManager.label" [ngClass]="{ 'is-invalid': submitted && form_control.label.errors }">
-                <div *ngIf="submitted && form_control.label.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.label.errors.required">{{'require_label' | i18next}}</div>
-                </div>
+                <input type="text" class="form-control" placeholder="{{'placeholder_label' | i18next}}" id="label"
+                  name="label" [(ngModel)]="configManager.label">
               </div>
             </div>
           </div>
@@ -56,21 +51,16 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="description">{{ 'description' | i18next }}</label>
-                <textarea class="form-control" rows="1" id="description" placeholder="{{'placeholder_description' | i18next}}"
-                  name="description" [(ngModel)]="configManager.description" [ngClass]="{ 'is-invalid': submitted && form_control.description.errors }"></textarea>
-                <div *ngIf="submitted && form_control.description.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.description.errors.required">{{'require_description' | i18next}}</div>
-                </div>
+                <textarea class="form-control" rows="1" id="description"
+                  placeholder="{{'placeholder_description' | i18next}}" name="description"
+                  [(ngModel)]="configManager.description"></textarea>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="type">Type</label>
-                <input type="text" class="form-control" placeholder="Enter Type" id="type" name="type" [(ngModel)]="configManager.type"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.type.errors }">
-                <div *ngIf="submitted && form_control.type.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.type.errors.required">should not be empty</div>
-                </div>
+                <input type="text" class="form-control" placeholder="Enter Type" id="type" name="type"
+                  [(ngModel)]="configManager.type">
               </div>
             </div>
           </div>
@@ -80,33 +70,31 @@
               <div class="form-group">
                 <label for="sub_type">Sub Type</label>
                 <input type="text" class="form-control" placeholder="Enter Sub Type" id="sub_type" name="sub_type"
-                  [(ngModel)]="configManager.sub_type" [ngClass]="{ 'is-invalid': submitted && form_control.sub_type.errors }">
-                <div *ngIf="submitted && form_control.sub_type.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.sub_type.errors.required">{{'require_name' | i18next}}</div>
-                </div>
+                  [(ngModel)]="configManager.sub_type">
               </div>
             </div>
 
             <div class="col-md-6">
               <div class="form-group">
                 <label for="value">Value</label>
-                <input type="text" class="form-control" placeholder="Enter Value" id="value" name="value" [(ngModel)]="configManager.value"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.value.errors }">
-                <div *ngIf="submitted && form_control.value.errors" class="invalid-feedback">
-                  <div *ngIf="form_control.value.errors.required">{{'require_label' | i18next}}</div>
-                </div>
+                <input type="text" class="form-control" placeholder="Enter Value" id="value" name="value"
+                  [(ngModel)]="configManager.value">
               </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
           <div class="form-group" *ngIf="checkUpdate">
-            <button type="button" class="btn button-create ok_btn" (click)="createConfig()">{{ 'create' | i18next }}</button>
-            <button type="button" class="btn button-close delete_btn" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
+            <button type="button" class="btn button-create ok_btn"
+              (click)="createConfig()">{{ 'create' | i18next }}</button>
+            <button type="button" class="btn button-close delete_btn"
+              (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
           </div>
           <div class="form-group" *ngIf="!checkUpdate">
-            <button type="button" class="btn button-create ok_btn" (click)="updateConfig()">{{ 'update' | i18next }}</button>
-            <button type="button" class="btn button-close delete_btn" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
+            <button type="button" class="btn button-create ok_btn"
+              (click)="updateConfig()">{{ 'update' | i18next }}</button>
+            <button type="button" class="btn button-close delete_btn"
+              (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
           </div>
         </div>
       </div>
