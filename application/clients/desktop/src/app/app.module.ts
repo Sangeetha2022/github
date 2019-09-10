@@ -4,19 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProjectsComponent } from './projects/projects.component';
-import {
-  I18NEXT_SERVICE, I18NextLoadResult, I18NextModule, ITranslationService, defaultInterpolationFormat,
-  I18NEXT_NAMESPACE
-} from 'angular-i18next';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationRef, LOCALE_ID } from '@angular/core';
-import * as i18nextXHRBackend from 'i18next-xhr-backend';
-import * as i18nextLanguageDetector from 'i18next-browser-languagedetector';
 import { ValidationMessageModule } from 'angular-validation-message';
-import { I18NextValidationMessageModule } from 'angular-validation-message-i18next';
-import sprintf from 'i18next-sprintf-postprocessor';
 import { ProjectsService } from './projects/projects.service';
 import { AppComponentService } from './app.component.service';
 import { AgGridModule } from 'ag-grid-angular';
@@ -67,29 +59,7 @@ import { TemplateScreenComponent } from './template-screen/template-screen.compo
 import { TemplateScreenModule } from './template-screen/template-screen.module';
 import { FooterComponent } from './navigation/footer/footer.component';
 import { ValidatorService } from 'src/shared/validator.service';
-
-const i18nextOptions = {
-  whitelist: ['en', 'ta', 'es'],
-  fallbackLng: ['en', 'ta', 'es'],
-  debug: true, // set debug?
-  returnEmptyString: false,
-  ns: [
-    'translation',
-    'validation',
-    'error'
-  ],
-  interpolation: {
-    format: I18NextModule.interpolationFormat(defaultInterpolationFormat)
-  },
-  // backend plugin options
-  backend: {
-    allowMultiLoading: true,
-    loadPath: function (langs, ns) {
-      return 'assets/locales/{{lng}}/{{ns}}.json';
-    }
-
-  },
-};
+import { TranslatorModule } from './translator/translator.module';
 
 // @ts-ignore
 const googleLoginOptions: LoginOpt = {
@@ -112,35 +82,6 @@ export function getAuthserviceConfgis() {
   return config;
 }
 
-
-export function appInit(i18next: ITranslationService) {
-  return () => {
-    const promise: Promise<I18NextLoadResult> = i18next
-      .use(i18nextXHRBackend)
-      .use(i18nextLanguageDetector)
-      .use(sprintf)
-      .init(i18nextOptions);
-    return promise;
-  };
-}
-
-export function localeIdFactory(i18next: ITranslationService) {
-  return i18next.language;
-}
-
-export const I18N_PROVIDERS = [
-  {
-    provide: APP_INITIALIZER,
-    useFactory: appInit,
-    deps: [I18NEXT_SERVICE],
-    multi: true
-  },
-  {
-    provide: LOCALE_ID,
-    deps: [I18NEXT_SERVICE],
-    useFactory: localeIdFactory
-  },
-];
 
 @NgModule({
   declarations: [
@@ -167,7 +108,6 @@ export const I18N_PROVIDERS = [
     ProjectComponentModule,
     TemplateScreenModule,
     ReactiveFormsModule,
-    I18NextModule.forRoot(),
     MatFormFieldModule,
     MatSelectModule,
     MatRadioModule,
@@ -181,7 +121,6 @@ export const I18N_PROVIDERS = [
     MatRadioModule,
     MatSidenavModule,
     ScreenDesignerModule,
-    I18NextValidationMessageModule,
     MatExpansionModule,
     MatFormFieldModule,
     ConfigManagerModule,
@@ -192,7 +131,8 @@ export const I18N_PROVIDERS = [
     MatInputModule,
     MatCheckboxModule,
     MenuBuilderModule,
-    SocialLoginModule
+    SocialLoginModule,
+    TranslatorModule
 
   ],
   providers: [
@@ -201,7 +141,6 @@ export const I18N_PROVIDERS = [
     ProjectsService,
     FlowManagerService,
     ComponentFlowsService,
-    I18N_PROVIDERS,
     SharedService,
     LoginService,
     Consentservice,
