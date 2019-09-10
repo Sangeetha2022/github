@@ -103,5 +103,20 @@ export class ProjectComponentService {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityTypes}`);
   }
 
+  fred(data) {
+    // return this.api.post('http://localhost:3013/fred', data);
+   return this.api.post(this.restapi.Apigateway + Constants.fred, data);
+
+  }
+
+  copyFeatureFlows(data){
+   return this.api.post(`${this.restapi.Apigateway}${Constants.copyflowinfeatures}`, data);
+
+  }
+
+  getAllCopyflows(): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllcopyflow}`);
+  }
+
 
 }

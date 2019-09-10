@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "pretty": true,
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+        "target": "es6",
+        "outDir": "./dist",
+        "baseUrl": "./lib"
+    },
+    "include": [
+        "src/**/*.ts", "src/models/Entity.ts",
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

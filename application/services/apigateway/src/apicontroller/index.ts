@@ -12,6 +12,7 @@ export * from './microflowmanager.controller';
 export * from './screenmanager.controllers';
 export * from './admin.controller';
 export * from './templatemanager.controller';
+export * from './fred.controller';
 
 // generator
 

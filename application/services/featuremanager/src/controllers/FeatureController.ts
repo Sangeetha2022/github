@@ -62,4 +62,18 @@ export class FeatureController {
             res.json(response);
         })
     }
+
+    public copyFlows(req: Request , res: Response) {
+        featureService.copyFlows(req, (response) => {
+            res.status(200);
+            res.json(response)
+        })
+    }
+
+    public getallcopyFlows(req: Request, res:Response){
+        featureService.getcopyflow(req, (copyflow) => {
+            res.status(200); // status for the response
+            res.json(copyflow);
+        })
+    }
 }
