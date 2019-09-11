@@ -145,6 +145,7 @@ export class DesktopScreenComponent implements OnInit {
     public specialEvents: any = [];
     public GPROUTE_FLOWNAME = 'gproute';
     public GPMODAL_FLOWNAME = 'gpmodal';
+    public MODAL_METHODNAME = 'popupModal';
     constructor(
         private screenDesignerService: ScreenDesignerService,
         private blockService: BlockService,
@@ -598,6 +599,7 @@ export class DesktopScreenComponent implements OnInit {
             this.saveModalDetails();
         }
         this.isCustomPopup = false;
+        this.ref.detectChanges();
     }
 
     saveModalDetails() {
@@ -605,7 +607,6 @@ export class DesktopScreenComponent implements OnInit {
             htmlId: '',
             componentId: '',
             elementName: '',
-            flowId: '',
             screenId: '',
             screenName: '',
             methodName: '',
@@ -618,10 +619,9 @@ export class DesktopScreenComponent implements OnInit {
         temp.htmlId = this.editor.getSelected().ccid;
         temp.componentId = this.editor.getSelected().cid;
         temp.elementName = this.editor.getSelected().attributes.name;
-        temp.flowId = this.selectedFlow[0]._id;
         temp.screenId = this.routeDetails.screen._id;
         temp.screenName = this.routeDetails.screen.screenName;
-        temp.methodName = `${this.selectedFlow[0].name}${this.routeFlows.length > 1 ? this.routeFlows.length : ''}`;
+        temp.methodName = this.MODAL_METHODNAME;
         temp.type = 'modal';
         this.specialEvents.push(temp);
         this.saveRemoteStorage();
@@ -679,6 +679,7 @@ export class DesktopScreenComponent implements OnInit {
 
     closeCustomPopup() {
         this.isCustomPopup = false;
+        this.ref.detectChanges();
     }
 
     // save event flows
@@ -692,13 +693,6 @@ export class DesktopScreenComponent implements OnInit {
             this.customPopupModal.title = 'Routes';
             this.customPopupModal.dropdownLabelName = 'Screen';
             this.customPopupModal.typeLabelName = 'Type';
-            this.isCustomPopup = true;
-        } else if (this.selectedFlow &&
-            this.selectedFlow[0].name.toLowerCase() === this.GPMODAL_FLOWNAME) {
-            this.customPopupModal.name = this.GPMODAL_FLOWNAME;
-            this.customPopupModal.title = 'Modal Details';
-            this.customPopupModal.dropdownLabelName = 'Screen';
-            this.customPopupModal.typeLabelName = null;
             this.isCustomPopup = true;
         } else {
             if (this.buttonVerb) {
@@ -851,6 +845,8 @@ export class DesktopScreenComponent implements OnInit {
         this.customTraitService.flowsActionButton(this);
         // custom traits for page flow action button
         this.customTraitService.MultiflowsActionButton(this);
+        // custom traits for popup modal button
+        this.customTraitService.popupModalButton(this);
         // input traits
         this.editor.DomComponents.getType('input').model
             .prototype.defaults.traits.push({
@@ -929,6 +925,26 @@ export class DesktopScreenComponent implements OnInit {
                     'name': 'actionButton',
                     'label': 'Action',
                     'type': 'actionButton',
+                });
+        // test
+        this.editor.DomComponents.getType('popupModal-type').model
+            .prototype.defaults.traits.push({
+                type: 'content',
+                label: 'contentName',
+                name: 'contentname',
+                changeProp: 1
+            },
+                {
+                    type: 'select',
+                    label: 'verb',
+                    name: 'verbs',
+                    changeProp: 1,
+                    options: this.verbOptions,
+                },
+                {
+                    'name': 'modalButton',
+                    'label': 'Bind',
+                    'type': 'modalButton',
                 });
         // ckeditor traits
         this.editor.DomComponents.getType('ckeditor5').model

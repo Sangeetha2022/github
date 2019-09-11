@@ -635,14 +635,12 @@ export class TraitsService {
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
           draggable: '*',
           droppable: false,
-          components: '<button>Modal</button>',
-          style: {
-            'padding-top': '10px',
-            'padding-right': '2px',
-            'padding-left': '2px',
-            'padding-bottom': '10px'
-          },
-          traits: []
+          traits: [{
+            label: 'Name',
+            name: 'name',
+            type: 'text',
+            changeProp: 1
+          }]
         }),
         init() {
           this.listenTo(this, 'change:name', this.ElementName);

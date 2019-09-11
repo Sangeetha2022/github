@@ -133,9 +133,12 @@ export class BlockService {
         '</path>\n        <rect class="gjs-block-svg-path" x="4" y="11.5" width="16" height="1"></rect>\n\n' +
         ' </svg>\n      <div class="gjs-block-label"> Modal </div>',
       category: 'special',
-      content: {
-        type: 'popupModal-type'
-      },
+      content: `
+      <div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
+      <button data-gjs-type="popupModal-type">Modal
+      </button>
+      </div>
+      `,
       draggable: true,
       removable: true
     });

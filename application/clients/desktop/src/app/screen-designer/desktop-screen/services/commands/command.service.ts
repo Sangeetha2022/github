@@ -77,7 +77,6 @@ export class CommandService {
   removeComponent($this) {
     // it called when we remove the component
     $this.editor.on(`component:remove`, function (model) {
-      console.log('ram remove component editor are ------  ', $this.specialEvents);
       const parentComponent = model.get('components');
       let componentIndex = 0;
       if (model.attributes && model.attributes.name) {
@@ -216,15 +215,7 @@ export class CommandService {
 
   dragAndDrop($this) {
     $this.editor.on('block:drag:stop', function (model) {
-      // get dropped element with its types
-      const wrapperType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="grid-type"]');
-      if (wrapperType.length > 0) {
-        $this.is_grid_present = true;
-        $this.saveRemoteStorage();
-        wrapperType.forEach(element => {
-          element.attributes.traits.target.set('name', `grid_${element.ccid}`);
-        });
-      }
+      // default
       const allInputModels = model.find('input');
       const allRadioModels = model.find('input[type="radio"i]');
       const allTextAreaModels = model.find('textarea');
@@ -303,6 +294,24 @@ export class CommandService {
         $this.setElementCSS(element, 'ckeditor', 'textarea');
         element.attributes.traits.target.set('name', `ckeditor_${element.ccid}`);
       });
+
+      // custom blocks and traits
+      // get dropped element with its types
+      const wrapperType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="grid-type"]');
+      const popupModalType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="popupModal-type"]');
+      if (wrapperType.length > 0) {
+        $this.is_grid_present = true;
+        $this.saveRemoteStorage();
+        wrapperType.forEach(element => {
+          element.attributes.traits.target.set('name', `grid_${element.ccid}`);
+        });
+      }
+      if (popupModalType.length > 0) {
+        popupModalType.forEach(element => {
+          console.log('ram each popupmodal element are ----  ', element);
+          element.attributes.traits.target.set('name', `modal_${element.ccid}`);
+        });
+      }
     });
   }
 }
