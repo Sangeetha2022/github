@@ -184,6 +184,17 @@ export class CommonWorker {
                         })
                     }
                 })
+                topNav.push(`<li>
+                <a href="#translator" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text">Select
+                  Language</a>
+                <ul class="collapse list-unstyled" id="translator">
+                  <li>
+                    <a class="text" *ngFor="let lang of languages" (click)='confirmLangModel(lang)'>{{
+                        'languages.' + lang |
+                        i18nextCap }}</a>
+                  </li>
+                </ul>
+              </li>`)
                 loadHeaderNav = `${topNav.join(`\n`)}${mainNav.join(`\n`)}${BottomNav.join(`\n`)}`;
                 headerNav = headerNav.replace(this.LOADHEADERNAV, loadHeaderNav);
                 this.templateHeaderObj.tag.push(headerNav);
@@ -230,8 +241,12 @@ export class CommonWorker {
             return dependencyWorker.generateIndexHtml(generationPath, templatePath, this.mainHtmlTag, this.scriptTag, (response) => {
                 return dependencyWorker.generateStyleSCSS(generationPath, templatePath, templateCss, (response) => {
                     return dependencyWorker.generateSharedFile(generationPath, templatePath, sharedObj, (response) => {
-                        return componentWorker.generateMainModule(generationPath, templatePath, (response) => {
-                            callback('main files are generated');
+                        return dependencyWorker.generateTranslatorModuleFile(generationPath, templatePath, sharedObj, (response) => {
+                            return dependencyWorker.generateTranslatorJsonFile(generationPath, templatePath, sharedObj, (response) => {
+                                return componentWorker.generateMainModule(generationPath, templatePath, (response) => {
+                                    callback('main files are generated');
+                                });
+                            });
                         });
                     });
                 });
@@ -476,7 +491,17 @@ export class CommonWorker {
             })
             //add oninit script
             this.templateHeaderObj.component.componentOnInit = [`this.userId = sessionStorage.getItem('Id');`];
-
+            topNav.push(`<li>
+            <a href="#translator" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text">Select
+              Language</a>
+            <ul class="collapse list-unstyled" id="translator">
+            <li>
+            <a class="text" *ngFor="let lang of languages" (click)='confirmLangModel(lang)'>{{
+                'languages.' + lang |
+                i18nextCap }}</a>
+          </li>
+            </ul>
+          </li>`)
             this.startTag.push(topNav.join('\n'));
             this.startTag.push(mainNav.join('\n'));
             this.startTag.push(BottomNav.join('\n'));

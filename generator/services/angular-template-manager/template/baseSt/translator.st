@@ -1,3 +1,4 @@
+translator() ::= <<
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -76,3 +77,4 @@ export const I18N_PROVIDERS = [
   ]
 })
 export class TranslatorModule { }
+>>

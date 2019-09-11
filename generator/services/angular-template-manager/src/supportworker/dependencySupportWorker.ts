@@ -48,4 +48,16 @@ export class DependencySupportWorker {
         })
 
     }
+
+    generateTranslateJsonFiles(filePath, langFolderName, fileName, source, callback) {
+        // const filePath = `${generationPath}/src`;
+        langFolderName.forEach(folderName => {
+            const languageFolderPath = filePath + `/` + folderName;
+            Common.createFolders(languageFolderPath);
+            fs.writeFile(languageFolderPath + `/${fileName}`, source, function (err) {
+                if (err) throw err;
+            })
+        });
+        callback(`${fileName} file generated`);
+    }
 }

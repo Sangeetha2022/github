@@ -5,6 +5,7 @@ import { DependencySupportWorker } from '../supportworker/dependencySupportWorke
 import { Common } from '../config/Common';
 import { ComponentWorker } from './componentWorker';
 import { AssetWorker } from './assetWorker';
+import { translator } from '../assets/translator';
 
 let dependencySupportWorker = new DependencySupportWorker();
 let componentWorker = new ComponentWorker();
@@ -18,6 +19,7 @@ export class DependencyWorker {
     private SHARED_SERVICE_TEMPLATE_NAME: String = 'shared_service';
     private NGINX_DEFAULT_TEMPLATE_NAME: String = 'nginx_default';
     private DOCKERFILE_TEMPLATE_NAME: String = 'docker_file';
+    private TRANSLATOR_TEMPLATE_NAME: String = 'translator';
 
     // filename
     private STYLE_FILENAME: String = 'styles.scss';
@@ -26,13 +28,19 @@ export class DependencyWorker {
     private NGINX_FILENAME: String = 'default.conf';
     private DOCKERFILE_FILENAME: String = 'Dockerfile';
     private DEFAULT_CONF_FILENAME: String = 'default.conf';
+    private TRANSLATOR_MODULE_FILENAME: String = 'translator.module.ts';
 
     // foldername
     private SHARED_FOLDERNAME: String = 'shared';
     private SRC_FOLDERNAME: String = 'src';
     private APP_FOLDERNAME: String = 'app';
+    private ASSETS_FOLDERNAME: String = 'assets';
     private NGINX_FOLDERNAME: String = 'nginx';
     private STATIC_TEMPLATE_FOLDERNAME: String = 'static';
+    private TRANSLATOR_FOLDERNAME: String = 'translator';
+    private LOCALES_FOLDERNAME: String = 'locales';
+
+
 
     generateIndexHtml(generationPath, templatePath, baseTag, scriptTag, callback) {
         // const index = baseTag.join('').findIndex(element => element.includes('gjs-base.css'));
@@ -44,7 +52,7 @@ export class DependencyWorker {
         console.log('generate index html file in angular template ------ ', temp);
         assetWorker.checkAssetFile(baseTag.join(''), generationPath, templatePath);
         assetWorker.checkAssetFile(scriptTag.join(''), generationPath, templatePath);
-        
+
         return dependencySupportWorker.generateIndexHtml(generationPath, templatePath,
             this.INDEX_HTML_TEMPLATE_NAME, temp, (response) => {
                 callback('index html files are generated')
@@ -86,6 +94,29 @@ export class DependencyWorker {
             this.SHARED_SERVICE_TEMPLATE_NAME, sharedObj, (response) => {
                 callback();
             })
+    }
+
+    generateTranslatorModuleFile(generationPath, templatePath, sharedObj, callback) {
+        // translator file path
+        const filePath = `${generationPath}/${this.SRC_FOLDERNAME}/${this.APP_FOLDERNAME}/${this.TRANSLATOR_FOLDERNAME}`;
+        return dependencySupportWorker.generateFiles(templatePath, filePath, this.TRANSLATOR_MODULE_FILENAME,
+            this.TRANSLATOR_TEMPLATE_NAME, sharedObj, (response) => {
+                callback();
+            })
+    }
+    generateTranslatorJsonFile(generationPath, templatePath, sharedObj, callback) {
+        const filePath = `${generationPath}/${this.SRC_FOLDERNAME}/${this.ASSETS_FOLDERNAME}/${this.LOCALES_FOLDERNAME}`;
+        Common.createFolders(filePath)
+        // translator file path
+        const langFolderName = translator.folderName;
+        // langFolderName.forEach(folderName => {
+        //     Common.createFolders(folderName);
+        // })
+        const fileName = translator.fileName;
+        const source = translator.source;
+        return dependencySupportWorker.generateTranslateJsonFiles(filePath, langFolderName, fileName, source, (response) => {
+            callback();
+        })
     }
 
     generateNginxDockerFile(generationPath, templatePath, projectName, callback) {
