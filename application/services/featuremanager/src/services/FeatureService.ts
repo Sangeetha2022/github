@@ -66,8 +66,18 @@ export class FeatureService {
         })
     }
 
+    public copyFlows(req: Request ,callback: CallableFunction){
+        let copyData = req.body;
+        featureDao.copyFlows(copyData , (response)=>{
+            callback(response)
+        })
+    }
 
-
+    public getcopyflow(req:Request, callback: CallableFunction){
+        featureDao.getcopyflow((copyflow) => {
+            callback(copyflow);
+        })
+    }
 
 
 }

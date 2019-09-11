@@ -26,6 +26,8 @@ export class Routes {
         app.route('/feature/updateEntity/:featureId').put(this.featureController.featureUpdateEntity)
         app.route('/feature/deleteentity/:featureId/:entityid').delete(this.featureController.featuredeleteEntity);
 
+        app.route('/feature/copyFlows').post(this.featureController.copyFlows)
+        app.route('/feature/getallcopyflow').get(this.featureController.getallcopyFlows);
 
 
         // // Feature Details

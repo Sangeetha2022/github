@@ -57,3 +57,7 @@ generator/services/mongo-gen-manager/package-lock\.json
 generator/services/node-gen-manager/package-lock\.json
 
 generator/services/angular-gen-manager/package-lock\.json
+
+application/services/fredmanager/package-lock.json
+
+application/services/seedmanager/package-lock.json

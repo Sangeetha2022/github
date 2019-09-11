@@ -1,5 +1,6 @@
 import * as mongoose from 'mongoose';
-import  featureModel  from '../models/Feature';
+import featureModel from '../models/Feature';
+import projectFlowModel from '../models/copyFeatureFlows'
 import { Request, Response } from 'express';
 
 // const Features = mongoose.model('Features', FeaturesSchema);
@@ -7,6 +8,7 @@ import { Request, Response } from 'express';
 export class FeatureDao {
 
     private Features = featureModel;
+    private projectCopyFlow = projectFlowModel;
 
 
     public saveFeatures(featureData, callback: CallableFunction) {
@@ -32,7 +34,7 @@ export class FeatureDao {
 
     public getAllFeature(callback: CallableFunction) {
         this.Features.find({}, (err, features) => {
-            if(err) {
+            if (err) {
                 callback(err)
             } else {
                 callback(features)
@@ -41,8 +43,8 @@ export class FeatureDao {
     }
 
     public getFeatureById(featureId, callback: CallableFunction) {
-        this.Features.findOne({_id: featureId}, (err, features) => {
-            if(err) {
+        this.Features.findOne({ _id: featureId }, (err, features) => {
+            if (err) {
                 callback(err)
             } else {
                 callback(features)
@@ -51,8 +53,8 @@ export class FeatureDao {
     }
 
     public getFeatureByProjectId(projectId, callback: CallableFunction) {
-        this.Features.find({project: projectId}, (err, features) => {
-            if(err) {
+        this.Features.find({ project: projectId }, (err, features) => {
+            if (err) {
                 callback(err)
             } else {
                 callback(features)
@@ -142,6 +144,25 @@ export class FeatureDao {
         });
     }
 
+    public copyFlows(copyData, callback: CallableFunction) {
+        let data = new this.projectCopyFlow(copyData);
+        data.save().then(resutl => {
+            callback(resutl);
+        }).catch((error) => {
+            callback(error);
+        })
+
+    }
+
+    public getcopyflow(callback: CallableFunction) {
+        this.projectCopyFlow.find({}, (err, copyflow) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(copyflow);
+            }
+        });
+    }
 
     // public getAllFlow(req: Request, callback: CallableFunction) {
     //     this.Features.find({}, (err, mflow) => {

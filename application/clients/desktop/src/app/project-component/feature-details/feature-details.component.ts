@@ -12,6 +12,14 @@ import { ButtonRendererComponent } from '../entity-field/rendered/button-rendere
 import { ScreenPopupComponent } from '../screen-popup/screen-popup.component';
 import { EntityModelComponent } from '../entitypopup-model/entitypop-up/entitypop-up.component';
 import { EditPopupComponent } from '../edit-popup/edit-popup.component';
+import { importExpr } from '@angular/compiler/src/output/output_ast';
+
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { validateBasis } from '@angular/flex-layout';
+import { invalid } from '@angular/compiler/src/render3/view/util';
+import { element } from '@angular/core/src/render3';
+
+// import { FormBuilder , FormGroup ,Validators} from `@angular/forms`;
 
 
 const URL = 'http://localhost:3006/feature/details/addfile';
@@ -23,9 +31,15 @@ const URL = 'http://localhost:3006/feature/details/addfile';
 })
 export class FeatureDetailsComponent implements OnInit {
 
+    public connectorsForm: FormGroup;
+    public submitted = false;
+    public isService: boolean;
+
     // new flow var
     flowList: any[] = [];
     featureInfo: any;
+    copyflow: any;
+
 
     // old
     feature_id: String;
@@ -79,8 +93,17 @@ export class FeatureDetailsComponent implements OnInit {
     showFeatureEntity: boolean;
     featureFlowGrid;
     featureEntityDataGrid;
+    public quickConnectorsFlows: any = [];
     public customeConncetor: Boolean;
 
+    public quickConnectors: any = {
+        name: '',
+        description: '',
+        endPointUrl: '',
+        api_key: '',
+        params: '',
+
+    };
     public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
     // This is the default title property created by the angular cli. Its responsible for the app works
     isPrimaryEntityPresent: boolean;
@@ -97,7 +120,9 @@ export class FeatureDetailsComponent implements OnInit {
         flowLable: '',
         flowDescription: '',
         flowAction: '',
+        flowId: '',
     };
+    quickConnectorName: string;
 
 
     constructor(
@@ -105,6 +130,7 @@ export class FeatureDetailsComponent implements OnInit {
         private screenService: ScreenDesignerService,
         private route: ActivatedRoute,
         private router: Router,
+        private formBuilder: FormBuilder,
         private dialog: MatDialog
     ) {
 
@@ -225,6 +251,13 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.connectorsForm = this.formBuilder.group({
+            firstName: ['', Validators.required],
+            description: ['', Validators.required],
+            endPoint: ['', Validators.required],
+            api_key: ['', Validators.required],
+            params: ['', Validators.required]
+        });
         console.log('arul feature-name--->>>', this.selectedFeatureName);
         this.route.queryParams.subscribe(params => {
             if (params.featureId !== undefined && params.featureId !== null) {
@@ -239,12 +272,15 @@ export class FeatureDetailsComponent implements OnInit {
         this.getEntityByFeatureId();
     }
 
+    get f() { return this.connectorsForm.controls; }
+
 
     getFeatureById() {
         this.projectComponentService.getFeatureById(this.feature_id).subscribe(
             response => {
                 this.featureInfo = response.body;
                 this.selectedFeatureName = response.body.name;
+                this.getAllcopyflow();
                 this.getAllFlows();
             },
             error => {
@@ -277,6 +313,28 @@ export class FeatureDetailsComponent implements OnInit {
         );
     }
 
+    getAllcopyflow() {
+        this.projectComponentService.getAllCopyflows().subscribe(response => {
+            const CopyflowsInFeature = [];
+            if (response) {
+                const copyflows = response.body;
+                this.copyflow = response.body;
+                if (this.featureInfo.flows.length === 0) {
+                    this.rowData = copyflows;
+                } else {
+                    copyflows.forEach(flowElement => {
+                    CopyflowsInFeature.push(flowElement);
+                    });
+                    // this.rowData = copyflows;
+                    this.flowInFeatureRowData = CopyflowsInFeature;
+                    console.log(this.flowInFeatureRowData);
+                }
+            }
+        },error => {
+            console.error(error);
+        });
+    }
+
     getAllFlows() {
         this.projectComponentService.getAllFlows().subscribe(
             response => {
@@ -285,9 +343,10 @@ export class FeatureDetailsComponent implements OnInit {
                     const flows = response.body;
                     if (this.featureInfo.flows.length === 0) {
                         this.rowData = flows;
-                } else {
-                        this.featureInfo.flows.forEach(flowElement => {
-                            const index = flows.findIndex(x => x._id === flowElement);
+                    } else {
+                        this.copyflow.forEach(flowElement => {
+                            console.log(flowElement);
+                            const index = flows.findIndex(x => x.name === flowElement.name);
                             if (index > -1) {
                                 flowsInFeature.push(flows[index]);
                                 flows.splice(index, 1);
@@ -325,30 +384,46 @@ export class FeatureDetailsComponent implements OnInit {
     openFeatureFlowDialog(id): void {
         // this.featureFlows. = id;
         this.displayFeatureFlowModal = 'block';
+        this.getAllFlows();
     }
 
     closeFeatureFlowModal() {
         this.displayFeatureFlowModal = 'none';
     }
 
-    saveFlowsInFeature(status) {
+    projectflow() {
         if (status !== 'remove') {
             this.selectedFlow.forEach(flow => {
-                this.featureInfo.flows.push(flow._id);
+                // console.log('copyflow-------->>>>>', flow);
+                delete flow['_id'];
+                this.projectComponentService.copyFeatureFlows(flow).subscribe(response => {
+                    this.copyflow = response.body;
+                    this.featureInfo.flows.push(this.copyflow._id);
+                    console.log(this.copyflow._id);
+                    this.saveFlowsInFeature(status);
+                }, error => {
+                    console.error(error);
+                });
             });
         }
+
+    }
+    saveFlowsInFeature(status) {
+        console.log('Ram our lossu--------->>>>', status);
         this.projectComponentService.updateFeature(this.featureInfo).subscribe(
             response => {
                 this.featureInfo = response.body;
                 this.displayFeatureFlowModal = 'none';
                 this.flowInFeatureRowData = this.featureInfo.flows;
-                this.getAllFlows();
+                this.getAllcopyflow();
+
             },
             error => {
 
             }
         );
     }
+
 
     removeRow(e) {
         const index = this.featureInfo.flows.findIndex(x => x === e.rowData._id);
@@ -364,6 +439,9 @@ export class FeatureDetailsComponent implements OnInit {
             this.modifyFlows.flowLable = e.rowData.label;
             this.modifyFlows.flowDescription = e.rowData.description;
             this.modifyFlows.flowAction = e.rowData.actionOnData;
+            this.modifyFlows.flowId = e.rowData._id;
+            this.quickConnectorName = 'quickConnectors';
+            console.log('i am modify-12345-->>', this.modifyFlows);
             this.displayModel = 'block';
         }
     }
@@ -371,6 +449,63 @@ export class FeatureDetailsComponent implements OnInit {
     addCustomeConnector() {
         this.customeConncetor = true;
 
+    }
+    onSubmit() {
+        this.submitted = true;
+        // stop here if form is invalid
+        if (this.connectorsForm.invalid) {
+            return;
+        }
+        if (!this.connectorsForm.invalid) {
+            this.isService = true;
+        }
+        const tempObject = {
+            projectId: this.project_id,
+            featureId: this.feature_id,
+            endPointUrl: this.quickConnectors.endPointUrl,
+            api_key: this.quickConnectors.api_key,
+            params: this.quickConnectors.params,
+        };
+        console.log('temb---data--->>', tempObject);
+        this.projectComponentService.fred(tempObject).subscribe(data => {
+            if (data) {
+                console.log('i am data --->>', data)
+                const tempObj = {
+                    url: this.quickConnectors.endPointUrl,
+                    isDefault: false,
+                    isDisabled: false,
+                    properties: [],
+                    name: this.quickConnectors.name,
+                    description: this.quickConnectors.description,
+                    entity_id: data.body._id,
+                    connectors: this.quickConnectorName,
+                    availableApi: [
+                        {
+                            'name': 'availble',
+                            'description': 'des',
+                            'type': 'api',
+                            'properties': [],
+                            '_id': '5d722bb54aaed85b03cc809e'
+                        }
+                    ],
+                    fromComponentName: 'controller',
+                    toComponentName: 'service',
+                };
+                // this.featureDetailsService.quickConnectors(tempObj).subscribe((data) => {
+                //     if (data) {
+                //         this.quickConnectors = '';
+
+                //     }
+                //     console.log('i am the result --alllllllllllll->>>', data);
+                // });
+            }
+        });
+
+        // this.featureDetailsService.fred(this.feature_id, this.project_id).subscribe(result => {
+        //     // console.log('result--->>', result);
+        //     // this.quickConnectorsFlows = result.body;
+
+        // });
     }
 
     flowCancle() {

@@ -6,6 +6,9 @@ export class Constants {
     public static DESKTOP_ROUTER = '/desktop';
     public static MOBILE_ROUTER = '/mobile';
 
+    //fred api
+    public static get fred(): string { return this.DESKTOP_ROUTER + '/fred'; }
+
     // login apis
     public static get signup(): string { return this.DESKTOP_ROUTER + '/signup'; }
     public static get googlelogin(): string { return this.DESKTOP_ROUTER + '/googlesignin'; }
@@ -81,7 +84,8 @@ export class Constants {
     public static get getFeatureByProjectId(): String { return this.DESKTOP_ROUTER + '/feature/project/get'; }
     public static get getAllFeatureByFeatureid(): String { return this.DESKTOP_ROUTER + '/feature/details/getallbyfeatureid'; }
     public static get deleteFeature(): String { return this.DESKTOP_ROUTER + '/feature/delete'; }
-
+    public static get copyflowinfeatures(): String { return this.DESKTOP_ROUTER + '/feature/copyFlows'; }
+    public static get getAllcopyflow(): String { return this.DESKTOP_ROUTER + '/feature/getallcopyflow'; }
 
     // old  Feature Details
     public static get getAllFeatureDetailsByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature/details/getbyfeatureid/'; }

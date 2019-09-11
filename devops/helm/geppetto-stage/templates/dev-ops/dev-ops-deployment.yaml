@@ -8,7 +8,7 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Values.app.prefix }}-ops
+	      app: {{ .Values.app.prefix }}-ops
     spec:
       containers:
         - name: jenkins-container
@@ -28,49 +28,48 @@ spec:
             - name: docker-socket-volume
               mountPath: /var/run/docker.sock
             - name: {{ .Values.app.prefix }}-generated-code
-              mountPath: /geppetto/generated-code           
+              mountPath: /geppetto
           securityContext:
-              privileged: true                                           
-        - name: nexus-container 
-          imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
-          image: sonatype/nexus3 
-          resources:
-            limits:
-              memory: "2Gi"
-              cpu: "500m"
-            requests:
-              memory: "1Gi"
-              cpu: "250m"
-          ports:
-            - name: http-port
-              containerPort: 8081
-          volumeMounts:
-            - name: nexus-data
-              mountPath: /nexus-data
-            - name: {{ .Values.app.prefix }}-generated-code
-              mountPath: /geppetto/generated-code
-        - name: sonarqube-container
-          imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
-          image: sonarqube:latest
-          args:
-            - -Dsonar.web.context=/sonar
-          env:
-            - name: SONARQUBE_JDBC_PASSWORD
-              value: {{ .Values.database.postgres.pass }}
-            - name: SONARQUBE_JDBC_URL
-              value: jdbc:postgresql://{{ .Values.app.prefix }}-ops-db:5432/sonar
-          ports:
-            - containerPort: 9000
-              name: sonarqube
-          volumeMounts:
-            - name: {{ .Values.app.prefix }}-generated-code
-              mountPath: /geppetto/generated-code                                
+              privileged: true
+#        - name: nexus-container
+#          imagePullPolicy: Always
+#          image: sonatype/nexus3
+#          resources:
+#            limits:
+#              memory: "4Gi"
+#              cpu: "1000m"
+#          requests:
+#              memory: "2Gi"
+#              cpu: "500m"
+#          ports:
+#            - name: http-port
+#              containerPort: 8081
+#          volumeMounts:
+#            - name: nexus-data
+#              mountPath: /nexus-data
+#            - name: gep-dev-generated-code
+#              mountPath: /geppetto
+#        - name: sonarqube-container
+#          image: sonarqube:latest
+#          args:
+#            - -Dsonar.web.context=/sonar
+#          env:
+#            - name: SONARQUBE_JDBC_PASSWORD
+#              value: T@ng3456
+#            - name: SONARQUBE_JDBC_URL
+#              value: jdbc:postgresql://{{ .Values.app.prefix }}-ops-db:5432/sonar
+#          ports:
+#            - containerPort: 9000
+#              name: sonarqube
+#          volumeMounts:
+#            - name: {{ .Values.app.prefix }}-generated-code
+#              mountPath: /geppetto
       volumes:
 #        - name: jenkins-data
 #          persistentVolumeClaim:
 #            claimName: '{{ .Values.app.prefix }}-ops-pvc'
-        - name: nexus-data
-          emptyDir: {}  
+#        - name: nexus-data
+#          emptyDir: {}
         - name: docker-socket-volume
           hostPath:
             path: /var/run/docker.sock
