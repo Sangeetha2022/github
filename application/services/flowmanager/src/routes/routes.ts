@@ -1,10 +1,12 @@
 import { FlowController } from "../controllers/FlowController";
+import { ProjectFlowController } from "../controllers/ProjectFlowController";
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {
 
-    public flowController: FlowController = new FlowController()
-  
+    public flowController: FlowController = new FlowController();
+    public projectFlowController: ProjectFlowController = new ProjectFlowController();
+
     public routes(app): void {
         app.route('/health/flow-service').get((req: Request, res: Response) => {
             res.status(200).send({
@@ -21,33 +23,12 @@ export class Routes {
         app.route('/flow/delete').delete(this.flowController.deleteFlow);
         app.route('/flow/project/get').get(this.flowController.getFlowByProjectId);
 
-        
-        //flow routes
-        // app.route('/flow/getbyid/:id').get(this.flowController.getFlowByID);
-        // app.route('/flow/getbyid/:id/details').get(this.flowController.getFlowDetails);
-        // app.route('/flow/get/:name/name').get(this.flowController.getFlowByname);
-
-        // app.route('/flow/:id/add/flow_comp').post(this.flowController.addFlowComponent);
-        // app.route('/flow/flow_comp/:id/update').put(this.flowController.updateFlowComponent);
-        // app.route('/flow/flow_comp/:id/remove').delete(this.flowController.updateFlowComponent);
-
-        // app.route('/flow_comp/:id/add/dconnector').post(this.flowController.addLinkedConnector);
-        // app.route('/flow_comp/:id/update/dconnector').put(this.flowController.updateLinkedConnector);
-        // app.route('/flow_comp/:id/remove/dconnector').delete(this.flowController.updateLinkedConnector);
-
-        // // flowComponent routes
-        // app.route('/flow_component/save').post(this.flowComponentController.saveFlowComonents);
-        // app.route('/flow_component/update/:id').put(this.flowComponentController.updateFlowComponent);
-        // app.route('/flow_component/getall').get(this.flowComponentController.getAllFlowComponents);
-        // app.route('/flow_component/getbyid/:id').get(this.flowComponentController.getFlowComponentsByID);
-        // app.route('/flow_component/getbyname/:name').get(this.flowComponentController.getFlowComponentsByName);
-
-        // //connector
-        // app.route('/connector/add').post(this.connector.saveConnector);
-        // app.route('/connector/update/:id').put(this.connector.updateConnector);
-        // app.route('/connector/getall').get(this.connector.getAllConnector);
-        // app.route('/connector/getbyid/:id').get(this.connector.getConnectorByID);
-        // app.route('/connector/delete/:id').delete(this.connector.deleteConnector);
+        // project flows route
+        app.route('/flow/project/save').post(this.projectFlowController.createProjectFlow);
+        app.route('/flow/project/bulksave').post(this.projectFlowController.ProjectFlow);
+        app.route('/flow/project/getall').get(this.projectFlowController.getAllProjectFlow);
+        app.route('/flow/projectfeature/get').post(this.projectFlowController.getProjectFeatureFlows);
+        app.route('/flow/project/delete').delete(this.projectFlowController.deleteProjectFlow);
 
     }
 }

@@ -29,6 +29,6 @@ export let projectFlowSchema = mongoose.Schema({
 
 
 
-const projectFlowModel = mongoose.model('projectFlows', projectFlowSchema, 'projectFlows');
+const projectFlowModel = mongoose.model('project_flows', projectFlowSchema, 'project_flows');
 
 export default projectFlowModel;

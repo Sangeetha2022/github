@@ -35,7 +35,6 @@ export class FeatureService {
 
     public getFeatureByProjectId(req: Request, callback: CallableFunction) {
         const projectId = req.query.projectId;
-        console.log('getfeature by project id are ------ ', projectId);
         featureDao.getFeatureByProjectId(projectId, (feature) => {
             callback(feature)
         })
@@ -65,19 +64,4 @@ export class FeatureService {
             callback(response);
         })
     }
-
-    public copyFlows(req: Request ,callback: CallableFunction){
-        let copyData = req.body;
-        featureDao.copyFlows(copyData , (response)=>{
-            callback(response)
-        })
-    }
-
-    public getcopyflow(req:Request, callback: CallableFunction){
-        featureDao.getcopyflow((copyflow) => {
-            callback(copyflow);
-        })
-    }
-
-
 }

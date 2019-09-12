@@ -38,7 +38,7 @@ export class FeatureDetailsComponent implements OnInit {
     // new flow var
     flowList: any[] = [];
     featureInfo: any;
-    copyflow: any;
+    projectFlowDetails: any;
 
 
     // old
@@ -55,9 +55,9 @@ export class FeatureDetailsComponent implements OnInit {
     featureScreenName: any = [];
     columnFeatureDefs: any = [];
     columnFeatureEntityData: any = [];
-    columnFeatureEntity: any = [];
-    featureEntityDetails: any = [];
-    flowInFeatureRowData: any = [];
+    columnFeatureEntity: any[] = [];
+    featureEntityDetails: any[] = [];
+    flowInFeatureRowData: any[] = [];
     rowData: any = [];
     distinctFeatureDetails: any = [];
     columnFlow: any = [];
@@ -258,7 +258,6 @@ export class FeatureDetailsComponent implements OnInit {
             api_key: ['', Validators.required],
             params: ['', Validators.required]
         });
-        console.log('arul feature-name--->>>', this.selectedFeatureName);
         this.route.queryParams.subscribe(params => {
             if (params.featureId !== undefined && params.featureId !== null) {
                 this.feature_id = params.featureId;
@@ -280,7 +279,7 @@ export class FeatureDetailsComponent implements OnInit {
             response => {
                 this.featureInfo = response.body;
                 this.selectedFeatureName = response.body.name;
-                this.getAllcopyflow();
+                this.getProjectFeatureFlows();
                 this.getAllFlows();
             },
             error => {
@@ -292,7 +291,6 @@ export class FeatureDetailsComponent implements OnInit {
     getScreenByFeatureId() {
         this.screenService.getScreenByFeatureId(this.feature_id).subscribe(
             (screenData) => {
-                console.log('get screen by feature id are -------  ', screenData);
                 this.screenDetails = screenData.body;
             },
             (error) => {
@@ -313,24 +311,13 @@ export class FeatureDetailsComponent implements OnInit {
         );
     }
 
-    getAllcopyflow() {
-        this.projectComponentService.getAllCopyflows().subscribe(response => {
-            const CopyflowsInFeature = [];
-            if (response) {
-                const copyflows = response.body;
-                this.copyflow = response.body;
-                if (this.featureInfo.flows.length === 0) {
-                    this.rowData = copyflows;
-                } else {
-                    copyflows.forEach(flowElement => {
-                    CopyflowsInFeature.push(flowElement);
-                    });
-                    // this.rowData = copyflows;
-                    this.flowInFeatureRowData = CopyflowsInFeature;
-                    console.log(this.flowInFeatureRowData);
-                }
+    getProjectFeatureFlows() {
+        this.projectComponentService.getProjectFeatureFlows(this.featureInfo.flows).subscribe(response => {
+            const temp = [];
+            if (response.body) {
+                this.flowInFeatureRowData = response.body;
             }
-        },error => {
+        }, error => {
             console.error(error);
         });
     }
@@ -338,22 +325,18 @@ export class FeatureDetailsComponent implements OnInit {
     getAllFlows() {
         this.projectComponentService.getAllFlows().subscribe(
             response => {
-                const flowsInFeature = [];
-                if (response) {
-                    const flows = response.body;
-                    if (this.featureInfo.flows.length === 0) {
+                const flows = response.body;
+                if (flows) {
+                    if (this.flowInFeatureRowData.length === 0) {
                         this.rowData = flows;
                     } else {
-                        this.copyflow.forEach(flowElement => {
-                            console.log(flowElement);
+                        this.flowInFeatureRowData.forEach(flowElement => {
                             const index = flows.findIndex(x => x.name === flowElement.name);
                             if (index > -1) {
-                                flowsInFeature.push(flows[index]);
                                 flows.splice(index, 1);
                             }
                         });
                         this.rowData = flows;
-                        this.flowInFeatureRowData = flowsInFeature;
                     }
                 }
             },
@@ -375,7 +358,6 @@ export class FeatureDetailsComponent implements OnInit {
 
     deleteScreen(screenId) {
         this.deletescreenPopup = 'block';
-        console.log(screenId);
         this.selectedScreenId = screenId;
 
     }
@@ -391,37 +373,47 @@ export class FeatureDetailsComponent implements OnInit {
         this.displayFeatureFlowModal = 'none';
     }
 
-    projectflow() {
-        if (status !== 'remove') {
-            this.selectedFlow.forEach(flow => {
-                // console.log('copyflow-------->>>>>', flow);
-                delete flow['_id'];
-                this.projectComponentService.copyFeatureFlows(flow).subscribe(response => {
-                    this.copyflow = response.body;
-                    this.featureInfo.flows.push(this.copyflow._id);
-                    console.log(this.copyflow._id);
-                    this.saveFlowsInFeature(status);
-                }, error => {
-                    console.error(error);
-                });
-            });
+    createProjectFlow() {
+        if (this.selectedFlow.length > 0) {
+            // removing _id and store
+            const projectFlowList = this.selectedFlow.map(({ _id, ...rest }) => ({ ...rest }));
+            this.saveManyProjectFlow(projectFlowList);
         }
-
     }
-    saveFlowsInFeature(status) {
-        console.log('Ram our lossu--------->>>>', status);
+    saveManyProjectFlow(projectFlowList) {
+        this.projectComponentService.saveManyProjectFlow(projectFlowList).subscribe(
+            response => {
+                if (response.body) {
+                    // get only the specific values
+                    const projectFlowsId = response.body.map(({ _id }) => _id);
+                    this.featureInfo.flows = this.featureInfo.flows.concat(projectFlowsId);
+                    this.saveFlowsInFeature();
+                }
+            },
+            error => {
+                console.log('cannot able to save the many projectFlows');
+            });
+    }
+    saveFlowsInFeature() {
         this.projectComponentService.updateFeature(this.featureInfo).subscribe(
             response => {
                 this.featureInfo = response.body;
                 this.displayFeatureFlowModal = 'none';
                 this.flowInFeatureRowData = this.featureInfo.flows;
-                this.getAllcopyflow();
+                this.getProjectFeatureFlows();
+            },
+            error => { });
+    }
 
+    deleteProjectFlow(projectFlow) {
+        this.projectComponentService.deleteProjectFlow(projectFlow).subscribe(
+            data => {
+                this.getProjectFeatureFlows();
+                this.getAllFlows();
             },
             error => {
-
-            }
-        );
+                console.log('cannot able to delete the projectFlow ', error);
+            });
     }
 
 
@@ -429,11 +421,11 @@ export class FeatureDetailsComponent implements OnInit {
         const index = this.featureInfo.flows.findIndex(x => x === e.rowData._id);
         if (index > -1) {
             this.featureInfo.flows.splice(index, 1);
-            this.saveFlowsInFeature('remove');
+            this.deleteProjectFlow(e.rowData._id);
+            this.saveFlowsInFeature();
         }
     }
     modify(e) {
-        console.log('i am modify--->>', e.rowData.actionOnData);
         if (e.rowData.flowType === 'GeppettoFlow') {
             this.modifyFlows.flowName = e.rowData.name;
             this.modifyFlows.flowLable = e.rowData.label;
@@ -441,7 +433,6 @@ export class FeatureDetailsComponent implements OnInit {
             this.modifyFlows.flowAction = e.rowData.actionOnData;
             this.modifyFlows.flowId = e.rowData._id;
             this.quickConnectorName = 'quickConnectors';
-            console.log('i am modify-12345-->>', this.modifyFlows);
             this.displayModel = 'block';
         }
     }
@@ -466,10 +457,8 @@ export class FeatureDetailsComponent implements OnInit {
             api_key: this.quickConnectors.api_key,
             params: this.quickConnectors.params,
         };
-        console.log('temb---data--->>', tempObject);
         this.projectComponentService.fred(tempObject).subscribe(data => {
             if (data) {
-                console.log('i am data --->>', data)
                 const tempObj = {
                     url: this.quickConnectors.endPointUrl,
                     isDefault: false,
@@ -491,21 +480,8 @@ export class FeatureDetailsComponent implements OnInit {
                     fromComponentName: 'controller',
                     toComponentName: 'service',
                 };
-                // this.featureDetailsService.quickConnectors(tempObj).subscribe((data) => {
-                //     if (data) {
-                //         this.quickConnectors = '';
-
-                //     }
-                //     console.log('i am the result --alllllllllllll->>>', data);
-                // });
             }
         });
-
-        // this.featureDetailsService.fred(this.feature_id, this.project_id).subscribe(result => {
-        //     // console.log('result--->>', result);
-        //     // this.quickConnectorsFlows = result.body;
-
-        // });
     }
 
     flowCancle() {
@@ -570,7 +546,6 @@ export class FeatureDetailsComponent implements OnInit {
         this.entity.name = entityData.name;
         this.entity.description = entityData.description;
         this.entity.project_id = this.project_id;
-        console.log('saving entitye details are ----  ', entityData);
         this.projectComponentService.createEntity(this.entity).subscribe(
             (response) => {
                 this.updateEntityId = response.body._id;
@@ -650,7 +625,6 @@ export class FeatureDetailsComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(entityData => {
-            console.log('cancel entity pop ----- ', entityData);
             if (entityData) {
                 this.entityid = entityData.entity_id;
                 this.entity.project_id = this.project_id;

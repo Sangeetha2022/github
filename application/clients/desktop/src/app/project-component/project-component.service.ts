@@ -105,17 +105,23 @@ export class ProjectComponentService {
 
   fred(data) {
     // return this.api.post('http://localhost:3013/fred', data);
-   return this.api.post(this.restapi.Apigateway + Constants.fred, data);
+    return this.api.post(this.restapi.Apigateway + Constants.fred, data);
 
   }
 
-  copyFeatureFlows(data){
-   return this.api.post(`${this.restapi.Apigateway}${Constants.copyflowinfeatures}`, data);
+
+  saveManyProjectFlow(data) {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveManyProjectFlow}`, data);
 
   }
 
-  getAllCopyflows(): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllcopyflow}`);
+  getProjectFeatureFlows(projectFlowsId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.getProjectFeatureFlows}`, projectFlowsId);
+  }
+
+
+  deleteProjectFlow(projectFlowId: String): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteProjectFlow}?projectFlowId=${projectFlowId}`);
   }
 
 
