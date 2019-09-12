@@ -40,7 +40,7 @@ export class FrontendWorker {
     private confirmLangModel = `confirmLangModel(lang) {\n\t\tthis.userId= sessionStorage.getItem('Id');\n\t\tif (this.userId !== null) {\n\t\tthis.confirmLangChangeModal = 'block';\n\t\tthis.currentLanguage = lang;\n\t\t} else {\n\t\tthis.changeLanguage(lang);\n\t\tthis.onCloseHandled();\n\t\t}\n\t\t}`;
     private confirmLangChange = `confirmLangChange() {\n\t\tthis.changeLanguage(this.currentLanguage);\n\t\tthis.onCloseHandled();\n\t\t}`;
     private onCloseHandled = `onCloseHandled() {\n\t\tthis.confirmLangChangeModal = 'none';\n\t\t}`;
-    private changeLanguage = `changeLanguage(lang) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t// document.location.reload();\n\t\t});\n\t\tthis.logout();\n\t\t}\n\t\t}`;
+    private changeLanguage = `changeLanguage(lang) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t});\n\t\t}\n\t\tthis.userId = sessionStorage.getItem('Id');\n\t\tif (this.userId !== null) {\n\t\tthis.logout();\n\t\t} else {\n\t\tdocument.location.reload();\n\t\t}\n\t\t}`;
     private updateLangChange = `private updateState(lang: string) {\n\t\tthis.language = lang;\n\t\t}`;
     private isAppModule = {
         declaration: false,

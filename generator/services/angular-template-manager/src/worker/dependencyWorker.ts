@@ -107,12 +107,8 @@ export class DependencyWorker {
     generateTranslatorJsonFile(generationPath, templatePath, sharedObj, callback) {
         const filePath = `${generationPath}/${this.SRC_FOLDERNAME}/${this.ASSETS_FOLDERNAME}/${this.LOCALES_FOLDERNAME}`;
         Common.createFolders(filePath)
-        // translator file path
         const langFolderName = translator.folderName;
-        // langFolderName.forEach(folderName => {
-        //     Common.createFolders(folderName);
-        // })
-        const fileName = translator.fileName;
+        const fileName = translator.fileName[0];
         const source = translator.source;
         return dependencySupportWorker.generateTranslateJsonFiles(filePath, langFolderName, fileName, source, (response) => {
             callback();
