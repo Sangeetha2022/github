@@ -37,7 +37,7 @@ export class ComponentWorker {
             dependencyname: '',
             dependencyPath: ''
         }
-        tempDependency.dependencyname = 'Component, OnInit',
+        tempDependency.dependencyname = 'Component, OnInit, Inject',
             tempDependency.dependencyPath = '@angular/core';
         temp.importDependency.push(tempDependency);
         if (templateHeaderObj.css.length > 0) {
@@ -83,9 +83,11 @@ export class ComponentWorker {
         const className = temp.folderName.charAt(0).toUpperCase() + temp.folderName.slice(1).toLowerCase();
         temp.importDependency.push({ dependencyname: 'NgModule', dependencyPath: '@angular/core' });
         temp.importDependency.push({ dependencyname: 'CommonModule', dependencyPath: '@angular/common' });
+        temp.importDependency.push({ dependencyname: 'I18NextModule', dependencyPath: 'angular-i18next' });
         temp.importDependency.push({ dependencyname: `${className}Component`, dependencyPath: `./${temp.folderName}.component` });
 
         temp.imports.push(`CommonModule`);
+        temp.imports.push(`I18NextModule.forRoot()`);
         temp.declarations.push(`${className}Component`);
         if (tempModule.isExport) {
             temp.exports.push(`${className}Component`);
@@ -267,7 +269,8 @@ export class ComponentWorker {
         temp.importDependency.push({ dependencyname: 'BrowserModule', dependencyPath: '@angular/platform-browser' });
         temp.importDependency.push({ dependencyname: 'NgModule', dependencyPath: '@angular/core' });
         temp.importDependency.push({ dependencyname: 'AppRoutingModule', dependencyPath: './app-routing.module' });
-        temp.imports.push(`BrowserModule`, `AppRoutingModule`);
+        temp.importDependency.push({ dependencyname: 'TranslatorModule', dependencyPath: './translator/translator.module' });
+        temp.imports.push(`BrowserModule`, `AppRoutingModule`,`TranslatorModule`);
         temp.bootstrap.push(`${this.APP_FOLDERNAME.charAt(0).toUpperCase() + this.APP_FOLDERNAME.slice(1).toLowerCase()}Component`);
         console.log('generate main module in componentworker are -------   ', temp);
         componentSupportWorker.generateComponentModule(generationPath, templatePath,

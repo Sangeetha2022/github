@@ -21,7 +21,6 @@ export class ApiAdaptar {
         console.log('get url ', url);
         return new Promise((resolve, reject) => {
             request.get(url, (error, response, body) => {
-                console.log('=============', body)
                 if (body) {
                     this.sendResponse(resolve, reject, error, response, JSON.parse(body));
                 } else if (body === undefined) {

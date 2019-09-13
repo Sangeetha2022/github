@@ -15,6 +15,8 @@ export const ScreenSchema = new Schema({
     'gjs-components': [],
     'project-name': String,
     'default-language': String,
+    'component-lifecycle': [],
+    'special-events': [],
     screenName: String,
     is_grid_present: {
         type: Boolean,

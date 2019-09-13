@@ -124,43 +124,29 @@ export class BlockService {
   }
 
 
-  addSpecialButton(editor) {
-    editor.BlockManager.add('specialButton', {
-      id: 'specialButton',
+  addPopupModal(editor) {
+    editor.BlockManager.add('popupModal', {
+      id: 'modal',
       label: '<svg class="gjs-block-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\n' +
         '<path class="gjs-block-svg-path" d="M22,9 C22,8.4 21.5,8 20.75,8 L3.25,8 C2.5,8 2,8.4 2,9 L2,15 C2,\n' +
         '15.6 2.5,16 3.25,16 L20.75,16 C21.5,16 22,15.6 22,15 L22,9 Z M21,15 L3,15 L3,9 L21,9 L21,15 Z" fill-rule="nonzero">\n' +
         '</path>\n        <rect class="gjs-block-svg-path" x="4" y="11.5" width="16" height="1"></rect>\n\n' +
-        ' </svg>\n      <div class="gjs-block-label"> Popup </div>',
+        ' </svg>\n      <div class="gjs-block-label"> Modal </div>',
       category: 'special',
-      // attributes: {
-      //   class: 'fa f'
-      // },
-      content: {
-        content: `
-        <button class="specialButton">Special Button</button>
+      content: `
+      <div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
+      <button data-gjs-type="popupModal-type">Modal
+      </button>
+      </div>
       `,
-        type: 'specialbutton-type',
-        script: function () {
-        },
-        style: {
-          'padding-top': '10px',
-          'padding-right': '2px',
-          'padding-left': '2px',
-          'padding-bottom': '10px'
-        }
-      },
       draggable: true,
       removable: true
     });
-    this.traitService.addSpecialButtonTraits(editor, 'specialbutton-type');
+    this.traitService.addPopupModalTraits(editor, 'popupModal-type');
   }
 
 
   addSpecialDropdown(editor) {
-    const labelSelectOption = [
-      'name'
-    ];
     editor.BlockManager.add('specialDropdown', {
       id: 'specialDropdown',
       label: `\n      <svg class="gjs-block-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\n
@@ -173,22 +159,34 @@ export class BlockService {
                  </svg>\n      <div class="gjs-block-label"> special dropdown </div>`,
       category: 'special',
       content: {
-        content: `<select class="select">\n
-         (${labelSelectOption} ? '<option value="">${labelSelectOption}</option>' : '')
-                </select>`,
-        type: 'specialdropdown-type',
-        script: function () { },
-        style: {
-          'padding-top': '10px',
-          'padding-right': '2px',
-          'padding-left': '2px',
-          'padding-bottom': '10px'
-        }
+        type: 'specialdropdown-type'
       },
       draggable: true,
       removable: true
     });
     this.traitService.addSpecialDropdownTraits(editor, 'specialdropdown-type');
   }
+
+  addSpecialCharts(editor) {
+    editor.BlockManager.add('highcharts', {
+      id: 'highcharts',
+      label: `\n      <svg class="gjs-block-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\n
+              <path class="gjs-block-svg-path" d="M22,9 C22,8.4 21.5,8 20.75,8 L3.25,8 C2.5,8 2,8.4 2,9 L2,15 C2,15.6 2.5,
+              16 3.25,16 L20.75,16 C21.5,16 22,15.6 22,15 L22,9 Z M21,15 L3,15 L3,9 L21,9 L21,15 Z" fill-rule="nonzero">
+              </path>\n
+             <polygon class="gjs-block-svg-path" transform="translate(18.500000, 12.000000) scale(1, -1) translate(-18.500000, -12.000000) "
+              points="18.5 11 20 13 17 13"> </polygon>\n
+            <rect class="gjs-block-svg-path" x="4" y="11.5" width="11" height="1"></rect>\n
+                 </svg>\n      <div class="gjs-block-label"> high charts </div>`,
+      category: 'special',
+      content: {
+        type: 'highcharts-type',
+      },
+      draggable: true,
+      removable: true
+    });
+    this.traitService.addHighChartTraits(editor, 'highcharts-type');
+  }
+
 
 }

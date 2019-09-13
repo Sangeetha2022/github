@@ -37,7 +37,11 @@ export class FrontendWorker {
     // Methods
     private logoutMethod = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\tthis.userId = sessionStorage.getItem('Id');\n\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
     private broadcastMethod = `\tthis.broadcastService.currentUserName.subscribe(headerPermission => {\n\t\t\tif (headerPermission && headerPermission.Project && headerPermission.Project.Fields && headerPermission.Project.Fields.config === 'true') {\n\t\t\t this.isAdminUser = true;\n\t\t\t } else {\n\t\t\t\t this.isAdminUser = false;\n\t\t\t }\n\t});`;
-
+    private confirmLangModel = `confirmLangModel(lang) {\n\t\tthis.userId= sessionStorage.getItem('Id');\n\t\tif (this.userId !== null) {\n\t\tthis.confirmLangChangeModal = 'block';\n\t\tthis.currentLanguage = lang;\n\t\t} else {\n\t\tthis.changeLanguage(lang);\n\t\tthis.onCloseHandled();\n\t\t}\n\t\t}`;
+    private confirmLangChange = `confirmLangChange() {\n\t\tthis.changeLanguage(this.currentLanguage);\n\t\tthis.onCloseHandled();\n\t\t}`;
+    private onCloseHandled = `onCloseHandled() {\n\t\tthis.confirmLangChangeModal = 'none';\n\t\t}`;
+    private changeLanguage = `changeLanguage(lang) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t});\n\t\t}\n\t\tthis.userId = sessionStorage.getItem('Id');\n\t\tif (this.userId !== null) {\n\t\tthis.logout();\n\t\t} else {\n\t\tdocument.location.reload();\n\t\t}\n\t\t}`;
+    private updateLangChange = `private updateState(lang: string) {\n\t\tthis.language = lang;\n\t\t}`;
     private isAppModule = {
         declaration: false,
         imports: false,
@@ -48,7 +52,14 @@ export class FrontendWorker {
         `   "rxjs-compat": "6.5.2",`,
         `   "@auth0/angular-jwt": "2.1.2",`,
         `   "ag-grid-angular": "^20.0.0",`,
-        `   "ag-grid-community": "^20.0.0",`
+        `   "ag-grid-community": "^20.0.0",`,
+        `   "angular-i18next": "^7.0.0",`,
+        `   "angular-validation-message-i18next": "^1.2.0",`,
+        `   "i18next": "^17.0.14",`,
+        `   "i18next-browser-languagedetector": "^3.0.3",`,
+        `   "i18next-sprintf-postprocessor": "^0.2.2",`,
+        `   "i18next-xhr-backend": "^3.1.2",`,
+        `   "angular-validation-message": "^2.0.1",`,
     ]
 
     private appModuleInfo: any = {
@@ -126,7 +137,7 @@ export class FrontendWorker {
         callback();
     }
 
-  // create user component from seed files
+    // create user component from seed files
     createUserComponent(callback) {
         const userApplicationPath = `${this.projectGenerationPath}/src/app/${this.USER_FOLDERNAME}`;
         const profileApplicationPath = `${userApplicationPath}/${this.PROFILE_SETTINGS_FOLDERNAME}`;
@@ -255,6 +266,8 @@ export class FrontendWorker {
                 temp.importDependency.push({ dependencyname: 'CommonModule', dependencyPath: '@angular/common' });
                 temp.importDependency.push({ dependencyname: 'FormsModule', dependencyPath: '@angular/forms' });
                 temp.importDependency.push({ dependencyname: 'RouterModule', dependencyPath: '@angular/router' });
+                temp.importDependency.push({ dependencyname: 'I18NextModule', dependencyPath: 'angular-i18next' });
+
                 temp.importDependency.push({ dependencyname: `${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component`, dependencyPath: `./${folderName}.component` });
 
                 if (folderName === 'user') {
@@ -270,6 +283,7 @@ export class FrontendWorker {
                 tempImports.push(`CommonModule`);
                 tempImports.push(`FormsModule`);
                 tempImports.push(`RouterModule`);
+                tempImports.push(`I18NextModule.forRoot()`);
 
                 tempDeclarations.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component`);
 
@@ -351,6 +365,7 @@ export class FrontendWorker {
         console.log('import index ----->>>>>>>>>>  ', importIndex);
         if (importIndex > -1) {
             modifyFile.splice(importIndex + 1, 0, `import { Router } from '@angular/router';`)
+            modifyFile.splice(importIndex + 1, 0, `import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';`)
             modifyFile.splice(importIndex + 2, 0, `import { ${this.LOGIN_FOLDERNAME.charAt(0).toUpperCase() + this.LOGIN_FOLDERNAME.slice(1).toLowerCase()}Service } from '../${this.LOGIN_FOLDERNAME.toLowerCase()}/${this.LOGIN_FOLDERNAME.toLowerCase()}.service';`)
             modifyFile.splice(importIndex + 3, 0, `import { ${this.BROADCAST_FOLDERNAME.charAt(0).toUpperCase() + this.BROADCAST_FOLDERNAME.slice(1).toLowerCase()}Service } from '../${this.AUTH_FOLDERNAME.toLowerCase()}/${this.BROADCAST_FOLDERNAME.toLowerCase()}.service';`)
         }
@@ -358,6 +373,7 @@ export class FrontendWorker {
         if (constructorIndex > -1) {
             // constructor params
             const temp = [
+                `@Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService`,
                 `private router: Router`,
                 `private ${this.LOGIN_FOLDERNAME.toLowerCase()}Service: ${this.LOGIN_FOLDERNAME.charAt(0).toUpperCase() + this.LOGIN_FOLDERNAME.slice(1).toLowerCase()}Service`,
                 `public ${this.BROADCAST_FOLDERNAME.toLowerCase()}Service: ${this.BROADCAST_FOLDERNAME.charAt(0).toUpperCase() + this.BROADCAST_FOLDERNAME.slice(1).toLowerCase()}Service`
@@ -367,7 +383,11 @@ export class FrontendWorker {
             // variable declarations
             const tempVariable = [
                 `public isAdminUser = false`,
-                `public userId: string;`
+                `public userId: string`,
+                `public currentLanguage: String`,
+                `public confirmLangChangeModal: String = 'none'`,
+                `public language = 'en'`,
+                `public languages = ['en', 'ta', 'es']`
             ]
             modifyFile.splice(constructorIndex, 0, tempVariable.join(';\n'));
         }
@@ -391,8 +411,12 @@ export class FrontendWorker {
             }
         })
         if (methodCount > -1) {
-            console.log('methodcount are ----->>   ', methodCount);
             modifyFile.splice(methodCount, 0, this.logoutMethod);
+            modifyFile.splice(methodCount, 0, this.confirmLangModel);
+            modifyFile.splice(methodCount, 0, this.confirmLangChange);
+            modifyFile.splice(methodCount, 0, this.onCloseHandled);
+            modifyFile.splice(methodCount, 0, this.changeLanguage);
+            modifyFile.splice(methodCount, 0, this.updateLangChange);
         }
         // let count = modifyFile.length - 1;
         // const methodCount = 0;

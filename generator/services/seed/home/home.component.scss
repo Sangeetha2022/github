@@ -1,14 +1,11 @@
-div {
+.flex-container {
+    display: flex;
+    justify-content: center;
     height: 100vh;
     background-color: #867a33;
-  
-}
-span {
-    position: relative;
-    float: left;
-    font-size: 50px;
-    color: azure;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
+    align-items: center;
+  }
+  .welcome {
+    color: antiquewhite;
+    font-size: 2em;
+  }

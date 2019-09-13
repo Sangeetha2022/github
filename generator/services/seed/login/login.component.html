@@ -4,15 +4,15 @@
     <div class="col-lg-6">
       <div class="card">
 
-        <h3>Please Login or <a [routerLink]="['/signup']">Signup</a></h3>
+        <h3>{{'source.plsLogin' | i18next}} <a [routerLink]="['/signup']">{{'source.signup' | i18next}}</a></h3>
 
         <form class="form" role="form">
           <div class="form-group">
-            <label>Email</label>
+            <label>{{'source.email' | i18next}}</label>
             <input type="text" [(ngModel)]='user.email' name="user" class="form-control">
           </div>
           <div class="form-group">
-            <label>Password</label>
+            <label>{{'source.password' | i18next}}</label>
             <input type="text" class="form-control" [type]="show ? 'text' : 'password'" pw-show-hide="icon"
               [(ngModel)]='user.password' name="user">
             <span class="hide-eye">
@@ -21,7 +21,7 @@
           </div>
           <div class="center">
             <button type="submit" class="btn btn btn-primary login" (click)="Login()">
-              Login
+              {{'source.login' | i18next}}
             </button>
           </div>
 
@@ -31,11 +31,11 @@
           </div>
           <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6">
-              <a href="#" class="btn btn-lg btn-primary btn-block">Facebook</a>
+              <a href="#" class="btn btn-lg btn-primary btn-block">{{'source.facebook' | i18next}}</a>
             </div>
 
             <div class="col-xs-6 col-sm-6 col-md-6">
-              <a href="#" class="btn btn-lg btn-info btn-block">Google</a>
+              <a href="#" class="btn btn-lg btn-info btn-block">{{'source.google' | i18next}}</a>
             </div>
           </div>
         </form>

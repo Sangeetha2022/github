@@ -94,7 +94,6 @@ export class MenuBuilderComponent implements OnInit {
         menuBuilderData.body.forEach(mData => {
           if (!this.changeMenu) {
             if (mData.menu_option === true) {
-              console.log('----------------', mData);
               this.languages = mData.project_languages;
               this.selectedLang = mData.language;
               this.currentLang = mData.language;
@@ -226,6 +225,7 @@ export class MenuBuilderComponent implements OnInit {
   updateMenuById(id, menu) {
     this.menuBuilderService.updateMenuById(id, menu).subscribe(fMenu => {
       this.database.initialize(fMenu.body.menuDetails);
+      this.dataService.setMenuBuilder(fMenu.body.menuDetails);
       this.name = '';
       this.description = '';
     });
