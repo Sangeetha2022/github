@@ -6,8 +6,38 @@ export const translator = {
     validation: `{\n\t\t"required": "Field is required.",\n\t\t"error": "Error occured.",\n\t\t"min": "Minimum value is {{min}}. Was {{actual}}.",\n\t\t"max": "Maximum value is {{max}}. Was {{actual}}.",\n\t\t"email": "$t(validation:_fill) valid e-mail.",\n\t\t"pattern": "$t(validation:_fill) valid value.",\n\t\t"maxlength": "Maximum length {{requiredLength}}.",\n\t\t"_fill": "Please fill in",\n\t\t"control_specific": {\n\t\t"technicalContact": {\n\t\t"firstName": {\n\t\t"required": "$t(validation:_fill) technical specialist's first name."\n\t\t},\n\t\t"lastName": {\n\t\t"required": "$t(validation:_fill) technical specialist's last name."\n\t\t},\n\t\t"middleName": {\n\t\t"required": "$t(validation:_fill) technical specialist's patronymic."\n\t\t}\n\t\t}\n\t\t}\n\t\t}`
 }
 
-export const english = { "home": "Home", "login": "Login", "admin": "Admin", "logout": "Logout", "selectLanguage": "Select Language" };
+export const english = {
+    "home": "Home", "login": "Login", "admin": "Admin", "logout": "Logout", "selectLanguage": "Select Language", "plsLogin": "Please Login or",
+    "signup": "Signup",
+    "email": "Email",
+    "password": "Password",
+    "facebook": "Facebook",
+    "google": "Google",
+    "welcomeHome": "Welcome to the app site created by Geppetto !!!",
+    "dashboard": "Dashboard",
+    "userManagement": "User Management"
+};
 
-export const tamil = { "home": "முகப்பு", "login": "உள் நுழை", "admin": "நிர்வாகம்", "logout": "வெளியேறு", "selectLanguage": "மொழியை தேர்ந்தெடுங்கள்" };
+export const tamil = {
+    "home": "முகப்பு", "login": "உள் நுழை", "admin": "நிர்வாகம்", "logout": "வெளியேறு", "selectLanguage": "மொழியை தேர்ந்தெடுங்கள்", "plsLogin": "தயவுசெய்து உள்நுழைக அல்லது",
+    "signup": "பதிவு செய்ய",
+    "email": "மின்னஞ்சல்",
+    "password": "கடவுச்சொல்",
+    "facebook": "முகநூல்",
+    "google": "கூகிள்",
+    "welcomeHome": "ஜெப்பெட்டோ உருவாக்கிய வலைத்தளத்திற்கு வருக !!!",
+    "dashboard": "டாஷ்போர்டு",
+    "userManagement": "பயனர் மேலாண்மை"
+};
 
-export const spanish = { "home": "casa", "login": "Iniciar sesión", "admin": "administración", "logout": "cerrar sesión", "selectLanguage": "Seleccione el idioma" };
+export const spanish = {
+    "home": "casa", "login": "Iniciar sesión", "admin": "administración", "logout": "cerrar sesión", "selectLanguage": "Seleccione el idioma", "plsLogin": "Por favor Iniciar sesión o",
+    "signup": "Registro",
+    "email": "correo electrónico",
+    "password": "contraseña",
+    "facebook": "Facebook",
+    "google": "Google",
+    "welcomeHome": "Bienvenido al sitio web creado por Geppetto !!!",
+    "dashboard": "salpicadero",
+    "userManagement": "Gestión de usuarios"
+};

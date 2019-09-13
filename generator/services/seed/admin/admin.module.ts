@@ -8,7 +8,8 @@ import { AdminComponent } from './admin.component';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    I18NextModule.forRoot()
   ],
   declarations: [
     AdminComponent
