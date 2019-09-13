@@ -184,7 +184,7 @@
             </select>
           </div>
           <!-- flow screens -->
-          <div class="form-group row" *ngIf="routeDetails.screen._id">
+          <div class="form-group row" *ngIf="routeDetails.screen._id && customPopupModal.typeLabelName">
             <b for="flowScreens">{{routeDetails.screen.screenName}} flowList</b>
             <select class="form-control" name="screenFlow" [(ngModel)]="routeDetails.screenFlow" id="screenFlow">
               <option value="" selected>none</option>
