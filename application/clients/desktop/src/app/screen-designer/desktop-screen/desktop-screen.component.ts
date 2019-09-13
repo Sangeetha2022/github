@@ -128,7 +128,8 @@ export class DesktopScreenComponent implements OnInit {
     public routeDetails: any = {
         screen: '',
         verb: 'click',
-        type: 'queryParameter'
+        type: 'queryParameter',
+        screenFlow: ''
     };
     public buttonVerb: String = 'click';
     public componentVerb: String = 'onload';
@@ -146,6 +147,7 @@ export class DesktopScreenComponent implements OnInit {
     public GPROUTE_FLOWNAME = 'gproute';
     public GPMODAL_FLOWNAME = 'gpmodal';
     public MODAL_METHODNAME = 'popupModal';
+    public ROUTE_METHODNAME = 'GpRoute';
     constructor(
         private screenDesignerService: ScreenDesignerService,
         private blockService: BlockService,
@@ -348,11 +350,12 @@ export class DesktopScreenComponent implements OnInit {
             }
         });
         this.getScreenById();
+        this.getFeatureById();
         this.getScreenByProjectId();
         this.traitService.initMethod(this);
         this.getEntity();
         this.getEntityType();
-        this.getAllFlows();
+        // this.getAllFlows();
         this.getProjectDetails();
         this.addCustomBlocks();
         this.declareBlockLanguage();
@@ -434,6 +437,11 @@ export class DesktopScreenComponent implements OnInit {
         );
     }
 
+    customModelChanged($event) {
+        console.log('model changed ----- customModelChanged');
+        this.ref.detectChanges();
+    }
+
     onFieldOptions(event) {
         const agGridObject = {
             columnid: '',
@@ -483,11 +491,14 @@ export class DesktopScreenComponent implements OnInit {
     getScreenByProjectId() {
         this.screenDesignerService.getScreenByProjectId(this.project_id)
             .subscribe(projectData => {
-                this.screenArrayByProjectId = projectData.body;
+                if (projectData.body) {
+                    this.screenArrayByProjectId = projectData.body.filter(x => x.screenName !== this.screenName);
+                }
             }, error => { });
     }
 
     getScreenById() {
+        console.log('get screen by id are ------   ', this.screen_id);
         if (this.screen_id) {
             this.editor.StorageManager.get('remote').set({ urlStore: `${this.updateTemplateURL}${this.screen_id}` });
             this.screenDesignerService.getScreenById(this.screen_id).subscribe(
@@ -565,18 +576,51 @@ export class DesktopScreenComponent implements OnInit {
             (error) => { });
     }
 
-    getAllFlows() {
-        this.flowManagerService.getAllFlows().subscribe((flowData) => {
-            this.listOfFLows = flowData.body;
-            if (this.feature_id !== undefined && this.feature_id != null) {
-                this.rowData = this.listOfFLows;
-            } else {
-                const createFlow = this.listOfFLows.find(x => x.name === 'GpCreate');
-                this.rowData = [createFlow];
-            }
-        }, (error) => {
-            console.log('cannot get flows in screen designer ', error);
-        });
+    // getAllFlows() {
+    //     this.flowManagerService.getAllFlows().subscribe((flowData) => {
+    //         this.listOfFLows = flowData.body;
+    //         if (this.feature_id !== undefined && this.feature_id != null) {
+    //             this.rowData = this.listOfFLows;
+    //         } else {
+    //             const createFlow = this.listOfFLows.find(x => x.name === 'GpCreate');
+    //             this.rowData = [createFlow];
+    //         }
+    //     }, (error) => {
+    //         console.log('cannot get flows in screen designer ', error);
+    //     });
+    // }
+
+    getProjectFeatureFlows(projectFlowsID) {
+        this.projectComponentService.getProjectFeatureFlows(projectFlowsID).subscribe(
+            data => {
+                this.listOfFLows = data.body;
+                if (this.listOfFLows) {
+                    if (this.feature_id !== undefined && this.feature_id != null) {
+                        this.rowData = this.listOfFLows;
+                    } else {
+                        const createFlow = this.listOfFLows.find(x => x.name === 'GpCreate');
+                        this.rowData = [createFlow];
+                    }
+                }
+            },
+            error => {
+                console.error('cannot able to get the projectFeatureFlows');
+            });
+    }
+
+    getFeatureById() {
+        if (this.feature_id) {
+            this.projectComponentService.getFeatureById(this.feature_id).subscribe(
+                featureData => {
+                    if (featureData.body) {
+                        this.getProjectFeatureFlows(featureData.body.flows);
+                    }
+                },
+                error => {
+                    console.error('cannot able to get the feature data');
+                }
+            );
+        }
     }
 
     cancelEvent() {
@@ -593,6 +637,7 @@ export class DesktopScreenComponent implements OnInit {
     }
 
     saveCustomPopupInfo(flowName) {
+        console.log('save custom popup info ----  ', flowName, ' --routeDetails--  ', this.routeDetails);
         if (flowName === this.GPROUTE_FLOWNAME) {
             this.saveRouteDetails();
         } else if (flowName === this.GPMODAL_FLOWNAME) {
@@ -630,50 +675,36 @@ export class DesktopScreenComponent implements OnInit {
     saveRouteDetails() {
         const GetByIdFlowObj = this.listOfFLows.find(x => x.name === 'GpGetNounById');
         const tempIndex = this.routeFlows.findIndex(x => x.elementName === this.editor.getSelected().attributes.name);
+        console.log('save route details tempIndex are ------   ', tempIndex);
         if (tempIndex > -1) {
-            this.routeFlows[tempIndex].screenId = this.routeDetails.screen._id;
-            this.routeFlows[tempIndex].screenName = this.routeDetails.screen.screenName;
-            this.routeFlows[tempIndex].routeType = this.routeDetails.type;
-            // update getByNounId for route
-            if (GetByIdFlowObj) {
-                this.routeFlows[tempIndex].screenFlow = GetByIdFlowObj._id;
-                this.routeFlows[tempIndex].screenFlowName = GetByIdFlowObj.name;
-            }
-            this.routeFlows[tempIndex].methodName =
-                `${this.selectedFlow[0].name}${this.routeFlows.length > 1 ? this.routeFlows.length : ''}`;
-
-            this.saveRemoteStorage();
-        } else {
-            const routeObj = {
-                htmlId: '',
-                componentId: '',
-                elementName: '',
-                routeFlow: '',
-                screenId: '',
-                screenName: '',
-                routeType: '',
-                methodName: '',
-                screenFlow: '',
-                screenFlowName: ''
-            };
-            routeObj.htmlId = this.editor.getSelected().ccid;
-            routeObj.componentId = this.editor.getSelected().cid;
-            routeObj.elementName = this.editor.getSelected().attributes.name;
-            routeObj.routeFlow = this.selectedFlow[0]._id;
-            routeObj.screenId = this.routeDetails.screen._id;
-            routeObj.screenName = this.routeDetails.screen.screenName;
-            routeObj.routeType = this.routeDetails.type;
-            // add the routing method name
-            routeObj.methodName = `${this.selectedFlow[0].name}${this.routeFlows.length > 1 ? this.routeFlows.length : ''}`;
-            // add the screensflow
-            if (GetByIdFlowObj) {
-                routeObj.screenFlow = GetByIdFlowObj._id;
-                routeObj.screenFlowName = GetByIdFlowObj.name;
-            }
-            this.routeFlows.push(routeObj);
-            this.saveFlowDetails(this.routeDetails.verb);
+            this.routeFlows.splice(tempIndex, 1);
         }
-
+        const routeObj = {
+            htmlId: '',
+            componentId: '',
+            elementName: '',
+            screenId: '',
+            screenName: '',
+            routeType: '',
+            methodName: '',
+            screenFlow: '',
+            screenFlowName: ''
+        };
+        routeObj.htmlId = this.editor.getSelected().ccid;
+        routeObj.componentId = this.editor.getSelected().cid;
+        routeObj.elementName = this.editor.getSelected().attributes.name;
+        routeObj.screenId = this.routeDetails.screen._id;
+        routeObj.screenName = this.routeDetails.screen.screenName;
+        routeObj.routeType = this.routeDetails.type;
+        // add the routing method name
+        routeObj.methodName = this.ROUTE_METHODNAME;
+        // add the screensflow
+        if (this.routeDetails.screenFlow) {
+            routeObj.screenFlow = this.routeDetails.screenFlow.flow;
+            routeObj.screenFlowName = this.routeDetails.screenFlow.flowName;
+        }
+        this.routeFlows.push(routeObj);
+        this.saveRemoteStorage();
         this.isCustomPopup = false;
     }
 
@@ -710,8 +741,10 @@ export class DesktopScreenComponent implements OnInit {
         if (lifeCycleIndex > -1) {
             this.componentLifeCycle.splice(lifeCycleIndex, 1);
         }
+        console.log('save lifecyle flows are -----  ', this.selectedFlow);
         const temp = {
             flowId: this.selectedFlow[0]._id,
+            flowName: this.selectedFlow[0].name,
             verb: this.componentVerb
         };
         this.componentLifeCycle.push(temp);
@@ -722,9 +755,11 @@ export class DesktopScreenComponent implements OnInit {
                 componentId: '',
                 elementName: '',
                 verb: '',
-                flow: ''
+                flow: '',
+                flowName: ''
             };
             flowTemp.flow = temp.flowId;
+            flowTemp.flowName = temp.flowName;
             this.screenFlows.push(flowTemp);
         }
         this.saveRemoteStorage();
@@ -747,7 +782,8 @@ export class DesktopScreenComponent implements OnInit {
             componentId: '',
             elementName: '',
             verb: '',
-            flow: ''
+            flow: '',
+            flowName: ''
         };
         // console.log('selected component after upload an flows ---- ', this.editor.selected())
         flowObj.htmlId = this.editor.getSelected().ccid;
@@ -757,6 +793,7 @@ export class DesktopScreenComponent implements OnInit {
             flowObj.verb = verbInfo;
         }
         flowObj.flow = this.selectedFlow[0]._id;
+        flowObj.flowName = this.selectedFlow[0].name;
         // remove flows if it present without elementName
         const flowIndex = this.checkIfFlowExist(flowObj.flow, '');
         if (flowIndex > -1) {
@@ -986,7 +1023,7 @@ export class DesktopScreenComponent implements OnInit {
         // add field binding button
         this.customTraitService.gridFieldButton(this);
         // custom traits for grid action buttons
-        this.customTraitService.gridActionFlowButton(this);
+        this.customTraitService.RouteActionButton(this);
 
         this.editor.DomComponents.getType('grid-type').model
             .prototype.defaults.traits.push(
@@ -1010,9 +1047,9 @@ export class DesktopScreenComponent implements OnInit {
                     options: this.verbOptions,
                 },
                 {
-                    'name': 'gridActionButton',
-                    'label': 'Action',
-                    'type': 'gridActionButton',
+                    'name': 'routeButton',
+                    'label': 'Route',
+                    'type': 'routeButton',
                 },
                 {
                     'name': 'addButton',
@@ -1024,6 +1061,8 @@ export class DesktopScreenComponent implements OnInit {
                     'label': `Remove`,
                     'type': 'removeButton',
                 });
+        // updating traits entties
+        this.commandService.updateTraits(this);
     }
 
     // set component element css based on cssGuideLines
@@ -1108,15 +1147,13 @@ export class DesktopScreenComponent implements OnInit {
     // save entity for form
     saveFieldPopup() {
         const checkedIndex = this.screenEntityModel.findIndex(x => (
-            x.htmlId === this.selectedHtmlElement.htmlId
-            && x.componentId === this.selectedHtmlElement.componentId
+            x.htmlId === this.editor.getSelected().ccid
+            && x.componentId === this.editor.getSelected().cid
         ));
         if (checkedIndex > -1) {
             this.screenEntityModel.splice(checkedIndex, 1);
         }
-        if (this.selectedHtmlElement.htmlId !== undefined
-            && this.selectedHtmlElement.componentId !== undefined
-            && this.entityFields !== ''
+        if (this.entityFields !== ''
             && this.entityFields !== undefined
             && this.traitsName === 'entity'
         ) {
@@ -1133,9 +1170,9 @@ export class DesktopScreenComponent implements OnInit {
                     dataType: ''
                 }
             };
-            obj.htmlId = this.selectedHtmlElement.htmlId;
-            obj.componentId = this.selectedHtmlElement.componentId;
-            obj.elementName = this.selectedHtmlElement.elementName;
+            obj.htmlId = this.editor.getSelected().ccid;
+            obj.componentId = this.editor.getSelected().cid;
+            obj.elementName = this.editor.getSelected().attributes.name;
             obj.entityId = this.selectedEntityModel;
             obj.fields.fieldId = this.entityFields._id;
             obj.fields.name = this.entityFields.name;
@@ -1145,6 +1182,7 @@ export class DesktopScreenComponent implements OnInit {
             this.screenEntityModel.push(obj);
 
         }
+
         this.saveRemoteStorage();
         this.onCloseModel();
     }
@@ -1172,7 +1210,8 @@ export class DesktopScreenComponent implements OnInit {
         this.createFeatureIfNotExist();
         this.closeScreeName();
         this.editor.on('storage:response', function (e) {
-            $this.screen_id = e._id;
+            console.log('storeage id are -------------    ', e);
+            $this.screen_id = e.body._id;
             $this.getScreenById();
         });
     }
