@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
+import { I18NextModule } from 'angular-i18next';
 
 @NgModule({
   imports: [
