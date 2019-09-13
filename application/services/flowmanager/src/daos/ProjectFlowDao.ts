@@ -39,11 +39,6 @@ export class ProjectFlowDao {
     }
 
     public getProjectFeatureFlows(ProjectFlowsId, callback: CallableFunction) {
-        // this.testingConnection();
-        console.log('get projectFeatureFlows flows in doa');
-        // const User = mongoose.model('micro_flows');
-        // const SongSchema = require('mongoose').model('micro_flows').schema;
-        // console.log('song schema -----  ', User)
         this.projectFlow.find().where('_id')
             .in(ProjectFlowsId)
             .populate({
@@ -52,8 +47,6 @@ export class ProjectFlowDao {
                     path: 'connector',
                 }
             }).exec((err, flow) => {
-                console.log('flows exec error -projectFeatureFlows---  ', err);
-                console.log('flows exec success -projectFeatureFlows---  ', flow);
                 if (err) {
                     callback(err)
                 } else {

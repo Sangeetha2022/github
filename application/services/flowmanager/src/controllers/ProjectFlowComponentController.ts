@@ -16,7 +16,7 @@ export class ProjectFlowComponentController {
     }
 
     public getProjectFlowComponent(req: Request, res: Response) {
-        projectFlowComponentService.projectFlowComponentService(req, (respone) => {
+        projectFlowComponentService.getProjectFlowComponents(req, (respone) => {
             res.status(200);
             res.json(200)
         })

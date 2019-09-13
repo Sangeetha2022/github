@@ -12,8 +12,9 @@ export class ProjectFlowComponentService {
 
     }
 
-    public projectFlowComponentService(req: Request, callback: CallableFunction) {
-        projectFlowComponentDao.projectFlowComponentService((response) => {
+    public getProjectFlowComponents(req: Request, callback: CallableFunction) {
+        const projectComponentsID = req.body;
+        projectFlowComponentDao.getProjectFlowComponents(projectComponentsID, (response) => {
             callback(response);
         })
     }

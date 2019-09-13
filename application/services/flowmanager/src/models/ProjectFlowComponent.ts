@@ -29,5 +29,5 @@ export let projectFlowComponentSchema = mongoose.Schema({
   }
 });
 
-const projectFlowComponentModel = mongoose.model('project_flowComponents', projectFlowComponentSchema, 'project_flowComponents');
+const projectFlowComponentModel = mongoose.model('project_flowcomponents', projectFlowComponentSchema, 'project_flowcomponents');
 export default projectFlowComponentModel;

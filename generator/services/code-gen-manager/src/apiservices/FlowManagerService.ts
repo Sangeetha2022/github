@@ -3,8 +3,8 @@ import { SharedService } from '../config/SharedService';
 
 export class FlowManagerService {
 
-    getFlows(flowIDS, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/flow/feature/get`, flowIDS).then(
+    getProjectFlows(projectFlowsId, callback) {
+        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/flow/projectfeature/get`, projectFlowsId).then(
             data => {
                 console.log('backend flow response ---- ', data);
                 callback(data);
