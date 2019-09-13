@@ -15,7 +15,13 @@ export const english = {
     "google": "Google",
     "welcomeHome": "Welcome to the app site created by Geppetto !!!",
     "dashboard": "Dashboard",
-    "userManagement": "User Management"
+    "userManagement": "User Management",
+    "register": "Register",
+    "firstName": "FirstName",
+    "lastName": "LastName",
+    "submit": "Submit",
+    "alreadyReg": "Already Registered",
+    "loginHere": "Login Here"
 };
 
 export const tamil = {
@@ -27,7 +33,13 @@ export const tamil = {
     "google": "கூகிள்",
     "welcomeHome": "ஜெப்பெட்டோ உருவாக்கிய வலைத்தளத்திற்கு வருக !!!",
     "dashboard": "டாஷ்போர்டு",
-    "userManagement": "பயனர் மேலாண்மை"
+    "userManagement": "பயனர் மேலாண்மை",
+    "register": "பதிவு",
+    "firstName": "முதல் பெயர்",
+    "lastName": "கடைசி பெயர்",
+    "submit": "சமர்ப்பிக்க",
+    "alreadyReg": "ஏற்கனவே பதிவுசெய்திருந்தால்",
+    "loginHere": "இங்கே உள்நுழைக"
 };
 
 export const spanish = {
@@ -39,5 +51,11 @@ export const spanish = {
     "google": "Google",
     "welcomeHome": "Bienvenido al sitio web creado por Geppetto !!!",
     "dashboard": "salpicadero",
-    "userManagement": "Gestión de usuarios"
+    "userManagement": "Gestión de usuarios",
+    "register": "Registro",
+    "firstName": "Primer nombre",
+    "lastName": "Apellido",
+    "submit": "enviar",
+    "alreadyReg": "Ya registrado",
+    "loginHere": "Entre aquí"
 };
