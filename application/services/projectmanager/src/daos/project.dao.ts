@@ -10,7 +10,7 @@ export class ProjectDao {
 
     public addProject(req: Request, callback: CallableFunction) {
 
-                let newProject = new Project(req.body);
+        let newProject = new Project(req.body);
 
                 console.log('i am project------->><<<>>>>',newProject)
 
