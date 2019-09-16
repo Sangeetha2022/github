@@ -6,7 +6,7 @@ import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
 import * as mongoose from "mongoose";
 
-const PORT = 3013;
+const PORT = 3014;
 
 class App {
 
