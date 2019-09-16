@@ -167,7 +167,6 @@ export class ProjectsComponent implements OnInit {
       if (data) {
         this.myAllProjects = data.body;
       }
-      console.log('--------myprojects----', this.myAllProjects);
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });
@@ -185,10 +184,11 @@ export class ProjectsComponent implements OnInit {
   }
 
   deleteMyProjects() {
-    this.projectsService.deleteProject(this.idToDelete).subscribe(data => {
-      console.log('data', data);
-      this.delmodal = 'none';
-      this.getProjectByUserId();
+    this.projectsService.deleteProjectFlowByProjectId(this.idToDelete).subscribe(data => {
+      if (data) {
+        this.delmodal = 'none';
+        this.getProjectByUserId();
+      }
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });
