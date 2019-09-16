@@ -182,7 +182,7 @@
             [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData"
             [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight'
             [pagination]="true" [paginationPageSize]="10" [floatingFilter]="true"
-            (selectionChanged)="onRowSelectionChanged()" (gridReady)="onGridReady($event)">
+            (selectionChanged)="onRowSelectionChanged($event)" (gridReady)="onGridReady($event)">
           </ag-grid-angular>
 
           <!-- <form class="m-3" [formGroup]="eventFlows">
@@ -202,7 +202,7 @@
       </div>
       <div class="modal-footer">
         <div class="form-group">
-          <button type="button" class="btn btn-primary" (click)="saveFlowsInFeature('add')">Save</button>
+          <button type="button" class="btn btn-primary" (click)="createProjectFlow()">Save</button>
           <button type="button" class="btn btn-danger" (click)="closeFeatureFlowModal()">cancel</button>
         </div>
       </div>
@@ -249,9 +249,9 @@
   </div>
 </div>
 
-    <!-- <div class="modal-connector" *ngIf="customeConncetor" > -->
-        <!-- class="modal-header" -->
-        <!-- <div class="title">
+<!-- <div class="modal-connector" *ngIf="customeConncetor" > -->
+<!-- class="modal-header" -->
+<!-- <div class="title">
           Available APIs/Methods
         </div>
       <div class="modal-body" style="min-height: 200px; max-height: 300px; overflow-x: scroll;">
@@ -285,7 +285,7 @@
               </div>
             </div>
           </div> -->
-        <!-- </div> -->
+<!-- </div> -->
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModel}">
   <div class="modal-dialog modal-lg" role="dialog">
@@ -296,13 +296,15 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" class="form-control" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowName" name="flowName">
+                <input type="text" class="form-control" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowName"
+                  name="flowName">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="label">Label</label>
-                <input type="text" class="form-control" id="label" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowLable" name="flowLable" >
+                <input type="text" class="form-control" id="label" [readonly]="!isReadOnly"
+                  [(ngModel)]="modifyFlows.flowLable" name="flowLable">
               </div>
             </div>
           </div>
@@ -310,63 +312,143 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="description">Description</label>
-                <textarea class="form-control" rows="1" id="description" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowDescription" name="flowDescription"></textarea>
+                <textarea class="form-control" rows="1" id="description" [readonly]="!isReadOnly"
+                  [(ngModel)]="modifyFlows.flowDescription" name="flowDescription"></textarea>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label for="action">Action</label>
-                <input type="text" class="form-control" [readonly]="!isReadOnly" [(ngModel)]= "modifyFlows.flowAction" name="flowAction">
+                <input type="text" class="form-control" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowAction"
+                  name="flowAction">
               </div>
             </div>
           </div>
-          <button type="button" class="btn button-create ok_btn" id="AddConnector"  (click)="addCustomeConnector()"
-         >Add custom connector</button>
+          <button type="button" class="btn button-create ok_btn" id="AddConnector" (click)="addCustomeConnector()">Add
+            custom connector</button>
         </form>
       </div>
       <div *ngIf="customeConncetor">
-          <!-- <div class="title">
-              Available APIs/Methods
-            </div> -->
-          <div class="modal-body" style="min-height: 200px; max-height: 300px;">
-            <div class="m-3">
+        <div class="modal-body" style="min-height: 200px; max-height: 327px;overflow-y: auto;">
+          <div class="m-3">
+            <form [formGroup]="connectorsForm" (ngSubmit)="onSubmit()">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" placeholder="enter Dev Framework" id="name">
+                    <label>Name</label>
+                    <input type="text" formControlName="firstName" class="form-control" placeholder="Enter name"
+                      [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" [(ngModel)]="quickConnectors.name"
+                      name="name" />
+                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                      <div *ngIf="f.firstName.errors.required">Name is required</div>
+                    </div>
                   </div>
                   <div class="form-group">
-                    <label for="url">End Point</label>
-                    <input type="text" class="form-control" placeholder="enter Dev Framework" id="url">
+                    <label>EndPoint URL :</label>
+                    <input type="text" formControlName="endPoint" class="form-control" placeholder="Enter EndPoint URL"
+                      [(ngModel)]="quickConnectors.endPointUrl" name="endPoint"
+                      [ngClass]="{ 'is-invalid': submitted && f.endPoint.errors }" />
+                    <div *ngIf="submitted && f.endPoint.errors" class="invalid-feedback">
+                      <div *ngIf="f.endPoint.errors.required">EndPoint URL is required</div>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea rows="5" type="text" class="form-control" placeholder="enter Dev Framework" id="description"></textarea>
+                    <textarea rows="5" type="text" class="form-control" placeholder="Enter Description"
+                      formControlName="description" class="form-control" [(ngModel)]="quickConnectors.description"
+                      name="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                    <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                      <div *ngIf="f.description.errors.required"> Description is required</div>
+                    </div>
                   </div>
                 </div>
+              </div>
+              <div class="row">
+                <div class=col-md-6>
+                  <div class="form-group">
+                    <label>Apikey :</label>
+                    <input type="text" formControlName="api_key" class="form-control"
+                      [(ngModel)]="quickConnectors.api_key" name="api_key" placeholder="Enter Apikey"
+                      [ngClass]="{ 'is-invalid': submitted && f.api_key.errors }" />
+                    <div *ngIf="submitted && f.api_key.errors" class="invalid-feedback">
+                      <div *ngIf="f.api_key.errors.required">Apikey is required</div>
+                    </div>
+                  </div>
+                </div>
+                <div class=col-md-6>
+                  <div class="form-group">
+                    <label>Params:</label>
+                    <input type="text" formControlName="params" class="form-control"
+                      [(ngModel)]="quickConnectors.params" name="params" placeholder="Enter params"
+                      [ngClass]="{ 'is-invalid': submitted && f.params.errors }" />
+                    <div *ngIf="submitted && f.params.errors" class="invalid-feedback">
+                      <div *ngIf="f.params.errors.required">Params is required</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Select Api's Methods</label>
+                <select class="form-control" (change)="selectApis($event.target.value)">
+                  <option value="" selected>Select Api's Methods</option>
+                  <option value="post">post</option>
+                  <option value="get">get</option>
+                  <option value="put">put</option>
+                  <option value="delete">delete </option>
+                </select>
+              </div>
+              <div>
+                <div>Services</div>
+                <mat-radio-group layout="row">
+                  <mat-radio-button class="example-radio-button" value="backEnd" (click)="backendSerice('backEnd')">
+                    Backend service
+                  </mat-radio-button>
+                </mat-radio-group>
+                <span>
+                  <mat-radio-group layout="row">
+                    <mat-radio-button class="example-radio-button" value="frontEnd" (click)="frontEndService('frontEnd')">
+                      FrontEnd service
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </span>
               </div>
               <div class="form-group">
                 <div class="row">
                   <div class="col-md-6">
                     <h4>APIs and Methods</h4>
                   </div>
-                        <button class="btn btn-primary" type="button">Add Connector 
-                        Properties</button>
-                    </div>
-                  </div>
+                  <button class="btn btn-primary" type="button">Add Connector
+                    Properties</button>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <button type="button" class="btn button-create ok_btn" id="AddConnector" (click)="onSubmit()">Quick
+                    connectors</button>
+                </div>
+                <div class="col-md-4" style="right:15%">
+                  <button type="button" style="background-color: #033668;" class="btn button-create ok_btn"
+                    id="update">Default Connector</button>
+                </div>
+                <div class="col-md-4" style="right:29%">
+                  <button type="button" style="background-color: #033668;" class="btn button-create ok_btn"
+                    id="update">Custom Connector</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn button-create ok_btn" id="update">Update</button>
-          <button type="button" class="btn button-close delete_btn" id="update" (click)= "flowCancle()">Cancel</button>
-        </div>
+        <button type="button" class="btn button-create ok_btn" id="update"
+          (click)="updateQuickConnetorEntity()">Update</button>
+        <button type="button" class="btn button-close delete_btn" id="update" (click)="flowCancle()">Cancel</button>
       </div>
     </div>
   </div>
+</div>
 <!-- </div> -->
 <!-- <div class="row" style="margin: 0px;">
   <div class="col-md-12" style="display: contents;">

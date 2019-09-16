@@ -28,7 +28,8 @@ class FeatureController implements Controller {
         this.router.get('/feature/project/get', this.getFeatureByProjectId);
         this.router.put('/feature/updateEntity/:featureId', this.featureUpdateEntity)
         this.router.delete('/feature/deleteentity/:featureId/:entityid', this.featuredeleteEntity);
-
+        this.router.post('/feature/copyFlows', this.flowcopy);
+        this.router.get('/feature/getallcopyflow', this.getallcopyflow);
     }
 
     public saveFeature(req: Request, res: Response) {
@@ -117,6 +118,26 @@ class FeatureController implements Controller {
     public featuredeleteEntity(req: Request, res: Response) {
         new ApiAdaptar().get(`${Constants.featureUrl}/feature/deleteentity/${req.params.featureId}/${req.params.entityid}`).then(feature => {
             res.send(feature);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+    public flowcopy(req: Request, res: Response) {
+        new ApiAdaptar().post(`${Constants.featureUrl}/feature/copyFlows`, req.body).then(copiedflow => {
+            req.baseUrl === '/mobile' ? res.send(copiedflow) :
+                req.baseUrl === '/desktop' ? res.send(copiedflow) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        })
+    }
+
+    public getallcopyflow(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.featureUrl}/feature/getallcopyflow`).then(copyflowlist => {
+            req.baseUrl === '/mobile' ? res.send(copyflowlist) :
+                req.baseUrl === '/desktop' ? res.send(copyflowlist) : res.send(null);
         }).catch(err => {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);

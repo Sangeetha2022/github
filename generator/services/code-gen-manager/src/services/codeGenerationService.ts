@@ -158,7 +158,7 @@ export class CodeGenerationService {
           feature.id = featureElement._id;
           feature.name = featureElement.name;
           feature.description = featureElement.description;
-          const flows = await this.getFlows(featureElement.flows).catch(err => { console.log('cannot able to get the flows') });
+          const flows = await this.getProjectFlows(featureElement.flows).catch(err => { console.log('cannot able to get the flows') });
           // console.log('flows response rae -11----  ', flows);
           if (flows) {
             feature.flows = JSON.parse(JSON.stringify(flows)).body;
@@ -290,9 +290,9 @@ export class CodeGenerationService {
     });
   }
 
-  getFlows(flowIDs) {
+  getProjectFlows(flowIDs) {
     return new Promise(resolve => {
-      this.flowService.getFlows(flowIDs, (data) => {
+      this.flowService.getProjectFlows(flowIDs, (data) => {
         resolve(data);
       })
     })

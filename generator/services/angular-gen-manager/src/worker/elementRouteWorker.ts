@@ -62,13 +62,16 @@ export class ElementRouteWorker {
 
     private setChildRoute(temp, routeElement, componentObject) {
         let tempMethod = '';
+        console.log('set child route temp are -----------  ', temp);
+        console.log('set child route routeElement are -----------  ', routeElement);
+        console.log('set child route componentObject are -----------  ', componentObject);
         switch (routeElement.route.routeType) {
             case 'queryParameter':
                 tempMethod = `this.${temp.componentConstructor[0].variableName}`;
                 tempMethod += `\n .queryParams`;
                 tempMethod += `\n .subscribe(params => {`;
                 tempMethod += `\n this.${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE} = params.id;`;
-                tempMethod += `\n this.${routeElement.route.screenFlowName}(this.${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE})`;
+                tempMethod += `\n this.${routeElement.route.screenFlowName}();`;
                 tempMethod += `\n})`;
                 componentObject.componentOnInit.push(tempMethod);
 

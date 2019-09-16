@@ -35,7 +35,6 @@ export class FeatureService {
 
     public getFeatureByProjectId(req: Request, callback: CallableFunction) {
         const projectId = req.query.projectId;
-        console.log('getfeature by project id are ------ ', projectId);
         featureDao.getFeatureByProjectId(projectId, (feature) => {
             callback(feature)
         })
@@ -72,9 +71,4 @@ export class FeatureService {
             callback(response);
         })
     }
-
-
-
-
-
 }

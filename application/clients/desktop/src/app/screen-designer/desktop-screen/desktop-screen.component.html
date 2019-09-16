@@ -174,12 +174,22 @@
         <form class="m-3">
           <div class="form-group row">
             <b for="Screen">{{customPopupModal.dropdownLabelName}}</b>
-            <select class="form-control" name="screenOptions" [(ngModel)]="routeDetails.screen" id="Screen">
+            <select class="form-control" name="screenOptions" [(ngModel)]="routeDetails.screen" (ngModelChange)="customModelChanged($event)" id="Screen">
               <option value="" selected>none</option>
               <ng-container *ngFor="let screenObj of screenArrayByProjectId">
                 <option *ngIf="!screenObj.isTemplate && screenObj._id != screen_id" [ngValue]="screenObj">
                   <span>{{ screenObj.screenName }}</span>
                 </option>
+              </ng-container>
+            </select>
+          </div>
+          <!-- flow screens -->
+          <div class="form-group row" *ngIf="routeDetails.screen._id && customPopupModal.typeLabelName">
+            <b for="flowScreens">{{routeDetails.screen.screenName}} flowList</b>
+            <select class="form-control" name="screenFlow" [(ngModel)]="routeDetails.screenFlow" id="screenFlow">
+              <option value="" selected>none</option>
+              <ng-container *ngFor="let flowObj of routeDetails.screen.flows_info">
+                <option [ngValue]="flowObj">{{flowObj.flowName}}</option>
               </ng-container>
             </select>
           </div>

@@ -1,5 +1,4 @@
 export class SharedService {
-
   //local
   // public static camundaBaseUrl = "http://localhost";
 

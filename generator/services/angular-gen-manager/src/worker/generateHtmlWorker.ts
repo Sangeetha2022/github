@@ -156,7 +156,6 @@ export class GenerateHtmlWorker {
         if (screenIndex > -1) {
             const temp = this.generatedScreens[screenIndex];
             const flowObject = this.flowList.find(x => x._id == temp.screenFlow);
-            console.log('check routes flowObject ---------->>>   ', flowObject);
             let flowTemp = {
                 _id: '',
                 name: '',
@@ -167,7 +166,7 @@ export class GenerateHtmlWorker {
                 createWithDefaultActivity: '',
                 components: []
             };
-            if (flowObject && !this.tsComponent.flowMethod.find(x => x._id == flowObject._id)) {
+            // if (flowObject && !this.tsComponent.flowMethod.find(x => x._id == flowObject._id)) {
                 flowTemp = {
                     _id: flowObject._id,
                     name: flowObject.name,
@@ -190,10 +189,8 @@ export class GenerateHtmlWorker {
 
                 // set component route list
                 this.setComponentRouteList(temp, 'child');
-                console.log('setted ts component ---->>>  ', this.tsComponent);
-                console.log('setted services  ---->>>  ', this.serviceComponent);
-
-            }
+           
+            // }
             this.generatedScreens.splice(screenIndex, 1);
         }
     }
@@ -389,7 +386,7 @@ export class GenerateHtmlWorker {
                 firstEle.traits.forEach(traitElement => {
                     // console.log('triat firstelement are -----   ', traitElement);
                     const entityIndex = this.entityDetails.findIndex(x => x.elementName == traitElement.value);
-                    const flowIndex = this.flowDetails.findIndex(x => x.elementName == traitElement.value);
+                    const flowIndex = this.flowDetails.findIndex(x => x.elementName == traitElement.value && x.elementName !== '');
                     const routeIndex = this.screenInfo.route_info.findIndex(x => x.elementName == traitElement.value);
 
                     // console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex, '  --routeIndex--  ', routeIndex);
@@ -448,8 +445,6 @@ export class GenerateHtmlWorker {
                     // check routing info and decide whether we add it in html or ts
                     if (routeIndex > -1) {
                         const routeObj = this.screenInfo.route_info[routeIndex];
-                        console.log('routeindex routeObj ---11-- ', routeObj);
-                        console.log('routeindex generatedScreens ----- ', this.generatedScreens);
                         const isExistIndex = this.generatedScreens.findIndex(x => x.elementName === routeObj.elementName);
                         if (isExistIndex > -1) {
                             this.generatedScreens.splice(isExistIndex, 1);
@@ -458,8 +453,6 @@ export class GenerateHtmlWorker {
                         }
                         // set component route list
                         this.setComponentRouteList(routeObj, 'parent');
-                        console.log('routeindex are ---11-- ', routeIndex);
-                        console.log('routeindex are ---22-- ', this.screenInfo.is_grid_present);
                         if (this.screenInfo.is_grid_present) {
                             componentSpecializedWorker.checkAGGridAction(this, routeObj);
                         }
@@ -468,7 +461,6 @@ export class GenerateHtmlWorker {
 
                 // add ckeditor ngModels
                 if (this.ckeditorEntities && !this.isCKeditorSpan) {
-                    // console.log('entering into else if ckeditroentities --- ', this.tagName);
                     this.setDataBinding(this.ckeditorEntities, this.tagName);
                     this.ckeditorEntities = null;
                 }
