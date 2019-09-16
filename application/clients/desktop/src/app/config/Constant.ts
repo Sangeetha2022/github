@@ -9,6 +9,8 @@ export class Constants {
     // fred api
     public static get fred(): string { return this.DESKTOP_ROUTER + '/fred'; }
 
+    public static get quickConnectors(): String { return this.DESKTOP_ROUTER + '/save/quickConnectors'; }
+
     // login apis
     public static get signup(): string { return this.DESKTOP_ROUTER + '/signup'; }
     public static get googlelogin(): string { return this.DESKTOP_ROUTER + '/googlesignin'; }

@@ -8,10 +8,9 @@ export class FredController {
 
     public getFred(req: Request, res: Response) {
         console.log('reeqwe12344--->>>', req.body);
-
         let data = {
             projectId: req.body.projectId,
-            featureId: req.body.featureId,
+            featureId: req.body.feature_id,
             endPointUrl: req.body.endPointUrl,
             params:req.body.params,
             api_key: req.body.api_key,
@@ -21,6 +20,4 @@ export class FredController {
             res.json(response)
         })
     }
-
-
 }

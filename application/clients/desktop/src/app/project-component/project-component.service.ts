@@ -109,6 +109,10 @@ export class ProjectComponentService {
 
   }
 
+  quickConnectors(data): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.quickConnectors}`, data)
+  }
+
 
   saveManyProjectFlow(data) {
     return this.api.post(`${this.restapi.Apigateway}${Constants.saveManyProjectFlow}`, data);

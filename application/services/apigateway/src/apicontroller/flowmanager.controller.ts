@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import * as Constants from '../config/Constants';
 import { ApiAdaptar } from '../config/apiAdaptar';
 import Controller from '../interfaces/controller.interface';
+import { constants } from "crypto";
 
 class FlowManagerController implements Controller {
 
@@ -30,8 +31,11 @@ class FlowManagerController implements Controller {
         this.router.get('/flow/project/getall', this.getAllProjectFlow);
         this.router.delete('/flow/project/delete', this.deleteProjectFlow);
 
-        //qucik connectors
+        //project flow component
+        this.router.post('/flowcomponent/project/save', this.saveProjectFlowComponent);
+        this.router.get('/flowcomponent/project/getall', this.getProjectFlowComponent)
 
+        //qucik connectors
         this.router.post('/save/quickConnectors', this.saveConnectors);
     }
 
@@ -182,6 +186,30 @@ class FlowManagerController implements Controller {
             })
     }
 
+    //project flow components--
+    saveProjectFlowComponent(req: Request, res: Response) {
+        new ApiAdaptar().post(`${Constants.flowUrl}/flowcomponent/project/save`, req.body)
+            .then(flow => {
+                req.baseUrl === '/mobile' ? res.send(flow) :
+                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            })
+    }
+
+    getProjectFlowComponent(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.flowUrl}/flowcomponent/project/getall`)
+            .then(flow => {
+                req.baseUrl === '/mobile' ? res.send(flow) :
+                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            })
+
+    }
+
     //SAVE connectors
     public saveConnectors(req: Request, res: Response) {
         new ApiAdaptar().post(`${Constants.flowUrl}/save/quickConnectors`, req.body)
@@ -194,8 +222,6 @@ class FlowManagerController implements Controller {
             })
 
     }
-
-
 }
 
 export { FlowManagerController };

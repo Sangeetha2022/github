@@ -370,7 +370,7 @@
                   <div class="form-group">
                     <label>Apikey :</label>
                     <input type="text" formControlName="api_key" class="form-control"
-                    [(ngModel)]="quickConnectors.api_key" name="api_key" placeholder="Enter Apikey"
+                      [(ngModel)]="quickConnectors.api_key" name="api_key" placeholder="Enter Apikey"
                       [ngClass]="{ 'is-invalid': submitted && f.api_key.errors }" />
                     <div *ngIf="submitted && f.api_key.errors" class="invalid-feedback">
                       <div *ngIf="f.api_key.errors.required">Apikey is required</div>
@@ -381,13 +381,38 @@
                   <div class="form-group">
                     <label>Params:</label>
                     <input type="text" formControlName="params" class="form-control"
-                    [(ngModel)]="quickConnectors.params" name="params" placeholder="Enter params"
+                      [(ngModel)]="quickConnectors.params" name="params" placeholder="Enter params"
                       [ngClass]="{ 'is-invalid': submitted && f.params.errors }" />
                     <div *ngIf="submitted && f.params.errors" class="invalid-feedback">
                       <div *ngIf="f.params.errors.required">Params is required</div>
                     </div>
                   </div>
                 </div>
+              </div>
+              <div class="form-group">
+                <label>Select Api's Methods</label>
+                <select class="form-control" (change)="selectApis($event.target.value)">
+                  <option value="" selected>Select Api's Methods</option>
+                  <option value="post">post</option>
+                  <option value="get">get</option>
+                  <option value="put">put</option>
+                  <option value="delete">delete </option>
+                </select>
+              </div>
+              <div>
+                <div>Services</div>
+                <mat-radio-group layout="row">
+                  <mat-radio-button class="example-radio-button" value="backEnd" (click)="backendSerice('backEnd')">
+                    Backend service
+                  </mat-radio-button>
+                </mat-radio-group>
+                <span>
+                  <mat-radio-group layout="row">
+                    <mat-radio-button class="example-radio-button" value="frontEnd" (click)="frontEndService('frontEnd')">
+                      FrontEnd service
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </span>
               </div>
               <div class="form-group">
                 <div class="row">
@@ -413,22 +438,6 @@
                 </div>
               </div>
             </form>
-            <br>
-            <div *ngIf = "isService">
-              <div>Services</div>
-              <mat-radio-group layout="row">
-                <mat-radio-button class="example-radio-button" [value]="frontend">
-                  Backend service
-                </mat-radio-button>
-              </mat-radio-group>
-              <span>
-                <mat-radio-group layout="row">
-                  <mat-radio-button class="example-radio-button" [value]="backend">
-                    FrontEnd service
-                  </mat-radio-button>
-                </mat-radio-group>
-              </span>
-            </div>
           </div>
         </div>
       </div>

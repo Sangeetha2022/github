@@ -1,11 +1,15 @@
 import { FlowController } from "../controllers/FlowController";
 import { ProjectFlowController } from "../controllers/ProjectFlowController";
+import {QuickConnectorsController} from '../controllers/quickConnectorsController'
+import {ProjectFlowComponentController} from '../controllers/ProjectFlowComponentController'
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {
 
     public flowController: FlowController = new FlowController();
     public projectFlowController: ProjectFlowController = new ProjectFlowController();
+    public qucikConnectorController: QuickConnectorsController = new QuickConnectorsController();
+    public projectFlowComponentController: ProjectFlowComponentController = new ProjectFlowComponentController();
 
     public routes(app): void {
         app.route('/health/flow-service').get((req: Request, res: Response) => {
@@ -29,6 +33,16 @@ export class Routes {
         app.route('/flow/project/getall').get(this.projectFlowController.getAllProjectFlow);
         app.route('/flow/projectfeature/get').post(this.projectFlowController.getProjectFeatureFlows);
         app.route('/flow/project/delete').delete(this.projectFlowController.deleteProjectFlow);
+        
+        //project flow components service
 
+        app.route('/flowcomponent/project/save').post(this.projectFlowComponentController.saveProjectFlowComponent);
+        app.route('/flowcomponent/project/getall').get(this.projectFlowComponentController.getProjectFlowComponent)
+
+
+
+        //quick connectors
+
+        app.route('/save/quickConnectors').post(this.qucikConnectorController.saveConnectors)
     }
 }

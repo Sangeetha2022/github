@@ -102,6 +102,8 @@ export class FeatureDetailsComponent implements OnInit {
         endPointUrl: '',
         api_key: '',
         params: '',
+        apiMethods: '',
+        service: '',
 
     };
     public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
@@ -123,6 +125,8 @@ export class FeatureDetailsComponent implements OnInit {
         flowId: '',
     };
     quickConnectorName: string;
+    public quickConnectorId: any;
+
 
 
     constructor(
@@ -377,6 +381,7 @@ export class FeatureDetailsComponent implements OnInit {
         if (this.selectedFlow.length > 0) {
             // removing _id and store
             const projectFlowList = this.selectedFlow.map(({ _id, ...rest }) => ({ ...rest }));
+            console.log('save many project flows--->>', projectFlowList);
             this.saveManyProjectFlow(projectFlowList);
         }
     }
@@ -437,6 +442,17 @@ export class FeatureDetailsComponent implements OnInit {
         }
     }
 
+    selectApis(event) {
+        this.quickConnectors.apiMethods = event;
+    }
+
+    backendSerice(event) {
+        this.quickConnectors.service = event;
+    }
+    frontEndService(event) {
+        this.quickConnectors.service = event;
+    }
+
     addCustomeConnector() {
         this.customeConncetor = true;
 
@@ -452,11 +468,13 @@ export class FeatureDetailsComponent implements OnInit {
         }
         const tempObject = {
             projectId: this.project_id,
-            featureId: this.feature_id,
+            feature_id: this.feature_id,
             endPointUrl: this.quickConnectors.endPointUrl,
             api_key: this.quickConnectors.api_key,
             params: this.quickConnectors.params,
+            // apiMethods: this.quickConnectors.apiMethods
         };
+        console.log('i am tempobject---->>>', tempObject);
         this.projectComponentService.fred(tempObject).subscribe(data => {
             if (data) {
                 const tempObj = {
@@ -468,6 +486,8 @@ export class FeatureDetailsComponent implements OnInit {
                     description: this.quickConnectors.description,
                     entity_id: data.body._id,
                     connectors: this.quickConnectorName,
+                    apiMethods: this.quickConnectors.apiMethods,
+                    service: this.quickConnectors.service,
                     availableApi: [
                         {
                             'name': 'availble',
@@ -480,6 +500,14 @@ export class FeatureDetailsComponent implements OnInit {
                     fromComponentName: 'controller',
                     toComponentName: 'service',
                 };
+
+                console.log('i am resonse 123-->>', tempObj);
+
+
+                this.projectComponentService.quickConnectors(tempObj).subscribe(response => {
+                    this.quickConnectorId = response.body._id;
+                    console.log('i am resonse -->>', response.body._id);
+                });
             }
         });
     }
@@ -489,8 +517,6 @@ export class FeatureDetailsComponent implements OnInit {
         this.customeConncetor = false;
 
     }
-
-
 
     onRowSelectionChanged() {
         this.selectedFlow = this.gridApi.getSelectedRows();
@@ -538,8 +564,6 @@ export class FeatureDetailsComponent implements OnInit {
             this.getEntityByFeatureId();
         }, (error) => {
         });
-
-
     }
 
     saveEntity(entityData) {

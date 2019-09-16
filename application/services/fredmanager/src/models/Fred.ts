@@ -12,6 +12,7 @@ export const EntitySchema = new Schema({
     description: String,
     entity_type: String,
     project_id: String,
+    feature_id: String,
     flow_id:  String,
     is_default: {
         type: Boolean,
