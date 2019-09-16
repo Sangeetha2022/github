@@ -56,6 +56,14 @@ export class EntityDao {
         });
     }
 
+    public deleteProjectEntity(projectId, callback) {
+        entityModel.deleteMany({ project_id: projectId }).then((result) => {
+            callback(result);
+        }).catch((error) => {
+            callback(error);
+        });
+    }
+
     public getByEntityId(entityId, callback) {
         console.log('get entity by id are ---- ', entityId);
         entityModel.findById(entityId).populate({

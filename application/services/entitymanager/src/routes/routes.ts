@@ -21,6 +21,7 @@ export class Routes {
         app.route('/entity/save').post(this.entityController.createEntity);
         app.route('/entity/update').put(this.entityController.updateEntity);
         app.route('/entity/delete/:id').delete(this.entityController.deleteEntity);
+        app.route('/entity/deletebyproject/:id').delete(this.entityController.deleteProjectEntity);
         app.route('/entity/get/:id').get(this.entityController.getByEntityId);
         app.route('/entity/getall').get(this.entityController.getAllEntity);
         app.route('/entity/get').get(this.entityController.getEntityByProjectId);

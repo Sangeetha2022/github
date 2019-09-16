@@ -64,7 +64,17 @@ export class MenuBuilderDao {
 
 
     public deleteMenu(req: Request, callback: CallableFunction) {
-        MenuBuilder.remove({ _id: req.params.id }, (err, project) => {
+        MenuBuilder.findByIdAndDelete(req.params.id, (err, project) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback({ message: 'Successfully deleted contact!' });
+            }
+        });
+    }
+
+    public deleteProjectMenu(req: Request, callback: CallableFunction) {
+        MenuBuilder.deleteMany({ project: req.params.id }, (err, project) => {
             if (err) {
                 callback(err);
             } else {

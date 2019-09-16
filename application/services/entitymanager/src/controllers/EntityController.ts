@@ -34,6 +34,13 @@ export class EntityController {
         })
     }
 
+    public deleteProjectEntity(req: Request, res: Response) {
+        entityService.deleteProjectEntity(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
     public getByEntityId(req: Request, res: Response) {
         entityService.getByEntityId(req, (response) => {
             res.status(200);

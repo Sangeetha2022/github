@@ -20,6 +20,7 @@ class ScreenController implements Controller {
         this.router.get('/screen/get/:id', this.getScreenById);
         this.router.post('/screen/update/:id', this.updateScreen);
         this.router.delete('/screen/delete/:id', this.deleteScreen);
+        this.router.delete('/screen/deletebyproject/:id', this.deleteProjectScreen);
         this.router.get('/screen/getbyprojectid/:projectId', this.getAllScreenByProjectId);
         this.router.get('/screen/getbyprojectandfeatureid/:projectId/:featureId', this.getAllScreenByProjectAndFeatureId);
         this.router.get('/screen/getbyfeatureid/:id', this.getAllScreenByFeatureId);
@@ -79,6 +80,18 @@ class ScreenController implements Controller {
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         });
     }
+
+    public deleteProjectScreen(req: Request, res: Response) {
+        new ApiAdaptar().delete(`${Constants.screenUrl}/screen/deletebyproject/${req.params.id}`).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+
 
     public getAllScreenByProjectId(req: Request, res: Response) {
         new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyprojectid/${req.params.projectId}`).then(result => {

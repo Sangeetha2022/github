@@ -51,6 +51,13 @@ export class EntityService {
         })
     }
 
+    public deleteProjectEntity(req: Request, callback) {
+        const projectId = req.params.id;
+        entityDao.deleteProjectEntity(projectId, (response) => {
+            callback(response);
+        })
+    }
+
     public getByEntityId(req: Request, callback) {
         const entityId = req.params.id;
         entityDao.getByEntityId(entityId, (response) => {

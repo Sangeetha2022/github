@@ -24,6 +24,7 @@ class FeatureController implements Controller {
         this.router.get('/feature/getall', this.getAllFeature);
         this.router.get('/feature/get', this.getFeatureById);
         this.router.delete('/feature/delete', this.deleteFeature);
+        this.router.delete('/feature/deletebyproject/:id', this.deleteProjectFeature);
         this.router.get('/feature/project/get', this.getFeatureByProjectId);
         this.router.put('/feature/updateEntity/:featureId', this.featureUpdateEntity)
         this.router.delete('/feature/deleteentity/:featureId/:entityid', this.featuredeleteEntity);
@@ -74,6 +75,16 @@ class FeatureController implements Controller {
 
     public deleteFeature(req: Request, res: Response) {
         new ApiAdaptar().delete(`${Constants.featureUrl}/feature/delete?featureId=${req.query.featureId}`).then(feature => {
+            req.baseUrl === '/mobile' ? res.send(feature) :
+                req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+    public deleteProjectFeature(req: Request, res: Response) {
+        new ApiAdaptar().delete(`${Constants.featureUrl}/feature/deletepyproject/${req.params.id}`).then(feature => {
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         }).catch(err => {

@@ -42,6 +42,12 @@ export class MenuBuilderService {
         })
     }
 
+    public deleteProjectMenu(req: Request, callback: CallableFunction) {
+        menuBuilderDao.deleteProjectMenu(req, (menuBuilder) => {
+            callback(menuBuilder)
+        })
+    }
+
     public getMenuByProjectId(req: Request, callback: CallableFunction) {
         const projectId = req.params.projectId;
         menuBuilderDao.getMenuByProjectId(projectId, (menuBuilder) => {

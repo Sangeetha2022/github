@@ -48,6 +48,13 @@ export class FeatureService {
         })
     }
 
+    public deleteProjectFeature(req: Request, callback: CallableFunction) {
+        const projectId = req.params.id;
+        featureDao.deleteProjectFeature(projectId, (feature) => {
+            callback(feature)
+        })
+    }
+
     public featureUpdateEntity(req: Request, callback: CallableFunction) {
         let entity = req.body
         let featureId = req.params.featureId

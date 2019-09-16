@@ -61,7 +61,17 @@ export class FeatureDao {
     }
 
     public deleteFeatures(featureId, callback: CallableFunction) {
-        this.Features.remove({ _id: featureId }, (err, feature) => {
+        this.Features.findByIdAndDelete(featureId, (err, feature) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback({ message: 'Successfully deleted contact!' });
+            }
+        });
+    }
+
+    public deleteProjectFeature(projectId, callback: CallableFunction) {
+        this.Features.deleteMany({ project: projectId }, (err, feature) => {
             if (err) {
                 callback(err);
             } else {

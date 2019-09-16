@@ -48,6 +48,13 @@ export class FeatureController {
         })
     }
 
+    public deleteProjectFeature(req: Request, res: Response) {
+        featureService.deleteProjectFeature(req, (user) => {
+            res.status(200); // status for the response
+            res.json(user);
+        })
+    }
+
     public featureUpdateEntity(req: Request, res: Response) {
         featureService.featureUpdateEntity(req, (response) => {
             res.status(200); // status for the response

@@ -21,6 +21,7 @@ export class EntityController implements Controller {
         this.router.route('/entity/getall').get(this.getAllEntity);
         this.router.route('/entity/get').get(this.getEntityByProjectId);
         this.router.route('/entity/feature/get').get(this.getEntityByFeatureId);
+        this.router.route('/entity/deletebyproject/:id').delete(this.deleteProjectEntity);
 
         // entity field
         this.router.route('/entity/field/update').put(this.updateEntityField);
@@ -64,6 +65,17 @@ export class EntityController implements Controller {
 
     public deleteEntity(req: Request, res: Response) {
         new ApiAdaptar().delete(`${Constants.entityUrl}/entity/delete/${req.params.id}`).then((response) => {
+            req.baseUrl === '/mobile' ? res.send(response) :
+                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+
+    public deleteProjectEntity(req: Request, res: Response) {
+        new ApiAdaptar().delete(`${Constants.entityUrl}/entity/deletebyproject/${req.params.id}`).then((response) => {
             req.baseUrl === '/mobile' ? res.send(response) :
                 req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
         }).catch(err => {

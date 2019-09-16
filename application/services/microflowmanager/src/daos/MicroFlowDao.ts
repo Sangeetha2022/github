@@ -84,7 +84,7 @@ export class MicroFlowDao {
 
 
     public deleteMicroFlow(microflowId, callback: CallableFunction) {
-        this.MicroFlow.remove({ _id: microflowId }, (err, microflow) => {
+        this.MicroFlow.findByIdAndDelete(microflowId, (err, microflow) => {
             if (err) {
                 callback(err);
             } else {
