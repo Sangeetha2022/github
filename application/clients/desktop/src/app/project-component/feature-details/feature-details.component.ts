@@ -126,6 +126,8 @@ export class FeatureDetailsComponent implements OnInit {
     };
     quickConnectorName: string;
     public quickConnectorId: any;
+    public quickConnectorsService: any;
+    public modifyComponents: any = [];
 
 
 
@@ -317,6 +319,7 @@ export class FeatureDetailsComponent implements OnInit {
 
     getProjectFeatureFlows() {
         this.projectComponentService.getProjectFeatureFlows(this.featureInfo.flows).subscribe(response => {
+            console.log('floq---->>>project00flow--feature-->>', response)
             const temp = [];
             if (response.body) {
                 this.flowInFeatureRowData = response.body;
@@ -329,6 +332,8 @@ export class FeatureDetailsComponent implements OnInit {
     getAllFlows() {
         this.projectComponentService.getAllFlows().subscribe(
             response => {
+                console.log('flowsss---11111>>>', response.body)
+
                 const flows = response.body;
                 if (flows) {
                     if (this.flowInFeatureRowData.length === 0) {
@@ -337,9 +342,10 @@ export class FeatureDetailsComponent implements OnInit {
                         this.flowInFeatureRowData.forEach(flowElement => {
                             const index = flows.findIndex(x => x.name === flowElement.name);
                             if (index > -1) {
-                                flows.splice(index, 1);
+                                flows.splice(index);
                             }
                         });
+                        console.log('flowsss--->>>', flows)
                         this.rowData = flows;
                     }
                 }
@@ -402,6 +408,7 @@ export class FeatureDetailsComponent implements OnInit {
     saveFlowsInFeature() {
         this.projectComponentService.updateFeature(this.featureInfo).subscribe(
             response => {
+                console.log('save in flow --in feature -->>', response);
                 this.featureInfo = response.body;
                 this.displayFeatureFlowModal = 'none';
                 this.flowInFeatureRowData = this.featureInfo.flows;
@@ -431,14 +438,18 @@ export class FeatureDetailsComponent implements OnInit {
         }
     }
     modify(e) {
+        console.log('modifyyyy---->>>', e.rowData.components);
         if (e.rowData.flowType === 'GeppettoFlow') {
             this.modifyFlows.flowName = e.rowData.name;
             this.modifyFlows.flowLable = e.rowData.label;
             this.modifyFlows.flowDescription = e.rowData.description;
             this.modifyFlows.flowAction = e.rowData.actionOnData;
             this.modifyFlows.flowId = e.rowData._id;
+            this.modifyComponents = e.rowData.components;
             this.quickConnectorName = 'quickConnectors';
+            console.log('modifyy--componect--->>', this.modifyComponents);
             this.displayModel = 'block';
+
         }
     }
 
@@ -447,9 +458,11 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     backendSerice(event) {
+        console.log('event--<<>>', event);
         this.quickConnectors.service = event;
     }
     frontEndService(event) {
+        console.log('event--<<>>', event);
         this.quickConnectors.service = event;
     }
 
@@ -475,11 +488,13 @@ export class FeatureDetailsComponent implements OnInit {
             // apiMethods: this.quickConnectors.apiMethods
         };
         console.log('i am tempobject---->>>', tempObject);
+        // `${data.endPointUrl}?${data.params}&api_key=${data.api_key}&file_type=json`
+        console.log('url =--->>', `${tempObject.endPointUrl}?${tempObject.params}&api_key=${tempObject.api_key}&file_type=json`);
         this.projectComponentService.fred(tempObject).subscribe(data => {
             if (data) {
                 const tempObj = {
-                    url: this.quickConnectors.endPointUrl,
-                    isDefault: false,
+                    url: `${tempObject.endPointUrl}?${tempObject.params}&api_key=${tempObject.api_key}&file_type=json`,
+                    isDefault: true,
                     isDisabled: false,
                     properties: [],
                     name: this.quickConnectors.name,
@@ -488,6 +503,8 @@ export class FeatureDetailsComponent implements OnInit {
                     connectors: this.quickConnectorName,
                     apiMethods: this.quickConnectors.apiMethods,
                     service: this.quickConnectors.service,
+                    api_key: this.quickConnectors.api_key,
+                    params: this.quickConnectors.params,
                     availableApi: [
                         {
                             'name': 'availble',
@@ -497,16 +514,45 @@ export class FeatureDetailsComponent implements OnInit {
                             '_id': '5d722bb54aaed85b03cc809e'
                         }
                     ],
-                    fromComponentName: 'controller',
-                    toComponentName: 'service',
+                    fromComponentName: null,
+                    toComponentName: null,
                 };
 
-                console.log('i am resonse 123-->>', tempObj);
+                console.log('i am resonse quick connectors 123-->>', tempObj);
 
 
                 this.projectComponentService.quickConnectors(tempObj).subscribe(response => {
                     this.quickConnectorId = response.body._id;
-                    console.log('i am resonse -->>', response.body._id);
+                    const tempData = {
+                        connectorsId : this.quickConnectorId,
+                        flowComponentId: [],
+                    };
+
+                    if (response.body.service === 'backEnd') {
+                        this.modifyComponents.map(backEnd => {
+                            if (backEnd.name === 'GpExpressDao') {
+                                tempData.flowComponentId = backEnd._id;
+                            }
+                        });
+                    } else if (response.body.service === 'frontEnd') {
+                        this.modifyComponents.map(frontEnd => {
+                            
+                           
+                        });
+
+                    }
+                    this.projectComponentService.updateProjectFlowComponent(tempData).subscribe(response => {
+                        console.log('response --->>', response);
+                    })
+                    // this.updateProjectF)lowComponent
+                    console.log('flow -component--id --->>', tempData);
+                    // else if (response.body.service === 'frontEnd') {
+                    //     this.modifyComponents.map(frontEnd => {
+
+                    //     });
+
+                    // }
+
                 });
             }
         });
@@ -518,8 +564,9 @@ export class FeatureDetailsComponent implements OnInit {
 
     }
 
-    onRowSelectionChanged() {
+    onRowSelectionChanged(event) {
         this.selectedFlow = this.gridApi.getSelectedRows();
+
     }
 
     onFeatureFlowGridReady(params) {

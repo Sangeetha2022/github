@@ -12,7 +12,7 @@ export let projectFlowSchema = mongoose.Schema({
   description: String,
   type: String,
   components: [
-    { type: mongoose.Schema.Types.String, ref: 'flow_components' }
+    { type: mongoose.Schema.Types.String, ref: 'project_flowcomponents' }
   ],
   actionOnData: String,
   createWithDefaultActivity: Number,
