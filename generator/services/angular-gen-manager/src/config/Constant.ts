@@ -37,6 +37,9 @@ export class Constant {
     // routes
     public static DESKTOP_ROUTE = `desktop`;
 
+    // screen special events
+    public static MODAL_SPECIALEVENT_NAME = `modal`;
+
 
     // file extension
     public static HTML_EXTENSION = `html`;
@@ -78,7 +81,10 @@ export class Constant {
     public static ACTIVATEDROUTER_DEPENDENCY_NAME = 'activatedRoute';
     public static QUERY_VARIABLE_NAME = 'query';
     public static IDVARIABLE = 'Id';
-  
+
+    // modal 
+    public static GP_MODAL_POPUP = `modal`;
+
     // list of flow action
     public static GP_CREATE_FLOW = `GpCreate`;
     public static GP_SEARCH_FLOW = `GpSearch`;

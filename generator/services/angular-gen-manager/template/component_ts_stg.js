@@ -1,6 +1,6 @@
 /*
  * Template group component_ts
- * Compiled on Mon Aug 19 2019 15:30:54 GMT+0530 (India Standard Time)
+ * Compiled on Tue Sep 17 2019 11:01:57 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -150,7 +150,6 @@ r = function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
-                     w.write("public ");
                      st.write(w, s, g, rc, s.name);
                      w.write(";");
             }, [

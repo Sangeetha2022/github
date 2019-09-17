@@ -92,9 +92,6 @@ export class ComponentWorker {
         }
 
         // this.componentObject = information;
-        // add default import dependency path
-        temp.importDependency.push({ dependencyName: 'Component, OnInit', dependencyPath: '@angular/core' });
-
         // add component routes in app-routing.module.ts file
         const importDependencyPath = `import { ${temp.className}Component } from './${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}';`;
         if (this.routeModule.importDependency.findIndex(x => x == importDependencyPath) < 0) {
@@ -103,6 +100,9 @@ export class ComponentWorker {
         }
         if (information.routeList.length > 0) {
             elementRouteWorker.checkGpRoute(information.routeList, temp);
+        }
+        if (information.componentOnInit.length > 0) {
+            temp.componentOnInit = temp.componentOnInit.concat(information.componentOnInit);
         }
         // check other method and dependency in component 
         if (information.otherMethodNames.length > 0) {
@@ -143,6 +143,26 @@ export class ComponentWorker {
         if (information.elementDependedMethod.length > 0) {
             temp.componentMethod = temp.componentMethod.concat(information.elementDependedMethod);
         }
+        // add default import dependency path
+        let componentImportDependencies = 'Component, OnInit';
+        const tempVar = [];
+        information.variableList.forEach(variableElement => {
+            console.log('each variable ee  ----  ', variableElement)
+            if (variableElement.includes('@Output')) {
+                this.checkDependencies(tempVar, 'Output');
+            }
+            if (variableElement.includes('@Input')) {
+                this.checkDependencies(tempVar, 'Input');
+            }
+            if (variableElement.includes('new EventEmitter')) {
+                this.checkDependencies(tempVar, 'EventEmitter');
+            }
+        })
+        if (tempVar.length > 0) {
+            componentImportDependencies += `, ${tempVar.join(', ')}`;
+        }
+        temp.importDependency.push({ dependencyName: componentImportDependencies, dependencyPath: '@angular/core' });
+
         flowComponentWorker.generateComponentFlow(information, temp, entities);
 
         componentSupportWorker.generateComponent(applicationPath, templatePath,
@@ -150,6 +170,12 @@ export class ComponentWorker {
             Constant.TS_TEMPLATENAME, temp, (response) => {
                 callback();
             });
+    }
+
+    checkDependencies(tempVar, dependencyName) {
+        if (tempVar.findIndex(x => x === dependencyName) < 0) {
+            tempVar.push(dependencyName);
+        }
     }
 
     public generateComponentService(applicationPath, templatePath, componentName, information, callback) {

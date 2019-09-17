@@ -71,8 +71,8 @@ export const component = [
             `domLayout='autoHeight'`
         ],
         componentVariableList: [
-            `gridApi`,
-            `gridColumnApi`,
+            `gridApi: any`,
+            `gridColumnApi: any`,
             `defaultColDef = { editable: false, sortable: true, resizable: true, filter: true }`,
             `paginationPageSize = 10`,
             `rowData: any = []`
@@ -111,5 +111,46 @@ export const component = [
             `"ag-grid-community": "~21.1.1",`
         ]
 
+    },
+    // ADDED
+    {
+        name: 'modal',
+        htmlDependencies: [
+            '[isPopupModal]="isPopupModal"',
+            '(popupData)="popupData($event)"',
+            '(cancelPopup)="cancelPopup($event)"'
+        ],
+        componentVariableList: [
+            `isPopupModal=false`,
+        ],
+        componentDynamicVariable: {
+            popupModalName: 'isPopupModal',
+            popupDataName: 'popupData',
+            cancelPopupName: 'cancelPopup',
+            submitMethodName: 'submit',
+            cancelMethodName: 'cancel'
+        },
+        componentDependedMethod: [
+            {
+                name: 'openModal',
+                method: `openModal() {\nthis.isPopupModal = true;\n}`
+            },
+            {
+                name: 'popupData',
+                method: `popupData(event) {\nthis.isPopupModal = event.isPopupModal;\n}`
+            },
+            {
+                name: 'cancelPopup',
+                method: `cancelPopup(event) {\nthis.isPopupModal = event;\n}`
+            },
+            {
+                name: 'submit',
+                method: `submit() {\nthis.popupData.emit({ data: this.gridApi.getSelectedRows(), isPopupModal: false });\n}`
+            },
+            {
+                name: 'cancel',
+                method: `cancel(event) {\nthis.cancelPopup.emit(false);\n}`
+            }
+        ]
     }
 ]

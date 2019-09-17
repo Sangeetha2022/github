@@ -195,7 +195,7 @@ export class CodeGenerationService {
                   console.log('backend response in code gen ------', util.inspect(backendResponse, { showHidden: true, depth: null }));
                   let temp;
                   temp = JSON.parse(JSON.stringify(backendResponse)).body.body;
-                  console.log('after temp bodu bvalue are ----- ', temp);
+                  console.log('after temp bodu bvalue are ----- ', temp, ' ---typeof----  ', typeof temp);
                   // if(temp != undefined) {
                   //   console.log('entering into if conditin');
                   //   temp = temp.body;
@@ -219,7 +219,7 @@ export class CodeGenerationService {
                     project: projectDetails,
                     nodeResponse: null
                   }
-                  if (temp != undefined && temp.length > 0) {
+                  if (temp != undefined && temp.length > 0 && typeof temp !== 'string') {
                     this.nodeResponse.push(temp[0]);
                     frontendObj.nodeResponse = temp[0];
                   }
