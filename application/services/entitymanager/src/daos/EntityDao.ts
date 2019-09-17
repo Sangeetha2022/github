@@ -21,7 +21,7 @@ export class EntityDao {
     public updateEntity(entityData, callback) {
         console.log("datada----->>>>", entityData)
         entityModel.findOneAndUpdate({ _id: entityData._id },
-             entityData,
+            entityData,
             { new: true })
             .then((result) => {
                 console.log('result---------->>>>>', entityData.id)
@@ -34,7 +34,7 @@ export class EntityDao {
 
     public upateEntityField(entityData, callback) {
         entityModel.update({ _id: entityData._id },
-            { $set: { 'field': entityData.field }},
+            { $set: { 'field': entityData.field } },
             { new: true })
             .then((result) => {
                 console.log('update entity field result ----- ', result);
@@ -64,6 +64,14 @@ export class EntityDao {
         });
     }
 
+    public getProjectEntity(projectId, callback) {
+        entityModel.find({ project_id: projectId }).then((result) => {
+            callback(result);
+        }).catch((error) => {
+            callback(error);
+        });
+    }
+
     public getByEntityId(entityId, callback) {
         console.log('get entity by id are ---- ', entityId);
         entityModel.findById(entityId).populate({
@@ -85,15 +93,15 @@ export class EntityDao {
                 }
             }
         }).
-        exec(function (err, result) {
-            if (err) {
-                callback(err);
-                console.log('project id in entityt dao error ---- ', err);
-            } else {
-                console.log('project id in entityt dao result ---- ', result);
-                callback(result);
-            }
-        })
+            exec(function (err, result) {
+                if (err) {
+                    callback(err);
+                    console.log('project id in entityt dao error ---- ', err);
+                } else {
+                    console.log('project id in entityt dao result ---- ', result);
+                    callback(result);
+                }
+            })
     }
 
     public getAllEntity(callback) {
@@ -117,7 +125,7 @@ export class EntityDao {
     }
 
     public getEntityByFeatureId(featureId, callback) {
-        entityModel.find( { feature_id: featureId }).
+        entityModel.find({ feature_id: featureId }).
             exec(function (err, result) {
                 if (err) {
                     callback(err);

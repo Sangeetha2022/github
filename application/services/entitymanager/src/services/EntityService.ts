@@ -58,6 +58,13 @@ export class EntityService {
         })
     }
 
+    public getProjectEntity(req: Request, callback) {
+        const projId = req.params.id;
+        entityDao.getProjectEntity(projId, (response) => {
+            callback(response);
+        })
+    }
+
     public getByEntityId(req: Request, callback) {
         const entityId = req.params.id;
         entityDao.getByEntityId(entityId, (response) => {

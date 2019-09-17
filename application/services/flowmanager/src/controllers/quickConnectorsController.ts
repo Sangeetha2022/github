@@ -11,4 +11,19 @@ export class QuickConnectorsController {
             res.json(response);
         })
     }
+
+
+    public getConnectorByEntity(req: Request , res: Response){
+        quickConnectorService.getConnectorByEntity(req , (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
+    public deleteConnectorById(req: Request , res: Response){
+        quickConnectorService.deleteConnectorById(req , (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
 }

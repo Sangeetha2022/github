@@ -541,9 +541,9 @@ export class FeatureDetailsComponent implements OnInit {
                         });
 
                     }
-                    this.projectComponentService.updateProjectFlowComponent(tempData).subscribe(response => {
-                        console.log('response --->>', response);
-                    })
+                    // this.projectComponentService.updateProjectFlowComponent(tempData).subscribe(response => {
+                    //     console.log('response --->>', response);
+                    // })
                     // this.updateProjectF)lowComponent
                     console.log('flow -component--id --->>', tempData);
                     // else if (response.body.service === 'frontEnd') {

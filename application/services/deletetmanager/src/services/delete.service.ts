@@ -24,6 +24,7 @@ export class DeleteService {
         const projectId = req.params.id;
         await this.deleteProject(projectId);
         await this.getFeatureByProjectId(projectId);
+        await this.getProjectEntity(projectId)
         this.deleteFeature(projectId);
         this.deleteMenu(projectId);
         this.deleteEntity(projectId);
@@ -88,6 +89,17 @@ export class DeleteService {
         });
     }
 
+    getProjectEntity(projectId) {
+        return new Promise(resolve => {
+            this.entityManagerService.getProjectEntity(projectId, (data) => {
+                data.body.body.map(({ _id }) => {
+                    this.deleteConnectorById(_id);
+                })
+                resolve(data);
+            })
+        });
+    }
+
     getProjectFlowById(flowId) {
         return new Promise(resolve => {
             this.flowManagerService.getProjectFlowById(flowId, (data) => {
@@ -105,6 +117,14 @@ export class DeleteService {
     deleteProjectFlowById(flowId) {
         return new Promise(resolve => {
             this.flowManagerService.deleteProjectFlow(flowId, (data) => {
+                resolve(data);
+            })
+        });
+    }
+
+    deleteConnectorById(entityId) {
+        return new Promise(resolve => {
+            this.flowManagerService.deleteConnectorById(entityId, (data) => {
                 resolve(data);
             })
         });

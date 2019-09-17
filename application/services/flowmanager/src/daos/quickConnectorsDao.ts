@@ -13,4 +13,16 @@ export class QuickConnectorsDao {
             callback(result);
         })
     }
+
+    public getConnectorByEntity(entityId, callback) {
+        connector.find({ entity_id: entityId }).then((result) => {
+            callback(result);
+        })
+    }
+
+    public deleteConnectorById(entityId, callback) {
+        connector.deleteOne({ _id: entityId }).then((result) => {
+            callback(result);
+        })
+    }
 }

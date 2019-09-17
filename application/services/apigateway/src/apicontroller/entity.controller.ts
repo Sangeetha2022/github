@@ -20,6 +20,7 @@ export class EntityController implements Controller {
         this.router.route('/entity/get/:id').get(this.getByEntityId);
         this.router.route('/entity/getall').get(this.getAllEntity);
         this.router.route('/entity/get').get(this.getEntityByProjectId);
+        this.router.route('/entity/getbyproject/:id').get(this.getProjectEntity);
         this.router.route('/entity/feature/get').get(this.getEntityByFeatureId);
         this.router.route('/entity/deletebyproject/:id').delete(this.deleteProjectEntity);
 
@@ -116,6 +117,16 @@ export class EntityController implements Controller {
 
     public getAllEntity(req: Request, res: Response) {
         new ApiAdaptar().get(`${Constants.entityUrl}/entity/getall`).then((response) => {
+            req.baseUrl === '/mobile' ? res.send(response) :
+                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+    public getProjectEntity(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.entityUrl}/entity/getbyproject/${req.params.id}`).then((response) => {
             req.baseUrl === '/mobile' ? res.send(response) :
                 req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
         }).catch(err => {

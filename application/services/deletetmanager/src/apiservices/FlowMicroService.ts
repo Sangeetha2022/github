@@ -42,4 +42,15 @@ export class FlowManagerService {
                 callback(error);
             })
     }
+
+
+    public deleteConnectorById(entityid, callback) {
+        const entityId = entityid;
+        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/delete/quickConnectorbyid/${entityId}`).then
+            (data => {
+                callback(data);
+            }).catch(error => {
+                callback(error);
+            })
+    }
 }

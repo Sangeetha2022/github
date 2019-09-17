@@ -42,6 +42,9 @@ class FlowManagerController implements Controller {
 
         //qucik connectors
         this.router.post('/save/quickConnectors', this.saveConnectors);
+        this.router.get('/get/quickConnectorbyentity/:id', this.getConnectorByEntity);
+        this.router.delete('/delete/quickConnectorbyid/:id', this.deleteConnectorById);
+
     }
 
     public saveFlow(req: Request, res: Response) {
@@ -253,6 +256,34 @@ class FlowManagerController implements Controller {
     //SAVE connectors
     public saveConnectors(req: Request, res: Response) {
         new ApiAdaptar().post(`${Constants.flowUrl}/save/quickConnectors`, req.body)
+            .then(flow => {
+                req.baseUrl === '/mobile' ? res.send(flow) :
+                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            })
+
+    }
+
+    // Get connector based on entity
+
+    getConnectorByEntity(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.flowUrl}/get/quickConnectorbyentity/${req.params.id}`)
+            .then(flow => {
+                req.baseUrl === '/mobile' ? res.send(flow) :
+                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            })
+
+    }
+
+    // delete connector based on entity
+
+    deleteConnectorById(req: Request, res: Response) {
+        new ApiAdaptar().delete(`${Constants.flowUrl}/delete/quickConnectorbyid/${req.params.id}`)
             .then(flow => {
                 req.baseUrl === '/mobile' ? res.send(flow) :
                     req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
