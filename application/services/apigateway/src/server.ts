@@ -63,7 +63,9 @@ let apisController = [
     new Authgencontroller(),
     new AngularTemplateController(),
     new AdminController(),
-    new TemplateController()
+    new TemplateController(),
+    new FredController(),
+    new DeleteManagerController()
 ]
 
 class App {

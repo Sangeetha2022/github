@@ -21,8 +21,17 @@ export class ProjectFlowComponentDao {
         })
     }
 
+    public getProjectFlowComponentById(flowComponentId, callback: CallableFunction) {
+        this.projectFlowComponent.find({ _id: flowComponentId }).exec((err, flow) => {
+            if (err) {
+                callback(err)
+            } else {
+                callback(flow)
+            }
+        });
+    }
+
     public getProjectFlowComponents(flowComponentsID, callback: CallableFunction) {
-        console.log('get ProjectFLow components rae -----  ', flowComponentsID);
         this.projectFlowComponent.find().where('_id')
             .in(flowComponentsID)
             .exec((err, result) => {
@@ -34,5 +43,15 @@ export class ProjectFlowComponentDao {
                     callback(result)
                 }
             });
+    }
+
+    public deleteProjectFlowComp(projectFlowCompId, callback: CallableFunction) {
+        this.projectFlowComponent.deleteOne({ _id: projectFlowCompId }, (err, flowComp) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback({ message: 'Successfully deleted contact!' });
+            }
+        });
     }
 }   

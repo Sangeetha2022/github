@@ -28,6 +28,16 @@ export class ProjectFlowDao {
 
     }
 
+    public getProjectFlowById(flowId, callback: CallableFunction) {
+        this.projectFlow.find({ _id: flowId }).exec((err, flow) => {
+            if (err) {
+                callback(err)
+            } else {
+                callback(flow)
+            }
+        });
+    }
+
     public getAllProjectFlows(callback: CallableFunction) {
         this.projectFlow.find({}).populate('components').exec((err, flow) => {
             if (err) {
@@ -56,7 +66,7 @@ export class ProjectFlowDao {
     }
 
     public deleteProjectFlow(projectFlowId, callback: CallableFunction) {
-        this.projectFlow.remove({ _id: projectFlowId }, (err, flow) => {
+        this.projectFlow.deleteOne({ _id: projectFlowId }, (err, flow) => {
             if (err) {
                 callback(err);
             } else {

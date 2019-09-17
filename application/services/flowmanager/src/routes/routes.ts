@@ -1,7 +1,7 @@
 import { FlowController } from "../controllers/FlowController";
 import { ProjectFlowController } from "../controllers/ProjectFlowController";
-import {QuickConnectorsController} from '../controllers/quickConnectorsController'
-import {ProjectFlowComponentController} from '../controllers/ProjectFlowComponentController'
+import { QuickConnectorsController } from '../controllers/quickConnectorsController'
+import { ProjectFlowComponentController } from '../controllers/ProjectFlowComponentController'
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {
@@ -31,13 +31,17 @@ export class Routes {
         app.route('/flow/project/save').post(this.projectFlowController.createProjectFlow);
         app.route('/flow/project/bulksave').post(this.projectFlowController.ProjectFlow);
         app.route('/flow/project/getall').get(this.projectFlowController.getAllProjectFlow);
+        app.route('/flow/getprojectflowbyid/:id').get(this.projectFlowController.getProjectFlowById);
         app.route('/flow/projectfeature/get').post(this.projectFlowController.getProjectFeatureFlows);
         app.route('/flow/project/delete').delete(this.projectFlowController.deleteProjectFlow);
-        
+
         //project flow components service
 
         app.route('/flowcomponent/project/save').post(this.projectFlowComponentController.saveProjectFlowComponent);
-        app.route('/flowcomponent/project/getall').get(this.projectFlowComponentController.getProjectFlowComponent)
+        app.route('/flowcomponent/project/getall').get(this.projectFlowComponentController.getProjectFlowComponent);
+        app.route('/flowcomponent/project/getbyid/:id').get(this.projectFlowComponentController.getProjectFlowComponentById);
+        app.route('/flowcomponent/project/delete').delete(this.projectFlowComponentController.deleteProjectFlowComp);
+
 
 
 

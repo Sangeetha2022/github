@@ -18,7 +18,21 @@ export class ProjectFlowComponentController {
     public getProjectFlowComponent(req: Request, res: Response) {
         projectFlowComponentService.getProjectFlowComponents(req, (respone) => {
             res.status(200);
-            res.json(200)
+            res.json(respone)
+        })
+    }
+
+    public getProjectFlowComponentById(req: Request, res: Response) {
+        projectFlowComponentService.getProjectFlowComponentById(req, (respone) => {
+            res.status(200);
+            res.json(respone)
+        })
+    }
+
+    public deleteProjectFlowComp(req: Request, res: Response) {
+        projectFlowComponentService.deleteProjectFlowComp(req, (response) => {
+            res.status(200); // status for the response
+            res.json(response);
         })
     }
 

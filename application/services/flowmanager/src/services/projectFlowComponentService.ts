@@ -19,4 +19,19 @@ export class ProjectFlowComponentService {
         })
     }
 
+    public getProjectFlowComponentById(req: Request, callback: CallableFunction) {
+        const projectFlowCompId = req.params.id;
+        projectFlowComponentDao.getProjectFlowComponentById(projectFlowCompId, (response) => {
+            callback(response);
+        })
+    }
+
+    public deleteProjectFlowComp(req: Request, callback: CallableFunction) {
+        const flowCompId = req.query.projectFlowCompId;
+        projectFlowComponentDao.deleteProjectFlowComp(flowCompId, (flow) => {
+            callback(flow)
+        })
+    }
+
+
 }

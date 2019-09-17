@@ -42,6 +42,15 @@ export class ProjectFlowService {
         })
     }
 
+
+
+    public getProjectFlowById(req: Request, callback: CallableFunction) {
+        const flowId = req.params.id;
+        projectFlowDao.getProjectFlowById(flowId, (result) => {
+            callback(result)
+        })
+    }
+
     public getAllProjectFlow(req: Request, callback: CallableFunction) {
         projectFlowDao.getAllProjectFlows((result) => {
             callback(result)
@@ -56,6 +65,7 @@ export class ProjectFlowService {
     }
 
     public deleteProjectFlow(req: Request, callback: CallableFunction) {
+        console.log('----------------------------', req)
         const flowId = req.query.projectFlowId;
         projectFlowDao.deleteProjectFlow(flowId, (flow) => {
             callback(flow)

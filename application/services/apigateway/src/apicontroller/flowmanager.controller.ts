@@ -29,11 +29,16 @@ class FlowManagerController implements Controller {
         this.router.post('/flow/project/bulksave', this.ProjectFlow);
         this.router.post('/flow/projectfeature/get', this.getProjectFeatureFlows);
         this.router.get('/flow/project/getall', this.getAllProjectFlow);
+        this.router.get('/flow/getprojectflowbyid/:id', this.getProjectFlowById);
         this.router.delete('/flow/project/delete', this.deleteProjectFlow);
+
 
         //project flow component
         this.router.post('/flowcomponent/project/save', this.saveProjectFlowComponent);
-        this.router.get('/flowcomponent/project/getall', this.getProjectFlowComponent)
+        this.router.get('/flowcomponent/project/getall', this.getProjectFlowComponent);
+        this.router.get('/flowcomponent/project/getbyid/:id', this.getProjectFlowComponentByID);
+        this.router.delete('/flowcomponent/project/delete', this.deleteProjectFlowComponent);
+
 
         //qucik connectors
         this.router.post('/save/quickConnectors', this.saveConnectors);
@@ -82,6 +87,18 @@ class FlowManagerController implements Controller {
                     req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
             })
     }
+
+    public getProjectFlowById(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.flowUrl}/flow/getprojectflowbyid/${req.params.id}`)
+            .then(flow => {
+                req.baseUrl === '/mobile' ? res.send(flow) :
+                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            })
+    }
+
 
     public getFeatureFlows(req: Request, res: Response) {
         new ApiAdaptar().post(`${Constants.flowUrl}/flow/feature/get`, req.body)
@@ -208,6 +225,29 @@ class FlowManagerController implements Controller {
                     req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
             })
 
+    }
+
+    public getProjectFlowComponentByID(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.flowUrl}/flowcomponent/project/getbyid/${req.params.id}`)
+            .then(flow => {
+                req.baseUrl === '/mobile' ? res.send(flow) :
+                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            })
+
+    }
+
+    public deleteProjectFlowComponent(req: Request, res: Response) {
+        new ApiAdaptar().delete(`${Constants.flowUrl}/flowcomponent/project/delete?projectFlowCompId=${req.query.projectFlowCompId}`)
+            .then(flow => {
+                req.baseUrl === '/mobile' ? res.send(flow) :
+                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            })
     }
 
     //SAVE connectors
