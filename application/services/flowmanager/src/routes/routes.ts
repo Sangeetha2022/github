@@ -37,7 +37,9 @@ export class Routes {
         //project flow components service
 
         app.route('/flowcomponent/project/save').post(this.projectFlowComponentController.saveProjectFlowComponent);
-        app.route('/flowcomponent/project/getall').get(this.projectFlowComponentController.getProjectFlowComponent)
+        app.route('/flowcomponent/project/getall').get(this.projectFlowComponentController.getProjectFlowComponent);
+        app.route('/flowcomponent/project/updateconnector').put(this.projectFlowComponentController.updateProjectFlowComponent);
+
 
 
 

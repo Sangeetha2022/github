@@ -34,6 +34,8 @@ class FlowManagerController implements Controller {
         //project flow component
         this.router.post('/flowcomponent/project/save', this.saveProjectFlowComponent);
         this.router.get('/flowcomponent/project/getall', this.getProjectFlowComponent)
+        this.router.put('/flowcomponent/project/updateconnector', this.updateProjectFlowComponent)
+
 
         //qucik connectors
         this.router.post('/save/quickConnectors', this.saveConnectors);
@@ -200,6 +202,19 @@ class FlowManagerController implements Controller {
 
     getProjectFlowComponent(req: Request, res: Response) {
         new ApiAdaptar().get(`${Constants.flowUrl}/flowcomponent/project/getall`)
+            .then(flow => {
+                req.baseUrl === '/mobile' ? res.send(flow) :
+                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            })
+
+    }
+
+    updateProjectFlowComponent(req: Request, res: Response) {
+        console.log('-------------------- apigateway', req.body)
+        new ApiAdaptar().put(`${Constants.flowUrl}/flowcomponent/project/updateconnector`, req.body)
             .then(flow => {
                 req.baseUrl === '/mobile' ? res.send(flow) :
                     req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
