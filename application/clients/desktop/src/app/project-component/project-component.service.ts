@@ -103,14 +103,12 @@ export class ProjectComponentService {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityTypes}`);
   }
 
-  fred(data) {
-    // return this.api.post('http://localhost:3013/fred', data);
+  fred(data): Observable<any> {
     return this.api.post(this.restapi.Apigateway + Constants.fred, data);
-
   }
 
   quickConnectors(data): Observable<any> {
-    return this.api.post(`${this.restapi.Apigateway}${Constants.quickConnectors}`, data)
+    return this.api.post(`${this.restapi.Apigateway}${Constants.quickConnectors}`, data);
   }
 
 
@@ -126,6 +124,10 @@ export class ProjectComponentService {
 
   deleteProjectFlow(projectFlowId: String): Observable<any> {
     return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteProjectFlow}?projectFlowId=${projectFlowId}`);
+  }
+
+  updateFlowCompConnectorById(data: any): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFlowCompConnectorById}`, data);
   }
 
 

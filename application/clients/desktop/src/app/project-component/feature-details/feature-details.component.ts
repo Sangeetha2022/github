@@ -342,7 +342,7 @@ export class FeatureDetailsComponent implements OnInit {
                         this.flowInFeatureRowData.forEach(flowElement => {
                             const index = flows.findIndex(x => x.name === flowElement.name);
                             if (index > -1) {
-                                flows.splice(index);
+                                flows.splice(index, 1);
                             }
                         });
                         console.log('flowsss--->>>', flows)
@@ -438,7 +438,6 @@ export class FeatureDetailsComponent implements OnInit {
         }
     }
     modify(e) {
-        console.log('modifyyyy---->>>', e.rowData.components);
         if (e.rowData.flowType === 'GeppettoFlow') {
             this.modifyFlows.flowName = e.rowData.name;
             this.modifyFlows.flowLable = e.rowData.label;
@@ -447,7 +446,6 @@ export class FeatureDetailsComponent implements OnInit {
             this.modifyFlows.flowId = e.rowData._id;
             this.modifyComponents = e.rowData.components;
             this.quickConnectorName = 'quickConnectors';
-            console.log('modifyy--componect--->>', this.modifyComponents);
             this.displayModel = 'block';
 
         }
@@ -466,7 +464,7 @@ export class FeatureDetailsComponent implements OnInit {
         this.quickConnectors.service = event;
     }
 
-    addCustomeConnector() {
+    addExternalConnector() {
         this.customeConncetor = true;
 
     }
@@ -494,8 +492,7 @@ export class FeatureDetailsComponent implements OnInit {
             if (data) {
                 const tempObj = {
                     url: `${tempObject.endPointUrl}?${tempObject.params}&api_key=${tempObject.api_key}&file_type=json`,
-                    isDefault: true,
-                    isDisabled: false,
+                    isCustom: true,
                     properties: [],
                     name: this.quickConnectors.name,
                     description: this.quickConnectors.description,
@@ -524,20 +521,24 @@ export class FeatureDetailsComponent implements OnInit {
                 this.projectComponentService.quickConnectors(tempObj).subscribe(response => {
                     this.quickConnectorId = response.body._id;
                     const tempData = {
-                        connectorsId : this.quickConnectorId,
-                        flowComponentId: [],
+                        connectorId: this.quickConnectorId,
+                        flowComponentId: '',
                     };
 
                     if (response.body.service === 'backEnd') {
                         this.modifyComponents.map(backEnd => {
                             if (backEnd.name === 'GpExpressDao') {
                                 tempData.flowComponentId = backEnd._id;
+                                this.updateFlowCompConnectorById(tempData);
                             }
                         });
                     } else if (response.body.service === 'frontEnd') {
                         this.modifyComponents.map(frontEnd => {
-                            
-                           
+                            if (frontEnd.name === 'GpAngularService' || frontEnd.name === 'GpIonicAngularService') {
+                                tempData.flowComponentId = frontEnd._id;
+                                this.updateFlowCompConnectorById(tempData);
+                            }
+
                         });
 
                     }
@@ -555,6 +556,12 @@ export class FeatureDetailsComponent implements OnInit {
 
                 });
             }
+        });
+    }
+
+    updateFlowCompConnectorById(data) {
+        this.projectComponentService.updateFlowCompConnectorById(data).subscribe(response => {
+            console.log('response --->>', response);
         });
     }
 

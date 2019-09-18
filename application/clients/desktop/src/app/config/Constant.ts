@@ -55,6 +55,7 @@ export class Constants {
     // Flow Componets apis
     public static get updateFlowCompUrl(): string { return this.DESKTOP_ROUTER + '/flow_component/update/'; }
     public static get getAllFlowComponentUrl(): string { return this.DESKTOP_ROUTER + '/flow_component/getall'; }
+    public static get updateFlowCompConnectorById(): string { return this.DESKTOP_ROUTER + '/flowcomponent/project/updateconnector'; }
 
 
     // Flow apis

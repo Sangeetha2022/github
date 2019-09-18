@@ -34,4 +34,12 @@ export class ProjectFlowComponentService {
     }
 
 
+    public updateProjectFlowComponent(req: Request, callback: CallableFunction) {
+        const connectorId = req.body.connectorId;
+        const flowComponentId = req.body.flowComponentId;
+        projectFlowComponentDao.updateProjectFlowComponent(flowComponentId, connectorId, (response) => {
+            callback(response);
+        })
+    }
+
 }

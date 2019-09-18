@@ -31,6 +31,16 @@ export class ProjectFlowComponentDao {
         });
     }
 
+
+
+    public updateProjectFlowComponent(flowCompId, connectorId, callback: CallableFunction) {
+        this.projectFlowComponent.findByIdAndUpdate(flowCompId,
+            { "$push": { "connector": connectorId } },
+            { "new": true, "upsert": true }).then(result => {
+                callback(result)
+            })
+    }
+
     public getProjectFlowComponents(flowComponentsID, callback: CallableFunction) {
         this.projectFlowComponent.find().where('_id')
             .in(flowComponentsID)

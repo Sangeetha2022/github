@@ -41,6 +41,7 @@ export class Routes {
         app.route('/flowcomponent/project/getall').get(this.projectFlowComponentController.getProjectFlowComponent);
         app.route('/flowcomponent/project/getbyid/:id').get(this.projectFlowComponentController.getProjectFlowComponentById);
         app.route('/flowcomponent/project/delete').delete(this.projectFlowComponentController.deleteProjectFlowComp);
+        app.route('/flowcomponent/project/updateconnector').put(this.projectFlowComponentController.updateProjectFlowComponent);
 
 
 

@@ -29,6 +29,10 @@ export let connectorSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isCustom: {
+        type: Boolean,
+        default: false
+    },
     fromComponentName: String,
     toComponentName: String,
     isDisabled: {

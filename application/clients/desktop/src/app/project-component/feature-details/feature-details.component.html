@@ -324,8 +324,8 @@
               </div>
             </div>
           </div>
-          <button type="button" class="btn button-create ok_btn" id="AddConnector" (click)="addCustomeConnector()">Add
-            custom connector</button>
+          <button type="button" class="btn button-create ok_btn" id="AddConnector" (click)="addExternalConnector()">Add
+            External connector</button>
         </form>
       </div>
       <div *ngIf="customeConncetor">
@@ -400,10 +400,15 @@
                 </select>
               </div>
               <div>
-                <div>Services</div>
+                <div>
+                  <h3>Services</h3>
+                </div>
                 <mat-radio-group layout="row">
                   <mat-radio-button class="example-radio-button" value="backEnd" (click)="backendSerice('backEnd')">
                     Backend service
+                  </mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="frontEnd" (click)="frontEndService('frontEnd')">
+                    FrontEnd service
                   </mat-radio-button>
                 </mat-radio-group>
                 <span>
@@ -415,7 +420,7 @@
                   </mat-radio-group>
                 </span>
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <div class="row">
                   <div class="col-md-6">
                     <h4>APIs and Methods</h4>
@@ -423,6 +428,9 @@
                   <button class="btn btn-primary" type="button">Add Connector
                     Properties</button>
                 </div>
+              </div> -->
+              <div>
+                <h3>Connector Types</h3>
               </div>
               <div class="row">
                 <mat-radio-group aria-label="Select an option">
