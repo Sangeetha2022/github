@@ -51,5 +51,6 @@ export class Routes {
         app.route('/save/quickConnectors').post(this.qucikConnectorController.saveConnectors)
         app.route('/get/quickConnectorbyentity/:id').get(this.qucikConnectorController.getConnectorByEntity)
         app.route('/delete/quickConnectorbyid/:id').delete(this.qucikConnectorController.deleteConnectorById)
+        app.route('/get/quickConnectorbyid/:id').get(this.qucikConnectorController.getConnectorById)
     }
 }

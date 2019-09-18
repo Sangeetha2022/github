@@ -28,4 +28,12 @@ export class QuickConnectorsService {
         })
 
     }
+
+    public getConnectorById(req: Request, callback: CallableFunction) {
+        let id = req.params.id;
+        quickConnectorsDao.getConnectorById(id, (response) => {
+            callback(response);
+        })
+
+    }
 }
