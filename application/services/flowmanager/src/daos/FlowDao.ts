@@ -128,7 +128,7 @@ export class FlowDao {
     }
 
     public deleteFlow(flowId, callback: CallableFunction) {
-        this.Flow.remove({ _id: flowId }, (err, flow) => {
+        this.Flow.findByIdAndDelete(flowId, (err, flow) => {
             if (err) {
                 callback(err);
             } else {

@@ -13,6 +13,8 @@ export * from './screenmanager.controllers';
 export * from './admin.controller';
 export * from './templatemanager.controller';
 export * from './fred.controller';
+export * from './deletemanager.controller';
+
 
 // generator
 

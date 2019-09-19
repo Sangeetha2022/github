@@ -19,6 +19,14 @@ export class ProjectFlowController {
     }
 
 
+    public getProjectFlowById(req: Request, res: Response) {
+        projectFlowService.getProjectFlowById(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
+
     public getAllProjectFlow(req: Request, res: Response) {
         projectFlowService.getAllProjectFlow(req, (response) => {
             res.status(200);

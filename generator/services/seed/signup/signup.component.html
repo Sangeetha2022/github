@@ -4,22 +4,22 @@
     <div class="col-lg-6">
       <div class="card">
         <div class="main">
-          <h3>Register</h3>
+          <h3>{{'source.register' | i18next}}</h3>
           <form role="form">
             <div class="form-group">
-              <label>FirstName</label>
+              <label>{{'source.firstName' | i18next}}</label>
               <input type="text" class="form-control" [(ngModel)]="user.firstName" name="user">
             </div>
             <div class="form-group">
-              <label>LastName</label>
+              <label>{{'source.lastName' | i18next}}</label>
               <input type="text" class="form-control" [(ngModel)]="user.lastName" name="user">
             </div>
             <div class="form-group">
-              <label>Email</label>
+              <label>{{'source.email' | i18next}}</label>
               <input type="text" class="form-control" [(ngModel)]='user.email' name="user">
             </div>
             <div class="form-group">
-              <label>Password</label>
+              <label>{{'source.password' | i18next}}</label>
               <input type="password" class="form-control" [type]="show ? 'text' : 'password'"
                 [(ngModel)]="user.password" name='user' pw-show-hide="icon">
               <span class="hideeye">
@@ -28,12 +28,12 @@
             </div>
             <div class="center">
               <button type="submit" class="btn btn btn-primary login" (click)="signup(user)">
-                submit
+                {{'source.submit' | i18next}}
               </button>
             </div>
 
             <div class="rigister">
-              <p class="center">Already Registered? <a [routerLink]="['']">Login here</a></p>
+              <p class="center">{{'source.alreadyReg' | i18next}}? <a [routerLink]="['']">{{'source.loginHere' | i18next}}</a></p>
             </div>
           </form>
         </div>

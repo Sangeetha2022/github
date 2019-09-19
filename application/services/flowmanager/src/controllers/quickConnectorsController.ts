@@ -13,10 +13,25 @@ export class QuickConnectorsController {
     }
 
 
+    public getConnectorByEntity(req: Request , res: Response){
+        quickConnectorService.getConnectorByEntity(req , (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
+    public deleteConnectorById(req: Request , res: Response){
+        quickConnectorService.deleteConnectorById(req , (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
     public getConnectorById(req: Request , res: Response){
         quickConnectorService.getConnectorById(req , (response) => {
             res.status(200);
             res.json(response);
         })
     }
+  
 }

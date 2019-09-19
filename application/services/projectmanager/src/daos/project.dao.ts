@@ -10,7 +10,7 @@ export class ProjectDao {
 
     public addProject(req: Request, callback: CallableFunction) {
 
-                let newProject = new Project(req.body);
+        let newProject = new Project(req.body);
 
                 console.log('i am project------->><<<>>>>',newProject)
 
@@ -66,7 +66,7 @@ export class ProjectDao {
     }
 
     public deleteProject(req: Request, callback: CallableFunction) {
-        Project.remove({ _id: req.params.id }, (err, project) => {
+        Project.findByIdAndDelete(req.params.id, (err, project) => {
             if (err) {
                 callback(err);
             } else {

@@ -23,6 +23,7 @@ class MenubuilderController implements Controller {
         this.router.get('/menu/getbyprojectid/:projectId', this.getMenuByProjectId);
         this.router.put('/menu/updatemenubyproject/:projectId', this.updateMenuByProjectId);
         this.router.get('/menu/default', this.addDefaultMenu);
+        this.router.delete('/menu/deletebyproject/:id', this.deleteProjectMenu)
     }
 
     public addMenu(req: Request, res: Response) {
@@ -47,6 +48,16 @@ class MenubuilderController implements Controller {
 
     public deleteMenu(req: Request, res: Response) {
         new ApiAdaptar().delete(Constants.menuUrl + '/menu/delete/' + req.params.id).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+    public deleteProjectMenu(req: Request, res: Response) {
+        new ApiAdaptar().delete(Constants.menuUrl + '/menu/deletebyproject/' + req.params.id).then(result => {
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {

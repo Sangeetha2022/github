@@ -2,6 +2,7 @@ import * as asyncForEach from 'async-foreach';
 import { ComponentWorker } from "./componentWorker";
 import { DependencyWorker } from "./dependencyWorker";
 import * as constant from '../assets/headerComponent';
+import { ConfimModalPopup } from '../assets/headerComponent';
 
 let componentWorker = new ComponentWorker();
 let dependencyWorker = new DependencyWorker();
@@ -72,6 +73,11 @@ export class CommonWorker {
     // feature name
     private DEFAULT_FEATURENAME = 'default';
 
+    // translator pipe name
+
+    private translatorPipe = 'i18next'
+    private source = 'source'
+
     //component variable
     private HEADER_ADMIN_VARIABLE = 'isAdminUser';
     initializeVariable() {
@@ -134,7 +140,7 @@ export class CommonWorker {
                                         // temp.name = menuElement.screenmenu[0].description.screen[screenIndex];
                                         // menu.children.push(temp);
                                         mainNav.push(`<li>
-                                        <a class="text" [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                        <a class="text" [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</a>
                                     </li>`)
                                     })
                                 }
@@ -154,27 +160,27 @@ export class CommonWorker {
                                         switch (screenElement) {
                                             case this.HOME_MENU:
                                                 topNav.push(` <li>
-                                                <a class="text" *ngIf='userId!=null'  [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                                <a class="text" *ngIf='userId!=null'  [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</a>
                                             </li>`);
                                                 break;
                                             case this.ADMIN_MENU:
                                                 mainNav.push(` <li>
-                                                <a class="text" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                                <a class="text" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</a>
                                             </li>`);
                                                 break;
                                             case this.LOGIN_MENU:
                                                 BottomNav.push(` <li>
-                                                <a class="text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                                <a class="text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</a>
                                             </li>`);
                                                 break;
                                             case this.LOGOUT_MENU:
                                                 BottomNav.push(` <li>
-                                                <a class="text" *ngIf='userId!=null' (click)="${this.LOGOUT_MENU.toLowerCase()}()">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                                <a class="text" *ngIf='userId!=null' (click)="${this.LOGOUT_MENU.toLowerCase()}()">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</a>
                                             </li>`);
                                                 break;
                                             default:
                                                 mainNav.push(` <li>
-                                                    <a class="text" [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                                    <a class="text" [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</a>
                                                 </li>`);
                                                 break;
                                         }
@@ -184,6 +190,17 @@ export class CommonWorker {
                         })
                     }
                 })
+                BottomNav.push(`<li>
+                <a href="#translator" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text">
+            {{'source.selectLanguage' | i18next }}</a>
+                <ul class="collapse list-unstyled" id="translator">
+                  <li>
+                    <a class="text" *ngFor="let lang of languages" (click)='confirmLangModel(lang)'>{{
+                        'languages.' + lang |
+                        i18nextCap }}</a>
+                  </li>
+                </ul>
+              </li>`)
                 loadHeaderNav = `${topNav.join(`\n`)}${mainNav.join(`\n`)}${BottomNav.join(`\n`)}`;
                 headerNav = headerNav.replace(this.LOADHEADERNAV, loadHeaderNav);
                 this.templateHeaderObj.tag.push(headerNav);
@@ -206,11 +223,11 @@ export class CommonWorker {
                 temp += `background-color: black`;
             }
             this.templateHeaderObj.css.push(constant.sideBar.css[0].replace(this.SIDEBARSTYLE, temp));
-
             constant.sideBar.script.forEach(scriptElement => {
                 this.scriptTag.push(scriptElement);
             })
         }
+        this.templateHeaderObj.tag.push(ConfimModalPopup.htmlTag.toString())
         return componentWorker.createHeaderComponent(generationPath, templatePath, this.templateHeaderObj, (response) => {
             return componentWorker.createTemplateComponent(generationPath, templatePath, this.templateMainObj, (response) => {
                 return componentWorker.createFooterComponent(generationPath, templatePath, this.templateFooterObj, (response) => {
@@ -230,8 +247,12 @@ export class CommonWorker {
             return dependencyWorker.generateIndexHtml(generationPath, templatePath, this.mainHtmlTag, this.scriptTag, (response) => {
                 return dependencyWorker.generateStyleSCSS(generationPath, templatePath, templateCss, (response) => {
                     return dependencyWorker.generateSharedFile(generationPath, templatePath, sharedObj, (response) => {
-                        return componentWorker.generateMainModule(generationPath, templatePath, (response) => {
-                            callback('main files are generated');
+                        return dependencyWorker.generateTranslatorModuleFile(generationPath, templatePath, sharedObj, (response) => {
+                            return dependencyWorker.generateTranslatorJsonFile(generationPath, templatePath, sharedObj, (response) => {
+                                return componentWorker.generateMainModule(generationPath, templatePath, (response) => {
+                                    callback('main files are generated');
+                                });
+                            });
                         });
                     });
                 });
@@ -433,7 +454,7 @@ export class CommonWorker {
                             <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
                             if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
                                 menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
-                                    mainNav.push(`<${this.ANCHOR_TAG} class="list-group-item" [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>`);
+                                    mainNav.push(`<${this.ANCHOR_TAG} class="list-group-item" [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</${this.ANCHOR_TAG}>`);
                                 })
                             }
                             mainNav.push(`</div>`);
@@ -444,27 +465,27 @@ export class CommonWorker {
                                     switch (screenElement) {
                                         case this.HOME_MENU:
                                             topNav.push(`<div class="list-group panel">
-                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" *ngIf='userId!=null'  [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>
+                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" *ngIf='userId!=null'  [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</${this.ANCHOR_TAG}>
                                       </div>`);
                                             break;
                                         case this.LOGIN_MENU:
                                             BottomNav.push(` <li>
-                                                <a class="text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                                <a class="text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</a>
                                             </li>`);
                                             break;
                                         case this.ADMIN_MENU:
                                             mainNav.push(`<div class="list-group panel" *ngIf='${this.HEADER_ADMIN_VARIABLE}'>
-                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>
+                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</${this.ANCHOR_TAG}>
                                       </div>`);
                                             break;
                                         case this.LOGOUT_MENU:
                                             BottomNav.push(`<div class="list-group panel">
-                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" *ngIf='userId!=null' (click)="${this.LOGOUT_MENU.toLowerCase()}()">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>
+                                        <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" *ngIf='userId!=null' (click)="${this.LOGOUT_MENU.toLowerCase()}()">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</${this.ANCHOR_TAG}>
                                       </div>`);
                                             break;
                                         default:
                                             mainNav.push(`<div class="list-group panel">
-                                            <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">${menuElement.screenmenu[0].description.screen[screenIndex]}</${this.ANCHOR_TAG}>
+                                            <${this.ANCHOR_TAG} class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</${this.ANCHOR_TAG}>
                                           </div>`);
                                             break;
                                     }
@@ -476,7 +497,17 @@ export class CommonWorker {
             })
             //add oninit script
             this.templateHeaderObj.component.componentOnInit = [`this.userId = sessionStorage.getItem('Id');`];
-
+            BottomNav.push(`<li>
+            <a href="#translator" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text">
+            {{'source.selectLanguage' | i18next }}</a>
+            <ul class="collapse list-unstyled" id="translator">
+            <li>
+            <a class="text" *ngFor="let lang of languages" (click)='confirmLangModel(lang)'>{{
+                'languages.' + lang |
+                i18nextCap }}</a>
+          </li>
+            </ul>
+          </li>`)
             this.startTag.push(topNav.join('\n'));
             this.startTag.push(mainNav.join('\n'));
             this.startTag.push(BottomNav.join('\n'));

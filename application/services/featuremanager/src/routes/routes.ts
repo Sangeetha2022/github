@@ -17,6 +17,7 @@ export class Routes {
         app.route('/feature/getall').get(this.featureController.getAllFeature);
         app.route('/feature/get').get(this.featureController.getFeatureById);
         app.route('/feature/delete').delete(this.featureController.deleteFeature);
+        app.route('/feature/deletepyproject/:id').delete(this.featureController.deleteProjectFeature);
         app.route('/feature/project/get').get(this.featureController.getFeatureByProjectId);
 
         app.route('/feature/updateEntity/:featureId').put(this.featureController.featureUpdateEntity)

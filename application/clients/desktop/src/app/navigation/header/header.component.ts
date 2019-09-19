@@ -30,8 +30,8 @@ export class HeaderComponent implements OnInit {
     private dataService: DataService,
     private logoutservice: LoginService,
     private router: Router,
-     public brodcast: Brodcastservice
-      ) {
+    public brodcast: Brodcastservice
+  ) {
     this.brodcast.currentusername.subscribe(headerpermission => {
       if (headerpermission !== undefined) {
         this.headergaurd = headerpermission;
@@ -108,9 +108,13 @@ export class HeaderComponent implements OnInit {
     if (lang !== this.i18NextService.language) {
       this.i18NextService.changeLanguage(lang).then(x => {
         this.updateState(lang);
-        // document.location.reload();
       });
+    }
+    this.user.id = sessionStorage.getItem('Id');
+    if (this.user.id !== null) {
       this.Logout();
+    } else {
+      document.location.reload();
     }
   }
 

@@ -38,6 +38,14 @@ export class ScreenService {
     }
 
 
+    public deleteProjectScreen(req: Request, callback) {
+        const projectId = req.params.id;
+        screenDao.deleteProjectScreen(projectId, (response) => {
+            callback(response);
+        })
+    }
+
+
     public getAllScreenByProjectId(req: Request, callback) {
         screenDao.getAllScreenByProjectId(req,(response) => {
             callback(response);

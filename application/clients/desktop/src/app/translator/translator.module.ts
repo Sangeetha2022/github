@@ -4,8 +4,8 @@ import {
   I18NEXT_SERVICE, I18NextLoadResult, I18NextModule, ITranslationService, defaultInterpolationFormat,
   I18NEXT_NAMESPACE
 } from 'angular-i18next';
-import * as i18nextXHRBackend from 'i18next-xhr-backend';
-import * as i18nextLanguageDetector from 'i18next-browser-languagedetector';
+import i18nextXHRBackend from 'i18next-xhr-backend';
+import i18nextLanguageDetector from 'i18next-browser-languagedetector';
 import { I18NextValidationMessageModule } from 'angular-validation-message-i18next';
 import sprintf from 'i18next-sprintf-postprocessor';
 import { APP_INITIALIZER, ApplicationRef, LOCALE_ID } from '@angular/core';
@@ -26,7 +26,7 @@ const i18nextOptions = {
   // backend plugin options
   backend: {
     allowMultiLoading: true,
-    loadPath: function (langs, ns) {
+    loadPath: function () {
       return 'assets/locales/{{lng}}/{{ns}}.json';
     }
 

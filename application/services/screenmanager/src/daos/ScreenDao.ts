@@ -56,7 +56,7 @@ export class ScreenDao {
     }
 
     public deleteScreen(screenId, callback: CallableFunction) {
-        screenModel.remove({ _id: screenId }, (err, screen) => {
+        screenModel.findByIdAndDelete(screenId, (err, screen) => {
             if (err) {
                 callback(err);
             } else {
@@ -64,6 +64,18 @@ export class ScreenDao {
             }
         });
     }
+
+    public deleteProjectScreen(projectId, callback: CallableFunction) {
+        screenModel.deleteMany({ project: projectId }, (err, screen) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback({ message: 'Successfully deleted screen!' });
+            }
+        });
+    }
+
+
 
     public getAllScreenByProjectId(req, callback) {
         let projectId = req.params.projectId

@@ -62,7 +62,7 @@ export class TemplateDao {
     }
 
     public deleteTemplate(req: Request, callback: CallableFunction) {
-        Template.remove({ _id: req.params.id }, (err, template) => {
+        Template.findByIdAndDelete(req.params.id, (err, template) => {
             if (err) {
                 callback(err);
             } else {

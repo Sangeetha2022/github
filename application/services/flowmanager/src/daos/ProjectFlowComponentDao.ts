@@ -21,6 +21,16 @@ export class ProjectFlowComponentDao {
         })
     }
 
+    public getProjectFlowComponentById(flowComponentId, callback: CallableFunction) {
+        this.projectFlowComponent.find({ _id: flowComponentId }).exec((err, flow) => {
+            if (err) {
+                callback(err)
+            } else {
+                callback(flow)
+            }
+        });
+    }
+
 
 
     public updateProjectFlowComponent(flowCompId, connectorId, callback: CallableFunction) {
@@ -45,11 +55,13 @@ export class ProjectFlowComponentDao {
             });
     }
 
-    public getAllProjectFlowComponent(callback: CallableFunction) {
-        this.projectFlowComponent.find().then(result => {
-            callback(result);
-        })
-
+    public deleteProjectFlowComp(projectFlowCompId, callback: CallableFunction) {
+        this.projectFlowComponent.deleteOne({ _id: projectFlowCompId }, (err, flowComp) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback({ message: 'Successfully deleted contact!' });
+            }
+        });
     }
-
 }   

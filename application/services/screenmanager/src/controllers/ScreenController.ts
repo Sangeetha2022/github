@@ -35,6 +35,13 @@ export class ScreenController {
         })
     }
 
+    public deleteProjectScreen(req: Request, res: Response) {
+        screenService.deleteProjectScreen(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
     public getScreenById(req: Request, res: Response) {
         screenService.getScreenById(req, (response) => {
             res.status(200);
