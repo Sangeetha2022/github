@@ -33,6 +33,7 @@ export class Routes {
         app.route('/flow/project/getall').get(this.projectFlowController.getAllProjectFlow);
         app.route('/flow/projectfeature/get').post(this.projectFlowController.getProjectFeatureFlows);
         app.route('/flow/project/delete').delete(this.projectFlowController.deleteProjectFlow);
+    
         
         //project flow components service
 
@@ -41,10 +42,10 @@ export class Routes {
         app.route('/flowcomponent/project/updateconnector').put(this.projectFlowComponentController.updateProjectFlowComponent);
 
 
-
-
         //quick connectors
 
-        app.route('/save/quickConnectors').post(this.qucikConnectorController.saveConnectors)
+        app.route('/save/quickConnectors').post(this.qucikConnectorController.saveConnectors);
+        app.route('/get/quickConnectorbyid/:id').get(this.qucikConnectorController.getConnectorById)
+
     }
 }

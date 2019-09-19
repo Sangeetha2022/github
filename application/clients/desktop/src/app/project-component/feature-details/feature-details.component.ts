@@ -128,6 +128,7 @@ export class FeatureDetailsComponent implements OnInit {
     public quickConnectorId: any;
     public quickConnectorsService: any;
     public modifyComponents: any = [];
+    public connectorsType: String;
 
 
 
@@ -332,8 +333,6 @@ export class FeatureDetailsComponent implements OnInit {
     getAllFlows() {
         this.projectComponentService.getAllFlows().subscribe(
             response => {
-                console.log('flowsss---11111>>>', response.body)
-
                 const flows = response.body;
                 if (flows) {
                     if (this.flowInFeatureRowData.length === 0) {
@@ -447,7 +446,6 @@ export class FeatureDetailsComponent implements OnInit {
             this.modifyComponents = e.rowData.components;
             this.quickConnectorName = 'quickConnectors';
             this.displayModel = 'block';
-
         }
     }
 
@@ -456,19 +454,41 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     backendSerice(event) {
-        console.log('event--<<>>', event);
         this.quickConnectors.service = event;
     }
     frontEndService(event) {
-        console.log('event--<<>>', event);
         this.quickConnectors.service = event;
     }
 
-    addExternalConnector() {
-        this.customeConncetor = true;
-
+    quickConnectorsMethod(event) {
+        this.connectorsType = event;
     }
-    onSubmit() {
+    defaultConnectorsMethod(event) {
+        this.connectorsType = event;
+    }
+    customeConncetorsMethod(event) {
+        this.connectorsType = event;
+    }
+
+    addExternalConnector() {
+        if (this.quickConnectorId !== undefined) {
+            this.getQuickConnectorId();
+        } else {
+            this.customeConncetor = true;
+        }
+    }
+    getQuickConnectorId() {
+        console.log('quick conntors --->', this.quickConnectorId);
+        this.projectComponentService.getConnectorById(this.quickConnectorId).subscribe(response => {
+            if (response) {
+                console.log('getQuickConnectorId--->>', response);
+                this.quickConnectors = response.body;
+                this.customeConncetor = true;
+            }
+        });
+    }
+
+     onSubmit() {
         this.submitted = true;
         // stop here if form is invalid
         if (this.connectorsForm.invalid) {
@@ -477,6 +497,13 @@ export class FeatureDetailsComponent implements OnInit {
         if (!this.connectorsForm.invalid) {
             this.isService = true;
         }
+        if (this.connectorsType === 'quickConnectors') {
+           this.quickConnectorsType();
+        }
+    }
+
+    quickConnectorsType() {
+        console.log('callingggg----->>');
         const tempObject = {
             projectId: this.project_id,
             feature_id: this.feature_id,
@@ -485,14 +512,13 @@ export class FeatureDetailsComponent implements OnInit {
             params: this.quickConnectors.params,
             // apiMethods: this.quickConnectors.apiMethods
         };
-        console.log('i am tempobject---->>>', tempObject);
-        // `${data.endPointUrl}?${data.params}&api_key=${data.api_key}&file_type=json`
         console.log('url =--->>', `${tempObject.endPointUrl}?${tempObject.params}&api_key=${tempObject.api_key}&file_type=json`);
         this.projectComponentService.fred(tempObject).subscribe(data => {
             if (data) {
                 const tempObj = {
                     url: `${tempObject.endPointUrl}?${tempObject.params}&api_key=${tempObject.api_key}&file_type=json`,
                     isCustom: true,
+                    endPointUrl: tempObject.endPointUrl,
                     properties: [],
                     name: this.quickConnectors.name,
                     description: this.quickConnectors.description,
@@ -514,10 +540,6 @@ export class FeatureDetailsComponent implements OnInit {
                     fromComponentName: null,
                     toComponentName: null,
                 };
-
-                console.log('i am resonse quick connectors 123-->>', tempObj);
-
-
                 this.projectComponentService.quickConnectors(tempObj).subscribe(response => {
                     this.quickConnectorId = response.body._id;
                     const tempData = {
@@ -538,35 +560,30 @@ export class FeatureDetailsComponent implements OnInit {
                                 tempData.flowComponentId = frontEnd._id;
                                 this.updateFlowCompConnectorById(tempData);
                             }
-
                         });
-
                     }
-                    console.log('-----------------', tempData);
-                    // this.projectComponentService.updateProjectFlowComponent(tempData).subscribe(response => {
-                    //     console.log('response --->>', response);
-                    // })
-                    // this.updateProjectF)lowComponent
                     console.log('flow -component--id --->>', tempData);
-                    // else if (response.body.service === 'frontEnd') {
-                    //     this.modifyComponents.map(frontEnd => {
-
-                    //     });
-
-                    // }
-
                 });
             }
         });
     }
 
+
     updateFlowCompConnectorById(data) {
         this.projectComponentService.updateFlowCompConnectorById(data).subscribe(response => {
-            console.log('response --->>', response);
+         console.log('update--response- updateFlowCompConnectorById->>', response);
+         if (response) {
+            this.submitted = false;
+            this.quickConnectors = '';
+            this.displayModel = 'none';
+            this.customeConncetor = false;
+         }
         });
     }
 
     flowCancle() {
+        this.submitted = false;
+        this.quickConnectors = ''
         this.displayModel = 'none';
         this.customeConncetor = false;
 

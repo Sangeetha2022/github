@@ -44,4 +44,12 @@ export class ProjectFlowComponentDao {
                 }
             });
     }
+
+    public getAllProjectFlowComponent(callback: CallableFunction) {
+        this.projectFlowComponent.find().then(result => {
+            callback(result);
+        })
+
+    }
+
 }   

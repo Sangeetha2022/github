@@ -34,11 +34,13 @@ class FlowManagerController implements Controller {
         //project flow component
         this.router.post('/flowcomponent/project/save', this.saveProjectFlowComponent);
         this.router.get('/flowcomponent/project/getall', this.getProjectFlowComponent)
-        this.router.put('/flowcomponent/project/updateconnector', this.updateProjectFlowComponent)
-
+        this.router.get('/get/quickConnectorbyid/:id', this.getConnectorById);
 
         //qucik connectors
         this.router.post('/save/quickConnectors', this.saveConnectors);
+        this.router.put('/flowcomponent/project/updateconnector', this.updateProjectFlowComponent)
+
+
     }
 
     public saveFlow(req: Request, res: Response) {
@@ -212,9 +214,20 @@ class FlowManagerController implements Controller {
 
     }
 
-    updateProjectFlowComponent(req: Request, res: Response) {
-        console.log('-------------------- apigateway', req.body)
-        new ApiAdaptar().put(`${Constants.flowUrl}/flowcomponent/project/updateconnector`, req.body)
+    //SAVE connectors
+    public saveConnectors(req: Request, res: Response) {
+        new ApiAdaptar().post(`${Constants.flowUrl}/save/quickConnectors`, req.body)
+            .then(flow => {
+                req.baseUrl === '/mobile' ? res.send(flow) :
+                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            })
+    }
+
+    getConnectorById(req: Request, res: Response) {
+        new ApiAdaptar().get(`${Constants.flowUrl}/get/quickConnectorbyid/${req.params.id}`)
             .then(flow => {
                 req.baseUrl === '/mobile' ? res.send(flow) :
                     req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
@@ -225,9 +238,9 @@ class FlowManagerController implements Controller {
 
     }
 
-    //SAVE connectors
-    public saveConnectors(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.flowUrl}/save/quickConnectors`, req.body)
+    updateProjectFlowComponent(req: Request, res: Response) {
+        console.log('api--gateway-->>', req.body);
+        new ApiAdaptar().put(`${Constants.flowUrl}/flowcomponent/project/updateconnector`, req.body)
             .then(flow => {
                 req.baseUrl === '/mobile' ? res.send(flow) :
                     req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);

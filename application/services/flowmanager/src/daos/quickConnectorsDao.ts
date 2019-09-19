@@ -13,4 +13,11 @@ export class QuickConnectorsDao {
             callback(result);
         })
     }
+
+    public getConnectorById(connectorId, callback) {
+        connector.findById({ _id: connectorId }).then((result) => {
+            callback(result);
+        })
+    }
+
 }

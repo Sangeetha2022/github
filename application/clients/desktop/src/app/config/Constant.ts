@@ -56,6 +56,8 @@ export class Constants {
     public static get updateFlowCompUrl(): string { return this.DESKTOP_ROUTER + '/flow_component/update/'; }
     public static get getAllFlowComponentUrl(): string { return this.DESKTOP_ROUTER + '/flow_component/getall'; }
     public static get updateFlowCompConnectorById(): string { return this.DESKTOP_ROUTER + '/flowcomponent/project/updateconnector'; }
+    public static get getConnectorById(): string { return this.DESKTOP_ROUTER + '/get/quickConnectorbyid'; }
+
 
 
     // Flow apis
@@ -99,7 +101,7 @@ export class Constants {
     public static get saveManyProjectFlow(): String { return this.DESKTOP_ROUTER + '/flow/project/bulksave'; }
     public static get getProjectFeatureFlows(): String { return this.DESKTOP_ROUTER + '/flow/projectfeature/get'; }
     public static get deleteProjectFlow(): String { return this.DESKTOP_ROUTER + '/flow/project/delete'; }
-    public static get updateProjectFlowComponent(): String {return this.DESKTOP_ROUTER + '/flowcomponent/project/update';}
+    public static get updateProjectFlowComponent(): String { return this.DESKTOP_ROUTER + '/flowcomponent/project/update'; }
 
     // Feature Screen
     public static get addScreen(): string { return this.DESKTOP_ROUTER + '/screen/save'; }
