@@ -22,4 +22,14 @@ export class ScreenManagerService {
                 callback(error);
             })
     }
+
+    public getScreenByFeatureId(featureid, callback) {
+        const featureId = featureid;
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/screen/getbyfeatureid/${featureId}`).then
+            (data => {
+                callback(data);
+            }).catch(error => {
+                callback(error);
+            })
+    }
 }

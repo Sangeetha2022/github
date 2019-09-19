@@ -13,23 +13,27 @@ export class Routes {
         })
 
         // delete project flow
-        app.route('/delete/projectflow/:id').delete(this.deleteController.deleteProjectFlow);
+        app.route('/delete/project/:id').delete(this.deleteController.deleteProjectById);
 
         // delete entity flow
 
-        app.route('/delete/entityflow/:id').delete(this.deleteController.deleteEntityFlow);
+        app.route('/delete/entityflow/:id').delete(this.deleteController.deleteEntity);
 
         // delete feature flow
 
-        app.route('/delete/featureflow/:id').delete(this.deleteController.deleteFeatureFlow);
+        app.route('/delete/featureflow/:id').delete(this.deleteController.deleteFeature);
 
         // delete menu flow
 
-        app.route('/delete/menuflow/:id').delete(this.deleteController.deleteMenuFlow);
+        app.route('/delete/menuflow/:id').delete(this.deleteController.deleteMenu);
 
         // delete screen 
+
+        app.route('/delete/screenflow/:id').delete(this.deleteController.deleteScreen);
+
+        // delete flow 
         
-        app.route('/delete/screenflow/:id').delete(this.deleteController.deleteScreenFlow);
+        app.route('/delete/flow/:id').delete(this.deleteController.deleteFlow);
 
 
     }

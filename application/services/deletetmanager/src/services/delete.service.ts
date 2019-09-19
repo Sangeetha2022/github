@@ -20,7 +20,7 @@ export class DeleteService {
     private flowManagerService = new FlowManagerService();
 
 
-    public async deleteProjectFlow(req: Request, callback) {
+    public async deleteProjectById(req: Request, callback) {
         const projectId = req.params.id;
         await this.deleteProject(projectId);
         await this.getFeatureByProjectId(projectId);
@@ -33,7 +33,7 @@ export class DeleteService {
     }
 
 
-    public async deleteEntityFlow(req: Request, callback) {
+    public async deleteEntity(req: Request, callback) {
         const entityId = req.params.id;
         await this.deleteConnectorByEntityId(entityId)
         this.deleteEntityById(entityId)
@@ -41,22 +41,31 @@ export class DeleteService {
     }
 
 
-    public async deleteFeatureFlow(req: Request, callback) {
+    public async deleteFeature(req: Request, callback) {
         const featureId = req.params.id;
         await this.getFeatureById(featureId);
+        this.getScreenByFeatureId(featureId);
         this.deleteFeatureById(featureId)
         callback({ message: 'Successfully deleted records connected with Feature!' });
     }
 
-    public async deleteMenuFlow(req: Request, callback) {
+    public async deleteMenu(req: Request, callback) {
         const menuId = req.params.id;
         this.deletetMenuById(menuId)
         callback({ message: 'Successfully deleted records connected with Menu!' });
     }
 
-    public async deleteScreenFlow(req: Request, callback) {
+    public async deleteScreen(req: Request, callback) {
         const screenId = req.params.id;
-        this.deletetScreenById(screenId);
+        this.deleteScreenById(screenId);
+        callback({ message: 'Successfully deleted records connected with Screen!' });
+    }
+
+
+    public async deleteFlow(req: Request, callback) {
+        const flowId = req.params.id;
+        await this.getProjectFlowById(flowId)
+        this.deleteProjectFlowById(flowId);
         callback({ message: 'Successfully deleted records connected with Screen!' });
     }
 
@@ -134,6 +143,22 @@ export class DeleteService {
                         this.deleteProjectFlowById(flowId);
                     })
                 }
+                if (data.body.body.entities.length > 0) {
+                    data.body.body.entities.map(({ entityId }) => {
+                        this.deleteEntityById(entityId)
+                    })
+                }
+                resolve(data);
+            })
+        });
+    }
+
+    getScreenByFeatureId(featureId) {
+        return new Promise(resolve => {
+            this.screenManagerService.getScreenByFeatureId(featureId, (data) => {
+                data.body.body.map(({ _id }) => {
+                    this.deleteScreenById(_id);
+                })
                 resolve(data);
             })
         });
@@ -165,6 +190,7 @@ export class DeleteService {
             this.flowManagerService.getProjectFlowById(flowId, (data) => {
                 data.body.body.map(({ components }) => {
                     components.map(async component => {
+                        await this.getProjectFlowCompById(component);
                         await this.deleteProjectFlowCompById(component)
                     })
                 })
@@ -207,7 +233,7 @@ export class DeleteService {
     }
 
 
-    deletetScreenById(screenId) {
+    deleteScreenById(screenId) {
         return new Promise(resolve => {
             this.screenManagerService.deletetScreenById(screenId, (data) => {
                 resolve(data);
@@ -223,6 +249,19 @@ export class DeleteService {
         });
     }
 
-
+    getProjectFlowCompById(flowCompId) {
+        return new Promise(resolve => {
+            this.flowManagerService.getProjectFlowCompById(flowCompId, (data) => {
+                data.body.body.map(({ name, connector }) => {
+                    if (name === 'GpExpressDao' || name === 'GpAngularService' || name === 'GpIonicAngularService') {
+                        connector.map(id => {
+                            this.deleteConnectorById(id)
+                        })
+                    }
+                })
+                resolve(data);
+            })
+        });
+    }
 
 }

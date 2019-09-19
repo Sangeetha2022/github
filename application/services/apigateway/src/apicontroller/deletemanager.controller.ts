@@ -16,17 +16,18 @@ class DeleteManagerController implements Controller {
     }
 
     private initializeRoutes() {
-        this.router.delete('/delete/projectflow/:id', this.deleteProjectFlow);
-        this.router.delete('/delete/entityflow/:id', this.deleteEntityFlow);
-        this.router.delete('/delete/featureflow/:id', this.deleteFeatureFlow);
-        this.router.delete('/delete/menuflow/:id', this.deleteMenuFlow);
-        this.router.delete('/delete/screenflow/:id', this.deleteScreenFlow);
+        this.router.delete('/delete/project/:id', this.deleteProject);
+        this.router.delete('/delete/entity/:id', this.deleteEntity);
+        this.router.delete('/delete/feature/:id', this.deleteFeature);
+        this.router.delete('/delete/menu/:id', this.deleteMenu);
+        this.router.delete('/delete/screen/:id', this.deleteScreen);
+        this.router.delete('/delete/flow/:id', this.deleteFlow);
 
     }
 
 
-    public deleteProjectFlow(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/projectflow/' + req.params.id).then(result => {
+    public deleteProject(req: Request, res: Response) {
+        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/project/' + req.params.id).then(result => {
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
@@ -35,8 +36,8 @@ class DeleteManagerController implements Controller {
         });
     }
 
-    public deleteEntityFlow(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/entityflow/' + req.params.id).then(result => {
+    public deleteEntity(req: Request, res: Response) {
+        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/entity/' + req.params.id).then(result => {
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
@@ -45,8 +46,8 @@ class DeleteManagerController implements Controller {
         });
     }
 
-    public deleteFeatureFlow(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/featureflow/' + req.params.id).then(result => {
+    public deleteFeature(req: Request, res: Response) {
+        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/feature/' + req.params.id).then(result => {
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
@@ -55,8 +56,8 @@ class DeleteManagerController implements Controller {
         });
     }
 
-    public deleteMenuFlow(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/menuflow/' + req.params.id).then(result => {
+    public deleteMenu(req: Request, res: Response) {
+        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/menu/' + req.params.id).then(result => {
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {
@@ -65,8 +66,18 @@ class DeleteManagerController implements Controller {
         });
     }
 
-    public deleteScreenFlow(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/screenflow/' + req.params.id).then(result => {
+    public deleteScreen(req: Request, res: Response) {
+        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/screen/' + req.params.id).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+    public deleteFlow(req: Request, res: Response) {
+        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/flow/' + req.params.id).then(result => {
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {

@@ -8,40 +8,47 @@ let deleteService = new DeleteService()
 
 export class DeleteController {
 
-    public deleteProjectFlow(req: Request, res: Response) {
-        deleteService.deleteProjectFlow(req, (response) => {
+    public deleteProjectById(req: Request, res: Response) {
+        deleteService.deleteProjectById(req, (response) => {
             res.status(200);
             res.json(response);
         })
     }
 
 
-    public deleteEntityFlow(req: Request, res: Response) {
-        deleteService.deleteEntityFlow(req, (response) => {
+    public deleteEntity(req: Request, res: Response) {
+        deleteService.deleteEntity(req, (response) => {
             res.status(200);
             res.json(response);
         })
     }
 
-    public deleteFeatureFlow(req: Request, res: Response) {
-        deleteService.deleteFeatureFlow(req, (response) => {
+    public deleteFeature(req: Request, res: Response) {
+        deleteService.deleteFeature(req, (response) => {
             res.status(200);
             res.json(response);
         })
     }
 
-    public deleteMenuFlow(req: Request, res: Response) {
-        deleteService.deleteMenuFlow(req, (response) => {
+    public deleteMenu(req: Request, res: Response) {
+        deleteService.deleteMenu(req, (response) => {
             res.status(200);
             res.json(response);
         })
     }
 
 
-public deleteScreenFlow(req: Request, res: Response) {
-        deleteService.deleteScreenFlow(req, (response) => {
+public deleteScreen(req: Request, res: Response) {
+        deleteService.deleteScreen(req, (response) => {
             res.status(200);
             res.json(response);
         })
-    }   
+    } 
+
+    public deleteFlow(req: Request, res: Response) {
+        deleteService.deleteFlow(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    } 
 }

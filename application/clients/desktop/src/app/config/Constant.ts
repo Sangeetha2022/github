@@ -127,7 +127,7 @@ export class Constants {
     public static get getEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/entity/feature/get'; }
 
     // Delete Project Flow
-    public static get deleteProjectFlowByProjectId(): string { return this.DESKTOP_ROUTER + '/delete/projectflow'; }
+    public static get deleteProjectFlowByProjectId(): string { return this.DESKTOP_ROUTER + '/delete/project'; }
 
     // Default Entity
     public static get addDefaultEntity(): string { return this.DESKTOP_ROUTER + '/default_entity/save'; }
