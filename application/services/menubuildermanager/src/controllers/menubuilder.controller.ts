@@ -9,35 +9,35 @@ export class MenuBuilderController {
 
         menuBuilderService.addMenu(req, (user) => {
             res.status(200); // status for the response
-            res.json(user); 
+            res.json(user);
         })
     }
 
     public getAllMenu(req: Request, res: Response) {
         menuBuilderService.getAllMenu(req, (user) => {
             res.status(200); // status for the response
-            res.json(user); 
+            res.json(user);
         })
     }
 
     public getMenuById(req: Request, res: Response) {
         menuBuilderService.getMenuById(req, (user) => {
             res.status(200); // status for the response
-            res.json(user); 
+            res.json(user);
         })
     }
 
     public updateMenu(req: Request, res: Response) {
         menuBuilderService.updateMenu(req, (user) => {
             res.status(200); // status for the response
-            res.json(user); 
+            res.json(user);
         })
     }
 
     public updateMenuByProjectId(req: Request, res: Response) {
         menuBuilderService.updateMenuByProjectId(req, (user) => {
             res.status(200); // status for the response
-            res.json(user); 
+            res.json(user);
         })
     }
 

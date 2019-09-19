@@ -14,4 +14,34 @@ export class DeleteController {
             res.json(response);
         })
     }
+
+
+    public deleteEntityFlow(req: Request, res: Response) {
+        deleteService.deleteEntityFlow(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
+    public deleteFeatureFlow(req: Request, res: Response) {
+        deleteService.deleteFeatureFlow(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
+    public deleteMenuFlow(req: Request, res: Response) {
+        deleteService.deleteMenuFlow(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }
+
+
+public deleteScreenFlow(req: Request, res: Response) {
+        deleteService.deleteScreenFlow(req, (response) => {
+            res.status(200);
+            res.json(response);
+        })
+    }   
 }

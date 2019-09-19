@@ -12,4 +12,14 @@ export class MenuBuilderManagerService {
                 callback(error);
             })
     }
+
+    public deleteMenuById(menuid, callback) {
+        const menuId = menuid;
+        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/menu/delete/${menuId}`).then
+            (data => {
+                callback(data);
+            }).catch(error => {
+                callback(error);
+            })
+    }
 }

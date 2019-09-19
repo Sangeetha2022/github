@@ -25,14 +25,42 @@ export class DeleteService {
         await this.deleteProject(projectId);
         await this.getFeatureByProjectId(projectId);
         await this.getProjectEntity(projectId)
-        this.deleteFeature(projectId);
-        this.deleteMenu(projectId);
-        this.deleteEntity(projectId);
-        this.deleteScreen(projectId);
+        this.deleteProjectFeature(projectId);
+        this.deleteProjectMenu(projectId);
+        this.deleteProjectEntity(projectId);
+        this.deleteProjectScreen(projectId);
         callback({ message: 'Successfully deleted records connected with project!' })
     }
 
-    deleteFeature(projectId) {
+
+    public async deleteEntityFlow(req: Request, callback) {
+        const entityId = req.params.id;
+        await this.deleteConnectorByEntityId(entityId)
+        this.deleteEntityById(entityId)
+        callback({ message: 'Successfully deleted records connected with Entity!' });
+    }
+
+
+    public async deleteFeatureFlow(req: Request, callback) {
+        const featureId = req.params.id;
+        await this.getFeatureById(featureId);
+        this.deleteFeatureById(featureId)
+        callback({ message: 'Successfully deleted records connected with Feature!' });
+    }
+
+    public async deleteMenuFlow(req: Request, callback) {
+        const menuId = req.params.id;
+        this.deletetMenuById(menuId)
+        callback({ message: 'Successfully deleted records connected with Menu!' });
+    }
+
+    public async deleteScreenFlow(req: Request, callback) {
+        const screenId = req.params.id;
+        this.deletetScreenById(screenId);
+        callback({ message: 'Successfully deleted records connected with Screen!' });
+    }
+
+    deleteProjectFeature(projectId) {
         return new Promise(resolve => {
             this.featureManagerService.deleteProjectFeature(projectId, (data) => {
                 resolve(data);
@@ -40,7 +68,7 @@ export class DeleteService {
         });
     }
 
-    deleteMenu(projectId) {
+    deleteProjectMenu(projectId) {
         return new Promise(resolve => {
             this.menuBuilderManagerService.deleteProjectMenu(projectId, (data) => {
                 resolve(data);
@@ -48,7 +76,7 @@ export class DeleteService {
         });
     }
 
-    deleteScreen(projectId) {
+    deleteProjectScreen(projectId) {
         return new Promise(resolve => {
             this.screenManagerService.deleteProjectScreen(projectId, (data) => {
                 resolve(data);
@@ -56,9 +84,17 @@ export class DeleteService {
         });
     }
 
-    deleteEntity(projectId) {
+    deleteProjectEntity(projectId) {
         return new Promise(resolve => {
             this.entityManagerService.deleteProjectEntity(projectId, (data) => {
+                resolve(data);
+            })
+        });
+    }
+
+    deleteEntityById(projectId) {
+        return new Promise(resolve => {
+            this.entityManagerService.deleteEntityById(projectId, (data) => {
                 resolve(data);
             })
         });
@@ -89,11 +125,35 @@ export class DeleteService {
         });
     }
 
+    getFeatureById(featureId) {
+        return new Promise(resolve => {
+            this.featureManagerService.getFeatureById(featureId, (data) => {
+                if (data.body.body.flows.length > 0) {
+                    data.body.body.flows.map(async flowId => {
+                        await this.getProjectFlowById(flowId);
+                        this.deleteProjectFlowById(flowId);
+                    })
+                }
+                resolve(data);
+            })
+        });
+    }
+
+    deleteFeatureById(featureId) {
+        return new Promise(resolve => {
+            this.featureManagerService.deleteFeatureById(featureId, (data) => {
+                resolve(data);
+            })
+        });
+    }
+
     getProjectEntity(projectId) {
         return new Promise(resolve => {
             this.entityManagerService.getProjectEntity(projectId, (data) => {
-                data.body.body.map(({ _id }) => {
-                    this.deleteConnectorById(_id);
+                data.body.body.map(({ _id, is_default }) => {
+                    if (!is_default) {
+                        this.deleteConnectorByEntityId(_id);
+                    }
                 })
                 resolve(data);
             })
@@ -122,9 +182,17 @@ export class DeleteService {
         });
     }
 
-    deleteConnectorById(entityId) {
+    deleteConnectorById(id) {
         return new Promise(resolve => {
-            this.flowManagerService.deleteConnectorById(entityId, (data) => {
+            this.flowManagerService.deleteConnectorById(id, (data) => {
+                resolve(data);
+            })
+        });
+    }
+
+    deleteConnectorByEntityId(entityId) {
+        return new Promise(resolve => {
+            this.flowManagerService.deleteConnectorByEntityId(entityId, (data) => {
                 resolve(data);
             })
         });
@@ -137,5 +205,24 @@ export class DeleteService {
             })
         });
     }
+
+
+    deletetScreenById(screenId) {
+        return new Promise(resolve => {
+            this.screenManagerService.deletetScreenById(screenId, (data) => {
+                resolve(data);
+            })
+        });
+    }
+
+    deletetMenuById(menuId) {
+        return new Promise(resolve => {
+            this.menuBuilderManagerService.deleteMenuById(menuId, (data) => {
+                resolve(data);
+            })
+        });
+    }
+
+
 
 }
