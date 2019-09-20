@@ -162,7 +162,7 @@
                                 alt="Mobile">
                             <span class="fa fa-pencil-square-o fa-2x"
                                 (click)="editScreen(screen._id, screen.screenType)" aria-hidden="true"></span>
-                            <span class="fa fa-trash-o fa-2x" (click)="deleteScreen(screen._id)"
+                            <span class="fa fa-trash-o fa-2x" (click)="deleteScreenById(screen._id)"
                                 aria-hidden="true"></span>
 
                         </div>
@@ -204,7 +204,7 @@
                 <p>Please confirm to delete this entity ? </p>
             </div>
             <div class="modal-footer" style="padding: 5px">
-                <button type="button" class="btn btn-default" (click)="deleteEntity()">Confirm</button>
+                <button type="button" class="btn btn-default" (click)="deleteEntityById()">Confirm</button>
                 &nbsp;
                 <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
             </div>

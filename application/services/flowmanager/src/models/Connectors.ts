@@ -8,6 +8,11 @@ export let connectorSchema = mongoose.Schema({
     },
     name: String,
     description: String,
+    apiMethods: String,
+    entity_id: String,
+    api_key: String,
+    service: String,
+    params: String,
     availableApi: [
         {
             name: { type: String, default: null },
@@ -21,6 +26,10 @@ export let connectorSchema = mongoose.Schema({
         default: null
     },
     isDefault: {
+        type: Boolean,
+        default: false
+    },
+    isCustom: {
         type: Boolean,
         default: false
     },

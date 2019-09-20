@@ -1,5 +1,5 @@
 import { Injectable, Output, EventEmitter, Input } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, NavigationStart } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, NavigationStart, GuardsCheckEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
       // @ts-ignore
       this.accessroutes = authgaurdvalue.Access;
     });
-    this.router.events.filter(value => value instanceof NavigationStart).subscribe((value: NavigationStart) => {
+    this.router.events.filter(value => value instanceof GuardsCheckEnd).subscribe((value: GuardsCheckEnd) => {
       console.log('--------routevalue----', value.url);
       this.routename = value.url.split('/');
     });
@@ -39,7 +39,11 @@ export class AuthGuard implements CanActivate {
   public Userid: any;
 
 
-  canActivate(): boolean {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    return this.checkLoogedIn(state.url);
+  }
+  checkLoogedIn(url: String) {
+    this.routename = url.split('/');
     this.Userid = sessionStorage.getItem('Id');
     if (this.Userid !== null) {
       this.jwtoken = sessionStorage.getItem('JwtToken');

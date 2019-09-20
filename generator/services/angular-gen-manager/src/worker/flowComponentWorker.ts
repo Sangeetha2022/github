@@ -253,9 +253,9 @@ export class FlowComponentWorker {
             case Constant.GP_CUSTOM_FLOW:
                 break;
             case Constant.GP_GETNOUNBYID_FLOW:
-                let getByIdTemp = `${this.currentFlow.name}(${this.componentObject.variableList[0].entityName}Id) {`;
+                let getByIdTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    getByIdTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${this.componentObject.variableList[0].entityName}Id)`;
+                    getByIdTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE})`;
                     getByIdTemp += `\n  .subscribe(`;
                     getByIdTemp += `\n    data => {`;
                     getByIdTemp += `\n       console.log('successfully get the data by id --- ', data);`;

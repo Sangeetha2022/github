@@ -103,5 +103,44 @@ export class ProjectComponentService {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityTypes}`);
   }
 
+  fred(data): Observable<any> {
+    return this.api.post(this.restapi.Apigateway + Constants.fred, data);
+  }
+
+  quickConnectors(data): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.quickConnectors}`, data);
+  }
+
+
+  saveManyProjectFlow(data) {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveManyProjectFlow}`, data);
+
+  }
+
+  getProjectFeatureFlows(projectFlowsId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.getProjectFeatureFlows}`, projectFlowsId);
+  }
+
+
+  deleteProjectFlow(projectFlowId: String): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteProjectFlow}?projectFlowId=${projectFlowId}`);
+  }
+
+  updateFlowCompConnectorById(data: any): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFlowCompConnectorById}`, data);
+  }
+
+
+
+  // delete microservie apis
+
+
+  deleteFlowById(FlowId: String): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteFlowById}/${FlowId}`);
+  }
+
+  deleteEntityById(entityId: String): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteEntityById}` + `/${entityId}`);
+  }
 
 }

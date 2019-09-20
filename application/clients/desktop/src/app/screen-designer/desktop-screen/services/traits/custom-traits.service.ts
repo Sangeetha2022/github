@@ -61,7 +61,7 @@ export class CustomTraitsService {
         });
     }
 
-    
+
 
     MultiflowsActionButton($this) {
         // action button add
@@ -129,15 +129,17 @@ export class CustomTraitsService {
         });
     }
 
-    gridActionFlowButton($this) {
+    RouteActionButton($this) {
         // action button add
-        $this.editor.TraitManager.addType('gridActionButton', {
+        $this.editor.TraitManager.addType('routeButton', {
             events: {
                 'click': function () {
-                    // console.log('print button clicked');
-                    const eventPopupModel = document.getElementById('EventPopup');
-                    // console.log('print eventPopupModel values are ------ ', eventPopupModel);
-                    eventPopupModel.style.display = 'block';
+                    $this.customPopupModal.name = $this.GPROUTE_FLOWNAME;
+                    $this.customPopupModal.title = 'Routes';
+                    $this.customPopupModal.dropdownLabelName = 'Screen';
+                    $this.customPopupModal.typeLabelName = 'Type';
+                    $this.isCustomPopup = true;
+                    $this.ref.detectChanges();
                 },
             },
             getInputEl() {
@@ -151,7 +153,7 @@ export class CustomTraitsService {
                 button.style.backgroundColor = '#008CBA';
                 button.style.fontSize = '12px !important';
                 button.style.cursor = 'pointer';
-                button.appendChild(document.createTextNode('Flow'));
+                button.appendChild(document.createTextNode('Screens'));
                 return button;
             },
         });

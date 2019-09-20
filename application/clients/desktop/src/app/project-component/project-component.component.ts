@@ -412,6 +412,7 @@ export class EntityManagerComponent implements OnInit {
     }
 
     getScreenByProjectId() {
+        this.screenDetails = [];
         this.screenService.getScreenByProjectId(this.project_id).subscribe(response => {
             if (response.body) {
                 response.body.forEach(element => {
@@ -489,18 +490,31 @@ export class EntityManagerComponent implements OnInit {
         this.openDialog(false, entity);
     }
 
-    deleteEntity() {
+    // deleteEntity() {
+    //     this.deletePopup = 'none';
+    //     this.projectComponentService.deleteEntity(this.selectedEntityId).subscribe(
+    //         (data) => {
+    //             this.getAllEntityByProjectId();
+    //         },
+    //         (error) => {
+
+    //         }
+    //     );
+    // }
+
+    deleteEntityById() {
         this.deletePopup = 'none';
-        this.projectComponentService.deleteEntity(this.selectedEntityId).subscribe(
+        this.projectComponentService.deleteEntityById(this.selectedEntityId).subscribe(
             (data) => {
-                this.getAllEntityByProjectId();
+                if (data) {
+                    this.getAllEntityByProjectId();
+                }
             },
             (error) => {
 
             }
         );
     }
-
 
 
     getMenuBuilderByProjectId() {
@@ -663,14 +677,29 @@ export class EntityManagerComponent implements OnInit {
         });
     }
 
-    deleteScreen(screenId) {
-        this.screenService.deleteScreen(screenId).subscribe(
+    // deleteScreen(screenId) {
+    //     this.screenService.deleteScreen(screenId).subscribe(
+    //         (data) => {
+    //             this.getScreenByProjectId();
+    //         },
+    //         (error) => {
+
+    //         }
+    //     );
+    // }
+
+    deleteScreenById(screenId) {
+        this.screenService.deleteScreenById(screenId).subscribe(
             (data) => {
-                this.getScreenByProjectId();
+                if (data) {
+                    this.getScreenByProjectId();
+                    this.getFeatureByProjectId();
+                }
             },
             (error) => {
 
             }
         );
     }
+
 }

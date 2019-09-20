@@ -6,6 +6,11 @@ export class Constants {
     public static DESKTOP_ROUTER = '/desktop';
     public static MOBILE_ROUTER = '/mobile';
 
+    // fred api
+    public static get fred(): string { return this.DESKTOP_ROUTER + '/fred'; }
+
+    public static get quickConnectors(): String { return this.DESKTOP_ROUTER + '/save/quickConnectors'; }
+
     // login apis
     public static get signup(): string { return this.DESKTOP_ROUTER + '/signup'; }
     public static get googlelogin(): string { return this.DESKTOP_ROUTER + '/googlesignin'; }
@@ -50,6 +55,7 @@ export class Constants {
     // Flow Componets apis
     public static get updateFlowCompUrl(): string { return this.DESKTOP_ROUTER + '/flow_component/update/'; }
     public static get getAllFlowComponentUrl(): string { return this.DESKTOP_ROUTER + '/flow_component/getall'; }
+    public static get updateFlowCompConnectorById(): string { return this.DESKTOP_ROUTER + '/flowcomponent/project/updateconnector'; }
 
 
     // Flow apis
@@ -82,13 +88,18 @@ export class Constants {
     public static get getAllFeatureByFeatureid(): String { return this.DESKTOP_ROUTER + '/feature/details/getallbyfeatureid'; }
     public static get deleteFeature(): String { return this.DESKTOP_ROUTER + '/feature/delete'; }
 
-
     // old  Feature Details
     public static get getAllFeatureDetailsByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature/details/getbyfeatureid/'; }
 
     // Feature Flow
     public static get getFeatureFlowById(): string { return this.DESKTOP_ROUTER + '/feature-flow/getbyid/'; }
     public static get getFeatureEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature/details/getentitybyfeatureid/'; }
+
+    // project Flow
+    public static get saveManyProjectFlow(): String { return this.DESKTOP_ROUTER + '/flow/project/bulksave'; }
+    public static get getProjectFeatureFlows(): String { return this.DESKTOP_ROUTER + '/flow/projectfeature/get'; }
+    public static get deleteProjectFlow(): String { return this.DESKTOP_ROUTER + '/flow/project/delete'; }
+    public static get updateProjectFlowComponent(): String { return this.DESKTOP_ROUTER + '/flowcomponent/project/update'; }
 
     // Feature Screen
     public static get addScreen(): string { return this.DESKTOP_ROUTER + '/screen/save'; }
@@ -114,6 +125,16 @@ export class Constants {
     public static get updateEntityFields(): string { return this.DESKTOP_ROUTER + '/entity/field/update'; }
     public static get getAllEntityTypes(): string { return this.DESKTOP_ROUTER + '/entity_type/get'; }
     public static get getEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/entity/feature/get'; }
+
+    // Delete  microservice
+
+    // delete project
+
+    public static get deleteProjectFlowByProjectId(): string { return this.DESKTOP_ROUTER + '/delete/project'; }
+    public static get deleteFlowById(): string { return this.DESKTOP_ROUTER + '/delete/flow'; }
+    public static get deleteEntityById(): string { return this.DESKTOP_ROUTER + '/delete/entity'; }
+    public static get deleteScreenById(): string { return this.DESKTOP_ROUTER + '/delete/screen'; }
+
 
     // Default Entity
     public static get addDefaultEntity(): string { return this.DESKTOP_ROUTER + '/default_entity/save'; }

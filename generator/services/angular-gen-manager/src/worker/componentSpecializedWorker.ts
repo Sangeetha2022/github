@@ -184,4 +184,35 @@ export class ComponentSpecializedWorker {
         }
     }
 
+    setSpecialEvents(elementObj, $this) {
+        switch (elementObj.type) {
+            case Constant.MODAL_SPECIALEVENT_NAME:
+                const modalDependencies = componentDependency.component.find(x => x.name === Constant.GP_MODAL_POPUP);
+                this.specialEventHtml(elementObj, modalDependencies, $this);
+                this.specialEventTsFile(elementObj, modalDependencies, $this);
+                break;
+            default:
+                break;
+        }
+    }
+
+    specialEventHtml(elementObj, modalDependencies, $this) {
+        console.log('specilaevent htlm values are ----  ', $this.startString);
+        const temp = `app-${elementObj.screenName}`;
+        $this.startString = $this.startString.replace($this.tagName, temp);
+        $this.startString += ` ${modalDependencies.htmlDependencies.join(' ')}`;
+        $this.tagName = temp;
+    }
+
+    specialEventTsFile(elementObj, modalDependencies, $this) {
+        // variable list
+        $this.tsComponent.variableList.push(modalDependencies.componentVariableList.join(' '));
+        // component methods
+        const methods = modalDependencies.componentDependedMethod.filter(x =>
+            x.name !== modalDependencies.componentDynamicVariable.submitMethodName &&
+            x.name !== modalDependencies.componentDynamicVariable.cancelMethodName)
+        const temp = methods.map(({ method }) => method);
+        $this.tsComponent.elementDependedMethod.push(temp.join('\n'));
+    }
+
 }

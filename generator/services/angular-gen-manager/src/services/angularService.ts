@@ -9,8 +9,547 @@ export class AngularService {
     }
     async createAngularProject(req: Request, callback: CallableFunction) {
 
-        console.log('create angular project value are ----- ', util.inspect(req.body, { showHidden: true, depth: null }));
-        const details = req.body;
+        // console.log('create angular project value are ----- ', util.inspect(req.body, { showHidden: true, depth: null }));
+        // const details = req.body;
+        const details = {
+            "featureName": "ticket",
+            "projectGenerationPath":
+                "/home/dhina/Music/generatedCode/mynewproject/application/client/desktop/mynewproject",
+            "templateLocation":
+            {
+                "frontendTemplate": "../../template",
+                "backendTemplate": "../../template",
+                "mongoTemplate": "../../template",
+                "authTemplatePath":
+                    "/home/dhina/Videos/StahlsJenkins/GrapesJS/ang7Grapesjs/Dan/branch/features_refactor/geppettotest/generator/services/seed",
+                "authorizationTempPath": "../../template",
+                "adminManagerTemplatePath":
+                    "/home/dhina/Videos/StahlsJenkins/GrapesJS/ang7Grapesjs/Dan/branch/features_refactor/geppettotest/generator/services/seed"
+            },
+            "projectName": "mynewproject",
+            "primaryLanguage": "English",
+            "secondaryLanguage": "Tamil",
+            "clientLanguage":
+            {
+                "updated_at": null,
+                "_id": "f39db822-d476-11e9-a205-ed164e455e8e",
+                "name": "java_script",
+                "label": "Javascript",
+                "description": null,
+                "value": null,
+                "type": "GpClientLanguage",
+                "sub_type": null,
+                "created_at": "2019-09-11T09:31:36.994Z"
+            },
+            "clientFramework":
+            {
+                "updated_at": null,
+                "_id": "f3949061-d476-11e9-a205-ed164e455e8e",
+                "name": "angular7",
+                "label": "Angular 7",
+                "description": null,
+                "value": null,
+                "type": "GpClientDevFramework",
+                "sub_type": null,
+                "created_at": "2019-09-11T09:31:36.934Z"
+            },
+            "entities":
+                [{
+                    "is_default": false,
+                    "updated_at": "2019-09-16T05:18:39.076Z",
+                    "_id": "7fd944d0-d841-11e9-b39e-bbb26852d90a",
+                    "name": "ticket",
+                    "description": "ticket info",
+                    "entity_type": "primary",
+                    "project_id": "643639e0-d841-11e9-b84d-dd9bb5079e29",
+                    "feature_id": "701af700-d841-11e9-900b-c32f079059dd",
+                    "created_by": "",
+                    "last_modified_by": "",
+                    "field":
+                        [{
+                            "name": "name",
+                            "type_name": "Text",
+                            "data_type": "String",
+                            "description": "Description",
+                            "is_default": false,
+                            "is_entity_type": false,
+                            "is_list_type": false,
+                            "list_type": null,
+                            "list_value": null,
+                            "updated_at": null,
+                            "created_at": "2019-09-16T05:19:14.411Z",
+                            "entity_id": null,
+                            "_id": "85ffabb0-d841-11e9-b39e-bbb26852d90a"
+                        },
+                        {
+                            "name": "type",
+                            "type_name": "Text",
+                            "data_type": "String",
+                            "description": "Description",
+                            "is_default": false,
+                            "is_entity_type": false,
+                            "is_list_type": false,
+                            "list_type": null,
+                            "list_value": null,
+                            "updated_at": null,
+                            "created_at": "2019-09-16T05:19:14.410Z",
+                            "entity_id": null,
+                            "_id": "85ff84a1-d841-11e9-b39e-bbb26852d90a"
+                        },
+                        {
+                            "name": "message",
+                            "type_name": "Text",
+                            "data_type": "String",
+                            "description": "Description",
+                            "is_default": false,
+                            "is_entity_type": false,
+                            "is_list_type": false,
+                            "list_type": null,
+                            "list_value": null,
+                            "updated_at": null,
+                            "created_at": "2019-09-16T05:19:14.410Z",
+                            "entity_id": null,
+                            "_id": "85ff84a0-d841-11e9-b39e-bbb26852d90a"
+                        }],
+                    "created_at": "2019-09-16T05:19:04.093Z"
+                }],
+            "nodeResponse":
+            {
+                "entitySchemaName": "ticketSchema",
+                "entityModelName": "ticketModel",
+                "entityFileName": "ticket",
+                "featureName": "ticket",
+                "nodePortNumber": 8001,
+                "isCustomCode": true,
+                "import":
+                {
+                    "dependencies":
+                        [{
+                            "name": "{ ticketController }",
+                            "path": "../controller/ticketController"
+                        }]
+                },
+                "variable":
+                {
+                    "insideClass":
+                        [{
+                            "variableName": "ticket: ticketController",
+                            "parentName": "new ticketController()"
+                        }
+                        ],
+                    "outsideClass": []
+                },
+                "flowAction":
+                    [{
+                        "routeUrl": "/ticket/get",
+                        "apiAction": "get",
+                        "methodName": "GpGetAllValues",
+                        "variableName": "ticket"
+                    }
+                    ]
+            },
+            "cssGuidelines":
+                [{ "tagName": "form", "className": "form" },
+                { "tagName": "input", "className": "form-control" },
+                { "tagName": "select", "className": "form-control" },
+                { "tagName": "textarea", "className": "form-control" },
+                { "tagName": "button", "className": "btn btn-primary" }
+                ],
+            "desktop":
+                [{
+                    "grid_fields":
+                    {
+                        "default_field": [],
+                        "htmlId": "ir7r",
+                        "componentId": "c1409",
+                        "custom_field": []
+                    },
+                    "gjs-assets": ["[]"],
+                    "gjs-styles":
+                        ["[{\"selectors\":[{\"name\":\"wrapper\",\"label\":\"wrapper\",\"type\":2,\"active\":true,\"private\":false,\"protected\":false}],\"wrapper\":1},{\"selectors\":[{\"name\":\"ir7r\",\"label\":\"ir7r\",\"type\":2,\"active\":true,\"private\":false,\"protected\":false}],\"style\":{\"padding-top\":\"10px\",\"padding-right\":\"2px\",\"padding-left\":\"2px\",\"padding-bottom\":\"10px\"}},{\"selectors\":[{\"name\":\"myGrid\",\"label\":\"myGrid\",\"type\":2,\"active\":true,\"private\":false,\"protected\":false}],\"style\":{\"width\":\"100%\",\"height\":\"100%\"}}]"
+                        ],
+                    "gjs-components":
+                        ["[{\"type\":\"grid-type\",\"name\":\"grid_ir7r\",\"status\":\"selected\",\"content\":\"\",\"attributes\":{\"id\":\"ir7r\"},\"traits\":[{\"type\":\"text\",\"label\":\"Name\",\"name\":\"name\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"grid_ir7r\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":1,\"options\":[]},{\"type\":\"select\",\"label\":\"columns\",\"name\":\"columns\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":1,\"options\":[{\"value\":\"col1_id\",\"name\":\"a\"},{\"value\":\"col2_id\",\"name\":\"b\"},{\"value\":\"col3_id\",\"name\":\"c\"},{\"value\":\"col4_id\",\"name\":\"d\"},{\"value\":\"col5_id\",\"name\":\"e\"}]},{\"type\":\"text\",\"label\":\"colName\",\"name\":\"colname\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":1,\"options\":[]},{\"type\":\"select\",\"label\":\"entity\",\"name\":\"entity\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":1,\"options\":[{\"name\":\"none\",\"value\":\"none\"},{\"name\":\"ticket\",\"value\":\"7fd944d0-d841-11e9-b39e-bbb26852d90a\"}]},{\"type\":\"fieldGridButton\",\"label\":\"bind\",\"name\":\"fieldButton\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":0,\"options\":[]},{\"type\":\"select\",\"label\":\"verb\",\"name\":\"verbs\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":1,\"options\":[{\"key\":\"click\",\"value\":\"onClick\"},{\"key\":\"focus\",\"value\":\"onFocus\"},{\"key\":\"blur\",\"value\":\"onBlur\"}]},{\"type\":\"routeButton\",\"label\":\"Route\",\"name\":\"routeButton\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":0,\"options\":[]},{\"type\":\"addButton\",\"label\":\"Add\",\"name\":\"addButton\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":0,\"options\":[]},{\"type\":\"removeButton\",\"label\":\"Remove\",\"name\":\"removeButton\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":0,\"options\":[]}],\"components\":[{\"content\":\"\",\"classes\":[{\"name\":\"ag-theme-balham\",\"label\":\"ag-theme-balham\",\"type\":1,\"active\":true,\"private\":false,\"protected\":false}],\"attributes\":{\"id\":\"myGrid\"},\"traits\":[{\"type\":\"text\",\"label\":\"\",\"name\":\"id\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"eg. Text here\",\"changeProp\":0,\"options\":[]},{\"type\":\"text\",\"label\":\"\",\"name\":\"title\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"eg. Text here\",\"changeProp\":0,\"options\":[]}],\"open\":false}],\"scriptUpdated\":1,\"open\":0}]"
+                        ],
+                    "component-lifecycle":
+                        [{
+                            "flowId": "787a5df0-d841-11e9-ae6e-c707bc73a880",
+                            "flowName": "GpGetAllValues",
+                            "verb": "onload"
+                        }
+                        ],
+                    "special-events": [],
+                    "is_grid_present": true,
+                    "project": "643639e0-d841-11e9-b84d-dd9bb5079e29",
+                    "feature": null,
+                    "screenType": "desktop",
+                    "isTemplate": false,
+                    "stylesheets": [],
+                    "scripts": [],
+                    "css-guidelines": [],
+                    "_id": "a87785f0-d841-11e9-92e7-c3426acc03d3",
+                    "gjs-css":
+                        "* { box-sizing: border-box; } body {margin: 0;}#ir7r{padding-top:10px;padding-right:2px;padding-left:2px;padding-bottom:10px;}#myGrid{width:100%;height:100%;}",
+                    "gjs-html":
+                        "<body><div id=\"ir7r\"><div id=\"myGrid\" class=\"ag-theme-balham\"></div></div></body><script>var items = document.querySelectorAll('#ir7r');\n        for (var i = 0, len = items.length; i < len; i++) {\n          (function(){var _this = this;\n                        var gridOptions = JSON.parse('{\"htmlId\":\"\",\"componentId\":\"\",\"custom_field\":[],\"default_field\":[]}');\n                        var initAgGrid = function () {\n                            var columnDefs = [];\n                            var rowData = [];\n                            if (gridOptions &&\n                                gridOptions.custom_field &&\n                                gridOptions.custom_field.length > 0) {\n                                columnDefs = [];\n                                for (var _i = 0, _a = gridOptions.custom_field; _i < _a.length; _i++) {\n                                    var key = _a[_i];\n                                    for (var i = 0; i < 30; i++) {\n                                        var newObject = gridOptions.custom_field.reduce(function (o, objectKey) {\n                                            var _a;\n                                            return Object.assign(o, (_a = {}, _a[objectKey.columnname] = \"\" + objectKey.columnname + Math.floor(Math.random() * 10000), _a));\n                                        }, {});\n                                        rowData.push(newObject);\n                                    }\n                                    var temp = {\n                                        headerName: '',\n                                        field: '',\n                                        sortable: true,\n                                        colId: ''\n                                    };\n                                    temp.headerName = key.columnname;\n                                    temp.field = key.columnname;\n                                    temp.colId = key.columnid;\n                                    columnDefs.push(temp);\n                                }\n                            }\n                            else {\n                                columnDefs = [\n                                    {\n                                        headerName: 'A',\n                                        field: 'a',\n                                        sortable: true,\n                                        colId: 'col1_id'\n                                    },\n                                    {\n                                        headerName: 'B',\n                                        field: 'b',\n                                        sortable: true,\n                                        colId: 'col2_id'\n                                    },\n                                    {\n                                        headerName: 'C',\n                                        field: 'c',\n                                        sortable: true,\n                                        colId: 'col3_id'\n                                    },\n                                    {\n                                        headerName: 'D',\n                                        field: 'd',\n                                        sortable: true,\n                                        colId: 'col4_id'\n                                    },\n                                    {\n                                        headerName: 'E',\n                                        field: 'e',\n                                        sortable: true,\n                                        colId: 'col5_id'\n                                    }\n                                ];\n                                rowData = createRowData();\n                            }\n                            function createRowData() {\n                                var tempData = [];\n                                for (var i = 0; i < 100; i++) {\n                                    // create sample row item\n                                    var rowItem = {\n                                        // is is simple\n                                        a: 'aa' + Math.floor(Math.random() * 10000),\n                                        b: 'bb' + Math.floor(Math.random() * 10000),\n                                        c: 'cc' + Math.floor(Math.random() * 10000),\n                                        d: 'dd' + Math.floor(Math.random() * 10000),\n                                        e: 'ee' + Math.floor(Math.random() * 10000)\n                                    };\n                                    tempData.push(rowItem);\n                                }\n                                return tempData;\n                            }\n                            _this.gridOptions = {\n                                defaultColDef: {\n                                    editable: true\n                                },\n                                columnDefs: columnDefs,\n                                rowData: rowData,\n                                components: {\n                                    boldRenderer: function (params) {\n                                        return '<b>' + params.value.name + '</b>';\n                                    }\n                                },\n                                onGridReady: function (params) {\n                                    params.api.sizeColumnsToFit();\n                                    window.addEventListener('resize', function () {\n                                        setTimeout(function () {\n                                            params.api.sizeColumnsToFit();\n                                        });\n                                    });\n                                },\n                                paginationAutoPageSize: true,\n                                pagination: true,\n                            };\n                            var gridDiv = document.querySelector('#myGrid');\n                            // tslint:disable-next-line:no-unused-expression\n                            new agGrid.Grid(gridDiv, _this.gridOptions);\n                            _this.gridOptions.cacheQuickFilter = false;\n                            _this.gridOptions.api.sizeColumnsToFit();\n                        };\n                        var exists = false;\n                        var url = 'https://unpkg.com/ag-grid-community@20.0.0/dist/ag-grid-community.min.js';\n                        var scripts = document.getElementsByTagName('script');\n                        for (var i = scripts.length; i--;) {\n                            if (scripts[i].src === url) {\n                                exists = true;\n                            }\n                        }\n                        if (exists) {\n                            initAgGrid();\n                        }\n                        else {\n                            var script = document.createElement('script');\n                            script.onload = initAgGrid;\n                            script.src = url;\n                            document.body.appendChild(script);\n                        }}.bind(items[i]))();\n        }</script>",
+                    "flows_info":
+                        [{
+                            "htmlId": "",
+                            "componentId": "",
+                            "elementName": "",
+                            "verb": "",
+                            "flowName": "GpGetAllValues",
+                            "_id": "5d7f1b8cdab38c3d4492cebc",
+                            "flow": "787a5df0-d841-11e9-ae6e-c707bc73a880"
+                        }
+                        ],
+                    "route_info": [],
+                    "screenName": "popup",
+                    "entity_info": [],
+                    "created_at": "2019-09-16T05:20:12.239Z"
+                },
+                {
+                    "grid_fields":
+                    {
+                        "default_field": [],
+                        "htmlId": "",
+                        "componentId": "",
+                        "custom_field": []
+                    },
+                    "gjs-assets": ["[]"],
+                    "gjs-styles":
+                        ["[{\"selectors\":[{\"name\":\"im8pf\",\"label\":\"im8pf\",\"type\":2,\"active\":true,\"private\":false,\"protected\":false}],\"style\":{\"padding-top\":\"10px\",\"padding-right\":\"2px\",\"padding-left\":\"2px\",\"padding-bottom\":\"10px\"}},{\"selectors\":[{\"name\":\"btn\",\"label\":\"btn\",\"type\":1,\"active\":true,\"private\":false,\"protected\":false},{\"name\":\"btn-primary\",\"label\":\"btn-primary\",\"type\":1,\"active\":true,\"private\":false,\"protected\":false}]},{\"selectors\":[{\"name\":\"ioj34\",\"label\":\"ioj34\",\"type\":2,\"active\":true,\"private\":false,\"protected\":false}]}]"
+                        ],
+                    "gjs-components":
+                        ["[{\"status\":\"hovered\",\"content\":\"\",\"attributes\":{\"id\":\"im8pf\"},\"traits\":[{\"type\":\"text\",\"label\":\"\",\"name\":\"id\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"eg. Text here\",\"changeProp\":0,\"options\":[]},{\"type\":\"text\",\"label\":\"\",\"name\":\"title\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"eg. Text here\",\"changeProp\":0,\"options\":[]}],\"components\":[{\"tagName\":\"button\",\"type\":\"popupModal-type\",\"name\":\"modal_ioj34\",\"status\":\"selected\",\"content\":\"Modal\\n      \",\"classes\":[{\"name\":\"btn\",\"label\":\"btn\",\"type\":1,\"active\":true,\"private\":false,\"protected\":false},{\"name\":\"btn-primary\",\"label\":\"btn-primary\",\"type\":1,\"active\":true,\"private\":false,\"protected\":false}],\"attributes\":{\"id\":\"ioj34\"},\"traits\":[{\"type\":\"text\",\"label\":\"Name\",\"name\":\"name\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"modal_ioj34\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":1,\"options\":[]},{\"type\":\"content\",\"label\":\"contentName\",\"name\":\"contentname\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":1,\"options\":[]},{\"type\":\"select\",\"label\":\"verb\",\"name\":\"verbs\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":1,\"options\":[{\"key\":\"click\",\"value\":\"onClick\"},{\"key\":\"focus\",\"value\":\"onFocus\"},{\"key\":\"blur\",\"value\":\"onBlur\"}]},{\"type\":\"modalButton\",\"label\":\"Bind\",\"name\":\"modalButton\",\"min\":\"\",\"max\":\"\",\"unit\":\"\",\"step\":1,\"value\":\"\",\"default\":\"\",\"placeholder\":\"\",\"changeProp\":0,\"options\":[]}],\"open\":false}],\"open\":1}]"
+                        ],
+                    "component-lifecycle": [],
+                    "special-events":
+                        [{
+                            "htmlId": "ioj34",
+                            "componentId": "c3063",
+                            "elementName": "modal_ioj34",
+                            "screenId": "a87785f0-d841-11e9-92e7-c3426acc03d3",
+                            "screenName": "popup",
+                            "methodName": "popupModal",
+                            "type": "modal"
+                        }
+                        ],
+                    "is_grid_present": false,
+                    "project": "643639e0-d841-11e9-b84d-dd9bb5079e29",
+                    "feature": null,
+                    "screenType": "desktop",
+                    "isTemplate": false,
+                    "stylesheets": [],
+                    "scripts": [],
+                    "css-guidelines": [],
+                    "_id": "bd208650-d841-11e9-92e7-c3426acc03d3",
+                    "gjs-css":
+                        "* { box-sizing: border-box; } body {margin: 0;}#im8pf{padding-top:10px;padding-right:2px;padding-left:2px;padding-bottom:10px;}",
+                    "gjs-html":
+                        "<body><div id=\"im8pf\"><button class=\"btn btn-primary\" id=\"ioj34\">Modal\n      </button></div></body>",
+                    "flows_info": [],
+                    "route_info": [],
+                    "screenName": "openmodal",
+                    "entity_info": [],
+                    "created_at": "2019-09-16T05:20:46.902Z"
+                }],
+            "mobile": null,
+            "flows":
+                [{
+                    "_id": "787a5df0-d841-11e9-ae6e-c707bc73a880",
+                    "name": "GpGetAllValues",
+                    "label": "getAllRecord",
+                    "description": "special search that gets all values",
+                    "type": "basic",
+                    "actionOnData": "GpGetAllValues",
+                    "createWithDefaultActivity": 1,
+                    "components":
+                        [{
+                            "name": "GpAngularComponent",
+                            "label": "angular 7 component",
+                            "description": "component for Angular desktop",
+                            "type": "client",
+                            "sequenceId": 1,
+                            "devLanguage": "java_script",
+                            "devFramework": "Angular",
+                            "microFlows":
+                                [{
+                                    "_id": "8828d164-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpAngularComponent",
+                                    "microFlowStepName": "GpHeaders",
+                                    "sequenceId": "1",
+                                    "createdAt": "2019-09-11T09:15:39.663Z"
+                                },
+                                {
+                                    "_id": "8828d165-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpAngularComponent",
+                                    "microFlowStepName": "GpOptions",
+                                    "sequenceId": "2",
+                                    "createdAt": "2019-09-11T09:15:39.755Z"
+                                },
+                                {
+                                    "_id": "8828f870-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpAngularComponent",
+                                    "microFlowStepName": "GpCodeToAdd",
+                                    "sequenceId": "3",
+                                    "createdAt": "2019-09-11T09:15:39.732Z"
+                                },
+                                {
+                                    "_id": "8828f871-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpAngularComponent",
+                                    "microFlowStepName": "GpCheck_Connector",
+                                    "sequenceId": "4",
+                                    "createdAt": "2019-09-11T09:15:39.824Z"
+                                },
+                                {
+                                    "_id": "8828f872-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpAngularComponent",
+                                    "microFlowStepName": "GpRequest",
+                                    "sequenceId": "5",
+                                    "createdAt": "2019-09-11T09:15:39.784Z"
+                                }
+                                ],
+                            "connector":
+                                [{
+                                    "url": null,
+                                    "isDefault": true,
+                                    "isDisabled": false,
+                                    "properties": [],
+                                    "_id": "7cbbbaf0-7877-11e9-bdb0-f73f14ce0e52",
+                                    "name": "AngularComponent",
+                                    "description":
+                                        "default connector calling from frontend component to frontend service",
+                                    "availableApi":
+                                        [{
+                                            "name": null,
+                                            "description": null,
+                                            "type": null,
+                                            "properties": [],
+                                            "_id": "5d7f220dd2db8f67c1492c16"
+                                        }
+                                        ],
+                                    "fromComponentName": "GpAngularComponent",
+                                    "toComponentName": "GpAngularService",
+                                    "createdAt": "2019-09-11T09:15:38.375Z"
+                                }
+                                ]
+                        },
+                        {
+                            "name": "GpAngularService",
+                            "label": "angular 7 service",
+                            "description": "service for Angular desktop",
+                            "type": "client",
+                            "sequenceId": 2,
+                            "devLanguage": "java_script",
+                            "devFramework": "Angular",
+                            "microFlows":
+                                [{
+                                    "_id": "88291f82-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpAngularService",
+                                    "microFlowStepName": "GpOptions",
+                                    "sequenceId": "2",
+                                    "createdAt": "2019-09-11T09:15:39.876Z"
+                                },
+                                {
+                                    "_id": "88291f83-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpAngularService",
+                                    "microFlowStepName": "GpCodeToAdd",
+                                    "sequenceId": "3",
+                                    "createdAt": "2019-09-11T09:15:39.880Z"
+                                },
+                                {
+                                    "_id": "88291f84-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpAngularService",
+                                    "microFlowStepName": "GpCheck_Connector",
+                                    "sequenceId": "4",
+                                    "createdAt": "2019-09-11T09:15:39.869Z"
+                                },
+                                {
+                                    "_id": "88291f85-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpAngularService",
+                                    "microFlowStepName": "GpRequest",
+                                    "sequenceId": "5",
+                                    "createdAt": "2019-09-11T09:15:39.888Z"
+                                },
+                                {
+                                    "_id": "88294690-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpAngularService",
+                                    "microFlowStepName": "GpHeaders",
+                                    "sequenceId": "1",
+                                    "createdAt": "2019-09-11T09:15:39.821Z"
+                                }
+                                ],
+                            "connector":
+                                [{
+                                    "url": null,
+                                    "isDefault": true,
+                                    "isDisabled": false,
+                                    "properties": [],
+                                    "_id": "7cbb93e4-7877-11e9-bdb0-f73f14ce0e52",
+                                    "name": "AngularService",
+                                    "description":
+                                        "default connector calling from frontend service to backend controller",
+                                    "availableApi":
+                                        [{
+                                            "name": null,
+                                            "description": null,
+                                            "type": null,
+                                            "properties": [],
+                                            "_id": "5d7f220dd2db8f67c1492c17"
+                                        }
+                                        ],
+                                    "fromComponentName": "GpAngularService",
+                                    "toComponentName": "GpExpressController",
+                                    "createdAt": "2019-09-11T09:15:38.021Z"
+                                }
+                                ]
+                        },
+                        {
+                            "name": "GpIonicAngularComponent",
+                            "label": "Mobile Component",
+                            "description": "component for Mobile Application",
+                            "type": "client",
+                            "sequenceId": 1,
+                            "devLanguage": "java_script",
+                            "devFramework": "Ionic Angular",
+                            "microFlows":
+                                [{
+                                    "_id": "8828f873-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpIonicAngularComponent",
+                                    "microFlowStepName": "GpHeaders",
+                                    "sequenceId": "1",
+                                    "createdAt": "2019-09-11T09:15:39.936Z"
+                                },
+                                {
+                                    "_id": "8828f874-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpIonicAngularComponent",
+                                    "microFlowStepName": "GpOptions",
+                                    "sequenceId": "2",
+                                    "createdAt": "2019-09-11T09:15:39.956Z"
+                                },
+                                {
+                                    "_id": "8828f875-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpIonicAngularComponent",
+                                    "microFlowStepName": "GpCodeToAdd",
+                                    "sequenceId": "3",
+                                    "createdAt": "2019-09-11T09:15:39.974Z"
+                                },
+                                {
+                                    "_id": "88291f80-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpIonicAngularComponent",
+                                    "microFlowStepName": "GpCheck_Connector",
+                                    "sequenceId": "4",
+                                    "createdAt": "2019-09-11T09:15:39.988Z"
+                                },
+                                {
+                                    "_id": "88291f81-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpIonicAngularComponent",
+                                    "microFlowStepName": "GpRequest",
+                                    "sequenceId": "5",
+                                    "createdAt": "2019-09-11T09:15:40.008Z"
+                                }
+                                ],
+                            "connector":
+                                [{
+                                    "url": null,
+                                    "isDefault": true,
+                                    "isDisabled": false,
+                                    "properties": [],
+                                    "_id": "7cbb93e2-7877-11e9-bdb0-f73f14ce0e52",
+                                    "name": "MobileComponent",
+                                    "description":
+                                        "default connector calling from frontend Mobile component to mobile service",
+                                    "availableApi":
+                                        [{
+                                            "name": null,
+                                            "description": null,
+                                            "type": null,
+                                            "properties": [],
+                                            "_id": "5d7f220dd2db8f67c1492c18"
+                                        }
+                                        ],
+                                    "fromComponentName": "GpIonicAngularComponent",
+                                    "toComponentName": "GpIonicAngularService",
+                                    "createdAt": "2019-09-11T09:15:38.047Z"
+                                }
+                                ]
+                        },
+                        {
+                            "name": "GpIonicAngularService",
+                            "label": "Mobile Service",
+                            "description": "service for mobile Application",
+                            "type": "client",
+                            "sequenceId": 2,
+                            "devLanguage": "java_script",
+                            "devFramework": "Ionic Angular",
+                            "microFlows":
+                                [{
+                                    "_id": "88294691-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpIonicAngularService",
+                                    "microFlowStepName": "GpHeaders",
+                                    "sequenceId": "1",
+                                    "createdAt": "2019-09-11T09:15:39.937Z"
+                                },
+                                {
+                                    "_id": "88294692-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpIonicAngularService",
+                                    "microFlowStepName": "GpOptions",
+                                    "sequenceId": "2",
+                                    "createdAt": "2019-09-11T09:15:40.009Z"
+                                },
+                                {
+                                    "_id": "88294693-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpIonicAngularService",
+                                    "microFlowStepName": "GpCodeToAdd",
+                                    "sequenceId": "3",
+                                    "createdAt": "2019-09-11T09:15:39.974Z"
+                                },
+                                {
+                                    "_id": "88294694-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpIonicAngularService",
+                                    "microFlowStepName": "GpRequest",
+                                    "sequenceId": "5",
+                                    "createdAt": "2019-09-11T09:15:39.957Z"
+                                },
+                                {
+                                    "_id": "88294695-7003-11e9-abdd-ffb308621fd2",
+                                    "componentName": "GpIonicAngularService",
+                                    "microFlowStepName": "GpCheck_Connector",
+                                    "sequenceId": "4",
+                                    "createdAt": "2019-09-11T09:15:39.996Z"
+                                }
+                                ],
+                            "connector":
+                                [{
+                                    "url": null,
+                                    "isDefault": true,
+                                    "isDisabled": false,
+                                    "properties": [],
+                                    "_id": "7cbb93e0-7877-11e9-bdb0-f73f14ce0e52",
+                                    "name": "MobileService",
+                                    "description":
+                                        "default connector calling from frontend Mobile service to its backend controller",
+                                    "availableApi":
+                                        [{
+                                            "name": null,
+                                            "description": null,
+                                            "type": null,
+                                            "properties": [],
+                                            "_id": "5d7f220dd2db8f67c1492c19"
+                                        }
+                                        ],
+                                    "fromComponentName": "GpIonicAngularService",
+                                    "toComponentName": "GpExpressController",
+                                    "createdAt": "2019-09-11T09:15:37.926Z"
+                                }
+                                ]
+                        }
+                        ]
+                }
+                ]
+        }
+
         // console.log('create angular html metadata ---@#$$$$-11---    ', req.body.desktop.length);
         // console.log('create angular html metadata ---@#$$$$-json-22--    ', JSON.parse(req.body.desktop[0]['gjs-components'][0]));
         // more desktop screens in one features
@@ -28,8 +567,8 @@ export class AngularService {
         //         }
         //     });
         // })
-        const primaryScreens = details.desktop.filter(x => x.route_info.length > 0);
-        const secondaryScreens = details.desktop.filter(x => x.route_info.length == 0);
+        const primaryScreens = details.desktop.filter(x => x.route_info.length > 0 || x["special-events"].length > 0);
+        const secondaryScreens = details.desktop.filter(x => x.route_info.length == 0 && x["special-events"].length == 0);
         console.log('all screen lenght ---- ', details.desktop.length);
         console.log('primary screen lenght ---- ', primaryScreens.length);
         console.log('secondary screen lenght ---- ', secondaryScreens.length);
@@ -79,9 +618,9 @@ export class AngularService {
     }
 
     iterateScreens(screenInfo, details, callback) {
-        console.log('outside asyncloop screenfinfo are ----- ', screenInfo);
+        // console.log('outside asyncloop screenfinfo are ----- ', screenInfo);
         asyncLoop(screenInfo, (featureScreenElement, next) => {
-            console.log('inside asyncloop screenfinfo are ----- ', featureScreenElement);
+            // console.log('inside asyncloop screenfinfo are ----- ', featureScreenElement);
             if (featureScreenElement) {
                 generateHtmlWorker.generate(JSON.parse(featureScreenElement['gjs-components'][0]), featureScreenElement['gjs-css'], featureScreenElement, featureScreenElement.screenName, details, (response) => {
                     next();

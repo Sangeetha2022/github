@@ -5,12 +5,14 @@ import { Constant } from '../config/Constant';
 import * as componentDependency from '../assets/componentDependency';
 import { threadId } from 'worker_threads';
 import { ComponentSpecializedWorker } from './componentSpecializedWorker';
+import { ComponentLifecycleWorker } from './componentLifecycleWorker';
 // import { styles } from '../assets/cssGuidline';
 // import { RouteSupportWorker } from '../supportworker/RouteSupportWorker';
 
 // let routeSupportWorker = new RouteSupportWorker();
 let componentWorker = new ComponentWorker();
 let componentSpecializedWorker = new ComponentSpecializedWorker();
+let componentLifecyleWorker = new ComponentLifecycleWorker();
 
 export class GenerateHtmlWorker {
 
@@ -29,16 +31,20 @@ export class GenerateHtmlWorker {
     // entity and flows for Each screens
     private entityDetails = [];
     private flowDetails = [];
+    private componentLifecycleInfo = [];
+    private screenSpecialEvents = [];
 
     // set other dependencies 
     private entities = [];
     private flowList = [];
     private endPointList: any;
-    private generatedScreens: any[] = [];
+    private generatedRouteScreens: any[] = [];
+    private generatedSpecialEventScreens: any[] = [];
 
     private tsComponent = {
         variableList: [],
         dependenciesVariableList: [],
+        componentOnInit: [],
         routeList: [],
         flowMethod: [],
         elementDependedMethod: [],
@@ -73,12 +79,15 @@ export class GenerateHtmlWorker {
         }
     }
     generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
+        // console.log('create angular project value are ----- ', util.inspect(req.body, { showHidden: true, depth: null }));
+        console.log('entering into geenerate methods are -----  ', util.inspect(metaData, { showHidden: true, depth: null }));
         this.startTag = [];
         this.endTag = [];
         // component
         this.tsComponent = {
             variableList: [],
             dependenciesVariableList: [],
+            componentOnInit: [],
             routeList: [],
             flowMethod: [],
             elementDependedMethod: [],
@@ -101,15 +110,18 @@ export class GenerateHtmlWorker {
         console.log('generatehtlmworker componentstyles are ----  ', this.componentStyle);
         this.entityDetails = screenDetails.entity_info;
         this.flowDetails = screenDetails.flows_info;
+        this.componentLifecycleInfo = screenDetails['component-lifecycle'];
+        this.screenSpecialEvents = screenDetails['special-events'];
         // list of other dependencies
         this.entities = details.entities;
         this.flowList = details.flows;
         this.endPointList = details.nodeResponse;
         this.cssGuidelines = details.cssGuidelines;
-
         this.generateHtml(metaData);
-        // this.templateMainObj.tag = this.startTag;
-        // this.TemplateTag = this.startTag;
+        // if component lifecycle present then we set those details
+        if (this.componentLifecycleInfo && this.componentLifecycleInfo.length > 0) {
+            this.setComponentLifeCycle();
+        }
         console.log('after completed all method in child startTag are   ', `${this.startTag.join(`\n`)}`);
         // console.log('tscomponent object are ------  ', util.inspect(this.tsComponent, { showHidden: true, depth: null }));
         this.generateComponent(componentName, details, callback);
@@ -121,6 +133,10 @@ export class GenerateHtmlWorker {
         // console.log('after completed all method in child templateTag are   ', `${this.startTag.join(`\n`)}`);
     }
 
+    setComponentLifeCycle() {
+        componentLifecyleWorker.setComponentLifeCycle(this);
+    }
+
     generateComponent(componentName, details, callback) {
         // console.log('generate component are ---- ', util.inspect(details, { showHidden: true, depth: null }));
         // console.log('html tag result in generate component are -----  ', this.startTag);
@@ -129,8 +145,9 @@ export class GenerateHtmlWorker {
         const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
         const packagePath = details.projectGenerationPath;
         const templatePath = details.templateLocation.frontendTemplate;
+        this.checkRoutes();
+        this.checkPopupModal();
         componentWorker.generateComponentHtml(applicationPath, templatePath, componentName, this.startTag, (response) => {
-            this.checkRoutes();
             componentWorker.generateComponentTs(applicationPath, templatePath, componentName, this.tsComponent, this.entities, (response) => {
                 componentWorker.generateComponentService(applicationPath, templatePath, componentName, this.serviceComponent, (response) => {
                     // console.log('before calling generatecomponentcss from generatehtlm -----  ', this.componentStyle);
@@ -150,13 +167,12 @@ export class GenerateHtmlWorker {
 
     checkRoutes() {
         console.log('check route list sra --1-- ', this.tsComponent);
-        console.log('check route generatedScreens -2--- ', this.generatedScreens);
-        const screenIndex = this.generatedScreens.findIndex(x => x.screenId == this.screenInfo._id);
+        console.log('check route generatedRouteScreens -2--- ', this.generatedRouteScreens);
+        const screenIndex = this.generatedRouteScreens.findIndex(x => x.screenId == this.screenInfo._id);
         console.log('screenIndex checkRoutes ---- ', screenIndex);
         if (screenIndex > -1) {
-            const temp = this.generatedScreens[screenIndex];
+            const temp = this.generatedRouteScreens[screenIndex];
             const flowObject = this.flowList.find(x => x._id == temp.screenFlow);
-            console.log('check routes flowObject ---------->>>   ', flowObject);
             let flowTemp = {
                 _id: '',
                 name: '',
@@ -167,34 +183,67 @@ export class GenerateHtmlWorker {
                 createWithDefaultActivity: '',
                 components: []
             };
-            if (flowObject && !this.tsComponent.flowMethod.find(x => x._id == flowObject._id)) {
-                flowTemp = {
-                    _id: flowObject._id,
-                    name: flowObject.name,
-                    label: flowObject.label,
-                    description: flowObject.description,
-                    type: flowObject.type,
-                    actionOnData: flowObject.actionOnData,
-                    createWithDefaultActivity: flowObject.createWithDefaultActivity,
-                    components: []
-
-                }
-                // set component dependencies method and variable
-                this.setComponentDependencies(flowObject, flowTemp);
-
-                // set services dependencies method and variable
-                this.setServiceDependencies(flowObject, flowTemp);
-
-                // set component services api's
-                this.setEndPoints(flowObject);
-
-                // set component route list
-                this.setComponentRouteList(temp, 'child');
-                console.log('setted ts component ---->>>  ', this.tsComponent);
-                console.log('setted services  ---->>>  ', this.serviceComponent);
+            // if (flowObject && !this.tsComponent.flowMethod.find(x => x._id == flowObject._id)) {
+            flowTemp = {
+                _id: flowObject._id,
+                name: flowObject.name,
+                label: flowObject.label,
+                description: flowObject.description,
+                type: flowObject.type,
+                actionOnData: flowObject.actionOnData,
+                createWithDefaultActivity: flowObject.createWithDefaultActivity,
+                components: []
 
             }
-            this.generatedScreens.splice(screenIndex, 1);
+            // set component dependencies method and variable
+            this.setComponentDependencies(flowObject, flowTemp);
+
+            // set services dependencies method and variable
+            this.setServiceDependencies(flowObject, flowTemp);
+
+            // set component services api's
+            this.setEndPoints(flowObject);
+
+            // set component route list
+            this.setComponentRouteList(temp, 'child');
+
+            // }
+            this.generatedRouteScreens.splice(screenIndex, 1);
+        }
+    }
+
+    // check popup modal.....
+    checkPopupModal() {
+        console.log('check popupmodal generatedSpecialEventScreens -2--- ', this.generatedSpecialEventScreens);
+        const screenIndex = this.generatedSpecialEventScreens.findIndex(x => x.screenId == this.screenInfo._id);
+        if (screenIndex > -1) {
+            const modalComponent = componentDependency.component.find(x => x.name === Constant.GP_MODAL_POPUP);
+            // HTML
+            this.startTag.unshift(`<div *ngIf="${modalComponent.componentDynamicVariable.popupModalName}" id="popupModal" class="modal" tabindex="-1" role="dialog" style="display: block">
+          <div class="modal-dialog modal-md" role="dialog">
+            <div class="modal-content">
+              <div class="container">`);
+            this.startTag.push(`</div>
+            <div class="modal-footer">
+              <div class="form-group">
+                <button type="button" class="btn button-create" (click)="${modalComponent.componentDynamicVariable.submitMethodName}()">ok</button>
+                <button type="button" class="btn button-close" (click)="${modalComponent.componentDynamicVariable.cancelMethodName}()">cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`);
+            // TS
+            this.tsComponent.variableList.push(`@Input() ${modalComponent.componentDynamicVariable.popupModalName} = false;`);
+            this.tsComponent.variableList.push(`@Output() ${modalComponent.componentDynamicVariable.popupDataName} = new EventEmitter();`);
+            this.tsComponent.variableList.push(`@Output() ${modalComponent.componentDynamicVariable.cancelPopupName} = new EventEmitter();`);
+            // TS METHOD
+            // component methods
+            const methods = modalComponent.componentDependedMethod.filter(x =>
+                x.name === modalComponent.componentDynamicVariable.submitMethodName ||
+                x.name === modalComponent.componentDynamicVariable.cancelMethodName)
+            const temp = methods.map(({ method }) => method);
+            this.tsComponent.elementDependedMethod = this.tsComponent.elementDependedMethod.concat(temp.join('\n'));
         }
     }
 
@@ -255,8 +304,8 @@ export class GenerateHtmlWorker {
     }
 
     generateChildHtml(firstEle, secondEle) {
-        // console.log(`firstElE -11--${this.count}-- `, firstEle);
-        // console.log(`secondElE -22--${this.count}-- `, secondEle);
+        console.log(`firstElE -11--${this.count}-- `, firstEle);
+        console.log(`secondElE -22--${this.count}-- `, secondEle);
         this.tagName = '';
         this.startString = '';
         this.isCKeditorSpan = false;
@@ -366,6 +415,7 @@ export class GenerateHtmlWorker {
 
             })
             // set html traits
+            console.log('passing data to set triats if condition ------   ', firstEle);
             this.setTraits(firstEle);
             if (this.tagName === 'input' || this.tagName === 'meta' || this.tagName === 'link') {
                 this.startString += `/>`;
@@ -374,6 +424,7 @@ export class GenerateHtmlWorker {
             }
         } else {
             // set html traits
+            console.log('passing data to set triats else condition ------   ', firstEle);
             this.setTraits(firstEle);
             if (this.startString) {
                 this.startString += `>`;
@@ -383,14 +434,21 @@ export class GenerateHtmlWorker {
     }
 
     setTraits(firstEle) {
+        console.log('entering into firstelement triats ', firstEle.hasOwnProperty('traits'));
         if (firstEle.hasOwnProperty('traits')) {
             // checking entities from databinding and flows for methods in component
-            if (this.entityDetails.length > 0 || this.flowDetails.length > 0 || this.screenInfo.route_info.length > 0) {
+            if (this.entityDetails.length > 0 || this.flowDetails.length > 0 ||
+                this.screenInfo.route_info.length > 0 || this.screenSpecialEvents.length > 0) {
                 firstEle.traits.forEach(traitElement => {
-                    // console.log('triat firstelement are -----   ', traitElement);
+                    console.log('triat firstelement are -----   ', traitElement.value);
                     const entityIndex = this.entityDetails.findIndex(x => x.elementName == traitElement.value);
-                    const flowIndex = this.flowDetails.findIndex(x => x.elementName == traitElement.value);
+                    const flowIndex = this.flowDetails.findIndex(x => x.elementName == traitElement.value && x.elementName !== '');
                     const routeIndex = this.screenInfo.route_info.findIndex(x => x.elementName == traitElement.value);
+                    const specialEventIndex = this.screenSpecialEvents.findIndex(x => x.elementName == traitElement.value);
+                    if (traitElement.value === 'modal_ioj34') {
+                        console.log('speicalindex are ----  ', specialEventIndex);
+                        console.log('screenSpecialEvents are ----  ', this.screenSpecialEvents);
+                    }
 
                     // console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex, '  --routeIndex--  ', routeIndex);
                     // span with data binding 
@@ -404,6 +462,11 @@ export class GenerateHtmlWorker {
                     } else if (entityIndex > -1 && !this.isCKeditorSpan) {
                         // console.log('entering into else if else if enditityINdex values')
                         this.setDataBinding(this.entityDetails[entityIndex], this.tagName);
+                    }
+                    // special events
+                    if (specialEventIndex > -1) {
+                        console.log('special events index preseint ----   ', specialEventIndex);
+                        componentSpecializedWorker.setSpecialEvents(this.screenSpecialEvents[specialEventIndex], this);
                     }
                     // adding flows action
                     if (flowIndex > -1) {
@@ -448,27 +511,30 @@ export class GenerateHtmlWorker {
                     // check routing info and decide whether we add it in html or ts
                     if (routeIndex > -1) {
                         const routeObj = this.screenInfo.route_info[routeIndex];
-                        console.log('routeindex routeObj ---11-- ', routeObj);
-                        console.log('routeindex generatedScreens ----- ', this.generatedScreens);
-                        const isExistIndex = this.generatedScreens.findIndex(x => x.elementName === routeObj.elementName);
+                        const isExistIndex = this.generatedRouteScreens.findIndex(x => x.elementName === routeObj.elementName);
                         if (isExistIndex > -1) {
-                            this.generatedScreens.splice(isExistIndex, 1);
+                            this.generatedRouteScreens.splice(isExistIndex, 1);
                         } else {
-                            this.generatedScreens.push(routeObj);
+                            this.generatedRouteScreens.push(routeObj);
                         }
                         // set component route list
                         this.setComponentRouteList(routeObj, 'parent');
-                        console.log('routeindex are ---11-- ', routeIndex);
-                        console.log('routeindex are ---22-- ', this.screenInfo.is_grid_present);
                         if (this.screenInfo.is_grid_present) {
                             componentSpecializedWorker.checkAGGridAction(this, routeObj);
+                        }
+                    } else if (specialEventIndex > -1) {
+                        const specialEventObj = this.screenInfo['special-events'][specialEventIndex];
+                        const isIndexExist = this.generatedSpecialEventScreens.findIndex(x => x.elementName === specialEventObj.elementName);
+                        if (isIndexExist > -1) {
+                            this.generatedSpecialEventScreens.splice(isIndexExist, 1);
+                        } else {
+                            this.generatedSpecialEventScreens.push(specialEventObj);
                         }
                     }
                 })
 
                 // add ckeditor ngModels
                 if (this.ckeditorEntities && !this.isCKeditorSpan) {
-                    // console.log('entering into else if ckeditroentities --- ', this.tagName);
                     this.setDataBinding(this.ckeditorEntities, this.tagName);
                     this.ckeditorEntities = null;
                 }

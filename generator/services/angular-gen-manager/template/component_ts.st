@@ -11,7 +11,7 @@ $if(object.scriptVariable)$$object.scriptVariable:{name | declare var $name$: an
 })
 export class $object.className$Component implements OnInit {
 $if(object.componentVariable)$
-$object.componentVariable:{name |public $name$;};separator="\n"$
+$object.componentVariable:{name | $name$;};separator="\n"$
 $endif$
   constructor(
 $if(object.componentConstructorParams)$$object.componentConstructorParams:{name | $name$};separator=",\n"$$endif$

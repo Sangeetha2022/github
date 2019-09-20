@@ -27,8 +27,10 @@ import {
     Authgencontroller,
     AngularTemplateController,
     AdminController,
-    TemplateController
-    
+    TemplateController,
+    FredController,
+    DeleteManagerController
+
 
 } from './apicontroller';
 
@@ -61,7 +63,9 @@ let apisController = [
     new Authgencontroller(),
     new AngularTemplateController(),
     new AdminController(),
-    new TemplateController()
+    new TemplateController(),
+    new FredController(),
+    new DeleteManagerController()
 ]
 
 class App {

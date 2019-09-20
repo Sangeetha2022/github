@@ -8,7 +8,7 @@ export class Routes {
 
     public entityController: EntityController = new EntityController();
     public defaultEntityController: DefaultEntityController = new DefaultEntityController();
-    
+
     public entityTypeController: EntityTypeController = new EntityTypeController();
 
     public routes(app): void {
@@ -21,6 +21,8 @@ export class Routes {
         app.route('/entity/save').post(this.entityController.createEntity);
         app.route('/entity/update').put(this.entityController.updateEntity);
         app.route('/entity/delete/:id').delete(this.entityController.deleteEntity);
+        app.route('/entity/deletebyproject/:id').delete(this.entityController.deleteProjectEntity);
+        app.route('/entity/getbyproject/:id').get(this.entityController.getProjectEntity);
         app.route('/entity/get/:id').get(this.entityController.getByEntityId);
         app.route('/entity/getall').get(this.entityController.getAllEntity);
         app.route('/entity/get').get(this.entityController.getEntityByProjectId);
@@ -31,7 +33,7 @@ export class Routes {
 
         // entity field
         app.route('/entity/field/update').put(this.entityController.updateEntityField);
-        
+
         // entity types
         app.route('/entity_type/get').get(this.entityTypeController.getAllEntity);
 
