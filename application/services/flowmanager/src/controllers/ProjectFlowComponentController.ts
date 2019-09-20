@@ -39,7 +39,7 @@ export class ProjectFlowComponentController {
     public updateProjectFlowComponent(req: Request, res: Response) {
         projectFlowComponentService.updateProjectFlowComponent(req, (respone) => {
             res.status(200);
-            res.json(response)
+            res.json(respone)
         })
     }
 

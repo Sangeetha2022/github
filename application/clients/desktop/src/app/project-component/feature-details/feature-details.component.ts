@@ -18,6 +18,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { validateBasis } from '@angular/flex-layout';
 import { invalid } from '@angular/compiler/src/render3/view/util';
 import { element } from '@angular/core/src/render3';
+import { RowComp } from 'ag-grid-community';
 
 // import { FormBuilder , FormGroup ,Validators} from `@angular/forms`;
 
@@ -51,6 +52,7 @@ export class FeatureDetailsComponent implements OnInit {
     featureEntity: any = [];
     frameworkComponents: { buttonRenderer: any; };
     displayModel: String = 'none';
+    popUp: String = 'none';
     public isReadOnly: Boolean = false;
     featureScreenName: any = [];
     columnFeatureDefs: any = [];
@@ -106,11 +108,13 @@ export class FeatureDetailsComponent implements OnInit {
         service: '',
 
     };
+    public apiMethodArray: any = ['select Apis' , 'post', 'get', 'put', 'delete'];
     public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
     // This is the default title property created by the angular cli. Its responsible for the app works
     isPrimaryEntityPresent: boolean;
     deletePopup: string;
     deletescreenPopup: string;
+    deleteConnectorPopup: string;
     selectedEntityId: any;
     selectedScreenId: any;
     flowInFeatureColumn: any[];
@@ -129,6 +133,7 @@ export class FeatureDetailsComponent implements OnInit {
     public quickConnectorsService: any;
     public modifyComponents: any = [];
     public connectorsType: String;
+    modifyConnectorsId: any;
 
 
 
@@ -263,7 +268,9 @@ export class FeatureDetailsComponent implements OnInit {
             description: ['', Validators.required],
             endPoint: ['', Validators.required],
             api_key: ['', Validators.required],
-            params: ['', Validators.required]
+            params: ['', Validators.required],
+            apiMethods: ['', Validators.required]
+
         });
         this.route.queryParams.subscribe(params => {
             if (params.featureId !== undefined && params.featureId !== null) {
@@ -437,6 +444,14 @@ export class FeatureDetailsComponent implements OnInit {
         }
     }
     modify(e) {
+        e.rowData.components.map(data => {
+           data.connector.map(connector => {
+               if (connector.isCustom === true) {
+                   console.log('connctors---->>', connector.isCustom)
+                   this.modifyConnectorsId = connector._id;
+               }
+           });
+        });
         if (e.rowData.flowType === 'GeppettoFlow') {
             this.modifyFlows.flowName = e.rowData.name;
             this.modifyFlows.flowLable = e.rowData.label;
@@ -454,11 +469,26 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     backendSerice(event) {
-        this.quickConnectors.service = event;
+        if (this.modifyConnectorsId !== undefined) {
+            this.showAlert();
+        } else if (this.modifyConnectorsId === undefined) {
+            this.quickConnectors.service = event;
+        }
     }
     frontEndService(event) {
-        this.quickConnectors.service = event;
+        if (this.modifyConnectorsId !== undefined) {
+            this.showAlert();
+        } else if (this.modifyConnectorsId === undefined) {
+            this.quickConnectors.service = event;
+        }
     }
+
+   showAlert() {
+    this.submitted = false;
+    this.displayModel = 'none';
+    this.customeConncetor = false;
+    this.deleteConnectorPopup = 'block';
+   }
 
     quickConnectorsMethod(event) {
         this.connectorsType = event;
@@ -471,15 +501,15 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     addExternalConnector() {
-        if (this.quickConnectorId !== undefined) {
-            this.getQuickConnectorId();
+        if (this.modifyConnectorsId !== undefined) {
+            this.getQuickConnectorId(this.modifyConnectorsId);
         } else {
             this.customeConncetor = true;
         }
     }
-    getQuickConnectorId() {
-        console.log('quick conntors --->', this.quickConnectorId);
-        this.projectComponentService.getConnectorById(this.quickConnectorId).subscribe(response => {
+    getQuickConnectorId(connector_id) {
+        console.log('quick conntors --->', connector_id);
+        this.projectComponentService.getConnectorById(connector_id).subscribe(response => {
             if (response) {
                 console.log('getQuickConnectorId--->>', response);
                 this.quickConnectors = response.body;
@@ -487,6 +517,13 @@ export class FeatureDetailsComponent implements OnInit {
             }
         });
     }
+
+    closedeleteConntorPopUp() {
+        this.deleteConnectorPopup = 'none';
+        this.customeConncetor = true;        
+    }
+
+
 
      onSubmit() {
         this.submitted = true;
@@ -705,6 +742,7 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     openDialog(isSaveOption, objectValue): void {
+        this.displayModel = 'block';
         const dialogDataValue = {
             savedEntity: {},
             projectId: this.project_id,
