@@ -1,7 +1,7 @@
 
 //local
-const appUrl = "http://localhost";
-const generationUrl = "http://localhost";
+// const appUrl = "http://localhost";
+// const generationUrl = "http://localhost";
 
 //kubernetes
 const appUrl = "http://gep-dev-app.gep-dev-201902.svc.cluster.local";
