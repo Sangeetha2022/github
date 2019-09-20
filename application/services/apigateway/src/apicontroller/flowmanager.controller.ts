@@ -43,9 +43,10 @@ class FlowManagerController implements Controller {
 
         //qucik connectors
         this.router.post('/save/quickConnectors', this.saveConnectors);
-        this.router.get('/get/quickConnectorbyentity/:id', this.getConnectorByEntity);
+        this.router.get('/get/quickConnectorbyentity/:entityid', this.getConnectorByEntity);
         this.router.get('/get/quickConnectorbyid/:id', this.getConnectorById);
         this.router.delete('/delete/quickConnectorbyid/:id', this.deleteConnectorById);
+        this.router.delete('/delete/quickConnectorbyentityid/:entityid', this.deleteConnectorByEntityId);
 
     }
 
@@ -309,7 +310,7 @@ class FlowManagerController implements Controller {
     // Get connector based on entity
 
     getConnectorByEntity(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.flowUrl}/get/quickConnectorbyentity/${req.params.id}`)
+        new ApiAdaptar().get(`${Constants.flowUrl}/get/quickConnectorbyentity/${req.params.entityid}`)
             .then(flow => {
                 req.baseUrl === '/mobile' ? res.send(flow) :
                     req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
@@ -347,6 +348,20 @@ class FlowManagerController implements Controller {
             })
 
     }
+
+
+    deleteConnectorByEntityId(req: Request, res: Response) {
+        new ApiAdaptar().delete(`${Constants.flowUrl}/delete/quickConnectorbyentityid/${req.params.entityid}`)
+            .then(flow => {
+                req.baseUrl === '/mobile' ? res.send(flow) :
+                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            })
+
+    }
+
 }
 
 export { FlowManagerController };

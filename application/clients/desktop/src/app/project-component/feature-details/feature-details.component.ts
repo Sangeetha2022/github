@@ -435,11 +435,25 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
 
+    deleteFlowById(flowId) {
+        this.projectComponentService.deleteFlowById(flowId).subscribe(
+            data => {
+                this.getProjectFeatureFlows();
+                this.getAllFlows();
+                this.getEntityByFeatureId();
+            },
+            error => {
+                console.log('cannot able to delete the projectFlow ', error);
+            });
+    }
+
+
     removeRow(e) {
         const index = this.featureInfo.flows.findIndex(x => x === e.rowData._id);
         if (index > -1) {
             this.featureInfo.flows.splice(index, 1);
-            this.deleteProjectFlow(e.rowData._id);
+            // this.deleteProjectFlow(e.rowData._id);
+            this.deleteFlowById(e.rowData._id);
             this.saveFlowsInFeature();
         }
     }
@@ -552,6 +566,7 @@ export class FeatureDetailsComponent implements OnInit {
         console.log('url =--->>', `${tempObject.endPointUrl}?${tempObject.params}&api_key=${tempObject.api_key}&file_type=json`);
         this.projectComponentService.fred(tempObject).subscribe(data => {
             if (data) {
+                this.getEntityByFeatureId();
                 const tempObj = {
                     url: `${tempObject.endPointUrl}?${tempObject.params}&api_key=${tempObject.api_key}&file_type=json`,
                     isCustom: true,
@@ -902,9 +917,21 @@ export class FeatureDetailsComponent implements OnInit {
         this.deletePopup = 'none';
     }
 
-    deleteEntity() {
+    // deleteEntity() {
+    //     this.deletePopup = 'none';
+    //     this.projectComponentService.deleteEntity(this.selectedEntityId).subscribe(
+    //         (data) => {
+    //             this.getEntityByFeatureId();
+    //         },
+    //         (error) => {
+
+    //         }
+    //     );
+    // }
+
+    deleteEntityById() {
         this.deletePopup = 'none';
-        this.projectComponentService.deleteEntity(this.selectedEntityId).subscribe(
+        this.projectComponentService.deleteEntityById(this.selectedEntityId).subscribe(
             (data) => {
                 this.getEntityByFeatureId();
             },
@@ -915,9 +942,22 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
 
-    deleteScreenPopup() {
+    // deleteScreenPopup() {
+    //     this.deletescreenPopup = 'none';
+    //     this.screenService.deleteScreen(this.selectedScreenId).subscribe(
+    //         (data) => {
+    //             this.getScreenByFeatureId();
+
+    //         },
+    //         (error) => {
+
+    //         }
+    //     );
+    // }
+
+    deleteScreenByIdPopup() {
         this.deletescreenPopup = 'none';
-        this.screenService.deleteScreen(this.selectedScreenId).subscribe(
+        this.screenService.deleteScreenById(this.selectedScreenId).subscribe(
             (data) => {
                 this.getScreenByFeatureId();
 

@@ -22,4 +22,25 @@ export class FeatureManagerService {
                 callback(error);
             })
     }
+
+    public getFeatureById(featureid, callback) {
+        const featureId = featureid;
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/feature/get/?featureId=${featureId}`).then
+            (data => {
+                callback(data);
+            }).catch(error => {
+                callback(error);
+            })
+    }
+
+
+    public deleteFeatureById(featureid, callback) {
+        const featureId = featureid;
+        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/feature/delete/?featureId=${featureId}`).then
+            (data => {
+                callback(data);
+            }).catch(error => {
+                callback(error);
+            })
+    }
 }

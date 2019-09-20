@@ -23,6 +23,16 @@ export class FlowManagerService {
             })
     }
 
+    public getConnectorById(connectorid, callback) {
+        const connectorId = connectorid;
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/get/quickConnectorbyid/${connectorId}`).then
+            (data => {
+                callback(data);
+            }).catch(error => {
+                callback(error);
+            })
+    }
+
     public deleteProjectFlow(flowid, callback) {
         const flowId = flowid;
         new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/flow/project/delete?projectFlowId=${flowId}`).then
@@ -47,6 +57,16 @@ export class FlowManagerService {
     public deleteConnectorById(entityid, callback) {
         const entityId = entityid;
         new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/delete/quickConnectorbyid/${entityId}`).then
+            (data => {
+                callback(data);
+            }).catch(error => {
+                callback(error);
+            })
+    }
+
+    public deleteConnectorByEntityId(entityid, callback) {
+        const entityId = entityid;
+        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/delete/quickConnectorbyentityid/${entityId}`).then
             (data => {
                 callback(data);
             }).catch(error => {

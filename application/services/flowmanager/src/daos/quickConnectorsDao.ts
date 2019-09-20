@@ -20,8 +20,14 @@ export class QuickConnectorsDao {
         })
     }
 
-    public deleteConnectorById(entityId, callback) {
-        connector.deleteOne({ _id: entityId }).then((result) => {
+    public deleteConnectorById(id, callback) {
+        connector.deleteOne({ _id: id }).then((result) => {
+            callback(result);
+        })
+    }
+
+    public deleteConnectorByEntityId(entityId, callback) {
+        connector.deleteOne({ entity_id: entityId }).then((result) => {
             callback(result);
         })
     }

@@ -23,4 +23,14 @@ export class EntityManagerService {
             })
     }
 
+    public deleteEntityById(entityid, callback) {
+        const entityId = entityid;
+        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/entity/delete/${entityId}`).then
+            (data => {
+                callback(data);
+            }).catch(error => {
+                callback(error);
+            })
+    }
+
 }
