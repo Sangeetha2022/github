@@ -17,19 +17,19 @@ export class Routes {
 
         // delete entity flow
 
-        app.route('/delete/entityflow/:id').delete(this.deleteController.deleteEntity);
+        app.route('/delete/entity/:id').delete(this.deleteController.deleteEntity);
 
         // delete feature flow
 
-        app.route('/delete/featureflow/:id').delete(this.deleteController.deleteFeature);
+        app.route('/delete/feature/:id').delete(this.deleteController.deleteFeature);
 
         // delete menu flow
 
-        app.route('/delete/menuflow/:id').delete(this.deleteController.deleteMenu);
+        app.route('/delete/menu/:id').delete(this.deleteController.deleteMenu);
 
         // delete screen 
 
-        app.route('/delete/screenflow/:id').delete(this.deleteController.deleteScreen);
+        app.route('/delete/screen/:id').delete(this.deleteController.deleteScreen);
 
         // delete flow 
         

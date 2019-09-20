@@ -131,4 +131,16 @@ export class ProjectComponentService {
   }
 
 
+
+  // delete microservie apis
+
+
+  deleteFlowById(FlowId: String): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteFlowById}/${FlowId}`);
+  }
+
+  deleteEntityById(entityId: String): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteEntityById}` + `/${entityId}`);
+  }
+
 }

@@ -36,7 +36,7 @@ export class DeleteService {
     public async deleteEntity(req: Request, callback) {
         const entityId = req.params.id;
         await this.deleteConnectorByEntityId(entityId)
-        this.deleteEntityById(entityId)
+        await this.deleteEntityById(entityId)
         callback({ message: 'Successfully deleted records connected with Entity!' });
     }
 
@@ -44,8 +44,8 @@ export class DeleteService {
     public async deleteFeature(req: Request, callback) {
         const featureId = req.params.id;
         await this.getFeatureById(featureId);
-        this.getScreenByFeatureId(featureId);
-        this.deleteFeatureById(featureId)
+        await this.getScreenByFeatureId(featureId);
+        await this.deleteFeatureById(featureId)
         callback({ message: 'Successfully deleted records connected with Feature!' });
     }
 
@@ -57,7 +57,8 @@ export class DeleteService {
 
     public async deleteScreen(req: Request, callback) {
         const screenId = req.params.id;
-        this.deleteScreenById(screenId);
+        await this.getScreenById(screenId);
+        await this.deleteScreenById(screenId);
         callback({ message: 'Successfully deleted records connected with Screen!' });
     }
 
@@ -65,7 +66,7 @@ export class DeleteService {
     public async deleteFlow(req: Request, callback) {
         const flowId = req.params.id;
         await this.getProjectFlowById(flowId)
-        this.deleteProjectFlowById(flowId);
+        await this.deleteProjectFlowById(flowId);
         callback({ message: 'Successfully deleted records connected with Screen!' });
     }
 
@@ -125,7 +126,7 @@ export class DeleteService {
                     if (flows.length > 0) {
                         flows.map(async flowId => {
                             await this.getProjectFlowById(flowId);
-                            this.deleteProjectFlowById(flowId);
+                            await this.deleteProjectFlowById(flowId);
                         })
                     }
                 })
@@ -140,12 +141,12 @@ export class DeleteService {
                 if (data.body.body.flows.length > 0) {
                     data.body.body.flows.map(async flowId => {
                         await this.getProjectFlowById(flowId);
-                        this.deleteProjectFlowById(flowId);
+                        await this.deleteProjectFlowById(flowId);
                     })
                 }
                 if (data.body.body.entities.length > 0) {
-                    data.body.body.entities.map(({ entityId }) => {
-                        this.deleteEntityById(entityId)
+                    data.body.body.entities.map(async ({ entityId }) => {
+                        await this.deleteEntityById(entityId)
                     })
                 }
                 resolve(data);
@@ -156,8 +157,8 @@ export class DeleteService {
     getScreenByFeatureId(featureId) {
         return new Promise(resolve => {
             this.screenManagerService.getScreenByFeatureId(featureId, (data) => {
-                data.body.body.map(({ _id }) => {
-                    this.deleteScreenById(_id);
+                data.body.body.map(async ({ _id }) => {
+                    await this.deleteScreenById(_id);
                 })
                 resolve(data);
             })
@@ -175,9 +176,9 @@ export class DeleteService {
     getProjectEntity(projectId) {
         return new Promise(resolve => {
             this.entityManagerService.getProjectEntity(projectId, (data) => {
-                data.body.body.map(({ _id, is_default }) => {
+                data.body.body.map(async ({ _id, is_default }) => {
                     if (!is_default) {
-                        this.deleteConnectorByEntityId(_id);
+                        await this.deleteConnectorByEntityId(_id);
                     }
                 })
                 resolve(data);
@@ -255,9 +256,31 @@ export class DeleteService {
                 data.body.body.map(({ name, connector }) => {
                     if (name === 'GpExpressDao' || name === 'GpAngularService' || name === 'GpIonicAngularService') {
                         connector.map(id => {
+                            this.getConnectorById(id)
                             this.deleteConnectorById(id)
                         })
                     }
+                })
+                resolve(data);
+            })
+        });
+    }
+
+
+    getConnectorById(connectorId) {
+        return new Promise(resolve => {
+            this.flowManagerService.getConnectorById(connectorId, (data) => {
+                this.deleteEntityById(data.body.body.entity_id)
+                resolve(data);
+            })
+        });
+    }
+
+    getScreenById(screenId) {
+        return new Promise(resolve => {
+            this.screenManagerService.getScreenById(screenId, (data) => {
+                data.body.body.map(({ feature }) => {
+                    this.deleteFeatureById(feature)
                 })
                 resolve(data);
             })

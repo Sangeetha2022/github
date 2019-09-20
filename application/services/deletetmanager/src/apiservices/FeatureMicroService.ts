@@ -36,7 +36,7 @@ export class FeatureManagerService {
 
     public deleteFeatureById(featureid, callback) {
         const featureId = featureid;
-        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/feature/delete/${featureId}`).then
+        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/feature/delete/?featureId=${featureId}`).then
             (data => {
                 callback(data);
             }).catch(error => {

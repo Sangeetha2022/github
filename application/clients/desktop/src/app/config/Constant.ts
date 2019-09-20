@@ -99,7 +99,7 @@ export class Constants {
     public static get saveManyProjectFlow(): String { return this.DESKTOP_ROUTER + '/flow/project/bulksave'; }
     public static get getProjectFeatureFlows(): String { return this.DESKTOP_ROUTER + '/flow/projectfeature/get'; }
     public static get deleteProjectFlow(): String { return this.DESKTOP_ROUTER + '/flow/project/delete'; }
-    public static get updateProjectFlowComponent(): String {return this.DESKTOP_ROUTER + '/flowcomponent/project/update';}
+    public static get updateProjectFlowComponent(): String { return this.DESKTOP_ROUTER + '/flowcomponent/project/update'; }
 
     // Feature Screen
     public static get addScreen(): string { return this.DESKTOP_ROUTER + '/screen/save'; }
@@ -126,8 +126,15 @@ export class Constants {
     public static get getAllEntityTypes(): string { return this.DESKTOP_ROUTER + '/entity_type/get'; }
     public static get getEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/entity/feature/get'; }
 
-    // Delete Project Flow
+    // Delete  microservice
+
+    // delete project
+
     public static get deleteProjectFlowByProjectId(): string { return this.DESKTOP_ROUTER + '/delete/project'; }
+    public static get deleteFlowById(): string { return this.DESKTOP_ROUTER + '/delete/flow'; }
+    public static get deleteEntityById(): string { return this.DESKTOP_ROUTER + '/delete/entity'; }
+    public static get deleteScreenById(): string { return this.DESKTOP_ROUTER + '/delete/screen'; }
+
 
     // Default Entity
     public static get addDefaultEntity(): string { return this.DESKTOP_ROUTER + '/default_entity/save'; }

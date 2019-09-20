@@ -32,4 +32,14 @@ export class ScreenManagerService {
                 callback(error);
             })
     }
+
+    public getScreenById(screenid, callback) {
+        const screenId = screenid;
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/screen/get/${screenId}`).then
+            (data => {
+                callback(data);
+            }).catch(error => {
+                callback(error);
+            })
+    }
 }
