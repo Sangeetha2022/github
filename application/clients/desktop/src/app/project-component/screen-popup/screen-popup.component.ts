@@ -7,7 +7,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
     styleUrls: ['./screen-popup.component.scss']
 })
 export class ScreenPopupComponent {
-    public screenType: String;
+    public screen: any = {
+        name: '',
+        type: 'normal'
+    };
     public image1: Boolean;
     public image2: Boolean;
     constructor(
@@ -15,11 +18,11 @@ export class ScreenPopupComponent {
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.image1 = true;
         this.image2 = false;
-        this.screenType = 'desktop';
+        this.screen.name = 'desktop';
     }
 
     type(name) {
-        this.screenType = name;
+        this.screen.name = name;
     }
 
     onNoClick(): void {

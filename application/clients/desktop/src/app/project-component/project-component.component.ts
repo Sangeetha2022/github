@@ -130,6 +130,9 @@ export class EntityManagerComponent implements OnInit {
     menuFId: String;
     menuFName: String;
     screenMenu: any;
+
+    // constant name
+    public POPUP_MODAL_VARIABLENAME = 'popupmodal';
     constructor(
         public dialog: MatDialog,
         private router: Router,
@@ -545,8 +548,10 @@ export class EntityManagerComponent implements OnInit {
                                                     this.screenMenuName = [];
                                                     this.screenId = [];
                                                     screenResponse.body.forEach(sData => {
-                                                        this.screenId.push(sData._id);
-                                                        this.screenMenuName.push(sData.screenName);
+                                                        if (sData.screenOption !== this.POPUP_MODAL_VARIABLENAME) {
+                                                            this.screenId.push(sData._id);
+                                                            this.screenMenuName.push(sData.screenName);
+                                                        }
                                                     });
                                                     const screenData = {
                                                         screen: this.screenMenuName,

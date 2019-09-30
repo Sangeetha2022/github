@@ -39,8 +39,15 @@ export class ProjectFlowComponentController {
     public updateProjectFlowComponent(req: Request, res: Response) {
         projectFlowComponentService.updateProjectFlowComponent(req, (respone) => {
             res.status(200);
-            res.json(200)
+            res.json(respone)
         })
     }
+
+    // public updateProjectFlowComponent(req: Request, res: Response) {
+    //     projectFlowComponentService.updateProjectFlowComponent(req, (respone) => {
+    //         res.status(200);
+    //         res.json(200)
+    //     })
+    // }
 
 }

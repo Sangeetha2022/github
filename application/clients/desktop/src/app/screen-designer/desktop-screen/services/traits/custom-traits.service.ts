@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { isArray } from 'util';
 
 @Injectable({
     providedIn: 'root'
@@ -104,10 +105,41 @@ export class CustomTraitsService {
         $this.editor.TraitManager.addType('modalButton', {
             events: {
                 'click': function () {
+                    $this.modalDroppedElements = [];
+                    const allInputModels = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="input"]');
+                    const allOptionModels = $this.editor.DomComponents.getWrapper().find('select');
+                    allInputModels.forEach(element => {
+                        if (element.attributes.name) {
+                            const inputTemp = {
+                                name: '',
+                                type: ''
+                            };
+                            inputTemp.name = element.attributes.name;
+                            inputTemp.type = 'input';
+                            $this.modalDroppedElements.push(inputTemp);
+                        }
+                    });
+                    allOptionModels.forEach(element => {
+                        if (element.attributes.name) {
+                            const selectTemp = {
+                                name: '',
+                                type: ''
+                            };
+                            selectTemp.name = element.attributes.name;
+                            selectTemp.type = 'select';
+                            $this.modalDroppedElements.push(selectTemp);
+                        }
+                    });
                     $this.customPopupModal.name = $this.GPMODAL_FLOWNAME;
                     $this.customPopupModal.title = 'Modal Details';
                     $this.customPopupModal.dropdownLabelName = 'Screen';
                     $this.customPopupModal.typeLabelName = null;
+                    const temp = {
+                        labelName: 'Entity',
+                        fieldLabelName: 'Entity Field',
+                        componentLabelName: 'Component Name'
+                    };
+                    $this.customPopupModal.entity = temp;
                     $this.isCustomPopup = true;
                     $this.ref.detectChanges();
                 },
@@ -123,7 +155,7 @@ export class CustomTraitsService {
                 button.style.backgroundColor = '#008CBA';
                 button.style.fontSize = '12px !important';
                 button.style.cursor = 'pointer';
-                button.appendChild(document.createTextNode('Screens'));
+                button.appendChild(document.createTextNode('Details'));
                 return button;
             },
         });
@@ -315,6 +347,7 @@ export class CustomTraitsService {
                     }
                     const entityFound = $this.EntityField.find(x => x._id === entityId);
                     if (entityFound) {
+                        $this.agGridObject.entityId = entityId;
                         $this.selectedEntity = entityFound;
                         $this.allEntityField = entityFound.field;
                         $this.defaultColumn = this.target.view.el.gridOptions.columnDefs;

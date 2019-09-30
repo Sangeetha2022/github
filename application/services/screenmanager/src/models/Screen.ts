@@ -25,6 +25,7 @@ export const ScreenSchema = new Schema({
     grid_fields: {
         htmlId: String,
         componentId: String,
+        entityId: { type: String, default: null },
         custom_field: [{
             columnid: String,
             columnname: String,
@@ -69,6 +70,7 @@ export const ScreenSchema = new Schema({
     project: { type: String, ref: 'projects', default: null },
     feature: { type: String, ref: 'feature_details', default: null },
     screenType: { type: String, default: null },
+    screenOption: { type: String, default: null },
     isTemplate: { type: Boolean, default: false },
     stylesheets: [],
     scripts: [],
