@@ -274,7 +274,7 @@
     <button type="button" class="close">&times;</button>
     </div> -->
         <div class="delete modal-body">
-          <p>Please click confirm to delete this screen ? </p>
+          <p>Please click confirm to delete this connector Flow ? </p>
         </div>
         <div class="modal-footer" style="padding: 5px">
           <button type="button" class="btn btn-default" (click)="deleteConnector()">Confirm</button>
@@ -363,68 +363,105 @@
                   </div>
                 </div>
               </div>
+            </form>
+            <div class="cantainer">
               <div class="row">
-                <div class=col-md-6>
+                <div class="col-md-6">
+                  <mat-radio-group layout="row">
+                    <mat-radio-button class="example-radio-button" value='queryParams'
+                      [checked]="quickConnectors.queryParams" (click)="queryParamsMethod()">
+                      Query Params
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <div class="col-md-6">
+                  <mat-radio-group layout="row">
+                    <mat-radio-button class="example-radio-button" value='pathvarible'
+                      [checked]="this.quickConnectors.pathvarible" (click)="PathVariableMethod()">
+                      Path Varibles
+                    </mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </div>
+            <div class="cantainer" *ngIf="isAddConnector">
+              <div class="row">
+                <div class="col-md-6">
+                  <label>ApiKey</label>
                   <div class="form-group">
-                    <label>Apikey :</label>
-                    <input type="text" formControlName="api_key" class="form-control"
-                      [(ngModel)]="quickConnectors.api_key" name="api_key" placeholder="Enter Apikey"
-                      [ngClass]="{ 'is-invalid': submitted && f.api_key.errors }" />
-                    <div *ngIf="submitted && f.api_key.errors" class="invalid-feedback">
-                      <div *ngIf="f.api_key.errors.required">Apikey is required</div>
-                    </div>
+                    <label>Key</label>
+                    <input type="text" class="form-control" placeholder="Enter key"
+                      [(ngModel)]="quickConnectors.apiKey.key" />
                   </div>
                 </div>
-                <div class=col-md-6>
+                <div class="col-md-6">
+                  <label></label>
                   <div class="form-group">
-                    <label>Params:</label>
-                    <input type="text" formControlName="params" class="form-control"
-                      [(ngModel)]="quickConnectors.params" name="params" placeholder="Enter params"
-                      [ngClass]="{ 'is-invalid': submitted && f.params.errors }" />
-                    <div *ngIf="submitted && f.params.errors" class="invalid-feedback">
-                      <div *ngIf="f.params.errors.required">Params is required</div>
-                    </div>
+                    <label>Value</label>
+                    <input type="text" class="form-control" placeholder="Enter value"
+                      [(ngModel)]="quickConnectors.apiKey.value" />
                   </div>
                 </div>
               </div>
-              <div class="form-group">
-                <label>Select Api's Methods</label>
-                <select class="form-control" formControlName="apiMethods" [(ngModel)] = "quickConnectors.apiMethods" name="apiMethods">
-                  <option *ngFor = "let apis of apiMethodArray">{{apis}}</option>
-                </select>
+            </div>
+            <div class="row" *ngIf="isAddConnector">
+              <div class="col-md-12">
+                <button class="btn btn-primary" type="button" (click)="addProperties()">Add Connector
+                  Properties</button>
               </div>
-              <!-- <div class="form-group">
-                <label>Select Api's Methods</label>
-                <select class="form-control" (change)="selectApis($event.target.value)">
-                  <option value="" selected>Select Api's Methods</option>
-                  <option value="post">post</option>
-                  <option value="get">get</option>
-                  <option value="put">put</option>
-                  <option value="delete">delete </option>
-                </select>
-              </div> -->
-              <!-- <div class="form-group">
-                <label>Select Api's Methods</label>
-                <select>
-                  <option *ngFor = "let apis of apiMethodArray">{{apis}}</option>
-                </select>
-              </div> -->
+            </div>
+            <br>
+            <div class="cantainer" *ngFor="let property of properties; let i = index">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label *ngIf="i === 0">Key</label>
+                    <input type="text" class="form-control" placeholder="Enter key" [(ngModel)]="propertiesKey[i]" />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label *ngIf="i === 0">Value</label>
+                    <input type="text" class="form-control" placeholder="Enter value"
+                      [(ngModel)]="propertiesValue[i]" />
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label *ngIf="i === 0"></label>
+                    <i class="fa fa-close" style="color:red" (click)="removeProperties(i)"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Select Api's Methods</label>
+              <select class="form-control" (change)="selectApis($event.target.value)">
+                <option value="" selected>Select Api's Methods</option>
+                <option value="post">post</option>
+                <option value="get">get</option>
+                <option value="put">put</option>
+                <option value="delete">delete </option>
+              </select>
+              <br>
+            </div>
+            <button type="button" class="btn button-close delete_btn" id="update" (click)="quickTest()">Quick
+              Test</button>
+            <div>
+              <br>
               <div>
-                <div>
-                  <h3>Services</h3>
-                </div>
-                <mat-radio-group layout="row">
-                  <mat-radio-button class="example-radio-button" value="backEnd" (click)="backendSerice('backEnd')"
-                    [checked]="quickConnectors.service === 'backEnd'">
-                    Backend service
-                  </mat-radio-button>
-                  <mat-radio-button class="example-radio-button" value="frontEnd" (click)="frontEndService('frontEnd')"
-                    [checked]="quickConnectors.service === 'frontEnd'">
-                    FrontEnd service
-                  </mat-radio-button>
-                </mat-radio-group>
+                <h3>Services</h3>
               </div>
-              <!-- <div class="form-group">
+              <mat-radio-group layout="row">
+                <mat-radio-button class="example-radio-button" value="backEnd" (click)="backendSerice('backEnd')">
+                  Backend service
+                </mat-radio-button>
+                <mat-radio-button class="example-radio-button" value="frontEnd" (click)="frontEndService('frontEnd')">
+                  FrontEnd service
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <!-- <div class="form-group">
                 <div class="row">
                   <div class="col-md-6">
                     <h4>APIs and Methods</h4>
@@ -433,20 +470,27 @@
                     Properties</button>
                 </div>
               </div> -->
-              <div>
-                <h3>Connector Types</h3>
-              </div>
-              <div class="row">
-                <mat-radio-group aria-label="Select an option" class="ml-4">
-                  <mat-radio-button value="1" class="mr-2" value="quickConnectors"
-                    (click)="quickConnectorsMethod('quickConnectors')">Quick connectors</mat-radio-button>
-                  <mat-radio-button value="2" class="mr-2" value="defaultConnectors"
-                    (click)="defaultConnectorsMethod('defaultConnectors')"> Default Connector</mat-radio-button>
-                  <mat-radio-button value="3" class="mr-2" value="customeConncetor"
-                    (Click)="customeConncetorsMethod('customeConncetors')"> Custom Connector</mat-radio-button>
-                </mat-radio-group>
-              </div>
-            </form>
+            <div>
+              <h3>Connector Types</h3>
+            </div>
+            <div class="row">
+              <mat-radio-group aria-label="Select an option">
+                <mat-radio-button value="quickConnectors" (click)="quickConnectorsMethod('quickConnectors')">Quick connectors</mat-radio-button>
+                <mat-radio-button value="defaultConnectors" (click)="defaultConnectorsMethod('defaultConnectors')"> Default Connector</mat-radio-button>
+                <mat-radio-button value="customeConncetors" (click)="customeConncetorsMethod('customeConncetors')"> Custom Connector</mat-radio-button>
+              </mat-radio-group>
+
+              <!-- <button type="button" class="btn button-create ok_btn" id="AddConnector" (click)="onSubmit()">Quick
+                    connectors</button> -->
+              <!-- <div class="col-md-4" style="right:15%">
+                  <button type="button" style="background-color: #033668;" class="btn button-create ok_btn"
+                    id="update">Default Connector</button>
+                </div> -->
+              <!-- <div class="col-md-4" style="right:29%">
+                  <button type="button" style="background-color: #033668;" class="btn button-create ok_btn"
+                    id="update">Custom Connector</button>
+                </div> -->
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -456,9 +500,19 @@
       </div>
     </div>
   </div>
+</div>
 
-  <!-- </div> -->
-  <!-- <div class="row" style="margin: 0px;">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModelTree}">
+  <div class="modal-dialog modal-lg" role="dialog">
+    <div class="modal-content">
+      <div class="container">
+        <app-flow-tree></app-flow-tree>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- </div> -->
+<!-- <div class="row" style="margin: 0px;">
   <div class="col-md-12" style="display: contents;">
     <div class="col-md-3">
       <div class="card">

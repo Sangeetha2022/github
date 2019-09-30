@@ -135,15 +135,14 @@ export class ProjectComponentService {
     return this.api.put(`${this.restapi.Apigateway}${Constants.updateFlowCompConnectorById}`, data);
   }
 
+  quickTestFred(data: any): Observable<any> {
+    console.log('data --service->>', data);
+    return this.api.post(`${this.restapi.Apigateway}${Constants.quickTestFred}`, data);
+  }
   getConnectorById(connectorId: String): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getConnectorById}/${connectorId}`);
 
-
   }
-
-
-
-
   // delete microservie apis
 
 

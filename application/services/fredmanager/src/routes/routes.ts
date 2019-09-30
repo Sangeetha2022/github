@@ -15,6 +15,7 @@ export class Routes {
         })
 
         app.route('/fred').post(this.fredController.getFred);
+        app.route('/quick/test').post(this.fredController.quickTest)
        
 
     }
