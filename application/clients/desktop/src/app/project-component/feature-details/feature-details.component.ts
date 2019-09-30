@@ -143,6 +143,7 @@ export class FeatureDetailsComponent implements OnInit {
     flowEntityId: any;
     public connectorsType: String;
     modifyConnectorsId: any;
+    public showTreePopup:boolean;
 
 
 
@@ -152,7 +153,7 @@ export class FeatureDetailsComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private formBuilder: FormBuilder,
-        private flowTrerService: FlowTreeService,
+        private flowTreeService: FlowTreeService,
         private dataService: DataService,
         private dialog: MatDialog
     ) {
@@ -526,12 +527,14 @@ export class FeatureDetailsComponent implements OnInit {
         });
         this.projectComponentService.quickTestFred(this.quickConnectors).subscribe(response => {
             if (response) {
-                console.log('i am inside of response', typeof response.body);
+                this.showTreePopup = true;
+                console.log('i am inside of response', response.body);
                 this.displayModelTree = 'block';
                 this.displayModel = 'none';
-                const result = JSON.parse(JSON.stringify(response.body))
+                const allResponse = JSON.parse(response.body);
+                // const result = JSON.parse(allResponse);
              
-                this.flowTrerService.quickTest(result);
+                this.flowTreeService.quickTest(allResponse);
 
 
                 // const allResponse = JSON.stringify(response);
@@ -650,14 +653,13 @@ export class FeatureDetailsComponent implements OnInit {
             fromComponentName: null,
             toComponentName: null,
         };
-        this.projectComponentService.quickConnectors(tempObj).subscribe(response => {
-            this.quickConnectorId = response.body._id;
-            const tempData = {
-                connectorId: this.quickConnectorId,
-                flowComponentId: '',
-            };
+        // this.projectComponentService.quickConnectors(tempObj).subscribe(response => {
+        //     this.quickConnectorId = response.body._id;
+        //     const tempData = {
+        //         connectorId: this.quickConnectorId,
+        //         flowComponentId: '',
+        //     };
 
-            console.log('i am resonse quick connectors 123-->>', tempObj);
             this.projectComponentService.quickConnectors(tempObj).subscribe( response => {
                 console.log('response--quickConnectors>>', response)
                 this.quickConnectorId = response.body._id;
@@ -685,7 +687,7 @@ export class FeatureDetailsComponent implements OnInit {
                 }
                 console.log('flow -component--id --->>', tempData);
             });
-        });
+        // });
      }
 
     updateFlowCompConnectorById(data) {

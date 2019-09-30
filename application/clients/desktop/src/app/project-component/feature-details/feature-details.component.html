@@ -502,7 +502,7 @@
   </div>
 </div>
 
-<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModelTree}">
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModelTree}" *ngIf="showTreePopup">
   <div class="modal-dialog modal-lg" role="dialog">
     <div class="modal-content">
       <div class="container">
