@@ -1,18 +1,16 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import * as util from 'util'
 import * as st from 'stringtemplate-js';
 import { Common } from '../config/Common';
 import { english, spanish, tamil, translator } from '../assets/translator';
 
 export class DependencySupportWorker {
 
-
+    private writeFile = util.promisify(fs.writeFile);
 
     generateIndexHtml(generationPath, templatePath, templateName, information, callback) {
         const filePath = `${generationPath}/src`;
-        console.log('before generate index.html file ---  ', information)
-        console.log('before generate index.html file -baseTag string--  ', information.baseTag.join(`\n`))
-        console.log('before generate index.html file -scriptTag string--  ', information.scriptTag.join(`\n`))
         templatePath = path.resolve(__dirname, templatePath);
         Common.createFolders(filePath);
         let renderTemplate = st.loadGroup(require(templatePath + `/${templateName}_stg`));
@@ -37,8 +35,6 @@ export class DependencySupportWorker {
     }
 
     generateFiles(templatePath, filePath, fileName, templateName, information, callback) {
-        // const filePath = `${generationPath}/src`;
-        console.log(`generate file ----${fileName}---  `, fileName, ' --information--  ', information);
         templatePath = path.resolve(__dirname, templatePath);
         Common.createFolders(filePath);
         let renderTemplate = st.loadGroup(require(templatePath + `/${templateName}_stg`));
@@ -51,7 +47,6 @@ export class DependencySupportWorker {
     }
 
     generateTranslateJsonFiles(filePath, langFolderName, fileName, source, callback) {
-        // const filePath = `${generationPath}/src`;
         langFolderName.forEach(folderName => {
             const languageFolderPath = filePath + `/` + folderName;
             Common.createFolders(languageFolderPath);
@@ -77,5 +72,23 @@ export class DependencySupportWorker {
             })
         });
         callback(`${fileName} file generated`);
+    }
+
+    // read file and return
+    public readFile(applicationPath, fileName) {
+        return fs.readFileSync(`${applicationPath}/${fileName}`).toString().split("\n");
+    }
+
+    // write file
+    public writeStaticFile(applicationPath, fileName, information, callback) {
+        this.writeFile(applicationPath + `/${fileName}`, information, null)
+            .then(() => {
+                console.log(`${fileName} modified successfully`);
+                callback(`${fileName} modified successfully`);
+            })
+            .catch(error => {
+                console.log(error);
+                callback();
+            });
     }
 }

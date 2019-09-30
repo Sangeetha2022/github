@@ -210,6 +210,15 @@ export class CommandService {
       $this.selectedEntityModel = model.changed['componentVerb'];
       $this.componentVerb = $this.componentVerbList.find(x => x.value === model.changed['componentVerb']).key;
     });
+
+    // set whether the screen type as popupmodal or normal one
+    $this.editor.on(`component:update:popupmodal`, function (model) {
+      if (model.changed['popupmodal']) {
+        $this.screenOption = 'popupmodal';
+      } else {
+        $this.screenOption = 'normal';
+      }
+    });
     // this.editor.on('change:traits:entity', function (model) {
     // });
   }

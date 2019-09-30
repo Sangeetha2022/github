@@ -646,7 +646,7 @@ export class EntityManagerComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(screenData => {
             if (screenData) {
-                this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, screenType: screenData } });
+                this.router.navigate(['/desktopscreen'], { queryParams: { projectId: this.project_id, screenType: screenData.name } });
             }
         });
     }
