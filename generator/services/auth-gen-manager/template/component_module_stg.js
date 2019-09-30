@@ -1,6 +1,6 @@
 /*
  * Template group component_module
- * Compiled on Wed Sep 11 2019 17:17:32 GMT+0530 (India Standard Time)
+ * Compiled on Tue Sep 17 2019 15:05:15 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -74,7 +74,7 @@ r = function(w, rc) {
     
     }
     w.write("]");
-    if (st.test(st.prop(s, g, rc, s.modules, "exports", { file: gFile, line: 6, column: 93 }))) {
+    if (st.test(st.test(st.prop(s, g, rc, s.modules, "exports", { file: gFile, line: 6, column: 93 })) || st.test(st.prop(s, g, rc, s.modules, "entryComponents", { file: gFile, line: 6, column: 110 })))) {
     
         w.write(",");
     
@@ -85,8 +85,8 @@ r = function(w, rc) {
     w.write("  ");
     if (st.test(st.prop(s, g, rc, s.modules, "exports", { file: gFile, line: 7, column: 14 }))) {
     
-        w.write("exports: [\n");
-        st.write(w, s, g, rc, st.prop(s, g, rc, s.modules, "exports", { file: gFile, line: 7, column: 46 }));
+        w.write("entryComponents: [\n");
+        st.write(w, s, g, rc, st.prop(s, g, rc, s.modules, "entryComponents", { file: gFile, line: 7, column: 62 }));
         w.write("\n],");
     
     

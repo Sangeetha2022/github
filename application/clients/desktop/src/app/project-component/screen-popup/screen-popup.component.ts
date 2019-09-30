@@ -8,8 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class ScreenPopupComponent {
     public screen: any = {
-        name: '',
-        type: 'normal'
+        name: ''
     };
     public image1: Boolean;
     public image2: Boolean;

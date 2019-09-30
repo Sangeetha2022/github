@@ -247,6 +247,7 @@ export class CommonWorker {
             return dependencyWorker.generateIndexHtml(generationPath, templatePath, this.mainHtmlTag, this.scriptTag, (response) => {
                 return dependencyWorker.generateStyleSCSS(generationPath, templatePath, templateCss, (response) => {
                     return dependencyWorker.generateSharedFile(generationPath, templatePath, sharedObj, (response) => {
+                        return dependencyWorker.generateProxyFile(generationPath, templatePath, (response) => {
                         return dependencyWorker.generateTranslatorModuleFile(generationPath, templatePath, sharedObj, (response) => {
                             return dependencyWorker.generateTranslatorJsonFile(generationPath, templatePath, sharedObj, (response) => {
                                 return componentWorker.generateMainModule(generationPath, templatePath, (response) => {
@@ -255,6 +256,7 @@ export class CommonWorker {
                             });
                         });
                     });
+                });
                 });
             });
         });

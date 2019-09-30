@@ -17,6 +17,7 @@ export class DependencyWorker {
     private STYLE_TEMPLATE_NAME: String = 'styles_scss';
     private APP_ROUTING_TEMPLATE_NAME: String = 'app_routing';
     private SHARED_SERVICE_TEMPLATE_NAME: String = 'shared_service';
+    private PROXY_CONFIG_TEMPLATE_NAME: String = 'proxy_config';
     private NGINX_DEFAULT_TEMPLATE_NAME: String = 'nginx_default';
     private DOCKERFILE_TEMPLATE_NAME: String = 'docker_file';
     private TRANSLATOR_TEMPLATE_NAME: String = 'translator';
@@ -25,9 +26,11 @@ export class DependencyWorker {
     private STYLE_FILENAME: String = 'styles.scss';
     private APP_ROUTING_FILENAME: String = 'app-routing.module.ts';
     private SHARED_FILENAME: String = 'shared.service.ts';
+    private PROXY_CONFIG_FILENAME: String = 'proxy.conf.ts';
     private NGINX_FILENAME: String = 'default.conf';
     private DOCKERFILE_FILENAME: String = 'Dockerfile';
     private DEFAULT_CONF_FILENAME: String = 'default.conf';
+    private ANGULAR_JSON_FILENAME: String = 'angular.json';
     private TRANSLATOR_MODULE_FILENAME: String = 'translator.module.ts';
 
     // foldername
@@ -96,6 +99,14 @@ export class DependencyWorker {
             })
     }
 
+    generateProxyFile(generationPath, templatePath, callback) {
+        return dependencySupportWorker.generateFiles(templatePath, generationPath, this.PROXY_CONFIG_FILENAME,
+            this.PROXY_CONFIG_TEMPLATE_NAME, null, (response) => {
+                this.modifyAngularJsonFile(generationPath, this.ANGULAR_JSON_FILENAME);
+                callback();
+            })
+    }
+
     generateTranslatorModuleFile(generationPath, templatePath, sharedObj, callback) {
         // translator file path
         const filePath = `${generationPath}/${this.SRC_FOLDERNAME}/${this.APP_FOLDERNAME}/${this.TRANSLATOR_FOLDERNAME}`;
@@ -124,6 +135,24 @@ export class DependencyWorker {
             this.DOCKERFILE_TEMPLATE_NAME, projectName, (response) => {
                 callback();
             })
+    }
+
+    modifyAngularJsonFile(applicationPath, fileName) {
+        const angularData = dependencySupportWorker.readFile(applicationPath, fileName);
+        console.log('angularData values are---------   ', angularData);
+        const serveIndex = angularData.findIndex(x => /"browserTarget"/.test(x));
+        const proxyConfigIndex = angularData.findIndex(x => /"proxyConfig"/.test(x));
+        console.log('after finded index no --- ', serveIndex, '  --data--  ', angularData[serveIndex]);
+        let temp = '';
+        if (serveIndex > -1 && proxyConfigIndex < 0) {
+            temp += `${angularData[serveIndex]},`;
+            temp += `\n\t\t\t\t\t "proxyConfig": "${this.PROXY_CONFIG_FILENAME}"`;
+            angularData.splice(serveIndex, 1, temp);
+            console.log('final anguardata rae ----------  ', angularData);
+            dependencySupportWorker.writeStaticFile(applicationPath, fileName, angularData.join('\n'), (response) => {
+                console.log('successfully write the angular json file');
+            });
+        }
     }
 
 

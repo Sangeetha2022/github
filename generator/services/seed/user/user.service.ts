@@ -9,18 +9,18 @@ import { SharedService } from '../../shared/shared.service';
 })
 export class UserService {
 
-  constructor(private http: HttpClient, private router: Router, private restapi: SharedService) { }
+  constructor(private http: HttpClient, private router: Router, private sharedService: SharedService) { }
 
 
   Getuser(userid: any): Observable<any> {
-    return this.http.get(this.restapi.apiGateway + `/desktop/admin/getuser/${userid}`);
+    return this.http.get(this.sharedService.DESKTOP_API + `/admin/getuser/${userid}`);
   }
 
   Getroles(): Observable<any> {
-    return this.http.get(this.restapi.apiGateway + '/desktop/admin/getallroles');
+    return this.http.get(this.sharedService.DESKTOP_API + '/admin/getallroles');
   }
 
   Updateuser(userobject: any): Observable<any> {
-    return this.http.put(this.restapi.apiGateway + '/desktop/admin/updateuser', userobject);
+    return this.http.put(this.sharedService.DESKTOP_API + '/admin/updateuser', userobject);
   }
 }

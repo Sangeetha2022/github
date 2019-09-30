@@ -135,7 +135,7 @@ export class DesktopScreenComponent implements OnInit {
     gridScript: any;
     ElementNameArray: any[] = [];
     screenType: String;
-    screenOption: String;
+    screenOption: String = 'normal';
     screenArrayByProjectId: any;
     screenNameExist: Boolean = false;
     stylesheets: any[] = [];
@@ -241,9 +241,9 @@ export class DesktopScreenComponent implements OnInit {
             if (params.screenType !== undefined && params.screenType !== null) {
                 this.screenType = params.screenType;
             }
-            if (params.screenOption !== undefined && params.screenOption !== null) {
-                this.screenOption = params.screenOption;
-            }
+            // if (params.screenOption !== undefined && params.screenOption !== null) {
+            //     this.screenOption = params.screenOption;
+            // }
         });
         this.stylesheets = JSON.parse(localStorage.getItem('stylesheets'));
         this.scripts = JSON.parse(localStorage.getItem('scripts'));
@@ -519,7 +519,6 @@ export class DesktopScreenComponent implements OnInit {
             // if (index > -1) {
             //     this.routeDetails.modalInfo.modalBindInfo.splice(index, 1);
             // }
-            console.log('component inside of if condition ar e-----   ', this.routeDetails.modalInfo.component.name)
             bindFields.fieldId = this.routeDetails.modalInfo.fields._id;
             bindFields.fieldName = this.routeDetails.modalInfo.fields.name;
             bindFields.componentName = this.routeDetails.modalInfo.component.name;
@@ -1128,6 +1127,12 @@ export class DesktopScreenComponent implements OnInit {
             'name': 'multiflowButton',
             'label': 'Action',
             'type': 'multiflowButton',
+        },
+        {
+            type: 'checkbox',
+            label: 'isPopup',
+            name: 'popupmodal',
+            changeProp: 1
         }]);
         this.setGridDefaultType(EntityBinding);
     }

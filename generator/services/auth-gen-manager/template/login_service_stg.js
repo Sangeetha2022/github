@@ -1,6 +1,6 @@
 /*
  * Template group login_service
- * Compiled on Mon Jul 29 2019 16:33:44 GMT+0530 (India Standard Time)
+ * Compiled on Tue Sep 24 2019 19:14:30 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -71,7 +71,7 @@ r = function(w, rc) {
     st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 17, column: 39 }), "objectName", { file: gFile, line: 17, column: 46 }));
     w.write(".");
     st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 17, column: 66 }), "variableName", { file: gFile, line: 17, column: 73 }));
-    w.write(" + '/desktop/signup', user);");
+    w.write(" + '/signup', user);");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("}");
@@ -88,7 +88,7 @@ r = function(w, rc) {
     st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 21, column: 39 }), "objectName", { file: gFile, line: 21, column: 46 }));
     w.write(".");
     st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 21, column: 66 }), "variableName", { file: gFile, line: 21, column: 73 }));
-    w.write(" + '/desktop/googlesignin', user);");
+    w.write(" + '/googlesignin', user);");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("}");
@@ -104,7 +104,7 @@ r = function(w, rc) {
     st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 24, column: 39 }), "objectName", { file: gFile, line: 24, column: 46 }));
     w.write(".");
     st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 24, column: 66 }), "variableName", { file: gFile, line: 24, column: 73 }));
-    w.write(" + '/desktop/login', user);");
+    w.write(" + '/login', user);");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("}");
@@ -121,7 +121,7 @@ r = function(w, rc) {
     st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 28, column: 38 }), "objectName", { file: gFile, line: 28, column: 45 }));
     w.write(".");
     st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 28, column: 65 }), "variableName", { file: gFile, line: 28, column: 72 }));
-    w.write(" + '/desktop/logout', user);");
+    w.write(" + '/logout', user);");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("}");
@@ -138,7 +138,7 @@ r = function(w, rc) {
     st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 32, column: 38 }), "objectName", { file: gFile, line: 32, column: 45 }));
     w.write(".");
     st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 32, column: 65 }), "variableName", { file: gFile, line: 32, column: 72 }));
-    w.write(" + '/desktop/consent', consent);");
+    w.write(" + '/consent', consent);");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("}");

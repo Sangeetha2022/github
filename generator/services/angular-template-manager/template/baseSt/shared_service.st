@@ -7,8 +7,8 @@ import { Injectable } from '@angular/core';
 })
 export class $object.className$Service {
 
-public apiGateway: String = 'http://'+window.location.hostname+':31234';
-
+    public DESKTOP_API = '/api/desktop';
+    public MOBILE_API = '/api/mobile';
 }
 $endif$
 >>

@@ -98,6 +98,34 @@ export class CustomTraitsService {
                 return button;
             },
         });
+
+        $this.editor.TraitManager.addType('popupmodal', {
+            events: {
+                'click': function () {
+                    alert('clicked');
+                },
+            },
+            getInputEl() {
+                // tslint:disable-next-line:prefer-const
+                // let button = <HTMLElement>document.createElement('checkbox');
+                // button.id = 'fieldButton';
+                // button.style.width = '100%';
+                // button.style.backgroundColor = '#4CAF50';
+                // button.style.border = 'none';
+                // button.style.color = 'white';
+                // button.style.backgroundColor = '#008CBA';
+                // button.style.fontSize = '12px !important';
+                // button.style.cursor = 'pointer';
+                // button.appendChild(document.createTextNode('Flow'));
+                const newCheckBox = document.createElement('input');
+                newCheckBox.type = 'checkbox';
+                newCheckBox.id = 'ptworkinfo'; // need unique Ids!
+                newCheckBox.value = 'popupmodal';
+
+                // parentElement.appendChild(newCheckBox);
+                return newCheckBox;
+            },
+        });
     }
 
     popupModalButton($this) {
@@ -297,7 +325,7 @@ export class CustomTraitsService {
                 'click': function () {
                     const columnDefs = this.target.view.el.gridOptions.columnDefs;
                     columnDefs.pop();
-                    console.log('removing grid options and value')
+                    console.log('removing grid options and value');
                     this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                     this.target.view.el.gridOptions.api.sizeColumnsToFit();
                     $this.columnOptions.pop();

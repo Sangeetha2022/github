@@ -59,34 +59,16 @@ export class ComponentSpecializedWorker {
 
                 // adding ag-grid in tscomponent dependencies
                 $this.tsComponent.otherMethodNames.push(Constant.AGGRID_TAGNAME);
-                let variableTemp = '';
+
+                // grid columns
+                this.setGridColumnDefs($this, findAgGridDependencies)
 
                 // add depended method
                 const gridMethod = findAgGridDependencies.componentDependedMethod.find(x => x.name == Constant.GRID_READY_METHODNAME);
                 if (gridMethod && !$this.tsComponent.elementDependedMethod.find(x => x === gridMethod)) {
                     $this.tsComponent.elementDependedMethod.push(gridMethod.method);
                 }
-                variableTemp = `${findAgGridDependencies.componentDynamicVariable.columnDefName} = [\n`;
-                if ($this.screenInfo.grid_fields.custom_field.length > 0) {
-                    $this.screenInfo.grid_fields.custom_field.forEach((customField, index) => {
-                        variableTemp += `{headerName: '${customField.columnname}', field: '${customField.entityfield}'}`
-                        if (index !== $this.screenInfo.grid_fields.custom_field.length - 1) {
-                            variableTemp += `,\n`;
-                        }
-                    })
-                } else {
-                    const findPrimaryEntity = $this.entities.find(x => x.entity_type === Constant.PRIMARY_NAME);
-                    if (findPrimaryEntity) {
-                        findPrimaryEntity.field.forEach((fieldElement, index) => {
-                            variableTemp += `{headerName: '${fieldElement.name}', field: '${fieldElement.name}'}`
-                            if (index !== findPrimaryEntity.field.length) {
-                                variableTemp += `,\n`;
-                            }
-                        })
-                    }
-                }
-                variableTemp += `]`;
-                $this.tsComponent.variableList.push(variableTemp);
+
 
                 // adding its style into global component styles
                 if (findAgGridDependencies.styles) {
@@ -96,6 +78,34 @@ export class ComponentSpecializedWorker {
 
             }
         }
+    }
+
+    setGridColumnDefs($this, findAgGridDependencies) {
+        let variableTemp = '';
+        const isEventModal = $this.screenInfo['special-events'].some(x => x.type === Constant.GP_MODAL_POPUP);
+        console.log('isEvent modsal present -----  ', isEventModal);
+        variableTemp = `${findAgGridDependencies.componentDynamicVariable.columnDefName} = [\n`;
+        if ($this.screenInfo.grid_fields.custom_field.length > 0) {
+            $this.screenInfo.grid_fields.custom_field.forEach((customField, index) => {
+                variableTemp += `{headerName: '${customField.columnname}', field: '${customField.entityfield}'}`
+                if (index !== $this.screenInfo.grid_fields.custom_field.length - 1) {
+                    variableTemp += `,\n`;
+                }
+            })
+        } else {
+            let findPrimaryEntity;
+            findPrimaryEntity = $this.entities.find(x => x.entity_type === Constant.PRIMARY_NAME);
+            if (findPrimaryEntity) {
+                findPrimaryEntity.field.forEach((fieldElement, index) => {
+                    variableTemp += `{headerName: '${fieldElement.name}', field: '${fieldElement.name}'}`
+                    if (index !== findPrimaryEntity.field.length) {
+                        variableTemp += `,\n`;
+                    }
+                })
+            }
+        }
+        variableTemp += `]`;
+        $this.tsComponent.variableList.push(variableTemp);
     }
 
     checkTagAttributes($this, element) {
@@ -129,21 +139,22 @@ export class ComponentSpecializedWorker {
             tempMethod += `\n}`;
             $this.tsComponent.elementDependedMethod.push(tempMethod);
         }
-        this.GRID_SINGLE_CLICK.forEach(element => {
-            console.log('swith $this are ---- ', $this);
-            switch (element.gridOptionType) {
-                case 'variable':
-                    const htmlTemp = `[${element.htmlOptionName}]="${element.htmlVariableName}"`;
-                    if (!this.GRID_HTML.find(x => x == htmlTemp)) {
-                        this.GRID_HTML.push(htmlTemp);
-                    }
-                    const variableTemp = `${element.componentVariable} = '${element.componentVariableOption}'`;
-                    $this.tsComponent.variableList.push(variableTemp);
-                    break;
-                default:
-                    break;
-            }
-        })
+        // will work for grid selection = single
+        // this.GRID_SINGLE_CLICK.forEach(element => {
+        //     console.log('swith $this are ---- ', $this);
+        //     switch (element.gridOptionType) {
+        //         case 'variable':
+        //             const htmlTemp = `[${element.htmlOptionName}]="${element.htmlVariableName}"`;
+        //             if (!this.GRID_HTML.find(x => x == htmlTemp)) {
+        //                 this.GRID_HTML.push(htmlTemp);
+        //             }
+        //             const variableTemp = `${element.componentVariable} = '${element.componentVariableOption}'`;
+        //             $this.tsComponent.variableList.push(variableTemp);
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        // })
     }
 
     // css guidelines
@@ -184,35 +195,84 @@ export class ComponentSpecializedWorker {
         }
     }
 
-    setSpecialEvents(elementObj, $this) {
-        switch (elementObj.type) {
-            case Constant.MODAL_SPECIALEVENT_NAME:
-                const modalDependencies = componentDependency.component.find(x => x.name === Constant.GP_MODAL_POPUP);
-                this.specialEventHtml(elementObj, modalDependencies, $this);
-                this.specialEventTsFile(elementObj, modalDependencies, $this);
-                break;
-            default:
-                break;
+    setSpecialEvents($this) {
+        if ($this.screenInfo['special-events'].length > 0) {
+            $this.screenInfo['special-events'].forEach(elementObj => {
+                switch (elementObj.type) {
+                    case Constant.MODAL_SPECIALEVENT_NAME:
+                        const modalDependencies = componentDependency.component.find(x => x.name === Constant.GP_MODAL_POPUP);
+                        this.specialEventHtml(elementObj, modalDependencies, $this);
+                        this.specialEventTsFile(elementObj, modalDependencies, $this);
+                        this.specialEventModule(elementObj, modalDependencies, $this);
+                        break;
+                    default:
+                        break;
+                }
+            });
         }
     }
 
     specialEventHtml(elementObj, modalDependencies, $this) {
         console.log('specilaevent htlm values are ----  ', $this.startString);
-        const temp = `app-${elementObj.screenName}`;
-        $this.startString = $this.startString.replace($this.tagName, temp);
-        $this.startString += ` ${modalDependencies.htmlDependencies.join(' ')}`;
-        $this.tagName = temp;
+        const tagName = `app-${elementObj.screenName}`;
+        let temp = `<${tagName}`;
+        temp += ` ${modalDependencies.htmlDependencies.join(' ')}>`;
+        temp += `</${tagName}>`;
+        $this.startTag.push(temp);
     }
 
     specialEventTsFile(elementObj, modalDependencies, $this) {
         // variable list
         $this.tsComponent.variableList.push(modalDependencies.componentVariableList.join(' '));
         // component methods
-        const methods = modalDependencies.componentDependedMethod.filter(x =>
-            x.name !== modalDependencies.componentDynamicVariable.submitMethodName &&
-            x.name !== modalDependencies.componentDynamicVariable.cancelMethodName)
-        const temp = methods.map(({ method }) => method);
-        $this.tsComponent.elementDependedMethod.push(temp.join('\n'));
+        console.log('eeeeeeeeeeeeee elementobj are --11111---  ', elementObj)
+        console.log('eeeeeeeeeeeeee elementobj are --222222222---  ', elementObj.modal.bindInfo);
+        console.log('eeeeeeeeeeeeee modalDependencies are --33333---  ', modalDependencies)
+        console.log('eeeeeeeeeeeeee modalDependencies are --4444---  ', $this.entityDetails);
+        console.log('eeeeeeeeeeeeee tscomponent are --55555---  ', $this.tsComponent);
+        let successMethod = `${modalDependencies.componentDynamicVariable.popupDataName}(${modalDependencies.componentDynamicVariable.eventName})`;
+        successMethod += `\n {`;
+        elementObj.modal.bindInfo.forEach(element => {
+            const screenEntity = $this.entityDetails.find(x => x.elementName === element.componentName);
+            console.log('each temp values are ---- ', screenEntity);
+            if (screenEntity) {
+                const entityInfo = $this.entities.find(x => x._id === screenEntity.entityId);
+                console.log('entityInfo afater temp are ---------   ', entityInfo);
+                if (entityInfo) {
+                    const entityFieldInfo = entityInfo.field.find(x => x._id === screenEntity.fields.fieldId);
+                    if (entityFieldInfo) {
+                        if (element.componentType === 'input') {
+                            successMethod += `\n this.${entityInfo.name}.${entityFieldInfo.name} = ${modalDependencies.componentDynamicVariable.eventName}.${Constant.POPUP_DATA_VARIABLENAME}.${element.fieldName};`;
+                        } else if (element.componentType === 'select') {
+                            successMethod += `\n this.${Constant.SELECT_TS_OPTION_VARIABLENAME} = [{`;
+                            successMethod += `\n\t ${Constant.SELECT_KEY_VARIABLENAME}: ${modalDependencies.componentDynamicVariable.eventName}.${Constant.POPUP_DATA_VARIABLENAME}.${element.fieldName}, ${Constant.SELECT_VALUE_VARIABLENAME}: ${modalDependencies.componentDynamicVariable.eventName}.${Constant.POPUP_DATA_VARIABLENAME}.${element.fieldName}`;
+                            successMethod += `\n }]`;
+                        }
+                    }
+                }
+            }
+        })
+        successMethod += `\n this.${modalDependencies.componentDynamicVariable.popupModalName} = ${modalDependencies.componentDynamicVariable.eventName}.${modalDependencies.componentDynamicVariable.popupModalName};`;
+        successMethod += `\n }`;
+
+        let cancelMethod = `${modalDependencies.componentDynamicVariable.cancelPopupName}(${modalDependencies.componentDynamicVariable.eventName})`;
+        cancelMethod += `\n {`;
+        cancelMethod += `\n this.${modalDependencies.componentDynamicVariable.popupModalName} = ${modalDependencies.componentDynamicVariable.eventName};`;
+        cancelMethod += `\n }`;
+        // success method
+        $this.tsComponent.elementDependedMethod.push(successMethod);
+        // cancel method
+        $this.tsComponent.elementDependedMethod.push(cancelMethod);
+        // const methods = modalDependencies.componentDependedMethod.filter(x =>
+        //     x.name !== modalDependencies.componentDynamicVariable.submitMethodName &&
+        //     x.name !== modalDependencies.componentDynamicVariable.cancelMethodName)
+        // const temp = methods.map(({ method }) => method);
+        // $this.tsComponent.elementDependedMethod.push(temp.join('\n'));
+    }
+
+    specialEventModule(elementObj, modalDependencies, $this) {
+        $this.moduleComponent.importDependency.push({ dependencyName: `${elementObj.screenName.charAt(0).toUpperCase()}${elementObj.screenName.slice(1).toLowerCase()}Module`, dependencyPath: `../${elementObj.screenName.toLowerCase()}/${elementObj.screenName.toLowerCase()}.module` });
+        $this.moduleComponent.imports.push(`${elementObj.screenName.charAt(0).toUpperCase()}${elementObj.screenName.slice(1).toLowerCase()}Module`);
     }
 
 }

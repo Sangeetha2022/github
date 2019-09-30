@@ -14,22 +14,22 @@ export class $object.className$Service {
   constructor(private http: HttpClient, private $object.shared.objectName$: $object.shared.className$) { }
 
   signup(user: any): Observable<any> {
-    return this.http.post(this.$object.shared.objectName$.$object.shared.variableName$ + '/desktop/signup', user);
+    return this.http.post(this.$object.shared.objectName$.$object.shared.variableName$ + '/signup', user);
   }
 
   googlelogin(user: any): Observable<any> {
-    return this.http.post(this.$object.shared.objectName$.$object.shared.variableName$ + '/desktop/googlesignin', user);
+    return this.http.post(this.$object.shared.objectName$.$object.shared.variableName$ + '/googlesignin', user);
   }
   Login(user: any): Observable<any> {
-    return this.http.post(this.$object.shared.objectName$.$object.shared.variableName$ + '/desktop/login', user);
+    return this.http.post(this.$object.shared.objectName$.$object.shared.variableName$ + '/login', user);
   }
 
   Logout(user: any): Observable<any> {
-    return this.http.put(this.$object.shared.objectName$.$object.shared.variableName$ + '/desktop/logout', user);
+    return this.http.put(this.$object.shared.objectName$.$object.shared.variableName$ + '/logout', user);
   }
 
   Consent(consent: any): Observable<any> {
-    return this.http.put(this.$object.shared.objectName$.$object.shared.variableName$ + '/desktop/consent', consent);
+    return this.http.put(this.$object.shared.objectName$.$object.shared.variableName$ + '/consent', consent);
   }
 
 }
