@@ -11,10 +11,12 @@ import { AgGridModule } from 'ag-grid-angular';
 import { EntityManagerComponent } from './project-component.component';
 import { EntityFieldComponent } from './entity-field/entity-field.component';
 import {
-MatButtonModule, MatFormFieldModule, MatInputModule,
-MatCardModule, MatDialogModule, MatSelectModule,
-MatIconModule,
-MatRadioModule
+  MatButtonModule, MatFormFieldModule, MatInputModule,
+  MatCardModule, MatDialogModule, MatSelectModule,
+  MatIconModule,
+  MatRadioModule,
+  MatCheckboxModule,
+  MatTreeModule
 } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { ButtonRendererComponent } from './entity-field/rendered/button-renderer/button-renderer.component';
@@ -30,52 +32,64 @@ import { MenuBuilderComponent } from '../menu-builder/menu-builder.component';
 import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
 import { EntityModelComponent } from './entitypopup-model/entitypop-up/entitypop-up.component';
 import { EditPopupComponent } from './edit-popup/edit-popup.component';
+import { FlowTreeComponent } from './feature-details/flow-tree/flow-tree.component';
+import { FlowTreeService } from './feature-details/flow-tree/flow-tree.service';
 
 
 @NgModule({
-declarations: [
-EntityManagerComponent,
-EntityFieldComponent,
-PopupModelComponent,
-ButtonRendererComponent,
-FieldPopupModalComponent,
-FeatureDetailsComponent,
-// FileSelectDirective,
-ScreenPopupComponent,
-EntityModelComponent,
-EditPopupComponent
-],
-imports: [
-CommonModule,
-BrowserModule,
-ConnectorManagerModule,
-MenuBuilderModule,
-MatExpansionModule,
-MatButtonModule,
-MatInputModule,
-MatCardModule,
-CKEditorModule,
-ToastrModule.forRoot(),
-MatFormFieldModule,
-MatRadioModule,
-ReactiveFormsModule,
-MatDialogModule,
-FormsModule,
-MatIconModule,
-RouterModule,
-MatSelectModule,
-HttpClientModule,
-AgGridModule.withComponents([])
-],
-entryComponents: [
-ButtonRendererComponent,
-PopupModelComponent,
-ScreenPopupComponent,
-FieldPopupModalComponent,
-EntityModelComponent,
-EditPopupComponent,
-],
-exports: [
+  declarations: [
+    EntityManagerComponent,
+    EntityFieldComponent,
+    PopupModelComponent,
+    ButtonRendererComponent,
+    FieldPopupModalComponent,
+    FeatureDetailsComponent,
+    // FileSelectDirective,
+    ScreenPopupComponent,
+    EntityModelComponent,
+    FlowTreeComponent,
+    EditPopupComponent
+  ],
+  imports: [
+    CommonModule,
+    BrowserModule,
+    ConnectorManagerModule,
+    MenuBuilderModule,
+    MatExpansionModule,
+    MatButtonModule,
+    MatInputModule,
+    MatCardModule,
+    CKEditorModule,
+    ToastrModule.forRoot(),
+    MatFormFieldModule,
+    MatRadioModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    FormsModule,
+    MatIconModule,
+    RouterModule,
+    MatSelectModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatTreeModule,
+    AgGridModule.withComponents([])
+  ],
+  entryComponents: [
+    ButtonRendererComponent,
+    PopupModelComponent,
+    ScreenPopupComponent,
+    FieldPopupModalComponent,
+    EntityModelComponent,
+    EditPopupComponent,
+  ],
+  providers: [
+    FlowTreeService
+  ],
+  exports: [
     EntityManagerComponent,
   ],
 })

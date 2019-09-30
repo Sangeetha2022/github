@@ -8,6 +8,8 @@ export class Constants {
 
     // fred api
     public static get fred(): string { return this.DESKTOP_ROUTER + '/fred'; }
+    public static get quickTestFred(): string { return this.DESKTOP_ROUTER + '/quick/test'; }
+
 
     public static get quickConnectors(): String { return this.DESKTOP_ROUTER + '/save/quickConnectors'; }
 
@@ -56,6 +58,8 @@ export class Constants {
     public static get updateFlowCompUrl(): string { return this.DESKTOP_ROUTER + '/flow_component/update/'; }
     public static get getAllFlowComponentUrl(): string { return this.DESKTOP_ROUTER + '/flow_component/getall'; }
     public static get updateFlowCompConnectorById(): string { return this.DESKTOP_ROUTER + '/flowcomponent/project/updateconnector'; }
+    public static get getConnectorById(): string { return this.DESKTOP_ROUTER + '/get/quickConnectorbyid'; }
+
 
 
     // Flow apis

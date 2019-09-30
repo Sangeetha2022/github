@@ -57,6 +57,13 @@ export class GenerateHtmlWorker {
         flowMethod: [],
         apiEndPoints: []
     }
+    private moduleComponent = {
+        importDependency: [],
+        imports: [],
+        declarations: [],
+        exports: [],
+        entryComponents: []
+    }
     private screenInfo: any;
 
     private componentStyle = [];
@@ -77,6 +84,12 @@ export class GenerateHtmlWorker {
             import: [],
             others: []
         }
+
+        // generatedScreenArray for Routes
+        this.generatedRouteScreens = [];
+
+        // generatedScreen for spcialeEvent screens
+        this.generatedSpecialEventScreens = [];
     }
     generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
         // console.log('create angular project value are ----- ', util.inspect(req.body, { showHidden: true, depth: null }));
@@ -100,6 +113,15 @@ export class GenerateHtmlWorker {
             dependenciesVariableList: [],
             flowMethod: [],
             apiEndPoints: []
+        }
+
+        // module
+        this.moduleComponent = {
+            importDependency: [],
+            imports: [],
+            declarations: [],
+            exports: [],
+            entryComponents: []
         }
 
         this.componentStyle = [];
@@ -147,13 +169,14 @@ export class GenerateHtmlWorker {
         const templatePath = details.templateLocation.frontendTemplate;
         this.checkRoutes();
         this.checkPopupModal();
+        componentSpecializedWorker.setSpecialEvents(this);
         componentWorker.generateComponentHtml(applicationPath, templatePath, componentName, this.startTag, (response) => {
             componentWorker.generateComponentTs(applicationPath, templatePath, componentName, this.tsComponent, this.entities, (response) => {
                 componentWorker.generateComponentService(applicationPath, templatePath, componentName, this.serviceComponent, (response) => {
                     // console.log('before calling generatecomponentcss from generatehtlm -----  ', this.componentStyle);
                     componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.componentStyle, (response) => {
                         componentWorker.generateComponentSpec(applicationPath, templatePath, componentName, this.startTag, (response) => {
-                            componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.startTag, (response) => {
+                            componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.moduleComponent, (response) => {
                                 // console.log('component worker in generate component modeule in-----  ');
                                 // this.modifyDependency(applicationPath, packagePath, callback)
                                 callback();
@@ -214,17 +237,15 @@ export class GenerateHtmlWorker {
 
     // check popup modal.....
     checkPopupModal() {
-        console.log('check popupmodal generatedSpecialEventScreens -2--- ', this.generatedSpecialEventScreens);
         const screenIndex = this.generatedSpecialEventScreens.findIndex(x => x.screenId == this.screenInfo._id);
+        console.log('check popupmodal generatedSpecialEventScreens -2--- ', this.generatedSpecialEventScreens, ' --screenIndex--  ', screenIndex);
         if (screenIndex > -1) {
             const modalComponent = componentDependency.component.find(x => x.name === Constant.GP_MODAL_POPUP);
             // HTML
             this.startTag.unshift(`<div *ngIf="${modalComponent.componentDynamicVariable.popupModalName}" id="popupModal" class="modal" tabindex="-1" role="dialog" style="display: block">
           <div class="modal-dialog modal-md" role="dialog">
-            <div class="modal-content">
-              <div class="container">`);
-            this.startTag.push(`</div>
-            <div class="modal-footer">
+            <div class="modal-content">`);
+            this.startTag.push(`<div class="modal-footer">
               <div class="form-group">
                 <button type="button" class="btn button-create" (click)="${modalComponent.componentDynamicVariable.submitMethodName}()">ok</button>
                 <button type="button" class="btn button-close" (click)="${modalComponent.componentDynamicVariable.cancelMethodName}()">cancel</button>
@@ -234,9 +255,9 @@ export class GenerateHtmlWorker {
         </div>
       </div>`);
             // TS
-            this.tsComponent.variableList.push(`@Input() ${modalComponent.componentDynamicVariable.popupModalName} = false;`);
-            this.tsComponent.variableList.push(`@Output() ${modalComponent.componentDynamicVariable.popupDataName} = new EventEmitter();`);
-            this.tsComponent.variableList.push(`@Output() ${modalComponent.componentDynamicVariable.cancelPopupName} = new EventEmitter();`);
+            this.tsComponent.variableList.push(`@Input() ${modalComponent.componentDynamicVariable.popupModalName} = false`);
+            this.tsComponent.variableList.push(`@Output() ${modalComponent.componentDynamicVariable.popupDataName} = new EventEmitter()`);
+            this.tsComponent.variableList.push(`@Output() ${modalComponent.componentDynamicVariable.cancelPopupName} = new EventEmitter()`);
             // TS METHOD
             // component methods
             const methods = modalComponent.componentDependedMethod.filter(x =>
@@ -256,7 +277,6 @@ export class GenerateHtmlWorker {
     }
 
     modifyDependency(details, callback) {
-        console.log('modifydependency calling in gnerateHTML Workere s , ', this.globalStyle);
         const packagePath = details.projectGenerationPath;
         const srcPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}`;
         const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
@@ -466,7 +486,12 @@ export class GenerateHtmlWorker {
                     // special events
                     if (specialEventIndex > -1) {
                         console.log('special events index preseint ----   ', specialEventIndex);
-                        componentSpecializedWorker.setSpecialEvents(this.screenSpecialEvents[specialEventIndex], this);
+                        const modalDependencies = componentDependency.component.find(x => x.name === Constant.GP_MODAL_POPUP);
+                        this.startString += ` (click)="${this.screenInfo['special-events'][specialEventIndex].methodName}()"`
+                        const tempMethod = `${this.screenInfo['special-events'][specialEventIndex].methodName}() {\n this.${modalDependencies.componentDynamicVariable.popupModalName} = true;\n}`;
+                        this.tsComponent.elementDependedMethod.push(tempMethod);
+                        // componentSpecializedWorker.setSpecialEvents(this.screenSpecialEvents[specialEventIndex], this);
+
                     }
                     // adding flows action
                     if (flowIndex > -1) {
@@ -623,9 +648,9 @@ export class GenerateHtmlWorker {
 
     getSelectOptions(optionComponent) {
         if (optionComponent.length > 0) {
-            let temp = `option = [`;
+            let temp = `${Constant.SELECT_TS_OPTION_VARIABLENAME} = [`;
             optionComponent.forEach((optionElement, index) => {
-                temp += `\n{ key: '${optionElement.attributes.value}', value: '${optionElement.content}' }`;
+                temp += `\n{ ${Constant.SELECT_KEY_VARIABLENAME}: '${optionElement.attributes.value}', ${Constant.SELECT_VALUE_VARIABLENAME}: '${optionElement.content}' }`;
                 if (optionComponent.length - 1 != index) {
                     temp += `,`;
                 }

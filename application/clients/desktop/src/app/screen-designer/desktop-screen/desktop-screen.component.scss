@@ -7,6 +7,35 @@
     top: 0;
 }
 
+.showMapping {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #057afd;
+    user-select: none;
+}
+
+.showMapping:hover {
+    color: darkblue;
+}
+
+.popupEntityHint {
+    color: red;
+    font-style: italic;
+}
+
+// .mapperTable {
+//     display: block;
+//     overflow-x: auto;
+//     white-space: nowrap;
+// }
+
+.mapperTable {
+    max-height: 120px;
+    overflow-y: auto;
+    position: relative;
+}
+
+
 .mainDiv {
     height: auto;
     position: absolute;

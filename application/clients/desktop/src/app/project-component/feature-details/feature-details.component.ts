@@ -17,7 +17,9 @@ import { importExpr } from '@angular/compiler/src/output/output_ast';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { validateBasis } from '@angular/flex-layout';
 import { invalid } from '@angular/compiler/src/render3/view/util';
-import { element } from '@angular/core/src/render3';
+import { element, template } from '@angular/core/src/render3';
+import { FlowTreeService } from './flow-tree/flow-tree.service';
+import { DataService } from 'src/shared/data.service';
 
 // import { FormBuilder , FormGroup ,Validators} from `@angular/forms`;
 
@@ -51,6 +53,7 @@ export class FeatureDetailsComponent implements OnInit {
     featureEntity: any = [];
     frameworkComponents: { buttonRenderer: any; };
     displayModel: String = 'none';
+    displayModelTree: String = 'none';
     public isReadOnly: Boolean = false;
     featureScreenName: any = [];
     columnFeatureDefs: any = [];
@@ -95,22 +98,30 @@ export class FeatureDetailsComponent implements OnInit {
     featureEntityDataGrid;
     public quickConnectorsFlows: any = [];
     public customeConncetor: Boolean;
+    public isAddConnector: Boolean;
 
     public quickConnectors: any = {
         name: '',
         description: '',
         endPointUrl: '',
-        api_key: '',
-        params: '',
+        apiKey: {
+            key: '',
+            value: ''
+        },
         apiMethods: '',
-        service: '',
-
+        pathVariable: false,
+        queryParams: false,
+        properties: []
     };
+    public propertiesKey: any = [];
+    public propertiesValue: any = [];
+    public apiMethodArray: any = ['select Apis', 'post', 'get', 'put', 'delete'];
     public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
     // This is the default title property created by the angular cli. Its responsible for the app works
     isPrimaryEntityPresent: boolean;
     deletePopup: string;
     deletescreenPopup: string;
+    deleteConnectorPopup: string;
     selectedEntityId: any;
     selectedScreenId: any;
     flowInFeatureColumn: any[];
@@ -128,6 +139,10 @@ export class FeatureDetailsComponent implements OnInit {
     public quickConnectorId: any;
     public quickConnectorsService: any;
     public modifyComponents: any = [];
+    public properties: any[] = [];
+    flowEntityId: any;
+    public connectorsType: String;
+    modifyConnectorsId: any;
 
 
 
@@ -137,6 +152,8 @@ export class FeatureDetailsComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private formBuilder: FormBuilder,
+        private flowTrerService: FlowTreeService,
+        private dataService: DataService,
         private dialog: MatDialog
     ) {
 
@@ -261,8 +278,8 @@ export class FeatureDetailsComponent implements OnInit {
             firstName: ['', Validators.required],
             description: ['', Validators.required],
             endPoint: ['', Validators.required],
-            api_key: ['', Validators.required],
-            params: ['', Validators.required]
+
+
         });
         this.route.queryParams.subscribe(params => {
             if (params.featureId !== undefined && params.featureId !== null) {
@@ -271,7 +288,16 @@ export class FeatureDetailsComponent implements OnInit {
             if (params.projectId !== undefined && params.projectId !== null) {
                 this.project_id = params.projectId;
             }
+
         });
+        this.dataService.currentFlowEntitySource.subscribe(data => {
+            console.log('dataservice-iifff-->>', data);
+            if (data) {
+                this.flowEntityId = data;
+                this.displayModelTree = 'none';
+                this.displayModel = 'block';
+            }
+        })
         this.getFeatureById();
         this.getScreenByFeatureId();
         this.getEntityByFeatureId();
@@ -319,7 +345,6 @@ export class FeatureDetailsComponent implements OnInit {
 
     getProjectFeatureFlows() {
         this.projectComponentService.getProjectFeatureFlows(this.featureInfo.flows).subscribe(response => {
-            console.log('floq---->>>project00flow--feature-->>', response)
             const temp = [];
             if (response.body) {
                 this.flowInFeatureRowData = response.body;
@@ -332,8 +357,6 @@ export class FeatureDetailsComponent implements OnInit {
     getAllFlows() {
         this.projectComponentService.getAllFlows().subscribe(
             response => {
-                console.log('flowsss---11111>>>', response.body)
-
                 const flows = response.body;
                 if (flows) {
                     if (this.flowInFeatureRowData.length === 0) {
@@ -345,7 +368,6 @@ export class FeatureDetailsComponent implements OnInit {
                                 flows.splice(index, 1);
                             }
                         });
-                        console.log('flowsss--->>>', flows)
                         this.rowData = flows;
                     }
                 }
@@ -452,6 +474,14 @@ export class FeatureDetailsComponent implements OnInit {
         }
     }
     modify(e) {
+        e.rowData.components.map(data => {
+            data.connector.map(connector => {
+                if (connector.isCustom === true) {
+                    console.log('connctors---->>', connector.isCustom)
+                    this.modifyConnectorsId = connector._id;
+                }
+            });
+        });
         if (e.rowData.flowType === 'GeppettoFlow') {
             this.modifyFlows.flowName = e.rowData.name;
             this.modifyFlows.flowLable = e.rowData.label;
@@ -461,8 +491,60 @@ export class FeatureDetailsComponent implements OnInit {
             this.modifyComponents = e.rowData.components;
             this.quickConnectorName = 'quickConnectors';
             this.displayModel = 'block';
-
         }
+    }
+
+    PathVariableMethod() {
+        this.isAddConnector = true;
+        this.quickConnectors.queryParams = false;
+        this.quickConnectors.pathVariable = true;
+    }
+
+    queryParamsMethod() {
+        this.isAddConnector = true;
+        this.quickConnectors.pathVariable = false;
+        this.quickConnectors.queryParams = true;
+    }
+
+    addProperties(): void {
+        this.properties.push({
+            key: '',
+            value: ''
+        });
+
+    }
+
+    quickTest() {
+        this.propertiesKey.map((e, index) => {
+            const tempArray = {
+                key: '',
+                value: ''
+            }
+            tempArray.key = e;
+            tempArray.value = this.propertiesValue[index]
+            this.quickConnectors.properties.push(tempArray);
+        });
+        this.projectComponentService.quickTestFred(this.quickConnectors).subscribe(response => {
+            if (response) {
+                console.log('i am inside of response', typeof response.body);
+                this.displayModelTree = 'block';
+                this.displayModel = 'none';
+                const result = JSON.parse(JSON.stringify(response.body))
+             
+                this.flowTrerService.quickTest(result);
+
+
+                // const allResponse = JSON.stringify(response);
+                // const result = JSON.parse(allResponse);
+                // console.log('all response ---<>>>', result);
+                // this.router.navigate(['/flow-tree'], { queryParams: { projectId: this.project_id, featureId: this.feature_id } });
+            }
+        })
+    }
+
+
+    removeProperties(i) {
+        this.properties.splice(i, 1);
     }
 
     selectApis(event) {
@@ -470,18 +552,65 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     backendSerice(event) {
-        console.log('event--<<>>', event);
-        this.quickConnectors.service = event;
+        if (this.modifyConnectorsId !== undefined) {
+            this.showAlert();
+        } else if (this.modifyConnectorsId === undefined) {
+            this.quickConnectors.service = event;
+        }
     }
     frontEndService(event) {
-        console.log('event--<<>>', event);
-        this.quickConnectors.service = event;
+        if (this.modifyConnectorsId !== undefined) {
+            this.showAlert();
+        } else if (this.modifyConnectorsId === undefined) {
+            this.quickConnectors.service = event;
+        }
+    }
+
+    showAlert() {
+        this.submitted = false;
+        this.displayModel = 'none';
+        this.customeConncetor = false;
+        this.deleteConnectorPopup = 'block';
+    }
+
+    quickConnectorsMethod(event) {
+        console.log('aruldass--->>', event);
+        this.connectorsType = event;
+    }
+    defaultConnectorsMethod(event) {
+        console.log('aruldass--->>', event);
+        this.connectorsType = event;
+    }
+    customeConncetorsMethod(event) {
+        console.log('aruldass--->>', event);
+        this.connectorsType = event;
     }
 
     addExternalConnector() {
-        this.customeConncetor = true;
-
+        if (this.modifyConnectorsId !== undefined) {
+            this.getQuickConnectorId(this.modifyConnectorsId);
+        } else {
+            this.customeConncetor = true;
+        }
     }
+    getQuickConnectorId(connector_id) {
+        console.log('quick conntors --->', connector_id);
+        this.projectComponentService.getConnectorById(connector_id).subscribe(response => {
+            if (response) {
+                console.log('getQuickConnectorId--->>', response);
+                this.quickConnectors = response.body;
+                this.customeConncetor = true;
+            }
+        });
+    }
+
+    closedeleteConntorPopUp() {
+        this.deleteConnectorPopup = 'none';
+        this.customeConncetor = true;
+    }
+
+
+
     onSubmit() {
         this.submitted = true;
         // stop here if form is invalid
@@ -491,96 +620,89 @@ export class FeatureDetailsComponent implements OnInit {
         if (!this.connectorsForm.invalid) {
             this.isService = true;
         }
-        const tempObject = {
-            projectId: this.project_id,
-            feature_id: this.feature_id,
-            endPointUrl: this.quickConnectors.endPointUrl,
+        if (this.connectorsType === 'quickConnectors') {
+            this.quickConnectorsType();
+        }
+    }
+
+    quickConnectorsType() {
+        const tempObj = {
+            url: `${this.quickConnectors.endPointUrl}`,
+            isCustom: true,
+            properties: [],
+            name: this.quickConnectors.name,
+            description: this.quickConnectors.description,
+            entity_id: this.flowEntityId,
+            connectors: this.quickConnectorName,
+            apiMethods: this.quickConnectors.apiMethods,
+            service: this.quickConnectors.service,
             api_key: this.quickConnectors.api_key,
             params: this.quickConnectors.params,
-            // apiMethods: this.quickConnectors.apiMethods
+            availableApi: [
+                {
+                    'name': 'availble',
+                    'description': 'des',
+                    'type': 'api',
+                    'properties': [],
+                    '_id': '5d722bb54aaed85b03cc809e'
+                }
+            ],
+            fromComponentName: null,
+            toComponentName: null,
         };
-        console.log('i am tempobject---->>>', tempObject);
-        // `${data.endPointUrl}?${data.params}&api_key=${data.api_key}&file_type=json`
-        console.log('url =--->>', `${tempObject.endPointUrl}?${tempObject.params}&api_key=${tempObject.api_key}&file_type=json`);
-        this.projectComponentService.fred(tempObject).subscribe(data => {
-            if (data) {
-                this.getEntityByFeatureId();
-                const tempObj = {
-                    url: `${tempObject.endPointUrl}?${tempObject.params}&api_key=${tempObject.api_key}&file_type=json`,
-                    isCustom: true,
-                    properties: [],
-                    name: this.quickConnectors.name,
-                    description: this.quickConnectors.description,
-                    entity_id: data.body._id,
-                    connectors: this.quickConnectorName,
-                    apiMethods: this.quickConnectors.apiMethods,
-                    service: this.quickConnectors.service,
-                    api_key: this.quickConnectors.api_key,
-                    params: this.quickConnectors.params,
-                    availableApi: [
-                        {
-                            'name': 'availble',
-                            'description': 'des',
-                            'type': 'api',
-                            'properties': [],
-                            '_id': '5d722bb54aaed85b03cc809e'
-                        }
-                    ],
-                    fromComponentName: null,
-                    toComponentName: null,
+        this.projectComponentService.quickConnectors(tempObj).subscribe(response => {
+            this.quickConnectorId = response.body._id;
+            const tempData = {
+                connectorId: this.quickConnectorId,
+                flowComponentId: '',
+            };
+
+            console.log('i am resonse quick connectors 123-->>', tempObj);
+            this.projectComponentService.quickConnectors(tempObj).subscribe( response => {
+                console.log('response--quickConnectors>>', response)
+                this.quickConnectorId = response.body._id;
+                const tempData = {
+                    connectorId: this.quickConnectorId,
+                    flowComponentId: '',
                 };
 
-                console.log('i am resonse quick connectors 123-->>', tempObj);
+                if (response.body.service === 'backEnd') {
+                    this.modifyComponents.map(backEnd => {
+                        if (backEnd.name === 'GpExpressDao') {
+                            tempData.flowComponentId = backEnd._id;
+                            this.updateFlowCompConnectorById(tempData);
+                        }
+                    });
+                } else if (response.body.service === 'frontEnd') {
+                    this.modifyComponents.map(frontEnd => {
+                        if (frontEnd.name === 'GpAngularService' || frontEnd.name === 'GpIonicAngularService') {
+                            tempData.flowComponentId = frontEnd._id;
+                            this.updateFlowCompConnectorById(tempData);
+                        }
 
+                    });
 
-                this.projectComponentService.quickConnectors(tempObj).subscribe(response => {
-                    this.quickConnectorId = response.body._id;
-                    const tempData = {
-                        connectorId: this.quickConnectorId,
-                        flowComponentId: '',
-                    };
+                }
+                console.log('flow -component--id --->>', tempData);
+            });
+        });
+     }
 
-                    if (response.body.service === 'backEnd') {
-                        this.modifyComponents.map(backEnd => {
-                            if (backEnd.name === 'GpExpressDao') {
-                                tempData.flowComponentId = backEnd._id;
-                                this.updateFlowCompConnectorById(tempData);
-                            }
-                        });
-                    } else if (response.body.service === 'frontEnd') {
-                        this.modifyComponents.map(frontEnd => {
-                            if (frontEnd.name === 'GpAngularService' || frontEnd.name === 'GpIonicAngularService') {
-                                tempData.flowComponentId = frontEnd._id;
-                                this.updateFlowCompConnectorById(tempData);
-                            }
-
-                        });
-
-                    }
-                    // this.projectComponentService.updateProjectFlowComponent(tempData).subscribe(response => {
-                    //     console.log('response --->>', response);
-                    // })
-                    // this.updateProjectF)lowComponent
-                    console.log('flow -component--id --->>', tempData);
-                    // else if (response.body.service === 'frontEnd') {
-                    //     this.modifyComponents.map(frontEnd => {
-
-                    //     });
-
-                    // }
-
-                });
+    updateFlowCompConnectorById(data) {
+        this.projectComponentService.updateFlowCompConnectorById(data).subscribe(response => {
+            console.log('update--response- updateFlowCompConnectorById->>', response);
+            if (response) {
+                this.submitted = false;
+                this.quickConnectors = '';
+                this.displayModel = 'none';
+                this.customeConncetor = false;
             }
         });
     }
 
-    updateFlowCompConnectorById(data) {
-        this.projectComponentService.updateFlowCompConnectorById(data).subscribe(response => {
-            console.log('response --->>', response);
-        });
-    }
-
     flowCancle() {
+        this.submitted = false;
+        this.quickConnectors = ''
         this.displayModel = 'none';
         this.customeConncetor = false;
 
@@ -702,6 +824,7 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     openDialog(isSaveOption, objectValue): void {
+        // this.displayModel = 'block';
         const dialogDataValue = {
             savedEntity: {},
             projectId: this.project_id,
@@ -801,12 +924,14 @@ export class FeatureDetailsComponent implements OnInit {
 
 
         dialogRef.afterClosed().subscribe(screenData => {
+            console.log('screen data ar e---------------- ', screenData);
             if (screenData) {
                 this.router.navigate(['/desktopscreen'], {
                     queryParams: {
                         projectId: this.project_id,
                         featureId: this.feature_id,
-                        screenType: screenData
+                        screenType: screenData.name,
+                        screenOption: screenData.type
                     }
                 });
             }
@@ -915,3 +1040,4 @@ export class FeatureDetailsComponent implements OnInit {
         this.deletescreenPopup = 'none';
     }
 }
+  

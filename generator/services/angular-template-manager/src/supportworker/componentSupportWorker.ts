@@ -162,26 +162,6 @@ export class ComponentSupportWorker {
         })
 
     }
-
-    // generateAppModule(generationPath, templatePath, templateName, information, callback) {
-    //     const className = information.folderName.charAt(0).toUpperCase() + information.folderName.slice(1).toLowerCase();
-    //     const filePath = `${generationPath}/src/app/${information.folderName.toLowerCase()}`;
-    //     templatePath = path.resolve(__dirname, templatePath);
-    //     Common.createFolders(filePath);
-    //     // adding component module className in appModule
-    //     information.className = className;
-    //     information.declarations = information.declarations.join(',\n');
-    //     information.imports = information.imports.join(',\n');
-    //     information.providers = information.providers.join(',\n');
-    //     information.bootstrap = information.bootstrap.join(',\n');
-    //     let generateComponent = st.loadGroup(require(templatePath + `/${templateName}_stg`));
-    //     let componentFileData = generateComponent.render(templateName, [className, information]);
-    //     fs.writeFile(filePath + `/${information.folderName.toLowerCase()}.module.ts`, componentFileData, function (err) {
-    //         if (err) throw err;
-    //         callback(`${className}.module.ts file generated`);
-    //     })
-
-    // }
-
+    
 
 }

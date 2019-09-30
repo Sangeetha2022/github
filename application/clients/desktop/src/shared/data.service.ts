@@ -79,6 +79,14 @@ export class DataService {
     // menu deatils
     private menuBuilderSource = new BehaviorSubject<any>('');
     currentMenuBuilderSource = this.menuBuilderSource.asObservable();
+
+    //saveflow entity
+    private selectedFlowEntitySource = new BehaviorSubject<any>('');
+    currentFlowEntitySource = this.selectedFlowEntitySource.asObservable();
+
+    //qucik Connectors -->>, 
+     private quickConnectorInfoSource = new BehaviorSubject<any> ({})
+     currentquickConnectorInfoSource = this.quickConnectorInfoSource.asObservable();
     constructor() { }
 
     // set default language
@@ -99,9 +107,22 @@ export class DataService {
         this.selectedMenuInfoSource.next(details);
     }
 
+    //save flowEntity
+    FlowSaveEntity(flowEntites: string) {
+        this.selectedFlowEntitySource.next(flowEntites)
+
+    }
+
     // set all entity details
     setAllEntity(entities: IEntity[]) {
         this.allEntitySource.next(entities);
+    }
+
+    //set qucikConnnecctors --
+
+    setQuickConnector(qucikConnnectors: any) {
+        this.quickConnectorInfoSource.next(qucikConnnectors)
+
     }
 
     // screen agGrid Field binding info

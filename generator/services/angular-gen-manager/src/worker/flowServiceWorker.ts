@@ -2,14 +2,17 @@
 import * as util from 'util';
 import { Constant } from '../config/Constant';
 import { constants } from 'fs';
+import { ProxySupportWorker } from '../supportworker/proxySupportWorker';
 
 export class FlowServiceWorker {
 
     private serviceObject: any;
     private componentName: String = null;
+    private templatePath: String = null;
     private currentFlow: any = null;
     private serviceFileDetails: any;
     private endPointList: any;
+    private proxySupportWorker = new ProxySupportWorker();
 
     private sharedObject = {
         className: `${Constant.SHARED_FILENAME.charAt(0).toUpperCase() + Constant.SHARED_FILENAME.slice(1)}${Constant.SERVICE_EXTENSION.charAt(0).toUpperCase() + Constant.SERVICE_EXTENSION.slice(1).toLowerCase()}`,
@@ -27,11 +30,13 @@ export class FlowServiceWorker {
         path: `rxjs`
     }
 
-    generateServiceComponentFlow(serviceObject, temp) {
+    generateServiceComponentFlow(serviceObject, temp, templatePath) {
         this.serviceObject = serviceObject;
         this.componentName = temp.folderName;
         this.serviceFileDetails = temp;
+        this.templatePath = templatePath;
         this.endPointList = serviceObject.apiEndPoints;
+        this.templatePath = templatePath;
         // console.log('endpoint list in flow service worker  are ----  ', this.endPointList);
         this.checkConnector();
         // console.log('final services file datesil are ----  ', this.serviceFileDetails);
@@ -47,7 +52,9 @@ export class FlowServiceWorker {
             console.log('each services flowElement are ----  ', util.inspect(flowElement, { showHidden: true, depth: null }))
             flowElement.components.connector.forEach(connectorElement => {
                 if (connectorElement.isDefault && !connectorElement.isDisabled) {
-                    this.addComponentMethod(Constant.DEFAULT_CONNECTOR_NAME);
+                    this.addComponentMethod(Constant.DEFAULT_CONNECTOR_NAME, connectorElement);
+                } else if (connectorElement.isCustom) {
+                    this.addComponentMethod(Constant.AVAILABLE_CONNECTOR_NAME, connectorElement);
                 }
             })
         })
@@ -55,29 +62,61 @@ export class FlowServiceWorker {
     }
 
     // GpCodeToAdd and GpRequest
-    private addComponentMethod(connectorType) {
+    private addComponentMethod(connectorType, connectorDetails) {
+        console.log('add component method details rae r-----  ', connectorDetails);
         if (this.checkMicroFlowSteps(Constant.COMPONENT_CODETOADD_MICROFLOW) &&
             this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-            if (connectorType == Constant.DEFAULT_CONNECTOR_NAME) {
-                // if (Array.isArray(this.endPointList.flowMethod)) {
-                //     this.endPointList.flowMethod.forEach(endpointElement => {
-                //         this.addEndPointApis(endpointElement);
-                //     });
-                // } else {
-                //     this.addEndPointApis(this.endPointList.flowMethod);
-                // }
-                // this.endPointList.forEach(endPointElement => {
-                //     this.addEndPointApis(endPointElement);
-                // })
-                const temp = this.endPointList.find(x => x.flowName === this.currentFlow.name);
-                if (temp) {
-                    this.addEndPointApis(temp);
-                }
+            switch (connectorType) {
+                case Constant.DEFAULT_CONNECTOR_NAME:
+                    const temp = this.endPointList.find(x => x.flowName === this.currentFlow.name);
+                    if (temp) {
+                        this.defaultApiEndPoints(temp);
+                    }
+                    break;
+                case Constant.AVAILABLE_CONNECTOR_NAME:
+                    this.customApis(connectorDetails);
+                    break;
+                default:
+                    break;
             }
         }
     }
 
-    private addEndPointApis(actionElement) {
+    private customApis(actionElement) {
+        console.log('availabel custom apis connectorDetails are ---11--   ', actionElement);
+        console.log('availabel custom apis current flow loist are ---22--   ', this.currentFlow, ' --currentFlowName-- ', this.currentFlow.name);
+        const tempMethod = this.checkApiAdditionalInformation(true, this.currentFlow);
+        console.log('tcustomApis temp methods rae  --33--- ', tempMethod);
+        let temp = `${this.currentFlow.name}(${tempMethod ? tempMethod.methodRequestVariable ? tempMethod.methodRequestVariable : '' : ''}): ${this.observableObject.className}<any> {`;
+        if (tempMethod && tempMethod.serviceMethodVariable) {
+            temp += `\n ${tempMethod.serviceMethodVariable}`
+        }
+        const baseUrl = actionElement.url.match(/http.:\/\/.*?\//g)[0].slice(0, -1);
+        const baseName = baseUrl.replace(/http.:\/\//, '');
+        const urlAdditionalInfo = actionElement.url.replace(baseUrl, '');
+        console.log('after match are ---------------    ', baseUrl);
+        console.log('after test action url ar e------   ', urlAdditionalInfo, '  --baseName--  ', baseName);
+        temp += `\n return this.${this.httpObject.object}.${actionElement.apiMethods}(\`/${baseName}${urlAdditionalInfo}\`);`;
+        temp += `\n}`;
+        this.serviceFileDetails.serviceMethod.push(temp);
+
+        const proxyObj = {
+            baseName: baseName,
+            baseUrl: baseUrl
+        }
+
+        // create proxy information
+        this.proxySupportWorker.createProxyInfo(this.templatePath, Constant.MODIFY_PROXY_CONFIG_TEMPLATENAME, proxyObj);
+
+        // constructor
+        this.addConstructor(this.httpObject.object, this.httpObject.className);
+
+        // import dependency
+        this.addDependencyHeaders(this.observableObject.className, this.observableObject.path);
+        this.addDependencyHeaders(this.httpObject.className, this.httpObject.path);
+    }
+
+    private defaultApiEndPoints(actionElement) {
         console.log('angular component service endpoint api list are ---- ', this.endPointList);
         // this.endPointList.forEach(actionElement => {
         const tempMethod = this.checkApiAdditionalInformation(true, actionElement);
@@ -86,7 +125,7 @@ export class FlowServiceWorker {
         if (tempMethod && tempMethod.serviceMethodVariable) {
             temp += `\n ${tempMethod.serviceMethodVariable}`
         }
-        temp += `\n return this.${this.httpObject.object}.${actionElement.apiAction}(this.${this.sharedObject.object}.apiGateway + ${this.checkApiParams(actionElement)});`;
+        temp += `\n return this.${this.httpObject.object}.${actionElement.apiAction}(this.${this.sharedObject.object}.${Constant.DESKTOP_APINAME} + ${this.checkApiParams(actionElement)});`;
         temp += `\n}`;
         this.serviceFileDetails.serviceMethod.push(temp)
         // })
@@ -104,20 +143,20 @@ export class FlowServiceWorker {
         const additional = this.checkApiAdditionalInformation(false, actionElement);
         switch (actionElement.apiAction) {
             case 'post':
-                return `'/${Constant.DESKTOP_ROUTE}${actionElement.routeUrl}', ${actionElement.variableName}`;
+                return `'${actionElement.routeUrl}', ${actionElement.variableName}`;
             case 'put':
                 const temp = actionElement.routeUrl.split(':');
                 console.log('put apiaction routeUrl ----  ', temp);
-                return `'/${Constant.DESKTOP_ROUTE}${actionElement.routeUrl}', ${actionElement.variableName}`;
+                return `'${actionElement.routeUrl}', ${actionElement.variableName}`;
             case 'get':
                 const getURL = actionElement.routeUrl.split(':');
                 console.log('additionalt get check api params are ----->>>   ', additional);
 
-                return `\`/${Constant.DESKTOP_ROUTE}${getURL[0]}${additional ? additional.urlQuery ? additional.urlQuery : '' : ''}\`${additional ? additional.requestParameter ? `, ${actionElement.variableName}` : '' : ''}`;
+                return `\`${getURL[0]}${additional ? additional.urlQuery ? additional.urlQuery : '' : ''}\`${additional ? additional.requestParameter ? `, ${actionElement.variableName}` : '' : ''}`;
             case 'delete':
                 const deleteURL = actionElement.routeUrl.split(':');
                 console.log('delete apiaction routeUrl ----  ', deleteURL);
-                return `\`/${Constant.DESKTOP_ROUTE}${deleteURL[0]}${additional ? additional.urlQuery ? additional.urlQuery : '' : ''}\`${additional ? additional.requestParameter ? `, ${actionElement.variableName}` : '' : ''}`;
+                return `\`${deleteURL[0]}${additional ? additional.urlQuery ? additional.urlQuery : '' : ''}\`${additional ? additional.requestParameter ? `, ${actionElement.variableName}` : '' : ''}`;
             default:
                 break;
         }
@@ -271,5 +310,10 @@ export class FlowServiceWorker {
             temp.path = path;
             this.serviceFileDetails.importComponent.push(temp);
         }
+    }
+
+    // modify proxy file details
+    modifyProxyFile(applicationPath) {
+        this.proxySupportWorker.modifyProxyFile(applicationPath);
     }
 }

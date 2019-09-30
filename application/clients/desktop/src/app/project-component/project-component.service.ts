@@ -126,12 +126,23 @@ export class ProjectComponentService {
     return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteProjectFlow}?projectFlowId=${projectFlowId}`);
   }
 
+//   updateProjectFlowComponent(data: any): Observable<any> {
+//     return this.api.put(`${this.restapi.Apigateway}${Constants.updateProjectFlowComponent}`, data);
+//     // return this.api.put('http://localhost:3001/flowcomponent/project/update' , data);
+// }
+
   updateFlowCompConnectorById(data: any): Observable<any> {
     return this.api.put(`${this.restapi.Apigateway}${Constants.updateFlowCompConnectorById}`, data);
   }
 
+  quickTestFred(data: any): Observable<any> {
+    console.log('data --service->>', data);
+    return this.api.post(`${this.restapi.Apigateway}${Constants.quickTestFred}`, data);
+  }
+  getConnectorById(connectorId: String): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getConnectorById}/${connectorId}`);
 
-
+  }
   // delete microservie apis
 
 

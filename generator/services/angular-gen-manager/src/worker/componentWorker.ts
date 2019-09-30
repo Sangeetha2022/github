@@ -6,6 +6,7 @@ import { FlowComponentWorker } from "./flowComponentWorker";
 import { FlowServiceWorker } from "./flowServiceWorker";
 import * as componentDependency from '../assets/componentDependency';
 import { ElementRouteWorker } from "./elementRouteWorker";
+import { ProxySupportWorker } from "../supportworker/proxySupportWorker";
 
 const componentSupportWorker = new ComponentSupportWorker();
 const dependencyWorker = new DependencyWorker();
@@ -26,13 +27,16 @@ export class ComponentWorker {
         providers: [],
         bootstrap: []
     }
+    private proxySupportWorker = new ProxySupportWorker();
+
 
     private packageModule = [];
 
     private moduleComponent = {
         importDependency: [],
         imports: [],
-        declarations: []
+        declarations: [],
+        exports: []
     }
 
     initializeRouteModule() {
@@ -58,12 +62,12 @@ export class ComponentWorker {
         this.moduleComponent = {
             importDependency: [],
             imports: [],
-            declarations: []
+            declarations: [],
+            exports: []
         }
     }
 
     public generateComponentHtml(applicationPath, templatePath, componentName, information, callback) {
-        console.log('before set routeModule HTML ts are -routeModule--->>  ', this.routeModule);
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
@@ -76,7 +80,6 @@ export class ComponentWorker {
             });
     }
     public generateComponentTs(applicationPath, templatePath, componentName, information, entities, callback) {
-        console.log('before set routeModule generate component ts are -routeModule--->>  ', information);
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
@@ -110,7 +113,8 @@ export class ComponentWorker {
             this.moduleComponent = {
                 importDependency: [],
                 imports: [],
-                declarations: []
+                declarations: [],
+                exports: []
             }
             information.otherMethodNames.forEach(otherElement => {
                 if (!temp.dependedComponentNames.find(x => x == otherElement)) {
@@ -147,19 +151,22 @@ export class ComponentWorker {
         let componentImportDependencies = 'Component, OnInit';
         const tempVar = [];
         information.variableList.forEach(variableElement => {
-            console.log('each variable ee  ----  ', variableElement)
-            if (variableElement.includes('@Output')) {
-                this.checkDependencies(tempVar, 'Output');
-            }
-            if (variableElement.includes('@Input')) {
-                this.checkDependencies(tempVar, 'Input');
-            }
-            if (variableElement.includes('new EventEmitter')) {
-                this.checkDependencies(tempVar, 'EventEmitter');
+            if (typeof variableElement === 'string') {
+                if (variableElement.includes('@Output')) {
+                    this.checkDependencies(tempVar, 'Output');
+                }
+                if (variableElement.includes('@Input')) {
+                    this.checkDependencies(tempVar, 'Input');
+                }
+                if (variableElement.includes('new EventEmitter')) {
+                    this.checkDependencies(tempVar, 'EventEmitter');
+                }
             }
         })
         if (tempVar.length > 0) {
             componentImportDependencies += `, ${tempVar.join(', ')}`;
+            // adding component module exports 
+            this.moduleComponent.exports.push(`${temp.className}Component`);
         }
         temp.importDependency.push({ dependencyName: componentImportDependencies, dependencyPath: '@angular/core' });
 
@@ -179,7 +186,6 @@ export class ComponentWorker {
     }
 
     public generateComponentService(applicationPath, templatePath, componentName, information, callback) {
-        console.log('before set routeModule SERVICE ts are -routeModule--->>  ', this.routeModule);
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
@@ -189,18 +195,7 @@ export class ComponentWorker {
             serviceConstructorParams: [],
             serviceMethod: []
         }
-        // // this.componentObject = information;
-        // // add default import dependency path
-        // temp.importDependency.push({ dependencyName: 'Component, OnInit', dependencyPath: '@angular/core' });
-
-        // // add component routes in app-routing.module.ts file
-        // const importDependencyPath = `import { ${temp.className}Component } from './${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}';`;
-        // if (this.routeModule.importDependency.findIndex(x => x == importDependencyPath) < 0) {
-        //     this.routeModule.importDependency.push(importDependencyPath);
-        //     this.routeModule.routePath.push(`{ path: '${temp.folderName.toLowerCase()}', component: ${temp.className}Component, canActivate: [AuthGuard] },`);
-        // }
-        flowServiceWorker.generateServiceComponentFlow(information, temp);
-        console.log('component service worker are ----  ', temp);
+        flowServiceWorker.generateServiceComponentFlow(information, temp, templatePath);
         componentSupportWorker.generateComponent(applicationPath, templatePath,
             `${componentName.toLowerCase()}.${Constant.SERVICE_EXTENSION}.${Constant.TS_EXTENSION}`,
             Constant.SERIVCE_TEMPLATENAME, temp, (response) => {
@@ -216,8 +211,6 @@ export class ComponentWorker {
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
             tag: information
         }
-        console.log('before set routeModule SCSS ts are -routeModule--->>  ', this.routeModule);
-        console.log('before generate component css are ----  ', temp);
         componentSupportWorker.generateComponent(applicationPath, templatePath,
             `${componentName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}.${Constant.SCSS_EXTENSION}`,
             Constant.CSS_TEMPLATENAME, temp, (response) => {
@@ -233,7 +226,6 @@ export class ComponentWorker {
             declarations: [],
             exports: null
         }
-        console.log('before set routeModule MODULE ts are -routeModule--->>  ', this.routeModule);
         // add default module dependency path
         temp.importDependency.push({ dependencyName: 'NgModule', dependencyPath: '@angular/core' });
         temp.importDependency.push({ dependencyName: 'CommonModule', dependencyPath: '@angular/common' });
@@ -251,17 +243,31 @@ export class ComponentWorker {
         temp.declarations.push(`${temp.className}Component`)
 
         // adding other component module dependencies
-        console.log('add other component modeules are ---- ', this.moduleComponent);
-        console.log('add other temp modeules are ---- ', temp);
         temp.importDependency = temp.importDependency.concat(this.moduleComponent.importDependency);
         temp.imports = temp.imports.concat(this.moduleComponent.imports);
         temp.declarations = temp.declarations.concat(this.moduleComponent.declarations);
+        if (this.moduleComponent.exports.length > 0) {
+            temp.exports = new Array().concat(this.moduleComponent.exports);
+        }
 
         // add component module in app.module.ts
         const moduleClassName = `${temp.className}Module`;
         if (this.appModule.imports.findIndex(x => x == moduleClassName) < 0) {
             this.appModule.importDependency.push(`import { ${moduleClassName} } from './${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.${Constant.MODULE_EXTENSION}';`);
             this.appModule.imports.push(`${temp.className}Module,`);
+        }
+
+        // information importDependency;
+        if (information.importDependency.length > 0) {
+            temp.importDependency = temp.importDependency.concat(information.importDependency);
+        }
+        // information imports;
+        if (information.imports.length > 0) {
+            temp.imports = temp.imports.concat(information.imports);
+        }
+        // information declarations;
+        if (information.declarations.length > 0) {
+            temp.declarations = temp.declarations.concat(information.declarations);
         }
 
         componentSupportWorker.generateComponent(applicationPath, templatePath,
@@ -276,7 +282,6 @@ export class ComponentWorker {
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
             tag: []
         }
-        console.log('before set routeModule SPEC ts are -routeModule--->>  ', this.routeModule);
         componentSupportWorker.generateComponent(applicationPath, templatePath,
             `${componentName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}.${Constant.SPEC_EXTENSION}.${Constant.TS_EXTENSION}`,
             Constant.SPEC_TEMPLATENAME, temp, (response) => {
@@ -285,11 +290,8 @@ export class ComponentWorker {
     }
 
     public modifyDependency(packagePath, srcPath, applicationPath, globalStyle, callback) {
-        console.log('modify dependency in component workers are --111---- ', globalStyle);
         if (this.routeModule.routePath.length > 0) {
             dependencyWorker.modifyAppRouteFile(applicationPath, this.routeModule);
-            // this.routeModule.importDependency = [];
-            // this.routeModule.routePath = [];
             this.initializeRouteModule();
         }
         if (this.appModule.importDependency.length > 0) {
@@ -304,7 +306,8 @@ export class ComponentWorker {
             dependencyWorker.modifyGlobalStyles(srcPath, globalStyle);
             this.initializeOtherInfo();
         }
-        console.log(' before callback dependency are ----2222--- ');
+        // modify proxy file
+        flowServiceWorker.modifyProxyFile(packagePath);
         callback();
     }
 

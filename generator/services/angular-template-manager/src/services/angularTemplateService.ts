@@ -24,7 +24,7 @@ export class AngularTemplateService {
     private apigatewayPortNumber = 0;
     private sharedObj = {
         className: 'Shared',
-        variableName: 'apiGateway',
+        variableName: 'DESKTOP_API',
         protocol: 'http',
         link: 'localhost',
         port: 0
