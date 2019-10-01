@@ -391,7 +391,7 @@
                   <div class="form-group">
                     <label>Key</label>
                     <input type="text" class="form-control" placeholder="Enter key"
-                      [(ngModel)]="quickConnectors.apiKey.key" />
+                      [(ngModel)]="quickConnectors.apiKey.key" name="apiKey.Key" />
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -399,7 +399,7 @@
                   <div class="form-group">
                     <label>Value</label>
                     <input type="text" class="form-control" placeholder="Enter value"
-                      [(ngModel)]="quickConnectors.apiKey.value" />
+                      [(ngModel)]="quickConnectors.apiKey.value" name="apiKey.value" />
                   </div>
                 </div>
               </div>
@@ -495,7 +495,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn button-create ok_btn" id="update" (click)="onSubmit()">Update</button>
-          <button type="button" class="btn button-close delete_btn" id="update" (click)="flowCancle()">Cancel</button>
+          <button type="button" class="btn button-close delete_btn" id="update" (click)="flowCancel()">Cancel</button>
         </div>
       </div>
     </div>
