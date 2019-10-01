@@ -67,8 +67,8 @@ export class FredDao {
   }
 
   public quickTest(data, callback: CallableFunction) {
-    console.log('data 0---->>', data.apiKey.key);
-    console.log('data 0---->>', data.apiKey.value);
+    console.log('data 0---->>', data.api_key.key);
+    console.log('data 0---->>', data.api_key.value);
 
     const quickTestData = {
       name: data.name,
@@ -87,7 +87,7 @@ export class FredDao {
     });
     const convertStr = tempArry.toString();
     const keyAndValue = convertStr.replace(/,/g, '&')
-    const URL = `${quickTestData.endPointUrl}?${data.apiKey.key}=${data.apiKey.value}&${keyAndValue}&file_type=json`
+    const URL = `${quickTestData.endPointUrl}?${data.api_key.key}=${data.api_key.value}&${keyAndValue}&file_type=json`
     console.log('keyy--valuse-->>',URL );
     request.get(`${URL}`, async (response, err, body) => {
       console.log('bodyyy--->>', body);
