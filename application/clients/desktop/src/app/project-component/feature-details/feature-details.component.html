@@ -326,7 +326,7 @@
             External connector</button>
         </form>
       </div>
-      <div *ngIf="customeConncetor">
+      <div *ngIf="customConnector">
         <div class="modal-body" style="min-height: 200px; max-height: 327px;overflow-y: auto;">
           <div class="m-3">
             <form [formGroup]="connectorsForm" (ngSubmit)="onSubmit()">
@@ -369,7 +369,7 @@
                 <div class="col-md-6">
                   <mat-radio-group layout="row">
                     <mat-radio-button class="example-radio-button" value='queryParams'
-                      [checked]="quickConnectors.queryParams" (click)="queryParamsMethod()">
+                      [checked]="quickConnectors.queryParams" (click)="queryParamsMethod('queryParams')">
                       Query Params
                     </mat-radio-button>
                   </mat-radio-group>
@@ -377,7 +377,7 @@
                 <div class="col-md-6">
                   <mat-radio-group layout="row">
                     <mat-radio-button class="example-radio-button" value='pathvarible'
-                      [checked]="this.quickConnectors.pathvarible" (click)="PathVariableMethod()">
+                      [checked]="this.quickConnectors.pathvarible" (click)="PathVariableMethod('pathvarible')">
                       Path Varibles
                     </mat-radio-button>
                   </mat-radio-group>
@@ -391,7 +391,7 @@
                   <div class="form-group">
                     <label>Key</label>
                     <input type="text" class="form-control" placeholder="Enter key"
-                      [(ngModel)]="quickConnectors.apiKey.key" name="apiKey.Key" />
+                      [(ngModel)]="quickConnectors.api_key.key" name="api_key.Key" />
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -399,7 +399,7 @@
                   <div class="form-group">
                     <label>Value</label>
                     <input type="text" class="form-control" placeholder="Enter value"
-                      [(ngModel)]="quickConnectors.apiKey.value" name="apiKey.value" />
+                      [(ngModel)]="quickConnectors.api_key.value" name="api_key.value" />
                   </div>
                 </div>
               </div>
@@ -436,7 +436,7 @@
             </div>
             <div class="form-group">
               <label>Select Api's Methods</label>
-              <select class="form-control" (change)="selectApis($event.target.value)">
+              <select class="form-control" [(ngModel)]="quickConnectors.apiMethods">
                 <option value="" selected>Select Api's Methods</option>
                 <option value="post">post</option>
                 <option value="get">get</option>
@@ -445,6 +445,17 @@
               </select>
               <br>
             </div>
+            <!-- <div class="form-group">
+              <label>Select Api's Methods</label>
+              <select class="form-control" (change)="selectApis($event.target.value)">
+                <option value="" selected>Select Api's Methods</option>
+                <option value="post">post</option>
+                <option value="get">get</option>
+                <option value="put">put</option>
+                <option value="delete">delete </option>
+              </select>
+              <br>
+            </div> -->
             <button type="button" class="btn button-close delete_btn" id="update" (click)="quickTest()">Quick
               Test</button>
             <div>
@@ -453,10 +464,10 @@
                 <h3>Services</h3>
               </div>
               <mat-radio-group layout="row">
-                <mat-radio-button class="example-radio-button" value="backEnd" (click)="backendSerice('backEnd')">
+                <mat-radio-button class="example-radio-button" value="backEnd"  [checked]="isbackEndService" (click)="backendService('backEnd')">
                   Backend service
                 </mat-radio-button>
-                <mat-radio-button class="example-radio-button" value="frontEnd" (click)="frontEndService('frontEnd')">
+                <mat-radio-button class="example-radio-button" value="frontEnd" [checked]="isFrontEndService" (click)="frontEndService('frontEnd')">
                   FrontEnd service
                 </mat-radio-button>
               </mat-radio-group>
@@ -477,7 +488,7 @@
               <mat-radio-group aria-label="Select an option">
                 <mat-radio-button value="quickConnectors" (click)="quickConnectorsMethod('quickConnectors')">Quick connectors</mat-radio-button>
                 <mat-radio-button value="defaultConnectors" (click)="defaultConnectorsMethod('defaultConnectors')"> Default Connector</mat-radio-button>
-                <mat-radio-button value="customeConncetors" (click)="customeConncetorsMethod('customeConncetors')"> Custom Connector</mat-radio-button>
+                <mat-radio-button value="customConnecetors" (click)="customConnectorsMethod('customConnecetors')"> Custom Connector</mat-radio-button>
               </mat-radio-group>
 
               <!-- <button type="button" class="btn button-create ok_btn" id="AddConnector" (click)="onSubmit()">Quick
