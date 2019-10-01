@@ -65,6 +65,7 @@ export class CommandService {
         $this.agGridObject.htmlId = component.ccid;
         $this.agGridObject.componentId = component.cid;
         $this.is_grid_present = true;
+        console.log('selected grid modals of selectedEntityModel are -----  ', $this.selectedEntityModel)
       }
     });
   }
@@ -208,6 +209,15 @@ export class CommandService {
     $this.editor.on(`component:update:componentVerb`, function (model) {
       $this.selectedEntityModel = model.changed['componentVerb'];
       $this.componentVerb = $this.componentVerbList.find(x => x.value === model.changed['componentVerb']).key;
+    });
+
+    // set whether the screen type as popupmodal or normal one
+    $this.editor.on(`component:update:popupmodal`, function (model) {
+      if (model.changed['popupmodal']) {
+        $this.screenOption = 'popupmodal';
+      } else {
+        $this.screenOption = 'normal';
+      }
     });
     // this.editor.on('change:traits:entity', function (model) {
     // });

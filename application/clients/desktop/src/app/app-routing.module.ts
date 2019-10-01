@@ -19,6 +19,7 @@ import { UserComponent } from './user/user.component';
 import { ProfilesettingsComponent } from './user/profilesettings/profilesettings.component';
 import { AuthGuard } from './auth/auth.guard';
 import { TemplateScreenComponent } from './template-screen/template-screen.component';
+import { FlowTreeComponent } from './project-component/feature-details/flow-tree/flow-tree.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -38,6 +39,8 @@ const routes: Routes = [
   { path: 'desktopscreen', component: DesktopScreenComponent },
   { path: 'project-component', component: EntityManagerComponent },
   { path: 'entity-field', component: EntityFieldComponent },
+  { path: 'flow-tree', component: FlowTreeComponent  },
+
 
   // { path: '', redirectTo: 'project', pathMatch: 'full' },
   // { path: '**', redirectTo: 'project', pathMatch: 'full' },

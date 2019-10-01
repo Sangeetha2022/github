@@ -57,6 +57,7 @@ export class Constant {
     public static CSS_TEMPLATENAME = 'component_css';
     public static MODULE_TEMPLATENAME = 'component_module';
     public static SPEC_TEMPLATENAME = 'component_spec';
+    public static MODIFY_PROXY_CONFIG_TEMPLATENAME = 'modify_proxy_config';
 
     // fileName
     public static APP_ROUTING_FILENAME = 'app-routing.module.ts';
@@ -64,6 +65,7 @@ export class Constant {
     public static PACKAGE_JSON_FILENAME = 'package.json';
     public static STYLE_SCSS_FILENAME = 'styles.scss';
     public static SHARED_FILENAME = `shared`;
+    public static PROXY_CONFIG_FILENAME = 'proxy.conf.ts';
 
     // ckeditor element details
     public static CKEDITOR_HTMLID_NAME = 'ckeditortextarea';
@@ -84,6 +86,16 @@ export class Constant {
 
     // modal 
     public static GP_MODAL_POPUP = `modal`;
+    public static POPUP_DATA_VARIABLENAME = 'data';
+
+    // object name
+    public static DESKTOP_APINAME = 'DESKTOP_API';
+    public static PROXY_CONFIG_VARIABLENAME = 'PROXY_CONFIG';
+
+    // html component tag
+    public static SELECT_TS_OPTION_VARIABLENAME = 'option';
+    public static SELECT_KEY_VARIABLENAME = 'key';
+    public static SELECT_VALUE_VARIABLENAME = 'value';
 
     // list of flow action
     public static GP_CREATE_FLOW = `GpCreate`;

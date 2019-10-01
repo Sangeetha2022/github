@@ -17,7 +17,7 @@
 
 
 
-<h1 mat-dialog-title>Choose the Screen:</h1>
+<h1 mat-dialog-title class="dialogHeader">Choose the Screen:</h1>
 <div mat-dialog-content>
   <div class="row screenImg">
     <div class="col-md-6 col-sm-6 col-lg-6">
@@ -28,13 +28,12 @@
     <div class="col-md-6 col-sm-6 col-lg-6">
       <!-- <img src="assets/img/MobileIcon.svg" alt="Smiley face" height="150" width="120">
       <input type="radio" name="gender" value="female" (click)="screenType('mobile')"> -->
-      <input id="image2" type="radio" name="radioImage" [(ngModel)]="image2" value="image2"
-        (click)="type('mobile')" />
+      <input id="image2" type="radio" name="radioImage" [(ngModel)]="image2" value="image2" (click)="type('mobile')" />
       <label class="radioButton image2" for="image2"></label>
     </div>
   </div>
 </div>
 <div mat-dialog-actions class="footerPopup">
   <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
-  <button mat-raised-button color="primary" [mat-dialog-close]="screenType" cdkFocusInitial>Ok</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="screen" cdkFocusInitial>Ok</button>
 </div>

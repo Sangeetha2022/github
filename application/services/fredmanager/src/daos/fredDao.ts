@@ -65,6 +65,37 @@ export class FredDao {
       })
     });
   }
+
+  public quickTest(data, callback: CallableFunction) {
+    console.log('data 0---->>', data.apiKey.key);
+    console.log('data 0---->>', data.apiKey.value);
+
+    const quickTestData = {
+      name: data.name,
+      description: data.description,
+      endPointUrl: data.endPointUrl,
+      apiMethods: data.apiMethods,
+      pathVariable: data.pathVariable,
+      queryParams: data.queryParams,
+      properties: data.properties
+    }
+
+    const tempArry = [];
+    quickTestData.properties.map(({ key, value }) => {
+      const queryKeyValue = `${key}=${value}`;
+      tempArry.push(queryKeyValue);
+    });
+    const convertStr = tempArry.toString();
+    const keyAndValue = convertStr.replace(/,/g, '&')
+    const URL = `${quickTestData.endPointUrl}?${data.apiKey.key}=${data.apiKey.value}&${keyAndValue}&file_type=json`
+    console.log('keyy--valuse-->>',URL );
+    request.get(`${URL}`, async (response, err, body) => {
+      console.log('bodyyy--->>', body);
+      callback(body);
+    })
+
+  }
+
 }
 
 

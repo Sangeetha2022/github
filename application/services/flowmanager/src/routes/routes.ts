@@ -44,7 +44,10 @@ export class Routes {
         app.route('/flowcomponent/project/updateconnector').put(this.projectFlowComponentController.updateProjectFlowComponent);
 
 
+        //quick connectors
 
+        app.route('/save/quickConnectors').post(this.qucikConnectorController.saveConnectors);
+        app.route('/get/quickConnectorbyid/:id').get(this.qucikConnectorController.getConnectorById)
 
         //quick connectors
 

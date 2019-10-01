@@ -1,3 +1,5 @@
+import { Constant } from "../config/Constant";
+
 export const component = [
     {
         name: 'router',
@@ -67,12 +69,14 @@ export const component = [
             `[paginationPageSize]="paginationPageSize"`,
             `[defaultColDef]="defaultColDef"`,
             `[rowData]="rowData"`,
+            `[rowSelection]="rowSelection"`,
             `(gridReady)="onGridReady($event)"`,
             `domLayout='autoHeight'`
         ],
         componentVariableList: [
             `gridApi: any`,
             `gridColumnApi: any`,
+            `rowSelection = 'single'`,
             `defaultColDef = { editable: false, sortable: true, resizable: true, filter: true }`,
             `paginationPageSize = 10`,
             `rowData: any = []`
@@ -121,20 +125,17 @@ export const component = [
             '(cancelPopup)="cancelPopup($event)"'
         ],
         componentVariableList: [
-            `isPopupModal=false`,
+            `isPopupModal = false`,
         ],
         componentDynamicVariable: {
             popupModalName: 'isPopupModal',
             popupDataName: 'popupData',
             cancelPopupName: 'cancelPopup',
             submitMethodName: 'submit',
-            cancelMethodName: 'cancel'
+            cancelMethodName: 'cancel',
+            eventName: 'event'
         },
         componentDependedMethod: [
-            {
-                name: 'openModal',
-                method: `openModal() {\nthis.isPopupModal = true;\n}`
-            },
             {
                 name: 'popupData',
                 method: `popupData(event) {\nthis.isPopupModal = event.isPopupModal;\n}`
@@ -145,7 +146,7 @@ export const component = [
             },
             {
                 name: 'submit',
-                method: `submit() {\nthis.popupData.emit({ data: this.gridApi.getSelectedRows(), isPopupModal: false });\n}`
+                method: `submit() {\nthis.popupData.emit({ ${Constant.POPUP_DATA_VARIABLENAME}: this.gridApi.getSelectedRows()[0], isPopupModal: false });\n}`
             },
             {
                 name: 'cancel',
