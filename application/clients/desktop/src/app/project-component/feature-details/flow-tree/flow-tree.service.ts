@@ -16,7 +16,6 @@ export class FlowTreeService {
     public fredResponse: any;
 
     constructor(
-        private router: Router
     ) {
         this.initialize();
     }
@@ -25,7 +24,7 @@ export class FlowTreeService {
     }
 
     quickTest(data) {
-        console.log('qucik test--->>', data);
+        // console.log('qucik test--->>', data);
 
         // let response = {
         //     'categories': [
@@ -49,15 +48,11 @@ export class FlowTreeService {
         // };
 
         const spiltKey = Object.assign({}, ...data.categories);
-        console.log('split--keyy-->>', spiltKey);
         const uniqueKey = Object.keys(spiltKey);
-        console.log('uniqueKey--keyy-->>', uniqueKey);
-
         const paranentKey = Object.keys(data);
         const obj = Object.assign({}, paranentKey);
         Object.values(obj).reduce((a, b) => {
             const result = {};
-            console.log('resulr999>>', result)
             result[b] = uniqueKey;
             const data = this.buildFileTree(result, 0);
             console.log('-----rrespomse-->>', data);
