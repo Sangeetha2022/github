@@ -598,24 +598,25 @@ export class GenerateHtmlWorker {
         if (flowObject && this.serviceComponent.apiEndPoints.findIndex(x => x.methodName == flowObject.name) < 0) {
             if (this.endPointList) {
                 const api = this.endPointList.flowAction.find(x => x.methodName == flowObject.actionOnData);
-                // console.log('finded api are ----  ', api);
-                const temp = {
-                    flowName: '',
-                    flowActionOnData: '',
-                    flowType: '',
-                    routeUrl: '',
-                    apiAction: '',
-                    methodName: '',
-                    variableName: ''
+                if (api) {
+                    const temp = {
+                        flowName: '',
+                        flowActionOnData: '',
+                        flowType: '',
+                        routeUrl: '',
+                        apiAction: '',
+                        methodName: '',
+                        variableName: ''
+                    }
+                    temp.flowName = flowObject.name;
+                    temp.flowActionOnData = flowObject.actionOnData;
+                    temp.flowType = flowObject.type;
+                    temp.routeUrl = api.routeUrl;
+                    temp.apiAction = api.apiAction;
+                    temp.methodName = api.methodName;
+                    temp.variableName = api.variableName;
+                    this.serviceComponent.apiEndPoints.push(temp);
                 }
-                temp.flowName = flowObject.name;
-                temp.flowActionOnData = flowObject.actionOnData;
-                temp.flowType = flowObject.type;
-                temp.routeUrl = api.routeUrl;
-                temp.apiAction = api.apiAction;
-                temp.methodName = api.methodName;
-                temp.variableName = api.variableName;
-                this.serviceComponent.apiEndPoints.push(temp);
             }
         }
     }

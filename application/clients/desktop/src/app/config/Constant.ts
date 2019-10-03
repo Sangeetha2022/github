@@ -88,6 +88,7 @@ export class Constants {
     public static get updateFeature(): String { return this.DESKTOP_ROUTER + '/feature/update'; }
     public static get getAllFeature(): String { return this.DESKTOP_ROUTER + '/feature/getall'; }
     public static get getFeatureById(): String { return this.DESKTOP_ROUTER + '/feature/get'; }
+    public static get updateFeatureEntity(): String { return this.DESKTOP_ROUTER + '/feature/update/entity'; }
     public static get getFeatureByProjectId(): String { return this.DESKTOP_ROUTER + '/feature/project/get'; }
     public static get getAllFeatureByFeatureid(): String { return this.DESKTOP_ROUTER + '/feature/details/getallbyfeatureid'; }
     public static get deleteFeature(): String { return this.DESKTOP_ROUTER + '/feature/delete'; }
@@ -103,7 +104,7 @@ export class Constants {
     public static get saveManyProjectFlow(): String { return this.DESKTOP_ROUTER + '/flow/project/bulksave'; }
     public static get getProjectFeatureFlows(): String { return this.DESKTOP_ROUTER + '/flow/projectfeature/get'; }
     public static get deleteProjectFlow(): String { return this.DESKTOP_ROUTER + '/flow/project/delete'; }
-    public static get updateProjectFlowComponent(): String { return this.DESKTOP_ROUTER + '/flowcomponent/project/update'; }
+    public static get updateProjectFlowComponent(): String { return this.DESKTOP_ROUTER + '/flow/project/updatecomponent'; }
 
     // Feature Screen
     public static get addScreen(): string { return this.DESKTOP_ROUTER + '/screen/save'; }

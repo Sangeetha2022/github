@@ -29,6 +29,7 @@ class FeatureController implements Controller {
         this.router.put('/feature/updateEntity/:featureId', this.featureUpdateEntity)
         this.router.delete('/feature/deleteentity/:featureId/:entityid', this.featuredeleteEntity);
         this.router.post('/feature/copyFlows', this.flowcopy);
+        this.router.put('/feature/update/entity', this.updateFeatureEntity);
         this.router.get('/feature/getallcopyflow', this.getallcopyflow);
     }
 
@@ -85,7 +86,7 @@ class FeatureController implements Controller {
     }
 
     public deleteProjectFeature(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.featureUrl}/feature/deletepyproject/${req.params.id}`).then(feature => {
+        new ApiAdaptar().delete(`${Constants.featureUrl}/feature/deletebyproject/${req.params.id}`).then(feature => {
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         }).catch(err => {
@@ -125,9 +126,19 @@ class FeatureController implements Controller {
     }
 
     public flowcopy(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.featureUrl}/feature/copyFlows`, req.body).then(copiedflow => {
-            req.baseUrl === '/mobile' ? res.send(copiedflow) :
-                req.baseUrl === '/desktop' ? res.send(copiedflow) : res.send(null);
+        new ApiAdaptar().post(`${Constants.featureUrl}/feature/copyFlows`, req.body).then(feature => {
+            req.baseUrl === '/mobile' ? res.send(feature) :
+                req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        })
+    }
+
+    public updateFeatureEntity(req: Request, res: Response) {
+        new ApiAdaptar().put(`${Constants.featureUrl}/feature/update/entity?featureId=${req.query.featureId}`, req.body).then(feature => {
+            req.baseUrl === '/mobile' ? res.send(feature) :
+                req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         }).catch(err => {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);

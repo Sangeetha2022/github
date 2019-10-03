@@ -28,6 +28,7 @@ class FlowManagerController implements Controller {
         this.router.post('/flow/project/save', this.createProjectFlow);
         this.router.post('/flow/project/bulksave', this.ProjectFlow);
         this.router.post('/flow/projectfeature/get', this.getProjectFeatureFlows);
+        this.router.put('/flow/project/updatecomponent', this.updateFlowComponents);
         this.router.get('/flow/project/getall', this.getAllProjectFlow);
         this.router.get('/flow/getprojectflowbyid/:id', this.getProjectFlowById);
         this.router.delete('/flow/project/delete', this.deleteProjectFlow);
@@ -197,6 +198,17 @@ class FlowManagerController implements Controller {
             })
     }
 
+    public updateFlowComponents(req: Request, res: Response) {
+        new ApiAdaptar().put(`${Constants.flowUrl}/flow/project/updatecomponent?projectFlowId=${req.query.projectFlowId}`, req.body)
+            .then(flow => {
+                req.baseUrl === '/mobile' ? res.send(flow) :
+                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            })
+    }
+
 
     public deleteProjectFlow(req: Request, res: Response) {
         new ApiAdaptar().delete(`${Constants.flowUrl}/flow/project/delete?projectFlowId=${req.query.projectFlowId}`)
@@ -256,30 +268,6 @@ class FlowManagerController implements Controller {
             })
     }
 
-    // updateProjectFlowComponent(req: Request, res: Response) {
-    //     console.log('-------------------- apigateway', req.body)
-    //     new ApiAdaptar().put(`${Constants.flowUrl}/flowcomponent/project/updateconnector`, req.body)
-    //         .then(flow => {
-    //             req.baseUrl === '/mobile' ? res.send(flow) :
-    //                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-    //         }).catch(err => {
-    //             req.baseUrl === '/mobile' ? res.send(err) :
-    //                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-    //         })
-    // }
-
-    // getConnectorById(req: Request, res: Response) {
-    //     new ApiAdaptar().get(`${Constants.flowUrl}/get/quickConnectorbyid/${req.params.id}`)
-    //         .then(flow => {
-    //             req.baseUrl === '/mobile' ? res.send(flow) :
-    //                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-    //         }).catch(err => {
-    //             req.baseUrl === '/mobile' ? res.send(err) :
-    //                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-    //         })
-
-    // }
-
     updateProjectFlowComponent(req: Request, res: Response) {
         console.log('api--gateway-->>', req.body);
         new ApiAdaptar().put(`${Constants.flowUrl}/flowcomponent/project/updateconnector`, req.body)
@@ -295,15 +283,15 @@ class FlowManagerController implements Controller {
 
     //save connectors:
 
-    saveConnectors(req: Request , res: Response) {
+    saveConnectors(req: Request, res: Response) {
         new ApiAdaptar().post(`${Constants.flowUrl}/save/quickConnectors`, req.body)
-        .then(flow => {
-            req.baseUrl === '/mobile' ? res.send(flow) :
-                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        })
+            .then(flow => {
+                req.baseUrl === '/mobile' ? res.send(flow) :
+                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            })
 
     }
 

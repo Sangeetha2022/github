@@ -27,6 +27,14 @@ export class ProjectFlowController {
     }
 
 
+    public updateFlowComponents(req: Request, res: Response) {
+        projectFlowService.updateFlowComponents(req, (response) => {
+            res.status(200); // status for the response
+            res.json(response);
+        })
+    }
+
+
     public getAllProjectFlow(req: Request, res: Response) {
         projectFlowService.getAllProjectFlow(req, (response) => {
             res.status(200);

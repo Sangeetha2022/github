@@ -46,7 +46,7 @@ export class BackendService {
             flows: []
         }
         const dataStore = await this.getDataStore(feature);
-            console.log('dataStore values are backend services are --###@@@@@@--- ', dataStore);
+        console.log('dataStore values are backend services are --###@@@@@@--- ', dataStore);
         feature.entitySchema = JSON.parse(JSON.stringify(dataStore)).body;
         console.log('all feature value are------  ', feature);
 
@@ -75,7 +75,7 @@ export class BackendService {
         let flowComponentCount = 0;
         try {
             asyncLoop(details.flows, (flowElement, flowNext) => {
-                console.log(`each flows are --@@@@@@@@@@@  ${flowCount}  `, flowElement, ' length  ', flowElement.components.length);
+                // console.log(`each flows are --@@@@@@@@@@@  ${flowCount}  `, flowElement, ' length  ', flowElement.components.length);
                 const flows = {
                     name: '',
                     label: '',
@@ -98,7 +98,8 @@ export class BackendService {
                     flows.actionOnData = flowElement.actionOnData;
                     flows.createWithDefaultActivity = flowElement.createWithDefaultActivity;
                 }
-                if (flowElement.components.length === 0) {
+                if (!flowElement.components ||
+                    (flowElement.components && flowElement.components.length === 0)) {
                     flowCount++;
                     flowNext();
                 } else {
@@ -152,7 +153,9 @@ export class BackendService {
                         if (compErr) {
 
                         } else {
-                            feature.flows.push(flows);
+                            if (flows.components && flows.components.length > 0) {
+                                feature.flows.push(flows);
+                            }
                             console.log('flow component iteration done %%%%%11%%%%%%%%%% ', feature);
                             flowCount++;
                             flowNext();

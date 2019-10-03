@@ -35,7 +35,7 @@ export class ProjectFlowComponentDao {
 
     public updateProjectFlowComponent(flowCompId, connectorId, callback: CallableFunction) {
         this.projectFlowComponent.findByIdAndUpdate(flowCompId,
-            { "$push": { "connector": connectorId } },
+            { "$set": { "connector": connectorId } },
             { "new": true, "upsert": true }).then(result => {
                 callback(result)
             })

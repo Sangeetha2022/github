@@ -124,7 +124,8 @@ export class FrontendService {
                         flows.actionOnData = flowElement.actionOnData;
                         flows.createWithDefaultActivity = flowElement.createWithDefaultActivity;
                     }
-                    if (flowElement.components.length === 0) {
+                    if (!flowElement.components ||
+                        (flowElement.components && flowElement.components.length === 0)) {
                         flowCount++;
                         flowNext();
                     } else {

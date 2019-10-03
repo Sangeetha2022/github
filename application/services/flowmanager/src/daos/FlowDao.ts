@@ -30,6 +30,7 @@ export class FlowDao {
         });
     }
 
+
     public getAllFlow(callback: CallableFunction) {
         this.Flow.find({}).populate('components').exec((err, flow) => {
             if (err) {
@@ -57,37 +58,37 @@ export class FlowDao {
         // const SongSchema = require('mongoose').model('micro_flows').schema;
         // console.log('song schema -----  ', User)
         this.Flow.find().where('_id')
-        .in(flowsId)
-        .populate({
-            path: 'components',
-            populate: {
-                path: 'connector',
-              }
-        }).exec((err, flow) => {
-            console.log('flows exec error ----  ', err);
-            console.log('flows exec success ----  ', flow);
-            if (err) {
-                callback(err)
-            } else {
-                callback(flow)
-            }
-        });
+            .in(flowsId)
+            .populate({
+                path: 'components',
+                populate: {
+                    path: 'connector',
+                }
+            }).exec((err, flow) => {
+                console.log('flows exec error ----  ', err);
+                console.log('flows exec success ----  ', flow);
+                if (err) {
+                    callback(err)
+                } else {
+                    callback(flow)
+                }
+            });
     }
 
     public getFeatureFlowsByLanguage(flowsId, language, callback: CallableFunction) {
         this.Flow.find().where('_id')
-        .in(flowsId)
-        .populate({
-            path: 'components',
-            match: { 'devLanguage': language}
-        }).exec((err, flow) => {
-         
-            if (err) {
-                callback(err)
-            } else {
-                callback(flow)
-            }
-        });
+            .in(flowsId)
+            .populate({
+                path: 'components',
+                match: { 'devLanguage': language }
+            }).exec((err, flow) => {
+
+                if (err) {
+                    callback(err)
+                } else {
+                    callback(flow)
+                }
+            });
     }
 
     testingConnection() {

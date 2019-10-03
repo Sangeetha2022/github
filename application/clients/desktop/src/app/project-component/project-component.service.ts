@@ -50,17 +50,15 @@ export class ProjectComponentService {
   deleteFeature(featureId: any): Observable<any> {
     return this.api.delete(`${this.restapi.Apigateway}${Constants.saveFeature}?featureId=${featureId}`);
   }
-
-
+  updateFeatureEntity(featureId: any, details): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFeatureEntity}?featureId=${featureId}`, details);
+  }
   getAllFlows(): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFlow}`);
   }
-
-
   getEntityByFeatureId(featureId): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getEntityByFeatureId}?featureId=${featureId}`);
   }
-
 
   createEntity(entity: any): Observable<any> {
     return this.api.post(`${this.restapi.Apigateway}${Constants.saveEntity}`, entity);
@@ -121,15 +119,16 @@ export class ProjectComponentService {
     return this.api.post(`${this.restapi.Apigateway}${Constants.getProjectFeatureFlows}`, projectFlowsId);
   }
 
+  updateProjectFlowComponents(projectFlowId, componentList): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateProjectFlowComponent}?projectFlowId=${projectFlowId}`, componentList);
+  }
+
 
   deleteProjectFlow(projectFlowId: String): Observable<any> {
     return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteProjectFlow}?projectFlowId=${projectFlowId}`);
   }
 
-//   updateProjectFlowComponent(data: any): Observable<any> {
-//     return this.api.put(`${this.restapi.Apigateway}${Constants.updateProjectFlowComponent}`, data);
-//     // return this.api.put('http://localhost:3001/flowcomponent/project/update' , data);
-// }
+
 
   updateFlowCompConnectorById(data: any): Observable<any> {
     return this.api.put(`${this.restapi.Apigateway}${Constants.updateFlowCompConnectorById}`, data);

@@ -60,14 +60,9 @@ export class FlowComponentWorker {
         } else {
             if (this.componentObject.dependenciesVariableList &&
                 this.componentObject.dependenciesVariableList.length > 0) {
-                console.log('before component object dependencie variable list are --11-- ', this.componentObject.dependenciesVariableList, '  --lenght--- ', this.componentObject.dependenciesVariableList.length);
-                console.log('before component object dependencie variable list are --22-- ', this.componentFileDetails);
                 this.componentObject.variableList = this.componentObject.variableList.concat(this.componentObject.dependenciesVariableList);
             }
             if (this.componentObject.variableList.length > 0) {
-                console.log('after finalized our ocmpone ar ---111- ', this.componentObject);
-                console.log('after finalized our ocmpone ar --2222-- ', this.componentFileDetails);
-                console.log('after finalized our ocmpone ar --333-- ', this.componentObject.variableList);
                 this.addComponentVariable();
             }
 
@@ -82,6 +77,9 @@ export class FlowComponentWorker {
             className: '',
             path: ''
         }
+        if (this.currentFlow.actionOnData === 'GpGetAllValues') {
+            console.log('GpGetAllValues if condition called ---connectortype------  ', connectorType)
+        }
         // default connector type
         if (connectorType == Constant.DEFAULT_CONNECTOR_NAME) {
             serviceClassName = `${this.componentName.charAt(0).toUpperCase()}${this.componentName.slice(1)}${Constant.SERVICE_EXTENSION.charAt(0).toUpperCase()}${Constant.SERVICE_EXTENSION.slice(1)}`;
@@ -92,9 +90,7 @@ export class FlowComponentWorker {
             serviceClassName = `${this.componentName.charAt(0).toUpperCase()}${this.componentName.slice(1)}${Constant.SERVICE_EXTENSION.charAt(0).toUpperCase()}${Constant.SERVICE_EXTENSION.slice(1)}`;
             headers.className = serviceClassName;
             headers.path = `./${this.componentName.toLowerCase()}.${Constant.SERVICE_EXTENSION.toLowerCase()}`;
-            console.log('connector infor ar e--11----  ', connectorElement);
             entityInfo = this.entities.find(x => x._id === connectorElement.entity_id);
-            console.log('selected entityInfor are --22--  ', entityInfo);
             if (entityInfo) {
                 const variableTemp = {
                     entityId: '',

@@ -61,18 +61,18 @@ export class FlowTreeComponent implements OnInit {
   public flow: any = {
     name: '',
     dataType: '',
-  }
+  };
   public entityModelData: any = {
     name: '',
     description: '',
-    entity_type: 'text',
+    entity_type: 'secondary',
     project_id: '',
     feature_id: '',
     is_default: false,
     field: []
-  }
+  };
   public entityId: any;
-  public flowFeilds: any[] = [];
+  public flowFields: any[] = [];
   public columnDefs: any;
   public rowData: any;
   public isShowGird: boolean;
@@ -116,7 +116,7 @@ export class FlowTreeComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      if (params.projectId !== undefined && params.featureId !== null) {
+      if (params.projectId && params.featureId) {
         this.entityModelData.project_id = params.projectId;
         this.entityModelData.feature_id = params.featureId;
       }
@@ -126,26 +126,26 @@ export class FlowTreeComponent implements OnInit {
 
   selecFlow(node) {
     this.flow.name = node.item;
-    console.log('node--->>', node)
+    console.log('node--->>', node);
 
   }
   addFlows(data) {
     const tembData = {
       name: data.name,
       dataType: data.dataType,
-    }
-    this.flowFeilds.push(tembData);
-    console.log('data--->>>', this.flowFeilds);
+    };
+    this.flowFields.push(tembData);
+    console.log('data--->>>', this.flowFields);
 
   }
 
   showFlows() {
     this.isShowGird = true;
-    this.rowData = this.flowFeilds;
-    this.flowFeilds.map(element => {
+    this.rowData = this.flowFields;
+    this.flowFields.map(fieldElement => {
       const tempData = {
         name: '',
-        type_name: 'text  ',
+        type_name: 'text',
         data_type: '',
         description: '',
         is_default: false,
@@ -155,22 +155,37 @@ export class FlowTreeComponent implements OnInit {
         list_value: '',
         entity_id: '',
       };
-      tempData.name = element.name;
-      tempData.description = element.name;
-      tempData.data_type = element.dataType;
+      tempData.name = fieldElement.name;
+      tempData.description = fieldElement.name;
+      tempData.data_type = fieldElement.dataType;
       this.entityModelData.field.push(tempData);
     });
     console.log('all--flow-->>', this.entityModelData);
     this.projectService.createEntity(this.entityModelData).subscribe(response => {
-      if (response) {
-        const data = response.body
-        console.log('response-->>', response)
+      if (response.body) {
+        const data = response.body;
+        console.log('my custom entity response-->>', response);
+        console.log('my custom featureID are-->>', this.entityModelData.feature_id);
         this.entityId = response.body._id;
         this.dataService.FlowSaveEntity(this.entityId);
+        this.updateFeatureEntity(response.body);
         // tslint:disable-next-line: max-line-length
       }
     });
 
+  }
+
+  updateFeatureEntity(entityInfo) {
+    const temp = {
+      entityType: entityInfo.entity_type,
+      entityId: entityInfo._id
+    };
+    this.projectService.updateFeatureEntity(this.entityModelData.feature_id, temp)
+      .subscribe(data => {
+        console.log('successfully updated the feature entity details');
+      }, error => {
+        console.log('cannot able to update the feature entity');
+      });
   }
 
   onGridReady(params) {

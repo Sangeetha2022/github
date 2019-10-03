@@ -51,6 +51,16 @@ export class ProjectFlowService {
         })
     }
 
+
+    public updateFlowComponents(req: Request, callback: CallableFunction) {
+        const flowId = req.query.projectFlowId;
+        const flowData = req.body;
+        console.log('flowId and data in services are ----- ', flowId, '  --data-- ', flowData);
+        projectFlowDao.updateFlowComponents(flowId, flowData, (flow) => {
+            callback(flow)
+        })
+    }
+
     public getAllProjectFlow(req: Request, callback: CallableFunction) {
         projectFlowDao.getAllProjectFlows((result) => {
             callback(result)
