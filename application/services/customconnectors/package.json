@@ -1,7 +1,7 @@
 {
-  "name": "entitymanager",
+  "name": "customeconnectors",
   "version": "1.0.0",
-  "description": "Entity Manager MicroService",
+  "description": "Custom Connectors MicroService",
   "main": "dist/server.js",
   "scripts": {
     "test": "ng test",

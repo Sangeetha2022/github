@@ -84,7 +84,7 @@ export class FlowTreeComponent implements OnInit {
   gridColumnApi: any;
 
   constructor(
-    private database: FlowTreeService,
+    private flowTreeService: FlowTreeService,
     private route: ActivatedRoute,
     private projectService: ProjectComponentService,
     private router: Router,
@@ -95,14 +95,14 @@ export class FlowTreeComponent implements OnInit {
     this.treeControl = new FlatTreeControl<TodoItemFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-    database.dataChange.subscribe(data => {
-      if (data) {
-        console.log('component---servuce--->>', data);
-        this.entityModelData.name = data[0].item;
-        this.entityModelData.description = data[0].item;
-        this.dataSource.data = [];
-        this.dataSource.data = data;
-      }
+    flowTreeService.dataChange.subscribe(data => {
+      console.log('component---servuce--->>', data);
+      this.entityModelData.name = data[0].item;
+      this.entityModelData.description = data[0].item;
+      this.dataSource.data = [];
+      this.dataSource.data = data;
+    }, error => {
+      console.log(error);
     });
 
 
@@ -167,7 +167,7 @@ export class FlowTreeComponent implements OnInit {
         console.log('response-->>', response)
         this.entityId = response.body._id;
         this.dataService.FlowSaveEntity(this.entityId);
-          // tslint:disable-next-line: max-line-length
+        // tslint:disable-next-line: max-line-length
       }
     });
 
@@ -230,14 +230,14 @@ export class FlowTreeComponent implements OnInit {
   /** Select the category so we can insert the new item. */
   addNewItem(node: TodoItemFlatNode) {
     const parentNode = this.flatNodeMap.get(node);
-    this.database.insertItem(parentNode, '');
+    this.flowTreeService.insertItem(parentNode, '');
     this.treeControl.expand(node);
   }
 
   /** Save the node to database */
   saveNode(node: TodoItemFlatNode, itemValue: string) {
     const nestedNode = this.flatNodeMap.get(node);
-    this.database.updateItem(nestedNode, itemValue);
+    this.flowTreeService.updateItem(nestedNode, itemValue);
   }
 
   handleDragStart(event, node) {
@@ -280,13 +280,13 @@ export class FlowTreeComponent implements OnInit {
     if (node !== this.dragNode) {
       let newItem: TodoItemNode;
       if (this.dragNodeExpandOverArea === 'above') {
-        newItem = this.database.copyPasteItemAbove(this.flatNodeMap.get(this.dragNode), this.flatNodeMap.get(node));
+        newItem = this.flowTreeService.copyPasteItemAbove(this.flatNodeMap.get(this.dragNode), this.flatNodeMap.get(node));
       } else if (this.dragNodeExpandOverArea === 'below') {
-        newItem = this.database.copyPasteItemBelow(this.flatNodeMap.get(this.dragNode), this.flatNodeMap.get(node));
+        newItem = this.flowTreeService.copyPasteItemBelow(this.flatNodeMap.get(this.dragNode), this.flatNodeMap.get(node));
       } else {
-        newItem = this.database.copyPasteItem(this.flatNodeMap.get(this.dragNode), this.flatNodeMap.get(node));
+        newItem = this.flowTreeService.copyPasteItem(this.flatNodeMap.get(this.dragNode), this.flatNodeMap.get(node));
       }
-      this.database.deleteItem(this.flatNodeMap.get(this.dragNode));
+      this.flowTreeService.deleteItem(this.flatNodeMap.get(this.dragNode));
       this.treeControl.expandDescendants(this.nestedNodeMap.get(newItem));
     }
     this.dragNode = null;
