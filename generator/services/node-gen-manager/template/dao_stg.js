@@ -1,6 +1,6 @@
 /*
  * Template group dao
- * Compiled on Fri Aug 23 2019 19:12:37 GMT+0530 (IST)
+ * Compiled on Fri Oct 04 2019 12:25:48 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -116,19 +116,38 @@ r = function(w, rc) {
                      
                      }
                      w.write("\n");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 10, column: 274 }));
-                     w.write("(");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 10, column: 293 }))) {
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 10, column: 277 }))) {
                      
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 10, column: 309 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 10, column: 293 }));
+                         w.write("(");
+                         if (st.test(st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 10, column: 312 }))) {
+                         
+                             st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 10, column: 328 }));
+                         
+                         
+                         }
+                         w.write(").then((result)\t=>\t{\nnew CustomLogger().showLogger('info', 'Exit from ");
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 10, column: 428 }));
+                         w.write("Dao.ts: ");
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 10, column: 460 }));
+                         w.write("');\n");
+                         if (st.test(! st.test(st.prop(s, g, rc, s.flowObj, "isJsonFormat", { file: gFile, line: 10, column: 491 })))) {
+                         
+                             w.write("callback(result);");
+                         
+                         
+                         }
+                         if (st.test(st.prop(s, g, rc, s.flowObj, "isJsonFormat", { file: gFile, line: 10, column: 541 }))) {
+                         
+                             w.write("callback(JSON.parse(result));");
+                         
+                         
+                         }
+                         w.write("\n}).catch((error)=>{\ncallback(error);\n});");
                      
                      
                      }
-                     w.write(").then((result)\t=>\t{\nnew CustomLogger().showLogger('info', 'Exit from ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 10, column: 409 }));
-                     w.write("Dao.ts: ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 10, column: 441 }));
-                     w.write("');\ncallback(result);\n}).catch((error)=>{\ncallback(error);\n});}");
+                     w.write("}");
             }, [
             { name: "flowObj"     }
             ])); 

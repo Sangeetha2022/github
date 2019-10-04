@@ -203,7 +203,10 @@ export class FrontendService {
                     if (mobileJSON.length > 0) {
                         feature.mobile = mobileJSON;
                     }
-                    console.log('final flow of angular desktop response ----->>  ')
+                    console.log('final flow of angular desktop response ----->>  ', angularDesktopResponse);
+                    if(!angularDesktopResponse) {
+                        angularDesktopResponse = 'Data not found';
+                    }
                     callback(angularDesktopResponse);
 
                     // const node = await this.generateNode(feature);

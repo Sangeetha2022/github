@@ -5,6 +5,22 @@ let daoSupportWorker = new DaoSupportWorker();
 
 export class DaoWorker {
 
+    // npm 
+    private requestNPM = {
+        componentVariable: 'request',
+        componentDependencies: [{
+            name: '* as request',
+            path: 'request-promise-native'
+        }],
+        packageDependencies: [{
+            name: 'request',
+            version: '^2.88.0'
+        }, {
+            name: 'request-promise-native',
+            version: '^1.0.7'
+        }]
+    }
+
     private tempDao = {
         GpStart: {
             dependencies: []
@@ -21,8 +37,10 @@ export class DaoWorker {
             variable: '',
             verbs: '',
             query: '',
-            return: ''
-        }
+            return: '',
+            isJsonFormat: false
+        },
+        packageDependencies: []
     }
     private flowDetail;
     private entitySchema;
@@ -35,7 +53,7 @@ export class DaoWorker {
         this.gpDao = gpDao;
         this.gpStart(daoObj);
         this.gpVariableStatement(daoObj);
-        this.gpCheckConnector();
+        // this.gpCheckConnector();
         this.gpFunction();
         return this.tempDao;
     }
@@ -128,8 +146,26 @@ export class DaoWorker {
         if (gpCheckConnector !== undefined) {
             if (this.gpDao.connector.length > 0) {
                 // need to add some functionality for avaiable connectors in dao (future)
+                console.log('gpdao connector details are --- ', this.gpDao.connector, ' --flowDetail--  ', this.flowDetail);
+                this.addExternalConnector();
+                return false;
             }
         }
+        return true;
+    }
+
+    addExternalConnector() {
+        console.log('gpDao connector vlaues ar e---  ', this.gpDao.connector[0]);
+        const externalConnector = this.gpDao.connector[0];
+        this.tempDao.function.verbs = this.requestNPM.componentVariable;
+        this.tempDao.function.query = `\`${externalConnector.url}\``;
+        this.tempDao.function.isJsonFormat = true;
+        // add component gpStart dependencies
+        this.tempDao.GpStart.dependencies = this.tempDao.GpStart.dependencies.concat(this.requestNPM.componentDependencies);
+
+        // add package json dependencies
+        this.tempDao.packageDependencies = this.tempDao.packageDependencies.concat(this.requestNPM.packageDependencies);
+        console.log('tempdao packagedependencies in dao files  are ------  ', this.tempDao.packageDependencies);
     }
 
     gpFunction() {
@@ -157,43 +193,66 @@ export class DaoWorker {
         this.tempDao.function.verbs = '';
         this.tempDao.function.query = '';
         this.tempDao.function.return = '';
+        const isDefault = this.gpCheckConnector();
         switch (this.flowDetail.actionOnData) {
             case 'GpCreate':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempDao.function.variable = `let temp = new ${this.entitySchema.modelName}(${this.entitySchema.fileName}Data)`;
-                this.tempDao.function.verbs = `temp.save`;
+                if (isDefault) {
+                    this.tempDao.function.variable = `let temp = new ${this.entitySchema.modelName}(${this.entitySchema.fileName}Data)`;
+                    this.tempDao.function.verbs = `temp.save`;
+                    this.tempDao.function.isJsonFormat = false;
+                }
+                // this.tempDao.function.variable = `let temp = new ${this.entitySchema.modelName}(${this.entitySchema.fileName}Data)`;
+                // this.tempDao.function.verbs = `temp.save`;
+                // this.tempDao.function.verbs = `request`;
+                // this.tempDao.function.query = `\`https://api.stlouisfed.org/fred/category/related?category_id=32073&api_key=1d6109900692021b3c0e18d9a1c9591f&file_type=json\``;
                 break;
             case 'GpSearch':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
-                this.tempDao.function.query = `{$and: [${this.entitySchema.fileName}Data]}`;
+                if (isDefault) {
+                    this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
+                    this.tempDao.function.query = `{$and: [${this.entitySchema.fileName}Data]}`;
+                    this.tempDao.function.isJsonFormat = false;
+                }
                 break;
             case 'GpUpdate':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
-                this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
+                if (isDefault) {
+                    this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
+                    this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
+                    this.tempDao.function.isJsonFormat = false;
+                }
                 break;
             case 'GpDelete':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Id, callback`;
-                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findByIdAndRemove`;
-                this.tempDao.function.query = `${this.entitySchema.fileName}Id`;
+                if (isDefault) {
+                    this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findByIdAndRemove`;
+                    this.tempDao.function.query = `${this.entitySchema.fileName}Id`;
+                    this.tempDao.function.isJsonFormat = false;
+                }
                 break;
             case 'GpGetAllValues':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `callback`;
-                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
+                if (isDefault) {
+                    this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
+                    this.tempDao.function.isJsonFormat = false;
+                }
                 break;
             case 'GpSearchDetail':
                 break;
             case 'GpSearchForUpdate':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
-                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
-                this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
+                if (isDefault) {
+                    this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
+                    this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
+                    this.tempDao.function.isJsonFormat = false;
+                }
                 break;
             case 'GpDeleteNounRelationship':
                 break;
@@ -222,8 +281,11 @@ export class DaoWorker {
             case 'GpGetNounById':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Id, callback`;
-                this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findById`;
-                this.tempDao.function.query = `${this.entitySchema.fileName}Id`;
+                if (isDefault) {
+                    this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findById`;
+                    this.tempDao.function.query = `${this.entitySchema.fileName}Id`;
+                    this.tempDao.function.isJsonFormat = false;
+                }
                 break;
             case 'GpDeleteByParentId':
                 break;

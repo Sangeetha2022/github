@@ -15,6 +15,9 @@ let commonWorker = new CommonWorker();
 
 export class NodeService {
 
+    // constant
+    private NODE_MICROSERVICE = 'Node Microservice';
+
     // controller
     private controller = [];
     // private port = 8000;
@@ -80,6 +83,13 @@ export class NodeService {
             outsideClass: []
         },
         flowAction: []
+    }
+
+    // packageJson
+    private packageObj = {
+        name: '',
+        description: '',
+        dependencies: []
     }
 
     // private responseArray = [];
@@ -154,6 +164,7 @@ export class NodeService {
             },
             flowAction: []
         }
+
     }
 
     public createProjectNode(req: Request, callback) {
@@ -172,17 +183,17 @@ export class NodeService {
         // this.port++;
         const EntitySchema = details.entitySchema.body;
 
+        // packageJson
+        this.packageObj = {
+            name: '',
+            description: '',
+            dependencies: []
+        }
+
         if (EntitySchema === undefined && EntitySchema.length === 0) {
             callback('No Schema has been found');
         } else {
             try {
-                commonWorker.createServerFile(projectGenerationPath, templateLocation, projectName, port);
-                commonWorker.generatePackageJsonFile(projectGenerationPath, templateLocation, featureName);
-                commonWorker.generateDockerFile(projectGenerationPath, templateLocation, featureName);
-                commonWorker.generateTsConfigFile(projectGenerationPath, templateLocation);
-                commonWorker.generateWinstonLoggerFile(projectGenerationPath, templateLocation);
-                commonWorker.generateLoggerFile(projectGenerationPath, templateLocation);
-
                 asyncLoop(EntitySchema, (entityElement, entityNext) => {
                     // initial
                     this.initalizeDaoVariable();
@@ -219,28 +230,26 @@ export class NodeService {
                     } if (entityElement.entityType === 'secondary') {
                         entityNext();
                     } else {
-                        const gpController = details.flows[0].components.find(
-                            function (element, index, array) {
-                                if (element.name === 'GpExpressController') {
-                                    return element;
-                                }
-                            }
-                        )
-                        const gpService = details.flows[0].components.find(
-                            function (element, index, array) {
-                                if (element.name === 'GpExpressService') {
-                                    return element;
-                                }
-                            }
-                        )
-                        const gpDao = details.flows[0].components.find(
-                            function (element, index, array) {
-                                if (element.name === 'GpExpressDao') {
-                                    return element;
-                                }
-                            }
-                        )
+                        let count = 0;
                         asyncLoop(details.flows, (flowElement, flowNext) => {
+                            const gpController = details.flows[count].components.find(
+                                function (element, index, array) {
+                                    if (element.name === 'GpExpressController') {
+                                        return element;
+                                    }
+                                })
+                            const gpService = details.flows[count].components.find(
+                                function (element, index, array) {
+                                    if (element.name === 'GpExpressService') {
+                                        return element;
+                                    }
+                                })
+                            const gpDao = details.flows[count].components.find(
+                                function (element, index, array) {
+                                    if (element.name === 'GpExpressDao') {
+                                        return element;
+                                    }
+                                })
                             const tempFlow = {
                                 name: '',
                                 label: '',
@@ -276,6 +285,22 @@ export class NodeService {
                             this.daoObj.variable.outsideClass = this.daoObj.variable.outsideClass.concat(dao.GpVariable.outsideClass);
                             this.routeObj.variable.outsideClass = this.routeObj.variable.outsideClass.concat(route.GpVariable.outsideClass);
 
+                            // packageDependencies
+
+                            // this.packageObj.dependencies = this.packageObj.dependencies.concat(dao.packageDependencies);
+                            // if(dao.packageDependencies.length > 0) {
+                            //     dao.packageDependencies.forEach(element => {
+
+                            //     })
+                            // }
+                            this.packageObj.dependencies = dao.packageDependencies.map(function (a) {
+                                return this[a.name] || a;
+                            }, this.packageObj.dependencies.reduce(function (r, a) {
+                                r[a.name] = a;
+                                return r;
+                            }, Object.create(null)));
+                            console.log('packageobject dependencies are ----- ', this.packageObj.dependencies);
+                            console.log('dao.packageDependencies dependencies are ----- ', dao.packageDependencies);
                             // gp function controller
                             const controllerTemp = {
                                 methodName: ''
@@ -305,7 +330,8 @@ export class NodeService {
                                 variable: '',
                                 verbs: '',
                                 query: '',
-                                return: ''
+                                return: '',
+                                isJsonFormat: false
                             }
                             daoTemp.methodName = dao.function.methodName;
                             daoTemp.parameter = dao.function.parameter;
@@ -313,6 +339,7 @@ export class NodeService {
                             daoTemp.verbs = dao.function.verbs;
                             daoTemp.query = dao.function.query;
                             daoTemp.return = dao.function.return;
+                            daoTemp.isJsonFormat = dao.function.isJsonFormat;
                             this.daoObj.flowAction.push(daoTemp);
 
 
@@ -328,6 +355,7 @@ export class NodeService {
                             routeTemp.methodName = route.function.methodName;
                             routeTemp.variableName = route.function.variableName;
                             this.routeObj.flowAction.push(routeTemp);
+                            count++;
                             flowNext();
                         }, (err) => {
                             if (err) {
@@ -352,6 +380,16 @@ export class NodeService {
                         daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
                         routeWorker.generateRouteFile(projectGenerationPath, templateLocation, this.route);
                         console.log('route file of values are -------- ', util.inspect(this.route, { showHidden: true, depth: null }));
+
+                        // common worker
+                        this.packageObj.name = featureName;
+                        this.packageObj.description = `${featureName} ${this.NODE_MICROSERVICE}`;
+                        commonWorker.generatePackageJsonFile(projectGenerationPath, templateLocation, this.packageObj);
+                        commonWorker.createServerFile(projectGenerationPath, templateLocation, projectName, port);
+                        commonWorker.generateDockerFile(projectGenerationPath, templateLocation, featureName);
+                        commonWorker.generateTsConfigFile(projectGenerationPath, templateLocation);
+                        commonWorker.generateWinstonLoggerFile(projectGenerationPath, templateLocation);
+                        commonWorker.generateLoggerFile(projectGenerationPath, templateLocation);
                         callback(this.route);
                     }
                 })

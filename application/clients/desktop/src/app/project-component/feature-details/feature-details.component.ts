@@ -695,7 +695,6 @@ export class FeatureDetailsComponent implements OnInit {
             if (response.body.service === 'backEnd') {
                 this.modifyComponents.map(backEnd => {
                     if (backEnd.name === 'GpExpressDao') {
-                        isConnectorPresent = true;
                         tempData.flowComponentId = backEnd._id;
                         this.updateFlowCompConnectorById(tempData);
                     }
