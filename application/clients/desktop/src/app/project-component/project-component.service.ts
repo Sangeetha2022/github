@@ -101,9 +101,6 @@ export class ProjectComponentService {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityTypes}`);
   }
 
-  fred(data): Observable<any> {
-    return this.api.post(this.restapi.Apigateway + Constants.fred, data);
-  }
 
   quickConnectors(data): Observable<any> {
     return this.api.post(`${this.restapi.Apigateway}${Constants.quickConnectors}`, data);
@@ -134,9 +131,9 @@ export class ProjectComponentService {
     return this.api.put(`${this.restapi.Apigateway}${Constants.updateFlowCompConnectorById}`, data);
   }
 
-  quickTestFred(data: any): Observable<any> {
+  quickTestcustomConnectors(data: any): Observable<any> {
     console.log('data --service->>', data);
-    return this.api.post(`${this.restapi.Apigateway}${Constants.quickTestFred}`, data);
+    return this.api.post(`${this.restapi.Apigateway}${Constants.quickTestcustomConnectors}`, data);
   }
   getConnectorById(connectorId: String): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getConnectorById}/${connectorId}`);

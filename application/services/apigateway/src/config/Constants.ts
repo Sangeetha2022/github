@@ -19,7 +19,7 @@ export const loginUrl = appUrl + ":3007";
 export const camundaUrl = appUrl + ":3008";
 export const proxyUrl = appUrl + ":3009";
 export const adminUrl = appUrl + ":3010";
-export const fredUrl = appUrl + ":3013";
+export const customConnectorUrl = appUrl + ":3013";
 export const deleteUrl = appUrl + ":3014";
 
 

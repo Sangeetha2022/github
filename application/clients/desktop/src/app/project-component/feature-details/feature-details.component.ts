@@ -150,6 +150,8 @@ export class FeatureDetailsComponent implements OnInit {
     modifyConnectorsId: any;
     public showTreePopup: boolean;
     modifyEntityId: any;
+    api_key: any;
+    api_value: any;
 
 
 
@@ -545,9 +547,11 @@ export class FeatureDetailsComponent implements OnInit {
         });
         const convertStr = tempArrykeyValue.toString();
         const keyAndValue = convertStr.replace(/,/g, '&');
+        this.quickConnectors.api_key.key = this.api_key;
+        this.quickConnectors.api_key.value = this.api_value;
         // tslint:disable-next-line: max-line-length
         this.quickConnectorsURL = `${this.quickConnectors.endPointUrl}?${this.quickConnectors.api_key.key}=${this.quickConnectors.api_key.value}&${keyAndValue}&file_type=json`;
-        this.projectComponentService.quickTestFred(this.quickConnectors).subscribe(response => {
+        this.projectComponentService.quickTestcustomConnectors(this.quickConnectors).subscribe(response => {
             if (response) {
                 this.showTreePopup = true;
                 this.displayModelTree = 'block';
@@ -591,15 +595,12 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     quickConnectorsMethod(event) {
-        console.log('aruldass--->>', event);
         this.connectorsType = event;
     }
     defaultConnectorsMethod(event) {
-        console.log('aruldass--->>', event);
         this.connectorsType = event;
     }
     customConnectorsMethod(event) {
-        console.log('aruldass--->>', event);
         this.connectorsType = event;
     }
 
@@ -615,7 +616,6 @@ export class FeatureDetailsComponent implements OnInit {
         console.log('quick conntors --->', connector_id);
         this.projectComponentService.getConnectorById(connector_id).subscribe(response => {
             if (response) {
-                console.log('getQuickConnectorId--->>', response);
                 this.quickConnectors = response.body;
                 if (response.body.params === 'queryParams') {
                     this.quickConnectors.queryParams = true;
@@ -630,6 +630,7 @@ export class FeatureDetailsComponent implements OnInit {
                     this.isFrontEndService = true;
 
                 }
+                this.quickConnectors = response.body;
 
                 this.modifyEntityId = response.body.entity_id;
                 this.customConnector = true;
@@ -659,8 +660,6 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     quickConnectorsType() {
-        console.log('temb--obj=--->>', this.quickConnectors);
-        console.log('ram modifyflows are ', this.modifyFlows);
         const tempObj = {
             url: this.quickConnectorsURL,
             isCustom: true,
@@ -669,6 +668,7 @@ export class FeatureDetailsComponent implements OnInit {
             description: this.quickConnectors.description,
             entity_id: this.flowEntityId,
             connectors: this.quickConnectorName,
+            endPointUrl: this.quickConnectors.endPointUrl,
             apiMethods: this.quickConnectors.apiMethods,
             service: this.quickConnectors.service,
             api_key: this.quickConnectors.api_key,
@@ -685,6 +685,7 @@ export class FeatureDetailsComponent implements OnInit {
             fromComponentName: null,
             toComponentName: null,
         };
+        tempObj.properties.push(this.quickConnectors.properties);
         this.projectComponentService.quickConnectors(tempObj).subscribe(response => {
             this.quickConnectorId = response.body._id;
             const tempData = {

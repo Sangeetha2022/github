@@ -1,11 +1,11 @@
 
 import { Request, Response, NextFunction } from "express";
-import {FredController} from '../controllers/fredController';
+import { CustomConnenctorsController } from '../controllers/customConnectorsController';
 
 export class Routes {
 
-    public fredController: FredController = new FredController();
-    
+    public customConnectorController: CustomConnenctorsController = new CustomConnenctorsController();
+
     public routes(app): void {
 
         app.route('/health/entity-service').get((req: Request, res: Response) => {
@@ -14,9 +14,8 @@ export class Routes {
             })
         })
 
-        app.route('/fred').post(this.fredController.getFred);
-        app.route('/quick/test').post(this.fredController.quickTest)
-       
+        app.route('/quick/test').post(this.customConnectorController.quickTestcustomConnectors)
+
 
     }
 }
