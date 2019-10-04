@@ -31,6 +31,7 @@ export class Routes {
         app.route('/flow/project/save').post(this.projectFlowController.createProjectFlow);
         app.route('/flow/project/bulksave').post(this.projectFlowController.ProjectFlow);
         app.route('/flow/project/getall').get(this.projectFlowController.getAllProjectFlow);
+        app.route('/flow/project/updatecomponent').put(this.projectFlowController.updateFlowComponents);
         app.route('/flow/getprojectflowbyid/:id').get(this.projectFlowController.getProjectFlowById);
         app.route('/flow/projectfeature/get').post(this.projectFlowController.getProjectFeatureFlows);
         app.route('/flow/project/delete').delete(this.projectFlowController.deleteProjectFlow);

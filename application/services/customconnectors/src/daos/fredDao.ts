@@ -13,7 +13,7 @@ export class FredDao {
   public entityModelData: any = {
     name: 'fredentity',
     description: 'fred',
-    entity_type: 'text',
+    entity_type: 'secondary',
     project_id: '',
     feature_id: '',
     is_default: false,

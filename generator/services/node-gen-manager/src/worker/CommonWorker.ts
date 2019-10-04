@@ -27,12 +27,13 @@ export class CommonWorker {
         commonSupportWorker.generateServerFile(projectGenerationPath, templateLocationPath, this.tempServer, (response) => { })
     }
 
-    generatePackageJsonFile(projectGenerationPath, templateLocationPath, featureName) {
-        const temp = {
-            name: featureName,
-            description: `${featureName} Node Microservice`
-        }
-        commonSupportWorker.generatePackageJsonFile(projectGenerationPath, templateLocationPath, temp, (response) => { })
+    generatePackageJsonFile(projectGenerationPath, templateLocationPath, information) {
+        // const temp = {
+        //     name: featureName,
+        //     description: `${featureName} Node Microservice`
+        // }
+        console.log('generate package json file informations are ---   ', information);
+        commonSupportWorker.generatePackageJsonFile(projectGenerationPath, templateLocationPath, information, (response) => { })
     }
 
     generateTsConfigFile(projectGenerationPath, templateLocationPath) {

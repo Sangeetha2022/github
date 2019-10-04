@@ -85,14 +85,14 @@ export class FeatureDao {
             if (data.entities.length > 0) {
                 const entityarray = data.entities;
                 const index = entityarray.findIndex(arrayindex => arrayindex.entityId === entityData);
-                const updateneity = entityarray.find(arrayvalue => arrayvalue.entityId === entityData);
+                const updateEntity = entityarray.find(arrayvalue => arrayvalue.entityId === entityData);
                 if (index > -1) {
-                    updateneity.entityType = entity[0].entities.entityType;
+                    updateEntity.entityType = entity[0].entities.entityType;
                     this.Features.update(
                         { "entities.entityId": entityData },
                         {
                             $set: {
-                                'entities.$.entityType': updateneity.entityType
+                                'entities.$.entityType': updateEntity.entityType
                             }
                         }).then(res => {
                             callback(res);
@@ -117,6 +117,17 @@ export class FeatureDao {
             }
         })
 
+    }
+
+    public updateFeatureEntity(featureId, details, callback: CallableFunction) {
+        this.Features.update(
+            { _id: featureId },
+            { $addToSet: { 'entities': details } }
+        ).then(result => {
+            callback(result)
+        }).catch(error => {
+            callback(error);
+        })
     }
 
     public featuredeleteentity(entityId, featureId, callback: CallableFunction) {

@@ -10,7 +10,7 @@ export let connectorSchema = mongoose.Schema({
     description: String,
     apiMethods: String,
     entity_id: String,
-    api_key: String,
+    api_key: [],
     service: String,
     params: String,
     availableApi: [
@@ -39,10 +39,7 @@ export let connectorSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    properties: [{
-        type: String,
-        default: null
-    }],
+    properties: [],
     createdAt: {
         type: Date,
         default: Date.now

@@ -17,10 +17,10 @@ export class RegexExpression {
     constructor() { }
 
     generateReservedWord() {
-        console.log('generate reserved word are ---- ', this.regexArray, this.regexArray.length);
+        // console.log('generate reserved word are ---- ', this.regexArray, this.regexArray.length);
         let count = 1;
         this.regexArray.forEach(element => {
-            console.log('begins count values --- ', count);
+            // console.log('begins count values --- ', count);
             if (count === 1) {
                 this.generatedWords = `(?:^|_|\\W)${element}(?:$|_|\\W)|`;
             } else if (count === this.regexArray.length) {
@@ -30,7 +30,7 @@ export class RegexExpression {
             }
             count++;
         });
-        console.log('after generated regex are ----- ', this.generatedWords);
+        // console.log('after generated regex are ----- ', this.generatedWords);
     }
 
     getReservedWord() {

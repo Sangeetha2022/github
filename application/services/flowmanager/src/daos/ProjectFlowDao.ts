@@ -39,6 +39,22 @@ export class ProjectFlowDao {
         });
     }
 
+
+    public updateFlowComponents(flowId, flowComponents, callback: CallableFunction) {
+        this.projectFlow.updateOne({ _id: flowId },
+            { $set: { 'components': flowComponents } },
+            { new: true }, (err, flow) => {
+                console.log('error ---- ', err);
+                console.log('flow ---- ', flow);
+                if (err) {
+                    callback(err);
+                } else {
+                    callback(flow);
+                }
+            });
+    }
+
+
     public getAllProjectFlows(callback: CallableFunction) {
         this.projectFlow.find({}).populate('components').exec((err, flow) => {
             if (err) {
