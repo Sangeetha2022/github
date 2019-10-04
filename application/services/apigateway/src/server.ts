@@ -28,7 +28,7 @@ import {
     AngularTemplateController,
     AdminController,
     TemplateController,
-    FredController,
+    customConnectors,
     DeleteManagerController
 
 
@@ -64,7 +64,7 @@ let apisController = [
     new AngularTemplateController(),
     new AdminController(),
     new TemplateController(),
-    new FredController(),
+    new customConnectors(),
     new DeleteManagerController()
 ]
 

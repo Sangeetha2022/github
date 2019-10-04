@@ -5,10 +5,8 @@ export class Constants {
 
     public static DESKTOP_ROUTER = '/desktop';
     public static MOBILE_ROUTER = '/mobile';
-
-    // fred api
-    public static get fred(): string { return this.DESKTOP_ROUTER + '/fred'; }
-    public static get quickTestFred(): string { return this.DESKTOP_ROUTER + '/quick/test'; }
+    //customeConnectors 
+    public static get quickTestcustomConnectors(): string { return this.DESKTOP_ROUTER + '/quick/test'; }
 
 
     public static get quickConnectors(): String { return this.DESKTOP_ROUTER + '/save/quickConnectors'; }
