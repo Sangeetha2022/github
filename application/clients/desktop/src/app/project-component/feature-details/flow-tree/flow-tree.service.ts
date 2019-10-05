@@ -13,7 +13,6 @@ export class FlowTreeService {
 
     get data(): TodoItemNode[] { return this.dataChange.value; }
 
-    public fredResponse: any;
 
     constructor(
     ) {
@@ -57,7 +56,6 @@ export class FlowTreeService {
             const data = this.buildFileTree(result, 0);
             console.log('-----rrespomse-->>', data);
             this.dataChange.next(data);
-            // this.fredResponse = result;
             a[b.substring(0, b.indexOf(''))] = obj[b];
             return a;
         }, {});
