@@ -152,6 +152,7 @@ export class FeatureDetailsComponent implements OnInit {
     modifyEntityId: any;
     api_key: any;
     api_value: any;
+    flowEntityName: any;
 
 
 
@@ -301,9 +302,17 @@ export class FeatureDetailsComponent implements OnInit {
         });
         this.dataService.currentFlowEntitySource.subscribe(data => {
             if (data) {
-                this.flowEntityId = data;
-                this.displayModelTree = 'none';
-                this.displayModel = 'block';
+                console.log('dataservice--response --->>', Object.keys(data).length);
+                if (Object.values(data).length !== 0) {
+                    console.log('i am data---response --<>>', data)
+                    this.flowEntityId = data._id;
+                    this.flowEntityName = data.name;
+                    this.displayModelTree = 'none';
+                    this.displayModel = 'block';
+
+                }
+                
+        
             }
         });
         this.isbackEndService = false,
@@ -667,6 +676,7 @@ export class FeatureDetailsComponent implements OnInit {
             name: this.quickConnectors.name,
             description: this.quickConnectors.description,
             entity_id: this.flowEntityId,
+            entityName: this.flowEntityName,
             connectors: this.quickConnectorName,
             endPointUrl: this.quickConnectors.endPointUrl,
             apiMethods: this.quickConnectors.apiMethods,
@@ -756,7 +766,6 @@ export class FeatureDetailsComponent implements OnInit {
             }
         });
     }
-
 
 
     flowCancel() {

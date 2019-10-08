@@ -81,7 +81,7 @@ export class DataService {
     currentMenuBuilderSource = this.menuBuilderSource.asObservable();
 
     //saveflow entity
-    private selectedFlowEntitySource = new BehaviorSubject<any>('');
+    private selectedFlowEntitySource = new BehaviorSubject<any>({});
     currentFlowEntitySource = this.selectedFlowEntitySource.asObservable();
 
     //qucik Connectors -->>, 
@@ -108,7 +108,7 @@ export class DataService {
     }
 
     //save flowEntity
-    FlowSaveEntity(flowEntites: string) {
+    FlowSaveEntity(flowEntites: any) {
         this.selectedFlowEntitySource.next(flowEntites)
 
     }
