@@ -38,7 +38,8 @@ export class DaoWorker {
             verbs: '',
             query: '',
             return: '',
-            isJsonFormat: false
+            isJsonFormat: false,
+            connectorEntityName: null
         },
         packageDependencies: []
     }
@@ -160,12 +161,12 @@ export class DaoWorker {
         this.tempDao.function.verbs = this.requestNPM.componentVariable;
         this.tempDao.function.query = `\`${externalConnector.url}\``;
         this.tempDao.function.isJsonFormat = true;
+        this.tempDao.function.connectorEntityName = externalConnector.entityName;
         // add component gpStart dependencies
         this.tempDao.GpStart.dependencies = this.tempDao.GpStart.dependencies.concat(this.requestNPM.componentDependencies);
 
         // add package json dependencies
         this.tempDao.packageDependencies = this.tempDao.packageDependencies.concat(this.requestNPM.packageDependencies);
-        console.log('tempdao packagedependencies in dao files  are ------  ', this.tempDao.packageDependencies);
     }
 
     gpFunction() {
@@ -202,11 +203,8 @@ export class DaoWorker {
                     this.tempDao.function.variable = `let temp = new ${this.entitySchema.modelName}(${this.entitySchema.fileName}Data)`;
                     this.tempDao.function.verbs = `temp.save`;
                     this.tempDao.function.isJsonFormat = false;
+                    this.tempDao.function.connectorEntityName = null;
                 }
-                // this.tempDao.function.variable = `let temp = new ${this.entitySchema.modelName}(${this.entitySchema.fileName}Data)`;
-                // this.tempDao.function.verbs = `temp.save`;
-                // this.tempDao.function.verbs = `request`;
-                // this.tempDao.function.query = `\`https://api.stlouisfed.org/fred/category/related?category_id=32073&api_key=1d6109900692021b3c0e18d9a1c9591f&file_type=json\``;
                 break;
             case 'GpSearch':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
@@ -215,6 +213,7 @@ export class DaoWorker {
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
                     this.tempDao.function.query = `{$and: [${this.entitySchema.fileName}Data]}`;
                     this.tempDao.function.isJsonFormat = false;
+                    this.tempDao.function.connectorEntityName = null;
                 }
                 break;
             case 'GpUpdate':
@@ -224,6 +223,7 @@ export class DaoWorker {
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
                     this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
                     this.tempDao.function.isJsonFormat = false;
+                    this.tempDao.function.connectorEntityName = null;
                 }
                 break;
             case 'GpDelete':
@@ -233,6 +233,7 @@ export class DaoWorker {
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findByIdAndRemove`;
                     this.tempDao.function.query = `${this.entitySchema.fileName}Id`;
                     this.tempDao.function.isJsonFormat = false;
+                    this.tempDao.function.connectorEntityName = null;
                 }
                 break;
             case 'GpGetAllValues':
@@ -241,6 +242,7 @@ export class DaoWorker {
                 if (isDefault) {
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
                     this.tempDao.function.isJsonFormat = false;
+                    this.tempDao.function.connectorEntityName = null;
                 }
                 break;
             case 'GpSearchDetail':
@@ -252,6 +254,7 @@ export class DaoWorker {
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
                     this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
                     this.tempDao.function.isJsonFormat = false;
+                    this.tempDao.function.connectorEntityName = null;
                 }
                 break;
             case 'GpDeleteNounRelationship':
@@ -285,6 +288,7 @@ export class DaoWorker {
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findById`;
                     this.tempDao.function.query = `${this.entitySchema.fileName}Id`;
                     this.tempDao.function.isJsonFormat = false;
+                    this.tempDao.function.connectorEntityName = null;
                 }
                 break;
             case 'GpDeleteByParentId':

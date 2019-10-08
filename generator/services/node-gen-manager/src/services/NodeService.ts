@@ -286,21 +286,13 @@ export class NodeService {
                             this.routeObj.variable.outsideClass = this.routeObj.variable.outsideClass.concat(route.GpVariable.outsideClass);
 
                             // packageDependencies
-
-                            // this.packageObj.dependencies = this.packageObj.dependencies.concat(dao.packageDependencies);
-                            // if(dao.packageDependencies.length > 0) {
-                            //     dao.packageDependencies.forEach(element => {
-
-                            //     })
-                            // }
+                            // avoid duplication in the array of object
                             this.packageObj.dependencies = dao.packageDependencies.map(function (a) {
                                 return this[a.name] || a;
                             }, this.packageObj.dependencies.reduce(function (r, a) {
                                 r[a.name] = a;
                                 return r;
                             }, Object.create(null)));
-                            console.log('packageobject dependencies are ----- ', this.packageObj.dependencies);
-                            console.log('dao.packageDependencies dependencies are ----- ', dao.packageDependencies);
                             // gp function controller
                             const controllerTemp = {
                                 methodName: ''
@@ -331,7 +323,8 @@ export class NodeService {
                                 verbs: '',
                                 query: '',
                                 return: '',
-                                isJsonFormat: false
+                                isJsonFormat: false,
+                                connectorEntityName: null
                             }
                             daoTemp.methodName = dao.function.methodName;
                             daoTemp.parameter = dao.function.parameter;
@@ -340,6 +333,7 @@ export class NodeService {
                             daoTemp.query = dao.function.query;
                             daoTemp.return = dao.function.return;
                             daoTemp.isJsonFormat = dao.function.isJsonFormat;
+                            daoTemp.connectorEntityName = dao.function.connectorEntityName;
                             this.daoObj.flowAction.push(daoTemp);
 
 
