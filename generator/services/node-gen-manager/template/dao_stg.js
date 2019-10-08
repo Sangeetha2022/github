@@ -1,6 +1,6 @@
 /*
  * Template group dao
- * Compiled on Fri Oct 04 2019 12:25:48 GMT+0530 (India Standard Time)
+ * Compiled on Tue Oct 08 2019 11:09:17 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -139,7 +139,9 @@ r = function(w, rc) {
                          }
                          if (st.test(st.prop(s, g, rc, s.flowObj, "isJsonFormat", { file: gFile, line: 10, column: 541 }))) {
                          
-                             w.write("callback(JSON.parse(result));");
+                             w.write("callback(JSON.parse(result).");
+                             st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "connectorEntityName", { file: gFile, line: 10, column: 592 }));
+                             w.write(");");
                          
                          
                          }
