@@ -11,7 +11,7 @@ spec:
         app: {{ .Values.app.prefix }}-system-entry
     spec:
       containers:
-        - name: {{ .Values.deployment.desktop.name }}-contianer
+        - name: {{ .Values.deployment.desktop.name }}-container
           imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
           image: {{ .Values.deployment.desktop.image }}
           ports:

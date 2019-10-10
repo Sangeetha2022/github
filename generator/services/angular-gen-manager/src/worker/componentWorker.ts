@@ -6,7 +6,6 @@ import { FlowComponentWorker } from "./flowComponentWorker";
 import { FlowServiceWorker } from "./flowServiceWorker";
 import * as componentDependency from '../assets/componentDependency';
 import { ElementRouteWorker } from "./elementRouteWorker";
-import { ProxySupportWorker } from "../supportworker/proxySupportWorker";
 
 const componentSupportWorker = new ComponentSupportWorker();
 const dependencyWorker = new DependencyWorker();
@@ -27,8 +26,6 @@ export class ComponentWorker {
         providers: [],
         bootstrap: []
     }
-    private proxySupportWorker = new ProxySupportWorker();
-
 
     private packageModule = [];
 

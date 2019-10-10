@@ -77,7 +77,7 @@ export class FlowTreeComponent implements OnInit {
   public rowData: any;
   public isShowGird: boolean;
 
-  public typeOfData: any[] = ['string', 'number', 'boolen', 'Array', 'any'];
+  public typeOfData: any[] = ['String', 'Number', 'Boolen', 'Array'];
 
   @ViewChild('emptyItem') emptyItem: ElementRef;
   gridApi: any;

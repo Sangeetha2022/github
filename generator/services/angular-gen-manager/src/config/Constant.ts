@@ -8,6 +8,7 @@ export class Constant {
 
     public static SRC_FOLDERNAME = 'src';
     public static APP_FOLDERNAME = 'app';
+    public static NGINX_FOLDERNAME = 'nginx';
 
     // flow 
     public static GP_ANGULAR_COMPONENT = `gpangularcomponent`;
@@ -58,6 +59,7 @@ export class Constant {
     public static MODULE_TEMPLATENAME = 'component_module';
     public static SPEC_TEMPLATENAME = 'component_spec';
     public static MODIFY_PROXY_CONFIG_TEMPLATENAME = 'modify_proxy_config';
+    public static MODIFY_NGINX_CONF_TEMPLATENAME = 'modify_nginx_conf';
 
     // fileName
     public static APP_ROUTING_FILENAME = 'app-routing.module.ts';
@@ -66,6 +68,7 @@ export class Constant {
     public static STYLE_SCSS_FILENAME = 'styles.scss';
     public static SHARED_FILENAME = `shared`;
     public static PROXY_CONFIG_FILENAME = 'proxy.conf.ts';
+    public static NGINX_FILENAME = 'default.conf';
 
     // ckeditor element details
     public static CKEDITOR_HTMLID_NAME = 'ckeditortextarea';
@@ -91,6 +94,7 @@ export class Constant {
     // object name
     public static DESKTOP_APINAME = 'DESKTOP_API';
     public static PROXY_CONFIG_VARIABLENAME = 'PROXY_CONFIG';
+    public static NGINX_
 
     // html component tag
     public static SELECT_TS_OPTION_VARIABLENAME = 'option';
