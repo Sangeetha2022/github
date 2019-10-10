@@ -75,7 +75,7 @@ export function getAuthserviceConfgis() {
     },
     {
       id: FacebookLoginProvider.PROVIDER_ID,
-      provider: new FacebookLoginProvider('879601898877087')
+      provider: new FacebookLoginProvider('1129416623929960')
     }
 
   ]);

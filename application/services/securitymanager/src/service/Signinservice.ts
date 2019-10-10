@@ -1,9 +1,18 @@
 import { Request, response } from 'express';
 import { SigninDao } from '../daos/SigninDao';
+import { resolve } from 'path';
 const logger = require('../config/Logger');
+import * as asyncLoop from 'node-async-loop';
+import * as jwt from 'jsonwebtoken';
 
+
+
+let jwtDecode = require('jwt-decode');
 let signindao = new SigninDao();
+
 export class Signinservice {
+    roleId: any;
+    roleName: any;
 
     public signupservice(req: Request, callback) {
         console.log('requst----->', req.body);
@@ -30,11 +39,110 @@ export class Signinservice {
     }
 
     public googleservice(req: Request, callback) {
-        const googledata = req.body;
-        signindao.googledao(googledata, (response) => {
-            callback(response);
+        const googleData = req.body;
+        signindao.googledao(googleData, async (response) => {
+            if(response.length === 0) {
+                await this.socialLoginSetRole();
+                const token = jwtDecode(googleData.idtoken);
+                const googleUserObject = {
+                    'firstname': token.given_name,
+                    'lastname': token.family_name,
+                    'username': token.email,
+                    'email': token.email,
+                    'role': this.roleId,
+                    'signintype': googleData.provider
+                };
+                const saveGoogle = await this.saveSocialSignIn(googleUserObject);
+                callback(saveGoogle);
+            }
+            if(response.length !== 0){
+                const updateResponse = await this.updateGoogle(response);
+                callback(updateResponse);
+            }
         })
     }
+    public fbLogIn(req: Request , callback) {
+        const fbUser = req.body
+        signindao.fbLogIn(fbUser ,async (response) => {
+            console.log('fbuser--service-->', response)
+            if(response.length === 0) {
+               await this.socialLoginSetRole();
+                const fbUserObj = {
+                    username:fbUser.name,
+                    firstname:fbUser.name,
+                    lastname:fbUser.name,
+                    email:fbUser.email,
+                    fbId:fbUser.fbId,
+                    signintype:fbUser.provider,
+                    role: this.roleId
+                }
+                const saveFacaBook = await this.saveSocialSignIn(fbUserObj);
+                callback(saveFacaBook);
+            }
+            if(response.length !== 0) {
+                const updateFb = await this.updateFbLogin(response);
+                callback(updateFb);
+            }
+        })
+        
+    }
+
+    public saveSocialSignIn(socialSave){
+        return new Promise(resolve => {
+            signindao.saveSocialSignIn(socialSave, (socialResponse) => {
+                const createToken = {
+                    username: socialResponse.username,
+                    firstname: socialResponse.firstname,
+                    lastname: socialResponse.lastname,
+                    email: socialResponse.email,
+                    id: socialResponse._id,
+                    role: this.roleName
+                }
+                signindao.generateIdToken(createToken , (tokenResponse) => {
+                    resolve(tokenResponse);
+                })
+            })
+
+        })
+    }
+
+    public updateGoogle(updateGoogleData) {
+        return new Promise (resolve => {
+            signindao.updateGoogleSignIn(updateGoogleData , (res) => {
+                resolve(res)
+            })
+        })
+
+    }
+
+    public updateFbLogin(fbResponse){
+        return new Promise(resolve => {
+            signindao.updateFbLogin(fbResponse , (updateFb) => {
+                resolve(updateFb);
+            })
+        })
+
+    }
+
+    public socialLoginSetRole() {
+        return new Promise (resolve => {
+            signindao.socialLoginSetRole((response) => {
+                asyncLoop(response, (setRole , next) => {
+                    if(setRole.role === 'Standarduser'){
+                        this.roleId = setRole._id;
+                        this.roleName = setRole.role ;
+                    }
+                    next()
+                }), ((err) => {
+                    resolve(err);
+                })
+                resolve();
+            })
+
+        })
+
+    }
+
 
     public getalluserservice(req: Request, callback) {
         signindao.getalluserdao((response) => {

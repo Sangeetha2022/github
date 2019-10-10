@@ -13,6 +13,7 @@ export const Userschema = new Schema ({
     firstname: String,
     lastname: String,
     email: String,
+    fbId:String,
     password: String,
     role: { type: mongoose.Schema.Types.String, ref: 'roles' },
     signintype: String,

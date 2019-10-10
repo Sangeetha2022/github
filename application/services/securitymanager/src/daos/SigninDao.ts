@@ -3,6 +3,7 @@ import { Userschema } from '../models/User';
 import { Roleschema } from '../models/Role';
 import * as jwt from 'jsonwebtoken';
 import * as asyncLoop from 'node-async-loop';
+import { resolve } from 'dns';
 var jwtDecode = require('jwt-decode');
 const logger = require('../config/Logger');
 
@@ -15,6 +16,7 @@ export class SigninDao {
     private signuprole: any;
     private userDetails: any;
     private mailboolean: boolean;
+    equalToEmail: any;
     public signindao(userData, callback) {
         rolemodel.find().then(result => {
             asyncLoop(result, (roles, next) => {
@@ -107,56 +109,68 @@ export class SigninDao {
     }
 
     public googledao(googledata, callback) {
+        let token = jwtDecode(googledata.idtoken);
+        signinmodel.find({ email: token.email }).then((err, findResult) => {
+            console.log('result--->>', findResult)
+            if (err) {
+                callback(err);
+            } else {
+                callback(findResult);
+            }
+        })
+    }
+    public fbLogIn(fbUser, callback) {
+        console.log('fbUSer--ahha--->>', fbUser);
+        signinmodel.find({$or:[{email:{$in:[fbUser.email]}},{fbId:{$in:[fbUser.fbId]}}]}).then(result => {
+            callback(result)
+        })
+    }
 
-        rolemodel.find().then((result) => {
-            asyncLoop(result, (roles, next) => {
-                console.log('--------roles----', roles);
-                if (roles.role === 'Standarduser') {
-                    this.userrole = roles._id;
-                    this.rolevalue = roles.role;
-                    console.log('--------id-----', roles._id);
-                }
-                next();
-            }, (err) => {
-                if (err) {
-                    console.log('----------erro----', err);
-                }
-            })
-            console.log('------googleuser------->>>', this.userrole);
-            // @ts-ignore
-            let token = jwtDecode(googledata.idtoken);
-            console.log('----decodedtoken---->>>', token);
-            const userobject = {
-                'firstname': token.given_name,
-                'lastname': token.family_name,
-                'username': token.email,
-                'email': token.email,
-                'role': this.userrole,
-                'signintype': 'google'
-            };
-            let googlelogin = new signinmodel(userobject);
-            googlelogin.save().then((result) => {
-                console.log('---------googleuser--->>>>', result);
-                var payload = {
-                    username: result.username,
-                    firstname: result.firstname,
-                    lastname: result.lastname,
-                    email: result.email,
-                    id: result._id,
-                    role: this.rolevalue
-                }
-                var idtoken = jwt.sign(payload, 'geppettosecret', {
-                    expiresIn: 86400
-                });
-                signinmodel.findByIdAndUpdate(result._id, { $set: { Idtoken: idtoken } }, function (err, response) {
-                    if (err) {
-                        callback(err);
-                    }
-                    response.Idtoken = idtoken;
-                    callback(response);
-                });
-            });
+    public saveSocialSignIn(socialResponse, callback) {
+        let googlelogin = new signinmodel(socialResponse);
+        googlelogin.save().then((err ,result) => {
+            if(err) {
+                callback(err)
+            }else{
+                callback(result);
 
+            }
+        })
+    }
+
+    public updateGoogleSignIn(updateGoogle, callback) {
+        signinmodel.findOneAndUpdate({ email:updateGoogle[0].email }, updateGoogle, { new: true }, (err, updateResult) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(updateResult);
+            }
+        });
+
+    }
+
+    public updateFbLogin(fbUpdate , callback){
+        signinmodel.findOneAndUpdate({fbId:fbUpdate[0].fbId},fbUpdate , {new: true}, (err , fbUpdateRes) => {
+            callback(fbUpdateRes);
+        } )
+    }
+
+    public socialLoginSetRole(callback) {
+        rolemodel.find().then(result => {
+            callback(result)
+        })
+    }
+
+    public generateIdToken(tokenData , callback) {
+        const idtoken = jwt.sign(tokenData, 'geppettosecret', {
+            expiresIn: 86400
+        });
+        signinmodel.findByIdAndUpdate(tokenData.id, { $set: { Idtoken: idtoken } }, function (err, response) {
+            if (err) {
+                callback(err);
+            }
+            response.Idtoken = idtoken;
+            callback(response);
         });
 
     }
@@ -200,14 +214,14 @@ export class SigninDao {
             email: updateuser.email,
             id: updateuser.id,
             role: updateuser.role.role,
-            installrToken : updateuser.installrToken
+            installrToken: updateuser.installrToken
         }
         var idtoken = jwt.sign(payload, 'geppettosecret', {
             expiresIn: 86400
         });
 
-        signinmodel.findByIdAndUpdate(updateuser.id, {$set: { username: updateuser.username, firstname: updateuser.firstname,lastname:updateuser.lastname,email:updateuser.email,role:updateuser.role._id,Idtoken:idtoken,installrToken: updateuser.installrToken }},(err,response)=>{
-            if(err){
+        signinmodel.findByIdAndUpdate(updateuser.id, { $set: { username: updateuser.username, firstname: updateuser.firstname, lastname: updateuser.lastname, email: updateuser.email, role: updateuser.role._id, Idtoken: idtoken, installrToken: updateuser.installrToken } }, (err, response) => {
+            if (err) {
                 callback(err);
             }
             var updaterespone = {
@@ -218,7 +232,7 @@ export class SigninDao {
                 id: updateuser.id,
                 role: updateuser.role._id,
                 Idtoken: idtoken,
-                installrToken : updateuser.installrToken
+                installrToken: updateuser.installrToken
             }
             callback(updaterespone);
         })

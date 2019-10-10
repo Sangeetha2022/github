@@ -30,4 +30,8 @@ export class LoginService {
     return this.http.put(this.restapi.Apigateway + Constants.Consent, consent);
   }
 
+  fbLogIn(fbUser: any): Observable<any> {
+    return this.http.post(this.restapi.Apigateway + Constants.fbLogIn, fbUser);
+  }
+
 }

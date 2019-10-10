@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   public errorMessage: String;
   public isErrorMessage: Boolean;
   // tslint:disable-next-line:max-line-length
-  constructor(private route: Router, private router: ActivatedRoute, private loginservice: LoginService, private authservice: AuthService, public broadcast: Brodcastservice,private formBuilder: FormBuilder,) {
+  constructor(private route: Router, private router: ActivatedRoute, private loginservice: LoginService, private authservice: AuthService, public broadcast: Brodcastservice, private formBuilder: FormBuilder, ) {
     this.show = false;
   }
 
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     lastName: ''
   };
   submitted = false;
-  new_user=false;
+  new_user = false;
   public borderStyle: any = {
     email: '#ced4da',
     password: '#ced4da',
@@ -87,19 +87,19 @@ export class LoginComponent implements OnInit {
   }
 
   newuser(value) {
-    const invalid  = this.loginform;
-    this.new_user=true;
-    console.log("invalid -------------------++++++++++",this.loginform.value.email, 'ddsdsd',this.loginform.value.password)
-if(this.loginform.value.email !=='' && this.loginform.value.password !=='' ){
-  this.new_user=false;
-  console.log("murugan")
-  if (value.checked) {
-    this.signup = true;
-    this.displayModel = 'block';
-    this.isChecked = true;
+    const invalid = this.loginform;
+    this.new_user = true;
+    console.log("invalid -------------------++++++++++", this.loginform.value.email, 'ddsdsd', this.loginform.value.password)
+    if (this.loginform.value.email !== '' && this.loginform.value.password !== '') {
+      this.new_user = false;
+      console.log("murugan")
+      if (value.checked) {
+        this.signup = true;
+        this.displayModel = 'block';
+        this.isChecked = true;
 
-  }
-}
+      }
+    }
 
   }
 
@@ -187,7 +187,7 @@ if(this.loginform.value.email !=='' && this.loginform.value.password !=='' ){
           if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '') {
             this.Consent();
           } else {
-            console.log('projecttt--#############################->>>',)
+            console.log('projecttt--#############################->>>')
             this.route.navigate(['project']);
           }
 
@@ -201,12 +201,13 @@ if(this.loginform.value.email !=='' && this.loginform.value.password !=='' ){
   }
 
   googlesigin(socialPlatform: string) {
+    console.log('google');
     let socialPlatformProvider;
     if (socialPlatform === 'google') {
       socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     }
     this.authservice.signIn(socialPlatformProvider).then((userdata => {
-      console.log(socialPlatform + ' sign in data : ', userdata);
+      console.log(' sign in data : ', userdata);
       const googleobject = {
         'email': userdata.email,
         'idtoken': userdata.idToken,
@@ -223,6 +224,9 @@ if(this.loginform.value.email !=='' && this.loginform.value.password !=='' ){
           console.log('-------ahdbakjvjakjak--------');
           this.Accesslevel = googleresponse.Access[0];
           this.permission.push(this.Accesslevel);
+          this.broadcast.sendmessage({ 'Access': this.permission });
+          this.broadcast.gaurdarray = [];
+          this.broadcast.gaurdarray = this.permission;
           console.log('------------googleloginresponse-----', this.permission);
           sessionStorage.setItem('Access', JSON.stringify(this.permission));
         }
@@ -243,6 +247,37 @@ if(this.loginform.value.email !=='' && this.loginform.value.password !=='' ){
     if (socialPlatform === 'facebook') {
       facebookPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     }
+    this.authservice.signIn(socialPlatform).then(fbUserData => {
+      console.log('fbuser----ahhaaa-->>', fbUserData);
+        const fbUserWithEmail = {
+          fbId: fbUserData.id,
+          email: fbUserData.email,
+          name: fbUserData.name,
+          provider: fbUserData.provider,
+          token: fbUserData.token,
+        };
+        this.loginservice.fbLogIn(fbUserWithEmail).subscribe(FbResponse => {
+          console.log('fb response --->>', FbResponse);
+          if (FbResponse.Access !== undefined) {
+            console.log('-------ahdbakjvjakjak--------');
+            this.Accesslevel = FbResponse.Access[0];
+            this.permission.push(this.Accesslevel);
+            this.broadcast.sendmessage({ 'Access': this.permission });
+            this.broadcast.gaurdarray = [];
+            this.broadcast.gaurdarray = this.permission;
+            console.log('------------googleloginresponse-----', this.permission);
+            sessionStorage.setItem('Access', JSON.stringify(this.permission));
+          }
+          sessionStorage.setItem('Id', FbResponse.Userdetails.body._id);
+          sessionStorage.setItem('lastloggedintime', FbResponse.Userdetails.body.loggedinDate);
+          sessionStorage.setItem('email', FbResponse.Userdetails.body.email);
+          sessionStorage.setItem('JwtToken', FbResponse.Userdetails.body.Idtoken);
+          this.route.navigate(['project']);
+        }, error => {
+          console.error('error:', error);
+        });
+        // });
+    });
 
   }
 
