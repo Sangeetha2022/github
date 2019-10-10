@@ -2,27 +2,17 @@ import * as util from 'util';
 import { ComponentSupportWorker } from '../supportworker/componentSupportWorker';
 import { AssetWorker } from './assetWorker';
 import { templateScreen } from '../assets/headerComponent';
+import { Constant } from '../config/Constant';
 
 let componentSupportWorker = new ComponentSupportWorker();
 let assetWorker = new AssetWorker();
 export class ComponentWorker {
-    private COMPONENT_HTML_TEMPLATE_NAME: String = 'component_html';
-    private COMPONENT_TS_TEMPLATE_NAME: String = 'component_ts';
-    private COMPONENT_SPEC_TEMPLATE_NAME: String = 'component_spec';
-    private COMPONENT_SCSS_TEMPLATE_NAME: String = 'component_scss';
-    private COMPONENT_MODULE_TEMPLATE_NAME: String = 'component_module';
-    private MAIN_MODULE_TEMPLATE_NAME: String = 'app_module';
-    private APP_HTML_TEMPLATE_NAME: String = 'app_html';
-    private APP_COMPONENT_TEMPLATE_NAME: String = 'app_component';
-    private APP_FOLDERNAME = 'app';
-    private HEADER_FOLDERNAME = 'header';
-    public TEMPLATE_FOLDERNAME = 'template';
-    private FOOTER_FOLDERNAME = 'footer';
+
 
 
     public createHeaderComponent(generationPath, templatePath, templateHeaderObj, callback) {
         const temp = {
-            folderName: this.HEADER_FOLDERNAME,
+            folderName: Constant.HEADER_FOLDERNAME,
             importDependency: [],
             tagArray: templateHeaderObj.tag,
             scriptVariable: [],
@@ -53,13 +43,13 @@ export class ComponentWorker {
         }
         assetWorker.checkAssetFile(templateHeaderObj.tag.join(''), generationPath, templatePath);
         return componentSupportWorker.generateHtmlComponent(generationPath, templatePath,
-            this.COMPONENT_HTML_TEMPLATE_NAME, temp, (response) => {
+            Constant.COMPONENT_HTML_TEMPLATE_NAME, temp, (response) => {
                 return componentSupportWorker.generateTsComponent(generationPath, templatePath,
-                    this.COMPONENT_TS_TEMPLATE_NAME, temp, (response) => {
+                    Constant.COMPONENT_TS_TEMPLATE_NAME, temp, (response) => {
                         return componentSupportWorker.generateSpecComponent(generationPath, templatePath,
-                            this.COMPONENT_SPEC_TEMPLATE_NAME, temp, (response) => {
+                            Constant.COMPONENT_SPEC_TEMPLATE_NAME, temp, (response) => {
                                 return componentSupportWorker.generateCssComponent(generationPath, templatePath,
-                                    this.COMPONENT_SCSS_TEMPLATE_NAME, temp, (response) => {
+                                    Constant.COMPONENT_SCSS_TEMPLATE_NAME, temp, (response) => {
                                         const tempModule = {
                                             isExport: true,
                                             defaultDependency: [{
@@ -69,7 +59,7 @@ export class ComponentWorker {
                                         }
                                         this.setComponentModule(temp, tempModule);
                                         return componentSupportWorker.generateComponentModule(generationPath, templatePath,
-                                            this.COMPONENT_MODULE_TEMPLATE_NAME, temp, false, (response) => {
+                                            Constant.COMPONENT_MODULE_TEMPLATE_NAME, temp, false, (response) => {
                                                 callback('header component generated');
                                             })
                                     })
@@ -108,7 +98,7 @@ export class ComponentWorker {
 
     public createFooterComponent(generationPath, templatePath, templateFooterObj, callback) {
         const temp = {
-            folderName: this.FOOTER_FOLDERNAME,
+            folderName: Constant.FOOTER_FOLDERNAME,
             importDependency: [],
             scriptVariable: [],
             componentOnInit: [],
@@ -131,20 +121,20 @@ export class ComponentWorker {
         }
         assetWorker.checkAssetFile(templateFooterObj.tag.join(''), generationPath, templatePath);
         return componentSupportWorker.generateHtmlComponent(generationPath, templatePath,
-            this.COMPONENT_HTML_TEMPLATE_NAME, temp, (response) => {
+            Constant.COMPONENT_HTML_TEMPLATE_NAME, temp, (response) => {
                 return componentSupportWorker.generateTsComponent(generationPath, templatePath,
-                    this.COMPONENT_TS_TEMPLATE_NAME, temp, (response) => {
+                    Constant.COMPONENT_TS_TEMPLATE_NAME, temp, (response) => {
                         return componentSupportWorker.generateSpecComponent(generationPath, templatePath,
-                            this.COMPONENT_SPEC_TEMPLATE_NAME, temp, (response) => {
+                            Constant.COMPONENT_SPEC_TEMPLATE_NAME, temp, (response) => {
                                 return componentSupportWorker.generateCssComponent(generationPath, templatePath,
-                                    this.COMPONENT_SCSS_TEMPLATE_NAME, temp, (response) => {
+                                    Constant.COMPONENT_SCSS_TEMPLATE_NAME, temp, (response) => {
                                         const tempModule = {
                                             isExport: true,
                                             defaultDependency: null
                                         }
                                         this.setComponentModule(temp, tempModule);
                                         return componentSupportWorker.generateComponentModule(generationPath, templatePath,
-                                            this.COMPONENT_MODULE_TEMPLATE_NAME, temp, false, (response) => {
+                                            Constant.COMPONENT_MODULE_TEMPLATE_NAME, temp, false, (response) => {
                                                 callback('footer component generated');
                                             })
                                     })
@@ -155,7 +145,7 @@ export class ComponentWorker {
 
     public createTemplateComponent(generationPath, templatePath, templateMainObj, callback) {
         const temp = {
-            folderName: this.TEMPLATE_FOLDERNAME,
+            folderName: Constant.TEMPLATE_FOLDERNAME,
             importDependency: [],
             scriptVariable: [],
             componentOnInit: [],
@@ -177,21 +167,21 @@ export class ComponentWorker {
             tempDependency.dependencyPath = '@angular/core';
         temp.importDependency.push(tempDependency);
         return componentSupportWorker.generateHtmlComponent(generationPath, templatePath,
-            this.COMPONENT_HTML_TEMPLATE_NAME, temp, (response) => {
+            Constant.COMPONENT_HTML_TEMPLATE_NAME, temp, (response) => {
                 return componentSupportWorker.generateTsComponent(generationPath, templatePath,
-                    this.COMPONENT_TS_TEMPLATE_NAME, temp, (response) => {
+                    Constant.COMPONENT_TS_TEMPLATE_NAME, temp, (response) => {
 
                         return componentSupportWorker.generateSpecComponent(generationPath, templatePath,
-                            this.COMPONENT_SPEC_TEMPLATE_NAME, temp, (response) => {
+                            Constant.COMPONENT_SPEC_TEMPLATE_NAME, temp, (response) => {
                                 return componentSupportWorker.generateCssComponent(generationPath, templatePath,
-                                    this.COMPONENT_SCSS_TEMPLATE_NAME, temp, (response) => {
+                                    Constant.COMPONENT_SCSS_TEMPLATE_NAME, temp, (response) => {
                                         const tempModule = {
                                             isExport: false,
                                             defaultDependency: null
                                         }
                                         this.setComponentModule(temp, tempModule);
                                         return componentSupportWorker.generateComponentModule(generationPath, templatePath,
-                                            this.COMPONENT_MODULE_TEMPLATE_NAME, temp, false, (response) => {
+                                            Constant.COMPONENT_MODULE_TEMPLATE_NAME, temp, false, (response) => {
                                                 callback('template component generated');
                                             })
                                     })
@@ -204,16 +194,16 @@ export class ComponentWorker {
 
     public generateAppComponentHtml(generationPath, templatePath, templateName, callback) {
         const temp = {
-            folderName: this.APP_FOLDERNAME,
+            folderName: Constant.APP_FOLDERNAME,
             scriptVariable: [],
             componentOnInit: [],
             componentMethod: [],
             tagArray: []
         }
         // app html 
-        temp.tagArray.push({ name: `app-${this.HEADER_FOLDERNAME}`, isHeaderFooter: true, isRouter: false });
+        temp.tagArray.push({ name: `app-${Constant.HEADER_FOLDERNAME}`, isHeaderFooter: true, isRouter: false });
         temp.tagArray.push({ name: `router-outlet`, isHeaderFooter: false, isRouter: false });
-        temp.tagArray.push({ name: `app-${this.FOOTER_FOLDERNAME}`, isHeaderFooter: true, isRouter: false });
+        temp.tagArray.push({ name: `app-${Constant.FOOTER_FOLDERNAME}`, isHeaderFooter: true, isRouter: false });
         // app css 
         console.log('app css template name are ----  ', templateName);
         // const findTemplate = templateScreen.find(x => x.name == templateName);
@@ -233,19 +223,19 @@ export class ComponentWorker {
         // }
 
         return componentSupportWorker.generateAppComponentHtml(generationPath, templatePath,
-            this.APP_HTML_TEMPLATE_NAME, temp, (response) => {
+            Constant.APP_HTML_TEMPLATE_NAME, temp, (response) => {
                 const tempInfo = {
-                    folderName: this.APP_FOLDERNAME
+                    folderName: Constant.APP_FOLDERNAME
                 }
                 return componentSupportWorker.generateAppComponentTs(generationPath, templatePath,
-                    this.APP_COMPONENT_TEMPLATE_NAME, tempInfo, (response) => {
+                    Constant.APP_COMPONENT_TEMPLATE_NAME, tempInfo, (response) => {
                         const tempStyle = {
-                            folderName: this.APP_FOLDERNAME,
+                            folderName: Constant.APP_FOLDERNAME,
                             css: []
                         }
                         console.log('temp style are -----   ', tempStyle);
                         return componentSupportWorker.generateAppComponentSCSS(generationPath, templatePath,
-                            this.COMPONENT_SCSS_TEMPLATE_NAME, tempStyle, (response) => {
+                            Constant.COMPONENT_SCSS_TEMPLATE_NAME, tempStyle, (response) => {
                                 callback('app component html file are generated');
                             })
                     })
@@ -255,7 +245,7 @@ export class ComponentWorker {
 
     public generateMainModule(generationPath, templatePath, callback) {
         const temp = {
-            folderName: this.APP_FOLDERNAME,
+            folderName: Constant.APP_FOLDERNAME,
             declarations: [],
             importDependency: [],
             scriptVariable: [],
@@ -265,16 +255,16 @@ export class ComponentWorker {
             providers: [],
             bootstrap: []
         }
-        temp.declarations.push(`${this.APP_FOLDERNAME.charAt(0).toUpperCase() + this.APP_FOLDERNAME.slice(1).toLowerCase()}Component`);
+        temp.declarations.push(`${Constant.APP_FOLDERNAME.charAt(0).toUpperCase() + Constant.APP_FOLDERNAME.slice(1).toLowerCase()}Component`);
         temp.importDependency.push({ dependencyname: 'BrowserModule', dependencyPath: '@angular/platform-browser' });
         temp.importDependency.push({ dependencyname: 'NgModule', dependencyPath: '@angular/core' });
         temp.importDependency.push({ dependencyname: 'AppRoutingModule', dependencyPath: './app-routing.module' });
         temp.importDependency.push({ dependencyname: 'TranslatorModule', dependencyPath: './translator/translator.module' });
-        temp.imports.push(`BrowserModule`, `AppRoutingModule`,`TranslatorModule`);
-        temp.bootstrap.push(`${this.APP_FOLDERNAME.charAt(0).toUpperCase() + this.APP_FOLDERNAME.slice(1).toLowerCase()}Component`);
+        temp.imports.push(`BrowserModule`, `AppRoutingModule`, `TranslatorModule`);
+        temp.bootstrap.push(`${Constant.APP_FOLDERNAME.charAt(0).toUpperCase() + Constant.APP_FOLDERNAME.slice(1).toLowerCase()}Component`);
         console.log('generate main module in componentworker are -------   ', temp);
         componentSupportWorker.generateComponentModule(generationPath, templatePath,
-            this.MAIN_MODULE_TEMPLATE_NAME, temp, true, (response) => {
+            Constant.MAIN_MODULE_TEMPLATE_NAME, temp, true, (response) => {
                 callback('main module file is generated');
             })
     }

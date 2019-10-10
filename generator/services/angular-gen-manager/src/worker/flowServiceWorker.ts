@@ -13,6 +13,8 @@ export class FlowServiceWorker {
     private serviceFileDetails: any;
     private endPointList: any;
     private proxySupportWorker = new ProxySupportWorker();
+    private proxyArray = [];
+    private nginxArray = [];
 
     private sharedObject = {
         className: `${Constant.SHARED_FILENAME.charAt(0).toUpperCase() + Constant.SHARED_FILENAME.slice(1)}${Constant.SERVICE_EXTENSION.charAt(0).toUpperCase() + Constant.SERVICE_EXTENSION.slice(1).toLowerCase()}`,
@@ -105,8 +107,17 @@ export class FlowServiceWorker {
             baseUrl: baseUrl
         }
 
-        // create proxy information
-        this.proxySupportWorker.createProxyInfo(this.templatePath, Constant.MODIFY_PROXY_CONFIG_TEMPLATENAME, proxyObj);
+        const nginxObj = {
+            url: baseName
+        }
+
+        // add proxy information
+        this.proxySupportWorker.renderDetails(this.templatePath,
+            Constant.MODIFY_PROXY_CONFIG_TEMPLATENAME, proxyObj, this.proxyArray, true);
+
+        // add nginx information
+        this.proxySupportWorker.renderDetails(this.templatePath,
+            Constant.MODIFY_NGINX_CONF_TEMPLATENAME, nginxObj, this.nginxArray, false);
 
         // constructor
         this.addConstructor(this.httpObject.object, this.httpObject.className);
@@ -314,6 +325,16 @@ export class FlowServiceWorker {
 
     // modify proxy file details
     modifyProxyFile(applicationPath) {
-        this.proxySupportWorker.modifyProxyFile(applicationPath);
+        const nginxPath = `${applicationPath}/${Constant.NGINX_FOLDERNAME}`;
+        // modify proxy file
+        console.log('proxy array value are --- ', this.proxyArray);
+        this.proxySupportWorker.modifyFileInfo(applicationPath, this.proxyArray,
+             Constant.PROXY_CONFIG_VARIABLENAME, Constant.PROXY_CONFIG_FILENAME);
+             this.proxyArray = [];
+        // modify nginx file
+        console.log('nginx array value are --- ', this.nginxArray);
+        this.proxySupportWorker.modifyFileInfo(nginxPath, this.nginxArray, 
+            null, Constant.NGINX_FILENAME);
+            this.nginxArray = [];
     }
 }
