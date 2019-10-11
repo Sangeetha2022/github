@@ -5,6 +5,7 @@ import * as Constants from '../config/Constants';
 import { ApiAdaptar } from '../config/apiAdaptar';
 import * as jwt from 'jsonwebtoken';
 import * as request from 'request';
+import { constants } from 'crypto';
 
 export class Logincontroller implements Controller {
 
@@ -22,6 +23,7 @@ export class Logincontroller implements Controller {
         this.router.route('/consent').put(this.Consent);
         this.router.route('/logout').post(this.Logout);
         this.router.route('/googlesignin').post(this.googlelogin);
+        this.router.route('/fblogin').post(this.fbLogIn)
         this.router.route('/getallusers').get(this.Getallusers);
         this.router.route('/getuser/:id').get(this.Getuserbyid);
         this.router.route('/getallroles').get(this.Getallroles);
@@ -173,7 +175,30 @@ export class Logincontroller implements Controller {
 
         });
     }
-
+    public fbLogIn(req: Request, res: Response) {
+        new ApiAdaptar().post(`${Constants.loginUrl}/fblogin`, req.body).then((fbResponse) => {
+            const Userdetails = fbResponse;
+            // @ts-ignore
+            var token = Userdetails.body.Idtoken;
+            jwt.verify(token, 'geppettosecret', (err, decoded) => {
+                if (err) {
+                    // res.status(401);
+                    console.log('-----------err--->>>', err);
+                    res.send({ 'status': 'Unauthorized', 'error': err, 'Userdetails': fbResponse });
+                } else {
+                    var url = `${Constants.proxyUrl}/proxy`
+                    request.post({ url: url, json: decoded }, (error, response, body) => {
+                        var loginresponse = {
+                            "Access": body,
+                            "Userdetails": fbResponse
+                        }
+                        console.log('-----------body--------->>>', loginresponse);
+                        res.send(loginresponse);
+                    })
+                }
+            })
+        })
+    }
     public Updateuser(req: Request, res: Response) {
         new ApiAdaptar().put(`${Constants.loginUrl}/updateuser`, req.body).then((updateduser) => {
             console.log('--------updateuser-----', updateduser);

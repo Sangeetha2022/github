@@ -2,6 +2,7 @@ import { Request, Response, response } from 'express';
 import { Signinservice } from '../service/Signinservice';
 const logger = require('../config/Logger');
 
+
 let signinservice = new Signinservice;
 export class Signincontroller {
 
@@ -34,6 +35,14 @@ export class Signincontroller {
         signinservice.googleservice(req, (response) => {
             res.status(200);
             res.json(response);
+        })
+    }
+
+    public fbLogIn(req: Request , res: Response) {
+
+        signinservice.fbLogIn(req, (response) => {
+            res.status(200);
+            res.json(response)
         })
     }
 

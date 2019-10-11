@@ -14,6 +14,7 @@ export class Constants {
     // login apis
     public static get signup(): string { return this.DESKTOP_ROUTER + '/signup'; }
     public static get googlelogin(): string { return this.DESKTOP_ROUTER + '/googlesignin'; }
+    public static get fbLogIn(): string {return this.DESKTOP_ROUTER + '/fblogin';}
     public static get Login(): string { return this.DESKTOP_ROUTER + '/login'; }
     public static get Logout(): string { return this.DESKTOP_ROUTER + '/logout'; }
     public static get Consent(): string { return this.DESKTOP_ROUTER + '/consent'; }

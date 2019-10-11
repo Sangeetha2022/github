@@ -16,6 +16,7 @@ export class Routes {
         app.route('/consent').put(this.consentcontroller.consent);
         app.route('/logout').post(this.signincontroller.logout);
         app.route('/googlesignin').post(this.signincontroller.googlecontroller);
+        app.route('/fblogin').post(this.signincontroller.fbLogIn)
         app.route('/getallusers').get(this.signincontroller.getallusers);
         app.route('/getuser/:id').get(this.signincontroller.getuserbyid);
         app.route('/getallroles').get(this.signincontroller.getallroles);
