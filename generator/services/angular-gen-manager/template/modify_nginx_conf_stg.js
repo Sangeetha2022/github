@@ -1,6 +1,6 @@
 /*
  * Template group modify_nginx_conf
- * Compiled on Thu Oct 10 2019 19:39:08 GMT+0530 (India Standard Time)
+ * Compiled on Fri Oct 11 2019 12:43:13 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -23,25 +23,25 @@ r = function(w, rc) {
     var g = this.owningGroup,
         s = this.scope;
     
-    w.pushIndentation("  ");
+    w.pushIndentation("    ");
     w.write("location ^~ /");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "url", { file: gFile, line: 2, column: 23 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "url", { file: gFile, line: 2, column: 25 }));
     w.write(" {");
     w.write("\n");
-    w.pushIndentation("  ");
+    w.pushIndentation("    ");
     w.write("rewrite /");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "url", { file: gFile, line: 3, column: 19 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "url", { file: gFile, line: 3, column: 21 }));
     w.write("/(.*) /$1  break;");
     w.write("\n");
-    w.pushIndentation("  ");
+    w.pushIndentation("    ");
     w.write("proxy_pass https://");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "url", { file: gFile, line: 4, column: 29 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "url", { file: gFile, line: 4, column: 31 }));
     w.write(";");
     w.write("\n");
-    w.pushIndentation("\t");
+    w.pushIndentation("    ");
     w.write("}");
     w.popIndentation();
 };

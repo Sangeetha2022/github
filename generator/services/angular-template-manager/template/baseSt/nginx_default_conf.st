@@ -21,9 +21,9 @@ server {
     index  index.html index.htm;
     
     location / {
-    try_files $uri $uri/ /index.html;
+    try_files \$uri \$uri/ /index.html;
     }
-$if(object.proxy)$$object.proxy:{proxy | $\ $$\ $$\ $$\ $location ^~ $proxy.locationUrl$ {$\n$ proxy_pass http://$proxy.projectName$-system-entry.$proxy.projectName$.svc.cluster.local:$proxy.portNumber$$proxy.additionalUrl$;$\n$$\t$ \}};separator="\n"$$endif$
+$if(object.proxy)$$object.proxy:{proxy | $\ $$\ $$\ $$\ $location ^~ $proxy.locationUrl$ {$\n$    proxy_pass http://$proxy.projectName$-system-entry.$proxy.projectName$.svc.cluster.local:$proxy.portNumber$$proxy.additionalUrl$;$\n$    \}};separator="\n"$$endif$
 
 }
 

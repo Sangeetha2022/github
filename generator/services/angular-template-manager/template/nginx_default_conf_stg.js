@@ -1,6 +1,6 @@
 /*
  * Template group nginx_default_conf
- * Compiled on Thu Oct 10 2019 18:59:24 GMT+0530 (India Standard Time)
+ * Compiled on Fri Oct 11 2019 12:39:44 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -91,10 +91,8 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("try_files ");
+    w.write("try_files $uri $uri/ /index.html;");
     w.popIndentation();
-    st.write(w, s, g, rc, s.uri);
-    w.write("uri/ /index.html;");
     w.write("\n");
     w.pushIndentation("    ");
     w.write("}");
@@ -111,14 +109,14 @@ r = function(w, rc) {
             
                      w.write("    location ^~ ");
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.proxy, "locationUrl", { file: gFile, line: 26, column: 76 }));
-                     w.write(" {\n proxy_pass http://");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.proxy, "projectName", { file: gFile, line: 26, column: 120 }));
+                     w.write(" {\n    proxy_pass http://");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.proxy, "projectName", { file: gFile, line: 26, column: 123 }));
                      w.write("-system-entry.");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.proxy, "projectName", { file: gFile, line: 26, column: 153 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.proxy, "projectName", { file: gFile, line: 26, column: 156 }));
                      w.write(".svc.cluster.local:");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.proxy, "portNumber", { file: gFile, line: 26, column: 191 }));
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.proxy, "additionalUrl", { file: gFile, line: 26, column: 209 }));
-                     w.write(";\n\t }");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.proxy, "portNumber", { file: gFile, line: 26, column: 194 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.proxy, "additionalUrl", { file: gFile, line: 26, column: 212 }));
+                     w.write(";\n    }");
             }, [
             { name: "proxy"     }
             ])); 
