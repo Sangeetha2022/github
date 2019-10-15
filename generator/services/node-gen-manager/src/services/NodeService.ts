@@ -181,17 +181,17 @@ export class NodeService {
         //     featureName: 'ticket',
         //     applicationPort: '8000',
         //     projectGenerationPath:
-        //         '/home/tendecoders/Downloads/geppettoDownlode/projects/gpattach/application/services/custom_services/ticket',
+        //         '/geppetto/generated-code',
         //     templateLocation:
         //     {
         //         frontendTemplate: '../../template',
         //         backendTemplate: '../../template',
         //         mongoTemplate: '../../template',
         //         authTemplatePath:
-        //             '/home/tendecoders/Videos/Aruldass/gpAttachment/geppettotest/generator/services/seed',
+        //             '/geppetto/template/seed',
         //         authorizationTempPath: '../../template',
         //         adminManagerTemplatePath:
-        //             '/home/tendecoders/Videos/Aruldass/gpAttachment/geppettotest/generator/services/seed'
+        //             '/geppetto/template/seed'
         //     },
         //     projectName: 'gpattach',
         //     primaryLanguage: 'English',
@@ -865,7 +865,7 @@ export class NodeService {
             folder: 'attachment',
             file: 'fileUpload',
         }
-        if (this.gpAttachmentData.length > 0) {
+        if (this.gpAttachmentData !== undefined) {
             gpAttachFlow.gpAttachDetails.push(this.gpAttachmentData);
             const gpAttach = await this.gpAttachmentService(gpAttachFlow);
         }
