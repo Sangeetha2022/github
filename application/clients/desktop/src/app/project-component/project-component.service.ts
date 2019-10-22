@@ -150,4 +150,17 @@ export class ProjectComponentService {
     return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteEntityById}` + `/${entityId}`);
   }
 
+  updateQuickConnectorsById(updateFlow:any): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateQuickConnectorsById}/${updateFlow._id}`, updateFlow);
+  }
+
+  getModifyConnectors() {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getConnectors}`)
+
+  }
+
+  // updateQuickConnectorsById(updateFlow:any): Observable<any> {
+  //   return this.api.post(`http://localhost:3013/updateConnectors`, updateFlow);
+  // }
+
 }
