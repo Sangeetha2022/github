@@ -197,13 +197,13 @@ export class ComponentSpecializedWorker {
 
     // link info
     setLinkContent($this) {
-        console.log('setLinikk content are ---- ', $this.startString);
 
         if ($this.linkContentInfo.linkInfo) {
+            console.log('entering into link if')
             const linkInfo = $this.linkContentInfo.linkInfo;
             if (linkInfo.entity.id) {
                 let linkTemp = '';
-                $this.startTag.push(`<${Constant.NGCONTAINER_TAGNAME} *ngFor="let ${linkInfo.entity.name} of ${linkInfo.entity.name}">`);
+                $this.startTag.push(`<${Constant.NGCONTAINER_TAGNAME} *ngFor="let ${linkInfo.entity.name} of ${linkInfo.entity.name}${Constant.LIST_VARIABLE}">`);
                 $this.startString = $this.startString.replace($this.tagName.toString(), Constant.DIV_TAGNAME);
 
                 if (linkInfo.internalURL.screenId) {
@@ -218,7 +218,7 @@ export class ComponentSpecializedWorker {
                             }
                         })
                     }
-                    linkTemp += ` {${this.setLinkQueryParams($this, linkInfo)}}"`;
+                    linkTemp += this.setLinkQueryParams($this, linkInfo);
                 }
                 if (linkInfo.externalURL) {
                     linkTemp = ` href="${linkInfo.externalURL}"`;
@@ -273,7 +273,11 @@ export class ComponentSpecializedWorker {
             case 'queryparameter':
                 linkTemp += ` [queryParams]="{`;
                 linkInfo.paramArray.forEach((element, index) => {
+                    if(linkInfo.isDynamic) {
+                    linkTemp += ` ${element.name}: ${linkInfo.entity.name}.${element.fieldName}`;                        
+                    } else {
                     linkTemp += ` ${element.name}: ${element.fieldName}`;
+                    }
                     if (index !== linkInfo.paramArray.length - 1) {
                         linkTemp += `,`;
                     }

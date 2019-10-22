@@ -194,7 +194,7 @@ export class FlowServiceWorker {
             })
             console.log('after set the serviceObject method reaues a--- ', additional);
         }
-        console.log('service flow actiononData are --- ', actionElement.actionOnData);
+        console.log('service flow actiononData are --- ', actionElement);
         switch (actionElement.actionOnData) {
             case Constant.GP_SEARCH_FLOW:
                 additional.methodRequestVariable = `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
@@ -215,8 +215,11 @@ export class FlowServiceWorker {
                 additional.urlQuery = `\${${actionElement.variableName}Id}`;
                 return additional;
             case Constant.GP_GETNOUNBYID_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}Id: ${Constant.STRING_DATATYPE}`;
-                additional.urlQuery = `\${${actionElement.variableName}Id}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}Id: ${Constant.STRING_DATATYPE}`;
+                    additional.urlQuery = `\${${actionElement.variableName}Id}`;
+                }
+                
                 return additional;
             case Constant.GP_GETALLVALUES_FLOW:
                 console.log('entering into gpaaGGGGGGGG --- ', additional);

@@ -88,6 +88,7 @@ export class Constant {
     public static ROUTER_DEPENDENCY_NAME = 'router';
     public static ACTIVATEDROUTER_DEPENDENCY_NAME = 'activatedRoute';
     public static QUERY_VARIABLE_NAME = 'query';
+    public static LIST_VARIABLE = 'List';
     public static IDVARIABLE = 'Id';
 
     // modal 

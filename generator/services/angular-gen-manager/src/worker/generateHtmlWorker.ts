@@ -204,7 +204,7 @@ export class GenerateHtmlWorker {
         console.log('check route generatedRouteScreens -2--- ', this.generatedRouteScreens);
         const screenIndex = this.generatedRouteScreens.findIndex(x => x.screenId == this.screenInfo._id);
         const linkIndex = this.linkedScreenInfo.findIndex(x => x.screenId == this.screenInfo._id);
-        console.log('screenIndex checkRoutes ---- ', screenIndex);
+        console.log('screenIndex checkRoutes ---- ', screenIndex, ' screenid ', this.screenInfo._id);
         console.log('linkedScreen infromationare --- ', this.linkedScreenInfo, ' linkIndex ', linkIndex);
         if (screenIndex > -1) {
             const temp = this.generatedRouteScreens[screenIndex];
@@ -249,10 +249,13 @@ export class GenerateHtmlWorker {
 
         // if (linkIndex > -1) {
         if (this.linkedScreenInfo.length > 0) {
-            this.linkedScreenInfo.forEach(element => {
-                console.log('linked index found --- ', linkIndex, element);
-                linkWorker.addComponentLink(applicationPath, templatePath, element);
+            this.linkedScreenInfo.forEach((element, index) => {
+                const isLinkElement = linkWorker.addComponentLink(applicationPath, templatePath, element);
+                console.log('each linkedscreen elemenrare  --- ', linkIndex, element, ' isLinkElement  ', isLinkElement);
                 // this.tsComponent.componentOnInit.push(`console.log('code added here')`)
+                if (isLinkElement) {
+                    this.linkedScreenInfo.splice(index, 1);
+                }
             })
         }
         // }
@@ -586,7 +589,7 @@ export class GenerateHtmlWorker {
                         console.log('setAttrbutes linkIndex  @@@@@@@@- ', linkIndex, this.screenInfo['link_info'][linkIndex]);
                         console.log('inside tagname link_info are --333- ', linkIndex, this.screenInfo['link_info'][linkIndex].paramArray);
                         this.linkContentInfo.linkInfo = this.screenInfo['link_info'][linkIndex];
-                        if (this.linkContentInfo.linkInfo.internalURL.screenId) {
+                        if (this.linkContentInfo.linkInfo.internalURL.screenId && !this.linkContentInfo.linkInfo.isDynamic) {
                             this.startString += ` [routerLink]="['/${this.linkContentInfo.linkInfo.internalURL.screenName}']"`;
                             this.startString += `  ${componentSpecializedWorker.setLinkQueryParams(this, this.linkContentInfo.linkInfo)}`;
                         } else {

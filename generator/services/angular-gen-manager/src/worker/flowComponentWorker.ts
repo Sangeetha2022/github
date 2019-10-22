@@ -263,7 +263,8 @@ export class FlowComponentWorker {
                             getAllValueTemp += `\n       this.rowData = ${entityInfo ? `data.${entityInfo.name}` : '[]'};`;
                         } else {
                             if (this.componentObject.flowMethod[0].components.connector.length > 0) {
-                                getAllValueTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName} = data`;
+                                getAllValueTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
+                                this.setComponentVarialble(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
                             }
                         }
                     }
@@ -314,11 +315,16 @@ export class FlowComponentWorker {
             case Constant.GP_GETNOUNBYID_FLOW:
                 let getByIdTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    getByIdTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${connectorParams ? connectorParams : Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE})`;
+                    getByIdTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : `${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE}`})`;
                     getByIdTemp += `\n  .subscribe(`;
                     getByIdTemp += `\n    data => {`;
                     getByIdTemp += `\n       console.log('successfully get the data by id --- ', data);`;
-                    getByIdTemp += `\n       this.${this.componentObject.variableList[0].entityName} = data.body;`;
+                    if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
+                        getByIdTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
+                        this.setComponentVarialble(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
+                    } else {
+                        getByIdTemp += `\n       this.${this.componentObject.variableList[0].entityName} = data.body;`;
+                    }
                     getByIdTemp += `\n    },`;
                     getByIdTemp += `\n    error => {`;
                     getByIdTemp += `\n       console.log('cannot able to get the data using its id--- ', error);`;
@@ -353,8 +359,13 @@ export class FlowComponentWorker {
         return (this.currentFlow.components.microFlows.findIndex(x => x.microFlowStepName.toLowerCase() == microFlowStepName) > -1);
     }
 
-    private componentOnInit() {
-        // if()
+    private setComponentVarialble(name) {
+        const regex = new RegExp(name);
+        console.log('this componentobj in setcomponetnvar are 0--- -', this.componentObject);
+        const finded = this.componentObject.variableList.findIndex(x => regex.test(x));
+        if (finded < 0) {
+            this.componentObject.variableList.push(name);
+        }
     }
 
     // GpOptons

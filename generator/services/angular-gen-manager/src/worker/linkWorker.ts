@@ -10,16 +10,18 @@ export class LinkWorker {
         const tsFileName = `${linkInfo.screenName}.component.ts`;
         const result = this.dependencySupportWorker.readFile(applicationPath, `${linkInfo.screenName}/${tsFileName}`);
         console.log('isDependedComponent result are --- ', result)
-        if (result.length > 0) {
-            this.readOnInit(`${applicationPath}/${linkInfo.screenName}`, tsFileName, linkInfo, result);
+        if (result && result.length > 0) {
+            console.log('linkinfo if condition')
+            return this.readOnInit(`${applicationPath}/${linkInfo.screenName}`, tsFileName, linkInfo, result);
         } else {
-
+            console.log('linkinfo else condition')
+            return false;
         }
     }
 
     readOnInit(applicationPath, fileName, linkInfo, result) {
         const index = result.findIndex(x => /ngOnInit()/.test(x));
-        console.log('readOnInit are -----  ', index, ' linkInfo ', linkInfo);
+        console.log('readOnInit are -----  ', index, ' linkInfo ', linkInfo, '  result   ', result);
         const activatedRoute = component.find(x => x.name === Constant.ACTIVATEDROUTER_DEPENDENCY_NAME);
         const routeComponentDependency = `import { ${activatedRoute.componentDependencies[0].dependencyName} } from '${activatedRoute.componentDependencies[0].dependencyPath}';`;
         const queryActivatedRoute = `${activatedRoute.componentConstructor[0].variableName}.queryParams`;
@@ -62,6 +64,7 @@ export class LinkWorker {
             }
             this.dependencySupportWorker.writeStaticFile(applicationPath, fileName,
                 result.join('\n'), (response) => { });
+            return true;
         }
 
     }
