@@ -267,23 +267,23 @@
   </div>
 </div> -->
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deleteConnectorPopup}">
-    <div class="modal-dialog modal-sm" role="dialog">
-      <div class="modal-content">
-        <!-- <div class="modal-header">
+  <div class="modal-dialog modal-sm" role="dialog">
+    <div class="modal-content">
+      <!-- <div class="modal-header">
     <h6 class="modal-title">Delete</h6>
     <button type="button" class="close">&times;</button>
     </div> -->
-        <div class="delete modal-body">
-          <p>Please click confirm to delete this connector Flow ? </p>
-        </div>
-        <div class="modal-footer" style="padding: 5px">
-          <button type="button" class="btn btn-default" (click)="deleteConnector()">Confirm</button>
-          &nbsp;
-          <button type="button" class="btn btn-default" (click)="closedeleteConntorPopUp()">Cancel</button>
-        </div>
+      <div class="delete modal-body">
+        <p>Please click confirm to delete this connector Flow ? </p>
+      </div>
+      <div class="modal-footer" style="padding: 5px">
+        <button type="button" class="btn btn-default" (click)="deleteConnector()">Confirm</button>
+        &nbsp;
+        <button type="button" class="btn btn-default" (click)="closedeleteConntorPopUp()">Cancel</button>
       </div>
     </div>
   </div>
+</div>
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModel}">
   <div class="modal-dialog modal-lg" role="dialog">
@@ -391,7 +391,7 @@
                   <div class="form-group">
                     <label>Key</label>
                     <input type="text" class="form-control" placeholder="Enter key"
-                      [(ngModel)]="api_key" name="api_key" />
+                      [(ngModel)]="quickConnectors.api_key.key" name="api_key.key" />
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -399,7 +399,7 @@
                   <div class="form-group">
                     <label>Value</label>
                     <input type="text" class="form-control" placeholder="Enter value"
-                      [(ngModel)]="api_value" name="api_value" />
+                      [(ngModel)]="quickConnectors.api_key.value" name="api_value" />
                   </div>
                 </div>
               </div>
@@ -411,40 +411,81 @@
               </div>
             </div>
             <br>
-            <div class="cantainer" *ngFor="let property of properties; let i = index">
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label *ngIf="i === 0">Key</label>
-                    <input type="text" class="form-control" placeholder="Enter key" [(ngModel)]="propertiesKey[i]" />
+            <div *ngIf="isAddConnector">
+              <div class="cantainer" *ngFor="let property of quickConnectors.properties; let i = index">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label *ngIf="i === 0">Key</label>
+                      <input type="text" class="form-control" placeholder="Enter key"
+                        [(ngModel)]="quickConnectors.properties[i].key" />
+                    </div>
                   </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label *ngIf="i === 0">Value</label>
-                    <input type="text" class="form-control" placeholder="Enter value"
-                      [(ngModel)]="propertiesValue[i]" />
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label *ngIf="i === 0">Value</label>
+                      <input type="text" class="form-control" placeholder="Enter value"
+                        [disabled]="quickConnectors.properties[i].isDynamicParams ? true : null"
+                        [(ngModel)]="quickConnectors.properties[i].value" />
+                    </div>
                   </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
+                  <!-- <div class="col-md-2">
+                          <br *ngIf="i === 0">
+                          <mat-radio-group>
+                              <mat-radio-button class="example-radio-button" value="isStaticParams" >static</mat-radio-button>
+                            </mat-radio-group>
+                      </div>
+                      <div class="col-md-2">
+                          <br *ngIf="i === 0">
+                            <mat-radio-group>
+                              <mat-radio-button class="example-radio-button" value="isDynamicParams" >Dynamic</mat-radio-button>
+                            </mat-radio-group>
+                      </div> -->
+                  <div class="col-md-4">
+                    <br *ngIf="i === 0">
+                    <mat-radio-group aria-label="Select an option"
+                      [(ngModel)]="quickConnectors.properties[i].isDynamicParams">
+                      <mat-radio-button [value]=false (click)="staticParams()">Static</mat-radio-button>
+                      <mat-radio-button style="margin-left:20px" [value]=true (click)="dynamicParams(i)"> Dynamic
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                  <div class="col-md-2">
                     <label *ngIf="i === 0"></label>
-                    <i class="fa fa-close" style="color:red" (click)="removeProperties(i)"></i>
+                    <div class="form-group">
+                      <label *ngIf="i === 0"></label>
+                      <i class="fa fa-close" style="color:red" (click)="removeProperties(i)"></i>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="form-group">
-              <label>Select Api's Methods</label>
-              <select class="form-control" [(ngModel)]="quickConnectors.apiMethods">
-                <option value="" selected>Select Api's Methods</option>
-                <option value="post">post</option>
-                <option value="get">get</option>
-                <option value="put">put</option>
-                <option value="delete">delete </option>
-              </select>
-              <br>
+            <div class='container'>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="database">DataBase Name</label>
+                    <input class="form-control" id="database" [(ngModel)]="quickConnectors.dataBaseName"
+                      name="flowDescription" />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Select Api's Methods</label>
+                    <select class="form-control" [(ngModel)]="quickConnectors.apiMethods">
+                      <option value="" selected>Select Api's Methods</option>
+                      <option value="post">post</option>
+                      <option value="get">get</option>
+                      <option value="put">put</option>
+                      <option value="delete">delete </option>
+                    </select>
+                    <br>
+                  </div>
+                </div>
+              </div>
             </div>
+
+
             <!-- <div class="form-group">
               <label>Select Api's Methods</label>
               <select class="form-control" (change)="selectApis($event.target.value)">
@@ -464,10 +505,12 @@
                 <h3>Services</h3>
               </div>
               <mat-radio-group layout="row">
-                <mat-radio-button class="example-radio-button" value="backEnd"  [checked]="isbackEndService" (click)="backendService('backEnd')">
+                <mat-radio-button class="example-radio-button" value="backEnd" [checked]="isbackEndService"
+                  (click)="backendService('backEnd')">
                   Backend service
                 </mat-radio-button>
-                <mat-radio-button class="example-radio-button" value="frontEnd" [checked]="isFrontEndService" (click)="frontEndService('frontEnd')">
+                <mat-radio-button class="example-radio-button" value="frontEnd" [checked]="isFrontEndService"
+                  (click)="frontEndService('frontEnd')">
                   FrontEnd service
                 </mat-radio-button>
               </mat-radio-group>
@@ -486,9 +529,12 @@
             </div>
             <div class="row">
               <mat-radio-group aria-label="Select an option">
-                <mat-radio-button value="quickConnectors" (click)="quickConnectorsMethod('quickConnectors')">Quick connectors</mat-radio-button>
-                <mat-radio-button value="defaultConnectors" (click)="defaultConnectorsMethod('defaultConnectors')"> Default Connector</mat-radio-button>
-                <mat-radio-button value="customConnecetors" (click)="customConnectorsMethod('customConnecetors')"> Custom Connector</mat-radio-button>
+                <mat-radio-button value="defaultConnectors" (click)="quickConnectorsMethod('quickConnectors')">Quick
+                  connectors</mat-radio-button>
+                <mat-radio-button value="defaultConnectors" (click)="defaultConnectorsMethod('defaultConnectors')">
+                  Default Connector</mat-radio-button>
+                <mat-radio-button value="defaultConnectors" (click)="customConnectorsMethod('customConnecetors')">
+                  Custom Connector</mat-radio-button>
               </mat-radio-group>
 
               <!-- <button type="button" class="btn button-create ok_btn" id="AddConnector" (click)="onSubmit()">Quick
@@ -504,8 +550,13 @@
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn button-create ok_btn" id="update" (click)="onSubmit()">Update</button>
+        <div class="modal-footer" *ngIf="!modifyConnectorsId">
+          <button type="button" class="btn button-create ok_btn" id="update" (click)="onSubmit()">Save</button>
+          <button type="button" class="btn button-close delete_btn" id="update" (click)="flowCancel()">Cancel</button>
+        </div>
+        <div class="modal-footer" *ngIf="modifyConnectorsId">
+          <button type="button" class="btn button-create ok_btn" id="update"
+            (click)="updateModifyConnectors()">Update</button>
           <button type="button" class="btn button-close delete_btn" id="update" (click)="flowCancel()">Cancel</button>
         </div>
       </div>

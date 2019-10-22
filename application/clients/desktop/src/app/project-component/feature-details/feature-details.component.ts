@@ -36,6 +36,10 @@ export class FeatureDetailsComponent implements OnInit {
     public connectorsForm: FormGroup;
     public submitted = false;
     public isService: boolean;
+    public isDynamicParams: boolean;
+    public isStaticParams: boolean;
+    public isValueParams: boolean;
+
 
     // new flow var
     flowList: any[] = [];
@@ -109,15 +113,20 @@ export class FeatureDetailsComponent implements OnInit {
         endPointUrl: '',
         api_key: {
             key: '',
-            value: ''
+            value: '',
         },
         apiMethods: '',
         pathVariable: false,
         queryParams: false,
-        properties: []
+        dataBaseName: '',
+        properties: [{
+            'key': '',
+            'value': '',
+            'isDynamicParams':'',
+        }]
     };
-    public propertiesKey: any = [];
-    public propertiesValue: any = [];
+    public paramsType: any;
+    public isStaticOrDynamic: any =[];
     public quickConnectorsURL: any;
     public apiMethodArray: any = ['select Apis', 'post', 'get', 'put', 'delete'];
     public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
@@ -144,16 +153,15 @@ export class FeatureDetailsComponent implements OnInit {
     public quickConnectorId: any;
     public quickConnectorsService: any;
     public modifyComponents: any = [];
-    public properties: any[] = [];
+    public pushProperties: any[] = [];
     flowEntityId: any;
     public connectorsType: String;
     modifyConnectorsId: any;
     public showTreePopup: boolean;
     modifyEntityId: any;
-    api_key: any;
-    api_value: any;
     flowEntityName: any;
-
+    public dynamicParamsValue: any;
+    public staticParamsValue: any;
 
 
     constructor(
@@ -166,7 +174,7 @@ export class FeatureDetailsComponent implements OnInit {
         private dataService: DataService,
         private dialog: MatDialog
     ) {
-
+   
         this.frameworkComponents = {
             buttonRenderer: ButtonRendererComponent,
         };
@@ -284,6 +292,11 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log('calling--ng--onnit---')
+        console.log('calling--ng---', this.quickConnectors);
+
+        this.isStaticParams = false;
+        this.isDynamicParams = false;
         this.connectorsForm = this.formBuilder.group({
             firstName: ['', Validators.required],
             description: ['', Validators.required],
@@ -309,10 +322,7 @@ export class FeatureDetailsComponent implements OnInit {
                     this.flowEntityName = data.name;
                     this.displayModelTree = 'none';
                     this.displayModel = 'block';
-
                 }
-                
-        
             }
         });
         this.isbackEndService = false,
@@ -484,6 +494,17 @@ export class FeatureDetailsComponent implements OnInit {
             });
     }
 
+    staticParams(index) {
+        console.log('this..-->');
+        // this.isValueParams = false;
+
+    }
+
+       dynamicParams(index) {   
+           delete this.quickConnectors.properties[index].value;
+           console.log('delete-->', this.quickConnectors.properties);
+    }
+
 
     removeRow(e) {
         const index = this.featureInfo.flows.findIndex(x => x === e.rowData._id);
@@ -497,7 +518,9 @@ export class FeatureDetailsComponent implements OnInit {
     modify(e) {
         e.rowData.components.map(data => {
             data.connector.map(connector => {
+                console.log('e---modify->>>',connector );
                 if (connector.isCustom === true) {
+                    console.log('modify--connectors--', connector._id);
                     this.modifyConnectorsId = connector._id;
                 }
             });
@@ -532,23 +555,16 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     addProperties(): void {
-        this.properties.push({
-            key: '',
-            value: ''
+        console.log('this.quic', this.quickConnectors.properties)
+        this.quickConnectors.properties.push({
+            key:'',
+            value:'',
+            isDynamicParams:''
         });
-
     }
 
     quickTest() {
-        this.propertiesKey.map((e, index) => {
-            const tempArray = {
-                key: '',
-                value: ''
-            };
-            tempArray.key = e;
-            tempArray.value = this.propertiesValue[index];
-            this.quickConnectors.properties.push(tempArray);
-        });
+        console.log('this--is --selected-->', this.quickConnectors);
         const tempArrykeyValue = [];
         this.quickConnectors.properties.map(({ key, value }) => {
             const queryKeyValue = `${key}=${value}`;
@@ -556,30 +572,25 @@ export class FeatureDetailsComponent implements OnInit {
         });
         const convertStr = tempArrykeyValue.toString();
         const keyAndValue = convertStr.replace(/,/g, '&');
-        this.quickConnectors.api_key.key = this.api_key;
-        this.quickConnectors.api_key.value = this.api_value;
         // tslint:disable-next-line: max-line-length
         this.quickConnectorsURL = `${this.quickConnectors.endPointUrl}?${this.quickConnectors.api_key.key}=${this.quickConnectors.api_key.value}&${keyAndValue}&file_type=json`;
         this.projectComponentService.quickTestcustomConnectors(this.quickConnectors).subscribe(response => {
             if (response) {
+                console.log('result000=--',response)
                 this.showTreePopup = true;
                 this.displayModelTree = 'block';
                 this.displayModel = 'none';
                 const allResponse = JSON.parse(response.body);
                 this.getEntityByFeatureId();
-                this.flowTreeService.quickTest(allResponse);
+                this.flowTreeService.quickTest(allResponse, this.quickConnectors.dataBaseName);
             }
         });
     }
 
 
     removeProperties(i) {
-        this.properties.splice(i, 1);
+        this.quickConnectors.properties.splice(i , 1);
     }
-
-    // selectApis(event) {
-    //     this.quickConnectors.apiMethods = event;
-    // }
 
     backendService(event) {
         if (this.modifyConnectorsId !== undefined) {
@@ -618,12 +629,28 @@ export class FeatureDetailsComponent implements OnInit {
         if (this.modifyConnectorsId !== undefined && this.modifyConnectorsId !== null) {
             this.getQuickConnectorId(this.modifyConnectorsId);
         } else {
+
+            this.isFrontEndService = false;
+            this.quickConnectors.name = '',
+            this.quickConnectors.description = '',
+            this.quickConnectors.endPointUrl = '',
+            this.quickConnectors.api_key.key = '',
+            this.quickConnectors.api_key.value = '',
+            this.quickConnectors.apiMethods = '',
+            this.quickConnectors.queryParams = false;
+            this.quickConnectors.pathVariable = false;
+            this.quickConnectors.properties[0].key = '',
+            this.quickConnectors.properties[0].value = '',
+            this.quickConnectors.properties[0].isDynamicParams = '',
+            this.quickConnectors.dataBaseName = '';
             this.customConnector = true;
         }
     }
     getQuickConnectorId(connector_id) {
         console.log('quick conntors --->', connector_id);
         this.projectComponentService.getConnectorById(connector_id).subscribe(response => {
+            console.log('quick connectoes--->',response.body)
+
             if (response) {
                 this.quickConnectors = response.body;
                 if (response.body.params === 'queryParams') {
@@ -639,8 +666,7 @@ export class FeatureDetailsComponent implements OnInit {
                     this.isFrontEndService = true;
 
                 }
-                this.quickConnectors = response.body;
-
+                this.quickConnectors.dataBaseName = response.body.entityName;
                 this.modifyEntityId = response.body.entity_id;
                 this.customConnector = true;
             }
@@ -672,7 +698,7 @@ export class FeatureDetailsComponent implements OnInit {
         const tempObj = {
             url: this.quickConnectorsURL,
             isCustom: true,
-            properties: [],
+            properties: this.quickConnectors.properties,
             name: this.quickConnectors.name,
             description: this.quickConnectors.description,
             entity_id: this.flowEntityId,
@@ -695,7 +721,8 @@ export class FeatureDetailsComponent implements OnInit {
             fromComponentName: null,
             toComponentName: null,
         };
-        tempObj.properties.push(this.quickConnectors.properties);
+        // tempObj.properties.push(this.quickConnectors.properties);
+        console.log('temp==obj--', tempObj);
         this.projectComponentService.quickConnectors(tempObj).subscribe(response => {
             this.quickConnectorId = response.body._id;
             const tempData = {
@@ -722,8 +749,7 @@ export class FeatureDetailsComponent implements OnInit {
             } else {
                 this.dataService.FlowSaveEntity('');
                 this.submitted = false;
-                this.quickConnectors = '',
-                    this.displayModel = 'none';
+                this.displayModel = 'none';
                 this.customConnector = false;
             }
             if (isConnectorPresent && this.selectedFlowObj) {
@@ -753,30 +779,72 @@ export class FeatureDetailsComponent implements OnInit {
 
     updateFlowCompConnectorById(data) {
         this.projectComponentService.updateFlowCompConnectorById(data).subscribe(response => {
-            console.log('update--response- updateFlowCompConnectorById->>', response);
             if (response) {
                 this.submitted = false;
-                this.quickConnectors = {};
                 this.displayModel = 'none';
                 this.customConnector = false;
                 this.dataService.FlowSaveEntity('');
-                this.quickConnectors = '',
-                    this.isAddConnector = false;
+                this.isAddConnector = false;
+                this.getProjectFeatureFlows();
                 this.getEntityByFeatureId();
+                this.getModifyConnector();
+                this.getAllFlows();
             }
-        });
+        }, (error) => {
+            console.log('error--->>', error);
+        }
+        );
+    }
+
+    getModifyConnector() {
+        this.projectComponentService.getModifyConnectors().subscribe(result => {
+            console.log('gettt---', result);
+        }, (error) => {
+            console.log('error---', error);
+        }
+        );
+    }
+
+    updateModifyConnectors() {
+        if (this.quickConnectors !== undefined) {
+            if (this.quickConnectors.properties[0].isDynamicParams === true) {
+                const tempArrykeyValue = [];
+                this.quickConnectors.properties.map(({ key, value }) => {
+                    console.log('keyy--', key);
+                    console.log('value =--', value);
+                    const queryKeyValue = `${key}=$\{${key}}`;
+                    tempArrykeyValue.push(queryKeyValue);
+                });
+                const convertStr = tempArrykeyValue.toString();
+                const keyAndValue = convertStr.replace(/,/g, '&');
+                // tslint:disable-next-line: max-line-length
+                this.quickConnectors.url = `${this.quickConnectors.endPointUrl}?${this.quickConnectors.api_key.key}=${this.quickConnectors.api_key.value}&${keyAndValue}&file_type=json`;
+                this.modifyFlowUpdate();
+            }   else {
+                this.modifyFlowUpdate();
+            }
+        }
+    }
+
+    public modifyFlowUpdate() {
+            this.projectComponentService.updateQuickConnectorsById(this.quickConnectors).subscribe(result =>{
+            if (result) {
+                this.flowCancel();
+            }
+            console.log('result---update--', result);
+        },(error) => {
+            console.log('error --', error);
+        }
+        );
     }
 
 
     flowCancel() {
-        this.quickConnectors = {};
-        this.modifyConnectorsId = undefined;
         this.submitted = false;
         this.displayModel = 'none';
         this.customConnector = false;
         this.isAddConnector = false;
-
-
+        this.modifyConnectorsId = null;
     }
     onRowSelectionChanged(event) {
         this.selectedFlow = this.gridApi.getSelectedRows();

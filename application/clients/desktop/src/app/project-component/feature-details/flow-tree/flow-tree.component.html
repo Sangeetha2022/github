@@ -1,6 +1,6 @@
 <div class='container'style="margin-top">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6"  style="min-height: 200px; max-height: 327px;overflow-y: auto;">
             <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
                 <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
                     <button mat-icon-button disabled></button>
@@ -28,7 +28,7 @@
             </mat-tree>
             <span #emptyItem></span>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control" disabled placeholder="name" [(ngModel)]="flow.name" />

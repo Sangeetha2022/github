@@ -40,5 +40,19 @@ export class QuickConnectorsController {
             res.json(response);
         })
     }
+
+    public updateQuickConnectorsById(req: Request , res: Response){
+        quickConnectorService.updateQuickConnectorsById(req, (response) => {
+            res.status(200);
+            res.json(response)
+        })
+    }
+
+    public getConnectors (req: Request, res: Response) {
+        quickConnectorService.getConnectors((response) => {
+            res.status(200);
+            res.json(response)
+        })
+    }
   
 }
