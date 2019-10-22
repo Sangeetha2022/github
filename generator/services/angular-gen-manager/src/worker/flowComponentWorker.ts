@@ -1,6 +1,8 @@
 
 import * as util from 'util';
 import { Constant } from '../config/Constant';
+import { FlowServiceWorker } from './flowServiceWorker';
+import { connect } from 'http2';
 
 export class FlowComponentWorker {
 
@@ -9,6 +11,7 @@ export class FlowComponentWorker {
     private currentFlow: any = null;
     private componentFileDetails: any;
     private entities: any[] = [];
+    private flowServiceWorker = new FlowServiceWorker();
 
     generateComponentFlow(componentObject, temp, entities) {
         this.componentObject = componentObject;
@@ -22,7 +25,7 @@ export class FlowComponentWorker {
     // GpCheck_Connector
     private checkConnector() {
         // flow method with connector
-        console.log('flowComponent componentObject are ---- ', this.componentObject);
+        // console.log('flowComponent componentObject are ---- ', util.inspect(this.componentObject, { showHidden: true, depth: null }));
         // if variable list is empty need to add the primary entities in the variable list
         if (this.componentObject.variableList.length == 0 ||
             !this.componentObject.variableList[0].entityName) {
@@ -52,6 +55,7 @@ export class FlowComponentWorker {
                     if (connectorElement.isDefault && !connectorElement.isDisabled) {
                         this.addComponentMethod(Constant.DEFAULT_CONNECTOR_NAME, connectorElement);
                     } else if (connectorElement.isCustom) {
+                        console.log('entered into the else if condition are---')
                         this.addComponentMethod(Constant.AVAILABLE_CONNECTOR_NAME, connectorElement);
                     }
                 })
@@ -68,6 +72,11 @@ export class FlowComponentWorker {
 
         }
     }
+    // to check service connector and get those information to construct the method in ts component
+    checkServiceConnector() {
+        const connector = this.flowServiceWorker.serviceConnectorInfo(this.currentFlow._id);
+        console.log('checkservice connector in component are --- ', connector);
+    }
 
     // GpCodeToAdd and GpRequest
     private addComponentMethod(connectorType, connectorElement) {
@@ -77,19 +86,24 @@ export class FlowComponentWorker {
             className: '',
             path: ''
         }
-        if (this.currentFlow.actionOnData === 'GpGetAllValues') {
-            console.log('GpGetAllValues if condition called ---connectortype------  ', connectorType)
-        }
+        const methodParams = '';
+        let connectorParams = '';
+
+        // this.checkServiceConnector();
+        serviceClassName = `${this.componentName.charAt(0).toUpperCase()}${this.componentName.slice(1)}${Constant.SERVICE_EXTENSION.charAt(0).toUpperCase()}${Constant.SERVICE_EXTENSION.slice(1)}`;
+        headers.className = serviceClassName;
+        headers.path = `./${this.componentName.toLowerCase()}.${Constant.SERVICE_EXTENSION.toLowerCase()}`;
+
         // default connector type
         if (connectorType == Constant.DEFAULT_CONNECTOR_NAME) {
-            serviceClassName = `${this.componentName.charAt(0).toUpperCase()}${this.componentName.slice(1)}${Constant.SERVICE_EXTENSION.charAt(0).toUpperCase()}${Constant.SERVICE_EXTENSION.slice(1)}`;
-            headers.className = serviceClassName;
-            headers.path = `./${this.componentName.toLowerCase()}.${Constant.SERVICE_EXTENSION.toLowerCase()}`;
+
             // available connector types
         } else if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME) {
-            serviceClassName = `${this.componentName.charAt(0).toUpperCase()}${this.componentName.slice(1)}${Constant.SERVICE_EXTENSION.charAt(0).toUpperCase()}${Constant.SERVICE_EXTENSION.slice(1)}`;
-            headers.className = serviceClassName;
-            headers.path = `./${this.componentName.toLowerCase()}.${Constant.SERVICE_EXTENSION.toLowerCase()}`;
+            console.log('available connector in component are --- ', this.componentObject.flowMethod.length, ' connector  ', util.inspect(this.componentObject, { showHidden: true, depth: null }));
+            console.log('available connector in component are -connector.properties-- ', this.componentObject.flowMethod[0].components.connector[0].properties);
+            console.log('test else if create---- ', `${this.componentObject.variableList[this.componentObject.variableList.findIndex(x => x.entityName != undefined)].entityName}`);
+            console.log('${this.componentObject.variableList[0].entityName}  --- ', `${this.componentObject.variableList[0].entityName}`);
+
             entityInfo = this.entities.find(x => x._id === connectorElement.entity_id);
             if (entityInfo) {
                 const variableTemp = {
@@ -101,6 +115,15 @@ export class FlowComponentWorker {
                 variableTemp.entityName = entityInfo.name;
                 this.componentObject.variableList.push(variableTemp);
             }
+            this.componentObject.flowMethod[0].components.connector[0].properties.forEach((element, index) => {
+                if (element.isDynamicParams) {
+                    connectorParams += `this.${element.key}`;
+                    if (index !== this.componentObject.flowMethod[0].components.connector[0].properties.length - 1) {
+                        connectorParams += `,`;
+                    }
+                    this.componentObject.variableList.push(`${element.key}`);
+                }
+            })
         }
         switch (this.currentFlow.actionOnData) {
             case Constant.GP_CREATE_FLOW:
@@ -130,7 +153,7 @@ export class FlowComponentWorker {
             case Constant.GP_SEARCH_FLOW:
                 let searchTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    searchTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
+                    searchTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : `${this.componentObject.variableList[0].entityName}`})`;
                     searchTemp += `\n  .subscribe(`;
                     searchTemp += `\n    data => {`;
                     searchTemp += `\n       console.log('data searched successfully --- ', data);`;
@@ -157,7 +180,7 @@ export class FlowComponentWorker {
             case Constant.GP_UPDATE_FLOW:
                 let updateTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    updateTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[0].entityName})`;
+                    updateTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : `this.${this.componentObject.variableList[0].entityName}`})`;
                     updateTemp += `\n  .subscribe(`;
                     updateTemp += `\n    data => {`;
                     updateTemp += `\n       console.log('data updated successfully --- ', data);`;
@@ -202,7 +225,7 @@ export class FlowComponentWorker {
                 }
                 let deleteTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    deleteTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${isDeleteExist ? serviceRequestParams : `${this.componentObject.variableList[0].entityName}${Constant.IDVARIABLE}`})`;
+                    deleteTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : isDeleteExist ? `this.${serviceRequestParams}` : `this.${this.componentObject.variableList[0].entityName}${Constant.IDVARIABLE}`})`;
                     deleteTemp += `\n  .subscribe(`;
                     deleteTemp += `\n    data => {`;
                     deleteTemp += `\n       console.log('data deleted successfully --- ', data);`;
@@ -224,16 +247,25 @@ export class FlowComponentWorker {
                 break;
             case Constant.GP_GETALLVALUES_FLOW:
                 let getAllValueTemp = `${this.currentFlow.name}() {`;
+                const rowDataTemp = this.componentObject.variableList.findIndex(x => /rowData/.test(x));
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
                     console.log('get all valiesus flows of entityare ----  ', entityInfo);
-                    getAllValueTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}()`;
+                    getAllValueTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : ''})`;
                     getAllValueTemp += `\n  .subscribe(`;
                     getAllValueTemp += `\n    data => {`;
                     getAllValueTemp += `\n       console.log('successfully get all data --- ', data);`;
                     if (connectorType == Constant.DEFAULT_CONNECTOR_NAME) {
-                        getAllValueTemp += `\n       this.rowData = data.body;`;
+                        if (rowDataTemp > -1) {
+                            getAllValueTemp += `\n       this.rowData = data.body;`;
+                        }
                     } else if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME) {
-                        getAllValueTemp += `\n       this.rowData = ${entityInfo ? `data.${entityInfo.name}` : '[]'};`;
+                        if (rowDataTemp > -1) {
+                            getAllValueTemp += `\n       this.rowData = ${entityInfo ? `data.${entityInfo.name}` : '[]'};`;
+                        } else {
+                            if (this.componentObject.flowMethod[0].components.connector.length > 0) {
+                                getAllValueTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName} = data`;
+                            }
+                        }
                     }
                     getAllValueTemp += `\n    },`;
                     getAllValueTemp += `\n    error => {`;
@@ -282,7 +314,7 @@ export class FlowComponentWorker {
             case Constant.GP_GETNOUNBYID_FLOW:
                 let getByIdTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    getByIdTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE})`;
+                    getByIdTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${connectorParams ? connectorParams : Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE})`;
                     getByIdTemp += `\n  .subscribe(`;
                     getByIdTemp += `\n    data => {`;
                     getByIdTemp += `\n       console.log('successfully get the data by id --- ', data);`;

@@ -65,7 +65,7 @@ export class CommandService {
         $this.agGridObject.htmlId = component.ccid;
         $this.agGridObject.componentId = component.cid;
         $this.is_grid_present = true;
-        console.log('selected grid modals of selectedEntityModel are -----  ', $this.selectedEntityModel)
+        console.log('selected grid modals of selectedEntityModel are -----  ', $this.selectedEntityModel);
       }
     });
   }
@@ -102,6 +102,14 @@ export class CommandService {
         if (componentIndex > -1) {
           $this.specialEvents.splice(componentIndex, 1);
         }
+
+          // remove link information
+          componentIndex = $this.linkArray.findIndex(x =>
+            x.elementName === model.attributes.name);
+          console.log('remove link info componentIndex -----  ', componentIndex);
+          if (componentIndex > -1) {
+            $this.linkArray.splice(componentIndex, 1);
+          }
       }
       if (parentComponent.length === 0) {
         componentIndex = $this.screenEntityModel.findIndex(x =>
@@ -123,7 +131,6 @@ export class CommandService {
         $this.saveRemoteStorage();
       } else {
         model.get('components').each(child => {
-          console.log('model component for each childs are -----------   ', child);
           componentIndex = $this.screenEntityModel.findIndex(x =>
             x.elementName === child.attributes.name
           );
@@ -142,11 +149,15 @@ export class CommandService {
           }
           // remove element for special events
           const specialEventIndex = $this.specialEvents.findIndex(x => x.elementName === child.attributes.name);
-          console.log('remove component editor are ------  ', $this.specialEvents);
-          console.log('remove special Event Index childe -----  ', specialEventIndex, '  specialeevent   ', $this.specialEvents);
           if (specialEventIndex > -1) {
             $this.specialEvents.splice(specialEventIndex, 1);
           }
+
+            // remove element for link
+            const linkIndex = $this.linkArray.findIndex(x => x.elementName === child.attributes.name);
+            if (linkIndex > -1) {
+              $this.linkArray.splice(linkIndex, 1);
+            }
         });
         $this.saveRemoteStorage();
       }
@@ -179,18 +190,26 @@ export class CommandService {
       if (flowIndex > -1) {
         $this.screenFlows[flowIndex].elementName = model.attributes.name;
       }
-      // remove element in routeFlows
+      // rename element in routeFlows
       const routeIndex = $this.routeFlows.findIndex(x =>
         x.elementName === model._previousAttributes.name);
       if (routeIndex > -1) {
         $this.routeFlows[routeIndex].elementName = model.attributes.name;
       }
-      // remove special events
+      // rename special events
       const specialEventIndex = $this.specialEvents.findIndex(x =>
         x.elementName === model._previousAttributes.name);
       if (specialEventIndex > -1) {
         $this.specialEvents[specialEventIndex].elementName = model.attributes.name;
       }
+
+      // rename link events
+      const linkIndex = $this.linkArray.findIndex(x =>
+        x.elementName === model._previousAttributes.name);
+      if (linkIndex > -1) {
+        $this.linkArray[linkIndex].elementName = model.attributes.name;
+      }
+
       $this.saveRemoteStorage();
     });
 
@@ -309,6 +328,7 @@ export class CommandService {
       // get dropped element with its types
       const wrapperType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="grid-type"]');
       const popupModalType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="popupModal-type"]');
+      const linkType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="link"]');
       if (wrapperType.length > 0) {
         $this.is_grid_present = true;
         $this.saveRemoteStorage();
@@ -320,6 +340,11 @@ export class CommandService {
         popupModalType.forEach(element => {
           console.log('ram each popupmodal element are ----  ', element);
           element.attributes.traits.target.set('name', `modal_${element.ccid}`);
+        });
+      }
+      if (linkType.length > 0) {
+        linkType.forEach(element => {
+          element.attributes.traits.target.set('name', `link_${element.ccid}`);
         });
       }
     });

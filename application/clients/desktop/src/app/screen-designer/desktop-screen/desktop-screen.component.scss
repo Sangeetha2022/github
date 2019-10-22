@@ -1,5 +1,34 @@
 // predefined css
 
+.BoldText {
+    font-weight: bolder;
+}
+
+.TitleText {
+    font-weight: bolder;
+    font-family: serif;
+}
+
+.trash {
+    color: red;
+    cursor: pointer;
+}
+
+.trashDiv {
+    align-self: center !important;
+}
+
+.paramsDiv {
+    margin-bottom: 10px;
+}
+
+.parentScroll {
+    max-height: 120px;
+    overflow-y: auto;
+    position: relative;
+    overflow-x: hidden;
+}
+
 #logo-c {
     position: absolute;
     padding: 5px 0;

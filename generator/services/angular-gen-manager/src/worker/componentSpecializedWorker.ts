@@ -195,6 +195,97 @@ export class ComponentSpecializedWorker {
         }
     }
 
+    // link info
+    setLinkContent($this) {
+        console.log('setLinikk content are ---- ', $this.startString);
+
+        if ($this.linkContentInfo.linkInfo) {
+            const linkInfo = $this.linkContentInfo.linkInfo;
+            if (linkInfo.entity.id) {
+                let linkTemp = '';
+                $this.startTag.push(`<${Constant.NGCONTAINER_TAGNAME} *ngFor="let ${linkInfo.entity.name} of ${linkInfo.entity.name}">`);
+                $this.startString = $this.startString.replace($this.tagName.toString(), Constant.DIV_TAGNAME);
+
+                if (linkInfo.internalURL.screenId) {
+                    linkTemp = ` [routerLink]="['/${linkInfo.internalURL.screenName}']"`;
+                    let queryTemp = '';
+                    if (linkInfo.paramArray.length > 0) {
+                        // add the queryparams in html
+                        linkInfo.paramArray.forEach((element, index) => {
+                            queryTemp += `${element.name}: ${element.fieldName}`;
+                            if (linkInfo.paramArray.length - 1 !== index) {
+                                queryTemp += `,`;
+                            }
+                        })
+                    }
+                    linkTemp += ` {${this.setLinkQueryParams($this, linkInfo)}}"`;
+                }
+                if (linkInfo.externalURL) {
+                    linkTemp = ` href="${linkInfo.externalURL}"`;
+                }
+                if (linkTemp) {
+                    $this.startString = $this.startString.replace(/>.*/g, `${linkTemp}>`);
+                } else {
+                    $this.startString = $this.startString.replace(/>.*/g, `>`);
+                }
+                // push startString
+                $this.setTagValue();
+                // dynamic content
+                $this.startTag.push(`<${Constant.SPAN_TAGNAME}>{{${linkInfo.entity.name}.${linkInfo.entity.fieldName}}}</${Constant.SPAN_TAGNAME}>`);
+                // ng container end tag
+                $this.startTag.push(`</${Constant.DIV_TAGNAME}>`);
+                // ng container end tag
+                $this.startTag.push(`</${Constant.NGCONTAINER_TAGNAME}>`);
+                //     `<ng-container *ngFor="let data of categoryData; let i=index">
+                //     <div class="row textFont" [routerLink]="['/fred3']"  [queryParams]="{value: data.id}">
+                //       <h4>{{data.name}}</h4>
+                //     </div>
+                //    </ng-container>`
+            }
+
+            // link content
+            $this.linkContentInfo = {
+                contentArray: [],
+                isNgContentPresent: false,
+                linkInfo: null
+            }
+        }
+    }
+
+    setLinkQueryParams($this, linkInfo) {
+        const temp = {
+            screenId: '',
+            screenName: '',
+            paramType: '',
+            params: []
+        }
+        if (linkInfo.internalURL.screenId) {
+            temp.screenId = linkInfo.internalURL.screenId;
+            temp.screenName = linkInfo.internalURL.screenName;
+        }
+        temp.paramType = linkInfo.paramType;
+        temp.params = linkInfo.paramArray;
+        if (!$this.linkedScreenInfo.find(x => x.screenId === temp.screenId)) {
+            $this.linkedScreenInfo.push(temp);
+        }
+        let linkTemp = '';
+        switch (linkInfo.paramType.toLowerCase()) {
+            case 'queryparameter':
+                linkTemp += ` [queryParams]="{`;
+                linkInfo.paramArray.forEach((element, index) => {
+                    linkTemp += ` ${element.name}: ${element.fieldName}`;
+                    if (index !== linkInfo.paramArray.length - 1) {
+                        linkTemp += `,`;
+                    }
+                });
+                linkTemp += ` }"`;
+                return linkTemp;
+                break;
+            default:
+                break;
+        }
+    }
+
     setSpecialEvents($this) {
         if ($this.screenInfo['special-events'].length > 0) {
             $this.screenInfo['special-events'].forEach(elementObj => {

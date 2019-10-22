@@ -7271,7 +7271,11 @@
               type: "link",
               content: "Link",
               style: {
-                color: "#d983a6"
+                color: "#d983a6",
+                display: "inline-block",
+               "vertical-align": "top",
+               "padding": "10px",
+               "max-width": "100%"
               }
             }
           }), w("image") && n.add("image", {
@@ -15206,7 +15210,11 @@
               type: "link",
               content: "Link",
               style: {
-                color: "#d983a6"
+                color: "#d983a6",
+                display: "inline-block",
+               "vertical-align": "top",
+               "padding": "10px",
+               "max-width": "100%"
               }
             }
           }), e.add("image", {

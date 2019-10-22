@@ -80,13 +80,13 @@ export class DataService {
     private menuBuilderSource = new BehaviorSubject<any>('');
     currentMenuBuilderSource = this.menuBuilderSource.asObservable();
 
-    //saveflow entity
+    // saveflow entity
     private selectedFlowEntitySource = new BehaviorSubject<any>({});
     currentFlowEntitySource = this.selectedFlowEntitySource.asObservable();
 
-    //qucik Connectors -->>, 
-     private quickConnectorInfoSource = new BehaviorSubject<any> ({})
-     currentquickConnectorInfoSource = this.quickConnectorInfoSource.asObservable();
+    // qucik Connectors -->>
+    private quickConnectorInfoSource = new BehaviorSubject<any>({});
+    currentquickConnectorInfoSource = this.quickConnectorInfoSource.asObservable();
     constructor() { }
 
     // set default language
@@ -107,9 +107,9 @@ export class DataService {
         this.selectedMenuInfoSource.next(details);
     }
 
-    //save flowEntity
+    // save flowEntity
     FlowSaveEntity(flowEntites: any) {
-        this.selectedFlowEntitySource.next(flowEntites)
+        this.selectedFlowEntitySource.next(flowEntites);
 
     }
 
@@ -118,10 +118,10 @@ export class DataService {
         this.allEntitySource.next(entities);
     }
 
-    //set qucikConnnecctors --
+    // set qucikConnnecctors --
 
     setQuickConnector(qucikConnnectors: any) {
-        this.quickConnectorInfoSource.next(qucikConnnectors)
+        this.quickConnectorInfoSource.next(qucikConnnectors);
 
     }
 

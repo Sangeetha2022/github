@@ -6,6 +6,7 @@ import * as componentDependency from '../assets/componentDependency';
 import { threadId } from 'worker_threads';
 import { ComponentSpecializedWorker } from './componentSpecializedWorker';
 import { ComponentLifecycleWorker } from './componentLifecycleWorker';
+import { LinkWorker } from './linkWorker';
 // import { styles } from '../assets/cssGuidline';
 // import { RouteSupportWorker } from '../supportworker/RouteSupportWorker';
 
@@ -13,6 +14,7 @@ import { ComponentLifecycleWorker } from './componentLifecycleWorker';
 let componentWorker = new ComponentWorker();
 let componentSpecializedWorker = new ComponentSpecializedWorker();
 let componentLifecyleWorker = new ComponentLifecycleWorker();
+let linkWorker = new LinkWorker();
 
 export class GenerateHtmlWorker {
 
@@ -33,6 +35,8 @@ export class GenerateHtmlWorker {
     private flowDetails = [];
     private componentLifecycleInfo = [];
     private screenSpecialEvents = [];
+    private linkedScreenInfo = [];
+    private linkInfo = [];
 
     // set other dependencies 
     private entities = [];
@@ -74,6 +78,11 @@ export class GenerateHtmlWorker {
     private selectOption = `<option *ngFor="let option of option" [ngValue]="option.key">{{option.value}}</option>`;
     private cssGuidelines = [];
     private ckeditorEntities: any = null;
+    private linkContentInfo = {
+        contentArray: [],
+        isNgContentPresent: false,
+        linkInfo: null
+    }
 
     initializeData() {
         // add cssGuidelines
@@ -124,6 +133,7 @@ export class GenerateHtmlWorker {
             entryComponents: []
         }
 
+
         this.componentStyle = [];
         // add default styles
         this.componentStyle.push(screenStyles);
@@ -134,6 +144,7 @@ export class GenerateHtmlWorker {
         this.flowDetails = screenDetails.flows_info;
         this.componentLifecycleInfo = screenDetails['component-lifecycle'];
         this.screenSpecialEvents = screenDetails['special-events'];
+        this.linkInfo = screenDetails['link_info'];
         // list of other dependencies
         this.entities = details.entities;
         this.flowList = details.flows;
@@ -167,12 +178,12 @@ export class GenerateHtmlWorker {
         const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
         const packagePath = details.projectGenerationPath;
         const templatePath = details.templateLocation.frontendTemplate;
-        this.checkRoutes();
+        this.checkRoutes(applicationPath, templatePath);
         this.checkPopupModal();
         componentSpecializedWorker.setSpecialEvents(this);
-        componentWorker.generateComponentHtml(applicationPath, templatePath, componentName, this.startTag, (response) => {
+        componentWorker.generateComponentService(applicationPath, templatePath, componentName, this.serviceComponent, (response) => {
             componentWorker.generateComponentTs(applicationPath, templatePath, componentName, this.tsComponent, this.entities, (response) => {
-                componentWorker.generateComponentService(applicationPath, templatePath, componentName, this.serviceComponent, (response) => {
+                componentWorker.generateComponentHtml(applicationPath, templatePath, componentName, this.startTag, (response) => {
                     // console.log('before calling generatecomponentcss from generatehtlm -----  ', this.componentStyle);
                     componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.componentStyle, (response) => {
                         componentWorker.generateComponentSpec(applicationPath, templatePath, componentName, this.startTag, (response) => {
@@ -188,11 +199,13 @@ export class GenerateHtmlWorker {
         })
     }
 
-    checkRoutes() {
+    checkRoutes(applicationPath, templatePath) {
         console.log('check route list sra --1-- ', this.tsComponent);
         console.log('check route generatedRouteScreens -2--- ', this.generatedRouteScreens);
         const screenIndex = this.generatedRouteScreens.findIndex(x => x.screenId == this.screenInfo._id);
+        const linkIndex = this.linkedScreenInfo.findIndex(x => x.screenId == this.screenInfo._id);
         console.log('screenIndex checkRoutes ---- ', screenIndex);
+        console.log('linkedScreen infromationare --- ', this.linkedScreenInfo, ' linkIndex ', linkIndex);
         if (screenIndex > -1) {
             const temp = this.generatedRouteScreens[screenIndex];
             const flowObject = this.flowList.find(x => x._id == temp.screenFlow);
@@ -233,6 +246,16 @@ export class GenerateHtmlWorker {
             // }
             this.generatedRouteScreens.splice(screenIndex, 1);
         }
+
+        // if (linkIndex > -1) {
+        if (this.linkedScreenInfo.length > 0) {
+            this.linkedScreenInfo.forEach(element => {
+                console.log('linked index found --- ', linkIndex, element);
+                linkWorker.addComponentLink(applicationPath, templatePath, element);
+                // this.tsComponent.componentOnInit.push(`console.log('code added here')`)
+            })
+        }
+        // }
     }
 
     // check popup modal.....
@@ -458,13 +481,15 @@ export class GenerateHtmlWorker {
         if (firstEle.hasOwnProperty('traits')) {
             // checking entities from databinding and flows for methods in component
             if (this.entityDetails.length > 0 || this.flowDetails.length > 0 ||
-                this.screenInfo.route_info.length > 0 || this.screenSpecialEvents.length > 0) {
+                this.screenInfo.route_info.length > 0 || this.screenSpecialEvents.length > 0 ||
+                this.linkInfo.length > 0) {
                 firstEle.traits.forEach(traitElement => {
                     console.log('triat firstelement are -----   ', traitElement.value);
                     const entityIndex = this.entityDetails.findIndex(x => x.elementName == traitElement.value);
                     const flowIndex = this.flowDetails.findIndex(x => x.elementName == traitElement.value && x.elementName !== '');
                     const routeIndex = this.screenInfo.route_info.findIndex(x => x.elementName == traitElement.value);
                     const specialEventIndex = this.screenSpecialEvents.findIndex(x => x.elementName == traitElement.value);
+                    const linkIndex = this.linkInfo.findIndex(x => x.elementName == traitElement.value);
                     if (traitElement.value === 'modal_ioj34') {
                         console.log('speicalindex are ----  ', specialEventIndex);
                         console.log('screenSpecialEvents are ----  ', this.screenSpecialEvents);
@@ -554,6 +579,18 @@ export class GenerateHtmlWorker {
                             this.generatedSpecialEventScreens.splice(isIndexExist, 1);
                         } else {
                             this.generatedSpecialEventScreens.push(specialEventObj);
+                        }
+                    }
+                    // check if the tag is anchor link
+                    if (linkIndex > -1) {
+                        console.log('setAttrbutes linkIndex  @@@@@@@@- ', linkIndex, this.screenInfo['link_info'][linkIndex]);
+                        console.log('inside tagname link_info are --333- ', linkIndex, this.screenInfo['link_info'][linkIndex].paramArray);
+                        this.linkContentInfo.linkInfo = this.screenInfo['link_info'][linkIndex];
+                        if (this.linkContentInfo.linkInfo.internalURL.screenId) {
+                            this.startString += ` [routerLink]="['/${this.linkContentInfo.linkInfo.internalURL.screenName}']"`;
+                            this.startString += `  ${componentSpecializedWorker.setLinkQueryParams(this, this.linkContentInfo.linkInfo)}`;
+                        } else {
+                            this.linkContentInfo.isNgContentPresent = true;
                         }
                     }
                 })
@@ -710,7 +747,9 @@ export class GenerateHtmlWorker {
 
 
     pushValue(firstEle) {
-        if (this.tagName && this.tagName != 'option' &&
+        if (this.linkContentInfo.isNgContentPresent) {
+            componentSpecializedWorker.setLinkContent(this);
+        } else if (this.tagName && this.tagName != 'option' &&
             !this.isContentOnly &&
             !this.isNotImportant &&
             !this.isCKeditorSpan) {

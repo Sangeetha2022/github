@@ -1,6 +1,7 @@
 import { Constant } from "../config/Constant";
 
 export const component = [
+    // ADDED ROUTER
     {
         name: 'router',
         componentDependencies: [
@@ -16,6 +17,7 @@ export const component = [
             }
         ]
     },
+    // ADDED ACTIVATEDROUTE
     {
         name: 'activatedRoute',
         componentDependencies: [
@@ -31,6 +33,7 @@ export const component = [
             }
         ]
     },
+    // ADDED CKEDITOR
     {
         name: 'ckeditor',
         htmlDependencies: [`[editor]='Editor'`],
@@ -57,6 +60,7 @@ export const component = [
             `"@ckeditor/ckeditor5-build-classic": "~12.3.1",`
         ]
     },
+    // ADDED AG-GRID
     {
         name: 'ag-grid-angular',
         htmlDependencies: [
@@ -116,7 +120,7 @@ export const component = [
         ]
 
     },
-    // ADDED
+    // ADDED MODAL
     {
         name: 'modal',
         htmlDependencies: [

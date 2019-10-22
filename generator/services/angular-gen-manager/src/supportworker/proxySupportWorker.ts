@@ -29,13 +29,13 @@ export class ProxySupportWorker {
         if (proxyArray.length > 0) {
             const fileData = this.dependencySupportWorker.readFile(applicationPath, PROXY_CONFIG_FILENAME);
             const regex = new RegExp(PROXY_CONFIG_VARIABLENAME);
-            if (PROXY_CONFIG_VARIABLENAME) {
+            if (fileData && PROXY_CONFIG_VARIABLENAME) {
                 const index = fileData.findIndex(x => regex.test(x));
                 proxyIndex = index + 1;
             } else {
                 proxyIndex = fileData.length - 2;
             }
-            if (proxyIndex) {
+            if (fileData && proxyIndex) {
                 fileData.splice(proxyIndex, 0, proxyArray.join('\n'));
                 this.dependencySupportWorker.writeStaticFile(applicationPath, PROXY_CONFIG_FILENAME,
                     fileData.join('\n'), (response) => { });

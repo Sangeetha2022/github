@@ -71,10 +71,13 @@ export class Constant {
     public static NGINX_FILENAME = 'default.conf';
 
     // ckeditor element details
+    public static DIV_TAGNAME = 'div';
+    public static SPAN_TAGNAME = 'span';
     public static CKEDITOR_HTMLID_NAME = 'ckeditortextarea';
     public static TEXTAREA_TAGNAME = 'textarea';
     public static CKEDITOR_TAGNAME = 'ckeditor';
     public static CKEDITOR_SPAN_IDNAME = 'ckeditorspan';
+    public static NGCONTAINER_TAGNAME = 'ng-container';
 
     // grid element details
     public static AGGRID_HTMLID_NAME = 'myGrid';
