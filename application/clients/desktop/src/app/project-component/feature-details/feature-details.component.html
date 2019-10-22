@@ -366,22 +366,12 @@
             </form>
             <div class="cantainer">
               <div class="row">
-                <div class="col-md-6">
-                  <mat-radio-group layout="row">
-                    <mat-radio-button class="example-radio-button" value='queryParams'
-                      [checked]="quickConnectors.queryParams" (click)="queryParamsMethod('queryParams')">
-                      Query Params
-                    </mat-radio-button>
-                  </mat-radio-group>
-                </div>
-                <div class="col-md-6">
-                  <mat-radio-group layout="row">
-                    <mat-radio-button class="example-radio-button" value='pathvarible'
-                      [checked]="this.quickConnectors.pathvarible" (click)="PathVariableMethod('pathvarible')">
-                      Path Varibles
-                    </mat-radio-button>
-                  </mat-radio-group>
-                </div>
+                  <mat-radio-group aria-label="Select an option"
+                  [(ngModel)]="quickConnectors.isQueryParams" name="isQueryParams" (click)="queryParamsMethod()">
+                  <mat-radio-button [value]=true >Query Params</mat-radio-button>
+                  <mat-radio-button style="margin-left:20px" [value]=false> Path Variables
+                  </mat-radio-button>
+                </mat-radio-group>
               </div>
             </div>
             <div class="cantainer" *ngIf="isAddConnector">
@@ -485,18 +475,6 @@
               </div>
             </div>
 
-
-            <!-- <div class="form-group">
-              <label>Select Api's Methods</label>
-              <select class="form-control" (change)="selectApis($event.target.value)">
-                <option value="" selected>Select Api's Methods</option>
-                <option value="post">post</option>
-                <option value="get">get</option>
-                <option value="put">put</option>
-                <option value="delete">delete </option>
-              </select>
-              <br>
-            </div> -->
             <button type="button" class="btn button-close delete_btn" id="update" (click)="quickTest()">Quick
               Test</button>
             <div>
@@ -504,35 +482,22 @@
               <div>
                 <h3>Services</h3>
               </div>
-              <mat-radio-group layout="row">
-                <mat-radio-button class="example-radio-button" value="backEnd" [checked]="isbackEndService"
-                  (click)="backendService('backEnd')">
-                  Backend service
-                </mat-radio-button>
-                <mat-radio-button class="example-radio-button" value="frontEnd" [checked]="isFrontEndService"
-                  (click)="frontEndService('frontEnd')">
-                  FrontEnd service
-                </mat-radio-button>
+              <mat-radio-group aria-label="Select an option" [(ngModel)]="quickConnectors.service" name="service" (click)="connectorServices()">
+                <mat-radio-button value="backEnd" >
+                BackEnd  </mat-radio-button>
+                <mat-radio-button value="frontEnd">
+                 FrontEnd </mat-radio-button>
               </mat-radio-group>
             </div>
-            <!-- <div class="form-group">
-                <div class="row">
-                  <div class="col-md-6">
-                    <h4>APIs and Methods</h4>
-                  </div>
-                  <button class="btn btn-primary" type="button">Add Connector
-                    Properties</button>
-                </div>
-              </div> -->
             <div>
               <h3>Connector Types</h3>
             </div>
             <div class="row">
               <mat-radio-group aria-label="Select an option">
                 <mat-radio-button value="defaultConnectors" (click)="quickConnectorsMethod('quickConnectors')">Quick
-                  connectors</mat-radio-button>
+                  connectors</mat-radio-button>&nbsp;
                 <mat-radio-button value="defaultConnectors" (click)="defaultConnectorsMethod('defaultConnectors')">
-                  Default Connector</mat-radio-button>
+                  Default Connector</mat-radio-button>&nbsp;
                 <mat-radio-button value="defaultConnectors" (click)="customConnectorsMethod('customConnecetors')">
                   Custom Connector</mat-radio-button>
               </mat-radio-group>

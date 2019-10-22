@@ -35,11 +35,7 @@ export class FeatureDetailsComponent implements OnInit {
 
     public connectorsForm: FormGroup;
     public submitted = false;
-    public isService: boolean;
-    public isDynamicParams: boolean;
-    public isStaticParams: boolean;
-    public isValueParams: boolean;
-
+    public isService = false;
 
     // new flow var
     flowList: any[] = [];
@@ -104,8 +100,6 @@ export class FeatureDetailsComponent implements OnInit {
     public customConnector: Boolean;
     public isAddConnector: Boolean;
     public selectedHeaders: String;
-    public isbackEndService: boolean;
-    public isFrontEndService: boolean;
 
     public quickConnectors: any = {
         name: '',
@@ -116,13 +110,13 @@ export class FeatureDetailsComponent implements OnInit {
             value: '',
         },
         apiMethods: '',
-        pathVariable: false,
-        queryParams: false,
+        isQueryParams: '',
+        service:'',
         dataBaseName: '',
         properties: [{
-            'key': '',
-            'value': '',
-            'isDynamicParams':'',
+            key: '',
+            value: '',
+            isDynamicParams: false,
         }]
     };
     public paramsType: any;
@@ -292,17 +286,10 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log('calling--ng--onnit---')
-        console.log('calling--ng---', this.quickConnectors);
-
-        this.isStaticParams = false;
-        this.isDynamicParams = false;
         this.connectorsForm = this.formBuilder.group({
             firstName: ['', Validators.required],
             description: ['', Validators.required],
             endPoint: ['', Validators.required],
-
-
         });
         this.route.queryParams.subscribe(params => {
             if (params.featureId !== undefined && params.featureId !== null) {
@@ -325,10 +312,7 @@ export class FeatureDetailsComponent implements OnInit {
                 }
             }
         });
-        this.isbackEndService = false,
-            this.isFrontEndService = false,
-
-            this.getFeatureById();
+        this.getFeatureById();
         this.getScreenByFeatureId();
         this.getEntityByFeatureId();
     }
@@ -538,28 +522,16 @@ export class FeatureDetailsComponent implements OnInit {
         }
     }
 
-    PathVariableMethod(event) {
-        console.log('event');
-        this.selectedHeaders = event;
+    queryParamsMethod() {
         this.isAddConnector = true;
-        this.quickConnectors.queryParams = false;
-        this.quickConnectors.pathVariable = true;
-    }
-
-    queryParamsMethod(event) {
-        console.log('query params-->', event);
-        this.selectedHeaders = event;
-        this.isAddConnector = true;
-        this.quickConnectors.pathVariable = false;
-        this.quickConnectors.queryParams = true;
     }
 
     addProperties(): void {
-        console.log('this.quic', this.quickConnectors.properties)
+        console.log('this.quic', this.quickConnectors.properties);
         this.quickConnectors.properties.push({
             key:'',
             value:'',
-            isDynamicParams:''
+            isDynamicParams: false
         });
     }
 
@@ -592,18 +564,9 @@ export class FeatureDetailsComponent implements OnInit {
         this.quickConnectors.properties.splice(i , 1);
     }
 
-    backendService(event) {
-        if (this.modifyConnectorsId !== undefined) {
-            this.showAlert();
-        } else if (this.modifyConnectorsId === undefined) {
-            this.quickConnectors.service = event;
-        }
-    }
-    frontEndService(event) {
-        if (this.modifyConnectorsId !== undefined) {
-            this.showAlert();
-        } else if (this.modifyConnectorsId === undefined) {
-            this.quickConnectors.service = event;
+    connectorServices() {
+        if (this.modifyConnectorsId !== undefined && this.modifyConnectorsId !== null) {
+                    this.showAlert();
         }
     }
 
@@ -629,20 +592,18 @@ export class FeatureDetailsComponent implements OnInit {
         if (this.modifyConnectorsId !== undefined && this.modifyConnectorsId !== null) {
             this.getQuickConnectorId(this.modifyConnectorsId);
         } else {
-
-            this.isFrontEndService = false;
-            this.quickConnectors.name = '',
-            this.quickConnectors.description = '',
-            this.quickConnectors.endPointUrl = '',
-            this.quickConnectors.api_key.key = '',
-            this.quickConnectors.api_key.value = '',
-            this.quickConnectors.apiMethods = '',
-            this.quickConnectors.queryParams = false;
-            this.quickConnectors.pathVariable = false;
-            this.quickConnectors.properties[0].key = '',
-            this.quickConnectors.properties[0].value = '',
-            this.quickConnectors.properties[0].isDynamicParams = '',
+            this.quickConnectors.name = '' ;
+            this.quickConnectors.description = '' ;
+            this.quickConnectors.endPointUrl = '' ;
+            this.quickConnectors.api_key.key = '' ;
+            this.quickConnectors.api_key.value = '' ;
+            this.quickConnectors.apiMethods = '' ;
+            this.quickConnectors.properties[0].key = '' ;
+            this.quickConnectors.properties[0].value = '' ;
+            this.quickConnectors.properties[0].isDynamicParams = false;
+            this.quickConnectors.isQueryParams = '';
             this.quickConnectors.dataBaseName = '';
+            this.quickConnectors.service = '';
             this.customConnector = true;
         }
     }
@@ -653,22 +614,10 @@ export class FeatureDetailsComponent implements OnInit {
 
             if (response) {
                 this.quickConnectors = response.body;
-                if (response.body.params === 'queryParams') {
-                    this.quickConnectors.queryParams = true;
-                }
-                if (response.body.params === 'pathvarible') {
-                    this.quickConnectors.pathVariable = true;
-                }
-                if (response.body.service === 'backEnd') {
-                    this.isbackEndService = true;
-                }
-                if (response.body.service === 'frontEnd') {
-                    this.isFrontEndService = true;
-
-                }
                 this.quickConnectors.dataBaseName = response.body.entityName;
                 this.modifyEntityId = response.body.entity_id;
                 this.customConnector = true;
+                this.isAddConnector = true;
             }
         });
     }
@@ -708,7 +657,7 @@ export class FeatureDetailsComponent implements OnInit {
             apiMethods: this.quickConnectors.apiMethods,
             service: this.quickConnectors.service,
             api_key: this.quickConnectors.api_key,
-            params: this.quickConnectors.params,
+            isQueryParams: this.quickConnectors.isQueryParams,
             availableApi: [
                 {
                     'name': 'availble',
@@ -780,6 +729,7 @@ export class FeatureDetailsComponent implements OnInit {
     updateFlowCompConnectorById(data) {
         this.projectComponentService.updateFlowCompConnectorById(data).subscribe(response => {
             if (response) {
+                console.log('may i coming----')
                 this.submitted = false;
                 this.displayModel = 'none';
                 this.customConnector = false;

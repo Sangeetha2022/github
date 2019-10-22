@@ -13,7 +13,7 @@ export let connectorSchema = mongoose.Schema({
     entityName:String,  
     api_key: {},
     service: String,
-    params: String,
+    isQueryParams:Boolean,
     endPointUrl:String,
     availableApi: [
         {
