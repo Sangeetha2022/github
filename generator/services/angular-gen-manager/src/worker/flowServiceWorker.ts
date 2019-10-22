@@ -219,65 +219,101 @@ export class FlowServiceWorker {
                     additional.methodRequestVariable += `${actionElement.variableName}Id: ${Constant.STRING_DATATYPE}`;
                     additional.urlQuery = `\${${actionElement.variableName}Id}`;
                 }
-                
+
                 return additional;
             case Constant.GP_GETALLVALUES_FLOW:
                 console.log('entering into gpaaGGGGGGGG --- ', additional);
                 // additional.methodRequestVariable = ``;
                 return additional;
             case Constant.GP_CREATE_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_UPDATE_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_SEARCHDETAIL_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_SEARCHFORUPDATE_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_DELETENOUNRELATIONSHIP_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_FILEUPLOAD_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_DELETENOUNBYRELATION_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_CANCEL_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_GETNOUNFROMRELATION_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_APPSTARTUP_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_GRIDEXPORTCSV_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_CREATERELATIONSHIP_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_RECORDVIDEO_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_GETNOUNBYRELATIONSHIP_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_TAKEPHOTO_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_CUSTOM_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_DELETEBYPARENTID_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             case Constant.GP_GETNOUNBYPARENTID_FLOW:
-                additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                if (actionElement.variableName) {
+                    additional.methodRequestVariable += `${actionElement.variableName}: ${Constant.ANY_DATATYPE}`;
+                }
                 return additional;
             default:
                 return null;

@@ -134,6 +134,10 @@ export class FlowComponentWorker {
                     createTemp += `\n  .subscribe(`;
                     createTemp += `\n    data => {`;
                     createTemp += `\n       console.log('data created successfully');`;
+                    if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
+                        createTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
+                        this.setComponentVarialble(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
+                    } else { }
                     createTemp += `\n    },`;
                     createTemp += `\n    error => {`;
                     createTemp += `\n       console.log('cannot able to create the data');`;
@@ -160,7 +164,12 @@ export class FlowComponentWorker {
                     if (connectorType == Constant.DEFAULT_CONNECTOR_NAME) {
                         searchTemp += `\n       this.rowData = data.body;`;
                     } else if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME) {
-                        searchTemp += `\n       this.rowData = ${entityInfo ? `data.${entityInfo.name}` : '[]'};`;
+                        if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
+                            searchTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
+                            this.setComponentVarialble(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
+                        } else {
+                            searchTemp += `\n       this.rowData = ${entityInfo ? `data.${entityInfo.name}` : '[]'};`;
+                        }
                     }
                     searchTemp += `\n    },`;
                     searchTemp += `\n    error => {`;
@@ -184,6 +193,10 @@ export class FlowComponentWorker {
                     updateTemp += `\n  .subscribe(`;
                     updateTemp += `\n    data => {`;
                     updateTemp += `\n       console.log('data updated successfully --- ', data);`;
+                    if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
+                        updateTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
+                        this.setComponentVarialble(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
+                    } else { }
                     updateTemp += `\n    },`;
                     updateTemp += `\n    error => {`;
                     updateTemp += `\n       console.log('cannot able to update the data --- ', error);`;
@@ -229,6 +242,10 @@ export class FlowComponentWorker {
                     deleteTemp += `\n  .subscribe(`;
                     deleteTemp += `\n    data => {`;
                     deleteTemp += `\n       console.log('data deleted successfully --- ', data);`;
+                    if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
+                        deleteTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
+                        this.setComponentVarialble(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
+                    } else { }
                     deleteTemp += `\n    },`;
                     deleteTemp += `\n    error => {`;
                     deleteTemp += `\n       console.log('cannot able to delete the data --- ', error);`;
