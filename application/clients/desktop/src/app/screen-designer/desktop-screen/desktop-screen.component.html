@@ -181,6 +181,120 @@
   </div>
 </div>
 
+<!-- link popup modal -->
+<div *ngIf="isLinkPopup" id="LinkPopup" class="modal" tabindex="-1" role="dialog" style="display: block">
+  <div class="modal-dialog modal-md" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="display: block;">
+        <button type="button" class="close" (click)="cancelEvent()" data-dismiss="modal" aria-hidden="true">x</button>
+        <h3>Link Details</h3>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form class="m-3">
+            <h4 class="TitleText">URL Binding</h4>
+            <div class="form-group row">
+              <div class="col-md-3">
+                <b for="Screen">Link Type</b>
+              </div>
+              <div class="col-md-9">
+                <label class="radio-inline"><input type="radio" value="" [(ngModel)]="pageLinkObj.linkType"
+                    name="routeOption" (ngModelChange)="changeLinkDetails('none')" checked>None</label>
+                <label class="radio-inline"><input type="radio" value="internal" [(ngModel)]="pageLinkObj.linkType"
+                    (ngModelChange)="changeLinkDetails('internal')" name="routeOption">Internal</label>
+                <label class="radio-inline"><input type="radio" value="external" [(ngModel)]="pageLinkObj.linkType"
+                    (ngModelChange)="changeLinkDetails('external')" name="routeOption">External</label>
+              </div>
+            </div>
+            <div class="form-group row" *ngIf="pageLinkObj.linkType == 'external'">
+              <br>
+              <label class="BoldText" for="externalURL">External URL</label>
+              <input type="text" class="form-control" name="externalURL" id="externalURL"
+                [(ngModel)]="pageLinkObj.externalURL" placeholder="Enter your external link url">
+            </div>
+            <div class="form-group row" *ngIf="pageLinkObj.linkType == 'internal'">
+              <br>
+              <label class="BoldText" for="internal">Internal Page</label>
+              <select class="form-control" name="iternalOptions" [(ngModel)]="pageLinkObj.internalURL"
+                (ngModelChange)="changeLinkDetails('internalPage')" id="internalURL">
+                <option value="null" selected>none</option>
+                <ng-container *ngFor="let screenObj of screenArrayByProjectId">
+                  <option
+                    *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption != 'popupmodal'"
+                    [ngValue]="screenObj">
+                    <span>{{ screenObj.screenName }}</span>
+                  </option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="form-group row" *ngIf="pageLinkObj.internalURL && pageLinkObj.isDynamic">
+              <ng-container
+                *ngIf="!pageLinkObj.paramEntity && pageLinkObj.selectedEntity && pageLinkObj.selectedEntity.name; else selectParamEntity">
+                <span><b>Entity Name</b></span>:&nbsp;&nbsp;
+                <span>{{pageLinkObj.selectedEntity.name}}</span>
+              </ng-container>
+              <ng-template #selectParamEntity>
+                <!-- <div class="form-group row"> -->
+                <label for="paramEntity">Entity</label>
+                <select class="form-control" name="paramEntity" [(ngModel)]="pageLinkObj.paramEntity"
+                  (ngModelChange)="changeLinkDetails('paramEntity')" id="paramEntity">
+                  <option value="null" selected>none</option>
+                  <ng-container *ngFor="let entityElement of entityData">
+                    <option [ngValue]="entityElement">
+                      <span>{{ entityElement.name }}</span>
+                    </option>
+                  </ng-container>
+                </select>
+                <!-- </div> -->
+              </ng-template>
+            </div>
+            <div class="row"
+              *ngIf="pageLinkObj.internalURL && 
+            ((pageLinkObj.selectedEntity && pageLinkObj.selectedEntity._id) || pageLinkObj.paramEntity || !pageLinkObj.isDynamic)">
+              <button class="btn btn-primary" (click)="addLinkParams()">Add Query Params</button>
+            </div>
+            <br>
+            <div class="parentScroll">
+              <div class="row paramsDiv" *ngFor="let element of pageLinkObj.paramArray; let i=index">
+                <div class="col-md-5">
+                  <label for="paramName">Param Name</label>
+                  <input type="text" class="form-control" name="paramName{{i}}" [(ngModel)]="element.name">
+                </div>
+                <div class="col-md-5">
+                  <label for="entityfield">Param Value</label>
+                  <ng-container *ngIf="!pageLinkObj.isDynamic; else dynamic">
+                    <input type="text" class="form-control" name="entityfield{{i}}" [(ngModel)]="element.fieldName">
+                  </ng-container>
+                  <ng-template #dynamic>
+                    <select class="form-control" name="entityfield{{i}}" [(ngModel)]="element.fieldName"
+                      id="entityfield">
+                      <option value="null" selected>none</option>
+                      <ng-container *ngFor="let entityElement of pageLinkObj.entityField">
+                        <option [ngValue]="entityElement.name">
+                          <span>{{ entityElement.name }}</span>
+                        </option>
+                      </ng-container>
+                    </select>
+                  </ng-template>
+                </div>
+                <div class="col-md-2 trashDiv">
+                  <i class="fa fa-trash fa-2x trash" aria-hidden="true" (click)="removeLinkParams(i)"></i>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group">
+          <button type="button" class="btn btn-primary button-create" (click)="saveLinkDetails()">ok</button>
+          <button type="button" class="btn btn-danger button-close" (click)="onCloseLink()">cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <!-- entity and its field div popup model -->
@@ -239,7 +353,9 @@
                   </option>
                 </ng-container>
                 <ng-template #routes>
-                  <option *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption != 'popupmodal'" [ngValue]="screenObj">
+                  <option
+                    *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption != 'popupmodal'"
+                    [ngValue]="screenObj">
                     <span>{{ screenObj.screenName }}</span>
                   </option>
                 </ng-template>
@@ -305,7 +421,8 @@
             </div>
           </div>
 
-          <div class="row" *ngIf="routeDetails.modalInfo?.modalBindInfo?.length > 0  && routeDetails.screen && routeDetails.modalInfo.entity">
+          <div class="row"
+            *ngIf="routeDetails.modalInfo?.modalBindInfo?.length > 0  && routeDetails.screen && routeDetails.modalInfo.entity">
             <span class="showMapping" (click)='toggleMapping()'>
               <span *ngIf="!isMappingGrid; else hide">Show</span>
               <ng-template #hide>Hide</ng-template>

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { IEntity } from '../../../../project-component/interface/Entity';
+import { CustomTraitsService } from './custom-traits.service';
+// import * as Highcharts from 'highcharts';
 
 declare var ClassicEditor: any;
-declare var agGrid: any;
 declare var Highcharts: any;
+declare var agGrid: any;
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +19,9 @@ export class TraitsService {
     field: '',
     entity: ''
   }];
-  constructor() { }
+  constructor(
+    private customTraitService: CustomTraitsService
+  ) { }
 
 
   initMethod(screenGlobalVariable) {
@@ -27,6 +31,7 @@ export class TraitsService {
     this.initializeCheckboxMethod(screenGlobalVariable);
     this.initializeRadioMethod(screenGlobalVariable);
     this.initializeButtonMethod(screenGlobalVariable);
+    this.initializeLinkMethod(screenGlobalVariable);
 
   }
 
@@ -248,6 +253,153 @@ export class TraitsService {
               return {
                 type: 'button'
               };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
+
+  // link traits
+  initializeLinkMethod(screenGlobalVariable) {
+    console.log('intializelinkmethod are ----- ', screenGlobalVariable.entityData);
+    this.customTraitService.popupLinkButton(screenGlobalVariable);
+    const $this = this;
+    const comps = screenGlobalVariable.editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    const entityArray = [{
+      key: 'none',
+      value: 'none'
+    }];
+    let fieldArray = [{
+      key: 'none',
+      value: 'none'
+    }];
+
+    comps.addType('link', {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          resizable: false,
+          editable: true,
+          badgable: true,
+          highlightable: true,
+          droppable: false,
+          traits: [{
+            label: 'Name',
+            name: 'name',
+            type: 'text',
+            changeProp: 1
+          }, {
+            type: 'content',
+            label: 'contentName',
+            name: 'contentname',
+            changeProp: 1
+          }, {
+            type: 'checkbox',
+            label: 'isDynamic',
+            name: 'linkCheckboxModal',
+            changeProp: 1
+          }, {
+            type: 'linkButton',
+            label: 'Link',
+            name: 'linkButton'
+          }],
+
+        }),
+        init() {
+          this.listenTo(this, 'change:linkCheckboxModal', this.dynamicModal);
+          this.listenTo(this, 'change:entity', this.entity);
+          this.listenTo(this, 'change:field', this.field);
+        },
+        dynamicModal() {
+          screenGlobalVariable.pageLinkObj.isDynamic = this.changed['linkCheckboxModal'];
+          screenGlobalVariable.entityData.forEach(element => {
+            const tempObj = {
+              key: '',
+              value: ''
+            };
+            if (!entityArray.find(x => x.key === element._id)) {
+              tempObj.key = element._id;
+              tempObj.value = element.name;
+              entityArray.push(tempObj);
+            }
+
+          });
+          if (this.changed['linkCheckboxModal']) {
+            // entity dropdown
+            this.get('traits').add({
+              label: 'entity',
+              name: 'entity',
+              type: 'select',
+              options: entityArray,
+              changeProp: 1
+            }, { at: 3 });
+            // entity field dropdown
+            this.get('traits').add({
+              label: 'field',
+              name: 'field',
+              type: 'select',
+              options: fieldArray,
+              changeProp: 1
+            }, { at: 4 });
+            screenGlobalVariable.editor.TraitManager.getTraitsViewer().render();
+          } else {
+            screenGlobalVariable.removeLinkEntityTraits();
+          }
+        },
+        entity() {
+          const temp = entityArray.find(x => x.value === this.changed['entity']);
+          const entityObj = screenGlobalVariable.entityData.find(x => x._id === temp.key);
+          fieldArray = [{
+            key: 'none',
+            value: 'none'
+          }];
+          if (entityObj) {
+            screenGlobalVariable.pageLinkObj.selectedEntity = entityObj;
+            entityObj.field.forEach(element => {
+              const tempObj = {
+                key: '',
+                value: ''
+              };
+              if (!fieldArray.find(x => x.key === element._id)) {
+                tempObj.key = element._id;
+                tempObj.value = element.name;
+                fieldArray.push(tempObj);
+              }
+
+            });
+          } else {
+            screenGlobalVariable.pageLinkObj.selectedEntity = null;
+          }
+          this.get('traits').where({ name: 'field' })[0].set('options', fieldArray);
+          screenGlobalVariable.editor.TraitManager.getTraitsViewer().render();
+        },
+        field() {
+          const fieldTemp = fieldArray.find(x => x.value === this.changed['field']);
+          const fieldObj = screenGlobalVariable.pageLinkObj.selectedEntity.field.find(x => x._id === fieldTemp.key);
+          if (fieldObj) {
+            screenGlobalVariable.pageLinkObj.selectedField = fieldObj;
+          } else {
+            screenGlobalVariable.pageLinkObj.selectedField = null;
+          }
+        },
+        toHTML: function () {
+          console.log('this are --- ', this);
+          console.log('this are --content- ', this.get('content'));
+          console.log('this are --id- ', this.get('id'));
+          console.log('this are --name- ', this.get('name'));
+          return `<a id="${this.ccid}" ${this.get('name') ? `name="${this.get('name')}"` : ''}>${this.get('content')}</a>`;
+        }
+      },
+        {
+          isComponent: function (el) {
+            if (el.tagName === 'A') {
+              return { type: 'link' };
             }
           },
         }),
@@ -692,6 +844,7 @@ export class TraitsService {
     const $this = this;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
+
     const labelSelectOption = [
       'name'
     ];
@@ -782,21 +935,26 @@ export class TraitsService {
     const $this = this;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
+    const dType = comps.getType(buttonName);
+    console.log('charg dtype sra r ----  ', dType);
+    const dView = defaultType.view;
     const labelSelectOption = [
       'name'
     ];
-
+    const chartType = 'bar';
     comps.addType(buttonName, {
       model: defaultModel.extend({
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
           draggable: '*',
           droppable: false,
-          components: `<div id="containerchart" style="width:100%; height:400px;"></div>`,
+          charttype: chartType,
           script: function () {
+            console.log('chart script called  ' + '{[ charttype ]}');
             const initHighChart = function () {
-              const myChart = Highcharts.chart('containerchart', {
+              console.log('entering into initHIGHCharts method called');
+              const myChart = Highcharts.chart('highchart4', {
                 chart: {
-                  type: 'bar'
+                  type: '{[ charttype ]}'
                 },
                 title: {
                   text: 'Fruit Consumption'
@@ -811,10 +969,10 @@ export class TraitsService {
                 },
                 series: [{
                   name: 'Jane',
-                  data: [1, 0, 4]
+                  data: [1, 50, 100]
                 }, {
                   name: 'John',
-                  data: [5, 7, 3]
+                  data: [5, 30, 3]
                 }]
               });
               // });
@@ -837,54 +995,30 @@ export class TraitsService {
             }
           },
           traits: [{
-            label: 'name',
-            name: 'name',
-            type: 'text',
+            label: 'Type',
+            type: 'select',
+            name: 'charttype',
+            options: [{ value: 'bar', name: 'bar' },
+            { value: 'line', name: 'line' },
+            { value: 'column', name: 'column' },
+            { value: 'area', name: 'area' }],
             changeProp: 1
-          }, {
-            type: 'select',
-            label: 'entities',
-            name: 'entities',
-            changeProp: 1,
-            options: this.entityOptions,
-          }, {
-            type: 'select',
-            label: 'attributes',
-            name: 'entityattributes',
-            changeProp: 1,
-            options: [],
-          }],
+          }]
 
         }),
         init() {
-          this.listenTo(this, 'change:name', this.ElementName);
-          this.listenTo(this, 'change:entities', this.entity);
-          this.listenTo(this, 'change:entityattributes', this.attributeVal); // listen for active event
+          this.listenTo(this, 'change:charttype', this.chartType);
         },
-        ElementName() {
-
-        },
-        entity() {
-          const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
-          const changedValue = this.changed['entities'];
-          const options = [];
-          if ($this.allEntity.length > 0) {
-            $this.allEntity.forEach(entityElement => {
-              if (entityElement.name === changedValue) {
-                entityElement.field.forEach(childElement => {
-                  const temp = {
-                    value: childElement.Name,
-                    name: childElement.Name
-                  };
-                  options.push(temp);
-                });
-              }
-            });
-          }
-          entityTrait.set('options', options);
-          editor.TraitManager.getTraitsViewer().render();
-        },
-        attributeVal() {
+        chartType() {
+          // alert('elementName value changed  ' + this.model.get('script'));
+          console.log('charttype changes are----   ', this);
+          // if (this.model.get('script')) {
+          const t = this.em;
+          console.log('t are ---- ', t);
+          // if (t) {
+          //   t.get('Canvas').getCanvasView().updateScript(this);
+          // }
+          // }
         }
       },
         {
@@ -897,7 +1031,15 @@ export class TraitsService {
           },
         }),
 
-      view: defaultType.view,
+      view: dView.extend({
+        init: function () {
+          this.listenTo(this.model, 'change:charttype', this.updateScript);
+          const e = this.model.get('components');
+          console.log('after extend view are ---- ', e);
+          // tslint:disable-next-line:max-line-length
+          // e.length || (e.reset(), e.add('\n            <span data-js="countdown" class="' + l + '-cont">\n              <div class="' + l + '-block">\n                <div data-js="countdown-day" class="' + l + '-digit"></div>\n                <div class="' + l + '-label">' + t.labelDays + '</div>\n              </div>\n              <div class="' + l + '-block">\n                <div data-js="countdown-hour" class="' + l + '-digit"></div>\n                <div class="' + l + '-label">' + t.labelHours + '</div>\n              </div>\n              <div class="' + l + '-block">\n                <div data-js="countdown-minute" class="' + l + '-digit"></div>\n                <div class="' + l + '-label">' + t.labelMinutes + '</div>\n              </div>\n              <div class="' + l + '-block">\n                <div data-js="countdown-second" class="' + l + '-digit"></div>\n                <div class="' + l + '-label">' + t.labelSeconds + '</div>\n              </div>\n            </span>\n            <span data-js="countdown-endtext" class="' + l + '-endtext"></span>\n          '))
+        }
+      }),
     });
   }
 

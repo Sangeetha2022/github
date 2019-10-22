@@ -67,6 +67,29 @@ export const ScreenSchema = new Schema({
         screenFlow: { type: String, default: null },
         screenFlowName: { type: String, default: null }
     }],
+    link_info: [{
+        htmlId: { type: String, default: null },
+        componentId: { type: String, default: null },
+        elementName: { type: String, default: null },
+        linkType: { type: String, default: null },
+        externalURL: { type: String, default: null },
+        internalURL: {
+            screenId: { type: String, default: null },
+            screenName: { type: String, default: null }
+        },
+        entity: {
+            id: { type: String, default: null },
+            name: { type: String, default: null },
+            fieldId: { type: String, default: null },
+            fieldName: { type: String, default: null }
+        },
+        isDynamic: { type: Boolean, default: false },
+        paramType: { type: String, default: null },
+        paramArray: [{
+            name: { type: String, default: null },
+            fieldName: { type: String, default: null }
+        }]
+    }],
     project: { type: String, ref: 'projects', default: null },
     feature: { type: String, ref: 'feature_details', default: null },
     screenType: { type: String, default: null },

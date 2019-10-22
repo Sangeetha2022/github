@@ -89,4 +89,5 @@ export class DependencyWorker {
          this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.STYLE_SCSS_FILENAME,
             file.join(`\n`), (response) => { })
     }
+
 }

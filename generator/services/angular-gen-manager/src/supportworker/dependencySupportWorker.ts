@@ -6,7 +6,11 @@ export class DependencySupportWorker {
     private writeFile = util.promisify(fs.writeFile);
     // read file and return
     public readFile(applicationPath, fileName) {
-        return fs.readFileSync(`${applicationPath}/${fileName}`).toString().split("\n");
+        if (fs.existsSync(`${applicationPath}/${fileName}`)) {
+            return fs.readFileSync(`${applicationPath}/${fileName}`).toString().split("\n");
+        } else {
+            return null;
+        }
     }
 
     // write file

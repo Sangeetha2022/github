@@ -45,4 +45,19 @@ export class QuickConnectorsService {
 
     }
 
+    public updateQuickConnectorsById(req: Request , callback: CallableFunction){
+        let updateConnectors = req.body;
+        quickConnectorsDao.updateQuickConnectorsById(updateConnectors , (response) => {
+            callback(response)
+
+        })
+    }
+
+    public getConnectors(callback : CallableFunction) {
+        quickConnectorsDao.getConnectors((response) => {
+            callback(response)
+        })
+
+    }
+
 }

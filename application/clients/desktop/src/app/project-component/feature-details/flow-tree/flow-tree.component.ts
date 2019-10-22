@@ -163,10 +163,13 @@ export class FlowTreeComponent implements OnInit {
     console.log('all--flow-->>', this.entityModelData);
     this.projectService.createEntity(this.entityModelData).subscribe(response => {
       if (response.body) {
+        this.flow.name = '';
+        this.flow.dataType = '',
+        this.flowFields = [];
+        this.rowData = null;
+        this.isShowGird = false;
         const data = response.body;
-        console.log('my custom entity response-->>', response);
         console.log('my custom featureID are-->>', this.entityModelData.feature_id);
-        // this.entityId = response.body._id;
         this.dataService.FlowSaveEntity(response.body);
         this.updateFeatureEntity(response.body);
         // tslint:disable-next-line: max-line-length

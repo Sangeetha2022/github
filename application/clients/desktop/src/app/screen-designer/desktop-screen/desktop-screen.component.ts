@@ -38,27 +38,18 @@ declare var grapesjs: any;
     animations: [
         trigger('openCloseMapping', [
             state('openGrid', style({
-                // height: 'auto',
-                // display: 'table',
-                // opacity: 1
                 height: '*',
                 opacity: '1',
             })),
             state('closeGrid', style({
-                // opacity: 0.5,
-                // display: 'none'
                 height: '0px',
                 opacity: '0',
                 display: 'none',
             })),
             transition('openGrid => closeGrid', [
-                // animate('0.5s'),
-                // style({ 'display': 'none' })
                 animate('100ms ease-in')
             ]),
             transition('closeGrid => openGrid', [
-                // animate('1.5s'),
-                // style({ 'display': 'table' })
                 animate('100ms ease-out')
             ])
         ])
@@ -175,6 +166,7 @@ export class DesktopScreenComponent implements OnInit {
     public selectedFlowObj: any = null;
     public isCustomPopup = false;
     public isConnectorPopup = false;
+    public isLinkPopup = false;
     public componentLifeCycle: any[] = [];
     public customPopupModal: any = {
         name: '',
@@ -186,6 +178,48 @@ export class DesktopScreenComponent implements OnInit {
     public specialEvents: any = [];
     public modalDroppedElements: any[] = [];
     public customEntityFields: any[] = [];
+
+    public pageLinkObj = {
+        linkType: '',
+        isDynamic: false,
+        externalURL: '',
+        internalURL: null,
+        flowList: [],
+        flowObj: {},
+        selectedEntity: undefined,
+        paramEntity: null,
+        entityField: [],
+        selectedField: null,
+        isParamMapping: false,
+        paramArray: [],
+        htmlId: '',
+        componentId: '',
+        elementName: ''
+    };
+
+    public paramArray: any = [];
+
+    // public linkInformation: any = {
+    //     linkType: '',
+    //     externalURL: null,
+    //     internalURL: {
+    //         screenId: '',
+    //         screenName: ''
+    //     },
+    //     entity: {
+    //         id: '',
+    //         name: '',
+    //         fieldId: '',
+    //         fieldName: ''
+    //     },
+    //     isDynamic: false,
+    //     paramArray: [],
+    //     htmlId: '',
+    //     componentId: '',
+    //     elementName: ''
+    // };
+
+    public linkArray: any[] = [];
 
     // default Names
     public GPROUTE_FLOWNAME = 'gproute';
@@ -484,27 +518,38 @@ export class DesktopScreenComponent implements OnInit {
         );
     }
 
+    findEntity(screenInfo, event) {
+        let findEntity = null;
+        // console.log()
+        if (screenInfo.entity_info.length > 0) {
+            // routeDetails.modalInfo.entity
+            findEntity = this.entityData.find(x => x._id === screenInfo.entity_info[0].entityId);
+        } else if (screenInfo.entity_info.length === 0 &&
+            screenInfo.grid_fields.entityId && screenInfo.is_grid_present) {
+            findEntity = this.entityData.find(x => x._id === screenInfo.grid_fields.entityId);
+        }
+        if (findEntity) {
+            // if (event === 'custom') {
+            //     this.routeDetails.modalInfo.entity = findEntity;
+            // }
+            this.customEntityFields = findEntity.field;
+            return findEntity;
+        } else {
+            // if (event === 'custom') {
+            //     this.routeDetails.modalInfo.entity = null;
+            // }
+            this.customEntityFields = [];
+            return null;
+        }
+    }
+
     customModelChanged($event, action) {
         console.log('model changed ----- customModelChanged', ' ----- ', this.routeDetails.modalInfo);
         console.log('model changed ----- customModelChanged screenDetails', ' ----- ', this.routeDetails);
         console.log('entity modal entityData info are ----- ', this.entityData);
         if (this.routeDetails.screen && this.routeDetails.screen !== 'null') {
-            let findEntity = null;
-            if (this.routeDetails.screen.entity_info.length > 0) {
-                // routeDetails.modalInfo.entity
-                findEntity = this.entityData.find(x => x._id === this.routeDetails.screen.entity_info[0].entityId);
-            } else if (this.routeDetails.screen.entity_info.length === 0 &&
-                this.routeDetails.screen.grid_fields.entityId && this.routeDetails.screen.is_grid_present) {
-                findEntity = this.entityData.find(x => x._id === this.routeDetails.screen.grid_fields.entityId);
-            }
-            if (findEntity) {
-                this.routeDetails.modalInfo.entity = findEntity;
-                this.customEntityFields = findEntity.field;
-
-            } else {
-                this.routeDetails.modalInfo.entity = null;
-                this.customEntityFields = [];
-            }
+            this.routeDetails.modalInfo.entity = this.findEntity(this.routeDetails.screen, 'custom');
+            console.log('final afet seti --- ', this.routeDetails.modalInfo.entity);
         }
         console.log('after set the routedetails values are-----  ', this.routeDetails);
         const bindFields = {
@@ -572,6 +617,7 @@ export class DesktopScreenComponent implements OnInit {
             grid_fields: this.agGridObject,
             flows_info: this.screenFlows,
             route_info: this.routeFlows,
+            link_info: this.linkArray,
             screenName: this.screenName,
             is_grid_present: this.is_grid_present,
             entity_info: this.screenEntityModel,
@@ -611,7 +657,8 @@ export class DesktopScreenComponent implements OnInit {
                             this.routeFlows = this.existScreenDetail[0]['route_info'];
                             this.componentLifeCycle = this.existScreenDetail[0]['component-lifecycle'];
                             this.specialEvents = this.existScreenDetail[0]['special-events'];
-
+                            this.linkArray = this.existScreenDetail[0]['link_info'];
+                            // console.log('after get scrende id ------ ', this.linkInformation);
                             // LOAD CUSTOM BLOCKS
                             this.addGridBlocks();
 
@@ -1251,6 +1298,192 @@ export class DesktopScreenComponent implements OnInit {
         this.commandService.updateComponentName(this);
         this.commandService.updateTraits(this);
         this.commandService.dragAndDrop(this);
+    }
+
+    saveLinkDetails() {
+        const linkInformation: any = {
+            linkType: '',
+            isDynamic: false,
+            externalURL: null,
+            internalURL: {
+                screenId: '',
+                screenName: ''
+            },
+            entity: {
+                id: '',
+                name: '',
+                fieldId: '',
+                fieldName: ''
+            },
+            paramArray: [],
+            htmlId: '',
+            componentId: '',
+            elementName: '',
+            paramType: 'queryParameter'
+        };
+        console.log('save linkd details arear --pageLinkObj--- ', this.pageLinkObj);
+        console.log('save linkd details arear --linkInformation--- ', linkInformation);
+        console.log('save linkd details arear --this.editor.getSelected()--- ', this.editor.getSelected());
+        console.log('save linkd details arear --this.editor.getSelected() traits--- ', this.editor.getSelected().get('traits'));
+        console.log('save linkd details arear --linkInformation--- ', linkInformation);
+        // this.resetLinkDetails(this.pageLinkObj.linkType);
+        const findIndex = this.linkArray.findIndex(x => x.elementName === this.editor.getSelected().attributes.name);
+        if (findIndex > -1) {
+            this.linkArray.splice(findIndex, 1);
+        }
+        linkInformation.htmlId = this.editor.getSelected().ccid;
+        linkInformation.componentId = this.editor.getSelected().cid;
+        linkInformation.elementName = this.editor.getSelected().attributes.name;
+        linkInformation.linkType = this.pageLinkObj.linkType;
+        linkInformation.isDynamic = this.pageLinkObj.isDynamic;
+        linkInformation.externalURL = this.pageLinkObj.externalURL;
+        if (this.pageLinkObj.internalURL) {
+            linkInformation.internalURL.screenId = this.pageLinkObj.internalURL._id;
+            linkInformation.internalURL.screenName = this.pageLinkObj.internalURL.screenName;
+        }
+        if (this.pageLinkObj.selectedEntity) {
+            linkInformation.entity.id = this.pageLinkObj.selectedEntity._id;
+            linkInformation.entity.name = this.pageLinkObj.selectedEntity.name;
+        } else if (this.pageLinkObj.paramEntity) {
+            linkInformation.entity.id = this.pageLinkObj.paramEntity._id;
+            linkInformation.entity.name = this.pageLinkObj.paramEntity.name;
+        }
+        if (this.pageLinkObj.selectedField) {
+            linkInformation.entity.fieldId = this.pageLinkObj.selectedField._id;
+            linkInformation.entity.fieldName = this.pageLinkObj.selectedField.name;
+        }
+        if (this.pageLinkObj.paramArray.length > 0) {
+            linkInformation.paramArray = this.pageLinkObj.paramArray;
+        }
+
+        this.linkArray.push(linkInformation);
+        console.log('after set linkArrays are --- ', this.linkArray);
+        this.removeLinkEntityTraits();
+        this.isLinkPopup = false;
+        this.pageLinkObj = {
+            linkType: '',
+            isDynamic: false,
+            externalURL: '',
+            internalURL: null,
+            flowList: [],
+            flowObj: {},
+            selectedEntity: undefined,
+            paramEntity: null,
+            entityField: [],
+            selectedField: null,
+            isParamMapping: false,
+            paramArray: [],
+            htmlId: '',
+            componentId: '',
+            elementName: ''
+        };
+
+        this.saveRemoteStorage();
+        this.ref.detectChanges();
+    }
+
+    removeLinkEntityTraits() {
+        const temp = this.editor.getSelected().get('traits').filter(trait => {
+            if (trait.attributes.name === 'entity' ||
+                trait.attributes.name === 'field') {
+                return true;
+            }
+        });
+        console.log('after set temp values are- -- ', temp);
+        if (temp && temp.length > 0) {
+            temp.forEach(element => {
+                this.editor.getSelected().get('traits').remove(element);
+            });
+        }
+        this.editor.TraitManager.getTraitsViewer().render();
+    }
+
+    addLinkParams() {
+        this.pageLinkObj.paramArray.push({
+            name: null,
+            fieldName: null
+        });
+        console.log('add link params value are --- ', this.pageLinkObj.paramArray);
+        this.ref.detectChanges();
+    }
+    removeLinkParams(index) {
+        this.pageLinkObj.paramArray.splice(index, 1);
+        this.ref.detectChanges();
+    }
+
+    resetLinkDetails(type) {
+        switch (type) {
+            case 'internal':
+                this.pageLinkObj.externalURL = '';
+                this.pageLinkObj.paramArray = [];
+                break;
+            case 'external':
+                this.pageLinkObj.internalURL = null;
+                this.pageLinkObj.paramArray = [];
+                this.pageLinkObj.paramEntity = null;
+                break;
+            default:
+                this.pageLinkObj.internalURL = null;
+                this.pageLinkObj.externalURL = '';
+                this.pageLinkObj.paramArray = [];
+                break;
+        }
+    }
+
+    changeLinkDetails(event) {
+        console.log('change link details rae ---- ', event);
+        if (event === 'none' || event === 'internal' || event === 'external') {
+            this.resetLinkDetails(event);
+        } else if (event === 'flow') {
+            console.log('change link details flow entiteu fare --111- ', this.findEntity(this.pageLinkObj.internalURL, null));
+            console.log('change link details flow entiteu fare --222---customEntityFields- ', this.customEntityFields);
+        } else if (event.toLowerCase() === 'paramentity') {
+            this.pageLinkObj.entityField = this.pageLinkObj.paramEntity.field;
+        }
+        if (event.toLowerCase() === 'internalpage') {
+            // console.log('change link details internalpage are----  ', this.pageLinkObj.internalURL._id);
+            // console.log('change link details linkInformation are----  ', this.linkInformation);
+            // if (this.pageLinkObj.internalURL._id) {
+            //     this.linkInformation.internalURL.screenId = this.pageLinkObj.internalURL._id;
+            //     this.linkInformation.internalURL.screenName = this.pageLinkObj.internalURL.screenName;
+            // } else {
+            //     this.linkInformation.internalURL.screenId = '';
+            //     this.linkInformation.internalURL.screenName = '';
+            // }
+            // console.log('after set internalURLs are --- ', this.linkInformation);
+        } else {
+
+        }
+        //  else if (event.toLowerCase() === 'selectedentity') {
+        //     console.log('selected entity are ----- ', this.pageLinkObj.selectedEntity);
+        //     this.pageLinkObj.entityField = this.pageLinkObj.selectedEntity.field;
+        //     this.pageLinkObj.selectedField = null;
+        //     if (this.pageLinkObj.selectedEntity) {
+        //         this.linkInformation.entity.id = this.pageLinkObj.selectedEntity._id;
+        //         this.linkInformation.entity.name = this.pageLinkObj.selectedEntity.name;
+        //     } else {
+        //         this.linkInformation.entity.id = null;
+        //         this.linkInformation.entity.name = null;
+        //     }
+        //     console.log('selected entity fields are ----- ', this.pageLinkObj.entityField);
+        // } else if (event.toLowerCase() === 'entityfield') {
+        //     console.log('selected entity filed are -----2222--selectedField----   ', this.pageLinkObj.selectedField);
+        //     if (this.pageLinkObj.selectedField) {
+        //         this.linkInformation.entity.fieldId = this.pageLinkObj.selectedField._id;
+        //         this.linkInformation.entity.fieldName = this.pageLinkObj.selectedField.name;
+        //     } else {
+        //         this.linkInformation.entity.fieldId = null;
+        //         this.linkInformation.entity.fieldName = null;
+        //     }
+        // } else if (event.toLowerCase() === '') {
+
+        // }
+        this.ref.detectChanges();
+    }
+
+    onCloseLink() {
+        this.isLinkPopup = false;
+        this.ref.detectChanges();
     }
 
     onCloseHandled() {

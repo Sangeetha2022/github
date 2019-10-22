@@ -7,9 +7,9 @@ export class Constants {
     public static MOBILE_ROUTER = '/mobile';
     //customeConnectors 
     public static get quickTestcustomConnectors(): string { return this.DESKTOP_ROUTER + '/quick/test'; }
-
-
+    public static get updateQuickConnectorsById(): string { return this.DESKTOP_ROUTER + '/quickUpdateConnectorsById'; }
     public static get quickConnectors(): String { return this.DESKTOP_ROUTER + '/save/quickConnectors'; }
+    public static get getConnectors(): String { return this.DESKTOP_ROUTER + '/getConnectors' ; }
 
     // login apis
     public static get signup(): string { return this.DESKTOP_ROUTER + '/signup'; }

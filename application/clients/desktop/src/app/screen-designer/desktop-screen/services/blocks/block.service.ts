@@ -170,18 +170,24 @@ export class BlockService {
   addSpecialCharts(editor) {
     editor.BlockManager.add('highcharts', {
       id: 'highcharts',
-      label: `\n      <svg class="gjs-block-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\n
-              <path class="gjs-block-svg-path" d="M22,9 C22,8.4 21.5,8 20.75,8 L3.25,8 C2.5,8 2,8.4 2,9 L2,15 C2,15.6 2.5,
-              16 3.25,16 L20.75,16 C21.5,16 22,15.6 22,15 L22,9 Z M21,15 L3,15 L3,9 L21,9 L21,15 Z" fill-rule="nonzero">
-              </path>\n
-             <polygon class="gjs-block-svg-path" transform="translate(18.500000, 12.000000) scale(1, -1) translate(-18.500000, -12.000000) "
-              points="18.5 11 20 13 17 13"> </polygon>\n
-            <rect class="gjs-block-svg-path" x="4" y="11.5" width="11" height="1"></rect>\n
-                 </svg>\n      <div class="gjs-block-label"> high charts </div>`,
-      category: 'special',
-      content: {
-        type: 'highcharts-type',
-      },
+      // tslint:disable-next-line:max-line-length
+      label: `<svg width="443px" height="70px" viewBox="0 0 256 243" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
+      <g>
+        <path d="M178.6,119.7 L176.8,116.6 L116.5,96.9 L114.8,98.9 L112.2,99.5 L58.6,224.7 L59.3,228.5 L188.4,174 L189.5,171.8
+         L180.5,121.8 L178.6,119.7 Z" fill="#78758C">
+        </path>
+        <path d="M59.3,228.5 L114.8,98.9 L0.8,61.7 L59.3,228.5 Z" fill="#A3EDBA"></path>
+        <path d="M157.1,0.3 L114.8,98.9 L178.6,119.7 L178.9,118.9 L157.5,1.2 L157.1,0.3 Z" fill="#8087E8"></path>
+        <path d="M178.6,119.7 L188.4,174 L192.9,173.9 L254,147.4 L256.7,145.1 L253.5,142.4
+         L181.6,118.2 L178.6,119.7 Z" fill="#30426B"></path>
+        <path d="M188.4,174 L200.9,243.4 L256.7,145.1 L188.4,174 Z" fill="#6699A1"></path>
+        <path d="M157.1,0.3 L178.6,119.7 L256.7,145.1 L157.1,0.3 Z" fill="#6699A1"></path>
+      </g>
+    </svg>    <div class="gjs-block-label"> high charts </div>`,
+      category: 'Extra',
+      content: `<div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
+      <div id="highchart4" data-gjs-type="highcharts-type" style="width:100%; height:400px;"></div>
+      </div>`,
       draggable: true,
       removable: true
     });

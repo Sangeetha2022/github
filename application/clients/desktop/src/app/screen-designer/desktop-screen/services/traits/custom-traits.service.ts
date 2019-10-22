@@ -126,6 +126,23 @@ export class CustomTraitsService {
                 return newCheckBox;
             },
         });
+
+        $this.editor.TraitManager.addType('linkCheckboxModal', {
+            events: {
+                'click': function () {
+                    alert('clicked');
+                },
+            },
+            getInputEl() {
+                const newCheckBox = document.createElement('input');
+                newCheckBox.type = 'checkbox';
+                newCheckBox.id = 'linkCheckboxID'; // need unique Ids!
+                newCheckBox.value = 'linkCheckboxModal';
+
+                // parentElement.appendChild(newCheckBox);
+                return newCheckBox;
+            },
+        });
     }
 
     popupModalButton($this) {
@@ -169,6 +186,38 @@ export class CustomTraitsService {
                     };
                     $this.customPopupModal.entity = temp;
                     $this.isCustomPopup = true;
+                    $this.ref.detectChanges();
+                },
+            },
+            getInputEl() {
+                // tslint:disable-next-line:prefer-const
+                let button = <HTMLElement>document.createElement('button');
+                button.id = 'fieldButton';
+                button.style.width = '100%';
+                button.style.backgroundColor = '#4CAF50';
+                button.style.border = 'none';
+                button.style.color = 'white';
+                button.style.backgroundColor = '#008CBA';
+                button.style.fontSize = '12px !important';
+                button.style.cursor = 'pointer';
+                button.appendChild(document.createTextNode('Details'));
+                return button;
+            },
+        });
+    }
+
+    popupLinkButton($this) {
+        // action button add
+        $this.editor.TraitManager.addType('linkButton', {
+            events: {
+                'click': function () {
+                    $this.isLinkPopup = true;
+                    if ($this.pageLinkObj.selectedEntity) {
+                        const entityObj = $this.entityData.find(x => x._id === $this.pageLinkObj.selectedEntity._id);
+                        if (entityObj) {
+                            $this.pageLinkObj.entityField = entityObj.field;
+                        }
+                    }
                     $this.ref.detectChanges();
                 },
             },

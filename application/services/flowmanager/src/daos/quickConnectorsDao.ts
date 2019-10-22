@@ -37,4 +37,28 @@ export class QuickConnectorsDao {
             callback(result);
         })
     }
+
+    public updateQuickConnectorsById(updateConnectors, callback: CallableFunction) {
+        console.log('update --response-- /,', updateConnectors);
+        connector.findOneAndUpdate({ _id: updateConnectors }, updateConnectors, { new: true }, (err, connectors) => {
+            console.log('result--find --', connectors);
+            console.log('error -->>', err)
+            if (err) {
+                callback(err);
+            } else {
+                callback(connectors);
+            }
+        });
+    }
+
+    public getConnectors(callback: CallableFunction) {
+        connector.find().then((result , err) => {
+            if(err) {
+                callback(err);
+            }else {
+                callback(result);
+            }
+        })
+
+    }
 }

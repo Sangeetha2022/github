@@ -22,31 +22,13 @@ export class FlowTreeService {
     initialize() {
     }
 
-    quickTest(data) {
-        // console.log('qucik test--->>', data);
+    quickTest(data , dataBaseName) {
+        console.log('data--->', data);
+        console.log('databse--name', dataBaseName)
 
-        // let response = {
-        //     'categories': [
-        //         { 'id': 149, 'name': 'Arkansas', 'parent_id': 27281, 'dass': 123 },
-        //         { 'id': 149, 'name': 'Arkansas', 'parent_id': 27281 },
-        //         { 'id': 149, 'name': 'Arkansas', 'parent_id': 27281 },
-        //         { 'id': 149, 'name': 'Arkansas', 'parent_id': 27281 },
-        //         { 'id': 149, 'name': 'Arkansas', 'parent_id': 27281 },
-        //     ]
-        // };
-        // const data = {
-        //     'categories': [
-        //         { 'id': 149, 'name': 'Arkansas', 'parent_id': 27281 },
-        //         { 'id': 150, 'name': 'Illinois', 'parent_id': 27281 },
-        //         { 'id': 151, 'name': 'Indiana', 'parent_id': 27281 },
-        //         { 'id': 152, 'name': 'Kentucky', 'parent_id': 27281 },
-        //         { 'id': 153, 'name': 'Mississippi', 'parent_id': 27281 },
-        //         { 'id': 154, 'name': 'Missouri', 'parent_id': 27281 },
-        //         { 'id': 193, 'name': 'Tennessee', 'parent_id': 27281 }
-        //     ]
-        // };
-
-        const spiltKey = Object.assign({}, ...data.categories);
+ 
+        const spiltKey = Object.assign({}, ...data[dataBaseName]);
+        // const spiltKey = Object.assign({}, `...${data}.${dataBaseName}`);
         const uniqueKey = Object.keys(spiltKey);
         const paranentKey = Object.keys(data);
         const obj = Object.assign({}, paranentKey);
