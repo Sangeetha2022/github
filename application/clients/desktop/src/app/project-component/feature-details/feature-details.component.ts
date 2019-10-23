@@ -111,8 +111,9 @@ export class FeatureDetailsComponent implements OnInit {
         },
         apiMethods: '',
         isQueryParams: '',
-        service:'',
+        service: '',
         dataBaseName: '',
+        connectorsType: '',
         properties: [{
             key: '',
             value: '',
@@ -577,15 +578,15 @@ export class FeatureDetailsComponent implements OnInit {
         this.deleteConnectorPopup = 'block';
     }
 
-    quickConnectorsMethod(event) {
-        this.connectorsType = event;
-    }
-    defaultConnectorsMethod(event) {
-        this.connectorsType = event;
-    }
-    customConnectorsMethod(event) {
-        this.connectorsType = event;
-    }
+    // quickConnectorsMethod(event) {
+    //     this.connectorsType = event;
+    // }
+    // defaultConnectorsMethod(event) {
+    //     this.connectorsType = event;
+    // }
+    // customConnectorsMethod(event) {
+    //     this.connectorsType = event;
+    // }F
 
     addExternalConnector() {
         console.log('Add externel--connector-id-->', this.modifyConnectorsId);
@@ -604,7 +605,9 @@ export class FeatureDetailsComponent implements OnInit {
             this.quickConnectors.isQueryParams = '';
             this.quickConnectors.dataBaseName = '';
             this.quickConnectors.service = '';
+            this.quickConnectors.connectorsType = '';
             this.customConnector = true;
+            this.quickConnectors.connectorsType = '';
         }
     }
     getQuickConnectorId(connector_id) {
@@ -637,10 +640,8 @@ export class FeatureDetailsComponent implements OnInit {
         }
         if (!this.connectorsForm.invalid) {
             this.isService = true;
-        }
-        if (this.connectorsType === 'quickConnectors') {
             this.quickConnectorsType();
-        }
+        } 
     }
 
     quickConnectorsType() {
@@ -658,6 +659,7 @@ export class FeatureDetailsComponent implements OnInit {
             service: this.quickConnectors.service,
             api_key: this.quickConnectors.api_key,
             isQueryParams: this.quickConnectors.isQueryParams,
+            connectorsType: this.quickConnectors.connectorsType,
             availableApi: [
                 {
                     'name': 'availble',
@@ -713,7 +715,6 @@ export class FeatureDetailsComponent implements OnInit {
                 }
             }
         });
-        // });
     }
 
     updateProjectFlowComponents(projectFlowID, projectFlowComponents) {
@@ -731,6 +732,7 @@ export class FeatureDetailsComponent implements OnInit {
             if (response) {
                 console.log('may i coming----')
                 this.submitted = false;
+                this.modifyConnectorsId = null;
                 this.displayModel = 'none';
                 this.customConnector = false;
                 this.dataService.FlowSaveEntity('');

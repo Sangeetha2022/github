@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
     password: '#ced4da',
   };
   public token: any;
+  public isSingePageSignIn: boolean;
   public href: any;
   public lastloggedintime: any;
   public userdetails: any;
@@ -144,6 +145,17 @@ export class LoginComponent implements OnInit {
   }
   hideEye() {
     this.show = !this.show;
+  }
+
+  onChange(event) {
+    if (event === true ) {
+      this.isSingePageSignIn = true;
+    }
+    if (event === false) {
+      this.isSingePageSignIn = false;
+    }
+    console.log('event-->>', event);
+
   }
 
 

@@ -6,6 +6,8 @@ import { AuthGuard } from '../../auth/auth.guard';
 import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 import { DataService } from '../../../shared/data.service';
 import { ConfigManagerService } from 'src/app/config-manager/config-manager.service';
+import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -29,6 +31,7 @@ export class HeaderComponent implements OnInit {
     private configurationService: ConfigManagerService,
     private dataService: DataService,
     private logoutservice: LoginService,
+    private authService: AuthService,
     private router: Router,
     public brodcast: Brodcastservice
   ) {
@@ -147,6 +150,10 @@ export class HeaderComponent implements OnInit {
   Logout() {
     this.user.id = sessionStorage.getItem('Id');
     this.logoutservice.Logout(this.user).subscribe(data => {
+      console.log('logout -response-->>' , data)
+      if (data.body.signintype === 'google') {
+          this.authService.signOut();
+      }
       sessionStorage.clear();
       this.permission = false;
       this.router.navigate(['']);

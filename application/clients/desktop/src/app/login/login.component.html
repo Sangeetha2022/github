@@ -45,24 +45,41 @@
     <mat-checkbox class="example-margin" (change)="newuser($event)" [(ngModel)]="isChecked">New User</mat-checkbox>
     <div style="color:red; text-align: center" *ngIf="new_user">Please Enter email and Password</div>
     <br>
-    <mat-card-actions>
-        <div>
-            <button mat-raised-button (click)='Login()' color="primary">Login</button>
-            <div style="color:red; text-align: center">
-                {{errormessage}}
+    <div class="container">
+        <div class="row" style="justify-content: center;">
+            <div class="col-md-6">
+                <mat-card-actions>
+                    <div>
+                        <button mat-raised-button (click)='Login()' color="primary">Login</button>
+                        <div style="color:red; text-align: center">
+                            {{errormessage}}
+                        </div>
+                    </div>
+                </mat-card-actions>
             </div>
         </div>
-        <br />
-        <!-- <div>
-                <button mat-raised-button (click)='googlesigin("google")' color="primary">Google Signin</button>
+    </div>
+    <div class="container">
+        <div class="row" style="justify-content: center;">
+            <div class="col-md-6">
+                <label class="text">Single signin</label>
+                <br>
+                <ui-switch (change)="onChange($event)"></ui-switch>
             </div>
-    
-            <button mat-raised-button (click)='facebooksigin("facebook")' color="primary">Facebook Signin</button> -->
-    </mat-card-actions>
-    <div class='container'>
+        </div>
+    </div>
+    <div class="container" *ngIf="!isSingePageSignIn">
+        <div class="row" style="justify-content: center">
+            <div class="col-md-8">
+                <button mat-raised-button (click)='Login()' color="primary">Single signin</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class='container' *ngIf="isSingePageSignIn">
         <div class="row">
             <div class="col-md-6">
-                <button type="button" class="google-button" (click)='googlesigin("google")' >
+                <button type="button" class="google-button" (click)='googlesigin("google")'>
                     <span class="google-button__icon">
                         <svg viewBox="0 0 366 372" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -78,19 +95,18 @@
                                 d="M81.4 222.2c7.8 22.9 22.8 43.2 42.6 57.1 12.4 8.7 26.6 14.9 41.4 17.9 14.6 3 29.7 2.6 44.4.1 14.6-2.6 28.7-7.9 41-16.2l59.1 45.9c-21.3 19.7-48 33.1-76.2 39.6-31.2 7.1-64.2 7.3-95.2-1-24.6-6.5-47.7-18.2-67.6-34.1-20.9-16.6-38.3-38-50.4-62 20.3-15.7 40.6-31.5 60.9-47.3z"
                                 fill="#34A853" /></svg>
                     </span>
-                    <span class="google-button__text" >Google</span>
+                    <span class="google-button__text">Google</span>
                 </button>
             </div>
             <div class="col-md-6">
                 <button type="button" class="google-button" (click)='facebooksigin("facebook")'>
                     <span class="google-button__icon">
-                        <img style= "width:20px" src="../../assets/img/facebook (1).png">
-                   </span>
+                        <img style="width:20px" src="../../assets/img/facebook (1).png">
+                    </span>
                     <span class="google-button__text">FACEBOOK</span>
                 </button>
             </div>
         </div>
-
     </div>
 
     <div *ngIf="signup">
