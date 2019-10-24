@@ -19,7 +19,9 @@ export class ProxySupportWorker {
             if (isCommaSeparator) {
                 componentFileData += ',';
             }
-            proxyArray.push(componentFileData);
+            if (!proxyArray.find(x => x === componentFileData)) {
+                proxyArray.push(componentFileData);
+            }
         }
         console.log('after pushed into proxyarray values are ----   ', proxyArray);
     }
