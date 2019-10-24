@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- NgModel lives here
+import { FormsModule, ReactiveFormsModule, NG_VALUE_ACCESSOR } from '@angular/forms'; // <-- NgModel lives here
 // HttpClient
 import { HttpClientModule } from '@angular/common/http';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -87,7 +87,8 @@ import { FlowTreeService } from './feature-details/flow-tree/flow-tree.service';
     EditPopupComponent,
   ],
   providers: [
-    FlowTreeService
+    FlowTreeService,
+   
   ],
   exports: [
     EntityManagerComponent,

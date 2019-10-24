@@ -3,7 +3,6 @@ import { Iscreen } from './interface/screen';
 import { ActivatedRoute, Router } from '@angular/router';
 import yaml from 'js-yaml';
 
-import { FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { MatDialog } from '@angular/material';
 import { ProjectComponentService } from '../project-component.service';
 import { IEntity } from '../interface/Entity';
@@ -124,7 +123,6 @@ export class FeatureDetailsComponent implements OnInit {
     public isStaticOrDynamic: any =[];
     public quickConnectorsURL: any;
     public apiMethodArray: any = ['select Apis', 'post', 'get', 'put', 'delete'];
-    public uploader: FileUploader = new FileUploader({ url: URL, itemAlias: 'photo' });
     // This is the default title property created by the angular cli. Its responsible for the app works
     isPrimaryEntityPresent: boolean;
     deletePopup: string;
