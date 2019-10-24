@@ -456,7 +456,7 @@
                   <div class="form-group">
                     <label for="database">DataBase Name</label>
                     <input class="form-control" id="database" [(ngModel)]="quickConnectors.dataBaseName"
-                      name="flowDescription" />
+                    placeholder="Enter Database Name"  name="database" />
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -474,7 +474,6 @@
                 </div>
               </div>
             </div>
-
             <button type="button" class="btn button-close delete_btn" id="update" (click)="quickTest()">Quick
               Test</button>
             <div>
@@ -483,8 +482,8 @@
                 <h3>Services</h3>
               </div>
               <mat-radio-group aria-label="Select an option" [(ngModel)]="quickConnectors.service" name="service" (click)="connectorServices()">
-                <mat-radio-button value="backEnd" >
-                BackEnd  </mat-radio-button>
+                <mat-radio-button value="backEnd" >&nbsp;
+                BackEnd  </mat-radio-button>&nbsp;
                 <mat-radio-button value="frontEnd">
                  FrontEnd </mat-radio-button>
               </mat-radio-group>
@@ -493,25 +492,14 @@
               <h3>Connector Types</h3>
             </div>
             <div class="row">
-              <mat-radio-group aria-label="Select an option">
-                <mat-radio-button value="defaultConnectors" (click)="quickConnectorsMethod('quickConnectors')">Quick
+              <mat-radio-group aria-label="Select an option" [(ngModel)]="quickConnectors.connectorsType" name="connectorsType" >
+                <mat-radio-button value="quickConnectors">Quick
                   connectors</mat-radio-button>&nbsp;
-                <mat-radio-button value="defaultConnectors" (click)="defaultConnectorsMethod('defaultConnectors')">
+                <mat-radio-button value="defaultConnectors"  >
                   Default Connector</mat-radio-button>&nbsp;
-                <mat-radio-button value="defaultConnectors" (click)="customConnectorsMethod('customConnecetors')">
+                <mat-radio-button value="customConnecetors" >
                   Custom Connector</mat-radio-button>
               </mat-radio-group>
-
-              <!-- <button type="button" class="btn button-create ok_btn" id="AddConnector" (click)="onSubmit()">Quick
-                    connectors</button> -->
-              <!-- <div class="col-md-4" style="right:15%">
-                  <button type="button" style="background-color: #033668;" class="btn button-create ok_btn"
-                    id="update">Default Connector</button>
-                </div> -->
-              <!-- <div class="col-md-4" style="right:29%">
-                  <button type="button" style="background-color: #033668;" class="btn button-create ok_btn"
-                    id="update">Custom Connector</button>
-                </div> -->
             </div>
           </div>
         </div>

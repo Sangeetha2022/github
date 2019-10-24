@@ -60,6 +60,9 @@ import { TemplateScreenModule } from './template-screen/template-screen.module';
 import { FooterComponent } from './navigation/footer/footer.component';
 import { ValidatorService } from 'src/shared/validator.service';
 import { TranslatorModule } from './translator/translator.module';
+import { UiSwitchModule } from 'ngx-toggle-switch';
+
+
 
 // @ts-ignore
 const googleLoginOptions: LoginOpt = {
@@ -100,6 +103,7 @@ export function getAuthserviceConfgis() {
   ],
   imports: [
     BrowserModule,
+    UiSwitchModule,
     BrowserAnimationsModule,
     AgGridModule.withComponents([]),
     AppRoutingModule,
@@ -132,8 +136,7 @@ export function getAuthserviceConfgis() {
     MatCheckboxModule,
     MenuBuilderModule,
     SocialLoginModule,
-    TranslatorModule
-
+    TranslatorModule,
   ],
   providers: [
     ApiService,

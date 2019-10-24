@@ -15,6 +15,7 @@ export let connectorSchema = mongoose.Schema({
     service: String,
     isQueryParams:Boolean,
     endPointUrl:String,
+    connectorsType: String,
     availableApi: [
         {
             name: { type: String, default: null },
