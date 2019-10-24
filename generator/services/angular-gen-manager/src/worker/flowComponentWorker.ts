@@ -136,7 +136,7 @@ export class FlowComponentWorker {
                     createTemp += `\n       console.log('data created successfully');`;
                     if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
                         createTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
-                        this.setComponentVarialble(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
+                        this.setComponentVariable(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
                     } else { }
                     createTemp += `\n    },`;
                     createTemp += `\n    error => {`;
@@ -166,7 +166,7 @@ export class FlowComponentWorker {
                     } else if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME) {
                         if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
                             searchTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
-                            this.setComponentVarialble(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
+                            this.setComponentVariable(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
                         } else {
                             searchTemp += `\n       this.rowData = ${entityInfo ? `data.${entityInfo.name}` : '[]'};`;
                         }
@@ -195,7 +195,7 @@ export class FlowComponentWorker {
                     updateTemp += `\n       console.log('data updated successfully --- ', data);`;
                     if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
                         updateTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
-                        this.setComponentVarialble(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
+                        this.setComponentVariable(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
                     } else { }
                     updateTemp += `\n    },`;
                     updateTemp += `\n    error => {`;
@@ -244,7 +244,7 @@ export class FlowComponentWorker {
                     deleteTemp += `\n       console.log('data deleted successfully --- ', data);`;
                     if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
                         deleteTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
-                        this.setComponentVarialble(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
+                        this.setComponentVariable(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
                     } else { }
                     deleteTemp += `\n    },`;
                     deleteTemp += `\n    error => {`;
@@ -281,7 +281,7 @@ export class FlowComponentWorker {
                         } else {
                             if (this.componentObject.flowMethod[0].components.connector.length > 0) {
                                 getAllValueTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
-                                this.setComponentVarialble(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
+                                this.setComponentVariable(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
                             }
                         }
                     }
@@ -338,7 +338,7 @@ export class FlowComponentWorker {
                     getByIdTemp += `\n       console.log('successfully get the data by id --- ', data);`;
                     if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
                         getByIdTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
-                        this.setComponentVarialble(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
+                        this.setComponentVariable(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
                     } else {
                         getByIdTemp += `\n       this.${this.componentObject.variableList[0].entityName} = data.body;`;
                     }
@@ -376,7 +376,7 @@ export class FlowComponentWorker {
         return (this.currentFlow.components.microFlows.findIndex(x => x.microFlowStepName.toLowerCase() == microFlowStepName) > -1);
     }
 
-    private setComponentVarialble(name) {
+    private setComponentVariable(name) {
         const regex = new RegExp(name);
         console.log('this componentobj in setcomponetnvar are 0--- -', this.componentObject);
         const finded = this.componentObject.variableList.findIndex(x => regex.test(x));
