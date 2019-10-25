@@ -641,7 +641,7 @@ export class GenerateHtmlWorker {
                 if (api) {
                     const temp = {
                         flowName: '',
-                        flowActionOnData: '',
+                        actionOnData: '',
                         flowType: '',
                         routeUrl: '',
                         apiAction: '',
@@ -649,7 +649,7 @@ export class GenerateHtmlWorker {
                         variableName: ''
                     }
                     temp.flowName = flowObject.name;
-                    temp.flowActionOnData = flowObject.actionOnData;
+                    temp.actionOnData = flowObject.actionOnData;
                     temp.flowType = flowObject.type;
                     temp.routeUrl = api.routeUrl;
                     temp.apiAction = api.apiAction;
