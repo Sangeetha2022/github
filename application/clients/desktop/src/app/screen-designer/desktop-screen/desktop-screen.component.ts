@@ -1267,7 +1267,10 @@ export class DesktopScreenComponent implements OnInit {
 
     addCustomBlocks() {
         this.blockService.addCKeditor5(this.editor);
+        this.blockService.addUpload(this.editor);
+        this.blockService.addDownload(this.editor);
         this.blockService.addPopupModal(this.editor);
+        this.blockService.addSpecialDropdown(this.editor);
         this.blockService.addSpecialDropdown(this.editor);
         this.addGridBlocks();
     }

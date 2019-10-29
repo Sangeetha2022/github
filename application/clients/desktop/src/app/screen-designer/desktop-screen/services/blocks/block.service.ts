@@ -12,56 +12,6 @@ export class BlockService {
   ) { }
 
   addCKeditor5(editor) {
-    // test
-
-    // editor.BlockManager.add('radio-block', {
-    //   label: 'Basic Form Element',
-    //   category: 'new',
-    //   content: {
-    //     tagName: 'input',
-    //     attributes: { type: 'text', ngModel: true }
-    //   }
-    // });
-
-    // editor.BlockManager.add('social-sign-in-butttons-section', {
-    //   label: 'Facebook sign-in',
-    //   category: 'new',
-    //   content:
-    //     '<div class="pull-left social-sign-in-button padding-right-small" data-gjs-droppable=".fa .fa-facebook-square">' +
-    //     '<img data-gjs-draggable=".social-sign-in-button" src="facebook.png" id="facebook" title="facebook" class="fa fa-facebook-square fa-3x ">' +
-    //     '</img>' +
-    //     '</div>',
-    //   attributes: {
-    //     class: 'fa fa-facebook'
-    //   }
-    // });
-
-    // editor.BlockManager.add('GooglePlus row', {
-    //   label: 'GooglePlus sign-in',
-    //   category: 'new',
-    //   content:
-    //     '<div class="pull-left social-sign-in-button padding-right-small">' +
-    //     '<img src="google.png" id="googleplus" title="googleplus" class="fa fa-google-plus-square fa-3x ">' +
-    //     '</img>' +
-    //     '</div>',
-    //   attributes: {
-    //     class: 'fa fa-google-plus-square'
-    //   }
-    // });
-
-    // editor.BlockManager.add('LinkedIn sign-in', {
-    //   label: 'LinkedIn sign-in',
-    //   category: 'new',
-    //   content:
-    //     '<div class="pull-left social-sign-in-button padding-right-small">' +
-    //     '<img src="linkedin.png" id="linkedin" title="linkedin" class="fa fa-linkedin-square fa-3x">' +
-    //     '</img>' +
-    //     '</div>',
-    //   attributes: {
-    //     class: 'fa fa-linkedin-square'
-    //   }
-    // });
-
     // working fine
     editor.BlockManager.add('ckeditor', {
       id: 'ckeditor',
@@ -123,6 +73,51 @@ export class BlockService {
     this.traitService.addGridTraits($this, 'grid-type');
   }
 
+  addUpload(editor) {
+    // editor upload custom blocks added
+    editor.BlockManager.add('upload', {
+      id: 'upload',
+      label: 'upload',
+      category: 'Basic',
+      attributes: {
+        class: 'fa fa-paperclip'
+      },
+      content: `<div style="color:#d983a6;
+      display:inline-block;
+      vertical-align:top;
+      padding:10px;
+      max-width:100%;">
+      <button data-gjs-type="upload"><i class="fa fa-paperclip" aria-hidden="true"></i>
+      </button>
+</div>`,
+      draggable: true,
+      removable: true
+    });
+    this.traitService.addUpload(editor, 'upload');
+  }
+
+  addDownload(editor) {
+    // editor upload custom blocks added
+    editor.BlockManager.add('download', {
+      id: 'download',
+      label: 'download',
+      category: 'Basic',
+      attributes: {
+        class: 'fa fa-download'
+      },
+      content: `<div style="color:#d983a6;
+      display:inline-block;
+      vertical-align:top;
+      padding:10px;
+      max-width:100%;">
+      <button data-gjs-type="download"><i class="fa fa-download" aria-hidden="true"></i>
+      </button>
+</div>`,
+      draggable: true,
+      removable: true
+    });
+    this.traitService.addDownload(editor, 'download');
+  }
 
   addPopupModal(editor) {
     editor.BlockManager.add('popupModal', {
