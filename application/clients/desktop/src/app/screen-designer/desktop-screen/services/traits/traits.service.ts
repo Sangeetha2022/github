@@ -468,6 +468,90 @@ export class TraitsService {
     });
   }
 
+  // upload triats
+  addUpload(editor, buttonName) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    // typemodels
+    // const typeModel = comps.getType(buttonName).model;
+    comps.addType(buttonName, {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [{
+            label: 'name',
+            name: 'name',
+            changeProp: 1,
+            type: 'text'
+          },
+          {
+            'name': 'actionButton',
+            'label': 'Action',
+            'type': 'actionButton',
+          }],
+
+        })
+      },
+        {
+          isComponent: function (el) {
+            if (el.tagName === buttonName) {
+              return {
+                type: buttonName
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
+  // download triats
+  addDownload(editor, buttonName) {
+    const $this = this;
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    // typemodels
+    // const typeModel = comps.getType(buttonName).model;
+    comps.addType(buttonName, {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          traits: [{
+            label: 'name',
+            name: 'name',
+            changeProp: 1,
+            type: 'text'
+          },
+          {
+            'name': 'actionButton',
+            'label': 'Action',
+            'type': 'actionButton',
+          }],
+
+        })
+      },
+        {
+          isComponent: function (el) {
+            if (el.tagName === buttonName) {
+              return {
+                type: buttonName
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
+    });
+  }
+
   addGridTraits(screensVariable, buttonName) {
     // this.getEntityData(editor, buttonName, projectId);
     const $this = this;
@@ -486,8 +570,6 @@ export class TraitsService {
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
           draggable: '*',
           droppable: false,
-          myModelCount: 5,
-          myModelPropName: '{name: age}',
           gridOptions: gridOptionsInString,
           secGrid: secGridString,
           script: function () {
