@@ -316,6 +316,7 @@ export class CustomTraitsService {
         $this.editor.TraitManager.addType('addButton', {
             events: {
                 'click': function () {
+                    const component = $this.editor.getSelected();
                     const agGridObject = {
                         columnid: '',
                         columnname: '',
@@ -339,8 +340,11 @@ export class CustomTraitsService {
                     $this.columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
                     const colTraits = this.target.get('traits').where({ name: 'columns' })[0];
                     $this.saveRemoteStorage();
-                    colTraits.set('options', $this.columnOptions);
-                    $this.editor.TraitManager.getTraitsViewer().render();
+                    component.getTrait('columns').set('options', [
+                        ...$this.columnOptions
+                    ]);
+                    // colTraits.set('options', $this.columnOptions);
+                    // $this.editor.TraitManager.getTraitsViewer().render();
                     // console.log('sessionStorage count are ', count, ' --- ', { value: `col${count}_id`, name: `column_${count}` });
                     // const modal = <HTMLElement>document.querySelector('#agGridModal');
                     // console.log('ag Grid modal are ----- ', modal);
@@ -373,8 +377,9 @@ export class CustomTraitsService {
             events: {
                 'click': function () {
                     const columnDefs = this.target.view.el.gridOptions.columnDefs;
+                    const component = $this.editor.getSelected();
                     columnDefs.pop();
-                    console.log('removing grid options and value');
+                    console.log('component removing grid options and value -----   ', component, ' component.getTypes ', component.getTrait('columns'));
                     this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                     this.target.view.el.gridOptions.api.sizeColumnsToFit();
                     $this.columnOptions.pop();
@@ -382,8 +387,15 @@ export class CustomTraitsService {
                     $this.agGridObject.custom_field.pop();
                     $this.saveRemoteStorage();
                     const colTraits = this.target.get('traits').where({ name: 'columns' })[0];
-                    colTraits.set('options', $this.columnOptions);
-                    $this.editor.TraitManager.getTraitsViewer().render();
+                    console.log('remove grids are- ----  ', colTraits, ' columnOptions ', $this.columnOptions);
+                    component.getTrait('columns').set('options', [
+                        ...$this.columnOptions
+                    ]);
+                    // $this.editor.TraitManager.render();
+                    console.log('editor traitManager are -props---00----   ', component.getTrait('columns').props());
+                    console.log('editor traitManager are ----11----   ', $this.editor.TraitManager);
+                    console.log('editor traitManager are ----22----   ', $this.editor.TraitManager.getTraitsViewer());
+                    console.log('editor traitManager are ----33----   ', $this.editor.TraitManager.getTraitsViewer().render());
                 },
             },
             getInputEl() {
