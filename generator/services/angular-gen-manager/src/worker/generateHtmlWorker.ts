@@ -84,6 +84,9 @@ export class GenerateHtmlWorker {
         linkInfo: null
     }
 
+    // class counter
+    private classCount = 0;
+
     initializeData() {
         // add cssGuidelines
         this.cssGuidelines = [];
@@ -438,6 +441,20 @@ export class GenerateHtmlWorker {
             }
             attributes.forEach(element => {
                 if (element === 'name' && firstEle.name) {
+                if (element === 'id') {
+                    const classRegex = /class='/g;
+                    const className = `gp-ele-${this.classCount}`;
+                    // changing css id to className
+                    this.componentStyle[0] = this.componentStyle[0].replace(`#${firstEle.attributes[element]}`, `.${className}`);
+                    if (classRegex.test(this.startString.toString())) {
+                        console.log('clas regex true');
+                        this.startString = this.startString.replace(classRegex, ` class='${className} `)
+
+                    } else {
+                        this.startString += ` class='${className}'`;
+                    }
+                    this.classCount++;
+                } else if (element === 'name' && firstEle.name) {
                     // added previour
                     if (this.startString.includes('radio')) {
                         componentSpecializedWorker.removeClassName(this, 'input');
