@@ -105,7 +105,7 @@
               <div class="form-group">
                 <label for="template">Select Template</label>
                 <select class="form-control" id="template" formControlName="template"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.template.errors }">
+                  [ngClass]="{ 'is-invalid': submitted && form_control.secondoryLanguage.errors }">
                   <option value="" selected>select template</option>
                   <option *ngFor="let tempalte of gepTemplates;let i = index" [ngValue]="tempalte">{{ tempalte.name }}
                   </option>
