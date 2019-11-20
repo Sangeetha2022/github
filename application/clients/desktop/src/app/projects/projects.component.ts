@@ -219,7 +219,7 @@ export class ProjectsComponent implements OnInit {
     this.secondoryLanguages = this.primaryLanguages;
     var currentvalue = this.createProject.value.primaryLanguage;
     this.secondoryLanguages = this.secondoryLanguages.filter(item => item !== currentvalue)
-    console.log(this.secondoryLanguages);
+    
    
   }
 
