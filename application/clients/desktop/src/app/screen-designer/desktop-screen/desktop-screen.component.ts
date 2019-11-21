@@ -5,6 +5,7 @@ import { LanguageService } from './services/languages/language.service';
 import { StylesService } from './services/styles/styles.service';
 import { PanelService } from './services/panels/panel.service';
 import { DataService } from '../../../shared/data.service';
+// import gjsWebPage from 'grapesjs-preset-webpage';
 
 import * as constant from '../../../assets/data/constant.json';
 import * as langConstant from '../../../assets/data/language.json';
@@ -295,7 +296,7 @@ export class DesktopScreenComponent implements OnInit {
         this.updateTemplateURL = `${this.sharedService.Apigateway}${Constants.updateScreen}`;
         let addStyles = [];
         let addScripts = [];
-        const plugins = ['gjs-grapedrop-preset'];
+        const plugins = ['grapesjs-preset-webpage'];
         const updateParams = {
             method: 'PATCH',
         };
@@ -305,31 +306,55 @@ export class DesktopScreenComponent implements OnInit {
         if (this.scripts) {
             addScripts = this.scripts;
         }
+        // desktop plugins
+        grapesjs.plugins.add('desktop-plugin', function (editor, options) {
+            // remove the devices switcher
+            // editor.getConfig().showDevices = false;
+            console.log('desktop plugins editor are --11-- ', editor);
+            console.log('desktop plugins options are --22-- ', options);
+            editor.getConfig().deviceManager.devices = [
+                { name: 'Desktop', width: '' },
+                { name: 'Tablet', width: '768px', widthMedia: '992px' },
+                { name: 'Mobile landscape', width: '568px', widthMedia: '768px' },
+                { name: 'Mobile portrait', width: '320px', widthMedia: '480px' }
+            ];
+        });
+        // mobile plugin
         grapesjs.plugins.add('mobile-plugin', function (editor, options) {
             // remove the devices switcher
             // editor.getConfig().showDevices = false;
-            editor.getConfig().deviceManager.devices = [{
-                name: 'Mobile',
-                width: '568px',
-                widthMedia: '768px'
-            },
-            {
-                name: 'Mobile',
-                width: '320px',
-                widthMedia: '480px'
-            }];
+            console.log('mobile plugins editor are --11-- ', editor);
+            console.log('mobile plugins options are --22-- ', options);
+            // editor.getConfig().deviceManager.devices = [{
+            //     name: 'Mobile',
+            //     width: '568px',
+            //     widthMedia: '768px'
+            // },
+            // {
+            //     name: 'Mobile',
+            //     width: '320px',
+            //     widthMedia: '480px'
+            // }];
             // remove the view code button
             // const codeButton = editor.Panels.getButton("options", "undo-options");
-            const desktopButton = editor.Panels.getButton('devices-c', 'deviceDesktop');
-            const tabletButton = editor.Panels.getButton('devices-c', 'deviceTablet');
-            const mobileButton = editor.Panels.getButton('devices-c', 'deviceMobile');
-            desktopButton.collection.remove(desktopButton);
-            tabletButton.collection.remove(tabletButton);
+            const desktopButton = editor.Panels.removeButton('devices-c', 'set-device-desktop');
+            const tabletButton = editor.Panels.removeButton('devices-c', 'set-device-tablet');
+            const mobileButton = editor.Panels.getButton('devices-c', 'set-device-mobile');
+            console.log('desktop button plugin adding ----- ', desktopButton);
+            console.log('tabletButton button plugin adding ----- ', tabletButton);
+            console.log('mobileButton button plugin adding ----- ', mobileButton);
+            console.log('mobileButton button plugin adding ---22-- ', editor.Panels.getPanelsEl());
+            console.log('mobileButton button plugin adding ---33-- ', editor.Panels.getPanel('devices-c'));
+            // desktopButton.collection.remove(desktopButton);
+            // tabletButton.collection.remove(tabletButton);
             mobileButton.set('active', 1);
         });
         if (this.screenType === 'mobile') {
             plugins.push('mobile-plugin');
+        } else {
+            // plugins.push('desktop-plugin');
         }
+        console.log('plugins list before set grapesjs are ----  ', plugins);
         this.editor = grapesjs.init({
             container: '#editor-c',
             height: '100%',
@@ -342,9 +367,8 @@ export class DesktopScreenComponent implements OnInit {
             allowScripts: 1,
             plugins: plugins,
             pluginsOpts: {
-                'gjs-grapedrop-preset': {
+                'grapesjs-preset-webpage': {
                     isDev: 0,
-                    pageUuid: 'ad8906ca2d4d4fcfb0c99f0a11082f4d',
                     fonts: [],
                     unsplash: constant['unsplash'],
                     assetIcons: constant['assets'],
@@ -423,11 +447,13 @@ export class DesktopScreenComponent implements OnInit {
             },
             storageManager: {
                 type: 'remote',
+                autosave: false,
+                autoload: false,
                 contentTypeJson: true,
                 urlStore: '',
             },
             styleManager: {
-                clearProperties: 1,
+                clearProperties: 1
             }
         });
         this.getScreenById();
@@ -439,7 +465,7 @@ export class DesktopScreenComponent implements OnInit {
         // this.getAllFlows();
         this.getProjectDetails();
         this.addCustomBlocks();
-        this.declareBlockLanguage();
+        // this.declareBlockLanguage();
         this.styleManager();
         this.panelManager();
         this.editorCommands();

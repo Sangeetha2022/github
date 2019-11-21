@@ -562,8 +562,6 @@ export class TraitsService {
     let selectedEntity;
     let selectedColumnId = 'col1_id';
     const gridOptionsInString = JSON.stringify(screensVariable.agGridObject);
-    console.log('screenvariable gridOptions are -----  ', screensVariable.agGridObject);
-    console.log('before set to screensVariable.columnOptions --v---  ', screensVariable.columnOptions);
     const secGridString = JSON.stringify(screensVariable.agGridObject.custom_field);
     comps.addType(buttonName, {
       model: defaultModel.extend({
@@ -582,7 +580,7 @@ export class TraitsService {
                 gridOptions.custom_field.length > 0) {
                 columnDefs = [];
                 for (const key of gridOptions.custom_field) {
-                  for (let i = 0; i < 30; i++) {
+                  for (let i = 0; i < 10; i++) {
                     const newObject = gridOptions.custom_field.reduce((o, objectKey) =>
                       Object.assign(o, { [objectKey.columnname]: `${objectKey.columnname}${Math.floor(Math.random() * 10000)}` }), {});
                     rowData.push(newObject);
@@ -636,7 +634,7 @@ export class TraitsService {
 
               function createRowData() {
                 const tempData = [];
-                for (let i = 0; i < 100; i++) {
+                for (let i = 0; i < 10; i++) {
                   // create sample row item
                   const rowItem = {
                     // is is simple
@@ -670,7 +668,7 @@ export class TraitsService {
                     });
                   });
                 },
-                paginationAutoPageSize: true,
+                paginationPageSize: 5,
                 pagination: true,
               };
               const gridDiv = document.querySelector('#myGrid');
@@ -757,7 +755,7 @@ export class TraitsService {
               if (customField) {
                 customField.columnname = enteredColName;
               }
-              console.log('after set tge grid ojbect c ---  ', screensVariable.agGridObject.custom_field);
+              console.log('after set tge grid ojbect c ---  ', screensVariable.agGridObject.custom_field, ' customField ', customField);
               screensVariable.saveRemoteStorage();
             }
           });
@@ -825,6 +823,7 @@ export class TraitsService {
       view: defaultType.view,
     });
   }
+
   // getEntityData(editor, buttonName, projectId) {
   //   this.entityOptions = [];
   //   this.fieldOptions = [];
