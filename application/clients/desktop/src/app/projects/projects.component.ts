@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TemplateScreenService } from '../template-screen/template-screen.service';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
 import { ValidatorService } from 'src/shared/validator.service';
+import { ReturnStatement } from '@angular/compiler';
 
 @Component({
   selector: 'app-projects',
@@ -112,6 +113,7 @@ export class ProjectsComponent implements OnInit {
       this.lang = 'English';
       this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
     }
+
     // socket
     // this.initSocket();
     // this.onEvent();
@@ -212,6 +214,14 @@ export class ProjectsComponent implements OnInit {
     this.router.navigate(['/project-component'], { queryParams: { projectId: project._id } });
   }
 
+  onSecondoryLangSelect() {
+
+    this.secondoryLanguages = this.primaryLanguages;
+    this.secondoryLanguages = this.secondoryLanguages.filter(item => item !== this.createProject.value.primaryLanguage)
+     
+  }
+
+
   async projectCreate() {
     this.isProjectExit = false;
     this.invalidName = false;
@@ -298,6 +308,7 @@ export class ProjectsComponent implements OnInit {
       project: '',
       isTemplate: true,
     };
+
 
     this.projectsService.getProjectByUserId(this.UserId).subscribe(async (data) => {
       if (data) {
@@ -417,9 +428,9 @@ export class ProjectsComponent implements OnInit {
 
           this.toastr.success('PROJECT : ' + currentNotify.project_name +
             ', STATUS : ' + currentNotify.status_message + '', 'Generation Notification!', {
-              closeButton: true,
-              disableTimeOut: true
-            });
+            closeButton: true,
+            disableTimeOut: true
+          });
 
         }
       }
@@ -462,9 +473,9 @@ export class ProjectsComponent implements OnInit {
         this.toastr.info('PROJECT : ' + this.userNotifyArr[this.userNotifyArr.length - 1].project_name
           + ', STATUS : ' + this.userNotifyArr[this.userNotifyArr.length - 1].status_message,
           'Generation Notification!', {
-            closeButton: true,
-            disableTimeOut: true
-          });
+          closeButton: true,
+          disableTimeOut: true
+        });
 
         this.getProjectNotify(this.userNotifyArr[this.userNotifyArr.length - 1].project_id);
 
