@@ -1,8 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { TemplateController } from "../controllers/template.controller"
+import { TemplateController } from "../controllers/template.controller";
+import { TemplateParserController } from '../controllers/templateParser.controller';
 export class Routes {
 
-    public templateController: TemplateController = new TemplateController()
+    public templateController: TemplateController = new TemplateController();
+    public templateParserController: TemplateParserController = new TemplateParserController();
+
 
     public routes(app): void {
 
@@ -18,6 +21,9 @@ export class Routes {
         app.route('/template/getall').get(this.templateController.getAllTemplates)
         app.route('/template/update/:id').put(this.templateController.updateTemplate)
         app.route('/template/delete/:id').delete(this.templateController.deleteTemplate)
+
+        // template parser
+        app.route('/templateparser/get').get(this.templateParserController.getAllTemplateParser);
 
     }
 }
