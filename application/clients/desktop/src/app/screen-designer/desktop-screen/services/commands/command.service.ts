@@ -244,8 +244,10 @@ export class CommandService {
 
   dragAndDrop($this) {
     $this.editor.on('block:drag:stop', function (model) {
+      console.log('model drag and drop are ----- ', model);
       // default
-      const allInputModels = model.find('input');
+      const allFormModels = model.find('form');
+      const allInputModels = model.find('[data-gjs-type="input"]');
       const allRadioModels = model.find('input[type="radio"i]');
       const allTextAreaModels = model.find('textarea');
       const allOptionModels = model.find('select');
@@ -257,6 +259,19 @@ export class CommandService {
       const ckeditorspan = model.find('#ckeditorspan');
       const ckeditorTextAreaModels = model.find('span #ckeditortextarea');
 
+      console.log('allInputModels ---  ', allInputModels);
+      console.log('allButtonModels ---  ', allButtonModels);
+      console.log('formall models are ------- ', allFormModels);
+      if (allInputModels.length === 0 && model.attributes.tagName === 'input') {
+        allInputModels.push(model);
+      }
+      if (allFormModels.length === 0 && model.attributes.tagName === 'form') {
+        $this.setElementCSS(model, 'form', null);
+      }
+      if (allButtonModels.length === 0 && model.attributes.tagName === 'button') {
+        allInputModels.push(model);
+      }
+      console.log('after set inputmodels vlaue ---- ', allInputModels);
       // label
       allLabelModels.forEach(element => {
         // element.set({
@@ -273,7 +288,7 @@ export class CommandService {
       });
       // input
       allInputModels.forEach(element => {
-        $this.setElementCSS(element, 'input', null);
+        $this.setElementCSS(element, 'input', 'input');
         element.attributes.traits.target.set('name', `input_${element.ccid}`);
       });
       // radio

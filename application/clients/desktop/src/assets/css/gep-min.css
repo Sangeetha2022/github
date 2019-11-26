@@ -1,0 +1,76 @@
+.gp-form-control {
+    color: "black";
+    width: "30%";
+}
+
+.gp-div {
+    background-color: "black";
+}
+
+
+.gp-input-text {
+    padding: 8px;
+    border: ridge;
+    width: 100%;
+    border-color: #c5c5f7;
+}
+
+.gp-input-textarea {
+    padding: 8px;
+    border: ridge;
+    width: 100%;
+    border-color: #c5c5f7;
+}
+
+.gp-form {
+    background-color: #ececec;
+}
+
+.gp-button {
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: grey;
+    display: inline-block;
+    transition: all 0.4s ease 0s;
+    width: 20%;
+    height: 35px
+}
+
+.gp-h1 {
+    color: "green"
+}
+
+.gp-h2 {
+    color: "red"
+}
+
+.gp-h3 {
+    color: "blue"
+}
+
+.gp-h4 {
+    color: "yellow"
+}
+
+.gp-h6 {
+    color: "black"
+}
+
+.gp-h2 {
+    color: "red"
+}
+
+.gp-h2 {
+    color: "red"
+}
+
+.gp-table {
+    color: "green";
+    width: "10%";
+    background-color: "grey";
+}
+
+.gp-hr {
+    background-color: "red"
+}

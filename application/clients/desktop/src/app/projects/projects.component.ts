@@ -74,6 +74,7 @@ export class ProjectsComponent implements OnInit {
     this.UserId = sessionStorage.getItem('Id');
     this.getProjectByUserId();
     this.getAllTemplates();
+    this.getTemplateParser();
     this.createProject = this.formBuilder.group({
       // const control = new FormControl('1', Validators.pattern('[a-zA-Z ]*'));
       name: ['', Validators.compose([
@@ -453,6 +454,22 @@ export class ProjectsComponent implements OnInit {
         console.log('Check the browser console to see more info.', 'Error!');
       });
   }
+
+  getTemplateParser() {
+    this.templateScreenService.getTemplateParser().subscribe(response => {
+      console.log('getTemplate parser response in project are --- ', response);
+      // this.gepTemplates = gepTemp.body;
+      // this.gepTempImages = this.gepTemplates.template_image;
+      if (response) {
+        localStorage.setItem('templateparser', JSON.stringify(response.body));
+      }
+    },
+      error => {
+        console.log('Check the browser console to see more info.', 'Error!');
+      });
+  }
+
+
   getAllUserNotify(user_id) {
 
     this.projectsService.getAllUserNotify(user_id).subscribe(data => {
