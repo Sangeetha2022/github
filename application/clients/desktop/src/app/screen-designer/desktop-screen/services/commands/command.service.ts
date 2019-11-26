@@ -348,6 +348,7 @@ export class CommandService {
         $this.is_grid_present = true;
         $this.saveRemoteStorage();
         wrapperType.forEach(element => {
+          $this.setElementCSS(element, 'grid', null);
           element.attributes.traits.target.set('name', `grid_${element.ccid}`);
         });
       }

@@ -21,6 +21,11 @@
     width: 100%;
     border-color: #c5c5f7;
 }
+.gp-ag-grid {
+    background-color: #f1f1f1;
+    border: ridge;
+    border-color: #5e9cd3;
+}
 
 .gp-form {
     background-color: #ececec;
