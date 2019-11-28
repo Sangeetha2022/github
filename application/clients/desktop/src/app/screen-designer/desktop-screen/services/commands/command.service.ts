@@ -1,6 +1,7 @@
 import { Injectable, ViewChild, ElementRef } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { CustomTraitsService } from '../traits/custom-traits.service';
 declare var jQuery: any;
 
 @Injectable({
@@ -15,7 +16,8 @@ export class CommandService {
 
   constructor(
     private location: Location,
-    private activateRoute: ActivatedRoute
+    private activateRoute: ActivatedRoute,
+    private customTraitService: CustomTraitsService,
   ) {
     this.activateRoute.queryParams.subscribe(params => {
       if (params.featureId !== undefined && params.featureId !== null) {
@@ -61,11 +63,85 @@ export class CommandService {
 
   componentSelected($this) {
     $this.editor.on('component:selected', function (component) {
+      const entityTrait = component.getTrait('entity');
+      const removeTriatName = ['Field', 'modalButton',
+        'fieldButton', 'verbs', 'routeButton', 'addButton', 'removeButton'];
+      removeTriatName.forEach((name, index) => {
+        component.removeTrait(name);
+      });
+      if (entityTrait && component.attributes.type !== 'grid-type') {
+        entityTrait.set('options', $this.dataBindingTypes);
+        component.get('traits').add(
+          {
+            type: 'entityFieldButton',
+            label: 'Field',
+            name: 'Field'
+          }
+        );
+      }
+      if (component.attributes.type === 'popupModal-type') {
+        component.get('traits').add(
+          {
+            name: 'modalButton',
+            label: 'Modal',
+            type: 'modalButton'
+          }
+        );
+      } else if (component.attributes.tagName === 'button') {
+        component.get('traits').add(
+          {
+            name: 'actionButton',
+            label: 'Action',
+            type: 'actionButton'
+          }
+        );
+      }
+      if (component.attributes.type === 'grid-type') {
+        component.get('traits').add([
+          {
+            type: 'select',
+            label: 'entity',
+            name: 'entity',
+            changeProp: 1,
+            options: $this.dataBindingTypes
+          },
+          {
+            name: 'fieldButton',
+            label: 'bind',
+            type: 'fieldGridButton'
+          },
+          {
+            type: 'select',
+            label: 'verb',
+            name: 'verbs',
+            changeProp: 1,
+            options: [
+              { key: 'click', value: 'onClick' },
+              { key: 'focus', value: 'onFocus' },
+              { key: 'blur', value: 'onBlur' }
+            ]
+          },
+          {
+            name: 'routeButton',
+            label: 'Route',
+            type: 'routeButton'
+          },
+          {
+            name: 'addButton',
+            label: 'Add',
+            type: 'addButton'
+          },
+          {
+            name: 'removeButton',
+            label: `Remove`,
+            type: 'removeButton'
+          }
+        ]);
+      }
       if (component.attributes.type === 'grid-type') {
         $this.agGridObject.htmlId = component.ccid;
         $this.agGridObject.componentId = component.cid;
         $this.is_grid_present = true;
-        console.log('selected grid modals of selectedEntityModel are -----  ', $this.selectedEntityModel);
       }
     });
   }
@@ -98,18 +174,16 @@ export class CommandService {
         // remove special events
         componentIndex = $this.specialEvents.findIndex(x =>
           x.elementName === model.attributes.name);
-        console.log('remove special event parent componentIndex -----  ', componentIndex);
         if (componentIndex > -1) {
           $this.specialEvents.splice(componentIndex, 1);
         }
 
-          // remove link information
-          componentIndex = $this.linkArray.findIndex(x =>
-            x.elementName === model.attributes.name);
-          console.log('remove link info componentIndex -----  ', componentIndex);
-          if (componentIndex > -1) {
-            $this.linkArray.splice(componentIndex, 1);
-          }
+        // remove link information
+        componentIndex = $this.linkArray.findIndex(x =>
+          x.elementName === model.attributes.name);
+        if (componentIndex > -1) {
+          $this.linkArray.splice(componentIndex, 1);
+        }
       }
       if (parentComponent.length === 0) {
         componentIndex = $this.screenEntityModel.findIndex(x =>
@@ -153,11 +227,11 @@ export class CommandService {
             $this.specialEvents.splice(specialEventIndex, 1);
           }
 
-            // remove element for link
-            const linkIndex = $this.linkArray.findIndex(x => x.elementName === child.attributes.name);
-            if (linkIndex > -1) {
-              $this.linkArray.splice(linkIndex, 1);
-            }
+          // remove element for link
+          const linkIndex = $this.linkArray.findIndex(x => x.elementName === child.attributes.name);
+          if (linkIndex > -1) {
+            $this.linkArray.splice(linkIndex, 1);
+          }
         });
         $this.saveRemoteStorage();
       }
@@ -212,7 +286,6 @@ export class CommandService {
 
       $this.saveRemoteStorage();
     });
-
   }
 
   updateTraits($this) {
@@ -238,13 +311,10 @@ export class CommandService {
         $this.screenOption = 'normal';
       }
     });
-    // this.editor.on('change:traits:entity', function (model) {
-    // });
   }
 
   dragAndDrop($this) {
     $this.editor.on('block:drag:stop', function (model) {
-      // default
       const allInputModels = model.find('input');
       const allRadioModels = model.find('input[type="radio"i]');
       const allTextAreaModels = model.find('textarea');
@@ -257,23 +327,17 @@ export class CommandService {
       const ckeditorspan = model.find('#ckeditorspan');
       const ckeditorTextAreaModels = model.find('span #ckeditortextarea');
 
+      if (allInputModels.length === 0 && model.attributes.tagName === 'input') {
+        allInputModels.push(model);
+      }
+
       // label
       allLabelModels.forEach(element => {
-        // element.set({
-        //     attributes: {
-        //         class: 'form-control'
-        //     }
-        // });
-        // element.addClass('form-control');
-        // const temp = $this.cssGuidelines.find(x => x.tagName === 'input');
-        // if (temp) {
-        //     element.addClass(temp.className);
-        // }
         $this.setElementCSS(element, 'label', null);
       });
       // input
       allInputModels.forEach(element => {
-        $this.setElementCSS(element, 'input', null);
+        $this.setElementCSS(element, 'input', 'input');
         element.attributes.traits.target.set('name', `input_${element.ccid}`);
       });
       // radio
@@ -338,7 +402,6 @@ export class CommandService {
       }
       if (popupModalType.length > 0) {
         popupModalType.forEach(element => {
-          console.log('ram each popupmodal element are ----  ', element);
           element.attributes.traits.target.set('name', `modal_${element.ccid}`);
         });
       }
