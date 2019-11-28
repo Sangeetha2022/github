@@ -27,6 +27,10 @@
     border-color: #5e9cd3;
 }
 
+.gp-label {
+    color: blue!important;
+}
+
 .gp-form {
     background-color: #ececec;
 }

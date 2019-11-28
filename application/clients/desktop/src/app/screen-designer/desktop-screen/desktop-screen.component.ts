@@ -1428,8 +1428,12 @@ export class DesktopScreenComponent implements OnInit {
   // set component element css based on cssGuideLines
   setElementCSS(element, tagName, removeTagClassName) {
     const gepStyle = JSON.parse(localStorage.getItem("templateparser"));
-    console.log("gep default styles are -----  ", gepStyle);
-    const temp = this.cssGuidelines.find(x => x.tagName === tagName);
+    console.log("gep default styles are -----  ", gepStyle, ' cssguideines are ---  ', this.cssGuidelines, '  tagname  ', tagName);
+    let temp = null; 
+    if(this.cssGuidelines) {
+     temp = this.cssGuidelines.find(x => x.tagName === tagName);
+
+    }
     console.log(
       "set element css ar e----  ",
       temp,

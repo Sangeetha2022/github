@@ -61,7 +61,7 @@ export class BlockService {
         class: 'fa fa-table'
       },
       content: `<div data-gjs-type="grid-type" style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
-      <div id="myGrid" style="width: auto; height: 32%" class="ag-theme-blue"></div>
+      <div id="myGrid" style="width: auto; height: 32%"></div>
   </div>`,
       draggable: true,
       removable: true

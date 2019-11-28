@@ -255,7 +255,7 @@ export class CommandService {
       const allCheckBoxModels = model.find('input[type="checkbox"i]');
       const allImageBlockModels = model.find('.gpd-image-block');
       const allImageModels = model.find('.gjs-plh-image');
-      const allLabelModels = model.find('label');
+      const allLabelModels = model.find('[data-gjs-type="label"]');
       const ckeditorspan = model.find('#ckeditorspan');
       const ckeditorTextAreaModels = model.find('span #ckeditortextarea');
 
@@ -269,9 +269,12 @@ export class CommandService {
         $this.setElementCSS(model, 'form', null);
       }
       if (allButtonModels.length === 0 && model.attributes.tagName === 'button') {
-        allInputModels.push(model);
+        allButtonModels.push(model);
       }
-      console.log('after set inputmodels vlaue ---- ', allInputModels);
+      if (allLabelModels.length === 0 && model.attributes.tagName === 'label') {
+        allLabelModels.push(model);
+      }
+      console.log('after set inputmodels vlaue ---- ', allLabelModels);
       // label
       allLabelModels.forEach(element => {
         // element.set({
