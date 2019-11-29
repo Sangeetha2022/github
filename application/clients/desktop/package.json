@@ -43,6 +43,7 @@
     "detect-browser": "^4.0.4",
     "express": "^4.16.4",
     "fs": "0.0.1-security",
+    "grapesjs-preset-webpage": "^0.1.11",
     "i18next": "^14.0.1",
     "i18next-browser-languagedetector": "^2.2.4",
     "i18next-sprintf-postprocessor": "^0.2.2",
