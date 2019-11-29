@@ -290,11 +290,13 @@ export class CommandService {
 
   updateTraits($this) {
     // select entity if triats values changed then its called
-    $this.editor.on(`component:update:${$this.traitsName}`, function (model) {
+    $this.editor.on(`component:update:entity`, function (model) {
       $this.selectedEntityModel = model.changed['entity'];
       $this.selectedHtmlElement.htmlId = model.ccid;
       $this.selectedHtmlElement.componentId = model.cid;
       $this.selectedHtmlElement.elementName = model.attributes.name;
+      console.log('entity component update traits selectedEntityModel are -----  ', $this.selectedEntityModel);
+      console.log('entity component update traits selectedHtmlElement are -----  ', $this.selectedHtmlElement);
     });
 
     // called when we change value in component lifecycle verbs
