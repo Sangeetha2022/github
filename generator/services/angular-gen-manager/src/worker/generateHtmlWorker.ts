@@ -444,23 +444,8 @@ export class GenerateHtmlWorker {
             }
             attributes.forEach(element => {
                 console.log('attributes foreach -------   ', element);
-                // if (element === 'id') {
-                //     IDName = firstEle.attributes[element];
-                //     const classRegex = /class='/g;
-                //     const className = `gp-ele-${this.classCount}`;
-                //     // changing css id to className
-                //     this.componentStyle[0] = this.componentStyle[0].replace(`#${firstEle.attributes[element]}`, `.${className}`);
-                //     if (classRegex.test(this.startString.toString())) {
-                //         console.log('clas regex true');
-                //         this.startString = this.startString.replace(classRegex, ` class='${className} `)
-
-                //     } else {
-                //         this.startString += ` class='${className}'`;
-                //     }
-                //     this.classCount++;
-                // } else 
-                if (element === 'name' && firstEle.name) {
                 if (element === 'id') {
+                    IDName = firstEle.attributes[element];
                     const classRegex = /class='/g;
                     const className = `gp-ele-${this.classCount}`;
                     // changing css id to className
