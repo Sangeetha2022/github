@@ -120,7 +120,7 @@ export class ProjectsComponent implements OnInit {
     const user_id = '123';
 
     if (!sessionStorage.getItem('onNotify')) {
-      this.getAllUserNotify(user_id);
+      // this.getAllUserNotify(user_id);
       sessionStorage.setItem('onNotify', 'off');
     }
   }
