@@ -84,6 +84,9 @@ export class GenerateHtmlWorker {
         linkInfo: null
     }
 
+    // class counter
+    private classCount = 0;
+
     initializeData() {
         // add cssGuidelines
         this.cssGuidelines = [];
@@ -365,6 +368,7 @@ export class GenerateHtmlWorker {
                 // console.log('pushed ttextnode are ------------ ', this.startTag);
                 this.getNextValue(secondEle);
             } else if (!this.tagName) {
+                console.log('convert tags into div are ----  ', this.tagName, ' firstelement ', firstEle);
                 this.tagName = 'div';
             }
             this.isNotImportant = false;
@@ -431,12 +435,30 @@ export class GenerateHtmlWorker {
     }
 
     setAttributes(firstEle) {
+        let IDName = null;
+        console.log('set attributees tagname are ----  ', this.tagName, ' firstelem  ', firstEle);
         if (firstEle.hasOwnProperty('attributes') && this.tagName !== 'form') {
             let attributes = Object.keys(firstEle.attributes);
             if (!this.startString) {
                 this.startString += `<${this.tagName}`
             }
             attributes.forEach(element => {
+                console.log('attributes foreach -------   ', element);
+                // if (element === 'id') {
+                //     IDName = firstEle.attributes[element];
+                //     const classRegex = /class='/g;
+                //     const className = `gp-ele-${this.classCount}`;
+                //     // changing css id to className
+                //     this.componentStyle[0] = this.componentStyle[0].replace(`#${firstEle.attributes[element]}`, `.${className}`);
+                //     if (classRegex.test(this.startString.toString())) {
+                //         console.log('clas regex true');
+                //         this.startString = this.startString.replace(classRegex, ` class='${className} `)
+
+                //     } else {
+                //         this.startString += ` class='${className}'`;
+                //     }
+                //     this.classCount++;
+                // } else 
                 if (element === 'name' && firstEle.name) {
                     // added previour
                     if (this.startString.includes('radio')) {
@@ -476,139 +498,138 @@ export class GenerateHtmlWorker {
                 this.startString += `>`;
             }
         }
-        componentSpecializedWorker.checkSpecialElement(this);
+        componentSpecializedWorker.checkSpecialElement(this, IDName);
     }
 
     setTraits(firstEle) {
-        console.log('entering into firstelement triats ', firstEle.hasOwnProperty('traits'));
-        if (firstEle.hasOwnProperty('traits')) {
-            // checking entities from databinding and flows for methods in component
-            if (this.entityDetails.length > 0 || this.flowDetails.length > 0 ||
-                this.screenInfo.route_info.length > 0 || this.screenSpecialEvents.length > 0 ||
-                this.linkInfo.length > 0) {
-                firstEle.traits.forEach(traitElement => {
-                    console.log('triat firstelement are -----   ', traitElement.value);
-                    const entityIndex = this.entityDetails.findIndex(x => x.elementName == traitElement.value);
-                    const flowIndex = this.flowDetails.findIndex(x => x.elementName == traitElement.value && x.elementName !== '');
-                    const routeIndex = this.screenInfo.route_info.findIndex(x => x.elementName == traitElement.value);
-                    const specialEventIndex = this.screenSpecialEvents.findIndex(x => x.elementName == traitElement.value);
-                    const linkIndex = this.linkInfo.findIndex(x => x.elementName == traitElement.value);
-                    if (traitElement.value === 'modal_ioj34') {
-                        console.log('speicalindex are ----  ', specialEventIndex);
-                        console.log('screenSpecialEvents are ----  ', this.screenSpecialEvents);
-                    }
+        console.log('entering into firstelement triats ', firstEle.name);
+        // if (firstEle.hasOwnProperty('traits')) {
+        // checking entities from databinding and flows for methods in component
+        if (firstEle.name && this.entityDetails.length > 0 || this.flowDetails.length > 0 ||
+            this.screenInfo.route_info.length > 0 || this.screenSpecialEvents.length > 0 ||
+            this.linkInfo.length > 0) {
+            // firstEle.traits.forEach(traitElement => {
+            console.log('triat firstelement are -----   ', firstEle.name);
+            const entityIndex = this.entityDetails.findIndex(x => x.elementName == firstEle.name);
+            const flowIndex = this.flowDetails.findIndex(x => x.elementName == firstEle.name && x.elementName !== '');
+            const routeIndex = this.screenInfo.route_info.findIndex(x => x.elementName == firstEle.name);
+            const specialEventIndex = this.screenSpecialEvents.findIndex(x => x.elementName == firstEle.name);
+            const linkIndex = this.linkInfo.findIndex(x => x.elementName == firstEle.name);
 
-                    // console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex, '  --routeIndex--  ', routeIndex);
-                    // span with data binding 
-                    if (entityIndex > -1 && this.tagName == 'span') {
-                        // console.log('span values are -----  ', this.startString);
-                        // console.log('span entities details are -----  ', this.entityDetails[entityIndex]);
-                        this.ckeditorEntities = this.entityDetails[entityIndex];
-                        // this.childComponents(firstEle);
-                        // this.getNextValue(this.secondEle);
-                        this.isCKeditorSpan = true;
-                    } else if (entityIndex > -1 && !this.isCKeditorSpan) {
-                        // console.log('entering into else if else if enditityINdex values')
-                        this.setDataBinding(this.entityDetails[entityIndex], this.tagName);
-                    }
-                    // special events
-                    if (specialEventIndex > -1) {
-                        console.log('special events index preseint ----   ', specialEventIndex);
-                        const modalDependencies = componentDependency.component.find(x => x.name === Constant.GP_MODAL_POPUP);
-                        this.startString += ` (click)="${this.screenInfo['special-events'][specialEventIndex].methodName}()"`
-                        const tempMethod = `${this.screenInfo['special-events'][specialEventIndex].methodName}() {\n this.${modalDependencies.componentDynamicVariable.popupModalName} = true;\n}`;
-                        this.tsComponent.elementDependedMethod.push(tempMethod);
-                        // componentSpecializedWorker.setSpecialEvents(this.screenSpecialEvents[specialEventIndex], this);
+            console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex, '  --routeIndex--  ', routeIndex);
+            if(firstEle.name) {
+                this.startString += ` name=${firstEle.name}`;
+            }
+            // span with data binding 
+            if (entityIndex > -1 && this.tagName == 'span') {
+                // console.log('span values are -----  ', this.startString);
+                // console.log('span entities details are -----  ', this.entityDetails[entityIndex]);
+                this.ckeditorEntities = this.entityDetails[entityIndex];
+                // this.childComponents(firstEle);
+                // this.getNextValue(this.secondEle);
+                this.isCKeditorSpan = true;
+            } else if (entityIndex > -1 && !this.isCKeditorSpan) {
+                console.log('entering into else if else if enditityINdex values')
+                this.setDataBinding(this.entityDetails[entityIndex], this.tagName);
+            }
+            // special events
+            if (specialEventIndex > -1) {
+                console.log('special events index preseint ----   ', specialEventIndex);
+                const modalDependencies = componentDependency.component.find(x => x.name === Constant.GP_MODAL_POPUP);
+                this.startString += ` (click)="${this.screenInfo['special-events'][specialEventIndex].methodName}()"`
+                const tempMethod = `${this.screenInfo['special-events'][specialEventIndex].methodName}() {\n this.${modalDependencies.componentDynamicVariable.popupModalName} = true;\n}`;
+                this.tsComponent.elementDependedMethod.push(tempMethod);
+                // componentSpecializedWorker.setSpecialEvents(this.screenSpecialEvents[specialEventIndex], this);
+
+            }
+            // adding flows action
+            if (flowIndex > -1) {
+                // console.log('identitied flow index are -----  ', this.flowDetails[flowIndex]);
+                const flowObject = this.flowList.find(x => x._id == this.flowDetails[flowIndex].flow);
+                console.log('flowObject ---------->>>   ', flowObject);
+                let flowTemp = {
+                    _id: '',
+                    name: '',
+                    verb: '',
+                    label: '',
+                    description: '',
+                    type: '',
+                    actionOnData: '',
+                    createWithDefaultActivity: '',
+                    components: []
+                };
+                if (flowObject) {
+                    this.startString += ` (${this.flowDetails[flowIndex].verb})="${flowObject.name}()"`;
+                    flowTemp = {
+                        _id: flowObject._id,
+                        name: flowObject.name,
+                        verb: this.flowDetails[flowIndex].verb,
+                        label: flowObject.label,
+                        description: flowObject.description,
+                        type: flowObject.type,
+                        actionOnData: flowObject.actionOnData,
+                        createWithDefaultActivity: flowObject.createWithDefaultActivity,
+                        components: []
 
                     }
-                    // adding flows action
-                    if (flowIndex > -1) {
-                        // console.log('identitied flow index are -----  ', this.flowDetails[flowIndex]);
-                        const flowObject = this.flowList.find(x => x._id == this.flowDetails[flowIndex].flow);
-                        console.log('flowObject ---------->>>   ', flowObject);
-                        let flowTemp = {
-                            _id: '',
-                            name: '',
-                            verb: '',
-                            label: '',
-                            description: '',
-                            type: '',
-                            actionOnData: '',
-                            createWithDefaultActivity: '',
-                            components: []
-                        };
-                        if (flowObject) {
-                            this.startString += ` (${this.flowDetails[flowIndex].verb})="${flowObject.name}()"`;
-                            flowTemp = {
-                                _id: flowObject._id,
-                                name: flowObject.name,
-                                verb: this.flowDetails[flowIndex].verb,
-                                label: flowObject.label,
-                                description: flowObject.description,
-                                type: flowObject.type,
-                                actionOnData: flowObject.actionOnData,
-                                createWithDefaultActivity: flowObject.createWithDefaultActivity,
-                                components: []
+                }
+                // set component dependencies method and variable
+                this.setComponentDependencies(flowObject, flowTemp);
 
-                            }
-                        }
-                        // set component dependencies method and variable
-                        this.setComponentDependencies(flowObject, flowTemp);
+                // set services dependencies method and variable
+                this.setServiceDependencies(flowObject, flowTemp);
 
-                        // set services dependencies method and variable
-                        this.setServiceDependencies(flowObject, flowTemp);
-
-                        // set component services api's
-                        this.setEndPoints(flowObject);
-                    }
-                    // check routing info and decide whether we add it in html or ts
-                    if (routeIndex > -1) {
-                        const routeObj = this.screenInfo.route_info[routeIndex];
-                        const isExistIndex = this.generatedRouteScreens.findIndex(x => x.elementName === routeObj.elementName);
-                        if (isExistIndex > -1) {
-                            this.generatedRouteScreens.splice(isExistIndex, 1);
-                        } else {
-                            this.generatedRouteScreens.push(routeObj);
-                        }
-                        // set component route list
-                        this.setComponentRouteList(routeObj, 'parent');
-                        if (this.screenInfo.is_grid_present) {
-                            componentSpecializedWorker.checkAGGridAction(this, routeObj);
-                        }
-                    } else if (specialEventIndex > -1) {
-                        const specialEventObj = this.screenInfo['special-events'][specialEventIndex];
-                        const isIndexExist = this.generatedSpecialEventScreens.findIndex(x => x.elementName === specialEventObj.elementName);
-                        if (isIndexExist > -1) {
-                            this.generatedSpecialEventScreens.splice(isIndexExist, 1);
-                        } else {
-                            this.generatedSpecialEventScreens.push(specialEventObj);
-                        }
-                    }
-                    // check if the tag is anchor link
-                    if (linkIndex > -1) {
-                        console.log('setAttrbutes linkIndex  @@@@@@@@- ', linkIndex, this.screenInfo['link_info'][linkIndex]);
-                        console.log('inside tagname link_info are --333- ', linkIndex, this.screenInfo['link_info'][linkIndex].paramArray);
-                        this.linkContentInfo.linkInfo = this.screenInfo['link_info'][linkIndex];
-                        if (this.linkContentInfo.linkInfo.internalURL.screenId && !this.linkContentInfo.linkInfo.isDynamic) {
-                            this.startString += ` [routerLink]="['/${this.linkContentInfo.linkInfo.internalURL.screenName}']"`;
-                            this.startString += `  ${componentSpecializedWorker.setLinkQueryParams(this, this.linkContentInfo.linkInfo)}`;
-                        } else {
-                            this.linkContentInfo.isNgContentPresent = true;
-                        }
-                    }
-                })
-
-                // add ckeditor ngModels
-                if (this.ckeditorEntities && !this.isCKeditorSpan) {
-                    this.setDataBinding(this.ckeditorEntities, this.tagName);
-                    this.ckeditorEntities = null;
+                // set component services api's
+                this.setEndPoints(flowObject);
+            }
+            // check routing info and decide whether we add it in html or ts
+            if (routeIndex > -1) {
+                const routeObj = this.screenInfo.route_info[routeIndex];
+                const isExistIndex = this.generatedRouteScreens.findIndex(x => x.elementName === routeObj.elementName);
+                if (isExistIndex > -1) {
+                    this.generatedRouteScreens.splice(isExistIndex, 1);
+                } else {
+                    this.generatedRouteScreens.push(routeObj);
+                }
+                // set component route list
+                this.setComponentRouteList(routeObj, 'parent');
+                if (this.screenInfo.is_grid_present) {
+                    componentSpecializedWorker.checkAGGridAction(this, routeObj);
+                }
+            } else if (specialEventIndex > -1) {
+                const specialEventObj = this.screenInfo['special-events'][specialEventIndex];
+                const isIndexExist = this.generatedSpecialEventScreens.findIndex(x => x.elementName === specialEventObj.elementName);
+                if (isIndexExist > -1) {
+                    this.generatedSpecialEventScreens.splice(isIndexExist, 1);
+                } else {
+                    this.generatedSpecialEventScreens.push(specialEventObj);
                 }
             }
-            // check if tag is select, yes then we need to add its option in component ts file
-            if (this.tagName == 'select') {
-                this.getSelectOptions(firstEle.components);
+            // check if the tag is anchor link
+            if (linkIndex > -1) {
+                console.log('setAttrbutes linkIndex  @@@@@@@@- ', linkIndex, this.screenInfo['link_info'][linkIndex]);
+                console.log('inside tagname link_info are --333- ', linkIndex, this.screenInfo['link_info'][linkIndex].paramArray);
+                this.linkContentInfo.linkInfo = this.screenInfo['link_info'][linkIndex];
+                if (this.linkContentInfo.linkInfo.internalURL.screenId && !this.linkContentInfo.linkInfo.isDynamic) {
+                    this.startString += ` [routerLink]="['/${this.linkContentInfo.linkInfo.internalURL.screenName}']"`;
+                    this.startString += `  ${componentSpecializedWorker.setLinkQueryParams(this, this.linkContentInfo.linkInfo)}`;
+                } else {
+                    this.linkContentInfo.isNgContentPresent = true;
+                }
+            }
+            // })
+
+            // add ckeditor ngModels
+            if (this.ckeditorEntities && !this.isCKeditorSpan) {
+                this.setDataBinding(this.ckeditorEntities, this.tagName);
+                this.ckeditorEntities = null;
             }
         }
+        // check if tag is select, yes then we need to add its option in component ts file
+        if (this.tagName == 'select') {
+            this.getSelectOptions(firstEle.components);
+        }
+        // }
     }
 
     setComponentDependencies(flowObject, flowTemp) {
@@ -667,7 +688,7 @@ export class GenerateHtmlWorker {
             entityName: '',
             fields: []
         }
-        // console.log('identified entity index are -----  ', entityDetails, ' ---tagname---  ', tagName);
+        console.log('identified entity index are -----  ', entityDetails, ' ---tagname---  ', tagName);
         const entityObject = this.entities.find(x => x._id == entityDetails.entityId);
         console.log('entities object are ----------  ', entityObject);
         console.log('entities entityDetails are ----------  ', entityDetails);
@@ -889,7 +910,7 @@ export class GenerateHtmlWorker {
         } else if (firstEle.hasOwnProperty('type')) {
             if (
                 firstEle.type != 'grid-row' && firstEle.type != 'grid-item' &&
-                (firstEle.type == 'label' || firstEle.type == 'section')
+                (firstEle.type == 'label' || firstEle.type == 'section' || firstEle.type == 'input')
             ) {
                 tagName = firstEle.type;
             } else if (firstEle.type == 'tab' || firstEle.type == 'link') {

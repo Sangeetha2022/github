@@ -65,7 +65,8 @@ export class CommandService {
     $this.editor.on('component:selected', function (component) {
       const entityTrait = component.getTrait('entity');
       const removeTriatName = ['Field', 'modalButton',
-        'fieldButton', 'verbs', 'routeButton', 'addButton', 'removeButton'];
+        'fieldButton', 'verbs', 'actionButton',
+        'routeButton', 'addButton', 'removeButton'];
       removeTriatName.forEach((name, index) => {
         component.removeTrait(name);
       });
@@ -97,6 +98,9 @@ export class CommandService {
         );
       }
       if (component.attributes.type === 'grid-type') {
+        // entity remove traits
+        component.removeTrait('entity');
+        // add traits
         component.get('traits').add([
           {
             type: 'select',
@@ -295,8 +299,6 @@ export class CommandService {
       $this.selectedHtmlElement.htmlId = model.ccid;
       $this.selectedHtmlElement.componentId = model.cid;
       $this.selectedHtmlElement.elementName = model.attributes.name;
-      console.log('entity component update traits selectedEntityModel are -----  ', $this.selectedEntityModel);
-      console.log('entity component update traits selectedHtmlElement are -----  ', $this.selectedHtmlElement);
     });
 
     // called when we change value in component lifecycle verbs
