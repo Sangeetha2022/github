@@ -10,19 +10,17 @@ declare var agGrid: any;
   providedIn: 'root'
 })
 export class TraitsService {
-
   public entityOptions: any[] = [];
   public fieldOptions: any[] = [];
   public allEntity: IEntity[] = [];
-  public agGridValue: any[] = [{
-    column: '',
-    field: '',
-    entity: ''
-  }];
-  constructor(
-    private customTraitService: CustomTraitsService
-  ) { }
-
+  public agGridValue: any[] = [
+    {
+      column: '',
+      field: '',
+      entity: ''
+    }
+  ];
+  constructor(private customTraitService: CustomTraitsService) { }
 
   initMethod(screenGlobalVariable) {
     this.initializeInputMethod(screenGlobalVariable);
@@ -32,18 +30,17 @@ export class TraitsService {
     this.initializeRadioMethod(screenGlobalVariable);
     this.initializeButtonMethod(screenGlobalVariable);
     this.initializeLinkMethod(screenGlobalVariable);
-
   }
 
-  // input values are ---
   initializeInputMethod(screenGlobalVariable) {
     const $this = this;
     const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
     comps.addType('input', {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+      isComponent: el => el.tagName === 'INPUT',
+      model: {
+        defaults: {
           draggable: '*',
           droppable: false,
           traits: [
@@ -53,27 +50,27 @@ export class TraitsService {
               label: 'Type',
               type: 'select',
               name: 'type',
-              options: [{ value: 'text', name: 'Text' },
-              { value: 'email', name: 'Email' },
-              { value: 'password', name: 'Password' },
-              { value: 'number', name: 'Number' }]
+              options: [
+                { value: 'text', name: 'Text' },
+                { value: 'email', name: 'Email' },
+                { value: 'password', name: 'Password' },
+                { value: 'number', name: 'Number' }
+              ]
             },
-            { type: 'checkbox', name: 'required', label: 'Required' }
-          ]
-        })
-      },
-        {
-          isComponent: function (el) {
-            if (el.tagName === 'INPUT') {
-              return {
-                type: 'input'
-              };
+            { type: 'checkbox', name: 'required', label: 'Required' },
+            {
+              type: 'select',
+              label: 'entity',
+              name: 'entity',
+              options: [],
+              changeProp: 1
             }
-          },
-        }),
+          ],
+        }
+      },
 
       // Define the View
-      view: defaultType.view,
+      view: defaultType.view
     });
   }
 
@@ -85,18 +82,18 @@ export class TraitsService {
     const defaultModel = defaultType.model;
 
     comps.addType('select', {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          droppable: false,
-          traits: [
-            { name: 'name', label: 'Name', changeProp: 1 },
-            { label: 'Options', type: 'select-options' },
-            { type: 'checkbox', name: 'required', label: 'Required' },
-          ],
-
-        })
-      },
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              { name: 'name', label: 'Name', changeProp: 1 },
+              { label: 'Options', type: 'select-options' },
+              { type: 'checkbox', name: 'required', label: 'Required' }
+            ]
+          })
+        },
         {
           isComponent: function (el) {
             if (el.tagName === 'SELECT') {
@@ -104,11 +101,12 @@ export class TraitsService {
                 type: 'select'
               };
             }
-          },
-        }),
+          }
+        }
+      ),
 
       // Define the View
-      view: defaultType.view,
+      view: defaultType.view
     });
   }
 
@@ -120,18 +118,25 @@ export class TraitsService {
     const defaultModel = defaultType.model;
 
     comps.addType('textarea', {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          droppable: false,
-          traits: [
-            { name: 'name', label: 'Name', changeProp: 1 },
-            { name: 'placeholder', label: 'Placeholder' },
-            { type: 'checkbox', name: 'required', label: 'Required' }
-          ],
-
-        })
-      },
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              { name: 'name', label: 'Name', changeProp: 1 },
+              { name: 'placeholder', label: 'Placeholder' },
+              { type: 'checkbox', name: 'required', label: 'Required' },
+              {
+                type: 'select',
+                label: 'entity',
+                name: 'entity',
+                options: [],
+                changeProp: 1
+              }
+            ]
+          })
+        },
         {
           isComponent: function (el) {
             if (el.tagName === 'TEXTAREA' && el.type === 'textarea') {
@@ -139,11 +144,12 @@ export class TraitsService {
                 type: 'textarea'
               };
             }
-          },
-        }),
+          }
+        }
+      ),
 
       // Define the View
-      view: defaultType.view,
+      view: defaultType.view
     });
   }
 
@@ -155,18 +161,32 @@ export class TraitsService {
     const defaultModel = defaultType.model;
 
     comps.addType('radio', {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          droppable: false,
-          traits: [{ name: 'id', label: 'ID' },
-          { name: 'name', label: 'Name', changeProp: 1 },
-          { name: 'value', label: 'Value' },
-          { type: 'checkbox', name: 'required', label: 'Required' },
-          { label: 'Checked', type: 'checkbox', name: 'checked', changeProp: 1 }],
-
-        })
-      },
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              { name: 'id', label: 'ID' },
+              { name: 'name', label: 'Name', changeProp: 1 },
+              { name: 'value', label: 'Value' },
+              { type: 'checkbox', name: 'required', label: 'Required' },
+              {
+                label: 'Checked',
+                type: 'checkbox',
+                name: 'checked',
+                changeProp: 1
+              },
+              {
+                type: 'select',
+                label: 'entity',
+                name: 'entity',
+                options: [],
+                changeProp: 1
+              }
+            ]
+          })
+        },
         {
           isComponent: function (el) {
             if (el.tagName === 'INPUT' && el.type === 'radio') {
@@ -174,11 +194,12 @@ export class TraitsService {
                 type: 'radio'
               };
             }
-          },
-        }),
+          }
+        }
+      ),
 
       // Define the View
-      view: defaultType.view,
+      view: defaultType.view
     });
   }
 
@@ -190,18 +211,32 @@ export class TraitsService {
     const defaultModel = defaultType.model;
 
     comps.addType('checkbox', {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          droppable: false,
-          traits: [{ name: 'id', label: 'ID' },
-          { name: 'name', label: 'Name', changeProp: 1 },
-          { name: 'value', label: 'Value' },
-          { type: 'checkbox', name: 'required', label: 'Required' },
-          { label: 'Checked', type: 'checkbox', name: 'checked', changeProp: 1 }],
-
-        })
-      },
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              { name: 'id', label: 'ID' },
+              { name: 'name', label: 'Name', changeProp: 1 },
+              { name: 'value', label: 'Value' },
+              { type: 'checkbox', name: 'required', label: 'Required' },
+              {
+                label: 'Checked',
+                type: 'checkbox',
+                name: 'checked',
+                changeProp: 1
+              },
+              {
+                type: 'select',
+                label: 'entity',
+                name: 'entity',
+                options: [],
+                changeProp: 1
+              }
+            ]
+          })
+        },
         {
           isComponent: function (el) {
             if (el.tagName === 'INPUT' && el.type === 'checkbox') {
@@ -209,44 +244,65 @@ export class TraitsService {
                 type: 'checkbox'
               };
             }
-          },
-        }),
+          }
+        }
+      ),
 
       // Define the View
-      view: defaultType.view,
+      view: defaultType.view
     });
   }
 
   // button traits
   initializeButtonMethod(screenGlobalVariable) {
-    const $this = this;
     const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
 
     comps.addType('button', {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          droppable: false,
-          traits: [{
-            label: 'Name',
-            name: 'name',
-            type: 'text',
-            changeProp: 1
-          }],
-
-        }),
-        init() {
-          this.listenTo(this, 'change:verbs', this.verb);
-        },
-        verb() {
-          const verbObj = screenGlobalVariable.verbOptions.find(x => x.value === this.changed['verbs']);
-          if (verbObj) {
-            screenGlobalVariable.buttonVerb = verbObj.key;
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              {
+                label: 'Name',
+                name: 'name',
+                type: 'text',
+                changeProp: 1
+              },
+              {
+                type: 'content',
+                label: 'contentName',
+                name: 'contentname',
+                changeProp: 1
+              },
+              {
+                type: 'select',
+                label: 'verb',
+                name: 'verbs',
+                changeProp: 1,
+                options: [
+                  { key: 'click', value: 'onClick' },
+                  { key: 'focus', value: 'onFocus' },
+                  { key: 'blur', value: 'onBlur' }
+                ]
+              },
+            ]
+          }),
+          init() {
+            this.listenTo(this, 'change:verbs', this.verb);
+          },
+          verb() {
+            const verbObj = screenGlobalVariable.verbOptions.find(
+              x => x.value === this.changed['verbs']
+            );
+            if (verbObj) {
+              screenGlobalVariable.buttonVerb = verbObj.key;
+            }
           }
-        }
-      },
+        },
         {
           isComponent: function (el) {
             if (el.tagName === 'BUTTON') {
@@ -254,205 +310,234 @@ export class TraitsService {
                 type: 'button'
               };
             }
-          },
-        }),
+          }
+        }
+      ),
 
       // Define the View
-      view: defaultType.view,
+      view: defaultType.view
     });
   }
 
-
   // link traits
   initializeLinkMethod(screenGlobalVariable) {
-    console.log('intializelinkmethod are ----- ', screenGlobalVariable.entityData);
     this.customTraitService.popupLinkButton(screenGlobalVariable);
-    const $this = this;
     const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    const entityArray = [{
-      key: 'none',
-      value: 'none'
-    }];
-    let fieldArray = [{
-      key: 'none',
-      value: 'none'
-    }];
+    const entityArray = [
+      {
+        key: 'none',
+        value: 'none'
+      }
+    ];
+    let fieldArray = [
+      {
+        key: 'none',
+        value: 'none'
+      }
+    ];
 
     comps.addType('link', {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          resizable: false,
-          editable: true,
-          badgable: true,
-          highlightable: true,
-          droppable: false,
-          traits: [{
-            label: 'Name',
-            name: 'name',
-            type: 'text',
-            changeProp: 1
-          }, {
-            type: 'content',
-            label: 'contentName',
-            name: 'contentname',
-            changeProp: 1
-          }, {
-            type: 'checkbox',
-            label: 'isDynamic',
-            name: 'linkCheckboxModal',
-            changeProp: 1
-          }, {
-            type: 'linkButton',
-            label: 'Link',
-            name: 'linkButton'
-          }],
-
-        }),
-        init() {
-          this.listenTo(this, 'change:linkCheckboxModal', this.dynamicModal);
-          this.listenTo(this, 'change:entity', this.entity);
-          this.listenTo(this, 'change:field', this.field);
-        },
-        dynamicModal() {
-          screenGlobalVariable.pageLinkObj.isDynamic = this.changed['linkCheckboxModal'];
-          screenGlobalVariable.entityData.forEach(element => {
-            const tempObj = {
-              key: '',
-              value: ''
-            };
-            if (!entityArray.find(x => x.key === element._id)) {
-              tempObj.key = element._id;
-              tempObj.value = element.name;
-              entityArray.push(tempObj);
-            }
-
-          });
-          if (this.changed['linkCheckboxModal']) {
-            // entity dropdown
-            this.get('traits').add({
-              label: 'entity',
-              name: 'entity',
-              type: 'select',
-              options: entityArray,
-              changeProp: 1
-            }, { at: 3 });
-            // entity field dropdown
-            this.get('traits').add({
-              label: 'field',
-              name: 'field',
-              type: 'select',
-              options: fieldArray,
-              changeProp: 1
-            }, { at: 4 });
-            screenGlobalVariable.editor.TraitManager.getTraitsViewer().render();
-          } else {
-            screenGlobalVariable.removeLinkEntityTraits();
-          }
-        },
-        entity() {
-          const temp = entityArray.find(x => x.value === this.changed['entity']);
-          const entityObj = screenGlobalVariable.entityData.find(x => x._id === temp.key);
-          fieldArray = [{
-            key: 'none',
-            value: 'none'
-          }];
-          if (entityObj) {
-            screenGlobalVariable.pageLinkObj.selectedEntity = entityObj;
-            entityObj.field.forEach(element => {
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            resizable: false,
+            editable: true,
+            badgable: true,
+            highlightable: true,
+            droppable: false,
+            traits: [
+              {
+                label: 'Name',
+                name: 'name',
+                type: 'text',
+                changeProp: 1
+              },
+              {
+                type: 'content',
+                label: 'contentName',
+                name: 'contentname',
+                changeProp: 1
+              },
+              {
+                type: 'checkbox',
+                label: 'isDynamic',
+                name: 'linkCheckboxModal',
+                changeProp: 1
+              },
+              {
+                type: 'linkButton',
+                label: 'Link',
+                name: 'linkButton'
+              }
+            ]
+          }),
+          init() {
+            this.listenTo(this, 'change:linkCheckboxModal', this.dynamicModal);
+            this.listenTo(this, 'change:entity', this.entity);
+            this.listenTo(this, 'change:field', this.field);
+          },
+          dynamicModal() {
+            screenGlobalVariable.pageLinkObj.isDynamic = this.changed[
+              'linkCheckboxModal'
+            ];
+            screenGlobalVariable.entityData.forEach(element => {
               const tempObj = {
                 key: '',
                 value: ''
               };
-              if (!fieldArray.find(x => x.key === element._id)) {
+              if (!entityArray.find(x => x.key === element._id)) {
                 tempObj.key = element._id;
                 tempObj.value = element.name;
-                fieldArray.push(tempObj);
+                entityArray.push(tempObj);
               }
-
             });
-          } else {
-            screenGlobalVariable.pageLinkObj.selectedEntity = null;
+            if (this.changed['linkCheckboxModal']) {
+              // entity dropdown
+              this.get('traits').add(
+                {
+                  label: 'entity',
+                  name: 'entity',
+                  type: 'select',
+                  options: entityArray,
+                  changeProp: 1
+                },
+                { at: 3 }
+              );
+              // entity field dropdown
+              this.get('traits').add(
+                {
+                  label: 'field',
+                  name: 'field',
+                  type: 'select',
+                  options: fieldArray,
+                  changeProp: 1
+                },
+                { at: 4 }
+              );
+              screenGlobalVariable.editor.TraitManager.getTraitsViewer().render();
+            } else {
+              screenGlobalVariable.removeLinkEntityTraits();
+            }
+          },
+          entity() {
+            const temp = entityArray.find(
+              x => x.value === this.changed['entity']
+            );
+            const entityObj = screenGlobalVariable.entityData.find(
+              x => x._id === temp.key
+            );
+            fieldArray = [
+              {
+                key: 'none',
+                value: 'none'
+              }
+            ];
+            if (entityObj) {
+              screenGlobalVariable.pageLinkObj.selectedEntity = entityObj;
+              entityObj.field.forEach(element => {
+                const tempObj = {
+                  key: '',
+                  value: ''
+                };
+                if (!fieldArray.find(x => x.key === element._id)) {
+                  tempObj.key = element._id;
+                  tempObj.value = element.name;
+                  fieldArray.push(tempObj);
+                }
+              });
+            } else {
+              screenGlobalVariable.pageLinkObj.selectedEntity = null;
+            }
+            this.get('traits')
+              .where({ name: 'field' })[0]
+              .set('options', fieldArray);
+            screenGlobalVariable.editor.TraitManager.getTraitsViewer().render();
+          },
+          field() {
+            const fieldTemp = fieldArray.find(
+              x => x.value === this.changed['field']
+            );
+            const fieldObj = screenGlobalVariable.pageLinkObj.selectedEntity.field.find(
+              x => x._id === fieldTemp.key
+            );
+            if (fieldObj) {
+              screenGlobalVariable.pageLinkObj.selectedField = fieldObj;
+            } else {
+              screenGlobalVariable.pageLinkObj.selectedField = null;
+            }
+          },
+          toHTML: function () {
+            return `<a id="${this.ccid}" ${
+              this.get('name') ? `name="${this.get('name')}"` : ''
+              }>${this.get('content')}</a>`;
           }
-          this.get('traits').where({ name: 'field' })[0].set('options', fieldArray);
-          screenGlobalVariable.editor.TraitManager.getTraitsViewer().render();
         },
-        field() {
-          const fieldTemp = fieldArray.find(x => x.value === this.changed['field']);
-          const fieldObj = screenGlobalVariable.pageLinkObj.selectedEntity.field.find(x => x._id === fieldTemp.key);
-          if (fieldObj) {
-            screenGlobalVariable.pageLinkObj.selectedField = fieldObj;
-          } else {
-            screenGlobalVariable.pageLinkObj.selectedField = null;
-          }
-        },
-        toHTML: function () {
-          console.log('this are --- ', this);
-          console.log('this are --content- ', this.get('content'));
-          console.log('this are --id- ', this.get('id'));
-          console.log('this are --name- ', this.get('name'));
-          return `<a id="${this.ccid}" ${this.get('name') ? `name="${this.get('name')}"` : ''}>${this.get('content')}</a>`;
-        }
-      },
         {
           isComponent: function (el) {
             if (el.tagName === 'A') {
               return { type: 'link' };
             }
-          },
-        }),
+          }
+        }
+      ),
 
       // Define the View
-      view: defaultType.view,
+      view: defaultType.view
     });
   }
 
-
-
-
-
   addCKEditorTraits(editor, buttonName) {
-    const $this = this;
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    // typemodels
-    // const typeModel = comps.getType(buttonName).model;
     comps.addType(buttonName, {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          droppable: false,
-          script: function () {
-            const initCKeditor = function () {
-              ClassicEditor.create(document.querySelector('#ckeditortextarea'))
-                .then(obj => {
-                  console.log(obj);
-                })
-                .catch(error => {
-                  console.error(error);
-                });
-            };
-            if (typeof ClassicEditor === 'undefined') {
-              const script = document.createElement('script');
-              script.onload = initCKeditor;
-              script.src = 'https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js';
-              document.body.appendChild(script);
-            } else {
-              initCKeditor();
-            }
-          },
-          traits: [{
-            label: 'name',
-            name: 'name',
-            changeProp: 1,
-            type: 'text'
-          }],
-
-        })
-      },
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            script: function () {
+              const initCKeditor = function () {
+                ClassicEditor.create(
+                  document.querySelector('#ckeditortextarea')
+                )
+                  .then(obj => {
+                    console.log(obj);
+                  })
+                  .catch(error => {
+                    console.error(error);
+                  });
+              };
+              if (typeof ClassicEditor === 'undefined') {
+                const script = document.createElement('script');
+                script.onload = initCKeditor;
+                script.src =
+                  'https://cdn.ckeditor.com/ckeditor5/11.2.0/classic/ckeditor.js';
+                document.body.appendChild(script);
+              } else {
+                initCKeditor();
+              }
+            },
+            traits: [
+              {
+                label: 'name',
+                name: 'name',
+                changeProp: 1,
+                type: 'text'
+              },
+              {
+                type: 'select',
+                label: 'entity',
+                name: 'entity',
+                options: [],
+                changeProp: 1
+              }
+            ]
+          })
+        },
         {
           isComponent: function (el) {
             if (el.tagName === buttonName) {
@@ -460,41 +545,41 @@ export class TraitsService {
                 type: buttonName
               };
             }
-          },
-        }),
+          }
+        }
+      ),
 
       // Define the View
-      view: defaultType.view,
+      view: defaultType.view
     });
   }
 
   // upload triats
   addUpload(editor, buttonName) {
-    const $this = this;
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    // typemodels
-    // const typeModel = comps.getType(buttonName).model;
     comps.addType(buttonName, {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          droppable: false,
-          traits: [{
-            label: 'name',
-            name: 'name',
-            changeProp: 1,
-            type: 'text'
-          },
-          {
-            'name': 'actionButton',
-            'label': 'Action',
-            'type': 'actionButton',
-          }],
-
-        })
-      },
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              {
+                label: 'name',
+                name: 'name',
+                changeProp: 1,
+                type: 'text'
+              },
+              {
+                name: 'actionButton',
+                label: 'Action',
+                type: 'actionButton'
+              }
+            ]
+          })
+        },
         {
           isComponent: function (el) {
             if (el.tagName === buttonName) {
@@ -502,41 +587,41 @@ export class TraitsService {
                 type: buttonName
               };
             }
-          },
-        }),
+          }
+        }
+      ),
 
       // Define the View
-      view: defaultType.view,
+      view: defaultType.view
     });
   }
 
   // download triats
   addDownload(editor, buttonName) {
-    const $this = this;
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-    // typemodels
-    // const typeModel = comps.getType(buttonName).model;
     comps.addType(buttonName, {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          droppable: false,
-          traits: [{
-            label: 'name',
-            name: 'name',
-            changeProp: 1,
-            type: 'text'
-          },
-          {
-            'name': 'actionButton',
-            'label': 'Action',
-            'type': 'actionButton',
-          }],
-
-        })
-      },
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              {
+                label: 'name',
+                name: 'name',
+                changeProp: 1,
+                type: 'text'
+              },
+              {
+                name: 'actionButton',
+                label: 'Action',
+                type: 'actionButton'
+              }
+            ]
+          })
+        },
         {
           isComponent: function (el) {
             if (el.tagName === buttonName) {
@@ -544,16 +629,16 @@ export class TraitsService {
                 type: buttonName
               };
             }
-          },
-        }),
+          }
+        }
+      ),
 
       // Define the View
-      view: defaultType.view,
+      view: defaultType.view
     });
   }
 
   addGridTraits(screensVariable, buttonName) {
-    // this.getEntityData(editor, buttonName, projectId);
     const $this = this;
     const comps = screensVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
@@ -710,7 +795,8 @@ export class TraitsService {
             label: 'colName',
             name: 'colname',
             changeProp: 1
-          }],
+          }
+          ],
 
         }),
         init() {
@@ -719,11 +805,8 @@ export class TraitsService {
           this.listenTo(this, 'change:columns', this.gridColumns);
           this.listenTo(this, 'change:colname', this.columnName);
           this.listenTo(this, 'change:verbs', this.verb);
-          // this.listenTo(this, 'change:entity-field', this.entityField);
         },
-        ElementName() {
-
-        },
+        ElementName() { },
         verb() {
           const verbObj = screensVariable.verbOptions.find(x => x.value === this.changed['verbs']);
           if (verbObj) {
@@ -731,18 +814,10 @@ export class TraitsService {
           }
         },
         columnName() {
-
-          console.log('sessionStorage details are --this---- ', this);
-          console.log('sessionStorage details are --this-222--- ', this.view.el.gridOptions, selectedColumnId);
           const enteredColName = this.changed['colname'];
-          const colTraits = this.get('traits').where({ name: 'columns' })[0];
           const selectedColumns = this.view.el.gridOptions.api.getColumnDef(selectedColumnId);
-          console.log('sessionStorage get all columnDef --333--- ', selectedColumns);
           selectedColumns.headerName = enteredColName;
           this.view.el.gridOptions.api.refreshHeader();
-          console.log('sessionStorage 333 colName ----- ', this.view.el.gridOptions);
-          console.log('sessionStorage 444 colOptions ----- ', screensVariable.columnOptions);
-          console.log('sessionStorage 555 agGridArray ----- ', screensVariable.agGridArray);
           const indexFound = screensVariable.agGridArray.findIndex(x => x.columnid === selectedColumns.colId);
           if (indexFound > -1) {
             screensVariable.agGridArray[indexFound].columnname = enteredColName;
@@ -750,60 +825,33 @@ export class TraitsService {
           screensVariable.columnOptions.forEach(columnElement => {
             if (columnElement.value === selectedColumnId) {
               columnElement.name = enteredColName;
-              console.log('entered into screen valr ---- ', columnElement);
               const customField = screensVariable.agGridObject.custom_field.find(x => x.columnid === selectedColumnId);
               if (customField) {
                 customField.columnname = enteredColName;
               }
-              console.log('after set tge grid ojbect c ---  ', screensVariable.agGridObject.custom_field, ' customField ', customField);
               screensVariable.saveRemoteStorage();
             }
           });
-          console.log('after set the column Options values are ----   ', screensVariable.columnOptions);
-          colTraits.set('options', screensVariable.columnOptions);
-          // this.changed['colname'] = '';
-          screensVariable.editor.TraitManager.getTraitsViewer().render();
-          // this.changed['colname'] = '';
+          const component = screensVariable.editor.getSelected();
+          component.removeTrait('columns');
+          component.addTrait({
+            type: 'select',
+            label: 'columns',
+            name: 'columns',
+            changeProp: 1,
+            options: screensVariable.columnOptions,
+          }, { at: 1 });
         },
         entities() {
-          // let isExist = false;
-          // agGridArray.forEach(gridElement => {
-          //   if (element.name === gridElement.entity) {
-          //     isExist = true;
-          //   }
-          // });
-          // if (isExist) {
-          //   agGridArray.push();
-          // }
           selectedEntity = undefined;
-          // console.log('entities ------ ', this);
-          // console.log('entities ------ ', localDataService);
           selectedEntityName = this.changed['entities'];
-          // console.log('entities ---33--- ', selectedEntityName);
-          // const fieldTraits = this.get('traits').where({ name: 'entity-field' })[0];
-          // console.log('entities ---44--- ', fieldTraits);
-          // const options = [];
-          // console.log('entities --55---- ', allEntityTemp.length);
           $this.allEntity.forEach(entityElement => {
             if (entityElement.name === selectedEntityName) {
-              // localDataService.setAgGridEntity(entityElement);
               if (selectedEntityName !== 'none') {
                 selectedEntity = entityElement;
               }
             }
           });
-          //     entityElement.field.forEach(fieldElement => {
-          //       const temp = {
-          //         value: fieldElement.name,
-          //         name: fieldElement.name
-          //       };
-          //       options.push(temp);
-          //     });
-          //   }
-          // });
-          // fieldTraits.set('options', options);
-          // editor.TraitManager.getTraitsViewer().render();
-
         },
         gridColumns() {
           selectedColumnId = this.changed['columns'];
@@ -824,39 +872,6 @@ export class TraitsService {
     });
   }
 
-  // getEntityData(editor, buttonName, projectId) {
-  //   this.entityOptions = [];
-  //   this.fieldOptions = [];
-  //   this.projectComponentService.getEntityByProjectId(projectId).subscribe(
-  //     (data) => {
-  //       this.allEntity = data;
-  //       console.log('all entity in traits service file are ----- ', this.allEntity);
-  //       this.entityOptions.push({ value: 'none', name: 'none' });
-  //       data.forEach((Entityelement) => {
-  //         const temp = {
-  //           value: Entityelement.name,
-  //           name: Entityelement.name
-  //         };
-  //         this.entityOptions.push(temp);
-  //         console.log('entities in traits are --- ', this.entityOptions);
-  //         if (this.allEntity[0].name === Entityelement.name) {
-  //           Entityelement.field.forEach(fieldElement => {
-  //             const fieldTemp = {
-  //               value: fieldElement.name,
-  //               name: fieldElement.name
-  //             };
-  //             this.fieldOptions.push(fieldTemp);
-  //           });
-  //         }
-  //       });
-  //       // this.gridTraits(editor, buttonName);
-  //     },
-  //     (error) => {
-  //       console.log('error in get entities ---- ', error);
-  //       // this.gridTraits(editor, buttonName);
-  //     }
-  //   );
-  // }
 
   addPopupModalTraits(editor, buttonName) {
     const $this = this;
@@ -864,48 +879,67 @@ export class TraitsService {
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
     comps.addType(buttonName, {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          droppable: false,
-          traits: [{
-            label: 'Name',
-            name: 'name',
-            type: 'text',
-            changeProp: 1
-          }]
-        }),
-        init() {
-          this.listenTo(this, 'change:name', this.ElementName);
-          this.listenTo(this, 'change:entities', this.entity);
-          this.listenTo(this, 'change:entityattributes', this.attributeVal); // listen for active event
-        },
-        ElementName() {
-
-        },
-        entity() {
-          const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
-          const changedValue = this.changed['entities'];
-          const options = [];
-          if ($this.allEntity.length > 0) {
-            $this.allEntity.forEach(entityElement => {
-              if (entityElement.name === changedValue) {
-                entityElement.field.forEach(childElement => {
-                  const temp = {
-                    value: childElement.Name,
-                    name: childElement.Name
-                  };
-                  options.push(temp);
-                });
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              {
+                label: 'Name',
+                name: 'name',
+                type: 'text',
+                changeProp: 1
+              },
+              {
+                type: 'content',
+                label: 'contentName',
+                name: 'contentname',
+                changeProp: 1
+              },
+              {
+                type: 'select',
+                label: 'verb',
+                name: 'verbs',
+                changeProp: 1,
+                options: [
+                  { key: 'click', value: 'onClick' },
+                  { key: 'focus', value: 'onFocus' },
+                  { key: 'blur', value: 'onBlur' }
+                ]
               }
-            });
-          }
-          entityTrait.set('options', options);
-          editor.TraitManager.getTraitsViewer().render();
+            ]
+          }),
+          init() {
+            this.listenTo(this, 'change:name', this.ElementName);
+            this.listenTo(this, 'change:entities', this.entity);
+            this.listenTo(this, 'change:entityattributes', this.attributeVal); // listen for active event
+          },
+          ElementName() { },
+          entity() {
+            const entityTrait = this.get('traits').where({
+              name: 'entityattributes'
+            })[0];
+            const changedValue = this.changed['entities'];
+            const options = [];
+            if ($this.allEntity.length > 0) {
+              $this.allEntity.forEach(entityElement => {
+                if (entityElement.name === changedValue) {
+                  entityElement.field.forEach(childElement => {
+                    const temp = {
+                      value: childElement.Name,
+                      name: childElement.Name
+                    };
+                    options.push(temp);
+                  });
+                }
+              });
+            }
+            entityTrait.set('options', options);
+            editor.TraitManager.getTraitsViewer().render();
+          },
+          attributeVal() { }
         },
-        attributeVal() {
-        }
-      },
         {
           isComponent: function (el) {
             if (el.tagName === buttonName) {
@@ -913,11 +947,12 @@ export class TraitsService {
                 type: buttonName
               };
             }
-          },
-        }),
+          }
+        }
+      ),
 
       // Define the View
-      view: defaultType.view,
+      view: defaultType.view
     });
   }
   addSpecialDropdownTraits(editor, buttonName) {
@@ -925,77 +960,75 @@ export class TraitsService {
     const $this = this;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
-
-    const labelSelectOption = [
-      'name'
-    ];
-
     comps.addType(buttonName, {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          droppable: false,
-          components: `<select>
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            components: `<select>
           <option value="1">1</option>
           <option value="2">2</option>
           </select>`,
-          style: {
-            'padding-top': '10px',
-            'padding-right': '2px',
-            'padding-left': '2px',
-            'padding-bottom': '10px'
-          },
-          traits: [{
-            label: 'name',
-            name: 'name',
-            type: 'text',
-            changeProp: 1
-          }, {
-            type: 'select',
-            label: 'entities',
-            name: 'entities',
-            changeProp: 1,
-            options: this.entityOptions,
-          }, {
-            type: 'select',
-            label: 'attributes',
-            name: 'entityattributes',
-            changeProp: 1,
-            options: [],
-          }],
-
-        }),
-        init() {
-          this.listenTo(this, 'change:name', this.ElementName);
-          this.listenTo(this, 'change:entities', this.entity);
-          this.listenTo(this, 'change:entityattributes', this.attributeVal); // listen for active event
-        },
-        ElementName() {
-
-        },
-        entity() {
-          const entityTrait = this.get('traits').where({ name: 'entityattributes' })[0];
-          const changedValue = this.changed['entities'];
-          const options = [];
-          if ($this.allEntity.length > 0) {
-            $this.allEntity.forEach(entityElement => {
-              if (entityElement.name === changedValue) {
-                entityElement.field.forEach(childElement => {
-                  const temp = {
-                    value: childElement.Name,
-                    name: childElement.Name
-                  };
-                  options.push(temp);
-                });
+            style: {
+              'padding-top': '10px',
+              'padding-right': '2px',
+              'padding-left': '2px',
+              'padding-bottom': '10px'
+            },
+            traits: [
+              {
+                label: 'name',
+                name: 'name',
+                type: 'text',
+                changeProp: 1
+              },
+              {
+                type: 'select',
+                label: 'entities',
+                name: 'entities',
+                changeProp: 1,
+                options: this.entityOptions
+              },
+              {
+                type: 'select',
+                label: 'attributes',
+                name: 'entityattributes',
+                changeProp: 1,
+                options: []
               }
-            });
-          }
-          entityTrait.set('options', options);
-          editor.TraitManager.getTraitsViewer().render();
+            ]
+          }),
+          init() {
+            this.listenTo(this, 'change:name', this.ElementName);
+            this.listenTo(this, 'change:entities', this.entity);
+            this.listenTo(this, 'change:entityattributes', this.attributeVal); // listen for active event
+          },
+          ElementName() { },
+          entity() {
+            const entityTrait = this.get('traits').where({
+              name: 'entityattributes'
+            })[0];
+            const changedValue = this.changed['entities'];
+            const options = [];
+            if ($this.allEntity.length > 0) {
+              $this.allEntity.forEach(entityElement => {
+                if (entityElement.name === changedValue) {
+                  entityElement.field.forEach(childElement => {
+                    const temp = {
+                      value: childElement.Name,
+                      name: childElement.Name
+                    };
+                    options.push(temp);
+                  });
+                }
+              });
+            }
+            entityTrait.set('options', options);
+            editor.TraitManager.getTraitsViewer().render();
+          },
+          attributeVal() { }
         },
-        attributeVal() {
-        }
-      },
         {
           isComponent: function (el) {
             if (el.tagName === buttonName) {
@@ -1003,13 +1036,13 @@ export class TraitsService {
                 type: buttonName
               };
             }
-          },
-        }),
+          }
+        }
+      ),
 
-      view: defaultType.view,
+      view: defaultType.view
     });
   }
-
 
   addHighChartTraits(editor, buttonName) {
     const comps = editor.DomComponents;
@@ -1017,91 +1050,81 @@ export class TraitsService {
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
     const dType = comps.getType(buttonName);
-    console.log('charg dtype sra r ----  ', dType);
     const dView = defaultType.view;
-    const labelSelectOption = [
-      'name'
-    ];
     const chartType = 'bar';
     comps.addType(buttonName, {
-      model: defaultModel.extend({
-        defaults: Object.assign({}, defaultModel.prototype.defaults, {
-          draggable: '*',
-          droppable: false,
-          charttype: chartType,
-          script: function () {
-            console.log('chart script called  ' + '{[ charttype ]}');
-            const initHighChart = function () {
-              console.log('entering into initHIGHCharts method called');
-              const myChart = Highcharts.chart('highchart4', {
-                chart: {
-                  type: '{[ charttype ]}'
-                },
-                title: {
-                  text: 'Fruit Consumption'
-                },
-                xAxis: {
-                  categories: ['Apples', 'Bananas', 'Oranges']
-                },
-                yAxis: {
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            charttype: chartType,
+            script: function () {
+              const initHighChart = function () {
+                const myChart = Highcharts.chart('highchart4', {
+                  chart: {
+                    type: '{[ charttype ]}'
+                  },
                   title: {
-                    text: 'Fruit eaten'
-                  }
-                },
-                series: [{
-                  name: 'Jane',
-                  data: [1, 50, 100]
-                }, {
-                  name: 'John',
-                  data: [5, 30, 3]
-                }]
-              });
-              // });
-            };
-            let exists = false;
-            const url = 'https://code.highcharts.com/highcharts.js';
-            const scripts = document.getElementsByTagName('script');
-            for (let i = scripts.length; i--;) {
-              if (scripts[i].src === url) {
-                exists = true;
+                    text: 'Fruit Consumption'
+                  },
+                  xAxis: {
+                    categories: ['Apples', 'Bananas', 'Oranges']
+                  },
+                  yAxis: {
+                    title: {
+                      text: 'Fruit eaten'
+                    }
+                  },
+                  series: [
+                    {
+                      name: 'Jane',
+                      data: [1, 50, 100]
+                    },
+                    {
+                      name: 'John',
+                      data: [5, 30, 3]
+                    }
+                  ]
+                });
+              };
+              let exists = false;
+              const url = 'https://code.highcharts.com/highcharts.js';
+              const scripts = document.getElementsByTagName('script');
+              for (let i = scripts.length; i--;) {
+                if (scripts[i].src === url) {
+                  exists = true;
+                }
               }
-            }
-            if (!exists) {
-              const script = document.createElement('script');
-              script.onload = initHighChart;
-              script.src = url;
-              document.body.appendChild(script);
-            } else {
-              initHighChart();
-            }
+              if (!exists) {
+                const script = document.createElement('script');
+                script.onload = initHighChart;
+                script.src = url;
+                document.body.appendChild(script);
+              } else {
+                initHighChart();
+              }
+            },
+            traits: [
+              {
+                label: 'Type',
+                type: 'select',
+                name: 'charttype',
+                options: [
+                  { value: 'bar', name: 'bar' },
+                  { value: 'line', name: 'line' },
+                  { value: 'column', name: 'column' },
+                  { value: 'area', name: 'area' }
+                ],
+                changeProp: 1
+              }
+            ]
+          }),
+          init() {
+            this.listenTo(this, 'change:charttype', this.chartType);
           },
-          traits: [{
-            label: 'Type',
-            type: 'select',
-            name: 'charttype',
-            options: [{ value: 'bar', name: 'bar' },
-            { value: 'line', name: 'line' },
-            { value: 'column', name: 'column' },
-            { value: 'area', name: 'area' }],
-            changeProp: 1
-          }]
-
-        }),
-        init() {
-          this.listenTo(this, 'change:charttype', this.chartType);
+          chartType() { }
         },
-        chartType() {
-          // alert('elementName value changed  ' + this.model.get('script'));
-          console.log('charttype changes are----   ', this);
-          // if (this.model.get('script')) {
-          const t = this.em;
-          console.log('t are ---- ', t);
-          // if (t) {
-          //   t.get('Canvas').getCanvasView().updateScript(this);
-          // }
-          // }
-        }
-      },
         {
           isComponent: function (el) {
             if (el.tagName === buttonName) {
@@ -1109,19 +1132,11 @@ export class TraitsService {
                 type: buttonName
               };
             }
-          },
-        }),
-
-      view: dView.extend({
-        init: function () {
-          this.listenTo(this.model, 'change:charttype', this.updateScript);
-          const e = this.model.get('components');
-          console.log('after extend view are ---- ', e);
-          // tslint:disable-next-line:max-line-length
-          // e.length || (e.reset(), e.add('\n            <span data-js="countdown" class="' + l + '-cont">\n              <div class="' + l + '-block">\n                <div data-js="countdown-day" class="' + l + '-digit"></div>\n                <div class="' + l + '-label">' + t.labelDays + '</div>\n              </div>\n              <div class="' + l + '-block">\n                <div data-js="countdown-hour" class="' + l + '-digit"></div>\n                <div class="' + l + '-label">' + t.labelHours + '</div>\n              </div>\n              <div class="' + l + '-block">\n                <div data-js="countdown-minute" class="' + l + '-digit"></div>\n                <div class="' + l + '-label">' + t.labelMinutes + '</div>\n              </div>\n              <div class="' + l + '-block">\n                <div data-js="countdown-second" class="' + l + '-digit"></div>\n                <div class="' + l + '-label">' + t.labelSeconds + '</div>\n              </div>\n            </span>\n            <span data-js="countdown-endtext" class="' + l + '-endtext"></span>\n          '))
+          }
         }
-      }),
+      ),
+
+      view: defaultType.view
     });
   }
-
 }

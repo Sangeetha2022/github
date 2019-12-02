@@ -17,16 +17,16 @@ export class ComponentSpecializedWorker {
         componentVariableOption: 'single',
         gridOptionType: 'variable'
     }];
-    checkSpecialElement($this) {
+    checkSpecialElement($this, IDName) {
 
 
         // check ckeditor span tag
-        if ($this.startString.includes(Constant.CKEDITOR_SPAN_IDNAME)) {
+        if (IDName === Constant.CKEDITOR_SPAN_IDNAME) {
             $this.isCKeditorSpan = true;
         }
 
         // checking and add the ckeditor5
-        if ($this.tagName == Constant.TEXTAREA_TAGNAME && $this.startString.includes(Constant.CKEDITOR_HTMLID_NAME)) {
+        if ($this.tagName == Constant.TEXTAREA_TAGNAME && IDName === Constant.CKEDITOR_HTMLID_NAME) {
             console.log('entering into change textarea into ckeditor5 --- ', $this.startString);
             $this.startString = $this.startString.replace($this.tagName.toString(), Constant.CKEDITOR_TAGNAME);
             const findckeditorDependencies = componentDependency.component.find(x => x.name == Constant.CKEDITOR_TAGNAME);
@@ -41,7 +41,7 @@ export class ComponentSpecializedWorker {
         }
 
         // check and add ag-grid
-        if ($this.screenInfo.is_grid_present && $this.startString.includes(Constant.AGGRID_HTMLID_NAME)) {
+        if ($this.screenInfo.is_grid_present && IDName === Constant.AGGRID_HTMLID_NAME) {
             // let findAgGridDependencies;
             const findAgGridDependencies = componentDependency.component.find(x => x.name == Constant.AGGRID_TAGNAME);
             if (findAgGridDependencies) {
@@ -273,10 +273,10 @@ export class ComponentSpecializedWorker {
             case 'queryparameter':
                 linkTemp += ` [queryParams]="{`;
                 linkInfo.paramArray.forEach((element, index) => {
-                    if(linkInfo.isDynamic) {
-                    linkTemp += ` ${element.name}: ${linkInfo.entity.name}.${element.fieldName}`;                        
+                    if (linkInfo.isDynamic) {
+                        linkTemp += ` ${element.name}: ${linkInfo.entity.name}.${element.fieldName}`;
                     } else {
-                    linkTemp += ` ${element.name}: ${element.fieldName}`;
+                        linkTemp += ` ${element.name}: ${element.fieldName}`;
                     }
                     if (index !== linkInfo.paramArray.length - 1) {
                         linkTemp += `,`;

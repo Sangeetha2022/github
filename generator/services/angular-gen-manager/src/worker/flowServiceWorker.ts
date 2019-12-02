@@ -186,12 +186,19 @@ export class FlowServiceWorker {
             requestParameter: ''
         }
         if (this.serviceObject.flowMethod[0].components.connector.length > 0) {
+            const methodList = [];
             this.serviceObject.flowMethod[0].components.connector[0].properties.forEach((element, index) => {
-                additional.methodRequestVariable += element.key;
-                if (this.serviceObject.flowMethod[0].components.connector[0].properties.length - 1 !== index) {
-                    additional.methodRequestVariable += `,`;
+                // additional.methodRequestVariable += element.key;
+                // if (this.serviceObject.flowMethod[0].components.connector[0].properties.length - 1 !== index) {
+                //     additional.methodRequestVariable += `,`;
+                // }
+                if (element.isDynamicParams) {
+                    methodList.push(element.key);
                 }
             })
+            if (methodList.length > 0) {
+                additional.methodRequestVariable = methodList.join();
+            }
             console.log('after set the serviceObject method reaues a--- ', additional);
         }
         console.log('service flow actiononData are --- ', actionElement);
@@ -338,7 +345,7 @@ export class FlowServiceWorker {
     // }
 
     private checkMicroFlowSteps(microFlowStepName) {
-        if (this.currentFlow && this.currentFlow.components) {
+        if (this.currentFlow && this.currentFlow.components && this.currentFlow.components.microFlows) {
             return (this.currentFlow.components.microFlows.findIndex(x => x.microFlowStepName.toLowerCase() == microFlowStepName) > -1);
         } else {
             return false;

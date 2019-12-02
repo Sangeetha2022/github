@@ -84,14 +84,6 @@
               </table>
             </div>
           </div>
-          <!-- <div>{{allEntityField.length}}</div>
-          <div  *ngFor="let field of allEntityField">{{ field.name }}</div> -->
-          <!-- <div class="form-group">
-            <label for="sel1">Select list (select one):</label>
-            <select class="form-control" id="sel1">
-              <option *ngFor="let field of allEntityField" [ngValue]="field.name">{{ field.name }}</option>
-            </select>
-          </div> -->
         </form>
       </div>
       <div class="modal-footer">
@@ -155,20 +147,6 @@
             [defaultColDef]="defaultColDef" domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10"
             [floatingFilter]="true" (selectionChanged)="onSelectionChanged()" (gridReady)="onGridReady($event)">
           </ag-grid-angular>
-
-          <!-- <form class="m-3" [formGroup]="eventFlows">
-      <div class="form-group row">
-        <label for="column">Choose an Event</label>
-        <select class="form-control" id="column" formControlName="selectEvent" [ngClass]="{ 'is-invalid': submitted && form_control.selectColumn.errors }">
-          <option value="" selected>none</option>
-          <option *ngFor="let flows of listOfFLows" [ngValue]="flows?._id">{{ flows?.label }}</option>
-        </select>
-        <div *ngIf="submitted && form_control.selectEvent.errors" class="invalid-feedback">
-          <div *ngIf="form_control.selectEvent.errors.required">This field is required
-          </div>
-        </div>
-      </div>
-    </form> -->
         </div>
       </div>
       <div class="modal-footer">
@@ -234,7 +212,6 @@
                 <span>{{pageLinkObj.selectedEntity.name}}</span>
               </ng-container>
               <ng-template #selectParamEntity>
-                <!-- <div class="form-group row"> -->
                 <label for="paramEntity">Entity</label>
                 <select class="form-control" name="paramEntity" [(ngModel)]="pageLinkObj.paramEntity"
                   (ngModelChange)="changeLinkDetails('paramEntity')" id="paramEntity">
@@ -245,7 +222,6 @@
                     </option>
                   </ng-container>
                 </select>
-                <!-- </div> -->
               </ng-template>
             </div>
             <div class="row"
@@ -310,14 +286,6 @@
               <option *ngFor="let field of fields" [ngValue]="field">{{ field.name }}</option>
             </select>
           </div>
-          <!-- <div>{{allEntityField.length}}</div>
-          <div  *ngFor="let field of allEntityField">{{ field.name }}</div> -->
-          <!-- <div class="form-group">
-            <label for="sel1">Select list (select one):</label>
-            <select class="form-control" id="sel1">
-              <option *ngFor="let field of allEntityField" [ngValue]="field.name">{{ field.name }}</option>
-            </select>
-          </div> -->
         </form>
       </div>
       <div class="modal-footer">
@@ -366,21 +334,9 @@
               <ng-template #routes>for Routes</ng-template>
             </small>
           </div>
-          <!-- <button type="button" class="btn btn-primary button-create">Add Secondary Entity</button> -->
           <div class="row" *ngIf="customPopupModal.entity && routeDetails.screen">
             <br>
             <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
-              <!-- <b for="Screen">{{customPopupModal.entity.labelName}}</b>
-              <select class="form-control" name="screenOptions" [(ngModel)]="routeDetails.modalInfo.entity"
-                (ngModelChange)="customModelChanged($event, 'modalEntity')" id="Screen">
-                <option value="null" selected>none</option>
-                <ng-container *ngFor="let entity of entityData">
-                  <option *ngIf="entity.entity_type != 'primary'" [ngValue]="entity">
-                    <span>{{ entity.name }}</span>
-                  </option>
-                </ng-container>
-              </select>
-              <small class="form-text text-muted">Please Select your secondary entity</small> -->
               <h4 style="text-align: center">{{routeDetails.screen.screenName}} Entity</h4>
               <small class="popupEntityHint" *ngIf="!routeDetails.modalInfo.entity">*Hint: this screen does not have any
                 entities to map</small>
@@ -467,7 +423,6 @@
           <div class="row" *ngIf="customPopupModal.typeLabelName">
             <label class="radio-inline"><input type="radio" value="none" [(ngModel)]="routeDetails.type"
                 name="routeOption" disabled>None</label>
-            <!-- <label class="radio-inline"><input type="radio" value="pathVariable" [(ngModel)]="routeDetails.type" name="routeOption">Path Variable</label> -->
             <label class="radio-inline"><input type="radio" value="queryParameter" [(ngModel)]="routeDetails.type"
                 name="routeOption">Query Parameter</label>
           </div>
@@ -512,7 +467,6 @@
     <h3>Select one of the template</h3>
     <br>
     <div class="form-group">
-      <!-- <label for="inputState">State</label> -->
       <select id="inputTemplate" class="form-control">
         <option selected disabled>select</option>
         <option value="0">template1</option>
@@ -534,7 +488,6 @@
     <h3>Select one of the template</h3>
     <br>
     <div class="form-group">
-      <!-- <label for="inputState">State</label> -->
       <select id="inputTemplatepage" class="form-control">
         <option selected disabled>select</option>
         <option value="0">create_page</option>
@@ -670,7 +623,6 @@
       <div class="gjs-input-holder" style="width: 100%;">
         <select class="blocks-switch form-control" data-toogle="blocks-switch">
           <option *ngFor="let blocks of blocksOption" value="{{blocks.value}}">{{blocks.option}}</option>
-          <!-- <option value="2">Built-in Blocks</option> -->
         </select>
       </div>
       <div class="gjs-sel-arrow">
