@@ -7,20 +7,20 @@
     background-color: "black";
 }
 
-
 .acme-input-text {
     padding: 8px;
     border: ridge;
     width: 100%;
-    border-color: red;
+    border-color: #c5c5f7;
 }
 
 .acme-input-textarea {
     padding: 8px;
     border: ridge;
     width: 100%;
-border-color: red;
+    border-color: #c5c5f7;
 }
+
 .acme-ag-grid {
     background-color: #f1f1f1;
     border: ridge;
@@ -32,7 +32,7 @@ border-color: red;
 }
 
 .acme-form {
-    background-color: red;
+    background-color: #ececec;
 }
 
 .acme-button {

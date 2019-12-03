@@ -356,7 +356,7 @@ export class CommandService {
       });
       // input
       allInputModels.forEach(element => {
-        $this.setElementCSS(element, 'input', 'input');
+        $this.setElementCSS(element, 'input', null);
         element.attributes.traits.target.set('name', `input_${element.ccid}`);
       });
       // radio

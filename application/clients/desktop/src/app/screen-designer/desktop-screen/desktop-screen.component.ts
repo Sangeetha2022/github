@@ -1443,6 +1443,7 @@ export class DesktopScreenComponent implements OnInit {
       removeTagClassName
     );
     if (temp) {
+      console.log(" if parts");
       element.addClass(temp.className);
     } else if (gepStyle && gepStyle.length > 0) {
       console.log("entered in else if parts");
@@ -1457,6 +1458,7 @@ export class DesktopScreenComponent implements OnInit {
       const removeTemp = this.cssGuidelines.find(
         x => x.tagName === removeTagClassName
       );
+      console.log("removeTagClassName parts  ----   ", removeTemp);
       if (removeTemp) {
         element.removeClass(removeTemp.className);
       }
@@ -1485,6 +1487,7 @@ export class DesktopScreenComponent implements OnInit {
     this.blockService.addPopupModal(this.editor);
     this.blockService.addSpecialDropdown(this.editor);
     this.blockService.addSpecialDropdown(this.editor);
+    this.blockService.addSpecialCharts(this.editor);
     this.addGridBlocks();
   }
 
