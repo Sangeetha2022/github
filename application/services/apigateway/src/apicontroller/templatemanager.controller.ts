@@ -21,7 +21,7 @@ class TemplateController implements Controller {
         this.router.get('/template/getall', this.getAllTemplates)
         this.router.put('/template/update/:id', this.updateTemplate)
         this.router.delete('/template/delete/:id', this.deleteTemplate)
-
+        this.router.get('/templateparser/get', this.getTemplateParser)
     }
 
     public addTemplate(req: Request, res: Response) {
@@ -76,6 +76,16 @@ class TemplateController implements Controller {
 
     public getAllTemplateByProject = (req: Request, res: Response) => {
         new ApiAdaptar().get(Constants.templateUrl + '/template/get/project/' + req.params.projectid).then(result => {
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
+
+    public getTemplateParser = (req: Request, res: Response) => {
+        new ApiAdaptar().get(Constants.templateUrl + '/templateparser/get').then(result => {
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }).catch(err => {

@@ -319,7 +319,10 @@ export class CommandService {
 
   dragAndDrop($this) {
     $this.editor.on('block:drag:stop', function (model) {
-      const allInputModels = model.find('input');
+      console.log('model drag and drop are ----- ', model);
+      // default
+      const allFormModels = model.find('form');
+      const allInputModels = model.find('[data-gjs-type="input"]');
       const allRadioModels = model.find('input[type="radio"i]');
       const allTextAreaModels = model.find('textarea');
       const allOptionModels = model.find('select');
@@ -327,21 +330,33 @@ export class CommandService {
       const allCheckBoxModels = model.find('input[type="checkbox"i]');
       const allImageBlockModels = model.find('.gpd-image-block');
       const allImageModels = model.find('.gjs-plh-image');
-      const allLabelModels = model.find('label');
+      const allLabelModels = model.find('[data-gjs-type="label"]');
       const ckeditorspan = model.find('#ckeditorspan');
       const ckeditorTextAreaModels = model.find('span #ckeditortextarea');
 
+      console.log('allInputModels ---  ', allInputModels);
+      console.log('allButtonModels ---  ', allButtonModels);
+      console.log('formall models are ------- ', allFormModels);
       if (allInputModels.length === 0 && model.attributes.tagName === 'input') {
         allInputModels.push(model);
       }
-
+      if (allFormModels.length === 0 && model.attributes.tagName === 'form') {
+        $this.setElementCSS(model, 'form', null);
+      }
+      if (allButtonModels.length === 0 && model.attributes.tagName === 'button') {
+        allButtonModels.push(model);
+      }
+      if (allLabelModels.length === 0 && model.attributes.tagName === 'label') {
+        allLabelModels.push(model);
+      }
+      console.log('after set inputmodels vlaue ---- ', allLabelModels);
       // label
       allLabelModels.forEach(element => {
         $this.setElementCSS(element, 'label', null);
       });
       // input
       allInputModels.forEach(element => {
-        $this.setElementCSS(element, 'input', 'input');
+        $this.setElementCSS(element, 'input', null);
         element.attributes.traits.target.set('name', `input_${element.ccid}`);
       });
       // radio
@@ -401,6 +416,7 @@ export class CommandService {
         $this.is_grid_present = true;
         $this.saveRemoteStorage();
         wrapperType.forEach(element => {
+          $this.setElementCSS(element, 'grid', null);
           element.attributes.traits.target.set('name', `grid_${element.ccid}`);
         });
       }

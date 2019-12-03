@@ -147,7 +147,7 @@ export class Constants {
 
     // Templates
     public static get getAllTemplates(): string { return this.DESKTOP_ROUTER + '/template/getall'; }
-
+    public static get getTemplateParser(): string { return this.DESKTOP_ROUTER + '/templateparser/get'; }
 
     // generation
     public static get projectSocket(): string { return this.DESKTOP_ROUTER + '/generate'; }
