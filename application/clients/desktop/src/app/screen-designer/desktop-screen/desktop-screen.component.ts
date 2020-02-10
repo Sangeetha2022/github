@@ -149,7 +149,9 @@ export class DesktopScreenComponent implements OnInit {
   screenArrayByProjectId: any;
   screenNameExist: Boolean = false;
   stylesheets: any[] = [];
+  // template_css: any[] = [];
   scripts: any[] = [];
+  templateName: String;
   cssGuidelines: any[] = [];
   public verbOptions: any[] = [
     { key: "click", value: "onClick" },
@@ -309,6 +311,8 @@ export class DesktopScreenComponent implements OnInit {
     this.stylesheets = JSON.parse(localStorage.getItem("stylesheets"));
     this.scripts = JSON.parse(localStorage.getItem("scripts"));
     this.cssGuidelines = JSON.parse(localStorage.getItem("css_guidelines"));
+    this.templateName = localStorage.getItem("templateName").toLocaleLowerCase().replace(" ","");
+    console.log('-------------templatename-----------kishan',this.templateName);
     this.isFieldPopupModal = false;
     this.isGridPopup = false;
     this.is_grid_present = false;
@@ -332,6 +336,8 @@ export class DesktopScreenComponent implements OnInit {
     if (this.scripts) {
       addScripts = this.scripts;
     }
+
+
     // desktop plugins
     grapesjs.plugins.add("desktop-plugin", function(editor, options) {
       // remove the devices switcher
@@ -397,8 +403,9 @@ export class DesktopScreenComponent implements OnInit {
     }
     console.log("plugins list before set grapesjs are ----  ", plugins);
     // adding gep css
-    addStyles.push(`./assets/css/gep-min.css`);
+    addStyles.push(`./assets/css/template/${this.templateName}.css`);
     this.editor = grapesjs.init({
+
       container: "#editor-c",
       height: "100%",
       showDevices: 0,
@@ -503,9 +510,33 @@ export class DesktopScreenComponent implements OnInit {
         urlStore: ""
       },
       styleManager: {
-        clearProperties: 1
+        clearProperties: 1,
       }
     });
+
+    let comps = this.editor.DomComponents;
+    this.editor.DomComponents.Component.createId = function (model) {
+      const list = comps.Component.getList(model);
+      let { id } = model.get('attributes');
+      let nextId;
+
+      if (id) {
+        // only commented this line, to keep the original id.
+        nextId = id
+        model.setId(nextId);
+      } else {
+        nextId = 'template-' + comps.Component.getNewId(list);
+      }
+
+      list[nextId] = model;
+      return nextId;
+    }
+
+    //Need to set generated id while component creation
+    this.editor.on('component:create', component => {
+      component.setId(component.getId());
+    });
+
     this.getScreenById();
     this.getFeatureById();
     this.getScreenByProjectId();
@@ -749,10 +780,16 @@ export class DesktopScreenComponent implements OnInit {
 
   getScreenById() {
     console.log("get screen by id are ------   ", this.screen_id);
+    console.log("==========screenName=========",this.screenName);
+    console.log("------------ remote",this.editor.StorageManager.get("remote"));
+    console.log("+++++++++",this.updateTemplateURL)
+    
     if (this.screen_id) {
       this.editor.StorageManager.get("remote").set({
-        urlStore: `${this.updateTemplateURL}${this.screen_id}`
+        urlStore: `${this.updateTemplateURL}${this.screen_id}`,
+        
       });
+      
       this.screenDesignerService.getScreenById(this.screen_id).subscribe(
         response => {
           if (response.body) {
@@ -1517,6 +1554,7 @@ export class DesktopScreenComponent implements OnInit {
     this.commandService.updateComponentName(this);
     this.commandService.updateTraits(this);
     this.commandService.dragAndDrop(this);
+    console.log("-------draganddrop-----this",this);
   }
 
   saveLinkDetails() {
@@ -1819,7 +1857,7 @@ export class DesktopScreenComponent implements OnInit {
     this.createFeatureIfNotExist();
     this.closeScreeName();
     this.editor.on("storage:response", function(e) {
-      console.log("storeage id are -------------    ", e);
+      console.log("storage id are -------------    ", e);
       $this.screen_id = e.body._id;
       $this.getScreenById();
     });
@@ -1832,6 +1870,7 @@ export class DesktopScreenComponent implements OnInit {
       saveButton.set("active", 0);
     } else if (this.screen_id !== undefined) {
       this.editor.store();
+      console.log("kkkkkkk",this.screen_id);
       saveButton.set("active", 0);
     } else {
       const featureDetailObj = {
