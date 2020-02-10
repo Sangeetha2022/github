@@ -447,7 +447,7 @@ export class GenerateHtmlWorker {
                 if (element === 'id') {
                     IDName = firstEle.attributes[element];
                     const classRegex = /class='/g;
-                    const className = `gp-ele-${this.classCount}`;
+                    const className = ``;
                     // changing css id to className
                     this.componentStyle[0] = this.componentStyle[0].replace(`#${firstEle.attributes[element]}`, `.${className}`);
                     if (classRegex.test(this.startString.toString())) {
