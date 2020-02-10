@@ -1,6 +1,6 @@
 /*
  * Template group component_ts
- * Compiled on Tue Sep 17 2019 11:01:57 GMT+0530 (India Standard Time)
+ * Compiled on Mon Feb 10 2020 19:15:18 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -34,8 +34,8 @@ r = function(w, rc) {
             
                      w.write("import { ");
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyName", { file: gFile, line: 2, column: 77 }));
-                     w.write(" } from '");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyPath", { file: gFile, line: 2, column: 108 }));
+                     w.write(", ViewEncapsulation } from '");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyPath", { file: gFile, line: 2, column: 127 }));
                      w.write("';");
             }, [
             { name: "name"     }
@@ -132,20 +132,24 @@ r = function(w, rc) {
     w.write("styleUrls: ['./");
     w.popIndentation();
     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 10, column: 25 }));
-    w.write(".component.scss']");
+    w.write(".component.scss'],");
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("encapsulation: ViewEncapsulation.None");
+    w.popIndentation();
     w.write("\n");
     w.write("})");
     w.write("\n");
     w.write("export class ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 12, column: 21 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 13, column: 21 }));
     w.write("Component implements OnInit {");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "componentVariable", { file: gFile, line: 13, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "componentVariable", { file: gFile, line: 14, column: 11 }))) {
     
         w.write("\n");
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "componentVariable", { file: gFile, line: 14, column: 8 });
+        attr = st.prop(s, g, rc, s.object, "componentVariable", { file: gFile, line: 15, column: 8 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
@@ -166,11 +170,11 @@ r = function(w, rc) {
     w.write("constructor(");
     w.popIndentation();
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "componentConstructorParams", { file: gFile, line: 17, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "componentConstructorParams", { file: gFile, line: 18, column: 11 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "componentConstructorParams", { file: gFile, line: 17, column: 47 });
+        attr = st.prop(s, g, rc, s.object, "componentConstructorParams", { file: gFile, line: 18, column: 47 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
@@ -195,11 +199,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.write("    ");
-    if (st.test(st.prop(s, g, rc, s.object, "componentOnInit", { file: gFile, line: 21, column: 15 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "componentOnInit", { file: gFile, line: 22, column: 15 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "componentOnInit", { file: gFile, line: 21, column: 40 });
+        attr = st.prop(s, g, rc, s.object, "componentOnInit", { file: gFile, line: 22, column: 40 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
@@ -220,11 +224,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "componentMethod", { file: gFile, line: 24, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "componentMethod", { file: gFile, line: 25, column: 11 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "componentMethod", { file: gFile, line: 24, column: 36 });
+        attr = st.prop(s, g, rc, s.object, "componentMethod", { file: gFile, line: 25, column: 36 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
