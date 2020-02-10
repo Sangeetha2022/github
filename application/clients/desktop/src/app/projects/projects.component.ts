@@ -206,6 +206,7 @@ export class ProjectsComponent implements OnInit {
           localStorage.setItem('stylesheets', JSON.stringify(response[0]['stylesheets']));
           localStorage.setItem('scripts', JSON.stringify(response[0]['scripts']));
           localStorage.setItem('css_guidelines', JSON.stringify(response[0]['css-guidelines']));
+          localStorage.setItem('templateName', response[0].screenName);
         },
         error => {
           console.log('cannot able to get the project template');
