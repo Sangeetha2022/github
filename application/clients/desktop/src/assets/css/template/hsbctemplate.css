@@ -135,7 +135,7 @@ a:hover, a:focus{
     border-radius:12px;
 }
 .mouse::after{
-    content:\"\";
+    content:"";
     position:absolute;
     height:5px;
     width:5px;
@@ -233,7 +233,7 @@ h4.sm-txt{
 p.det-p{
     padding:40px 0px;
 }
-.cta-2-form input[type=\"email\"]{
+.cta-2-form input[type="email"]{
     border:1px solid #da0011;
     padding:13px 40px;
     font-size:18px;
@@ -290,10 +290,10 @@ p.det-p{
     padding-bottom:15px;
     color:#000;
 }
-[class*=\" imghvr-\"] figcaption, [class^=\"imghvr-\"] figcaption{
+[class*=" imghvr-"] figcaption, [class^="imghvr-"] figcaption{
     background-color:#da0011;
 }
-[class*=\" imghvr-\"], [class^=\"imghvr-\"]{
+[class*=" imghvr-"], [class^="imghvr-"]{
     background-color:#da0011;
     color:#fff;
 }
@@ -475,7 +475,7 @@ p.det-p{
     .footer .social-links li{
         margin:0 5px 25px;
     }
-    .cta-2-form input[type=\"email\"]{
+    .cta-2-form input[type="email"]{
         padding:13px 10px;
         font-size:10px;
         min-width:187px;
