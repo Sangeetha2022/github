@@ -155,8 +155,8 @@ export class DesktopScreenComponent implements OnInit {
   cssGuidelines: any[] = [];
   public verbOptions: any[] = [
     { key: "click", value: "onClick" },
-    { key: "focus", value: "onFocus" },
-    { key: "blur", value: "onBlur" }
+    // { key: "focus", value: "onFocus" },
+    // { key: "blur", value: "onBlur" }
   ];
   public componentVerbList: any[] = [
     { key: "onload", value: "onLoad" },
@@ -1319,12 +1319,12 @@ export class DesktopScreenComponent implements OnInit {
     this.editor.DomComponents.getType(
       "button"
     ).model.prototype.defaults.traits.push(
-      {
-        type: "content",
-        label: "contentName",
-        name: "contentname",
-        changeProp: 1
-      },
+      // {
+      //   type: "content",
+      //   label: "contentName",
+      //   name: "contentname",
+      //   changeProp: 1
+      // },
       {
         type: "select",
         label: "verb",
