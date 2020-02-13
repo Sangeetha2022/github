@@ -393,13 +393,14 @@ export class GenerateHtmlWorker {
                 this.tagName = 'div';
             }
             let className = this.getClassName(firstEle);
-
-            const defaultClassNames = componentSpecializedWorker.addClassName(this, 'class');
-            if (defaultClassNames) {
-                if (!className.includes(defaultClassNames) && className.toLowerCase() != 'radio') {
-                    className += ` ${componentSpecializedWorker.addClassName(this, 'class')}`;
-                }
-            }
+            
+            // To restrict the default class coming in generated UI.
+            // const defaultClassNames = componentSpecializedWorker.addClassName(this, 'class');
+            // if (defaultClassNames) {
+            //     if (!className.includes(defaultClassNames) && className.toLowerCase() != 'radio') {
+            //         className += ` ${componentSpecializedWorker.addClassName(this, 'class')}`;
+            //     }
+            // }
             // console.log('finded class name are -----  ', css[this.tagName]);
             // console.log('set each classNmaes are -------- ', className);
             if (className) {

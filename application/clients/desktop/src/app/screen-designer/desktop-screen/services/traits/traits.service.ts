@@ -60,7 +60,7 @@ export class TraitsService {
             { type: 'checkbox', name: 'required', label: 'Required' },
             {
               type: 'select',
-              label: 'entity',
+              label: 'Field Type',
               name: 'entity',
               options: [],
               changeProp: 1
