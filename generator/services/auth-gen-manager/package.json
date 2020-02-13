@@ -6,7 +6,7 @@
   "scripts": {
     "test": "ng test",
     "build": "tsc",
-    "dev": "ts-node ./src/server.ts",
+    "dev": "name=development ts-node ./src/server.ts",
     "start": "nodemon ./dist/src/server.js",
     "prod": "npm run build && npm run start"
   },
@@ -17,6 +17,7 @@
     "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.2",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "csrf-token": "^1.1.0",
     "express": "^4.16.4",
     "express-winston": "^3.0.1",
