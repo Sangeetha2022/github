@@ -1,6 +1,6 @@
 import * as express from "express";
 import { Request, Response } from 'express';
-import * as Constants from '../config/Constants';
+import  {Constants} from '../config/Constants';
 import { ApiAdaptar } from '../config/apiAdaptar';
 import Controller from '../interfaces/controller.interface';
 import { EntityController } from './entity.controller';
