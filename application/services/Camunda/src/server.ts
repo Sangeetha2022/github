@@ -18,6 +18,7 @@ class App {
     public routerPrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
     public apiUrl : SharedService = new SharedService();
+    public mongoUrl: String = process.env.mongoUrl;
 
     constructor() {
         this.config();
@@ -38,8 +39,17 @@ class App {
     private mongoSetup(): void {
         // mongoose.Promise = global.Promise;
         // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        let mongoConfig = new MongoConfig();
-        mongoConfig.mongoConfig();
+        // let mongoConfig = new MongoConfig();
+        // mongoConfig.mongoConfig();
+        switch (process.env.localname) {
+            case  process.env.name: mongoose.Promise = global.Promise;
+                                    mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+                break;
+
+            default:  let mConfig = new MongoConfig();
+                      mConfig.mongoConfig();
+                break;
+        }
     }
 
 

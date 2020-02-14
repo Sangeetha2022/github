@@ -17,6 +17,8 @@ class App {
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
     public apiUrl : SharedService = new SharedService();
+    public mongoUrl: String = process.env.mongoUrl;
+
     // public mongoUrl: string = 'mongodb://127.0.0.1/GeppettoStage';
 
 
@@ -37,8 +39,17 @@ class App {
     private mongoSetup(): void {
         // mongoose.Promise = global.Promise;
         // mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        let mConfig = new MongoConfig();
-        mConfig.mongoConfig();
+        // let mConfig = new MongoConfig();
+        // mConfig.mongoConfig();
+        switch (process.env.localname) {
+            case  process.env.name: mongoose.Promise = global.Promise;
+                                    mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+                break;
+
+            default:  let mConfig = new MongoConfig();
+                      mConfig.mongoConfig();
+                break;
+        }
     }
 
 }
