@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+// import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationRef, LOCALE_ID } from '@angular/core';
 import { ValidationMessageModule } from 'angular-validation-message';
@@ -118,7 +118,7 @@ export function getAuthserviceConfgis() {
     ValidationMessageModule,
     DragDropModule,
     MatIconModule,
-    NgMultiSelectDropDownModule.forRoot(),
+    // NgMultiSelectDropDownModule.forRoot(),
     HttpClientModule,
     MatButtonModule,
     MatTabsModule,

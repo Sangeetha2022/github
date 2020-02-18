@@ -17,7 +17,7 @@ export class SharedService {
 
     switch (process.env.localname) {
 
-      case process.env.name: SharedService.camundaURL = process.env.localcamundaBaseUrl + ":" + process.env.cp;
+      case process.env.name: SharedService.camundaURL = process.env.localcamundaBaseUrl + ":" + process.env.camundaPort;
 
         break;
 
