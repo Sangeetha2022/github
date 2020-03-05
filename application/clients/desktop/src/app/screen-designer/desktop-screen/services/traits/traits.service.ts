@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IEntity } from '../../../../project-component/interface/Entity';
 import { CustomTraitsService } from './custom-traits.service';
-import { ProjectComponentService } from '../../../../../../src/app/project-component/project-component.service';
-import { ProjectsService } from '../../../../../../src/app/projects/projects.service';
-import { Brodcastservice } from '../entitybroadcastservice/broadcast.service';
 // import * as Highcharts from 'highcharts';
 
 declare var ClassicEditor: any;
@@ -28,11 +25,7 @@ export class TraitsService {
       entity: ''
     }
   ];
-  constructor(private customTraitService: CustomTraitsService, private projectComponentService: ProjectComponentService,
-    private brodcastservice: Brodcastservice ) { }
-
- 
-
+  constructor(private customTraitService: CustomTraitsService) { }
 
    initMethod(screenGlobalVariable) {
     this.initializeInputMethod(screenGlobalVariable);
@@ -50,10 +43,6 @@ export class TraitsService {
     const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model; 
-    this.brodcastservice.entitydetails.subscribe(entitylist=>{
-      console.log('--------entity broadcastservice options-------->>>>>>', entitylist);
-      this.entitylist = entitylist['entity'];
-    });
     comps.addType('input', {
       isComponent: el => el.tagName === 'INPUT',
       model: {
@@ -77,18 +66,11 @@ export class TraitsService {
             { type: 'checkbox', name: 'required', label: 'Required' },
             {
               type: 'select',
-              label: 'Entity',
+              label: 'FieldType',
               name: 'entity',
               options: [],
               changeProp: 1
             },
-            // {
-            //   type: 'select',
-            //   label: 'Entity Type',
-            //   name: 'Entity Type',
-            //   options: this.entitylist,
-            //   changeProp: 1
-            // },
           ],
         }
       },

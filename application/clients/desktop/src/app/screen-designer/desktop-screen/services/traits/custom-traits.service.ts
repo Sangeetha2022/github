@@ -261,7 +261,8 @@ export class CustomTraitsService {
         $this.editor.TraitManager.addType('entityFieldButton', {
             events: {
                 'click': function () {
-                    const traitEntity = this.target.changed['entity'];
+                    // previously the enity was bind using this way this.target.changed['entity'];
+                    const traitEntity = this.target.attributes.entity;
                     if (traitEntity !== undefined
                         && traitEntity !== 'none') {
                         $this.isFieldPopupModal = true;
@@ -274,6 +275,8 @@ export class CustomTraitsService {
                             }
                         });
                         $this.ref.detectChanges();
+                    }else{
+                        console.log('no entity selected');
                     }
                 },
             },

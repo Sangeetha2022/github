@@ -18,8 +18,6 @@ import * as langConstant from "../../../assets/data/language.json";
 import * as styleConstant from "../../../assets/data/stylemanager-language";
 
 import { SharedService } from "../../../shared/shared.service";
-import { Brodcastservice } from './services/entitybroadcastservice/broadcast.service';
-
 import * as generate from "nanoid/generate";
 
 import * as dictionary from "nanoid-dictionary";
@@ -262,7 +260,6 @@ export class DesktopScreenComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private ref: ChangeDetectorRef,
-    private brodcastservice: Brodcastservice,
   ) {
     this.columnDefs = [
       {
@@ -796,29 +793,6 @@ export class DesktopScreenComponent implements OnInit {
             if (this.existScreenDetail[0]['entity_info']) {
               let entityinfo = this.existScreenDetail[0]['entity_info'];
               console.log('----from screen---entityinfo-----', entityinfo, this.entitydetails);
-              let ids = entityinfo.map(c => c.entityId);
-              this.matchedentity = this.entitydetails.filter(({ value }) => ids.includes(value));
-              // this.setDefaultType(matchedentity);
-              console.log('-----matchedentity-----', this.matchedentity);
-              this.editor.on('component:selected', (arg) => {
-                console.log('--------args list-----', arg.get('traits').models[5]);
-                let listofoptions = arg.get('traits').models[5].el.options;
-                console.log('---------listofoptions-----',listofoptions);
-                let optionsvalue = Object.values(listofoptions);
-                optionsvalue.forEach(element => {
-                  console.log('--------listofoptions values-----',element);
-
-                });
-                // arg.get('traits').models[5].el.options[1].selected = true;
-                // arg.get('traits').models[5].attributes.options = object;
-                // arg.get('traits').models[5].attributes.options.filter(opt=>{
-                //   console.log('-------options list-----',opt);
-                //     return opt.value = object[1].value
-                // }).selected = true;
-                // if(element.value == this.matchedentity[0].value){
-                //   element.selected = true;
-                // }
-              })
             }
             if (this.existScreenDetail[0]["gjs-components"]) {
               this.feature_id = this.existScreenDetail[0]["feature"];
@@ -1206,14 +1180,10 @@ export class DesktopScreenComponent implements OnInit {
               const entityArray = [];
               entityArray.push({ name: "none", value: "none" });
               this.EntityField = this.entityData;
-              let i=0;
               this.entityData.forEach(entityElement => {
-
-                // const data = entityElement;
                 const object = {
                   name: "",
                   value: "",
-                  // selected: (i/2==0) ? true: false
                 };
                 object.name = entityElement.name;
                 object.value = entityElement._id;
@@ -1221,10 +1191,10 @@ export class DesktopScreenComponent implements OnInit {
                 this.entitydetails = entityArray;
                 console.log('-----Geppetto service calling----', entityArray);
               });
-              // this.brodcastservice.sendmessage({"entity":entityArray});
               this.traitsName = "entity";
               this.setDefaultType(entityArray);
             } else {
+              console.log('----------coming in feature entity else part-------');
               this.traitsName = "dataBinding";
               this.setDefaultType(this.dataBindingTypes);
             }
@@ -1259,9 +1229,9 @@ export class DesktopScreenComponent implements OnInit {
                 this.entitydetails = entityArray;
               });
               this.traitsName = "entity";
-              // this.brodcastservice.sendmessage({"entity":entityArray});
               this.setDefaultType(entityArray);
             } else {
+              console.log('----------coming in entity else part-------');
               this.traitsName = "dataBinding";
               this.setDefaultType(this.dataBindingTypes);
             }
@@ -1272,7 +1242,7 @@ export class DesktopScreenComponent implements OnInit {
   }
 
   setDefaultType(EntityBinding) {
-    console.log("set default type method called----------->>>>>>>>>>", EntityBinding);
+    console.log("set default type method called----------->>>>>>>>>>", EntityBinding, this.traitsName);
     // this.editor.DomComponents.getType('input').model.prototype.init().listenTo(this, 'change:2345', this.newENtity);
     // custom traits for entity field button
     this.customTraitService.entityFieldButton(this);
