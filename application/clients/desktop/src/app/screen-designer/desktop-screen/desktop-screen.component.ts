@@ -18,10 +18,7 @@ import * as langConstant from "../../../assets/data/language.json";
 import * as styleConstant from "../../../assets/data/stylemanager-language";
 
 import { SharedService } from "../../../shared/shared.service";
-
-import * as shortid from "shortid";
-
-import * as nanoid from "nanoid";
+import { Brodcastservice } from './services/entitybroadcastservice/broadcast.service';
 
 import * as generate from "nanoid/generate";
 
@@ -239,7 +236,7 @@ export class DesktopScreenComponent implements OnInit {
   //     componentId: '',
   //     elementName: ''
   // };
-
+  public entitydetails: any;
   public linkArray: any[] = [];
 
   // default Names
@@ -247,6 +244,8 @@ export class DesktopScreenComponent implements OnInit {
   public GPMODAL_FLOWNAME = "gpmodal";
   public MODAL_METHODNAME = "popupModal";
   public ROUTE_METHODNAME = "GpRoute";
+  public matchedentity: any
+
   constructor(
     private screenDesignerService: ScreenDesignerService,
     private blockService: BlockService,
@@ -262,7 +261,8 @@ export class DesktopScreenComponent implements OnInit {
     private sharedService: SharedService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private brodcastservice: Brodcastservice,
   ) {
     this.columnDefs = [
       {
@@ -311,8 +311,7 @@ export class DesktopScreenComponent implements OnInit {
     this.stylesheets = JSON.parse(localStorage.getItem("stylesheets"));
     this.scripts = JSON.parse(localStorage.getItem("scripts"));
     this.cssGuidelines = JSON.parse(localStorage.getItem("css_guidelines"));
-    this.templateName = localStorage.getItem("templateName").toLocaleLowerCase().replace(" ","");
-    console.log('-------------templatename-----------kishan',this.templateName);
+    this.templateName = localStorage.getItem("templateName").toLocaleLowerCase().replace(" ", "");
     this.isFieldPopupModal = false;
     this.isGridPopup = false;
     this.is_grid_present = false;
@@ -339,7 +338,7 @@ export class DesktopScreenComponent implements OnInit {
 
 
     // desktop plugins
-    grapesjs.plugins.add("desktop-plugin", function(editor, options) {
+    grapesjs.plugins.add("desktop-plugin", function (editor, options) {
       // remove the devices switcher
       // editor.getConfig().showDevices = false;
       console.log("desktop plugins editor are --11-- ", editor);
@@ -352,7 +351,7 @@ export class DesktopScreenComponent implements OnInit {
       ];
     });
     // mobile plugin
-    grapesjs.plugins.add("mobile-plugin", function(editor, options) {
+    grapesjs.plugins.add("mobile-plugin", function (editor, options) {
       // remove the devices switcher
       // editor.getConfig().showDevices = false;
       console.log("mobile plugins editor are --11-- ", editor);
@@ -531,17 +530,16 @@ export class DesktopScreenComponent implements OnInit {
       list[nextId] = model;
       return nextId;
     }
+    this.getEntity();
 
     //Need to set generated id while component creation
     this.editor.on('component:create', component => {
       component.setId(component.getId());
     });
-
     this.getScreenById();
     this.getFeatureById();
     this.getScreenByProjectId();
     this.traitService.initMethod(this);
-    this.getEntity();
     this.getEntityType();
     // this.getAllFlows();
     this.getProjectDetails();
@@ -584,7 +582,7 @@ export class DesktopScreenComponent implements OnInit {
 
     btnEdit.innerHTML = "Import";
     btnEdit.className = pfx + "btn-prim " + pfx + "btn-import";
-    btnEdit.onclick = function() {
+    btnEdit.onclick = function () {
       const code = codeViewer.editor.getValue();
       _this.editor.DomComponents.getWrapper().set("content", "");
       _this.editor.setComponents(code.trim());
@@ -592,7 +590,7 @@ export class DesktopScreenComponent implements OnInit {
     };
 
     cmdm.add("html-import", {
-      run: function(editor, sender) {
+      run: function (editor, sender) {
         sender.set("active", 0);
         let viewer = codeViewer.editor;
         modal.setTitle("Edit code");
@@ -774,26 +772,54 @@ export class DesktopScreenComponent implements OnInit {
           );
         }
       },
-      error => {}
+      error => { }
     );
   }
 
   getScreenById() {
     console.log("get screen by id are ------   ", this.screen_id);
-    console.log("==========screenName=========",this.screenName);
-    console.log("------------ remote",this.editor.StorageManager.get("remote"));
-    console.log("+++++++++",this.updateTemplateURL)
-    
+    console.log("==========screenName=========", this.screenName);
+    console.log("------------ remote", this.editor.StorageManager.get("remote"));
+    console.log("+++++++++", this.updateTemplateURL)
+
     if (this.screen_id) {
       this.editor.StorageManager.get("remote").set({
         urlStore: `${this.updateTemplateURL}${this.screen_id}`,
-        
+
       });
-      
+
       this.screenDesignerService.getScreenById(this.screen_id).subscribe(
         response => {
           if (response.body) {
             this.existScreenDetail = response.body;
+            console.log('------screen response-----', this.existScreenDetail);
+            if (this.existScreenDetail[0]['entity_info']) {
+              let entityinfo = this.existScreenDetail[0]['entity_info'];
+              console.log('----from screen---entityinfo-----', entityinfo, this.entitydetails);
+              let ids = entityinfo.map(c => c.entityId);
+              this.matchedentity = this.entitydetails.filter(({ value }) => ids.includes(value));
+              // this.setDefaultType(matchedentity);
+              console.log('-----matchedentity-----', this.matchedentity);
+              this.editor.on('component:selected', (arg) => {
+                console.log('--------args list-----', arg.get('traits').models[5]);
+                let listofoptions = arg.get('traits').models[5].el.options;
+                console.log('---------listofoptions-----',listofoptions);
+                let optionsvalue = Object.values(listofoptions);
+                optionsvalue.forEach(element => {
+                  console.log('--------listofoptions values-----',element);
+
+                });
+                // arg.get('traits').models[5].el.options[1].selected = true;
+                // arg.get('traits').models[5].attributes.options = object;
+                // arg.get('traits').models[5].attributes.options.filter(opt=>{
+                //   console.log('-------options list-----',opt);
+                //     return opt.value = object[1].value
+                // }).selected = true;
+                // if(element.value == this.matchedentity[0].value){
+                //   element.selected = true;
+                // }
+              })
+            }
             if (this.existScreenDetail[0]["gjs-components"]) {
               this.feature_id = this.existScreenDetail[0]["feature"];
               this.project_id = this.existScreenDetail[0]["project"];
@@ -831,8 +857,10 @@ export class DesktopScreenComponent implements OnInit {
                 JSON.parse(this.existScreenDetail[0]["gjs-components"])
               );
               this.editor.setStyle(this.existScreenDetail[0]["gjs-css"]);
-            //   this.editor.render();
+              //   this.editor.render();
             }
+          } else {
+            console.log('------empty response coming for screen api');
           }
         },
         error => {
@@ -845,6 +873,8 @@ export class DesktopScreenComponent implements OnInit {
       });
     }
   }
+
+
 
   getEntityType() {
     this.projectComponentService.getAllEntityType().subscribe(
@@ -879,7 +909,7 @@ export class DesktopScreenComponent implements OnInit {
           this.dataBindingTypes
         );
       },
-      error => {}
+      error => { }
     );
   }
 
@@ -1167,25 +1197,31 @@ export class DesktopScreenComponent implements OnInit {
         .subscribe(
           response => {
             this.entityData = response.body;
-            console.log("entityData details are --------  ", this.entityData);
             if (
               this.entityData !== null &&
               this.entityData !== undefined &&
               this.entityData.length > 0
             ) {
+              console.log("entityData details using Feature id --------  ", this.entityData);
               const entityArray = [];
               entityArray.push({ name: "none", value: "none" });
               this.EntityField = this.entityData;
+              let i=0;
               this.entityData.forEach(entityElement => {
+
                 // const data = entityElement;
                 const object = {
                   name: "",
-                  value: ""
+                  value: "",
+                  // selected: (i/2==0) ? true: false
                 };
                 object.name = entityElement.name;
                 object.value = entityElement._id;
                 entityArray.push(object);
+                this.entitydetails = entityArray;
+                console.log('-----Geppetto service calling----', entityArray);
               });
+              // this.brodcastservice.sendmessage({"entity":entityArray});
               this.traitsName = "entity";
               this.setDefaultType(entityArray);
             } else {
@@ -1193,9 +1229,10 @@ export class DesktopScreenComponent implements OnInit {
               this.setDefaultType(this.dataBindingTypes);
             }
           },
-          error => {}
+          error => { }
         );
     } else {
+      console.log('---------------else coming first---');
       this.projectComponentService
         .getEntityByProjectId(this.project_id)
         .subscribe(
@@ -1206,6 +1243,7 @@ export class DesktopScreenComponent implements OnInit {
               allEntityData !== undefined &&
               allEntityData.length > 0
             ) {
+              console.log("entityData details using Project id --------  ", this.entityData);
               const entityArray = [];
               entityArray.push({ name: "none", value: "none" });
               this.EntityField = allEntityData;
@@ -1218,21 +1256,23 @@ export class DesktopScreenComponent implements OnInit {
                 object.name = entityElement.name;
                 object.value = entityElement._id;
                 entityArray.push(object);
+                this.entitydetails = entityArray;
               });
               this.traitsName = "entity";
+              // this.brodcastservice.sendmessage({"entity":entityArray});
               this.setDefaultType(entityArray);
             } else {
               this.traitsName = "dataBinding";
               this.setDefaultType(this.dataBindingTypes);
             }
           },
-          error => {}
+          error => { }
         );
     }
   }
 
   setDefaultType(EntityBinding) {
-    console.log("set default type method called");
+    console.log("set default type method called----------->>>>>>>>>>", EntityBinding);
     // this.editor.DomComponents.getType('input').model.prototype.init().listenTo(this, 'change:2345', this.newENtity);
     // custom traits for entity field button
     this.customTraitService.entityFieldButton(this);
@@ -1259,8 +1299,7 @@ export class DesktopScreenComponent implements OnInit {
         type: "entityFieldButton",
         label: "Field",
         name: "Field"
-      }
-    );
+      });
 
     // select traits
     this.editor.DomComponents.getType(
@@ -1279,6 +1318,8 @@ export class DesktopScreenComponent implements OnInit {
         name: "Field"
       }
     );
+
+
 
     // radio traits
     this.editor.DomComponents.getType(
@@ -1466,9 +1507,9 @@ export class DesktopScreenComponent implements OnInit {
   setElementCSS(element, tagName, removeTagClassName) {
     const gepStyle = JSON.parse(localStorage.getItem("templateparser"));
     console.log("gep default styles are -----  ", gepStyle, ' cssguideines are ---  ', this.cssGuidelines, '  tagname  ', tagName);
-    let temp = null; 
-    if(this.cssGuidelines) {
-     temp = this.cssGuidelines.find(x => x.tagName === tagName);
+    let temp = null;
+    if (this.cssGuidelines) {
+      temp = this.cssGuidelines.find(x => x.tagName === tagName);
 
     }
     console.log(
@@ -1554,7 +1595,7 @@ export class DesktopScreenComponent implements OnInit {
     this.commandService.updateComponentName(this);
     this.commandService.updateTraits(this);
     this.commandService.dragAndDrop(this);
-    console.log("-------draganddrop-----this",this);
+    console.log("-------draganddrop-----this", this);
   }
 
   saveLinkDetails() {
@@ -1790,7 +1831,8 @@ export class DesktopScreenComponent implements OnInit {
   }
 
   // save entity for form
-  saveFieldPopup() {
+  saveFieldPopup(value) {
+    console.log('--------event kishan------', value);
     const checkedIndex = this.screenEntityModel.findIndex(
       x =>
         x.htmlId === this.editor.getSelected().ccid &&
@@ -1802,7 +1844,7 @@ export class DesktopScreenComponent implements OnInit {
     if (
       this.entityFields !== "" &&
       this.entityFields !== undefined &&
-      this.traitsName === "entity"
+      this.traitsName === "Entity"
     ) {
       const obj = {
         htmlId: "",
@@ -1817,10 +1859,12 @@ export class DesktopScreenComponent implements OnInit {
           dataType: ""
         }
       };
+      // console.log('--------entities details------',localStorage.getItem('TraitsEntityid'));
+
       obj.htmlId = this.editor.getSelected().ccid;
       obj.componentId = this.editor.getSelected().cid;
       obj.elementName = this.editor.getSelected().attributes.name;
-      obj.entityId = this.selectedEntityModel;
+      obj.entityId = localStorage.getItem('TraitsEntityid');
       obj.fields.fieldId = this.entityFields._id;
       obj.fields.name = this.entityFields.name;
       obj.fields.description = this.entityFields.description;
@@ -1856,7 +1900,7 @@ export class DesktopScreenComponent implements OnInit {
     this.saveRemoteStorage();
     this.createFeatureIfNotExist();
     this.closeScreeName();
-    this.editor.on("storage:response", function(e) {
+    this.editor.on("storage:response", function (e) {
       console.log("storage id are -------------    ", e);
       $this.screen_id = e.body._id;
       $this.getScreenById();
@@ -1870,7 +1914,7 @@ export class DesktopScreenComponent implements OnInit {
       saveButton.set("active", 0);
     } else if (this.screen_id !== undefined) {
       this.editor.store();
-      console.log("kkkkkkk",this.screen_id);
+      console.log("kkkkkkk", this.screen_id);
       saveButton.set("active", 0);
     } else {
       const featureDetailObj = {

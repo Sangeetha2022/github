@@ -8,7 +8,7 @@ import * as socketIo from 'socket.io-client';
 
 @Injectable()
 export class ProjectsService {
-
+  public project_Id = null;
   private socket;
   constructor(private http: HttpClient, private api: ApiService, private restapi: SharedService) {
   }
