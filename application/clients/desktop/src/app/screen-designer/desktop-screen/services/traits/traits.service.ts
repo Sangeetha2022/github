@@ -11,8 +11,13 @@ declare var agGrid: any;
 })
 export class TraitsService {
   public entityOptions: any[] = [];
+  public entitylist: any [] = [];
   public fieldOptions: any[] = [];
   public allEntity: IEntity[] = [];
+  EntityField: any[] = [];
+  // entityoption = [];
+  traitsName: string;
+  project_id: String;
   public agGridValue: any[] = [
     {
       column: '',
@@ -22,7 +27,7 @@ export class TraitsService {
   ];
   constructor(private customTraitService: CustomTraitsService) { }
 
-  initMethod(screenGlobalVariable) {
+   initMethod(screenGlobalVariable) {
     this.initializeInputMethod(screenGlobalVariable);
     this.initializeTextAreaMethod(screenGlobalVariable);
     this.initializeSelectMethod(screenGlobalVariable);
@@ -32,11 +37,12 @@ export class TraitsService {
     this.initializeLinkMethod(screenGlobalVariable);
   }
 
-  initializeInputMethod(screenGlobalVariable) {
+   initializeInputMethod(screenGlobalVariable) {
+    this.entitylist = [];
     const $this = this;
     const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
-    const defaultModel = defaultType.model;
+    const defaultModel = defaultType.model; 
     comps.addType('input', {
       isComponent: el => el.tagName === 'INPUT',
       model: {
@@ -46,25 +52,25 @@ export class TraitsService {
           traits: [
             { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
             { name: 'placeholder', label: 'Placeholder' },
-            {
-              label: 'Type',
-              type: 'select',
-              name: 'type',
-              options: [
-                { value: 'text', name: 'Text' },
-                { value: 'email', name: 'Email' },
-                { value: 'password', name: 'Password' },
-                { value: 'number', name: 'Number' }
-              ]
-            },
+            // {
+            //   label: 'Type',
+            //   type: 'select',
+            //   name: 'type',
+            //   options: [
+            //     { value: 'text', name: 'Text' },
+            //     { value: 'email', name: 'Email' },
+            //     { value: 'password', name: 'Password' },
+            //     { value: 'number', name: 'Number' }
+            //   ]
+            // },
             { type: 'checkbox', name: 'required', label: 'Required' },
             {
               type: 'select',
-              label: 'Field Type',
+              label: 'FieldType',
               name: 'entity',
               options: [],
               changeProp: 1
-            }
+            },
           ],
         }
       },
