@@ -23,7 +23,6 @@ import { DataService } from 'src/shared/data.service';
 // import { FormBuilder , FormGroup ,Validators} from `@angular/forms`;
 
 
-const URL = 'http://localhost:3006/feature/details/addfile';
 
 @Component({
     selector: 'app-feature-details',
