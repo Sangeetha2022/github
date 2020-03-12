@@ -97,11 +97,10 @@
             <span class="screen_text">{{screen?.screenName}}</span>
             <img src="../../assets/img/desktop.png" *ngIf="screen.screenType === 'desktop'" class="image" alt="Desktop">
             <img src="../../assets/img/mobile.png" *ngIf="screen.screenType === 'mobile'" class="image" alt="Mobile">
-            <span class="fa fa-pencil-square-o fa-2x" (click)="editScreen(screen._id, screen.screenType)"
-              aria-hidden="true"></span>
-            <span [ngClass]="screen.screenType === 'desktop' ? 'fa fa-trash-o fa-2x desktop_only':'fa fa-trash-o fa-2x'"
-              (click)="deleteScreen(screen._id)" aria-hidden="true"></span>
+            <span (click)="editScreen(screen._id, screen.screenType)"><img class="editicon" src="../../../assets/img/edit.svg"/></span>
+            <span (click)="deleteScreen(screen._id)" ><img class="trashicon" src="../../../assets/img/trash.svg" /></span>
           </div>
+
           <div class="col-md-4" *ngIf="screenDetails.length === 0">
             No Screen Available.
           </div>

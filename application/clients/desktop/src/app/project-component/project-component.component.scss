@@ -46,6 +46,24 @@
     cursor: pointer;
   }
 
+  .editicon{
+    position: absolute;
+    top: 95%;
+    right: 83%;
+    color: green;
+    cursor: pointer;
+    width:14%
+  }
+  
+  .trashicon{
+    position: absolute;
+    top: 92%;
+    right: 43%;
+    color: red;
+    cursor: pointer;
+    width:16%
+  
+  }
   .delete .modal-body {
   height: 70px;
   overflow-y: auto;
