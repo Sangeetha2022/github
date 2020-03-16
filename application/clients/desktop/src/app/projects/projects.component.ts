@@ -75,6 +75,7 @@ export class ProjectsComponent implements OnInit {
     this.UserId = sessionStorage.getItem('Id');
     this.getProjectByUserId();
     this.getAllTemplates();
+    this.getTemplateParser();
     this.createProject = this.formBuilder.group({
       // const control = new FormControl('1', Validators.pattern('[a-zA-Z ]*'));
       name: ['', Validators.compose([
@@ -121,7 +122,7 @@ export class ProjectsComponent implements OnInit {
     const user_id = '123';
 
     if (!sessionStorage.getItem('onNotify')) {
-      this.getAllUserNotify(user_id);
+      // this.getAllUserNotify(user_id);
       sessionStorage.setItem('onNotify', 'off');
     }
   }
@@ -207,6 +208,7 @@ export class ProjectsComponent implements OnInit {
           localStorage.setItem('stylesheets', JSON.stringify(response[0]['stylesheets']));
           localStorage.setItem('scripts', JSON.stringify(response[0]['scripts']));
           localStorage.setItem('css_guidelines', JSON.stringify(response[0]['css-guidelines']));
+          localStorage.setItem('templateName', response[0].screenName);
         },
         error => {
           console.log('cannot able to get the project template');
@@ -464,6 +466,22 @@ export class ProjectsComponent implements OnInit {
         console.log('Check the browser console to see more info.', 'Error!');
       });
   }
+
+  getTemplateParser() {
+    this.templateScreenService.getTemplateParser().subscribe(response => {
+      console.log('getTemplate parser response in project are --- ', response);
+      // this.gepTemplates = gepTemp.body;
+      // this.gepTempImages = this.gepTemplates.template_image;
+      if (response) {
+        localStorage.setItem('templateparser', JSON.stringify(response.body));
+      }
+    },
+      error => {
+        console.log('Check the browser console to see more info.', 'Error!');
+      });
+  }
+
+
   getAllUserNotify(user_id) {
 
     this.projectsService.getAllUserNotify(user_id).subscribe(data => {

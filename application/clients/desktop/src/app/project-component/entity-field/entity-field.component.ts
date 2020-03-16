@@ -201,6 +201,9 @@ export class EntityFieldComponent implements OnInit {
   }
 
   openDialog(entityValue, standardValue, e): void {
+    console.log("entityValue ------------->",entityValue)
+    console.log("standardValue-------------->",standardValue)
+    console.log("this.entity ---> ",this.entity )
     const dialogRef = this.dialog.open(FieldPopupModalComponent, {
       width: '250px',
       data: {
@@ -225,7 +228,8 @@ export class EntityFieldComponent implements OnInit {
           if (entityData.standard !== undefined) {
             e.data.list_type = 'standard';
             e.data.list_value = entityData.standard;
-          } else if (entityData.entity !== undefined) {
+          } else if ( entityData.entity !== null || entityData.entity !== undefined) {
+            console.log('let me test entity --------------> ',entityData.entity)
             e.data.list_type = 'entity';
             e.data.list_value = null;
             e.data.entity_id = entityData.entity;
@@ -259,10 +263,11 @@ export class EntityFieldComponent implements OnInit {
         currentEntity.push(node.data.name);
       }
     });
-
+    console.log("currentEntity ---> ",currentEntity )
+    console.log("event.data.name-------------->",event.data.name)
     const index = currentEntity.findIndex(x =>
       x === event.data.name);
-
+    console.log('index ----> ',index)
     if (index > -1) {
       this.propertiesIsExist = true;
     } else {
@@ -332,8 +337,11 @@ export class EntityFieldComponent implements OnInit {
   }
 
   typeValueSetter(params: ValueParserParams) {
+    console.log("params ---------------> ",params)
     const value = this.openModal(params);
+    console.log("value ---------------> ",value)
     params.data[params.colDef.field] = value;
+    console.log("params.data ---> ",params.data)
     return true;
   }
 

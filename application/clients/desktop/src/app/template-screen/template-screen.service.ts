@@ -14,4 +14,9 @@ export class TemplateScreenService {
   getAllTemplates(): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllTemplates}`);
   }
+
+  getTemplateParser(): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getTemplateParser}`);
+  }
+  
 }

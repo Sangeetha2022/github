@@ -1,7 +1,11 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 import * as cors from 'cors';
 import * as express from "express";
 import * as bodyParser from "body-parser";
 import Controller from './interfaces/controller.interface';
+import { Constants } from "./config/Constants";
+
 import {
     ProjectController,
     FlowManagerController,
@@ -72,6 +76,7 @@ class App {
 
     public app: express.Application = express();
     public logger: WinstonLogger = new WinstonLogger();
+    public apiUrl : Constants = new Constants();
 
     constructor(controllers: Controller[]) {
         this.logger.setupLogger();

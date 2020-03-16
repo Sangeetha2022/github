@@ -107,23 +107,11 @@ export class CustomTraitsService {
             },
             getInputEl() {
                 // tslint:disable-next-line:prefer-const
-                // let button = <HTMLElement>document.createElement('checkbox');
-                // button.id = 'fieldButton';
-                // button.style.width = '100%';
-                // button.style.backgroundColor = '#4CAF50';
-                // button.style.border = 'none';
-                // button.style.color = 'white';
-                // button.style.backgroundColor = '#008CBA';
-                // button.style.fontSize = '12px !important';
-                // button.style.cursor = 'pointer';
-                // button.appendChild(document.createTextNode('Flow'));
                 const newCheckBox = document.createElement('input');
                 newCheckBox.type = 'checkbox';
                 newCheckBox.id = 'ptworkinfo'; // need unique Ids!
                 newCheckBox.value = 'popupmodal';
-
-                // parentElement.appendChild(newCheckBox);
-                return newCheckBox;
+  return newCheckBox;
             },
         });
 
@@ -273,24 +261,22 @@ export class CustomTraitsService {
         $this.editor.TraitManager.addType('entityFieldButton', {
             events: {
                 'click': function () {
-                    console.log('traits button before if --- ', this.target.changed['entity']);
-                    const traitEntity = this.target.changed['entity'];
+                    // previously the enity was bind using this way this.target.changed['entity'];
+                    const traitEntity = this.target.attributes.entity;
                     if (traitEntity !== undefined
                         && traitEntity !== 'none') {
                         $this.isFieldPopupModal = true;
                         $this.EntityField.forEach(entityElement => {
-                            console.log('entity component update 1--  ', entityElement);
-                            console.log('entity component update 2--  ', traitEntity);
                             if (entityElement._id === traitEntity) {
                                 $this.fields = entityElement.field.filter((el) => {
                                     return (el.name.toLowerCase() !== 'createdat' &&
                                         el.name.toLowerCase() !== 'updatedat');
                                 });
                             }
-                            console.log('entity component update fields 3--  ', $this.fields);
-
                         });
                         $this.ref.detectChanges();
+                    }else{
+                        console.log('no entity selected');
                     }
                 },
             },
@@ -343,16 +329,6 @@ export class CustomTraitsService {
                     component.getTrait('columns').set('options', [
                         ...$this.columnOptions
                     ]);
-                    // colTraits.set('options', $this.columnOptions);
-                    // $this.editor.TraitManager.getTraitsViewer().render();
-                    // console.log('sessionStorage count are ', count, ' --- ', { value: `col${count}_id`, name: `column_${count}` });
-                    // const modal = <HTMLElement>document.querySelector('#agGridModal');
-                    // console.log('ag Grid modal are ----- ', modal);
-                    // if (selectedEntity !== undefined) {
-                    //   // modal.style.display = 'block';
-                    //   localDataService.setAgGridEntity(selectedEntity);
-                    // }
-                    // trigger when btn is clicked
                 },
             },
             getInputEl() {
@@ -379,23 +355,15 @@ export class CustomTraitsService {
                     const columnDefs = this.target.view.el.gridOptions.columnDefs;
                     const component = $this.editor.getSelected();
                     columnDefs.pop();
-                    console.log('component removing grid options and value -----   ', component, ' component.getTypes ', component.getTrait('columns'));
                     this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                     this.target.view.el.gridOptions.api.sizeColumnsToFit();
                     $this.columnOptions.pop();
                     $this.agGridObject.default_field.pop();
                     $this.agGridObject.custom_field.pop();
                     $this.saveRemoteStorage();
-                    const colTraits = this.target.get('traits').where({ name: 'columns' })[0];
-                    console.log('remove grids are- ----  ', colTraits, ' columnOptions ', $this.columnOptions);
                     component.getTrait('columns').set('options', [
                         ...$this.columnOptions
                     ]);
-                    // $this.editor.TraitManager.render();
-                    console.log('editor traitManager are -props---00----   ', component.getTrait('columns').props());
-                    console.log('editor traitManager are ----11----   ', $this.editor.TraitManager);
-                    console.log('editor traitManager are ----22----   ', $this.editor.TraitManager.getTraitsViewer());
-                    console.log('editor traitManager are ----33----   ', $this.editor.TraitManager.getTraitsViewer().render());
                 },
             },
             getInputEl() {
@@ -417,16 +385,6 @@ export class CustomTraitsService {
         $this.editor.TraitManager.addType('fieldGridButton', {
             events: {
                 'click': function () {
-                    // const modal = <HTMLElement>document.querySelector('#agGridModal');
-                    // if (selectedEntity !== undefined) {
-                    //     // modal.style.display = 'block';
-                    //     const constructObj = {
-                    //         entity: selectedEntity,
-                    //         defalutColumn: this.target.view.el.gridOptions.columnDefs,
-                    //         customColumn: columnOptions
-                    //     };
-                    //     $this.dataService.setAgGridEntity(constructObj);
-                    // }
                     // trigger when btn is clicked
                     let entityId = null;
                     if (this.target.changed['entity']) {
@@ -443,8 +401,6 @@ export class CustomTraitsService {
                         $this.isGridPopup = true;
                         $this.ref.detectChanges();
                     }
-                    // $this.isGridPopup = true;
-                    // $this.ref.detectChanges();
                 },
             },
             getInputEl() {

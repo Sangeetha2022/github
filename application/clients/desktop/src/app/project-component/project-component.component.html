@@ -160,10 +160,8 @@
                                 class="image" alt="Desktop">
                             <img src="../../assets/img/mobile.png" *ngIf="screen.screenType === 'mobile'" class="image"
                                 alt="Mobile">
-                            <span class="fa fa-pencil-square-o fa-2x"
-                                (click)="editScreen(screen._id, screen.screenType)" aria-hidden="true"></span>
-                            <span class="fa fa-trash-o fa-2x" (click)="deleteScreenById(screen._id)"
-                                aria-hidden="true"></span>
+                            <span (click)="editScreen(screen._id, screen.screenType)" aria-hidden="true"><img class="editicon" src="../../assets/img/edit.svg"/></span>
+                            <span (click)="deleteScreenById(screen._id)" aria-hidden="true"><img class="trashicon" src="../../../assets/img/trash.svg" /></span>
 
                         </div>
                         <div class="col-md-4" *ngIf="screenDetails.length === 0">

@@ -45,6 +45,26 @@
   border-radius: 8px;
   color: #184573;
 }
+
+.editicon{
+  position: absolute;
+  top: 95%;
+  right: 83%;
+  color: green;
+  cursor: pointer;
+  width:14%
+}
+
+.trashicon{
+  position: absolute;
+  top: 92%;
+  right: 43%;
+  color: red;
+  cursor: pointer;
+  width:16%
+
+}
+
 .fa.fa-pencil-square-o{
   position: absolute;
   top: 100%;

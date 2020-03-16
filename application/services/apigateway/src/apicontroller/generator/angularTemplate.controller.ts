@@ -2,7 +2,7 @@ import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../../interfaces/controller.interface";
 import { ApiAdaptar } from '../../config/apiAdaptar';
-import * as Constants from '../../config/Constants';
+import  {Constants} from '../../config/Constants';
 
 export class AngularTemplateController implements Controller {
     public router = express.Router();
