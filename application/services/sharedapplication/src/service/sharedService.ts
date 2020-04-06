@@ -1,0 +1,126 @@
+import { Request, response, request } from 'express'
+import { SharedApplicationsService } from '../apiservices/sharedapplicationsService'
+import * as fs from 'fs';
+import * as yaml from 'js-yaml';
+import * as multer from 'multer';
+import * as  parseFormdata from 'parse-formdata';
+import * as Busboy from 'busboy';
+
+
+let sharedapplicationsService = new SharedApplicationsService()
+var upload = multer()
+
+
+export class sharedService {
+
+    static getSharedProjectById: any;
+
+    public getSharedProjectById(req: Request, callback) {
+        const projectId = req.params.id;
+        console.log("projectId------->", projectId)
+        this.resolveProjectEntities(projectId, function (projectDetails, projectFeatures, projectEntities) {
+            console.log("projectFeatures---->", projectFeatures);
+            console.log("projectEntities----->", projectEntities);
+            projectEntities.body.forEach(function (entity) {
+                // if(entity.feature_id) {
+                //     projectFeatures.body.forEach(function (feature){
+                //         if(entity.feature_id == feature._id){
+                //             // feature.entities.push({entityName: entity.name})
+                //         }
+                //     })
+                // }
+                entity.field.forEach(function (details) {
+                    delete entity.__v;
+                    delete entity.is_default;
+                    delete entity.created_at;
+                    delete entity.updated_at;
+                    delete entity.created_by;
+                    delete details.updated_at;
+                    delete details.created_at;
+                    delete details.entity_id;
+                    delete details._id;
+                    delete entity.project_id;
+                    // delete entity._id;
+
+                    let data_type = details.data_type.startsWith("{");
+                    if (data_type == true) {
+                        let dataType = typeof (details.type_name);
+                        details.data_type = dataType.charAt(0).toUpperCase() + dataType.slice(1);
+                        details.reference_table = details.name;
+
+                    }
+                });
+            });
+            projectEntities.body.forEach(function (entity) {
+                projectFeatures.body.forEach(function (feature) {
+                    // delete feature._id;
+                    delete feature.__v;
+                    delete feature.createdAt;
+                    feature.entities.forEach(function (featureEntity) {
+                    })
+                })
+
+            })
+
+
+            let newObject = {
+                projectName: projectDetails.body.name,
+                projectTemplate: projectDetails.body.app_ui_template,
+                projectTemplateId: projectDetails.body.app_ui_template_id,
+                projectTemplateName: projectDetails.body.app_ui_template_name,
+                primaryLanguage: projectDetails.body.default_human_language,
+                secondaryLanguages: projectDetails.body.other_human_languages,
+                clientlanguage: projectDetails.body.clientlanguage.name,
+                clientframework: projectDetails.body.clientframework.name,
+                serverlanguage: projectDetails.body.serverlanguage.name,
+                serverframework: projectDetails.body.serverframework.name,
+                serverdatabase: projectDetails.body.serverdatabase.name,
+                servertarget: projectDetails.body.servertarget.name,
+                server_deployment_type: projectDetails.body.server_deployment_type.name,
+                User_Id: projectDetails.body.UserId,
+                projectEntities: projectEntities.body,
+                projectFeatures: projectFeatures.body,
+            }
+            let yamlStr = yaml.dump(newObject);
+            fs.writeFileSync(projectDetails.body.name.concat(".yaml"), yamlStr, 'utf8');
+            callback('Yaml file convertion is done');
+
+
+        });
+    }
+
+    public resolveProjectEntities(projectId, callback) {
+        sharedapplicationsService.getByProjectId(projectId, (details) => {
+            sharedapplicationsService.getFeatureByProject(projectId, (feature) => {
+                sharedapplicationsService.getEntityByProject(projectId, (entity) => {
+                    console.log("entity------>", entity);
+                    let detail = JSON.parse(details);
+                    let features = JSON.parse(feature);
+                    let entities = JSON.parse(entity);
+                    callback(detail, features, entities);
+                })
+            })
+        });
+    }
+
+    public savesharedproject(req, res, callback) {
+        sharedapplicationsService.postProject(req, res, (response) => {
+            callback(response);
+        })
+    }
+
+    public uploadProjectFile(req, callback) {
+        var busboy = new Busboy({ headers: req.headers });
+        busboy.on('file', function (fieldname, file) {
+            file.on('data', function (data) {
+                sharedapplicationsService.postProject(req, data, (response) => {
+                    callback(response);
+                })
+            });
+            file.on('end', function () {
+                console.log('File Finished');
+            });
+        });
+        req.pipe(busboy);
+    }
+}

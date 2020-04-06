@@ -1,0 +1,108 @@
+projectName: notessss
+projectTemplate: NIGHT VOYAGER
+projectTemplateId: b7ca0bf0-0d2e-11ea-bd6e-512a72c09e0b
+primaryLanguage: English
+secondaryLanguages: Tamil
+clientlanguage: java_script
+clientframework: angular7
+serverlanguage: Node.js
+serverframework: Express
+serverdatabase: mongodb
+servertarget: live
+server_deployment_type: aws
+User_Id: f613b700-0f57-11ea-8173-1382187636c7
+projectEntities:
+  - name: User
+    description: User details
+    field:
+      - name: firstname
+        type_name: Text
+        data_type: String
+        description: user first name
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: lastname
+        type_name: Text
+        data_type: String
+        description: user last name
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: username
+        type_name: Text
+        data_type: String
+        description: username
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: email
+        type_name: Text
+        data_type: String
+        description: user Email
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: password
+        type_name: Text
+        data_type: String
+        description: user password
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: phonenumber
+        type_name: Text
+        data_type: String
+        description: user phone number
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: Idtoken
+        type_name: Text
+        data_type: String
+        description: Jwt token of user details
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: loggedinDate
+        type_name: Text
+        data_type: Date
+        description: user Logged in date
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: loggedoutDate
+        type_name: Text
+        data_type: Date
+        description: user Logged out date
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: role
+        type_name: Text
+        data_type: String
+        description: Role of the User
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+        reference_table: role
