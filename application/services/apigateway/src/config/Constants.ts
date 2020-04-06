@@ -21,6 +21,8 @@ export class Constants {
     public static adminUrl: String;
     public static customConnectorUrl: String;
     public static deleteUrl: String;
+    public static sharedUrl: String;
+
 
     //generator - declaration
     public static projectGenUrl: String;
@@ -62,6 +64,7 @@ export class Constants {
                 Constants.adminUrl = Constants.appUrl + ":3010";
                 Constants.customConnectorUrl = Constants.appUrl + ":3013";
                 Constants.deleteUrl = Constants.appUrl + ":3014";
+                Constants.sharedUrl = Constants.appUrl + ":3050";
 
                 //generator
                 Constants.projectGenUrl = Constants.generationUrl + ":5000";
@@ -97,6 +100,7 @@ export class Constants {
                 Constants.adminUrl = Constants.appUrl + ":3010";
                 Constants.customConnectorUrl = Constants.appUrl + ":3013";
                 Constants.deleteUrl = Constants.appUrl + ":3014";
+                Constants.sharedUrl = Constants.appUrl + ":3050";
 
                 //generator
                 Constants.projectGenUrl = Constants.generationUrl + ":5000";
@@ -114,10 +118,7 @@ export class Constants {
 
                 break;
         }
-
     }
-
-
 }
 
 

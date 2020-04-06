@@ -33,7 +33,8 @@ import {
     AdminController,
     TemplateController,
     customConnectors,
-    DeleteManagerController
+    DeleteManagerController,
+    SharedController
 
 
 } from './apicontroller';
@@ -69,7 +70,8 @@ let apisController = [
     new AdminController(),
     new TemplateController(),
     new customConnectors(),
-    new DeleteManagerController()
+    new DeleteManagerController(),
+    new SharedController()
 ]
 
 class App {

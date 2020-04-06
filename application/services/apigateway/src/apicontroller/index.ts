@@ -14,6 +14,8 @@ export * from './admin.controller';
 export * from './templatemanager.controller';
 export * from './customConnectors.controller';
 export * from './deletemanager.controller';
+export * from './shared.Controller';
+
 
 
 // generator

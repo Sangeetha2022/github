@@ -1,0 +1,120 @@
+projectName: test0
+projectTemplate: GEPPETTO TEMPLATE
+projectTemplateImage: b7c773e0-0d2e-11ea-bd6e-512a72c09e0b
+primaryLanguage: English
+secondaryLanguages: Spanish
+clientlanguage: java_script
+clientframework: angular7
+serverlanguage: Node.js
+serverframework: Express
+serverdatabase: mongodb
+servertarget: local
+server_deployment_type: aws
+User_Id: f613b700-0f57-11ea-8173-1382187636c7
+projectEntities:
+  - _id: 67ba79f1-316a-11ea-a8c6-e335ee78048f
+    name: User
+    description: User details
+    project_id: 678909b0-316a-11ea-b6d5-59a41bbd5d0a
+    field:
+      - name: firstname
+        type_name: Text
+        data_type: String
+        description: user first name
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+        _id: 67ba79f0-316a-11ea-a8c6-e335ee78048f
+      - name: lastname
+        type_name: Text
+        data_type: String
+        description: user last name
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+        _id: 67ba52e1-316a-11ea-a8c6-e335ee78048f
+      - name: username
+        type_name: Text
+        data_type: String
+        description: username
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+        _id: 67ba52e0-316a-11ea-a8c6-e335ee78048f
+      - name: email
+        type_name: Text
+        data_type: String
+        description: user Email
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+        _id: 67ba2bd3-316a-11ea-a8c6-e335ee78048f
+      - name: password
+        type_name: Text
+        data_type: String
+        description: user password
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+        _id: 67ba2bd2-316a-11ea-a8c6-e335ee78048f
+      - name: phonenumber
+        type_name: Text
+        data_type: String
+        description: user phone number
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+        _id: 67ba2bd1-316a-11ea-a8c6-e335ee78048f
+      - name: Idtoken
+        type_name: Text
+        data_type: String
+        description: Jwt token of user details
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+        _id: 67ba2bd0-316a-11ea-a8c6-e335ee78048f
+      - name: loggedinDate
+        type_name: Text
+        data_type: Date
+        description: user Logged in date
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+        _id: 67ba04c2-316a-11ea-a8c6-e335ee78048f
+      - name: loggedoutDate
+        type_name: Text
+        data_type: Date
+        description: user Logged out date
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+        _id: 67ba04c1-316a-11ea-a8c6-e335ee78048f
+      - name: role
+        type_name: Text
+        data_type: String
+        description: Role of the User
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+        _id: 67ba04c0-316a-11ea-a8c6-e335ee78048f
+        reference_table: role
