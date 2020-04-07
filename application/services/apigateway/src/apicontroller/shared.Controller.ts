@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../interfaces/controller.interface";
-import * as Constants from '../config/Constants';
+import { Constants } from '../config/Constants';
 import { ApiAdaptar } from '../config/apiAdaptar';
 
 
