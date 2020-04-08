@@ -15,12 +15,15 @@ export class sharedService {
 
     static getSharedProjectById: any;
 
-    public getSharedProjectById(req: Request, callback) {
+    public async getSharedProjectById(req: Request, callback) {
         const projectId = req.params.id;
         console.log("projectId------->", projectId)
-        this.resolveProjectEntities(projectId, function (projectDetails, projectFeatures, projectEntities) {
-            console.log("projectFeatures---->", projectFeatures);
-            console.log("projectEntities----->", projectEntities);
+        let overallprojectdetails = await this.resolveProjectEntities(projectId);
+        let projectDetails = overallprojectdetails['projectdetails'];
+        let projectEntities = overallprojectdetails['projectentity'];
+        let projectFeatures = overallprojectdetails['projectfeature']
+        // console.log("overallproject---->", overallprojectdetails);
+        console.log("projectEntities----->", projectEntities);
             projectEntities.body.forEach(function (entity) {
                 // if(entity.feature_id) {
                 //     projectFeatures.body.forEach(function (feature){
@@ -84,23 +87,27 @@ export class sharedService {
             let yamlStr = yaml.dump(newObject);
             fs.writeFileSync(projectDetails.body.name.concat(".yaml"), yamlStr, 'utf8');
             callback('Yaml file convertion is done');
-
-
-        });
     }
 
-    public resolveProjectEntities(projectId, callback) {
-        sharedapplicationsService.getByProjectId(projectId, (details) => {
-            sharedapplicationsService.getFeatureByProject(projectId, (feature) => {
-                sharedapplicationsService.getEntityByProject(projectId, (entity) => {
-                    console.log("entity------>", entity);
-                    let detail = JSON.parse(details);
-                    let features = JSON.parse(feature);
-                    let entities = JSON.parse(entity);
-                    callback(detail, features, entities);
+    public resolveProjectEntities(projectId) {
+        return new Promise(resolve => {
+            sharedapplicationsService.getByProjectId(projectId, (details) => {
+                sharedapplicationsService.getFeatureByProject(projectId, (feature) => {
+                    sharedapplicationsService.getEntityByProject(projectId, (entity) => {
+                        console.log("entity------>", entity);
+                        let projectdetail = JSON.parse(details);
+                        let features = JSON.parse(feature);
+                        let entities = JSON.parse(entity);
+                        let consolidatedobject = {
+                            projectdetails: projectdetail,
+                            projectfeature: features,
+                            projectentity: entities
+                        }
+                        resolve(consolidatedobject);
+                    })
                 })
-            })
-        });
+            });
+        })
     }
 
     public savesharedproject(req, res, callback) {
