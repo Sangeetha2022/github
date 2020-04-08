@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit, Injectable, ViewChild, ElementRef} from '@angular/core';
 import { AppComponentService } from '../app.component.service';
 import { ProjectsService } from '../projects/projects.service';
 import { DataService } from '../../shared/data.service';
@@ -17,7 +17,11 @@ import { ValidatorService } from 'src/shared/validator.service';
 
 @Injectable()
 export class ProjectsComponent implements OnInit {
+  @ViewChild('myInput')
+  myInputVariable: ElementRef;
   displayModel: String = 'none';
+  displayImportModel: String = 'none';
+  fileToUpload: File = null;
   delmodal: String = 'none';
   displayGenratorModel: String = 'none';
   idToDelete: String = null;
@@ -142,6 +146,17 @@ export class ProjectsComponent implements OnInit {
 
   openModal() {
     this.displayModel = 'block';
+  }
+  openImportModal() {
+    this.displayImportModel = 'block';
+  }
+  closeImportModal() {
+    this.displayImportModel = 'none';
+    this.myInputVariable.nativeElement.value = "";
+  }
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+    console.log('fileToUpload---->', this.fileToUpload);
   }
   onCloseHandled() {
     this.displayModel = 'none';
