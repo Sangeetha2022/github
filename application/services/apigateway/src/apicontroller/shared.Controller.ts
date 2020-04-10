@@ -16,6 +16,7 @@ class SharedController implements Controller {
     private initializeRoutes() {
         this.router.route('/shared/getbyproject/:id').get(this.getSharedByProjectId);
         this.router.route('/shared/details').post(this.create)
+        this.router.route('/shared/upload/:id').post(this.importProject)
     }
     
 
@@ -39,6 +40,16 @@ class SharedController implements Controller {
         });
     }
 
-}
+    public importProject(req: Request, res: Response) {
+        console.log("req.headers----apigateway", req.headers);
+        new ApiAdaptar().post(`${Constants.sharedUrl}/shared/upload/` + req.params.id, req.headers).then((response) => {
+            req.baseUrl === '/mobile' ? res.send(response) :
+                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
+        }).catch(err => {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        });
+    }
 
+}
 export { SharedController };

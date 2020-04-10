@@ -154,6 +154,11 @@ export class ProjectsComponent implements OnInit {
     this.displayImportModel = 'none';
     this.myInputVariable.nativeElement.value = "";
   }
+  importProject() {
+    this.projectsService.importSharedServiceYaml().subscribe(data => {
+      console.log("import---->", data);
+    })
+  }
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
     console.log('fileToUpload---->', this.fileToUpload);

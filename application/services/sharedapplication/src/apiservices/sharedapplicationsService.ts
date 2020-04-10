@@ -13,6 +13,7 @@ var globalData: any;
 export class SharedApplicationsService {
     public responseofFeature: any;
     postProject(request, fileData, callback) {
+        let userId = request.params.id;
         let ProjectData = YAML.parse(fileData.toString());
 
         let projectDetails = {
@@ -30,10 +31,11 @@ export class SharedApplicationsService {
             serverdatabase: ProjectData.serverdatabase,
             servertarget: ProjectData.servertarget,
             server_deployment_type: ProjectData.server_deployment_type,
-            UserId: ProjectData.User_Id
+            UserId: userId
         }
         
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/projects/getbyuserid/${ProjectData.User_Id}`).then(
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/projects/getbyuserid/${projectDetails.UserId}`).then(
             (data: any) => {
                 let projectsAll = JSON.parse(data)
                 let projects;

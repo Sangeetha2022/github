@@ -18,6 +18,6 @@ export class Routes {
 
         app.route('/shared/getbyproject/:id').get(this.sharedController.getSharedProjectById);
         app.route('/shared/details').post(this.sharedController.create);
-        app.route('/shared/upload').post(this.sharedController.upload);
+        app.route('/shared/upload/:id').post(this.sharedController.upload);
     }
 }

@@ -112,6 +112,7 @@ export class sharedService {
     }
 
     public uploadProjectFile(req, callback) {
+        const userId = req.params.id;
         var busboy = new Busboy({ headers: req.headers });
         busboy.on('file', function (fieldname, file) {
             file.on('data', function (data) {

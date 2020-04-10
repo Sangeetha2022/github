@@ -92,5 +92,8 @@ export class ProjectsService {
     return this.http.get(`${this.restapi.Apigateway}${Constants.getAllUserNotify}/${user_id}`);
   }
 
+  importSharedServiceYaml(): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.sharedAppImport}`)
+  }
 
 }
