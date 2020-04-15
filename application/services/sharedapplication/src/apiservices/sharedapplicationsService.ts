@@ -34,7 +34,7 @@ export class SharedApplicationsService {
             UserId: userId
         }
         
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/projects/getbyuserid/${ProjectData.User_Id}`).then(
+        // new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/projects/getbyuserid/${ProjectData.User_Id}`).then(
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/projects/getbyuserid/${projectDetails.UserId}`).then(
             (data: any) => {
                 let projectsAll = JSON.parse(data)
