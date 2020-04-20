@@ -155,7 +155,7 @@ export class ProjectsComponent implements OnInit {
     this.myInputVariable.nativeElement.value = "";
   }
   importProject() {
-    this.projectsService.importSharedServiceYaml().subscribe(data => {
+    this.projectsService.importSharedServiceYaml(this.fileToUpload,this.UserId).subscribe(data => {
       console.log("import---->", data);
     })
   }
