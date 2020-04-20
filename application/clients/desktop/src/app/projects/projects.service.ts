@@ -102,7 +102,7 @@ export class ProjectsService {
     formData.append('fileKey', fileToUpload, fileToUpload.name);
     console.log("formdata",formData)
     console.log("filetoupload",fileToUpload)
-    fetch(endpoint + 'fileKey', {
+    fetch(endpoint, {
       method: 'POST',
       body: formData
     })
