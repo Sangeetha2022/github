@@ -278,7 +278,9 @@ export class ProjectsComponent implements OnInit {
       mobile_css_framework: null,
       desktop_css_framework: null,
       app_ui_template: this.createProject.value.template.name,
-      app_ui_template_img: this.createProject.value.template.template_image[0].image,
+      app_ui_template_id: this.createProject.value.template._id,
+      app_ui_template_name: this.createProject.value.template.template_name,
+      app_ui_template_img: null,
       client_code_pattern: null,
       server_code_pattern: null,
       server_dev_lang: null,
@@ -323,6 +325,7 @@ export class ProjectsComponent implements OnInit {
     };
 
     this.projectsService.getProjectByUserId(this.UserId).subscribe(async (data) => {
+      this.getProjectByUserId();
       if (data) {
         this.myAllProjects = data.body;
         await this.myAllProjects.forEach(userProjects => {
