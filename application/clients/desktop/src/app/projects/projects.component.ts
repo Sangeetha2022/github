@@ -158,7 +158,14 @@ export class ProjectsComponent implements OnInit {
     this.projectsService.importSharedServiceYaml(this.fileToUpload,this.UserId).subscribe(data => {
       console.log("import---->", data);
     })
+    this.toastr.success('PROJECT: ', 'Project Imported', {
+      closeButton: true,
+      disableTimeOut: false,
+      timeOut: 2000
+    });
+    this.getProjectByUserId();
     this.displayImportModel = 'none';
+    this.getProjectByUserId();
   }
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
