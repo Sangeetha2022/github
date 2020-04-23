@@ -198,19 +198,30 @@ export class ProjectsComponent implements OnInit {
   editProject(project) {
     console.log('edit project are --------- ', project);
     this.dataService.setProjectInfo(project);
-    this.screenDesignerService.getScreenTemplateByProjectId(project._id)
-      .subscribe(
-        data => {
-          console.log('after get the project template from the screens ----  ', data);
-          const response = data.body;
-          localStorage.setItem('stylesheets', JSON.stringify(response[0]['stylesheets']));
-          localStorage.setItem('scripts', JSON.stringify(response[0]['scripts']));
-          localStorage.setItem('css_guidelines', JSON.stringify(response[0]['css-guidelines']));
-          localStorage.setItem('templateName', response[0].screenName);
-        },
-        error => {
-          console.log('cannot able to get the project template');
-        });
+    this.templateScreenService.getTemplateByName(project.app_ui_template).subscribe(data=>{
+      console.log('after get the project template ----  ', data);
+      const response = data.body;
+      localStorage.setItem('stylesheets', JSON.stringify(response['stylesheets']));
+      localStorage.setItem('scripts', JSON.stringify(response['scripts']));
+      localStorage.setItem('css_guidelines', JSON.stringify(response['css-guidelines']));
+      localStorage.setItem('templateName', project.app_ui_template);
+
+    },error=>{
+      console.log('cannot able to template details');
+    });
+    // this.screenDesignerService.getScreenTemplateByProjectId(project._id)
+    //   .subscribe(
+    //     data => {
+    //       console.log('after get the project template from the screens ----  ', data);
+    //       const response = data.body;
+    //       localStorage.setItem('stylesheets', JSON.stringify(response[0]['stylesheets']));
+    //       localStorage.setItem('scripts', JSON.stringify(response[0]['scripts']));
+    //       localStorage.setItem('css_guidelines', JSON.stringify(response[0]['css-guidelines']));
+    //       localStorage.setItem('templateName', project.app_ui_template);
+    //     },
+    //     error => {
+    //       console.log('cannot able to get the project template');
+    //     });
     this.router.navigate(['/project-component'], { queryParams: { projectId: project._id } });
   }
 
@@ -315,8 +326,9 @@ export class ProjectsComponent implements OnInit {
               const projectDetail = response.body;
               templateDetailsToSave.project = projectDetail._id;
               this.created_date = projectDetail.created_date;
-              this.screenDesignerService.saveScreen(templateDetailsToSave).subscribe(screenData => {
-              });
+              // this.screenDesignerService.saveScreen(templateDetailsToSave).subscribe(screenData => {
+              //   console.log('------------screensavefunctionality-----');
+              // });
               this.dataService.setProjectInfo(projectDetail);
               // create default entity
               this.projectsService.createDefaultEntity(projectDetail._id).subscribe(
