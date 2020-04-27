@@ -8,6 +8,9 @@ import { ToastrService } from 'ngx-toastr';
 import { TemplateScreenService } from '../template-screen/template-screen.service';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
 import { ValidatorService } from 'src/shared/validator.service';
+import { FileUploader } from 'ng2-file-upload';
+import { Constants } from '../config/Constant';
+import { SharedService } from 'src/shared/shared.service';
 
 @Component({
   selector: 'app-projects',
@@ -60,6 +63,10 @@ export class ProjectsComponent implements OnInit {
   public projectName: String = '';
   public defaultscreenvalue: any;
   gepTemplates: any = [];
+  public uploader: FileUploader = new FileUploader({
+    url: '',
+  });
+
   constructor(
     private formBuilder: FormBuilder,
     private data: AppComponentService,
@@ -70,7 +77,9 @@ export class ProjectsComponent implements OnInit {
     private validatorService: ValidatorService,
     private templateScreenService: TemplateScreenService,
     private route: ActivatedRoute,
-    private screenDesignerService: ScreenDesignerService
+    private screenDesignerService: ScreenDesignerService,
+    private restapi: SharedService
+
   ) {
   }
 
@@ -127,6 +136,16 @@ export class ProjectsComponent implements OnInit {
       // this.getAllUserNotify(user_id);
       sessionStorage.setItem('onNotify', 'off');
     }
+    let UserId = sessionStorage.getItem('Id');
+
+    this.uploader.onBeforeUploadItem = (item)=>{
+      item.url = `${this.restapi.sharedserviceapi}${Constants.sharedAppImport}/${UserId}`
+    }
+    
+    this.uploader.onCompleteItem = (item:any,response:any,status:any,headers:any)=>{
+      // console.log('FileUpload: uploaded successfully:',item,status,response);
+    }
+
   }
 
 
@@ -154,19 +173,19 @@ export class ProjectsComponent implements OnInit {
     this.displayImportModel = 'none';
     this.myInputVariable.nativeElement.value = "";
   }
-  importProject() {
-    this.projectsService.importSharedServiceYaml(this.fileToUpload,this.UserId).subscribe(data => {
-      console.log("import---->", data);
-    })
-    this.toastr.success('PROJECT: ', 'Project Imported', {
-      closeButton: true,
-      disableTimeOut: false,
-      timeOut: 2000
-    });
-    this.getProjectByUserId();
-    this.displayImportModel = 'none';
-    this.getProjectByUserId();
-  }
+  // importProject() {
+  //   this.projectsService.importSharedServiceYaml(this.fileToUpload,this.UserId).subscribe(data => {
+  //     console.log("import---->", data);
+  //   })
+  //   this.toastr.success('PROJECT: ', 'Project Imported', {
+  //     closeButton: true,
+  //     disableTimeOut: false,
+  //     timeOut: 2000
+  //   });
+  //   // this.getProjectByUserId();
+  //   this.displayImportModel = 'none';
+  //   this.getProjectByUserId();
+  // }
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
     console.log('fileToUpload---->', this.fileToUpload);
