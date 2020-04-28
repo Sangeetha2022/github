@@ -243,11 +243,6 @@
               <div class="form-group">
                 <label for="file">Choose yaml file to import project</label>
                 <input type="file" name="file" ng2FileSelect [uploader]="uploader" />
-                <!-- <input type="file" ng2FileSelect [uploader]="uploader" /> -->
-                <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
-                  [disabled]="!uploader.getNotUploadedItems().length">
-                  Upload
-                </button>
               </div>
             </div>
           </div>
@@ -261,7 +256,10 @@
       </div>
       <div class="modal-footer">
         <div class="form-group">
-          <!-- <button type="button" class="btn button-create" (click)="uploader.uploadAll()">{{ 'Import' | i18next }}</button> -->
+                        <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
+                  [disabled]="!uploader.getNotUploadedItems().length">
+                  {{ 'Import' | i18next }}
+                </button>
           <button type="button" class="btn button-close" (click)="closeImportModal()">{{ 'Cancel' | i18next }}</button>
         </div>
       </div>
