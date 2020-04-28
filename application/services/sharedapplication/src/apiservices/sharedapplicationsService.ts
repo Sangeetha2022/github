@@ -18,7 +18,6 @@ export class SharedApplicationsService {
         let projectDetails = {
             name: ProjectData.projectName,
             app_ui_template: ProjectData.projectTemplate,
-            app_ui_template_id: ProjectData.projectTemplateId,
             app_ui_template_name: ProjectData.projectTemplateName,
             app_ui_template_img: null,
             default_human_language: ProjectData.primaryLanguage,

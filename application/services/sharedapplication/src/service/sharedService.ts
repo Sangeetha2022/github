@@ -63,7 +63,6 @@ export class sharedService {
             let newObject = {
                 projectName: projectDetails.body.name,
                 projectTemplate: projectDetails.body.app_ui_template,
-                projectTemplateId: projectDetails.body.app_ui_template_id,
                 projectTemplateName: projectDetails.body.app_ui_template_name,
                 primaryLanguage: projectDetails.body.default_human_language,
                 secondaryLanguages: projectDetails.body.other_human_languages,
