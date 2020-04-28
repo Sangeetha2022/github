@@ -61,7 +61,7 @@ import { FooterComponent } from './navigation/footer/footer.component';
 import { ValidatorService } from 'src/shared/validator.service';
 import { TranslatorModule } from './translator/translator.module';
 import { UiSwitchModule } from 'ngx-toggle-switch';
-
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 // @ts-ignore
@@ -137,6 +137,7 @@ export function getAuthserviceConfgis() {
     MenuBuilderModule,
     SocialLoginModule,
     TranslatorModule,
+    FileUploadModule
   ],
   providers: [
     ApiService,
