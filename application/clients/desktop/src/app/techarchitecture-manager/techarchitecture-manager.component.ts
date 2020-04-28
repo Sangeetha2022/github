@@ -5,6 +5,7 @@ import { DataService } from 'src/shared/data.service';
 import { ProjectsService } from '../projects/projects.service';
 import { ProjectComponentService } from '../project-component/project-component.service';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-techarchitecture-manager',
@@ -27,7 +28,8 @@ export class ConnectorManagerComponent implements OnInit {
     private dataService: DataService,
     private projectService: ProjectsService,
     private projectComponentService: ProjectComponentService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService,
   ) { }
 
   clientLanguage: String;
@@ -98,6 +100,11 @@ export class ConnectorManagerComponent implements OnInit {
   generateField() {
     this.projectComponentService.exportSharedServiceYaml(this.projectId).subscribe(data => {
       console.log("export---->", data);
+      this.toastr.success('PROJECT:','Exported successfully!', {
+        closeButton: true,
+        disableTimeOut: false,
+        timeOut: 2000
+      });
     })
 
   }
