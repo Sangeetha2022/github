@@ -144,6 +144,8 @@ export class ProjectsComponent implements OnInit {
     
     this.uploader.onCompleteItem = (item:any,response:any,status:any,headers:any)=>{
       // console.log('FileUpload: uploaded successfully:',item,status,response);
+      this.getProjectByUserId();
+      this.displayImportModel = 'none';
     }
 
   }
