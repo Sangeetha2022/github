@@ -15,7 +15,6 @@ export class SharedApplicationsService {
     postProject(request, fileData, callback) {
         let userId = request.params.id;
         let ProjectData = YAML.parse(fileData.toString());
-
         let projectDetails = {
             name: ProjectData.projectName,
             app_ui_template: ProjectData.projectTemplate,
@@ -33,7 +32,6 @@ export class SharedApplicationsService {
             server_deployment_type: ProjectData.server_deployment_type,
             UserId: userId
         }
-        
         // new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/projects/getbyuserid/${ProjectData.User_Id}`).then(
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/projects/getbyuserid/${projectDetails.UserId}`).then(
             (data: any) => {
@@ -53,9 +51,9 @@ export class SharedApplicationsService {
                             let resNumber = 0;
                             this.postFeatures(ProjectId, fileData, res => {
                                 this.postEntities(ProjectId, fileData, res, resNumber,  resp => {
-                                    this.updateFeatureEntity(ProjectId, fileData, res, resp, response => {
-                                        callback(res, resp, response);
-                                    })
+                                    // this.updateFeatureEntity(ProjectId, fileData, res, resp, response => {
+                                    //     callback(res, resp, response);
+                                    // })
                                 });
                                 resNumber=resNumber+1;
                             });
@@ -117,6 +115,10 @@ export class SharedApplicationsService {
 
     postFeatures(ProjectId, fileData, callback) {
         let featureData = YAML.parse(fileData.toString());
+        if(featureData.projectFeatures == ""){
+            callback(featureData.projectEntities);
+        }
+        else{
         featureData.projectFeatures.forEach(function (feature) {
             delete feature._id;
             feature.project = ProjectId;
@@ -130,7 +132,8 @@ export class SharedApplicationsService {
             })
         });
     }
-
+}
+   
     updateFeatureEntity(ProjectId, fileData, feature, featureEntity, callback) {
         // let featureData = YAML.parse(fileData.toString())
         // featureData.projectFeatures.forEach(function (oldFeature) {
@@ -153,6 +156,7 @@ export class SharedApplicationsService {
             })
         }
     }
+    
     
 
     getEntityByProject(projectId, callback) {
