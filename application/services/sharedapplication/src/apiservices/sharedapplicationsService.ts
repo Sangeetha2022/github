@@ -49,15 +49,15 @@ export class SharedApplicationsService {
                         (data: any) => {
                             let ProjectId = data.body._id;
                             let resNumber = 0;
-                            this.postFeatures(ProjectId, fileData, res => {
-                                this.postEntities(ProjectId, fileData, res, resNumber,  resp => {
+                            // this.postFeatures(ProjectId, fileData, res => {
+                                this.postEntities(ProjectId, fileData, resNumber,  resp => {
                                     // this.updateFeatureEntity(ProjectId, fileData, res, resp, response => {
-                                    //     callback(res, resp, response);
+                                        callback(resp);
                                     // })
                                 });
                                 resNumber=resNumber+1;
                             });
-                    })
+                    // })
                 }
             }
         ).catch(error => {
@@ -65,7 +65,7 @@ export class SharedApplicationsService {
         })
     }
 
-    postEntities(ProjectId, fileData, response, responseNumber, callback) {
+    postEntities(ProjectId, fileData, responseNumber, callback) {
         let entityData = YAML.parse(fileData.toString());
         entityData.projectEntities.forEach(function (entity) {
             entity.field.forEach(function (details) {
@@ -90,26 +90,26 @@ export class SharedApplicationsService {
                 })
             }
 
-            if(entity.feature_id) {
-                response.body.entities.forEach( function (responseEntity) {
-                    console.log('response feature entity id', responseEntity.entityId)
-                    if(entity._id == responseEntity.entityId) {
-                        // delete exist id of entity and featureEntity
-                        delete entity._id;
-                        delete responseEntity.entityId;
-                        entity.feature_id = response.body._id;
-                        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/entity/save`, entity).then(
-                            (data: any) => {
-                                entity._id = data.body._id;
-                                responseEntity.entityId = data.body._id;
-                                callback(responseEntity);
-                            }
-                        ).catch(error => {
-                            callback(error);
-                        })
-                    }
-                })
-            }
+            // if(entity.feature_id) {
+            //     response.body.entities.forEach( function (responseEntity) {
+            //         console.log('response feature entity id', responseEntity.entityId)
+            //         if(entity._id == responseEntity.entityId) {
+            //             // delete exist id of entity and featureEntity
+            //             delete entity._id;
+            //             delete responseEntity.entityId;
+            //             entity.feature_id = response.body._id;
+            //             new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/entity/save`, entity).then(
+            //                 (data: any) => {
+            //                     entity._id = data.body._id;
+            //                     responseEntity.entityId = data.body._id;
+            //                     callback(responseEntity);
+            //                 }
+            //             ).catch(error => {
+            //                 callback(error);
+            //             })
+            //         }
+            //     })
+            // }
         });
     }
 
