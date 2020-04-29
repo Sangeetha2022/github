@@ -236,6 +236,7 @@ export class DesktopScreenComponent implements OnInit {
   // };
   public entitydetails: any;
   public linkArray: any[] = [];
+  public selectentityarray:any[] = [];
 
   // default Names
   public GPROUTE_FLOWNAME = "gproute";
@@ -400,6 +401,7 @@ export class DesktopScreenComponent implements OnInit {
     console.log("plugins list before set grapesjs are ----  ", plugins);
     // adding gep css
     addStyles.push(`./assets/css/template/${this.templateName}.css`);
+    console.log('--------template css file location--------',addStyles)
     this.editor = grapesjs.init({
 
       container: "#editor-c",
@@ -984,6 +986,7 @@ export class DesktopScreenComponent implements OnInit {
         bindInfo: []
       }
     };
+    console.log('---------entity temp details----------',temp);
     // const bindFields = {
     //     fieldId: '',
     //     fieldName: '',
@@ -1184,9 +1187,11 @@ export class DesktopScreenComponent implements OnInit {
                 const object = {
                   name: "",
                   value: "",
+                  type:""
                 };
                 object.name = entityElement.name;
                 object.value = entityElement._id;
+                object.type = entityElement.entity_type;
                 entityArray.push(object);
                 this.entitydetails = entityArray;
                 console.log('-----Geppetto service calling----', entityArray);
@@ -1221,10 +1226,12 @@ export class DesktopScreenComponent implements OnInit {
                 // const data = JSON.parse(entityElement);
                 const object = {
                   name: "",
-                  value: ""
+                  value: "",
+                  type:""
                 };
                 object.name = entityElement.name;
                 object.value = entityElement._id;
+                object.type = entityElement.entity_type;
                 entityArray.push(object);
                 this.entitydetails = entityArray;
               });
@@ -1243,6 +1250,14 @@ export class DesktopScreenComponent implements OnInit {
 
   setDefaultType(EntityBinding) {
     console.log("set default type method called----------->>>>>>>>>>", EntityBinding, this.traitsName);
+    EntityBinding.forEach(entitylist => {
+      if(entitylist.type == 'secondary'){
+        this.selectentityarray.push(entitylist);
+
+      }
+      console.log('-----selectEntityarray-----',this.selectentityarray);
+    });
+
     // this.editor.DomComponents.getType('input').model.prototype.init().listenTo(this, 'change:2345', this.newENtity);
     // custom traits for entity field button
     this.customTraitService.entityFieldButton(this);
@@ -1270,7 +1285,7 @@ export class DesktopScreenComponent implements OnInit {
         label: "Field",
         name: "Field"
       });
-
+    console.log('--------selectentity----->>>>',this.editor.DomComponents);
     // select traits
     this.editor.DomComponents.getType(
       "select"
@@ -1279,7 +1294,7 @@ export class DesktopScreenComponent implements OnInit {
         type: "select",
         label: this.traitsName,
         name: this.traitsName,
-        options: EntityBinding,
+        options: this.selectentityarray,
         changeProp: 1
       },
       {
@@ -1431,7 +1446,6 @@ export class DesktopScreenComponent implements OnInit {
     this.customTraitService.gridFieldButton(this);
     // custom traits for grid action buttons
     this.customTraitService.RouteActionButton(this);
-
     this.editor.DomComponents.getType(
       "grid-type"
     ).model.prototype.defaults.traits.push(
@@ -1801,8 +1815,8 @@ export class DesktopScreenComponent implements OnInit {
   }
 
   // save entity for form
-  saveFieldPopup(value) {
-    console.log('--------event kishan------', value);
+  saveFieldPopup() {
+    console.log('--------entity ID for kishan------', this.editor.getSelected());
     const checkedIndex = this.screenEntityModel.findIndex(
       x =>
         x.htmlId === this.editor.getSelected().ccid &&
@@ -1814,7 +1828,7 @@ export class DesktopScreenComponent implements OnInit {
     if (
       this.entityFields !== "" &&
       this.entityFields !== undefined &&
-      this.traitsName === "Entity"
+      this.traitsName === "entity"
     ) {
       const obj = {
         htmlId: "",
@@ -1829,18 +1843,22 @@ export class DesktopScreenComponent implements OnInit {
           dataType: ""
         }
       };
-      // console.log('--------entities details------',localStorage.getItem('TraitsEntityid'));
 
       obj.htmlId = this.editor.getSelected().ccid;
       obj.componentId = this.editor.getSelected().cid;
-      obj.elementName = this.editor.getSelected().attributes.name;
-      obj.entityId = localStorage.getItem('TraitsEntityid');
+      if(this.editor.getSelected().attributes.type === "select"){
+        obj.elementName = "select_"+this.editor.getSelected().ccid
+      }else{
+        obj.elementName = this.editor.getSelected().attributes.name;
+      }
+      obj.entityId = this.editor.getSelected().attributes.entity;
       obj.fields.fieldId = this.entityFields._id;
       obj.fields.name = this.entityFields.name;
       obj.fields.description = this.entityFields.description;
       obj.fields.typeName = this.entityFields.type_name;
       obj.fields.dataType = this.entityFields.data_type;
       this.screenEntityModel.push(obj);
+      // console.log('--------entities details------',this.screenEntityModel);
     }
 
     this.saveRemoteStorage();
