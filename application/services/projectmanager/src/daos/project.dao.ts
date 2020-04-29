@@ -2,6 +2,8 @@ import * as mongoose from 'mongoose';
 import { ProjectSchema } from '../models/project.model';
 import { Request } from 'express';
 import { gpConfigSchema } from '../models/configuration.model';
+import { ApiAdaptar } from '../config/ApiAdaptar';
+import { SharedService } from '../config/SharedService';
 
 const Project = mongoose.model('Projects', ProjectSchema);
 const configModel = mongoose.model('gp_config', gpConfigSchema);
@@ -12,7 +14,8 @@ export class ProjectDao {
 
         let newProject = new Project(req.body);
 
-                console.log('i am project------->><<<>>>>',newProject)
+        console.log('i am project------->><<<>>>>', newProject)
+
 
         newProject.save((err, project) => {
             if (err) {
@@ -77,12 +80,32 @@ export class ProjectDao {
 
     public getProjectByUserId(userId, callback: CallableFunction) {
         Project.find({ UserId: userId }, (err, project) => {
-            if (err) {
-                callback(err);
-            } else {
-                callback(project);
-            }
-        });
+            let Projects = [];
+            project.forEach(function (details) {
+                Projects.push(new Promise((resolve, reject) => {
+                    if (details.app_ui_template_img == null) {
+                        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/template/get/${details.app_ui_template_name}`)
+                            .then(
+                                (data: any) => {
+                                    let result = JSON.parse(data)
+                                    let templateImage;
+                                    let templateName;
+                                    result.body.forEach(template => {
+                                        templateImage = template.template_image[0].image,
+                                            templateName = template.template_name
+                                    })
+                                    if (details.app_ui_template_name == templateName) {
+                                        details.app_ui_template_img = templateImage;
+                                        resolve(details)
+                                    }
+                                });
+                    }
+                }));
+            })
+            Promise.all(Projects).then(values => {
+                let merged = [].concat.apply([], values);
+                callback(merged)
+            })
+        })
     }
-
 }

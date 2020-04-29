@@ -92,5 +92,20 @@ export class ProjectsService {
     return this.http.get(`${this.restapi.Apigateway}${Constants.getAllUserNotify}/${user_id}`);
   }
 
+  // importSharedServiceYaml(): Observable<any> {
+  //   return this.api.post(`${this.restapi.Apigateway}${Constants.sharedAppImport}`)
+  // }
 
+  importSharedServiceYaml(fileToUpload: File, user_id): Observable<any> {
+    const endpoint = `${this.restapi.Apigateway}${Constants.sharedAppImport}/${user_id}`;
+    const formData: FormData = new FormData();
+    formData.append('fileKey', fileToUpload, fileToUpload.name);
+    // console.log("formdata", formData)
+    // console.log("filetoupload", fileToUpload)
+    fetch(endpoint, {
+      method: 'POST',
+      body: formData
+    })
+    return this.api.post(endpoint, formData);
+  }
 }

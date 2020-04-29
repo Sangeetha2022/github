@@ -4,7 +4,8 @@ import Controller from "../interfaces/controller.interface";
 import { Constants } from '../config/Constants';
 import { ApiAdaptar } from '../config/apiAdaptar';
 
-
+const fs = require("fs");
+const multiparty = require("multiparty");
 
 class SharedController implements Controller {
     public router = express.Router();
@@ -16,11 +17,12 @@ class SharedController implements Controller {
     private initializeRoutes() {
         this.router.route('/shared/getbyproject/:id').get(this.getSharedByProjectId);
         this.router.route('/shared/details').post(this.create)
+        this.router.route('/shared/upload/:id').post(this.importProject)
     }
-    
+
 
     public getSharedByProjectId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.sharedUrl}/shared/getbyproject/`+ req.params.id).then((response) => {
+        new ApiAdaptar().get(`${Constants.sharedUrl}/shared/getbyproject/` + req.params.id).then((response) => {
             req.baseUrl === '/mobile' ? res.send(response) :
                 req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
         }).catch(err => {
@@ -39,6 +41,35 @@ class SharedController implements Controller {
         });
     }
 
-}
+    public importProject(req: Request, res: Response) {
 
+        let form = new multiparty.Form();
+        form.parse(req, function (err, fields, files) {
+            console.log('err----------', err)
+            console.log('fileds-----------', fields)
+            console.log('file-----------------', files)
+        });
+
+        form.on('file', (name, file) => {
+            let formData = {
+                file: {
+                    value: fs.createReadStream(file.path),
+                    options: {
+                        filename: file.originalFilename
+                    }
+                }
+            }
+            // console.log("req.headers----apigateway", req.headers);
+            new ApiAdaptar().FileUploadPost(`${Constants.sharedUrl}/shared/upload/` + req.params.id, formData).then((response) => {
+                req.baseUrl === '/mobile' ? res.send(response) :
+                    req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
+            }).catch(err => {
+                req.baseUrl === '/mobile' ? res.send(err) :
+                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+            });
+        })
+
+    }
+
+}
 export { SharedController };

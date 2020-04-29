@@ -31,6 +31,7 @@ export const ProjectSchema = new Schema({
     mobile_css_framework: { type: String },
     desktop_css_framework: { type: String },
     app_ui_template: { type: String },
+    app_ui_template_name: { type: String },
     app_ui_template_img: { type: String },
     client_code_pattern: { type: String },
     server_code_pattern: { type: String },

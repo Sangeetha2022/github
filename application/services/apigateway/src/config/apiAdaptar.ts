@@ -56,8 +56,24 @@ export class ApiAdaptar {
         });
     }
 
+
+    FileUploadPost = (url, formdata) => {
+        console.log('post url ', url);
+        return new Promise((resolve, reject) => {
+            request.post({ url: url, formData: formdata }, (error, response, body) => {
+                console.log("url---------->", url);
+                console.log("body--------->", body);
+                if (body !== undefined) {
+                    this.sendResponse(resolve, reject, error, response, body);
+                } else if (body === undefined) {
+                    this.sendResponse(resolve, reject, error, response, null);
+                }
+            });
+        });
+
+    }
     private sendResponse = (resolve, reject, error, response, body) => {
-        console.log('send response in apiad --errror-- ', error,' --- boidy ---- ',body);
+        console.log('send response in apiad --errror-- ', error, ' --- boidy ---- ', body);
         if (body !== null) {
             if (response.statusCode === 200) {
                 resolve({

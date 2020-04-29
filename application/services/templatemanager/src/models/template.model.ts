@@ -18,6 +18,10 @@ export const TemplateSchema = new Schema({
     'scripts': [String],
     'template_image': [],
     'css-guidelines': [],
+    'template_name': {
+        type:String,
+        unique: true,
+    },
     date: {
         type: Date,
         default: Date.now
