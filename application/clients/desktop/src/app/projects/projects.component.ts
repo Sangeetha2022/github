@@ -200,19 +200,17 @@ export class ProjectsComponent implements OnInit {
   editProject(project) {
     console.log('edit project are --------- ', project);
     this.dataService.setProjectInfo(project);
-    this.screenDesignerService.getScreenTemplateByProjectId(project._id)
-      .subscribe(
-        data => {
-          console.log('after get the project template from the screens ----  ', data);
-          const response = data.body;
-          localStorage.setItem('stylesheets', JSON.stringify(response[0]['stylesheets']));
-          localStorage.setItem('scripts', JSON.stringify(response[0]['scripts']));
-          localStorage.setItem('css_guidelines', JSON.stringify(response[0]['css-guidelines']));
-          localStorage.setItem('templateName', response[0].screenName);
-        },
-        error => {
-          console.log('cannot able to get the project template');
-        });
+    this.templateScreenService.getTemplateByName(project.app_ui_template).subscribe(data=>{
+      console.log('after get the project template ----  ', data);
+      const response = data.body;
+      localStorage.setItem('stylesheets', JSON.stringify(response['stylesheets']));
+      localStorage.setItem('scripts', JSON.stringify(response['scripts']));
+      localStorage.setItem('css_guidelines', JSON.stringify(response['css-guidelines']));
+      localStorage.setItem('templateName', project.app_ui_template);
+
+    },error=>{
+      console.log('cannot able to template details');
+    });
     this.router.navigate(['/project-component'], { queryParams: { projectId: project._id } });
   }
 
@@ -297,19 +295,6 @@ export class ProjectsComponent implements OnInit {
       created_date: null,
       UserId: sessionStorage.getItem('Id')
     };
-    const templateDetailsToSave = {
-      'gjs-assets': this.createProject.value.template['gjs-assets'],
-      'gjs-css': this.createProject.value.template['gjs-css'],
-      'gjs-styles': this.createProject.value.template['gjs-styles'],
-      'gjs-html': this.createProject.value.template['gjs-html'],
-      'gjs-components': this.createProject.value.template['gjs-components'],
-      'stylesheets': this.createProject.value.template['stylesheets'],
-      'scripts': this.createProject.value.template['scripts'],
-      'css-guidelines': this.createProject.value.template['css-guidelines'],
-      screenName: this.createProject.value.template.name,
-      project: '',
-      isTemplate: true,
-    };
 
 
     this.projectsService.getProjectByUserId(this.UserId).subscribe(async (data) => {
@@ -324,10 +309,7 @@ export class ProjectsComponent implements OnInit {
           this.projectsService.addProject(dataToSave).subscribe(response => {
             if (response) {
               const projectDetail = response.body;
-              templateDetailsToSave.project = projectDetail._id;
               this.created_date = projectDetail.created_date;
-              this.screenDesignerService.saveScreen(templateDetailsToSave).subscribe(screenData => {
-              });
               this.dataService.setProjectInfo(projectDetail);
               // create default entity
               this.projectsService.createDefaultEntity(projectDetail._id).subscribe(
