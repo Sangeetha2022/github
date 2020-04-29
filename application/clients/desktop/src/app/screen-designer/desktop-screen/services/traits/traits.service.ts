@@ -96,7 +96,15 @@ export class TraitsService {
             traits: [
               { name: 'name', label: 'Name', changeProp: 1 },
               { label: 'Options', type: 'select-options' },
-              { type: 'checkbox', name: 'required', label: 'Required' }
+              {
+                type: 'select',
+                label: 'FieldType',
+                name: 'entity',
+                options: [],
+                changeProp: 1
+              },
+  
+              // { type: 'checkbox', name: 'required', label: 'Required' }
             ]
           })
         },

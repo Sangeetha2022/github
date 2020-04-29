@@ -39,6 +39,28 @@ export class TemplateDao {
         });
     }
 
+    public getTemplatebyName(name, callback: CallableFunction) {
+
+        Template.find({ name: name }, (error, templatedetails) => {
+            let template = {
+                'gjs-assets': templatedetails[0]['gjs-assets'],
+                'gjs-styles': templatedetails[0]['gjs-styles'],
+                'gjs-components': templatedetails[0]['gjs-components'],
+                'stylesheets': templatedetails[0]['stylesheets'],
+                'scripts': templatedetails[0]['scripts'],
+                'css-guidelines': templatedetails[0]['css-guidelines'],
+                'gjs-css': templatedetails[0]['gjs-css'],
+                'gjs-html': templatedetails[0]['gjs-html'],
+                'template_id': templatedetails[0]._id
+            };
+            if (error) {
+                callback(error);
+            } else {
+                callback(template);
+            }
+        })
+    }
+
     public getTemplateByID(req: Request, callback: CallableFunction) {
         let name = req.params.id
         Template.find({ template_name: name}).then(template => {

@@ -23,6 +23,14 @@ export class TemplateService {
         })
     }
 
+    public getTemplateByName(req:Request, callback: CallableFunction){
+        console.log('------------------->>>>>>>>',req.query);
+        let name = req.query.template_name;
+        templateDao.getTemplatebyName(name,(template_res)=>{
+            callback(template_res);
+        })
+    }
+
     public getTemplateByID(req: Request, callback: CallableFunction) {
         templateDao.getTemplateByID(req, (template) => {
             callback(template)

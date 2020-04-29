@@ -155,6 +155,7 @@ export class HeaderComponent implements OnInit {
           this.authService.signOut();
       }
       sessionStorage.clear();
+      localStorage.clear();
       this.permission = false;
       this.router.navigate(['']);
     }, error => {

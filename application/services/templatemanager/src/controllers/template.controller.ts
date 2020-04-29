@@ -34,6 +34,14 @@ export class TemplateController {
         })
     }
 
+    public getTemplateByName(req:Request, res:Response){
+        console.log('---------templatename----',req.query);
+        templateService.getTemplateByName(req,(templatedetails)=>{
+            res.status(200);
+            res.json(templatedetails);
+        })
+    }
+
     public updateTemplate(req: Request, res: Response) {
         templateService.updateTemplate(req, (user) => {
             res.status(200); // status for the response
