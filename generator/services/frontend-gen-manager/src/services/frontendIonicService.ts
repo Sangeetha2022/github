@@ -2,13 +2,15 @@ import { Request } from 'mongoose';
 import { Common } from '../config/Common';
 import { Constant } from '../config/Constant';
 import { IonicManagerService } from '../apiservices/IonicManagerService';
-import { ScreenManagerService } from '../apiservices/ScreenManagerService'
-import { resolve } from 'dns';
+import { ScreenManagerService } from '../apiservices/ScreenManagerService';
+import { TemplateManagerService } from '../apiservices/TemplateManagerService';
+
 
 
 export class FrontendIonicService {
 
     private screenManager = new ScreenManagerService();
+    templateManagerService = new TemplateManagerService();
     private ionicManagerService = new IonicManagerService();
 
     public templateScreenName: any;
@@ -18,8 +20,11 @@ export class FrontendIonicService {
         const details = req.body;
         Common.createFolders(details.projectGenerationPath);
         const projectGenerationPath = `${details.projectGenerationPath}/${Constant.MOBILE_FOLDERNAME}`;
-        const template = await this.getTemplateName(details.projectId);
-        const screen = JSON.parse(template.toString())
+        // const template = await this.getTemplateName(details.projectId);
+        const template = await this.getTemplateByName(details.project.projectTemplatename);
+
+        const screen = JSON.parse(template.toString());
+        console.log('screename --------------', screen);
         const ionicObj = {
             device_type: 'android',
             projectId: details.projectId,
@@ -27,7 +32,7 @@ export class FrontendIonicService {
             apigatewayPortNumber: details.apigatewayPortNumber,
             projectGenerationPath: projectGenerationPath,
             project: details.project,
-            templateName: screen.body[0].screenName,
+            templateName: screen.body.template_name,
             template: null,
             menuBuilder: null
         }
@@ -44,6 +49,15 @@ export class FrontendIonicService {
             })
         })
     }
+
+    getTemplateByName(templateName) {
+        return new Promise(resolve => {
+            this.templateManagerService.getTemplateByName(templateName, (data) => {
+                resolve(data);
+            })
+        })
+    }
+
 
     generateIonicApp(ionicObj) {
         return new Promise(resolve => {

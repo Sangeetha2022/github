@@ -9,10 +9,12 @@ import { AngularTemplateManagerService } from '../apiservices/AngularTemplateMan
 import { Constant } from '../config/Constant';
 import { AuthGenManagerService } from '../apiservices/AuthGenManagerService';
 import { AdminGenManagerService } from '../apiservices/AdminGenManagerService';
+import { TemplateManagerService } from '../apiservices/TemplateManagerService';
 
 export class FrontendTemplateService {
     sharedService = new SharedService();
     screenManagerService = new ScreenManagerService();
+    templateManagerService = new TemplateManagerService();
     menuBuilderManagerService = new MenuBuilderManagerService();
     angularTemplateManagerService = new AngularTemplateManagerService();
     authGenManagerService = new AuthGenManagerService();
@@ -34,8 +36,11 @@ export class FrontendTemplateService {
             template: null,
             menuBuilder: null
         }
-        const templateDetails = await this.getTemplateByProjectId(details.projectId);
-        // console.log('screens project are ---- ', util.inspect(screenDetails, { showHidden: true, depth: null }));
+        console.log('-------get template by project-------',details);
+        // const templateDetails = await this.getTemplateByProjectId(details.projectId);
+        const templateDetails = await this.getTemplateByName(details.project.projectTemplatename);
+
+        console.log('template of project are ---- ', util.inspect(templateDetails, { showHidden: true, depth: null }));
         const templateJSON = JSON.parse(templateDetails.toString());
         const menuDetails = await this.getMenuByProjectId(details.projectId);
         const menuJSON = JSON.parse(menuDetails.toString());
@@ -113,6 +118,14 @@ export class FrontendTemplateService {
     getTemplateByProjectId(projectId) {
         return new Promise(resolve => {
             this.screenManagerService.getTemplateByProjectId(projectId, (data) => {
+                resolve(data);
+            })
+        })
+    }
+
+    getTemplateByName(templateName) {
+        return new Promise(resolve => {
+            this.templateManagerService.getTemplateByName(templateName, (data) => {
                 resolve(data);
             })
         })

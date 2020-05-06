@@ -39,17 +39,18 @@ export class AngularTemplateService {
     public createAngularTemplate(req: Request, callback: CallableFunction) {
 
         this.details = req.body;
+        console.log('-------gjs-component----------',this.details.template);
         console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
-        const grapesjsComponent = this.details.template[0]['gjs-components'][0];
-        this.grapesjsCSS = this.details.template[0]['gjs-css'];
-        this.templateName = this.details.template[0].screenName;
+        const grapesjsComponent = this.details.template['gjs-components'][0];
+        this.grapesjsCSS = this.details.template['gjs-css'];
+        this.templateName = this.details.template.template_name;
         if (this.details.menuBuilder.length > 0) {
             this.menuList = [];
             // this.menuDetails = this.details.menuBuilder[0].menuDetails;
             console.log('menudetails before length are ---- ', this.details.menuBuilder.length);
             const primaryLanguageMenuList = this.details.menuBuilder.filter(x => x.language.toLowerCase() == this.details.project.defaultHumanLanguage.toLowerCase())
             console.log('menudetails after length are ---- ', primaryLanguageMenuList.length);
-            console.log('menudetails after length are -addArrau--- ', util.inspect(primaryLanguageMenuList, { showHidden: true, depth: null }));
+            console.log('menudetails after length are -add--- ', util.inspect(primaryLanguageMenuList, { showHidden: true, depth: null }));
             this.menuList = primaryLanguageMenuList;
             //             primaryLanguageMenuList.forEach(element => {
             //                 console.log('each array of menus are --------   ', element);
@@ -150,6 +151,7 @@ export class AngularTemplateService {
     public generateAngularApp(callback) {
         return commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, this.templateName, this.menuList, (response) => {
             return dependencyWorker.generateAppRoutingFile(this.generationPath, this.templatePath, this.menuList, (response) => {
+                console.log('--------checking assets file generation------',this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.projectName)
                 return commonWorker.generateMainFile(this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.projectName, (response) => {
                     callback(response);
                 });
