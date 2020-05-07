@@ -51,7 +51,8 @@ export class TemplateDao {
                 'css-guidelines': templatedetails[0]['css-guidelines'],
                 'gjs-css': templatedetails[0]['gjs-css'],
                 'gjs-html': templatedetails[0]['gjs-html'],
-                'template_id': templatedetails[0]._id
+                'template_id': templatedetails[0]._id,
+                'template_name': templatedetails[0].name,
             };
             if (error) {
                 callback(error);

@@ -21,6 +21,7 @@ export class ProjectgenService {
         defaultHumanLanguage: '',
         otherHumanLanguage: '',
         projectGenerationPath: '',
+        projectTemplatename:'',
         templateLocation: {
             frontendTemplate: '',
             backendTemplate: '',
@@ -100,6 +101,7 @@ export class ProjectgenService {
                     console.log('i am the prblm', projectInfo);
                     console.log('i am the prblm%%%% body ', projectInfo.body);
                     this.projectObj.name = projectInfo.body.name;
+                    this.projectObj.projectTemplatename = projectInfo.body.app_ui_template;
                     this.projectObj.description = projectInfo.body.description;
                     this.projectObj.defaultHumanLanguage = projectInfo.body.default_human_language;
                     this.projectObj.otherHumanLanguage = projectInfo.body.other_human_languages;

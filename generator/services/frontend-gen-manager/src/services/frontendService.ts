@@ -8,6 +8,7 @@ import * as util from 'util';
 import * as path from 'path';
 import * as asyncLoop from 'node-async-loop';
 import { ScreenManagerService } from '../apiservices/ScreenManagerService';
+import { TemplateManagerService } from '../apiservices/TemplateManagerService';
 import { Common } from '../config/Common';
 import { Constant } from '../config/Constant';
 
@@ -19,6 +20,7 @@ export class FrontendService {
     angularGenManagerService = new AngularGenManagerService();
     microFlowService = new MicroFlowManagerService();
     screenManagerService = new ScreenManagerService();
+    templateManagerService = new TemplateManagerService();
     apiAdapter = new ApiAdaptar()
     backend: String;
 
@@ -67,11 +69,13 @@ export class FrontendService {
         const mobileJSON = screenJSON.body.filter((data) => {
             return data.screenType === this.mobileScreenName;
         })
-        const templateDetails = await this.getTemplateByProjectId(details.projectId);
+        // const templateDetails = await this.getTemplateByProjectId(details.projectId);
+        const templateDetails = await this.getTemplateByName(details.project.projectTemplatename);
+
         // console.log('screens project are ---- ', util.inspect(screenDetails, { showHidden: true, depth: null }));
         const templateJSON = JSON.parse(templateDetails.toString());
         if (templateJSON) {
-            feature.cssGuidelines = templateJSON.body[0]['css-guidelines'];
+            feature.cssGuidelines = templateJSON.body['css-guidelines'];
         }
         // const start = new Date()
         // const hrstart = process.hrtime()
@@ -132,7 +136,7 @@ export class FrontendService {
                         console.log('before asyn loop of components rae -tttttttttt--- ', flowElement);
                         asyncLoop(flowElement.components, async (componentElement, componentNext) => {
 
-                            console.log(`each compopneont are ---$$$$$$$$- ${flowComponentCount} - `, componentElement);
+                            console.log(`each compopneont are ---$$$$$$$$- ${flowComponentCount} - `, componentElement.connector);
 
                             const flowComponent = {
                                 name: '',
@@ -250,6 +254,14 @@ export class FrontendService {
     getTemplateByProjectId(projectId) {
         return new Promise(resolve => {
             this.screenManagerService.getTemplateByProjectId(projectId, (data) => {
+                resolve(data);
+            })
+        })
+    }
+
+    getTemplateByName(templateName) {
+        return new Promise(resolve => {
+            this.templateManagerService.getTemplateByName(templateName, (data) => {
                 resolve(data);
             })
         })
