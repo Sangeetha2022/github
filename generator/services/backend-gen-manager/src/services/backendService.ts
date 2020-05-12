@@ -1,3 +1,9 @@
+/*
+Don't delete this comment what so ever !!!.
+In this file a condition has been added to check the flows array length if there is no flow 
+been added to project feature we are not going to generate any node code except for the model file.
+This issue is addressed in brief on the github card number #386 created by Kishan.R on 11th May 2020.
+*/
 import { Request } from 'mongoose';
 import * as fs from 'fs';
 import { SharedService } from '../config/SharedService';
@@ -74,107 +80,110 @@ export class BackendService {
         let flowCount = 0;
         let flowComponentCount = 0;
         try {
-            asyncLoop(details.flows, (flowElement, flowNext) => {
-                // console.log(`each flows are --@@@@@@@@@@@  ${flowCount}  `, flowElement, ' length  ', flowElement.components.length);
-                const flows = {
-                    name: '',
-                    label: '',
-                    description: '',
-                    type: '',
-                    actionOnData: '',
-                    createWithDefaultActivity: 0,
-                    components: [],
+            if (details.flows.length > 0) { // the above comment refers this !!!.
+                asyncLoop(details.flows, (flowElement, flowNext) => {
+                    console.log(`each flows are --@@@@@@@@@@@  ${flowCount}  `, flowElement);
+                    const flows = {
+                        name: '',
+                        label: '',
+                        description: '',
+                        type: '',
+                        actionOnData: '',
+                        createWithDefaultActivity: 0,
+                        components: [],
 
-                }
+                    }
 
-                if (flowElement === undefined) {
-                    flowCount++;
-                    flowNext();
-                } else {
-                    flows.name = flowElement.name;
-                    flows.label = flowElement.label;
-                    flows.description = flowElement.description;
-                    flows.type = flowElement.type;
-                    flows.actionOnData = flowElement.actionOnData;
-                    flows.createWithDefaultActivity = flowElement.createWithDefaultActivity;
-                }
-                if (!flowElement.components ||
-                    (flowElement.components && flowElement.components.length === 0)) {
-                    flowCount++;
-                    flowNext();
-                } else {
-                    console.log('before asyn loop of components rae -tttttttttt--- ', flowElement);
-                    asyncLoop(flowElement.components, async (componentElement, componentNext) => {
+                    if (flowElement === undefined) {
+                        flowCount++;
+                        flowNext();
+                    } else {
+                        flows.name = flowElement.name;
+                        flows.label = flowElement.label;
+                        flows.description = flowElement.description;
+                        flows.type = flowElement.type;
+                        flows.actionOnData = flowElement.actionOnData;
+                        flows.createWithDefaultActivity = flowElement.createWithDefaultActivity;
+                    }
+                    if (!flowElement.components ||
+                        (flowElement.components && flowElement.components.length === 0)) {
+                        flowCount++;
+                        flowNext();
+                    } else {
+                        console.log('before asyn loop of components rae -tttttttttt--- ', flowElement);
+                        asyncLoop(flowElement.components, async (componentElement, componentNext) => {
 
-                        console.log(`each compopneont are ---$$$$$$$$- ${flowComponentCount} - `, componentElement);
+                            console.log(`each compopneont are ---$$$$$$$$- ${flowComponentCount} - `, componentElement);
 
-                        const flowComponent = {
-                            name: '',
-                            label: '',
-                            description: '',
-                            type: '',
-                            sequenceId: 0,
-                            devLanguage: '',
-                            devFramework: '',
-                            microFlows: [],
-                            connector: []
-                        }
-                        if (componentElement === undefined && componentElement.length === 0) {
-                            flowComponentCount++;
-                            componentNext();
-                        } else {
-                            flowComponent.name = componentElement.name;
-                            flowComponent.label = componentElement.label;
-                            flowComponent.description = componentElement.description;
-                            flowComponent.type = componentElement.type;
-                            flowComponent.sequenceId = componentElement.sequenceId;
-                            flowComponent.devLanguage = componentElement.devLanguage;
-                            flowComponent.devFramework = componentElement.devFramework;
-
-                            if (componentElement.devLanguage !== feature.serverLanguage.name &&
-                                componentElement.devFramework !== feature.serverFramework.name) {
-                                flowComponentCount++;
-                                componentNext();
-                            } else if (componentElement.microFlows.length === 0) {
-                                flows.components.push(flowComponent);
+                            const flowComponent = {
+                                name: '',
+                                label: '',
+                                description: '',
+                                type: '',
+                                sequenceId: 0,
+                                devLanguage: '',
+                                devFramework: '',
+                                microFlows: [],
+                                connector: []
+                            }
+                            if (componentElement === undefined && componentElement.length === 0) {
                                 flowComponentCount++;
                                 componentNext();
                             } else {
-                                const microFlows = await this.getMicroFlows(componentElement.microFlows);
-                                flowComponent.microFlows = JSON.parse(JSON.stringify(microFlows)).body;
-                                flowComponent.connector = componentElement.connector;
-                                flows.components.push(flowComponent);
-                                flowComponentCount++;
-                                componentNext();
+                                flowComponent.name = componentElement.name;
+                                flowComponent.label = componentElement.label;
+                                flowComponent.description = componentElement.description;
+                                flowComponent.type = componentElement.type;
+                                flowComponent.sequenceId = componentElement.sequenceId;
+                                flowComponent.devLanguage = componentElement.devLanguage;
+                                flowComponent.devFramework = componentElement.devFramework;
+
+                                if (componentElement.devLanguage !== feature.serverLanguage.name &&
+                                    componentElement.devFramework !== feature.serverFramework.name) {
+                                    flowComponentCount++;
+                                    componentNext();
+                                } else if (componentElement.microFlows.length === 0) {
+                                    flows.components.push(flowComponent);
+                                    flowComponentCount++;
+                                    componentNext();
+                                } else {
+                                    const microFlows = await this.getMicroFlows(componentElement.microFlows);
+                                    flowComponent.microFlows = JSON.parse(JSON.stringify(microFlows)).body;
+                                    flowComponent.connector = componentElement.connector;
+                                    flows.components.push(flowComponent);
+                                    flowComponentCount++;
+                                    componentNext();
+                                }
                             }
-                        }
 
-                    }, (compErr) => {
-                        if (compErr) {
+                        }, (compErr) => {
+                            if (compErr) {
 
-                        } else {
-                            if (flows.components && flows.components.length > 0) {
-                                feature.flows.push(flows);
+                            } else {
+                                if (flows.components && flows.components.length > 0) {
+                                    feature.flows.push(flows);
+                                }
+                                console.log('flow component iteration done %%%%%11%%%%%%%%%% ', feature);
+                                flowCount++;
+                                flowNext();
                             }
-                            console.log('flow component iteration done %%%%%11%%%%%%%%%% ', feature);
-                            flowCount++;
-                            flowNext();
-                        }
-                    })
-                }
+                        })
+                    }
 
-
-
-            }, async (flowErr) => {
-                if (flowErr) {
-
-                } else {
-                    console.log('flow iteration completed %%%%%%%%%%%%% ----- ', util.inspect(feature, { showHidden: true, depth: null }));
-                    const node = await this.generateNode(feature);
-                    console.log('node %%%%%%%%%%%%% ----- ', util.inspect(node, { showHidden: true, depth: null }));
-                    callback(node);
-                }
-            })
+                }, async (flowErr) => {
+                    if (flowErr) {
+                        console.log('-------------flowerror is ?????????????', flowErr);
+                    } else {
+                        console.log('flow iteration completed %%%%%%%%%%%%% ----- ', util.inspect(feature, { showHidden: true, depth: null }));
+                        const node = await this.generateNode(feature);
+                        console.log('node %%%%%%%%%%%%% ???????----- ', util.inspect(node, { showHidden: true, depth: null }));
+                        callback(node);
+                    }
+                })
+            }
+            else {
+                console.log('no flow has been added for this project so please add a flow');
+            }
         }
         catch (e) {
             console.log('each catches are-- ----   ', e);
