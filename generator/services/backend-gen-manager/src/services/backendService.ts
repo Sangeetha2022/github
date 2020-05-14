@@ -183,6 +183,7 @@ export class BackendService {
             }
             else {
                 console.log('no flow has been added for this project so please add a flow');
+                callback("no flow been added to this project so only model file generated");
             }
         }
         catch (e) {
