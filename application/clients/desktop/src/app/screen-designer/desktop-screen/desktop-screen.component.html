@@ -138,7 +138,7 @@
         <div class="container">
           <div class="row" *ngIf="selectedFlowObj && selectedFlowObj.length > 0">
             <div class="col-md-6 col-sm-8 col-xs-6">
-              <b>Seleted Flow Action</b>: &nbsp;&nbsp; {{selectedFlowObj[0].actionOnData}}
+              <b>Selected Flow Action</b>: &nbsp;&nbsp; {{selectedFlowObj[0].actionOnData}}
             </div>
             <br>
           </div>
@@ -281,16 +281,15 @@
         <form class="m-3">
           <div class="form-group row">
             <label for="fields">fields</label>
-            <select class="form-control" id="fields" name="entityField" [(ngModel)]="entityFields">
-              <option value="" selected>none</option>
-              <option *ngFor="let field of fields" [ngValue]="field">{{ field.name }}</option>
+            <select class="form-control" id="fields"  name="entityFields" [(ngModel)]="entityFields.entityfieldname" (ngModelChange)="onChangeentityfield()" >
+              <option *ngFor="let field of fields " [value]="field.name" >
+                {{ field.name }}</option>
             </select>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <div class="form-group">
-          <button type="button" class="btn button-create" (click)="saveFieldPopup()">ok</button>
           <button type="button" class="btn button-close" (click)="onCloseModel()">cancel</button>
         </div>
       </div>
