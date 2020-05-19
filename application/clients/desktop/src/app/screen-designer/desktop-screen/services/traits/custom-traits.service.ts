@@ -111,7 +111,7 @@ export class CustomTraitsService {
                 newCheckBox.type = 'checkbox';
                 newCheckBox.id = 'ptworkinfo'; // need unique Ids!
                 newCheckBox.value = 'popupmodal';
-  return newCheckBox;
+                return newCheckBox;
             },
         });
 
@@ -257,10 +257,16 @@ export class CustomTraitsService {
     }
 
     entityFieldButton($this) {
-        // const $this = this;
+        let matchentity: any;
         $this.editor.TraitManager.addType('entityFieldButton', {
             events: {
                 'click': function () {
+                    /* this condition is used to get the entity info of the screen to bind the entity field upon 
+                    selecting the html element in grapesjs for details refer #381 in github developer is Kishan 19May2020 */
+                    if ($this.existScreenDetail !== undefined && $this.existScreenDetail !== null) {
+                        this.entityinfo = $this.existScreenDetail[0]["entity_info"];
+                        matchentity = this.entityinfo.find(x => x.htmlId == this.target.attributes.attributes.id);
+                    }
                     // previously the enity was bind using this way this.target.changed['entity'];
                     const traitEntity = this.target.attributes.entity;
                     if (traitEntity !== undefined
@@ -272,10 +278,19 @@ export class CustomTraitsService {
                                     return (el.name.toLowerCase() !== 'createdat' &&
                                         el.name.toLowerCase() !== 'updatedat');
                                 });
+                                /* This is where we find the field of the selected html template and bind it with ngModel value for details refer #381 in github developer is Kishan 19May2020*/
+                                if (matchentity !== undefined && matchentity !== null) {
+                                    $this.entityFields.entityfieldname = matchentity.fields.name;
+                                    $this.entityFields.entityId = matchentity.entityId;
+                                } else {
+                                    $this.entityFields.entityId = traitEntity;
+                                }
                             }
+
+
                         });
                         $this.ref.detectChanges();
-                    }else{
+                    } else {
                         console.log('no entity selected');
                     }
                 },

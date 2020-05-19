@@ -96,11 +96,15 @@ export class DesktopScreenComponent implements OnInit {
   selectedEntity: any;
   entityData: any;
   fields: any[] = [];
+  selectedentityfield: any;
   EntityField: any[] = [];
   selectedProject: any;
   isFieldPopupModal: Boolean;
   agGridFields: FormGroup;
-  entityFields: any = "";
+  entityFields: any = {
+    entityfieldname: "",
+    entityId: ""
+  };
   selectedFlow: any;
   is_grid_present: Boolean;
   agGridObject: any = {
@@ -236,7 +240,7 @@ export class DesktopScreenComponent implements OnInit {
   // };
   public entitydetails: any;
   public linkArray: any[] = [];
-  public selectentityarray:any[] = [];
+  public selectentityarray: any[] = [];
 
   // default Names
   public GPROUTE_FLOWNAME = "gproute";
@@ -401,7 +405,7 @@ export class DesktopScreenComponent implements OnInit {
     console.log("plugins list before set grapesjs are ----  ", plugins);
     // adding gep css
     addStyles.push(`./assets/css/template/${this.templateName}.css`);
-    console.log('--------template css file location--------',addStyles)
+    console.log('--------template css file location--------', addStyles)
     this.editor = grapesjs.init({
 
       container: "#editor-c",
@@ -780,7 +784,6 @@ export class DesktopScreenComponent implements OnInit {
     console.log("==========screenName=========", this.screenName);
     console.log("------------ remote", this.editor.StorageManager.get("remote"));
     console.log("+++++++++", this.updateTemplateURL)
-
     if (this.screen_id) {
       this.editor.StorageManager.get("remote").set({
         urlStore: `${this.updateTemplateURL}${this.screen_id}`,
@@ -918,6 +921,7 @@ export class DesktopScreenComponent implements OnInit {
               );
               this.rowData = [createFlow];
             }
+            console.log('---------rowdata-------', this.rowData);
           }
         },
         error => {
@@ -986,7 +990,7 @@ export class DesktopScreenComponent implements OnInit {
         bindInfo: []
       }
     };
-    console.log('---------entity temp details----------',temp);
+    // console.log('---------entity temp details----------', temp);
     // const bindFields = {
     //     fieldId: '',
     //     fieldName: '',
@@ -1187,7 +1191,7 @@ export class DesktopScreenComponent implements OnInit {
                 const object = {
                   name: "",
                   value: "",
-                  type:""
+                  type: ""
                 };
                 object.name = entityElement.name;
                 object.value = entityElement._id;
@@ -1227,7 +1231,7 @@ export class DesktopScreenComponent implements OnInit {
                 const object = {
                   name: "",
                   value: "",
-                  type:""
+                  type: ""
                 };
                 object.name = entityElement.name;
                 object.value = entityElement._id;
@@ -1251,11 +1255,11 @@ export class DesktopScreenComponent implements OnInit {
   setDefaultType(EntityBinding) {
     console.log("set default type method called----------->>>>>>>>>>", EntityBinding, this.traitsName);
     EntityBinding.forEach(entitylist => {
-      if(entitylist.type == 'secondary'){
+      if (entitylist.type == 'secondary') {
         this.selectentityarray.push(entitylist);
 
       }
-      console.log('-----selectEntityarray-----',this.selectentityarray);
+      console.log('-----selectEntityarray-----', this.selectentityarray);
     });
 
     // this.editor.DomComponents.getType('input').model.prototype.init().listenTo(this, 'change:2345', this.newENtity);
@@ -1285,7 +1289,7 @@ export class DesktopScreenComponent implements OnInit {
         label: "Field",
         name: "Field"
       });
-    console.log('--------selectentity----->>>>',this.editor.DomComponents);
+    console.log('--------selectentity----->>>>', this.editor.DomComponents);
     // select traits
     this.editor.DomComponents.getType(
       "select"
@@ -1809,14 +1813,18 @@ export class DesktopScreenComponent implements OnInit {
   }
 
   onCloseModel() {
-    this.entityFields = "";
+    this.entityFields['entityfieldname'] = {};
+    this.entityFields['entityId'] = {};
     this.isFieldPopupModal = false;
     this.ref.detectChanges();
   }
 
-  // save entity for form
-  saveFieldPopup() {
-    console.log('--------entity ID for kishan------', this.editor.getSelected());
+  /* this method was added as for form entity binding and also I have upated this code to bind the selected entity field to store 
+  it in the screen entity array and it saved in the entity info of screen table
+  for details refer #381 in github developer is Kishan 19May2020
+  */
+  onChangeentityfield(){
+    let entitydetails: any;
     const checkedIndex = this.screenEntityModel.findIndex(
       x =>
         x.htmlId === this.editor.getSelected().ccid &&
@@ -1843,26 +1851,32 @@ export class DesktopScreenComponent implements OnInit {
           dataType: ""
         }
       };
-
+      entitydetails = this.entityData.find(x => x._id == this.entityFields.entityId);
+      this.selectedentityfield = entitydetails.field.find(field => field.name == this.entityFields.entityfieldname);
       obj.htmlId = this.editor.getSelected().ccid;
       obj.componentId = this.editor.getSelected().cid;
-      if(this.editor.getSelected().attributes.type === "select"){
-        obj.elementName = "select_"+this.editor.getSelected().ccid
-      }else{
+      if (this.editor.getSelected().attributes.type === "select") {
+        obj.elementName = "select_" + this.editor.getSelected().ccid
+      } else {
         obj.elementName = this.editor.getSelected().attributes.name;
       }
       obj.entityId = this.editor.getSelected().attributes.entity;
-      obj.fields.fieldId = this.entityFields._id;
-      obj.fields.name = this.entityFields.name;
-      obj.fields.description = this.entityFields.description;
-      obj.fields.typeName = this.entityFields.type_name;
-      obj.fields.dataType = this.entityFields.data_type;
-      this.screenEntityModel.push(obj);
-      // console.log('--------entities details------',this.screenEntityModel);
-    }
+      obj.fields.fieldId = this.selectedentityfield._id;
+      obj.fields.name = this.selectedentityfield.name;
+      obj.fields.description = this.selectedentityfield.description;
+      obj.fields.typeName = this.selectedentityfield.type_name;
+      obj.fields.dataType = this.selectedentityfield.data_type;
+      /* This method is done to remove duplicate value which is pushed in the screenEntity Model for details refer #381 in github developer is Kishan 19May2020 */
+      let duplicatefieldrm = this.screenEntityModel.findIndex(y => y.elementName == obj.elementName);
+      if(duplicatefieldrm > -1){
+        this.screenEntityModel[duplicatefieldrm] = obj;
+      }else{
+        this.screenEntityModel.push(obj);
+  
+      }
 
+    }
     this.saveRemoteStorage();
-    this.onCloseModel();
   }
 
   isScreenNameExist() {
