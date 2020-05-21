@@ -27,6 +27,7 @@ export class CustomTraitsService {
     }
 
     flowsActionButton($this) {
+        let rows: any;
         // action button add
         $this.editor.TraitManager.addType('actionButton', {
             events: {
@@ -35,6 +36,15 @@ export class CustomTraitsService {
                     const eventPopupModel = document.getElementById('EventPopup');
                     if (element && element.length > 0) {
                         $this.selectedFlowObj = $this.listOfFLows.filter(x => x._id === element[0].flow);
+                        /*Here we match the which of the flow is already been added in the screen flow info and make the checkbox 
+                        checked for that row in ag-grid. For more details refer issue #381 in github developer is Kishan 21May2020 */
+                        rows = $this.gridApi.getCellRendererInstances();
+                        Object.keys(rows).forEach(k=>{
+                            if($this.selectedFlowObj[0].name == rows[k].params.data.name){
+                                rows[k].params.node.selected = true;
+                                rows[k].params.eGridCell.children[0].checked = true;
+                            }
+                        })
                     } else {
                         $this.selectedFlowObj = null;
                     }

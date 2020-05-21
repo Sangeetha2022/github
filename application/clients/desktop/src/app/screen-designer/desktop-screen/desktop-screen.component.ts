@@ -268,21 +268,20 @@ export class DesktopScreenComponent implements OnInit {
   ) {
     this.columnDefs = [
       {
+        cellRenderer: this.checkboxCellRenderer,
+        width: 105
+      },
+      {
         headerName: "Name",
         field: "name",
-        checkboxSelection: true,
         filter: "agTextColumnFilter"
       },
       { headerName: "Label", field: "label", filter: "agTextColumnFilter" },
       {
-        headerName: "Description",
-        field: "description",
-        filter: "agTextColumnFilter"
-      },
-      {
         headerName: "Action",
         field: "actionOnData",
-        filter: "agTextColumnFilter"
+        filter: "agTextColumnFilter",
+        width: 230
       }
     ];
     this.rowSelection = "single";
@@ -921,7 +920,6 @@ export class DesktopScreenComponent implements OnInit {
               );
               this.rowData = [createFlow];
             }
-            console.log('---------rowdata-------', this.rowData);
           }
         },
         error => {
@@ -1167,8 +1165,29 @@ export class DesktopScreenComponent implements OnInit {
     this.saveRemoteStorage();
   }
 
-  onSelectionChanged() {
+  /* This method is used for the checkbox shown in the aggrid for the flows. For more details refer issue #381 in github developer is Kishan 21May2020 */
+  checkboxCellRenderer() {
+    const input = document.createElement('input');
+    input.type = "checkbox";
+    return input
+  }
+
+  /* This method is used on the selection change in row and also uncheck the checkbox if upon change on the selection. For more details refer issue #381 in github developer is Kishan 21May2020 */
+  onSelectionChanged(event) {
+    let rows: any;
+    rows = event.api.getCellRendererInstances()
     this.selectedFlow = this.gridApi.getSelectedRows();
+    Object.keys(rows).forEach(k => {
+      if (this.selectedFlow.length > 0) {
+        if (this.selectedFlow[0].name == rows[k].params.data.name) {
+          rows[k].params.node.selected = true;
+          rows[k].params.eGridCell.children[0].checked = true;
+        } else {
+          rows[k].params.eGridCell.children[0].checked = false;
+        }
+      }
+    })
+
   }
 
   getEntity() {
@@ -1823,7 +1842,7 @@ export class DesktopScreenComponent implements OnInit {
   it in the screen entity array and it saved in the entity info of screen table
   for details refer #381 in github developer is Kishan 19May2020
   */
-  onChangeentityfield(){
+  onChangeentityfield() {
     let entitydetails: any;
     const checkedIndex = this.screenEntityModel.findIndex(
       x =>
@@ -1868,11 +1887,11 @@ export class DesktopScreenComponent implements OnInit {
       obj.fields.dataType = this.selectedentityfield.data_type;
       /* This method is done to remove duplicate value which is pushed in the screenEntity Model for details refer #381 in github developer is Kishan 19May2020 */
       let duplicatefieldrm = this.screenEntityModel.findIndex(y => y.elementName == obj.elementName);
-      if(duplicatefieldrm > -1){
+      if (duplicatefieldrm > -1) {
         this.screenEntityModel[duplicatefieldrm] = obj;
-      }else{
+      } else {
         this.screenEntityModel.push(obj);
-  
+
       }
 
     }
