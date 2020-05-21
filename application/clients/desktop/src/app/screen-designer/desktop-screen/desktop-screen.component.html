@@ -132,7 +132,7 @@
     <div class="modal-content">
       <div class="modal-header" style="display: block;">
         <button type="button" class="close" (click)="cancelEvent()" data-dismiss="modal" aria-hidden="true">x</button>
-        <h3>Choose an Event</h3>
+        <h3>Choose an Flow</h3>
       </div>
       <div class="modal-body">
         <div class="container">
@@ -145,7 +145,7 @@
           <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
             [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="rowData" [animateRows]="true"
             [defaultColDef]="defaultColDef" domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10"
-            [floatingFilter]="true" (selectionChanged)="onSelectionChanged()" (gridReady)="onGridReady($event)">
+            [floatingFilter]="true" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
           </ag-grid-angular>
         </div>
       </div>
