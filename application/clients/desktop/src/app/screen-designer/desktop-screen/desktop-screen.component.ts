@@ -169,6 +169,10 @@ export class DesktopScreenComponent implements OnInit {
     { value: "col4_id", name: "d" },
     { value: "col5_id", name: "e" }
   ];
+  public selectedcolumn: any;
+  public selectedaggridentity: any = {
+    entityfieldname: ''
+  }
   public routeDetails: any = {
     screen: "",
     verb: "click",
@@ -711,6 +715,15 @@ export class DesktopScreenComponent implements OnInit {
     this.ref.detectChanges();
   }
 
+  /* This method is used to bind the entity field for the ag-grid component so based on the column selected we will
+  show the entity field if that column has entity field mapped to it. For more info check github issue #355 Dev Kishan May 28th 2020 */
+  onColumnChange(event) {
+    this.selectedcolumn = event;
+    let customfields = this.agGridObject.custom_field;
+    let selectedentityfield = customfields.find(x => x.columnname == this.selectedcolumn.name);
+    this.agGridFields.controls['selectField'].setValue(selectedentityfield.entityfield);
+  }
+
   onFieldOptions(event) {
     const agGridObject = {
       columnid: "",
@@ -1166,7 +1179,7 @@ export class DesktopScreenComponent implements OnInit {
   }
 
   /* This method is used for the checkbox shown in the aggrid for the flows. For more details refer issue #381 in github developer is Kishan 21May2020 */
-  checkboxCellRenderer() {
+  checkboxCellRenderer(params) {
     const input = document.createElement('input');
     input.type = "checkbox";
     return input
@@ -1175,12 +1188,11 @@ export class DesktopScreenComponent implements OnInit {
   /* This method is used on the selection change in row and also uncheck the checkbox if upon change on the selection. For more details refer issue #381 in github developer is Kishan 21May2020 */
   onSelectionChanged(event) {
     let rows: any;
-    rows = event.api.getCellRendererInstances()
+    rows = event.api.getCellRendererInstances();
     this.selectedFlow = this.gridApi.getSelectedRows();
     Object.keys(rows).forEach(k => {
       if (this.selectedFlow.length > 0) {
-        if (this.selectedFlow[0].name == rows[k].params.data.name) {
-          rows[k].params.node.selected = true;
+        if (rows[k].params.node.selected == true) {
           rows[k].params.eGridCell.children[0].checked = true;
         } else {
           rows[k].params.eGridCell.children[0].checked = false;
@@ -1272,7 +1284,6 @@ export class DesktopScreenComponent implements OnInit {
   }
 
   setDefaultType(EntityBinding) {
-    console.log("set default type method called----------->>>>>>>>>>", EntityBinding, this.traitsName);
     EntityBinding.forEach(entitylist => {
       if (entitylist.type == 'secondary') {
         this.selectentityarray.push(entitylist);
@@ -1460,6 +1471,7 @@ export class DesktopScreenComponent implements OnInit {
   }
 
   setGridDefaultType(EntityBinding) {
+    console.log('-----------aggrid-entity--------', EntityBinding)
     this.agGridArray = [];
     // add rows trits
     this.customTraitService.addGridRowButton(this);

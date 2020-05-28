@@ -131,13 +131,14 @@ export class LoginComponent implements OnInit {
       this.isChecked = false;
       this.user.firstName = '';
       this.user.lastName = '';
+      this.id = this.Userdetails.body._id;
       if (this.Userdetails.body === 'Email is already exists') {
         console.log('-----------error message-------');
         this.errormessage = this.Userdetails.body;
       } else {
         if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '' || this.Userdetails.body.Idtoken === undefined) {
           this.Consent();
-          // this.route.navigate(['consent'], { queryParams: { id: this.Userdetails.body._id } });
+          this.route.navigate(['project']);
         }
 
       }

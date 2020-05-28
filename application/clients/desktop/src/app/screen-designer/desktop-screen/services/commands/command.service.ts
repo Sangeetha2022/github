@@ -107,7 +107,7 @@ export class CommandService {
             label: 'entity',
             name: 'entity',
             changeProp: 1,
-            options: $this.dataBindingTypes
+            options: $this.entitydetails //Entity binding 
           },
           {
             name: 'fieldButton',
