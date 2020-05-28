@@ -279,6 +279,9 @@
     <div class="modal-content">
       <div class="container">
         <form class="m-3">
+            <button type="button" class="close" (click)="onCloseModel()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>      
           <div class="form-group row">
             <label for="fields">fields</label>
             <select class="form-control" id="fields"  name="entityFields" [(ngModel)]="entityFields.entityfieldname" (ngModelChange)="onChangeentityfield()" >
@@ -289,8 +292,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <div class="form-group">
-          <button type="button" class="btn button-close" (click)="onCloseModel()">cancel</button>
+        <div class="form-group fieldpopbtn">
+          <button type="button" class="btn button-close" (click)="onCloseModel()">Ok</button>
         </div>
       </div>
     </div>
