@@ -41,7 +41,6 @@ export class CustomTraitsService {
                         rows = $this.gridApi.getCellRendererInstances();
                         Object.keys(rows).forEach(k=>{
                             if($this.selectedFlowObj[0].name == rows[k].params.data.name){
-                                rows[k].params.node.selected = true;
                                 rows[k].params.eGridCell.children[0].checked = true;
                             }
                         })
