@@ -7,23 +7,29 @@ import { GithubConfig } from '../config/GithubConfig';
 let git = null;
 let commitTo = 'GitHub';
 
+
 export class GitHubService {
 
     checkIfRepoExist = (req: Request, callback: CallableFunction) => {
         const details = req.body;
         const path = `${details.codeGenerationPath}`;
-        git = simplegit(`${details.codeGenerationPath}`)
+        git = simplegit(`${details.codeGenerationPath}`);
         let creds = {};
     try {
         git.checkIsRepo().then((status) => {
-            this.githubCreds((response) => {
-                creds = response;
+            // this.githubCreds((response) => {
+                creds = {
+                    username : process.env.gitUsername,
+                    password : process.env.gitPassword,
+                    email : process.env.gitEmail
+                }
+               
                 if (!status && commitTo.toLocaleLowerCase() === 'github') {
                     this.createRepoInGitHub(creds, details, callback)
                 } else {
                     this.updateGitRepo(creds, callback)
                 }
-            })
+            // })
         })
     } catch(err) {
         callback('cannot able to push the code in github');

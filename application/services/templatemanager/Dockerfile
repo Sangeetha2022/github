@@ -4,4 +4,4 @@ WORKDIR /templatemanager
 Run rm -rf node_modules
 RUN npm install
 RUN npm i -g ts-node
-CMD npm run prod
+CMD npm run dev

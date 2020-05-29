@@ -7,9 +7,9 @@ let defaultMenuDao = new DefaultMenuDao()
 
 export class DefaultMenuService {
 
-    private projectId = '';
-    private primaryLanguage = '';
-    private secondaryLanguage = '';
+    private projectId : any;
+    private primaryLanguage : any;
+    private secondaryLanguage : any;
 
     public createDefaultMenu(req: Request, callback: CallableFunction) {
         this.projectId = req.query.projectId;

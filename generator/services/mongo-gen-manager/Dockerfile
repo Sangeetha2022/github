@@ -3,4 +3,4 @@ COPY . /mongo-gen-manager
 WORKDIR /mongo-gen-manager
 RUN npm i -g ts-node
 RUN npm install
-CMD npm run prod
+CMD npm run dev
