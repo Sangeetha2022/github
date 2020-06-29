@@ -1178,14 +1178,19 @@ export class DesktopScreenComponent implements OnInit {
     this.saveRemoteStorage();
   }
 
-  /* This method is used for the checkbox shown in the aggrid for the flows. For more details refer issue #381 in github developer is Kishan 21May2020 */
+  // tslint:disable-next-line: max-line-length
+  /* This method is used for the checkbox shown in the aggrid for the 
+  flows. For more details refer issue #381 in github developer is Kishan 21May2020 */
   checkboxCellRenderer(params) {
     const input = document.createElement('input');
     input.type = "checkbox";
     return input
   }
 
-  /* This method is used on the selection change in row and also uncheck the checkbox if upon change on the selection. For more details refer issue #381 in github developer is Kishan 21May2020 */
+  // tslint:disable-next-line: max-line-length
+  /* This method is used on the selection change in row and also uncheck 
+  the checkbox if upon change on the selection. For more details refer
+  issue #381 in github developer is Kishan 21May2020 */
   onSelectionChanged(event) {
     let rows: any;
     rows = event.api.getCellRendererInstances();

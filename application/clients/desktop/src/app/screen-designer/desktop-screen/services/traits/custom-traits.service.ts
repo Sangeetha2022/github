@@ -39,11 +39,16 @@ export class CustomTraitsService {
                         /*Here we match the which of the flow is already been added in the screen flow info and make the checkbox 
                         checked for that row in ag-grid. For more details refer issue #381 in github developer is Kishan 21May2020 */
                         rows = $this.gridApi.getCellRendererInstances();
-                        Object.keys(rows).forEach(k=>{
-                            if($this.selectedFlowObj[0].name == rows[k].params.data.name){
+                        Object.keys(rows).forEach(k => {
+                             /** The below condition is for show the flow action for selected attribute in the screen designer.
+                              *  For more details check issue #401 in github developer Kishan 29Jun2020 */
+                            // tslint:disable-next-line: triple-equals
+                            if ($this.selectedFlowObj[0].name == rows[k].params.data.name) {
                                 rows[k].params.eGridCell.children[0].checked = true;
+                            } else {
+                                rows[k].params.eGridCell.children[0].checked = false;
                             }
-                        })
+                        });
                     } else {
                         $this.selectedFlowObj = null;
                     }
