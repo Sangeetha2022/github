@@ -76,6 +76,7 @@ export class CodeGenerationService {
     projectPath += `/${this.APPLICATION_FOLDERNAME}`;
     Common.createFolders(projectPath);
     const applicationServicePath = `${projectPath}/${this.SERVICE_FOLDERNAME}`;
+    console.log("applicationServicePath------------->", applicationServicePath);
     Common.createFolders(applicationServicePath);
     try {
       console.log('i am auth ******---->>', projectPath);
@@ -266,6 +267,7 @@ export class CodeGenerationService {
             applicationPort: this.APIGATEWAY_PORT_NUMBER,
             projectGenerationPath: `${applicationServicePath}/${this.CUSTOM_SERVICE_FOLDERNAME}`,
             project: projectDetails,
+            feature: FeatureJSON,
             nodeResponse: this.nodeResponse
           }
           console.log('code generation apigateway services before create gateway are ----- ', temp);

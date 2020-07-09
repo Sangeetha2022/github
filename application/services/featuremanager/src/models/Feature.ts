@@ -8,6 +8,7 @@ export let featureSchema = mongoose.Schema({
     },
     name: String,
     description: String,
+    type: String,
     project: {
         type: mongoose.Schema.Types.String,
         ref: 'projects'
