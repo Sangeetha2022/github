@@ -3,4 +3,4 @@ COPY . /menubuildermanager
 WORKDIR /menubuildermanager 
 RUN npm install
 RUN npm i -g ts-node
-CMD npm run prod
+CMD npm run dev

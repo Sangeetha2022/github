@@ -3,4 +3,4 @@ COPY . /proxymanager
 WORKDIR /proxymanager
 RUN npm i -g ts-node
 RUN npm install
-CMD npm run prod
+CMD npm run dev

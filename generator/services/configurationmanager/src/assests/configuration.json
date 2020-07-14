@@ -2587,7 +2587,7 @@
 			"name": "backendGenerationDirectory",
 			"label": "BackEnd Generation Directory",
 			"description": "location of where we want to generate our backend code",
-			"value": "/home/dhina/Videos/StahlsJenkins/GrapesJS/ang7Grapesjs/Dan/branch/features_screen_designer/geppettotest/generatedcode",
+			"value": "/geppetto/generated-code",
 			"type": "BackEndGeneration",
 			"sub_type": null
 		},
@@ -2603,7 +2603,7 @@
 			"name": "authorizationDirectory",
 			"label": "Authorization Directory",
 			"description": "Location for the template path of the string template in the Auth gen manager",
-			"value": "../../../template",
+			"value": "../../template",
 			"type": "Authorization",
 			"sub_type": null	
 		},
