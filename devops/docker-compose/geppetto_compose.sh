@@ -1,12 +1,14 @@
 #!bin/bash
 
-DMN='../../../application/services/default_services/camunda/Gep_authorize.dmn'
+DMN='../../application/services/Camunda/Gep_authorize.dmn'
 
 DESKTOPCODE='../../../geppettotest/application/clients/desktop'
 
 COMPOSEPATH='../../../devops/docker-compose/'
 
 ENVPATH='../../.env'
+
+SEED='../../generator/services/seed'
 
 
 while getopts :cdrs option
@@ -29,16 +31,18 @@ do
          echo "UI build is done..."
 
          cd $COMPOSEPATH
-         docker-compose up -d 
+         docker-compose up -d --build 
          sleep 20
          curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@$DMN" -F "deployment-name=gep_authorize" -F "enable-duplicate-filtering=true" -F "deploy-changed-only=true" http://localhost:8080/engine-rest/deployment/create
-         echo "uploading the mongo script....."
+         echo "uploading the seed file....."
          sleep 15
+         docker cp $SEED codegenmanager:/geppetto/template/
+         echo "seed file copied"
          echo "Process completed"
          ;;
     d)
          echo "Now Deleting all containers and images"
-         docker-compose down -v 
+         docker-compose down -v --rmi all 
          echo "Process completed"
          ;;
     r)
@@ -60,7 +64,7 @@ do
         echo "Flag s - To Stop the running containers."
         echo "Here's the usage statement:"
         echo ""
-        echo "bash quote_compose.sh -c (or) bash quote_compose.sh -d (or) bash quote_compose.sh -r (or) bash quote_compose.sh -s"
+        echo "bash geppetto_compose.sh -c (or) bash geppetto_compose.sh -d (or) bash geppetto_compose.sh -r (or) bash geppetto_compose.sh -s"
        
         ;;
         esac
@@ -74,4 +78,4 @@ echo "Flag r - To Restart the stopped containers."
 echo "Flag s - To Stop the running containers."
 echo "Here's the usage statement:"
 echo ""
-echo "bash quote_compose.sh -c (or) bash quote_compose.sh -d (or) bash quote_compose.sh -r (or) bash quote_compose.sh -s"
+echo "bash geppetto_compose.sh -c (or) bash geppetto_compose.sh -d (or) bash geppetto_compose.sh -r (or) bash geppetto_compose.sh -s"

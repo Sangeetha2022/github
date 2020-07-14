@@ -3,12 +3,12 @@ services:
 
   mongo:
     image: geppettotest/mongo-local:april2020
-    container_name: mongo
+    container_name: mongodb
     restart: unless-stopped
     volumes:
       - geppetto-volume:/data/db
     ports:
-      - "27018:27017"
+      - "27017:27017"
     healthcheck:
       test: echo 'db.runCommand({serverStatus:1}).ok' | mongo admin -u root -p root --quiet | grep 1
       interval: 10s
@@ -21,6 +21,9 @@ services:
     container_name: camunda
     ports:
       - "8080:8080"
+    depends_on:
+      - mongo
+
    
   featuremanager:
     build: ../../application/services/featuremanager
@@ -388,8 +391,3 @@ volumes:
     driver: local
   
   
-    
-  
-
-
-
