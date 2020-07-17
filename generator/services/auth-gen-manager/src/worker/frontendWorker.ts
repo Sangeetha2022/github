@@ -14,6 +14,7 @@ export class FrontendWorker {
     private SIGNUP_FOLDERNAME = 'signup';
     private HOME_FOLDERNAME = 'home';
     private USER_FOLDERNAME = 'user';
+    private AUTHORIZATION_FOLDERNAME = 'authorization';
     private PROFILE_SETTINGS_FOLDERNAME = 'profilesettings';
     private BUTTON_RENDERER_FOLDERNAME = 'button-renderer';
     private AUTH_FOLDERNAME = 'auth';
@@ -128,6 +129,14 @@ export class FrontendWorker {
         callback();
     }
 
+    createAuthorizationComponent(callback) {
+        const authorizationPath = `${this.projectGenerationPath}/src/app/${this.AUTHORIZATION_FOLDERNAME}`;
+        this.generateStaticComponent(authorizationPath, this.AUTHORIZATION_FOLDERNAME);
+        this.generateModule(this.AUTHORIZATION_FOLDERNAME,
+            this.MODULE_TEMPLATENAME, authorizationPath);
+        callback();
+    }
+
     // create home component from seed files
     createHomeComponent(callback) {
         const homeApplicationPath = `${this.projectGenerationPath}/src/app/${this.HOME_FOLDERNAME}`;
@@ -230,7 +239,7 @@ export class FrontendWorker {
 
     async generateModule(folderName, templateName, applicationPath) {
         let fileName;
-        if (folderName !== 'button-renderer') {
+        if (folderName !== 'button-renderer' &&  folderName !== 'authorization') {
             if (folderName !== 'profilesettings') {
                 fileName = `${folderName}.${this.MODULE_NAME}.ts`;
             }
@@ -242,7 +251,8 @@ export class FrontendWorker {
         // app module dependency
         // this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
         // this.appModuleInfo.imports.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)}`);
-        if (folderName !== 'profilesettings') {
+        if (folderName !== 'profilesettings' &&  folderName !== 'authorization') {
+            console.log("------->folderName-------->", folderName);
             if (folderName !== 'button-renderer') {
                 if (this.appModuleInfo.importDependency.findIndex(x => x == `import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`) < 0) {
                     this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
@@ -260,7 +270,7 @@ export class FrontendWorker {
             entryComponents: null,
             className: folderName.charAt(0).toUpperCase() + folderName.slice(1)
         }
-        if (folderName !== 'profilesettings') {
+        if (folderName !== 'profilesettings' && folderName !== 'authorization') {
             if (folderName !== 'button-renderer') {
                 temp.importDependency.push({ dependencyname: 'NgModule', dependencyPath: '@angular/core' });
                 temp.importDependency.push({ dependencyname: 'CommonModule', dependencyPath: '@angular/common' });
@@ -316,7 +326,7 @@ export class FrontendWorker {
                 }
             }
         }
-        if (folderName !== 'button-renderer') {
+        if (folderName !== 'button-renderer' ) {
             if (folderName !== 'profilesettings') {
                 this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp);
             }

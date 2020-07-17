@@ -29,6 +29,9 @@
     "typescript": "^3.2.4",
     "uuid": "^3.3.2",
     "winston": "^3.2.1",
-    "winston-daily-rotate-file": "^3.6.0"
+    "winston-daily-rotate-file": "^3.6.0",
+    "nanoid": "^2.1.6",
+    "nanoid-dictionary": "^2.0.0",
+    "stringtemplate-js": "^0.1.1"
   }
 }

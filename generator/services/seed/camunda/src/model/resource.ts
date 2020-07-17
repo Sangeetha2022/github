@@ -10,6 +10,7 @@ export const Resourceschema = new Schema ({
         default:uuid.v1
     },
     resources: String,
+    role: String,
     created_at: {
         type: Date,
         default: Date.now
