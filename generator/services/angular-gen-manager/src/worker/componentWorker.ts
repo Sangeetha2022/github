@@ -96,7 +96,7 @@ export class ComponentWorker {
         const importDependencyPath = `import { ${temp.className}Component } from './${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}';`;
         if (this.routeModule.importDependency.findIndex(x => x == importDependencyPath) < 0) {
             this.routeModule.importDependency.push(importDependencyPath);
-            this.routeModule.routePath.push(`{ path: '${temp.folderName.toLowerCase()}', component: ${temp.className}Component, canActivate: [AuthGuard] },`);
+            this.routeModule.routePath.push(`{ path: '${temp.folderName.toLowerCase()}', loadChildren: () => import('./${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.module').then(mod => mod.${temp.className}Module) , canActivate: [AuthGuard] },`);
         }
         if (information.routeList.length > 0) {
             elementRouteWorker.checkGpRoute(information.routeList, temp);

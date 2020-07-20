@@ -13,10 +13,12 @@ export class AuthFrontendService {
         this.frontendWorker.createLoginComponent(details, (response) => {
             this.frontendWorker.createSignupComponent((response) => {
                 this.frontendWorker.createHomeComponent((response) => {
-                    this.frontendWorker.createUserComponent((response) => {
-                        this.frontendWorker.createAuthComponent(menus, (response) => {
-                            this.frontendWorker.generateAppFile((response) => {
-                                this.frontendWorker.modifyFiles();
+                    this.frontendWorker.createAuthorizationComponent((response) => {
+                        this.frontendWorker.createUserComponent((response) => {
+                            this.frontendWorker.createAuthComponent(menus, (response) => {
+                                this.frontendWorker.generateAppFile((response) => {
+                                    this.frontendWorker.modifyFiles();
+                                })
                             })
                         })
                     })

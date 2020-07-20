@@ -3,17 +3,24 @@ import { Request, Response, NextFunction } from "express";
 import * as asyncLoop from 'node-async-loop';
 import * as mongoose from 'mongoose';
 import { Resourceschema } from '../model/resource';
-const request = require('request');
-const resourcemodel = mongoose.model('resource', Resourceschema);
 import { CustomLogger } from '../config/Logger'
 import { camundaService } from '../config/camundaService';
+import { Camundadao } from '../dao/Camundadao';
+import { DmnWorkerFile } from '../worker/DMNWorker';
 
+
+import * as path from 'path';
+import * as fs from 'fs';
 
 let listofresources = [];
+let camundadao = new Camundadao();
+const request = require('request');
+const resourcemodel = mongoose.model('resource', Resourceschema);
 
 export class CamundaService {
 
     private resourcevalue: any;
+    private dmnworker = new DmnWorkerFile();
 
     constructor() { }
 
@@ -42,6 +49,20 @@ export class CamundaService {
 
     }
 
+
+    public postscreensservice(screencontent, callback){
+        camundadao.postscreens(screencontent,(response)=>{
+            callback(response);
+        })
+    }
+
+    public getallscreensservice(req:Request,callback){
+        camundadao.getallscreen(response=>{
+            callback(response);
+        });
+    }
+
+
     public camundaauthorization() {
         new CustomLogger().showLogger('info', 'Enter into Camundaservice.ts: camundaauthorization');
         var body = {
@@ -50,7 +71,6 @@ export class CamundaService {
                 "resourcetype": { "value": "Screen", "type": "String" }
             }
         }
-        // var geturl = 'http://3.92.72.204:32676/engine-rest/engine/default/decision-definition/count';
         const postUrl = `${camundaService.camundaUrl}/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate`;
         new CustomLogger().showLogger('info', 'Exit from Camundaservice.ts: camundaauthorization');
 
@@ -63,11 +83,42 @@ export class CamundaService {
                 const test2 = JSON.stringify(test);
                 // const test3 = JSON.parse(test2);
                 // // var data = test3.replace(/(\r\n|\n|\r|\s|n)/gm, '');
-                // // console.log('-------->>>>', data);
+                console.log('-------->>>>', body);
                 resolve(JSON.parse(test2));
             });
         })
+    }
 
+    generateDMN(pageTitles, callback) {
+        console.log('REQ=====>>>>>', pageTitles);
+        this.dmnworker.dmnTable(pageTitles, async (response) => {
+            let dmnresponse = await this.postDMNtoCamunda();
+            callback(dmnresponse);
+        })
+    }
+
+    postDMNtoCamunda() {
+        const DmnPath = path.resolve(__dirname, '../../Gep_authorize2.dmn');
+        const postUrl = `${camundaService.camundaUrl}/engine-rest/deployment/create`;
+        console.log('---------DMNpath======>>>>', DmnPath);
+        const options = {
+            url: postUrl,
+            headers: {
+                "Content-Type": "multipart/form-data"
+            },
+            formData: {
+                "data": fs.createReadStream(DmnPath),
+                "deployment-name": "Gepauthorize",
+                "enable-duplicate-filtering": "true",
+                "deploy-changed-only": "true",
+            }
+        }
+        request.post(options, ((err, response, body) => {
+            console.log('error --->>>', err);
+            // console.log('bodyy -------->>>>', body);
+            // console.log('i am response -->>', response);
+            return body;
+        }))
 
     }
 }

@@ -492,6 +492,27 @@ export class AuthService {
                     })
                 })
             }
+            else if (file === 'template') {
+                var template = this.authGenFiles.camundaFolder + `/template`
+                if (!fs.existsSync(template)) {
+                    fs.mkdirSync(template);
+                }
+                fs.readFile(`${this.authGenFiles.camundaPath}/template/dmnfile.st`, 'utf8', (err, dmnfile) => {
+                    fs.writeFile(template + `/dmnfile.st`, dmnfile, (err) => {
+                        if (err) {
+                            return (err)
+                        }
+                    })
+                })
+                fs.readFile(`${this.authGenFiles.camundaPath}/template/dmnfile_stg.js`, 'utf8', (err, dmnfile_stg) => {
+                    fs.writeFile(template + `/dmnfile_stg.js`, dmnfile_stg, (err) => {
+                        if (err) {
+                            return (err)
+                        }
+                    })
+                })
+            }
+
             else if (file === 'src') {
                 let src = this.authGenFiles.camundaFolder + `/src`
                 if (!fs.existsSync(src)) {
@@ -547,6 +568,32 @@ export class AuthService {
                                 }
                             })
 
+                        })
+                    }
+                    else if (x === 'supportworker') {
+                        let supportworker = src + `/supportworker`;
+                        if (!fs.existsSync(supportworker)) {
+                            fs.mkdirSync(supportworker);
+                        }
+                        fs.readFile(`${srcFolder}/${x}/DMNsupportWorker.ts`, 'utf8', (err, DMNsupportWorker) => {
+                            fs.writeFile(supportworker + `/DMNsupportWorker.ts`, DMNsupportWorker, (err) => {
+                                if (err) {
+                                    return (err)
+                                }
+                            })
+                        })
+                    }
+                    else if (x === 'worker') {
+                        let worker = src + `/worker`;
+                        if (!fs.existsSync(worker)) {
+                            fs.mkdirSync(worker);
+                        }
+                        fs.readFile(`${srcFolder}/${x}/DMNWorker.ts`, 'utf8', (err, DMNWorker) => {
+                            fs.writeFile(worker + `/DMNWorker.ts`, DMNWorker, (err) => {
+                                if (err) {
+                                    return (err)
+                                }
+                            })
                         })
                     } else if (x === 'model') {
                         let model = src + `/model`;

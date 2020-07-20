@@ -12,7 +12,7 @@ export class DmnFile {
 
     public async dmnFileDeploye() {
         // const DmnPath = '/home/decoders/Videos/generated-geppetto/DanTest701/application/services/camunda/Gepauthorize.dmn';
-        const DmnPath = path.resolve(__dirname, '../../Gep_authorize.dmn');
+        const DmnPath = path.resolve(__dirname, '../../Gep_authorize2.dmn');
         const postUrl = `${camundaService.camundaUrl}/engine-rest/deployment/create`;
         const options = {
             url: postUrl,

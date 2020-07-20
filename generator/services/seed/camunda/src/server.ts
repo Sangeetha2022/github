@@ -1,13 +1,11 @@
-import { DmnFile } from './dmnDeploye/dmnFile';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import { WinstonLogger } from './config/Winstonlogger';
 import { Routes } from './routes/routes'
-import { ResourceSeedData } from './seed';
-import { MongoConfig } from './config/Mongoconfig';
 import mongoose = require('mongoose');
-
+import { SeedService } from './seed';
+import { DmnFile } from './dmnDeploye/dmnFile';
 const PORT = 3008;
 
 class App {
@@ -16,15 +14,13 @@ class App {
     public logger: WinstonLogger = new WinstonLogger();
     public mongoUrl: string = process.env.MONGO_DB_URL;
 
-    public dmn = new DmnFile();
 
     constructor() {
         this.config();
         this.routerPrv.routes(this.app);
         this.mongoSetup();
         this.mongoSeedData();
-        this.dmnDeploye();
-
+        this.DeployDMNfile();
     }
 
     private config(): void {
@@ -38,19 +34,19 @@ class App {
     private mongoSetup(): void {
         mongoose.Promise = global.Promise;
         mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        // let mongoConfig = new MongoConfig();
-        // mongoConfig.mongoConfig();
     }
 
 
     private mongoSeedData(): void {
-        let seedData = new ResourceSeedData();
-        seedData.Createresource();
+        let seedData = new SeedService();
+        seedData.create();
     }
 
-    private dmnDeploye(){
-        this.dmn.dmnFileDeploye();
 
+
+    private DeployDMNfile(): void {
+        let dmnfile = new DmnFile();
+        dmnfile.dmnFileDeploye();
     }
 
 

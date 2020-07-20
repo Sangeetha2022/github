@@ -8,6 +8,7 @@ export class Routes {
     public nodeController: NodeController = new NodeController();
     public apiGatewayController: ApiGatewayController = new ApiGatewayController();
 
+
     public routes(app): void {
 
         app.route('/health/entity-service').get((req: Request, res: Response) => {
