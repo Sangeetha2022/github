@@ -61,7 +61,8 @@ export class FrontendWorker {
         `   "i18next-browser-languagedetector": "^3.0.3",`,
         `   "i18next-sprintf-postprocessor": "^0.2.2",`,
         `   "i18next-xhr-backend": "^3.1.2",`,
-        `   "angular-validation-message": "^2.0.1",`,
+        `   "angular-validation-message": "^2.0.1",` ,
+        `   "moment": "^2.26.0",`,
     ]
 
     private appModuleInfo: any = {
@@ -77,6 +78,11 @@ export class FrontendWorker {
     private httpClient = {
         importDependency: `import { HttpClientModule } from '@angular/common/http';`,
         imports: `HttpClientModule`
+    }
+
+    private FormModule = {
+        importDependency: `import { FormsModule } from '@angular/forms';`,
+        imports: `FormsModule`
     }
 
     private isRoutingModule = {
@@ -271,6 +277,11 @@ export class FrontendWorker {
             }
         }
 
+        if (folderName == 'authorization') {
+                this.appModuleInfo.importDependency.push(`import { AuthorizationComponent } from './${folderName}/${folderName}.component';`);
+                this.appModuleInfo.declarations.push(`AuthorizationComponent`);
+        }
+
         const temp = {
             importDependency: [],
             imports: null,
@@ -353,6 +364,11 @@ export class FrontendWorker {
         if (this.appModuleInfo.importDependency.findIndex(x => x == this.httpClient.importDependency) < 0) {
             this.appModuleInfo.importDependency.push(this.httpClient.importDependency);
             this.appModuleInfo.imports.push(this.httpClient.imports);
+        }
+
+        if (this.appModuleInfo.importDependency.findIndex(x => x == this.FormModule.importDependency) < 0) {
+            this.appModuleInfo.importDependency.push(this.FormModule.importDependency);
+            this.appModuleInfo.imports.push(this.FormModule.imports);
         }
 
         console.log('final app module importing ----- ', this.appModuleInfo);
