@@ -25,7 +25,7 @@ export class DmnWorkerFile {
                             const screendescription = element3.name;
                             screendescription.screen.forEach(element4 => {
                                 console.log('eachj descriptions are -nnnn---  ', element4);
-                                var screenobj = { resource: element4, role: "User" }
+                                var screenobj = { resources: element4, role: "User" }
                                 this.screenarr.push(screenobj);
                             });
                         });
@@ -36,7 +36,6 @@ export class DmnWorkerFile {
         console.log("screenarr------------->", this.screenarr)
         this.screenarray = [];
         let listofscreens = this.ScreenName(this.screenarr);
-        console.log("listofscreens----------->", listofscreens);
         let saveItems = this.SaveItems(listofscreens);
         dmnSupportFile.dmnSupportWorker(saveItems, generationpath, templatepath, (response) => {
             callback(response);
@@ -51,7 +50,6 @@ export class DmnWorkerFile {
         let lastslice = '';
         if (menu.length > 0) {
             menu.forEach(element => {
-                // console.log('eachj descriptions are ----  ', element);
                 output[element.resources] = [];
                 if (element.role == 'Admin') {
                     let Admin = {
@@ -123,7 +121,6 @@ export class DmnWorkerFile {
                 }
                 finaloutputarr.push(output);
                 lastslice = finaloutputarr[finaloutputarr.length - 1];
-
             });
             return lastslice;
         }
