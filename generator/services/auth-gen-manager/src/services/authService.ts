@@ -607,6 +607,19 @@ export class AuthService {
                                 }
                             })
                         })
+                    }
+                    else if (x === 'dao') {
+                        let dao = src + `/dao`;
+                        if (!fs.existsSync(dao)) {
+                            fs.mkdirSync(dao);
+                        }
+                        fs.readFile(`${srcFolder}/${x}/Camundadao.ts`, 'utf8', (err, resource) => {
+                            fs.writeFile(dao + `/Camundadao.ts`, resource, (err) => {
+                                if (err) {
+                                    return (err)
+                                }
+                            })
+                        })
                     } else if (x === 'config') {
                         let config = src + `/config`;
                         if (!fs.existsSync(config)) {
@@ -617,6 +630,11 @@ export class AuthService {
                                 if (err) {
                                     return (err)
                                 }
+                            })
+                        })
+                        fs.readFile(`${srcFolder}/${x}/camundaService.ts`, 'utf8', (err, camundaService) => {
+                            fs.writeFile(config + `/camundaService.ts`, camundaService, (err) => {
+                                return (err)
                             })
                         })
                         fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {

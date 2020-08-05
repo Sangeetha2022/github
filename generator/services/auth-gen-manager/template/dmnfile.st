@@ -19,6 +19,7 @@ dmnfile(object) ::=<<
       <output id="output_1" label="admin" name="Admin" typeRef="string" />
       <output id="OutputClause_0vdltyr" label="developer" name="Developer" typeRef="string" />
       <output id="OutputClause_16m831c" label="user" name="Standard User" typeRef="string" />
+      <output id="OutputClause_06hgt34" label="guest" name="Guest" typeRef="string" />
       $if(object)$$object:{value |
         <rule id="DecisionRule_$value.DecisionRuleId$">
         <inputEntry id="UnaryTests_$value.UnaryTestsId$">
@@ -28,124 +29,24 @@ dmnfile(object) ::=<<
           <text>"Screen"</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_$value.LiteralExpressionId$">
-          <text>'{
-  "Admin": [{
-    "Access": {
-      "value": "true"
-    \},
-    "Fields":[{
-    "Organisation": {
-      "value": "true"
-    \},
-    "Userrole": {
-      "value": "true"
-    \},
-    "Addrole": {
-      "value": "true"
-    \}
-    \}]
-  \}],
-  "Landing":[{
-    "Access":{
-      "value":"true"
-    \},
-    "Fields":[{
-      "Field1":{
-        "value":"true"
-      \},
-      "Field2":{
-        "value":"true"
-      \},
-      "Field3":{
-        "value":"true"
-      \},
-      "Field4":{
-        "value":"true"
-      \}
-    \}]
-  \}],
-  "Project":[{
-    "Access":{
-      "value":"true"
-    \},
-    "Fields":[{
-      "Configuration":{
-        "value":"true"
-      \}
-    \}]
-  \}]
-\}'</text>
+          <text>'
+            $value.outputjson$
+          '</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_$value.LiteralExpression2Id$">
-          <text>'{
-  "Admin":{
-    "Access":{"value":"false"\}
-  \},
-  "Landing":[{
-    "Access":{"value":"true"\},
-    "Fields":[{
-      "Field1":{
-        "value":"true"
-      \},
-      "Field2":{
-        "value":"false"
-      \},
-      "Field3":{
-        "value":"true"
-      \},
-      "Field4":{
-        "value":"false"
-      \}
-    \}]
-  \}],
-  "Project":[{
-    "Access":{"value":"true"\},
-    "Fields":[{
-      "Configuration":{
-        "value":"false"
-      \}
-    \}]
-  \}],
-  "Feature":[{
-    "Access":{"value":"true"\},
-    "Fields":[{
-      "AddFeature":{
-        "value":"true"
-      \}
-    \}]
-  \}]
-\}'</text>
+          <text>'
+             $value.outputjson$
+          '</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_$value.LiteralExpression3Id$">
-          <text>'{
-  "Admin": {
-    "Access": {
-      "value": "false"
-    \}
-  \},
-  "Landing":[{
-    "Access":{"value":"false"\}
-  \}],
-  "Project": [
-    {
-      "Access": {
-        "value": "true"
-      \},
-      "Fields": [
-        {
-          "AddProject": {
-            "value": "true"
-          \}
-        \}
-      ]
-    \}
-  ],
-  "Feature": {
-    "Access": {
-      "value": "false"
-    \}
-  \}
-\}'</text>
+          <text>'
+              $value.outputjson$
+          '</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_$value.LiteralExpression4Id$">
+          <text>'
+              $value.outputjson$
+          '</text>
         </outputEntry>
       </rule>
        };separator="\n"$$endif$
