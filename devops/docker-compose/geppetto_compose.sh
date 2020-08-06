@@ -19,7 +19,7 @@ do
          cd $DESKTOPCODE
          npm install
          npm uninstall node-sass
-         npm install --save-dev node-sas
+         npm install --save-dev node-sass
          npm uninstall @angular-devkit/build-angular
          npm install @angular-devkit/build-angular@0.12.4
          # if directory is exist
