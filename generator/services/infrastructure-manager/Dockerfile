@@ -21,6 +21,3 @@ WORKDIR /infrastructuremanager
 RUN npm install
 RUN npm i -g ts-node
 CMD npm run dev
-VOLUME /geppetto/generated-code/
-VOLUME /geppetto/template/
-

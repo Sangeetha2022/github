@@ -152,7 +152,7 @@ export class AWSInfrastructureController {
 
 
 
-    // projectDetails.destinationUrl = deploymentFolder;
+    projectDetails.destinationUrl = deploymentFolder;
     // //generate script for system entry pod image
     // if (projectDetails.system_entry_pod) {
     //   dockerService.generate_build_script_local(projectDetails, this.backendList, (response) => {
