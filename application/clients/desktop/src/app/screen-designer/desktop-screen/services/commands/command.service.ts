@@ -107,7 +107,7 @@ export class CommandService {
             label: 'entity',
             name: 'entity',
             changeProp: 1,
-            options: $this.entitydetails //Entity binding 
+            options: $this.entitydetails // Entity binding
           },
           {
             name: 'fieldButton',
@@ -124,6 +124,21 @@ export class CommandService {
               { key: 'focus', value: 'onFocus' },
               { key: 'blur', value: 'onBlur' }
             ]
+          },
+          {
+            type: 'select',
+            label: 'event',
+            name: 'Event',
+            changeProp: 1,
+            options: [
+              {key: 'click', value: 'OnInit'},
+              {key: 'load', value: 'Onload'}
+            ]
+          },
+          {
+            name: 'actionButton',
+            label: 'Action',
+            type: 'actionButton'
           },
           {
             name: 'routeButton',

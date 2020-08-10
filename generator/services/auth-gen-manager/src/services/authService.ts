@@ -63,7 +63,7 @@ export class AuthService {
         this.authGenFiles.pathFile = req.query.authPath;
         this.authGenFiles.projectId = req.query.projectID;
         if (req.query.projectName) {
-            req.query.projectName.split(" ").forEach((element, index) => {
+            (req.query.projectName as string).split(" ").forEach((element, index) => {
                 if (index === 0) {
                     this.projectName = element;
                 } else {

@@ -49,6 +49,7 @@ export class GenerateHtmlWorker {
         variableList: [],
         dependenciesVariableList: [],
         componentOnInit: [],
+        componentOnAfterView:[],
         routeList: [],
         flowMethod: [],
         elementDependedMethod: [],
@@ -104,7 +105,7 @@ export class GenerateHtmlWorker {
         this.generatedSpecialEventScreens = [];
     }
     generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
-        // console.log('create angular project value are ----- ', util.inspect(req.body, { showHidden: true, depth: null }));
+        console.log('css content for this screem ----- ', details);
         console.log('entering into geenerate methods are -----  ', util.inspect(metaData, { showHidden: true, depth: null }));
         this.startTag = [];
         this.endTag = [];
@@ -113,6 +114,7 @@ export class GenerateHtmlWorker {
             variableList: [],
             dependenciesVariableList: [],
             componentOnInit: [],
+            componentOnAfterView:[],
             routeList: [],
             flowMethod: [],
             elementDependedMethod: [],
@@ -187,7 +189,7 @@ export class GenerateHtmlWorker {
         componentWorker.generateComponentService(applicationPath, templatePath, componentName, this.serviceComponent, (response) => {
             componentWorker.generateComponentTs(applicationPath, templatePath, componentName, this.tsComponent, this.entities, (response) => {
                 componentWorker.generateComponentHtml(applicationPath, templatePath, componentName, this.startTag, (response) => {
-                    // console.log('before calling generatecomponentcss from generatehtlm -----  ', this.componentStyle);
+                    console.log('before calling generatecomponentcss from generatehtlm -----  ', this.componentStyle);
                     componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.componentStyle, (response) => {
                         componentWorker.generateComponentSpec(applicationPath, templatePath, componentName, this.startTag, (response) => {
                             componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.moduleComponent, (response) => {
@@ -388,7 +390,7 @@ export class GenerateHtmlWorker {
 
     setClasses(firstEle) {
         if (firstEle.hasOwnProperty('classes')) {
-            // console.log('firstEle classes are ---- ', firstEle.classes[0], ' ---firstELE classes length-- ', firstEle.classes.length);
+            console.log('firstEle classes are ---- ', firstEle.classes[0]);
             if (!firstEle.hasOwnProperty('tagName') && !this.tagName) {
                 this.tagName = 'div';
             }
@@ -415,6 +417,7 @@ export class GenerateHtmlWorker {
             const defaultClassNames = componentSpecializedWorker.addClassName(this, 'class');
             if (defaultClassNames) {
                 this.startString += `<${this.tagName} class='${defaultClassNames}'`
+                console.log('--------------------startstring in the setclasses method-----', this.startString);
             }
         }
     }
@@ -441,6 +444,7 @@ export class GenerateHtmlWorker {
         if (firstEle.hasOwnProperty('attributes') && this.tagName !== 'form') {
             let attributes = Object.keys(firstEle.attributes);
             if (!this.startString) {
+                console.log('------------------startstring in the set attribute----', this.startString);
                 this.startString += `<${this.tagName}`
             }
             attributes.forEach(element => {
@@ -449,14 +453,23 @@ export class GenerateHtmlWorker {
                     IDName = firstEle.attributes[element];
                     const classRegex = /class='/g;
                     const className = ``;
+                    let gridclass ;
                     // changing css id to className
-                    this.componentStyle[0] = this.componentStyle[0].replace(`#${firstEle.attributes[element]}`, `.${className}`);
+                    console.log('-----------------------Before replacing the css style',firstEle.attributes[element], className);
+                    if(className != ''){
+                        this.componentStyle[0] = this.componentStyle[0].replace(`#${firstEle.attributes[element]}`, `.${className}`);
+                    }else{
+                        gridclass = firstEle.attributes[element];
+                        this.componentStyle[0] = this.componentStyle[0].replace(`#${firstEle.attributes[element]}`, `.${gridclass}`);
+                    }
+                    console.log('-----------------------after replacing the css style',this.componentStyle[0]);
                     if (classRegex.test(this.startString.toString())) {
-                        console.log('clas regex true');
                         this.startString = this.startString.replace(classRegex, ` class='${className} `)
 
                     } else {
-                        this.startString += ` class='${className}'`;
+                        console.log('before the setting value in the startstring------', this.startString);
+                        this.startString += ` class='${gridclass}'`;
+                        console.log('clas regex true==========================', this.startString);
                     }
                     this.classCount++;
                 } else if (element === 'name' && firstEle.name) {
@@ -737,7 +750,7 @@ export class GenerateHtmlWorker {
                         (this.tagName == 'p' || firstEle.type == 'header' ||
                             this.tagName == 'span' || this.tagName == 'div' || this.tagName == 'label'))
                 ) {
-                    // console.log('set content of firstelement --tagname-- ', this.tagName)
+                    console.log('set content of firstelement --tagname-- ', this.tagName)
                     this.startString += `</${this.tagName}>`
                 }
                 // this.startTag.push(this.startString);
@@ -810,6 +823,7 @@ export class GenerateHtmlWorker {
     }
 
     setTagValue() {
+        console.log('--------------------Start string comes first-----', this.startString);
         this.startTag.push(this.startString);
         // if (this.tagName == 'meta' || this.tagName == 'title' ||
         //     this.tagName == 'link' || this.tagName == 'base') {

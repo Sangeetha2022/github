@@ -12,7 +12,7 @@ export class ComponentSupportWorker {
         const filePath = `${applicationPath}/${information.folderName.toLowerCase()}`;
         templatePath = path.resolve(__dirname, templatePath);
         Common.createFolders(filePath);
-        // console.log(`before ${fileName} create ----- `, information, ' --template path-- ' ,templatePath + `/${templateName}_stg`);
+        console.log(`before css content is create ----- `, information);
         let generateComponent = st.loadGroup(require(templatePath + `/${templateName}_stg`));
         let componentFileData = generateComponent.render(templateName, [information]);
         // console.log('component file data are ----- ', componentFileData);
