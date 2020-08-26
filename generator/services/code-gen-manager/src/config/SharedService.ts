@@ -28,7 +28,8 @@ export class SharedService {
         switch (process.env.localname) {
 
             case process.env.name: SharedService.systementryBaseUrl = process.env.localsystementryBaseUrl;
-                SharedService.generatorBaseUrl = process.env.localgeneratorBaseUrl;
+                // SharedService.generatorBaseUrl = process.env.localgeneratorBaseUrl;
+                SharedService.generatorBaseUrl = process.env.backendgenmanager;
                 SharedService.apiGatewayURL = SharedService.systementryBaseUrl + ":3000";
                 SharedService.backendmanagerURL = SharedService.generatorBaseUrl + ":5009";
                 break;

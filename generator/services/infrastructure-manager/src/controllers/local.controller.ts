@@ -141,26 +141,26 @@ export class LocalInfrastructureController {
 
     projectDetails.destinationUrl = deploymentFolder;
     //generate script for local
-    if (projectDetails.system_entry_pod) {
-      dockerService.generate_build_script_local(projectDetails, backendList, (response) => {
-        //res.send(200);
-      })
-    }
+    // if (projectDetails.system_entry_pod) {
+    //   dockerService.generate_build_script_local(projectDetails, backendList, (response) => {
+    //     //res.send(200);
+    //   })
+    // }
 
-    //generate script for cloud
-    if (projectDetails.app_pod) {
-      dockerService.generate_build_script_cloud(projectDetails, backendList, (response) => {
-        //res.send(200);
-      })
-    }
+    // //generate script for cloud
+    // if (projectDetails.app_pod) {
+    //   dockerService.generate_build_script_cloud(projectDetails, backendList, (response) => {
+    //     //res.send(200);
+    //   })
+    // }
 
     // generate mongoscript
     mongoService.generate_mongo_script_local(projectDetails, (response) => { })
 
-    //generate apk script
-    dockerService.apk_build_mobile(projectDetails, (response) => {
-      //res.send(200);
-    })
+    // //generate apk script
+    // dockerService.apk_build_mobile(projectDetails, (response) => {
+    //   //res.send(200);
+    // })
 
     // //generate ipa script
     // dockerService.ipa_build_mobile(projectDetails, (response) => {
@@ -168,9 +168,9 @@ export class LocalInfrastructureController {
     // })
 
     //generate ipa script
-    dockerService.ipa_build_jenkins_mobile(projectDetails, (response) => {
-      //res.send(200);
-    })
+    // dockerService.ipa_build_jenkins_mobile(projectDetails, (response) => {
+    //   //res.send(200);
+    // })
 
     //generate helm templates
     projectDetails.helmTemplateUrl = helmSource;

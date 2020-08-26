@@ -42,6 +42,7 @@ class App {
         switch (process.env.localname) {
             case  process.env.name: mongoose.Promise = global.Promise;
                                     mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+                                    console.log('connected to database ');
                 break;
 
             default:  let mConfig = new MongoConfig();

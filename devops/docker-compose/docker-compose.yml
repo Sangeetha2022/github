@@ -1,0 +1,393 @@
+version: "3.8"
+services:
+
+  mongo:
+    image: geppettotest/mongo-local:april2020
+    container_name: mongodb
+    restart: unless-stopped
+    volumes:
+      - geppetto-volume:/data/db
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: echo 'db.runCommand({serverStatus:1}).ok' | mongo admin -u root -p root --quiet | grep 1
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+  camunda:
+    image: geppettotest/camunda-local:april2020
+    container_name: camunda
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+
+   
+  featuremanager:
+    build: ../../application/services/featuremanager
+    image: featuremanager
+    container_name: featuremanager
+    ports:
+      - "3006:3006"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      
+    
+  entitymanager:
+    build: ../../application/services/entitymanager
+    image: entitymanager
+    container_name: entitymanager
+    ports:
+      - "3005:3005"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+     
+  
+  flowmanager:
+    build: ../../application/services/flowmanager
+    image: flowmanager
+    container_name: flowmanager
+    ports:
+      - "3001:3001"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+  
+
+  microflowmanager:
+    build: ../../application/services/microflowmanager
+    image: microflowmanager
+    container_name: microflowmanager
+    ports:
+      - "3002:3002"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+  menubuildermanager:
+    build: ../../application/services/menubuildermanager
+    image: menubuildermanager
+    container_name: menubuildermanager
+    ports:
+      - "3011:3011"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+  screenmanager:
+    build: ../../application/services/screenmanager
+    image: screenmanager
+    container_name: screenmanager
+    ports:
+      - "3004:3004"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+  securitymanager:
+    build: ../../application/services/securitymanager
+    image: securitymanager
+    container_name: securitymanager
+    ports:
+      - "3007:3007"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+  camundasvc:
+    build: ../../application/services/Camunda
+    image: camundasvc
+    container_name: camundasvc
+    ports:
+      - "3008:3008"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - camunda
+
+  authproxy:
+    build: ../../application/services/Auth-Proxy
+    image: authproxy
+    container_name: authproxy
+    ports:
+      - "3009:3009"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - camundasvc
+
+  templatemanager:
+    build: ../../application/services/templatemanager
+    image: templatemanager
+    container_name: templatemanager
+    ports:
+      - "3012:3012"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+  apigateway:
+    build: ../../application/services/apigateway
+    image: apigateway
+    container_name: apigateway
+    ports:
+      - "3000:3000"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - entitymanager
+      - screenmanager
+      - featuremanager
+      - flowmanager
+      - microflowmanager
+      - menubuildermanager
+      - templatemanager
+      - securitymanager
+      - camundasvc
+      - authproxy
+      - configmanager
+      - mongogenmanager
+      - nodegenmanager
+
+  projectmanager:
+    build: ../../application/services/projectmanager
+    image: projectmanager
+    container_name: projectmanager
+    ports:
+      - "3003:3003"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
+
+  deletemanager:
+    build: ../../application/services/deletetmanager
+    image: deletemanager
+    container_name: deletemanager
+    ports:
+      - "3014:3014"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
+
+  githubmanager:
+    build: ../../generator/services/github-manager
+    image: githubmanager
+    container_name: githubmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5016:5016"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
+
+  screengenmanager:
+    build: ../../generator/services/screen-gen-manager
+    image: screengenmanager
+    container_name: screengenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5003:5003"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+  mongogenmanager:
+    build: ../../generator/services/mongo-gen-manager
+    image: mongogenmanager
+    container_name: mongogenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5011:5011"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+  admingenmanager:
+    build: ../../generator/services/Admin-manager
+    image: admingenmanager
+    container_name: admingenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5018:5018"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+  nodegenmanager:
+    build: ../../generator/services/node-gen-manager
+    image: nodegenmanager
+    container_name: nodegenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5012:5012"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+  datastoremanager:
+    build: ../../generator/services/datastore-manager
+    image: datastoremanager
+    container_name: datastoremanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5010:5010"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
+
+  inframanager:
+    build: ../../generator/services/infrastructure-manager
+    image: inframanager
+    container_name: inframanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5004:5004"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+  generationmanager:
+    build: ../../generator/services/generation-manager
+    image: generationmanager
+    container_name: generationmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5000:5000"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
+      - inframanager
+
+  frontgenmanager:
+    build: ../../generator/services/frontend-gen-manager
+    image: frontgenmanager
+    container_name: frontgenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5013:5013"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
+      - authgenmanager
+      - admingenmanager
+      - ionicmanager
+      - screengenmanager
+
+  backendgenmanager:
+    build: ../../generator/services/backend-gen-manager
+    image: backendgenmanager
+    container_name: backendgenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5009:5009"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
+      - admingenmanager
+
+  angulargenmanager:
+    build: ../../generator/services/angular-gen-manager
+    image: angulargenmanager
+    container_name: angulargenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5014:5014"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
+
+  angtemplatemanager:
+    build: ../../generator/services/angular-template-manager
+    image: angtemplatemanager
+    container_name: angtemplatemanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5015:5015"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
+
+  configmanager:
+    build: ../../generator/services/configurationmanager
+    image: configmanager
+    container_name: configmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5001:5001"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+  authgenmanager:
+    build: ../../generator/services/auth-gen-manager
+    image: authgenmanager
+    container_name: authgenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5017:5017"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
+
+  codegenmanager:
+    build: ../../generator/services/code-gen-manager
+    image: codegenmanager
+    container_name: codegenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5008:5008"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
+      - backendgenmanager
+
+  ionicmanager:
+    build: ../../generator/services/ionic-manager
+    image: ionicmanager
+    container_name: ionicmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5019:5019"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+
+volumes:
+  geppetto-volume:
+    driver: local
+  generated-code:
+    driver: local
+  
+  

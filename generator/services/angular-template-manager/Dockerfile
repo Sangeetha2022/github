@@ -4,4 +4,4 @@ WORKDIR /angulartemplatemanager
 RUN npm install
 RUN npm install -g @angular/cli
 RUN npm i -g ts-node
-CMD npm run prod
+CMD npm run dev
