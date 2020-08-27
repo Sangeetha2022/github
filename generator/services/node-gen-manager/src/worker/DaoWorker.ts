@@ -197,7 +197,7 @@ export class DaoWorker {
         const isDefault = this.gpCheckConnector();
         switch (this.flowDetail.actionOnData) {
             case 'GpCreate':
-                this.tempDao.function.methodName = this.flowDetail.actionOnData;
+                this.tempDao.function.methodName = `${this.entitySchema.fileName}_post`;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
                 if (isDefault) {
                     this.tempDao.function.variable = `let temp = new ${this.entitySchema.modelName}(${this.entitySchema.fileName}Data)`;
@@ -207,7 +207,7 @@ export class DaoWorker {
                 }
                 break;
             case 'GpSearch':
-                this.tempDao.function.methodName = this.flowDetail.actionOnData;
+                this.tempDao.function.methodName = `${this.entitySchema.fileName}_search`;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
                 if (isDefault) {
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
@@ -217,7 +217,7 @@ export class DaoWorker {
                 }
                 break;
             case 'GpUpdate':
-                this.tempDao.function.methodName = this.flowDetail.actionOnData;
+                this.tempDao.function.methodName = `${this.entitySchema.fileName}_put`;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
                 if (isDefault) {
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findOneAndUpdate`;
@@ -227,7 +227,7 @@ export class DaoWorker {
                 }
                 break;
             case 'GpDelete':
-                this.tempDao.function.methodName = this.flowDetail.actionOnData;
+                this.tempDao.function.methodName = `${this.entitySchema.fileName}_delete`;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Id, callback`;
                 if (isDefault) {
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findByIdAndRemove`;
@@ -237,7 +237,7 @@ export class DaoWorker {
                 }
                 break;
             case 'GpGetAllValues':
-                this.tempDao.function.methodName = this.flowDetail.actionOnData;
+                this.tempDao.function.methodName = `${this.entitySchema.fileName}_get`;
                 this.tempDao.function.parameter = `callback`;
                 if (isDefault) {
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
@@ -282,7 +282,7 @@ export class DaoWorker {
             case 'GpCustom':
                 break;
             case 'GpGetNounById':
-                this.tempDao.function.methodName = this.flowDetail.actionOnData;
+                this.tempDao.function.methodName = `${this.entitySchema.fileName}_getNounById`;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Id, callback`;
                 if (isDefault) {
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.findById`;
