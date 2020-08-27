@@ -128,11 +128,11 @@ export class ControllerWorker {
 
             switch (this.flowDetail.actionOnData) {
                 case 'GpCreate':
-                    this.tempController.function.methodName = `${this.entitySchema.fileName}_get`
+                    this.tempController.function.methodName = `${this.entitySchema.fileName}_post`
                     break;
 
                 case 'GpGetAllValues':
-                    this.tempController.function.methodName = `${this.entitySchema.fileName}_post`
+                    this.tempController.function.methodName = `${this.entitySchema.fileName}_get`
                     break;
 
                 case 'GpUpdate':
