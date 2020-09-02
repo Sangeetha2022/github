@@ -22,6 +22,17 @@ export class DependencyWorker {
             file.join(`\n`), (response) => { })
     }
 
+    public modifyAngularJsonFile(applicationPath, information) {
+        const file = this.dependencySupportWorker.readFile(applicationPath, 'angular.json')
+        const styleIndex = file.findIndex(x => /styles/.test(x))
+        file.splice(styleIndex + 1, 0, `"${information} " , `)
+        this.dependencySupportWorker.writeStaticFile(applicationPath, 'angular.json',
+            file.join(`\n`), (response) => {
+                console.log("Response----write00---file---", response)
+            })
+
+    }
+
     // app.module.ts file
     public modifyAppModuleFile(applicationPath, information) {
         const file = this.dependencySupportWorker.readFile(applicationPath, Constant.APP_MODULE_FILENAME);
@@ -86,7 +97,7 @@ export class DependencyWorker {
         if (information.others.length > 0) {
             file = file.concat(information.others);
         }
-         this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.STYLE_SCSS_FILENAME,
+        this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.STYLE_SCSS_FILENAME,
             file.join(`\n`), (response) => { })
     }
 

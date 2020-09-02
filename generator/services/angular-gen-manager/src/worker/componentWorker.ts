@@ -166,6 +166,9 @@ export class ComponentWorker {
             this.moduleComponent.exports.push(`${temp.className}Component`);
         }
         temp.importDependency.push({ dependencyName: componentImportDependencies, dependencyPath: '@angular/core' });
+        //import ngx-toastr component
+        temp.importDependency.push({ dependencyName: 'ToastrService', dependencyPath: 'ngx-toastr' });
+
 
         flowComponentWorker.generateComponentFlow(information, temp, entities);
 
@@ -231,10 +234,17 @@ export class ComponentWorker {
         // add component class with path
         temp.importDependency.push({ dependencyName: `${temp.className}Component`, dependencyPath: `./${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}` });
 
+        // import { ToastrModule } from 'ngx-toastr';
+
+        temp.importDependency.push({dependencyName: 'ToastrModule' , dependencyPath: 'ngx-toastr'})
+
         // imports default
         temp.imports.push(`CommonModule`, `RouterModule`);
         // forms imports
         temp.imports.push(`FormsModule`, `ReactiveFormsModule`);
+
+        //toaster import added
+        temp.imports.push(`ToastrModule.forRoot({ preventDuplicates: true })`)
 
         // declarations default
         temp.declarations.push(`${temp.className}Component`)
@@ -287,6 +297,11 @@ export class ComponentWorker {
     }
 
     public modifyDependency(packagePath, srcPath, applicationPath, globalStyle, callback) {
+        let path = '/Users/10decoders/Downloads/gepGenerator/gepinfo/application/client/desktop/gepinfo'
+        let angularJsonData = 'node_modules/ngx-toastr/toastr.css'
+
+        dependencyWorker.modifyAngularJsonFile(path, angularJsonData)
+
         if (this.routeModule.routePath.length > 0) {
             dependencyWorker.modifyAppRouteFile(applicationPath, this.routeModule);
             this.initializeRouteModule();
