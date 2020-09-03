@@ -190,7 +190,7 @@ export class GenerateHtmlWorker {
                     // console.log('before calling generatecomponentcss from generatehtlm -----  ', this.componentStyle);
                     componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.componentStyle, (response) => {
                         componentWorker.generateComponentSpec(applicationPath, templatePath, componentName, this.startTag, (response) => {
-                            componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.moduleComponent, (response) => {
+                            componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.moduleComponent,  (response) => {
                                 // console.log('component worker in generate component modeule in-----  ');
                                 // this.modifyDependency(applicationPath, packagePath, callback)
                                 callback();
@@ -306,10 +306,11 @@ export class GenerateHtmlWorker {
     }
 
     modifyDependency(details, callback) {
+        const flows = details.flows
         const packagePath = details.projectGenerationPath;
         const srcPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}`;
         const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
-        componentWorker.modifyDependency(packagePath, srcPath, applicationPath, this.globalStyle, (response) => {
+        componentWorker.modifyDependency(packagePath, srcPath, applicationPath, this.globalStyle, flows, (response) => {
             this.initializeData();
             callback({ Message: `Feature Screen created successfully` });
         })

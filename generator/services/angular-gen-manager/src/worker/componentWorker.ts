@@ -77,6 +77,7 @@ export class ComponentWorker {
             });
     }
     public generateComponentTs(applicationPath, templatePath, componentName, information, entities, callback) {
+        console.log("-----Information----->>>>", information)
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
@@ -117,6 +118,7 @@ export class ComponentWorker {
                 if (!temp.dependedComponentNames.find(x => x == otherElement)) {
                     temp.dependedComponentNames.push(otherElement);
                     const findDependencies = componentDependency.component.find(x => x.name == otherElement);
+                    console.log("Find---Depedency0----->>>>", findDependencies);
                     if (findDependencies) {
                         if (findDependencies.componentDependencies && findDependencies.componentDependencies.length > 0) {
                             // add component dependencies
@@ -236,7 +238,7 @@ export class ComponentWorker {
 
         // import { ToastrModule } from 'ngx-toastr';
 
-        temp.importDependency.push({dependencyName: 'ToastrModule' , dependencyPath: 'ngx-toastr'})
+        temp.importDependency.push({ dependencyName: 'ToastrModule', dependencyPath: 'ngx-toastr' })
 
         // imports default
         temp.imports.push(`CommonModule`, `RouterModule`);
@@ -296,11 +298,18 @@ export class ComponentWorker {
             });
     }
 
-    public modifyDependency(packagePath, srcPath, applicationPath, globalStyle, callback) {
-        let path = '/Users/10decoders/Downloads/gepGenerator/gepinfo/application/client/desktop/gepinfo'
-        let angularJsonData = 'node_modules/ngx-toastr/toastr.css'
+    public modifyDependency(packagePath, srcPath, applicationPath, globalStyle, microFlows, callback) {
 
-        dependencyWorker.modifyAngularJsonFile(path, angularJsonData)
+        //toaster implemented angular.json and package.json files
+        if (microFlows.length > 0) {
+            microFlows.map(data => {
+                if (data.actionOnData == 'GpCreate' || data.actionOnData == 'GpUpdate') {
+                    this.packageModule.push(`"ngx-toastr": "^10.1.0",`)
+                    let angularJsonData = 'node_modules/ngx-toastr/toastr.css'
+                    dependencyWorker.modifyAngularJsonFile(packagePath, angularJsonData)
+                }
+            })
+        }
 
         if (this.routeModule.routePath.length > 0) {
             dependencyWorker.modifyAppRouteFile(applicationPath, this.routeModule);

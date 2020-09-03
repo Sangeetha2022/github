@@ -23,10 +23,10 @@ export class DependencyWorker {
     }
 
     public modifyAngularJsonFile(applicationPath, information) {
-        const file = this.dependencySupportWorker.readFile(applicationPath, 'angular.json')
+        const file = this.dependencySupportWorker.readFile(applicationPath, Constant.ANGULAR_JSON_FILE)
         const styleIndex = file.findIndex(x => /styles/.test(x))
         file.splice(styleIndex + 1, 0, `"${information} " , `)
-        this.dependencySupportWorker.writeStaticFile(applicationPath, 'angular.json',
+        this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.ANGULAR_JSON_FILE,
             file.join(`\n`), (response) => {
                 console.log("Response----write00---file---", response)
             })
