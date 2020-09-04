@@ -54,6 +54,29 @@ export class DockerService {
         })
     }
 
+    public generate_geppetto_compose(projectDetails, callback: CallableFunction) {
+
+        console.log("----generate_geppetto_compose");
+        const temp = {
+            project_name: projectDetails.project_lowercase,
+        }
+
+        let destination = projectDetails.localUrl + '/docker';
+        let templatePath = projectDetails.templateUrl + '/docker';
+
+        if (!fs.existsSync(destination)) {
+            fs.mkdirSync(destination);
+        }
+
+        //geppetto compose script
+        let generateDockerScript = st.loadGroup(require(templatePath + '/geppetto_compose_stg'));
+        let geppettoScript = generateDockerScript.render("geppetto_compose", [temp]);
+        fs.writeFile(destination + '/geppetto_compose.sh', geppettoScript, function (err) {
+            if (err) throw err;
+            console.log('geppetto_compose_script is generated!!')
+        })
+    }
+
     public generate_build_script_cloud(projectDetails, backendList, callback: CallableFunction) {
 
         console.log('backendList app pods in script coluds are ---  ', backendList);

@@ -141,14 +141,19 @@ export class LocalInfrastructureController {
 
     projectDetails.destinationUrl = deploymentFolder;
     // generate script for local
-      dockerService.generate_build_script_local(projectDetails, backendList, (response) => {
-        //res.send(200);
-      })
+    dockerService.generate_build_script_local(projectDetails, backendList, (response) => {
+      //res.send(200);
+    })
 
-      // generate script for docker-compose
-      dockerService.generate_docker_compose(projectDetails, backendList, (response) => {
-        //res.send(200);
-      })
+    // generate script for docker-compose
+    dockerService.generate_docker_compose(projectDetails, backendList, (response) => {
+      //res.send(200);
+    })
+
+    // generate script for docker-compose
+    dockerService.generate_geppetto_compose(projectDetails, (response) => {
+      //res.send(200);
+    })
 
     // //generate script for cloud
     // if (projectDetails.app_pod) {
