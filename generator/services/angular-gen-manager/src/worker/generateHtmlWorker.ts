@@ -7,6 +7,7 @@ import { threadId } from 'worker_threads';
 import { ComponentSpecializedWorker } from './componentSpecializedWorker';
 import { ComponentLifecycleWorker } from './componentLifecycleWorker';
 import { LinkWorker } from './linkWorker';
+import { FlowComponentWorker } from './flowComponentWorker';
 // import { styles } from '../assets/cssGuidline';
 // import { RouteSupportWorker } from '../supportworker/RouteSupportWorker';
 
@@ -15,6 +16,7 @@ let componentWorker = new ComponentWorker();
 let componentSpecializedWorker = new ComponentSpecializedWorker();
 let componentLifecyleWorker = new ComponentLifecycleWorker();
 let linkWorker = new LinkWorker();
+let flowComponentWorker = new FlowComponentWorker();
 
 export class GenerateHtmlWorker {
 
@@ -75,7 +77,9 @@ export class GenerateHtmlWorker {
         import: [],
         others: []
     }
-    private selectOption = `<option *ngFor="let option of option" [ngValue]="option.key">{{option.value}}</option>`;
+    // private selectOption = `<option *ngFor="let option of option" [ngValue]="option.key">{{option.value}}</option>`;
+    private selectOption = `<ng-select [items]="option" bindLabel="value" [searchable]="true" placeholder="Select city" [virtualScroll]="true" >
+    </ng-select>`;
     private cssGuidelines = [];
     private ckeditorEntities: any = null;
     private linkContentInfo = {
@@ -106,6 +110,8 @@ export class GenerateHtmlWorker {
     generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
         // console.log('create angular project value are ----- ', util.inspect(req.body, { showHidden: true, depth: null }));
         console.log('entering into geenerate methods are -----  ', util.inspect(metaData, { showHidden: true, depth: null }));
+        console.log("screen---details-------", screenDetails)
+        console.log("Details000------------>>>>", details)
         this.startTag = [];
         this.endTag = [];
         // component
@@ -207,11 +213,14 @@ export class GenerateHtmlWorker {
         console.log('check route generatedRouteScreens -2--- ', this.generatedRouteScreens);
         const screenIndex = this.generatedRouteScreens.findIndex(x => x.screenId == this.screenInfo._id);
         const linkIndex = this.linkedScreenInfo.findIndex(x => x.screenId == this.screenInfo._id);
-        console.log('screenIndex checkRoutes ---- ', screenIndex, ' screenid ', this.screenInfo._id);
+        console.log('screenIndex checkRoutes --11111-- ', screenIndex, ' screenid ', this.screenInfo._id);
         console.log('linkedScreen infromationare --- ', this.linkedScreenInfo, ' linkIndex ', linkIndex);
         if (screenIndex > -1) {
             const temp = this.generatedRouteScreens[screenIndex];
+            console.log("Tem---screen--flow------", temp.screenFlow)
+            console.log("Flow-----list---------", this.flowList)
             const flowObject = this.flowList.find(x => x._id == temp.screenFlow);
+
             let flowTemp = {
                 _id: '',
                 name: '',
@@ -394,7 +403,7 @@ export class GenerateHtmlWorker {
                 this.tagName = 'div';
             }
             let className = this.getClassName(firstEle);
-            
+
             // To restrict the default class coming in generated UI.
             // const defaultClassNames = componentSpecializedWorker.addClassName(this, 'class');
             // if (defaultClassNames) {
@@ -486,6 +495,7 @@ export class GenerateHtmlWorker {
             // set html traits
             console.log('passing data to set triats if condition ------   ', firstEle);
             this.setTraits(firstEle);
+
             if (this.tagName === 'input' || this.tagName === 'meta' || this.tagName === 'link') {
                 this.startString += `/>`;
             } else {
@@ -501,7 +511,7 @@ export class GenerateHtmlWorker {
         }
         componentSpecializedWorker.checkSpecialElement(this, IDName);
     }
-
+    ''
     setTraits(firstEle) {
         console.log('entering into firstelement triats ', firstEle.name);
         // if (firstEle.hasOwnProperty('traits')) {
@@ -518,7 +528,7 @@ export class GenerateHtmlWorker {
             const linkIndex = this.linkInfo.findIndex(x => x.elementName == firstEle.name);
 
             console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex, '  --routeIndex--  ', routeIndex);
-            if(firstEle.name) {
+            if (firstEle.name) {
                 this.startString += ` name=${firstEle.name}`;
             }
             // span with data binding 
@@ -561,6 +571,7 @@ export class GenerateHtmlWorker {
                 };
                 if (flowObject) {
                     this.startString += ` (${this.flowDetails[flowIndex].verb})="${flowObject.name}()"`;
+                    console.log("------------------start---string-----", this.startString)
                     flowTemp = {
                         _id: flowObject._id,
                         name: flowObject.name,
@@ -628,16 +639,21 @@ export class GenerateHtmlWorker {
         }
         // check if tag is select, yes then we need to add its option in component ts file
         if (this.tagName == 'select') {
+            console.log("I am coming---------selected---if")
             this.getSelectOptions(firstEle.components);
+            // this.setSelectGPService(firstEle.components)
+
         }
         // }
     }
 
     setComponentDependencies(flowObject, flowTemp) {
+
         // component method
         if (flowObject && !this.tsComponent.flowMethod.find(x => x._id == flowTemp._id)) {
             const componentFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_COMPONENT);
             if (componentFlow) {
+         
                 flowTemp.components = componentFlow;
             }
             this.tsComponent.flowMethod.push(flowTemp);
@@ -645,6 +661,7 @@ export class GenerateHtmlWorker {
     }
 
     setServiceDependencies(flowObject, flowTemp) {
+
         // service method
         if (flowObject && !this.serviceComponent.flowMethod.find(x => x._id == flowTemp._id)) {
             const serviceFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_SERVICE);
@@ -708,8 +725,78 @@ export class GenerateHtmlWorker {
             }
         }
     }
-
+    // array of object constrction for ts file
     getSelectOptions(optionComponent) {
+
+        //         Connector---------Type-------- default
+        // connectorElement----------------- { url: null,
+        //   isDefault: true,
+        //   isCustom: false,
+        //   isDisabled: false,
+        //   properties: [],
+        //   _id: '7cbb93e4-7877-11e9-bdb0-f73f14ce0e52',
+        //   name: 'AngularService',
+        //   description:
+        //    'default connector calling from frontend service to backend controller',
+        //   availableApi:
+        //    [ { name: null,
+        //        description: null,
+        //        type: null,
+        //        properties: [],
+        //        _id: '5f352e4c8f53eb5d4716302b' } ],
+        //   fromComponentName: 'GpAngularService',
+        //   toComponentName: 'GpExpressController',
+        //   createdAt: '2020-08-12T12:19:52.564Z',
+        //   __v: 0 }
+
+        // let connectorType = "default";
+
+        // let connector = {
+        //     url: null,
+        //     isDefault: true,
+        //     isCustom: false,
+        //     isDisabled: false,
+        //     properties: [],
+        //     _id: '7cbb93e4-7877-11e9-bdb0-f73f14ce0e52',
+        //     name: 'AngularService',
+        //     description:
+        //         'default connector calling from frontend service to backend controller',
+        //     availableApi:
+        //         [{
+        //             name: null,
+        //             description: null,
+        //             type: null,
+        //             properties: [],
+        //             _id: '5f352e4c8f53eb5d4716302b'
+        //         }],
+        //     fromComponentName: 'GpAngularService',
+        //     toComponentName: 'GpExpressController',
+
+        // }
+
+        // console.log("-----------option---componet-----", optionComponent);
+        // let tempdata = `rowData = []`
+        // let temp =
+        // {
+        //     folderName: 'screen760635',
+        //     className: 'Screen760635',
+        //     dependedComponentNames: [],
+        //     importDependency:
+        //         [{
+        //             dependencyName: 'Component, OnInit',
+        //             dependencyPath: '@angular/core'
+        //         }],
+        //     importComponent: [],
+        //     importAsteriskDependency: [],
+        //     scriptVariable: [],
+        //     componentVariable: [],
+        //     componentConstructorParams: [],
+        //     componentOnInit: [],
+        //     componentMethod: []
+        // }
+
+        // flowComponentWorker.setGpSearch("GpSearchFlow" , temp)
+
         if (optionComponent.length > 0) {
             let temp = `${Constant.SELECT_TS_OPTION_VARIABLENAME} = [`;
             optionComponent.forEach((optionElement, index) => {
@@ -722,7 +809,39 @@ export class GenerateHtmlWorker {
             this.tsComponent.variableList.push(temp);
             console.log('getselect optons list are -----  ', this.tsComponent.variableList);
         }
+
+
+
     }
+
+    // setSelectGPService(optiondata) {
+    //     // const flowIndex = this.flowDetails.findIndex(x => x.elementName == firstEle.name && x.elementName !== '');
+    //     const flowObject = this.flowList.find(x => x._id == this.flowDetails[flowIndex].flow);
+
+
+    //     let flowTemp = {
+    //         _id: '',
+    //         name: '',
+    //         label: '',
+    //         description: '',
+    //         type: '',
+    //         actionOnData: '',
+    //         createWithDefaultActivity: '',
+    //         components: []
+    //     };
+    //     // if (flowObject && !this.tsComponent.flowMethod.find(x => x._id == flowObject._id)) {
+    //     flowTemp = {
+    //         _id: flowObject._id,
+    //         name: flowObject.name,
+    //         label: flowObject.label,
+    //         description: flowObject.description,
+    //         type: flowObject.type,
+    //         actionOnData: flowObject.actionOnData,
+    //         createWithDefaultActivity: flowObject.createWithDefaultActivity,
+    //         components: []
+
+    //     }
+    // }
 
     setContent(firstEle) {
         if (firstEle.hasOwnProperty('content')) {
@@ -772,16 +891,23 @@ export class GenerateHtmlWorker {
 
 
     pushValue(firstEle) {
+
         if (this.linkContentInfo.isNgContentPresent) {
             componentSpecializedWorker.setLinkContent(this);
         } else if (this.tagName && this.tagName != 'option' &&
             !this.isContentOnly &&
             !this.isNotImportant &&
             !this.isCKeditorSpan) {
-            // console.log('pushed value tagname are -------->>>   ', this.tagName, ' ---firstEle.content---- ', firstEle.content);
             if (this.tagName == 'select') {
+
+                // const entityData = this.entityDetails.find(x => x.entityId == firstEle.entity)
+                // const entityObject = this.entities.find(x => x._id == entityData.entityId);
+                // private selectOption = `<ng-select [items]="option" bindLabel="value" [searchable]="true" placeholder="Select city" [virtualScroll]="true" >
+                //  </ng-select>`;
+
+                this.startString = ''
                 this.startString += '\n' + this.selectOption;
-                this.startString += `</${this.tagName}>`;
+                // this.startString += `</${this.tagName}>`;
                 console.log('select tagname in push values are -----  ', this.startString);
                 this.setTagValue();
             } else if (this.startString && this.tagName != 'div' && this.tagName != 'form') {

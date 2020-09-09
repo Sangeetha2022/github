@@ -35,7 +35,7 @@ export class RouteWorker {
         return this.tempRoutes;
     }
 
-    generateRouteFile(projectGenerationPath, templateLocationPath, Routes) {
+    generateRouteFile(projectGenerationPath, templateLocationPath, Routes)   {
         const temp = {
             import: {
                 dependencies: []
@@ -66,9 +66,9 @@ export class RouteWorker {
         });
     }
 
-
+                                                                                                                               
     gpStart(RoutesObj) {
-        this.tempRoutes.GpStart.dependencies = [];
+        this.tempRoutes.GpStart.dependencies = [];                                                    
         const controllerIndex = RoutesObj.import.dependencies.findIndex(x => x.path == `../controller/${this.entitySchema.fileName}Controller`);
         if (controllerIndex < 0) {
             const tempImport = {
@@ -108,40 +108,41 @@ export class RouteWorker {
     }
 
     flowRouting() {
+        console.log("Routing-------name----------", this.entitySchema)
         this.tempRoutes.function.methodName = '';
         this.tempRoutes.function.variableName = '';
         this.tempRoutes.function.routeUrl = '';
         this.tempRoutes.function.apiAction = '';
         switch (this.flowDetail.actionOnData) {
             case 'GpCreate':
-                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/save`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}`;
                 this.tempRoutes.function.apiAction = `post`;
-                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.methodName = `${this.entitySchema.fileName}_post`;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpSearch':
                 // search and getNounById both are same
                 this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/search`;
                 this.tempRoutes.function.apiAction = `get`;
-                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.methodName = `${this.entitySchema.fileName}_search`;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpUpdate':
                 this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/update`;
                 this.tempRoutes.function.apiAction = `put`;
-                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.methodName = `${this.entitySchema.fileName}_put`
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpDelete':
-                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/delete/:id`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/:id`;
                 this.tempRoutes.function.apiAction = `delete`;
-                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.methodName = `${this.entitySchema.fileName}_delete`
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpGetAllValues':
-                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/get`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}`;
                 this.tempRoutes.function.apiAction = `get`;
-                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.methodName = `${this.entitySchema.fileName}_get`;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpSearchDetail':
@@ -177,9 +178,9 @@ export class RouteWorker {
             case 'GpCustom':
                 break;
             case 'GpGetNounById':
-                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/get/:id`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/:id`;
                 this.tempRoutes.function.apiAction = `get`;
-                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
+                this.tempRoutes.function.methodName = `${this.entitySchema.fileName}_getNounById`;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpDeleteByParentId':

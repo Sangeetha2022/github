@@ -229,7 +229,8 @@ export class ComponentWorker {
                 callback();
             });
     }
-    public generateComponentModule(applicationPath, templatePath, componentName, information, callback) {
+    public generateComponentModule(applicationPath, templatePath, componentName, information,  callback) {
+
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
@@ -243,6 +244,10 @@ export class ComponentWorker {
         temp.importDependency.push({ dependencyName: 'CommonModule', dependencyPath: '@angular/common' });
         temp.importDependency.push({ dependencyName: 'RouterModule', dependencyPath: '@angular/router' });
         temp.importDependency.push({ dependencyName: 'FormsModule, ReactiveFormsModule', dependencyPath: '@angular/forms' });
+
+        //ng-selected dependy path 
+            temp.importDependency.push({dependencyName: 'NgSelectModule', dependencyPath: '@ng-select/ng-select'})
+        
         // add component class with path
         temp.importDependency.push({ dependencyName: `${temp.className}Component`, dependencyPath: `./${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}` });
 
@@ -258,9 +263,12 @@ export class ComponentWorker {
         //toaster import added
         temp.imports.push(`ToastrModule.forRoot({ preventDuplicates: true })`)
 
+        //import 
+        temp.imports.push(`NgSelectModule`) 
+
         // declarations default
         temp.declarations.push(`${temp.className}Component`)
-
+                
         // adding other component module dependencies
         temp.importDependency = temp.importDependency.concat(this.moduleComponent.importDependency);
         temp.imports = temp.imports.concat(this.moduleComponent.imports);
