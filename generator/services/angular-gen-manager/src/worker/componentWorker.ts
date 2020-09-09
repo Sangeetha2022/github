@@ -27,7 +27,17 @@ export class ComponentWorker {
         bootstrap: []
     }
 
-    private packageModule = [];
+    private angularJsonData = []
+
+    // private packageModule = [`"angular-i18next": "^5.0.6" ,`, `"angular-validation-message": "^1.1.0",`, `"angular-validation-message-i18next": "^1.1.0",`];
+    private packageModule = [
+        `"angular-i18next": "^5.0.6"`,
+        `"angular-validation-message": "^1.1.0"`,
+        `"i18next": "^14.0.1"`,
+        `"i18next-browser-languagedetector": "^2.2.4"`,
+        `"i18next-sprintf-postprocessor": "^0.2.2"`,
+        ` "i18next-xhr-backend": "^1.5.1"`
+    ]
 
     private moduleComponent = {
         importDependency: [],
@@ -305,8 +315,8 @@ export class ComponentWorker {
             microFlows.map(data => {
                 if (data.actionOnData == 'GpCreate' || data.actionOnData == 'GpUpdate') {
                     this.packageModule.push(`"ngx-toastr": "^10.1.0",`)
-                    let angularJsonData = 'node_modules/ngx-toastr/toastr.css'
-                    dependencyWorker.modifyAngularJsonFile(packagePath, angularJsonData)
+                    this.angularJsonData.push('node_modules/ngx-toastr/toastr.css')
+                    dependencyWorker.modifyAngularJsonFile(packagePath, this.angularJsonData)
                 }
             })
         }
@@ -319,10 +329,11 @@ export class ComponentWorker {
             dependencyWorker.modifyAppModuleFile(applicationPath, this.appModule);
             this.initializeAppModule();
         }
-        if (this.packageModule.length > 0) {
-            dependencyWorker.modifyPackageFile(packagePath, this.packageModule);
-            this.initializePackageModule();
-        }
+        // if (this.packageModule.length > 0) {
+        console.log(`package json -------`, this.packageModule)
+        dependencyWorker.modifyPackageFile(packagePath, this.packageModule);
+        this.initializePackageModule();
+        // }
         if (globalStyle.import.length > 0 || globalStyle.others.length > 0) {
             dependencyWorker.modifyGlobalStyles(srcPath, globalStyle);
             this.initializeOtherInfo();

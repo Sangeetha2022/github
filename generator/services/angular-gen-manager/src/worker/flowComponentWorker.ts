@@ -74,9 +74,6 @@ export class FlowComponentWorker {
         }
     }
 
-
-
-
     // to check service connector and get those information to construct the method in ts component
     checkServiceConnector() {
         const connector = this.flowServiceWorker.serviceConnectorInfo(this.currentFlow._id);
@@ -221,10 +218,7 @@ export class FlowComponentWorker {
                     createTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[this.componentObject.variableList.findIndex(x => x.entityName != undefined)].entityName})`;
                     createTemp += `\n  .subscribe(`;
                     createTemp += `\n    data => {`;
-                    createTemp += `\n              this.toastr.success('data save sucessfully', {
-                        closeButton: true,
-                        disableTimeOut: true
-                      }); `
+                    createTemp += `\n              this.toastr.success('data save sucessfully')`
                     createTemp += `\n       console.log('data created successfully');`;
                     if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
                         createTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
@@ -232,10 +226,7 @@ export class FlowComponentWorker {
                     } else { }
                     createTemp += `\n    },`;
                     createTemp += `\n    error => {`;
-                    createTemp += `\n             this.toastr.error('Failed to data save', {
-                        closeButton: true,
-                        disableTimeOut: true
-                      });`
+                    createTemp += `\n             this.toastr.error('Failed to data save')`
                     createTemp += `\n       console.log('cannot able to create the data');`;
                     createTemp += `\n    }`;
                     createTemp += `\n    );`;
@@ -308,12 +299,12 @@ export class FlowComponentWorker {
                     updateTemp += `\n    );`;
                     // calling constructor methods
                     this.addConstructor(`${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}`, serviceClassName);
-
+3
                     // calling component headers
                     this.componentHeaders(headers.className, headers.path);
                 }
-                updateTemp += `\n}`;
-                // component methods
+                updateTemp += `\n}`; 
+                // component methods6
                 this.componentFileDetails.componentMethod.push(updateTemp);
                 // console.log('update component are -----  ', updateTemp);
                 break;
