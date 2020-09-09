@@ -125,7 +125,41 @@ export class ControllerWorker {
                 }
             });
         if (GpServiceCall !== undefined) {
-            this.tempController.function.methodName = this.flowDetail.actionOnData;
+
+            switch (this.flowDetail.actionOnData) {
+                case 'GpCreate':
+                    this.tempController.function.methodName = `${this.entitySchema.fileName}_post`
+                    break;
+
+                case 'GpGetAllValues':
+                    this.tempController.function.methodName = `${this.entitySchema.fileName}_get`
+                    break;
+
+                case 'GpUpdate':
+                    this.tempController.function.methodName = `${this.entitySchema.fileName}_put`
+                    break;
+
+                case 'GpDelete':
+                    this.tempController.function.methodName = `${this.entitySchema.fileName}_delete`
+                    break;
+
+                case 'GpSearch' :
+                    this.tempController.function.methodName = `${this.entitySchema.fileName}_search`
+                    break;
+
+                case 'GpGetNounById':
+                    this.tempController.function.methodName = `${this.entitySchema.fileName}_getNounById`
+                    break;
+
+
+                default:
+                    this.tempController.function.methodName = this.flowDetail.actionOnData
+                    break;
+
+
+            }
+
+            // this.tempController.function.methodName = this.flowDetail.actionOnData;
         }
     }
 
