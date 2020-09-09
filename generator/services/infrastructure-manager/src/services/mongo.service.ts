@@ -5,7 +5,7 @@ import * as st from 'stringtemplate-js';
 export class MongoService {
 
     generate_mongo_script_local(projectDetails, callback: CallableFunction) {
-        let destination = projectDetails.projectUrl + '/devops';
+        let destination = projectDetails.projectUrl + '/devops/local/docker/';
         let templatePath = projectDetails.templateUrl + '/mongo';
 
         if (!fs.existsSync(destination)) {
@@ -15,7 +15,7 @@ export class MongoService {
         //generate script cloud
         let generateMongoScript = st.loadGroup(require(templatePath + '/mongoscript_stg'));
         let mongoScript = generateMongoScript.render("mongoscript");
-        fs.writeFile(destination + '/mongoscript', mongoScript, function (err) {
+        fs.writeFile(destination + '/mongo.js', mongoScript, function (err) {
             if (err) throw err;
             console.log('mongo script for local is generated!!')
         })

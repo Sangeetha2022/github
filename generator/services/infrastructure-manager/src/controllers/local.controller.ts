@@ -39,7 +39,7 @@ export class LocalInfrastructureController {
   public generateInfrastructureLocal(req: Request, res: Response) {
 
     const projectDetails = req.body
-    console.log('this values are ---- ', this);
+    // console.log('this values are ---- ', this);
     const backendList = [];
     //projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
     //projectDetails.project_lowercase = projectDetails.project.toLowerCase();
@@ -140,12 +140,20 @@ export class LocalInfrastructureController {
 
 
     projectDetails.destinationUrl = deploymentFolder;
-    //generate script for local
-    // if (projectDetails.system_entry_pod) {
-    //   dockerService.generate_build_script_local(projectDetails, backendList, (response) => {
-    //     //res.send(200);
-    //   })
-    // }
+    // generate script for local
+    dockerService.generate_build_script_local(projectDetails, backendList, (response) => {
+      //res.send(200);
+    })
+
+    // generate script for docker-compose
+    dockerService.generate_docker_compose(projectDetails, backendList, (response) => {
+      //res.send(200);
+    })
+
+    // generate script for docker-compose
+    dockerService.generate_geppetto_compose(projectDetails, (response) => {
+      //res.send(200);
+    })
 
     // //generate script for cloud
     // if (projectDetails.app_pod) {
