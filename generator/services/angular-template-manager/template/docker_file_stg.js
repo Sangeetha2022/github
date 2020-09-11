@@ -1,6 +1,6 @@
 /*
  * Template group docker_file
- * Compiled on Wed Jul 10 2019 11:39:16 GMT+0530 (India Standard Time)
+ * Compiled on Fri Sep 11 2020 15:47:23 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -23,17 +23,27 @@ r = function(w, rc) {
     var g = this.owningGroup,
         s = this.scope;
     
-    w.write("FROM nginx");
+    w.write("FROM node:10.14.2");
     w.write("\n");
-    w.write("RUN rm -rf /usr/share/nginx/html/*");
+    w.write("COPY . /app");
     w.write("\n");
-    w.write("COPY /dist/");
+    w.write("WORKDIR /app");
+    w.write("\n");
+    w.write("RUN npm install");
+    w.write("\n");
+    w.write("RUN npm install -g @angular/cli");
+    w.write("\n");
+    w.write("RUN npm install -g serve");
+    w.write("\n");
+    w.write("RUN npm install -g concurrently");
+    w.write("\n");
+    w.write("RUN npm upgrade -g @angular/cli");
+    w.write("\n");
+    w.write("CMD ng build  && concurrently \"ng build --watch\" \"serve dist/");
     st.write(w, s, g, rc, s.filename);
-    w.write(" /usr/share/nginx/html");
+    w.write("\"");
     w.write("\n");
-    w.write("COPY /nginx /etc/nginx/conf.d/");
-    w.write("\n");
-    w.write("CMD [\"nginx\", \"-g\", \"daemon off;\"]");
+    w.write("EXPOSE 5000");
     w.write("\n");
 };
 r.args = [

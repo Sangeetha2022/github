@@ -1,6 +1,6 @@
 /*
  * Template group geppetto_compose
- * Compiled on Fri Sep 04 2020 00:29:42 GMT+0530 (India Standard Time)
+ * Compiled on Fri Sep 11 2020 18:00:51 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -80,8 +80,8 @@ r = function(w, rc) {
     w.write("docker run --name ");
     w.popIndentation();
     st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 26, column: 43 }));
-    w.write("ui --restart=unless-stopped -d -p 5055:5000 -v applicationnew:/app ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 26, column: 139 }));
+    w.write("ui --restart=unless-stopped -d -p 5055:5000 ");
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 26, column: 116 }));
     w.write("ui");
     w.write("\n");
     w.pushIndentation("         ");
@@ -94,34 +94,6 @@ r = function(w, rc) {
     w.write("\n");
     w.write("\n");
     w.pushIndentation("         ");
-    w.write("cd $ACOUSTICSPATH");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("         ");
-    w.write("echo \"Building acoustic node....\"");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("         ");
-    w.write("docker build -t acousticmanager .");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("         ");
-    w.write("docker run --name acousticmanager --restart=unless-stopped -d -p 3015:3015 -v applicationnew:/code --env-file=$ENVPATH acousticmanager");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("         ");
-    w.write("cd $CDNMANAGER");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("         ");
-    w.write("docker build -t cdnmanager .");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("         ");
-    w.write("docker run --name cdnmanager --restart=unless-stopped -d -p 3111:3111 -v applicationnew:/code --env-file=$ENVPATH --link acousticmanager cdnmanager");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("         ");
     w.write("cd $COMPOSEPATH");
     w.popIndentation();
     w.write("\n");
@@ -129,16 +101,8 @@ r = function(w, rc) {
     w.write("docker-compose up -d --build");
     w.popIndentation();
     w.write("\n");
-    w.pushIndentation("     ");
-    w.write("#     sleep 30");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("     ");
-    w.write("#     curl -i -X POST -H \"Content-Type: multipart/form-data\" -F \"data=@$DMN\" -F \"deployment-name=gep_authorize\" -F \"enable-duplicate-filtering=true\" -F \"deploy-changed-only=true\" http://localhost:8080/engine-rest/deployment/create");
-    w.popIndentation();
-    w.write("\n");
     w.pushIndentation("         ");
-    w.write("echo \"uploading the mongo script.....\"");
+    w.write("echo \"uploading the mongo script...\"");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");

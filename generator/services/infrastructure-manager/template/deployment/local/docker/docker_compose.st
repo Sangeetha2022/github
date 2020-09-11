@@ -5,8 +5,11 @@ services:
     image: geppettotest/mongo-local:april2020
     container_name: mongo
     restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
     volumes:
-      - quotematic-volume:/data/db
+      - $projectdetails.project_name$-volume:/data/db
     ports:
       - "27018:27017"
     healthcheck:
@@ -67,18 +70,10 @@ services:
       - camundaservice
       - authproxy
       - securitymanager
-      - adminmanager
 $if(projectdetails.custom_node)$$projectdetails.custom_node:{custom_node | 
 $\ $$\ $$\ $$\ $$\ $$\ $- $custom_node.name$
 };separator=""$$endif$
 
-  adminmanager:
-    build: ../../../application/services/custom_services/adminmanager
-    image: adminmanager
-    container_name: adminmanager
-    ports:
-      - "3010:3010"
-    env_file: ../../../application/services/.env
 
 $if(projectdetails.custom_node)$$projectdetails.custom_node:{custom_node | 
 $\ $$\ $$custom_node.name$: 

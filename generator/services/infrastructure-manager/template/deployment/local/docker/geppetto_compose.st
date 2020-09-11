@@ -23,22 +23,13 @@ do
          echo "Creating new docker images and containers"
          cd \$DESKTOPCODE
          docker build -t $projectdetails.project_name$ui .
-         docker run --name $projectdetails.project_name$ui --restart=unless-stopped -d -p 5055:5000 -v applicationnew:/app $projectdetails.project_name$ui
+         docker run --name $projectdetails.project_name$ui --restart=unless-stopped -d -p 5055:5000 $projectdetails.project_name$ui
          sleep 15
          echo "UI build is done..."
 
-         cd \$ACOUSTICSPATH
-         echo "Building acoustic node...."
-         docker build -t acousticmanager .
-         docker run --name acousticmanager --restart=unless-stopped -d -p 3015:3015 -v applicationnew:/code --env-file=\$ENVPATH acousticmanager
-         cd \$CDNMANAGER
-         docker build -t cdnmanager .
-         docker run --name cdnmanager --restart=unless-stopped -d -p 3111:3111 -v applicationnew:/code --env-file=\$ENVPATH --link acousticmanager cdnmanager
          cd \$COMPOSEPATH
          docker-compose up -d --build
-     #     sleep 30
-     #     curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@\$DMN" -F "deployment-name=gep_authorize" -F "enable-duplicate-filtering=true" -F "deploy-changed-only=true" http://localhost:8080/engine-rest/deployment/create
-         echo "uploading the mongo script....."
+         echo "uploading the mongo script..."
          sleep 50
          docker cp \$MONGOPATH mongo:/data/db/
          docker exec -ti mongo mongo -u admin -p 'password' --authenticationDatabase 'admin' quoteomatictest /data/db/mongo.js
