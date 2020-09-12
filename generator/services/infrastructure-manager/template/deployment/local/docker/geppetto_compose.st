@@ -1,17 +1,9 @@
 geppetto_compose(projectdetails) ::= <<
 #!bin/bash
 
-MONGOPATH='../docker/mongo.js'
-
-# DMN='../../../application/services/default_services/camunda/Gep_authorize2.dmn'
-
 DESKTOPCODE='../../../application/client/desktop/$projectdetails.project_name$'
 
-COMPOSEPATH='../../../../devops/local/docker-compose/'
-
-ACOUSTICSPATH='../../../services/custom_services/wcmx-acoustic/'
-
-CDNMANAGER='../cdn-manager/'
+COMPOSEPATH='../../../../devops/local/docker/'
 
 ENVPATH='../../.env'
 
@@ -22,6 +14,10 @@ do
     c)  
          echo "Creating new docker images and containers"
          cd \$DESKTOPCODE
+         npm install
+         # if directory is exist
+         [ -d "\$(pwd)/dist" ] && rm -rf dist
+         ng build
          docker build -t $projectdetails.project_name$ui .
          docker run --name $projectdetails.project_name$ui --restart=unless-stopped -d -p 5055:5000 $projectdetails.project_name$ui
          sleep 15
@@ -31,7 +27,7 @@ do
          docker-compose up -d --build
          echo "uploading the mongo script..."
          sleep 50
-         docker cp \$MONGOPATH mongo:/data/db/
+         docker cp mongo.js mongo:/data/db/
          docker exec -ti mongo mongo -u admin -p 'password' --authenticationDatabase 'admin' quoteomatictest /data/db/mongo.js
          sleep 10
          echo "Process completed"

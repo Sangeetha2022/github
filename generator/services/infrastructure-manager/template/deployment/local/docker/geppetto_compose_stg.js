@@ -1,6 +1,6 @@
 /*
  * Template group geppetto_compose
- * Compiled on Fri Sep 11 2020 18:00:51 GMT+0530 (India Standard Time)
+ * Compiled on Fri Sep 11 2020 20:50:15 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -26,24 +26,12 @@ r = function(w, rc) {
     w.write("#!bin/bash");
     w.write("\n");
     w.write("\n");
-    w.write("MONGOPATH='../docker/mongo.js'");
-    w.write("\n");
-    w.write("\n");
-    w.write("# DMN='../../../application/services/default_services/camunda/Gep_authorize2.dmn'");
-    w.write("\n");
-    w.write("\n");
     w.write("DESKTOPCODE='../../../application/client/desktop/");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 8, column: 65 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 4, column: 65 }));
     w.write("'");
     w.write("\n");
     w.write("\n");
-    w.write("COMPOSEPATH='../../../../devops/local/docker-compose/'");
-    w.write("\n");
-    w.write("\n");
-    w.write("ACOUSTICSPATH='../../../services/custom_services/wcmx-acoustic/'");
-    w.write("\n");
-    w.write("\n");
-    w.write("CDNMANAGER='../cdn-manager/'");
+    w.write("COMPOSEPATH='../../../../devops/local/docker/'");
     w.write("\n");
     w.write("\n");
     w.write("ENVPATH='../../.env'");
@@ -71,17 +59,33 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");
+    w.write("npm install");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("         ");
+    w.write("# if directory is exist");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("         ");
+    w.write("[ -d \"$(pwd)/dist\" ] && rm -rf dist");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("         ");
+    w.write("ng build");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("         ");
     w.write("docker build -t ");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 25, column: 41 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 21, column: 41 }));
     w.write("ui .");
     w.write("\n");
     w.pushIndentation("         ");
     w.write("docker run --name ");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 26, column: 43 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 22, column: 43 }));
     w.write("ui --restart=unless-stopped -d -p 5055:5000 ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 26, column: 116 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 22, column: 116 }));
     w.write("ui");
     w.write("\n");
     w.pushIndentation("         ");
@@ -110,7 +114,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");
-    w.write("docker cp $MONGOPATH mongo:/data/db/");
+    w.write("docker cp mongo.js mongo:/data/db/");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");

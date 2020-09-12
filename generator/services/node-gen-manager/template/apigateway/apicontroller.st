@@ -38,7 +38,7 @@ $if(object.additional.camunda.login)$
                           $if(object.additional.camunda.isVerify)$
             jwt.verify(token, 'geppettosecret', (err, decoded) => {
                 if (err) {
-                    return ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
+                    res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
                 } else {
                     new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded).then((response) => {
                         const temp = {
@@ -68,7 +68,7 @@ $if(object.additional.camunda.consent)$
             $if(object.additional.camunda.isVerify)$
             jwt.verify(token, 'geppettosecret', (err, decoded) => {
                 if (err) {
-                    return ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
+                    res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
                 } else {
                     new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded).then((response) => {
                         const temp = {

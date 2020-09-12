@@ -1,6 +1,6 @@
 /*
  * Template group apicontroller
- * Compiled on Fri Aug 23 2019 19:04:34 GMT+0530 (IST)
+ * Compiled on Sat Sep 12 2020 13:41:19 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -294,7 +294,7 @@ r = function(w, rc) {
             w.popIndentation();
             w.write("\n");
             w.pushIndentation("                    ");
-            w.write("return ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });");
+            w.write("res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });");
             w.popIndentation();
             w.write("\n");
             w.pushIndentation("                ");
@@ -440,7 +440,7 @@ r = function(w, rc) {
             w.popIndentation();
             w.write("\n");
             w.pushIndentation("                    ");
-            w.write("return ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });");
+            w.write("res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });");
             w.popIndentation();
             w.write("\n");
             w.pushIndentation("                ");
