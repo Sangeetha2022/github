@@ -133,6 +133,32 @@ export class NodeService {
     //     flowAction: []
     // }
 
+    initializeSwaggerVariable() {
+        this.swagger = [];
+        this.swaggerObj = {
+            details: {
+                name: '',
+                version: '',
+                projectName: '',
+                featureName: '',
+                contactName: '',
+                contactEmail: '',
+                contactUrl: '',
+                licenseName: '',
+                licenseUrl: '',
+                termsOfService: ''
+            },
+            projectName: '',
+            featureName: '',
+            projectPath: '',
+            nodePortNumber: '',
+            servers: [],
+            tags: [],
+            paths: [],
+            components: []
+        }
+    }
+
     initalizeDaoVariable() {
         // controller
 
@@ -1118,7 +1144,7 @@ export class NodeService {
                                 }
                                 swaggerTemp.parameters.push(paramObject)
                             }
-                            else if (swaggerTemp.method !== 'get'){
+                            else if (swaggerTemp.method !== 'get') {
                                 let paramObject = {
                                     requestBody: 'requestBody',
                                     description: swaggerTemp.description,
@@ -1192,7 +1218,9 @@ export class NodeService {
                         routeWorker.generateRouteFile(projectGenerationPath, templateLocation, this.route);
                         console.log('route file of values are -------- ', util.inspect(this.route, { showHidden: true, depth: null }));
                         console.log('swagger object', this.swaggerObj);
-                        swaggerGen.createSwaggerFile(this.swaggerObj, (response) => { swaggerResponse = response; });
+                        swaggerGen.createSwaggerFile(this.swaggerObj, (response) => { swaggerResponse = response;
+                            this.initializeSwaggerVariable();
+                        });
 
                         // common worker
                         this.packageObj.name = featureName;
