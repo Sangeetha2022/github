@@ -198,29 +198,6 @@ export class NodeService {
             flowAction: []
         }
 
-        this.swaggerObj = {
-            projectPath: '',
-            details: {
-                name: '',
-                version: '',
-                projectName: '',
-                featureName: '',
-                contactName: '',
-                contactEmail: '',
-                contactUrl: '',
-                licenseName: '',
-                licenseUrl: '',
-                termsOfService: ''
-            },
-            projectName: '',
-            featureName: '',
-            servers: [],
-            tags: [],
-            paths: [],
-            nodePortNumber: '',
-            components: []
-        }
-
     }
 
     public async createProjectNode(req: Request, callback) {
@@ -1161,7 +1138,6 @@ export class NodeService {
                                 { statuscode: '500', description: 'Internal Server Error' }
                             ]
                             this.swaggerObj.paths.push(swaggerTemp);
-                            console.log('swagger object paths', this.swaggerObj.paths);
                             count++;
                             flowNext();
                         }, (err) => {
