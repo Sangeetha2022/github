@@ -37,6 +37,7 @@ export class Constants {
     public static angularTemplateGenUrl: String;
     public static githubUrl: String;
     public static authgenUrl: String;
+    public static swaggerGenUrl: String;
     // public static apiGatewayURL: String;
 
     constructor() {
@@ -115,6 +116,7 @@ export class Constants {
                 Constants.angularTemplateGenUrl = Constants.generationUrl + ":5015";
                 Constants.githubUrl = Constants.generationUrl + ":5016";
                 Constants.authgenUrl = Constants.generationUrl + ":5017";
+                Constants.swaggerGenUrl = Constants.generationUrl + ":5020";
 
                 break;
         }
