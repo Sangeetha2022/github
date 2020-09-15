@@ -23,3 +23,22 @@ export class Brodcastservice {
 
 
 }
+
+@Injectable({
+    providedIn: 'root'
+})
+
+export class Dataservice {
+
+    constructor() {
+
+    }
+    private datasource = new BehaviorSubject<{}>({});
+
+    public data = this.datasource.asObservable();
+
+    updateDataselection(data: any) {
+        this.datasource.next(data);
+      }
+
+}

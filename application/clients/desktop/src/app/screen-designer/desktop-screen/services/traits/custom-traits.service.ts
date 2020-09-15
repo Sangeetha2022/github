@@ -292,7 +292,8 @@ export class CustomTraitsService {
                                     return (el.name.toLowerCase() !== 'createdat' &&
                                         el.name.toLowerCase() !== 'updatedat');
                                 });
-                                /* This is where we find the field of the selected html template and bind it with ngModel value for details refer #381 in github developer is Kishan 19May2020*/
+                                /* This is where we find the field of the selected html template and bind it with ngModel
+                                value for details refer #381 in github developer is Kishan 19May2020*/
                                 if (matchentity !== undefined && matchentity !== null) {
                                     $this.entityFields.entityfieldname = matchentity.fields.name;
                                     $this.entityFields.entityId = matchentity.entityId;

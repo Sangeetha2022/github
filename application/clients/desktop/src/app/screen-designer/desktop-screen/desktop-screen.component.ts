@@ -39,6 +39,8 @@ import {
   group
 } from '@angular/animations';
 
+import { Dataservice } from '../../broadcast.service';
+
 declare var grapesjs: any;
 @Component({
   selector: 'app-desktop-screen',
@@ -221,6 +223,7 @@ export class DesktopScreenComponent implements OnInit {
     elementName: ''
   };
 
+  specific_attribute_Event: any [] = [];
   public paramArray: any = [];
 
   // public linkInformation: any = {
@@ -269,6 +272,7 @@ export class DesktopScreenComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private ref: ChangeDetectorRef,
+    public broadcast: Dataservice
   ) {
     this.columnDefs = [
       {
@@ -293,6 +297,13 @@ export class DesktopScreenComponent implements OnInit {
       sortable: true,
       filter: true
     };
+
+    this.broadcast.data.subscribe(eventchange => {
+      console.log('eventchange value trigger value-----------', typeof eventchange);
+      if (Object.keys(eventchange).length !== 0) {
+        this.saveEventdetails(eventchange);
+      }
+    });
   }
 
   ngOnInit() {
@@ -773,7 +784,8 @@ export class DesktopScreenComponent implements OnInit {
       project: this.project_id,
       feature: this.feature_id,
       screenType: this.screenType,
-      screenOption: this.screenOption
+      screenOption: this.screenOption,
+      specific_attribute_Event: this.specific_attribute_Event
     });
   }
 
@@ -1346,7 +1358,21 @@ export class DesktopScreenComponent implements OnInit {
       }
     );
 
+    console.log('--------dynamicdropdown----->>>>', this.traitsName, EntityBinding);
 
+    // dynamic dropdown
+    this.editor.DomComponents.getType(
+      'dynamicdropdown-type'
+    ).model.prototype.defaults.traits.push(
+      {
+        type: 'select',
+        label: this.traitsName,
+        name: this.traitsName,
+        options: EntityBinding,
+        changeProp: 1
+      },
+
+    );
 
     // radio traits
     this.editor.DomComponents.getType(
@@ -1591,7 +1617,7 @@ export class DesktopScreenComponent implements OnInit {
     this.blockService.addDownload(this.editor);
     this.blockService.addPopupModal(this.editor);
     this.blockService.addSpecialDropdown(this.editor);
-    this.blockService.addSpecialDropdown(this.editor);
+    this.blockService.dynamicDropdown(this.editor);
     this.blockService.addSpecialCharts(this.editor);
     this.addGridBlocks();
   }
@@ -1616,13 +1642,13 @@ export class DesktopScreenComponent implements OnInit {
   }
 
   editorCommands() {
+    console.log('-------draganddrop-----this', this);
     this.commandService.componentSelected(this);
     this.commandService.toggle(this);
     this.commandService.removeComponent(this);
     this.commandService.updateComponentName(this);
     this.commandService.updateTraits(this);
     this.commandService.dragAndDrop(this);
-    console.log('-------draganddrop-----this', this);
   }
 
   saveLinkDetails() {
@@ -1981,5 +2007,26 @@ export class DesktopScreenComponent implements OnInit {
   toggleMapping() {
     this.isMappingGrid = !this.isMappingGrid;
     this.ref.detectChanges();
+  }
+
+
+  saveEventdetails(value) {
+    const eventObj = {
+      htmlId: '',
+      componentId: '',
+      elementName: '',
+      selected_event: '',
+    };
+
+
+    const traitsvalue = value.event.traits;
+    eventObj.htmlId = value.event.htmlId ;
+    eventObj.componentId = value.event.componentId;
+    eventObj.elementName = value.event.elementname;
+    eventObj.selected_event = value.event.value;
+
+    console.log('---------value-----', eventObj);
+    this.specific_attribute_Event.push(eventObj);
+    this.saveRemoteStorage();
   }
 }
