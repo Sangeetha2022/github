@@ -80,6 +80,7 @@ export class Constants {
                 Constants.angularTemplateGenUrl = process.env.angtemplatemanager + ":5015";
                 Constants.githubUrl = process.env.githubmanager + ":5016";
                 Constants.authgenUrl = process.env.authgenmanager + ":5017";
+                Constants.swaggerGenUrl = process.env.swaggermanager + ":5020";
 
                 break;
 
