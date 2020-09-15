@@ -37,6 +37,7 @@ export class Constants {
     public static angularTemplateGenUrl: String;
     public static githubUrl: String;
     public static authgenUrl: String;
+    public static swaggerGenUrl: String;
     // public static apiGatewayURL: String;
 
     constructor() {
@@ -79,6 +80,7 @@ export class Constants {
                 Constants.angularTemplateGenUrl = process.env.angtemplatemanager + ":5015";
                 Constants.githubUrl = process.env.githubmanager + ":5016";
                 Constants.authgenUrl = process.env.authgenmanager + ":5017";
+                Constants.swaggerGenUrl = process.env.swaggermanager + ":5020";
 
                 break;
 
@@ -115,6 +117,7 @@ export class Constants {
                 Constants.angularTemplateGenUrl = Constants.generationUrl + ":5015";
                 Constants.githubUrl = Constants.generationUrl + ":5016";
                 Constants.authgenUrl = Constants.generationUrl + ":5017";
+                Constants.swaggerGenUrl = Constants.generationUrl + ":5020";
 
                 break;
         }

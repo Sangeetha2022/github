@@ -34,7 +34,8 @@ import {
     TemplateController,
     customConnectors,
     DeleteManagerController,
-    SharedController
+    SharedController,
+    SwaggerController
 
 
 } from './apicontroller';
@@ -71,7 +72,8 @@ let apisController = [
     new TemplateController(),
     new customConnectors(),
     new DeleteManagerController(),
-    new SharedController()
+    new SharedController(),
+    new SwaggerController()
 ]
 
 class App {

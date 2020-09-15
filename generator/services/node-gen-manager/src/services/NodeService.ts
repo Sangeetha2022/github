@@ -1,11 +1,14 @@
 import { Request, response } from 'express';
+import * as express from 'express';
 import * as util from 'util';
 import * as asyncLoop from 'node-async-loop';
 import { ServiceWorker } from '../worker/ServiceWorker';
 import { ControllerWorker } from '../worker/ControllerWorker';
 import { DaoWorker } from '../worker/DaoWorker';
 import { RouteWorker } from '../worker/RouteWorker';
+import { SwaggerGenManagerService } from '../apiservices/SwaggerGenManagerService';
 import { CommonWorker } from '../worker/CommonWorker';
+import * as Constants from '../config/Constants';
 import { resolve } from 'dns';
 import { AttachmentWorker } from '../worker/AttachmentWorker';
 
@@ -15,6 +18,8 @@ let daoWorker = new DaoWorker();
 let routeWorker = new RouteWorker();
 let commonWorker = new CommonWorker();
 let attachWorker = new AttachmentWorker
+let swaggerGen = new SwaggerGenManagerService();
+let app = express();
 
 export class NodeService {
 
@@ -89,6 +94,30 @@ export class NodeService {
         flowAction: []
     }
 
+    private swagger = [];
+    private swaggerObj = {
+        details: {
+            name: '',
+            version: '',
+            projectName: '',
+            featureName: '',
+            contactName: '',
+            contactEmail: '',
+            contactUrl: '',
+            licenseName: '',
+            licenseUrl: '',
+            termsOfService: ''
+        },
+        projectName: '',
+        featureName: '',
+        projectPath: '',
+        nodePortNumber: '',
+        servers: [],
+        tags: [],
+        paths: [],
+        components: []
+    }
+
     // packageJson
     private packageObj = {
         name: '',
@@ -103,6 +132,32 @@ export class NodeService {
     //     entityFileName: '',
     //     flowAction: []
     // }
+
+    initializeSwaggerVariable() {
+        this.swagger = [];
+        this.swaggerObj = {
+            details: {
+                name: '',
+                version: '',
+                projectName: '',
+                featureName: '',
+                contactName: '',
+                contactEmail: '',
+                contactUrl: '',
+                licenseName: '',
+                licenseUrl: '',
+                termsOfService: ''
+            },
+            projectName: '',
+            featureName: '',
+            projectPath: '',
+            nodePortNumber: '',
+            servers: [],
+            tags: [],
+            paths: [],
+            components: []
+        }
+    }
 
     initalizeDaoVariable() {
         // controller
@@ -880,7 +935,7 @@ export class NodeService {
             callback('No Schema has been found');
         } else {
             try {
-                asyncLoop(EntitySchema, (entityElement, entityNext) => {
+                asyncLoop(EntitySchema, async (entityElement, entityNext) => {
                     // initial
                     this.initalizeDaoVariable();
 
@@ -917,7 +972,7 @@ export class NodeService {
                         entityNext();
                     } else {
                         let count = 0;
-                        asyncLoop(details.flows, (flowElement, flowNext) => {
+                        asyncLoop(details.flows, async (flowElement, flowNext) => {
 
                             const gpController = details.flows[count].components.find(
                                 function (element, index, array) {
@@ -1039,6 +1094,76 @@ export class NodeService {
                             routeTemp.methodName = route.function.methodName;
                             routeTemp.variableName = route.function.variableName;
                             this.routeObj.flowAction.push(routeTemp);
+
+                            const swaggerTemp = {
+                                endpoint: '',
+                                method: '',
+                                description: '',
+                                tags: '',
+                                parameters: [],
+                                responses: []
+                            }
+                            console.log('swagger')
+                            swaggerTemp.endpoint = route.function.routeUrl;
+                            let checkingPathParam = swaggerTemp.endpoint.includes(':');
+                            let checkingQueryParam = swaggerTemp.endpoint.includes('?');
+                            swaggerTemp.method = route.function.apiAction;
+                            swaggerTemp.description = route.function.methodName;
+                            swaggerTemp.tags = route.function.variableName;
+                            if (checkingPathParam == true) {
+                                let pathParams = [];
+                                let endpoint = swaggerTemp.endpoint;
+                                let splitted = endpoint.split('/');
+                                splitted.forEach(data => {
+                                    if (data.charAt(0) === ':') {
+                                        pathParams.push(data);
+                                        let changedString = data.replace(':', '');
+                                        swaggerTemp.endpoint = endpoint.replace(data, `{${changedString}}`)
+                                    }
+                                })
+                                let paramObject = {
+                                    in: 'path',
+                                    description: swaggerTemp.description,
+                                    name: 'id',
+                                    schema: 'schema',
+                                    required: true,
+                                    ref: 'type',
+                                    reference: 'string'
+                                }
+                                swaggerTemp.parameters.push(paramObject)
+                            }
+                            else if (checkingQueryParam == true) {
+                                let paramObject = {
+                                    in: 'query',
+                                    description: swaggerTemp.description,
+                                    name: 'id',
+                                    required: true,
+                                    schema: 'schema',
+                                    ref: '$ref',
+                                    reference: `#/components/schemas/${swaggerTemp.tags}`
+                                }
+                                swaggerTemp.parameters.push(paramObject)
+                            }
+                            else if (swaggerTemp.method !== 'get') {
+                                let paramObject = {
+                                    requestBody: 'requestBody',
+                                    description: swaggerTemp.description,
+                                    name: swaggerTemp.tags,
+                                    content: 'application/json',
+                                    schema: 'schema',
+                                    required: true,
+                                    ref: '$ref',
+                                    reference: `#/components/schemas/${swaggerTemp.tags}`
+                                }
+                                swaggerTemp.parameters.push(paramObject)
+                            }
+                            swaggerTemp.responses = [
+                                { statuscode: '200', description: 'Success' },
+                                { statuscode: '400', description: 'Bad Request' },
+                                { statuscode: '404', description: 'Not Found' },
+                                { statuscode: '500', description: 'Internal Server Error' }
+                            ]
+                            this.swaggerObj.paths.push(swaggerTemp);
                             count++;
                             flowNext();
                         }, (err) => {
@@ -1055,15 +1180,47 @@ export class NodeService {
                     }
 
 
-                }, (entityError) => {
+                }, async (entityError) => {
                     if (entityError) {
 
                     } else {
+                        let swaggerResponse: any;
+                        let entities = req.body.entities;
+                        this.swaggerObj.projectPath = projectGenerationPath;
+                        this.swaggerObj.featureName = featureName;
+                        this.swaggerObj.nodePortNumber = port;
+                        const url = Constants.LOCALURL + port;
+                        const serverObj = {
+                            url: url,
+                            description: featureName
+                        }
+                        this.swaggerObj.details.featureName = featureName;
+                        this.swaggerObj.details.projectName = projectName;
+                        this.swaggerObj.details.version = Constants.SWAGGERBASEDETAILS.version;
+                        this.swaggerObj.details.contactName = Constants.SWAGGERBASEDETAILS.contactName;
+                        this.swaggerObj.details.contactEmail = Constants.SWAGGERBASEDETAILS.contactEmail;
+                        this.swaggerObj.details.contactUrl = Constants.SWAGGERBASEDETAILS.contactUrl;
+                        this.swaggerObj.details.licenseName = Constants.SWAGGERBASEDETAILS.licenseName;
+                        this.swaggerObj.details.licenseUrl = Constants.SWAGGERBASEDETAILS.licenseUrl;
+                        this.swaggerObj.details.termsOfService = Constants.SWAGGERBASEDETAILS.termsOfService;
+                        this.swaggerObj.servers.push(serverObj);
+                        entities.forEach(entity => {
+                            entity.type = 'object';
+                            entity.field.forEach(field => {
+                                field.data_type = field.data_type.toLowerCase();
+                            })
+                            this.swaggerObj.components.push(entity);
+                            this.swaggerObj.tags.push(entity);
+                        })
                         controllerWorker.generateControllerFile(projectGenerationPath, templateLocation, this.controller);
                         serviceWorker.generateServiceFile(projectGenerationPath, templateLocation, this.service);
                         daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
                         routeWorker.generateRouteFile(projectGenerationPath, templateLocation, this.route);
                         console.log('route file of values are -------- ', util.inspect(this.route, { showHidden: true, depth: null }));
+                        console.log('swagger object', this.swaggerObj);
+                        swaggerGen.createSwaggerFile(this.swaggerObj, (response) => { swaggerResponse = response;
+                            this.initializeSwaggerVariable();
+                        });
 
                         // common worker
                         this.packageObj.name = featureName;
