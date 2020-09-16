@@ -69,12 +69,15 @@ export class LocalInfrastructureController {
       if (backendElement.isCustomCode) {
         const temp = {
           name: '',
-          port: ''
+          port: '',
+          uppername: ''
         }
 
         temp.name = backendElement.featureName;
+        temp.uppername = backendElement.featureName.toUpperCase();
         temp.port = backendElement.nodePortNumber;
         backendList.push(temp);
+        console.log("backendList----->", backendList);
       }
     })
 
@@ -147,6 +150,11 @@ export class LocalInfrastructureController {
 
     // generate script for docker-compose
     dockerService.generate_docker_compose(projectDetails, backendList, (response) => {
+      //res.send(200);
+    })
+
+     // generate script for docker-compose
+     dockerService.generate_env(projectDetails, backendList, (response) => {
       //res.send(200);
     })
 

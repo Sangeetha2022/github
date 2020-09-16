@@ -1,6 +1,6 @@
 /*
  * Template group geppetto_compose
- * Compiled on Fri Sep 11 2020 20:50:15 GMT+0530 (India Standard Time)
+ * Compiled on Tue Sep 15 2020 11:58:38 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -59,33 +59,17 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");
-    w.write("npm install");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("         ");
-    w.write("# if directory is exist");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("         ");
-    w.write("[ -d \"$(pwd)/dist\" ] && rm -rf dist");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("         ");
-    w.write("ng build");
-    w.popIndentation();
-    w.write("\n");
-    w.pushIndentation("         ");
     w.write("docker build -t ");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 21, column: 41 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 17, column: 41 }));
     w.write("ui .");
     w.write("\n");
     w.pushIndentation("         ");
     w.write("docker run --name ");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 22, column: 43 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 18, column: 43 }));
     w.write("ui --restart=unless-stopped -d -p 5055:5000 ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 22, column: 116 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 18, column: 116 }));
     w.write("ui");
     w.write("\n");
     w.pushIndentation("         ");

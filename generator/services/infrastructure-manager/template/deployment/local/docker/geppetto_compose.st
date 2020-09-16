@@ -14,10 +14,6 @@ do
     c)  
          echo "Creating new docker images and containers"
          cd \$DESKTOPCODE
-         npm install
-         # if directory is exist
-         [ -d "\$(pwd)/dist" ] && rm -rf dist
-         ng build
          docker build -t $projectdetails.project_name$ui .
          docker run --name $projectdetails.project_name$ui --restart=unless-stopped -d -p 5055:5000 $projectdetails.project_name$ui
          sleep 15

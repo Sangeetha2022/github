@@ -5,6 +5,9 @@ services:
     image: geppettotest/mongo-local:april2020
     container_name: mongodb
     restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
     volumes:
       - geppetto-volume:/data/db
     ports:

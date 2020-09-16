@@ -29,6 +29,31 @@ export class DockerService {
         })
     }
 
+    public generate_env(projectDetails, backendList, callback: CallableFunction) {
+
+        console.log("----dynamic");
+        const temp = { 
+            project_name: projectDetails.project_lowercase,
+            custom_node: backendList
+        }
+
+        console.log('backendList app pods in script coluds are ---  ', backendList);
+        let destination = projectDetails.localUrl + '/docker';
+        let templatePath = projectDetails.templateUrl + '/docker';
+
+        if (!fs.existsSync(destination)) {
+            fs.mkdirSync(destination);
+        }
+
+        //generate env file
+        let generateDockerScript = st.loadGroup(require(templatePath + '/env_stg'));
+        let dockerScript = generateDockerScript.render("env", [temp]);
+        fs.writeFile(destination + '/.env', dockerScript, function (err) {
+            if (err) throw err;
+            console.log('env file is generated !!!')
+        })
+    }
+
     public generate_docker_compose(projectDetails, backendList, callback: CallableFunction) {
 
         console.log("----dynamic");

@@ -1,6 +1,6 @@
 /*
  * Template group docker_compose
- * Compiled on Fri Sep 11 2020 18:00:46 GMT+0530 (India Standard Time)
+ * Compiled on Wed Sep 16 2020 17:26:30 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -144,7 +144,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("env_file: ../../../application/services/.env");
+    w.write("env_file: .env");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -185,7 +185,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("env_file: ../../../application/services/.env");
+    w.write("env_file: .env");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -226,7 +226,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("env_file: ../../../application/services/.env");
+    w.write("env_file: .env");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -267,7 +267,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("env_file: ../../../application/services/.env");
+    w.write("env_file: .env");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -353,7 +353,7 @@ r = function(w, rc) {
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 84, column: 40 }));
                      w.write("\n");
                      w.pushIndentation("    ");
-                     w.write("env_file: ../../../application/services/.env");
+                     w.write("env_file: .env");
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("    ");

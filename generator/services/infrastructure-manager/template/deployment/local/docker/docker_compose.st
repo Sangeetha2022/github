@@ -31,7 +31,7 @@ services:
     container_name: authproxy
     ports:
       - "3009:3009"
-    env_file: ../../../application/services/.env
+    env_file: .env
     depends_on:
       - mongo
       - camunda
@@ -42,7 +42,7 @@ services:
     container_name: camundasvc
     ports:
       - "3008:3008"
-    env_file: ../../../application/services/.env
+    env_file: .env
     depends_on:
       - mongo
       - camunda
@@ -53,7 +53,7 @@ services:
     container_name: securitymanager
     ports:
       - "3007:3007"
-    env_file: ../../../application/services/.env
+    env_file: .env
     depends_on:
       - mongo
       - camunda
@@ -64,7 +64,7 @@ services:
     container_name: apigateway
     ports:
       - "3000:3000"
-    env_file: ../../../application/services/.env
+    env_file: .env
     depends_on:
       - camunda
       - camundaservice
@@ -82,7 +82,7 @@ $\ $$\ $$custom_node.name$:
     container_name: $custom_node.name$
     ports: 
       - $custom_node.port$:$custom_node.port$
-    env_file: ../../../application/services/.env
+    env_file: .env
     depends_on:
       - mongo
 };separator="\n"$$endif$
