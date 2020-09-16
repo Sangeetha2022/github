@@ -5,8 +5,11 @@ services:
     image: geppettotest/mongo-local:april2020
     container_name: mongo
     restart: unless-stopped
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
     volumes:
-      - quotematic-volume:/data/db
+      - $projectdetails.project_name$-volume:/data/db
     ports:
       - "27018:27017"
     healthcheck:
@@ -28,7 +31,7 @@ services:
     container_name: authproxy
     ports:
       - "3009:3009"
-    env_file: ../../../application/services/.env
+    env_file: .env
     depends_on:
       - mongo
       - camunda
@@ -39,7 +42,7 @@ services:
     container_name: camundasvc
     ports:
       - "3008:3008"
-    env_file: ../../../application/services/.env
+    env_file: .env
     depends_on:
       - mongo
       - camunda
@@ -50,7 +53,7 @@ services:
     container_name: securitymanager
     ports:
       - "3007:3007"
-    env_file: ../../../application/services/.env
+    env_file: .env
     depends_on:
       - mongo
       - camunda
@@ -61,24 +64,16 @@ services:
     container_name: apigateway
     ports:
       - "3000:3000"
-    env_file: ../../../application/services/.env
+    env_file: .env
     depends_on:
       - camunda
       - camundaservice
       - authproxy
       - securitymanager
-      - adminmanager
 $if(projectdetails.custom_node)$$projectdetails.custom_node:{custom_node | 
 $\ $$\ $$\ $$\ $$\ $$\ $- $custom_node.name$
 };separator=""$$endif$
 
-  adminmanager:
-    build: ../../../application/services/custom_services/adminmanager
-    image: adminmanager
-    container_name: adminmanager
-    ports:
-      - "3010:3010"
-    env_file: ../../../application/services/.env
 
 $if(projectdetails.custom_node)$$projectdetails.custom_node:{custom_node | 
 $\ $$\ $$custom_node.name$: 
@@ -87,7 +82,7 @@ $\ $$\ $$custom_node.name$:
     container_name: $custom_node.name$
     ports: 
       - $custom_node.port$:$custom_node.port$
-    env_file: ../../../application/services/.env
+    env_file: .env
     depends_on:
       - mongo
 };separator="\n"$$endif$

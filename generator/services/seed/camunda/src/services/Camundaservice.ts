@@ -98,7 +98,7 @@ export class CamundaService {
     }
 
     postDMNtoCamunda() {
-        const DmnPath = path.resolve(__dirname, '../../Gep_authorize2.dmn');
+        const DmnPath = path.resolve(__dirname, '../../Gep_authorize.dmn');
         const postUrl = `${camundaService.camundaUrl}/engine-rest/deployment/create`;
         console.log('---------DMNpath======>>>>', DmnPath);
         const options = {
