@@ -1,6 +1,6 @@
 /*
  * Template group config_constant
- * Compiled on Fri Jun 14 2019 12:34:20 GMT+0530 (India Standard Time)
+ * Compiled on Thu Sep 17 2020 18:30:14 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -34,13 +34,9 @@ r = function(w, rc) {
             
                      w.write("export const ");
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "nodeName", { file: gFile, line: 2, column: 87 }));
-                     w.write(" = '");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "httpProxy", { file: gFile, line: 2, column: 112 }));
-                     w.write("://");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "httpUrl", { file: gFile, line: 2, column: 137 }));
-                     w.write(":");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "httpPort", { file: gFile, line: 2, column: 158 }));
-                     w.write("';");
+                     w.write(" = process.env.");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "nodeName", { file: gFile, line: 2, column: 123 }));
+                     w.write(";");
             }, [
             { name: "dependency"     }
             ])); 

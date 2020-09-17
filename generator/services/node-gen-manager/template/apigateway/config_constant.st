@@ -1,3 +1,3 @@
 config_constant(object) ::= <<
-$if(object.constantArray)$$object.constantArray:{dependency | export const $dependency.nodeName$ = '$dependency.httpProxy$://$dependency.httpUrl$:$dependency.httpPort$';};separator="\n"$$endif$
+$if(object.constantArray)$$object.constantArray:{dependency | export const $dependency.nodeName$ = process.env.$dependency.nodeName$;};separator="\n"$$endif$
 >>
