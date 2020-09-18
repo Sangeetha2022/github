@@ -1,5 +1,5 @@
 export const LOCALURL = 'http://localhost:';
-export const APIGATEWAYURL = process.env.localsystementryBaseUrl;
+export const APIGATEWAYURL = process.env.localsystementryBaseUrl + ":3000";
 
 export const SWAGGERBASEDETAILS: any = {
     version: '1.3.0',
