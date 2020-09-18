@@ -155,6 +155,7 @@ services:
       - configmanager
       - mongogenmanager
       - nodegenmanager
+      - swaggergenmanager
 
   projectmanager:
     build: ../../application/services/projectmanager
@@ -382,6 +383,18 @@ services:
       - generated-code:/geppetto/
     ports:
       - "5019:5019"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
+  swaggergenmanager:
+    build: ../../generator/services/swagger-gen-manager
+    image: swaggergenmanager
+    container_name: swaggergenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5020:5020"
     env_file: ../../.env
     depends_on:
       - mongo

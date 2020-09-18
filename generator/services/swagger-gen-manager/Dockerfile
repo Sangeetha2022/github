@@ -1,6 +1,6 @@
 From node:10.14.2
-COPY . /swagger-gen-manager
-WORKDIR /swagger-gen-manager
-RUN npm i -g ts-node
+COPY . /swaggergenmanager
+WORKDIR /swaggergenmanager
 RUN npm install
-CMD npm run prod
+RUN npm i -g ts-node
+CMD npm run dev
