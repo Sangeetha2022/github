@@ -1,6 +1,6 @@
 /*
  * Template group geppetto_compose
- * Compiled on Tue Sep 15 2020 11:58:38 GMT+0530 (India Standard Time)
+ * Compiled on Sat Sep 19 2020 16:28:48 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -102,8 +102,10 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");
-    w.write("docker exec -ti mongo mongo -u admin -p 'password' --authenticationDatabase 'admin' quoteomatictest /data/db/mongo.js");
+    w.write("docker exec -ti mongo mongo -u admin -p 'password' --authenticationDatabase 'admin' ");
     w.popIndentation();
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 27, column: 109 }));
+    w.write(" /data/db/mongo.js");
     w.write("\n");
     w.pushIndentation("         ");
     w.write("sleep 10");

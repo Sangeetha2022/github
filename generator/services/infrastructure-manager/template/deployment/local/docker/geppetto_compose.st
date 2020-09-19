@@ -24,7 +24,7 @@ do
          echo "uploading the mongo script..."
          sleep 50
          docker cp mongo.js mongo:/data/db/
-         docker exec -ti mongo mongo -u admin -p 'password' --authenticationDatabase 'admin' quoteomatictest /data/db/mongo.js
+         docker exec -ti mongo mongo -u admin -p 'password' --authenticationDatabase 'admin' $projectdetails.project_name$ /data/db/mongo.js
          sleep 10
          echo "Process completed"
          ;;
