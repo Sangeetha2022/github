@@ -7,6 +7,8 @@ import { threadId } from 'worker_threads';
 import { ComponentSpecializedWorker } from './componentSpecializedWorker';
 import { ComponentLifecycleWorker } from './componentLifecycleWorker';
 import { LinkWorker } from './linkWorker';
+import { FlowComponentWorker } from './flowComponentWorker';
+
 // import { styles } from '../assets/cssGuidline';
 // import { RouteSupportWorker } from '../supportworker/RouteSupportWorker';
 
@@ -49,7 +51,7 @@ export class GenerateHtmlWorker {
         variableList: [],
         dependenciesVariableList: [],
         componentOnInit: [],
-        componentOnAfterView:[],
+        componentOnAfterView: [],
         routeList: [],
         flowMethod: [],
         elementDependedMethod: [],
@@ -77,6 +79,7 @@ export class GenerateHtmlWorker {
         others: []
     }
     private selectOption = `<option *ngFor="let option of option" [ngValue]="option.key">{{option.value}}</option>`;
+    private dynamicdropdowntype: any;
     private cssGuidelines = [];
     private ckeditorEntities: any = null;
     private linkContentInfo = {
@@ -107,6 +110,8 @@ export class GenerateHtmlWorker {
     generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
         console.log('css content for this screem ----- ', details);
         console.log('entering into geenerate methods are -----  ', util.inspect(metaData, { showHidden: true, depth: null }));
+        console.log("screen---details-------", screenDetails)
+        console.log("Details000------------>>>>", details)
         this.startTag = [];
         this.endTag = [];
         // component
@@ -114,7 +119,7 @@ export class GenerateHtmlWorker {
             variableList: [],
             dependenciesVariableList: [],
             componentOnInit: [],
-            componentOnAfterView:[],
+            componentOnAfterView: [],
             routeList: [],
             flowMethod: [],
             elementDependedMethod: [],
@@ -137,6 +142,7 @@ export class GenerateHtmlWorker {
             exports: [],
             entryComponents: []
         }
+
 
 
         this.componentStyle = [];
@@ -209,10 +215,13 @@ export class GenerateHtmlWorker {
         console.log('check route generatedRouteScreens -2--- ', this.generatedRouteScreens);
         const screenIndex = this.generatedRouteScreens.findIndex(x => x.screenId == this.screenInfo._id);
         const linkIndex = this.linkedScreenInfo.findIndex(x => x.screenId == this.screenInfo._id);
+        console.log('screenIndex checkRoutes --11111-- ', screenIndex, ' screenid ', this.screenInfo._id);
         console.log('screenIndex checkRoutes ---- ', screenIndex, ' screenid ', this.screenInfo._id);
         console.log('linkedScreen infromationare --- ', this.linkedScreenInfo, ' linkIndex ', linkIndex);
         if (screenIndex > -1) {
             const temp = this.generatedRouteScreens[screenIndex];
+            console.log("Tem---screen--flow------", temp.screenFlow)
+            console.log("Flow-----list---------", this.flowList)
             const flowObject = this.flowList.find(x => x._id == temp.screenFlow);
             let flowTemp = {
                 _id: '',
@@ -327,7 +336,14 @@ export class GenerateHtmlWorker {
                 this.parentHtmlTags.push(item);
             }
             this.tagName = this.tagNameFunction(item);
-            // console.log('tagName for each iterate value are -parent----   ', this.tagName, ' --item.content--  ', item.content);
+            if (item.components !== undefined) {
+                item.components.forEach(component => {
+                    console.log(' --item.content--  ', component);
+                    if (component.type == 'dynamicdropdown-type') {
+                        this.dynamicdropdowntype = component.type;
+                    }
+                });
+            }
             if (item.type === 'textnode') {
                 tempObj.endTagName = 'label';
                 this.parentHtmlTags.push(tempObj);
@@ -395,7 +411,7 @@ export class GenerateHtmlWorker {
                 this.tagName = 'div';
             }
             let className = this.getClassName(firstEle);
-            
+
             // To restrict the default class coming in generated UI.
             // const defaultClassNames = componentSpecializedWorker.addClassName(this, 'class');
             // if (defaultClassNames) {
@@ -409,7 +425,14 @@ export class GenerateHtmlWorker {
                 if (className == Constant.STATE_SUCCESS_CLASSNAME || className == Constant.STATE_ERROR_CLASSNAME) {
                     this.isNotImportant = true;
                 } else if (className.toLowerCase() != 'radio') {
-                    this.startString += `<${this.tagName} class='${className}'`
+                    console.log('------before--------', this.startString);
+                    if ( this.tagName === 'select' && this.dynamicdropdowntype === 'dynamicdropdown-type') {
+                        this.startString = `<ng-select class=${className} [searchable]="true" [virtualScroll]="true"`;
+                    } else {
+                        this.startString += `<${this.tagName} class='${className}'`
+                    }
+                    console.log('--------------------startstring in the setclasses method-----', this.startString);
+
                 }
             }
 
@@ -417,7 +440,6 @@ export class GenerateHtmlWorker {
             const defaultClassNames = componentSpecializedWorker.addClassName(this, 'class');
             if (defaultClassNames) {
                 this.startString += `<${this.tagName} class='${defaultClassNames}'`
-                console.log('--------------------startstring in the setclasses method-----', this.startString);
             }
         }
     }
@@ -444,32 +466,33 @@ export class GenerateHtmlWorker {
         if (firstEle.hasOwnProperty('attributes') && this.tagName !== 'form') {
             let attributes = Object.keys(firstEle.attributes);
             if (!this.startString) {
-                console.log('------------------startstring in the set attribute----', this.startString);
                 this.startString += `<${this.tagName}`
             }
+            console.log('------------------startstring in the set attribute----', this.startString);
             attributes.forEach(element => {
                 console.log('attributes foreach -------   ', element);
                 if (element === 'id') {
                     IDName = firstEle.attributes[element];
                     const classRegex = /class='/g;
                     const className = ``;
-                    let gridclass ;
+                    let gridclass;
                     // changing css id to className
-                    console.log('-----------------------Before replacing the css style',firstEle.attributes[element], className);
-                    if(className != ''){
+                    console.log('-----------------------Before replacing the css style', firstEle.attributes[element], className);
+                    if (className != '') {
                         this.componentStyle[0] = this.componentStyle[0].replace(`#${firstEle.attributes[element]}`, `.${className}`);
-                    }else{
+                    } else {
                         gridclass = firstEle.attributes[element];
                         this.componentStyle[0] = this.componentStyle[0].replace(`#${firstEle.attributes[element]}`, `.${gridclass}`);
                     }
-                    console.log('-----------------------after replacing the css style',this.componentStyle[0]);
+                    console.log('-----------------------after replacing the css style', this.componentStyle[0]);
                     if (classRegex.test(this.startString.toString())) {
+
                         this.startString = this.startString.replace(classRegex, ` class='${className} `)
+                        console.log('clas regex true==========================', this.startString);
 
                     } else {
                         console.log('before the setting value in the startstring------', this.startString);
                         this.startString += ` class='${gridclass}'`;
-                        console.log('clas regex true==========================', this.startString);
                     }
                     this.classCount++;
                 } else if (element === 'name' && firstEle.name) {
@@ -493,6 +516,7 @@ export class GenerateHtmlWorker {
                     //     this.setNav(firstEle, this.secondEle);
                     // }
                 }
+                console.log('-------startstring value -------', this.startString);
 
             })
             // set html traits
@@ -515,7 +539,7 @@ export class GenerateHtmlWorker {
     }
 
     setTraits(firstEle) {
-        console.log('entering into firstelement triats ', firstEle.name);
+        console.log('entering into firstelement triats ', firstEle, this.startString);
         // if (firstEle.hasOwnProperty('traits')) {
         // checking entities from databinding and flows for methods in component
         if (firstEle.name && this.entityDetails.length > 0 || this.flowDetails.length > 0 ||
@@ -530,7 +554,7 @@ export class GenerateHtmlWorker {
             const linkIndex = this.linkInfo.findIndex(x => x.elementName == firstEle.name);
 
             console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex, '  --routeIndex--  ', routeIndex);
-            if(firstEle.name) {
+            if (firstEle.name) {
                 this.startString += ` name=${firstEle.name}`;
             }
             // span with data binding 
@@ -573,6 +597,7 @@ export class GenerateHtmlWorker {
                 };
                 if (flowObject) {
                     this.startString += ` (${this.flowDetails[flowIndex].verb})="${flowObject.name}()"`;
+                    console.log("------------------start---string-----", this.startString)
                     flowTemp = {
                         _id: flowObject._id,
                         name: flowObject.name,
@@ -639,8 +664,12 @@ export class GenerateHtmlWorker {
             }
         }
         // check if tag is select, yes then we need to add its option in component ts file
-        if (this.tagName == 'select') {
+        if (this.tagName == 'select' && this.dynamicdropdowntype !== 'dynamicdropdown-type') {
+            console.log("I am coming---------selected---if", firstEle.components)
             this.getSelectOptions(firstEle.components);
+        }
+        if (this.tagName == 'select' && this.dynamicdropdowntype == 'dynamicdropdown-type') {
+            console.log('---------I am dynamic dropdown-----', firstEle.components);
         }
         // }
     }
@@ -701,15 +730,15 @@ export class GenerateHtmlWorker {
             entityName: '',
             fields: []
         }
-        console.log('identified entity index are -----  ', entityDetails, ' ---tagname---  ', tagName);
+        console.log('identified entity index are -----  ', entityDetails, ' ---tagname---  ', tagName, '-----strtstring---', this.startString);
         const entityObject = this.entities.find(x => x._id == entityDetails.entityId);
         console.log('entities object are ----------  ', entityObject);
         console.log('entities entityDetails are ----------  ', entityDetails);
         if (entityObject) {
-            this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}"`;
+            this.startString += ` [items]= "${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}" [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}" [ngModelOptions]="{standalone: true}"`;
             const variableObject = this.tsComponent.variableList.find(x => x.entityId == entityDetails.entityId);
             // console.log('variableList ------>>>>  ', variableObject);
-            // console.log('startString ---ngModels--->>>>  ', this.startString);
+            console.log('startString ---ngModels--->>>>  ', this.startString);
             if (variableObject) {
                 variableObject.fields.push(entityDetails.fields.name);
             } else {
@@ -790,13 +819,19 @@ export class GenerateHtmlWorker {
             !this.isContentOnly &&
             !this.isNotImportant &&
             !this.isCKeditorSpan) {
-            // console.log('pushed value tagname are -------->>>   ', this.tagName, ' ---firstEle.content---- ', firstEle.content);
-            if (this.tagName == 'select') {
+            console.log('pushed value tagname are -------->>>   ', this.selectOption);
+            if (this.tagName == 'select' && this.dynamicdropdowntype !== 'dynamicdropdown-type' ) {
                 this.startString += '\n' + this.selectOption;
                 this.startString += `</${this.tagName}>`;
                 console.log('select tagname in push values are -----  ', this.startString);
                 this.setTagValue();
-            } else if (this.startString && this.tagName != 'div' && this.tagName != 'form') {
+            } else if (this.tagName == 'select' && this.dynamicdropdowntype == 'dynamicdropdown-type') {
+                // this.startString += '\n' + this.selectOption;
+                this.startString += `</ng-select>`;
+                console.log('select tagname in push values are -----  ', this.startString);
+                this.setTagValue();
+
+            }else if (this.startString && this.tagName != 'div' && this.tagName != 'form') {
                 if (!firstEle.content && (this.tagName == 'label' || this.tagName == 'footer'
                     || this.tagName == 'section' || firstEle.type == 'header' || this.tagName == 'header'
                     || this.tagName == 'nav' || this.tagName == 'a' || this.tagName == 'svg' ||
