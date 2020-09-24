@@ -21,6 +21,7 @@ packageJson(object) ::= <<
     "express-winston": "^3.0.1",
     "node-vault": "^0.9.5",
     "nodemon": "^1.18.9",
+    "node-fetch": "^2.6.1",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
     "typescript": "^3.2.4",

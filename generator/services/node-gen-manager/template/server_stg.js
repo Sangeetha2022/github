@@ -1,6 +1,6 @@
 /*
  * Template group server
- * Compiled on Mon Aug 05 2019 15:03:11 GMT+0530 (India Standard Time)
+ * Compiled on Wed Sep 16 2020 19:54:01 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -131,7 +131,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("mongoose.connect(this.mongoUrl, { useNewUrlParser: true });");
+    w.write("mongoose.connect(this.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
