@@ -19,7 +19,6 @@ packageJson(object) ::= <<
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-winston": "^3.0.1",
-    "node-vault": "^0.9.5",
     "nodemon": "^1.18.9",
     "node-fetch": "^2.6.1",
     "request": "^2.88.0",
