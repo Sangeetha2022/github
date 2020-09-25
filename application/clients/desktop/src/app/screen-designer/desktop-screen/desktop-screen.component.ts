@@ -223,7 +223,7 @@ export class DesktopScreenComponent implements OnInit {
     elementName: ''
   };
 
-  specific_attribute_Event: any [] = [];
+  specific_attribute_Event: any[] = [];
   public paramArray: any = [];
 
   // public linkInformation: any = {
@@ -255,6 +255,15 @@ export class DesktopScreenComponent implements OnInit {
   public MODAL_METHODNAME = 'popupModal';
   public ROUTE_METHODNAME = 'GpRoute';
   public matchedentity: any;
+
+
+  public eventObj = {
+    htmlId: '',
+    componentId: '',
+    elementName: '',
+    selected_event: ''
+  };
+
 
   constructor(
     private screenDesignerService: ScreenDesignerService,
@@ -1139,6 +1148,7 @@ export class DesktopScreenComponent implements OnInit {
       };
       flowTemp.flow = temp.flowId;
       flowTemp.flowName = temp.flowName;
+      console.log('----Kishan---flow------', flowTemp);
       this.screenFlows.push(flowTemp);
     }
     this.saveRemoteStorage();
@@ -1163,16 +1173,20 @@ export class DesktopScreenComponent implements OnInit {
       componentId: '',
       elementName: '',
       verb: '',
+      event: '',
       flow: '',
       flowName: ''
     };
-    // console.log('selected component after upload an flows ---- ', this.editor.selected())
     flowObj.htmlId = this.editor.getSelected().ccid;
     flowObj.componentId = this.editor.getSelected().cid;
     flowObj.elementName = this.editor.getSelected().attributes.name;
     if (verbInfo) {
       flowObj.verb = verbInfo;
     }
+    if (this.editor.getSelected().attributes.type === 'dynamicdropdown-type') {
+      flowObj.event = this.eventObj.selected_event;
+    }
+    console.log('-------traits type-------', this.editor.getSelected().attributes.type);
     flowObj.flow = this.selectedFlow[0]._id;
     flowObj.flowName = this.selectedFlow[0].name;
     // remove flows if it present without elementName
@@ -1209,7 +1223,6 @@ export class DesktopScreenComponent implements OnInit {
     let rows: any;
     rows = event.api.getCellRendererInstances();
     this.selectedFlow = this.gridApi.getSelectedRows();
-
     Object.keys(rows).forEach(k => {
       if (this.selectedFlow.length > 0) {
         if (rows[k].params.node.selected === true) {
@@ -1358,7 +1371,8 @@ export class DesktopScreenComponent implements OnInit {
       }
     );
 
-    console.log('--------dynamicdropdown----->>>>', this.traitsName, EntityBinding);
+    console.log('--------dynamicdropdown----->>>>', this.editor.DomComponents.getType('dynamicdropdown-type').model.prototype
+      .defaults.traits);
 
     // dynamic dropdown
     this.editor.DomComponents.getType(
@@ -1371,7 +1385,6 @@ export class DesktopScreenComponent implements OnInit {
         options: EntityBinding,
         changeProp: 1
       },
-
     );
 
     // radio traits
@@ -1554,6 +1567,7 @@ export class DesktopScreenComponent implements OnInit {
       }
     );
     // updating traits entties
+    console.log('---------grid--traits------------', this);
     this.commandService.updateTraits(this);
   }
   // set component element css based on cssGuideLines
@@ -2011,22 +2025,23 @@ export class DesktopScreenComponent implements OnInit {
 
 
   saveEventdetails(value) {
-    const eventObj = {
-      htmlId: '',
-      componentId: '',
-      elementName: '',
-      selected_event: '',
-    };
 
 
-    const traitsvalue = value.event.traits;
-    eventObj.htmlId = value.event.htmlId ;
-    eventObj.componentId = value.event.componentId;
-    eventObj.elementName = value.event.elementname;
-    eventObj.selected_event = value.event.value;
+    if (value.event.type === 'dynamicdropdown-type') {
+      const traitsvalue = value.event.traits;
+      this.eventObj.htmlId = value.event.htmlId;
+      this.eventObj.componentId = value.event.componentId;
+      this.eventObj.elementName = value.event.elementname;
+      this.eventObj.selected_event = value.event.value;
+    }
 
-    console.log('---------value-----', eventObj);
-    this.specific_attribute_Event.push(eventObj);
+    if (value.event.type === 'grid-type') {
+      console.log('---------grid event-------', value.event.type);
+    }
+    // tslint:disable-next-line:max-line-length
+    console.log('-----flow value-----', this.eventObj, '----selectedflow', this.selectedFlow, '----selectedflowobj', this.selectedFlowObj);
+
+    this.specific_attribute_Event.push(this.eventObj);
     this.saveRemoteStorage();
   }
 }

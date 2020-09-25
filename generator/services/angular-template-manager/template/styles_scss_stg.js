@@ -1,6 +1,6 @@
 /*
  * Template group styles_scss
- * Compiled on Fri Aug 30 2019 13:41:29 GMT+0530 (IST)
+ * Compiled on Thu Sep 24 2020 10:50:42 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -30,6 +30,8 @@ r = function(w, rc) {
     w.write("@import \"~ag-grid-community/dist/styles/ag-grid.css\";");
     w.write("\n");
     w.write("@import \"~ag-grid-community/dist/styles/ag-theme-balham.css\";");
+    w.write("\n");
+    w.write("@import \"~@ng-select/ng-select/themes/default.theme.css\";");
 };
 r.args = [
         { name: "styles"     }

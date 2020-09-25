@@ -230,6 +230,10 @@ export class ComponentWorker {
         temp.importDependency.push({ dependencyName: 'CommonModule', dependencyPath: '@angular/common' });
         temp.importDependency.push({ dependencyName: 'RouterModule', dependencyPath: '@angular/router' });
         temp.importDependency.push({ dependencyName: 'FormsModule, ReactiveFormsModule', dependencyPath: '@angular/forms' });
+        if(information.dynamictype == 'dynamicdropdown-type'){
+            temp.importDependency.push({ dependencyName: 'NgSelectModule', dependencyPath: '@ng-select/ng-select' });
+            temp.imports.push(`NgSelectModule`);
+        }
         // add component class with path
         temp.importDependency.push({ dependencyName: `${temp.className}Component`, dependencyPath: `./${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}` });
 

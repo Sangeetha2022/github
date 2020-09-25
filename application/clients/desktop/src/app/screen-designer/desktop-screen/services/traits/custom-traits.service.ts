@@ -32,10 +32,12 @@ export class CustomTraitsService {
         $this.editor.TraitManager.addType('actionButton', {
             events: {
                 'click': function () {
+                    console.log('---------action button clicked here-------');
                     const element = $this.screenFlows.filter(x => x.elementName === this.target.attributes.name);
                     const eventPopupModel = document.getElementById('EventPopup');
                     if (element && element.length > 0) {
                         $this.selectedFlowObj = $this.listOfFLows.filter(x => x._id === element[0].flow);
+                        console.log('-------selectedflowobj------', $this.selectedFlowObj);
                         /*Here we match the which of the flow is already been added in the screen flow info and make the checkbox 
                         checked for that row in ag-grid. For more details refer issue #381 in github developer is Kishan 21May2020 */
                         rows = $this.gridApi.getCellRendererInstances();

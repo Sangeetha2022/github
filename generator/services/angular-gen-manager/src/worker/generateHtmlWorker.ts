@@ -55,7 +55,9 @@ export class GenerateHtmlWorker {
         routeList: [],
         flowMethod: [],
         elementDependedMethod: [],
-        otherMethodNames: []
+        otherMethodNames: [],
+        dynamictype: ''
+
     }
 
     private serviceComponent = {
@@ -69,7 +71,9 @@ export class GenerateHtmlWorker {
         imports: [],
         declarations: [],
         exports: [],
-        entryComponents: []
+        entryComponents: [],
+        dynamictype: ''
+
     }
     private screenInfo: any;
 
@@ -79,6 +83,7 @@ export class GenerateHtmlWorker {
         others: []
     }
     private selectOption = `<option *ngFor="let option of option" [ngValue]="option.key">{{option.value}}</option>`;
+    private selectclass: any;
     private dynamicdropdowntype: any;
     private cssGuidelines = [];
     private ckeditorEntities: any = null;
@@ -123,7 +128,8 @@ export class GenerateHtmlWorker {
             routeList: [],
             flowMethod: [],
             elementDependedMethod: [],
-            otherMethodNames: []
+            otherMethodNames: [],
+            dynamictype: ''
         }
 
         // service
@@ -140,7 +146,8 @@ export class GenerateHtmlWorker {
             imports: [],
             declarations: [],
             exports: [],
-            entryComponents: []
+            entryComponents: [],
+            dynamictype: ''
         }
 
 
@@ -185,7 +192,7 @@ export class GenerateHtmlWorker {
         // console.log('generate component are ---- ', util.inspect(details, { showHidden: true, depth: null }));
         // console.log('html tag result in generate component are -----  ', this.startTag);
         // console.log('generate service component are -----  ', this.serviceComponent);
-        console.log('generatecomponent name in generatehtmlworkers are -----  ', componentName);
+        console.log('generatecomponent name in generatehtmlworkers are -----  ', this.tsComponent);
         const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
         const packagePath = details.projectGenerationPath;
         const templatePath = details.templateLocation.frontendTemplate;
@@ -340,7 +347,10 @@ export class GenerateHtmlWorker {
                 item.components.forEach(component => {
                     console.log(' --item.content--  ', component);
                     if (component.type == 'dynamicdropdown-type') {
+
                         this.dynamicdropdowntype = component.type;
+                        this.tsComponent.dynamictype = component.type;
+                        this.moduleComponent.dynamictype = component.type;
                     }
                 });
             }
@@ -426,7 +436,8 @@ export class GenerateHtmlWorker {
                     this.isNotImportant = true;
                 } else if (className.toLowerCase() != 'radio') {
                     console.log('------before--------', this.startString);
-                    if ( this.tagName === 'select' && this.dynamicdropdowntype === 'dynamicdropdown-type') {
+                    if (this.tagName === 'select' && this.dynamicdropdowntype === 'dynamicdropdown-type') {
+                        this.tsComponent.variableList.push('itemArray: []');
                         this.startString = `<ng-select class=${className} [searchable]="true" [virtualScroll]="true"`;
                     } else {
                         this.startString += `<${this.tagName} class='${className}'`
@@ -590,6 +601,7 @@ export class GenerateHtmlWorker {
                     verb: '',
                     label: '',
                     description: '',
+                    event: '',
                     type: '',
                     actionOnData: '',
                     createWithDefaultActivity: '',
@@ -603,12 +615,22 @@ export class GenerateHtmlWorker {
                         name: flowObject.name,
                         verb: this.flowDetails[flowIndex].verb,
                         label: flowObject.label,
+                        event: this.flowDetails[flowIndex].event,
                         description: flowObject.description,
                         type: flowObject.type,
                         actionOnData: flowObject.actionOnData,
                         createWithDefaultActivity: flowObject.createWithDefaultActivity,
                         components: []
 
+                    }
+
+                    if (this.flowDetails[flowIndex].event !== '' || this.flowDetails[flowIndex].event !== undefined) {
+                        if (this.flowDetails[flowIndex].event == 'OnLoad') {
+                            this.tsComponent.componentOnInit.push(`this.${this.flowDetails[flowIndex].flowName}()`)
+                        }
+                        if (this.flowDetails[flowIndex].event == 'AfterLoad'){
+                            this.tsComponent.componentOnInit.push(`this.${this.flowDetails[flowIndex].flowName}()`)
+                        }
                     }
                 }
                 // set component dependencies method and variable
@@ -681,6 +703,7 @@ export class GenerateHtmlWorker {
             if (componentFlow) {
                 flowTemp.components = componentFlow;
             }
+            console.log('---------flowtemp value----', flowTemp);
             this.tsComponent.flowMethod.push(flowTemp);
         }
     }
@@ -735,7 +758,18 @@ export class GenerateHtmlWorker {
         console.log('entities object are ----------  ', entityObject);
         console.log('entities entityDetails are ----------  ', entityDetails);
         if (entityObject) {
-            this.startString += ` [items]= "${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}" [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}" [ngModelOptions]="{standalone: true}"`;
+            if(this.dynamicdropdowntype === 'dynamicdropdown-type'){
+                console.log('------------dynamic dropdown startstringvalue----------', this.startString);
+                if(this.startString.includes('ng-select')){
+                    this.startString += ` bindLabel="${entityDetails.fields.name.replace(' ', '')}" bindValue="${entityDetails.fields.name.replace(' ', '')}" [items]= "itemArray" [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}" [ngModelOptions]="{standalone: true}"`;  
+                }
+                else{
+                    this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}" [ngModelOptions]="{standalone: true}"`;
+                }
+            }
+            else{
+                this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}" [ngModelOptions]="{standalone: true}"`;
+            }
             const variableObject = this.tsComponent.variableList.find(x => x.entityId == entityDetails.entityId);
             // console.log('variableList ------>>>>  ', variableObject);
             console.log('startString ---ngModels--->>>>  ', this.startString);
@@ -820,7 +854,7 @@ export class GenerateHtmlWorker {
             !this.isNotImportant &&
             !this.isCKeditorSpan) {
             console.log('pushed value tagname are -------->>>   ', this.selectOption);
-            if (this.tagName == 'select' && this.dynamicdropdowntype !== 'dynamicdropdown-type' ) {
+            if (this.tagName == 'select' && this.dynamicdropdowntype !== 'dynamicdropdown-type') {
                 this.startString += '\n' + this.selectOption;
                 this.startString += `</${this.tagName}>`;
                 console.log('select tagname in push values are -----  ', this.startString);
@@ -831,7 +865,7 @@ export class GenerateHtmlWorker {
                 console.log('select tagname in push values are -----  ', this.startString);
                 this.setTagValue();
 
-            }else if (this.startString && this.tagName != 'div' && this.tagName != 'form') {
+            } else if (this.startString && this.tagName != 'div' && this.tagName != 'form') {
                 if (!firstEle.content && (this.tagName == 'label' || this.tagName == 'footer'
                     || this.tagName == 'section' || firstEle.type == 'header' || this.tagName == 'header'
                     || this.tagName == 'nav' || this.tagName == 'a' || this.tagName == 'svg' ||

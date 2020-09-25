@@ -58,6 +58,7 @@ export const ScreenSchema = new Schema({
         componentId: { type: String, default: null },
         elementName: { type: String, default: null },
         verb: { type: String, default: 'click' },
+        event: {type: String, default: null},
         flow: { type: String, ref: 'flows' },
         flowName: { type: String, default: null }
     }],

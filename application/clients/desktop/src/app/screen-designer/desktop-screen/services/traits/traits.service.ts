@@ -824,6 +824,27 @@ export class TraitsService {
           this.listenTo(this, 'change:columns', this.gridColumns);
           this.listenTo(this, 'change:colname', this.columnName);
           this.listenTo(this, 'change:verbs', this.verb);
+          this.listenTo(this, 'change:events', this.handlechangetype);
+        },
+        handlechangetype() {
+          // tslint:disable-next-line:max-line-length
+          const gridevent = this.get('traits').where({
+            name: 'events'
+          })[0];
+          const changedValue = this.changed['events'];
+          screensVariable.agGridObject['selectedevent'] = this.changed['events'];
+          // tslint:disable-next-line:max-line-length
+          console.log('Input type changed to : ', screensVariable.editor.getSelected().attributes, screensVariable.editor.getSelected().ccid, screensVariable.editor.getSelected().cid);
+          // const eventchangetrigger = {
+          //   elementname: screensVariable.editor.getSelected().attributes.name,
+          //   componentId: screensVariable.editor.getSelected().cid,
+          //   htmlId: screensVariable.editor.getSelected().ccid,
+          //   traits: dynamicDropdownTraits,
+          //   value: changedValue
+          // };
+          // $this.broadcastservice.updateDataselection({ 'event': eventchangetrigger });
+          console.log('--------changed event-----', changedValue , screensVariable);
+          // screensVariable.editor.TraitManager.getTraitsViewer().render();
         },
         ElementName() { },
         verb() {
@@ -1191,9 +1212,10 @@ export class TraitsService {
                 name: 'events',
                 changeProp: 1,
                 options: [
-                  { key: 'Load', value: 'OnLoad | Onclick' },
-                  { key: 'focus', value: 'onFocus' },
-                  { key: 'blur', value: 'onBlur' }
+                  { key: 'Load', value: 'OnLoad' },
+                  { key: 'AfterLoad', value: 'AfterLoad' },
+                  { key: 'Rowclick', value: 'Rowclick' },
+                  { key: 'Rowclick | Load', value: 'Rowclick | OnLoad'}
                 ]
               }
             ]
@@ -1205,12 +1227,13 @@ export class TraitsService {
           },
           handlechangetype() {
             // tslint:disable-next-line:max-line-length
-            console.log('Input type changed to : ', editor.getSelected().attributes.name, editor.getSelected().ccid, editor.getSelected().cid);
+            console.log('Input type changed to : ', editor.getSelected().attributes.type, editor.getSelected().ccid, editor.getSelected().cid);
             const dynamicDropdownTraits = this.get('traits').where({
               name: 'events'
             })[0];
             const changedValue = this.changed['events'];
             const eventchangetrigger = {
+              type: editor.getSelected().attributes.type,
               elementname: editor.getSelected().attributes.name,
               componentId: editor.getSelected().cid,
               htmlId: editor.getSelected().ccid,

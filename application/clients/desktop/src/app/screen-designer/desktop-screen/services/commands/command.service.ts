@@ -103,17 +103,6 @@ export class CommandService {
             name: 'actionButton',
             label: 'Action',
             type: 'actionButton'
-          },
-          {
-            type: 'select',
-            label: 'verb',
-            name: 'verbs',
-            changeProp: 1,
-            options: [
-              { key: 'click', value: 'onClick' },
-              { key: 'focus', value: 'onFocus' },
-              { key: 'blur', value: 'onBlur' }
-            ]
           }
         );
       }
@@ -148,11 +137,13 @@ export class CommandService {
           {
             type: 'select',
             label: 'event',
-            name: 'Event',
+            name: 'events',
             changeProp: 1,
             options: [
-              { key: 'click', value: 'OnInit' },
-              { key: 'load', value: 'Onload' }
+              { key: 'Load', value: 'OnLoad' },
+              { key: 'AfterLoad', value: 'AfterLoad' },
+              { key: 'Rowclick', value: 'Rowclick' },
+              { key: 'Rowclick | Load', value: 'Rowclick | OnLoad' }
             ]
           },
           {
