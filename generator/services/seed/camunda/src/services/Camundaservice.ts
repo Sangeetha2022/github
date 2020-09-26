@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-// import * as request from 'request';
 import * as asyncLoop from 'node-async-loop';
 import * as mongoose from 'mongoose';
+import * as fetch from 'node-fetch';
+import * as FormData from 'form-data';
 import { Resourceschema } from '../model/resource';
 import { CustomLogger } from '../config/Logger'
 import { camundaService } from '../config/camundaService';
@@ -14,7 +15,6 @@ import * as fs from 'fs';
 
 let listofresources = [];
 let camundadao = new Camundadao();
-const request = require('request');
 const resourcemodel = mongoose.model('resource', Resourceschema);
 
 export class CamundaService {
@@ -75,17 +75,22 @@ export class CamundaService {
         new CustomLogger().showLogger('info', 'Exit from Camundaservice.ts: camundaauthorization');
 
         return new Promise(resolve => {
-            request.post({ url: postUrl, json: body }, function (error, response, body) {
-                var responsebody = JSON.stringify(body);
+            fetch( postUrl, { method: 'POST', body: JSON.stringify(body),
+                    headers: { 'Content-Type': 'application/json' }
+            }).then(res => res.json())
+            .then((data) => {
+                console.log('data---------------->>>', data);
+                var responsebody = JSON.stringify(data);
                 var finaldata = JSON.parse(responsebody);
                 var responsevalue = finaldata[0];
                 const test = responsevalue;
                 const test2 = JSON.stringify(test);
                 // const test3 = JSON.parse(test2);
                 // // var data = test3.replace(/(\r\n|\n|\r|\s|n)/gm, '');
-                console.log('-------->>>>', body);
                 resolve(JSON.parse(test2));
-            });
+            }).catch(error => {
+                resolve(error);
+            })
         })
     }
 
@@ -99,26 +104,24 @@ export class CamundaService {
 
     postDMNtoCamunda() {
         const DmnPath = path.resolve(__dirname, '../../Gep_authorize.dmn');
+        const formData = new FormData();
         const postUrl = `${camundaService.camundaUrl}/engine-rest/deployment/create`;
-        console.log('---------DMNpath======>>>>', DmnPath);
+        formData.append("data", fs.createReadStream(DmnPath));
+        formData.append("deployment-name", "Gepauthorize");
+        formData.append("enable-duplicate-filtering", "true");
+        formData.append("deploy-changed-only", "true");
         const options = {
-            url: postUrl,
-            headers: {
-                "Content-Type": "multipart/form-data"
-            },
-            formData: {
-                "data": fs.createReadStream(DmnPath),
-                "deployment-name": "Gepauthorize",
-                "enable-duplicate-filtering": "true",
-                "deploy-changed-only": "true",
-            }
+            method: 'POST',
+            headers: formData.getHeaders(),
+            body: formData
         }
-        request.post(options, ((err, response, body) => {
-            console.log('error --->>>', err);
-            // console.log('bodyy -------->>>>', body);
-            // console.log('i am response -->>', response);
-            return body;
-        }))
+        fetch(postUrl, options).then((response) => {
+            response.json().then(data => {
+                console.log('data_--------------->', data);
+            })
+        }).catch(error => {
+            console.log('error-----------', error);
+        })
 
     }
 }

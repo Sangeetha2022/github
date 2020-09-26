@@ -1,7 +1,6 @@
 import mongoose = require('mongoose');
 import * as jwt from 'jsonwebtoken';
-import * as request from 'request';
-
+import * as fetch from 'node-fetch';
 import { Signinschema } from '../model/Signin';
 import * as Constants from '../config/constants';
 import { CustomLogger } from '../config/Logger'
@@ -25,10 +24,14 @@ export class Proxydao {
         var posturl = `${Constants.camundaUrl}/accesslevel`
 
         var camundaresponse = [];
-        request.post({ url: posturl, json: jsonbody }, function (error, response, body) {
-            camundaresponse.push(body);
-            new CustomLogger().showLogger('info', 'Exit from Proxydao.ts: userdao');
-            callback(camundaresponse);
-        })
+        fetch(posturl, { method: 'POST', body: JSON.stringify(jsonbody) })
+            .then(res => res.json())
+            .then((response) => {
+                camundaresponse.push(response);
+                new CustomLogger().showLogger('info', 'Exit from Proxydao.ts: userdao');
+                callback(camundaresponse);
+            }).catch(error => {
+                callback(error);
+            })
     }
 }

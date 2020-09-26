@@ -2,8 +2,8 @@ import { Request } from 'request';
 import * as asyncLoop from 'node-async-loop';
 import * as mongoose from 'mongoose';
 import * as FormData from 'form-data';
-import * as request from 'request';
 import * as fs from 'fs';
+import * as fetch from 'node-fetch';
 import * as path from 'path'
 import { camundaService } from '../config/camundaService';
 
@@ -13,24 +13,24 @@ export class DmnFile {
     public async dmnFileDeploye() {
         // const DmnPath = '/home/decoders/Videos/generated-geppetto/DanTest701/application/services/camunda/Gepauthorize.dmn';
         const DmnPath = path.resolve(__dirname, '../../Gep_authorize.dmn');
+        const formData = new FormData();
         const postUrl = `${camundaService.camundaUrl}/engine-rest/deployment/create`;
+        formData.append("data", fs.createReadStream(DmnPath));
+        formData.append("deployment-name", "Gepauthorize");
+        formData.append("enable-duplicate-filtering", "true");
+        formData.append("deploy-changed-only", "true");
         const options = {
-            url: postUrl,
-            headers: {
-                "Content-Type": "multipart/form-data"
-            },
-            formData: {
-                "data": fs.createReadStream(DmnPath),
-                "deployment-name": "Gepauthorize",
-                "enable-duplicate-filtering": "true",
-                "deploy-changed-only": "true",
-            }
+            method: 'POST',
+            headers: formData.getHeaders(),
+            body: formData
         }
-        request.post(options, ((err, response, body) => {
-            console.log('error --->>>', err);
-            // console.log('bodyy -------->>>>', body);
-            // console.log('i am response -->>', response);
-        }))
+        fetch(postUrl, options).then((response) => {
+            response.json().then(data => {
+                console.log('data_--------------->', data);
+            })
+        }).catch(error => {
+            console.log('error-----------', error);
+        })
 
     }
 
