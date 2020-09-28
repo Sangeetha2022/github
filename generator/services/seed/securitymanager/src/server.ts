@@ -5,7 +5,7 @@ import { WinstonLogger } from './config/Winstonlogger';
 import { Routes } from './routes/routes'
 import mongoose = require('mongoose');
 import { SeedService } from './seed';
-const PORT = 3007;
+const PORT = 8003;
 
 class App {
     public app = express();

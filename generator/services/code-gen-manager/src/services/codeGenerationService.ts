@@ -22,8 +22,8 @@ export class CodeGenerationService {
   private flowService = new FlowManagerService();
   private authGenService = new AuthGenService();
   private frontendGenService = new FrontendGenManagerService();
-  private NODE_PORT_NUMBER = 8000;
-  private APIGATEWAY_PORT_NUMBER = 3000;
+  private NODE_PORT_NUMBER = 8005;
+  private APIGATEWAY_PORT_NUMBER = 8000;
   private LOCALHOST = 'localhost';
 
   // folderName
