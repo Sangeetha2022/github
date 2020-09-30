@@ -1,4 +1,4 @@
-From node:10.14.2
+FROM node:14.11.0-alpine
 COPY . /menubuildermanager
 WORKDIR /menubuildermanager 
 RUN npm install

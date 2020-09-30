@@ -1,4 +1,4 @@
-From node:10.14.2
+FROM node:14.11.0-alpine
 COPY . /datastore-manager
 WORKDIR /datastore-manager
 RUN npm i -g ts-node

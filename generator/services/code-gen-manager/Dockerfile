@@ -1,4 +1,4 @@
-From node:10.14.2
+FROM node:14.11.0-alpine
 COPY . /code-generation-manager
 WORKDIR /code-generation-manager
 RUN npm i -g ts-node

@@ -235,11 +235,13 @@ export class AuthService {
                             fs.mkdirSync(config);
                         }
                         fs.readFile(`${srcFolder}/${x}/MongoConfig.ts`, 'utf8', (err, mongoconfigFile) => {
-                            fs.writeFile(config + `/MongoConfig.ts`, mongoconfigFile, (err) => {
-                                if (err) {
-                                    return (err)
-                                }
-                            })
+                            if (mongoconfigFile) {
+                                fs.writeFile(config + `/MongoConfig.ts`, mongoconfigFile, (err) => {
+                                    if (err) {
+                                        return (err)
+                                    }
+                                })
+                            }
                         })
                         fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
                             fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
@@ -411,11 +413,13 @@ export class AuthService {
                             fs.mkdirSync(config);
                         }
                         fs.readFile(`${srcFolder}/${x}/Mongoconfig.ts`, 'utf8', (err, mongoconfigFile) => {
-                            fs.writeFile(config + `/Mongoconfig.ts`, mongoconfigFile, (err) => {
-                                if (err) {
-                                    return (err)
-                                }
-                            })
+                            if (mongoconfigFile) {
+                                fs.writeFile(config + `/Mongoconfig.ts`, mongoconfigFile, (err) => {
+                                    if (err) {
+                                        return (err)
+                                    }
+                                })
+                            }
                         })
                         fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
                             fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
@@ -626,11 +630,13 @@ export class AuthService {
                             fs.mkdirSync(config);
                         }
                         fs.readFile(`${srcFolder}/${x}/Mongoconfig.ts`, 'utf8', (err, mongoconfigFile) => {
-                            fs.writeFile(config + `/Mongoconfig.ts`, mongoconfigFile, (err) => {
-                                if (err) {
-                                    return (err)
-                                }
-                            })
+                            if (mongoconfigFile) {
+                                fs.writeFile(config + `/Mongoconfig.ts`, mongoconfigFile, (err) => {
+                                    if (err) {
+                                        return (err)
+                                    }
+                                })
+                            }
                         })
                         fs.readFile(`${srcFolder}/${x}/camundaService.ts`, 'utf8', (err, camundaService) => {
                             fs.writeFile(config + `/camundaService.ts`, camundaService, (err) => {

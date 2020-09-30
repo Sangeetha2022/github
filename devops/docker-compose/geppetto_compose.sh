@@ -36,7 +36,7 @@ do
          curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@$DMN" -F "deployment-name=gep_authorize" -F "enable-duplicate-filtering=true" -F "deploy-changed-only=true" http://localhost:8080/engine-rest/deployment/create
          echo "uploading the seed file....."
          sleep 30
-         docker exec codegenmanager /bin/bash -c "mkdir /geppetto/generated-code; mkdir /geppetto/template;"
+         docker exec codegenmanager sh -c "mkdir /geppetto/generated-code; mkdir /geppetto/template;"
          sleep 20
          docker cp $SEED codegenmanager:/geppetto/template/
          echo "seed file copied"
