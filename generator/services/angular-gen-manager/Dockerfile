@@ -1,4 +1,4 @@
-From node:10.14.2
+FROM node:14.11.0-alpine
 COPY . /angular-gen-manager
 WORKDIR /angular-gen-manager
 RUN npm install

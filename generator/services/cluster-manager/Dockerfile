@@ -1,16 +1,15 @@
-From node:10.14.2
+FROM node:14.11.0-alpine
 
 # terraform
-RUN apt-get update && apt-get install -y \
+RUN apk update && apk upgrade && apk add ca-certificates && update-ca-certificates\
     wget \
-    unzip nano \
-  && rm -rf /var/lib/apt/lists/*
+    unzip \
+  && rm -rf /var/lib/apk/lists/*
 
-RUN wget --quiet https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip \
-  && unzip terraform_0.11.13_linux_amd64.zip \
+RUN wget --quiet https://releases.hashicorp.com/terraform/0.13.3/terraform_0.13.3_linux_amd64.zip \
+  && unzip terraform_0.13.3_linux_amd64.zip \
   && mv terraform /usr/bin \
-  && rm terraform_0.11.13_linux_amd64.zip
-
+  && rm terraform_0.13.3_linux_amd64.zip
 
 COPY . /clustermanager
 WORKDIR /clustermanager 
