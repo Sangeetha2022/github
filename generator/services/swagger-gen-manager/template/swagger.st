@@ -26,33 +26,33 @@ $if(tags)$$tags:{tag |$if(tag.name)$
      description: $tag.externalDocs.description$$endif$};separator="\n"$$endif$
 paths:
    $if(paths)$$paths:{path |$if(path.endpoint)$
-   "$path.endpoint$":$endif$$if(path.method)$
-      $path.method$:$endif$
-         tags:$if(path.tags)$
-         - $path.tags$$endif$$if(path.description)$
-         description: $path.description$$endif$$if(path.operationId)$
-         operationId: $path.operationId$$endif$
-         $if(path.parameters)$$path.parameters:{param |$if(param.requestBody)$
+   "$path.endpoint$":$endif$$if(path.methodsArray)$$path.methodsArray:{methods |$if(methods.method)$
+      $methods.method$:$endif$
+         tags:$if(methods.tags)$
+         -  $methods.tags$$endif$$if(methods.description)$
+         description: $methods.description$$endif$$if(methods.operationId)$
+         operationId: $methods.operationId$$endif$
+         $if(methods.parameters)$$methods.parameters:{param |$if(param.requestBody)$
          requestBody:$if(param.content)$
             content:
                $param.content$:$endif$$if(param.schema)$
                   $param.schema$:$endif$$if(param.ref)$
                      $param.ref$: "$param.reference$"$endif$$endif$$if(param.in)$
-         $if(path.parameters)$
+         $if(methods.parameters)$
          parameters:$endif$
-         - in: "$param.in$"$if(param.description)$
-           description: "$param.description$"$endif$$if(param.name)$
-           name: "$param.name$"$endif$$if(param.required)$
-           required: $param.required$$endif$$if(param.schema)$
-           $param.schema$:$endif$$if(param.ref)$
-            $param.ref$: "$param.reference$"$endif$$endif$};separator="\n"$$endif$
-         $if(path.responses)$
+         -  in: "$param.in$"$if(param.description)$
+            description: $param.description$$endif$$if(param.name)$
+            name: $param.name$$endif$$if(param.required)$
+            required: $param.required$$endif$$if(param.schema)$
+            $param.schema$:$endif$$if(param.ref)$
+               $param.ref$: "$param.reference$"$endif$$endif$};separator="\n"$$endif$
+         $if(methods.responses)$
          responses:$endif$
-            $if(path.responses)$$path.responses:{response |$if(response.statuscode)$
-            '$response.statuscode$':$endif$$if(response.description)$
+         $if(methods.responses)$$methods.responses:{response |$if(response.statuscode)$
+            $response.statuscode$:$endif$$if(response.description)$
                description: $response.description$$endif$$if(response.content)$
-               content:
-                  $response.content$:$endif$};separator="\n"$$endif$};separator="\n"$$endif$
+                  content:
+                     $response.content$:$endif$};separator="\n"$$endif$};separator="\n"$$endif$};separator="\n"$$endif$
 components:
    schemas:
       $if(components)$$components:{component |$if(component.name)$

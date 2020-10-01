@@ -1212,6 +1212,20 @@ export class NodeService {
                             this.swaggerObj.components.push(entity);
                             this.swaggerObj.tags.push(entity);
                         })
+                        let result = this.swaggerObj.paths.reduce((r, a) => {
+                            r[a.endpoint] = r[a.endpoint] || [];
+                            r[a.endpoint].push(a);
+                            return r;
+                        }, Object.create(null));
+                        let paths = this.uniqueByLast(this.swaggerObj.paths, it => it.endpoint);
+                        paths.forEach((path: any) => {
+                            let swaggerpath = {
+                                endpoint: path.endpoint,
+                                methodsArray: result[path.endpoint]
+                            }
+                            this.swagger.push(swaggerpath);
+                        })
+                        this.swaggerObj.paths = this.swagger;
                         controllerWorker.generateControllerFile(projectGenerationPath, templateLocation, this.controller);
                         serviceWorker.generateServiceFile(projectGenerationPath, templateLocation, this.service);
                         daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
@@ -1238,6 +1252,12 @@ export class NodeService {
                 callback('Something went wrong in Node Gen MicroService');
             }
         }
+    }
+
+    public uniqueByLast(data, key) {
+        return [ ...new Map(
+            data.map(x => [key(x), x])
+        ).values()]
     }
 
     public gpAttachmentService(gpAttach) {

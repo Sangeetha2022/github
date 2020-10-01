@@ -1,6 +1,6 @@
 /*
  * Template group swagger
- * Compiled on Mon Sep 14 2020 18:27:23 GMT+0530 (India Standard Time)
+ * Compiled on Thu Oct 01 2020 19:26:37 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -256,249 +256,263 @@ r = function(w, rc) {
                      
                      
                      }
-                     if (st.test(st.prop(s, g, rc, s.path, "method", { file: gFile, line: 29, column: 37 }))) {
-                     
-                         w.write("\n");
-                         w.pushIndentation("      ");
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.path, "method", { file: gFile, line: 30, column: 12 }));
-                         w.popIndentation();
-                         w.write(":");
-                     
-                     
-                     }
-                     w.write("\n");
-                     w.pushIndentation("         ");
-                     w.write("tags:");
-                     w.popIndentation();
-                     if (st.test(st.prop(s, g, rc, s.path, "tags", { file: gFile, line: 31, column: 23 }))) {
-                     
-                         w.write("\n");
-                         w.pushIndentation("         ");
-                         w.write("- ");
-                         w.popIndentation();
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.path, "tags", { file: gFile, line: 32, column: 17 }));
-                     
-                     
-                     }
-                     if (st.test(st.prop(s, g, rc, s.path, "description", { file: gFile, line: 32, column: 38 }))) {
-                     
-                         w.write("\n");
-                         w.pushIndentation("         ");
-                         w.write("description: ");
-                         w.popIndentation();
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.path, "description", { file: gFile, line: 33, column: 28 }));
-                     
-                     
-                     }
-                     if (st.test(st.prop(s, g, rc, s.path, "operationId", { file: gFile, line: 33, column: 56 }))) {
-                     
-                         w.write("\n");
-                         w.pushIndentation("         ");
-                         w.write("operationId: ");
-                         w.popIndentation();
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.path, "operationId", { file: gFile, line: 34, column: 28 }));
-                     
-                     
-                     }
-                     w.write("\n");
-                     w.write("         ");
-                     if (st.test(st.prop(s, g, rc, s.path, "parameters", { file: gFile, line: 35, column: 18 }))) {
+                     if (st.test(st.prop(s, g, rc, s.path, "methodsArray", { file: gFile, line: 29, column: 37 }))) {
                      
                          st.write(w, s, g, rc, (function() {
                          var tp = [],
-                         attr = st.prop(s, g, rc, s.path, "parameters", { file: gFile, line: 35, column: 36 });
+                         attr = st.prop(s, g, rc, s.path, "methodsArray", { file: gFile, line: 29, column: 57 });
                          tp.push(st.makeSubTemplate(g, function(w, rc) {
                              var g = this.owningGroup,
                              s = this.scope;
                              
-                                      if (st.test(st.prop(s, g, rc, s.param, "requestBody", { file: gFile, line: 35, column: 65 }))) {
+                                      if (st.test(st.prop(s, g, rc, s.methods, "method", { file: gFile, line: 29, column: 92 }))) {
                                       
                                           w.write("\n");
-                                          w.pushIndentation("         ");
-                                          w.write("requestBody:");
-                                          w.popIndentation();
-                                          if (st.test(st.prop(s, g, rc, s.param, "content", { file: gFile, line: 36, column: 31 }))) {
-                                          
-                                              w.write("\n");
-                                              w.pushIndentation("            ");
-                                              w.write("content:");
-                                              w.popIndentation();
-                                              w.write("\n");
-                                              w.pushIndentation("               ");
-                                              st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "content", { file: gFile, line: 38, column: 22 }));
-                                              w.popIndentation();
-                                              w.write(":");
-                                          
-                                          
-                                          }
-                                          if (st.test(st.prop(s, g, rc, s.param, "schema", { file: gFile, line: 38, column: 48 }))) {
-                                          
-                                              w.write("\n");
-                                              w.pushIndentation("                  ");
-                                              st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "schema", { file: gFile, line: 39, column: 25 }));
-                                              w.popIndentation();
-                                              w.write(":");
-                                          
-                                          
-                                          }
-                                          if (st.test(st.prop(s, g, rc, s.param, "ref", { file: gFile, line: 39, column: 50 }))) {
-                                          
-                                              w.write("\n");
-                                              w.pushIndentation("                     ");
-                                              st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "ref", { file: gFile, line: 40, column: 28 }));
-                                              w.popIndentation();
-                                              w.write(": \"");
-                                              st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "reference", { file: gFile, line: 40, column: 42 }));
-                                              w.write("\"");
-                                          
-                                          
-                                          }
-                                      
-                                      
-                                      }
-                                      if (st.test(st.prop(s, g, rc, s.param, "in", { file: gFile, line: 40, column: 77 }))) {
-                                      
-                                          w.write("\n");
-                                          w.write("         ");
-                                          if (st.test(st.prop(s, g, rc, s.path, "parameters", { file: gFile, line: 41, column: 18 }))) {
-                                          
-                                              w.write("\n");
-                                              w.pushIndentation("         ");
-                                              w.write("parameters:");
-                                              w.popIndentation();
-                                          
-                                          
-                                          }
-                                          w.write("\n");
-                                          w.pushIndentation("         ");
-                                          w.write("- in: \"");
-                                          w.popIndentation();
-                                          st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "in", { file: gFile, line: 43, column: 23 }));
-                                          w.write("\"");
-                                          if (st.test(st.prop(s, g, rc, s.param, "description", { file: gFile, line: 43, column: 37 }))) {
-                                          
-                                              w.write("\n");
-                                              w.pushIndentation("           ");
-                                              w.write("description: \"");
-                                              w.popIndentation();
-                                              st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "description", { file: gFile, line: 44, column: 32 }));
-                                              w.write("\"");
-                                          
-                                          
-                                          }
-                                          if (st.test(st.prop(s, g, rc, s.param, "name", { file: gFile, line: 44, column: 62 }))) {
-                                          
-                                              w.write("\n");
-                                              w.pushIndentation("           ");
-                                              w.write("name: \"");
-                                              w.popIndentation();
-                                              st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "name", { file: gFile, line: 45, column: 25 }));
-                                              w.write("\"");
-                                          
-                                          
-                                          }
-                                          if (st.test(st.prop(s, g, rc, s.param, "required", { file: gFile, line: 45, column: 48 }))) {
-                                          
-                                              w.write("\n");
-                                              w.pushIndentation("           ");
-                                              w.write("required: ");
-                                              w.popIndentation();
-                                              st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "required", { file: gFile, line: 46, column: 28 }));
-                                          
-                                          
-                                          }
-                                          if (st.test(st.prop(s, g, rc, s.param, "schema", { file: gFile, line: 46, column: 54 }))) {
-                                          
-                                              w.write("\n");
-                                              w.pushIndentation("           ");
-                                              st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "schema", { file: gFile, line: 47, column: 18 }));
-                                              w.popIndentation();
-                                              w.write(":");
-                                          
-                                          
-                                          }
-                                          if (st.test(st.prop(s, g, rc, s.param, "ref", { file: gFile, line: 47, column: 43 }))) {
-                                          
-                                              w.write("\n");
-                                              w.pushIndentation("            ");
-                                              st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "ref", { file: gFile, line: 48, column: 19 }));
-                                              w.popIndentation();
-                                              w.write(": \"");
-                                              st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "reference", { file: gFile, line: 48, column: 33 }));
-                                              w.write("\"");
-                                          
-                                          
-                                          }
-                                      
-                                      
-                                      }
-                             }, [
-                             { name: "param"     }
-                             ])); 
-                         return st.map(attr, tp);
-                         })(), {separator: "\n"});
-                     
-                     
-                     }
-                     w.write("\n");
-                     w.write("         ");
-                     if (st.test(st.prop(s, g, rc, s.path, "responses", { file: gFile, line: 49, column: 18 }))) {
-                     
-                         w.write("\n");
-                         w.pushIndentation("         ");
-                         w.write("responses:");
-                         w.popIndentation();
-                     
-                     
-                     }
-                     w.write("\n");
-                     w.write("            ");
-                     if (st.test(st.prop(s, g, rc, s.path, "responses", { file: gFile, line: 51, column: 21 }))) {
-                     
-                         st.write(w, s, g, rc, (function() {
-                         var tp = [],
-                         attr = st.prop(s, g, rc, s.path, "responses", { file: gFile, line: 51, column: 38 });
-                         tp.push(st.makeSubTemplate(g, function(w, rc) {
-                             var g = this.owningGroup,
-                             s = this.scope;
-                             
-                                      if (st.test(st.prop(s, g, rc, s.response, "statuscode", { file: gFile, line: 51, column: 72 }))) {
-                                      
-                                          w.write("\n");
-                                          w.pushIndentation("            ");
-                                          w.write("'");
-                                          w.popIndentation();
-                                          st.write(w, s, g, rc, st.prop(s, g, rc, s.response, "statuscode", { file: gFile, line: 52, column: 23 }));
-                                          w.write("':");
-                                      
-                                      
-                                      }
-                                      if (st.test(st.prop(s, g, rc, s.response, "description", { file: gFile, line: 52, column: 56 }))) {
-                                      
-                                          w.write("\n");
-                                          w.pushIndentation("               ");
-                                          w.write("description: ");
-                                          w.popIndentation();
-                                          st.write(w, s, g, rc, st.prop(s, g, rc, s.response, "description", { file: gFile, line: 53, column: 38 }));
-                                      
-                                      
-                                      }
-                                      if (st.test(st.prop(s, g, rc, s.response, "content", { file: gFile, line: 53, column: 70 }))) {
-                                      
-                                          w.write("\n");
-                                          w.pushIndentation("               ");
-                                          w.write("content:");
-                                          w.popIndentation();
-                                          w.write("\n");
-                                          w.pushIndentation("                  ");
-                                          st.write(w, s, g, rc, st.prop(s, g, rc, s.response, "content", { file: gFile, line: 55, column: 28 }));
+                                          w.pushIndentation("      ");
+                                          st.write(w, s, g, rc, st.prop(s, g, rc, s.methods, "method", { file: gFile, line: 30, column: 15 }));
                                           w.popIndentation();
                                           w.write(":");
                                       
                                       
                                       }
+                                      w.write("\n");
+                                      w.pushIndentation("         ");
+                                      w.write("tags:");
+                                      w.popIndentation();
+                                      if (st.test(st.prop(s, g, rc, s.methods, "tags", { file: gFile, line: 31, column: 26 }))) {
+                                      
+                                          w.write("\n");
+                                          w.pushIndentation("         ");
+                                          w.write("-  ");
+                                          w.popIndentation();
+                                          st.write(w, s, g, rc, st.prop(s, g, rc, s.methods, "tags", { file: gFile, line: 32, column: 21 }));
+                                      
+                                      
+                                      }
+                                      if (st.test(st.prop(s, g, rc, s.methods, "description", { file: gFile, line: 32, column: 45 }))) {
+                                      
+                                          w.write("\n");
+                                          w.pushIndentation("         ");
+                                          w.write("description: ");
+                                          w.popIndentation();
+                                          st.write(w, s, g, rc, st.prop(s, g, rc, s.methods, "description", { file: gFile, line: 33, column: 31 }));
+                                      
+                                      
+                                      }
+                                      if (st.test(st.prop(s, g, rc, s.methods, "operationId", { file: gFile, line: 33, column: 62 }))) {
+                                      
+                                          w.write("\n");
+                                          w.pushIndentation("         ");
+                                          w.write("operationId: ");
+                                          w.popIndentation();
+                                          st.write(w, s, g, rc, st.prop(s, g, rc, s.methods, "operationId", { file: gFile, line: 34, column: 31 }));
+                                      
+                                      
+                                      }
+                                      w.write("\n");
+                                      w.write("         ");
+                                      if (st.test(st.prop(s, g, rc, s.methods, "parameters", { file: gFile, line: 35, column: 21 }))) {
+                                      
+                                          st.write(w, s, g, rc, (function() {
+                                          var tp = [],
+                                          attr = st.prop(s, g, rc, s.methods, "parameters", { file: gFile, line: 35, column: 42 });
+                                          tp.push(st.makeSubTemplate(g, function(w, rc) {
+                                              var g = this.owningGroup,
+                                              s = this.scope;
+                                              
+                                                       if (st.test(st.prop(s, g, rc, s.param, "requestBody", { file: gFile, line: 35, column: 71 }))) {
+                                                       
+                                                           w.write("\n");
+                                                           w.pushIndentation("         ");
+                                                           w.write("requestBody:");
+                                                           w.popIndentation();
+                                                           if (st.test(st.prop(s, g, rc, s.param, "content", { file: gFile, line: 36, column: 31 }))) {
+                                                           
+                                                               w.write("\n");
+                                                               w.pushIndentation("            ");
+                                                               w.write("content:");
+                                                               w.popIndentation();
+                                                               w.write("\n");
+                                                               w.pushIndentation("               ");
+                                                               st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "content", { file: gFile, line: 38, column: 22 }));
+                                                               w.popIndentation();
+                                                               w.write(":");
+                                                           
+                                                           
+                                                           }
+                                                           if (st.test(st.prop(s, g, rc, s.param, "schema", { file: gFile, line: 38, column: 48 }))) {
+                                                           
+                                                               w.write("\n");
+                                                               w.pushIndentation("                  ");
+                                                               st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "schema", { file: gFile, line: 39, column: 25 }));
+                                                               w.popIndentation();
+                                                               w.write(":");
+                                                           
+                                                           
+                                                           }
+                                                           if (st.test(st.prop(s, g, rc, s.param, "ref", { file: gFile, line: 39, column: 50 }))) {
+                                                           
+                                                               w.write("\n");
+                                                               w.pushIndentation("                     ");
+                                                               st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "ref", { file: gFile, line: 40, column: 28 }));
+                                                               w.popIndentation();
+                                                               w.write(": \"");
+                                                               st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "reference", { file: gFile, line: 40, column: 42 }));
+                                                               w.write("\"");
+                                                           
+                                                           
+                                                           }
+                                                       
+                                                       
+                                                       }
+                                                       if (st.test(st.prop(s, g, rc, s.param, "in", { file: gFile, line: 40, column: 77 }))) {
+                                                       
+                                                           w.write("\n");
+                                                           w.write("         ");
+                                                           if (st.test(st.prop(s, g, rc, s.methods, "parameters", { file: gFile, line: 41, column: 21 }))) {
+                                                           
+                                                               w.write("\n");
+                                                               w.pushIndentation("         ");
+                                                               w.write("parameters:");
+                                                               w.popIndentation();
+                                                           
+                                                           
+                                                           }
+                                                           w.write("\n");
+                                                           w.pushIndentation("         ");
+                                                           w.write("-  in: \"");
+                                                           w.popIndentation();
+                                                           st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "in", { file: gFile, line: 43, column: 24 }));
+                                                           w.write("\"");
+                                                           if (st.test(st.prop(s, g, rc, s.param, "description", { file: gFile, line: 43, column: 38 }))) {
+                                                           
+                                                               w.write("\n");
+                                                               w.pushIndentation("            ");
+                                                               w.write("description: ");
+                                                               w.popIndentation();
+                                                               st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "description", { file: gFile, line: 44, column: 32 }));
+                                                           
+                                                           
+                                                           }
+                                                           if (st.test(st.prop(s, g, rc, s.param, "name", { file: gFile, line: 44, column: 61 }))) {
+                                                           
+                                                               w.write("\n");
+                                                               w.pushIndentation("            ");
+                                                               w.write("name: ");
+                                                               w.popIndentation();
+                                                               st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "name", { file: gFile, line: 45, column: 25 }));
+                                                           
+                                                           
+                                                           }
+                                                           if (st.test(st.prop(s, g, rc, s.param, "required", { file: gFile, line: 45, column: 47 }))) {
+                                                           
+                                                               w.write("\n");
+                                                               w.pushIndentation("            ");
+                                                               w.write("required: ");
+                                                               w.popIndentation();
+                                                               st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "required", { file: gFile, line: 46, column: 29 }));
+                                                           
+                                                           
+                                                           }
+                                                           if (st.test(st.prop(s, g, rc, s.param, "schema", { file: gFile, line: 46, column: 55 }))) {
+                                                           
+                                                               w.write("\n");
+                                                               w.pushIndentation("            ");
+                                                               st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "schema", { file: gFile, line: 47, column: 19 }));
+                                                               w.popIndentation();
+                                                               w.write(":");
+                                                           
+                                                           
+                                                           }
+                                                           if (st.test(st.prop(s, g, rc, s.param, "ref", { file: gFile, line: 47, column: 44 }))) {
+                                                           
+                                                               w.write("\n");
+                                                               w.pushIndentation("               ");
+                                                               st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "ref", { file: gFile, line: 48, column: 22 }));
+                                                               w.popIndentation();
+                                                               w.write(": \"");
+                                                               st.write(w, s, g, rc, st.prop(s, g, rc, s.param, "reference", { file: gFile, line: 48, column: 36 }));
+                                                               w.write("\"");
+                                                           
+                                                           
+                                                           }
+                                                       
+                                                       
+                                                       }
+                                              }, [
+                                              { name: "param"     }
+                                              ])); 
+                                          return st.map(attr, tp);
+                                          })(), {separator: "\n"});
+                                      
+                                      
+                                      }
+                                      w.write("\n");
+                                      w.write("         ");
+                                      if (st.test(st.prop(s, g, rc, s.methods, "responses", { file: gFile, line: 49, column: 21 }))) {
+                                      
+                                          w.write("\n");
+                                          w.pushIndentation("         ");
+                                          w.write("responses:");
+                                          w.popIndentation();
+                                      
+                                      
+                                      }
+                                      w.write("\n");
+                                      w.write("         ");
+                                      if (st.test(st.prop(s, g, rc, s.methods, "responses", { file: gFile, line: 51, column: 21 }))) {
+                                      
+                                          st.write(w, s, g, rc, (function() {
+                                          var tp = [],
+                                          attr = st.prop(s, g, rc, s.methods, "responses", { file: gFile, line: 51, column: 41 });
+                                          tp.push(st.makeSubTemplate(g, function(w, rc) {
+                                              var g = this.owningGroup,
+                                              s = this.scope;
+                                              
+                                                       if (st.test(st.prop(s, g, rc, s.response, "statuscode", { file: gFile, line: 51, column: 75 }))) {
+                                                       
+                                                           w.write("\n");
+                                                           w.pushIndentation("            ");
+                                                           st.write(w, s, g, rc, st.prop(s, g, rc, s.response, "statuscode", { file: gFile, line: 52, column: 22 }));
+                                                           w.popIndentation();
+                                                           w.write(":");
+                                                       
+                                                       
+                                                       }
+                                                       if (st.test(st.prop(s, g, rc, s.response, "description", { file: gFile, line: 52, column: 54 }))) {
+                                                       
+                                                           w.write("\n");
+                                                           w.pushIndentation("               ");
+                                                           w.write("description: ");
+                                                           w.popIndentation();
+                                                           st.write(w, s, g, rc, st.prop(s, g, rc, s.response, "description", { file: gFile, line: 53, column: 38 }));
+                                                       
+                                                       
+                                                       }
+                                                       if (st.test(st.prop(s, g, rc, s.response, "content", { file: gFile, line: 53, column: 70 }))) {
+                                                       
+                                                           w.write("\n");
+                                                           w.pushIndentation("                  ");
+                                                           w.write("content:");
+                                                           w.popIndentation();
+                                                           w.write("\n");
+                                                           w.pushIndentation("                     ");
+                                                           st.write(w, s, g, rc, st.prop(s, g, rc, s.response, "content", { file: gFile, line: 55, column: 31 }));
+                                                           w.popIndentation();
+                                                           w.write(":");
+                                                       
+                                                       
+                                                       }
+                                              }, [
+                                              { name: "response"     }
+                                              ])); 
+                                          return st.map(attr, tp);
+                                          })(), {separator: "\n"});
+                                      
+                                      
+                                      }
                              }, [
-                             { name: "response"     }
+                             { name: "methods"     }
                              ])); 
                          return st.map(attr, tp);
                          })(), {separator: "\n"});

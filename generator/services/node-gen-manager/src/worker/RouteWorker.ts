@@ -115,7 +115,7 @@ export class RouteWorker {
         this.tempRoutes.function.apiAction = '';
         switch (this.flowDetail.actionOnData) {
             case 'GpCreate':
-                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/entity/save`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}`;
                 this.tempRoutes.function.apiAction = `post`;
                 this.tempRoutes.function.methodName = `${this.entitySchema.fileName}_post`;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
@@ -128,19 +128,19 @@ export class RouteWorker {
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpUpdate':
-                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/update`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}`;
                 this.tempRoutes.function.apiAction = `put`;
                 this.tempRoutes.function.methodName = `${this.entitySchema.fileName}_put`
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpDelete':
-                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/delete/:id`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/:id`;
                 this.tempRoutes.function.apiAction = `delete`;
                 this.tempRoutes.function.methodName = `${this.entitySchema.fileName}_delete`
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
             case 'GpGetAllValues':
-                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/entity/getAll`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}`;
                 this.tempRoutes.function.apiAction = `get`;
                 this.tempRoutes.function.methodName = `${this.entitySchema.fileName}_get`;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
@@ -178,7 +178,7 @@ export class RouteWorker {
             case 'GpCustom':
                 break;
             case 'GpGetNounById':
-                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/entity/get/:id`;
+                this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/:id`;
                 this.tempRoutes.function.apiAction = `get`;
                 this.tempRoutes.function.methodName = `${this.entitySchema.fileName}_getNounById`;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
