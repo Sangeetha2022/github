@@ -1,5 +1,5 @@
 docker_file(filename) ::= <<
-From node:10.14.2
+FROM node:14.11.0-alpine
 COPY . /$filename$
 WORKDIR /$filename$
 RUN npm install
