@@ -32,7 +32,8 @@ export const ScreenSchema = new Schema({
             entity: String,
             entityfield: String
         }],
-        default_field: []
+        default_field: [],
+        event: String
     },
     specific_attribute_Event:[{
         htmlId: { type: String, default: null },

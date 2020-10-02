@@ -162,9 +162,9 @@ export class FlowComponentWorker {
                     searchTemp += `\n    data => {`;
                     searchTemp += `\n       console.log('data searched successfully --- ', data);`;
                     if (connectorType == Constant.DEFAULT_CONNECTOR_NAME) {
-                        if(this.componentObject.dynamictype === 'dynamicdropdown-type'){
-                            searchTemp += `\n       this.itemArray = data.body;`;  
-                        } else{
+                        if (this.componentObject.dynamictype === 'dynamicdropdown-type') {
+                            searchTemp += `\n       this.itemArray = data.body;`;
+                        } else {
                             searchTemp += `\n       this.rowData = data.body;`;
                         }
                     } else if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME) {

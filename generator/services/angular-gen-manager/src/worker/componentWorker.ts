@@ -168,6 +168,7 @@ export class ComponentWorker {
         }
         temp.importDependency.push({ dependencyName: componentImportDependencies, dependencyPath: '@angular/core' });
 
+        console.log('---------component information in ts file-----',information);
         flowComponentWorker.generateComponentFlow(information, temp, entities);
 
         componentSupportWorker.generateComponent(applicationPath, templatePath,

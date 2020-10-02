@@ -114,7 +114,8 @@ export class DesktopScreenComponent implements OnInit {
     componentId: '',
     entityId: '',
     custom_field: [],
-    default_field: []
+    default_field: [],
+    event: ''
   };
   screenFlows: any[] = [];
   routeFlows: any[] = [];
@@ -255,7 +256,8 @@ export class DesktopScreenComponent implements OnInit {
   public MODAL_METHODNAME = 'popupModal';
   public ROUTE_METHODNAME = 'GpRoute';
   public matchedentity: any;
-
+  public allflowlist: any;
+  public featurelist: any;
 
   public eventObj = {
     htmlId: '',
@@ -567,7 +569,7 @@ export class DesktopScreenComponent implements OnInit {
     this.getScreenByProjectId();
     this.traitService.initMethod(this);
     this.getEntityType();
-    // this.getAllFlows();
+    this.getAllFlows();
     this.getProjectDetails();
     this.addCustomBlocks();
     // this.declareBlockLanguage();
@@ -847,6 +849,7 @@ export class DesktopScreenComponent implements OnInit {
                 'component-lifecycle'
               ];
               this.specialEvents = this.existScreenDetail[0]['special-events'];
+              this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
               this.linkArray = this.existScreenDetail[0]['link_info'];
               // console.log('after get scrende id ------ ', this.linkInformation);
               // LOAD CUSTOM BLOCKS
@@ -927,19 +930,13 @@ export class DesktopScreenComponent implements OnInit {
     );
   }
 
-  // getAllFlows() {
-  //     this.flowManagerService.getAllFlows().subscribe((flowData) => {
-  //         this.listOfFLows = flowData.body;
-  //         if (this.feature_id !== undefined && this.feature_id != null) {
-  //             this.rowData = this.listOfFLows;
-  //         } else {
-  //             const createFlow = this.listOfFLows.find(x => x.name === 'GpCreate');
-  //             this.rowData = [createFlow];
-  //         }
-  //     }, (error) => {
-  //         console.log('cannot get flows in screen designer ', error);
-  //     });
-  // }
+  getAllFlows() {
+    this.flowManagerService.getAllFlows().subscribe((flowData) => {
+      this.allflowlist = flowData.body;
+    }, (error) => {
+      console.log('cannot get flows in screen designer ', error);
+    });
+  }
 
   getProjectFeatureFlows(projectFlowsID) {
     this.projectComponentService
@@ -969,6 +966,7 @@ export class DesktopScreenComponent implements OnInit {
       this.projectComponentService.getFeatureById(this.feature_id).subscribe(
         featureData => {
           if (featureData.body) {
+            this.featurelist = featureData.body;
             this.getProjectFeatureFlows(featureData.body.flows);
           }
         },
@@ -1080,10 +1078,16 @@ export class DesktopScreenComponent implements OnInit {
     routeObj.screenId = this.routeDetails.screen._id;
     routeObj.screenName = this.routeDetails.screen.screenName;
     routeObj.routeType = this.routeDetails.type;
+
+    // update the screen with getnounbyid flow
+    if (routeObj.screenId) {
+      this.getscreendetailsbyid(routeObj.screenId);
+    }
     // add the routing method name
     routeObj.methodName = this.ROUTE_METHODNAME;
     // add the screensflow
     if (this.routeDetails.screenFlow) {
+      console.log('------------flow details---------', this.routeDetails.screenFlow);
       routeObj.screenFlow = this.routeDetails.screenFlow.flow;
       routeObj.screenFlowName = this.routeDetails.screenFlow.flowName;
     }
@@ -1186,7 +1190,6 @@ export class DesktopScreenComponent implements OnInit {
     if (this.editor.getSelected().attributes.type === 'dynamicdropdown-type') {
       flowObj.event = this.eventObj.selected_event;
     }
-    console.log('-------traits type-------', this.editor.getSelected().attributes.type);
     flowObj.flow = this.selectedFlow[0]._id;
     flowObj.flowName = this.selectedFlow[0].name;
     // remove flows if it present without elementName
@@ -1202,6 +1205,7 @@ export class DesktopScreenComponent implements OnInit {
     if (isFlowExist > -1) {
       this.screenFlows.splice(isFlowExist, 1);
     }
+    console.log('-------grid flowobject------', flowObj);
     this.screenFlows.push(flowObj);
     this.saveRemoteStorage();
   }
@@ -2036,12 +2040,107 @@ export class DesktopScreenComponent implements OnInit {
     }
 
     if (value.event.type === 'grid-type') {
-      console.log('---------grid event-------', value.event.type);
+      console.log('---------grid event-------', value.event);
+      this.agGridObject.event = value.event.value;
     }
     // tslint:disable-next-line:max-line-length
     console.log('-----flow value-----', this.eventObj, '----selectedflow', this.selectedFlow, '----selectedflowobj', this.selectedFlowObj);
 
     this.specific_attribute_Event.push(this.eventObj);
     this.saveRemoteStorage();
+  }
+
+
+  getscreendetailsbyid(screenid) {
+
+    const GetByIdFlowObj = this.allflowlist.find(
+      x => x.name === 'GpGetNounById'
+    );
+
+    const flowObj = {
+      htmlId: '',
+      componentId: '',
+      elementName: '',
+      verb: '',
+      event: '',
+      flow: '',
+      flowName: ''
+    };
+
+    console.log('--------GetByIdFlowobj-------', GetByIdFlowObj);
+
+    const projectflow_arr = [];
+
+    projectflow_arr.push(GetByIdFlowObj);
+
+    flowObj.flowName = GetByIdFlowObj.name;
+    flowObj.flow = GetByIdFlowObj._id;
+    flowObj.event = 'OnLoad';
+    this.screenDesignerService.getScreenById(screenid).subscribe(
+      response => {
+        if (response.body) {
+          const screendetails = response.body[0];
+          const flowsarray = screendetails['flows_info'];
+          if (flowsarray.find(x => x.flowName === GetByIdFlowObj.name)) {
+            console.log('-------for gpserachforupdateflow process-----', flowsarray);
+          } else {
+            screendetails['flows_info'].push(flowObj);
+            console.log('--------screenid----', screendetails);
+            // console.log('------update done--', this.editor.StorageManager.get('remote'));
+            this.projectComponentService.getallProjectFlow().subscribe(
+              projectflowlist => {
+                if (projectflowlist.body) {
+
+                  const projectflowexsists = projectflowlist.body.findIndex(x => x._id == GetByIdFlowObj._id);
+                  const featureflowexsists = this.featurelist.flows.findIndex(x => x == GetByIdFlowObj._id);
+                  console.log('---------projectflowlist-------', projectflowexsists, featureflowexsists);
+
+                  if (projectflowexsists > -1 && featureflowexsists == -1) {
+                    this.featurelist.flows = this.featurelist.flows.concat(GetByIdFlowObj._id);
+                    this.projectComponentService.updateFeature(this.featurelist).subscribe(
+                      featureresponse => {
+                        console.log('save in flow ---in feature -->>', featureresponse);
+                      },
+                      error => {
+                        console.log('cannot able to update the many projectfeature');
+                      });
+
+                  }
+                  if (projectflowexsists > -1 && featureflowexsists > -1) {
+                    this.projectComponentService.saveManyProjectFlow(projectflow_arr).subscribe(
+                      projectflow => {
+                        if (projectflow.body) {
+                          console.log('save many project flows----->>', projectflow);
+                          const projectFlowsId = projectflow.body.map(({ _id }) => _id);
+                          this.featurelist.flows = this.featurelist.flows.concat(projectFlowsId);
+                          this.projectComponentService.updateFeature(this.featurelist).subscribe(
+                            featureresponse => {
+                              console.log('save in flow --in feature -->>', response);
+                            },
+                            error => {
+                              console.log('cannot able to update the many projectfeature');
+                            });
+                        }
+                      },
+                      error => {
+                        console.log('cannot able to save the many projectFlows');
+                      });
+                  }
+
+                }
+              });
+
+
+
+            this.screenDesignerService.updateScreen(screenid, screendetails).subscribe(
+              screenresponse => {
+                console.log('------update done--', screenresponse);
+              }
+            );
+          }
+
+        }
+      });
+
   }
 }

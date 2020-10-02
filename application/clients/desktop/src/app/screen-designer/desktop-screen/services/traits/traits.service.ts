@@ -834,15 +834,12 @@ export class TraitsService {
           const changedValue = this.changed['events'];
           screensVariable.agGridObject['selectedevent'] = this.changed['events'];
           // tslint:disable-next-line:max-line-length
-          console.log('Input type changed to : ', screensVariable.editor.getSelected().attributes, screensVariable.editor.getSelected().ccid, screensVariable.editor.getSelected().cid);
-          // const eventchangetrigger = {
-          //   elementname: screensVariable.editor.getSelected().attributes.name,
-          //   componentId: screensVariable.editor.getSelected().cid,
-          //   htmlId: screensVariable.editor.getSelected().ccid,
-          //   traits: dynamicDropdownTraits,
-          //   value: changedValue
-          // };
-          // $this.broadcastservice.updateDataselection({ 'event': eventchangetrigger });
+          console.log('Input type changed to : ', screensVariable.editor.getSelected().attributes.type, screensVariable.editor.getSelected().ccid, screensVariable.editor.getSelected().cid);
+          const eventchangetrigger = {
+            type: screensVariable.editor.getSelected().attributes.type,
+            value: changedValue
+          };
+          $this.broadcastservice.updateDataselection({ 'event': eventchangetrigger });
           console.log('--------changed event-----', changedValue , screensVariable);
           // screensVariable.editor.TraitManager.getTraitsViewer().render();
         },

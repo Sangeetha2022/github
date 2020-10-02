@@ -106,10 +106,12 @@ export class ProjectComponentService {
     return this.api.post(`${this.restapi.Apigateway}${Constants.quickConnectors}`, data);
   }
 
+  getallProjectFlow(): Observable<any>  {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getallProjectFlow}`);
+  }
 
-  saveManyProjectFlow(data) {
+  saveManyProjectFlow(data): Observable<any> {
     return this.api.post(`${this.restapi.Apigateway}${Constants.saveManyProjectFlow}`, data);
-
   }
 
   getProjectFeatureFlows(projectFlowsId): Observable<any> {
@@ -150,7 +152,7 @@ export class ProjectComponentService {
     return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteEntityById}` + `/${entityId}`);
   }
 
-  updateQuickConnectorsById(updateFlow:any): Observable<any> {
+  updateQuickConnectorsById(updateFlow: any): Observable<any> {
     return this.api.put(`${this.restapi.Apigateway}${Constants.updateQuickConnectorsById}/${updateFlow._id}`, updateFlow);
   }
 

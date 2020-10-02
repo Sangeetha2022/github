@@ -25,7 +25,7 @@ export class ScreenDesignerService {
   }
 
   updateScreen(screenId, screenData): Observable<any> {
-    return this.http.post(`${this.sharedService.Apigateway}${Constants.updateScreen}/${screenId}`, screenData);
+    return this.http.post(`${this.sharedService.Apigateway}${Constants.updateScreen}${screenId}`, screenData);
   }
 
   saveScreen(screenData): Observable<any> {
