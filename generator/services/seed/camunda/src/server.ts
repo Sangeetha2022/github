@@ -6,7 +6,7 @@ import { Routes } from './routes/routes'
 import mongoose = require('mongoose');
 import { SeedService } from './seed';
 import { DmnFile } from './dmnDeploye/dmnFile';
-const PORT = 3008;
+const PORT = 8002;
 
 class App {
     public app = express();

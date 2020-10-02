@@ -30,7 +30,7 @@ services:
     image: authproxy
     container_name: authproxy
     ports:
-      - "3009:3009"
+      - "8001:8001"
     env_file: .env
     depends_on:
       - mongo
@@ -41,7 +41,7 @@ services:
     image: camundaservice
     container_name: camundasvc
     ports:
-      - "3008:3008"
+      - "8002:8002"
     env_file: .env
     depends_on:
       - mongo
@@ -52,7 +52,7 @@ services:
     image: securitymanager
     container_name: securitymanager
     ports:
-      - "3007:3007"
+      - "8003:8003"
     env_file: .env
     depends_on:
       - mongo
@@ -63,7 +63,7 @@ services:
     image: apigateway
     container_name: apigateway
     ports:
-      - "3000:3000"
+      - "8000:8000"
     env_file: .env
     depends_on:
       - camunda

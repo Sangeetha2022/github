@@ -1,4 +1,3 @@
-import { Request } from 'request';
 import * as asyncLoop from 'node-async-loop';
 import * as mongoose from 'mongoose';
 import * as FormData from 'form-data';

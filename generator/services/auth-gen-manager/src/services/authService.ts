@@ -41,9 +41,9 @@ export class AuthService {
     private projectName = '';
     private sourcePath: any;
     private ports = {
-        security: 3007,
-        camunda: 3008,
-        authProxy: 3009
+        security: 8003,
+        camunda: 8002,
+        authProxy: 8001
     }
     // templateName
     private SERVER_TEMPLATENAME = 'server_file';

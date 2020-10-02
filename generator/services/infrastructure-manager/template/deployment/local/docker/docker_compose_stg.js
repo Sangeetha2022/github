@@ -1,6 +1,6 @@
 /*
  * Template group docker_compose
- * Compiled on Wed Sep 16 2020 17:26:30 GMT+0530 (India Standard Time)
+ * Compiled on Mon Sep 28 2020 16:59:00 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -140,7 +140,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("- \"3009:3009\"");
+    w.write("- \"8001:8001\"");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -181,7 +181,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("- \"3008:3008\"");
+    w.write("- \"8002:8002\"");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -222,7 +222,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("- \"3007:3007\"");
+    w.write("- \"8003:8003\"");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -263,7 +263,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("- \"3000:3000\"");
+    w.write("- \"8000:8000\"");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
