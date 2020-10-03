@@ -219,7 +219,9 @@ export class FlowComponentWorker {
                     createTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[this.componentObject.variableList.findIndex(x => x.entityName != undefined)].entityName})`;
                     createTemp += `\n  .subscribe(`;
                     createTemp += `\n    data => {`;
-                    createTemp += `\n              this.toastr.success('data save sucessfully')`
+                    createTemp += `\n              this.toastr.success('data save sucessfully','Success' , {
+                        timeOut: 3000
+                      }); `
                     createTemp += `\n       console.log('data created successfully');`;
                     if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
                         createTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
@@ -227,7 +229,9 @@ export class FlowComponentWorker {
                     } else { }
                     createTemp += `\n    },`;
                     createTemp += `\n    error => {`;
-                    createTemp += `\n             this.toastr.error('Failed to data save')`
+                    createTemp += `\n             this.toastr.error('Failed to data save', 'Failed' ,{
+                        timeOut: 3000
+                      });`       
                     createTemp += `\n       console.log('cannot able to create the data');`;
                     createTemp += `\n    }`;
                     createTemp += `\n    );`;
@@ -284,9 +288,8 @@ export class FlowComponentWorker {
                     updateTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : `this.${this.componentObject.variableList[0].entityName}`})`;
                     updateTemp += `\n  .subscribe(`;
                     updateTemp += `\n    data => {`;
-                    updateTemp += `\n              this.toastr.success('data save sucessfully', {
-                        closeButton: true,
-                        disableTimeOut: true
+                    updateTemp += `\n              this.toastr.success('data save sucessfully','Success' , {
+                        timeOut: 3000
                       }); `
                     updateTemp += `\n       console.log('data updated successfully --- ', data);`;
                     if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
@@ -295,9 +298,8 @@ export class FlowComponentWorker {
                     } else { }
                     updateTemp += `\n    },`;
                     updateTemp += `\n    error => {`;
-                    updateTemp += `\n             this.toastr.error('Failed to data save', {
-                        closeButton: true,
-                        disableTimeOut: true
+                    updateTemp += `\n             this.toastr.error('Failed to data save', 'Failed ',{
+                        timeOut: 3000
                       });`
                     updateTemp += `\n       console.log('cannot able to update the data --- ', error);`;
                     updateTemp += `\n    }`;

@@ -1,6 +1,6 @@
 /*
  * Template group proxy_config
- * Compiled on Tue Sep 24 2019 13:21:33 GMT+0530 (India Standard Time)
+ * Compiled on Sat Oct 03 2020 17:26:57 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -25,7 +25,7 @@ r = function(w, rc) {
     
     w.write("const BACKEND_URL = process.env.BACKEND_URL || 'localhost';");
     w.write("\n");
-    w.write("const BACKEND_PORT = process.env.BACKEND_PORT || '31234';");
+    w.write("const BACKEND_PORT = process.env.BACKEND_PORT || '8000';");
     w.write("\n");
     w.write("\n");
     w.write("const PROXY_CONFIG = {");

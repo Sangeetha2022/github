@@ -1,6 +1,6 @@
 proxy_config() ::= <<
 const BACKEND_URL = process.env.BACKEND_URL || 'localhost';
-const BACKEND_PORT = process.env.BACKEND_PORT || '31234';
+const BACKEND_PORT = process.env.BACKEND_PORT || '8000';
 
 const PROXY_CONFIG = {
     '/api/*': {

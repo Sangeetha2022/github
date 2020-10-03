@@ -37,7 +37,7 @@ export class ComponentWorker {
         `"i18next-browser-languagedetector": "^2.2.4"`,
         `"i18next-sprintf-postprocessor": "^0.2.2"`,
         ` "i18next-xhr-backend": "^1.5.1"`,
-        `"@ng-select/ng-select": "^5.0.3"`,
+        `"@ng-select/ng-select": "^5.0.3",`,
     ]
 
     private moduleComponent = {
@@ -266,9 +266,6 @@ export class ComponentWorker {
 
         //toaster import added
         temp.imports.push(`ToastrModule.forRoot({ preventDuplicates: true })`)
-
-        //import 
-        temp.imports.push(`NgSelectModule`) 
 
         // declarations default
         temp.declarations.push(`${temp.className}Component`)
