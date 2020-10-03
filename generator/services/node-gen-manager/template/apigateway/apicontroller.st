@@ -15,7 +15,8 @@ export class $object.className$Controller $if(object.implementName)$implements $
 
 $if(object.methods)$$object.methods:{methods |  public $methods.methodName$(req: Request, res: Response) {
             new CustomLogger().showLogger('info', 'Enter into $object.className$Controller.ts: $methods.methodName$');
-        new ApiAdaptar().$methods.apiAction$($methods.constantName$.$methods.nodeName$ + `$methods.methodUrl$` $if(methods.requestParameter)$, $methods.requestParameter$$endif$).then($methods.responseParameter$ => {
+        new ApiAdaptar().$methods.apiAction$($methods.constantName$.$methods.nodeName$ + `$methods.methodUrl$` $if(methods.requestParameter)$, $methods.requestParameter$$endif$)
+        .then((res: any) => res.response.json()).then($methods.responseParameter$ => {
               req.baseUrl === '/mobile' ? res.send($methods.responseParameter$) :
               req.baseUrl === '/desktop' ? res.send($methods.responseParameter$) : res.send(null)
             new CustomLogger().showLogger('info', 'Exit from $object.className$Controller.ts: $methods.methodName$');
@@ -27,7 +28,9 @@ $if(object.methods)$$object.methods:{methods |  public $methods.methodName$(req:
 $if(object.additional.camunda.login)$
   public $object.additional.camunda.login.methodName$(req: Request, res: Response) {
                   new CustomLogger().showLogger('info', 'Enter into $object.className$Controller.ts: $object.additional.camunda.login.methodName$');
-        new ApiAdaptar().$object.additional.camunda.login.apiAction$($object.additional.camunda.login.constantName$.$object.additional.camunda.login.nodeName$ + `$object.additional.camunda.login.methodUrl$` $if(object.additional.camunda.login.requestParameter)$, $object.additional.camunda.login.requestParameter$$endif$).then(async ($object.additional.camunda.login.responseParameter$) => {
+        new ApiAdaptar().$object.additional.camunda.login.apiAction$($object.additional.camunda.login.constantName$.$object.additional.camunda.login.nodeName$ + `$object.additional.camunda.login.methodUrl$` $if(object.additional.camunda.login.requestParameter)$, $object.additional.camunda.login.requestParameter$$endif$)
+        .then((res: any) => res.response.json())
+        .then(async ($object.additional.camunda.login.responseParameter$) => {
             // @ts-ignore
             const token = $object.additional.camunda.login.responseParameter$.body.Idtoken;
             // @ts-ignore
@@ -38,11 +41,11 @@ $if(object.additional.camunda.login)$
                           $if(object.additional.camunda.isVerify)$
             jwt.verify(token, 'geppettosecret', (err, decoded) => {
                 if (err) {
-                    return ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
+                    res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
                 } else {
                     new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded).then((response) => {
                         const temp = {
-                            "Access": JSON.parse(JSON.stringify(response)).body,
+                            "Access": JSON.parse(JSON.stringify(response)),
                             "Userdetails": result
                         }
                 req.baseUrl === '/mobile' ? res.send(temp) :
@@ -62,21 +65,24 @@ $endif$
 $if(object.additional.camunda.consent)$
    public $object.additional.camunda.consent.methodName$(req: Request, res: Response) {
                          new CustomLogger().showLogger('info', 'Enter into $object.className$Controller.ts: $object.additional.camunda.consent.methodName$');
-        new ApiAdaptar().$object.additional.camunda.consent.apiAction$($object.additional.camunda.consent.constantName$.$object.additional.camunda.consent.nodeName$ + `$object.additional.camunda.consent.methodUrl$` $if(object.additional.camunda.consent.requestParameter)$, $object.additional.camunda.consent.requestParameter$$endif$).then(async ($object.additional.camunda.consent.responseParameter$) => {
+        new ApiAdaptar().$object.additional.camunda.consent.apiAction$($object.additional.camunda.consent.constantName$.$object.additional.camunda.consent.nodeName$ + `$object.additional.camunda.consent.methodUrl$` $if(object.additional.camunda.consent.requestParameter)$, $object.additional.camunda.consent.requestParameter$$endif$)
+        .then((res: any) => res.response.json())
+        .then(async ($object.additional.camunda.consent.responseParameter$) => {
             // @ts-ignore
             const token = $object.additional.camunda.consent.responseParameter$.body.Idtoken;
             $if(object.additional.camunda.isVerify)$
             jwt.verify(token, 'geppettosecret', (err, decoded) => {
                 if (err) {
-                    return ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
+                    res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
                 } else {
-                    new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded).then((response) => {
+                    new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded)
+                    .then((res: any) => res.response.json()).then((response) => {
                         const temp = {
-                            "Access": JSON.parse(JSON.stringify(response)).body,
+                            "Access": JSON.parse(JSON.stringify(response)),
                             "Userdetails": result
                         }
                 req.baseUrl === '/mobile' ? res.send(temp) :
-                req.baseUrl === '/desktop' ? res.send(temp) : res.send(null)
+                req.baseUrl === '/desktop' ? res.send(temp) :
                          new CustomLogger().showLogger('info', 'Exit from $object.className$Controller.ts: $object.additional.camunda.consent.methodName$');
                     })
                 }

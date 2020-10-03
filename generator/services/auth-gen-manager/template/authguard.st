@@ -1,13 +1,14 @@
 authguard(object) ::= <<
-    import { Injectable, Output, EventEmitter, Input } from '@angular/core';
+ import { Injectable, Output, EventEmitter, Input } from '@angular/core';
 import {
-  CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, GuardsCheckStart
+  CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, GuardsCheckStart, GuardsCheckEnd
 } from '@angular/router';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BroadcastService } from './broadcast.service';
-
+// import { filter } from 'rxjs/operators';
 import 'rxjs/add/operator/filter';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,6 +24,12 @@ export class AuthGuard implements CanActivate {
   public landingPageObject: any;
   public projectScreen: any;
   public userId: any;
+  public permissions: any[] = [];
+  public adminpermission: any = [];
+  public userpermission: any = [];
+  public devpermission: any = [];
+  public guestpermission: any = [];
+  public routearray: any[] = [];
 
   constructor(
     private route: Router,
@@ -33,153 +40,125 @@ export class AuthGuard implements CanActivate {
       this.accessRoutes = authGuardValue.Access;
     });
 
-    this.routeEvent(this.route);
-  }
-
-  public routeEvent(router: Router) {
-    router.events.subscribe(e => {
-      if (e instanceof GuardsCheckStart) {
-        this.routeName = e.url.replace(/\?[a-z].*/g, '').replace(/\/:[a-z].*/g, '').replace(/\//g, '');
-      }
+    this.route.events.filter(value => value instanceof GuardsCheckStart).subscribe((value: GuardsCheckStart) => {
+      console.log('--------routevalue----', this.route.config);
+      this.routeName = value.url.split('/');
     });
   }
+
+
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    this.routeName = state.url.replace(/\?[a-z].*/g, '').replace(/\/:[a-z].*/g, '').replace(/\//g, '');
+    // console.log('------loggedvalue----', state.url);
+    return this.checkLoogedIn(state.url);
+  }
+  checkLoogedIn(url: String) {
+    this.routeName = url.split('/');
     this.userId = sessionStorage.getItem('Id');
     if (this.userId !== null) {
       this.jwtToken = sessionStorage.getItem('JwtToken');
       const helper = new JwtHelperService();
       const decodedToken = helper.decodeToken(this.jwtToken);
       this.userRole = decodedToken.role;
-      const url = window.location.href;
       this.accessRoutes = JSON.parse(sessionStorage.getItem('Access'));
 
       if (this.accessRoutes) {
-         if (this.routeName.includes('profile?id=')) {
-          this.routeName = this.routeName.split('?');
-          this.routeName = this.routeName[0];
-        }
         this.accessRoutes.forEach(element => {
-          const Developer = element['Developer'];
-          const Admin = element['Admin'];
-          const User = element['Standard User'];
-          if (this.userRole === 'Admin') {
-            const adminAccess = JSON.parse(Admin.value);
-            const adminPage = adminAccess['Admin'];
-            this.viewPermission = adminPage[0].Access.value;
-            const Project = adminAccess['Project'];
-            const Landing = adminAccess['Landing'];
-            Project.forEach(projectAccess => {
-              const projectPermission = projectAccess.Access.value;
-              this.viewPermission = projectPermission;
-              const projectField = projectAccess.Fields;
-              const config = projectField[0].Configuration;
-              const configValue = config.value;
-              this.projectScreen = {
-                'Access': projectPermission,
-                'Fields': {
-                  'config': configValue
-                }
-              };
-            });
-            Landing.forEach(landingAccess => {
-              const landingPage = landingAccess.Access.value;
-              if (landingPage === 'true') {
-                const landingFields = landingAccess.Fields;
-                this.landingPageObject = {
-                  'Access': landingPage,
-                  'Fields': landingFields
-                };
-              }
-            });
-            this.broadcastService.sendMessage({ 'Landing': this.landingPageObject, 'Project': this.projectScreen });
-          }
-          if (this.userRole === 'Developer') {
-            const developerAccess = JSON.parse(Developer.value);
-            this.checkAdmin = developerAccess.Admin.Access.value;
-            if (this.checkAdmin === 'false') {
-              const Project = developerAccess['Project'];
-              const Landing = developerAccess['Landing'];
-              Project.forEach(projectAccess => {
-                const projectPermission = projectAccess.Access.value;
-                this.viewPermission = projectPermission;
-                const projectField = projectAccess.Fields;
-                const config = projectField[0].Configuration;
-                const configValue = config.value;
-                this.projectScreen = {
-                  'Access': projectPermission,
-                  'Fields': {
-                    'config': configValue
+          let Admin = element['Admin'];
+          let Developer = element['Developer'];
+          let Guest = element['Guest'];
+          let StandardUser = element['Standard User'];
+          this.permissions = [];
+          if (this.userRole == 'Admin') {
+            const permissionlevel = JSON.parse(Admin.value);
+            for (let key in permissionlevel) {
+              const accessvalue = permissionlevel[key];
+              for (let role in accessvalue[0]) {
+                if (role == 'Admin') {
+                  if (accessvalue[0][role].value == true) {
+                    for (let i = 0; i < this.route.config.length; i++) {
+                      this.viewPermission = accessvalue[0][role].value;
+                      this.permissions.push(key);
+                      this.routearray.push(key);
+                      this.routearray = this.routearray.filter((item, index) => this.routearray.indexOf(item) === index)
+                      this.permissions = this.permissions.filter((item, index) => this.permissions.indexOf(item) === index)
+                    }
+                    this.broadcastService.sendMessage({ 'Admin': this.permissions });
                   }
-                };
-              });
-              Landing.forEach(landingAccess => {
-                const landingPage = landingAccess.Access.value;
-                if (landingPage === 'true') {
-                  const landingFields = landingAccess.Fields;
-                  this.landingPageObject = {
-                    'Access': landingPage,
-                    'Fields': landingFields
-                  };
                 }
-              });
-              this.broadcastService.sendMessage({ 'Landing': this.landingPageObject, 'Project': this.projectScreen });
-            } else {
-              this.getPermission.emit(developerAccess.Admin.Access.value);
-              this.viewPermission = developerAccess.Admin.Access.value;
+              }
             }
           }
-          if (this.userRole === 'Standarduser') {
-            const userAccess = JSON.parse(User.value);
-            this.projectScreen = {
-              'Access': userAccess.Admin.Access.value
-            };
-            this.broadcastService.sendMessage({ 'Project': this.projectScreen });
-            this.viewPermission = userAccess.Admin.Access.value;
+          if (this.userRole == 'Developer') {
+            const permissionlevel = JSON.parse((Developer.value));
+            for (let key in permissionlevel) {
+              const accessvalue = permissionlevel[key];
+              for (let role in accessvalue[0]) {
+                if (role == 'Developer') {
+                  if (accessvalue[0][role].value == true) {
+                    for (let i = 0; i < this.route.config.length; i++) {
+                      this.viewPermission = accessvalue[0][role].value;
+                      this.permissions.push(key);
+                      this.permissions = this.permissions.filter((item, index) => this.permissions.indexOf(item) === index)
+                      this.routearray.push(key);
+                      this.routearray = this.routearray.filter((item, index) => this.routearray.indexOf(item) === index)
+                    }
+                    this.broadcastService.sendMessage({ 'Developer': this.permissions });
+                  }
+                }
+              }
+            }
+          }
+          if (this.userRole == 'Standarduser') {
+            const permissionlevel = JSON.parse((StandardUser.value));
+            for (let key in permissionlevel) {
+              const accessvalue = permissionlevel[key];
+              for (let role in accessvalue[0]) {
+                if (role == 'User') {
+                  if (accessvalue[0][role].value == true) {
+                    for (let i = 0; i < this.route.config.length; i++) {
+                      this.viewPermission = accessvalue[0][role].value;
+                      this.permissions.push(key);
+                      this.permissions = this.permissions.filter((item, index) => this.permissions.indexOf(item) === index)
+                      this.routearray.push(key);
+                      this.routearray = this.routearray.filter((item, index) => this.routearray.indexOf(item) === index)
+                    }
+                    this.broadcastService.sendMessage({ 'User': this.permissions });
+                  }
+                }
+              }
+            }
+          }
+          if (this.userRole == 'Guest') {
+            const permissionlevel = JSON.parse((Guest.value));
+            for (let key in permissionlevel) {
+              const accessvalue = permissionlevel[key];
+              for (let role in accessvalue[0]) {
+                if (role == 'Guest') {
+                  if (accessvalue[0][role].value == true) {
+                    for (let i = 0; i < this.route.config.length; i++) {
+                      this.viewPermission = accessvalue[0][role].value;
+                      this.permissions.push(key);
+                      this.permissions = this.permissions.filter((item, index) => this.permissions.indexOf(item) === index)
+                      this.routearray.push(key);
+                      this.routearray = this.routearray.filter((item, index) => this.routearray.indexOf(item) === index)
+                    }
+                    this.broadcastService.sendMessage({ 'Guest': this.permissions });
+                  }
+                }
+              }
+            }
           }
         });
-	 $if(object)$$object:{value |  
-      if(this.routeName === '$value$') {
-         return true;
-     \}
-      };separator="\n"$$endif$
-      
-        if (this.routeName === 'admin') {
-          if (this.viewPermission !== 'true') {
-            return false;
-          } else {
-            return true;
-          }
+        if (this.routeName[1] == 'home') {
+          return true
         }
-
-        if (this.routeName === 'profile') {
-          if (this.viewPermission !== 'true') {
-            return false;
-          } else {
-            return true;
-          }
-        }
-        if (this.routeName === 'admin') {
-          if (this.viewPermission !== 'true') {
-            return false;
-          } else {
-            return true;
-          }
-        }
-        if (this.routeName === 'usermanagement') {
-          if (this.viewPermission !== 'true') {
-            return false;
-          } else {
-            return true;
-          }
-        }
+        return this.routearray.filter(routevalue => routevalue === this.routeName[1]).length > 0;
       }
     } else {
-      this.route.navigate(['']);
+      this.route.navigate(['/home']);
       return false;
     }
   }
 }
-
 
 >>

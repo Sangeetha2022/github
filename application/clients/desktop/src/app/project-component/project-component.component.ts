@@ -76,7 +76,8 @@ export class EntityManagerComponent implements OnInit {
     public featureInfo: any = {
         name: '',
         description: '',
-        project: ''
+        project: '',
+        type: ''
     };
     displayModel: any;
 
@@ -303,9 +304,10 @@ export class EntityManagerComponent implements OnInit {
             if (!this.isFeatureExist && !this.invalidName && !this.isReserveWord) {
                 this.featureInfo.description = this.featureInfo.description.replace(/<[^>]+>/g, '');
                 this.featureInfo.description.trim();
+                console.log("featureData------>", this.featureData);
                 this.projectComponentService.saveFeatures(this.featureInfo).subscribe(
                     (featureData) => {
-                        this.featureInfo = { name: '', description: '', project: '' };
+                        this.featureInfo = { name: '', description: '', project: '', type: '' };
                         this.displayFeatureModel = 'none';
                         this.menuBuilder = {
                             feature: [], project: '', language: '',
@@ -333,6 +335,50 @@ export class EntityManagerComponent implements OnInit {
 
                     }
                 );
+            }
+
+        });
+    }
+
+    importFeature() {
+        this.isFeatureExist = false;
+        this.featureInfo.name.toLowerCase();
+        this.featureInfo.project = this.project_id;
+
+        this.validatorService.checkNamingConvention(this.featureInfo.name);
+        this.validatorService.checkReserveWords(this.featureInfo.name);
+        this.validatorService.currentProjectInfo.subscribe(data => {
+            if (data === null) {
+                this.invalidName = true;
+            } else {
+                this.invalidName = false;
+            }
+        });
+        this.validatorService.currentProjectReserveWordInfo.subscribe(reserveWord => {
+            this.isReserveWord = reserveWord;
+        });
+
+        this.projectComponentService.getFeatureByProjectId(this.project_id).subscribe(projFeature => {
+            if (projFeature.body.length > 0) {
+                projFeature.body.forEach(feature => {
+                    if (feature.name === this.featureInfo.name) {
+                        this.isFeatureExist = true;
+                    }
+                });
+            }
+
+            if (!this.isFeatureExist && !this.invalidName && !this.isReserveWord) {
+                this.featureInfo.description = this.featureInfo.description.replace(/<[^>]+>/g, '');
+                this.featureInfo.description.trim();
+                this.featureInfo.type = 'private';
+                this.projectComponentService.saveFeatures(this.featureInfo).subscribe(
+                    (featureData) => {
+                        this.displayFeatureModel = 'none';
+                    },
+                    (error) => {
+                    }
+                );
+                this.getFeatureByProjectId();
             }
 
         });

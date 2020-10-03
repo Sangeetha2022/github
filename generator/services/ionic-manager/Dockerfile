@@ -1,4 +1,4 @@
-From node:10.14.2
+FROM node:14.11.0-alpine
 COPY . /ionicmanager
 WORKDIR /ionicmanager
 RUN npm install
@@ -6,4 +6,4 @@ RUN npm install -g @angular/cli
 RUN npm install -g cordova ionic
 RUN npm i -g cordova-res --unsafe-perm
 RUN npm i -g ts-node
-CMD npm run prod
+CMD npm run dev

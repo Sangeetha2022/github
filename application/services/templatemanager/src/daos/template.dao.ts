@@ -63,14 +63,12 @@ export class TemplateDao {
     }
 
     public getTemplateByID(req: Request, callback: CallableFunction) {
-        Template.findById(req.params.id).exec((err, template) => {
-            if (err) {
-                callback(err);
-            } else {
+        let name = req.params.id
+        Template.find({ template_name: name}).then(template => {
+            console.log('Template id --------- ', template)
                 // console.log('Template id --------- ', template)
 
                 callback(template);
-            }
         });
     }
 

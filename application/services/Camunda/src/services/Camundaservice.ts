@@ -60,6 +60,7 @@ export class CamundaService {
                 console.log('------responsebody---------', body);
                 var responsebody = JSON.stringify(body);
                 var finaldata = JSON.parse(responsebody);
+                console.log('------responsebody---------', finaldata);
                 var responsevalue = finaldata[0];
                 const test = responsevalue;
                 const test2 = JSON.stringify(test);

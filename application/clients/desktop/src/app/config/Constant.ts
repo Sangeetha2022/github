@@ -157,6 +157,11 @@ export class Constants {
     public static get projectGeneration(): string { return this.DESKTOP_ROUTER + '/projectgen/project'; }
     public static GET = '/get';
 
+    // shared application
+    public static get sharedApplication(): string { return this.DESKTOP_ROUTER + '/shared/getbyproject/'; }
+    public static get sharedAppImport(): string { return  '/shared/upload'; }
+
+
     // regex Constant Expressions
 
     public static get getConstantReservedWords(): String {

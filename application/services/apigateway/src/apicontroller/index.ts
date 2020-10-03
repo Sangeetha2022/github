@@ -14,6 +14,8 @@ export * from './admin.controller';
 export * from './templatemanager.controller';
 export * from './customConnectors.controller';
 export * from './deletemanager.controller';
+export * from './shared.Controller';
+
 
 
 // generator
@@ -30,5 +32,6 @@ export * from './generator/angular.controller';
 export * from './generator/github.controller';
 export * from './generator/authgencontroller';
 export * from './generator/angularTemplate.controller';
+export * from './generator/swagger.controller';
 
 

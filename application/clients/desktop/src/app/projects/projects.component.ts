@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit, Injectable, ViewChild, ElementRef} from '@angular/core';
 import { AppComponentService } from '../app.component.service';
 import { ProjectsService } from '../projects/projects.service';
 import { DataService } from '../../shared/data.service';
@@ -8,6 +8,11 @@ import { ToastrService } from 'ngx-toastr';
 import { TemplateScreenService } from '../template-screen/template-screen.service';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
 import { ValidatorService } from 'src/shared/validator.service';
+import { FileUploader } from 'ng2-file-upload';
+import { Constants } from '../config/Constant';
+import { SharedService } from 'src/shared/shared.service';
+import { ReturnStatement } from '@angular/compiler';
+
 
 @Component({
   selector: 'app-projects',
@@ -17,7 +22,11 @@ import { ValidatorService } from 'src/shared/validator.service';
 
 @Injectable()
 export class ProjectsComponent implements OnInit {
+  @ViewChild('myInput')
+  myInputVariable: ElementRef;
   displayModel: String = 'none';
+  displayImportModel: String = 'none';
+  fileToUpload: File = null;
   delmodal: String = 'none';
   displayGenratorModel: String = 'none';
   idToDelete: String = null;
@@ -56,6 +65,10 @@ export class ProjectsComponent implements OnInit {
   public projectName: String = '';
   public defaultscreenvalue: any;
   gepTemplates: any = [];
+  public uploader: FileUploader = new FileUploader({
+    url: '',
+  });
+
   constructor(
     private formBuilder: FormBuilder,
     private data: AppComponentService,
@@ -66,7 +79,9 @@ export class ProjectsComponent implements OnInit {
     private validatorService: ValidatorService,
     private templateScreenService: TemplateScreenService,
     private route: ActivatedRoute,
-    private screenDesignerService: ScreenDesignerService
+    private screenDesignerService: ScreenDesignerService,
+    private restapi: SharedService
+
   ) {
   }
 
@@ -113,6 +128,7 @@ export class ProjectsComponent implements OnInit {
       this.lang = 'English';
       this.createProject.controls['primaryLanguage'].setValue(this.lang, { onlySelf: true });
     }
+
     // socket
     // this.initSocket();
     // this.onEvent();
@@ -123,9 +139,19 @@ export class ProjectsComponent implements OnInit {
       // this.getAllUserNotify(user_id);
       sessionStorage.setItem('onNotify', 'off');
     }
+    let UserId = sessionStorage.getItem('Id');
+
+    this.uploader.onBeforeUploadItem = (item)=>{
+      item.url = `${this.restapi.sharedserviceapi}${Constants.sharedAppImport}/${UserId}`
+    }
+    
+    this.uploader.onCompleteItem = (item:any,response:any,status:any,headers:any)=>{
+      // console.log('FileUpload: uploaded successfully:',item,status,response);
+      this.getProjectByUserId();
+      this.closeImportModal();
+    }
+
   }
-
-
 
   Queryparams() {
     this.route.queryParams.subscribe(params => {
@@ -142,6 +168,30 @@ export class ProjectsComponent implements OnInit {
 
   openModal() {
     this.displayModel = 'block';
+  }
+  openImportModal() {
+    this.displayImportModel = 'block';
+  }
+  closeImportModal() {
+    this.displayImportModel = 'none';
+    this.myInputVariable.nativeElement.value = "";
+  }
+  // importProject() {
+  //   this.projectsService.importSharedServiceYaml(this.fileToUpload,this.UserId).subscribe(data => {
+  //     console.log("import---->", data);
+  //   })
+  //   this.toastr.success('PROJECT: ', 'Project Imported', {
+  //     closeButton: true,
+  //     disableTimeOut: false,
+  //     timeOut: 2000
+  //   });
+  //   // this.getProjectByUserId();
+  //   this.displayImportModel = 'none';
+  //   this.getProjectByUserId();
+  // }
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+    console.log('fileToUpload---->', this.fileToUpload);
   }
   onCloseHandled() {
     this.displayModel = 'none';
@@ -212,6 +262,14 @@ export class ProjectsComponent implements OnInit {
     this.router.navigate(['/project-component'], { queryParams: { projectId: project._id } });
   }
 
+  onSecondoryLangSelect() {
+
+    this.secondoryLanguages = this.primaryLanguages;
+    this.secondoryLanguages = this.secondoryLanguages.filter(item => item !== this.createProject.value.primaryLanguage)
+     
+  }
+
+
   async projectCreate() {
     this.isProjectExit = false;
     this.invalidName = false;
@@ -255,7 +313,9 @@ export class ProjectsComponent implements OnInit {
       mobile_css_framework: null,
       desktop_css_framework: null,
       app_ui_template: this.createProject.value.template.name,
-      app_ui_template_img: this.createProject.value.template.template_image[0].image,
+      app_ui_template_id: this.createProject.value.template._id,
+      app_ui_template_name: this.createProject.value.template.template_name,
+      app_ui_template_img: null,
       client_code_pattern: null,
       server_code_pattern: null,
       server_dev_lang: null,
@@ -286,7 +346,9 @@ export class ProjectsComponent implements OnInit {
       UserId: sessionStorage.getItem('Id')
     };
 
+
     this.projectsService.getProjectByUserId(this.UserId).subscribe(async (data) => {
+      this.getProjectByUserId();
       if (data) {
         this.myAllProjects = data.body;
         await this.myAllProjects.forEach(userProjects => {
@@ -401,9 +463,9 @@ export class ProjectsComponent implements OnInit {
 
           this.toastr.success('PROJECT : ' + currentNotify.project_name +
             ', STATUS : ' + currentNotify.status_message + '', 'Generation Notification!', {
-              closeButton: true,
-              disableTimeOut: true
-            });
+            closeButton: true,
+            disableTimeOut: true
+          });
 
         }
       }
@@ -462,9 +524,9 @@ export class ProjectsComponent implements OnInit {
         this.toastr.info('PROJECT : ' + this.userNotifyArr[this.userNotifyArr.length - 1].project_name
           + ', STATUS : ' + this.userNotifyArr[this.userNotifyArr.length - 1].status_message,
           'Generation Notification!', {
-            closeButton: true,
-            disableTimeOut: true
-          });
+          closeButton: true,
+          disableTimeOut: true
+        });
 
         this.getProjectNotify(this.userNotifyArr[this.userNotifyArr.length - 1].project_id);
 

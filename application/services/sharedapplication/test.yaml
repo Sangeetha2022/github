@@ -1,0 +1,153 @@
+projectName: testuplaod
+projectTemplate: GEPPETTO TEMPLATE
+projectTemplateId: 5e55fb5f89fdbf28ca4359a3
+projectTemplateName: gep_GEPPETTO TEMPLATE
+primaryLanguage: English
+secondaryLanguages: Tamil
+clientlanguage: java_script
+clientframework: angular7
+serverlanguage: Node.js
+serverframework: Express
+serverdatabase: mongodb
+servertarget: local
+server_deployment_type: aws
+User_Id: 409013d0-74b8-11ea-903e-ddba6e2b4988
+projectEntities:
+  - _id: 14162c00-5865-11ea-99a6-d7146819fe72
+    name: User
+    description: User details
+    field:
+      - name: firstname
+        type_name: Text
+        data_type: String
+        description: user first name
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: lastname
+        type_name: Text
+        data_type: String
+        description: user last name
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: username
+        type_name: Text
+        data_type: String
+        description: username
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: email
+        type_name: Text
+        data_type: String
+        description: user Email
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: password
+        type_name: Text
+        data_type: String
+        description: user password
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: phonenumber
+        type_name: Text
+        data_type: String
+        description: user phone number
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: Idtoken
+        type_name: Text
+        data_type: String
+        description: Jwt token of user details
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: loggedinDate
+        type_name: Text
+        data_type: Date
+        description: user Logged in date
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: loggedoutDate
+        type_name: Text
+        data_type: Date
+        description: user Logged out date
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+      - name: role
+        type_name: Text
+        data_type: String
+        description: Role of the User
+        is_default: true
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+        reference_table: role
+  - _id: 1e805710-5865-11ea-99a6-d7146819fe72
+    name: hi
+    description: ""
+    entity_type: primary
+    feature_id: 19601590-5865-11ea-a10b-4ff78bc75b8a
+    last_modified_by: ""
+    field:
+      - name: name
+        type_name: Text
+        data_type: String
+        description: Description
+        is_default: false
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+  - _id: 223f81f0-5865-11ea-99a6-d7146819fe72
+    name: hello
+    description: ""
+    entity_type: secondary
+    feature_id: 19601590-5865-11ea-a10b-4ff78bc75b8a
+    last_modified_by: ""
+    field:
+      - name: age
+        type_name: Number
+        data_type: Number
+        description: Description
+        is_default: false
+        is_entity_type: false
+        is_list_type: false
+        list_type: null
+        list_value: null
+projectFeatures:
+  - flows: []
+    _id: 19601590-5865-11ea-a10b-4ff78bc75b8a
+    name: feature
+    description: ""
+    project: 140207c0-5865-11ea-8afd-8bdce36d14e7
+    entities:
+      - entityType: primary
+        entityId: 1e805710-5865-11ea-99a6-d7146819fe72
+      - entityType: secondary
+        entityId: 223f81f0-5865-11ea-99a6-d7146819fe72

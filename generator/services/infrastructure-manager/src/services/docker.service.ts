@@ -29,6 +29,79 @@ export class DockerService {
         })
     }
 
+    public generate_env(projectDetails, backendList, callback: CallableFunction) {
+
+        console.log("----dynamic");
+        const temp = { 
+            project_name: projectDetails.project_lowercase,
+            custom_node: backendList
+        }
+
+        console.log('backendList app pods in script coluds are ---  ', backendList);
+        let destination = projectDetails.localUrl + '/docker';
+        let templatePath = projectDetails.templateUrl + '/docker';
+
+        if (!fs.existsSync(destination)) {
+            fs.mkdirSync(destination);
+        }
+
+        //generate env file
+        let generateDockerScript = st.loadGroup(require(templatePath + '/env_stg'));
+        let dockerScript = generateDockerScript.render("env", [temp]);
+        fs.writeFile(destination + '/.env', dockerScript, function (err) {
+            if (err) throw err;
+            console.log('env file is generated !!!')
+        })
+    }
+
+    public generate_docker_compose(projectDetails, backendList, callback: CallableFunction) {
+
+        console.log("----dynamic");
+        const temp = {
+            project_name: projectDetails.project_lowercase,
+            custom_node: backendList
+        }
+
+        console.log('backendList app pods in script coluds are ---  ', backendList);
+        let destination = projectDetails.localUrl + '/docker';
+        let templatePath = projectDetails.templateUrl + '/docker';
+
+        if (!fs.existsSync(destination)) {
+            fs.mkdirSync(destination);
+        }
+
+        //generate script cloud
+        let generateDockerScript = st.loadGroup(require(templatePath + '/docker_compose_stg'));
+        let dockerScript = generateDockerScript.render("docker_compose", [temp]);
+        fs.writeFile(destination + '/docker-compose.yml', dockerScript, function (err) {
+            if (err) throw err;
+            console.log('geppetto_build_script for cloud is generated!!')
+        })
+    }
+
+    public generate_geppetto_compose(projectDetails, callback: CallableFunction) {
+
+        console.log("----generate_geppetto_compose");
+        const temp = {
+            project_name: projectDetails.project_lowercase,
+        }
+
+        let destination = projectDetails.localUrl + '/docker';
+        let templatePath = projectDetails.templateUrl + '/docker';
+
+        if (!fs.existsSync(destination)) {
+            fs.mkdirSync(destination);
+        }
+
+        //geppetto compose script
+        let generateDockerScript = st.loadGroup(require(templatePath + '/geppetto_compose_stg'));
+        let geppettoScript = generateDockerScript.render("geppetto_compose", [temp]);
+        fs.writeFile(destination + '/geppetto_compose.sh', geppettoScript, function (err) {
+            if (err) throw err;
+            console.log('geppetto_compose_script is generated!!')
+        })
+    }
+
     public generate_build_script_cloud(projectDetails, backendList, callback: CallableFunction) {
 
         console.log('backendList app pods in script coluds are ---  ', backendList);

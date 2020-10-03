@@ -2,6 +2,9 @@
   <div class="row" style="margin-top: 50px;">
     <div class="col-md-12">
       <div class="row-button">
+        <button mat-raised-button color="primary" for="file " type="file" id="file"
+          (change)="handleFileInput($event.target.files)"
+          (click)=openImportModal()>{{ 'import project' | i18next }}</button>
         <button mat-raised-button color="primary" (click)=openModal()>{{ 'create_project' | i18next }}</button>
       </div>
     </div>
@@ -105,7 +108,7 @@
               <div class="form-group">
                 <label for="template">Select Template</label>
                 <select class="form-control" id="template" formControlName="template"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.secondaryLanguage.errors }">
+                  [ngClass]="{ 'is-invalid': submitted && form_control.secondoryLanguage.errors }">
                   <option value="" selected>select template</option>
                   <option *ngFor="let tempalte of gepTemplates;let i = index" [ngValue]="tempalte">{{ tempalte.name }}
                   </option>
@@ -125,12 +128,11 @@
               <div class="form-group">
                 <label for="primary-language">{{ 'primary_language' | i18next }}</label>
                 <select class="form-control" id="primary-language" [(ngModel)]=createProject.value.primaryLanguage
-                  formControlName="primaryLanguage"
+                  formControlName="primaryLanguage" (click)=onSecondoryLangSelect()
                   [ngClass]="{ 'is-invalid': submitted && form_control.primaryLanguage.errors }">
                   <!-- <option value="" selected>{{'select_primary' | i18next}}</option> -->
                   <option *ngFor="let p of primaryLanguages" [ngValue]="p">{{ p }}</option>
                 </select>
-                <br />
                 <!-- <input class="form-control" id="primary-language" [(ngModel)]="lang" formControlName="primaryLanguage"> -->
                 <div *ngIf="submitted && form_control.primaryLanguage.errors" class="invalid-feedback">
                   <div *ngIf="form_control.primaryLanguage.errors.required">{{'require_primaryLanguage' | i18next}}
@@ -142,7 +144,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="secondary-language">{{ 'secondary_language' | i18next }}</label>
-                <select class="form-control" id="secondary-language" formControlName="secondaryLanguage"
+                <select class="form-control" id="secondary-language" [(ngModel)]=createProject.value.secondoryLanguage
+                  formControlName="secondaryLanguage"
                   [ngClass]="{ 'is-invalid': submitted && form_control.secondaryLanguage.errors }">
                   <option value="" selected>{{'select_secondary' | i18next}}</option>
                   <option *ngFor="let s of secondoryLanguages" [ngValue]="s">{{ s}}</option>
@@ -225,6 +228,40 @@
       </div>
       <div class="modal-footer" style="padding: 5px">
         <button type="button" (click)="onCloseHandledGen()" class="btn btn-default">{{ 'cancel' | i18next }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayImportModel}">
+  <div class="modal-dialog modal-lg" role="dialog">
+    <div class="modal-content">
+      <div class="container">
+        <form class="m-2" [formGroup]="createProject">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="file">Choose yaml file to import project</label>
+                <input #myInput type="file" name="file" ng2FileSelect [uploader]="uploader" />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-6">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group">
+                        <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
+                  [disabled]="!uploader.getNotUploadedItems().length">
+                  {{ 'Import' | i18next }}
+                </button>
+          <button type="button" class="btn button-close" (click)="closeImportModal()">{{ 'Cancel' | i18next }}</button>
+        </div>
       </div>
     </div>
   </div>

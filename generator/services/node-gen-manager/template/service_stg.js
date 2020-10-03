@@ -1,6 +1,6 @@
 /*
  * Template group service
- * Compiled on Fri Aug 23 2019 19:12:29 GMT+0530 (IST)
+ * Compiled on Wed Sep 23 2020 13:01:16 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -71,6 +71,11 @@ r = function(w, rc) {
     
     }
     w.write("\n");
+    w.write("const ");
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 5, column: 14 }));
+    w.write(" = new ");
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 5, column: 44 }));
+    w.write("Dao();");
     w.write("\n");
     w.write("export class ");
     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 6, column: 21 }));

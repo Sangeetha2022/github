@@ -39,7 +39,7 @@ export class LocalInfrastructureController {
   public generateInfrastructureLocal(req: Request, res: Response) {
 
     const projectDetails = req.body
-    console.log('this values are ---- ', this);
+    // console.log('this values are ---- ', this);
     const backendList = [];
     //projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
     //projectDetails.project_lowercase = projectDetails.project.toLowerCase();
@@ -69,12 +69,15 @@ export class LocalInfrastructureController {
       if (backendElement.isCustomCode) {
         const temp = {
           name: '',
-          port: ''
+          port: '',
+          uppername: ''
         }
 
         temp.name = backendElement.featureName;
+        temp.uppername = backendElement.featureName.toUpperCase();
         temp.port = backendElement.nodePortNumber;
         backendList.push(temp);
+        console.log("backendList----->", backendList);
       }
     })
 
@@ -140,27 +143,40 @@ export class LocalInfrastructureController {
 
 
     projectDetails.destinationUrl = deploymentFolder;
-    //generate script for local
-    if (projectDetails.system_entry_pod) {
-      dockerService.generate_build_script_local(projectDetails, backendList, (response) => {
-        //res.send(200);
-      })
-    }
+    // generate script for local
+    dockerService.generate_build_script_local(projectDetails, backendList, (response) => {
+      //res.send(200);
+    })
 
-    //generate script for cloud
-    if (projectDetails.app_pod) {
-      dockerService.generate_build_script_cloud(projectDetails, backendList, (response) => {
-        //res.send(200);
-      })
-    }
+    // generate script for docker-compose
+    dockerService.generate_docker_compose(projectDetails, backendList, (response) => {
+      //res.send(200);
+    })
+
+     // generate script for docker-compose
+     dockerService.generate_env(projectDetails, backendList, (response) => {
+      //res.send(200);
+    })
+
+    // generate script for docker-compose
+    dockerService.generate_geppetto_compose(projectDetails, (response) => {
+      //res.send(200);
+    })
+
+    // //generate script for cloud
+    // if (projectDetails.app_pod) {
+    //   dockerService.generate_build_script_cloud(projectDetails, backendList, (response) => {
+    //     //res.send(200);
+    //   })
+    // }
 
     // generate mongoscript
     mongoService.generate_mongo_script_local(projectDetails, (response) => { })
 
-    //generate apk script
-    dockerService.apk_build_mobile(projectDetails, (response) => {
-      //res.send(200);
-    })
+    // //generate apk script
+    // dockerService.apk_build_mobile(projectDetails, (response) => {
+    //   //res.send(200);
+    // })
 
     // //generate ipa script
     // dockerService.ipa_build_mobile(projectDetails, (response) => {
@@ -168,9 +184,9 @@ export class LocalInfrastructureController {
     // })
 
     //generate ipa script
-    dockerService.ipa_build_jenkins_mobile(projectDetails, (response) => {
-      //res.send(200);
-    })
+    // dockerService.ipa_build_jenkins_mobile(projectDetails, (response) => {
+    //   //res.send(200);
+    // })
 
     //generate helm templates
     projectDetails.helmTemplateUrl = helmSource;

@@ -8,7 +8,6 @@ import { ComponentSpecializedWorker } from './componentSpecializedWorker';
 import { ComponentLifecycleWorker } from './componentLifecycleWorker';
 import { LinkWorker } from './linkWorker';
 import { FlowComponentWorker } from './flowComponentWorker';
-
 // import { styles } from '../assets/cssGuidline';
 // import { RouteSupportWorker } from '../supportworker/RouteSupportWorker';
 
@@ -17,6 +16,7 @@ let componentWorker = new ComponentWorker();
 let componentSpecializedWorker = new ComponentSpecializedWorker();
 let componentLifecyleWorker = new ComponentLifecycleWorker();
 let linkWorker = new LinkWorker();
+let flowComponentWorker = new FlowComponentWorker();
 
 export class GenerateHtmlWorker {
 
@@ -118,7 +118,8 @@ export class GenerateHtmlWorker {
     generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
         console.log('css content for this screem ----- ', details);
         console.log('entering into geenerate methods are -----  ', util.inspect(metaData, { showHidden: true, depth: null }));
-        console.log("screen---details-------", screenDetails.screenName)
+        console.log("screen---details-------", screenDetails)
+
         console.log("Details000------------>>>>", details)
         this.startTag = [];
         this.endTag = [];
@@ -214,7 +215,7 @@ export class GenerateHtmlWorker {
                     console.log('before calling generatecomponentcss from generatehtlm -----  ', this.componentStyle);
                     componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.componentStyle, (response) => {
                         componentWorker.generateComponentSpec(applicationPath, templatePath, componentName, this.startTag, (response) => {
-                            componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.moduleComponent, (response) => {
+                            componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.moduleComponent,  (response) => {
                                 // console.log('component worker in generate component modeule in-----  ');
                                 // this.modifyDependency(applicationPath, packagePath, callback)
                                 callback();
@@ -232,13 +233,13 @@ export class GenerateHtmlWorker {
         const screenIndex = this.generatedRouteScreens.findIndex(x => x.screenId == this.screenInfo._id);
         const linkIndex = this.linkedScreenInfo.findIndex(x => x.screenId == this.screenInfo._id);
         console.log('screenIndex checkRoutes --11111-- ', screenIndex, ' screenid ', this.screenInfo._id);
-        console.log('screenIndex checkRoutes ---- ', screenIndex, ' screenid ', this.screenInfo._id);
         console.log('linkedScreen infromationare --- ', this.linkedScreenInfo, ' linkIndex ', linkIndex);
         if (screenIndex > -1) {
             const temp = this.generatedRouteScreens[screenIndex];
             console.log("Tem---screen--flow------", temp.screenFlow)
             console.log("Flow-----list---------", this.flowList)
             const flowObject = this.flowList.find(x => x._id == temp.screenFlow);
+
             let flowTemp = {
                 _id: '',
                 name: '',
@@ -333,10 +334,11 @@ export class GenerateHtmlWorker {
     }
 
     modifyDependency(details, callback) {
+        const flows = details.flows
         const packagePath = details.projectGenerationPath;
         const srcPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}`;
         const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
-        componentWorker.modifyDependency(packagePath, srcPath, applicationPath, this.globalStyle, (response) => {
+        componentWorker.modifyDependency(packagePath, srcPath, applicationPath, this.globalStyle, flows, (response) => {
             this.initializeData();
             callback({ Message: `Feature Screen created successfully` });
         })
@@ -542,6 +544,7 @@ export class GenerateHtmlWorker {
             // set html traits
             console.log('passing data to set triats if condition ------   ', firstEle);
             this.setTraits(firstEle);
+
             if (this.tagName === 'input' || this.tagName === 'meta' || this.tagName === 'link') {
                 this.startString += `/>`;
             } else {
@@ -557,7 +560,7 @@ export class GenerateHtmlWorker {
         }
         componentSpecializedWorker.checkSpecialElement(this, IDName);
     }
-
+    ''
     setTraits(firstEle) {
         console.log('entering into firstelement triats ', firstEle, this.startString);
         // if (firstEle.hasOwnProperty('traits')) {
@@ -695,6 +698,7 @@ export class GenerateHtmlWorker {
                 if (flowObject) {
                     this.startString += ` (${this.flowDetails[flowIndex].verb})="${flowObject.name}()"`;
                     console.log("--------------flowobject---------", flowObject)
+                    console.log("------------------start---string-----", this.startString)
                     flowTemp = {
                         _id: flowObject._id,
                         name: flowObject.name,
@@ -782,6 +786,8 @@ export class GenerateHtmlWorker {
         if (this.tagName == 'select' && this.dynamicdropdowntype !== 'dynamicdropdown-type') {
             console.log("I am coming---------selected---if", firstEle.components)
             this.getSelectOptions(firstEle.components);
+            // this.setSelectGPService(firstEle.components)
+
         }
         if (this.tagName == 'select' && this.dynamicdropdowntype == 'dynamicdropdown-type') {
             console.log('---------I am dynamic dropdown-----', firstEle.components);
@@ -790,6 +796,7 @@ export class GenerateHtmlWorker {
     }
 
     setComponentDependencies(flowObject, flowTemp) {
+
         // component method
         console.log('---------screen flow value----', flowObject, this.screenInfo.screenName);
 
@@ -797,6 +804,7 @@ export class GenerateHtmlWorker {
             const componentFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_COMPONENT);
             if (componentFlow) {
                 console.log('---------flowtemp value----', flowTemp, this.screenInfo.screenName);
+
                 flowTemp.components = componentFlow;
             }
             this.tsComponent.flowMethod.push(flowTemp);
@@ -804,6 +812,7 @@ export class GenerateHtmlWorker {
     }
 
     setServiceDependencies(flowObject, flowTemp) {
+
         // service method
         if (flowObject && !this.serviceComponent.flowMethod.find(x => x._id == flowTemp._id)) {
             const serviceFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_SERVICE);
@@ -878,8 +887,78 @@ export class GenerateHtmlWorker {
             }
         }
     }
-
+    // array of object constrction for ts file
     getSelectOptions(optionComponent) {
+
+        //         Connector---------Type-------- default
+        // connectorElement----------------- { url: null,
+        //   isDefault: true,
+        //   isCustom: false,
+        //   isDisabled: false,
+        //   properties: [],
+        //   _id: '7cbb93e4-7877-11e9-bdb0-f73f14ce0e52',
+        //   name: 'AngularService',
+        //   description:
+        //    'default connector calling from frontend service to backend controller',
+        //   availableApi:
+        //    [ { name: null,
+        //        description: null,
+        //        type: null,
+        //        properties: [],
+        //        _id: '5f352e4c8f53eb5d4716302b' } ],
+        //   fromComponentName: 'GpAngularService',
+        //   toComponentName: 'GpExpressController',
+        //   createdAt: '2020-08-12T12:19:52.564Z',
+        //   __v: 0 }
+
+        // let connectorType = "default";
+
+        // let connector = {
+        //     url: null,
+        //     isDefault: true,
+        //     isCustom: false,
+        //     isDisabled: false,
+        //     properties: [],
+        //     _id: '7cbb93e4-7877-11e9-bdb0-f73f14ce0e52',
+        //     name: 'AngularService',
+        //     description:
+        //         'default connector calling from frontend service to backend controller',
+        //     availableApi:
+        //         [{
+        //             name: null,
+        //             description: null,
+        //             type: null,
+        //             properties: [],
+        //             _id: '5f352e4c8f53eb5d4716302b'
+        //         }],
+        //     fromComponentName: 'GpAngularService',
+        //     toComponentName: 'GpExpressController',
+
+        // }
+
+        // console.log("-----------option---componet-----", optionComponent);
+        // let tempdata = `rowData = []`
+        // let temp =
+        // {
+        //     folderName: 'screen760635',
+        //     className: 'Screen760635',
+        //     dependedComponentNames: [],
+        //     importDependency:
+        //         [{
+        //             dependencyName: 'Component, OnInit',
+        //             dependencyPath: '@angular/core'
+        //         }],
+        //     importComponent: [],
+        //     importAsteriskDependency: [],
+        //     scriptVariable: [],
+        //     componentVariable: [],
+        //     componentConstructorParams: [],
+        //     componentOnInit: [],
+        //     componentMethod: []
+        // }
+
+        // flowComponentWorker.setGpSearch("GpSearchFlow" , temp)
+
         if (optionComponent.length > 0) {
             let temp = `${Constant.SELECT_TS_OPTION_VARIABLENAME} = [`;
             optionComponent.forEach((optionElement, index) => {
@@ -892,7 +971,39 @@ export class GenerateHtmlWorker {
             this.tsComponent.variableList.push(temp);
             console.log('getselect optons list are -----  ', this.tsComponent.variableList);
         }
+
+
+
     }
+
+    // setSelectGPService(optiondata) {
+    //     // const flowIndex = this.flowDetails.findIndex(x => x.elementName == firstEle.name && x.elementName !== '');
+    //     const flowObject = this.flowList.find(x => x._id == this.flowDetails[flowIndex].flow);
+
+
+    //     let flowTemp = {
+    //         _id: '',
+    //         name: '',
+    //         label: '',
+    //         description: '',
+    //         type: '',
+    //         actionOnData: '',
+    //         createWithDefaultActivity: '',
+    //         components: []
+    //     };
+    //     // if (flowObject && !this.tsComponent.flowMethod.find(x => x._id == flowObject._id)) {
+    //     flowTemp = {
+    //         _id: flowObject._id,
+    //         name: flowObject.name,
+    //         label: flowObject.label,
+    //         description: flowObject.description,
+    //         type: flowObject.type,
+    //         actionOnData: flowObject.actionOnData,
+    //         createWithDefaultActivity: flowObject.createWithDefaultActivity,
+    //         components: []
+
+    //     }
+    // }
 
     setContent(firstEle) {
         if (firstEle.hasOwnProperty('content')) {
@@ -942,6 +1053,7 @@ export class GenerateHtmlWorker {
 
 
     pushValue(firstEle) {
+
         if (this.linkContentInfo.isNgContentPresent) {
             componentSpecializedWorker.setLinkContent(this);
         } else if (this.tagName && this.tagName != 'option' &&

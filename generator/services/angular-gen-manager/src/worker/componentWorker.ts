@@ -27,7 +27,17 @@ export class ComponentWorker {
         bootstrap: []
     }
 
-    private packageModule = [];
+    private angularJsonData = []
+
+    // private packageModule = [`"angular-i18next": "^5.0.6" ,`, `"angular-validation-message": "^1.1.0",`, `"angular-validation-message-i18next": "^1.1.0",`];
+    private packageModule = [
+        `"angular-i18next": "^5.0.6"`,
+        `"angular-validation-message": "^1.1.0"`,
+        `"i18next": "^14.0.1"`,
+        `"i18next-browser-languagedetector": "^2.2.4"`,
+        `"i18next-sprintf-postprocessor": "^0.2.2"`,
+        ` "i18next-xhr-backend": "^1.5.1"`
+    ]
 
     private moduleComponent = {
         importDependency: [],
@@ -77,6 +87,7 @@ export class ComponentWorker {
             });
     }
     public generateComponentTs(applicationPath, templatePath, componentName, information, entities, callback) {
+        console.log("-----Information----->>>>", information)
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
@@ -97,7 +108,7 @@ export class ComponentWorker {
         const importDependencyPath = `import { ${temp.className}Component } from './${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}';`;
         if (this.routeModule.importDependency.findIndex(x => x == importDependencyPath) < 0) {
             this.routeModule.importDependency.push(importDependencyPath);
-            this.routeModule.routePath.push(`{ path: '${temp.folderName.toLowerCase()}', component: ${temp.className}Component, canActivate: [AuthGuard] },`);
+            this.routeModule.routePath.push(`{ path: '${temp.folderName.toLowerCase()}', loadChildren: () => import('./${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.module').then(mod => mod.${temp.className}Module) , canActivate: [AuthGuard] },`);
         }
         if (information.routeList.length > 0) {
             elementRouteWorker.checkGpRoute(information.routeList, temp);
@@ -118,6 +129,7 @@ export class ComponentWorker {
                 if (!temp.dependedComponentNames.find(x => x == otherElement)) {
                     temp.dependedComponentNames.push(otherElement);
                     const findDependencies = componentDependency.component.find(x => x.name == otherElement);
+                    console.log("Find---Depedency0----->>>>", findDependencies);
                     if (findDependencies) {
                         if (findDependencies.componentDependencies && findDependencies.componentDependencies.length > 0) {
                             // add component dependencies
@@ -167,6 +179,9 @@ export class ComponentWorker {
             this.moduleComponent.exports.push(`${temp.className}Component`);
         }
         temp.importDependency.push({ dependencyName: componentImportDependencies, dependencyPath: '@angular/core' });
+        //import ngx-toastr component
+        temp.importDependency.push({ dependencyName: 'ToastrService', dependencyPath: 'ngx-toastr' });
+
 
         console.log('---------component information in ts file-----',information);
         flowComponentWorker.generateComponentFlow(information, temp, entities);
@@ -217,7 +232,8 @@ export class ComponentWorker {
                 callback();
             });
     }
-    public generateComponentModule(applicationPath, templatePath, componentName, information, callback) {
+    public generateComponentModule(applicationPath, templatePath, componentName, information,  callback) {
+
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
@@ -238,14 +254,24 @@ export class ComponentWorker {
         // add component class with path
         temp.importDependency.push({ dependencyName: `${temp.className}Component`, dependencyPath: `./${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}` });
 
+        // import { ToastrModule } from 'ngx-toastr';
+
+        temp.importDependency.push({ dependencyName: 'ToastrModule', dependencyPath: 'ngx-toastr' })
+
         // imports default
         temp.imports.push(`CommonModule`, `RouterModule`);
         // forms imports
         temp.imports.push(`FormsModule`, `ReactiveFormsModule`);
 
+        //toaster import added
+        temp.imports.push(`ToastrModule.forRoot({ preventDuplicates: true })`)
+
+        //import 
+        temp.imports.push(`NgSelectModule`) 
+
         // declarations default
         temp.declarations.push(`${temp.className}Component`)
-
+                
         // adding other component module dependencies
         temp.importDependency = temp.importDependency.concat(this.moduleComponent.importDependency);
         temp.imports = temp.imports.concat(this.moduleComponent.imports);
@@ -293,7 +319,19 @@ export class ComponentWorker {
             });
     }
 
-    public modifyDependency(packagePath, srcPath, applicationPath, globalStyle, callback) {
+    public modifyDependency(packagePath, srcPath, applicationPath, globalStyle, microFlows, callback) {
+
+        //toaster implemented angular.json and package.json files
+        if (microFlows.length > 0) {
+            microFlows.map(data => {
+                if (data.actionOnData == 'GpCreate' || data.actionOnData == 'GpUpdate') {
+                    this.packageModule.push(`"ngx-toastr": "^10.1.0",`)
+                    this.angularJsonData.push('node_modules/ngx-toastr/toastr.css')
+                    dependencyWorker.modifyAngularJsonFile(packagePath, this.angularJsonData)
+                }
+            })
+        }
+
         if (this.routeModule.routePath.length > 0) {
             dependencyWorker.modifyAppRouteFile(applicationPath, this.routeModule);
             this.initializeRouteModule();
@@ -302,10 +340,11 @@ export class ComponentWorker {
             dependencyWorker.modifyAppModuleFile(applicationPath, this.appModule);
             this.initializeAppModule();
         }
-        if (this.packageModule.length > 0) {
-            dependencyWorker.modifyPackageFile(packagePath, this.packageModule);
-            this.initializePackageModule();
-        }
+        // if (this.packageModule.length > 0) {
+        console.log(`package json -------`, this.packageModule)
+        dependencyWorker.modifyPackageFile(packagePath, this.packageModule);
+        this.initializePackageModule();
+        // }
         if (globalStyle.import.length > 0 || globalStyle.others.length > 0) {
             dependencyWorker.modifyGlobalStyles(srcPath, globalStyle);
             this.initializeOtherInfo();

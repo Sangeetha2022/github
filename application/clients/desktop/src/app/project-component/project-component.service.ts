@@ -161,6 +161,10 @@ export class ProjectComponentService {
 
   }
 
+  exportSharedServiceYaml(projectId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.sharedApplication}${projectId}`)
+  }
+
   // updateQuickConnectorsById(updateFlow:any): Observable<any> {
   //   return this.api.post(`http://localhost:3013/updateConnectors`, updateFlow);
   // }

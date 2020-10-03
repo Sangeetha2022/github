@@ -1,8 +1,13 @@
 docker_file(filename) ::= <<
-FROM nginx
-RUN rm -rf /usr/share/nginx/html/*
-COPY /dist/$filename$ /usr/share/nginx/html
-COPY /nginx /etc/nginx/conf.d/
-CMD ["nginx", "-g", "daemon off;"]
+FROM node:14.11.0-alpine
+COPY . /app
+WORKDIR /app
+RUN npm install
+RUN npm install -g @angular/cli
+RUN npm install -g serve
+RUN npm install -g concurrently
+RUN npm upgrade -g @angular/cli
+CMD ng build  && concurrently "ng build --watch" "serve dist/$filename$"
+EXPOSE 5000
 
 >>

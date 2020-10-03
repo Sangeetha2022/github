@@ -41,9 +41,9 @@ export class AuthService {
     private projectName = '';
     private sourcePath: any;
     private ports = {
-        security: 3007,
-        camunda: 3008,
-        authProxy: 3009
+        security: 8003,
+        camunda: 8002,
+        authProxy: 8001
     }
     // templateName
     private SERVER_TEMPLATENAME = 'server_file';
@@ -235,11 +235,13 @@ export class AuthService {
                             fs.mkdirSync(config);
                         }
                         fs.readFile(`${srcFolder}/${x}/MongoConfig.ts`, 'utf8', (err, mongoconfigFile) => {
-                            fs.writeFile(config + `/MongoConfig.ts`, mongoconfigFile, (err) => {
-                                if (err) {
-                                    return (err)
-                                }
-                            })
+                            if (mongoconfigFile) {
+                                fs.writeFile(config + `/MongoConfig.ts`, mongoconfigFile, (err) => {
+                                    if (err) {
+                                        return (err)
+                                    }
+                                })
+                            }
                         })
                         fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
                             fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
@@ -411,11 +413,13 @@ export class AuthService {
                             fs.mkdirSync(config);
                         }
                         fs.readFile(`${srcFolder}/${x}/Mongoconfig.ts`, 'utf8', (err, mongoconfigFile) => {
-                            fs.writeFile(config + `/Mongoconfig.ts`, mongoconfigFile, (err) => {
-                                if (err) {
-                                    return (err)
-                                }
-                            })
+                            if (mongoconfigFile) {
+                                fs.writeFile(config + `/Mongoconfig.ts`, mongoconfigFile, (err) => {
+                                    if (err) {
+                                        return (err)
+                                    }
+                                })
+                            }
                         })
                         fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {
                             fs.writeFile(config + `/Winstonlogger.ts`, winstonloggerFile, (err) => {
@@ -492,6 +496,27 @@ export class AuthService {
                     })
                 })
             }
+            else if (file === 'template') {
+                var template = this.authGenFiles.camundaFolder + `/template`
+                if (!fs.existsSync(template)) {
+                    fs.mkdirSync(template);
+                }
+                fs.readFile(`${this.authGenFiles.camundaPath}/template/dmnfile.st`, 'utf8', (err, dmnfile) => {
+                    fs.writeFile(template + `/dmnfile.st`, dmnfile, (err) => {
+                        if (err) {
+                            return (err)
+                        }
+                    })
+                })
+                fs.readFile(`${this.authGenFiles.camundaPath}/template/dmnfile_stg.js`, 'utf8', (err, dmnfile_stg) => {
+                    fs.writeFile(template + `/dmnfile_stg.js`, dmnfile_stg, (err) => {
+                        if (err) {
+                            return (err)
+                        }
+                    })
+                })
+            }
+
             else if (file === 'src') {
                 let src = this.authGenFiles.camundaFolder + `/src`
                 if (!fs.existsSync(src)) {
@@ -548,6 +573,32 @@ export class AuthService {
                             })
 
                         })
+                    }
+                    else if (x === 'supportworker') {
+                        let supportworker = src + `/supportworker`;
+                        if (!fs.existsSync(supportworker)) {
+                            fs.mkdirSync(supportworker);
+                        }
+                        fs.readFile(`${srcFolder}/${x}/DMNsupportWorker.ts`, 'utf8', (err, DMNsupportWorker) => {
+                            fs.writeFile(supportworker + `/DMNsupportWorker.ts`, DMNsupportWorker, (err) => {
+                                if (err) {
+                                    return (err)
+                                }
+                            })
+                        })
+                    }
+                    else if (x === 'worker') {
+                        let worker = src + `/worker`;
+                        if (!fs.existsSync(worker)) {
+                            fs.mkdirSync(worker);
+                        }
+                        fs.readFile(`${srcFolder}/${x}/DMNWorker.ts`, 'utf8', (err, DMNWorker) => {
+                            fs.writeFile(worker + `/DMNWorker.ts`, DMNWorker, (err) => {
+                                if (err) {
+                                    return (err)
+                                }
+                            })
+                        })
                     } else if (x === 'model') {
                         let model = src + `/model`;
                         if (!fs.existsSync(model)) {
@@ -560,16 +611,36 @@ export class AuthService {
                                 }
                             })
                         })
+                    }
+                    else if (x === 'dao') {
+                        let dao = src + `/dao`;
+                        if (!fs.existsSync(dao)) {
+                            fs.mkdirSync(dao);
+                        }
+                        fs.readFile(`${srcFolder}/${x}/Camundadao.ts`, 'utf8', (err, resource) => {
+                            fs.writeFile(dao + `/Camundadao.ts`, resource, (err) => {
+                                if (err) {
+                                    return (err)
+                                }
+                            })
+                        })
                     } else if (x === 'config') {
                         let config = src + `/config`;
                         if (!fs.existsSync(config)) {
                             fs.mkdirSync(config);
                         }
                         fs.readFile(`${srcFolder}/${x}/Mongoconfig.ts`, 'utf8', (err, mongoconfigFile) => {
-                            fs.writeFile(config + `/Mongoconfig.ts`, mongoconfigFile, (err) => {
-                                if (err) {
-                                    return (err)
-                                }
+                            if (mongoconfigFile) {
+                                fs.writeFile(config + `/Mongoconfig.ts`, mongoconfigFile, (err) => {
+                                    if (err) {
+                                        return (err)
+                                    }
+                                })
+                            }
+                        })
+                        fs.readFile(`${srcFolder}/${x}/camundaService.ts`, 'utf8', (err, camundaService) => {
+                            fs.writeFile(config + `/camundaService.ts`, camundaService, (err) => {
+                                return (err)
                             })
                         })
                         fs.readFile(`${srcFolder}/${x}/Winstonlogger.ts`, 'utf8', (err, winstonloggerFile) => {

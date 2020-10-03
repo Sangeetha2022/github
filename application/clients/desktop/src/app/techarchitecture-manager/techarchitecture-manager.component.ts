@@ -3,7 +3,9 @@ import { ModalService } from '../_services';
 import { ConfigManagerService } from '../config-manager/config-manager.service';
 import { DataService } from 'src/shared/data.service';
 import { ProjectsService } from '../projects/projects.service';
+import { ProjectComponentService } from '../project-component/project-component.service';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-techarchitecture-manager',
@@ -25,7 +27,9 @@ export class ConnectorManagerComponent implements OnInit {
     private configManagerService: ConfigManagerService,
     private dataService: DataService,
     private projectService: ProjectsService,
-    private activatedRoute: ActivatedRoute
+    private projectComponentService: ProjectComponentService,
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService,
   ) { }
 
   clientLanguage: String;
@@ -33,6 +37,7 @@ export class ConnectorManagerComponent implements OnInit {
     clientLanguage: [],
     clientFramework: [],
     serverLanguage: [],
+
     serverFramework: [],
     database: [],
     deploymentTarget: [],
@@ -89,6 +94,18 @@ export class ConnectorManagerComponent implements OnInit {
   }
 
   updateProjectProperties() {
+
+  }
+
+  generateField() {
+    this.projectComponentService.exportSharedServiceYaml(this.projectId).subscribe(data => {
+      console.log("export---->", data);
+      this.toastr.success('PROJECT:','Exported successfully!', {
+        closeButton: true,
+        disableTimeOut: false,
+        timeOut: 2000
+      });
+    })
 
   }
 

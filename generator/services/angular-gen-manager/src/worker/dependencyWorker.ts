@@ -14,12 +14,26 @@ export class DependencyWorker {
         const pathIndex = file.findIndex(x => /];/.test(x));
         if (information.importDependency.length > 0) {
             information.importDependency.forEach((dependencyElement, elementIndex) => {
-                file.splice(importIndex - 1, 0, dependencyElement);
-                file.splice(pathIndex - 1, 0, information.routePath[elementIndex]);
+                file.splice(importIndex  - 1, 0, dependencyElement);
+                file.splice(pathIndex + 1, 0, information.routePath[elementIndex]);
             })
         }
         this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.APP_ROUTING_FILENAME,
             file.join(`\n`), (response) => { })
+    }
+
+    public modifyAngularJsonFile(applicationPath, information) {
+        const file = this.dependencySupportWorker.readFile(applicationPath, Constant.ANGULAR_JSON_FILE)
+        const styleIndex = file.findIndex(x => /styles/.test(x))
+        if(styleIndex != -1) {
+            file.splice(styleIndex + 1, 0, `"${information} " , `)
+            this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.ANGULAR_JSON_FILE,
+                file.join(`\n`), (response) => {
+                    console.log("Response----write00---file---", response)
+                })
+        }
+    
+
     }
 
     // app.module.ts file
@@ -61,6 +75,9 @@ export class DependencyWorker {
 
     // package.json file
     public modifyPackageFile(applicationPath, information) {
+        const staticPackage = {
+            
+        }
         const file = this.dependencySupportWorker.readFile(applicationPath, Constant.PACKAGE_JSON_FILENAME);
         const index = file.findIndex(x => /router/.test(x));
         if (index) {
@@ -86,7 +103,7 @@ export class DependencyWorker {
         if (information.others.length > 0) {
             file = file.concat(information.others);
         }
-         this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.STYLE_SCSS_FILENAME,
+        this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.STYLE_SCSS_FILENAME,
             file.join(`\n`), (response) => { })
     }
 

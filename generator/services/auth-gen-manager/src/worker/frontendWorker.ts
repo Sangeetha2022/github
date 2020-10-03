@@ -14,6 +14,8 @@ export class FrontendWorker {
     private SIGNUP_FOLDERNAME = 'signup';
     private HOME_FOLDERNAME = 'home';
     private USER_FOLDERNAME = 'user';
+    private CONFIG_FOLDERNAME = 'config'
+    private AUTHORIZATION_FOLDERNAME = 'authorization';
     private PROFILE_SETTINGS_FOLDERNAME = 'profilesettings';
     private BUTTON_RENDERER_FOLDERNAME = 'button-renderer';
     private AUTH_FOLDERNAME = 'auth';
@@ -59,7 +61,8 @@ export class FrontendWorker {
         `   "i18next-browser-languagedetector": "^3.0.3",`,
         `   "i18next-sprintf-postprocessor": "^0.2.2",`,
         `   "i18next-xhr-backend": "^3.1.2",`,
-        `   "angular-validation-message": "^2.0.1",`,
+        `   "angular-validation-message": "^2.0.1",` ,
+        `   "moment": "^2.26.0",`,
     ]
 
     private appModuleInfo: any = {
@@ -75,6 +78,11 @@ export class FrontendWorker {
     private httpClient = {
         importDependency: `import { HttpClientModule } from '@angular/common/http';`,
         imports: `HttpClientModule`
+    }
+
+    private FormModule = {
+        importDependency: `import { FormsModule } from '@angular/forms';`,
+        imports: `FormsModule`
     }
 
     private isRoutingModule = {
@@ -118,6 +126,12 @@ export class FrontendWorker {
         callback();
     }
 
+    //create config folder from seed files
+    createConfig(callback) {
+        const configPath = `${this.projectGenerationPath}/src/app/${this.CONFIG_FOLDERNAME}`;
+        this.generateStaticComponent(configPath, this.CONFIG_FOLDERNAME);
+        callback();
+    }
 
     // create signup component from seed files
     createSignupComponent(callback) {
@@ -125,6 +139,15 @@ export class FrontendWorker {
         this.generateStaticComponent(signupApplicationPath, this.SIGNUP_FOLDERNAME);
         this.generateModule(this.SIGNUP_FOLDERNAME,
             this.MODULE_TEMPLATENAME, signupApplicationPath);
+        callback();
+    }
+
+    // create authorization component from seed files
+    createAuthorizationComponent(callback) {
+        const authorizationPath = `${this.projectGenerationPath}/src/app/${this.AUTHORIZATION_FOLDERNAME}`;
+        this.generateStaticComponent(authorizationPath, this.AUTHORIZATION_FOLDERNAME);
+        this.generateModule(this.AUTHORIZATION_FOLDERNAME,
+            this.MODULE_TEMPLATENAME, authorizationPath);
         callback();
     }
 
@@ -230,7 +253,7 @@ export class FrontendWorker {
 
     async generateModule(folderName, templateName, applicationPath) {
         let fileName;
-        if (folderName !== 'button-renderer') {
+        if (folderName !== 'button-renderer' && folderName !== 'authorization') {
             if (folderName !== 'profilesettings') {
                 fileName = `${folderName}.${this.MODULE_NAME}.ts`;
             }
@@ -242,7 +265,8 @@ export class FrontendWorker {
         // app module dependency
         // this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
         // this.appModuleInfo.imports.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)}`);
-        if (folderName !== 'profilesettings') {
+        if (folderName !== 'profilesettings' && folderName !== 'authorization') {
+            console.log("------->folderName-------->", folderName);
             if (folderName !== 'button-renderer') {
                 if (this.appModuleInfo.importDependency.findIndex(x => x == `import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`) < 0) {
                     this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
@@ -253,6 +277,11 @@ export class FrontendWorker {
             }
         }
 
+        if (folderName == 'authorization') {
+                this.appModuleInfo.importDependency.push(`import { AuthorizationComponent } from './${folderName}/${folderName}.component';`);
+                this.appModuleInfo.declarations.push(`AuthorizationComponent`);
+        }
+
         const temp = {
             importDependency: [],
             imports: null,
@@ -260,7 +289,7 @@ export class FrontendWorker {
             entryComponents: null,
             className: folderName.charAt(0).toUpperCase() + folderName.slice(1)
         }
-        if (folderName !== 'profilesettings') {
+        if (folderName !== 'profilesettings' && folderName !== 'authorization') {
             if (folderName !== 'button-renderer') {
                 temp.importDependency.push({ dependencyname: 'NgModule', dependencyPath: '@angular/core' });
                 temp.importDependency.push({ dependencyname: 'CommonModule', dependencyPath: '@angular/common' });
@@ -335,6 +364,11 @@ export class FrontendWorker {
         if (this.appModuleInfo.importDependency.findIndex(x => x == this.httpClient.importDependency) < 0) {
             this.appModuleInfo.importDependency.push(this.httpClient.importDependency);
             this.appModuleInfo.imports.push(this.httpClient.imports);
+        }
+
+        if (this.appModuleInfo.importDependency.findIndex(x => x == this.FormModule.importDependency) < 0) {
+            this.appModuleInfo.importDependency.push(this.FormModule.importDependency);
+            this.appModuleInfo.imports.push(this.FormModule.imports);
         }
 
         console.log('final app module importing ----- ', this.appModuleInfo);

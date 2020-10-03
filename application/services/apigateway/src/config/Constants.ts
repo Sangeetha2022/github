@@ -21,6 +21,8 @@ export class Constants {
     public static adminUrl: String;
     public static customConnectorUrl: String;
     public static deleteUrl: String;
+    public static sharedUrl: String;
+
 
     //generator - declaration
     public static projectGenUrl: String;
@@ -35,6 +37,7 @@ export class Constants {
     public static angularTemplateGenUrl: String;
     public static githubUrl: String;
     public static authgenUrl: String;
+    public static swaggerGenUrl: String;
     // public static apiGatewayURL: String;
 
     constructor() {
@@ -48,34 +51,36 @@ export class Constants {
             case process.env.name: Constants.appUrl = process.env.localUrl;
                 Constants.generationUrl = process.env.localUrl;
                 // app 
-                Constants.projectUrl = Constants.appUrl + ":3003";
-                Constants.entityUrl = Constants.appUrl + ":3005";
-                Constants.screenUrl = Constants.appUrl + ":3004";
-                Constants.featureUrl = Constants.appUrl + ":3006";
-                Constants.flowUrl = Constants.appUrl + ":3001";
-                Constants.microUrl = Constants.appUrl + ":3002";
-                Constants.menuUrl = Constants.appUrl + ":3011";
-                Constants.templateUrl = Constants.appUrl + ":3012";
-                Constants.loginUrl = Constants.appUrl + ":3007";
-                Constants.camundaUrl = Constants.appUrl + ":3008";
-                Constants.proxyUrl = Constants.appUrl + ":3009";
+                Constants.projectUrl = process.env.projectmanager + ":3003";
+                Constants.entityUrl = process.env.entitymanager + ":3005";
+                Constants.screenUrl = process.env.screenmanager + ":3004";
+                Constants.featureUrl = process.env.featuremanager + ":3006";
+                Constants.flowUrl = process.env.flowmanager + ":3001";
+                Constants.microUrl = process.env.microflowmanager + ":3002";
+                Constants.menuUrl = process.env.menubuildermanager + ":3011";
+                Constants.templateUrl = process.env.templatemanager + ":3012";
+                Constants.loginUrl = process.env.securitymanager + ":3007";
+                Constants.camundaUrl = process.env.camundasvc + ":3008";
+                Constants.proxyUrl = process.env.authproxy + ":3009";
                 Constants.adminUrl = Constants.appUrl + ":3010";
                 Constants.customConnectorUrl = Constants.appUrl + ":3013";
-                Constants.deleteUrl = Constants.appUrl + ":3014";
+                Constants.deleteUrl = process.env.deletemanager + ":3014";
+                Constants.sharedUrl = Constants.appUrl + ":3050";
 
                 //generator
-                Constants.projectGenUrl = Constants.generationUrl + ":5000";
-                Constants.configUrl = Constants.generationUrl + ":5001";
-                Constants.codeGenUrl = Constants.generationUrl + ":5008";
-                Constants.backendGenUrl = Constants.generationUrl + ":5009";
-                Constants.datastoreGenUrl = Constants.generationUrl + ":5010";
-                Constants.mongoGenUrl = Constants.generationUrl + ":5011";
-                Constants.nodeGenUrl = Constants.generationUrl + ":5012";
-                Constants.frontendGenUrl = Constants.generationUrl + ":5013";
-                Constants.angularGenUrl = Constants.generationUrl + ":5014";
-                Constants.angularTemplateGenUrl = Constants.generationUrl + ":5015";
-                Constants.githubUrl = Constants.generationUrl + ":5016";
-                Constants.authgenUrl = Constants.generationUrl + ":5017";
+                Constants.projectGenUrl = process.env.generationmanager + ":5000";
+                Constants.configUrl = process.env.configmanager + ":5001";
+                Constants.codeGenUrl = process.env.codegenmanager + ":5008";
+                Constants.backendGenUrl = process.env.backendgenmanager + ":5009";
+                Constants.datastoreGenUrl = process.env.datastoremanager + ":5010";
+                Constants.mongoGenUrl = process.env.mongogenmanager + ":5011";
+                Constants.nodeGenUrl = process.env.nodegenmanager + ":5012";
+                Constants.frontendGenUrl = process.env.frontgenmanager + ":5013";
+                Constants.angularGenUrl = process.env.angulargenmanager + ":5014";
+                Constants.angularTemplateGenUrl = process.env.angtemplatemanager + ":5015";
+                Constants.githubUrl = process.env.githubmanager + ":5016";
+                Constants.authgenUrl = process.env.authgenmanager + ":5017";
+                Constants.swaggerGenUrl = process.env.swaggergenmanager + ":5020";
 
                 break;
 
@@ -97,6 +102,7 @@ export class Constants {
                 Constants.adminUrl = Constants.appUrl + ":3010";
                 Constants.customConnectorUrl = Constants.appUrl + ":3013";
                 Constants.deleteUrl = Constants.appUrl + ":3014";
+                Constants.sharedUrl = Constants.appUrl + ":3050";
 
                 //generator
                 Constants.projectGenUrl = Constants.generationUrl + ":5000";
@@ -111,13 +117,11 @@ export class Constants {
                 Constants.angularTemplateGenUrl = Constants.generationUrl + ":5015";
                 Constants.githubUrl = Constants.generationUrl + ":5016";
                 Constants.authgenUrl = Constants.generationUrl + ":5017";
+                Constants.swaggerGenUrl = Constants.generationUrl + ":5020";
 
                 break;
         }
-
     }
-
-
 }
 
 

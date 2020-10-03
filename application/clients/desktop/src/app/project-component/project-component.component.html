@@ -270,8 +270,9 @@
                             <select class="form-control" [(ngModel)]="featureDetails.name"
                                 (change)="onChange($event.target.value)">
                                 <option value="" selected>Select Feature</option>
-                                <option *ngFor="let feature of featureData" value="{{feature.name}}"
-                                    ([ngModel])="selectedExistingFeature">{{feature.name}}</option>
+                                <option value="" selected>wcmx/acoustic</option>
+                             <!-- <option *ngFor="let feature of featureData" value="{{feature.name}}"
+                                    ([ngModel])="selectedExistingFeature">{{feature.name}}</option> -->
                             </select>
                         </div>
                     </div>
@@ -334,7 +335,7 @@
                 <button type="button" class="btn btn-default" (click)="closeFeatureCreateModel()">Cancel</button>
             </div>
             <div class="modal-footer" style="padding: 5px" *ngIf="showImportFeature">
-                <button class="btn btn-primary" (click)="addFeature()">Import</button>
+                <button class="btn btn-primary" (click)="importFeature()">Import</button>
                 <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>
             </div>
         </div>

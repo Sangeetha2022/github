@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 })
 export class $object.className$Service {
 
-    public DESKTOP_API = '/api/desktop';
+    public DESKTOP_API = 'http://'+window.location.hostname+':3000/desktop';
     public MOBILE_API = '/api/mobile';
 }
 $endif$
