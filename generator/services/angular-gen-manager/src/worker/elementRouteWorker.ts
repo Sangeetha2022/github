@@ -46,14 +46,14 @@ export class ElementRouteWorker {
         switch (routeElement.route.routeType) {
             case 'queryParameter':
                 tempMethod = `${routeElement.route.methodName}(queryId) {`;
-                tempMethod += `\nthis.${temp.componentConstructor[0].variableName}.navigate(['/${routeElement.route.screenName}'], { queryParams: { 'id': queryId } });`;
+                tempMethod += `\nthis.${temp.componentConstructor[0].variableName}.navigate(['/${routeElement.route.screenName.toLowerCase()}'], { queryParams: { 'id': queryId } });`;
                 tempMethod += `\n}`;
                 componentObject.componentMethod.push(tempMethod);
                 break;
             default:
                 // none and default are same method
                 tempMethod = `${routeElement.route.methodName}() {`;
-                tempMethod += `\nthis.${temp.componentConstructor[0].variableName}.navigate(['/${routeElement.route.screenName}']);`;
+                tempMethod += `\nthis.${temp.componentConstructor[0].variableName}.navigate(['/${routeElement.route.screenName.toLowerCase()}']);`;
                 tempMethod += `\n}`;
                 componentObject.componentMethod.push(tempMethod);
                 break;

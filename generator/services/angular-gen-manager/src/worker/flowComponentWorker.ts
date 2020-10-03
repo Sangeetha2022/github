@@ -257,7 +257,7 @@ export class FlowComponentWorker {
                         if (this.componentObject.dynamictype === 'dynamicdropdown-type') {
                             searchTemp += `\n       this.itemArray = data.body;`;
                         } else {
-                            searchTemp += `\n       this.rowData = data.body;`;
+                            searchTemp += `\n       this.rowData = data;`;
                         }
                     } else if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME) {
                         if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
@@ -375,7 +375,7 @@ export class FlowComponentWorker {
                     getAllValueTemp += `\n       console.log('successfully get all data --- ', data);`;
                     if (connectorType == Constant.DEFAULT_CONNECTOR_NAME) {
                         if (rowDataTemp > -1) {
-                            getAllValueTemp += `\n       this.rowData = data.body;`;
+                            getAllValueTemp += `\n       this.rowData = data;`;
                         }
                     } else if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME) {
                         if (rowDataTemp > -1) {
@@ -441,7 +441,7 @@ export class FlowComponentWorker {
                         getByIdTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
                         this.setComponentVariable(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
                     } else {
-                        getByIdTemp += `\n       this.${this.componentObject.variableList[0].entityName} = data.body;`;
+                        getByIdTemp += `\n       this.${this.componentObject.variableList[0].entityName} = data;`;
                     }
                     getByIdTemp += `\n    },`;
                     getByIdTemp += `\n    error => {`;

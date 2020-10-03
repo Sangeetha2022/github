@@ -582,7 +582,7 @@ export class FrontendWorker {
                         if (appElement.includes(`redirectTo: ''`)) {
                             this.routingModuleInfo.path.unshift(appElement.replace('},', '}'));
                         } else if (appElement.includes(`component: TemplateComponent`)) {
-                            this.routingModuleInfo.path.push(appElement.replace(`{ path: \'\', component: TemplateComponent },`, `{ path: \'\', component: TemplateComponent , pathMatch: \'full\' }`));
+                            this.routingModuleInfo.path.push(appElement.replace(`{ path: \'\', component: TemplateComponent },`, `{ path: \'\', component: TemplateComponent , pathMatch: \'full\' },`));
                         } else {
                             this.routingModuleInfo.path.push(appElement.replace('},', `, canActivate: [${this.AUTH_GUARD_FILENAME}] }`));
                         }
