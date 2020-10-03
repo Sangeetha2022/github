@@ -77,7 +77,8 @@ export class TemplateScreenComponent implements OnInit {
         this.projectTemp[0]['css-guidelines'] = this.selectedTemplate['css-guidelines'];
         const projetData = {
           app_ui_template: this.selectedTemplate.name,
-          app_ui_template_img: this.selectedTemplate.template_image[0].image
+          app_ui_template_name: this.selectedTemplate.template_name,
+          app_ui_template_img: null
         };
         this.screenDesignerService.updateScreen(this.projectTempId, this.projectTemp[0]).subscribe(updateScreen => {
           localStorage.setItem('stylesheets', JSON.stringify(this.projectTemp[0]['stylesheets']));
