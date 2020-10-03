@@ -105,6 +105,7 @@ export class ComponentSpecializedWorker {
             }
         }
         variableTemp += `]`;
+        console.log('---------grid variable list---------', variableTemp);
         $this.tsComponent.variableList.push(variableTemp);
     }
 

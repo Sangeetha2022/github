@@ -2106,7 +2106,7 @@ export class DesktopScreenComponent implements OnInit {
                       });
 
                   }
-                  if (projectflowexsists > -1 && featureflowexsists > -1) {
+                  if (projectflowexsists == -1 && featureflowexsists == -1) {
                     this.projectComponentService.saveManyProjectFlow(projectflow_arr).subscribe(
                       projectflow => {
                         if (projectflow.body) {

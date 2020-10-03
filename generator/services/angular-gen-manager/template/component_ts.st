@@ -1,5 +1,6 @@
 component_ts(object) ::= <<
-$if(object.importDependency)$$object.importDependency:{name | import { $name.dependencyName$, ViewEncapsulation \} from '$name.dependencyPath$';};separator="\n"$$endif$
+$if(object.importDependency)$$object.importDependency:{name | import { $name.dependencyName$ \} from '$name.dependencyPath$';};separator="\n"$$endif$
+$if(object.thirdpartyDependency)$$object.thirdpartyDependency:{name | import { $name.dependencyName$\} from '$name.dependencyPath$';};separator="\n"$$endif$
 $if(object.importComponent)$$object.importComponent:{name | import { $name.classname$ \} from '$name.path$';};separator="\n"$$endif$
 $if(object.importAsteriskDependency)$$object.importAsteriskDependency:{name | import $name.dependencyName$ from '$name.dependencyPath$';};separator="\n"$$endif$
 
@@ -8,7 +9,6 @@ $if(object.scriptVariable)$$object.scriptVariable:{name | declare var $name$: an
   selector: 'app-$object.folderName$',
   templateUrl: './$object.folderName$.component.html',
   styleUrls: ['./$object.folderName$.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class $object.className$Component implements OnInit {
 $if(object.componentVariable)$

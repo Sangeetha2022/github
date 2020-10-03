@@ -1,6 +1,6 @@
 /*
  * Template group component_ts
- * Compiled on Mon Feb 10 2020 19:15:18 GMT+0530 (IST)
+ * Compiled on Sat Oct 03 2020 12:41:36 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -34,8 +34,8 @@ r = function(w, rc) {
             
                      w.write("import { ");
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyName", { file: gFile, line: 2, column: 77 }));
-                     w.write(", ViewEncapsulation } from '");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyPath", { file: gFile, line: 2, column: 127 }));
+                     w.write(" } from '");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyPath", { file: gFile, line: 2, column: 108 }));
                      w.write("';");
             }, [
             { name: "name"     }
@@ -46,19 +46,19 @@ r = function(w, rc) {
     
     }
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "importComponent", { file: gFile, line: 3, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "thirdpartyDependency", { file: gFile, line: 3, column: 11 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "importComponent", { file: gFile, line: 3, column: 36 });
+        attr = st.prop(s, g, rc, s.object, "thirdpartyDependency", { file: gFile, line: 3, column: 41 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
                      w.write("import { ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "classname", { file: gFile, line: 3, column: 75 }));
-                     w.write(" } from '");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "path", { file: gFile, line: 3, column: 101 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyName", { file: gFile, line: 3, column: 85 }));
+                     w.write("} from '");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyPath", { file: gFile, line: 3, column: 115 }));
                      w.write("';");
             }, [
             { name: "name"     }
@@ -69,19 +69,42 @@ r = function(w, rc) {
     
     }
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "importAsteriskDependency", { file: gFile, line: 4, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "importComponent", { file: gFile, line: 4, column: 11 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "importAsteriskDependency", { file: gFile, line: 4, column: 45 });
+        attr = st.prop(s, g, rc, s.object, "importComponent", { file: gFile, line: 4, column: 36 });
+        tp.push(st.makeSubTemplate(g, function(w, rc) {
+            var g = this.owningGroup,
+            s = this.scope;
+            
+                     w.write("import { ");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "classname", { file: gFile, line: 4, column: 75 }));
+                     w.write(" } from '");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "path", { file: gFile, line: 4, column: 101 }));
+                     w.write("';");
+            }, [
+            { name: "name"     }
+            ])); 
+        return st.map(attr, tp);
+        })(), {separator: "\n"});
+    
+    
+    }
+    w.write("\n");
+    if (st.test(st.prop(s, g, rc, s.object, "importAsteriskDependency", { file: gFile, line: 5, column: 11 }))) {
+    
+        st.write(w, s, g, rc, (function() {
+        var tp = [],
+        attr = st.prop(s, g, rc, s.object, "importAsteriskDependency", { file: gFile, line: 5, column: 45 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
                      w.write("import ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyName", { file: gFile, line: 4, column: 91 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyName", { file: gFile, line: 5, column: 91 }));
                      w.write(" from '");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyPath", { file: gFile, line: 4, column: 119 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.name, "dependencyPath", { file: gFile, line: 5, column: 119 }));
                      w.write("';");
             }, [
             { name: "name"     }
@@ -93,11 +116,11 @@ r = function(w, rc) {
     }
     w.write("\n");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "scriptVariable", { file: gFile, line: 6, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "scriptVariable", { file: gFile, line: 7, column: 11 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "scriptVariable", { file: gFile, line: 6, column: 35 });
+        attr = st.prop(s, g, rc, s.object, "scriptVariable", { file: gFile, line: 7, column: 35 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
@@ -119,24 +142,20 @@ r = function(w, rc) {
     w.pushIndentation("  ");
     w.write("selector: 'app-");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 8, column: 25 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 9, column: 25 }));
     w.write("',");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("templateUrl: './");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 9, column: 26 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 10, column: 26 }));
     w.write(".component.html',");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("styleUrls: ['./");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 10, column: 25 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 11, column: 25 }));
     w.write(".component.scss'],");
-    w.write("\n");
-    w.pushIndentation("  ");
-    w.write("encapsulation: ViewEncapsulation.None");
-    w.popIndentation();
     w.write("\n");
     w.write("})");
     w.write("\n");

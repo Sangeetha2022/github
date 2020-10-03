@@ -11,10 +11,11 @@ packageJson(object) ::= <<
     "start": "nodemon ./dist/server.js",
     "prod": "npm run build && npm run start"
   },
-  "author": "Dan Castillo <dan.castillo@geppettosoftware.com>",
+  "author": "Geppetto <gepinfo@geppettosoftware.com>",
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.16.1",
+    "ts-node": "^9.0.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "express": "^4.16.4",

@@ -61,6 +61,7 @@ export class FlowComponentWorker {
                     }
                 })
             })
+            this.addComponentVariable();
             this.componentOption();
         } else {
             if (this.componentObject.dependenciesVariableList &&
@@ -244,7 +245,7 @@ export class FlowComponentWorker {
             case Constant.GP_SEARCH_FLOW:
                 let searchTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    searchTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : `${this.componentObject.variableList[0].entityName}`})`;
+                    searchTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : `this.${this.componentObject.variableList[0].entityName}`})`;
                     searchTemp += `\n  .subscribe(`;
                     searchTemp += `\n    data => {`;
                     searchTemp += `\n       console.log('data searched successfully --- ', data);`;
@@ -283,7 +284,7 @@ export class FlowComponentWorker {
                     updateTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : `this.${this.componentObject.variableList[0].entityName}`})`;
                     updateTemp += `\n  .subscribe(`;
                     updateTemp += `\n    data => {`;
-                    createTemp += `\n              this.toastr.success('data save sucessfully', {
+                    updateTemp += `\n              this.toastr.success('data save sucessfully', {
                         closeButton: true,
                         disableTimeOut: true
                       }); `
@@ -294,7 +295,7 @@ export class FlowComponentWorker {
                     } else { }
                     updateTemp += `\n    },`;
                     updateTemp += `\n    error => {`;
-                    createTemp += `\n             this.toastr.error('Failed to data save', {
+                    updateTemp += `\n             this.toastr.error('Failed to data save', {
                         closeButton: true,
                         disableTimeOut: true
                       });`
@@ -303,7 +304,6 @@ export class FlowComponentWorker {
                     updateTemp += `\n    );`;
                     // calling constructor methods
                     this.addConstructor(`${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}`, serviceClassName);
-3
                     // calling component headers
                     this.componentHeaders(headers.className, headers.path);
                 }
@@ -431,7 +431,7 @@ export class FlowComponentWorker {
             case Constant.GP_GETNOUNBYID_FLOW:
                 let getByIdTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-                    getByIdTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : `${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE}`})`;
+                    getByIdTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${connectorParams ? connectorParams : `${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE}`})`;
                     getByIdTemp += `\n  .subscribe(`;
                     getByIdTemp += `\n    data => {`;
                     getByIdTemp += `\n       console.log('successfully get the data by id --- ', data);`;

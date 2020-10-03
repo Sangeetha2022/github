@@ -560,7 +560,7 @@ export class GenerateHtmlWorker {
         }
         componentSpecializedWorker.checkSpecialElement(this, IDName);
     }
-    ''
+    
     setTraits(firstEle) {
         console.log('entering into firstelement triats ', firstEle, this.startString);
         // if (firstEle.hasOwnProperty('traits')) {
@@ -875,11 +875,14 @@ export class GenerateHtmlWorker {
                 this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}" [ngModelOptions]="{standalone: true}"`;
             }
             const variableObject = this.tsComponent.variableList.find(x => x.entityId == entityDetails.entityId);
-            // console.log('variableList ------>>>>  ', variableObject);
+            console.log('variableList ------>>>>  ', variableObject);
             console.log('startString ---ngModels--->>>>  ', this.startString);
             if (variableObject) {
+                console.log('---------------coming in the if condition of variable list---',entityDetails);
                 variableObject.fields.push(entityDetails.fields.name);
             } else {
+                console.log('---------------coming in the else condition of variable list---',entityDetails);
+
                 variableTemp.entityId = entityDetails.entityId;
                 variableTemp.entityName = entityObject.name;
                 variableTemp.fields.push(entityDetails.fields.name);
