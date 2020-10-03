@@ -265,8 +265,8 @@ export class ComponentWorker {
         temp.imports.push(`FormsModule`, `ReactiveFormsModule`);
 
         temp.imports.push (`RouterModule.forChild([
-            {path: '', component: ${temp.className}Component
-          ]),`)
+            {path: '', component: ${temp.className}Component}
+          ])`)
         //toaster import added
         temp.imports.push(`ToastrModule.forRoot({ preventDuplicates: true })`)
 
