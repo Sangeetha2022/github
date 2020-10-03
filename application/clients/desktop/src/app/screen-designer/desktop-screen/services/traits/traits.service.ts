@@ -3,6 +3,8 @@ import { IEntity } from '../../../../project-component/interface/Entity';
 import { CustomTraitsService } from './custom-traits.service';
 // import * as Highcharts from 'highcharts';
 
+import { Dataservice } from '../../../../broadcast.service';
+
 declare var ClassicEditor: any;
 declare var Highcharts: any;
 declare var agGrid: any;
@@ -11,10 +13,11 @@ declare var agGrid: any;
 })
 export class TraitsService {
   public entityOptions: any[] = [];
-  public entitylist: any [] = [];
+  public entitylist: any[] = [];
   public fieldOptions: any[] = [];
   public allEntity: IEntity[] = [];
   EntityField: any[] = [];
+  selected_event: any;
   // entityoption = [];
   traitsName: string;
   project_id: String;
@@ -25,9 +28,12 @@ export class TraitsService {
       entity: ''
     }
   ];
-  constructor(private customTraitService: CustomTraitsService) { }
 
-   initMethod(screenGlobalVariable) {
+  constructor(private customTraitService: CustomTraitsService, private broadcastservice: Dataservice) { }
+
+
+
+  initMethod(screenGlobalVariable) {
     this.initializeInputMethod(screenGlobalVariable);
     this.initializeTextAreaMethod(screenGlobalVariable);
     this.initializeSelectMethod(screenGlobalVariable);
@@ -37,12 +43,12 @@ export class TraitsService {
     this.initializeLinkMethod(screenGlobalVariable);
   }
 
-   initializeInputMethod(screenGlobalVariable) {
+  initializeInputMethod(screenGlobalVariable) {
     this.entitylist = [];
     const $this = this;
     const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
-    const defaultModel = defaultType.model; 
+    const defaultModel = defaultType.model;
     comps.addType('input', {
       isComponent: el => el.tagName === 'INPUT',
       model: {
@@ -103,7 +109,6 @@ export class TraitsService {
                 options: [],
                 changeProp: 1
               },
-  
               // { type: 'checkbox', name: 'required', label: 'Required' }
             ]
           })
@@ -819,6 +824,24 @@ export class TraitsService {
           this.listenTo(this, 'change:columns', this.gridColumns);
           this.listenTo(this, 'change:colname', this.columnName);
           this.listenTo(this, 'change:verbs', this.verb);
+          this.listenTo(this, 'change:events', this.handlechangetype);
+        },
+        handlechangetype() {
+          // tslint:disable-next-line:max-line-length
+          const gridevent = this.get('traits').where({
+            name: 'events'
+          })[0];
+          const changedValue = this.changed['events'];
+          screensVariable.agGridObject['selectedevent'] = this.changed['events'];
+          // tslint:disable-next-line:max-line-length
+          console.log('Input type changed to : ', screensVariable.editor.getSelected().attributes.type, screensVariable.editor.getSelected().ccid, screensVariable.editor.getSelected().cid);
+          const eventchangetrigger = {
+            type: screensVariable.editor.getSelected().attributes.type,
+            value: changedValue
+          };
+          $this.broadcastservice.updateDataselection({ 'event': eventchangetrigger });
+          console.log('--------changed event-----', changedValue , screensVariable);
+          // screensVariable.editor.TraitManager.getTraitsViewer().render();
         },
         ElementName() { },
         verb() {
@@ -1153,4 +1176,108 @@ export class TraitsService {
       view: defaultType.view
     });
   }
+
+  dynamicDropdownTraits(editor, buttonName) {
+    const comps = editor.DomComponents;
+    const $this = this;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    console.log('----------this.entityoptions', this.entityOptions);
+    comps.addType(buttonName, {
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              {
+                label: 'name',
+                name: 'name',
+                type: 'text',
+                changeProp: 1
+              },
+              {
+                type: 'select',
+                label: 'FieldType',
+                name: 'entity',
+                changeProp: 1,
+                options: this.entityOptions
+              },
+              {
+                type: 'select',
+                label: 'Event',
+                name: 'events',
+                changeProp: 1,
+                options: [
+                  { key: 'Load', value: 'OnLoad' },
+                  { key: 'AfterLoad', value: 'AfterLoad' },
+                  { key: 'Rowclick', value: 'Rowclick' },
+                  { key: 'Rowclick | Load', value: 'Rowclick | OnLoad'}
+                ]
+              }
+            ]
+          }),
+          init() {
+            this.listenTo(this, 'change:name', this.ElementName);
+            this.listenTo(this, 'change:entities', this.entity);
+            this.listenTo(this, 'change:events', this.handlechangetype);
+          },
+          handlechangetype() {
+            // tslint:disable-next-line:max-line-length
+            console.log('Input type changed to : ', editor.getSelected().attributes.type, editor.getSelected().ccid, editor.getSelected().cid);
+            const dynamicDropdownTraits = this.get('traits').where({
+              name: 'events'
+            })[0];
+            const changedValue = this.changed['events'];
+            const eventchangetrigger = {
+              type: editor.getSelected().attributes.type,
+              elementname: editor.getSelected().attributes.name,
+              componentId: editor.getSelected().cid,
+              htmlId: editor.getSelected().ccid,
+              traits: dynamicDropdownTraits,
+              value: changedValue
+            };
+            $this.broadcastservice.updateDataselection({ 'event': eventchangetrigger });
+            console.log('--------changed event-----', eventchangetrigger);
+            editor.TraitManager.getTraitsViewer().render();
+          },
+          entity() {
+            const entityTrait = this.get('traits').where({
+              name: 'entityattributes'
+            })[0];
+            const changedValue = this.changed['entities'];
+            const options = [];
+            if ($this.allEntity.length > 0) {
+              $this.allEntity.forEach(entityElement => {
+                if (entityElement.name === changedValue) {
+                  entityElement.field.forEach(childElement => {
+                    const temp = {
+                      value: childElement.Name,
+                      name: childElement.Name
+                    };
+                    options.push(temp);
+                  });
+                }
+              });
+            }
+            entityTrait.set('options', options);
+            editor.TraitManager.getTraitsViewer().render();
+          },
+        },
+        {
+          isComponent: function (el) {
+            if (el.tagName === buttonName) {
+              return {
+                type: buttonName
+              };
+            }
+          }
+        }
+      ),
+
+      view: defaultType.view
+    });
+  }
+
+
 }

@@ -32,8 +32,15 @@ export const ScreenSchema = new Schema({
             entity: String,
             entityfield: String
         }],
-        default_field: []
+        default_field: [],
+        event: String
     },
+    specific_attribute_Event:[{
+        htmlId: { type: String, default: null },
+        componentId: { type: String, default: null },
+        elementName: { type: String, default: null },
+        selected_event: { type: String, default: null }
+    }],
     entity_info: [{
         htmlId: { type: String, default: null },
         componentId: { type: String, default: null },
@@ -52,6 +59,7 @@ export const ScreenSchema = new Schema({
         componentId: { type: String, default: null },
         elementName: { type: String, default: null },
         verb: { type: String, default: 'click' },
+        event: {type: String, default: null},
         flow: { type: String, ref: 'flows' },
         flowName: { type: String, default: null }
     }],

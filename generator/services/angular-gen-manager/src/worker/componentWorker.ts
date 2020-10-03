@@ -99,6 +99,7 @@ export class ComponentWorker {
             componentVariable: [],
             componentConstructorParams: [],
             componentOnInit: [],
+            componentOnAfterView:[],
             componentMethod: []
         }
 
@@ -182,6 +183,7 @@ export class ComponentWorker {
         temp.importDependency.push({ dependencyName: 'ToastrService', dependencyPath: 'ngx-toastr' });
 
 
+        console.log('---------component information in ts file-----',information);
         flowComponentWorker.generateComponentFlow(information, temp, entities);
 
         componentSupportWorker.generateComponent(applicationPath, templatePath,
@@ -218,6 +220,7 @@ export class ComponentWorker {
 
 
     public generateComponentCss(applicationPath, templatePath, componentName, information, callback) {
+        console.log('---------Css information ------', information);
         const temp = {
             folderName: componentName.toLowerCase(),
             className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
@@ -244,10 +247,10 @@ export class ComponentWorker {
         temp.importDependency.push({ dependencyName: 'CommonModule', dependencyPath: '@angular/common' });
         temp.importDependency.push({ dependencyName: 'RouterModule', dependencyPath: '@angular/router' });
         temp.importDependency.push({ dependencyName: 'FormsModule, ReactiveFormsModule', dependencyPath: '@angular/forms' });
-
-        //ng-selected dependy path 
-            temp.importDependency.push({dependencyName: 'NgSelectModule', dependencyPath: '@ng-select/ng-select'})
-        
+        if(information.dynamictype == 'dynamicdropdown-type'){
+            temp.importDependency.push({ dependencyName: 'NgSelectModule', dependencyPath: '@ng-select/ng-select' });
+            temp.imports.push(`NgSelectModule`);
+        }
         // add component class with path
         temp.importDependency.push({ dependencyName: `${temp.className}Component`, dependencyPath: `./${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}` });
 

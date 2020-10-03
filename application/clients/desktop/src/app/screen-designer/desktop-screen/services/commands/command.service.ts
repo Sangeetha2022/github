@@ -97,6 +97,15 @@ export class CommandService {
           }
         );
       }
+      if (component.attributes.type === 'dynamicdropdown-type') {
+        component.get('traits').add(
+          {
+            name: 'actionButton',
+            label: 'Action',
+            type: 'actionButton'
+          }
+        );
+      }
       if (component.attributes.type === 'grid-type') {
         // entity remove traits
         component.removeTrait('entity');
@@ -107,7 +116,7 @@ export class CommandService {
             label: 'entity',
             name: 'entity',
             changeProp: 1,
-            options: $this.entitydetails //Entity binding 
+            options: $this.entitydetails // Entity binding
           },
           {
             name: 'fieldButton',
@@ -124,6 +133,23 @@ export class CommandService {
               { key: 'focus', value: 'onFocus' },
               { key: 'blur', value: 'onBlur' }
             ]
+          },
+          {
+            type: 'select',
+            label: 'event',
+            name: 'events',
+            changeProp: 1,
+            options: [
+              { key: 'Load', value: 'OnLoad' },
+              { key: 'AfterLoad', value: 'AfterLoad' },
+              { key: 'Rowclick', value: 'Rowclick' },
+              { key: 'Rowclick | Load', value: 'Rowclick | OnLoad' }
+            ]
+          },
+          {
+            name: 'actionButton',
+            label: 'Action',
+            type: 'actionButton'
           },
           {
             name: 'routeButton',
@@ -412,6 +438,8 @@ export class CommandService {
       const wrapperType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="grid-type"]');
       const popupModalType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="popupModal-type"]');
       const linkType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="link"]');
+      const dynamicdropdownType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="dynamicdropdown-type"]');
+
       if (wrapperType.length > 0) {
         $this.is_grid_present = true;
         $this.saveRemoteStorage();
@@ -430,6 +458,12 @@ export class CommandService {
           element.attributes.traits.target.set('name', `link_${element.ccid}`);
         });
       }
+      if (dynamicdropdownType.length > 0) {
+        dynamicdropdownType.forEach(element => {
+          element.attributes.traits.target.set('name', `dynamicdropdown_${element.ccid}`);
+        });
+      }
+
     });
   }
 }

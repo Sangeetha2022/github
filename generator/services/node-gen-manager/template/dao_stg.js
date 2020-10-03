@@ -101,7 +101,6 @@ r = function(w, rc) {
     w.write("\n");
     w.popIndentation();
     if (st.test(st.prop(s, g, rc, s.object, "flowAction", { file: gFile, line: 11, column: 11 }))) {
-    
         st.write(w, s, g, rc, (function() {
         var tp = [],
         attr = st.prop(s, g, rc, s.object, "flowAction", { file: gFile, line: 11, column: 31 });
@@ -119,9 +118,16 @@ r = function(w, rc) {
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 11, column: 196 }));
                      w.write("')\n");
                      if (st.test(st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 11, column: 225 }))) {
-                     
                          st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "variable", { file: gFile, line: 11, column: 244 }));
                          w.write(";");
+                         if (st.test(st.prop(s, g, rc, s.flowObj, "objectiteration", { file: gFile, line: 9, column: 266 }))) {
+                         
+                             st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "objectiteration", { file: gFile, line: 9, column: 292 }));
+                             w.write(";");
+                         
+                         
+                         }
+                         w.write("\n;");
                      
                      
                      }

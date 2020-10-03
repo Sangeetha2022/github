@@ -51,10 +51,13 @@ export class GenerateHtmlWorker {
         variableList: [],
         dependenciesVariableList: [],
         componentOnInit: [],
+        componentOnAfterView: [],
         routeList: [],
         flowMethod: [],
         elementDependedMethod: [],
-        otherMethodNames: []
+        otherMethodNames: [],
+        dynamictype: '',
+        issearchforupdate: ''
     }
 
     private serviceComponent = {
@@ -68,7 +71,9 @@ export class GenerateHtmlWorker {
         imports: [],
         declarations: [],
         exports: [],
-        entryComponents: []
+        entryComponents: [],
+        dynamictype: ''
+
     }
     private screenInfo: any;
 
@@ -77,9 +82,9 @@ export class GenerateHtmlWorker {
         import: [],
         others: []
     }
-    // private selectOption = `<option *ngFor="let option of option" [ngValue]="option.key">{{option.value}}</option>`;
-    private selectOption = `<ng-select [items]="option" bindLabel="value" [searchable]="true" placeholder="Select city" [virtualScroll]="true" >
-    </ng-select>`;
+    private selectOption = `<option *ngFor="let option of option" [ngValue]="option.key">{{option.value}}</option>`;
+    private selectclass: any;
+    private dynamicdropdowntype: any;
     private cssGuidelines = [];
     private ckeditorEntities: any = null;
     private linkContentInfo = {
@@ -87,6 +92,9 @@ export class GenerateHtmlWorker {
         isNgContentPresent: false,
         linkInfo: null
     }
+
+    public searchforupdatescreen: any;
+
 
     // class counter
     private classCount = 0;
@@ -108,9 +116,10 @@ export class GenerateHtmlWorker {
         this.generatedSpecialEventScreens = [];
     }
     generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
-        // console.log('create angular project value are ----- ', util.inspect(req.body, { showHidden: true, depth: null }));
+        console.log('css content for this screem ----- ', details);
         console.log('entering into geenerate methods are -----  ', util.inspect(metaData, { showHidden: true, depth: null }));
         console.log("screen---details-------", screenDetails)
+
         console.log("Details000------------>>>>", details)
         this.startTag = [];
         this.endTag = [];
@@ -119,10 +128,13 @@ export class GenerateHtmlWorker {
             variableList: [],
             dependenciesVariableList: [],
             componentOnInit: [],
+            componentOnAfterView: [],
             routeList: [],
             flowMethod: [],
             elementDependedMethod: [],
-            otherMethodNames: []
+            otherMethodNames: [],
+            dynamictype: '',
+            issearchforupdate: ''
         }
 
         // service
@@ -139,13 +151,20 @@ export class GenerateHtmlWorker {
             imports: [],
             declarations: [],
             exports: [],
-            entryComponents: []
+            entryComponents: [],
+            dynamictype: ''
         }
+
 
 
         this.componentStyle = [];
         // add default styles
         this.componentStyle.push(screenStyles);
+
+
+        if (screenDetails._id == this.searchforupdatescreen) {
+            this.tsComponent.issearchforupdate = 'true';
+        }
 
         this.screenInfo = screenDetails;
         console.log('generatehtlmworker componentstyles are ----  ', this.componentStyle);
@@ -183,7 +202,7 @@ export class GenerateHtmlWorker {
         // console.log('generate component are ---- ', util.inspect(details, { showHidden: true, depth: null }));
         // console.log('html tag result in generate component are -----  ', this.startTag);
         // console.log('generate service component are -----  ', this.serviceComponent);
-        console.log('generatecomponent name in generatehtmlworkers are -----  ', componentName);
+        console.log('generatecomponent name in generatehtmlworkers are -----  ', this.tsComponent);
         const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
         const packagePath = details.projectGenerationPath;
         const templatePath = details.templateLocation.frontendTemplate;
@@ -193,7 +212,7 @@ export class GenerateHtmlWorker {
         componentWorker.generateComponentService(applicationPath, templatePath, componentName, this.serviceComponent, (response) => {
             componentWorker.generateComponentTs(applicationPath, templatePath, componentName, this.tsComponent, this.entities, (response) => {
                 componentWorker.generateComponentHtml(applicationPath, templatePath, componentName, this.startTag, (response) => {
-                    // console.log('before calling generatecomponentcss from generatehtlm -----  ', this.componentStyle);
+                    console.log('before calling generatecomponentcss from generatehtlm -----  ', this.componentStyle);
                     componentWorker.generateComponentCss(applicationPath, templatePath, componentName, this.componentStyle, (response) => {
                         componentWorker.generateComponentSpec(applicationPath, templatePath, componentName, this.startTag, (response) => {
                             componentWorker.generateComponentModule(applicationPath, templatePath, componentName, this.moduleComponent,  (response) => {
@@ -335,7 +354,17 @@ export class GenerateHtmlWorker {
                 this.parentHtmlTags.push(item);
             }
             this.tagName = this.tagNameFunction(item);
-            // console.log('tagName for each iterate value are -parent----   ', this.tagName, ' --item.content--  ', item.content);
+            if (item.components !== undefined) {
+                item.components.forEach(component => {
+                    console.log(' --item.content--  ', component);
+                    if (component.type == 'dynamicdropdown-type') {
+
+                        this.dynamicdropdowntype = component.type;
+                        this.tsComponent.dynamictype = component.type;
+                        this.moduleComponent.dynamictype = component.type;
+                    }
+                });
+            }
             if (item.type === 'textnode') {
                 tempObj.endTagName = 'label';
                 this.parentHtmlTags.push(tempObj);
@@ -398,7 +427,7 @@ export class GenerateHtmlWorker {
 
     setClasses(firstEle) {
         if (firstEle.hasOwnProperty('classes')) {
-            // console.log('firstEle classes are ---- ', firstEle.classes[0], ' ---firstELE classes length-- ', firstEle.classes.length);
+            console.log('firstEle classes are ---- ', firstEle.classes[0]);
             if (!firstEle.hasOwnProperty('tagName') && !this.tagName) {
                 this.tagName = 'div';
             }
@@ -417,7 +446,15 @@ export class GenerateHtmlWorker {
                 if (className == Constant.STATE_SUCCESS_CLASSNAME || className == Constant.STATE_ERROR_CLASSNAME) {
                     this.isNotImportant = true;
                 } else if (className.toLowerCase() != 'radio') {
-                    this.startString += `<${this.tagName} class='${className}'`
+                    console.log('------before--------', this.startString);
+                    if (this.tagName === 'select' && this.dynamicdropdowntype === 'dynamicdropdown-type') {
+                        this.tsComponent.variableList.push('itemArray: []');
+                        this.startString = `<ng-select class=${className} [searchable]="true" [virtualScroll]="true"`;
+                    } else {
+                        this.startString += `<${this.tagName} class='${className}'`
+                    }
+                    console.log('--------------------startstring in the setclasses method-----', this.startString);
+
                 }
             }
 
@@ -453,20 +490,31 @@ export class GenerateHtmlWorker {
             if (!this.startString) {
                 this.startString += `<${this.tagName}`
             }
+            console.log('------------------startstring in the set attribute----', this.startString);
             attributes.forEach(element => {
                 console.log('attributes foreach -------   ', element);
                 if (element === 'id') {
                     IDName = firstEle.attributes[element];
                     const classRegex = /class='/g;
                     const className = ``;
+                    let gridclass;
                     // changing css id to className
-                    this.componentStyle[0] = this.componentStyle[0].replace(`#${firstEle.attributes[element]}`, `.${className}`);
+                    console.log('-----------------------Before replacing the css style', firstEle.attributes[element], className);
+                    if (className != '') {
+                        this.componentStyle[0] = this.componentStyle[0].replace(`#${firstEle.attributes[element]}`, `.${className}`);
+                    } else {
+                        gridclass = firstEle.attributes[element];
+                        this.componentStyle[0] = this.componentStyle[0].replace(`#${firstEle.attributes[element]}`, `.${gridclass}`);
+                    }
+                    console.log('-----------------------after replacing the css style', this.componentStyle[0]);
                     if (classRegex.test(this.startString.toString())) {
-                        console.log('clas regex true');
+
                         this.startString = this.startString.replace(classRegex, ` class='${className} `)
+                        console.log('clas regex true==========================', this.startString);
 
                     } else {
-                        this.startString += ` class='${className}'`;
+                        console.log('before the setting value in the startstring------', this.startString);
+                        this.startString += ` class='${gridclass}'`;
                     }
                     this.classCount++;
                 } else if (element === 'name' && firstEle.name) {
@@ -490,6 +538,7 @@ export class GenerateHtmlWorker {
                     //     this.setNav(firstEle, this.secondEle);
                     // }
                 }
+                console.log('-------startstring value -------', this.startString);
 
             })
             // set html traits
@@ -513,21 +562,22 @@ export class GenerateHtmlWorker {
     }
     ''
     setTraits(firstEle) {
-        console.log('entering into firstelement triats ', firstEle.name);
+        console.log('entering into firstelement triats ', firstEle, this.startString);
         // if (firstEle.hasOwnProperty('traits')) {
         // checking entities from databinding and flows for methods in component
         if (firstEle.name && this.entityDetails.length > 0 || this.flowDetails.length > 0 ||
             this.screenInfo.route_info.length > 0 || this.screenSpecialEvents.length > 0 ||
             this.linkInfo.length > 0) {
             // firstEle.traits.forEach(traitElement => {
-            console.log('triat firstelement are -----   ', firstEle.name);
+            console.log('triat firstelement are -----   ', util.inspect(this.flowDetails, { showHidden: true, depth: null }), firstEle.name);
             const entityIndex = this.entityDetails.findIndex(x => x.elementName == firstEle.name);
             const flowIndex = this.flowDetails.findIndex(x => x.elementName == firstEle.name && x.elementName !== '');
+            const defaultflowsIndex = this.flowDetails.findIndex(x => x.elementName == '' && firstEle.name === undefined);
             const routeIndex = this.screenInfo.route_info.findIndex(x => x.elementName == firstEle.name);
             const specialEventIndex = this.screenSpecialEvents.findIndex(x => x.elementName == firstEle.name);
             const linkIndex = this.linkInfo.findIndex(x => x.elementName == firstEle.name);
-
-            console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex, '  --routeIndex--  ', routeIndex);
+            const gridviewallflow = this.flowDetails.findIndex(x => x.elementName !== '' && firstEle.attributes.id == 'myGrid')
+            console.log('entity and flows index are ---- ', entityIndex, ' --flowIndex-- ', flowIndex, '  --routeIndex--  ', routeIndex, '---gridviewallindex---', gridviewallflow);
             if (firstEle.name) {
                 this.startString += ` name=${firstEle.name}`;
             }
@@ -553,9 +603,84 @@ export class GenerateHtmlWorker {
                 // componentSpecializedWorker.setSpecialEvents(this.screenSpecialEvents[specialEventIndex], this);
 
             }
+
+            if (this.screenInfo.is_grid_present) {
+                if (this.screenInfo.grid_fields.event !== null || this.screenInfo.grid_fields.event !== undefined) {
+                    if (this.screenInfo.grid_fields.event == 'OnLoad') {
+                        // console.log('----------grid event------', `this.${}()`);
+                        if (gridviewallflow > -1) {
+                            this.tsComponent.componentOnInit.push(`this.${this.flowDetails[gridviewallflow].flowName}()`);
+                        }
+
+                    }
+                }
+            }
+
+            // adding defaults for Gpsearchforupdate
+            if (defaultflowsIndex > -1 && this.flowDetails[defaultflowsIndex].flowName == 'GpGetNounById') {
+                console.log('------------coming inside default method always loosu-----', defaultflowsIndex);
+                console.log('default flow index are -----  ', this.flowList, '-----------screenname----', this.flowDetails[defaultflowsIndex].flow);
+                console.log('----default flow value check----', this.flowDetails[defaultflowsIndex].flow)
+                const defaultflowObject = this.flowList.find(x => x._id == this.flowDetails[defaultflowsIndex].flow);
+                console.log('defaultflowObject ---------->>>   ', defaultflowObject);
+                let defaultflowTemp = {
+                    _id: '',
+                    name: '',
+                    verb: '',
+                    label: '',
+                    description: '',
+                    event: '',
+                    type: '',
+                    actionOnData: '',
+                    createWithDefaultActivity: '',
+                    components: []
+                };
+
+                if (defaultflowObject) {
+                    defaultflowTemp = {
+                        _id: defaultflowObject._id,
+                        name: defaultflowObject.name,
+                        verb: 'click',
+                        label: defaultflowObject.label,
+                        event: this.flowDetails[defaultflowsIndex].event,
+                        description: defaultflowObject.description,
+                        type: defaultflowObject.type,
+                        actionOnData: defaultflowObject.actionOnData,
+                        createWithDefaultActivity: defaultflowObject.createWithDefaultActivity,
+                        components: []
+
+                    }
+
+                    // this.tsComponent.componentOnInit.push(`this.${this.flowDetails[defaultflowsIndex].flowName}()`);
+
+                    if (this.flowDetails[defaultflowsIndex].event !== '' || this.flowDetails[defaultflowsIndex].event !== undefined) {
+                        if (this.flowDetails[defaultflowsIndex].event == 'OnLoad') {
+                            if (!this.tsComponent.componentOnInit.includes('this.GpGetNounById()')) {
+                                this.tsComponent.componentOnInit.push(`this.${this.flowDetails[defaultflowsIndex].flowName}()`);
+                            }
+                        }
+
+                    }
+
+                    // set component dependencies method and variable
+                    this.setComponentDependencies(defaultflowObject, defaultflowTemp);
+
+                    // set services dependencies method and variable
+                    this.setServiceDependencies(defaultflowObject, defaultflowTemp);
+
+                    // set component services api's
+                    this.setEndPoints(defaultflowObject);
+
+
+                }
+            }
+
+
+
+
             // adding flows action
             if (flowIndex > -1) {
-                // console.log('identitied flow index are -----  ', this.flowDetails[flowIndex]);
+                console.log('identitied flow index are -----  ', this.flowDetails[flowIndex]);
                 const flowObject = this.flowList.find(x => x._id == this.flowDetails[flowIndex].flow);
                 console.log('flowObject ---------->>>   ', flowObject);
                 let flowTemp = {
@@ -564,6 +689,7 @@ export class GenerateHtmlWorker {
                     verb: '',
                     label: '',
                     description: '',
+                    event: '',
                     type: '',
                     actionOnData: '',
                     createWithDefaultActivity: '',
@@ -571,18 +697,29 @@ export class GenerateHtmlWorker {
                 };
                 if (flowObject) {
                     this.startString += ` (${this.flowDetails[flowIndex].verb})="${flowObject.name}()"`;
+                    console.log("--------------flowobject---------", flowObject)
                     console.log("------------------start---string-----", this.startString)
                     flowTemp = {
                         _id: flowObject._id,
                         name: flowObject.name,
                         verb: this.flowDetails[flowIndex].verb,
                         label: flowObject.label,
+                        event: this.flowDetails[flowIndex].event,
                         description: flowObject.description,
                         type: flowObject.type,
                         actionOnData: flowObject.actionOnData,
                         createWithDefaultActivity: flowObject.createWithDefaultActivity,
                         components: []
 
+                    }
+
+                    if (this.flowDetails[flowIndex].event !== '' || this.flowDetails[flowIndex].event !== undefined) {
+                        if (this.flowDetails[flowIndex].event == 'OnLoad') {
+                            this.tsComponent.componentOnInit.push(`this.${this.flowDetails[flowIndex].flowName}()`)
+                        }
+                        if (this.flowDetails[flowIndex].event == 'AfterLoad') {
+                            this.tsComponent.componentOnInit.push(`this.${this.flowDetails[flowIndex].flowName}()`)
+                        }
                     }
                 }
                 // set component dependencies method and variable
@@ -594,18 +731,26 @@ export class GenerateHtmlWorker {
                 // set component services api's
                 this.setEndPoints(flowObject);
             }
+
+
+
+
             // check routing info and decide whether we add it in html or ts
             if (routeIndex > -1) {
                 const routeObj = this.screenInfo.route_info[routeIndex];
                 const isExistIndex = this.generatedRouteScreens.findIndex(x => x.elementName === routeObj.elementName);
+                console.log('----------------routeobj---------', routeObj, isExistIndex);
+
                 if (isExistIndex > -1) {
                     this.generatedRouteScreens.splice(isExistIndex, 1);
                 } else {
+                    this.searchforupdatescreen = routeObj.screenId;
                     this.generatedRouteScreens.push(routeObj);
                 }
                 // set component route list
                 this.setComponentRouteList(routeObj, 'parent');
                 if (this.screenInfo.is_grid_present) {
+                    console.log('----------grid event------', this.screenInfo.grid_fields);
                     componentSpecializedWorker.checkAGGridAction(this, routeObj);
                 }
             } else if (specialEventIndex > -1) {
@@ -638,11 +783,14 @@ export class GenerateHtmlWorker {
             }
         }
         // check if tag is select, yes then we need to add its option in component ts file
-        if (this.tagName == 'select') {
-            console.log("I am coming---------selected---if")
+        if (this.tagName == 'select' && this.dynamicdropdowntype !== 'dynamicdropdown-type') {
+            console.log("I am coming---------selected---if", firstEle.components)
             this.getSelectOptions(firstEle.components);
             // this.setSelectGPService(firstEle.components)
 
+        }
+        if (this.tagName == 'select' && this.dynamicdropdowntype == 'dynamicdropdown-type') {
+            console.log('---------I am dynamic dropdown-----', firstEle.components);
         }
         // }
     }
@@ -650,10 +798,13 @@ export class GenerateHtmlWorker {
     setComponentDependencies(flowObject, flowTemp) {
 
         // component method
+        console.log('---------screen flow value----', flowObject, this.screenInfo.screenName);
+
         if (flowObject && !this.tsComponent.flowMethod.find(x => x._id == flowTemp._id)) {
             const componentFlow = flowObject.components.find(x => x.name.toLowerCase() === Constant.GP_ANGULAR_COMPONENT);
             if (componentFlow) {
-         
+                console.log('---------flowtemp value----', flowTemp, this.screenInfo.screenName);
+
                 flowTemp.components = componentFlow;
             }
             this.tsComponent.flowMethod.push(flowTemp);
@@ -706,15 +857,26 @@ export class GenerateHtmlWorker {
             entityName: '',
             fields: []
         }
-        console.log('identified entity index are -----  ', entityDetails, ' ---tagname---  ', tagName);
+        console.log('identified entity index are -----  ', entityDetails, ' ---tagname---  ', tagName, '-----strtstring---', this.startString);
         const entityObject = this.entities.find(x => x._id == entityDetails.entityId);
         console.log('entities object are ----------  ', entityObject);
         console.log('entities entityDetails are ----------  ', entityDetails);
         if (entityObject) {
-            this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}"`;
+            if (this.dynamicdropdowntype === 'dynamicdropdown-type') {
+                console.log('------------dynamic dropdown startstringvalue----------', this.startString);
+                if (this.startString.includes('ng-select')) {
+                    this.startString += ` bindLabel="${entityDetails.fields.name.replace(' ', '')}" bindValue="${entityDetails.fields.name.replace(' ', '')}" [items]= "itemArray" [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}" [ngModelOptions]="{standalone: true}"`;
+                }
+                else {
+                    this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}" [ngModelOptions]="{standalone: true}"`;
+                }
+            }
+            else {
+                this.startString += ` [(ngModel)]="${entityObject.name.replace(' ', '')}.${entityDetails.fields.name.replace(' ', '')}" [ngModelOptions]="{standalone: true}"`;
+            }
             const variableObject = this.tsComponent.variableList.find(x => x.entityId == entityDetails.entityId);
             // console.log('variableList ------>>>>  ', variableObject);
-            // console.log('startString ---ngModels--->>>>  ', this.startString);
+            console.log('startString ---ngModels--->>>>  ', this.startString);
             if (variableObject) {
                 variableObject.fields.push(entityDetails.fields.name);
             } else {
@@ -857,7 +1019,7 @@ export class GenerateHtmlWorker {
                         (this.tagName == 'p' || firstEle.type == 'header' ||
                             this.tagName == 'span' || this.tagName == 'div' || this.tagName == 'label'))
                 ) {
-                    // console.log('set content of firstelement --tagname-- ', this.tagName)
+                    console.log('set content of firstelement --tagname-- ', this.tagName)
                     this.startString += `</${this.tagName}>`
                 }
                 // this.startTag.push(this.startString);
@@ -898,18 +1060,18 @@ export class GenerateHtmlWorker {
             !this.isContentOnly &&
             !this.isNotImportant &&
             !this.isCKeditorSpan) {
-            if (this.tagName == 'select') {
-
-                // const entityData = this.entityDetails.find(x => x.entityId == firstEle.entity)
-                // const entityObject = this.entities.find(x => x._id == entityData.entityId);
-                // private selectOption = `<ng-select [items]="option" bindLabel="value" [searchable]="true" placeholder="Select city" [virtualScroll]="true" >
-                //  </ng-select>`;
-
-                this.startString = ''
+            console.log('pushed value tagname are -------->>>   ', this.selectOption);
+            if (this.tagName == 'select' && this.dynamicdropdowntype !== 'dynamicdropdown-type') {
                 this.startString += '\n' + this.selectOption;
-                // this.startString += `</${this.tagName}>`;
+                this.startString += `</${this.tagName}>`;
                 console.log('select tagname in push values are -----  ', this.startString);
                 this.setTagValue();
+            } else if (this.tagName == 'select' && this.dynamicdropdowntype == 'dynamicdropdown-type') {
+                // this.startString += '\n' + this.selectOption;
+                this.startString += `</ng-select>`;
+                console.log('select tagname in push values are -----  ', this.startString);
+                this.setTagValue();
+
             } else if (this.startString && this.tagName != 'div' && this.tagName != 'form') {
                 if (!firstEle.content && (this.tagName == 'label' || this.tagName == 'footer'
                     || this.tagName == 'section' || firstEle.type == 'header' || this.tagName == 'header'
@@ -937,6 +1099,7 @@ export class GenerateHtmlWorker {
     }
 
     setTagValue() {
+        console.log('--------------------Start string comes first-----', this.startString);
         this.startTag.push(this.startString);
         // if (this.tagName == 'meta' || this.tagName == 'title' ||
         //     this.tagName == 'link' || this.tagName == 'base') {

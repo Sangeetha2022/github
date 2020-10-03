@@ -26,7 +26,7 @@ export class FlowComponentWorker {
     // GpCheck_Connector
     private checkConnector() {
         // flow method with connector
-        // console.log('flowComponent componentObject are ---- ', util.inspect(this.componentObject, { showHidden: true, depth: null }));
+        console.log('flowComponent componentObject are ---- ', util.inspect(this.componentObject, { showHidden: true, depth: null }));
         // if variable list is empty need to add the primary entities in the variable list
         if (this.componentObject.variableList.length == 0 ||
             !this.componentObject.variableList[0].entityName) {
@@ -249,7 +249,11 @@ export class FlowComponentWorker {
                     searchTemp += `\n    data => {`;
                     searchTemp += `\n       console.log('data searched successfully --- ', data);`;
                     if (connectorType == Constant.DEFAULT_CONNECTOR_NAME) {
-                        searchTemp += `\n       this.rowData = data.body;`;
+                        if (this.componentObject.dynamictype === 'dynamicdropdown-type') {
+                            searchTemp += `\n       this.itemArray = data.body;`;
+                        } else {
+                            searchTemp += `\n       this.rowData = data.body;`;
+                        }
                     } else if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME) {
                         if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
                             searchTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;

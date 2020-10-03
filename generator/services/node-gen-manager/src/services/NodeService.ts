@@ -1065,6 +1065,7 @@ export class NodeService {
                                 methodName: '',
                                 parameter: '',
                                 variable: '',
+                                objectiteration: '',
                                 verbs: '',
                                 query: '',
                                 return: '',
@@ -1074,11 +1075,13 @@ export class NodeService {
                             daoTemp.methodName = dao.function.methodName;
                             daoTemp.parameter = dao.function.parameter;
                             daoTemp.variable = dao.function.variable;
+                            daoTemp.objectiteration = dao.function.objectiteration;
                             daoTemp.verbs = dao.function.verbs;
                             daoTemp.query = dao.function.query;
                             daoTemp.return = dao.function.return;
                             daoTemp.isJsonFormat = dao.function.isJsonFormat;
                             daoTemp.connectorEntityName = dao.function.connectorEntityName;
+                            console.log('-------------dao objects---------',daoTemp);
                             this.daoObj.flowAction.push(daoTemp);
 
 

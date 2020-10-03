@@ -61,3 +61,7 @@ generator/services/angular-gen-manager/package-lock\.json
 application/services/fredmanager/package-lock.json
 
 application/services/seedmanager/package-lock.json
+generator/services/frontend-gen-manager/package-lock.json
+generator/services/ionic-manager/package-lock.json
+generator/services/angular-template-manager/package-lock.json
+

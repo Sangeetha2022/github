@@ -101,6 +101,7 @@ export class Constants {
 
     // project Flow
     public static get saveManyProjectFlow(): String { return this.DESKTOP_ROUTER + '/flow/project/bulksave'; }
+    public static get getallProjectFlow(): String { return this.DESKTOP_ROUTER + '/flow/project/getall'; }
     public static get getProjectFeatureFlows(): String { return this.DESKTOP_ROUTER + '/flow/projectfeature/get'; }
     public static get deleteProjectFlow(): String { return this.DESKTOP_ROUTER + '/flow/project/delete'; }
     public static get updateProjectFlowComponent(): String { return this.DESKTOP_ROUTER + '/flow/project/updatecomponent'; }

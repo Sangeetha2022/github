@@ -132,12 +132,17 @@ export class ComponentSpecializedWorker {
         const html = `(${this.GRID_CLICK_HTML.htmlOptionName})="${this.GRID_CLICK_HTML.htmlMethodName}(${this.GRID_CLICK_HTML.htmlParams})"`;
         this.GRID_HTML.push(html);
         const findAgGridDependencies = componentDependency.component.find(x => x.name == Constant.AGGRID_TAGNAME);
+        console.log('--------findAdGridDependencies-----',$this.screenInfo.grid_fields.event);
+        const aggridevent = $this.screenInfo.grid_fields.event;
         if (findAgGridDependencies) {
-            let tempMethod = `${this.GRID_CLICK_HTML.htmlMethodName}() {`;
-            tempMethod += `\n  const selectedRows = this.${findAgGridDependencies.componentDynamicVariable.gridApiName}.getSelectedRows();`;
-            tempMethod += `\n  this.${routeObj.methodName}(selectedRows[0]._id);`;
-            tempMethod += `\n}`;
-            $this.tsComponent.elementDependedMethod.push(tempMethod);
+            if (aggridevent == 'Rowclick'){
+                let tempMethod = `${this.GRID_CLICK_HTML.htmlMethodName}() {`;
+                tempMethod += `\n  const selectedRows = this.${findAgGridDependencies.componentDynamicVariable.gridApiName}.getSelectedRows();`;
+                tempMethod += `\n  this.${routeObj.methodName}(selectedRows[0]._id);`;
+                tempMethod += `\n}`;
+                $this.tsComponent.elementDependedMethod.push(tempMethod);
+            }
+
         }
         // will work for grid selection = single
         // this.GRID_SINGLE_CLICK.forEach(element => {

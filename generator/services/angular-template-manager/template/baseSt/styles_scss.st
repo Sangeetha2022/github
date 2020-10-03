@@ -3,4 +3,5 @@ styles_scss(styles) ::= <<
 $styles$
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
 >>
