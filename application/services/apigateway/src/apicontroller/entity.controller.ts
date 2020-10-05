@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../interfaces/controller.interface";
-import  {Constants} from '../config/Constants';
+import { Constants } from '../config/Constants';
 import { ApiAdaptar } from '../config/apiAdaptar';
 
 
@@ -33,127 +33,137 @@ export class EntityController implements Controller {
     }
 
 
-    public createEntity(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.entityUrl}/entity/save`, req.body).then((response) => {
-            req.baseUrl === '/mobile' ? res.send(response) :
-                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
+    public async createEntity(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().post(`${Constants.entityUrl}/entity/save`, req.body));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 
-    public updateEntity(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.entityUrl}/entity/update`, req.body).then((response) => {
-            req.baseUrl === '/mobile' ? res.send(response) :
-                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
+    public async updateEntity(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().put(`${Constants.entityUrl}/entity/update`, req.body));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public updateEntityField(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.entityUrl}/entity/field/update`, req.body).then((response) => {
-            req.baseUrl === '/mobile' ? res.send(response) :
-                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
+    public async updateEntityField(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().put(`${Constants.entityUrl}/entity/field/update`, req.body));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public deleteEntity(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.entityUrl}/entity/delete/${req.params.id}`).then((response) => {
-            req.baseUrl === '/mobile' ? res.send(response) :
-                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
+    public async deleteEntity(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().delete(`${Constants.entityUrl}/entity/delete/${req.params.id}`));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-
-    public deleteProjectEntity(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.entityUrl}/entity/deletebyproject/${req.params.id}`).then((response) => {
-            req.baseUrl === '/mobile' ? res.send(response) :
-                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-    public getByEntityId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.entityUrl}/entity/get/${req.params.id}`).then((response) => {
-            req.baseUrl === '/mobile' ? res.send(response) :
-                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-    public getEntityByProjectId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.entityUrl}/entity/get/?projectId=${req.query.projectId}`).then((response) => {
-            req.baseUrl === '/mobile' ? res.send(response) :
-                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-    public getEntityByFeatureId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.entityUrl}/entity/feature/get?featureId=${req.query.featureId}`).then((response) => {
-            req.baseUrl === '/mobile' ? res.send(response) :
-                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-    public getAllEntity(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.entityUrl}/entity/getall`).then((response) => {
-            req.baseUrl === '/mobile' ? res.send(response) :
-                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-    public getProjectEntity(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.entityUrl}/entity/getbyproject/${req.params.id}`).then((response) => {
-            req.baseUrl === '/mobile' ? res.send(response) :
-                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-    public getAllEntityType(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.entityUrl}/entity_type/get`).then((response) => {
-            req.baseUrl === '/mobile' ? res.send(response) :
-                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-    public getGlobalEntityByProjectId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.entityUrl}/entity/global?projectId=${req.query.projectId}`).then((response) => {
-            req.baseUrl === '/mobile' ? res.send(response) :
-                req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 
+    public async deleteProjectEntity(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().delete(`${Constants.entityUrl}/entity/deletebyproject/${req.params.id}`));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async getByEntityId(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/entity/get/${req.params.id}`));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async getEntityByProjectId(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/entity/get/?projectId=${req.query.projectId}`));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async getEntityByFeatureId(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/entity/feature/get?featureId=${req.query.featureId}`));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async getAllEntity(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/entity/getall`));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async getProjectEntity(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/entity/getbyproject/${req.params.id}`));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async getAllEntityType(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/entity_type/get`));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async getGlobalEntityByProjectId(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/entity/global?projectId=${req.query.projectId}`));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
 }

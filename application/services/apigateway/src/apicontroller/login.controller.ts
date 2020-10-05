@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from '../interfaces/controller.interface';
-import  {Constants} from '../config/Constants';
+import { Constants } from '../config/Constants';
 import { ApiAdaptar } from '../config/apiAdaptar';
 import * as jwt from 'jsonwebtoken';
 import * as request from 'request';
@@ -30,11 +30,13 @@ export class Logincontroller implements Controller {
         this.router.route('/updateuser').put(this.Updateuser);
     }
 
-    public signup(req: Request, res: Response) {
+    public async signup(req: Request, res: Response) {
+
         console.log('----ccominghere----');
-        new ApiAdaptar().post(`${Constants.loginUrl}/signup`, req.body).then((response) => {
+        try {
+            let user = await Promise.resolve(new ApiAdaptar().post(`${Constants.loginUrl}/signup`, req.body));
             // @ts-ignore
-            const Userdetails = response;
+            const Userdetails = user;
             // @ts-ignore
             if (Userdetails.body.Idtoken === null || Userdetails.body.Idtoken === '' || Userdetails.body.Idtoken === undefined) {
                 // console.log('----------insideifcondition------>>>>', Userdetails);
@@ -43,40 +45,47 @@ export class Logincontroller implements Controller {
                 }
                 res.send(loginresponse);
             }
-        }).catch(err => {
+        } catch (err) {
             res.send(err);
-        })
+        }
     }
 
-    public Getallusers(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.loginUrl}/getallusers`).then((userlist) => {
-            const usersdetails = userlist;
+    public async Getallusers(req: Request, res: Response) {
+        try {
+            let user = await Promise.resolve(new ApiAdaptar().get(`${Constants.loginUrl}/getallusers`));
+            const usersdetails = user;
             res.send(usersdetails);
-        }).catch(err => {
+        } catch (err) {
             res.send(err);
-        })
+        }
     }
 
-    public Getallroles(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.loginUrl}/getallroles`).then((roles) => {
-            res.send(roles);
-        }).catch(err => {
+    public async Getallroles(req: Request, res: Response) {
+        try {
+            let role = await Promise.resolve(new ApiAdaptar().get(`${Constants.loginUrl}/getallroles`));
+            res.send(role);
+        } catch (err) {
             res.send(err);
-        })
+        }
     }
 
-    public Getuserbyid(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.loginUrl}/getuser/${req.params.id}`).then((user) => {
+    public async Getuserbyid(req: Request, res: Response) {
+        try {
+            let user = await Promise.resolve(new ApiAdaptar().get(`${Constants.loginUrl}/getuser/${req.params.id}`));
             res.send(user);
-        }).catch(err => {
+        } catch (err) {
             res.send(err);
-        });
+        }
+
     }
 
-    public login(req: Request, res: Response) {
+
+    public async login(req: Request, res: Response) {
         // logger.info('login.controller.ts : login');
         // logger.info('calling the securitymanager microservice');
-        new ApiAdaptar().post(`${Constants.loginUrl}/login`, req.body).then((user) => {
+
+        try {
+            let user = await Promise.resolve(new ApiAdaptar().post(`${Constants.loginUrl}/login`, req.body));
             // @ts-ignore
             const Userdetails = user;
             // @ts-ignore
@@ -107,10 +116,9 @@ export class Logincontroller implements Controller {
                     }
                 })
             }
-        }).catch(err => {
+        } catch (err) {
             res.send(err);
-        });
-
+        }
     }
 
     public Consent(req: Request, res: Response) {
@@ -142,16 +150,19 @@ export class Logincontroller implements Controller {
         });
     }
 
-    public Logout(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.loginUrl}/logout`, req.body).then((response) => {
+    public async Logout(req: Request, res: Response) {
+        try {
+            let response = await Promise.resolve(new ApiAdaptar().post(`${Constants.loginUrl}/logout`, req.body));
             res.send(response);
-        }).catch(err => {
+        } catch (err) {
             res.send(err);
-        });
+        }
     }
 
-    public googlelogin(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.loginUrl}/googlesignin`, req.body).then((googleuser) => {
+    public async googlelogin(req: Request, res: Response) {
+
+        try {
+            let googleuser = await Promise.resolve(new ApiAdaptar().post(`${Constants.loginUrl}/googlesignin`, req.body));
             const Userdetails = googleuser;
             // @ts-ignore
             var token = Userdetails.body.Idtoken;
@@ -172,11 +183,14 @@ export class Logincontroller implements Controller {
                     })
                 }
             })
-
-        });
+        } catch (err) {
+            res.send(err);
+        }
     }
-    public fbLogIn(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.loginUrl}/fblogin`, req.body).then((fbResponse) => {
+    public async fbLogIn(req: Request, res: Response) {
+
+        try {
+            let fbResponse = await Promise.resolve(new ApiAdaptar().post(`${Constants.loginUrl}/fblogin`, req.body));
             const Userdetails = fbResponse;
             // @ts-ignore
             var token = Userdetails.body.Idtoken;
@@ -197,15 +211,18 @@ export class Logincontroller implements Controller {
                     })
                 }
             })
-        })
+        } catch (err) {
+            res.send(err);
+        }
     }
-    public Updateuser(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.loginUrl}/updateuser`, req.body).then((updateduser) => {
-            console.log('--------updateuser-----', updateduser);
+
+    public async Updateuser(req: Request, res: Response) {
+        try {
+            let updateduser = await Promise.resolve(new ApiAdaptar().put(`${Constants.loginUrl}/updateuser`, req.body));
             const Updateduser = updateduser;
             res.send(Updateduser);
-        }).catch(err => {
+        } catch (err) {
             res.send(err);
-        })
+        }
     }
 }
