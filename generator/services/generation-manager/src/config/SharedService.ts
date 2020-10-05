@@ -33,7 +33,7 @@ export class SharedService {
             case process.env.name: SharedService.systementryBaseUrl = process.env.localsystementryBaseUrl;
                 SharedService.generatorBaseUrl = process.env.localgeneratorBaseUrl;
                 SharedService.apiGatewayURL = SharedService.systementryBaseUrl + ":3000";
-                SharedService.infrastructureURL = SharedService.systementryBaseUrl + ":5004";
+                SharedService.infrastructureURL = process.env.inframanager + ":5004";
               
                 break;
 
