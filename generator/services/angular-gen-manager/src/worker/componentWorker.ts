@@ -326,6 +326,7 @@ export class ComponentWorker {
         if (microFlows.length > 0) {
             microFlows.map(data => {
                 if (data.actionOnData == 'GpCreate' || data.actionOnData == 'GpUpdate') {
+                    this.angularJsonData = [];
                     this.packageModule.push(`"ngx-toastr": "^10.1.0",`)
                     this.angularJsonData.push('node_modules/ngx-toastr/toastr.css')
                     dependencyWorker.modifyAngularJsonFile(packagePath, this.angularJsonData)

@@ -26,11 +26,13 @@ export class DependencyWorker {
         const file = this.dependencySupportWorker.readFile(applicationPath, Constant.ANGULAR_JSON_FILE)
         const styleIndex = file.findIndex(x => /styles/.test(x))
         if(styleIndex != -1) {
-            file.splice(styleIndex + 1, 0, `"${information} " , `)
+            if(!file[styleIndex + 1].includes(`${information}`)) {
+                file.splice(styleIndex + 1, 0, `"${information}", `)
+            }
             this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.ANGULAR_JSON_FILE,
                 file.join(`\n`), (response) => {
                     console.log("Response----write00---file---", response)
-                })
+            })
         }
     
 
