@@ -1,6 +1,6 @@
 /*
  * Template group shared_service
- * Compiled on Fri Sep 11 2020 16:12:57 GMT+0530 (India Standard Time)
+ * Compiled on Mon Oct 05 2020 21:42:46 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -43,7 +43,7 @@ r = function(w, rc) {
         w.write("\n");
         w.write("\n");
         w.pushIndentation("    ");
-        w.write("public DESKTOP_API = 'http://'+window.location.hostname+':3000/desktop';");
+        w.write("public DESKTOP_API = 'http://'+window.location.hostname+':8000/desktop';");
         w.popIndentation();
         w.write("\n");
         w.pushIndentation("    ");

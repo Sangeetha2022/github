@@ -38,6 +38,26 @@ export class DependencyWorker {
 
     }
 
+    public modifyCofigAppJSONFile(applicationPath, information) {
+        const staticPackage = {
+            
+        }
+        const file = this.dependencySupportWorker.readFile(applicationPath, Constant.TS_CONFIG_APP_JSON_FILE);
+        const index = file.findIndex(x => /compilerOptions/.test(x));
+        if (index) {
+            information.forEach(element => {
+                const splitted = element.split(":");
+                const regExpression = new RegExp(splitted[0]);
+                if (file.findIndex(x => regExpression.test(x)) < 0) {
+                    file.splice(index + 2, 0, element);
+                }
+
+            })
+        }
+        this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.TS_CONFIG_APP_JSON_FILE,
+            file.join(`\n`), (response) => { })
+    }
+
     // app.module.ts file
     public modifyAppModuleFile(applicationPath, information) {
         const file = this.dependencySupportWorker.readFile(applicationPath, Constant.APP_MODULE_FILENAME);

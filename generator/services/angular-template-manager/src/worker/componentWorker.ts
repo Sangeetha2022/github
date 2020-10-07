@@ -257,10 +257,11 @@ export class ComponentWorker {
         }
         temp.declarations.push(`${Constant.APP_FOLDERNAME.charAt(0).toUpperCase() + Constant.APP_FOLDERNAME.slice(1).toLowerCase()}Component`);
         temp.importDependency.push({ dependencyname: 'BrowserModule', dependencyPath: '@angular/platform-browser' });
+        temp.importDependency.push({ dependencyname: 'BrowserAnimationsModule', dependencyPath: '@angular/platform-browser/animations' });
         temp.importDependency.push({ dependencyname: 'NgModule', dependencyPath: '@angular/core' });
         temp.importDependency.push({ dependencyname: 'AppRoutingModule', dependencyPath: './app-routing.module' });
         temp.importDependency.push({ dependencyname: 'TranslatorModule', dependencyPath: './translator/translator.module' });
-        temp.imports.push(`BrowserModule`, `AppRoutingModule`, `TranslatorModule`);
+        temp.imports.push(`BrowserModule`, `AppRoutingModule`, `TranslatorModule`, `BrowserAnimationsModule`);
         temp.bootstrap.push(`${Constant.APP_FOLDERNAME.charAt(0).toUpperCase() + Constant.APP_FOLDERNAME.slice(1).toLowerCase()}Component`);
         console.log('generate main module in componentworker are -------   ', temp);
         componentSupportWorker.generateComponentModule(generationPath, templatePath,

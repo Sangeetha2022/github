@@ -28,6 +28,7 @@ export class ComponentWorker {
     }
 
     private angularJsonData = []
+    private configAppModule = [];
 
     // private packageModule = [`"angular-i18next": "^5.0.6" ,`, `"angular-validation-message": "^1.1.0",`, `"angular-validation-message-i18next": "^1.1.0",`];
     private packageModule = [
@@ -343,8 +344,10 @@ export class ComponentWorker {
             this.initializeAppModule();
         }
         // if (this.packageModule.length > 0) {
+        this.configAppModule.push(`    "module": "esnext",`);
         console.log(`package json -------`, this.packageModule)
         dependencyWorker.modifyPackageFile(packagePath, this.packageModule);
+        dependencyWorker.modifyCofigAppJSONFile(packagePath+'/src', this.configAppModule);
         this.initializePackageModule();
         // }
         if (globalStyle.import.length > 0 || globalStyle.others.length > 0) {

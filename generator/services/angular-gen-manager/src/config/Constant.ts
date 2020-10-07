@@ -69,7 +69,8 @@ export class Constant {
     public static SHARED_FILENAME = `shared`;
     public static PROXY_CONFIG_FILENAME = 'proxy.conf.ts';
     public static NGINX_FILENAME = 'default.conf';
-    public static ANGULAR_JSON_FILE = 'angular.json'
+    public static ANGULAR_JSON_FILE = 'angular.json';
+    public static TS_CONFIG_APP_JSON_FILE = 'tsconfig.app.json';
 
     // ckeditor element details
     public static DIV_TAGNAME = 'div';
