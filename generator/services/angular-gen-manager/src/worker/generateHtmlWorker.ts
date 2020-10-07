@@ -3,20 +3,19 @@ import * as asyncForEach from 'async-foreach';
 import { ComponentWorker } from './componentWorker';
 import { Constant } from '../config/Constant';
 import * as componentDependency from '../assets/componentDependency';
-import { threadId } from 'worker_threads';
 import { ComponentSpecializedWorker } from './componentSpecializedWorker';
 import { ComponentLifecycleWorker } from './componentLifecycleWorker';
 import { LinkWorker } from './linkWorker';
-import { FlowComponentWorker } from './flowComponentWorker';
 // import { styles } from '../assets/cssGuidline';
 // import { RouteSupportWorker } from '../supportworker/RouteSupportWorker';
 
 // let routeSupportWorker = new RouteSupportWorker();
+
+
 let componentWorker = new ComponentWorker();
 let componentSpecializedWorker = new ComponentSpecializedWorker();
 let componentLifecyleWorker = new ComponentLifecycleWorker();
 let linkWorker = new LinkWorker();
-let flowComponentWorker = new FlowComponentWorker();
 
 export class GenerateHtmlWorker {
 
@@ -121,6 +120,9 @@ export class GenerateHtmlWorker {
         console.log("screen---details-------", screenDetails)
 
         console.log("Details000------------>>>>", details)
+
+
+
         this.startTag = [];
         this.endTag = [];
         // component
@@ -882,7 +884,6 @@ export class GenerateHtmlWorker {
                 variableObject.fields.push(entityDetails.fields.name);
             } else {
                 console.log('---------------coming in the else condition of variable list---',entityDetails);
-
                 variableTemp.entityId = entityDetails.entityId;
                 variableTemp.entityName = entityObject.name;
                 variableTemp.fields.push(entityDetails.fields.name);

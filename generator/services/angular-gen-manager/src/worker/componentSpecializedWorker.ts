@@ -136,13 +136,13 @@ export class ComponentSpecializedWorker {
         console.log('--------findAdGridDependencies-----',$this.screenInfo.grid_fields.event);
         const aggridevent = $this.screenInfo.grid_fields.event;
         if (findAgGridDependencies) {
-            if (aggridevent == 'Rowclick'){
+            // if (aggridevent == 'Rowclick'){
                 let tempMethod = `${this.GRID_CLICK_HTML.htmlMethodName}() {`;
                 tempMethod += `\n  const selectedRows = this.${findAgGridDependencies.componentDynamicVariable.gridApiName}.getSelectedRows();`;
                 tempMethod += `\n  this.${routeObj.methodName}(selectedRows[0]._id);`;
                 tempMethod += `\n}`;
                 $this.tsComponent.elementDependedMethod.push(tempMethod);
-            }
+            // }
 
         }
         // will work for grid selection = single
