@@ -31,7 +31,7 @@ export class SharedService {
                 // SharedService.generatorBaseUrl = process.env.localgeneratorBaseUrl;
                 SharedService.generatorBaseUrl = process.env.admingenmanager;
                 SharedService.apiGatewayURL = SharedService.systementryBaseUrl + ":3000";
-                SharedService.adminmanager = SharedService.systementryBaseUrl + ":5018";
+                SharedService.adminmanager = SharedService.generatorBaseUrl + ":5018";
                 break;
 
             default: SharedService.systementryBaseUrl = process.env.livesystementryBaseUrl;
