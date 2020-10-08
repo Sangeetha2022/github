@@ -14,7 +14,7 @@ export class DependencyWorker {
         const pathIndex = file.findIndex(x => /];/.test(x));
         if (information.importDependency.length > 0) {
             information.importDependency.forEach((dependencyElement, elementIndex) => {
-                file.splice(importIndex  - 1, 0, dependencyElement);
+                file.splice(importIndex - 1, 0, dependencyElement);
                 file.splice(pathIndex + 1, 0, information.routePath[elementIndex]);
             })
         }
@@ -25,22 +25,22 @@ export class DependencyWorker {
     public modifyAngularJsonFile(applicationPath, information) {
         const file = this.dependencySupportWorker.readFile(applicationPath, Constant.ANGULAR_JSON_FILE)
         const styleIndex = file.findIndex(x => /styles/.test(x))
-        if(styleIndex != -1) {
-            if(!file[styleIndex + 1].includes(`${information}`)) {
+        if (styleIndex != -1) {
+            if (!file[styleIndex + 1].includes(`${information}`)) {
                 file.splice(styleIndex + 1, 0, `"${information}", `)
             }
             this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.ANGULAR_JSON_FILE,
                 file.join(`\n`), (response) => {
                     console.log("Response----write00---file---", response)
-            })
+                })
         }
-    
+
 
     }
 
-    public modifyCofigAppJSONFile(applicationPath, information) {
+    public modifyConfigAppJSONFile(applicationPath, information) {
         const staticPackage = {
-            
+
         }
         const file = this.dependencySupportWorker.readFile(applicationPath, Constant.TS_CONFIG_APP_JSON_FILE);
         const index = file.findIndex(x => /compilerOptions/.test(x));
@@ -98,7 +98,7 @@ export class DependencyWorker {
     // package.json file
     public modifyPackageFile(applicationPath, information) {
         const staticPackage = {
-            
+
         }
         const file = this.dependencySupportWorker.readFile(applicationPath, Constant.PACKAGE_JSON_FILENAME);
         const index = file.findIndex(x => /router/.test(x));

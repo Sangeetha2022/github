@@ -347,7 +347,7 @@ export class ComponentWorker {
         this.configAppModule.push(`    "module": "esnext",`);
         console.log(`package json -------`, this.packageModule)
         dependencyWorker.modifyPackageFile(packagePath, this.packageModule);
-        dependencyWorker.modifyCofigAppJSONFile(packagePath+'/src', this.configAppModule);
+        dependencyWorker.modifyConfigAppJSONFile(packagePath, this.configAppModule);
         this.initializePackageModule();
         // }
         if (globalStyle.import.length > 0 || globalStyle.others.length > 0) {
