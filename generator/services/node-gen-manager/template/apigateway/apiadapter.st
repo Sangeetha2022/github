@@ -16,7 +16,7 @@ export class ApiAdaptar {
     get = (url) => {
         return new Promise((resolve, reject) => {
             fetch(url).then((response) => {
-                this.sendResponse(resolve, reject, null, response);
+                this.sendResponse(resolve, reject, response, null);
             }).catch(error => {
                 this.sendResponse(resolve, reject, null, error);
             })
