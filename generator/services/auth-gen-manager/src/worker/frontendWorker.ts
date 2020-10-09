@@ -38,7 +38,32 @@ export class FrontendWorker {
 
     // Methods
     private logoutMethod = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\tthis.userId = sessionStorage.getItem('Id');\n\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
-    private broadcastMethod = `\tthis.broadcastService.currentUserName.subscribe(headerPermission => {\n\t\t\tif (headerPermission && headerPermission.Project && headerPermission.Project.Fields && headerPermission.Project.Fields.config === 'true') {\n\t\t\t this.isAdminUser = true;\n\t\t\t } else {\n\t\t\t\t this.isAdminUser = false;\n\t\t\t }\n\t});`;
+    private broadcastMethod = `\tthis.broadcastService.currentUserName.subscribe(headerPermission => {
+        this.authArray = [];
+        if (headerPermission !== undefined) {
+            //   console.log('Headerpermission------->>>', headerPermission);
+            for (let role in headerPermission) {
+                console.log('-------role----', headerPermission[role])
+                if (headerPermission[role].length >= 1) {
+                    this.authArray = headerPermission[role];
+                }
+            }
+        }
+    });`
+    private routeMethod = `\tthis.router.routeReuseStrategy.shouldReuseRoute = function () {
+        return false;
+    }`;
+    private secondconstruct = `\tthis.mysubscription = this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+            this.router.navigated = false;
+        }
+    })`;
+
+    private isApplicableMethod = `isApplicable(value) {
+		if (this.authArray !== undefined) {
+			return this.authArray.filter(routename => routename == value).length > 0;
+		}
+    }`;
     private confirmLangModel = `confirmLangModel(lang) {\n\t\tthis.userId= sessionStorage.getItem('Id');\n\t\tif (this.userId !== null) {\n\t\tthis.confirmLangChangeModal = 'block';\n\t\tthis.currentLanguage = lang;\n\t\t} else {\n\t\tthis.changeLanguage(lang);\n\t\tthis.onCloseHandled();\n\t\t}\n\t\t}`;
     private confirmLangChange = `confirmLangChange() {\n\t\tthis.changeLanguage(this.currentLanguage);\n\t\tthis.onCloseHandled();\n\t\t}`;
     private onCloseHandled = `onCloseHandled() {\n\t\tthis.confirmLangChangeModal = 'none';\n\t\t}`;
@@ -61,7 +86,7 @@ export class FrontendWorker {
         `   "i18next-browser-languagedetector": "^3.0.3",`,
         `   "i18next-sprintf-postprocessor": "^0.2.2",`,
         `   "i18next-xhr-backend": "^3.1.2",`,
-        `   "angular-validation-message": "^2.0.1",` ,
+        `   "angular-validation-message": "^2.0.1",`,
         `   "moment": "^2.26.0",`,
     ]
 
@@ -278,8 +303,8 @@ export class FrontendWorker {
         }
 
         if (folderName == 'authorization') {
-                this.appModuleInfo.importDependency.push(`import { AuthorizationComponent } from './${folderName}/${folderName}.component';`);
-                this.appModuleInfo.declarations.push(`AuthorizationComponent`);
+            this.appModuleInfo.importDependency.push(`import { AuthorizationComponent } from './${folderName}/${folderName}.component';`);
+            this.appModuleInfo.declarations.push(`AuthorizationComponent`);
         }
 
         const temp = {
@@ -417,6 +442,8 @@ export class FrontendWorker {
             // variable declarations
             const tempVariable = [
                 `public isAdminUser = false`,
+                `mysubscription: any`,
+                `public authArray: any`,
                 `public userId: string`,
                 `public currentLanguage: String`,
                 `public confirmLangChangeModal: String = 'none'`,
@@ -430,6 +457,8 @@ export class FrontendWorker {
             const tempMethod = [
                 `) {`,
                 this.broadcastMethod,
+                this.secondconstruct,
+                this.routeMethod,
                 `}`
             ]
             // let temp = `) }`;
@@ -446,6 +475,7 @@ export class FrontendWorker {
         })
         if (methodCount > -1) {
             modifyFile.splice(methodCount, 0, this.logoutMethod);
+            modifyFile.splice(methodCount, 0 , this.isApplicableMethod);
             modifyFile.splice(methodCount, 0, this.confirmLangModel);
             modifyFile.splice(methodCount, 0, this.confirmLangChange);
             modifyFile.splice(methodCount, 0, this.onCloseHandled);

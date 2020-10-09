@@ -285,8 +285,8 @@ export class ComponentWorker {
         // add component module in app.module.ts
         const moduleClassName = `${temp.className}Module`;
         if (this.appModule.imports.findIndex(x => x == moduleClassName) < 0) {
-            this.appModule.importDependency.push(`import { ${moduleClassName} } from './${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.${Constant.MODULE_EXTENSION}';`);
-            this.appModule.imports.push(`${temp.className}Module,`);
+            // this.appModule.importDependency.push(`import { ${moduleClassName} } from './${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.${Constant.MODULE_EXTENSION}';`);
+            // this.appModule.imports.push(`${temp.className}Module,`);
         }
 
         // information importDependency;

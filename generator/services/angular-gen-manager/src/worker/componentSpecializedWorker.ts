@@ -44,12 +44,23 @@ export class ComponentSpecializedWorker {
         if ($this.screenInfo.is_grid_present && IDName === Constant.AGGRID_HTMLID_NAME) {
             // let findAgGridDependencies;
             const findAgGridDependencies = componentDependency.component.find(x => x.name == Constant.AGGRID_TAGNAME);
+            const flow_arr = $this.screenInfo.flows_info;
             if (findAgGridDependencies) {
-                console.log('befroe set grid html are ---- ', this.GRID_HTML, ' --join---  ', this.GRID_HTML.join(' '));
                 if (this.isGridVariable()) {
-                    findAgGridDependencies.htmlDependencies.splice(findAgGridDependencies.htmlDependencies.length - 1, 0, this.GRID_HTML.join(' '));
+                    flow_arr.forEach(flowobj => {
+                        console.log('----------flowobj--------', flowobj.flowName);
+                        const flowname = flowobj.flowName
+                    if(flowname !== 'GpGetAllValues'){
+                        findAgGridDependencies.htmlDependencies.splice(findAgGridDependencies.htmlDependencies.length - 1, 0, this.GRID_HTML.join(' '));
+                    }
+                    else{
+                        findAgGridDependencies.htmlDependencies;
+                    }
+                });
+
                 }
                 $this.startString = `<${Constant.AGGRID_TAGNAME} ${findAgGridDependencies.htmlDependencies.join(' ')}>`;
+                console.log('befroe set grid html are ---- ', $this.screenInfo.flows_info, ' --join---  ', this.GRID_HTML.join(' '));
 
                 // destroy the attached html variables
                 if (this.isGridVariable()) {
@@ -133,7 +144,7 @@ export class ComponentSpecializedWorker {
         const html = `(${this.GRID_CLICK_HTML.htmlOptionName})="${this.GRID_CLICK_HTML.htmlMethodName}(${this.GRID_CLICK_HTML.htmlParams})"`;
         this.GRID_HTML.push(html);
         const findAgGridDependencies = componentDependency.component.find(x => x.name == Constant.AGGRID_TAGNAME);
-        console.log('--------findAdGridDependencies-----',$this.screenInfo.grid_fields.event);
+        console.log('--------findAdGridDependencies-----', html);
         const aggridevent = $this.screenInfo.grid_fields.event;
         if (findAgGridDependencies) {
             // if (aggridevent == 'Rowclick'){

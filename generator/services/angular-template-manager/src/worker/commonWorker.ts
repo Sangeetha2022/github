@@ -128,7 +128,7 @@ export class CommonWorker {
                             if (menuElement.featuremenu[0].name.feature != this.DEFAULT_FEATURENAME) {
                                 // menu.parent.push(menuElement.featuremenu[0].description.feature);
                                 mainNav.push(`<li>
-                                <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text">${menuElement.featuremenu[0].name.feature}</a>
+                                <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" *ngIf='userId' data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text">${menuElement.featuremenu[0].name.feature}</a>
                                 <ul class="collapse list-unstyled" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`)
                                 if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
                                     menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
@@ -165,7 +165,7 @@ export class CommonWorker {
                                                 break;
                                             case this.ADMIN_MENU:
                                                 mainNav.push(` <li>
-                                                <a class="text" *ngIf='${this.HEADER_ADMIN_VARIABLE}' [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</a>
+                                                <a class="text" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId" [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</a>
                                             </li>`);
                                                 break;
                                             case this.LOGIN_MENU:

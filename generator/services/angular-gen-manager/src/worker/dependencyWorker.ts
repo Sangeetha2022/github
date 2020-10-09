@@ -74,11 +74,11 @@ export class DependencyWorker {
             })
         }
         const importIndex = file.findIndex(x => /imports/.test(x));
-        if (information.imports.length > 0) {
-            information.imports.forEach(importElement => {
-                file.splice(importIndex + 1, 0, importElement);
-            })
-        }
+        // if (information.imports.length > 0) {
+        //     information.imports.forEach(importElement => {
+        //         file.splice(importIndex + 1, 0, importElement);
+        //     })
+        // }
         const providerIndex = file.findIndex(x => /providers/.test(x));
         if (information.providers.length > 0) {
             information.providers.forEach(providerElement => {
