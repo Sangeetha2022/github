@@ -1,6 +1,6 @@
 /*
  * Template group env
- * Compiled on Fri Oct 09 2020 22:42:40 GMT+0530 (India Standard Time)
+ * Compiled on Fri Oct 09 2020 23:27:43 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -49,10 +49,10 @@ r = function(w, rc) {
             s = this.scope;
             
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "uppername", { file: gFile, line: 10, column: 13 }));
-                     w.write("=http://");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 10, column: 44 }));
+                     w.write("URL=http://");
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 10, column: 47 }));
                      w.write(":");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 10, column: 63 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 10, column: 66 }));
                      w.write("\n");
             }, [
             { name: "custom_node"     }

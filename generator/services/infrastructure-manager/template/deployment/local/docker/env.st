@@ -7,6 +7,6 @@ CAMUNDAURL=http://camundasvc:8002
 APIGATEWAY=http://apigateway:8000
 MONGO_DB_URL=mongodb://admin:password@mongo:27017/$projectdetails.project_name$?authSource=admin
 $if(projectdetails.custom_node)$$projectdetails.custom_node:{custom_node | 
-$custom_node.uppername$=http://$custom_node.name$:$custom_node.port$
+$custom_node.uppername$URL=http://$custom_node.name$:$custom_node.port$
 };separator=""$$endif$
 >>
