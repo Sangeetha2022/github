@@ -1,6 +1,6 @@
 /*
  * Template group apicontroller
- * Compiled on Thu Oct 08 2020 23:18:36 GMT+0530 (India Standard Time)
+ * Compiled on Fri Oct 09 2020 21:26:11 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -261,7 +261,7 @@ r = function(w, rc) {
         w.write("const token = ");
         w.popIndentation();
         st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 35, column: 34 }), "camunda", { file: gFile, line: 35, column: 45 }), "login", { file: gFile, line: 35, column: 53 }), "responseParameter", { file: gFile, line: 35, column: 59 }));
-        w.write(".body.Idtoken;");
+        w.write(".Idtoken;");
         w.write("\n");
         w.pushIndentation("            ");
         w.write("// @ts-ignore");
@@ -271,11 +271,11 @@ r = function(w, rc) {
         w.write("if (");
         w.popIndentation();
         st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 37, column: 24 }), "camunda", { file: gFile, line: 37, column: 35 }), "login", { file: gFile, line: 37, column: 43 }), "responseParameter", { file: gFile, line: 37, column: 49 }));
-        w.write(".body.Idtoken === null || ");
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 37, column: 101 }), "camunda", { file: gFile, line: 37, column: 112 }), "login", { file: gFile, line: 37, column: 120 }), "responseParameter", { file: gFile, line: 37, column: 126 }));
-        w.write(".body.Idtoken === '' || ");
-        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 37, column: 176 }), "camunda", { file: gFile, line: 37, column: 187 }), "login", { file: gFile, line: 37, column: 195 }), "responseParameter", { file: gFile, line: 37, column: 201 }));
-        w.write(".body.Idtoken === undefined) {");
+        w.write(".Idtoken === null || ");
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 37, column: 96 }), "camunda", { file: gFile, line: 37, column: 107 }), "login", { file: gFile, line: 37, column: 115 }), "responseParameter", { file: gFile, line: 37, column: 121 }));
+        w.write(".Idtoken === '' || ");
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 37, column: 166 }), "camunda", { file: gFile, line: 37, column: 177 }), "login", { file: gFile, line: 37, column: 185 }), "responseParameter", { file: gFile, line: 37, column: 191 }));
+        w.write(".Idtoken === undefined) {");
         w.write("\n");
         w.pushIndentation("                ");
         w.write("req.baseUrl === '/mobile' ? res.send({\"Userdetails\": ");
@@ -449,7 +449,7 @@ r = function(w, rc) {
         w.write("const token = ");
         w.popIndentation();
         st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 73, column: 34 }), "camunda", { file: gFile, line: 73, column: 45 }), "consent", { file: gFile, line: 73, column: 53 }), "responseParameter", { file: gFile, line: 73, column: 61 }));
-        w.write(".body.Idtoken;");
+        w.write(".Idtoken;");
         w.write("\n");
         w.write("            ");
         if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 74, column: 23 }), "camunda", { file: gFile, line: 74, column: 34 }), "isVerify", { file: gFile, line: 74, column: 42 }))) {

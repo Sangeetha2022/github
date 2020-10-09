@@ -93,12 +93,12 @@ export class LoginComponent implements OnInit {
 
         sessionStorage.setItem('Access', JSON.stringify (this.permission));
       }
-      this.userDetails = logindetails.Userdetails.body;
+      this.userDetails = logindetails.Userdetails;
       this.tokenError = logindetails.error;
       this.id = this.userDetails._id;
       this.lastLoggedInTime = this.userDetails.loggedinDate;
       if (this.userDetails === 'Incorrect Username or Password') {
-        this.errorMessage = this.userDetails.body;
+        this.errorMessage = this.userDetails;
       } else {
         if (this.tokenError !== undefined) {
           if (this.tokenError.name === 'TokenExpiredError') {
@@ -139,7 +139,7 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('Access', JSON.stringify (this.permission));
 
       }
-      this.userDetails = consentValue.Userdetails.body;
+      this.userDetails = consentValue.Userdetails;
       this.id = this.userDetails._id;
       this.lastLoggedInTime = this.userDetails.loggedinDate;
       this.route.navigate(['home']);
