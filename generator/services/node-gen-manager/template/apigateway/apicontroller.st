@@ -43,7 +43,8 @@ $if(object.additional.camunda.login)$
                 if (err) {
                     res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
                 } else {
-                    new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded).then((response) => {
+                    new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded)
+                    .then((res: any) => res.response.json()).then((response) => {
                         const temp = {
                             "Access": JSON.parse(JSON.stringify(response)),
                             "Userdetails": result
