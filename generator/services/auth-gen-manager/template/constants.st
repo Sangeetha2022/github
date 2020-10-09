@@ -1,3 +1,3 @@
 constants() ::= <<
-export const camundaUrl = process.env.CAMUNDA_URL;
+export const camundaUrl = process.env.CAMUNDAURL;
 >>

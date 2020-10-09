@@ -1,6 +1,6 @@
 /*
  * Template group env
- * Compiled on Fri Oct 09 2020 21:23:22 GMT+0530 (India Standard Time)
+ * Compiled on Fri Oct 09 2020 22:42:40 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -23,8 +23,6 @@ r = function(w, rc) {
     var g = this.owningGroup,
         s = this.scope;
     
-    w.write("CAMUNDA_URL=http://camundasvc:8002");
-    w.write("\n");
     w.write("CAMUNDAPOD_URL=http://camunda:8080");
     w.write("\n");
     w.write("SECURITYURL=http://securitymanager:8003");
@@ -32,6 +30,8 @@ r = function(w, rc) {
     w.write("AUTHPROXYURL=http://authproxy:8001");
     w.write("\n");
     w.write("ADMINURL=http://adminmanager:8004");
+    w.write("\n");
+    w.write("CAMUNDAURL=http://camundasvc:8002");
     w.write("\n");
     w.write("APIGATEWAY=http://apigateway:8000");
     w.write("\n");
