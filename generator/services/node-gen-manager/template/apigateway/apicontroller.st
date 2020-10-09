@@ -32,9 +32,9 @@ $if(object.additional.camunda.login)$
         .then((res: any) => res.response.json())
         .then(async ($object.additional.camunda.login.responseParameter$) => {
             // @ts-ignore
-            const token = $object.additional.camunda.login.responseParameter$.body.Idtoken;
+            const token = $object.additional.camunda.login.responseParameter$.Idtoken;
             // @ts-ignore
-            if ($object.additional.camunda.login.responseParameter$.body.Idtoken === null || $object.additional.camunda.login.responseParameter$.body.Idtoken === '' || $object.additional.camunda.login.responseParameter$.body.Idtoken === undefined) {
+            if ($object.additional.camunda.login.responseParameter$.Idtoken === null || $object.additional.camunda.login.responseParameter$.Idtoken === '' || $object.additional.camunda.login.responseParameter$.Idtoken === undefined) {
                 req.baseUrl === '/mobile' ? res.send({"Userdetails": $object.additional.camunda.login.responseParameter$}) :
                     req.baseUrl === '/desktop' ? res.send({"Userdetails": $object.additional.camunda.login.responseParameter$}) : res.send(null)
             } else {
@@ -70,7 +70,7 @@ $if(object.additional.camunda.consent)$
         .then((res: any) => res.response.json())
         .then(async ($object.additional.camunda.consent.responseParameter$) => {
             // @ts-ignore
-            const token = $object.additional.camunda.consent.responseParameter$.body.Idtoken;
+            const token = $object.additional.camunda.consent.responseParameter$.Idtoken;
             $if(object.additional.camunda.isVerify)$
             jwt.verify(token, 'geppettosecret', (err, decoded) => {
                 if (err) {
