@@ -110,7 +110,7 @@ export class ComponentWorker {
         const importDependencyPath = `import { ${temp.className}Component } from './${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.${Constant.COMPONENT_EXTENSION}';`;
         if (this.routeModule.importDependency.findIndex(x => x == importDependencyPath) < 0) {
             this.routeModule.importDependency.push(importDependencyPath);
-            this.routeModule.routePath.push(`{ path: '${temp.folderName.toLowerCase()}', loadChildren: () => import('./${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.module').then(mod => mod.${temp.className}Module) , canActivate: [AuthGuard] },`);
+            this.routeModule.routePath.push(`{ path: '${temp.folderName.toLowerCase()}', loadChildren: () => import('./${temp.folderName.toLowerCase()}/${temp.folderName.toLowerCase()}.module').then(mod => mod.${temp.className}Module)},`);
         }
         if (information.routeList.length > 0) {
             elementRouteWorker.checkGpRoute(information.routeList, temp);
@@ -182,7 +182,7 @@ export class ComponentWorker {
         }
         temp.importDependency.push({ dependencyName: componentImportDependencies, dependencyPath: '@angular/core' });
         //import ngx-toastr component
-        temp.importDependency.push({ dependencyName: 'ToastrService', dependencyPath: 'ngx-toastr' });
+        // temp.importDependency.push({ dependencyName: 'ToastrService', dependencyPath: 'ngx-toastr' });
 
 
         console.log('---------component information in ts file-----',information);
@@ -258,7 +258,7 @@ export class ComponentWorker {
 
         // import { ToastrModule } from 'ngx-toastr';
 
-        temp.importDependency.push({ dependencyName: 'ToastrModule', dependencyPath: 'ngx-toastr' })
+        // temp.importDependency.push({ dependencyName: 'ToastrModule', dependencyPath: 'ngx-toastr' })
 
         // imports default
         temp.imports.push(`CommonModule`, `RouterModule`);
@@ -269,7 +269,7 @@ export class ComponentWorker {
             {path: '', component: ${temp.className}Component}
           ])`)
         //toaster import added
-        temp.imports.push(`ToastrModule.forRoot({ preventDuplicates: true })`)
+        // temp.imports.push(`ToastrModule.forRoot({ preventDuplicates: true })`)
 
         // declarations default
         temp.declarations.push(`${temp.className}Component`)

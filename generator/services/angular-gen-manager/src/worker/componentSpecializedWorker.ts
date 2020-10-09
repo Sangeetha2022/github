@@ -148,7 +148,7 @@ export class ComponentSpecializedWorker {
         const aggridevent = $this.screenInfo.grid_fields.event;
         if (findAgGridDependencies) {
             // if (aggridevent == 'Rowclick'){
-                let tempMethod = `${this.GRID_CLICK_HTML.htmlMethodName}() {`;
+                let tempMethod = `${this.GRID_CLICK_HTML.htmlMethodName}(event) {`;
                 tempMethod += `\n  const selectedRows = this.${findAgGridDependencies.componentDynamicVariable.gridApiName}.getSelectedRows();`;
                 tempMethod += `\n  this.${routeObj.methodName}(selectedRows[0]._id);`;
                 tempMethod += `\n}`;

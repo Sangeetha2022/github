@@ -218,9 +218,9 @@ export class FlowComponentWorker {
                     createTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[this.componentObject.variableList.findIndex(x => x.entityName != undefined)].entityName})`;
                     createTemp += `\n  .subscribe(`;
                     createTemp += `\n    data => {`;
-                    createTemp += `\n              this.toastr.success('data save sucessfully','Success' , {
-                        timeOut: 3000
-                      }); `
+                    // createTemp += `\n              this.toastr.success('data save sucessfully','Success' , {
+                    //     timeOut: 3000
+                    //   }); `
                     createTemp += `\n       console.log('data created successfully');`;
                     if(this.componentObject.variableList.length > 0){
                         this.componentObject.variableList.forEach(element => {
@@ -239,9 +239,9 @@ export class FlowComponentWorker {
                     } else { }
                     createTemp += `\n    },`;
                     createTemp += `\n    error => {`;
-                    createTemp += `\n             this.toastr.error('Failed to data save', 'Failed' ,{
-                        timeOut: 3000
-                      });`       
+                    // createTemp += `\n             this.toastr.error('Failed to data save', 'Failed' ,{
+                    //     timeOut: 3000
+                    //   });`       
                     createTemp += `\n       console.log('cannot able to create the data');`;
                     createTemp += `\n    }`;
                     createTemp += `\n    );`;
@@ -298,9 +298,9 @@ export class FlowComponentWorker {
                     updateTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : `this.${this.componentObject.variableList[0].entityName}`})`;
                     updateTemp += `\n  .subscribe(`;
                     updateTemp += `\n    data => {`;
-                    updateTemp += `\n              this.toastr.success('data save sucessfully','Success' , {
-                        timeOut: 3000
-                      }); `
+                    // updateTemp += `\n              this.toastr.success('data save sucessfully','Success' , {
+                    //     timeOut: 3000
+                    //   }); `
                       if(this.componentObject.variableList.length > 0){
                         this.componentObject.variableList.forEach(element => {
                             // for clear the object in the form
@@ -319,9 +319,9 @@ export class FlowComponentWorker {
                     } else { }
                     updateTemp += `\n    },`;
                     updateTemp += `\n    error => {`;
-                    updateTemp += `\n             this.toastr.error('Failed to data save', 'Failed ',{
-                        timeOut: 3000
-                      });`
+                    // updateTemp += `\n             this.toastr.error('Failed to data save', 'Failed ',{
+                    //     timeOut: 3000
+                    //   });`
                     updateTemp += `\n       console.log('cannot able to update the data --- ', error);`;
                     updateTemp += `\n    }`;
                     updateTemp += `\n    );`;

@@ -423,7 +423,7 @@ export class FrontendWorker {
         const importIndex = modifyFile.findIndex(x => /import.*/.test(x));
         console.log('import index ----->>>>>>>>>>  ', importIndex);
         if (importIndex > -1) {
-            modifyFile.splice(importIndex + 1, 0, `import { Router } from '@angular/router';`)
+            modifyFile.splice(importIndex + 1, 0, `import { Router, NavigationEnd } from '@angular/router';`)
             modifyFile.splice(importIndex + 1, 0, `import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';`)
             modifyFile.splice(importIndex + 2, 0, `import { ${this.LOGIN_FOLDERNAME.charAt(0).toUpperCase() + this.LOGIN_FOLDERNAME.slice(1).toLowerCase()}Service } from '../${this.LOGIN_FOLDERNAME.toLowerCase()}/${this.LOGIN_FOLDERNAME.toLowerCase()}.service';`)
             modifyFile.splice(importIndex + 3, 0, `import { ${this.BROADCAST_FOLDERNAME.charAt(0).toUpperCase() + this.BROADCAST_FOLDERNAME.slice(1).toLowerCase()}Service } from '../${this.AUTH_FOLDERNAME.toLowerCase()}/${this.BROADCAST_FOLDERNAME.toLowerCase()}.service';`)

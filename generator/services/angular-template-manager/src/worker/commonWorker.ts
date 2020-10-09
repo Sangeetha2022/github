@@ -140,7 +140,7 @@ export class CommonWorker {
                                         // temp.name = menuElement.screenmenu[0].description.screen[screenIndex];
                                         // menu.children.push(temp);
                                         mainNav.push(`<li>
-                                        <a class="text" [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</a>
+                                        <a class="text" *ngIf='userId' [routerLink]="['/${screenElement.toLowerCase()}']">{{'${this.source}.${menuElement.screenmenu[0].description.screen[screenIndex]}' | ${this.translatorPipe}}}</a>
                                     </li>`)
                                     })
                                 }
