@@ -551,8 +551,8 @@ export class FlowComponentWorker {
     private addConstructor(constructorObject, className) {
         const temp = `${Constant.PRIVATE_ACCESS_MODIFIER} ${constructorObject}: ${className}`;
         if (!this.componentFileDetails.componentConstructorParams.find(x => x == temp)) {
-            let toastrService = `${Constant.PRIVATE_ACCESS_MODIFIER} toastr : ToastrService`
-            this.componentFileDetails.componentConstructorParams.push(toastrService);
+            // let toastrService = `${Constant.PRIVATE_ACCESS_MODIFIER} toastr : ToastrService`
+            // this.componentFileDetails.componentConstructorParams.push(toastrService);
             this.componentFileDetails.componentConstructorParams.push(temp);
             console.log("Push---values000-----addconstructor----", this.componentFileDetails.componentConstructorParams)
         }
