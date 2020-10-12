@@ -40,6 +40,7 @@ import {
 } from '@angular/animations';
 
 import { Dataservice } from '../../broadcast.service';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var grapesjs: any;
 @Component({
@@ -283,7 +284,8 @@ export class DesktopScreenComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private ref: ChangeDetectorRef,
-    public broadcast: Dataservice
+    public broadcast: Dataservice,
+    private spinner: NgxSpinnerService
   ) {
     this.columnDefs = [
       {
@@ -820,14 +822,15 @@ export class DesktopScreenComponent implements OnInit {
     console.log('------------ remote', this.editor.StorageManager.get('remote'));
     console.log('+++++++++', this.updateTemplateURL);
     if (this.screen_id) {
+      this.spinner.show();
       this.editor.StorageManager.get('remote').set({
         urlStore: `${this.updateTemplateURL}${this.screen_id}`,
-
       });
 
       this.screenDesignerService.getScreenById(this.screen_id).subscribe(
         response => {
           if (response.body) {
+            this.spinner.hide();
             this.existScreenDetail = response.body;
             console.log('------screen response-----', this.existScreenDetail);
             if (this.existScreenDetail[0]['entity_info']) {
