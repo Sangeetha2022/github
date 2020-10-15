@@ -276,7 +276,7 @@ export class EntityManagerComponent implements OnInit {
 
     createFeature() {
         this.isFeatureExist = false;
-        this.featureInfo.name.toLowerCase();
+        this.featureInfo.name = this.featureInfo.name.toLowerCase();
         this.featureInfo.project = this.project_id;
 
         this.validatorService.checkNamingConvention(this.featureInfo.name);
