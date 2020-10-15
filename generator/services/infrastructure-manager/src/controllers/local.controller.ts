@@ -43,7 +43,7 @@ export class LocalInfrastructureController {
     const backendList = [];
     //projectDetails.project = projectDetails.project_name+ "-" + projectDetails.user_id.substring(0, 5);
     //projectDetails.project_lowercase = projectDetails.project.toLowerCase();
-    projectDetails.project = projectDetails.name;
+    projectDetails.project = projectDetails.project_unique_id;
     projectDetails.project_lowercase = projectDetails.project.toLowerCase();
 
     //create project folder if not exists

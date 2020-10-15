@@ -69,7 +69,7 @@ export class CodeGenerationService {
     // const auth_templatepath = req.body.authorizationtemppath;
     console.log('--------projectdetails0-----', projectDetails);
     this.nodeResponse = [];
-    let projectPath = `${projectDetails.projectGenerationPath}/${projectDetails.name}`;
+    let projectPath = `${projectDetails.projectGenerationPath}/${projectDetails.project_unique_id}`;
     console.log('create project code rae ----- ', projectId, ' ----- ', projectDetails);
     // this.createFolders(`../../../../../generatedcode/${projectDetails.name}`);
     const isPathCreated = Common.createFolders(projectPath);
