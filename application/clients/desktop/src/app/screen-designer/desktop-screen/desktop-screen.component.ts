@@ -2037,6 +2037,8 @@ export class DesktopScreenComponent implements OnInit {
       this.eventObj.componentId = value.event.componentId;
       this.eventObj.elementName = value.event.elementname;
       this.eventObj.selected_event = value.event.value;
+      this.specific_attribute_Event.push(this.eventObj);
+      this.saveRemoteStorage();
     }
 
     if (value.event.type === 'grid-type') {
@@ -2044,10 +2046,8 @@ export class DesktopScreenComponent implements OnInit {
       this.agGridObject.event = value.event.value;
     }
     // tslint:disable-next-line:max-line-length
-    console.log('-----flow value-----', this.eventObj, '----selectedflow', this.selectedFlow, '----selectedflowobj', this.selectedFlowObj);
+    // console.log('-----flow value-----', this.eventObj, '----selectedflow', this.selectedFlow, '----selectedflowobj', this.selectedFlowObj);
 
-    this.specific_attribute_Event.push(this.eventObj);
-    this.saveRemoteStorage();
   }
 
 
