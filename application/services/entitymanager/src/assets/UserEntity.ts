@@ -70,7 +70,7 @@ export const UserEntity = {
         list_type: null,
         list_value: null,
         entity_id: null,
-    },{
+    }, {
         name: "Idtoken",
         type_name: "Text",
         data_type: "String",
@@ -81,7 +81,7 @@ export const UserEntity = {
         list_type: null,
         list_value: null,
         entity_id: null,
-    },{
+    }, {
         name: "loggedinDate",
         type_name: "Text",
         data_type: "Date",
@@ -92,7 +92,7 @@ export const UserEntity = {
         list_type: null,
         list_value: null,
         entity_id: null,
-    },{
+    }, {
         name: "loggedoutDate",
         type_name: "Text",
         data_type: "Date",
@@ -103,7 +103,7 @@ export const UserEntity = {
         list_type: null,
         list_value: null,
         entity_id: null,
-    },{
+    }, {
         name: "role",
         type_name: "Text",
         data_type: "{ type: mongoose.Schema.Types.String, ref: 'roles' }",
@@ -114,5 +114,65 @@ export const UserEntity = {
         list_type: null,
         list_value: null,
         entity_id: null,
-    }]
+    }, {
+        name: "org",
+        type_name: "Text",
+        data_type: "String",
+        description: "Organization name",
+        is_default: true,
+        is_entity_type: false,
+        is_list_type: false,
+        list_type: null,
+        list_value: null,
+        entity_id: null,
+    },
+    {
+        name: "org_country",
+        type_name: "Text",
+        data_type: "String",
+        description: "Country of the organization",
+        is_default: true,
+        is_entity_type: false,
+        is_list_type: false,
+        list_type: null,
+        list_value: null,
+        entity_id: null,
+    },
+    {
+        name: "org_sub1",
+        type_name: "Text",
+        data_type: "String",
+        description: "Sub organization one",
+        is_default: true,
+        is_entity_type: false,
+        is_list_type: false,
+        list_type: null,
+        list_value: null,
+        entity_id: null,
+    },
+    {
+        name: "org_sub2",
+        type_name: "Text",
+        data_type: "String",
+        description: "Sub organization two",
+        is_default: true,
+        is_entity_type: false,
+        is_list_type: false,
+        list_type: null,
+        list_value: null,
+        entity_id: null,
+    },
+    {
+        name: "org_sub3",
+        type_name: "Text",
+        data_type: "String",
+        description: "Sub organization three",
+        is_default: true,
+        is_entity_type: false,
+        is_list_type: false,
+        list_type: null,
+        list_value: null,
+        entity_id: null,
+    },
+    ]
 }
