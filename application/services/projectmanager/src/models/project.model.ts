@@ -9,6 +9,7 @@ export const ProjectSchema = new Schema({
         default: uuid.v1
     },
     name: { type: String, required: 'Enter a project name' },
+    project_unique_id: {type: String},
     default_module_id: { type: String },
     default_module_label: { type: String },
     notes: { type: String },
