@@ -40,6 +40,10 @@ export class ConfigManagerService {
   getBuildVersion(name): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectVersion}/${name}`);
   }
+
+  getBuildDate(name): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectVersion}/${name}`);
+  }
 }
 
 

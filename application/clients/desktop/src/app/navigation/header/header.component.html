@@ -61,7 +61,7 @@
       <div class="modal-body">
         <p>Version: {{versionData.value}}</p>
         <p>Build Version: {{buildVersionData.value}}</p>
-        <p>Build Date: {{buildVersionData.updated_at | date: 'MMM d, y, h:mm:ss
+        <p>Build Date: {{buildVersionDate.value | date: 'MMM d, y, h:mm:ss
           a'}}</p>
       </div>
       <div class="modal-footer" style="padding: 5px;justify-content:
@@ -143,7 +143,7 @@
         <button type="button" class="close">&times;</button>
       </div> -->
       <div class="modal-body">
-        <p>language change cause you to re-login</p>
+        <p>Language change cause you to re-login</p>
       </div>
       <div class="modal-footer" style="padding: 5px">
         <button type="button" (click)="confirmLangChange()" class="btn btn-default">Confirm</button>

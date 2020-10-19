@@ -52,6 +52,7 @@
     "js-yaml": "^3.13.1",
     "nanoid": "^2.0.1",
     "ng2-file-upload": "^1.4.0",
+    "ngx-spinner": "~7.2.0",
     "ngx-toastr": "^9.1.2",
     "ngx-toggle-switch": "^2.0.5",
     "rxjs": "~6.3.3",

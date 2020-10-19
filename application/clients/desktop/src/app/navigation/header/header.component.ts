@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit {
   displayAboutModel: String = 'none';
   versionData: any = {};
   buildVersionData: any = {};
+  buildVersionDate: any = {};
 
   // tslint:disable-next-line:max-line-length
   constructor(
@@ -89,6 +90,7 @@ export class HeaderComponent implements OnInit {
 
   confirmLangModel(lang) {
     this.user.id = sessionStorage.getItem('Id');
+    console.log('--------', this.user.id);
     if (this.user.id !== null) {
       this.confirmLangChangeModal = 'block';
       this.currentLanguage = lang;
@@ -142,6 +144,13 @@ export class HeaderComponent implements OnInit {
         console.log('Check the browser console to see more info.', 'Error!');
       });
 
+    this.configurationService.getBuildVersion('build_date').subscribe(data => {
+      this.buildVersionDate = data.body;
+    },
+      error => {
+        console.log('Check the browser console to see more info.', 'Error!');
+      });
+
   }
   hideAbout() {
     this.displayAboutModel = 'none';
@@ -150,9 +159,9 @@ export class HeaderComponent implements OnInit {
   Logout() {
     this.user.id = sessionStorage.getItem('Id');
     this.logoutservice.Logout(this.user).subscribe(data => {
-      console.log('logout -response-->>' , data)
+      console.log('logout -response-->>', data)
       if (data.body.signintype === 'google') {
-          this.authService.signOut();
+        this.authService.signOut();
       }
       sessionStorage.clear();
       localStorage.clear();

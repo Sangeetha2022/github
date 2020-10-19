@@ -1,6 +1,6 @@
 /*
  * Template group apiadapter
- * Compiled on Wed Sep 23 2020 13:01:55 GMT+0530 (India Standard Time)
+ * Compiled on Thu Oct 08 2020 23:18:18 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -79,7 +79,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                ");
-    w.write("this.sendResponse(resolve, reject, null, response);");
+    w.write("this.sendResponse(resolve, reject, response, null);");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("            ");

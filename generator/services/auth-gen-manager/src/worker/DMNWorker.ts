@@ -50,7 +50,11 @@ export class DmnWorkerFile {
         let lastslice = '';
         if (menu.length > 0) {
             menu.forEach(element => {
+                console.log('--------screen value----', element);
                 output[element.resources] = [];
+                if(element.resources == 'admin'){
+                    element.role = 'Admin';
+                }
                 if (element.role == 'Admin') {
                     let Admin = {
                         Admin: {

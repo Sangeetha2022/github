@@ -40,6 +40,7 @@ import {
 } from '@angular/animations';
 
 import { Dataservice } from '../../broadcast.service';
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var grapesjs: any;
 @Component({
@@ -283,7 +284,8 @@ export class DesktopScreenComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private ref: ChangeDetectorRef,
-    public broadcast: Dataservice
+    public broadcast: Dataservice,
+    private spinner: NgxSpinnerService
   ) {
     this.columnDefs = [
       {
@@ -820,14 +822,15 @@ export class DesktopScreenComponent implements OnInit {
     console.log('------------ remote', this.editor.StorageManager.get('remote'));
     console.log('+++++++++', this.updateTemplateURL);
     if (this.screen_id) {
+      this.spinner.show();
       this.editor.StorageManager.get('remote').set({
         urlStore: `${this.updateTemplateURL}${this.screen_id}`,
-
       });
 
       this.screenDesignerService.getScreenById(this.screen_id).subscribe(
         response => {
           if (response.body) {
+            this.spinner.hide();
             this.existScreenDetail = response.body;
             console.log('------screen response-----', this.existScreenDetail);
             if (this.existScreenDetail[0]['entity_info']) {
@@ -2037,6 +2040,8 @@ export class DesktopScreenComponent implements OnInit {
       this.eventObj.componentId = value.event.componentId;
       this.eventObj.elementName = value.event.elementname;
       this.eventObj.selected_event = value.event.value;
+      this.specific_attribute_Event.push(this.eventObj);
+      this.saveRemoteStorage();
     }
 
     if (value.event.type === 'grid-type') {
@@ -2044,10 +2049,8 @@ export class DesktopScreenComponent implements OnInit {
       this.agGridObject.event = value.event.value;
     }
     // tslint:disable-next-line:max-line-length
-    console.log('-----flow value-----', this.eventObj, '----selectedflow', this.selectedFlow, '----selectedflowobj', this.selectedFlowObj);
+    // console.log('-----flow value-----', this.eventObj, '----selectedflow', this.selectedFlow, '----selectedflowobj', this.selectedFlowObj);
 
-    this.specific_attribute_Event.push(this.eventObj);
-    this.saveRemoteStorage();
   }
 
 

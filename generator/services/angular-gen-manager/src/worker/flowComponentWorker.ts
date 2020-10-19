@@ -61,7 +61,6 @@ export class FlowComponentWorker {
                     }
                 })
             })
-            this.addComponentVariable();
             this.componentOption();
         } else {
             if (this.componentObject.dependenciesVariableList &&
@@ -219,19 +218,30 @@ export class FlowComponentWorker {
                     createTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[this.componentObject.variableList.findIndex(x => x.entityName != undefined)].entityName})`;
                     createTemp += `\n  .subscribe(`;
                     createTemp += `\n    data => {`;
-                    createTemp += `\n              this.toastr.success('data save sucessfully','Success' , {
-                        timeOut: 3000
-                      }); `
+                    // createTemp += `\n              this.toastr.success('data save sucessfully','Success' , {
+                    //     timeOut: 3000
+                    //   }); `
                     createTemp += `\n       console.log('data created successfully');`;
+                    if(this.componentObject.variableList.length > 0){
+                        this.componentObject.variableList.forEach(element => {
+                            // for clear the object in the form
+                            const entitiesObject = this.entities.find(x => x._id == element.entityId);
+                            if (entitiesObject) {
+                                entitiesObject.field.forEach((fieldElement, fieldIndex) => {
+                                    createTemp += `\nthis.${entitiesObject.name}.${fieldElement.name} = '';\n`
+                                })
+                            } 
+                        })
+                    }
                     if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
                         createTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
                         this.setComponentVariable(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
                     } else { }
                     createTemp += `\n    },`;
                     createTemp += `\n    error => {`;
-                    createTemp += `\n             this.toastr.error('Failed to data save', 'Failed' ,{
-                        timeOut: 3000
-                      });`       
+                    // createTemp += `\n             this.toastr.error('Failed to data save', 'Failed' ,{
+                    //     timeOut: 3000
+                    //   });`       
                     createTemp += `\n       console.log('cannot able to create the data');`;
                     createTemp += `\n    }`;
                     createTemp += `\n    );`;
@@ -288,9 +298,20 @@ export class FlowComponentWorker {
                     updateTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : `this.${this.componentObject.variableList[0].entityName}`})`;
                     updateTemp += `\n  .subscribe(`;
                     updateTemp += `\n    data => {`;
-                    updateTemp += `\n              this.toastr.success('data save sucessfully','Success' , {
-                        timeOut: 3000
-                      }); `
+                    // updateTemp += `\n              this.toastr.success('data save sucessfully','Success' , {
+                    //     timeOut: 3000
+                    //   }); `
+                      if(this.componentObject.variableList.length > 0){
+                        this.componentObject.variableList.forEach(element => {
+                            // for clear the object in the form
+                            const entitiesObject = this.entities.find(x => x._id == element.entityId);
+                            if (entitiesObject) {
+                                entitiesObject.field.forEach((fieldElement, fieldIndex) => {
+                                    updateTemp += `\n this.${entitiesObject.name}.${fieldElement.name} = '';\n`
+                                })
+                            } 
+                        })
+                    }
                     updateTemp += `\n       console.log('data updated successfully --- ', data);`;
                     if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
                         updateTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
@@ -298,9 +319,9 @@ export class FlowComponentWorker {
                     } else { }
                     updateTemp += `\n    },`;
                     updateTemp += `\n    error => {`;
-                    updateTemp += `\n             this.toastr.error('Failed to data save', 'Failed ',{
-                        timeOut: 3000
-                      });`
+                    // updateTemp += `\n             this.toastr.error('Failed to data save', 'Failed ',{
+                    //     timeOut: 3000
+                    //   });`
                     updateTemp += `\n       console.log('cannot able to update the data --- ', error);`;
                     updateTemp += `\n    }`;
                     updateTemp += `\n    );`;
@@ -530,8 +551,8 @@ export class FlowComponentWorker {
     private addConstructor(constructorObject, className) {
         const temp = `${Constant.PRIVATE_ACCESS_MODIFIER} ${constructorObject}: ${className}`;
         if (!this.componentFileDetails.componentConstructorParams.find(x => x == temp)) {
-            let toastrService = `${Constant.PRIVATE_ACCESS_MODIFIER} toastr : ToastrService`
-            this.componentFileDetails.componentConstructorParams.push(toastrService);
+            // let toastrService = `${Constant.PRIVATE_ACCESS_MODIFIER} toastr : ToastrService`
+            // this.componentFileDetails.componentConstructorParams.push(toastrService);
             this.componentFileDetails.componentConstructorParams.push(temp);
             console.log("Push---values000-----addconstructor----", this.componentFileDetails.componentConstructorParams)
         }

@@ -4,6 +4,8 @@ import { Request } from 'express';
 import { gpConfigSchema } from '../models/configuration.model';
 import { ApiAdaptar } from '../config/ApiAdaptar';
 import { SharedService } from '../config/SharedService';
+import * as generate from 'nanoid/generate';
+import * as dictionary from 'nanoid-dictionary';
 
 const Project = mongoose.model('Projects', ProjectSchema);
 const configModel = mongoose.model('gp_config', gpConfigSchema);
@@ -11,7 +13,7 @@ const configModel = mongoose.model('gp_config', gpConfigSchema);
 export class ProjectDao {
 
     public addProject(req: Request, callback: CallableFunction) {
-
+        req.body.project_unique_id = `${req.body.name}_${generate(dictionary.numbers, 4)}`;
         let newProject = new Project(req.body);
 
         console.log('i am project------->><<<>>>>', newProject)
