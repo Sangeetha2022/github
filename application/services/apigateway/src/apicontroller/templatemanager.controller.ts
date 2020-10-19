@@ -25,87 +25,95 @@ export class TemplateController implements Controller {
         this.router.get('/templateparser/get', this.getTemplateParser);
     }
 
-    public addTemplate(req: Request, res: Response) {
-        new ApiAdaptar().post(Constants.templateUrl + '/template/save', req.body).then(result => {
+    public async addTemplate(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().post(Constants.templateUrl + '/template/save', req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public updateTemplate(req: Request, res: Response) {
-        new ApiAdaptar().put(Constants.templateUrl + '/template/update/' + req.params.id, req.body).then(result => {
+    public async updateTemplate(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().put(Constants.templateUrl + '/template/update/' + req.params.id, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public deleteTemplate(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.templateUrl + '/template/delete/' + req.params.id).then(result => {
+    public async deleteTemplate(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.templateUrl + '/template/delete/' + req.params.id));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public getAllTemplates(req: Request, res: Response) {
-        new ApiAdaptar().get(Constants.templateUrl + '/template/getall').then(result => {
+    public async getAllTemplates(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/template/getall'));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-
-    public getTemplateByName = (req:Request, res: Response) => {
-        // console.log('----------------kishan-----------',req);
-        new ApiAdaptar().get(Constants.templateUrl + '/template/gettemplatename?template_name='+ req.query.template_name).then(result => {
-            req.baseUrl === '/mobile' ? res.send(result) :
-                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err =>{
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 
-    public getTemplateByID = (req: Request, res: Response) => {
-        new ApiAdaptar().get(Constants.templateUrl + '/template/get/' + req.params.id).then(result => {
+    public getTemplateByName = async (req:Request, res: Response) => {
+        try {
+            // console.log('----------------kishan-----------',req);
+            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/template/gettemplatename?template_name='+ req.query.template_name));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public getAllTemplateByProject = (req: Request, res: Response) => {
-        new ApiAdaptar().get(Constants.templateUrl + '/template/get/project/' + req.params.projectid).then(result => {
+
+    public getTemplateByID = async (req: Request, res: Response) => {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/template/get/' + req.params.id));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public getTemplateParser = (req: Request, res: Response) => {
-        new ApiAdaptar().get(Constants.templateUrl + '/templateparser/get').then(result => {
+    public getAllTemplateByProject = async (req: Request, res: Response) => {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/template/get/project/' + req.params.projectid));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
+    }
+
+    public getTemplateParser = async (req: Request, res: Response) => {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/templateparser/get'));
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
 }

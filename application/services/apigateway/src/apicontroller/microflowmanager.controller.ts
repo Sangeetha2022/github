@@ -30,86 +30,95 @@ class MicroflowController implements Controller {
 
     }
 
-    public saveMicroFlow(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.featureUrl}/microflow/save`, req.body).then(result => {
+    public async saveMicroFlow(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().post(`${Constants.featureUrl}/microflow/save`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public updateMicroFlow(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.microUrl}/microflow/update`, req.body).then(result => {
+    public async updateMicroFlow(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().put(`${Constants.microUrl}/microflow/update`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public deleteMicroFlow(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.microUrl}/microflow/delete?microflowId=${req.query.microflowId}`).then(result => {
+    public async deleteMicroFlow(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().delete(`${Constants.microUrl}/microflow/delete?microflowId=${req.query.microflowId}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public getAllMicroFlow(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.microUrl}/microflow/getall`).then(result => {
+    public async getAllMicroFlow(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.microUrl}/microflow/getall`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
+        
     }
 
-    public getMicroFlowByID(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.microUrl}/microflow/get?microflowId=${req.query.microflowId}`).then(result => {
+    public async getMicroFlowByID(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.microUrl}/microflow/get?microflowId=${req.query.microflowId}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public getMicroFlow(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.microUrl}/microflow/component/get`, req.body).then(result => {
+    public async getMicroFlow(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().post(`${Constants.microUrl}/microflow/component/get`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 
 
-    public getBackendMicroFlow(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.microUrl}/microflow/component/backend/get`, req.body).then(result => {
+    public async getBackendMicroFlow(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().post(`${Constants.microUrl}/microflow/component/backend/get`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public getMicroFlowByProjectId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.microUrl}/microflow/project/get?projectId=${req.query.projectId}`).then(result => {
+    public async getMicroFlowByProjectId(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.microUrl}/microflow/project/get?projectId=${req.query.projectId}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 

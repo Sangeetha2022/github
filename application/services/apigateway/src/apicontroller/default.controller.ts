@@ -16,15 +16,16 @@ export class DefaultController implements Controller {
         this.router.route('/projects/default/create').get(this.createDefault);
     }
 
-    private createDefault(req: Request, res: Response) {
-        const projectId = req.query.projectId;
-        new ApiAdaptar().get(`${Constants.entityUrl}/projects/default/create/?projectId=${projectId}`).then(result => {
+    private async createDefault(req: Request, res: Response) {
+        try {
+            const projectId = req.query.projectId;
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/projects/default/create/?projectId=${projectId}`));
             console.log('create default entity success ----- ', result);
             res.send(result);
-        }).catch(err => {
+        } catch (err) {
             console.log('create default entity error ----  ', err);
             res.send(err);
-        });
+        }
     }
 
 }

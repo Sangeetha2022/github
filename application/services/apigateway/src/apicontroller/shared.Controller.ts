@@ -21,27 +21,29 @@ class SharedController implements Controller {
     }
 
 
-    public getSharedByProjectId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.sharedUrl}/shared/getbyproject/` + req.params.id).then((response) => {
+    public async getSharedByProjectId(req: Request, res: Response) {
+        try {
+            let response = await Promise.resolve(new ApiAdaptar().get(`${Constants.sharedUrl}/shared/getbyproject/` + req.params.id));
             req.baseUrl === '/mobile' ? res.send(response) :
                 req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public create(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.sharedUrl}/shared/details`, req.body).then((response) => {
+    public async create(req: Request, res: Response) {
+        try {
+            let response = await Promise.resolve(new ApiAdaptar().post(`${Constants.sharedUrl}/shared/details`, req.body));
             req.baseUrl === '/mobile' ? res.send(response) :
                 req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public importProject(req: Request, res: Response) {
+    public async importProject(req: Request, res: Response) {
 
         let form = new multiparty.Form();
         form.parse(req, function (err, fields, files) {
@@ -50,7 +52,7 @@ class SharedController implements Controller {
             console.log('file-----------------', files)
         });
 
-        form.on('file', (name, file) => {
+        form.on('file', async (name, file) => {
             let formData = {
                 file: {
                     value: fs.createReadStream(file.path),
@@ -60,13 +62,14 @@ class SharedController implements Controller {
                 }
             }
             // console.log("req.headers----apigateway", req.headers);
-            new ApiAdaptar().FileUploadPost(`${Constants.sharedUrl}/shared/upload/` + req.params.id, formData).then((response) => {
+            try {
+                let response = await Promise.resolve(new ApiAdaptar().FileUploadPost(`${Constants.sharedUrl}/shared/upload/` + req.params.id, formData));
                 req.baseUrl === '/mobile' ? res.send(response) :
                     req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
-            }).catch(err => {
+            } catch (err) {
                 req.baseUrl === '/mobile' ? res.send(err) :
                     req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            });
+            }
         })
 
     }

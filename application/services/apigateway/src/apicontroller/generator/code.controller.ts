@@ -15,17 +15,16 @@ export class CodeController implements Controller {
         this.router.route('/generate/code').put(this.createProjectCode);
     }
 
-    createProjectCode(req: Request, res: Response) {
-        console.log('create project code ----- ', req.query.projectId)
-        new ApiAdaptar().put(
-            `${Constants.codeGenUrl}/generate/code?projectId=${req.query.projectId}`,
-            req.body
-        ).then((response) => {
+    public async createProjectCode(req: Request, res: Response) {
+        try {
+            console.log('create project code ----- ', req.query.projectId)
+            let response = await Promise.resolve(new ApiAdaptar().put(
+                `${Constants.codeGenUrl}/generate/code?projectId=${req.query.projectId}`, req.body));
             res.send(response);
-        }).catch(err => {
+        } catch (err) {
             console.log('project code generation error ----  ', err);
             res.send(err);
-        });
+        }
     }
 
 }

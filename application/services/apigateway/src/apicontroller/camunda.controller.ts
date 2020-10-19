@@ -17,12 +17,13 @@ export class Camundacontroller implements Controller {
         this.router.route('/accesslevel').post(this.Camunda);
     }
 
-    public Camunda(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.camundaUrl}/accesslevel`, req.body).then((response) => {
+    public async Camunda(req: Request, res: Response) {
+        try {
+            let response = await Promise.resolve(new ApiAdaptar().post(`${Constants.camundaUrl}/accesslevel`, req.body));
             res.send(response);
-        }).catch(err => {
+        } catch (err) {
             res.send(err);
-        })
+        }
     }
 
 

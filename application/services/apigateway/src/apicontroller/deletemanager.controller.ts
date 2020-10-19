@@ -26,64 +26,70 @@ class DeleteManagerController implements Controller {
     }
 
 
-    public deleteProject(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/project/' + req.params.id).then(result => {
+    public async deleteProject(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.deleteUrl + '/delete/project/' + req.params.id));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public deleteEntity(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/entity/' + req.params.id).then(result => {
+    public async deleteEntity(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.deleteUrl + '/delete/entity/' + req.params.id));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public deleteFeature(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/feature/' + req.params.id).then(result => {
+    public async deleteFeature(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.deleteUrl + '/delete/feature/' + req.params.id));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public deleteMenu(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/menu/' + req.params.id).then(result => {
+    public async deleteMenu(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.deleteUrl + '/delete/menu/' + req.params.id));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public deleteScreen(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/screen/' + req.params.id).then(result => {
+    public async deleteScreen(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.deleteUrl + '/delete/screen/' + req.params.id));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch(err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public deleteFlow(req: Request, res: Response) {
-        new ApiAdaptar().delete(Constants.deleteUrl + '/delete/flow/' + req.params.id).then(result => {
+    public async deleteFlow(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.deleteUrl + '/delete/flow/' + req.params.id));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 }

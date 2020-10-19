@@ -16,12 +16,12 @@ import Controller from '../interfaces/controller.interface';
     }
 
 
-    public quickTestcustomConnectors(req:Request , res: Response){
-        new ApiAdaptar().post(`${Constants.customConnectorUrl}/quick/test`, req.body).then((response) => {
+    public async quickTestcustomConnectors(req:Request , res: Response){
+        try {
+            let response = await Promise.resolve(new ApiAdaptar().post(`${Constants.customConnectorUrl}/quick/test`, req.body));
             res.send(response);
-        }).catch(err => {
+        } catch (err) {
             res.send(err);
-        })
-
+        }
     }
 }
