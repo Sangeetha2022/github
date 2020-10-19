@@ -17,13 +17,14 @@ export class Proxycontroller implements Controller {
         this.router.route('/proxy').post(this.Proxy);
     }
 
-    public Proxy(req: Request, res: Response) {
-        console.log('-------requestbody-------', req.body);
-        new ApiAdaptar().post(`${Constants.proxyUrl}/proxy`, req.body).then((response) => {
+    public async Proxy(req: Request, res: Response) {
+        try {
+            console.log('-------requestbody-------', req.body);
+            let response = await Promise.resolve(new ApiAdaptar().post(`${Constants.proxyUrl}/proxy`, req.body));
             res.send(response);
-        }).catch(err => {
+        } catch (err) {
             res.send(err);
-        })
+        }
     }
 
 

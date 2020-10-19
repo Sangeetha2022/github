@@ -16,29 +16,27 @@ export class BackendController implements Controller {
         this.router.route('/backend/apigateway/project').post(this.generateApiGateway);
     }
 
-    createProject(req: Request, res: Response) {
-        new ApiAdaptar().post(
-            `${Constants.backendGenUrl}/backend/project`,
-            req.body
-        ).then((response) => {
+    public async createProject(req: Request, res: Response) {
+        try {
+            let response = await Promise.resolve(new ApiAdaptar().post(
+                `${Constants.backendGenUrl}/backend/project`, req.body));
             res.send(response);
-        }).catch(err => {
+        } catch (err) {
             console.log('project code generation error ----  ', err);
             res.send(err);
-        });
+        }
     }
 
-    generateApiGateway(req: Request, res: Response) {
-        console.log('backend services apigateway -----   ');
-        new ApiAdaptar().post(
-            `${Constants.backendGenUrl}/backend/apigateway/project`,
-            req.body
-        ).then((response) => {
+    public async generateApiGateway(req: Request, res: Response) {
+        try {
+            console.log('backend services apigateway -----   ');
+            let response = await Promise.resolve(new ApiAdaptar().post(
+                `${Constants.backendGenUrl}/backend/apigateway/project`, req.body));
             res.send(response);
-        }).catch(err => {
+        } catch (err) {
             console.log('project code generation error ----  ', err);
             res.send(err);
-        });
+        }
     }
 
 }

@@ -17,14 +17,14 @@ export class Authgencontroller implements Controller {
         this.router.route('/auth').get(this.createLogin);
     }
 
-    createLogin(req: Request, res: Response) {
-        new ApiAdaptar().get(
-            `${Constants.authgenUrl}/auth?projectID=${req.query.projectID}&authPath=${req.query.authPath}&projectPath=${req.query.projectPath}&authTemplate=${req.query.authTemplate}&projectName=${req.query.projectName}`).then((response) => {
-            res.send(response);
-        }).catch(err => {
-            console.log('Auth generation error ----  ', err);
+    public async createLogin(req: Request, res: Response) {
+        try {
+           let response = await Promise.resolve(new ApiAdaptar().get(
+            `${Constants.authgenUrl}/auth?projectID=${req.query.projectID}&authPath=${req.query.authPath}&projectPath=${req.query.projectPath}&authTemplate=${req.query.authTemplate}&projectName=${req.query.projectName}`));
+           res.send(response);
+        } catch (err) {
             res.send(err);
-        });
+        }
     }
 
 }

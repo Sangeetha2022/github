@@ -22,44 +22,48 @@ class AdminController implements Controller {
 
     }
 
-    public adminUser(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.adminUrl}/admin/getusers`).then(result => {
+    public async adminUser(req: Request, res: Response) {
+        try{
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.adminUrl}/admin/getusers`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err){
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public getUser(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.adminUrl}/admin/getuser/:id`).then(result => {
+    public async getUser(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.adminUrl}/admin/getuser/:id`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public getRoles(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.adminUrl}/admin/getallroles`).then(result => {
+    public async getRoles(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.adminUrl}/admin/getallroles`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        }catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public updateUser(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.adminUrl}/admin/updateuser`, req.body).then(result => {
+    public async updateUser(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().put(`${Constants.adminUrl}/admin/updateuser`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 }

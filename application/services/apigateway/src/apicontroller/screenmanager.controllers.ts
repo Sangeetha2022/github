@@ -29,119 +29,130 @@ class ScreenController implements Controller {
 
     }
 
-    public saveScreen(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.screenUrl}/screen/save`, req.body).then(result => {
+    public async saveScreen(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().post(`${Constants.screenUrl}/screen/save`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 
-    public getAllScreens(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/get`).then(result => {
+    public async getAllScreens(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.screenUrl}/screen/get`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public getScreenById(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/get/${req.params.id}`).then(result => {
+    public async getScreenById(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.screenUrl}/screen/get/${req.params.id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public updateScreen(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.screenUrl}/screen/update/${req.params.id}`, req.body).then(result => {
+    public async updateScreen(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().put(`${Constants.screenUrl}/screen/update/${req.params.id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-
-    public deleteScreen(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.screenUrl}/screen/delete/${req.params.id}`).then(result => {
-            req.baseUrl === '/mobile' ? res.send(result) :
-                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-    public deleteProjectScreen(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.screenUrl}/screen/deletebyproject/${req.params.id}`).then(result => {
-            req.baseUrl === '/mobile' ? res.send(result) :
-                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 
-
-    public getAllScreenByProjectId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyprojectid/${req.params.projectId}`).then(result => {
+    public async deleteScreen(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().delete(`${Constants.screenUrl}/screen/delete/${req.params.id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
+    }
+
+    public async deleteProjectScreen(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().delete(`${Constants.screenUrl}/screen/deletebyproject/${req.params.id}`));
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
 
-    public getAllScreenByProjectAndFeatureId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyprojectandfeatureid/${req.params.projectId}/${req.params.featureId}`).then(result => {
+
+    public async getAllScreenByProjectId(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyprojectid/${req.params.projectId}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public getAllScreenByFeatureId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyfeatureid/${req.params.id}`).then(result => {
+
+    public async getAllScreenByProjectAndFeatureId(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyprojectandfeatureid/${req.params.projectId}/${req.params.featureId}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public getTemplateByProjectId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/screen/template?projectId=${req.query.projectId}`).then(result => {
+    public async getAllScreenByFeatureId(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.screenUrl}/screen/getbyfeatureid/${req.params.id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public createDefaultScreen(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.screenUrl}/projects/default/screen?projectId=${req.query.projectId}`).then(result => {
+    public async getTemplateByProjectId(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.screenUrl}/screen/template?projectId=${req.query.projectId}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
+    }
+
+    public async createDefaultScreen(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.screenUrl}/projects/default/screen?projectId=${req.query.projectId}`));
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 }
 export { ScreenController };
