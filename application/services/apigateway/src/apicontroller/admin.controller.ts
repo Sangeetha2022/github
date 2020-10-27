@@ -24,7 +24,7 @@ class AdminController implements Controller {
 
     public async adminUser(req: Request, res: Response) {
         try{
-            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.adminUrl}/admin/getusers`));
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.adminUrl}/admin/getusers` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err){
@@ -33,9 +33,10 @@ class AdminController implements Controller {
         }
     }
 
+
     public async getUser(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.adminUrl}/admin/getuser/:id`));
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.adminUrl}/admin/getuser/:id` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -44,9 +45,10 @@ class AdminController implements Controller {
         }
     }
 
+
     public async getRoles(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.adminUrl}/admin/getallroles`));
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.adminUrl}/admin/getallroles` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         }catch (err) {
@@ -57,7 +59,7 @@ class AdminController implements Controller {
 
     public async updateUser(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().put(`${Constants.adminUrl}/admin/updateuser`, req.body));
+            let result = await Promise.resolve(new ApiAdaptar().put(`${Constants.adminUrl}/admin/updateuser`+ `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {

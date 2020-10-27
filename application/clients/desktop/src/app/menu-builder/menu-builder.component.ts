@@ -36,6 +36,7 @@ export class MenuBuilderComponent implements OnInit {
   private menuDetails: any = [];
   private currentMenuDetails: any = [];
   private screenId: any;
+  public logId = sessionStorage.getItem('LogId');
   private changeMenu: Boolean = false;
   private descriptionBeforeUpdate: String;
   private createRow: Boolean = false;
@@ -87,7 +88,7 @@ export class MenuBuilderComponent implements OnInit {
   }
 
   getMenuByProjectId() {
-    this.menuBuilderService.getMenuBuilderByProjectId(this.project_id).subscribe(menuBuilderData => {
+    this.menuBuilderService.getMenuBuilderByProjectId(this.project_id, this.logId).subscribe(menuBuilderData => {
       this.menuBuilderDetails = menuBuilderData;
       const array = [];
       if (menuBuilderData.length !== 0) {
@@ -127,7 +128,7 @@ export class MenuBuilderComponent implements OnInit {
                       this.newMenu.feature.forEach(feData => {
                         if (feData !== null) {
                           this.featureDetailsData = [];
-                          this.projectComponentService.getFeatureById(feData).subscribe(
+                          this.projectComponentService.getFeatureById(feData, this.logId).subscribe(
                             feature => {
                               this.featureDetailsData = feature.body;
                               this.menuFId = this.featureDetailsData._id;
@@ -136,7 +137,7 @@ export class MenuBuilderComponent implements OnInit {
                                 feature: this.menuFName,
                                 featureId: this.menuFId,
                               };
-                              this.screenService.getScreenByFeatureId(feData).subscribe(data => {
+                              this.screenService.getScreenByFeatureId(feData, this.logId).subscribe(data => {
                                 if (data.length !== 0) {
                                   this.screenMenuName = [];
                                   this.screenId = [];
@@ -223,7 +224,7 @@ export class MenuBuilderComponent implements OnInit {
     this.updateMenuById(this.currentMenuDetails._id, this.currentMenuDetails);
   }
   updateMenuById(id, menu) {
-    this.menuBuilderService.updateMenuById(id, menu).subscribe(fMenu => {
+    this.menuBuilderService.updateMenuById(id, menu, this.logId).subscribe(fMenu => {
       this.database.initialize(fMenu.body.menuDetails);
       this.dataService.setMenuBuilder(fMenu.body.menuDetails);
       this.name = '';

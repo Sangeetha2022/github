@@ -11,16 +11,15 @@ export class TemplateScreenService {
 
   constructor(private api: ApiService, private restapi: SharedService) { }
 
-  getAllTemplates(): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllTemplates}`);
+  getAllTemplates(logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllTemplates}?log_id=${logId}`);
   }
 
-  getTemplateParser(): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getTemplateParser}`);
+  getTemplateParser(logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getTemplateParser}?log_id=${logId}`);
   }
 
-  getTemplateByName(templatename): Observable<any>{
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getTemplateByName}?template_name=${templatename}`)
+  getTemplateByName(templatename, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getTemplateByName}?template_name=${templatename}&log_id=${logId}`)
   }
-  
 }

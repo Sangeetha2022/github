@@ -154,6 +154,7 @@ export class DesktopScreenComponent implements OnInit {
   stylesheets: any[] = [];
   // template_css: any[] = [];
   scripts: any[] = [];
+  logId = sessionStorage.getItem('LogId');
   templateName: String;
   cssGuidelines: any[] = [];
   public verbOptions: any[] = [
@@ -804,7 +805,7 @@ export class DesktopScreenComponent implements OnInit {
 
   // get screens by project id
   getScreenByProjectId() {
-    this.screenDesignerService.getScreenByProjectId(this.project_id).subscribe(
+    this.screenDesignerService.getScreenByProjectId(this.project_id, this.logId).subscribe(
       projectData => {
         if (projectData.body) {
           this.screenArrayByProjectId = projectData.body.filter(
@@ -827,7 +828,7 @@ export class DesktopScreenComponent implements OnInit {
         urlStore: `${this.updateTemplateURL}${this.screen_id}`,
       });
 
-      this.screenDesignerService.getScreenById(this.screen_id).subscribe(
+      this.screenDesignerService.getScreenById(this.screen_id, this.logId).subscribe(
         response => {
           if (response.body) {
             this.spinner.hide();
@@ -897,7 +898,7 @@ export class DesktopScreenComponent implements OnInit {
 
 
   getEntityType() {
-    this.projectComponentService.getAllEntityType().subscribe(
+    this.projectComponentService.getAllEntityType(this.logId).subscribe(
       data => {
         if (data.body) {
           data.body.forEach(element => {
@@ -934,7 +935,7 @@ export class DesktopScreenComponent implements OnInit {
   }
 
   getAllFlows() {
-    this.flowManagerService.getAllFlows().subscribe((flowData) => {
+    this.flowManagerService.getAllFlows(this.logId).subscribe((flowData) => {
       this.allflowlist = flowData.body;
     }, (error) => {
       console.log('cannot get flows in screen designer ', error);
@@ -943,7 +944,7 @@ export class DesktopScreenComponent implements OnInit {
 
   getProjectFeatureFlows(projectFlowsID) {
     this.projectComponentService
-      .getProjectFeatureFlows(projectFlowsID)
+      .getProjectFeatureFlows(projectFlowsID, this.logId)
       .subscribe(
         data => {
           this.listOfFLows = data.body;
@@ -966,7 +967,7 @@ export class DesktopScreenComponent implements OnInit {
 
   getFeatureById() {
     if (this.feature_id) {
-      this.projectComponentService.getFeatureById(this.feature_id).subscribe(
+      this.projectComponentService.getFeatureById(this.feature_id, this.logId).subscribe(
         featureData => {
           if (featureData.body) {
             this.featurelist = featureData.body;
@@ -1245,7 +1246,7 @@ export class DesktopScreenComponent implements OnInit {
   getEntity() {
     if (this.project_id !== undefined && this.feature_id !== undefined) {
       this.projectComponentService
-        .getEntityByFeatureId(this.feature_id)
+        .getEntityByFeatureId(this.feature_id, this.logId)
         .subscribe(
           response => {
             this.entityData = response.body;
@@ -1284,7 +1285,7 @@ export class DesktopScreenComponent implements OnInit {
     } else {
       console.log('---------------else coming first---');
       this.projectComponentService
-        .getEntityByProjectId(this.project_id)
+        .getEntityByProjectId(this.project_id, this.logId)
         .subscribe(
           response => {
             const allEntityData = response.body;
@@ -2011,7 +2012,7 @@ export class DesktopScreenComponent implements OnInit {
         description: `This Feature has been created from screen designer`,
         project: this.project_id
       };
-      this.projectComponentService.saveFeatures(featureDetailObj).subscribe(
+      this.projectComponentService.saveFeatures(featureDetailObj, this.logId).subscribe(
         featureData => {
           currentStorageDetails.attributes.params.feature =
             featureData.body._id;
@@ -2079,7 +2080,7 @@ export class DesktopScreenComponent implements OnInit {
     flowObj.flowName = GetByIdFlowObj.name;
     flowObj.flow = GetByIdFlowObj._id;
     flowObj.event = 'OnLoad';
-    this.screenDesignerService.getScreenById(screenid).subscribe(
+    this.screenDesignerService.getScreenById(screenid, this.logId).subscribe(
       response => {
         if (response.body) {
           const screendetails = response.body[0];
@@ -2090,7 +2091,7 @@ export class DesktopScreenComponent implements OnInit {
             screendetails['flows_info'].push(flowObj);
             console.log('--------screenid----', screendetails);
             // console.log('------update done--', this.editor.StorageManager.get('remote'));
-            this.projectComponentService.getallProjectFlow().subscribe(
+            this.projectComponentService.getallProjectFlow(this.logId).subscribe(
               projectflowlist => {
                 if (projectflowlist.body) {
 
@@ -2100,7 +2101,7 @@ export class DesktopScreenComponent implements OnInit {
 
                   if (projectflowexsists > -1 && featureflowexsists == -1) {
                     this.featurelist.flows = this.featurelist.flows.concat(GetByIdFlowObj._id);
-                    this.projectComponentService.updateFeature(this.featurelist).subscribe(
+                    this.projectComponentService.updateFeature(this.featurelist, this.logId).subscribe(
                       featureresponse => {
                         console.log('save in flow ---in feature -->>', featureresponse);
                       },
@@ -2110,13 +2111,13 @@ export class DesktopScreenComponent implements OnInit {
 
                   }
                   if (projectflowexsists == -1 && featureflowexsists == -1) {
-                    this.projectComponentService.saveManyProjectFlow(projectflow_arr).subscribe(
+                    this.projectComponentService.saveManyProjectFlow(projectflow_arr, this.logId).subscribe(
                       projectflow => {
                         if (projectflow.body) {
                           console.log('save many project flows----->>', projectflow);
                           const projectFlowsId = projectflow.body.map(({ _id }) => _id);
                           this.featurelist.flows = this.featurelist.flows.concat(projectFlowsId);
-                          this.projectComponentService.updateFeature(this.featurelist).subscribe(
+                          this.projectComponentService.updateFeature(this.featurelist, this.logId).subscribe(
                             featureresponse => {
                               console.log('save in flow --in feature -->>', response);
                             },
@@ -2135,7 +2136,7 @@ export class DesktopScreenComponent implements OnInit {
 
 
 
-            this.screenDesignerService.updateScreen(screenid, screendetails).subscribe(
+            this.screenDesignerService.updateScreen(screenid, screendetails, this.logId).subscribe(
               screenresponse => {
                 console.log('------update done--', screenresponse);
               }

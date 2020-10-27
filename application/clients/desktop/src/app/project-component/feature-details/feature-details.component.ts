@@ -94,6 +94,7 @@ export class FeatureDetailsComponent implements OnInit {
     showFeatureEntity: boolean;
     featureFlowGrid;
     featureEntityDataGrid;
+    public logId = sessionStorage.getItem('LogId');
     public quickConnectorsFlows: any = [];
     public customConnector: Boolean;
     public isAddConnector: Boolean;
@@ -319,7 +320,7 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     getFeatureById() {
-        this.projectComponentService.getFeatureById(this.feature_id).subscribe(
+        this.projectComponentService.getFeatureById(this.feature_id, this.logId).subscribe(
             response => {
                 this.featureInfo = response.body;
                 this.selectedFeatureName = response.body.name;
@@ -333,7 +334,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     getScreenByFeatureId() {
-        this.screenService.getScreenByFeatureId(this.feature_id).subscribe(
+        this.screenService.getScreenByFeatureId(this.feature_id, this.logId).subscribe(
             (screenData) => {
                 this.screenDetails = screenData.body;
             },
@@ -344,7 +345,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     getEntityByFeatureId() {
-        this.projectComponentService.getEntityByFeatureId(this.feature_id).subscribe(
+        this.projectComponentService.getEntityByFeatureId(this.feature_id, this.logId).subscribe(
             (entityData) => {
                 this.featureEntityDetails = entityData.body;
                 this.isPrimaryEntityPresent = this.featureEntityDetails.some(x => x.entity_type === 'primary');
@@ -356,7 +357,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     getProjectFeatureFlows() {
-        this.projectComponentService.getProjectFeatureFlows(this.featureInfo.flows).subscribe(response => {
+        this.projectComponentService.getProjectFeatureFlows(this.featureInfo.flows, this.logId).subscribe(response => {
             const temp = [];
             if (response.body) {
                 this.flowInFeatureRowData = response.body;
@@ -367,7 +368,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     getAllFlows() {
-        this.projectComponentService.getAllFlows().subscribe(
+        this.projectComponentService.getAllFlows(this.logId).subscribe(
             response => {
                 const flows = response.body;
                 if (flows) {
@@ -426,7 +427,7 @@ export class FeatureDetailsComponent implements OnInit {
         }
     }
     saveManyProjectFlow(projectFlowList) {
-        this.projectComponentService.saveManyProjectFlow(projectFlowList).subscribe(
+        this.projectComponentService.saveManyProjectFlow(projectFlowList, this.logId).subscribe(
             response => {
                 if (response.body) {
                     // get only the specific values
@@ -440,7 +441,7 @@ export class FeatureDetailsComponent implements OnInit {
             });
     }
     saveFlowsInFeature() {
-        this.projectComponentService.updateFeature(this.featureInfo).subscribe(
+        this.projectComponentService.updateFeature(this.featureInfo, this.logId).subscribe(
             response => {
                 console.log('save in flow --in feature -->>', response);
                 this.featureInfo = response.body;
@@ -452,7 +453,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     deleteProjectFlow(projectFlow) {
-        this.projectComponentService.deleteProjectFlow(projectFlow).subscribe(
+        this.projectComponentService.deleteProjectFlow(projectFlow, this.logId).subscribe(
             data => {
                 this.getProjectFeatureFlows();
                 this.getAllFlows();
@@ -464,7 +465,7 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     deleteFlowById(flowId) {
-        this.projectComponentService.deleteFlowById(flowId).subscribe(
+        this.projectComponentService.deleteFlowById(flowId, this.logId).subscribe(
             data => {
                 this.deleteConnectorPopup = 'none';
                 this.getProjectFeatureFlows();
@@ -544,7 +545,7 @@ export class FeatureDetailsComponent implements OnInit {
         const keyAndValue = convertStr.replace(/,/g, '&');
         // tslint:disable-next-line: max-line-length
         this.quickConnectorsURL = `${this.quickConnectors.endPointUrl}?${this.quickConnectors.api_key.key}=${this.quickConnectors.api_key.value}&${keyAndValue}&file_type=json`;
-        this.projectComponentService.quickTestcustomConnectors(this.quickConnectors).subscribe(response => {
+        this.projectComponentService.quickTestcustomConnectors(this.quickConnectors, this.logId).subscribe(response => {
             if (response) {
                 console.log('result000=--',response)
                 this.showTreePopup = true;
@@ -609,7 +610,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
     getQuickConnectorId(connector_id) {
         console.log('quick conntors --->', connector_id);
-        this.projectComponentService.getConnectorById(connector_id).subscribe(response => {
+        this.projectComponentService.getConnectorById(connector_id, this.logId).subscribe(response => {
             console.log('quick connectoes--->',response.body)
 
             if (response) {
@@ -671,7 +672,7 @@ export class FeatureDetailsComponent implements OnInit {
         };
         // tempObj.properties.push(this.quickConnectors.properties);
         console.log('temp==obj--', tempObj);
-        this.projectComponentService.quickConnectors(tempObj).subscribe(response => {
+        this.projectComponentService.quickConnectors(tempObj, this.logId).subscribe(response => {
             this.quickConnectorId = response.body._id;
             const tempData = {
                 connectorId: this.quickConnectorId,
@@ -715,7 +716,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     updateProjectFlowComponents(projectFlowID, projectFlowComponents) {
-        this.projectComponentService.updateProjectFlowComponents(projectFlowID, projectFlowComponents)
+        this.projectComponentService.updateProjectFlowComponents(projectFlowID, projectFlowComponents, this.logId)
             .subscribe(
                 data => { },
                 error => {
@@ -725,7 +726,7 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     updateFlowCompConnectorById(data) {
-        this.projectComponentService.updateFlowCompConnectorById(data).subscribe(response => {
+        this.projectComponentService.updateFlowCompConnectorById(data, this.logId).subscribe(response => {
             if (response) {
                 console.log('may i coming----')
                 this.submitted = false;
@@ -746,7 +747,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     getModifyConnector() {
-        this.projectComponentService.getModifyConnectors().subscribe(result => {
+        this.projectComponentService.getModifyConnectors(this.logId).subscribe(result => {
             console.log('gettt---', result);
         }, (error) => {
             console.log('error---', error);
@@ -776,7 +777,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     public modifyFlowUpdate() {
-            this.projectComponentService.updateQuickConnectorsById(this.quickConnectors).subscribe(result =>{
+            this.projectComponentService.updateQuickConnectorsById(this.quickConnectors, this.logId).subscribe(result =>{
             if (result) {
                 this.flowCancel();
             }
@@ -834,11 +835,12 @@ export class FeatureDetailsComponent implements OnInit {
                 'updated_date': Date.now()
             }
         ];
-        this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails).subscribe(featuredetails => {
+        this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails, this.logId)
+        .subscribe(featuredetails => {
         });
         this.getFeatureById();
 
-        this.projectComponentService.updateEntity(entityData).subscribe((data) => {
+        this.projectComponentService.updateEntity(entityData, this.logId).subscribe((data) => {
             this.getEntityByFeatureId();
         }, (error) => {
         });
@@ -848,7 +850,7 @@ export class FeatureDetailsComponent implements OnInit {
         this.entity.name = entityData.name;
         this.entity.description = entityData.description;
         this.entity.project_id = this.project_id;
-        this.projectComponentService.createEntity(this.entity).subscribe(
+        this.projectComponentService.createEntity(this.entity, this.logId).subscribe(
             (response) => {
                 this.updateEntityId = response.body._id;
                 this.entitydetails = [];
@@ -865,7 +867,7 @@ export class FeatureDetailsComponent implements OnInit {
                     }
                 ];
                 // tslint:disable-next-line:max-line-length
-                this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails).subscribe(featuredetails => {
+                this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails, this.logId).subscribe(featuredetails => {
                     if (featuredetails.body) {
                         this.getEntityByFeatureId();
                     }
@@ -880,7 +882,7 @@ export class FeatureDetailsComponent implements OnInit {
     updateEntity(entityData) {
         entityData.updated_at = new Date();
         entityData._id = this.updateEntityId;
-        this.projectComponentService.updateEntity(entityData).subscribe(
+        this.projectComponentService.updateEntity(entityData, this.logId).subscribe(
             (data) => {
                 this.entitydetails = [];
                 this.entitydetails = [
@@ -896,10 +898,11 @@ export class FeatureDetailsComponent implements OnInit {
                     }
                 ];
 
-                this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails).subscribe(featuredetails => {
-                    if (featuredetails) {
-                        this.getEntityByFeatureId();
-                    }
+                this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails, this.logId)
+                    .subscribe(featuredetails => {
+                        if (featuredetails) {
+                            this.getEntityByFeatureId();
+                        }
                 });
             },
             (error) => {
@@ -1031,7 +1034,7 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     getScreenDetailsByFeatureId() {
-        this.projectComponentService.getAllFeatureDetailsByFeatureId(this.feature_id).subscribe(data => {
+        this.projectComponentService.getAllFeatureDetailsByFeatureId(this.feature_id, this.logId).subscribe(data => {
             this.featureDetailsData = data.body;
             this.featureDetailsData.map(featureData => {
                 this.featureScreenName.push(featureData.flow.screenName);
@@ -1046,7 +1049,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     getAllEntity() {
-        this.projectComponentService.getAllEntity().subscribe(data => {
+        this.projectComponentService.getAllEntity(this.logId).subscribe(data => {
             this.featureEntityData = data.body;
         });
     }
@@ -1091,7 +1094,7 @@ export class FeatureDetailsComponent implements OnInit {
 
     deleteEntityById() {
         this.deletePopup = 'none';
-        this.projectComponentService.deleteEntityById(this.selectedEntityId).subscribe(
+        this.projectComponentService.deleteEntityById(this.selectedEntityId, this.logId).subscribe(
             (data) => {
                 this.getEntityByFeatureId();
             },
@@ -1117,7 +1120,7 @@ export class FeatureDetailsComponent implements OnInit {
 
     deleteScreenByIdPopup() {
         this.deletescreenPopup = 'none';
-        this.screenService.deleteScreenById(this.selectedScreenId).subscribe(
+        this.screenService.deleteScreenById(this.selectedScreenId, this.logId).subscribe(
             (data) => {
                 this.getScreenByFeatureId();
 

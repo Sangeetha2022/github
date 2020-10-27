@@ -15,6 +15,7 @@ export class HeaderLanguageComponent implements OnInit {
   language = 'en';
   languages = ['en', 'ta', 'es'];
   hideElement: Boolean = true;
+  logId = sessionStorage.getItem('LogId');
 
   displayAboutModel: String = 'none';
 
@@ -67,14 +68,14 @@ export class HeaderLanguageComponent implements OnInit {
   showAbout() {
     this.displayAboutModel = 'block';
 
-    this.configurationService.getVersion('version').subscribe(data => {
+    this.configurationService.getVersion('version', this.logId).subscribe(data => {
       this.versionData = data.body;
     },
       error => {
         console.log('Check the browser console to see more info.', 'Error!');
       });
 
-    this.configurationService.getBuildVersion('build_version').subscribe(data => {
+    this.configurationService.getBuildVersion('build_version', this.logId).subscribe(data => {
       this.buildVersionData = data.body;
     },
       error => {

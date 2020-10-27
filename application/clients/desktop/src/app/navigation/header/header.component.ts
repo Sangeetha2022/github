@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
   versionData: any = {};
   buildVersionData: any = {};
   buildVersionDate: any = {};
+  logId = sessionStorage.getItem('LogId');
 
   // tslint:disable-next-line:max-line-length
   constructor(
@@ -130,21 +131,21 @@ export class HeaderComponent implements OnInit {
   showAbout() {
     this.displayAboutModel = 'block';
 
-    this.configurationService.getVersion('version').subscribe(data => {
+    this.configurationService.getVersion('version', this.logId).subscribe(data => {
       this.versionData = data.body;
     },
       error => {
         console.log('Check the browser console to see more info.', 'Error!');
       });
 
-    this.configurationService.getBuildVersion('build_version').subscribe(data => {
+    this.configurationService.getBuildVersion('build_version', this.logId).subscribe(data => {
       this.buildVersionData = data.body;
     },
       error => {
         console.log('Check the browser console to see more info.', 'Error!');
       });
 
-    this.configurationService.getBuildVersion('build_date').subscribe(data => {
+    this.configurationService.getBuildVersion('build_date', this.logId).subscribe(data => {
       this.buildVersionDate = data.body;
     },
       error => {

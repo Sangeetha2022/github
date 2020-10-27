@@ -32,7 +32,7 @@ export class SharedApplicationsService {
             UserId: userId
         }
         // new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/projects/getbyuserid/${ProjectData.User_Id}`).then(
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/projects/getbyuserid/${projectDetails.UserId}`).then(
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/projects/getbyuserid/${projectDetails.UserId}?log_id=${request.query.log_id}`).then(
             (data: any) => {
                 let projectsAll = JSON.parse(data)
                 let projects;
@@ -44,13 +44,13 @@ export class SharedApplicationsService {
                 })
 
                 if (projects != true) {
-                    new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/projects/add`, projectDetails).then(
+                    new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/projects/add?log_id=${request.query.log_id}`, projectDetails).then(
                         (data: any) => {
                             let ProjectId = data.body._id;
                             let resNumber = 0;
-                            // this.postFeatures(ProjectId, fileData, res => {
-                                this.postEntities(ProjectId, fileData, resNumber,  resp => {
-                                    // this.updateFeatureEntity(ProjectId, fileData, res, resp, response => {
+                            // this.postFeatures(request, ProjectId, fileData, res => {
+                                this.postEntities(request, ProjectId, fileData, resNumber,  resp => {
+                                    // this.updateFeatureEntity(request, ProjectId, fileData, res, resp, response => {
                                         callback(resp);
                                     // })
                                 });
@@ -64,7 +64,7 @@ export class SharedApplicationsService {
         })
     }
 
-    postEntities(ProjectId, fileData, responseNumber, callback) {
+    postEntities(req, ProjectId, fileData, responseNumber, callback) {
         let entityData = YAML.parse(fileData.toString());
         entityData.projectEntities.forEach(function (entity) {
             entity.field.forEach(function (details) {
@@ -79,7 +79,7 @@ export class SharedApplicationsService {
             if(!entity.feature_id && responseNumber == 0) {
                 // delete the exist id of entity
                 delete entity._id;
-                new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/entity/save`, entity).then(
+                new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/entity/save?log_id=${req.query.log_id}`, entity).then(
                     (data: any) => {
                         entity._id = data.body._id;
                         callback(entity);
@@ -112,7 +112,7 @@ export class SharedApplicationsService {
         });
     }
 
-    postFeatures(ProjectId, fileData, callback) {
+    postFeatures(req, ProjectId, fileData, callback) {
         let featureData = YAML.parse(fileData.toString());
         if(featureData.projectFeatures == ""){
             callback(featureData.projectEntities);
@@ -121,7 +121,7 @@ export class SharedApplicationsService {
         featureData.projectFeatures.forEach(function (feature) {
             delete feature._id;
             feature.project = ProjectId;
-            new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/feature/save`, feature).then(
+            new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/feature/save?log_id=${req.query.log_id}`, feature).then(
                 (data: any) => {
                     feature._id = data.body._id;
                     callback(data);
@@ -133,7 +133,7 @@ export class SharedApplicationsService {
     }
 }
    
-    updateFeatureEntity(ProjectId, fileData, feature, featureEntity, callback) {
+    updateFeatureEntity(req, ProjectId, fileData, feature, featureEntity, callback) {
         // let featureData = YAML.parse(fileData.toString())
         // featureData.projectFeatures.forEach(function (oldFeature) {
         //     oldFeature.entities.forEach(function (oldFeatureEntity) {
@@ -145,7 +145,7 @@ export class SharedApplicationsService {
         // })
         // callback('uploaded');
         if(feature.body._id && !featureEntity._id) {
-            new ApiAdaptar().put(`${SharedService.apiGatewayURL}/desktop/feature/update/entity?featureId=${feature.body._id}`, featureEntity).then(
+            new ApiAdaptar().put(`${SharedService.apiGatewayURL}/desktop/feature/update/entity?featureId=${feature.body._id}&log_id=${req.query.log_id}`, featureEntity).then(
                 (data: any) => {
                     // console.log('data from the update feature', data)
                     callback(data);
@@ -158,8 +158,8 @@ export class SharedApplicationsService {
     
     
 
-    getEntityByProject(projectId, callback) {
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/entity/getbyproject/${projectId}`).then(
+    getEntityByProject(req, projectId, callback) {
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/entity/getbyproject/${projectId}?log_id=${req.query.log_id}`).then(
             data => {
                 callback(data);
             }
@@ -168,8 +168,8 @@ export class SharedApplicationsService {
         })
     }
 
-    getByProjectId(projectId, callback) {
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/projects/getbyid/${projectId}`).then(
+    getByProjectId(req, projectId, callback) {
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/projects/getbyid/${projectId}?log_id=${req.query.log_id}`).then(
             data => {
                 callback(data);
             }
@@ -177,8 +177,8 @@ export class SharedApplicationsService {
             callback(error);
         })
     }
-    getFeatureByProject(projectId, callback) {
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/feature/project/get?projectId=${projectId}`).then(
+    getFeatureByProject(req, projectId, callback) {
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/feature/project/get?projectId=${projectId}&log_id=${req.query.log_id}`).then(
             data => {
                 callback(data);
             }

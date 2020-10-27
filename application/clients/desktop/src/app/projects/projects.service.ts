@@ -13,42 +13,42 @@ export class ProjectsService {
   constructor(private http: HttpClient, private api: ApiService, private restapi: SharedService) {
   }
 
-  addProject(proj): Observable<any> {
-    return this.api.post(this.restapi.Apigateway + Constants.saveProject, proj);
+  addProject(proj, logId): Observable<any> {
+    return this.api.post(this.restapi.Apigateway + Constants.saveProject + `?log_id=${logId}`, proj);
   }
 
-  getProjectByUserId(UserId): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectByUserId}/${UserId}`);
+  getProjectByUserId(UserId, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectByUserId}/${UserId}?log_id=${logId}`);
   }
 
 
-  deleteProjectFlowByProjectId(projectId): Observable<any> {
-    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteProjectFlowByProjectId}/${projectId}`);
+  deleteProjectFlowByProjectId(projectId, logId): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteProjectFlowByProjectId}/${projectId}?log_id=${logId}`);
   }
 
-  deleteProject(id): Observable<any> {
-    return this.api.delete(this.restapi.Apigateway + Constants.deleteProject + id);
+  deleteProject(id, logId): Observable<any> {
+    return this.api.delete(this.restapi.Apigateway + Constants.deleteProject + id + `?log_id=${logId}`);
   }
 
-  createDefaultEntity(projectId: String): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultEntity}/?projectId=${projectId}`);
+  createDefaultEntity(projectId: String, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultEntity}/?projectId=${projectId}&log_id=${logId}`);
   }
 
-  createDefaultScreens(projectId: String): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultScreens}/?projectId=${projectId}`);
+  createDefaultScreens(projectId: String, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultScreens}/?projectId=${projectId}&`);
   }
 
-  createDefaultMenu(projectId: String, primaryLanguage: String, secondaryLanguage: String): Observable<any> {
+  createDefaultMenu(projectId: String, primaryLanguage: String, secondaryLanguage: String, logId: any): Observable<any> {
     // tslint:disable-next-line:max-line-length
-    return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultMenu}/?projectId=${projectId}&primaryLanguage=${primaryLanguage}&secondaryLanguage=${secondaryLanguage}`);
+    return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultMenu}/?projectId=${projectId}&primaryLanguage=${primaryLanguage}&secondaryLanguage=${secondaryLanguage}&log_id=${logId}`);
   }
 
-  updateProjectById(projectId: String, projectDetails: any): Observable<any> {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.updateProjectById}/${projectId}`, projectDetails);
+  updateProjectById(projectId: String, projectDetails: any, logId: any): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateProjectById}/${projectId}` + `?log_id=${logId}`, projectDetails);
   }
 
-  getProjectById(projectId: String): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectById}/${projectId}`);
+  getProjectById(projectId: String, logId: any): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectById}/${projectId}` + `?log_id=${logId}`);
   }
 
   // websocket connections
@@ -63,8 +63,8 @@ export class ProjectsService {
     });
   }
 
-  public generateProject(projectgen) {
-    return this.http.post(`${this.restapi.Apigateway}${Constants.projectSocket}/${projectgen.project_id}`, projectgen);
+  public generateProject(projectgen, logId) {
+    return this.http.post(`${this.restapi.Apigateway}${Constants.projectSocket}/${projectgen.project_id}` + `?log_id=${logId}`, projectgen);
   }
 
   // socket
@@ -84,12 +84,12 @@ export class ProjectsService {
     this.socket.emit('gen_notify', projectgen);
   }
 
-  getAllNotifyProject(project_id): Observable<any> {
-    return this.http.get(`${this.restapi.Apigateway}${Constants.getAllNotifyProject}/${project_id}`);
+  getAllNotifyProject(project_id, logId): Observable<any> {
+    return this.http.get(`${this.restapi.Apigateway}${Constants.getAllNotifyProject}/${project_id}` + `?log_id=${logId}`);
   }
 
-  getAllUserNotify(user_id): Observable<any> {
-    return this.http.get(`${this.restapi.Apigateway}${Constants.getAllUserNotify}/${user_id}`);
+  getAllUserNotify(user_id, logId): Observable<any> {
+    return this.http.get(`${this.restapi.Apigateway}${Constants.getAllUserNotify}/${user_id}?log_id=${logId}`);
   }
 
   // importSharedServiceYaml(): Observable<any> {

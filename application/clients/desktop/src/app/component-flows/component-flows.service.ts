@@ -16,16 +16,16 @@ export class ComponentFlowsService {
   }
 
   // new apis
-  getMicroFlow(ids: any): Observable<any> {
-    return this.api.post(`${this.restapi.Apigateway}${Constants.getMicroFlow}`, ids);
+  getMicroFlow(ids: any, logId: any): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.getMicroFlow}?log_id=${logId}`, ids);
   }
 
-  updateMicroFlow(flow): Observable<any> {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.updateMicroFlow}`, flow);
+  updateMicroFlow(flow, logId): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateMicroFlow}?log_id=${logId}`, flow);
   }
 
-  saveMicroFlow(details): Observable<any> {
-    return this.api.post(`${this.restapi.Apigateway}${Constants.addMicroFlow}`, details);
+  saveMicroFlow(details, logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.addMicroFlow}?log_id=${logId}`, details);
   }
 
 }

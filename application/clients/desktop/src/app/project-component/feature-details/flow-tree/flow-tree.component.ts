@@ -76,6 +76,7 @@ export class FlowTreeComponent implements OnInit {
   public columnDefs: any;
   public rowData: any;
   public isShowGird: boolean;
+  public logId = sessionStorage.getItem('LogId');
 
   public typeOfData: any[] = ['String', 'Number', 'Boolen', 'Array'];
 
@@ -161,7 +162,7 @@ export class FlowTreeComponent implements OnInit {
       this.entityModelData.field.push(tempData);
     });
     console.log('all--flow-->>', this.entityModelData);
-    this.projectService.createEntity(this.entityModelData).subscribe(response => {
+    this.projectService.createEntity(this.entityModelData, this.logId).subscribe(response => {
       if (response.body) {
         this.flow.name = '';
         this.flow.dataType = '',
@@ -183,7 +184,7 @@ export class FlowTreeComponent implements OnInit {
       entityType: entityInfo.entity_type,
       entityId: entityInfo._id
     };
-    this.projectService.updateFeatureEntity(this.entityModelData.feature_id, temp)
+    this.projectService.updateFeatureEntity(this.entityModelData.feature_id, temp, this.logId)
       .subscribe(data => {
         console.log('successfully updated the feature entity details');
       }, error => {

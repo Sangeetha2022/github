@@ -19,150 +19,152 @@ export class ProjectComponentService {
 
 
   // new service for feature details
-  getAllFeatureDetailsByFeatureId(id): Observable<any> {
-    return this.api.get(this.restapi.Apigateway + Constants.getAllFeatureDetailsByFeatureId + id);
+  getAllFeatureDetailsByFeatureId(id, logId): Observable<any> {
+    return this.api.get(this.restapi.Apigateway + Constants.getAllFeatureDetailsByFeatureId + id + `?log_id=${logId}`);
   }
   getAllFeatureByFeatureid(id): Observable<any> {
     return this.api.get(this.restapi.Apigateway + `${Constants.getAllFeatureByFeatureid}/${id}`);
   }
 
   // codegenerate Api
-  codeGenerate(projectId: any): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.projectGeneration}/${projectId}${Constants.GET}`);
+  codeGenerate(projectId: any, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.projectGeneration}/${projectId}${Constants.GET}` + `?log_id=${logId}`);
   }
 
   // new apis for features
-  saveFeatures(feature: any): Observable<any> {
-    return this.api.post(`${this.restapi.Apigateway}${Constants.saveFeature}`, feature);
+  saveFeatures(feature: any, logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveFeature}?log_id=${logId}`, feature);
   }
-  updateFeature(feature: any): Observable<any> {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFeature}`, feature);
+  updateFeature(feature: any, logId): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFeature}?log_id=${logId}`, feature);
   }
-  getAllFeature(): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFeature}`);
+  getAllFeature(logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFeature}?log_id=${logId}`);
   }
-  getFeatureById(featureId: String): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getFeatureById}?featureId=${featureId}`);
+  getFeatureById(featureId: String, logId: any): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getFeatureById}?featureId=${featureId}&log_id=${logId}`);
   }
-  getFeatureByProjectId(projectId: any): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getFeatureByProjectId}?projectId=${projectId}`);
+  getFeatureByProjectId(projectId: any, logId: any): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getFeatureByProjectId}?projectId=${projectId}&log_id=${logId}`);
   }
-  deleteFeature(featureId: any): Observable<any> {
-    return this.api.delete(`${this.restapi.Apigateway}${Constants.saveFeature}?featureId=${featureId}`);
+  deleteFeature(featureId: any, logId): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.saveFeature}?featureId=${featureId}&log_id=${logId}`);
   }
-  updateFeatureEntity(featureId: any, details): Observable<any> {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFeatureEntity}?featureId=${featureId}`, details);
+  updateFeatureEntity(featureId: any, details, logId: any): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFeatureEntity}?featureId=${featureId}&log_id=${logId}`, details);
   }
-  getAllFlows(): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFlow}`);
+  getAllFlows(logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFlow}?log_id=${logId}`);
   }
-  getEntityByFeatureId(featureId): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getEntityByFeatureId}?featureId=${featureId}`);
-  }
-
-  createEntity(entity: any): Observable<any> {
-    return this.api.post(`${this.restapi.Apigateway}${Constants.saveEntity}`, entity);
-  }
-  updateEntity(entity: any): Observable<any> {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.updateEntity}`, entity);
+  getEntityByFeatureId(featureId, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getEntityByFeatureId}?featureId=${featureId}&log_id=${logId}`);
   }
 
-  deleteEntity(entityId: String): Observable<any> {
-    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteEntity}` + `/${entityId}`);
+  createEntity(entity: any, logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveEntity}?log_id=${logId}`, entity);
   }
-  getByIdEntity(entityId: any): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getEntity}/${entityId}`);
-  }
-  getEntityByProjectId(projectId: String): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getEntity}?projectId=${projectId}`);
-  }
-  getAllEntity(): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.allEntity}`);
+  updateEntity(entity: any, logId: any): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateEntity}?log_id=${logId}`, entity);
   }
 
-  Updatefeaturedetailsentity(featureid: any, entitydetails: any): Observable<any> {
-    return this.http.put(`${this.restapi.Apigateway}${Constants.featureUpdateEntity}${featureid}`, entitydetails);
+  deleteEntity(entityId: String, logId: any): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteEntity}` + `/${entityId}` + `?log_id=${logId}`);
+  }
+  getByIdEntity(entityId: any, logId: any): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getEntity}/${entityId}?log_id=${logId}`);
+  }
+  getEntityByProjectId(projectId: String, logId: any): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getEntity}?projectId=${projectId}&log_id=${logId}`);
+  }
+  getAllEntity(logId: any): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.allEntity}` + `?log_id=${logId}`);
+  }
+
+  Updatefeaturedetailsentity(featureid: any, entitydetails: any, logId: any): Observable<any> {
+    return this.http.put(`${this.restapi.Apigateway}${Constants.featureUpdateEntity}${featureid}?log_id=${logId}`, entitydetails);
   }
 
   Deletefeaturedetailsentity(featureid: any, entityid: any): Observable<any> {
     return this.http.delete(`${this.restapi.Apigateway}${Constants.featuredeleteEntity}/${featureid}/${entityid}`);
   }
 
-  getGlobalEntityByProjectId(projectId): Observable<any> {
-    return this.http.get(`${this.restapi.Apigateway}${Constants.getGlobalEntityByProjectId}?projectId=${projectId}`);
+  getGlobalEntityByProjectId(projectId, logId): Observable<any> {
+    return this.http.get(`${this.restapi.Apigateway}${Constants.getGlobalEntityByProjectId}?projectId=${projectId}&log_id=${logId}`);
   }
 
 
-  updateEntityField(entity: any): Observable<any> {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.updateEntityFields}`, entity);
+  updateEntityField(entity: any, logId: any): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateEntityFields}` + `?log_id=${logId}`, entity);
   }
 
-  getAllEntityType(): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityTypes}`);
-  }
-
-
-  quickConnectors(data): Observable<any> {
-    return this.api.post(`${this.restapi.Apigateway}${Constants.quickConnectors}`, data);
-  }
-
-  getallProjectFlow(): Observable<any>  {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getallProjectFlow}`);
-  }
-
-  saveManyProjectFlow(data): Observable<any> {
-    return this.api.post(`${this.restapi.Apigateway}${Constants.saveManyProjectFlow}`, data);
-  }
-
-  getProjectFeatureFlows(projectFlowsId): Observable<any> {
-    return this.api.post(`${this.restapi.Apigateway}${Constants.getProjectFeatureFlows}`, projectFlowsId);
-  }
-
-  updateProjectFlowComponents(projectFlowId, componentList): Observable<any> {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.updateProjectFlowComponent}?projectFlowId=${projectFlowId}`, componentList);
+  getAllEntityType(logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityTypes}` + `?log_id=${logId}`);
   }
 
 
-  deleteProjectFlow(projectFlowId: String): Observable<any> {
-    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteProjectFlow}?projectFlowId=${projectFlowId}`);
+  quickConnectors(data, logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.quickConnectors}` + `?log_id=${logId}`, data);
+  }
+
+  getallProjectFlow(logId): Observable<any>  {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getallProjectFlow}` + `?log_id=${logId}`);
+  }
+
+  saveManyProjectFlow(data, logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveManyProjectFlow}` + `?log_id=${logId}`, data);
+  }
+
+  getProjectFeatureFlows(projectFlowsId, logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.getProjectFeatureFlows}` + `?log_id=${logId}`, projectFlowsId);
+  }
+
+  updateProjectFlowComponents(projectFlowId, componentList, logId): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateProjectFlowComponent}?projectFlowId=${projectFlowId}`
+    + `?log_id=${logId}`, componentList);
+  }
+
+
+  deleteProjectFlow(projectFlowId: String,logId: any): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteProjectFlow}?projectFlowId=${projectFlowId}&log_id=${logId}`);
   }
 
 
 
-  updateFlowCompConnectorById(data: any): Observable<any> {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFlowCompConnectorById}`, data);
+  updateFlowCompConnectorById(data: any, logId: any): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFlowCompConnectorById}` + `?log_id=${logId}`, data);
   }
 
-  quickTestcustomConnectors(data: any): Observable<any> {
+  quickTestcustomConnectors(data: any, logId: any): Observable<any> {
     console.log('data --service->>', data);
-    return this.api.post(`${this.restapi.Apigateway}${Constants.quickTestcustomConnectors}`, data);
+    return this.api.post(`${this.restapi.Apigateway}${Constants.quickTestcustomConnectors}` + `?log_id=${logId}`, data);
   }
-  getConnectorById(connectorId: String): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getConnectorById}/${connectorId}`);
+  getConnectorById(connectorId: String, logId: any): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getConnectorById}/${connectorId}` + `?log_id=${logId}`);
 
   }
   // delete microservie apis
 
 
-  deleteFlowById(FlowId: String): Observable<any> {
-    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteFlowById}/${FlowId}`);
+  deleteFlowById(FlowId: String, logId): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteFlowById}/${FlowId}` + `?log_id=${logId}`);
   }
 
-  deleteEntityById(entityId: String): Observable<any> {
-    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteEntityById}` + `/${entityId}`);
+  deleteEntityById(entityId: String, logId: any): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteEntityById}` + `/${entityId}` + `?log_id=${logId}`);
   }
 
-  updateQuickConnectorsById(updateFlow: any): Observable<any> {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.updateQuickConnectorsById}/${updateFlow._id}`, updateFlow);
+  updateQuickConnectorsById(updateFlow: any, logId): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateQuickConnectorsById}/${updateFlow._id}`
+    + `?log_id=${logId}`, updateFlow);
   }
 
-  getModifyConnectors() {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getConnectors}`)
+  getModifyConnectors(logId) {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getConnectors}` + `?log_id=${logId}`);
 
   }
 
-  exportSharedServiceYaml(projectId): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.sharedApplication}${projectId}`)
+  exportSharedServiceYaml(projectId, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.sharedApplication}${projectId}` + `?log_id=${logId}`);
   }
 
   // updateQuickConnectorsById(updateFlow:any): Observable<any> {

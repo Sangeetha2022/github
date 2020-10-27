@@ -23,6 +23,7 @@ export class ConsentscreenComponent implements OnInit {
   public lastloggedintime: any;
   public Accesslevel: any;
   public permission: any[] = [];
+  public logId = sessionStorage.getItem('LogId');
   // public consentbody = {
   //   challenge: '',
   //   submit: '',
@@ -74,7 +75,7 @@ export class ConsentscreenComponent implements OnInit {
       scope: this.openId,
       id: this.id,
     };
-    this.consentservice.Consent(consentbody).subscribe(consentvalue => {
+    this.consentservice.Consent(consentbody, this.logId).subscribe(consentvalue => {
       // window.open(consentvalue.redirectUrl, '_self');
       if (consentvalue.Access !== undefined) {
         console.log('-------ahdbakjvjakjak--------');

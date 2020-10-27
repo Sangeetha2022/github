@@ -18,7 +18,7 @@ export class sharedService {
     public async getSharedProjectById(req: Request, callback) {
         const projectId = req.params.id;
         console.log("projectId------->", projectId)
-        let overallprojectdetails = await this.resolveProjectEntities(projectId);
+        let overallprojectdetails = await this.resolveProjectEntities(req, projectId);
         let projectDetails = overallprojectdetails['projectdetails'];
         console.log("projectDetails----->", projectDetails);
         let projectEntities = overallprojectdetails['projectentity'];
@@ -83,11 +83,11 @@ export class sharedService {
             callback('Yaml file convertion is done');
     }
 
-    public resolveProjectEntities(projectId) {
+    public resolveProjectEntities(req, projectId) {
         return new Promise(resolve => {
-            sharedapplicationsService.getByProjectId(projectId, (details) => {
-                sharedapplicationsService.getFeatureByProject(projectId, (feature) => {
-                    sharedapplicationsService.getEntityByProject(projectId, (entity) => {
+            sharedapplicationsService.getByProjectId(req, projectId, (details) => {
+                sharedapplicationsService.getFeatureByProject(req, projectId, (feature) => {
+                    sharedapplicationsService.getEntityByProject(req, projectId, (entity) => {
                         console.log("entity------>", entity);
                         let projectdetail = JSON.parse(details);
                         let features = JSON.parse(feature);

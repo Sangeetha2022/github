@@ -13,6 +13,7 @@ export class FieldPopupModalComponent implements OnInit {
     standard: undefined
   };
   public passedValue: any;
+  public logId = sessionStorage.getItem('LogId');
   options: FormGroup;
 
   constructor(

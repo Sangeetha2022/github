@@ -28,7 +28,7 @@ class MenubuilderController implements Controller {
 
     public async addMenu(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().post(Constants.menuUrl + '/menu/save', req.body));
+            let result = await Promise.resolve(new ApiAdaptar().post(Constants.menuUrl + '/menu/save' + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -39,7 +39,7 @@ class MenubuilderController implements Controller {
 
     public async updateMenu(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().put(Constants.menuUrl + '/menu/update/' + req.params.id, req.body));
+            let result = await Promise.resolve(new ApiAdaptar().put(Constants.menuUrl + '/menu/update/' + req.params.id + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -50,10 +50,10 @@ class MenubuilderController implements Controller {
 
     public async deleteMenu(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.menuUrl + '/menu/delete/' + req.params.id));
+            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.menuUrl + '/menu/delete/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        } catch (err) {
+        } catch(err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         }
@@ -61,10 +61,10 @@ class MenubuilderController implements Controller {
 
     public async deleteProjectMenu(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.menuUrl + '/menu/deletebyproject/' + req.params.id));
+            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.menuUrl + '/menu/deletebyproject/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        } catch (err) {
+        }catch(err){
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         }
@@ -72,7 +72,7 @@ class MenubuilderController implements Controller {
 
     public async getAllMenu(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(Constants.menuUrl + '/menu/getall'));
+            let result = await Promise.resolve(new ApiAdaptar().get(Constants.menuUrl + '/menu/getall' + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -83,7 +83,7 @@ class MenubuilderController implements Controller {
 
     public getMenuById = async (req: Request, res: Response) => {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(Constants.menuUrl + '/menu/getbyid/' + req.params.id));
+            let result = await Promise.resolve(new ApiAdaptar().get(Constants.menuUrl + '/menu/getbyid/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -94,7 +94,7 @@ class MenubuilderController implements Controller {
 
     public getMenuByProjectId = async (req: Request, res: Response) => {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(Constants.menuUrl + '/menu/getbyprojectid/' + req.params.projectId));
+            let result = await Promise.resolve(new ApiAdaptar().get(Constants.menuUrl + '/menu/getbyprojectid/' + req.params.projectId + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -105,7 +105,7 @@ class MenubuilderController implements Controller {
 
     public async updateMenuByProjectId(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().put(Constants.menuUrl + '/menu/updatemenubyproject/' + req.params.projectId, req.body));
+            let result = await Promise.resolve(new ApiAdaptar().put(Constants.menuUrl + '/menu/updatemenubyproject/' + req.params.projectId + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -116,7 +116,7 @@ class MenubuilderController implements Controller {
 
     public addDefaultMenu = async (req: Request, res: Response) => {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(Constants.menuUrl + `/menu/default/?projectId=${req.query.projectId}&primaryLanguage=${req.query.primaryLanguage}&secondaryLanguage=${req.query.secondaryLanguage}`));
+            let result = await Promise.resolve(new ApiAdaptar().get(Constants.menuUrl + `/menu/default/?projectId=${req.query.projectId}&primaryLanguage=${req.query.primaryLanguage}&secondaryLanguage=${req.query.secondaryLanguage}` + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {

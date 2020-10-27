@@ -8,6 +8,8 @@ import { LoginService } from './loginservice.service';
 import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
 import { Brodcastservice } from '../broadcast.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as generate from 'nanoid/generate';
+import * as dictionary from 'nanoid-dictionary';
 
 @Component({
   selector: 'app-login',
@@ -55,6 +57,7 @@ export class LoginComponent implements OnInit {
   displayModel: String = 'none';
   public show: boolean;
   public openId: String = 'openid';
+  public logId: any;
 
 
   ngOnInit() {
@@ -126,6 +129,7 @@ export class LoginComponent implements OnInit {
   newUserLogin() {
     this.loginservice.signup(this.user).subscribe(data => {
       this.Userdetails = data.Userdetails;
+      this.logId = generate(dictionary.numbers, 12);
       console.log('userinfoo--->', this.Userdetails);
       this.displayModel = 'none';
       this.isChecked = false;
@@ -187,6 +191,7 @@ export class LoginComponent implements OnInit {
       if (this.Userdetails.body === 'Incorrect Username or Password') {
         this.errormessage = this.Userdetails.body;
       } else {
+        this.logId = generate(dictionary.numbers, 12);
         if (this.tokenerror !== undefined) {
           console.log('-------insideifconditioin-----');
           if (this.tokenerror.name === 'TokenExpiredError') {
@@ -197,6 +202,7 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
           sessionStorage.setItem('email', this.Userdetails.body.email);
           sessionStorage.setItem('JwtToken', this.Userdetails.body.Idtoken);
+          sessionStorage.setItem('LogId', this.logId  + '_' + this.id);
           if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '') {
             this.Consent();
           } else {
@@ -319,6 +325,7 @@ export class LoginComponent implements OnInit {
       sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
       sessionStorage.setItem('email', this.Userdetails.body.email);
       sessionStorage.setItem('JwtToken', this.Userdetails.body.Idtoken);
+      sessionStorage.setItem('LogId', this.logId  + '_' + this.id);
     }, error => {
       console.error('error: ', error);
     });
