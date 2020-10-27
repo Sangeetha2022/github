@@ -22,66 +22,59 @@ export class ConfigurationController implements Controller {
         this.router.route('/generation_flow/getproperties').get(this.getTechPropertyFlow);
     }
 
-    addGenerationFlow(req: Request, res: Response) {
-        new ApiAdaptar().post(
-            `${Constants.configUrl}/generation_flow/add`,
-            req.body
-        ).then((result) => {
+    async addGenerationFlow(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().post(`${Constants.configUrl}/generation_flow/add`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    updateGenerationFlow(req: Request, res: Response) {
-        new ApiAdaptar().put(
-            `${Constants.configUrl}/generation_flow/update/${req.params.id}`,
-            req.body
-        ).then((result) => {
+    async updateGenerationFlow(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().put(`${Constants.configUrl}/generation_flow/update/${req.params.id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    getAllGenerationFlow(req: Request, res: Response) {
-        new ApiAdaptar().get(
-            `${Constants.configUrl}/generation_flow/getall`
-        ).then((result) => {
+    async getAllGenerationFlow(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.configUrl}/generation_flow/getall`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    getGenerationFlowByID(req: Request, res: Response) {
-        new ApiAdaptar().get(
-            `${Constants.configUrl}/generation_flow/getbyid/${req.params.id}`
-        ).then((result) => {
+    async getGenerationFlowByID(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.configUrl}/generation_flow/getbyid/${req.params.id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    getGenerationFlowByName(req: Request, res: Response) {
-        new ApiAdaptar().get(
-            `${Constants.configUrl}/generation_flow/getbyname/${req.params.name}`
-        ).then((result) => {
+    async getGenerationFlowByName(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.configUrl}/generation_flow/getbyname/${req.params.name}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
     deleteGenerationFlow(req: Request, res: Response) {

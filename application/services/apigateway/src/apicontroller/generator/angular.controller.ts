@@ -2,7 +2,7 @@ import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../../interfaces/controller.interface";
 import { ApiAdaptar } from '../../config/apiAdaptar';
-import  {Constants} from '../../config/Constants';
+import { Constants } from '../../config/Constants';
 
 export class AngularController implements Controller {
     public router = express.Router();
@@ -15,14 +15,13 @@ export class AngularController implements Controller {
         this.router.route('/angular/project').post(this.createProject);
     }
 
-    createProject(req: Request, res: Response) {
-        new ApiAdaptar().post(
-            `${Constants.angularGenUrl}/angular/project`,
-            req.body
-        ).then((response) => {
+    public async createProject(req: Request, res: Response) {
+        try {
+            let response = await Promise.resolve(new ApiAdaptar().post(
+                `${Constants.angularGenUrl}/angular/project`, req.body));
             res.send(response);
-        }).catch(err => {
+        } catch (err) {
             res.send(err);
-        });
+        }
     }
 }

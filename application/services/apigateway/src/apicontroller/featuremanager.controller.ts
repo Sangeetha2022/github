@@ -33,126 +33,138 @@ class FeatureController implements Controller {
         this.router.get('/feature/getallcopyflow', this.getallcopyflow);
     }
 
-    public saveFeature(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.featureUrl}/feature/save`, req.body).then(feature => {
+    public async saveFeature(req: Request, res: Response) {
+        try {
+            let feature = await Promise.resolve(new ApiAdaptar().post(`${Constants.featureUrl}/feature/save`, req.body));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public updateFeature(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.featureUrl}/feature/update`, req.body).then(feature => {
+    public async updateFeature(req: Request, res: Response) {
+        try {
+            let feature = await Promise.resolve(new ApiAdaptar().put(`${Constants.featureUrl}/feature/update`, req.body));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public getAllFeature(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.featureUrl}/feature/getall`).then(feature => {
+    public async getAllFeature(req: Request, res: Response) {
+        try {
+            let feature = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/getall`));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-
-    public getFeatureById = (req: Request, res: Response) => {
-        new ApiAdaptar().get(`${Constants.featureUrl}/feature/get?featureId=${req.query.featureId}`).then(feature => {
-            req.baseUrl === '/mobile' ? res.send(feature) :
-                req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 
-    public deleteFeature(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.featureUrl}/feature/delete?featureId=${req.query.featureId}`).then(feature => {
+    public getFeatureById = async (req: Request, res: Response) => {
+        try {
+            let feature = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/get?featureId=${req.query.featureId}`));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
-    }
-
-    public deleteProjectFeature(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.featureUrl}/feature/deletebyproject/${req.params.id}`).then(feature => {
-            req.baseUrl === '/mobile' ? res.send(feature) :
-                req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
-        }).catch(err => {
-            req.baseUrl === '/mobile' ? res.send(err) :
-                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 
-    public getFeatureByProjectId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.featureUrl}/feature/project/get?projectId=${req.query.projectId}`).then(feature => {
+    public async deleteFeature(req: Request, res: Response) {
+        try {
+            let feature = await Promise.resolve(new ApiAdaptar().delete(`${Constants.featureUrl}/feature/delete?featureId=${req.query.featureId}`));
+            req.baseUrl === '/mobile' ? res.send(feature) :
+                req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async deleteProjectFeature(req: Request, res: Response) {
+        try {
+            let feature = await Promise.resolve(new ApiAdaptar().delete(`${Constants.featureUrl}/feature/deletebyproject/${req.params.id}`));
+            req.baseUrl === '/mobile' ? res.send(feature) :
+                req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+
+    public async getFeatureByProjectId(req: Request, res: Response) {
+        try {
+            let feature = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/project/get?projectId=${req.query.projectId}`));
             res.send(feature);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 
-    public featureUpdateEntity(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.featureUrl}/feature/updateEntity/${req.params.featureId}`, req.body).then(feature => {
+    public async featureUpdateEntity(req: Request, res: Response) {
+        try {
+            let feature = await Promise.resolve(new ApiAdaptar().put(`${Constants.featureUrl}/feature/updateEntity/${req.params.featureId}`, req.body));
             res.send(feature);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
 
-    public featuredeleteEntity(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.featureUrl}/feature/deleteentity/${req.params.featureId}/${req.params.entityid}`).then(feature => {
+    public async featuredeleteEntity(req: Request, res: Response) {
+        try {
+            let feature = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/deleteentity/${req.params.featureId}/${req.params.entityid}`));
             res.send(feature);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 
-    public flowcopy(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.featureUrl}/feature/copyFlows`, req.body).then(feature => {
+    public async flowcopy(req: Request, res: Response) {
+        try {
+            let feature = await Promise.resolve(new ApiAdaptar().post(`${Constants.featureUrl}/feature/copyFlows`, req.body));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        })
+        }
     }
 
-    public updateFeatureEntity(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.featureUrl}/feature/update/entity?featureId=${req.query.featureId}`, req.body).then(feature => {
+    public async updateFeatureEntity(req: Request, res: Response) {
+        try {
+            let feature = await Promise.resolve(new ApiAdaptar().put(`${Constants.featureUrl}/feature/update/entity?featureId=${req.query.featureId}`, req.body));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        })
+        }
     }
 
-    public getallcopyflow(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.featureUrl}/feature/getallcopyflow`).then(copyflowlist => {
+    public async getallcopyflow(req: Request, res: Response) {
+        try {
+            let copyflowlist = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/getallcopyflow`));
             req.baseUrl === '/mobile' ? res.send(copyflowlist) :
                 req.baseUrl === '/desktop' ? res.send(copyflowlist) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        });
+        }
     }
 }
 export { FeatureController };

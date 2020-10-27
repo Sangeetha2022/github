@@ -15,15 +15,14 @@ export class AngularTemplateController implements Controller {
         this.router.route('/template/angular').post(this.createAngularTemplate);
     }
 
-    createAngularTemplate(req: Request, res: Response) {
-        console.log('create angular template in apigateway -----  ');
-        new ApiAdaptar().post(
-            `${Constants.angularTemplateGenUrl}/template/angular`,
-            req.body
-        ).then((response) => {
+    public async createAngularTemplate(req: Request, res: Response) {
+        try {
+            console.log('create angular template in apigateway -----  ');
+            let response = await Promise.resolve(new ApiAdaptar().post(
+                `${Constants.angularTemplateGenUrl}/template/angular`, req.body));
             res.send(response);
-        }).catch(err => {
+        } catch (err) {
             res.send(err);
-        });
+        }
     }
 }

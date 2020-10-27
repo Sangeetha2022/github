@@ -54,323 +54,316 @@ class FlowManagerController implements Controller {
 
     }
 
-    public saveFlow(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.flowUrl}/flow/save`, req.body)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
+    public async saveFlow(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flow/save`, req.body));
+            req.baseUrl === '/mobile' ? res.send(flow) :
                     req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
                     req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+        }
     }
 
-    public updateFlow(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.flowUrl}/flow/update`, req.body)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async updateFlow(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().put(`${Constants.flowUrl}/flow/update`, req.body));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    public getAllFlow(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.flowUrl}/flow/getall`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async getAllFlow(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flow/getall`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    public getFlowById(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.flowUrl}/flow/get?flowId=${req.query.flowId}`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async getFlowById(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flow/get?flowId=${req.query.flowId}`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    public getProjectFlowById(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.flowUrl}/flow/getprojectflowbyid/${req.params.id}`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
-    }
-
-
-    public getFeatureFlows(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.flowUrl}/flow/feature/get`, req.body)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async getProjectFlowById(req: Request, res: Response) {
+        try {
+            let flow = await  Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flow/getprojectflowbyid/${req.params.id}`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
 
-    public getFeatureFlowsByLanguage(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.flowUrl}/flow/feature/language/get?language=${req.query.language}`, req.body)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async getFeatureFlows(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flow/feature/get`, req.body));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    public getFlowByProjectId(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.flowUrl}/flow/project/get?projectId=${req.query.projectId}`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+
+    public async getFeatureFlowsByLanguage(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flow/feature/language/get?language=${req.query.language}`, req.body));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    public deleteFlow(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.flowUrl}/flow/delete?flowId=${req.query.flowId}`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async getFlowByProjectId(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flow/project/get?projectId=${req.query.projectId}`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async deleteFlow(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().delete(`${Constants.flowUrl}/flow/delete?flowId=${req.query.flowId}`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
     // project flows
 
-    public createProjectFlow(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.flowUrl}/flow/project/save`, req.body)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async createProjectFlow(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flow/project/save`, req.body));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    public ProjectFlow(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.flowUrl}/flow/project/bulksave`, req.body)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async ProjectFlow(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flow/project/bulksave`, req.body));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    public getAllProjectFlow(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.flowUrl}/flow/project/getall`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async getAllProjectFlow(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flow/project/getall`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    public getProjectFeatureFlows(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.flowUrl}/flow/projectfeature/get`, req.body)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async getProjectFeatureFlows(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flow/projectfeature/get`, req.body));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    public updateFlowComponents(req: Request, res: Response) {
-        new ApiAdaptar().put(`${Constants.flowUrl}/flow/project/updatecomponent?projectFlowId=${req.query.projectFlowId}`, req.body)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async updateFlowComponents(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().put(`${Constants.flowUrl}/flow/project/updatecomponent?projectFlowId=${req.query.projectFlowId}`, req.body));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
 
-    public deleteProjectFlow(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.flowUrl}/flow/project/delete?projectFlowId=${req.query.projectFlowId}`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async deleteProjectFlow(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().delete(`${Constants.flowUrl}/flow/project/delete?projectFlowId=${req.query.projectFlowId}`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
     //project flow components--
-    saveProjectFlowComponent(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.flowUrl}/flowcomponent/project/save`, req.body)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async saveProjectFlowComponent(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flowcomponent/project/save`, req.body));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    getProjectFlowComponent(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.flowUrl}/flowcomponent/project/getall`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
-
+    public async getProjectFlowComponent(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flowcomponent/project/getall`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    public getProjectFlowComponentByID(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.flowUrl}/flowcomponent/project/getbyid/${req.params.id}`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
-
+    public async getProjectFlowComponentByID(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flowcomponent/project/getbyid/${req.params.id}`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    public deleteProjectFlowComponent(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.flowUrl}/flowcomponent/project/delete?projectFlowCompId=${req.query.projectFlowCompId}`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async deleteProjectFlowComponent(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().delete(`${Constants.flowUrl}/flowcomponent/project/delete?projectFlowCompId=${req.query.projectFlowCompId}`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
-    updateProjectFlowComponent(req: Request, res: Response) {
-        console.log('api--gateway-->>', req.body);
-        new ApiAdaptar().put(`${Constants.flowUrl}/flowcomponent/project/updateconnector`, req.body)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
-
+    public async updateProjectFlowComponent(req: Request, res: Response) {
+        try {
+            console.log('api--gateway-->>', req.body);
+            let flow = await Promise.resolve(new ApiAdaptar().put(`${Constants.flowUrl}/flowcomponent/project/updateconnector`, req.body));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
     //save connectors:
 
-    saveConnectors(req: Request, res: Response) {
-        new ApiAdaptar().post(`${Constants.flowUrl}/save/quickConnectors`, req.body)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
-
+    public async saveConnectors(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/save/quickConnectors`, req.body));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
     // Get connector based on entity
 
-    getConnectorByEntity(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.flowUrl}/get/quickConnectorbyentity/${req.params.entityid}`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
-
-    }
-
-    getConnectorById(req: Request, res: Response) {
-        new ApiAdaptar().get(`${Constants.flowUrl}/get/quickConnectorbyid/${req.params.id}`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
-
-    }
-
-    getConnectors(req: Request , res: Response) {
-        new ApiAdaptar().get(`${Constants.flowUrl}/getConnectors`)
-        .then(flow => {
+    public async getConnectorByEntity(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/get/quickConnectorbyentity/${req.params.entityid}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-        }).catch(err => {
+        } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-        })
+        }
+    }
+
+    public async getConnectorById(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/get/quickConnectorbyid/${req.params.id}`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async getConnectors(req: Request , res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/getConnectors`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
 
 
     // delete connector based on entity
 
-    deleteConnectorById(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.flowUrl}/delete/quickConnectorbyid/${req.params.id}`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
-
+    public async deleteConnectorById(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().delete(`${Constants.flowUrl}/delete/quickConnectorbyid/${req.params.id}`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
     }
 
 
-    deleteConnectorByEntityId(req: Request, res: Response) {
-        new ApiAdaptar().delete(`${Constants.flowUrl}/delete/quickConnectorbyentityid/${req.params.entityid}`)
-            .then(flow => {
-                req.baseUrl === '/mobile' ? res.send(flow) :
-                    req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
-            }).catch(err => {
-                req.baseUrl === '/mobile' ? res.send(err) :
-                    req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
-            })
+    public async deleteConnectorByEntityId(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().delete(`${Constants.flowUrl}/delete/quickConnectorbyentityid/${req.params.entityid}`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
 
     }
 
-    public updateQuickConnectorsById(req:Request , res: Response){
-        new ApiAdaptar().put(`${Constants.flowUrl}/quickUpdateConnectorsById/${req.body._id}`, req.body).then((response) => {
+    public async updateQuickConnectorsById(req:Request , res: Response){
+        try {
+            let response = await Promise.resolve(new ApiAdaptar().put(`${Constants.flowUrl}/quickUpdateConnectorsById/${req.body._id}`, req.body));
             res.send(response);
-        }).catch(err => {
+        } catch (err) {
             res.send(err);
-        })
-
+        }
     }
 
 }
