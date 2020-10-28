@@ -88,6 +88,7 @@ export class ComponentFlowsComponent implements OnInit {
   selectedAvaConnectorMethodApi: any = null;
   selectedAvaConnectorMethodApiValues: any = null;
   availableConnApisProp: any = [];
+  logId = sessionStorage.getItem('LogId');
   selectedAvaConnectorProp: any = null;
 
   constructor(
@@ -121,7 +122,7 @@ export class ComponentFlowsComponent implements OnInit {
 
   selectFlowComponent() {
     this.selectedFlowCmpnt = this.flowComponentGrid.getSelectedRows();
-    this.componentFlowsService.getMicroFlow(this.flowComponentGrid.getSelectedRows()[0].microFlows).subscribe(
+    this.componentFlowsService.getMicroFlow(this.flowComponentGrid.getSelectedRows()[0].microFlows, this.logId).subscribe(
       microflow => {
         this.microFlowRowData = microflow;
       },
@@ -221,7 +222,7 @@ export class ComponentFlowsComponent implements OnInit {
   createMicroFLow() {
     const dataToSave = this.createMFlowForm.getRawValue();
     dataToSave.component_name = this.selectedFlowCmpnt[0].component_name;
-    this.componentFlowsService.saveMicroFlow(dataToSave).subscribe((data) => {
+    this.componentFlowsService.saveMicroFlow(dataToSave, this.logId).subscribe((data) => {
 
     },
       (error) => {
@@ -238,7 +239,7 @@ export class ComponentFlowsComponent implements OnInit {
       this.iMicroFlow.sequence_id = this.microFlowDatatoUpdate.sequence_id;
       this.iMicroFlow.micro_flow_step_name = this.microFlowDatatoUpdate.micro_flow_step_name;
     }
-    this.componentFlowsService.updateMicroFlow(this.iMicroFlow).subscribe(data => {
+    this.componentFlowsService.updateMicroFlow(this.iMicroFlow, this.logId).subscribe(data => {
     });
     this.onCloseMFHandledUpdate();
   }

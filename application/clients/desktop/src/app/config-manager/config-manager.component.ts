@@ -20,6 +20,7 @@ export class ConfigManagerComponent implements OnInit {
   public defaultColDef: any = [];
   public paginationPageSize;
   public paginationNumberFormatter;
+  public logId = sessionStorage.getItem('LogId');
 
   public configManager: IConfigManager = {
     description: '',
@@ -112,13 +113,13 @@ export class ConfigManagerComponent implements OnInit {
 
 
   getAllConfig() {
-    this.configManagerService.getAllConfig().subscribe(data => {
+    this.configManagerService.getAllConfig(this.logId).subscribe(data => {
       this.rowData = data.body;
     });
   }
 
   createConfig() {
-    this.configManagerService.saveConfig(this.configManager)
+    this.configManagerService.saveConfig(this.configManager, this.logId)
       .subscribe(
         (data) => {
           this.onCloseHandled();
@@ -131,7 +132,7 @@ export class ConfigManagerComponent implements OnInit {
   }
 
   updateConfig() {
-    this.configManagerService.updateConfig(this.configManager).subscribe(
+    this.configManagerService.updateConfig(this.configManager, this.logId).subscribe(
       (data) => {
         this.onCloseHandled();
         this.getAllConfig();
@@ -143,7 +144,7 @@ export class ConfigManagerComponent implements OnInit {
   }
 
   deleteRow() {
-    this.configManagerService.deleteConfig(this.selectedConfig[0]._id).subscribe(data => {
+    this.configManagerService.deleteConfig(this.selectedConfig[0]._id, this.logId).subscribe(data => {
       this.getAllConfig();
     });
   }

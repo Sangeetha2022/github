@@ -18,12 +18,12 @@ export class MenuBuilderService {
     return this.api.post(`${this.restapi.Apigateway}${Constants.saveMenu}`, menu);
   }
 
-  getMenuBuilderByProjectId(id): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getMenuByProjectId}/${id}`);
+  getMenuBuilderByProjectId(id, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getMenuByProjectId}/${id}` + `?log_id=${logId}`);
 
   }
-  updateMenuById(id, menu): Observable<any> {
-    return this.api.put(`${this.restapi.Apigateway}${Constants.updateMenuById}/${id}`, menu);
+  updateMenuById(id, menu, logId): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateMenuById}/${id}` + `?log_id=${logId}`, menu);
   }
 
   updateMenubyProjectId(projectId, menu) {

@@ -32,7 +32,7 @@ class MicroflowController implements Controller {
 
     public async saveMicroFlow(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().post(`${Constants.featureUrl}/microflow/save`, req.body));
+            let result = await Promise.resolve(new ApiAdaptar().post(`${Constants.featureUrl}/microflow/save` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -43,7 +43,7 @@ class MicroflowController implements Controller {
 
     public async updateMicroFlow(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().put(`${Constants.microUrl}/microflow/update`, req.body));
+            let result = await Promise.resolve(new ApiAdaptar().put(`${Constants.microUrl}/microflow/update` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -54,7 +54,7 @@ class MicroflowController implements Controller {
 
     public async deleteMicroFlow(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().delete(`${Constants.microUrl}/microflow/delete?microflowId=${req.query.microflowId}`));
+            let result = await Promise.resolve(new ApiAdaptar().delete(`${Constants.microUrl}/microflow/delete?microflowId=${req.query.microflowId}` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -65,7 +65,7 @@ class MicroflowController implements Controller {
 
     public async getAllMicroFlow(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.microUrl}/microflow/getall`));
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.microUrl}/microflow/getall` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -77,7 +77,8 @@ class MicroflowController implements Controller {
 
     public async getMicroFlowByID(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.microUrl}/microflow/get?microflowId=${req.query.microflowId}`));
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.microUrl}/microflow/get?microflowId=${req.query.microflowId}` + `&log_id=${req.query.log_id}`));
+
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -88,7 +89,7 @@ class MicroflowController implements Controller {
 
     public async getMicroFlow(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().post(`${Constants.microUrl}/microflow/component/get`, req.body));
+            let result = await Promise.resolve(new ApiAdaptar().post(`${Constants.microUrl}/microflow/component/get` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -101,7 +102,7 @@ class MicroflowController implements Controller {
 
     public async getBackendMicroFlow(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().post(`${Constants.microUrl}/microflow/component/backend/get`, req.body));
+            let result = await Promise.resolve(new ApiAdaptar().post(`${Constants.microUrl}/microflow/component/backend/get` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -112,7 +113,7 @@ class MicroflowController implements Controller {
 
     public async getMicroFlowByProjectId(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.microUrl}/microflow/project/get?projectId=${req.query.projectId}`));
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.microUrl}/microflow/project/get?projectId=${req.query.projectId}` + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {

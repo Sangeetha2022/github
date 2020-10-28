@@ -22,6 +22,7 @@ export class PopupModelComponent implements OnInit {
     invalidName: Boolean;
     isReserveWord: Boolean;
     public projectEntityData: any;
+    public logId = sessionStorage.getItem('LogId');
     constructor(
         private projectComponentService: ProjectComponentService,
         private route: ActivatedRoute,
@@ -59,7 +60,7 @@ export class PopupModelComponent implements OnInit {
     }
 
     getProjectEntity() {
-        this.projectComponentService.getEntityByProjectId(this.project_id).subscribe(projectEntity => {
+        this.projectComponentService.getEntityByProjectId(this.project_id, this.logId).subscribe(projectEntity => {
             this.projectEntityData = projectEntity.body;
         });
     }

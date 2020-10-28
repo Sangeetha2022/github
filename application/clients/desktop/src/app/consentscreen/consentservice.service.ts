@@ -12,8 +12,8 @@ export class Consentservice {
 
   constructor(private http: HttpClient, private router: Router, private apiservice: ApiService, private restapi: SharedService) { }
 
-  Consent(consent: any): Observable<any> {
-    return this.apiservice.put(this.restapi.Apigateway + '/desktop/consent', consent);
+  Consent(consent: any, logId): Observable<any> {
+    return this.apiservice.put(this.restapi.Apigateway + '/desktop/consent' + `?log_id=${logId}`, consent);
   }
 
 }

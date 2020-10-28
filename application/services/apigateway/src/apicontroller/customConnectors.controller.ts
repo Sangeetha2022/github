@@ -18,7 +18,7 @@ import Controller from '../interfaces/controller.interface';
 
     public async quickTestcustomConnectors(req:Request , res: Response){
         try {
-            let response = await Promise.resolve(new ApiAdaptar().post(`${Constants.customConnectorUrl}/quick/test`, req.body));
+            let response = await Promise.resolve(new ApiAdaptar().post(`${Constants.customConnectorUrl}/quick/test` + `?log_id=${req.query.log_id}`, req.body));
             res.send(response);
         } catch (err) {
             res.send(err);

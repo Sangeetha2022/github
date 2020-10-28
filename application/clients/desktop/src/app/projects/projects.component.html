@@ -107,8 +107,8 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label for="template">Select Template</label>
-                <select class="form-control" id="template" formControlName="template"
-                  [ngClass]="{ 'is-invalid': submitted && form_control.secondoryLanguage.errors }">
+                <select class="form-control" [(ngModel)]="templateData" id="template" formControlName="template"
+                  [ngClass]="{ 'is-invalid': submitted && form_control.secondoryLanguage }">
                   <option value="" selected>select template</option>
                   <option *ngFor="let tempalte of gepTemplates;let i = index" [ngValue]="tempalte">{{ tempalte.name }}
                   </option>
@@ -188,7 +188,7 @@
       </div>
       <div class="modal-footer">
         <div class="form-group">
-          <button type="button" class="btn button-create" (click)="projectCreate()">{{ 'create' | i18next }}</button>
+          <button type="button" [disabled]="!templateData" class="btn button-create" (click)="projectCreate()">{{ 'create' | i18next }}</button>
           <button type="button" class="btn button-close" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
         </div>
       </div>

@@ -33,6 +33,7 @@ export class ConnectorManagerComponent implements OnInit {
   ) { }
 
   clientLanguage: String;
+  logId = sessionStorage.getItem('LogId');
   technical: any = {
     clientLanguage: [],
     clientFramework: [],
@@ -54,7 +55,7 @@ export class ConnectorManagerComponent implements OnInit {
   }
 
   getProjectById() {
-    this.projectService.getProjectById(this.projectId).subscribe(
+    this.projectService.getProjectById(this.projectId, this.logId).subscribe(
       response => {
         this.projectInfo = response.body;
         this.getTechProperties();
@@ -74,7 +75,8 @@ export class ConnectorManagerComponent implements OnInit {
       this.projectInfo.serverdatabase = this.selected.database._id;
       this.projectInfo.servertarget = this.selected.deploymentTarget._id;
       this.projectInfo.server_deployment_type = this.selected.deploymentServer._id;
-      this.projectService.updateProjectById(this.projectInfo._id, this.projectInfo)
+      this.projectInfo.logsid = sessionStorage.getItem('LogId');
+      this.projectService.updateProjectById(this.projectInfo._id, this.projectInfo, this.logId)
         .subscribe(
           data => {
             this.dataService.setProjectInfo(data.body.response);
@@ -98,7 +100,7 @@ export class ConnectorManagerComponent implements OnInit {
   }
 
   generateField() {
-    this.projectComponentService.exportSharedServiceYaml(this.projectId).subscribe(data => {
+    this.projectComponentService.exportSharedServiceYaml(this.projectId, this.logId).subscribe(data => {
       console.log("export---->", data);
       this.toastr.success('PROJECT:','Exported successfully!', {
         closeButton: true,
@@ -110,7 +112,7 @@ export class ConnectorManagerComponent implements OnInit {
   }
 
   getTechProperties() {
-    this.configManagerService.getTechProperties().subscribe(
+    this.configManagerService.getTechProperties(this.logId).subscribe(
       data => {
         data.body.forEach(element => {
           switch (element['type']) {

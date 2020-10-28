@@ -20,12 +20,12 @@ export class ScreenDesignerService {
     return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByProjectAndFeatureId}/${projectId}/${featureId}`);
   }
 
-  getScreenById(screenId): Observable<any> {
-    return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByID}/${screenId}`);
+  getScreenById(screenId, logId): Observable<any> {
+    return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByID}/${screenId}?log_id=${logId}`);
   }
 
-  updateScreen(screenId, screenData): Observable<any> {
-    return this.http.post(`${this.sharedService.Apigateway}${Constants.updateScreen}${screenId}`, screenData);
+  updateScreen(screenId, screenData, logId): Observable<any> {
+    return this.http.post(`${this.sharedService.Apigateway}${Constants.updateScreen}${screenId}?log_id=${logId}`, screenData);
   }
 
   saveScreen(screenData): Observable<any> {
@@ -36,12 +36,12 @@ export class ScreenDesignerService {
     return this.http.delete(`${this.sharedService.Apigateway}${Constants.deleteScreen}/${screenId}`);
   }
 
-  getScreenByProjectId(projectId): Observable<any> {
-    return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByProjectId}/${projectId}`);
+  getScreenByProjectId(projectId, logId): Observable<any> {
+    return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByProjectId}/${projectId}?log_id=${logId}`);
   }
 
-  getScreenByFeatureId(featureId): Observable<any> {
-    return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByFeatureId}/${featureId}`);
+  getScreenByFeatureId(featureId, logId): Observable<any> {
+    return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByFeatureId}/${featureId}?log_id=${logId}`);
   }
 
   getScreenTemplateByProjectId(projectId): Observable<any> {
@@ -50,8 +50,8 @@ export class ScreenDesignerService {
 
   // delete microservice
 
-  deleteScreenById(screenId): Observable<any> {
-    return this.http.delete(`${this.sharedService.Apigateway}${Constants.deleteScreenById}/${screenId}`);
+  deleteScreenById(screenId, logId): Observable<any> {
+    return this.http.delete(`${this.sharedService.Apigateway}${Constants.deleteScreenById}/${screenId}?log_id=${logId}`);
   }
 
 }

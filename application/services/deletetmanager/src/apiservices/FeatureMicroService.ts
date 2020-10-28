@@ -3,9 +3,9 @@ import { SharedService } from '../config/SharedService';
 
 export class FeatureManagerService {
 
-    public deleteProjectFeature(projectid, callback) {
+    public deleteProjectFeature(req, projectid, callback) {
         const projectId = projectid;
-        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/feature/deletebyproject/${projectId}`).then
+        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/feature/deletebyproject/${projectId}?log_id=${req.query.log_id}`).then
             (data => {
                 callback(data);
             }).catch(error => {
@@ -13,9 +13,9 @@ export class FeatureManagerService {
             })
     }
 
-    public getFeatureByProjectId(projectid, callback) {
+    public getFeatureByProjectId(req, projectid, callback) {
         const projectId = projectid;
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/feature/project/get/?projectId=${projectId}`).then
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/feature/project/get/?projectId=${projectId}&log_id=${req.query.log_id}`).then
             (data => {
                 callback(data);
             }).catch(error => {
@@ -23,7 +23,7 @@ export class FeatureManagerService {
             })
     }
 
-    public getFeatureById(featureid, callback) {
+    public getFeatureById(req, featureid, callback) {
         const featureId = featureid;
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/feature/get/?featureId=${featureId}`).then
             (data => {
@@ -34,9 +34,9 @@ export class FeatureManagerService {
     }
 
 
-    public deleteFeatureById(featureid, callback) {
+    public deleteFeatureById(req, featureid, callback) {
         const featureId = featureid;
-        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/feature/delete/?featureId=${featureId}`).then
+        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/feature/delete/?featureId=${featureId}&log_id=${req.query.log_id}`).then
             (data => {
                 callback(data);
             }).catch(error => {

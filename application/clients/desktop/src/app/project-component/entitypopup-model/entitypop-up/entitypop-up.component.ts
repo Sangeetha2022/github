@@ -30,6 +30,7 @@ export class EntityModelComponent implements OnInit {
     public rowSelection;
     public columnDefs;
     public gridApi;
+    public logId = sessionStorage.getItem('LogId');
     public gridColumnApi;
     public defaultColDef;
     public entitytype: any;
@@ -66,7 +67,7 @@ export class EntityModelComponent implements OnInit {
 
     ngOnInit() {
         this.hide = true;
-        this.projectservice.getGlobalEntityByProjectId(this.projectId).subscribe(data => {
+        this.projectservice.getGlobalEntityByProjectId(this.projectId, this.logId).subscribe(data => {
             if (data.body && data.body.length > 0) {
                 this.rowData = data.body;
             }

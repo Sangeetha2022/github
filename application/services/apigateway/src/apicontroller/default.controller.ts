@@ -19,7 +19,7 @@ export class DefaultController implements Controller {
     private async createDefault(req: Request, res: Response) {
         try {
             const projectId = req.query.projectId;
-            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/projects/default/create/?projectId=${projectId}`));
+            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/projects/default/create/?projectId=${projectId}` + `&log_id=${req.query.log_id}`));
             console.log('create default entity success ----- ', result);
             res.send(result);
         } catch (err) {

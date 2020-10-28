@@ -25,6 +25,7 @@
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
     "simple-git": "^1.107.0",
+    "ts-node": "^9.0.0",
     "typescript": "^3.2.4",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^3.6.0"

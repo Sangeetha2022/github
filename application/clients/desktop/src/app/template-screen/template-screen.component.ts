@@ -19,6 +19,7 @@ export class TemplateScreenComponent implements OnInit {
   unSelectedIndex: any = [];
   selectedTemplate: any = [];
   projectTemp: any = [];
+  logId = sessionStorage.getItem('LogId');
   projectTempId: any;
   constructor(
     private templateScreenService: TemplateScreenService,
@@ -37,10 +38,10 @@ export class TemplateScreenComponent implements OnInit {
   }
 
   getAllGepTemplates() {
-    this.templateScreenService.getAllTemplates().subscribe(response => {
+    this.templateScreenService.getAllTemplates(this.logId).subscribe(response => {
       this.gepTemplates = response.body;
       this.gepTempImages = this.gepTemplates.template_image;
-      this.screenDesignerService.getScreenByProjectId(this.project_id).subscribe(screenResponse => {
+      this.screenDesignerService.getScreenByProjectId(this.project_id, this.logId).subscribe(screenResponse => {
         this.projectTemp = screenResponse.body;
         this.projectTempId = this.projectTemp[0]._id;
         this.selectedIndex = [];
@@ -78,14 +79,15 @@ export class TemplateScreenComponent implements OnInit {
         const projetData = {
           app_ui_template: this.selectedTemplate.name,
           app_ui_template_name: this.selectedTemplate.template_name,
-          app_ui_template_img: null
+          app_ui_template_img: null,
+          logsid: this.logId
         };
-        this.screenDesignerService.updateScreen(this.projectTempId, this.projectTemp[0]).subscribe(updateScreen => {
+        this.screenDesignerService.updateScreen(this.projectTempId, this.projectTemp[0], this.logId).subscribe(updateScreen => {
           localStorage.setItem('stylesheets', JSON.stringify(this.projectTemp[0]['stylesheets']));
           localStorage.setItem('scripts', JSON.stringify(this.projectTemp[0]['scripts']));
           localStorage.setItem('css_guidelines', JSON.stringify(this.projectTemp[0]['css-guidelines']));
         });
-        this.projectsService.updateProjectById(this.project_id, projetData).subscribe(updateProj => {
+        this.projectsService.updateProjectById(this.project_id, projetData, this.logId).subscribe(updateProj => {
         }, error => console.log('cannot able to update the project'));
       } else {
         this.selected = false;

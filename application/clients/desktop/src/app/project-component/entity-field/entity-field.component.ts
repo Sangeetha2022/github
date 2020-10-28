@@ -23,6 +23,7 @@ export class EntityFieldComponent implements OnInit {
 
   public columnDefs;
   public rowData;
+  public logId = sessionStorage.getItem('LogId');
   public rowSelection;
   defaultColDef: { editable: boolean; sortable: boolean; filter: boolean; };
   frameworkComponents: { buttonRenderer: any; };
@@ -80,7 +81,7 @@ export class EntityFieldComponent implements OnInit {
   }
 
   getEntityType() {
-    this.entityManagerService.getAllEntityType().subscribe(
+    this.entityManagerService.getAllEntityType(this.logId).subscribe(
       (data) => {
         data.body.forEach(element => {
           this.getEntityTypeValue.push(element.typename);
@@ -153,7 +154,7 @@ export class EntityFieldComponent implements OnInit {
   }
 
   getEntity() {
-    this.projectComponentService.getByIdEntity(this.currentEntityId).subscribe(
+    this.projectComponentService.getByIdEntity(this.currentEntityId, this.logId).subscribe(
       data => {
         if (data.body) {
           this.entity = data.body;
@@ -174,7 +175,7 @@ export class EntityFieldComponent implements OnInit {
   }
 
   getEntityByFeatureId() {
-    this.projectComponentService.getEntityByFeatureId(this.featureId).subscribe(
+    this.projectComponentService.getEntityByFeatureId(this.featureId, this.logId).subscribe(
       data => {
         if (data.body && data.body.length > 0) {
           this.allEntity = data.body.filter(x => x._id !== this.currentEntityId);
@@ -284,7 +285,7 @@ export class EntityFieldComponent implements OnInit {
   }
 
   updateEntityField(options) {
-    this.entityManagerService.updateEntityField(this.entity).subscribe(
+    this.entityManagerService.updateEntityField(this.entity, this.logId).subscribe(
       (data) => {
         if (options) {
           this.toastr.success('entity fields are saved');

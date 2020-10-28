@@ -41,6 +41,7 @@ export class FlowManagerComponent implements OnInit {
   message: string;
   defaultColDef;
   getRowNodeId;
+  public logId = sessionStorage.getItem('LogId');
 
   displayModel: String = 'none';
   createFlowForm: FormGroup;
@@ -87,7 +88,7 @@ export class FlowManagerComponent implements OnInit {
   }
 
   getAllFlows() {
-    this.flowManagerService.getAllFlows().subscribe((flowResponse) => {
+    this.flowManagerService.getAllFlows(this.logId).subscribe((flowResponse) => {
       this.dataFlow = flowResponse.body;
       this.rowData = this.dataFlow;
 
@@ -133,7 +134,7 @@ export class FlowManagerComponent implements OnInit {
 
   createFlowModel() {
     this.submitted = true;
-    this.flowManagerService.saveFlow(this.createFlowForm.getRawValue())
+    this.flowManagerService.saveFlow(this.createFlowForm.getRawValue(), this.logId)
       .subscribe(
         (data) => {
           this.onCloseHandled();
@@ -146,7 +147,7 @@ export class FlowManagerComponent implements OnInit {
   }
 
   deleteRow() {
-    this.flowManagerService.deleteFlow(this.selectedFlow[0]._id).subscribe(
+    this.flowManagerService.deleteFlow(this.selectedFlow[0]._id, this.logId).subscribe(
       (data) => {
         this.getAllFlows();
       },
@@ -158,7 +159,7 @@ export class FlowManagerComponent implements OnInit {
 
   updateFlowModel() {
     this.submitted = true;
-    this.flowManagerService.updateFlow(this.flow, this.flow['_id']).subscribe(
+    this.flowManagerService.updateFlow(this.flow, this.flow['_id'], this.logId).subscribe(
       (data) => {
         this.onCloseHandled();
         this.getAllFlows();

@@ -65,6 +65,8 @@ export class ProjectsComponent implements OnInit {
   public projectName: String = '';
   public defaultscreenvalue: any;
   gepTemplates: any = [];
+  public logId = sessionStorage.getItem('LogId');
+  templateData: any;
   public uploader: FileUploader = new FileUploader({
     url: '',
   });
@@ -214,7 +216,7 @@ export class ProjectsComponent implements OnInit {
 
   getProjectByUserId() {
     this.myAllProjects = [];
-    this.projectsService.getProjectByUserId(this.UserId).subscribe(data => {
+    this.projectsService.getProjectByUserId(this.UserId, this.logId).subscribe(data => {
       if (data) {
         this.myAllProjects = data.body;
       }
@@ -235,7 +237,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   deleteMyProjects() {
-    this.projectsService.deleteProjectFlowByProjectId(this.idToDelete).subscribe(data => {
+    this.projectsService.deleteProjectFlowByProjectId(this.idToDelete, this.logId).subscribe(data => {
       if (data) {
         this.delmodal = 'none';
         this.getProjectByUserId();
@@ -248,7 +250,7 @@ export class ProjectsComponent implements OnInit {
   editProject(project) {
     console.log('edit project are --------- ', project);
     this.dataService.setProjectInfo(project);
-    this.templateScreenService.getTemplateByName(project.app_ui_template).subscribe(data=>{
+    this.templateScreenService.getTemplateByName(project.app_ui_template, this.logId).subscribe(data=>{
       console.log('after get the project template ----  ', data);
       const response = data.body;
       localStorage.setItem('stylesheets', JSON.stringify(response['stylesheets']));
@@ -343,11 +345,12 @@ export class ProjectsComponent implements OnInit {
       user_deployment_target: null,
       server_deployment_target: null,
       created_date: null,
-      UserId: sessionStorage.getItem('Id')
+      UserId: sessionStorage.getItem('Id'),
+      logsid: this.logId
     };
 
 
-    this.projectsService.getProjectByUserId(this.UserId).subscribe(async (data) => {
+    this.projectsService.getProjectByUserId(this.UserId, this.logId).subscribe(async (data) => {
       this.getProjectByUserId();
       if (data) {
         this.myAllProjects = data.body;
@@ -357,19 +360,19 @@ export class ProjectsComponent implements OnInit {
           }
         });
         if (!this.isProjectExit && !this.invalidName && !this.isReserveWord) {
-          this.projectsService.addProject(dataToSave).subscribe(response => {
+          this.projectsService.addProject(dataToSave, this.logId).subscribe(response => {
             if (response) {
               const projectDetail = response.body;
               this.created_date = projectDetail.created_date;
               this.dataService.setProjectInfo(projectDetail);
               // create default entity
-              this.projectsService.createDefaultEntity(projectDetail._id).subscribe(
+              this.projectsService.createDefaultEntity(projectDetail._id, this.logId).subscribe(
                 (defaultRes) => {
                 }, (error) => {
                   console.error('cannot able to create the default entity for this project ', error);
                 });
               // create default screens
-              this.projectsService.createDefaultScreens(projectDetail._id).subscribe(
+              this.projectsService.createDefaultScreens(projectDetail._id, this.logId).subscribe(
                 (defaultscreen) => {
                   this.defaultscreenvalue = defaultscreen.response;
                 }, (error) => {
@@ -380,7 +383,8 @@ export class ProjectsComponent implements OnInit {
               this.projectsService.createDefaultMenu(
                 projectDetail._id,
                 dataToSave.default_human_language,
-                dataToSave.other_human_languages
+                dataToSave.other_human_languages,
+                this.logId
               ).subscribe(
                 (defaultMenuResponse) => {
                 }, (error) => {
@@ -416,7 +420,7 @@ export class ProjectsComponent implements OnInit {
       parent_gen_id: '0'
 
     };
-    this.projectsService.generateProject(projectgen).subscribe(data => {
+    this.projectsService.generateProject(projectgen, this.logId).subscribe(data => {
       console.log('data', data);
 
       // this.getProjectByUserId();
@@ -461,7 +465,7 @@ export class ProjectsComponent implements OnInit {
       if (currentNotify.project_id !== undefined) {
         if (currentNotify.status !== 'gen_requested') {
 
-          this.toastr.success('PROJECT : ' + currentNotify.project_name +
+          this.toastr.success('PROJECT : ' + currentNotify.project_unique_id +
             ', STATUS : ' + currentNotify.status_message + '', 'Generation Notification!', {
             closeButton: true,
             disableTimeOut: true
@@ -480,7 +484,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   getAllNotifyByProject(project_id) {
-    this.projectsService.getAllNotifyProject(project_id).subscribe(data => {
+    this.projectsService.getAllNotifyProject(project_id, this.logId).subscribe(data => {
       this.genNotifyArr = data.body;
     },
       error => {
@@ -491,7 +495,7 @@ export class ProjectsComponent implements OnInit {
 
 
   getAllTemplates() {
-    this.templateScreenService.getAllTemplates().subscribe(gepTemp => {
+    this.templateScreenService.getAllTemplates(this.logId).subscribe(gepTemp => {
       this.gepTemplates = gepTemp.body;
       this.gepTempImages = this.gepTemplates.template_image;
     },
@@ -501,7 +505,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   getTemplateParser() {
-    this.templateScreenService.getTemplateParser().subscribe(response => {
+    this.templateScreenService.getTemplateParser(this.logId).subscribe(response => {
       console.log('getTemplate parser response in project are --- ', response);
       // this.gepTemplates = gepTemp.body;
       // this.gepTempImages = this.gepTemplates.template_image;
@@ -517,7 +521,7 @@ export class ProjectsComponent implements OnInit {
 
   getAllUserNotify(user_id) {
 
-    this.projectsService.getAllUserNotify(user_id).subscribe(data => {
+    this.projectsService.getAllUserNotify(user_id, this.logId).subscribe(data => {
       this.userNotifyArr = data.body;
       console.log('userNotifydata:', data);
       if (this.userNotifyArr && this.userNotifyArr.length !== 0) {

@@ -35,7 +35,7 @@ export class TemplateController {
     }
 
     public getTemplateByName(req:Request, res:Response){
-        console.log('---------templatename----',req.query);
+        console.log('---------templatename----',req.query.template_name);
         templateService.getTemplateByName(req,(templatedetails)=>{
             res.status(200);
             res.json(templatedetails);

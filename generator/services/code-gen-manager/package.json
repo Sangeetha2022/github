@@ -26,6 +26,7 @@
     "node-vault": "^0.9.5",
     "nodemon": "^1.18.9",
     "socket.io": "^2.2.0",
+    "ts-node": "^9.0.0",
     "typescript": "^3.2.4",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^3.6.0"

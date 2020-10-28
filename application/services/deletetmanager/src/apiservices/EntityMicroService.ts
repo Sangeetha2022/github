@@ -3,9 +3,9 @@ import { SharedService } from '../config/SharedService';
 
 export class EntityManagerService {
 
-    public deleteProjectEntity(projectid, callback) {
+    public deleteProjectEntity(req, projectid, callback) {
         const projectId = projectid;
-        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/entity/deletebyproject/${projectId}`).then
+        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/entity/deletebyproject/${projectId}?log_id=${req.query.log_id}`).then
             (data => {
                 callback(data);
             }).catch(error => {
@@ -13,9 +13,9 @@ export class EntityManagerService {
             })
     }
 
-    public getProjectEntity(projectid, callback) {
+    public getProjectEntity(req, projectid, callback) {
         const projectId = projectid;
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/entity/getbyproject/${projectId}`).then
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/entity/getbyproject/${projectId}?log_id=${req.query.log_id}`).then
             (data => {
                 callback(data);
             }).catch(error => {
@@ -23,9 +23,9 @@ export class EntityManagerService {
             })
     }
 
-    public deleteEntityById(entityid, callback) {
+    public deleteEntityById(req, entityid, callback) {
         const entityId = entityid;
-        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/entity/delete/${entityId}`).then
+        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/entity/delete/${entityId}?log_id=${req.query.log_id}`).then
             (data => {
                 callback(data);
             }).catch(error => {

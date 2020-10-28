@@ -11,34 +11,34 @@ export class ConfigManagerService {
 
   constructor(private api: ApiService, private restapi: SharedService) { }
 
-  saveConfig(config): Observable<any> {
-    return this.api.post(`${this.restapi.Apigateway}${Constants.saveConfig}`, config);
+  saveConfig(config, logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveConfig}?log_id=${logId}`, config);
   }
 
-  deleteConfig(id): Observable<any> {
-    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteConfig}/${id}`);
+  deleteConfig(id, logId): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteConfig}/${id}?log_id=${logId}`);
   }
 
-  updateConfig(config): Observable<any> {
+  updateConfig(config, logId): Observable<any> {
     const id = config._id;
-    return this.api.put(`${this.restapi.Apigateway}${Constants.updateConfig}/${id}`, config);
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateConfig}/${id}?log_id=${logId}`, config);
   }
 
-  getAllConfig(): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllConfig}`);
+  getAllConfig(logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllConfig}?log_id=${logId}`);
   }
 
-  getTechProperties(): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getConfigTechProperties}`);
+  getTechProperties(logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getConfigTechProperties}?log_id=${logId}`);
   }
 
 
-  getVersion(name): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectVersion}/${name}`);
+  getVersion(name, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectVersion}/${name}?log_id=${logId}`);
   }
 
-  getBuildVersion(name): Observable<any> {
-    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectVersion}/${name}`);
+  getBuildVersion(name, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectVersion}/${name}?logId=${logId}`);
   }
 
   getBuildDate(name): Observable<any> {
