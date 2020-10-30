@@ -103,7 +103,7 @@ export class EntityController implements Controller {
 
     public async getEntityByProjectId(req: Request, res: Response) {
         try {
-            let entity = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/entity/get/?projectId=${req.query.projectId}` + `?log_id=${req.query.log_id}`));
+            let entity = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/entity/get/?projectId=${req.query.projectId}` + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(entity) :
                 req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
         } catch (err) {

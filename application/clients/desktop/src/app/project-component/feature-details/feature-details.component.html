@@ -83,6 +83,32 @@
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
+          <mat-panel-title> Feature Flows </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="row">
+          <div class="col-md-6"></div>
+          <div class="col-md-6">
+            <button class="btn btn-info ml-sm-3 float-right btn_color" (click)="openFeatureFlowDialog(feature_id)">Add
+              Flows</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="flowTable container mt-sm-3" *ngIf="flowInFeatureRowData.length>0">
+
+            <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
+              [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData" [animateRows]="true"
+              [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10"
+              [suppressRowClickSelection]="true" [suppressRowClickSelection]="true"
+              [frameworkComponents]="frameworkComponents" [floatingFilter]="true"
+              (gridReady)="onFeatureFlowGridReady($event)">
+            </ag-grid-angular>
+          </div>
+        </div>
+
+
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
           <mat-panel-title> Screens </mat-panel-title>
         </mat-expansion-panel-header>
 
@@ -129,32 +155,6 @@
         <div class="col-md-4" *ngIf="screenDetails.length === 0">
           No Screen Available.
         </div> -->
-
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title> Feature Flows </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="row">
-          <div class="col-md-6"></div>
-          <div class="col-md-6">
-            <button class="btn btn-info ml-sm-3 float-right btn_color" (click)="openFeatureFlowDialog(feature_id)">Add
-              Flows</button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="flowTable container mt-sm-3" *ngIf="flowInFeatureRowData.length>0">
-
-            <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
-              [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData" [animateRows]="true"
-              [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10"
-              [suppressRowClickSelection]="true" [suppressRowClickSelection]="true"
-              [frameworkComponents]="frameworkComponents" [floatingFilter]="true"
-              (gridReady)="onFeatureFlowGridReady($event)">
-            </ag-grid-angular>
-          </div>
-        </div>
-
 
       </mat-expansion-panel>
     </mat-accordion>
