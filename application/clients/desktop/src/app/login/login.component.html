@@ -20,25 +20,29 @@
             </span>
         </mat-form-field> -->
 
-    <form [formGroup]="loginform">
-        <div class="form-group field_size">
-            <label class="text">Email</label>
-            <input type="email" class="form-control center" [(ngModel)]='user.email' name='user'
-                [ngStyle]="{'border-color': borderStyle.email}" formControlName="email" id="email"
-                aria-describedby="email" placeholder="Email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
-            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+    <form [formGroup]="loginform" (ngSubmit)="Login()">
+        <div formGroupName="logindata">
+            <div class="form-group email_field_size">
+                <label class="text">Email</label>
+                <input type="email" class="form-control center" formControlName="email" placeholder="Email">
+                <span *ngIf="!loginform.get('logindata.email').valid && loginform.get('logindata.email').touched"
+                    class="invalid-feedback">
+                    Must be a valid Email Id
+                </span>
             </div>
-        </div>
-        <div class="form-group field_size">
-            <label class="text">Password</label>
-            <input type="password" class="form-control center" id="exampleInputPassword1" formControlName="password"
-                placeholder="Password" name='user' [type]="show ? 'text' : 'password'" pw-show-hide="icon"
-                [(ngModel)]='user.password' (keyup.enter)="Login()" [ngStyle]="{'border-color': borderStyle.password}">
+            <div class="form-group password_field_size">
+                <label class="text">Password</label>
+                <input type="password" class="form-control center" formControlName="password" placeholder="Password"
+                    [type]="show ? 'text' : 'password'" pw-show-hide="icon" (keyup.enter)="Login()">
+                <span class="input-group-addon eye">
+                    <i [ngClass]="show ? 'fa fa-eye' : 'fa fa-eye-slash'" aria-hidden="true" (click)="hideEye()"></i>
+                </span>
+                <span *ngIf="!loginform.get('logindata.password').valid && loginform.get('logindata.password').touched"
+                    class="invalid-feedback">
+                    A Password must be 8 character and must have a Uppercase , Lowercase and a Special character
+                </span>
 
-            <span class="input-group-addon eye">
-                <i [ngClass]="show ? 'fa fa-eye' : 'fa fa-eye-slash'" aria-hidden="true" (click)="hideEye()"></i>
-            </span>
+            </div>
         </div>
     </form>
 
