@@ -29,13 +29,19 @@
   margin-left: 13em;
 }
 
+.invalid-feedback {
+  display: unset !important;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  font-weight: bold;
+  color: #dc3545;
+}
 input[pw-show-hide]+span {
   cursor: pointer;
   display: inline-block;
   margin-left: .5ch;
   text-transform: uppercase;
-  width: 4.5ch;
-  text-align: left;
   line-height: 1;
   vertical-align: middle;
 
@@ -102,7 +108,10 @@ a:hover {
 .pading_top{
   padding-top:1%;
 }
-.field_size{
+.email_field_size{
+  margin: 2% 11% 4% 11%;
+}
+.password_field_size{
   margin: 2% 11% 4% 11%;
 }
 .eye {
