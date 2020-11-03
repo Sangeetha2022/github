@@ -8,6 +8,7 @@ export const TemplateSchema = new Schema({
         type: String,
         default: uuid.v1
     },
+    flag: String,
     'gjs-assets': [],
     'gjs-css': String,
     'gjs-styles': [String],
