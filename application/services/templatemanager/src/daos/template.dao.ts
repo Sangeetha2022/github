@@ -30,7 +30,7 @@ export class TemplateDao {
     }
 
     public getAllTemplates(req: Request, callback: CallableFunction) {
-        Template.find({}, (err, template) => {
+        Template.find({flag: 'active'}, (err, template) => {
             if (err) {
                 callback(err);
             } else {

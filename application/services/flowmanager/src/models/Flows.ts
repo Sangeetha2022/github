@@ -8,6 +8,7 @@ let flowSchema = mongoose.Schema({
   },
   name: String,
   label: String,
+  flag: String,
   description: String,
   type: String,
   components: [

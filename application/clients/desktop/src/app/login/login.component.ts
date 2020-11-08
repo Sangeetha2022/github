@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './loginservice.service';
 import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
 import { Brodcastservice } from '../broadcast.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import * as generate from 'nanoid/generate';
 import * as dictionary from 'nanoid-dictionary';
 
@@ -66,10 +66,18 @@ export class LoginComponent implements OnInit {
     //   this.googleuser = user;
     //   this.loggedIn = (user != null);
     // });
-    this.loginform = this.formBuilder.group({
-      email: ['', Validators.compose([Validators.required, Validators.email])],
-      password: ['', Validators.required]
+
+    this.loginform = new FormGroup({
+      'logindata' : new FormGroup({
+        'email': new FormControl(null, [Validators.required, Validators.email]),
+        // tslint:disable-next-line:max-line-length
+        'password': new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}') ])
+      })
     });
+    // this.loginform = this.formBuilder.group({
+    //   email: ['', Validators.compose([Validators.required, Validators.email])],
+    //   password: ['', Validators.required]
+    // });
     this.loginform.valueChanges.subscribe(() => {
       this.submitted = false;
       this.errorMessage = '';
@@ -93,10 +101,10 @@ export class LoginComponent implements OnInit {
   newuser(value) {
     const invalid = this.loginform;
     this.new_user = true;
-    console.log("invalid -------------------++++++++++", this.loginform.value.email, 'ddsdsd', this.loginform.value.password)
+    console.log('invalid -------------------++++++++++', this.loginform.value.email, 'ddsdsd', this.loginform.value.password);
     if (this.loginform.value.email !== '' && this.loginform.value.password !== '') {
       this.new_user = false;
-      console.log("murugan")
+      console.log('murugan');
       if (value.checked) {
         this.signup = true;
         this.displayModel = 'block';
@@ -127,7 +135,13 @@ export class LoginComponent implements OnInit {
 
 
   newUserLogin() {
-    this.loginservice.signup(this.user).subscribe(data => {
+    const signupdetails = {
+      email: this.loginform.value.logindata.email,
+      password: this.loginform.value.logindata.password,
+      firstName: this.user.firstName,
+      lastName: this.user.lastName
+    };
+    this.loginservice.signup(signupdetails).subscribe(data => {
       this.Userdetails = data.Userdetails;
       this.logId = generate(dictionary.numbers, 12);
       console.log('userinfoo--->', this.Userdetails);
@@ -171,7 +185,11 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.permission = [];
-    this.loginservice.Login(this.user).subscribe(logindetails => {
+    const logininfo = {
+      email: this.loginform.value.logindata.email,
+      password: this.loginform.value.logindata.password
+    };
+    this.loginservice.Login(logininfo).subscribe(logindetails => {
       if (logindetails.Access !== undefined) {
         console.log('-------ahdbakjvjakjak--------');
         this.Accesslevel = logindetails.Access[0];
@@ -206,7 +224,7 @@ export class LoginComponent implements OnInit {
           if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '') {
             this.Consent();
           } else {
-            console.log('projecttt--#############################->>>')
+            console.log('projecttt--#############################->>>');
             this.route.navigate(['project']);
           }
 

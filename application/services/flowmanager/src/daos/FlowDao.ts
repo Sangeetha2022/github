@@ -32,7 +32,7 @@ export class FlowDao {
 
 
     public getAllFlow(callback: CallableFunction) {
-        this.Flow.find({}).populate('components').exec((err, flow) => {
+        this.Flow.find({flag: 'active'}).populate('components').exec((err, flow) => {
             if (err) {
                 callback(err)
             } else {
