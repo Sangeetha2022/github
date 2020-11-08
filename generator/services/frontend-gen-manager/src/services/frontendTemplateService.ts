@@ -38,38 +38,44 @@ export class FrontendTemplateService {
         }
         console.log('-------get template by project-------',details);
         // const templateDetails = await this.getTemplateByProjectId(details.projectId);
-        const templateDetails = await this.getTemplateByName(details.project.projectTemplatename);
+        if (details.clientFramework.label.includes('Angular')) {
+            const templateDetails = await this.getTemplateByName(details.project.projectTemplatename);
 
-        console.log('template of project are ---- ', util.inspect(templateDetails, { showHidden: true, depth: null }));
-        const templateJSON = JSON.parse(templateDetails.toString());
-        const menuDetails = await this.getMenuByProjectId(details.projectId);
-        const menuJSON = JSON.parse(menuDetails.toString());
-        // console.log('menuJSON are ------  ', util.inspect(menuDetails, { showHidden: true, depth: null }));
+            console.log('template of project are ---- ', util.inspect(templateDetails, { showHidden: true, depth: null }));
+            const templateJSON = JSON.parse(templateDetails.toString());
+            const menuDetails = await this.getMenuByProjectId(details.projectId);
+            const menuJSON = JSON.parse(menuDetails.toString());
+            // console.log('menuJSON are ------  ', util.inspect(menuDetails, { showHidden: true, depth: null }));
 
-        templateObj.template = templateJSON.body;
-        templateObj.menuBuilder = menuJSON.body;
+            templateObj.template = templateJSON.body;
+            templateObj.menuBuilder = menuJSON.body;
 
-        try {
-            // console.log('before calling angular template');
-            const templateResponse = await this.generateAngularTemplate(templateObj);
-            console.log('after calling angular template ---  ', templateResponse);
-            if (templateResponse) {
-                const tempFrontend = {
-                    templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
-                    seedTemplatePath: details.seedTemplatePath,
-                    authTemplatePath: details.authTemplatePath,
-                    adminTemplatePath: details.project.templateLocation.frontendTemplate,
-                    screenMenus: templateObj.menuBuilder
+            try {
+                // console.log('before calling angular template');
+                const templateResponse = await this.generateAngularTemplate(templateObj);
+                console.log('after calling angular template ---  ', templateResponse);
+                if (templateResponse) {
+                    const tempFrontend = {
+                        templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
+                        seedTemplatePath: details.seedTemplatePath,
+                        authTemplatePath: details.authTemplatePath,
+                        adminTemplatePath: details.project.templateLocation.frontendTemplate,
+                        screenMenus: templateObj.menuBuilder
 
+                    }
+                    await this.generateAuthFrontendComponent(tempFrontend);
+                    console.log('after calling auth gronten component are  ---  ');
+                    await this.generateAdminFrontendComponent(tempFrontend);
                 }
-                await this.generateAuthFrontendComponent(tempFrontend);
-                console.log('after calling auth gronten component are  ---  ');
-                await this.generateAdminFrontendComponent(tempFrontend);
+                callback('angular template are generated');
+            } catch (err) {
+                console.log('err in generating the angualr template')
+                callback('cannot able to generate the angular template');
             }
-            callback('angular template are generated');
-        } catch (err) {
-            console.log('err in generating the angualr template')
-            callback('cannot able to generate the angular template');
+        }
+
+        if (details.clientFramework.label.includes('React')) {
+
         }
 
     }

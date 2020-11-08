@@ -33,5 +33,6 @@ export * from './generator/github.controller';
 export * from './generator/authgencontroller';
 export * from './generator/angularTemplate.controller';
 export * from './generator/swagger.controller';
+export * from './generator/react.controller';
 
 
