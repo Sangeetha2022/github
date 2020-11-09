@@ -83,7 +83,7 @@ export class DockerService {
 
         console.log("----generate_geppetto_compose");
         const temp = {
-            project_name: projectDetails.project_lowercase,
+            project_name: projectDetails.name,
         }
 
         let destination = projectDetails.localUrl + '/docker';

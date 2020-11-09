@@ -164,29 +164,42 @@ export class EntityManagerComponent implements OnInit {
     }
 
 
-    generateCode() {
-        this.toastr.success('PROJECT: ' + this.projectName, 'Generation Requested!', {
-            closeButton: false,
-            disableTimeOut: false
-        });
-        this.projectComponentService.codeGenerate(this.project_id, this.logId).subscribe(data => {
-            if (data.body) {
-                console.log('body data----------------->>>', data.body);
-                // tslint:disable-next-line: max-line-length
-                this.toastr.success('Github URL: https://github.com/gepinfo/' + this.projectName + '.git', 'Generation Completed!', {
-                    closeButton: true,
-                    disableTimeOut: true
-                }).onTap.subscribe(action => {
-                    window.open('https://github.com/gepinfo/' + this.projectName + '.git', '_blank');
-                });
-            }
-        }, error => {
-            if (error) {
-                this.toastr.error('Failed!', 'Generation Failed', {
-                    closeButton: false,
-                    disableTimeOut: false
-                });
-            }
+    async generateCode() {
+        const responsed = await this.requested();
+        if (responsed === 'requested') {
+            this.toastr.success('Please wait', 'Generating the code!', {
+                closeButton: true,
+                disableTimeOut: true
+            });
+            this.projectComponentService.codeGenerate(this.project_id, this.logId).subscribe(data => {
+                if (data.body) {
+                    console.log('body data----------------->>>', data.body);
+                    // tslint:disable-next-line: max-line-length
+                    this.toastr.clear();
+                    this.toastr.success('Github URL: https://github.com/gepinfo/' + this.projectName + '.git', 'Generation Completed!', {
+                        closeButton: true,
+                        disableTimeOut: true
+                    }).onTap.subscribe(action => {
+                        window.open('https://github.com/gepinfo/' + this.projectName + '.git', '_blank');
+                    });
+                }
+            }, error => {
+                if (error) {
+                    this.toastr.error('Failed!', 'Generation Failed', {
+                        closeButton: false,
+                        disableTimeOut: false
+                    });
+                }
+            });
+        }
+    }
+    requested () {
+        return new Promise(resolve => {
+            this.toastr.success('PROJECT: ' + this.projectName, 'Generation Requested!', {
+                closeButton: false,
+                disableTimeOut: false
+            });
+            resolve('requested');
         });
     }
     fileSelected(event) {
