@@ -43,4 +43,15 @@ export class FeatureManagerService {
                 callback(error);
             })
     }
+
+    public deleteFeatureEntity(req, featureid, entityid, callback) {
+        const featureId = featureid;
+        const entityId = entityid;
+        new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/feature/deleteentity/${featureId}/${entityId}?log_id=${req.query.log_id}`).then
+            (data => {
+                callback(data);
+            }).catch(error => {
+                callback(error);
+            })
+    }
 }
