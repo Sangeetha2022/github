@@ -10,6 +10,7 @@ import { Constant } from '../config/Constant';
 import { AuthGenManagerService } from '../apiservices/AuthGenManagerService';
 import { AdminGenManagerService } from '../apiservices/AdminGenManagerService';
 import { TemplateManagerService } from '../apiservices/TemplateManagerService';
+import { ReactGenManagerService } from '../apiservices/ReactGenManagerService'
 
 export class FrontendTemplateService {
     sharedService = new SharedService();
@@ -19,6 +20,7 @@ export class FrontendTemplateService {
     angularTemplateManagerService = new AngularTemplateManagerService();
     authGenManagerService = new AuthGenManagerService();
     adminGenManagerService = new AdminGenManagerService();
+    reactgenManagerService = new ReactGenManagerService ();
     apiAdapter = new ApiAdaptar()
     backend: String;
 
@@ -37,21 +39,22 @@ export class FrontendTemplateService {
             menuBuilder: null
         }
         console.log('-------get template by project-------',details);
+        console.log('details from as per', details.project.clientFramework.label.includes('React'));
         // const templateDetails = await this.getTemplateByProjectId(details.projectId);
-        if (details.clientFramework.label.includes('Angular')) {
-            const templateDetails = await this.getTemplateByName(details.project.projectTemplatename);
+        const templateDetails = await this.getTemplateByName(details.project.projectTemplatename);
 
-            console.log('template of project are ---- ', util.inspect(templateDetails, { showHidden: true, depth: null }));
-            const templateJSON = JSON.parse(templateDetails.toString());
-            const menuDetails = await this.getMenuByProjectId(details.projectId);
-            const menuJSON = JSON.parse(menuDetails.toString());
-            // console.log('menuJSON are ------  ', util.inspect(menuDetails, { showHidden: true, depth: null }));
+        console.log('template of project are ---- ', util.inspect(templateDetails, { showHidden: true, depth: null }));
+        const templateJSON = JSON.parse(templateDetails.toString());
+        const menuDetails = await this.getMenuByProjectId(details.projectId);
+        const menuJSON = JSON.parse(menuDetails.toString());
+        // console.log('menuJSON are ------  ', util.inspect(menuDetails, { showHidden: true, depth: null }));
 
-            templateObj.template = templateJSON.body;
-            templateObj.menuBuilder = menuJSON.body;
+        templateObj.template = templateJSON.body;
+        templateObj.menuBuilder = menuJSON.body;
 
-            try {
-                // console.log('before calling angular template');
+        try {
+            // console.log('before calling angular template');
+            if(details.project.clientFramework.label.includes('Angular')) {
                 const templateResponse = await this.generateAngularTemplate(templateObj);
                 console.log('after calling angular template ---  ', templateResponse);
                 if (templateResponse) {
@@ -68,16 +71,26 @@ export class FrontendTemplateService {
                     await this.generateAdminFrontendComponent(tempFrontend);
                 }
                 callback('angular template are generated');
-            } catch (err) {
-                console.log('err in generating the angualr template')
-                callback('cannot able to generate the angular template');
             }
+            if (details.project.clientFramework.label.includes('React')) {
+                let response = await this.generateReact(templateObj);
+                callback(response);
+            }
+            
+        } catch (err) {
+            console.log('err in generating the angualr template')
+            callback('cannot able to generate the angular template');
         }
 
-        if (details.clientFramework.label.includes('React')) {
+    }
 
-        }
-
+    generateReact(details) {
+        return new Promise(resolve => {
+            console.log('entering to the generate react app--------->>>');
+            this.reactgenManagerService.generateReact(details, (data) => {
+                resolve(data);
+            })
+        })
     }
 
     getMenuByProjectId(projectId) {
