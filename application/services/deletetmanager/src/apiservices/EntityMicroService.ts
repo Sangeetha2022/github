@@ -23,6 +23,16 @@ export class EntityManagerService {
             })
     }
 
+    public getByEntityId(req, entityid, callback) {
+        const EntityId = entityid;
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/entity/get/${EntityId}?log_id=${req.query.log_id}`).then
+            (data => {
+                callback(data);
+            }).catch(error => {
+                callback(error);
+            })
+    }
+
     public deleteEntityById(req, entityid, callback) {
         const entityId = entityid;
         new ApiAdaptar().delete(`${SharedService.apiGatewayURL}/desktop/entity/delete/${entityId}?log_id=${req.query.log_id}`).then

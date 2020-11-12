@@ -126,7 +126,7 @@ class FeatureController implements Controller {
 
     public async featuredeleteEntity(req: Request, res: Response) {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/deleteentity/${req.params.featureId}/${req.params.entityid}` + `?log_id=${req.query.log_id}`));
+            let feature = await Promise.resolve(new ApiAdaptar().delete(`${Constants.featureUrl}/feature/deleteentity/${req.params.featureId}/${req.params.entityid}` + `?log_id=${req.query.log_id}`));
             res.send(feature);
         } catch(err) {
             req.baseUrl === '/mobile' ? res.send(err) :

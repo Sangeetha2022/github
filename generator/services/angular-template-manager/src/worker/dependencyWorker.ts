@@ -10,9 +10,13 @@ let assetWorker = new AssetWorker();
 
 export class DependencyWorker {
 
-    generateIndexHtml(generationPath, templatePath, baseTag, scriptTag, callback) {
+    generateIndexHtml(generationPath, templatePath, baseTag: Array<any>, scriptTag, callback) {
         // const index = baseTag.join('').findIndex(element => element.includes('gjs-base.css'));
         // console.log('gjs-base css is present are -----  ', index);
+        const baseHrefTag: Array<string> = baseTag.filter(element => element.includes('<base href'));
+        if(baseHrefTag.length === 0) {
+            baseTag.push(`<base href="/" />`);
+        }
         const temp = {
             baseTag: baseTag,
             scriptTag: scriptTag

@@ -69,8 +69,7 @@ const googleLoginOptions: LoginOpt = {
   scope: 'profile email'
 };
 
-export function getAuthserviceConfgis() {
-
+export function getAuthserviceConfigs() {
   const config = new AuthServiceConfig([
     {
       id: GoogleLoginProvider.PROVIDER_ID,
@@ -158,7 +157,7 @@ export function getAuthserviceConfgis() {
     },
     {
       provide: AuthServiceConfig,
-      useFactory: getAuthserviceConfgis
+      useFactory: getAuthserviceConfigs
     }
   ],
   bootstrap: [AppComponent],
