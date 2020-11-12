@@ -38,7 +38,7 @@ export class Signincontroller {
         })
     }
 
-    public fbLogIn(req: Request , res: Response) {
+    public fbLogIn(req: Request, res: Response) {
 
         signinservice.fbLogIn(req, (response) => {
             res.status(200);
@@ -77,5 +77,18 @@ export class Signincontroller {
             res.json(response);
         })
     }
+    public getConfigurations(req: Request, res: Response) {
+        signinservice.getConfigurations(req, (response) => {
+            res.status(200);
+            res.json(response);
+        });
+    }
+    public addConfigurations(req: Request, res: Response) {
+        signinservice.addConfigurations(req, (response) => {
+            res.status(201);
+            res.json(response);
+        })
+    }
+
 
 }

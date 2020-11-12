@@ -5,7 +5,7 @@ export class Constants {
 
     public static DESKTOP_ROUTER = '/desktop';
     public static MOBILE_ROUTER = '/mobile';
-    //customeConnectors 
+    // customeConnectors
     public static get quickTestcustomConnectors(): string { return this.DESKTOP_ROUTER + '/quick/test'; }
     public static get updateQuickConnectorsById(): string { return this.DESKTOP_ROUTER + '/quickUpdateConnectorsById'; }
     public static get quickConnectors(): String { return this.DESKTOP_ROUTER + '/save/quickConnectors'; }
@@ -14,10 +14,12 @@ export class Constants {
     // login apis
     public static get signup(): string { return this.DESKTOP_ROUTER + '/signup'; }
     public static get googlelogin(): string { return this.DESKTOP_ROUTER + '/googlesignin'; }
-    public static get fbLogIn(): string {return this.DESKTOP_ROUTER + '/fblogin';}
+    public static get fbLogIn(): string {return this.DESKTOP_ROUTER + '/fblogin'; }
     public static get Login(): string { return this.DESKTOP_ROUTER + '/login'; }
     public static get Logout(): string { return this.DESKTOP_ROUTER + '/logout'; }
     public static get Consent(): string { return this.DESKTOP_ROUTER + '/consent'; }
+    public static get getConfigs(): string { return this.DESKTOP_ROUTER + '/getConfigurations'; }
+    public static get addConfigs(): string { return this.DESKTOP_ROUTER + '/addConfigurations'; }
 
     // Admin
     public static get getUsers(): string { return this.DESKTOP_ROUTER + '/admin/getusers'; }

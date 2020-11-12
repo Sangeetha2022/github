@@ -5,11 +5,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './loginservice.service';
-import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
+import { AuthService, SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider } from 'angular-6-social-login';
 import { Brodcastservice } from '../broadcast.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import * as generate from 'nanoid/generate';
 import * as dictionary from 'nanoid-dictionary';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
   public errorMessage: String;
   public isErrorMessage: Boolean;
   // tslint:disable-next-line:max-line-length
-  constructor(private route: Router, private router: ActivatedRoute, private loginservice: LoginService, private authservice: AuthService, public broadcast: Brodcastservice, private formBuilder: FormBuilder, ) {
+  constructor(private route: Router, private router: ActivatedRoute, private loginservice: LoginService, private authservice: AuthService, public broadcast: Brodcastservice, private formBuilder: FormBuilder) {
     this.show = false;
   }
 
@@ -58,6 +59,8 @@ export class LoginComponent implements OnInit {
   public show: boolean;
   public openId: String = 'openid';
   public logId: any;
+  public googleLoginData: any;
+  public faceBookLoginData: any;
 
 
   ngOnInit() {
@@ -84,10 +87,39 @@ export class LoginComponent implements OnInit {
       this.isErrorMessage = false;
       this.borderStyle.email = '#ced4da';
     });
+
+    this.loginservice.getConfigurations().subscribe((response: any) => {
+      console.log('response data------------->>>', response.body);
+      response.body.forEach((element: any) => {
+        console.log('data------------------>>', element);
+        if (element.socialNetwork === 'Google') {
+          this.googleLoginData = element.appId;
+        }
+        if (element.socialNetwork === 'FaceBook') {
+          this.faceBookLoginData = element.appId;
+        }
+      });
+
+    });
+    this.getAuthserviceConfigs();
   }
 
   get f() { return this.loginform.controls; }
 
+  getAuthserviceConfigs() {
+    const config = new AuthServiceConfig([
+      {
+        id: GoogleLoginProvider.PROVIDER_ID,
+        provider: new GoogleLoginProvider(this.googleLoginData)
+      },
+      {
+        id: FacebookLoginProvider.PROVIDER_ID,
+        provider: new FacebookLoginProvider(this.faceBookLoginData)
+      }
+
+    ]);
+    return config;
+  }
 
   closeDeleteFModel() {
     this.displayModel = 'none';
@@ -167,7 +199,7 @@ export class LoginComponent implements OnInit {
   }
 
   onChange(event) {
-    if (event === true ) {
+    if (event === true) {
       this.isSingePageSignIn = true;
     }
     if (event === false) {
@@ -220,7 +252,7 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
           sessionStorage.setItem('email', this.Userdetails.body.email);
           sessionStorage.setItem('JwtToken', this.Userdetails.body.Idtoken);
-          sessionStorage.setItem('LogId', this.logId  + '_' + this.id);
+          sessionStorage.setItem('LogId', this.logId + '_' + this.id);
           if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '') {
             this.Consent();
           } else {
@@ -240,6 +272,9 @@ export class LoginComponent implements OnInit {
   googlesigin(socialPlatform: string) {
     console.log('google');
     let socialPlatformProvider;
+    let data = this.getAuthserviceConfigs();
+    console.log('socialPlatformProvider', data.providers);
+
     if (socialPlatform === 'google') {
       socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
     }
@@ -286,34 +321,34 @@ export class LoginComponent implements OnInit {
     }
     this.authservice.signIn(socialPlatform).then(fbUserData => {
       console.log('fbuser----ahhaaa-->>', fbUserData);
-        const fbUserWithEmail = {
-          fbId: fbUserData.id,
-          email: fbUserData.email,
-          name: fbUserData.name,
-          provider: fbUserData.provider,
-          token: fbUserData.token,
-        };
-        this.loginservice.fbLogIn(fbUserWithEmail).subscribe(FbResponse => {
-          console.log('fb response --->>', FbResponse);
-          if (FbResponse.Access !== undefined) {
-            console.log('-------ahdbakjvjakjak--------');
-            this.Accesslevel = FbResponse.Access[0];
-            this.permission.push(this.Accesslevel);
-            this.broadcast.sendmessage({ 'Access': this.permission });
-            this.broadcast.gaurdarray = [];
-            this.broadcast.gaurdarray = this.permission;
-            console.log('------------googleloginresponse-----', this.permission);
-            sessionStorage.setItem('Access', JSON.stringify(this.permission));
-          }
-          sessionStorage.setItem('Id', FbResponse.Userdetails.body._id);
-          sessionStorage.setItem('lastloggedintime', FbResponse.Userdetails.body.loggedinDate);
-          sessionStorage.setItem('email', FbResponse.Userdetails.body.email);
-          sessionStorage.setItem('JwtToken', FbResponse.Userdetails.body.Idtoken);
-          this.route.navigate(['project']);
-        }, error => {
-          console.error('error:', error);
-        });
-        // });
+      const fbUserWithEmail = {
+        fbId: fbUserData.id,
+        email: fbUserData.email,
+        name: fbUserData.name,
+        provider: fbUserData.provider,
+        token: fbUserData.token,
+      };
+      this.loginservice.fbLogIn(fbUserWithEmail).subscribe(FbResponse => {
+        console.log('fb response --->>', FbResponse);
+        if (FbResponse.Access !== undefined) {
+          console.log('-------ahdbakjvjakjak--------');
+          this.Accesslevel = FbResponse.Access[0];
+          this.permission.push(this.Accesslevel);
+          this.broadcast.sendmessage({ 'Access': this.permission });
+          this.broadcast.gaurdarray = [];
+          this.broadcast.gaurdarray = this.permission;
+          console.log('------------googleloginresponse-----', this.permission);
+          sessionStorage.setItem('Access', JSON.stringify(this.permission));
+        }
+        sessionStorage.setItem('Id', FbResponse.Userdetails.body._id);
+        sessionStorage.setItem('lastloggedintime', FbResponse.Userdetails.body.loggedinDate);
+        sessionStorage.setItem('email', FbResponse.Userdetails.body.email);
+        sessionStorage.setItem('JwtToken', FbResponse.Userdetails.body.Idtoken);
+        this.route.navigate(['project']);
+      }, error => {
+        console.error('error:', error);
+      });
+      // });
     });
 
   }
@@ -343,7 +378,7 @@ export class LoginComponent implements OnInit {
       sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
       sessionStorage.setItem('email', this.Userdetails.body.email);
       sessionStorage.setItem('JwtToken', this.Userdetails.body.Idtoken);
-      sessionStorage.setItem('LogId', this.logId  + '_' + this.id);
+      sessionStorage.setItem('LogId', this.logId + '_' + this.id);
     }, error => {
       console.error('error: ', error);
     });
