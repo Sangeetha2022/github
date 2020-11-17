@@ -246,13 +246,27 @@ export class SigninDao {
             callback(error);
         }))
     }
-    public addConfigurations(config, callback) {
-        let configuration = new configModel(config);
-        configuration.save().then((result) => {
-            callback(result);
-        }).catch((error) => {
-            callback(error);
-        });
+    public async addConfigurations(config, callback) {
+        let updateConfigData: any = await this.updateConfig(config);
+        if (updateConfigData === null) {
+            let configuration = new configModel(config);
+            configuration.save().then((result) => {
+                callback(result);
+            }).catch((error) => {
+                callback(error);
+            });
+        }
+        callback(updateConfigData);
+    }
+
+    public updateConfig(config) {
+        return new Promise(resolve => {
+            configModel.findOneAndUpdate({ socialNetwork: config.socialNetwork }, config, { new: true }).then((result) => {
+                resolve(result);
+            }).catch((error) => {
+                resolve(error);
+            })
+        })
     }
 
 }
