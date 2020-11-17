@@ -432,7 +432,7 @@ export class DesktopScreenComponent implements OnInit {
     }
     console.log('plugins list before set grapesjs are ----  ', plugins);
     // adding gep css
-    addStyles.push(`./assets/css/template/${this.templateName}.css`);
+    addStyles.push(`./assets/css/template/${this.templateName.replace(/ +/g, "")}.css`);
     console.log('--------template css file location--------', addStyles);
     this.editor = grapesjs.init({
 

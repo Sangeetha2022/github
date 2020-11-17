@@ -1,6 +1,7 @@
 import mongoose = require('mongoose');
 import { Userschema } from '../models/User';
 import { Roleschema } from '../models/Role';
+import { configSchema } from '../models/Config';
 import * as jwt from 'jsonwebtoken';
 import * as asyncLoop from 'node-async-loop';
 import { resolve } from 'dns';
@@ -9,6 +10,7 @@ const logger = require('../config/Logger');
 
 const signinmodel = mongoose.model('User', Userschema);
 const rolemodel = mongoose.model('role', Roleschema);
+const configModel = mongoose.model("Config", configSchema);
 export class SigninDao {
 
     private userrole: any;
@@ -121,17 +123,17 @@ export class SigninDao {
     }
     public fbLogIn(fbUser, callback) {
         console.log('fbUSer--ahha--->>', fbUser);
-        signinmodel.find({$or:[{email:{$in:[fbUser.email]}},{fbId:{$in:[fbUser.fbId]}}]}).then(result => {
+        signinmodel.find({ $or: [{ email: { $in: [fbUser.email] } }, { fbId: { $in: [fbUser.fbId] } }] }).then(result => {
             callback(result)
         })
     }
 
     public saveSocialSignIn(socialResponse, callback) {
         let googlelogin = new signinmodel(socialResponse);
-        googlelogin.save().then((err ,result) => {
-            if(err) {
+        googlelogin.save().then((err, result) => {
+            if (err) {
                 callback(err)
-            }else{
+            } else {
                 callback(result);
 
             }
@@ -139,7 +141,7 @@ export class SigninDao {
     }
 
     public updateGoogleSignIn(updateGoogle, callback) {
-        signinmodel.findOneAndUpdate({ email:updateGoogle[0].email }, updateGoogle, { new: true }, (err, updateResult) => {
+        signinmodel.findOneAndUpdate({ email: updateGoogle[0].email }, updateGoogle, { new: true }, (err, updateResult) => {
             if (err) {
                 callback(err);
             } else {
@@ -149,10 +151,10 @@ export class SigninDao {
 
     }
 
-    public updateFbLogin(fbUpdate , callback){
-        signinmodel.findOneAndUpdate({fbId:fbUpdate[0].fbId},fbUpdate , {new: true}, (err , fbUpdateRes) => {
+    public updateFbLogin(fbUpdate, callback) {
+        signinmodel.findOneAndUpdate({ fbId: fbUpdate[0].fbId }, fbUpdate, { new: true }, (err, fbUpdateRes) => {
             callback(fbUpdateRes);
-        } )
+        })
     }
 
     public socialLoginSetRole(callback) {
@@ -161,7 +163,7 @@ export class SigninDao {
         })
     }
 
-    public generateIdToken(tokenData , callback) {
+    public generateIdToken(tokenData, callback) {
         const idtoken = jwt.sign(tokenData, 'geppettosecret', {
             expiresIn: 86400
         });
@@ -237,4 +239,20 @@ export class SigninDao {
             callback(updaterespone);
         })
     }
+    public getConfigurations(callback) {
+        configModel.find().then(result => {
+            callback(result);
+        }).catch((error => {
+            callback(error);
+        }))
+    }
+    public addConfigurations(config, callback) {
+        let configuration = new configModel(config);
+        configuration.save().then((result) => {
+            callback(result);
+        }).catch((error) => {
+            callback(error);
+        });
+    }
+
 }

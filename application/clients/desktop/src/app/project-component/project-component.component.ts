@@ -164,7 +164,11 @@ export class EntityManagerComponent implements OnInit {
     }
 
 
-    generateCode() {
+    async generateCode() {
+        this.toastr.success('Please wait', 'Generating the code!', {
+            closeButton: true,
+            disableTimeOut: true
+        });
         this.toastr.success('PROJECT: ' + this.projectName, 'Generation Requested!', {
             closeButton: false,
             disableTimeOut: false
@@ -173,6 +177,7 @@ export class EntityManagerComponent implements OnInit {
             if (data.body) {
                 console.log('body data----------------->>>', data.body);
                 // tslint:disable-next-line: max-line-length
+                this.toastr.clear();
                 this.toastr.success('Github URL: https://github.com/gepinfo/' + this.projectName + '.git', 'Generation Completed!', {
                     closeButton: true,
                     disableTimeOut: true
@@ -189,6 +194,7 @@ export class EntityManagerComponent implements OnInit {
             }
         });
     }
+
     fileSelected(event) {
         this.frontFile = event.target.files;
     }

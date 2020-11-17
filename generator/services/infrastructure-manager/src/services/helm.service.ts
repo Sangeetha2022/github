@@ -90,7 +90,7 @@ export class HelmService {
     generate_dynamic_contents_local() {
         console.log("----dynamic");
         const temp = {
-            project_name: this.projectDetails.project_lowercase,
+            project_name: this.projectDetails.name,
             custom_node: this.backendList
         }
 
@@ -121,7 +121,7 @@ export class HelmService {
     generate_dynamic_contents() {
 
         const temp = {
-            project_name: this.projectDetails.project_lowercase,
+            project_name: this.projectDetails.name,
             custom_node: this.backendList
         }
 

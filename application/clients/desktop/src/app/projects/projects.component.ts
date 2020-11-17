@@ -295,6 +295,9 @@ export class ProjectsComponent implements OnInit {
     this.validatorService.currentProjectReserveWordInfo.subscribe(reserveWord => {
       this.isReserveWord = reserveWord;
     });
+    if (!this.createProject.value.secondaryLanguage) {
+      this.createProject.value.secondaryLanguage = null;
+    }
     const dataToSave = {
 
       name: this.createProject.value.name.toLowerCase(),

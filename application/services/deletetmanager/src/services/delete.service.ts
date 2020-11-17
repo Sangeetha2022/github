@@ -36,8 +36,27 @@ export class DeleteService {
     public async deleteEntity(req: Request, callback) {
         const entityId = req.params.id;
         await this.deleteConnectorByEntityId(req, entityId)
+        let entityResponse: any = await this.getByEntityId(req, entityId);
+        let featureId = entityResponse.body.body.feature_id;
+        await this.deleteFeatureEntity(req, featureId, entityId)
         await this.deleteEntityById(req, entityId)
         callback({ message: 'Successfully deleted records connected with Entity!' });
+    }
+
+    getByEntityId(req, entityId) {
+        return new Promise(resolve => {
+            this.entityManagerService.getByEntityId(req, entityId, (data) => {
+                resolve(data);
+            })
+        });
+    }
+
+    deleteFeatureEntity(req, featureId, entityId) {
+        return new Promise(resolve => {
+            this.featureManagerService.deleteFeatureEntity(req, featureId, entityId, (data) => {
+                resolve(data);
+            })
+        });
     }
 
 

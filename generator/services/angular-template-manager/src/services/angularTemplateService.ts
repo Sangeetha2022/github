@@ -12,7 +12,7 @@ let dependencyWorker = new DependencyWorker();
 
 export class AngularTemplateService {
 
-    private iterateData: any[] = [];
+    private iterateData: any;
     private exec = childProcess.exec;
     private details = null;
     private generationPath = '';
@@ -102,7 +102,8 @@ export class AngularTemplateService {
             // console.log('stderr exec ----->>>>    ', stderr);
             if (stdout || stderr) {
                 // this.iterateData = grapesjsComponent;
-                this.iterateData = JSON.parse(grapesjsComponent);
+                const stringparsing =  JSON.stringify(grapesjsComponent);
+                this.iterateData = JSON.parse(stringparsing);
                 // console.log('iterateData filter are -----  ', this.iterateData);
                 this.createLandingPage();
                 this.generateAngularApp((response) => {
@@ -124,19 +125,27 @@ export class AngularTemplateService {
     public createLandingPage() {
         if (this.iterateData.length > 0) {
             console.log('iteratedata lengtha are ------- ', this.iterateData.length);
+            const metadata = JSON.parse(this.iterateData);
             this.generationPath += `/${this.projectName}`;
             commonWorker.initializeVariable();
-            var navInfo = this.iterateData.filter(function (element) {
+            var navInfo = metadata.filter(function (element) {
                 return element.tagName == 'nav';
             })
-            var footerInfo = this.iterateData.filter(function (element) {
+            var headerInfo = metadata.filter(function (element){
+                return element.tagName == 'header';
+            })
+            var footerInfo = metadata.filter(function (element) {
                 return element.tagName == 'footer';
             })
-            var templateInfo = this.iterateData.filter(function (element) {
-                return element.tagName != 'nav' && element.tagName != 'footer';
+            var templateInfo = metadata.filter(function (element) {
+                return element.tagName != 'nav' || element.tagName != 'header' && element.tagName != 'footer';
             })
+            // console.log('--------nav----',templateInfo);
             if (navInfo.length > 0) {
                 commonWorker.createHeaderHtml(navInfo, this.menuList);
+            }
+            if (headerInfo.length > 0){
+                commonWorker.createHeaderHtml(headerInfo, this.menuList);
             }
             if (footerInfo.length > 0) {
                 commonWorker.createFooterHtml(footerInfo);
