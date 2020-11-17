@@ -2,6 +2,7 @@ import { Request, response } from 'express';
 import * as util from 'util';
 import { Common } from '../config/Common';
 import * as childProcess from 'child_process';
+import * as ncp from 'ncp';
 import * as asyncLoop from 'node-async-loop';
 
 export class ReactService {
@@ -23,6 +24,8 @@ export class ReactService {
     async createReactProject(req: Request, callback: CallableFunction) {
         this.details = req.body;
         console.log('entered to the create react project details------', this.details);
+        let seedPath = this.details.project.templateLocation.authTemplatePath;
+        let reactBaseCodePath = `${seedPath}/reactBase`;
         this.details.project.name.split(" ").forEach((element, index) => {
             if (index === 0) {
                 this.projectName = element;
@@ -32,22 +35,13 @@ export class ReactService {
         })
         this.generationPath = this.details.projectGenerationPath;
         Common.createFolders(this.generationPath);
-        this.templatePath = this.details.project.templateLocation.frontendTemplate;
-        this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && create-react-app ${this.projectName}`, (error, stdout, stderr) => {
-            if (stdout || stderr) {
-                    const temp = {
-                        shared: {
-                            className: this.sharedObj.className,
-                            variableName: this.sharedObj.variableName,
-                        },
-                        applicationPath: this.generationPath
-                    }
-                    console.log('temp---------------->>', temp)
-                callback(temp);
+        ncp(reactBaseCodePath, this.generationPath, function (err) {
+            if (err) {
+                return console.error(err);
             }
+            callback('done!');
         });
     }
 
 
 }
-

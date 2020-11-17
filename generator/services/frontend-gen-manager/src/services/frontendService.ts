@@ -210,7 +210,7 @@ export class FrontendService {
                         }
                         if(feature.clientFramework.label.includes('React')) {
                             feature.desktop = desktopJSON;
-                            angularDesktopResponse = await this.generateReact(feature);
+                            // angularDesktopResponse = await this.generateReact(feature);
                         }
                        
                     }
