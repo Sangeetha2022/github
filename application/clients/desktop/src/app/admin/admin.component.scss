@@ -1,3 +1,26 @@
-.dashboardcard{
+.dashboardcard {
     padding-top: 5%;
+}
+
+.goToButton {
+    background-color: green;
+    color: white;
+}
+
+.btn-space {
+    margin: 20px;
+}
+
+.btn_color {
+    background-color: #033668;
+    border-bottom: 3px solid #033668;
+}
+
+.screens-tag-style {
+    margin-left: 5px;
+  }
+
+.btn_color:hover {
+    background-color: #39a521;
+    border-bottom: 3px solid #2d831a;
 }

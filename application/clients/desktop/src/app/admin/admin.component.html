@@ -1,10 +1,89 @@
-<div class="dashboardcard">
-  <div class="card">
-    <div class="card-header">
-      Dashboard
+<div class="container top_align">
+  <br />
+  <br />
+  <br />
+  <br />
+  <br />
+  <br>
+  <div>
+    <mat-accordion>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Dashboard</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div style="padding-right: 20px;">
+          <div class="card-body">
+            <a routerLink="/usermanagement" class="btn btn-primary">User Management</a>
+          </div>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title> Social Signin </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="row">
+          <div class='col-md-12'>
+            <div>
+              <button class="btn btn-space btn-primary" mat-raised-button (click)="openGoogleDialog()">Google</button>
+              <button class="btn btn-space btn-primary" mat-raised-button
+                (click)="openFacebookDialog()">FaceBook</button>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" data-keyboard="true" aria-hidden="true" data-backdrop="true" role="dialog"
+  [ngStyle]="{'top': '100px','display':displayGoogleModel}">
+  <div class="modal-dialog modal-lg" role="dialog">
+    <div class="feature modal-content">
+      <div class="modal-body">
+        <div class="container">
+          <h1>Add Google App Id</h1>
+          <form #featurForm="ngForm">
+            <div class="form-group">
+              <label for="name">App Id</label>
+              <input type="text" class="form-control" name="name" [(ngModel)]="googleInfo.appId" #name="ngModel"
+                [ngClass]="{ 'is-invalid':
+                    featurForm.submitted && name.invalid }" required />
+              <div *ngIf="requiredError == true;" style="color: red">Id is
+                required</div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding: 5px">
+        <button class="btn btn-primary" (click)="addGoogleConfigs()">Add</button>
+        <button type="button" class="btn btn-default" (click)="closeGoogleDialog()">Cancel</button>
+      </div>
     </div>
-    <div class="card-body">
-      <a routerLink="/usermanagement" class="btn btn-primary">User Management</a>
+  </div>
+</div>
+<div class="modal" tabindex="-1" data-keyboard="true" aria-hidden="true" data-backdrop="true" role="dialog"
+  [ngStyle]="{'top': '100px','display':displayFacebookModel}">
+  <div class="modal-dialog modal-lg" role="dialog">
+    <div class="feature modal-content">
+      <div class="modal-body">
+        <div class="container">
+          <h1>Add FaceBook App Id</h1>
+          <form #featurForm="ngForm">
+            <div class="form-group">
+              <label for="name">App Id</label>
+              <input type="text" class="form-control" name="name" [(ngModel)]="faceBookInfo.appId" #name="ngModel"
+                [ngClass]="{ 'is-invalid':
+                    featurForm.submitted && name.invalid }" required />
+              <div *ngIf="requiredError == true;" style="color: red">Id is
+                required</div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer" style="padding: 5px">
+        <button class="btn btn-primary" (click)="addFaceBookConfigs()">Add</button>
+        <button type="button" class="btn btn-default" (click)="closeFacebookDialog()">Cancel</button>
+      </div>
     </div>
   </div>
 </div>

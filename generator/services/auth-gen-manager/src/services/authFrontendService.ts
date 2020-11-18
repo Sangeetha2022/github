@@ -1,8 +1,15 @@
-import { Request } from 'express'
+import { Request } from 'express';
+import { Common } from '../config/Common';
 import { FrontendWorker } from '../worker/frontendWorker';
+import { FrontendSupportWorker } from '../Supportworker/frontendSupportWorker'
+import * as fs from 'fs';
+import * as path from 'path';
 
 export class AuthFrontendService {
     private frontendWorker = new FrontendWorker();
+    private frontendSupportWorker = new FrontendSupportWorker();
+    private IMAGE_FOLDERNAME = 'assets/img';
+    private IMAGE_GENERATION_FOLDERNAME = 'img';
 
 
     public authfrontendservice(req: Request, callback) {
@@ -10,6 +17,9 @@ export class AuthFrontendService {
         console.log('auth frontend services are --------------   ', req.body, ' ---req.body.applicationPath-- ', req.body.applicationPath);
         const details = req.body;
         const menus = req.body.screenMenus
+        const applicationPath = details.templateResponse.applicationPath;
+        const seedTemplatePath = details.seedTemplatePath;
+        this.readImagesAssets(seedTemplatePath, applicationPath);
         this.frontendWorker.createLoginComponent(details, (response) => {
             this.frontendWorker.createSignupComponent((response) => {
                 this.frontendWorker.createHomeComponent((response) => {
@@ -28,6 +38,20 @@ export class AuthFrontendService {
             })
         });
         callback();
+    }
+
+    readImagesAssets(templatePath, generationPath) {
+        fs.readdirSync(`${templatePath}/${this.IMAGE_FOLDERNAME}`).forEach(imageElement => {
+            this.generateAssetFile(generationPath, templatePath, imageElement);
+        });
+    }
+
+    private generateAssetFile(generationPath, templatePath, imageElement) {
+        templatePath = path.resolve(__dirname, templatePath);
+        templatePath += `/${this.IMAGE_FOLDERNAME}`;
+        generationPath = `${generationPath}/src/assets/${this.IMAGE_GENERATION_FOLDERNAME}`;
+        Common.createFolders(generationPath);
+        this.frontendSupportWorker.writeAssetsImageFile(generationPath, templatePath, imageElement);
     }
 
 

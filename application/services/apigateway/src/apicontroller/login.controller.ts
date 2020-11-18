@@ -28,6 +28,8 @@ export class Logincontroller implements Controller {
         this.router.route('/getuser/:id').get(this.Getuserbyid);
         this.router.route('/getallroles').get(this.Getallroles);
         this.router.route('/updateuser').put(this.Updateuser);
+        this.router.route('/getConfigurations').get(this.getConfigurations);
+        this.router.route('/addConfigurations').post(this.AddConfiguration);
     }
 
     public async signup(req: Request, res: Response) {
@@ -157,6 +159,25 @@ export class Logincontroller implements Controller {
         } catch (err) {
             res.send(err);
         }
+    }
+
+    public async AddConfiguration(req: Request, res: Response) {
+        try {
+            let response = await Promise.resolve(new ApiAdaptar().post(`${Constants.loginUrl}/addConfigurations`, req.body));
+            res.send(response);
+        } catch (err) {
+            res.send(err);
+        }
+    }
+
+    public async getConfigurations(req: Request, res: Response) {
+        try {
+            let user = await Promise.resolve(new ApiAdaptar().get(`${Constants.loginUrl}/getConfigurations`));
+            res.send(user);
+        } catch (err) {
+            res.send(err);
+        }
+
     }
 
     public async googlelogin(req: Request, res: Response) {

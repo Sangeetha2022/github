@@ -41,7 +41,7 @@ export class Signinservice {
     public googleservice(req: Request, callback) {
         const googleData = req.body;
         signindao.googledao(googleData, async (response) => {
-            if(response.length === 0) {
+            if (response.length === 0) {
                 await this.socialLoginSetRole();
                 const token = jwtDecode(googleData.idtoken);
                 const googleUserObject = {
@@ -55,39 +55,39 @@ export class Signinservice {
                 const saveGoogle = await this.saveSocialSignIn(googleUserObject);
                 callback(saveGoogle);
             }
-            if(response.length !== 0){
+            if (response.length !== 0) {
                 const updateResponse = await this.updateGoogle(response);
                 callback(updateResponse);
             }
         })
     }
-    public fbLogIn(req: Request , callback) {
+    public fbLogIn(req: Request, callback) {
         const fbUser = req.body
-        signindao.fbLogIn(fbUser ,async (response) => {
+        signindao.fbLogIn(fbUser, async (response) => {
             console.log('fbuser--service-->', response)
-            if(response.length === 0) {
-               await this.socialLoginSetRole();
+            if (response.length === 0) {
+                await this.socialLoginSetRole();
                 const fbUserObj = {
-                    username:fbUser.name,
-                    firstname:fbUser.name,
-                    lastname:fbUser.name,
-                    email:fbUser.email,
-                    fbId:fbUser.fbId,
-                    signintype:fbUser.provider,
+                    username: fbUser.name,
+                    firstname: fbUser.name,
+                    lastname: fbUser.name,
+                    email: fbUser.email,
+                    fbId: fbUser.fbId,
+                    signintype: fbUser.provider,
                     role: this.roleId
                 }
                 const saveFacaBook = await this.saveSocialSignIn(fbUserObj);
                 callback(saveFacaBook);
             }
-            if(response.length !== 0) {
+            if (response.length !== 0) {
                 const updateFb = await this.updateFbLogin(response);
                 callback(updateFb);
             }
         })
-        
+
     }
 
-    public saveSocialSignIn(socialSave){
+    public saveSocialSignIn(socialSave) {
         return new Promise(resolve => {
             signindao.saveSocialSignIn(socialSave, (socialResponse) => {
                 const createToken = {
@@ -98,7 +98,7 @@ export class Signinservice {
                     id: socialResponse._id,
                     role: this.roleName
                 }
-                signindao.generateIdToken(createToken , (tokenResponse) => {
+                signindao.generateIdToken(createToken, (tokenResponse) => {
                     resolve(tokenResponse);
                 })
             })
@@ -107,17 +107,17 @@ export class Signinservice {
     }
 
     public updateGoogle(updateGoogleData) {
-        return new Promise (resolve => {
-            signindao.updateGoogleSignIn(updateGoogleData , (res) => {
+        return new Promise(resolve => {
+            signindao.updateGoogleSignIn(updateGoogleData, (res) => {
                 resolve(res)
             })
         })
 
     }
 
-    public updateFbLogin(fbResponse){
+    public updateFbLogin(fbResponse) {
         return new Promise(resolve => {
-            signindao.updateFbLogin(fbResponse , (updateFb) => {
+            signindao.updateFbLogin(fbResponse, (updateFb) => {
                 resolve(updateFb);
             })
         })
@@ -125,12 +125,12 @@ export class Signinservice {
     }
 
     public socialLoginSetRole() {
-        return new Promise (resolve => {
+        return new Promise(resolve => {
             signindao.socialLoginSetRole((response) => {
-                asyncLoop(response, (setRole , next) => {
-                    if(setRole.role === 'Standarduser'){
+                asyncLoop(response, (setRole, next) => {
+                    if (setRole.role === 'Standarduser') {
                         this.roleId = setRole._id;
-                        this.roleName = setRole.role ;
+                        this.roleName = setRole.role;
                     }
                     next()
                 }), ((err) => {
@@ -172,4 +172,17 @@ export class Signinservice {
             callback(response);
         })
     }
+    public getConfigurations(req: Request, callback) {
+        signindao.getConfigurations((response) => {
+            callback(response);
+        })
+    }
+
+    public addConfigurations(req: Request, callback) {
+        const config = req.body;
+        signindao.addConfigurations(config, (response) => {
+            callback(response);
+        });
+    }
+
 }
