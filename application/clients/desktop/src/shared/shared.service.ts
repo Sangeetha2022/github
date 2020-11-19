@@ -5,17 +5,17 @@ import { environment } from '../environments/environment';
 export class SharedService {
 
     // base host
-    public static BaseHost = 'http://' + window.location.hostname;
+    public static BaseHost = environment.BaseHost;
 
     private envPort = environment.Port;
 
     //Shared microservice
-    private sharedHost = 'http://localhost:3050';
+    // private sharedHost = 'http://localhost:3050';
 
     // App Service
     public Apigateway: String = SharedService.BaseHost + this.envPort;
     // public Apigateway: String = 'http://localhost:3000';
 
     //Shared microservice
-    public sharedserviceapi: String = this.sharedHost;
+    // public sharedserviceapi: String = this.sharedHost;
 }
