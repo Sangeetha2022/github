@@ -20,14 +20,14 @@ jobs:
       # - uses: actions/checkout@v2
     - name: Update
       run: sudo apt-get update && sudo apt-get -y install openssh-client && sudo apt-get -y install sshpass 
-    - name: Login into the dev instance by using SSH
-      uses: JimCronqvist/action-ssh@master
-      with:
-        hosts: 'ubuntu@ec2-34-197-46-177.compute-1.amazonaws.com'
-        privateKey: ${{ secrets.PRIVATE_KEY }}
-        command: |
-          cd geppettotest
-          ls
+    # - name: Login into the dev instance by using SSH
+    #   uses: JimCronqvist/action-ssh@master
+    #   with:
+    #     hosts: 'ubuntu@ec2-34-197-46-177.compute-1.amazonaws.com'
+    #     privateKey: ${{ secrets.PRIVATE_KEY }}
+    #     command: |
+    #       cd geppettotest
+    #       ls
       #       git pull git@github.com:dan-castillo/geppettotest.git
       #       cd devops/docker-compose/
       #       docker-compose down  --rmi all
