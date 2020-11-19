@@ -7,7 +7,7 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - feature/ci
   # push:
   #   branches: [ main ]
   # pull_request:
@@ -17,7 +17,7 @@ jobs:
   login:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      # - uses: actions/checkout@v2
         run: sudo apt-get update && sudo apt-get -y install openssh-client && sudo apt-get -y install sshpass 
       - name: Login into the dev instance by using SSH
         uses: JimCronqvist/action-ssh@master
