@@ -5,7 +5,7 @@ import { environment } from '../environments/environment';
 export class SharedService {
 
     // base host
-    public static BaseHost = 'http://' + window.location.hostname;
+    public static BaseHost = environment.BaseHost;
 
     private envPort = environment.Port;
 
