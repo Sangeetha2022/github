@@ -28,10 +28,7 @@ jobs:
         command: |
           cd geppettotest
           ls
-  #        git pull git@github.com:dan-castillo/geppettotest.git
           cd devops/docker-compose/
-    #        docker-compose down  --rmi all
-      #       bash geppetto_compose.sh -c
   Upload_S3:
     runs-on: ubuntu-latest
     needs: login
