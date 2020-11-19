@@ -1,7 +1,9 @@
 import * as fs from 'fs';
 import { Constant } from '../../assets/Constant';
+import { DependencySupportWorker } from '../supportworker/dependencySupportWorker';
 
 export class ParentComponentWorker {
+    private dependencySupportWorker = new DependencySupportWorker();
     private routeModule = {
         importDependency: [],
         routePath: []
@@ -195,6 +197,42 @@ export class ParentComponentWorker {
         this.proxySupportWorker.modifyFileInfo(nginxPath, this.nginxArray,
             null, Constant.NGINX_FILENAME);
         this.nginxArray = [];
+    }
+
+    public modifyAngularJsonFile(applicationPath, information) {
+        const file = this.dependencySupportWorker.readFile(applicationPath, Constant.ANGULAR_JSON_FILE)
+        const styleIndex = file.findIndex(x => /styles/.test(x))
+        if (styleIndex != -1) {
+            if (!file[styleIndex + 1].includes(`${information}`)) {
+                file.splice(styleIndex + 1, 0, `"${information}", `)
+            }
+            this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.ANGULAR_JSON_FILE,
+                file.join(`\n`), (response) => {
+                    console.log("Response----write00---file---", response)
+                })
+        }
+
+
+    }
+
+    public modifyConfigAppJSONFile(applicationPath, information) {
+        const staticPackage = {
+
+        }
+        const file = this.dependencySupportWorker.readFile(applicationPath, Constant.TS_CONFIG_APP_JSON_FILE);
+        const index = file.findIndex(x => /compilerOptions/.test(x));
+        if (index) {
+            information.forEach(element => {
+                const splitted = element.split(":");
+                const regExpression = new RegExp(splitted[0]);
+                if (file.findIndex(x => regExpression.test(x)) < 0) {
+                    file.splice(index + 2, 0, element);
+                }
+
+            })
+        }
+        this.dependencySupportWorker.writeStaticFile(applicationPath, Constant.TS_CONFIG_APP_JSON_FILE,
+            file.join(`\n`), (response) => { })
     }
 
 }

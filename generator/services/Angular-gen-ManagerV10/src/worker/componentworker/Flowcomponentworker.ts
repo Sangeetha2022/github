@@ -1,5 +1,6 @@
 import * as util from 'util';
 import { Constant } from '../../assets/Constant';
+import {FlowServiceWorker} from '../componentservice/Flowserviceworker'
 
 export class FlowComponentWorker {
     private componentObject: any;
@@ -16,7 +17,7 @@ export class FlowComponentWorker {
         this.componentFileDetails = temp;
         this.entities = entities;
         this.checkConnector();
-        // console.log('final componeon file datesil are ----  ', this.componentFileDetails);
+        console.log('final componeon file datesil are ----  ', this.componentFileDetails);
     }
 
     // GpCheck_Connector
@@ -76,89 +77,6 @@ export class FlowComponentWorker {
         console.log('checkservice connector in component are --- ', connector);
     }
 
-    //setGpSerch
-
-    // setGpSearch(searchFlow, tempData) {
-    //     console.log("i am inside-----------", this.componentFileDetails)
-    //     this.componentFileDetails = tempData;
-
-    //     let createTemp = `${searchFlow}() {`;
-    //     // if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-    //     createTemp += `\n this.screen760635Servicedass.GPSearch(entity)`;
-    //     createTemp += `\n  .subscribe(`;
-    //     createTemp += `\n    data => {`;
-    //     createTemp += `\n       console.log('data created successfully');`;
-    //     // if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
-    //     //     createTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
-    //     //     this.setComponentVariable(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
-    //     // } else { }
-    //     createTemp += `\n    },`;
-    //     createTemp += `\n    error => {`;
-    //     createTemp += `\n       console.log('cannot able to create the data');`;
-    //     createTemp += `\n    }`;
-    //     createTemp += `\n    );`;
-    //     // calling constructor methods
-    //     // this.addConstructor(`${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}`, serviceClassName);
-
-    //     // calling component headers
-    //     // this.componentHeaders(headers.className, headers.path);
-    //     // }
-    //     createTemp += `\n}`;
-    //     console.log("create----Temp-----", createTemp)
-    //     // component methods
-    //     this.componentFileDetails.componentMethod.push(createTemp);
-
-    //     // let serviceClassName = ``;
-    //     // let entityInfo = null;
-    //     // let headers = {
-    //     //     className: '',
-    //     //     path: ''
-    //     // }
-    //     // const methodParams = '';
-    //     // let connectorParams = '';
-    //     // let connectorType = "available"
-
-    //     // // this.checkServiceConnector();
-    //     // serviceClassName = `${this.componentName.charAt(0).toUpperCase()}${this.componentName.slice(1)}${Constant.SERVICE_EXTENSION.charAt(0).toUpperCase()}${Constant.SERVICE_EXTENSION.slice(1)}`;
-    //     // headers.className = serviceClassName;
-    //     // headers.path = `./${this.componentName.toLowerCase()}.${Constant.SERVICE_EXTENSION.toLowerCase()}`;
-
-    //     // let searchTemp = `${searchFlow}(dass) {`;
-    //     // if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
-    //     //     searchTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${searchFlow}(${connectorParams ? connectorParams : `${this.componentObject.variableList[0].entityName}`})`;
-    //     //     searchTemp += `\n  .subscribe(`;
-    //     //     searchTemp += `\n    data => {`;
-    //     //     searchTemp += `\n       console.log('data searched successfully --- ', data);`;
-    //     //     // if (connectorType == Constant.DEFAULT_CONNECTOR_NAME) {
-    //     //         searchTemp += `\n       this.rowData = data.body;`;
-    //     //     // } 
-    //     //     // else if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME) {
-    //     //         if (connectorType == Constant.AVAILABLE_CONNECTOR_NAME && this.componentObject.flowMethod[0].components.connector.length > 0) {
-    //     //             searchTemp += `\n   this.${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE} = data.${this.componentObject.flowMethod[0].components.connector[0].entityName};`;
-    //     //             this.setComponentVariable(`${this.componentObject.flowMethod[0].components.connector[0].entityName}${Constant.LIST_VARIABLE};`);
-    //     //         }
-    //     //          else {
-    //     //             searchTemp += `\n       this.rowData = ${entityInfo ? `data.${entityInfo.name}` : '[]'};`;
-    //     //         // }
-    //     //     }
-    //     //     searchTemp += `\n    },`;
-    //     //     searchTemp += `\n    error => {`;
-    //     //     searchTemp += `\n       console.log('cannot able to search the data --- ', error);`;
-    //     //     searchTemp += `\n    }`;
-    //     //     searchTemp += `\n    );`;
-    //     //     // calling constructor methods
-    //     //     this.addConstructor(`${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}`, serviceClassName);
-
-    //     //     // calling component headers
-    //     //     this.componentHeaders(headers.className, headers.path);
-    //     // }
-    //     // searchTemp += `\n}`;
-    //     // // component methods
-    //     // console.log("Serach--temp=======-----", searchTemp)
-    //     // this.componentFileDetails.componentMethod.push(searchTemp);
-
-    // }
-
     // GpCodeToAdd and GpRequest
     private addComponentMethod(connectorType, connectorElement) {
         let serviceClassName = ``;
@@ -208,15 +126,11 @@ export class FlowComponentWorker {
         }
         switch (this.currentFlow.actionOnData) {
             case Constant.GP_CREATE_FLOW:
-                // console.log('check request method are -----  ', this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW));
                 let createTemp = `${this.currentFlow.name}() {`;
                 if (this.checkMicroFlowSteps(Constant.COMPONENT_REQUEST_MICROFLOW)) {
                     createTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(this.${this.componentObject.variableList[this.componentObject.variableList.findIndex(x => x.entityName != undefined)].entityName})`;
                     createTemp += `\n  .subscribe(`;
                     createTemp += `\n    data => {`;
-                    // createTemp += `\n              this.toastr.success('data save sucessfully','Success' , {
-                    //     timeOut: 3000
-                    //   }); `
                     createTemp += `\n       console.log('data created successfully');`;
                     if(this.componentObject.variableList.length > 0){
                         this.componentObject.variableList.forEach(element => {
@@ -235,9 +149,6 @@ export class FlowComponentWorker {
                     } else { }
                     createTemp += `\n    },`;
                     createTemp += `\n    error => {`;
-                    // createTemp += `\n             this.toastr.error('Failed to data save', 'Failed' ,{
-                    //     timeOut: 3000
-                    //   });`       
                     createTemp += `\n       console.log('cannot able to create the data');`;
                     createTemp += `\n    }`;
                     createTemp += `\n    );`;
@@ -250,7 +161,6 @@ export class FlowComponentWorker {
                 createTemp += `\n}`;
                 // component methods
                 this.componentFileDetails.componentMethod.push(createTemp);
-                // console.log('create component are -----  ', createTemp);
                 break;
             case Constant.GP_SEARCH_FLOW:
                 let searchTemp = `${this.currentFlow.name}() {`;
@@ -294,9 +204,6 @@ export class FlowComponentWorker {
                     updateTemp += `\n this.${serviceClassName.charAt(0).toLowerCase()}${serviceClassName.slice(1)}.${this.currentFlow.name}(${connectorParams ? connectorParams : `this.${this.componentObject.variableList[0].entityName}`})`;
                     updateTemp += `\n  .subscribe(`;
                     updateTemp += `\n    data => {`;
-                    // updateTemp += `\n              this.toastr.success('data save sucessfully','Success' , {
-                    //     timeOut: 3000
-                    //   }); `
                       if(this.componentObject.variableList.length > 0){
                         this.componentObject.variableList.forEach(element => {
                             // for clear the object in the form
@@ -315,9 +222,6 @@ export class FlowComponentWorker {
                     } else { }
                     updateTemp += `\n    },`;
                     updateTemp += `\n    error => {`;
-                    // updateTemp += `\n             this.toastr.error('Failed to data save', 'Failed ',{
-                    //     timeOut: 3000
-                    //   });`
                     updateTemp += `\n       console.log('cannot able to update the data --- ', error);`;
                     updateTemp += `\n    }`;
                     updateTemp += `\n    );`;
@@ -329,7 +233,6 @@ export class FlowComponentWorker {
                 updateTemp += `\n}`; 
                 // component methods6
                 this.componentFileDetails.componentMethod.push(updateTemp);
-                // console.log('update component are -----  ', updateTemp);
                 break;
             case Constant.GP_DELETE_FLOW:
                 const serviceRequestParams = `${Constant.QUERY_VARIABLE_NAME}${Constant.IDVARIABLE}`;
@@ -379,7 +282,6 @@ export class FlowComponentWorker {
                 deleteTemp += `\n}`;
                 // component methods
                 this.componentFileDetails.componentMethod.push(deleteTemp);
-                // console.log('delete component are -----  ', deleteTemp);
                 break;
             case Constant.GP_GETALLVALUES_FLOW:
                 let getAllValueTemp = `${this.currentFlow.name}() {`;
@@ -417,7 +319,6 @@ export class FlowComponentWorker {
                 getAllValueTemp += `\n}`;
                 // component methods
                 this.componentFileDetails.componentMethod.push(getAllValueTemp);
-                // console.log('update component are -----  ', updateTemp);
                 break;
             case Constant.GP_SEARCHDETAIL_FLOW:
                 break;
@@ -474,7 +375,6 @@ export class FlowComponentWorker {
                 getByIdTemp += `\n}`;
                 // component methods
                 this.componentFileDetails.componentMethod.push(getByIdTemp);
-                // console.log('getByIdTemp component are -----  ', getByIdTemp);
                 break;
             case Constant.GP_DELETEBYPARENTID_FLOW:
                 break;
@@ -485,10 +385,6 @@ export class FlowComponentWorker {
 
         }
     }
-
-    // private checkComponentRequest() {
-    //     return (this.currentFlow.components.microFlows.findIndex(x => x.microFlowStepName.toLowerCase() == Constant.COMPONENT_REQUEST_MICROFLOW) > -1);
-    // }
 
     private checkMicroFlowSteps(microFlowStepName) {
         return (this.currentFlow.components.microFlows.findIndex(x => x.microFlowStepName.toLowerCase() == microFlowStepName) > -1);
@@ -513,9 +409,7 @@ export class FlowComponentWorker {
     private addComponentVariable() {
         console.log('ts component variable are -----  ', this.componentObject.variableList);
         this.componentObject.variableList.forEach(element => {
-            // for entities variable in component.ts
             const entitiesObject = this.entities.find(x => x._id == element.entityId);
-            // console.log('entitiesObject are ------  ', entitiesObject);
             if (entitiesObject) {
                 let temp = `${entitiesObject.name} = {`;
                 entitiesObject.field.forEach((fieldElement, fieldIndex) => {
@@ -524,21 +418,18 @@ export class FlowComponentWorker {
                 temp += `\n}`
                 this.componentFileDetails.componentVariable.push(temp);
             } else {
-                // for other variable in component.ts
                 this.componentFileDetails.componentVariable.push(element);
             }
         })
     }
 
     checkDataType(fieldElement) {
-        // console.log('filed element test datatype are ---- ', fieldElement.data_type);
         return fieldElement.data_type.toLowerCase() ==
             Constant.STRING_DATATYPE ? `''` : fieldElement.data_type.toLowerCase() ==
                 Constant.BOOLEAN_DATATYPE ? false : null;
     }
 
     isLastIndex(array, index) {
-        // console.log('is last index arrays are ---  ', array);
         return array.length - 1 == index ? '' : ',';
     }
 
@@ -547,8 +438,6 @@ export class FlowComponentWorker {
     private addConstructor(constructorObject, className) {
         const temp = `${Constant.PRIVATE_ACCESS_MODIFIER} ${constructorObject}: ${className}`;
         if (!this.componentFileDetails.componentConstructorParams.find(x => x == temp)) {
-            // let toastrService = `${Constant.PRIVATE_ACCESS_MODIFIER} toastr : ToastrService`
-            // this.componentFileDetails.componentConstructorParams.push(toastrService);
             this.componentFileDetails.componentConstructorParams.push(temp);
             console.log("Push---values000-----addconstructor----", this.componentFileDetails.componentConstructorParams)
         }

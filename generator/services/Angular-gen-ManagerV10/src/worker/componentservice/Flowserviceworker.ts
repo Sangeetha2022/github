@@ -4,6 +4,32 @@ import { constants } from 'fs';
 
 export class FlowServiceWorker {
 
+    private serviceObject: any;
+    private componentName: String = null;
+    private templatePath: String = null;
+    private currentFlow: any = null;
+    private serviceFileDetails: any;
+    private endPointList: any;
+    private proxySupportWorker = new ProxySupportWorker();
+    private proxyArray = [];
+    private nginxArray = [];
+
+    private sharedObject = {
+        className: `${Constant.SHARED_FILENAME.charAt(0).toUpperCase() + Constant.SHARED_FILENAME.slice(1)}${Constant.SERVICE_EXTENSION.charAt(0).toUpperCase() + Constant.SERVICE_EXTENSION.slice(1).toLowerCase()}`,
+        object: `${Constant.SHARED_FILENAME}${Constant.SERVICE_EXTENSION.charAt(0).toUpperCase() + Constant.SERVICE_EXTENSION.slice(1).toLowerCase()}`,
+        path: `../../${Constant.SHARED_FILENAME}/${Constant.SHARED_FILENAME}.${Constant.SERVICE_EXTENSION}`
+    }
+    private httpObject = {
+        className: `HttpClient`,
+        object: `http`,
+        path: `@angular/common/http`
+    }
+
+    private observableObject = {
+        className: `Observable`,
+        path: `rxjs`
+    }
+
     generateServiceComponentFlow(serviceObject, temp, templatePath) {
         console.log('set service vlaues $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
         this.serviceObject = serviceObject;
