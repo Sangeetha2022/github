@@ -5,7 +5,7 @@ name: auto_deployements for geppetto dev env
 on:
   push:
     branches:
-      - feature/ci
+      - dev
 ########### Jobs ###########
 jobs:
   login: 
