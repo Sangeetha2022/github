@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: auto_deployements for geppetto dev env
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
@@ -18,25 +18,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # - uses: actions/checkout@v2
-    - name: Update
+    - name: Update the apt-get & install the sshpass
       run: sudo apt-get update && sudo apt-get -y install openssh-client && sudo apt-get -y install sshpass 
-    # - name: Login into the dev instance by using SSH
-    #   uses: JimCronqvist/action-ssh@master
-    #   with:
-    #     hosts: 'ubuntu@ec2-34-197-46-177.compute-1.amazonaws.com'
-    #     privateKey: ${{ secrets.PRIVATE_KEY }}
-    #     command: |
-    #       cd geppettotest
-    #       ls
-      #       git pull git@github.com:dan-castillo/geppettotest.git
-      #       cd devops/docker-compose/
-      #       docker-compose down  --rmi all
+    - name: Login into the dev instance by using SSH
+      uses: JimCronqvist/action-ssh@master
+      with:
+        hosts: 'ubuntu@ec2-34-197-46-177.compute-1.amazonaws.com'
+        privateKey: ${{ secrets.PRIVATE_KEY }}
+        command: |
+          cd geppettotest
+          ls
+  #        git pull git@github.com:dan-castillo/geppettotest.git
+          cd devops/docker-compose/
+    #        docker-compose down  --rmi all
       #       bash geppetto_compose.sh -c
   Upload_S3:
     runs-on: ubuntu-latest
     needs: login
     steps:
-    - name: demo
+    - name: Check the  branch
       uses: actions/checkout@v2
     - name: Installing the Node and its dependies
       uses: actions/setup-node@v1
@@ -49,11 +49,12 @@ jobs:
         npm i node-sass@4.8.3
         npm i 
         ng build --configuration=devops
-    - uses: jakejarvis/s3-sync-action@v0.5.1
+    - name: Uploaging dist files into the S3 bucket
+      uses: jakejarvis/s3-sync-action@v0.5.1
       with:
         args: --acl public-read --delete
       env:
         AWS_S3_BUCKET: geppetto-demo-delete
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-        SOURCE_DIR: "desktop/dist/GeppettoBuilder"
+        SOURCE_DIR: "application/clients/desktop/dist/GeppettoBuilder"
