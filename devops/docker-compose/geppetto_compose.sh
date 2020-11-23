@@ -44,7 +44,7 @@ do
          ;;
     d)
          echo "Now Deleting all containers and images"
-         docker-compose down -v --rmi all 
+         docker-compose down --rmi all 
          echo "Process completed"
          ;;
     r)
