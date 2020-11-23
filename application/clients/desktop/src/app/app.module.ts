@@ -73,11 +73,11 @@ export function getAuthserviceConfigs() {
   const config = new AuthServiceConfig([
     {
       id: GoogleLoginProvider.PROVIDER_ID,
-      provider: new GoogleLoginProvider('888021930791-c0iahj760dsmnua9bfh92hab55kbthi6.apps.googleusercontent.com')
+      provider: new GoogleLoginProvider('734183037441-i7ihr5m98281u07n21ndpeku12g30hek.apps.googleusercontent.com')
     },
     {
       id: FacebookLoginProvider.PROVIDER_ID,
-      provider: new FacebookLoginProvider('1129416623929960')
+      provider: new FacebookLoginProvider('364469901432700')
     }
 
   ]);
