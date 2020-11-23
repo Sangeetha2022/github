@@ -36,4 +36,15 @@ export class FrontendSupportWorker {
             console.log('package.json file generated');
         })
     }
+
+    public async writeAssetsImageFile(applicationPath, templatePath, fileName) {
+        await fs.readFile(`${templatePath}/${fileName}`, (err, result) => {
+            if (result) {
+                fs.writeFile(applicationPath + `/${fileName}`, result, (err) => {
+                    if (err) throw err;
+                    console.log(`${fileName} file generated`);
+                })
+            }
+        })
+    }
 }
