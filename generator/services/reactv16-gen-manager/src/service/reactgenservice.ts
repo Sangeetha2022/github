@@ -23,7 +23,6 @@ export class ReactService {
     }
     async createReactProject(req: Request, callback: CallableFunction) {
         this.details = req.body;
-        console.log('entered to the create react project details------', this.details);
         let seedPath = this.details.project.templateLocation.authTemplatePath;
         let reactBaseCodePath = `${seedPath}/reactBase`;
         this.details.project.name.split(" ").forEach((element, index) => {
