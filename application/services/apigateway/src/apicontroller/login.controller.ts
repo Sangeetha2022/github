@@ -187,23 +187,33 @@ export class Logincontroller implements Controller {
             const Userdetails = googleuser;
             // @ts-ignore
             var token = Userdetails.body.Idtoken;
-            jwt.verify(token, 'geppettosecret', (err, decoded) => {
-                if (err) {
-                    // res.status(401);
-                    console.log('-----------err--->>>', err);
-                    res.send({ 'status': 'Unauthorized', 'error': err, 'Userdetails': googleuser });
-                } else {
-                    var url = `${Constants.proxyUrl}/proxy`
-                    request.post({ url: url, json: decoded }, (error, response, body) => {
-                        var loginresponse = {
-                            "Access": body,
-                            "Userdetails": googleuser
-                        }
-                        console.log('-----------body--------->>>', loginresponse);
-                        res.send(loginresponse);
-                    })
+            if (token === null || token === '' || token === undefined) {
+                console.log('----------insideifcondition------>>>>', Userdetails);
+                var loginresponse = {
+                    "Userdetails": Userdetails
                 }
-            })
+                res.send(loginresponse);
+            } else {
+                // @ts-ignore
+                var token = Userdetails.body.Idtoken;
+                jwt.verify(token, 'geppettosecret', (err, decoded) => {
+                    if (err) {
+                        // res.status(401);
+                        console.log('-----------err--->>>', err);
+                        res.send({ 'status': 'Unauthorized', 'error': err, 'Userdetails': googleuser });
+                    } else {
+                        var url = `${Constants.proxyUrl}/proxy`
+                        request.post({ url: url, json: decoded }, (error, response, body) => {
+                            var loginresponse = {
+                                "Access": body,
+                                "Userdetails": googleuser
+                            }
+                            console.log('-----------body--------->>>', loginresponse);
+                            res.send(loginresponse);
+                        })
+                    }
+                })
+            }
         } catch (err) {
             res.send(err);
         }
@@ -215,23 +225,33 @@ export class Logincontroller implements Controller {
             const Userdetails = fbResponse;
             // @ts-ignore
             var token = Userdetails.body.Idtoken;
-            jwt.verify(token, 'geppettosecret', (err, decoded) => {
-                if (err) {
-                    // res.status(401);
-                    console.log('-----------err--->>>', err);
-                    res.send({ 'status': 'Unauthorized', 'error': err, 'Userdetails': fbResponse });
-                } else {
-                    var url = `${Constants.proxyUrl}/proxy`
-                    request.post({ url: url, json: decoded }, (error, response, body) => {
-                        var loginresponse = {
-                            "Access": body,
-                            "Userdetails": fbResponse
-                        }
-                        console.log('-----------body--------->>>', loginresponse);
-                        res.send(loginresponse);
-                    })
+            if (token === null || token === '' || token === undefined) {
+                console.log('----------insideifcondition------>>>>', Userdetails);
+                var loginresponse = {
+                    "Userdetails": Userdetails
                 }
-            })
+                res.send(loginresponse);
+            } else {
+                // @ts-ignore
+                var token = Userdetails.body.Idtoken;
+                jwt.verify(token, 'geppettosecret', (err, decoded) => {
+                    if (err) {
+                        // res.status(401);
+                        console.log('-----------err--->>>', err);
+                        res.send({ 'status': 'Unauthorized', 'error': err, 'Userdetails': fbResponse });
+                    } else {
+                        var url = `${Constants.proxyUrl}/proxy`
+                        request.post({ url: url, json: decoded }, (error, response, body) => {
+                            var loginresponse = {
+                                "Access": body,
+                                "Userdetails": fbResponse
+                            }
+                            console.log('-----------body--------->>>', loginresponse);
+                            res.send(loginresponse);
+                        })
+                    }
+                })
+            }
         } catch (err) {
             res.send(err);
         }
