@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { Routes } from './routes/routes';
+import { Routes } from './routes/angulargenroutes';
 import * as cors from 'cors';
 import { WinstonLogger } from './config/WinstonLogger';
 import { SharedService } from './config/SharedService';
