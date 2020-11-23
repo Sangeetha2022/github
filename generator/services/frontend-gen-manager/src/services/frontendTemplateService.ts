@@ -10,6 +10,7 @@ import { Constant } from '../config/Constant';
 import { AuthGenManagerService } from '../apiservices/AuthGenManagerService';
 import { AdminGenManagerService } from '../apiservices/AdminGenManagerService';
 import { TemplateManagerService } from '../apiservices/TemplateManagerService';
+import { ReactGenManagerService } from '../apiservices/ReactGenManagerService'
 
 export class FrontendTemplateService {
     sharedService = new SharedService();
@@ -19,6 +20,7 @@ export class FrontendTemplateService {
     angularTemplateManagerService = new AngularTemplateManagerService();
     authGenManagerService = new AuthGenManagerService();
     adminGenManagerService = new AdminGenManagerService();
+    reactgenManagerService = new ReactGenManagerService ();
     apiAdapter = new ApiAdaptar()
     backend: String;
 
@@ -37,6 +39,7 @@ export class FrontendTemplateService {
             menuBuilder: null
         }
         console.log('-------get template by project-------',details);
+        console.log('details from as per', details.project.clientFramework.label.includes('React'));
         // const templateDetails = await this.getTemplateByProjectId(details.projectId);
         const templateDetails = await this.getTemplateByName(details.project.projectTemplatename);
 
@@ -51,27 +54,43 @@ export class FrontendTemplateService {
 
         try {
             // console.log('before calling angular template');
-            const templateResponse = await this.generateAngularTemplate(templateObj);
-            console.log('after calling angular template ---  ', templateResponse);
-            if (templateResponse) {
-                const tempFrontend = {
-                    templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
-                    seedTemplatePath: details.seedTemplatePath,
-                    authTemplatePath: details.authTemplatePath,
-                    adminTemplatePath: details.project.templateLocation.frontendTemplate,
-                    screenMenus: templateObj.menuBuilder
+            if(details.project.clientFramework.label.includes('Angular')) {
+                const templateResponse = await this.generateAngularTemplate(templateObj);
+                console.log('after calling angular template ---  ', templateResponse);
+                if (templateResponse) {
+                    const tempFrontend = {
+                        templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
+                        seedTemplatePath: details.seedTemplatePath,
+                        authTemplatePath: details.authTemplatePath,
+                        adminTemplatePath: details.project.templateLocation.frontendTemplate,
+                        screenMenus: templateObj.menuBuilder
 
+                    }
+                    await this.generateAuthFrontendComponent(tempFrontend);
+                    console.log('after calling auth gronten component are  ---  ');
+                    await this.generateAdminFrontendComponent(tempFrontend);
                 }
-                await this.generateAuthFrontendComponent(tempFrontend);
-                console.log('after calling auth gronten component are  ---  ');
-                await this.generateAdminFrontendComponent(tempFrontend);
+                callback('angular template are generated');
             }
-            callback('angular template are generated');
+            if (details.project.clientFramework.label.includes('React')) {
+                let response = await this.generateReact(templateObj);
+                callback(response);
+            }
+            
         } catch (err) {
             console.log('err in generating the angualr template')
             callback('cannot able to generate the angular template');
         }
 
+    }
+
+    generateReact(details) {
+        return new Promise(resolve => {
+            console.log('entering to the generate react app--------->>>');
+            this.reactgenManagerService.generateReact(details, (data) => {
+                resolve(data);
+            })
+        })
     }
 
     getMenuByProjectId(projectId) {

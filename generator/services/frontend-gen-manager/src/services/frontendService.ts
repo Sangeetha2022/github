@@ -4,6 +4,7 @@ import { SharedService } from '../config/SharedService';
 import { ApiAdaptar } from '../config/ApiAdaptar';
 import { MicroFlowManagerService } from '../apiservices/MicroFlowManagerService';
 import { AngularGenManagerService } from '../apiservices/AngularGenManagerService';
+import { ReactGenManagerService } from '../apiservices/ReactGenManagerService'
 import * as util from 'util';
 import * as path from 'path';
 import * as asyncLoop from 'node-async-loop';
@@ -11,6 +12,7 @@ import { ScreenManagerService } from '../apiservices/ScreenManagerService';
 import { TemplateManagerService } from '../apiservices/TemplateManagerService';
 import { Common } from '../config/Common';
 import { Constant } from '../config/Constant';
+import { ConsoleTransportOptions } from 'winston/lib/winston/transports';
 
 export class FrontendService {
     private desktopScreenName = 'desktop';
@@ -21,6 +23,7 @@ export class FrontendService {
     microFlowService = new MicroFlowManagerService();
     screenManagerService = new ScreenManagerService();
     templateManagerService = new TemplateManagerService();
+    reactgenManagerService = new ReactGenManagerService ();
     apiAdapter = new ApiAdaptar()
     backend: String;
 
@@ -200,9 +203,16 @@ export class FrontendService {
                     console.log('flow iteration completed %%%%%%%%%%%%% ----- ', util.inspect(feature, { showHidden: true, depth: null }));
                     let angularDesktopResponse = null;
                     if (desktopJSON.length > 0) {
-                        feature.desktop = desktopJSON;
-                        angularDesktopResponse = await this.generateAngular(feature);
-                        console.log('final angular desktop response values are -----  ', angularDesktopResponse);
+                        if(feature.clientFramework.label.includes('Angular')) {
+                            feature.desktop = desktopJSON;
+                            angularDesktopResponse = await this.generateAngular(feature);
+                            console.log('final angular desktop response values are -----  ', angularDesktopResponse);
+                        }
+                        if(feature.clientFramework.label.includes('React')) {
+                            feature.desktop = desktopJSON;
+                            // angularDesktopResponse = await this.generateReact(feature);
+                        }
+                       
                     }
                     if (mobileJSON.length > 0) {
                         feature.mobile = mobileJSON;
@@ -230,6 +240,15 @@ export class FrontendService {
     generateAngular(details) {
         return new Promise(resolve => {
             this.angularGenManagerService.generateAngular(details, (data) => {
+                resolve(data);
+            })
+        })
+    }
+
+    generateReact(details) {
+        return new Promise(resolve => {
+            console.log('entering to the generate react app--------->>>');
+            this.reactgenManagerService.generateReact(details, (data) => {
                 resolve(data);
             })
         })
