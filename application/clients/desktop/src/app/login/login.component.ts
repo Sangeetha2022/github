@@ -302,11 +302,33 @@ export class LoginComponent implements OnInit {
           console.log('------------googleloginresponse-----', this.permission);
           sessionStorage.setItem('Access', JSON.stringify(this.permission));
         }
-        sessionStorage.setItem('Id', this.id);
-        sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
-        sessionStorage.setItem('email', this.Userdetails.body.email);
-        sessionStorage.setItem('JwtToken', this.Userdetails.body.Idtoken);
-        this.route.navigate(['project']);
+        this.Userdetails = googleresponse.Userdetails;
+        this.tokenerror = googleresponse.error;
+        this.id = this.Userdetails.body._id;
+        this.lastloggedintime = this.Userdetails.body.loggedinDate;
+        if (this.Userdetails.body === 'Incorrect Username or Password') {
+          this.errormessage = this.Userdetails.body;
+        } else {
+          this.logId = generate(dictionary.numbers, 12);
+          if (this.tokenerror !== undefined) {
+            console.log('-------insideifconditioin-----');
+            if (this.tokenerror.name === 'TokenExpiredError') {
+              this.Consent();
+            }
+          } else {
+            sessionStorage.setItem('Id', this.id);
+            sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
+            sessionStorage.setItem('email', this.Userdetails.body.email);
+            sessionStorage.setItem('JwtToken', this.Userdetails.body.Idtoken);
+            sessionStorage.setItem('LogId', this.logId + '_' + this.id);
+            if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '') {
+              this.Consent();
+            } else {
+              console.log('projecttt--#############################->>>');
+              this.route.navigate(['project']);
+            }
+          }
+        }
       }, error => {
         console.error('error:', error);
       });
@@ -340,11 +362,34 @@ export class LoginComponent implements OnInit {
           console.log('------------googleloginresponse-----', this.permission);
           sessionStorage.setItem('Access', JSON.stringify(this.permission));
         }
-        sessionStorage.setItem('Id', FbResponse.Userdetails.body._id);
-        sessionStorage.setItem('lastloggedintime', FbResponse.Userdetails.body.loggedinDate);
-        sessionStorage.setItem('email', FbResponse.Userdetails.body.email);
-        sessionStorage.setItem('JwtToken', FbResponse.Userdetails.body.Idtoken);
-        this.route.navigate(['project']);
+        this.Userdetails = FbResponse.Userdetails;
+        this.tokenerror = FbResponse.error;
+        this.id = this.Userdetails.body._id;
+        this.lastloggedintime = this.Userdetails.body.loggedinDate;
+        if (this.Userdetails.body === 'Incorrect Username or Password') {
+          this.errormessage = this.Userdetails.body;
+        } else {
+          this.logId = generate(dictionary.numbers, 12);
+          if (this.tokenerror !== undefined) {
+            console.log('-------insideifconditioin-----');
+            if (this.tokenerror.name === 'TokenExpiredError') {
+              this.Consent();
+            }
+          } else {
+            sessionStorage.setItem('Id', this.id);
+            sessionStorage.setItem('lastloggedintime', this.lastloggedintime);
+            sessionStorage.setItem('email', this.Userdetails.body.email);
+            sessionStorage.setItem('JwtToken', this.Userdetails.body.Idtoken);
+            sessionStorage.setItem('LogId', this.logId + '_' + this.id);
+            if (this.Userdetails.body.Idtoken === null || this.Userdetails.body.Idtoken === '') {
+              this.Consent();
+            } else {
+              console.log('projecttt--#############################->>>');
+              this.route.navigate(['project']);
+            }
+  
+          }
+        }
       }, error => {
         console.error('error:', error);
       });
