@@ -1,5 +1,5 @@
-// import * as util from 'util';
-// import * as asyncForEach from 'async-foreach';
+import * as util from 'util';
+import * as asyncForEach from 'async-foreach';
 // import { ComponentWorker } from './componentWorker';
 // import { Constant } from '../config/Constant';
 // import * as componentDependency from '../assets/componentDependency';
@@ -14,176 +14,176 @@
 
 export class GenerateHtmlWorker {
 
-    // private forEach = asyncForEach.forEach;
-    // private firstEle: any = null;
-    // private secondEle: any[] = [];
-    // private startTag: any[] = [];
-    // private endTag: any[] = [];
-    // private tagName: String = null;
-    // private startString: String = '';
-    // private count: number = 0;
-    // private parentHtmlTags: any[] = [];
-    // private isNotImportant: Boolean = false;
-    // private isContentOnly: Boolean = false;
-    // private isCKeditorSpan: Boolean = false;
-    // // entity and flows for Each screens
-    // private entityDetails = [];
-    // private flowDetails = [];
-    // private componentLifecycleInfo = [];
-    // private screenSpecialEvents = [];
-    // private linkedScreenInfo = [];
-    // private linkInfo = [];
+    private forEach = asyncForEach.forEach;
+    private firstEle: any = null;
+    private secondEle: any[] = [];
+    private startTag: any[] = [];
+    private endTag: any[] = [];
+    private tagName: String = null;
+    private startString: String = '';
+    private count: number = 0;
+    private parentHtmlTags: any[] = [];
+    private isNotImportant: Boolean = false;
+    private isContentOnly: Boolean = false;
+    private isCKeditorSpan: Boolean = false;
+    // entity and flows for Each screens
+    private entityDetails = [];
+    private flowDetails = [];
+    private componentLifecycleInfo = [];
+    private screenSpecialEvents = [];
+    private linkedScreenInfo = [];
+    private linkInfo = [];
 
-    // // set other dependencies 
-    // private entities = [];
-    // private flowList = [];
-    // private endPointList: any;
-    // private generatedRouteScreens: any[] = [];
-    // private generatedSpecialEventScreens: any[] = [];
+    // set other dependencies 
+    private entities = [];
+    private flowList = [];
+    private endPointList: any;
+    private generatedRouteScreens: any[] = [];
+    private generatedSpecialEventScreens: any[] = [];
 
-    // private tsComponent = {
-    //     variableList: [],
-    //     dependenciesVariableList: [],
-    //     componentOnInit: [],
-    //     componentOnAfterView: [],
-    //     routeList: [],
-    //     flowMethod: [],
-    //     elementDependedMethod: [],
-    //     otherMethodNames: [],
-    //     dynamictype: '',
-    //     issearchforupdate: ''
-    // }
+    private tsComponent = {
+        variableList: [],
+        dependenciesVariableList: [],
+        componentOnInit: [],
+        componentOnAfterView: [],
+        routeList: [],
+        flowMethod: [],
+        elementDependedMethod: [],
+        otherMethodNames: [],
+        dynamictype: '',
+        issearchforupdate: ''
+    }
 
-    // private serviceComponent = {
-    //     variableList: [],
-    //     dependenciesVariableList: [],
-    //     flowMethod: [],
-    //     apiEndPoints: []
-    // }
-    // private moduleComponent = {
-    //     importDependency: [],
-    //     imports: [],
-    //     declarations: [],
-    //     exports: [],
-    //     entryComponents: [],
-    //     dynamictype: ''
+    private serviceComponent = {
+        variableList: [],
+        dependenciesVariableList: [],
+        flowMethod: [],
+        apiEndPoints: []
+    }
+    private moduleComponent = {
+        importDependency: [],
+        imports: [],
+        declarations: [],
+        exports: [],
+        entryComponents: [],
+        dynamictype: ''
 
-    // }
-    // private screenInfo: any;
+    }
+    private screenInfo: any;
 
-    // private componentStyle = [];
-    // private globalStyle = {
-    //     import: [],
-    //     others: []
-    // }
-    // private selectOption = `<option *ngFor="let option of option" [ngValue]="option.key">{{option.value}}</option>`;
-    // private selectclass: any;
-    // private dynamicdropdowntype: any;
-    // private cssGuidelines = [];
-    // private ckeditorEntities: any = null;
-    // private linkContentInfo = {
-    //     contentArray: [],
-    //     isNgContentPresent: false,
-    //     linkInfo: null
-    // }
+    private componentStyle = [];
+    private globalStyle = {
+        import: [],
+        others: []
+    }
+    private selectOption = `<option *ngFor="let option of option" [ngValue]="option.key">{{option.value}}</option>`;
+    private selectclass: any;
+    private dynamicdropdowntype: any;
+    private cssGuidelines = [];
+    private ckeditorEntities: any = null;
+    private linkContentInfo = {
+        contentArray: [],
+        isNgContentPresent: false,
+        linkInfo: null
+    }
 
-    // public searchforupdatescreen: any;
-
-
-    // // class counter
-    // private classCount = 0;
-
-    // initializeData() {
-    //     // add cssGuidelines
-    //     this.cssGuidelines = [];
-
-    //     // initialize global styles
-    //     this.globalStyle = {
-    //         import: [],
-    //         others: []
-    //     }
-
-    //     // generatedScreenArray for Routes
-    //     this.generatedRouteScreens = [];
-
-    //     // generatedScreen for spcialeEvent screens
-    //     this.generatedSpecialEventScreens = [];
-    // }
-    // generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
-    //     console.log('css content for this screem ----- ', details);
-    //     console.log('entering into geenerate methods are -----  ', util.inspect(metaData, { showHidden: true, depth: null }));
-    //     console.log("screen---details-------", screenDetails)
-
-    //     console.log("Details000------------>>>>", details)
+    public searchforupdatescreen: any;
 
 
+    // class counter
+    private classCount = 0;
 
-    //     this.startTag = [];
-    //     this.endTag = [];
-    //     // component
-    //     this.tsComponent = {
-    //         variableList: [],
-    //         dependenciesVariableList: [],
-    //         componentOnInit: [],
-    //         componentOnAfterView: [],
-    //         routeList: [],
-    //         flowMethod: [],
-    //         elementDependedMethod: [],
-    //         otherMethodNames: [],
-    //         dynamictype: '',
-    //         issearchforupdate: ''
-    //     }
+    initializeData() {
+        // add cssGuidelines
+        this.cssGuidelines = [];
 
-    //     // service
-    //     this.serviceComponent = {
-    //         variableList: [],
-    //         dependenciesVariableList: [],
-    //         flowMethod: [],
-    //         apiEndPoints: []
-    //     }
+        // initialize global styles
+        this.globalStyle = {
+            import: [],
+            others: []
+        }
 
-    //     // module
-    //     this.moduleComponent = {
-    //         importDependency: [],
-    //         imports: [],
-    //         declarations: [],
-    //         exports: [],
-    //         entryComponents: [],
-    //         dynamictype: ''
-    //     }
+        // generatedScreenArray for Routes
+        this.generatedRouteScreens = [];
+
+        // generatedScreen for spcialeEvent screens
+        this.generatedSpecialEventScreens = [];
+    }
+    generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
+        // console.log('css content for this screem ----- ', details);
+        // console.log('entering into geenerate methods are -----  ', util.inspect(metaData, { showHidden: true, depth: null }));
+        // console.log("screen---details-------", screenDetails)
+
+        // console.log("Details000------------>>>>", details)
 
 
 
-    //     this.componentStyle = [];
-    //     // add default styles
-    //     this.componentStyle.push(screenStyles);
+        this.startTag = [];
+        this.endTag = [];
+        // component
+        this.tsComponent = {
+            variableList: [],
+            dependenciesVariableList: [],
+            componentOnInit: [],
+            componentOnAfterView: [],
+            routeList: [],
+            flowMethod: [],
+            elementDependedMethod: [],
+            otherMethodNames: [],
+            dynamictype: '',
+            issearchforupdate: ''
+        }
+
+        // service
+        this.serviceComponent = {
+            variableList: [],
+            dependenciesVariableList: [],
+            flowMethod: [],
+            apiEndPoints: []
+        }
+
+        // module
+        this.moduleComponent = {
+            importDependency: [],
+            imports: [],
+            declarations: [],
+            exports: [],
+            entryComponents: [],
+            dynamictype: ''
+        }
 
 
-    //     if (screenDetails._id == this.searchforupdatescreen) {
-    //         this.tsComponent.issearchforupdate = 'true';
-    //     }
 
-    //     this.screenInfo = screenDetails;
-    //     console.log('generatehtlmworker componentstyles are ----  ', this.componentStyle);
-    //     this.entityDetails = screenDetails.entity_info;
-    //     this.flowDetails = screenDetails.flows_info;
-    //     this.componentLifecycleInfo = screenDetails['component-lifecycle'];
-    //     this.screenSpecialEvents = screenDetails['special-events'];
-    //     this.linkInfo = screenDetails['link_info'];
-    //     // list of other dependencies
-    //     this.entities = details.entities;
-    //     this.flowList = details.flows;
-    //     this.endPointList = details.nodeResponse;
-    //     this.cssGuidelines = details.cssGuidelines;
-    //     this.generateHtml(metaData);
-    //     // if component lifecycle present then we set those details
-    //     if (this.componentLifecycleInfo && this.componentLifecycleInfo.length > 0) {
-    //         this.setComponentLifeCycle();
-    //     }
-    //     console.log('after completed all method in child startTag are   ', `${this.startTag.join(`\n`)}`);
-    //     // console.log('tscomponent object are ------  ', util.inspect(this.tsComponent, { showHidden: true, depth: null }));
-    //     this.generateComponent(componentName, details, callback);
-    // }
+        this.componentStyle = [];
+        // add default styles
+        this.componentStyle.push(screenStyles);
+
+
+        if (screenDetails._id == this.searchforupdatescreen) {
+            this.tsComponent.issearchforupdate = 'true';
+        }
+
+        this.screenInfo = screenDetails;
+        console.log('generatehtlmworker componentstyles are ----  ', this.componentStyle);
+        this.entityDetails = screenDetails.entity_info;
+        this.flowDetails = screenDetails.flows_info;
+        this.componentLifecycleInfo = screenDetails['component-lifecycle'];
+        this.screenSpecialEvents = screenDetails['special-events'];
+        this.linkInfo = screenDetails['link_info'];
+        // list of other dependencies
+        this.entities = details.entities;
+        this.flowList = details.flows;
+        this.endPointList = details.nodeResponse;
+        this.cssGuidelines = details.cssGuidelines;
+        this.generateHtml(metaData);
+        // if component lifecycle present then we set those details
+        if (this.componentLifecycleInfo && this.componentLifecycleInfo.length > 0) {
+            // this.setComponentLifeCycle();
+        }
+        console.log('after completed all method in child startTag are   ', `${this.startTag.join(`\n`)}`);
+        // console.log('tscomponent object are ------  ', util.inspect(this.tsComponent, { showHidden: true, depth: null }));
+        // this.generateComponent(componentName, details, callback);
+    }
 
     // setComponentLifeCycle() {
     //     componentLifecyleWorker.setComponentLifeCycle(this);
@@ -333,51 +333,51 @@ export class GenerateHtmlWorker {
     // }
 
 
-    // generateHtml(grapesJSMetadata) {
-    //     this.forEach(grapesJSMetadata, (item, index, arr) => {
-    //         let tempObj = { endTagName: null };
-    //         if (index === 0) {
-    //             this.firstEle = item;
-    //         } else {
-    //             this.parentHtmlTags.push(item);
-    //         }
-    //         this.tagName = this.tagNameFunction(item);
-    //         if (item.components !== undefined) {
-    //             item.components.forEach(component => {
-    //                 console.log(' --item.content--  ', component);
-    //                 if (component.type == 'dynamicdropdown-type') {
+    generateHtml(grapesJSMetadata) {
+        this.forEach(grapesJSMetadata, (item, index, arr) => {
+            let tempObj = { endTagName: null };
+            if (index === 0) {
+                this.firstEle = item;
+            } else {
+                this.parentHtmlTags.push(item);
+            }
+            this.tagName = this.tagNameFunction(item);
+            if (item.components !== undefined) {
+                item.components.forEach(component => {
+                    console.log(' --item.components--  ', component);
+                    if (component.type == 'dynamicdropdown-type') {
 
-    //                     this.dynamicdropdowntype = component.type;
-    //                     this.tsComponent.dynamictype = component.type;
-    //                     this.moduleComponent.dynamictype = component.type;
-    //                 }
-    //             });
-    //         }
-    //         if (item.type === 'textnode') {
-    //             tempObj.endTagName = 'label';
-    //             this.parentHtmlTags.push(tempObj);
-    //         } else if (!this.tagName || this.tagName == 'div') {
-    //             tempObj.endTagName = 'div';
-    //             this.parentHtmlTags.push(tempObj);
-    //         } else if (this.tagName == 'form') {
-    //             tempObj.endTagName = 'form';
-    //             this.parentHtmlTags.push(tempObj);
-    //         } else if (this.tagName == 'section') {
-    //             tempObj.endTagName = 'section';
-    //             this.parentHtmlTags.push(tempObj);
-    //         } else if (!item.content &&
-    //             (this.tagName == 'nav' || this.tagName == 'header' || this.tagName == 'footer')) {
-    //             tempObj.endTagName = this.tagName;
-    //             this.parentHtmlTags.push(tempObj);
-    //         }
-    //         if (index === grapesJSMetadata.length - 1) {
-    //             if (this.parentHtmlTags.length > 0) {
-    //                 this.secondEle.unshift(this.parentHtmlTags);
-    //             }
-    //             this.generateChildHtml(this.firstEle, this.secondEle);
-    //         }
-    //     })
-    // }
+                        this.dynamicdropdowntype = component.type;
+                        this.tsComponent.dynamictype = component.type;
+                        this.moduleComponent.dynamictype = component.type;
+                    }
+                });
+            }
+            if (item.type === 'textnode') {
+                tempObj.endTagName = 'label';
+                this.parentHtmlTags.push(tempObj);
+            } else if (!this.tagName || this.tagName == 'div') {
+                tempObj.endTagName = 'div';
+                this.parentHtmlTags.push(tempObj);
+            } else if (this.tagName == 'form') {
+                tempObj.endTagName = 'form';
+                this.parentHtmlTags.push(tempObj);
+            } else if (this.tagName == 'section') {
+                tempObj.endTagName = 'section';
+                this.parentHtmlTags.push(tempObj);
+            } else if (!item.content &&
+                (this.tagName == 'nav' || this.tagName == 'header' || this.tagName == 'footer')) {
+                tempObj.endTagName = this.tagName;
+                this.parentHtmlTags.push(tempObj);
+            }
+            if (index === grapesJSMetadata.length - 1) {
+                if (this.parentHtmlTags.length > 0) {
+                    this.secondEle.unshift(this.parentHtmlTags);
+                }
+                // this.generateChildHtml(this.firstEle, this.secondEle);
+            }
+        })
+    }
 
     // generateChildHtml(firstEle, secondEle) {
     //     console.log(`firstElE -11--${this.count}-- `, firstEle);
@@ -1028,34 +1028,34 @@ export class GenerateHtmlWorker {
     //     }
     // }
 
-    // tagNameFunction(firstEle) {
-    //     let tagName = '';
-    //     if (firstEle.hasOwnProperty('tagName')) {
-    //         tagName = firstEle.tagName;
-    //     } else if (firstEle.hasOwnProperty('type')) {
-    //         if (
-    //             firstEle.type != 'grid-row' && firstEle.type != 'grid-item' &&
-    //             (firstEle.type == 'label' || firstEle.type == 'section' || firstEle.type == 'input')
-    //         ) {
-    //             tagName = firstEle.type;
-    //         } else if (firstEle.type == 'tab' || firstEle.type == 'link') {
-    //             tagName = 'a';
-    //         } else if (firstEle.type == 'image') {
-    //             tagName = 'img';
-    //         } else {
-    //             tagName = 'div';
-    //         }
-    //     }
-    //     if (firstEle.type === 'header') {
-    //         if (firstEle.tagName) {
-    //             tagName = firstEle.tagName;
-    //         } else {
-    //             tagName = 'h1';
-    //         }
+    tagNameFunction(firstEle) {
+        let tagName = '';
+        if (firstEle.hasOwnProperty('tagName')) {
+            tagName = firstEle.tagName;
+        } else if (firstEle.hasOwnProperty('type')) {
+            if (
+                firstEle.type != 'grid-row' && firstEle.type != 'grid-item' &&
+                (firstEle.type == 'label' || firstEle.type == 'section' || firstEle.type == 'input')
+            ) {
+                tagName = firstEle.type;
+            } else if (firstEle.type == 'tab' || firstEle.type == 'link') {
+                tagName = 'a';
+            } else if (firstEle.type == 'image') {
+                tagName = 'img';
+            } else {
+                tagName = 'div';
+            }
+        }
+        if (firstEle.type === 'header') {
+            if (firstEle.tagName) {
+                tagName = firstEle.tagName;
+            } else {
+                tagName = 'h1';
+            }
 
-    //     } else if (!tagName) {
-    //         tagName = 'div';
-    //     }
-    //     return tagName;
-    // }
+        } else if (!tagName) {
+            tagName = 'div';
+        }
+        return tagName;
+    }
 }
