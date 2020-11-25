@@ -1,3 +1,5 @@
-export class Input {
-    
+export class InputTagGeneration {
+    inputGeneration(inputTagData) {
+        
+    }
 }

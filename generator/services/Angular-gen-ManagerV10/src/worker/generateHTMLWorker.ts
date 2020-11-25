@@ -1,5 +1,7 @@
 import * as util from 'util';
 import * as asyncForEach from 'async-foreach';
+import { Forms } from '../strategy/HTML/Forms';
+import {InputTagGeneration} from '../strategy/HTML/Input';
 // import { ComponentWorker } from './componentWorker';
 // import { Constant } from '../config/Constant';
 // import * as componentDependency from '../assets/componentDependency';
@@ -11,6 +13,8 @@ import * as asyncForEach from 'async-foreach';
 // let componentSpecializedWorker = new ComponentSpecializedWorker();
 // let componentLifecyleWorker = new ComponentLifecycleWorker();
 // let linkWorker = new LinkWorker();
+let forms = new Forms();
+let generateInput = new InputTagGeneration();
 
 export class GenerateHtmlWorker {
 
@@ -342,40 +346,46 @@ export class GenerateHtmlWorker {
                 this.parentHtmlTags.push(item);
             }
             this.tagName = this.tagNameFunction(item);
-            if (item.components !== undefined) {
-                item.components.forEach(component => {
-                    console.log(' --item.components--  ', component);
-                    if (component.type == 'dynamicdropdown-type') {
+            if (this.tagName == 'form') {
+                let formResponse = forms.formGeneration(item);
+            }
+            if (this.tagName == 'input') {
+                let formResponse = generateInput.inputGeneration(item);
+            }
+            // if (item.components !== undefined) {
+            //     item.components.forEach(component => {
+            //         console.log(' --item.components--  ', component);
+            //         if (component.type == 'dynamicdropdown-type') {
 
-                        this.dynamicdropdowntype = component.type;
-                        this.tsComponent.dynamictype = component.type;
-                        this.moduleComponent.dynamictype = component.type;
-                    }
-                });
-            }
-            if (item.type === 'textnode') {
-                tempObj.endTagName = 'label';
-                this.parentHtmlTags.push(tempObj);
-            } else if (!this.tagName || this.tagName == 'div') {
-                tempObj.endTagName = 'div';
-                this.parentHtmlTags.push(tempObj);
-            } else if (this.tagName == 'form') {
-                tempObj.endTagName = 'form';
-                this.parentHtmlTags.push(tempObj);
-            } else if (this.tagName == 'section') {
-                tempObj.endTagName = 'section';
-                this.parentHtmlTags.push(tempObj);
-            } else if (!item.content &&
-                (this.tagName == 'nav' || this.tagName == 'header' || this.tagName == 'footer')) {
-                tempObj.endTagName = this.tagName;
-                this.parentHtmlTags.push(tempObj);
-            }
-            if (index === grapesJSMetadata.length - 1) {
-                if (this.parentHtmlTags.length > 0) {
-                    this.secondEle.unshift(this.parentHtmlTags);
-                }
-                // this.generateChildHtml(this.firstEle, this.secondEle);
-            }
+            //             this.dynamicdropdowntype = component.type;
+            //             this.tsComponent.dynamictype = component.type;
+            //             this.moduleComponent.dynamictype = component.type;
+            //         }
+            //     });
+            // }
+            // if (item.type === 'textnode') {
+            //     tempObj.endTagName = 'label';
+            //     this.parentHtmlTags.push(tempObj);
+            // } else if (!this.tagName || this.tagName == 'div') {
+            //     tempObj.endTagName = 'div';
+            //     this.parentHtmlTags.push(tempObj);
+            // } else if (this.tagName == 'form') {
+            //     tempObj.endTagName = 'form';
+            //     this.parentHtmlTags.push(tempObj);
+            // } else if (this.tagName == 'section') {
+            //     tempObj.endTagName = 'section';
+            //     this.parentHtmlTags.push(tempObj);
+            // } else if (!item.content &&
+            //     (this.tagName == 'nav' || this.tagName == 'header' || this.tagName == 'footer')) {
+            //     tempObj.endTagName = this.tagName;
+            //     this.parentHtmlTags.push(tempObj);
+            // }
+            // if (index === grapesJSMetadata.length - 1) {
+            //     if (this.parentHtmlTags.length > 0) {
+            //         this.secondEle.unshift(this.parentHtmlTags);
+            //     }
+            //     // this.generateChildHtml(this.firstEle, this.secondEle);
+            // }
         })
     }
 
@@ -387,29 +397,29 @@ export class GenerateHtmlWorker {
     //     this.isCKeditorSpan = false;
     //     if (firstEle && firstEle.hasOwnProperty('endTagName')) {
     //         this.startTag.push(`</${firstEle.endTagName}>`);
-    //         this.getNextValue(secondEle);
+    //         // this.getNextValue(secondEle);
     //     } else if (firstEle) {
     //         this.tagName = this.tagNameFunction(firstEle);
     //         if (firstEle.type == 'textnode') {
     //             this.startTag.push(firstEle.content);
     //             // console.log('pushed ttextnode are ------------ ', this.startTag);
-    //             this.getNextValue(secondEle);
+    //             // this.getNextValue(secondEle);
     //         } else if (!this.tagName) {
     //             console.log('convert tags into div are ----  ', this.tagName, ' firstelement ', firstEle);
     //             this.tagName = 'div';
     //         }
     //         this.isNotImportant = false;
     //         this.isContentOnly = false;
-    //         // set html classes
-    //         this.setClasses(firstEle);
-    //         // set html attributes
-    //         this.setAttributes(firstEle);
-    //         // set html contents
-    //         this.setContent(firstEle);
-    //         // based on value push it into startTag and endTag
-    //         this.pushValue(firstEle);
-    //         // check if the current html contents child components or not if it
-    //         this.childComponents(firstEle);
+            // set html classes
+            // this.setClasses(firstEle);
+            // // set html attributes
+            // this.setAttributes(firstEle);
+            // // set html contents
+            // this.setContent(firstEle);
+            // // based on value push it into startTag and endTag
+            // this.pushValue(firstEle);
+            // // check if the current html contents child components or not if it
+            // this.childComponents(firstEle);
     //     }
     // }
 
