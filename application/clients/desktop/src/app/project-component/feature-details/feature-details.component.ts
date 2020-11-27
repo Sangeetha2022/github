@@ -365,9 +365,11 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     getProjectFeatureFlows() {
+        this.spinner.show();
         this.projectComponentService.getProjectFeatureFlows(this.featureInfo.flows, this.logId).subscribe(response => {
             const temp = [];
             if (response.body) {
+                this.spinner.hide();
                 this.flowInFeatureRowData = response.body;
             }
         }, error => {
@@ -376,10 +378,12 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     getAllFlows() {
+        this.spinner.show();
         this.projectComponentService.getAllFlows(this.logId).subscribe(
             response => {
                 const flows = response.body;
                 if (flows) {
+                    this.spinner.hide();
                     if (this.flowInFeatureRowData.length === 0) {
                         this.rowData = flows;
                     } else {
@@ -435,10 +439,12 @@ export class FeatureDetailsComponent implements OnInit {
         }
     }
     saveManyProjectFlow(projectFlowList) {
+        this.spinner.show();
         this.projectComponentService.saveManyProjectFlow(projectFlowList, this.logId).subscribe(
             response => {
                 if (response.body) {
                     // get only the specific values
+                    this.spinner.hide();
                     const projectFlowsId = response.body.map(({ _id }) => _id);
                     this.featureInfo.flows = this.featureInfo.flows.concat(projectFlowsId);
                     this.saveFlowsInFeature();
@@ -461,10 +467,12 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     deleteProjectFlow(projectFlow) {
+        this.spinner.show();
         this.projectComponentService.deleteProjectFlow(projectFlow, this.logId).subscribe(
             data => {
                 this.getProjectFeatureFlows();
                 this.getAllFlows();
+                this.spinner.hide();
             },
             error => {
                 console.log('cannot able to delete the projectFlow ', error);
@@ -473,12 +481,14 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     deleteFlowById(flowId) {
+        this.spinner.show();
         this.projectComponentService.deleteFlowById(flowId, this.logId).subscribe(
             data => {
                 this.deleteConnectorPopup = 'none';
                 this.getProjectFeatureFlows();
                 this.getAllFlows();
                 this.getEntityByFeatureId();
+                this.spinner.hide();
             },
             error => {
                 console.log('cannot able to delete the projectFlow ', error);
