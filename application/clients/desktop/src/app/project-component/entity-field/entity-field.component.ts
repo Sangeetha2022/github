@@ -289,11 +289,14 @@ export class EntityFieldComponent implements OnInit {
   }
 
   updateEntityField(options) {
+    this.spinner.show();
     this.entityManagerService.updateEntityField(this.entity, this.logId).subscribe(
       (data) => {
         if (options) {
+          this.spinner.hide();
           this.toastr.success('entity fields are saved');
         } else {
+          this.spinner.hide();
           this.toastr.success('entity fields are updated');
         }
       },

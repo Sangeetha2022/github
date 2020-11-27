@@ -314,7 +314,7 @@ export class EntityManagerComponent implements OnInit {
                     }
                 });
             }
-
+            this.spinner.show();
             if (!this.isFeatureExist && !this.invalidName && !this.isReserveWord) {
                 this.featureInfo.description = this.featureInfo.description.replace(/<[^>]+>/g, '');
                 this.featureInfo.description.trim();
@@ -344,6 +344,7 @@ export class EntityManagerComponent implements OnInit {
                             }
                         });
                         this.getFeatureByProjectId();
+                        this.spinner.hide();
                     },
                     (error) => {
 
@@ -361,6 +362,7 @@ export class EntityManagerComponent implements OnInit {
 
         this.validatorService.checkNamingConvention(this.featureInfo.name);
         this.validatorService.checkReserveWords(this.featureInfo.name);
+        this.spinner.show();
         this.validatorService.currentProjectInfo.subscribe(data => {
             if (data === null) {
                 this.invalidName = true;
@@ -393,6 +395,7 @@ export class EntityManagerComponent implements OnInit {
                     }
                 );
                 this.getFeatureByProjectId();
+                this.spinner.hide();
             }
 
         });
