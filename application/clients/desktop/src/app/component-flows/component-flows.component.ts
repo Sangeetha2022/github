@@ -6,6 +6,7 @@ import { IFlowComponent } from './interface/flowComponents';
 import { Connector } from './interface/connector';
 import { Router } from '@angular/router';
 import { DataService } from 'src/shared/data.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-component-flows',
@@ -95,7 +96,8 @@ export class ComponentFlowsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private componentFlowsService: ComponentFlowsService,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private spinner: NgxSpinnerService
   ) {
   }
 
@@ -106,8 +108,10 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   getFlows() {
+    this.spinner.show();
     this.dataService.currentflowSource.subscribe(
       flowData => {
+        this.spinner.hide();
         if (Object.keys(flowData).length === 0) {
           this.router.navigate(['flow-manager']);
         }
@@ -220,10 +224,11 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   createMicroFLow() {
+    this.spinner.show();
     const dataToSave = this.createMFlowForm.getRawValue();
     dataToSave.component_name = this.selectedFlowCmpnt[0].component_name;
     this.componentFlowsService.saveMicroFlow(dataToSave, this.logId).subscribe((data) => {
-
+      this.spinner.hide();
     },
       (error) => {
         console.log('cannot able to create the microflows--- ', error);
@@ -233,6 +238,7 @@ export class ComponentFlowsComponent implements OnInit {
   }
 
   updateMicroFlow() {
+    this.spinner.show();
     this.microFlowDatatoUpdate = this.createMFlowForm.getRawValue();
     if (this.iMicroFlow.component_name === this.microFlowDatatoUpdate.component_name) {
       this.iMicroFlow.component_name = this.microFlowDatatoUpdate.component_name;
@@ -240,6 +246,7 @@ export class ComponentFlowsComponent implements OnInit {
       this.iMicroFlow.micro_flow_step_name = this.microFlowDatatoUpdate.micro_flow_step_name;
     }
     this.componentFlowsService.updateMicroFlow(this.iMicroFlow, this.logId).subscribe(data => {
+      this.spinner.hide();
     });
     this.onCloseMFHandledUpdate();
   }

@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatExpansionModule, MatFormFieldModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentFlowsComponent } from './component-flows.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ComponentFlowsComponent } from './component-flows.component';
     ReactiveFormsModule,
     CommonModule,
     I18NextModule.forRoot(),
+    NgxSpinnerModule
   ],
   exports: [
     ComponentFlowsComponent

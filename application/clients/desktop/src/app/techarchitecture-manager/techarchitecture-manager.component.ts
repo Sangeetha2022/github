@@ -6,6 +6,7 @@ import { ProjectsService } from '../projects/projects.service';
 import { ProjectComponentService } from '../project-component/project-component.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-techarchitecture-manager',
@@ -30,6 +31,7 @@ export class ConnectorManagerComponent implements OnInit {
     private projectComponentService: ProjectComponentService,
     private activatedRoute: ActivatedRoute,
     private toastr: ToastrService,
+    private spinner: NgxSpinnerService
   ) { }
 
   clientLanguage: String;
@@ -100,7 +102,9 @@ export class ConnectorManagerComponent implements OnInit {
   }
 
   generateField() {
+    this.spinner.show();
     this.projectComponentService.exportSharedServiceYaml(this.projectId, this.logId).subscribe(data => {
+      this.spinner.hide();
       console.log("export---->", data);
       this.toastr.success('PROJECT:','Exported successfully!', {
         closeButton: true,
@@ -112,8 +116,10 @@ export class ConnectorManagerComponent implements OnInit {
   }
 
   getTechProperties() {
+    this.spinner.show();
     this.configManagerService.getTechProperties(this.logId).subscribe(
       data => {
+        this.spinner.hide();
         data.body.forEach(element => {
           switch (element['type']) {
             case 'GpClientLanguage':

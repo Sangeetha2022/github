@@ -3,6 +3,7 @@ import { TemplateScreenService } from './template-screen.service';
 import { ActivatedRoute } from '@angular/router';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
 import { ProjectsService } from '../projects/projects.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-template-screen',
@@ -26,6 +27,7 @@ export class TemplateScreenComponent implements OnInit {
     private route: ActivatedRoute,
     private screenDesignerService: ScreenDesignerService,
     private projectsService: ProjectsService,
+    private spinner: NgxSpinnerService
   ) {
   }
 
@@ -38,7 +40,9 @@ export class TemplateScreenComponent implements OnInit {
   }
 
   getAllGepTemplates() {
+    this.spinner.show();
     this.templateScreenService.getAllTemplates(this.logId).subscribe(response => {
+      this.spinner.hide();
       this.gepTemplates = response.body;
       this.gepTempImages = this.gepTemplates.template_image;
       this.screenDesignerService.getScreenByProjectId(this.project_id, this.logId).subscribe(screenResponse => {
