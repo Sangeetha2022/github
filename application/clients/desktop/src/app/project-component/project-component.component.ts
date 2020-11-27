@@ -16,6 +16,7 @@ import { ProjectsService } from '../projects/projects.service';
 import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
 import { ToastrService } from 'ngx-toastr';
 import { ValidatorService } from 'src/shared/validator.service';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
     selector: 'app-project-component',
@@ -147,6 +148,7 @@ export class EntityManagerComponent implements OnInit {
         private database: TreeDragService,
         private toastr: ToastrService,
         private validatorService: ValidatorService,
+        private spinner: NgxSpinnerService
 
 
     ) { }
@@ -258,8 +260,10 @@ export class EntityManagerComponent implements OnInit {
     }
 
     getProjectById() {
+        this.spinner.show();
         this.projectService.getProjectById(this.project_id, this.logId).subscribe(response => {
             if (response.body) {
+                this.spinner.hide();
                 this.projectName = response.body.project_unique_id;
                 this.menuLanguages.push(response.default_human_language);
                 if (response.other_human_languages !== '') {
@@ -272,8 +276,10 @@ export class EntityManagerComponent implements OnInit {
     }
 
     getFeatureByProjectId() {
+        this.spinner.show();
         this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(
             response => {
+                this.spinner.hide();
                 this.projectFeatureData = response.body;
             },
             error => {
@@ -308,7 +314,7 @@ export class EntityManagerComponent implements OnInit {
                     }
                 });
             }
-
+            this.spinner.show();
             if (!this.isFeatureExist && !this.invalidName && !this.isReserveWord) {
                 this.featureInfo.description = this.featureInfo.description.replace(/<[^>]+>/g, '');
                 this.featureInfo.description.trim();
@@ -338,6 +344,7 @@ export class EntityManagerComponent implements OnInit {
                             }
                         });
                         this.getFeatureByProjectId();
+                        this.spinner.hide();
                     },
                     (error) => {
 
@@ -355,6 +362,7 @@ export class EntityManagerComponent implements OnInit {
 
         this.validatorService.checkNamingConvention(this.featureInfo.name);
         this.validatorService.checkReserveWords(this.featureInfo.name);
+        this.spinner.show();
         this.validatorService.currentProjectInfo.subscribe(data => {
             if (data === null) {
                 this.invalidName = true;
@@ -387,6 +395,7 @@ export class EntityManagerComponent implements OnInit {
                     }
                 );
                 this.getFeatureByProjectId();
+                this.spinner.hide();
             }
 
         });
@@ -469,9 +478,11 @@ export class EntityManagerComponent implements OnInit {
     }
 
     getScreenByProjectId() {
+        this.spinner.show();
         this.screenDetails = [];
         this.screenService.getScreenByProjectId(this.project_id, this.logId).subscribe(response => {
             if (response.body) {
+                this.spinner.hide();
                 response.body.forEach(element => {
                     if (!element.isTemplate) {
                         this.screenDetails.push(element);
@@ -520,8 +531,10 @@ export class EntityManagerComponent implements OnInit {
     }
 
     getAllEntityByProjectId() {
+        this.spinner.show();
         this.projectComponentService.getEntityByProjectId(this.project_id, this.logId).subscribe(
             (data) => {
+                this.spinner.hide();
                 console.log('all entity data', data.body);
                 this.allEntity = data.body;
                 this.projectEntity = this.allEntity;
@@ -576,8 +589,10 @@ export class EntityManagerComponent implements OnInit {
 
 
     getMenuBuilderByProjectId() {
+        this.spinner.show();
         this.menuFeatureName = [];
         this.menuBuilderService.getMenuBuilderByProjectId(this.project_id, this.logId).subscribe(menuBuilderData => {
+            this.spinner.hide();
             if (menuBuilderData.body && menuBuilderData.body.length !== 0) {
                 this.menuBuilderDetails = menuBuilderData.body;
                 const array = [];
@@ -681,8 +696,10 @@ export class EntityManagerComponent implements OnInit {
     }
 
     getSelectedProject() {
+        this.spinner.show();
         this.dataService.currentProjectInfo.subscribe(
             (data) => {
+                this.spinner.hide();
                 this.selectedProject = data;
             }
         );

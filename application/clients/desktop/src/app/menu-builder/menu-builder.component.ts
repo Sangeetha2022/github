@@ -8,6 +8,8 @@ import { TreeDragService } from './tree-drag/tree-drag.service';
 import { EntityManagerComponent } from '../project-component/project-component.component';
 import { ProjectComponentService } from '../project-component/project-component.service';
 import { ScreenDesignerService } from '../screen-designer/screen-designer.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-menu-builder',
   templateUrl: './menu-builder.component.html',
@@ -51,6 +53,7 @@ export class MenuBuilderComponent implements OnInit {
     private projectComp: EntityManagerComponent,
     private screenService: ScreenDesignerService,
     private projectComponentService: ProjectComponentService,
+    private spinner: NgxSpinnerService
   ) {
   }
 
@@ -224,7 +227,9 @@ export class MenuBuilderComponent implements OnInit {
     this.updateMenuById(this.currentMenuDetails._id, this.currentMenuDetails);
   }
   updateMenuById(id, menu) {
+    this.spinner.show();
     this.menuBuilderService.updateMenuById(id, menu, this.logId).subscribe(fMenu => {
+      this.spinner.hide();
       this.database.initialize(fMenu.body.menuDetails);
       this.dataService.setMenuBuilder(fMenu.body.menuDetails);
       this.name = '';

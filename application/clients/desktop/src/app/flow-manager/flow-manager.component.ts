@@ -5,6 +5,7 @@ import { FlowManagerService } from './flow-manager.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IFlow } from './interface/flow';
 import { DataService } from 'src/shared/data.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-flow-manager',
@@ -51,6 +52,7 @@ export class FlowManagerComponent implements OnInit {
     private flowManagerService: FlowManagerService,
     private router: Router, private route: ActivatedRoute,
     private dataService: DataService,
+    private spinner: NgxSpinnerService
   ) {
     this.columnDefs = [
       {
@@ -88,7 +90,9 @@ export class FlowManagerComponent implements OnInit {
   }
 
   getAllFlows() {
+    this.spinner.show();
     this.flowManagerService.getAllFlows(this.logId).subscribe((flowResponse) => {
+      this.spinner.hide();
       this.dataFlow = flowResponse.body;
       this.rowData = this.dataFlow;
 
@@ -133,10 +137,12 @@ export class FlowManagerComponent implements OnInit {
   }
 
   createFlowModel() {
+    this.spinner.show();
     this.submitted = true;
     this.flowManagerService.saveFlow(this.createFlowForm.getRawValue(), this.logId)
       .subscribe(
         (data) => {
+          this.spinner.hide();
           this.onCloseHandled();
           this.getAllFlows();
         },
@@ -147,8 +153,10 @@ export class FlowManagerComponent implements OnInit {
   }
 
   deleteRow() {
+    this.spinner.show();
     this.flowManagerService.deleteFlow(this.selectedFlow[0]._id, this.logId).subscribe(
       (data) => {
+        this.spinner.hide();
         this.getAllFlows();
       },
       (error) => {
@@ -158,9 +166,11 @@ export class FlowManagerComponent implements OnInit {
   }
 
   updateFlowModel() {
+    this.spinner.show();
     this.submitted = true;
     this.flowManagerService.updateFlow(this.flow, this.flow['_id'], this.logId).subscribe(
       (data) => {
+        this.spinner.hide();
         this.onCloseHandled();
         this.getAllFlows();
       },
