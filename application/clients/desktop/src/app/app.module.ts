@@ -62,6 +62,7 @@ import { ValidatorService } from 'src/shared/validator.service';
 import { TranslatorModule } from './translator/translator.module';
 import { UiSwitchModule } from 'ngx-toggle-switch';
 import { FileUploadModule } from 'ng2-file-upload';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 // @ts-ignore
@@ -136,7 +137,8 @@ export function getAuthserviceConfigs() {
     MenuBuilderModule,
     SocialLoginModule,
     TranslatorModule,
-    FileUploadModule
+    FileUploadModule,
+    NgxSpinnerModule
   ],
   providers: [
     ApiService,
@@ -150,6 +152,7 @@ export function getAuthserviceConfigs() {
     HomepageService,
     ValidatorService,
     LandingService,
+    NgxSpinnerModule,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AppInterceptor,

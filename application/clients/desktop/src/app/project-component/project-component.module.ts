@@ -34,6 +34,7 @@ import { EntityModelComponent } from './entitypopup-model/entitypop-up/entitypop
 import { EditPopupComponent } from './edit-popup/edit-popup.component';
 import { FlowTreeComponent } from './feature-details/flow-tree/flow-tree.component';
 import { FlowTreeService } from './feature-details/flow-tree/flow-tree.service';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import { FlowTreeService } from './feature-details/flow-tree/flow-tree.service';
     MatIconModule,
     MatInputModule,
     MatTreeModule,
-    AgGridModule.withComponents([])
+    AgGridModule.withComponents([]),
+    NgxSpinnerModule
   ],
   entryComponents: [
     ButtonRendererComponent,

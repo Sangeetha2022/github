@@ -19,6 +19,7 @@ import { invalid } from '@angular/compiler/src/render3/view/util';
 import { element, template } from '@angular/core/src/render3';
 import { FlowTreeService } from './flow-tree/flow-tree.service';
 import { DataService } from 'src/shared/data.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 // import { FormBuilder , FormGroup ,Validators} from `@angular/forms`;
 
@@ -165,7 +166,8 @@ export class FeatureDetailsComponent implements OnInit {
         private formBuilder: FormBuilder,
         private flowTreeService: FlowTreeService,
         private dataService: DataService,
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private spinner: NgxSpinnerService
     ) {
    
         this.frameworkComponents = {
@@ -320,8 +322,10 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     getFeatureById() {
+        this.spinner.show();
         this.projectComponentService.getFeatureById(this.feature_id, this.logId).subscribe(
             response => {
+                this.spinner.hide();
                 this.featureInfo = response.body;
                 this.selectedFeatureName = response.body.name;
                 this.getProjectFeatureFlows();
@@ -334,8 +338,10 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     getScreenByFeatureId() {
+        this.spinner.show();
         this.screenService.getScreenByFeatureId(this.feature_id, this.logId).subscribe(
             (screenData) => {
+                this.spinner.hide();
                 this.screenDetails = screenData.body;
             },
             (error) => {
@@ -345,8 +351,10 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     getEntityByFeatureId() {
+        this.spinner.show();
         this.projectComponentService.getEntityByFeatureId(this.feature_id, this.logId).subscribe(
             (entityData) => {
+                this.spinner.hide();
                 this.featureEntityDetails = entityData.body;
                 this.isPrimaryEntityPresent = this.featureEntityDetails.some(x => x.entity_type === 'primary');
             },
