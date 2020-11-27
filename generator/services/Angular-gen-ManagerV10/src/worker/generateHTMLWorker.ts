@@ -113,7 +113,7 @@ export class GenerateHtmlWorker {
         // generatedScreen for spcialeEvent screens
         this.generatedSpecialEventScreens = [];
     }
-    generate(metaData, screenStyles, screenDetails, componentName, details, callback) {
+    generate(screenDetails, details, callback) {
         // console.log('css content for this screem ----- ', details);
         // console.log('entering into geenerate methods are -----  ', util.inspect(metaData, { showHidden: true, depth: null }));
         // console.log("screen---details-------", screenDetails)
@@ -160,7 +160,6 @@ export class GenerateHtmlWorker {
 
         this.componentStyle = [];
         // add default styles
-        this.componentStyle.push(screenStyles);
 
 
         if (screenDetails._id == this.searchforupdatescreen) {
@@ -169,6 +168,9 @@ export class GenerateHtmlWorker {
 
         this.screenInfo = screenDetails;
         console.log('generatehtlmworker componentstyles are ----  ', this.componentStyle);
+        let metaData = JSON.parse(screenDetails['gjs-component']);
+        let stylesData = JSON.parse(screenDetails['gjs-styles']);
+        let screenName = screenDetails.screenName;
         this.entityDetails = screenDetails.entity_info;
         this.flowDetails = screenDetails.flows_info;
         this.componentLifecycleInfo = screenDetails['component-lifecycle'];
@@ -179,7 +181,7 @@ export class GenerateHtmlWorker {
         this.flowList = details.flows;
         this.endPointList = details.nodeResponse;
         this.cssGuidelines = details.cssGuidelines;
-        this.generateHtml(metaData);
+        this.generateHtml(metaData, stylesData, screenName);
         // if component lifecycle present then we set those details
         if (this.componentLifecycleInfo && this.componentLifecycleInfo.length > 0) {
             // this.setComponentLifeCycle();
@@ -337,7 +339,7 @@ export class GenerateHtmlWorker {
     // }
 
 
-    generateHtml(grapesJSMetadata) {
+    generateHtml(grapesJSMetadata, screenCssData, screenHtmlData) {
         this.forEach(grapesJSMetadata, (item, index, arr) => {
             let tempObj = { endTagName: null };
             if (index === 0) {
@@ -347,7 +349,7 @@ export class GenerateHtmlWorker {
             }
             this.tagName = this.tagNameFunction(item);
             if (this.tagName == 'form') {
-                let formResponse = forms.formGeneration(item);
+                let formResponse = forms.formGeneration(item, screenCssData, screenHtmlData);
             }
             if (this.tagName == 'input') {
                 let formResponse = generateInput.inputGeneration(item);

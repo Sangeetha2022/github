@@ -24,8 +24,8 @@ export class AngularService {
     iterateScreens(screenInfo, details, callback) {
         asyncLoop(screenInfo, (featureScreenElement, next) => {
             if (featureScreenElement) {
-                console.log('feature  element data------------>>', featureScreenElement['gjs-components']);
-                generateHtmlWorker.generate(JSON.parse(featureScreenElement['gjs-components'][0]), featureScreenElement['gjs-css'], featureScreenElement, featureScreenElement.screenName, details, (response) => {
+                console.log('feature  element data------------>>', featureScreenElement);
+                generateHtmlWorker.generate(featureScreenElement, details, (response) => {
                     next();
                 });
             } else {

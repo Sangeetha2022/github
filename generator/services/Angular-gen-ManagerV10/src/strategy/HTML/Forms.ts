@@ -1,9 +1,10 @@
 export class Forms {
-    formGeneration(formData) {
+    formGeneration(formData, stylesData, screenName) {
         if (formData.components !== undefined) {
             formData.components.forEach(component => {
                 if (component.classes !== undefined) {
                     component.classes.forEach(classData => {
+                        console.log('class data for the component===============>>', classData);
                     })
                 }
                 if (component.components !== undefined) {
