@@ -12,6 +12,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { Constants } from '../config/Constant';
 import { SharedService } from 'src/shared/shared.service';
 import { ReturnStatement } from '@angular/compiler';
+import { NgxSpinnerService } from "ngx-spinner";
 
 
 @Component({
@@ -82,7 +83,8 @@ export class ProjectsComponent implements OnInit {
     private templateScreenService: TemplateScreenService,
     private route: ActivatedRoute,
     private screenDesignerService: ScreenDesignerService,
-    private restapi: SharedService
+    private restapi: SharedService,
+    private spinner: NgxSpinnerService
 
   ) {
   }
@@ -215,9 +217,11 @@ export class ProjectsComponent implements OnInit {
   get form_control() { return this.createProject.controls; }
 
   getProjectByUserId() {
+    this.spinner.show();
     this.myAllProjects = [];
     this.projectsService.getProjectByUserId(this.UserId, this.logId).subscribe(data => {
       if (data) {
+        this.spinner.hide();
         this.myAllProjects = data.body;
       }
     }, error => {
@@ -498,7 +502,9 @@ export class ProjectsComponent implements OnInit {
 
 
   getAllTemplates() {
+    this.spinner.show();
     this.templateScreenService.getAllTemplates(this.logId).subscribe(gepTemp => {
+      this.spinner.hide();
       this.gepTemplates = gepTemp.body;
       this.gepTempImages = this.gepTemplates.template_image;
     },
@@ -508,7 +514,9 @@ export class ProjectsComponent implements OnInit {
   }
 
   getTemplateParser() {
+    this.spinner.show();
     this.templateScreenService.getTemplateParser(this.logId).subscribe(response => {
+      this.spinner.show();
       console.log('getTemplate parser response in project are --- ', response);
       // this.gepTemplates = gepTemp.body;
       // this.gepTempImages = this.gepTemplates.template_image;

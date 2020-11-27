@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material';
 import { FieldPopupModalComponent } from './field-popup-modal/field-popup-modal.component';
 import { ToastrService } from 'ngx-toastr';
 import { RegexExpression } from '../../config/Regex';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-entity-field',
@@ -61,6 +62,7 @@ export class EntityFieldComponent implements OnInit {
     private toastr: ToastrService,
     private activatedRoute: ActivatedRoute,
     private regexExpression: RegexExpression,
+    private spinner: NgxSpinnerService
   ) {
     this.frameworkComponents = {
       buttonRenderer: ButtonRendererComponent,
@@ -154,9 +156,11 @@ export class EntityFieldComponent implements OnInit {
   }
 
   getEntity() {
+    this.spinner.show();
     this.projectComponentService.getByIdEntity(this.currentEntityId, this.logId).subscribe(
       data => {
         if (data.body) {
+          this.spinner.hide();
           this.entity = data.body;
           if (this.entity.field.length > 0) {
             this.rowData = this.entity.field;
@@ -285,11 +289,14 @@ export class EntityFieldComponent implements OnInit {
   }
 
   updateEntityField(options) {
+    this.spinner.show();
     this.entityManagerService.updateEntityField(this.entity, this.logId).subscribe(
       (data) => {
         if (options) {
+          this.spinner.hide();
           this.toastr.success('entity fields are saved');
         } else {
+          this.spinner.hide();
           this.toastr.success('entity fields are updated');
         }
       },

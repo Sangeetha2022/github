@@ -9,6 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [ConfigManagerComponent],
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     FormsModule,
     I18NextModule.forRoot(),
+    NgxSpinnerModule
   ],
   exports: [
     ConfigManagerComponent

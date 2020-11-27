@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigManagerService } from './config-manager.service';
 import { IConfigManager } from './interface/configmanager';
+import { NgxSpinnerService } from 'ngx-spinner';
+
 @Component({
   selector: 'app-config-manager',
   templateUrl: './config-manager.component.html',
@@ -32,7 +34,10 @@ export class ConfigManagerComponent implements OnInit {
     value: '',
   };
 
-  constructor(public configManagerService: ConfigManagerService) {
+  constructor(
+    public configManagerService: ConfigManagerService,
+    private spinner: NgxSpinnerService
+  ) {
     this.columnDefs = [
       {
         headerName: 'Name', field: 'name',
@@ -113,15 +118,19 @@ export class ConfigManagerComponent implements OnInit {
 
 
   getAllConfig() {
+    this.spinner.show();
     this.configManagerService.getAllConfig(this.logId).subscribe(data => {
+      this.spinner.hide();
       this.rowData = data.body;
     });
   }
 
   createConfig() {
+    this.spinner.show();
     this.configManagerService.saveConfig(this.configManager, this.logId)
       .subscribe(
         (data) => {
+          this.spinner.hide();
           this.onCloseHandled();
           this.getAllConfig();
         },
@@ -132,8 +141,10 @@ export class ConfigManagerComponent implements OnInit {
   }
 
   updateConfig() {
+    this.spinner.show();
     this.configManagerService.updateConfig(this.configManager, this.logId).subscribe(
       (data) => {
+        this.spinner.hide();
         this.onCloseHandled();
         this.getAllConfig();
       },
@@ -144,7 +155,9 @@ export class ConfigManagerComponent implements OnInit {
   }
 
   deleteRow() {
+    this.spinner.show();
     this.configManagerService.deleteConfig(this.selectedConfig[0]._id, this.logId).subscribe(data => {
+      this.spinner.hide();
       this.getAllConfig();
     });
   }

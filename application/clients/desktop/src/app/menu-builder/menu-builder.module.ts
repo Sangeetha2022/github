@@ -10,6 +10,7 @@ import { MenuBuilderComponent } from './menu-builder.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { TreeDragComponent } from './tree-drag/tree-drag.component';
 import { TreeDragService } from './tree-drag/tree-drag.service';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { TreeDragService } from './tree-drag/tree-drag.service';
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatTreeModule
+    MatTreeModule,
+    NgxSpinnerModule
   ],
   exports: [
     MenuBuilderComponent,

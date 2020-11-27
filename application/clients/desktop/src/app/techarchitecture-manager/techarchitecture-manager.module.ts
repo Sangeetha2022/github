@@ -11,6 +11,7 @@ import { ConnectorManagerComponent } from './techarchitecture-manager.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModalService } from '../_services';
 import { ModalComponent } from '../_directives';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ModalComponent } from '../_directives';
     ReactiveFormsModule,
     CommonModule,
     I18NextModule.forRoot(),
+    NgxSpinnerModule
   ],
   exports: [
     ConnectorManagerComponent
