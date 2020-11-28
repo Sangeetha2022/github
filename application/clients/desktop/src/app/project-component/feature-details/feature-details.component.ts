@@ -832,7 +832,11 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     editEntityField(entity: any) {
-        this.router.navigate(['/entity-field'], { queryParams: { entityId: entity._id, featureId: this.feature_id } });
+        this.router.navigate(['/entity-field'], { queryParams: {
+            entityId: entity._id,
+            featureId: this.feature_id,
+            projectId: this.project_id
+        } });
     }
 
     saveEntityModel() {

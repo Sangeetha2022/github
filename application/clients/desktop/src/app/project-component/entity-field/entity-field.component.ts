@@ -77,9 +77,14 @@ export class EntityFieldComponent implements OnInit {
       if (params.featureId !== undefined && params.featureId !== null) {
         this.featureId = params.featureId;
       }
+      if (params.projectId !== undefined && params.projectId !== null) {
+        this.projectId = params.projectId;
+      }
+
     });
     this.regexExpression.generateReservedWord();
     this.getEntityType();
+    this.getEntity();
   }
 
   getEntityType() {
@@ -155,27 +160,50 @@ export class EntityFieldComponent implements OnInit {
     this.getEntity();
   }
 
-  getEntity() {
+  async getEntity() {
     this.spinner.show();
-    this.projectComponentService.getByIdEntity(this.currentEntityId, this.logId).subscribe(
+    const entityDetails: any = await this.getEntityDetails();
+    if (entityDetails) {
+      this.spinner.hide();
+      this.entity = entityDetails.body;
+      if (this.entity.field.length > 0) {
+        this.rowData = this.entity.field;
+      }
+    }
+    this.getAllEntity();
+  }
+
+  getEntityDetails() {
+    return new Promise((resolve) => {
+      this.projectComponentService.getByIdEntity(this.currentEntityId, this.logId).subscribe(
+        data => {
+          resolve(data);
+        },
+        error => {
+          resolve(error);
+         }
+      );
+    });
+  }
+
+  getAllEntity() {
+    if (this.featureId) {
+      // this.getEntityByFeatureId();
+      this.getEntityByProjectId();
+    } else {
+      this.getEntityByProjectId();
+    }
+  }
+
+  getEntityByProjectId() {
+    this.projectComponentService.getEntityByProjectId(this.projectId, this.logId).subscribe(
       data => {
-        if (data.body) {
-          this.spinner.hide();
-          this.entity = data.body;
-          if (this.entity.field.length > 0) {
-            this.rowData = this.entity.field;
-          }
+        if (data.body && data.body.length > 0) {
+          this.allEntity = data.body.filter(x => x._id !== this.featureId && x.is_default !== true);
         }
       },
       error => { }
     );
-    this.getAllEntity();
-  }
-
-  getAllEntity() {
- if (this.featureId) {
-      this.getEntityByFeatureId();
-    }
   }
 
   getEntityByFeatureId() {
@@ -206,9 +234,9 @@ export class EntityFieldComponent implements OnInit {
   }
 
   openDialog(entityValue, standardValue, e): void {
-    console.log("entityValue ------------->",entityValue)
-    console.log("standardValue-------------->",standardValue)
-    console.log("this.entity ---> ",this.entity )
+    console.log("entityValue ------------->", entityValue)
+    console.log("standardValue-------------->", standardValue)
+    console.log("this.entity ---> ", this.entity)
     const dialogRef = this.dialog.open(FieldPopupModalComponent, {
       width: '250px',
       data: {
@@ -233,8 +261,8 @@ export class EntityFieldComponent implements OnInit {
           if (entityData.standard !== undefined) {
             e.data.list_type = 'standard';
             e.data.list_value = entityData.standard;
-          } else if ( entityData.entity !== null || entityData.entity !== undefined) {
-            console.log('let me test entity --------------> ',entityData.entity)
+          } else if (entityData.entity !== null || entityData.entity !== undefined) {
+            console.log('let me test entity --------------> ', entityData.entity)
             e.data.list_type = 'entity';
             e.data.list_value = null;
             e.data.entity_id = entityData.entity;
@@ -268,11 +296,11 @@ export class EntityFieldComponent implements OnInit {
         currentEntity.push(node.data.name);
       }
     });
-    console.log("currentEntity ---> ",currentEntity )
-    console.log("event.data.name-------------->",event.data.name)
+    console.log("currentEntity ---> ", currentEntity)
+    console.log("event.data.name-------------->", event.data.name)
     const index = currentEntity.findIndex(x =>
       x === event.data.name);
-    console.log('index ----> ',index)
+    console.log('index ----> ', index)
     if (index > -1) {
       this.propertiesIsExist = true;
     } else {
@@ -345,11 +373,11 @@ export class EntityFieldComponent implements OnInit {
   }
 
   typeValueSetter(params: ValueParserParams) {
-    console.log("params ---------------> ",params)
+    console.log("params ---------------> ", params)
     const value = this.openModal(params);
-    console.log("value ---------------> ",value)
+    console.log("value ---------------> ", value)
     params.data[params.colDef.field] = value;
-    console.log("params.data ---> ",params.data)
+    console.log("params.data ---> ", params.data)
     return true;
   }
 
