@@ -10,6 +10,7 @@ export class AngularService {
     async createAngularProject(req: Request, callback: CallableFunction) {
 
         const details = req.body;
+        // console.log('details ===================+>>>>', details);
         const primaryScreens = details.desktop.filter(x => x.route_info.length > 0 || x["special-events"].length > 0);
         const secondaryScreens = details.desktop.filter(x => x.route_info.length == 0 && x["special-events"].length == 0);
         this.iterateScreens(primaryScreens, details, (response) => {
@@ -24,7 +25,7 @@ export class AngularService {
     iterateScreens(screenInfo, details, callback) {
         asyncLoop(screenInfo, (featureScreenElement, next) => {
             if (featureScreenElement) {
-                console.log('feature  element data------------>>', featureScreenElement);
+                // console.log('feature  element data------------>>', featureScreenElement);
                 generateHtmlWorker.generate(featureScreenElement, details, (response) => {
                     next();
                 });

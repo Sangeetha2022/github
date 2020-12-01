@@ -167,9 +167,8 @@ export class GenerateHtmlWorker {
         }
 
         this.screenInfo = screenDetails;
-        console.log('generatehtlmworker componentstyles are ----  ', this.componentStyle);
-        let metaData = JSON.parse(screenDetails['gjs-component']);
-        let stylesData = JSON.parse(screenDetails['gjs-styles']);
+        let metaData: any = JSON.parse(screenDetails['gjs-components'][0]);
+        let stylesData = JSON.parse(screenDetails['gjs-styles'][0]);
         let screenName = screenDetails.screenName;
         this.entityDetails = screenDetails.entity_info;
         this.flowDetails = screenDetails.flows_info;
@@ -181,7 +180,7 @@ export class GenerateHtmlWorker {
         this.flowList = details.flows;
         this.endPointList = details.nodeResponse;
         this.cssGuidelines = details.cssGuidelines;
-        this.generateHtml(metaData, stylesData, screenName);
+        this.generateHtml(metaData, screenDetails, details);
         // if component lifecycle present then we set those details
         if (this.componentLifecycleInfo && this.componentLifecycleInfo.length > 0) {
             // this.setComponentLifeCycle();
@@ -339,7 +338,7 @@ export class GenerateHtmlWorker {
     // }
 
 
-    generateHtml(grapesJSMetadata, screenCssData, screenHtmlData) {
+    generateHtml(grapesJSMetadata, screensData, details) {
         this.forEach(grapesJSMetadata, (item, index, arr) => {
             let tempObj = { endTagName: null };
             if (index === 0) {
@@ -349,45 +348,11 @@ export class GenerateHtmlWorker {
             }
             this.tagName = this.tagNameFunction(item);
             if (this.tagName == 'form') {
-                let formResponse = forms.formGeneration(item, screenCssData, screenHtmlData);
+                let formResponse = forms.formHTMLGeneration(item, screensData, details);
             }
             if (this.tagName == 'input') {
                 let formResponse = generateInput.inputGeneration(item);
             }
-            // if (item.components !== undefined) {
-            //     item.components.forEach(component => {
-            //         console.log(' --item.components--  ', component);
-            //         if (component.type == 'dynamicdropdown-type') {
-
-            //             this.dynamicdropdowntype = component.type;
-            //             this.tsComponent.dynamictype = component.type;
-            //             this.moduleComponent.dynamictype = component.type;
-            //         }
-            //     });
-            // }
-            // if (item.type === 'textnode') {
-            //     tempObj.endTagName = 'label';
-            //     this.parentHtmlTags.push(tempObj);
-            // } else if (!this.tagName || this.tagName == 'div') {
-            //     tempObj.endTagName = 'div';
-            //     this.parentHtmlTags.push(tempObj);
-            // } else if (this.tagName == 'form') {
-            //     tempObj.endTagName = 'form';
-            //     this.parentHtmlTags.push(tempObj);
-            // } else if (this.tagName == 'section') {
-            //     tempObj.endTagName = 'section';
-            //     this.parentHtmlTags.push(tempObj);
-            // } else if (!item.content &&
-            //     (this.tagName == 'nav' || this.tagName == 'header' || this.tagName == 'footer')) {
-            //     tempObj.endTagName = this.tagName;
-            //     this.parentHtmlTags.push(tempObj);
-            // }
-            // if (index === grapesJSMetadata.length - 1) {
-            //     if (this.parentHtmlTags.length > 0) {
-            //         this.secondEle.unshift(this.parentHtmlTags);
-            //     }
-            //     // this.generateChildHtml(this.firstEle, this.secondEle);
-            // }
         })
     }
 

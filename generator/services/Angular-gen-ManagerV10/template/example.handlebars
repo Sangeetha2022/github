@@ -1,0 +1,28 @@
+<form>
+    {{#each formData.components as |component components|}}
+    {{components}}
+    {{#each component.components as |childComponent|}}
+    <div class="form-group">
+        {{#ifEquals childComponent.type "label"}}
+        <label>{{childComponent.content}}</label>
+        {{/ifEquals}}
+        {{#ifEquals childComponent.type "input"}}
+        <input type="text" class="form-control">
+        {{/ifEquals}}
+        {{#ifEquals childComponent.type "button"}}
+        <button type="submit" class="btn btn-primary">{{childComponent.content}}</button>
+        {{/ifEquals}}
+
+    </div>
+    {{/each}}
+    {{/each}}
+    {{!-- <div class="form-group">
+        <label>{{inputname1}}</label>
+        <input type="text" class="form-control">
+    </div>
+    <div class="form-group">
+        <label>{{inputname2}}</label>
+        <input type="text" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">{{buttonName}}</button> --}}
+</form>
