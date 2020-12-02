@@ -1,4 +1,4 @@
-import { Request } from 'mongoose';
+import { Request } from 'express';
 import { Common } from '../config/Common';
 import { Constant } from '../config/Constant';
 import { IonicManagerService } from '../apiservices/IonicManagerService';

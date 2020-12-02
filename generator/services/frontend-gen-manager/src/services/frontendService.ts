@@ -1,4 +1,4 @@
-import { Request } from 'mongoose';
+import { Request } from 'express';
 import * as fs from 'fs';
 import { SharedService } from '../config/SharedService';
 import { ApiAdaptar } from '../config/ApiAdaptar';
