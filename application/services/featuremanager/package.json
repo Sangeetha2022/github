@@ -20,7 +20,7 @@
     "express": "^4.16.4",
     "express-winston": "^3.0.1",
     "js-yaml": "^3.13.0",
-    "mongoose": "^5.4.7",
+    "mongoose": "~5.4.7",
     "multer": "^1.4.1",
     "node-async-loop": "^1.2.2",
     "node-vault": "^0.9.5",

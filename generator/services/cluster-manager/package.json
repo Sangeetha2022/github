@@ -23,7 +23,7 @@
     "fs-extra": "^7.0.1",
     "js-yaml": "^3.12.2",
     "kubernetes-client": "^6.9.0",
-    "mongoose": "^5.4.7",
+    "mongoose": "~5.4.7",
     "node-vault": "^0.9.6",
     "nodemon": "^1.18.9",
     "request": "^2.88.0",
