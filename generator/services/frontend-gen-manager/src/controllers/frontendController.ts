@@ -1,5 +1,5 @@
 
-import { Request, Response } from 'mongoose';
+import { Request, Response } from 'express';
 import { FrontendService } from '../services/frontendService';
 
 let frontendService = new FrontendService();

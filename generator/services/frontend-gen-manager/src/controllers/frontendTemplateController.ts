@@ -1,5 +1,5 @@
 
-import { Request, Response } from 'mongoose';
+import { Request, Response } from 'express';
 import { FrontendTemplateService } from '../services/frontendTemplateService';
 
 let frontendTemplateService = new FrontendTemplateService();
