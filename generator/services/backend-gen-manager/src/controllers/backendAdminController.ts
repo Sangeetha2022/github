@@ -1,4 +1,4 @@
-import { Request, Response } from 'mongoose';
+import { Request, Response } from 'express';
 import { BackendAdminService } from '../services/backendAdminService';
 
 let backendadmin = new BackendAdminService();
