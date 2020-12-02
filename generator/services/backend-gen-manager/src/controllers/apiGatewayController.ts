@@ -1,5 +1,5 @@
 
-import { Request, Response } from 'mongoose';
+import { Request, Response } from 'express';
 import { ApiGatewayService } from '../services/apiGatewayService';
 
 let apigatewayService = new ApiGatewayService();

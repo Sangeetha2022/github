@@ -1,5 +1,5 @@
 
-import { Request, Response } from 'mongoose';
+import { Request, Response } from 'express';
 import { FrontendIonicService } from '../services/frontendIonicService';
 
 let frontendIonicService = new FrontendIonicService();

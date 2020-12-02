@@ -1,5 +1,5 @@
 
-import { Request, Response } from 'mongoose';
+import { Request, Response } from 'express';
 import { SwaggerGenService } from '../services/SwaggerGenService';
 
 let swaggerGenService = new SwaggerGenService();

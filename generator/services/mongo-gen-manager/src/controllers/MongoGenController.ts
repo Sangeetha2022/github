@@ -1,5 +1,5 @@
 
-import { Request, Response } from 'mongoose';
+import { Request, Response } from 'express';
 import { MongoGenService } from '../services/MongoGenService';
 
 let mongoGenService = new MongoGenService();

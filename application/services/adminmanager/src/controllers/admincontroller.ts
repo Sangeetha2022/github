@@ -1,4 +1,4 @@
-import { Request, Response } from 'mongoose';
+import { Request, Response } from 'express';
 import { Adminservice } from '../service/adminservice';
 
 let adminservice = new Adminservice();

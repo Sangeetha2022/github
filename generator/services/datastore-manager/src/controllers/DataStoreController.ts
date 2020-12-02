@@ -1,5 +1,5 @@
 
-import { Request, Response } from 'mongoose';
+import { Request, Response } from 'express';
 import { DataStoreService } from '../services/DataStoreService';
 
 let dataStoreService = new DataStoreService();
