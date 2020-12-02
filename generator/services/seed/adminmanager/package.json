@@ -22,7 +22,7 @@
     "express-winston": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
-    "mongoose": "^5.4.7",
+    "mongoose": "~5.4.7",
     "node-async-loop": "^1.2.2",
     "node-fetch": "^2.3.0",
     "node-vault": "^0.9.5",

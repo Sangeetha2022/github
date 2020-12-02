@@ -4,7 +4,7 @@ In this file a condition has been added to check the flows array length if there
 been added to project feature we are not going to generate any node code except for the model file.
 This issue is addressed in brief on the github card number #386 created by Kishan.R on 11th May 2020.
 */
-import { Request } from 'mongoose';
+import { Request } from 'express';
 import * as fs from 'fs';
 import { SharedService } from '../config/SharedService';
 import { ApiAdaptar } from '../config/ApiAdaptar';

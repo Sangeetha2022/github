@@ -1,4 +1,4 @@
-import { Request } from 'mongoose';
+import { Request } from 'express';
 
 import { Loginmanagerservice } from '../apiservices/index';
 
