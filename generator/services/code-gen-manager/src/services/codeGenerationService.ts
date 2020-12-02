@@ -1,4 +1,4 @@
-import { Request } from 'mongoose';
+import { Request } from 'express';
 import * as asyncLoop from 'node-async-loop';
 import * as fs from 'fs';
 import * as util from 'util';

@@ -21,7 +21,7 @@
     "express": "^4.16.4",
     "express-winston": "^3.0.1",
     "jenkins": "^0.26.0",
-    "mongoose": "^5.4.7",
+    "mongoose": "~5.4.7",
     "ncp": "^2.0.0",
     "node-vault": "^0.9.5",
     "nodemon": "^1.18.9",

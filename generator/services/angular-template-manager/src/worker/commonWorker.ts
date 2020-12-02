@@ -19,6 +19,7 @@ export class CommonWorker {
     private parentTest: any[] = [];
     private isNotImportant: Boolean = false;
     private isContentOnly: Boolean = false;
+    private menunavname: any;
     private templateHeaderObj = {
         tag: [],
         component: {
@@ -39,6 +40,7 @@ export class CommonWorker {
         module: []
     }
 
+    public link;
     // private HEADERNAME: String = 'header';
     // private FOOTERNAME: String = 'footer';
     // private TEMPLATENAME: String = 'template';
@@ -248,15 +250,15 @@ export class CommonWorker {
                 return dependencyWorker.generateStyleSCSS(generationPath, templatePath, templateCss, (response) => {
                     return dependencyWorker.generateSharedFile(generationPath, templatePath, sharedObj, (response) => {
                         return dependencyWorker.generateProxyFile(generationPath, templatePath, (response) => {
-                        return dependencyWorker.generateTranslatorModuleFile(generationPath, templatePath, sharedObj, (response) => {
-                            return dependencyWorker.generateTranslatorJsonFile(generationPath, templatePath, sharedObj, (response) => {
-                                return componentWorker.generateMainModule(generationPath, templatePath, (response) => {
-                                    callback('main files are generated');
+                            return dependencyWorker.generateTranslatorModuleFile(generationPath, templatePath, sharedObj, (response) => {
+                                return dependencyWorker.generateTranslatorJsonFile(generationPath, templatePath, sharedObj, (response) => {
+                                    return componentWorker.generateMainModule(generationPath, templatePath, (response) => {
+                                        callback('main files are generated');
+                                    });
                                 });
                             });
                         });
                     });
-                });
                 });
             });
         });
@@ -271,6 +273,33 @@ export class CommonWorker {
         this.generateHtml(metaData);
         this.templateHeaderObj.tag = this.startTag;
         // console.log('header tag bvalues are ----templateHeaderObj----- ', this.templateHeaderObj);
+    }
+
+    // For Top navigation we are doing this
+    createTopHeaderHtml(metaData, navMenu, navigationtype) {
+        this.link = "";
+        this.startTag = [];
+        this.endTag = [];
+        this.navMenu = navMenu;
+        this.isTemplate = false;
+        this.generateHtml(metaData);
+        const findvalue = this.startTag.filter((element) => element.includes("<li"));
+
+
+        const listArray = this.startTag.filter((element) => element.includes("</ul>"));
+        const ulvalue = this.startTag.lastIndexOf(listArray[listArray.length - 1]);
+
+        const newarr = this.startTag.slice(7, 24);
+
+
+        const valuearr = this.startTag.filter((val) => !newarr.includes(val));
+
+        valuearr.splice(this.startTag.indexOf(findvalue[0]), 0, this.link);
+        this.templateHeaderObj.tag = valuearr;
+        this.startTag = [];
+
+
+        console.log('header for top navigation ----templateHeaderObj----- ', this.templateHeaderObj);
     }
 
     createFooterHtml(metaData) {
@@ -411,6 +440,13 @@ export class CommonWorker {
                 this.startString += `<${this.tagName}`
             }
             attributes.forEach(element => {
+                if (firstEle.classes !== undefined) {
+                    firstEle.classes.forEach(element => {
+                        if (element.name == 'nav-menu') {
+                            this.menunavname = element.name;
+                        }
+                    });
+                }
                 if (element === 'name' && firstEle.name) {
                     this.startString += ` ${element}='${firstEle.name}'`;
                 } else {
@@ -421,6 +457,11 @@ export class CommonWorker {
                     }
                     if (element === 'id' && firstEle.attributes[element] === this.MAINMENU_ATTRIBUTE) {
                         this.setNav(firstEle, this.secondEle);
+                    }
+                    if (element === 'id' && this.menunavname == 'nav-menu') {
+                        console.log('--------how many time this is getting called ---------',);
+                        this.topNav();
+                        this.menunavname = "";
                     }
                 }
 
@@ -436,6 +477,75 @@ export class CommonWorker {
             }
         }
     }
+
+    // Top nav generation 
+    topNav() {
+        // console.log('----------firstelement------------', this.navMenu);
+        if (this.navMenu && this.navMenu.length > 0) {
+            this.navMenu.forEach(element => {
+                element.menuDetails.forEach(menuelement => {
+                    // console.log('each array of menus are --------   ', menuelement.featuremenu);
+                    menuelement.featuremenu.forEach(featurename => {
+                        if (featurename.name.feature != this.DEFAULT_FEATURENAME) {
+                            console.log('----feature menus-----', featurename.name.feature);
+                            this.link += `<li class="nav-item dropdown">`
+                            this.link += `<a class="nav-link dropdown-toggle" data-toggle="dropdown">${featurename.name.feature}</a>`
+                            this.link += `<div class="dropdown-menu">`
+                            menuelement.screenmenu.forEach(screenname => {
+                                // console.log('----screen menus-----', screenname.name.screen);
+                                screenname.name.screen.forEach(menuname => {
+                                    this.link += `<a class="dropdown-item" [routerLink]="['/${menuname.toLowerCase()}']">{{'${this.source}.${menuname}' | ${this.translatorPipe}}}</a>`
+                                });
+                            });
+                            this.link += `</div>`
+                            this.link += `</li>`
+                        }
+                        else {
+                            menuelement.screenmenu.forEach(screenname => {
+                                console.log('----default screen menus-----', screenname.name.screen);
+                                screenname.name.screen.forEach(menuname => {
+                                    switch (menuname) {
+                                        case this.HOME_MENU:
+                                            this.link += `<${this.LIST_TAG}  class="nav-item">
+                                    <${this.ANCHOR_TAG} class="nav-link" *ngIf='userId!=null'  [routerLink]="['/${menuname.toLowerCase()}']">{{'${this.source}.${menuname}' | ${this.translatorPipe}}}</${this.ANCHOR_TAG}>
+                                  </${this.LIST_TAG}>`;
+                                            break;
+                                        case this.LOGIN_MENU:
+                                            this.link += ` <${this.LIST_TAG} class="nav-item">
+                                            <${this.ANCHOR_TAG} class="nav-link" *ngIf='userId==null' [routerLink]="['/${menuname.toLowerCase()}']">{{'${this.source}.${menuname}' | ${this.translatorPipe}}}</${this.ANCHOR_TAG}>
+                                        </${this.LIST_TAG}>`;
+                                            break;
+                                        case this.ADMIN_MENU:
+                                            this.link += `<${this.LIST_TAG} class="nav-item" *ngIf='${this.HEADER_ADMIN_VARIABLE}'>
+                                    <${this.ANCHOR_TAG} class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'${this.source}.${menuname}' | ${this.translatorPipe}}}</${this.ANCHOR_TAG}>
+                                  </${this.LIST_TAG}>`;
+                                            break;
+                                        case this.LOGOUT_MENU:
+                                            this.link += `<${this.LIST_TAG} class="nav-item">
+                                    <${this.ANCHOR_TAG} class="nav-link" *ngIf='userId!=null' (click)="${this.LOGOUT_MENU.toLowerCase()}()">{{'${this.source}.${menuname}' | ${this.translatorPipe}}}</${this.ANCHOR_TAG}>
+                                  </${this.LIST_TAG}>`;
+                                            break;
+                                        default:
+                                            this.link += `<${this.LIST_TAG} class="nav-item">
+                                        <${this.ANCHOR_TAG} class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'${this.source}.${menuname}' | ${this.translatorPipe}}}</${this.ANCHOR_TAG}>
+                                      </${this.LIST_TAG}>`;
+                                            break;
+                                    }
+                                });
+                            });
+                        }
+
+                    });
+                });
+
+            })
+        }
+        console.log('----------secondelement------------', this.startTag);
+
+    }
+
+
+
     // add list of menu details in header nav
     setNav(firstEle, secondEle) {
         this.startString += `>`;

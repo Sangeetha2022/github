@@ -26,7 +26,7 @@
     "jsonwebtoken": "^8.5.1",
     "make-dir": "^3.0.0",
     "mkdirp": "^0.5.1",
-    "mongoose": "^5.4.7",
+    "mongoose": "~5.4.7",
     "nanoid": "^2.0.3",
     "nanoid-dictionary": "^2.0.0",
     "node-fetch": "^2.3.0",

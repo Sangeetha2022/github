@@ -19,7 +19,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.16.4",
     "express-winston": "^3.0.1",
-    "mongoose": "^5.4.7",
+    "mongoose": "~5.4.7",
     "node-vault": "^0.9.5",
     "nodemon": "^1.18.9",
     "ts-node": "^9.0.0",
