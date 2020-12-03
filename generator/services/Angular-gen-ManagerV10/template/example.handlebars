@@ -1,20 +1,25 @@
 <form>
-    {{#each formData.components as |component components|}}
-    {{components}}
-    {{#each component.components as |childComponent|}}
-    <div class="form-group">
-        {{#ifEquals childComponent.type "label"}}
-        <label>{{childComponent.content}}</label>
+    {{#each components}}
+    <div id="{{attributes.id}}" class="{{cssClassName}}">
+    {{#each components}}
+        {{#ifEquals type "label"}}
+        <label id="{{attributes.id}}" class="{{cssClass}}">{{content}}</label>
         {{/ifEquals}}
-        {{#ifEquals childComponent.type "input"}}
-        <input type="text" class="form-control">
+        {{#ifEquals type "input"}}
+        <input id="{{attributes.id}}" class="{{cssClass}}" [(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}" type="text">
         {{/ifEquals}}
-        {{#ifEquals childComponent.type "button"}}
-        <button type="submit" class="btn btn-primary">{{childComponent.content}}</button>
+        {{#ifEquals type "checkbox"}}
+        <input type="{{type}}" id="{{attributes.id}}" class="{{cssClass}}">
         {{/ifEquals}}
-
-    </div>
+        {{#ifEquals type "textarea"}}
+        <textarea type="text" id="{{attributes.id}}" class="{{cssClass}}"></textarea>
+        {{/ifEquals}}
+        {{#ifEquals type "button"}}
+        <button type="{{attributes.type}}" id="{{attributes.id}}" class="{{cssClass}}">{{content}}</button>
+        {{/ifEquals}}
     {{/each}}
+    </div>
+    
     {{/each}}
     {{!-- <div class="form-group">
         <label>{{inputname1}}</label>
