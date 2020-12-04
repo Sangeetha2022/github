@@ -132,31 +132,27 @@ export class AngularTemplateService {
             var navInfo = metadata.filter(function (element) {
                 return element.tagName == 'nav';
             })
-            if(navInfo.length == 0){
-                var headerInfo = metadata.filter(function (element) {
-                    return element.tagName == 'header';
-                })    
-            }
+            var headerInfo = metadata.filter(function (element) {
+                return element.tagName == 'header';
+            })
             var footerInfo = metadata.filter(function (element) {
                 return element.tagName == 'footer';
             })
-            var templateInfo = metadata.filter(function (element) {
-                return element.tagName != 'nav' || element.tagName != 'header' && element.tagName != 'footer';
-            })
-            // console.log('--------nav----',templateInfo);
-            if (headerInfo != undefined && headerInfo.length > 0) {
+            if(navInfo.length == 0 && headerInfo.length > 0){
                 var templateInfo = metadata.filter(function (element) {
-                    return element.tagName != 'nav' && element.tagName != 'header' && element.tagName != 'footer';
+                    return element.tagName != 'nav' && element.tagName !='header' && element.tagName != 'footer';
                 })
-            } else {
+    
+            }else{
                 var templateInfo = metadata.filter(function (element) {
-                    return element.tagName != 'nav' || element.tagName != 'header' && element.tagName != 'footer';
+                    return element.tagName != 'nav' && element.tagName != 'footer';
                 })
             }
+
+            console.log('----nav------',navInfo.length, headerInfo.length, templateInfo.length);
             if (navInfo.length > 0) {
                 commonWorker.createHeaderHtml(navInfo, this.menuList);
             }
-            console.log('--------nav----', headerInfo, '====================', navInfo);
             if (navInfo.length == 0 && headerInfo.length > 0) {
                 this.navigationvalue = 'topnav';
                 commonWorker.createTopHeaderHtml(headerInfo, this.menuList, this.navigationvalue);
