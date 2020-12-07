@@ -1,6 +1,6 @@
 /*
  * Template group values_yaml
- * Compiled on Thu Aug 29 2019 20:01:36 GMT+0530 (India Standard Time)
+ * Compiled on Sat Dec 05 2020 19:16:33 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -78,11 +78,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("port: 3000  ");
+    w.write("port: 8000  ");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("targetPort: 3000");
+    w.write("targetPort: 8000");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -102,11 +102,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("port: 3008");
+    w.write("port: 8002");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("targetPort: 3008");
+    w.write("targetPort: 8002");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -122,11 +122,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("port: 3009");
+    w.write("port: 8001");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("targetPort: 3009");
+    w.write("targetPort: 8001");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -142,11 +142,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("port: 3007");
+    w.write("port: 8003");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("targetPort: 3007");
+    w.write("targetPort: 8003");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -162,11 +162,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("port: 3010");
+    w.write("port: 8004");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("targetPort: 3010");
+    w.write("targetPort: 8004");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -202,11 +202,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("port: 80");
+    w.write("port: 5000");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("targetPort: 80");
+    w.write("targetPort: 5000");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -316,7 +316,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: geppettotest/default-camunda:1.0");
+    w.write("image: geppettodistribution/default-camunda:2.0");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -328,7 +328,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: geppettotest/default-authproxy:1.0");
+    w.write("image: geppettodistribution/default-authproxy:2.0");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -340,7 +340,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: geppettotest/default-securitymanager:1.0");
+    w.write("image: geppettodistribution/default-securitymanager:2.0");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -352,7 +352,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: geppettotest/default-adminmanager:1.0");
+    w.write("image: geppettodistribution/default-adminmanager:2.0");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
@@ -413,7 +413,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: camunda/camunda-bpm-platform");
+    w.write("image: geppettotest/camunda-local:april2020");
     w.popIndentation();
     w.write("\n");
     w.write("\n");

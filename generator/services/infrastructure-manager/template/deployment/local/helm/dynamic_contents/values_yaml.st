@@ -14,29 +14,29 @@ service:
   apigateway:
     name: apigateway
     type: NodePort
-    port: 3000  
-    targetPort: 3000
+    port: 8000  
+    targetPort: 8000
     nodePort: 31234
   camunda:
     name: camunda
     type: NodePort
-    port: 3008
-    targetPort: 3008
+    port: 8002
+    targetPort: 8002
   authproxy:
     name: authproxy
     type: NodePort
-    port: 3009
-    targetPort: 3009
+    port: 8001
+    targetPort: 8001
   security:
     name: securitymanager
     type: NodePort
-    port: 3007
-    targetPort: 3007
+    port: 8003
+    targetPort: 8003
   admin:
     name: adminmanager
     type: NodePort
-    port: 3010
-    targetPort: 3010
+    port: 8004
+    targetPort: 8004
   mongo:
     name: mongo
     type: NodePort
@@ -45,8 +45,8 @@ service:
   desktop:
     name: desktop
     type: NodePort
-    port: 80
-    targetPort: 80
+    port: 5000
+    targetPort: 5000
   camundapod:
     name: camundapod
     type: NodePort
@@ -71,16 +71,16 @@ deployment:
      image: mongo:3.2   
   camunda:
      name: camunda
-     image: geppettotest/default-camunda:1.0
+     image: geppettodistribution/default-camunda:2.0
   authproxy:
      name: authproxy
-     image: geppettotest/default-authproxy:1.0
+     image: geppettodistribution/default-authproxy:2.0
   security:
      name: securitymanager
-     image: geppettotest/default-securitymanager:1.0
+     image: geppettodistribution/default-securitymanager:2.0
   admin:
      name: adminmanager
-     image: geppettotest/default-adminmanager:1.0
+     image: geppettodistribution/default-adminmanager:2.0
   desktop:
      name: desktop
      image: geppettotest/$object.project_name$-desktop:1.0
@@ -91,11 +91,11 @@ $\ $$\ $$custom_node.name$:
 };separator="\n"$$endif$
   camundapod:
      name: camundapod
-     image: camunda/camunda-bpm-platform
+     image: geppettotest/camunda-local:april2020
 
 config:
   vault:
-    rootToken: vault-$object.project_name$-2019
+    rootToken: vault-$object.project_name$-2021
 
 persistentVolume:
   mongo:

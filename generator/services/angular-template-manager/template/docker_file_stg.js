@@ -29,6 +29,8 @@ function getInstance(st, group) {
         w.write("\n");
         w.write("WORKDIR /app");
         w.write("\n");
+        w.write("RUN npm install --save @ng-select/ng-select")
+        w.write("\n");
         w.write("RUN npm install");
         w.write("\n");
         w.write("RUN npm install -g @angular/cli");

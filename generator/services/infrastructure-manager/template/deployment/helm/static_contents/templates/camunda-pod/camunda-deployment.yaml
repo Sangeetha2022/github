@@ -1,15 +1,18 @@
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.app.prefix }}-camunda-pod
   namespace: {{ .Values.app.namespace }}
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      name: {{ .Values.app.prefix }}-camunda-pod
   template:
     metadata:
       labels:
-        app: {{ .Values.app.prefix }}-camunda-pod
+        name: {{ .Values.app.prefix }}-camunda-pod
     spec:
       containers:
         - name: {{ .Values.deployment.camundapod.name }}-container

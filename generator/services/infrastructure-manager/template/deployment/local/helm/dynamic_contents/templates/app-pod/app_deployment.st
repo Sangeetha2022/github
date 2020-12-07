@@ -1,15 +1,18 @@
 app_deployment(object) ::=<<
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.app.prefix }}-app
   namespace: {{ .Values.app.namespace }}
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      name: {{ .Values.app.prefix }}-app
   template:
     metadata:
       labels:
-        app: {{ .Values.app.prefix }}-app
+        name: {{ .Values.app.prefix }}-app
     spec:
       containers:
         - name: {{ .Values.deployment.authproxy.name }}-container
@@ -17,20 +20,20 @@ spec:
           image: {{ .Values.deployment.authproxy.image }}
           ports:
             - name: http-port
-              containerPort: 3009
+              containerPort: 8001
           env:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
             - name: MONGO_DB_URL
               value: "mongodb://{{ .Values.app.prefix }}-app-db.{{ .Values.app.prefix }}.svc.cluster.local:27017/{{ .Values.app.prefix }}"
-            - name: CAMUNDA_URL
-              value: "http://{{ .Values.app.prefix }}-app.{{ .Values.app.prefix }}.svc.cluster.local:3008"          
+            - name: CAMUNDAURL
+              value: "http://{{ .Values.app.prefix }}-app.{{ .Values.app.prefix }}.svc.cluster.local:8002"          
         - name: {{ .Values.deployment.camunda.name }}-container
           imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
           image: {{ .Values.deployment.camunda.image }}
           ports:
             - name: http-port
-              containerPort: 3008
+              containerPort: 8002
           env:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
@@ -45,7 +48,7 @@ spec:
           image: {{ .Values.deployment.admin.image }}
           ports:
             - name: http-port
-              containerPort: 3010
+              containerPort: 8004
           env:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
@@ -56,7 +59,7 @@ spec:
           image: {{ .Values.deployment.security.image }}
           ports:
             - name: http-port
-              containerPort: 3007
+              containerPort: 8003
           env:
             - name: {{ .Values.app.prefix }}-app-db
               value: {{ .Values.app.prefix }}-app-db
