@@ -1,6 +1,6 @@
 /*
  * Template group geppetto_compose
- * Compiled on Sat Sep 19 2020 16:28:48 GMT+0530 (India Standard Time)
+ * Compiled on Mon Dec 07 2020 21:11:07 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -62,15 +62,20 @@ r = function(w, rc) {
     w.write("docker build -t ");
     w.popIndentation();
     st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 17, column: 41 }));
-    w.write("ui .");
+    w.write("ui-");
+    st.write(w, s, g, rc, s.uuid);
+    w.write(" .");
     w.write("\n");
     w.pushIndentation("         ");
     w.write("docker run --name ");
     w.popIndentation();
     st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 18, column: 43 }));
-    w.write("ui --restart=unless-stopped -d -p 5055:5000 ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 18, column: 116 }));
-    w.write("ui");
+    w.write("ui-");
+    st.write(w, s, g, rc, s.uuid);
+    w.write(" --restart=unless-stopped -d -p 5055:5000 ");
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 18, column: 123 }));
+    w.write("ui-");
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("         ");
     w.write("sleep 15");
@@ -98,13 +103,17 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");
-    w.write("docker cp mongo.js mongo:/data/db/");
+    w.write("docker cp mongo.js mongo-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
+    w.write(":/data/db/");
     w.write("\n");
     w.pushIndentation("         ");
-    w.write("docker exec -ti mongo mongo -u admin -p 'password' --authenticationDatabase 'admin' ");
+    w.write("docker exec -ti mongo-");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 27, column: 109 }));
+    st.write(w, s, g, rc, s.uuid);
+    w.write(" mongo -u admin -p 'password' --authenticationDatabase 'admin' ");
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 27, column: 116 }));
     w.write(" /data/db/mongo.js");
     w.write("\n");
     w.pushIndentation("         ");
@@ -253,7 +262,8 @@ r = function(w, rc) {
     w.write("\n");
 };
 r.args = [
-        { name: "projectdetails"     }
+        { name: "projectdetails"     },
+{ name: "uuid"     }
 ];
 group.addTemplate("/geppetto_compose", r); 
 
