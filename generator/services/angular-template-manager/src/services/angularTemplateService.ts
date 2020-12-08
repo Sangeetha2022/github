@@ -31,6 +31,7 @@ export class AngularTemplateService {
     }
     private projectName = '';
     private DEFAULT_FEATURENAME = 'default';
+    private navigationvalue: any;
 
     initalizeDaoVariable() {
 
@@ -131,21 +132,30 @@ export class AngularTemplateService {
             var navInfo = metadata.filter(function (element) {
                 return element.tagName == 'nav';
             })
-            var headerInfo = metadata.filter(function (element){
+            var headerInfo = metadata.filter(function (element) {
                 return element.tagName == 'header';
             })
             var footerInfo = metadata.filter(function (element) {
                 return element.tagName == 'footer';
             })
-            var templateInfo = metadata.filter(function (element) {
-                return element.tagName != 'nav' || element.tagName != 'header' && element.tagName != 'footer';
-            })
-            // console.log('--------nav----',templateInfo);
+            if(navInfo.length == 0 && headerInfo.length > 0){
+                var templateInfo = metadata.filter(function (element) {
+                    return element.tagName != 'nav' && element.tagName !='header' && element.tagName != 'footer';
+                })
+    
+            }else{
+                var templateInfo = metadata.filter(function (element) {
+                    return element.tagName != 'nav' && element.tagName != 'footer';
+                })
+            }
+
+            console.log('----nav------',navInfo.length, headerInfo.length, templateInfo.length);
             if (navInfo.length > 0) {
                 commonWorker.createHeaderHtml(navInfo, this.menuList);
             }
-            if (headerInfo.length > 0){
-                commonWorker.createHeaderHtml(headerInfo, this.menuList);
+            if (navInfo.length == 0 && headerInfo.length > 0) {
+                this.navigationvalue = 'topnav';
+                commonWorker.createTopHeaderHtml(headerInfo, this.menuList, this.navigationvalue);
             }
             if (footerInfo.length > 0) {
                 commonWorker.createFooterHtml(footerInfo);

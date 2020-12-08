@@ -1,9 +1,9 @@
-docker_compose(projectdetails) ::= <<
+docker_compose(projectdetails,uuid) ::= <<
 version: "3.8"
 services:
   mongo:
     image: geppettotest/mongo-local:april2020
-    container_name: mongo
+    container_name: mongo-$uuid$
     restart: unless-stopped
     environment:
       - MONGO_INITDB_ROOT_USERNAME=admin
@@ -21,16 +21,16 @@ services:
 
   camunda:
     image: geppettotest/camunda-local:april2020
-    container_name: camunda
+    container_name: camunda-$uuid$
     ports:
-      - "8080:8080"
+      - "0000:8080"
 
   authproxy:
     build: ../../../application/services/default_services/authproxy
     image: authproxy
-    container_name: authproxy
+    container_name: authproxy-$uuid$
     ports:
-      - "8001:8001"
+      - "0000:8001"
     env_file: .env
     depends_on:
       - mongo
@@ -39,9 +39,9 @@ services:
   camundaservice:
     build: ../../../application/services/default_services/camunda
     image: camundaservice
-    container_name: camundasvc
+    container_name: camundasvc-$uuid$
     ports:
-      - "8002:8002"
+      - "0000:8002"
     env_file: .env
     depends_on:
       - mongo
@@ -50,9 +50,9 @@ services:
   securitymanager:
     build: ../../../application/services/default_services/securitymanager
     image: securitymanager
-    container_name: securitymanager
+    container_name: securitymanager-$uuid$
     ports:
-      - "8003:8003"
+      - "0000:8003"
     env_file: .env
     depends_on:
       - mongo
@@ -61,7 +61,7 @@ services:
   apigateway:
     build: ../../../application/services/custom_services/apigateway
     image: apigateway
-    container_name: apigateway
+    container_name: apigateway-$uuid$
     ports:
       - "8000:8000"
     env_file: .env
@@ -78,8 +78,8 @@ $\ $$\ $$\ $$\ $$\ $$\ $- $custom_node.name$
 $if(projectdetails.custom_node)$$projectdetails.custom_node:{custom_node | 
 $\ $$\ $$custom_node.name$: 
     build: ../../../application/services/custom_services/$custom_node.name$
-    image: $custom_node.name$
-    container_name: $custom_node.name$
+    image: $custom_node.name$-$uuid$
+    container_name: $custom_node.name$-$uuid$
     ports: 
       - $custom_node.port$:$custom_node.port$
     env_file: .env

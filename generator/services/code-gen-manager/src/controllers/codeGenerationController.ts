@@ -1,5 +1,5 @@
 
-import { Request, Response } from 'mongoose';
+import { Request, Response } from 'express';
 import { CodeGenerationService } from '../services/codeGenerationService';
 
 let codeService = new CodeGenerationService();

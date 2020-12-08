@@ -1,6 +1,6 @@
 /*
  * Template group app_services
- * Compiled on Thu Aug 29 2019 20:41:05 GMT+0530 (India Standard Time)
+ * Compiled on Sat Dec 05 2020 18:18:05 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -28,6 +28,14 @@ r = function(w, rc) {
     w.write("kind: Service");
     w.write("\n");
     w.write("metadata:");
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("labels:");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("name: {{ .Values.app.prefix }}-app");
+    w.popIndentation();
     w.write("\n");
     w.pushIndentation("  ");
     w.write("name: {{ .Values.app.prefix }}-app");
@@ -95,29 +103,29 @@ r = function(w, rc) {
     w.write("targetPort: {{ .Values.service.admin.targetPort }}");
     w.popIndentation();
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "custom_node", { file: gFile, line: 22, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "custom_node", { file: gFile, line: 24, column: 11 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "custom_node", { file: gFile, line: 22, column: 32 });
+        attr = st.prop(s, g, rc, s.object, "custom_node", { file: gFile, line: 24, column: 32 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
                      w.write("  - name: {{ .Values.service.");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 23, column: 48 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 25, column: 48 }));
                      w.write(".name }}");
                      w.write("\n");
                      w.pushIndentation("    ");
                      w.write("port: {{ .Values.service.");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 24, column: 42 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 26, column: 42 }));
                      w.write(".port }}");
                      w.write("\n");
                      w.pushIndentation("    ");
                      w.write("targetPort: {{ .Values.service.");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 25, column: 48 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 27, column: 48 }));
                      w.write(".targetPort }}");
                      w.write("\n");
             }, [
@@ -134,7 +142,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("app: {{ .Values.app.prefix }}-app");
+    w.write("name: {{ .Values.app.prefix }}-app");
     w.popIndentation();
 };
 r.args = [

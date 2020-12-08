@@ -1,5 +1,5 @@
 
-import { Request, Response } from 'mongoose';
+import { Request, Response } from 'express';
 import { BackendService } from '../services/backendService';
 
 let backendService = new BackendService();

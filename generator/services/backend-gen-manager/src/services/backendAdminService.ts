@@ -1,4 +1,4 @@
-import { Request, Response } from 'mongoose';
+import { Request, Response } from 'express';
 import { SharedService } from '../config/SharedService';
 import { ApiAdaptar } from '../config/ApiAdaptar';
 import { AdminManagerService } from '../apiservices/AdminManagerService';

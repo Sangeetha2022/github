@@ -121,6 +121,7 @@ export class ConnectorManagerComponent implements OnInit {
       data => {
         this.spinner.hide();
         data.body.forEach(element => {
+          console.log('data ==================++>>', element);
           switch (element['type']) {
             case 'GpClientLanguage':
               this.technical.clientLanguage.push(element);
@@ -139,6 +140,8 @@ export class ConnectorManagerComponent implements OnInit {
                   this.selected.clientFramework = element;
                 }
               } else if (element['label'] === 'Angular 7') {
+                this.selected.clientFramework = element;
+              } else if (element['label'].includes('Angular')) {
                 this.selected.clientFramework = element;
               }
               break;

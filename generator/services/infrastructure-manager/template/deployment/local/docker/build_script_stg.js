@@ -1,6 +1,6 @@
 /*
  * Template group build_script
- * Compiled on Fri Aug 30 2019 17:07:17 GMT+0530 (India Standard Time)
+ * Compiled on Sat Dec 05 2020 18:06:42 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -27,23 +27,23 @@ r = function(w, rc) {
     w.write("\n");
     w.write("\n");
     w.write("APPLICATION='/");
-    st.write(w, s, g, rc, s.project_name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "application_name", { file: gFile, line: 4, column: 22 }));
     w.write("'");
     w.write("\n");
     w.write("\n");
     w.write("CUSTOMSERVICEPATH='../../../services/custom_services'");
     w.write("\n");
     w.write("\n");
-    w.write("HELMPATH='../devops/local'");
+    w.write("HELMPATH='../'");
     w.write("\n");
     w.write("\n");
     w.write("\n");
     w.write("DESKTOPCODE='../../../application/client/desktop/");
-    st.write(w, s, g, rc, s.project_name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "application_name", { file: gFile, line: 11, column: 57 }));
     w.write("'");
     w.write("\n");
     w.write("DESKTOPIMAGENAME='geppettotest/");
-    st.write(w, s, g, rc, s.project_name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "application_name", { file: gFile, line: 12, column: 39 }));
     w.write("-desktop:1.0'");
     w.write("\n");
     w.write("\n");
@@ -55,20 +55,6 @@ r = function(w, rc) {
     w.write("\n");
     w.write("\n");
     w.write("cd $DESKTOPCODE");
-    w.write("\n");
-    w.write("npm install");
-    w.write("\n");
-    w.write("npm rebuild node-sass");
-    w.write("\n");
-    w.write("npm uninstall @angular-devkit/build-angular");
-    w.write("\n");
-    w.write("npm install @angular-devkit/build-angular");
-    w.write("\n");
-    w.write("# if directory is exist");
-    w.write("\n");
-    w.write("[ -d \"$(pwd)/dist\" ] && rm -rf dist");
-    w.write("\n");
-    w.write("ng build");
     w.write("\n");
     w.write("docker build -t $DESKTOPIMAGENAME .");
     w.write("\n");
@@ -236,7 +222,7 @@ r = function(w, rc) {
     w.write("helm install --dry-run --debug ./helm");
     w.write("\n");
     w.write("helm install --name ");
-    st.write(w, s, g, rc, s.project_name);
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "helm_name", { file: gFile, line: 80, column: 28 }));
     w.write(" ./helm");
     w.write("\n");
     w.write("if [ $? -eq 0 ]; then");
@@ -269,8 +255,7 @@ r = function(w, rc) {
     w.write("\n");
 };
 r.args = [
-        { name: "project_name"     },
-{ name: "base_path"     }
+        { name: "object"     }
 ];
 group.addTemplate("/build_script", r); 
 
