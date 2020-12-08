@@ -1,26 +1,32 @@
 .entity-card {
   max-width: 300px;
-  }
-  
-  .createEntityButton {
+}
+
+.loading-image {
+  margin-bottom: 15px;
+}
+
+.createEntityButton {
   float: right;
-  }
-  
-  .goToButton {
+}
+
+.goToButton {
   background-color: green;
   color: white;
-  }
-  
-  :host ::ng-deep .ck-editor__editable {
+}
+
+:host ::ng-deep .ck-editor__editable {
   min-height: 200px !important;
-  }
-  .modal-dialog{
+}
+
+.modal-dialog {
   overflow-y: initial !important
-  }
-  .feature .modal-body{
+}
+
+.feature .modal-body {
   height: 400px;
   overflow-y: auto;
-  }  
+}
 
 
 .image {
@@ -31,108 +37,117 @@
   color: #184573;
 }
 
-  .fa.fa-pencil-square-o{
-    position: absolute;
-    top: 100%;
-    right: 83%;
-    color: green;
-    cursor: pointer;
-  }
-  .fa.fa-trash-o{
-    position: absolute;
-    top: 100%;
-    right: 51%;
-    color: red;
-    cursor: pointer;
-  }
-
-  .editicon{
-    position: absolute;
-    top: 95%;
-    right: 83%;
-    color: green;
-    cursor: pointer;
-    width:14%
-  }
-  
-  .trashicon{
-    position: absolute;
-    top: 92%;
-    right: 43%;
-    color: red;
-    cursor: pointer;
-    width:16%
-  
-  }
-  .screens-tag-style {
-    margin-left: 75px;
-  }
-  .delete .modal-body {
-  height: 70px;
-  overflow-y: auto;
-  }
-  .btn-space {
-    margin: 6px;
+.fa.fa-pencil-square-o {
+  position: absolute;
+  top: 100%;
+  right: 83%;
+  color: green;
+  cursor: pointer;
 }
 
-  .example-radio-group {
+.fa.fa-trash-o {
+  position: absolute;
+  top: 100%;
+  right: 51%;
+  color: red;
+  cursor: pointer;
+}
+
+.editicon {
+  position: absolute;
+  top: 95%;
+  right: 83%;
+  color: green;
+  cursor: pointer;
+  width: 14%
+}
+
+.trashicon {
+  position: absolute;
+  top: 92%;
+  right: 43%;
+  color: red;
+  cursor: pointer;
+  width: 16%
+}
+
+.screens-tag-style {
+  margin-left: 75px;
+}
+
+.delete .modal-body {
+  height: 70px;
+  overflow-y: auto;
+}
+
+.btn-space {
+  margin: 6px;
+}
+
+.example-radio-group {
   display: flex;
   flex-direction: column;
   margin: 15px 0;
-  }
-  
-  .example-radio-button {
+}
+
+.example-radio-button {
   margin: 5px;
-  }
+}
 
 .code {
   padding-right: 20px;
   margin-right: -38px;
 }
-.screen_text{
+
+.screen_text {
   position: absolute;
   margin-left: 2%;
 }
 
-.mobile-screen-text{
+.mobile-screen-text {
   position: absolute;
   left: 2%;
   font-size: 20px !important;
   top: 2%;
 }
-.top_align{
+
+.top_align {
   margin-bottom: 6%;
 }
-.img_size{
-  width:80%;
+
+.img_size {
+  width: 80%;
 }
 
-.bottom_padding{
+.bottom_padding {
   margin-bottom: 5%;
 }
+
 .entity-card {
   max-width: 300px;
-  }
-  
-  .createEntityButton {
+}
+
+.createEntityButton {
   float: right;
-  }
-  
-  .goToButton {
+}
+
+.goToButton {
   background-color: green;
   color: white;
-  }
-  
-  :host ::ng-deep .ck-editor__editable {
+}
+
+:host ::ng-deep .ck-editor__editable {
   min-height: 200px !important;
-  }
-  .modal-dialog{
+}
+
+.modal-dialog {
   overflow-y: initial !important
-  }
-  .feature .modal-body{
+}
+
+.feature .modal-body {
   height: 400px;
   overflow-y: auto;
-  }  
+}
 
 
 .image {
@@ -143,70 +158,77 @@
   color: #184573;
 }
 
-  .fa.fa-pencil-square-o{
-    position: absolute;
-    top: 100%;
-    right: 83%;
-    color: green;
-    cursor: pointer;
-  }
-  .fa.fa-trash-o{
-    position: absolute;
-    top: 100%;
-    right: 51%;
-    color: red;
-    cursor: pointer;
-  }
-
-  .delete .modal-body {
-  height: 70px;
-  overflow-y: auto;
-  }
-  .btn-space {
-    margin: 6px;
+.fa.fa-pencil-square-o {
+  position: absolute;
+  top: 100%;
+  right: 83%;
+  color: green;
+  cursor: pointer;
 }
 
-  .example-radio-group {
+.fa.fa-trash-o {
+  position: absolute;
+  top: 100%;
+  right: 51%;
+  color: red;
+  cursor: pointer;
+}
+
+.delete .modal-body {
+  height: 70px;
+  overflow-y: auto;
+}
+
+.btn-space {
+  margin: 6px;
+}
+
+.example-radio-group {
   display: flex;
   flex-direction: column;
   margin: 15px 0;
-  }
-  
-  .example-radio-button {
+}
+
+.example-radio-button {
   margin: 5px;
-  }
+}
 
 .code {
   padding-right: 20px;
   margin-right: -38px;
 }
-.screen_text{
+
+.screen_text {
   position: absolute;
   margin-left: 2%;
 }
 
-.mobile-screen-text{
+.mobile-screen-text {
   position: absolute;
   left: 2%;
   font-size: 20px !important;
   top: 2%;
 }
-.top_align{
+
+.top_align {
   margin-bottom: 6%;
   margin-top: 3%;
 }
-.img_size{
-  width:80%;
+
+.img_size {
+  width: 80%;
 }
 
-.bottom_padding{
+.bottom_padding {
   margin-bottom: 5%;
 }
-.btn_color{
+
+.btn_color {
   background-color: #033668;
-  border-bottom: 3px solid #033668; 
+  border-bottom: 3px solid #033668;
 }
-.btn_color:hover{
+
+.btn_color:hover {
   background-color: #39a521;
-  border-bottom: 3px solid #2d831a; 
+  border-bottom: 3px solid #2d831a;
 }
