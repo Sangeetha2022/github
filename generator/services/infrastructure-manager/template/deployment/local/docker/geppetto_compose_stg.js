@@ -1,6 +1,6 @@
 /*
  * Template group geppetto_compose
- * Compiled on Mon Dec 07 2020 21:11:07 GMT+0530 (India Standard Time)
+ * Compiled on Thu Dec 10 2020 17:14:56 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -139,6 +139,20 @@ r = function(w, rc) {
     w.pushIndentation("         ");
     w.write("docker-compose down -v --rmi all ");
     w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("         ");
+    w.write("docker rm -f ");
+    w.popIndentation();
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 34, column: 38 }));
+    w.write("ui-");
+    st.write(w, s, g, rc, s.uuid);
+    w.write("\n");
+    w.pushIndentation("         ");
+    w.write("docker rmi ");
+    w.popIndentation();
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 35, column: 36 }));
+    w.write("ui-");
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("         ");
     w.write("echo \"Process completed\"");
