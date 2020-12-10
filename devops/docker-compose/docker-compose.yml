@@ -20,7 +20,7 @@ services:
       start_period: 40s
 
   camunda:
-    image: geppettotest/camunda-local:april2020
+    image: camunda/camunda-bpm-platform
     container_name: camunda
     ports:
       - "8080:8080"

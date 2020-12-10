@@ -31,6 +31,8 @@ do
     d)
          echo "Now Deleting all containers and images"
          docker-compose down -v --rmi all 
+         docker rm -f $projectdetails.project_name$ui-$uuid$
+         docker rmi $projectdetails.project_name$ui-$uuid$
          echo "Process completed"
          ;;
     r)
