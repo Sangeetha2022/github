@@ -26,6 +26,11 @@ export class HelmService {
     private CHART_YAML = 'Chart.yaml';
     private APP_DEPLOYMENT_YAML = 'app-deployment.yaml';
     private APP_SERVICE_YAML = 'app-service.yaml';
+    private SYSTEM_ENTRY_DEPLOYMENET_YAML = 'system-entry-deployment.yaml';
+    private SYSTEM_ENTRY_SERVICE_YAML = 'system-entry-service.yaml';
+
+
+
 
     // type
     private LOCAL_TYPE = 'local';
@@ -35,6 +40,8 @@ export class HelmService {
     private TEMPLATE_VALUE_YAML = 'values_yaml';
     private TEMPLATE_CHART_YAML = 'chart_yaml';
     private TEMPLATE_APP_DEPLOYMENT = 'app_deployment';
+    private TEMPLATE_SYSTEM_ENTRY_DEPLOYMENET = 'system_entry_deployment';
+    private TEMPLATE_SYSTEM_ENTRY_SERVICE = 'system_entry_service';
     private TEMPLATE_APP_SERVICES = 'app_services';
 
     public generate_helm_templates(details, backendList, callback: CallableFunction) {
@@ -77,6 +84,13 @@ export class HelmService {
 
     generate_static_contents_local() {
         //copy template files for helm
+        const temp = {
+            project_name: this.projectDetails.name,
+            custom_node: this.backendList
+        }
+
+
+        // make to command line
         ncp.limit = 16;
         ncp(this.localTemplateStaticPath, this.destinationLocal, (err) => {
             if (err) {
@@ -85,6 +99,7 @@ export class HelmService {
             console.log('helm local template copy  for local!');
             this.generate_dynamic_contents_local();
         });
+        // up to these line
     }
 
     generate_dynamic_contents_local() {
@@ -104,6 +119,27 @@ export class HelmService {
 
         const app_pod_destination = `${this.destinationLocal}/templates/app-pod`;
         const app_pod_template = `${this.localTemplateDynamicPath}/templates/app-pod`;
+
+
+        // generate system enetry pod file for local
+
+        const system_entry_deployment_pod_destination = `${this.destinationLocal}/templates/system-entry-pod`;
+        const system_entry_deployment_pod_template = `${this.localTemplateDynamicPath}/templates/system-entry-pod`;
+
+        if (!fs.existsSync(system_entry_deployment_pod_destination)) {
+            fs.mkdirSync(system_entry_deployment_pod_destination);
+        }
+        console.log("Calling the system entry enetry pods yam--------->>>>>>>>>>>>>>>", temp)
+        // generate system-entry-deployment.yaml file for local
+        helmSupportWorker.generateFile(system_entry_deployment_pod_destination, system_entry_deployment_pod_template, temp,
+            this.TEMPLATE_SYSTEM_ENTRY_DEPLOYMENET, this.SYSTEM_ENTRY_DEPLOYMENET_YAML, this.LOCAL_TYPE);
+
+        // generate system-entry-service.yaml file for local
+        helmSupportWorker.generateFile(system_entry_deployment_pod_destination, system_entry_deployment_pod_template, temp,
+            this.TEMPLATE_SYSTEM_ENTRY_SERVICE, this.SYSTEM_ENTRY_SERVICE_YAML, this.LOCAL_TYPE);
+
+
+
 
         if (!fs.existsSync(app_pod_destination)) {
             fs.mkdirSync(app_pod_destination);
@@ -147,6 +183,25 @@ export class HelmService {
         // generate app-service.yaml file for cloud
         helmSupportWorker.generateFile(app_pod_destination, app_pod_template, temp,
             this.TEMPLATE_APP_SERVICES, this.APP_SERVICE_YAML, this.CLOUD_TYPE);
+
+        // generate system enetry pod file for local
+
+        const system_entry_deployment_pod_destination = `${this.destination}/templates/system-entry-pod`;
+        const system_entry_deployment_pod_template = `${this.templateDynamicPath}/templates/system-entry-pod`;
+
+        if (!fs.existsSync(system_entry_deployment_pod_destination)) {
+            fs.mkdirSync(system_entry_deployment_pod_destination);
+        }
+        console.log("Calling the system entry enetry pods yam--------->>>>>>>>>>>>>>>", temp)
+        // generate system-entry-deployment.yaml file for local
+        helmSupportWorker.generateFile(system_entry_deployment_pod_destination, system_entry_deployment_pod_template, temp,
+            this.TEMPLATE_SYSTEM_ENTRY_DEPLOYMENET, this.SYSTEM_ENTRY_DEPLOYMENET_YAML, this.CLOUD_TYPE);
+
+        // generate system-entry-service.yaml file for local
+        helmSupportWorker.generateFile(system_entry_deployment_pod_destination, system_entry_deployment_pod_template, temp,
+            this.TEMPLATE_SYSTEM_ENTRY_SERVICE, this.SYSTEM_ENTRY_SERVICE_YAML, this.CLOUD_TYPE);
+
+
 
     }
 

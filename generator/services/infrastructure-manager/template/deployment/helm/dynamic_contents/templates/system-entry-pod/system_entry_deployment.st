@@ -1,3 +1,4 @@
+system_entry_deployment(object) ::=<<
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,13 +16,13 @@ spec:
     spec:
       containers:
         - name: {{ .Values.deployment.desktop.name }}-container
-          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
           image: {{ .Values.deployment.desktop.image }}
           ports:
             - name: http-port
               containerPort: 5000     
         - name: {{ .Values.deployment.apigateway.name }}-container
-          imagePullPolicy: {{ .Values.deployment.customImagePullPolicy }}
+          imagePullPolicy: {{ .Values.deployment.defaultImagePullPolicy }}
           image: {{ .Values.deployment.apigateway.image }}
           ports:
             - name: http-port
@@ -41,4 +42,8 @@ spec:
               value: "http://{{ .Values.app.prefix }}-system-entry.{{ .Values.app.namespace }}.svc.cluster.local:8000"  
             - name: MONGO_DB_URL
               value: "mongodb://{{ .Values.app.prefix }}-app-db.{{ .Values.app.namespace }}.svc.cluster.local:27017/{{ .Values.app.prefix }}"
-              
+$if(object.custom_node)$$object.custom_node:{custom_node | 
+$\ $$\ $$\ $$\ $$\ $$\ $$\ $$\ $$\ $$\ $$\ $$\ $- name: $custom_node.uppername$URL
+              value: "http://{{ .Values.app.prefix \}\}-app.{{ .Values.app.namespace \}\}.svc.cluster.local:$custom_node.port$"
+};separator="\n"$$endif$
+>>
