@@ -38,12 +38,14 @@ do
     r)
          echo "Now Re-starting the stopped containers"
          docker-compose start
+         docker restart $projectdetails.project_name$ui-$uuid$
          sleep 35
          echo "Process completed"
          ;;
     s)
          echo "Now stopping the running containers"
          docker-compose stop
+         docker stop $projectdetails.project_name$ui-$uuid$
          echo "Process completed"
          ;;
     *)
