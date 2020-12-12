@@ -1,6 +1,6 @@
 /*
  * Template group build_script
- * Compiled on Sat Dec 05 2020 18:06:42 GMT+0530 (India Standard Time)
+ * Compiled on Fri Dec 11 2020 11:32:50 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -34,7 +34,7 @@ r = function(w, rc) {
     w.write("CUSTOMSERVICEPATH='../../../services/custom_services'");
     w.write("\n");
     w.write("\n");
-    w.write("HELMPATH='../'");
+    w.write("HELMPATH='../devops/local'");
     w.write("\n");
     w.write("\n");
     w.write("\n");

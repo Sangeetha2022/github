@@ -5,7 +5,7 @@ APPLICATION='/$object.application_name$'
 
 CUSTOMSERVICEPATH='../../../services/custom_services'
 
-HELMPATH='../'
+HELMPATH='../devops/local'
 
 
 DESKTOPCODE='../../../application/client/desktop/$object.application_name$'
