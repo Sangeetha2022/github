@@ -85,6 +85,19 @@ a:hover {
   color: #333
 }
 
+.align-right {
+  float: right;
+  margin-top: -41px;
+}
+
+.general-input,.general-input:hover,.general-input:focus,.general-input:active{
+  background-color: unset;
+  border: unset;
+  height:44px;
+  outline:0;
+  box-shadow: none;
+}
+
 .eye {
   position: absolute !important;
   margin: -9px !important;

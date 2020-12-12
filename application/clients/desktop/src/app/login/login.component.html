@@ -34,9 +34,11 @@
                 <label class="text">Password</label>
                 <input type="password" class="form-control center" formControlName="password" placeholder="Password"
                     [type]="show ? 'text' : 'password'" pw-show-hide="icon" (keyup.enter)="Login()">
-                <span class="input-group-addon eye">
-                    <i [ngClass]="show ? 'fa fa-eye' : 'fa fa-eye-slash'" aria-hidden="true" (click)="hideEye()"></i>
-                </span>
+                    <div class="input-group-append align-right">
+                        <span class="input-group-text general-input"><img
+                            [src]="show ? '../../assets/img/eyeopen.png' : '../../assets/img/eyeslash.png'" height="20"
+                            (click)="hideEye()" alt="eye" /></span>
+                    </div>
                 <span *ngIf="!loginform.get('logindata.password').valid && loginform.get('logindata.password').touched"
                     class="invalid-feedback">
                     A Password must be 8 character and must have a Uppercase , Lowercase and a Special character
