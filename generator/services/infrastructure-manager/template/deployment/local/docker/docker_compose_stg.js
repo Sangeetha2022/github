@@ -1,6 +1,6 @@
 /*
  * Template group docker_compose
- * Compiled on Mon Sep 28 2020 16:59:00 GMT+0530 (India Standard Time)
+ * Compiled on Mon Dec 07 2020 17:16:45 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -36,8 +36,9 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("container_name: mongo");
+    w.write("container_name: mongo-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("restart: unless-stopped");
@@ -107,15 +108,16 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("container_name: camunda");
+    w.write("container_name: camunda-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("ports:");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("- \"8080:8080\"");
+    w.write("- \"0000:8080\"");
     w.popIndentation();
     w.write("\n");
     w.write("\n");
@@ -132,15 +134,16 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("container_name: authproxy");
+    w.write("container_name: authproxy-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("ports:");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("- \"8001:8001\"");
+    w.write("- \"0000:8001\"");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -173,15 +176,16 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("container_name: camundasvc");
+    w.write("container_name: camundasvc-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("ports:");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("- \"8002:8002\"");
+    w.write("- \"0000:8002\"");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -214,15 +218,16 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("container_name: securitymanager");
+    w.write("container_name: securitymanager-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("ports:");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("- \"8003:8003\"");
+    w.write("- \"0000:8003\"");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -255,8 +260,9 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("container_name: apigateway");
+    w.write("container_name: apigateway-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("ports:");
@@ -335,11 +341,15 @@ r = function(w, rc) {
                      w.write("image: ");
                      w.popIndentation();
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 81, column: 24 }));
+                     w.write("-");
+                     st.write(w, s, g, rc, s.uuid);
                      w.write("\n");
                      w.pushIndentation("    ");
                      w.write("container_name: ");
                      w.popIndentation();
                      st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 82, column: 33 }));
+                     w.write("-");
+                     st.write(w, s, g, rc, s.uuid);
                      w.write("\n");
                      w.pushIndentation("    ");
                      w.write("ports: ");
@@ -387,7 +397,8 @@ r = function(w, rc) {
     w.write("\n");
 };
 r.args = [
-        { name: "projectdetails"     }
+        { name: "projectdetails"     },
+{ name: "uuid"     }
 ];
 group.addTemplate("/docker_compose", r); 
 

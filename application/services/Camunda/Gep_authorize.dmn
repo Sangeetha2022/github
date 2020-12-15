@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="Definitions_0fnw5vs" name="DRD" namespace="http://camunda.org/schema/1.0/dmn">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="Definitions_0fnw5vs" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.3.0">
   <decision id="Accesslevel" name="Authorize">
-    <extensionElements>
-      <biodi:bounds x="150" y="150" width="180" height="80" />
-    </extensionElements>
     <decisionTable id="decisionTable_1">
       <input id="input_1" label="resources">
         <inputExpression id="inputExpression_1" typeRef="string">
@@ -15,7 +12,7 @@
           <text>resourcetype</text>
         </inputExpression>
       </input>
-      <output id="output_1" label="admin" name="Admin" typeRef="string" />
+      <output id="output_1" label="admin" name="Admin" typeRef="string" biodi:width="192" />
       <output id="OutputClause_0vdltyr" label="developer" name="Developer" typeRef="string" />
       <output id="OutputClause_16m831c" label="user" name="Standard User" typeRef="string" />
       <rule id="DecisionRule_14jfe5c">
@@ -43,7 +40,7 @@
           <text>"Screen"</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1vir8it">
-          <text>'{
+          <text>{
   "Admin": {
     "Access": {
       "value": "true"
@@ -60,10 +57,10 @@
       "value": "true"
     }
   }
-}'</text>
+}</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0moal26">
-          <text>'{
+          <text>{
   "Admin":{
     "Access":{"value":"false"}
   },
@@ -84,10 +81,10 @@
       }
     }]
   }]
-}'</text>
+}</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_0fkvhqp">
-          <text>'{
+          <text>{
   "Admin": {
     "Access": {
       "value": "false"
@@ -112,7 +109,7 @@
       "value": "false"
     }
   }
-}'</text>
+}</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0113tl1">
@@ -123,7 +120,7 @@
           <text>"Screen"</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1pjblha">
-          <text>'{
+          <text>{
   "Admin": [{
     "Access": {
       "value": "true"
@@ -169,10 +166,10 @@
       }
     }]
   }]
-}'</text>
+}</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_1wrsfdb">
-          <text>'{
+          <text>{
   "Admin":{
     "Access":{"value":"false"}
   },
@@ -209,10 +206,10 @@
       }
     }]
   }]
-}'</text>
+}</text>
         </outputEntry>
         <outputEntry id="LiteralExpression_1pfp1gh">
-          <text>'{
+          <text>{
   "Admin": {
     "Access": {
       "value": "false"
@@ -240,9 +237,16 @@
       "value": "false"
     }
   }
-}'</text>
+}</text>
         </outputEntry>
       </rule>
     </decisionTable>
   </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_09vf2vr">
+      <dmndi:DMNShape id="DMNShape_0947t9v" dmnElementRef="Accesslevel">
+        <dc:Bounds height="80" width="180" x="150" y="150" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
 </definitions>

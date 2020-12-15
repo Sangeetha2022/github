@@ -22,7 +22,11 @@ export class DockerService {
 
         //generate script to build docker images
         let generateDockerScript = st.loadGroup(require(templatePath + '/build_script_stg'));
-        let dockerScript = generateDockerScript.render("build_script", [projectDetails.project_lowercase]);
+        let project_name={
+            application_name: projectDetails.project_lowercase.split('_',1),
+            helm_name: projectDetails.project_lowercase.replace(/_/g, '-')
+        };
+        let dockerScript = generateDockerScript.render("build_script", [project_name]);
         fs.writeFile(destination + '/geppetto_build.sh', dockerScript, function (err) {
             if (err) throw err;
             console.log('geppetto_build_script for local is generated!!')
@@ -34,9 +38,11 @@ export class DockerService {
         console.log("----dynamic");
         const temp = { 
             project_name: projectDetails.project_lowercase,
-            custom_node: backendList
+            custom_node: backendList,
+            docker_container_name: projectDetails.project_unique_id.split('_',2)
         }
-
+        let uuid=temp.docker_container_name[1]
+        console.log("Here id-----------",uuid)
         console.log('backendList app pods in script coluds are ---  ', backendList);
         let destination = projectDetails.localUrl + '/docker';
         let templatePath = projectDetails.templateUrl + '/docker';
@@ -47,7 +53,7 @@ export class DockerService {
 
         //generate env file
         let generateDockerScript = st.loadGroup(require(templatePath + '/env_stg'));
-        let dockerScript = generateDockerScript.render("env", [temp]);
+        let dockerScript = generateDockerScript.render("env", [temp,uuid]);
         fs.writeFile(destination + '/.env', dockerScript, function (err) {
             if (err) throw err;
             console.log('env file is generated !!!')
@@ -55,16 +61,18 @@ export class DockerService {
     }
 
     public generate_docker_compose(projectDetails, backendList, callback: CallableFunction) {
-
         console.log("----dynamic");
         const temp = {
             project_name: projectDetails.project_lowercase,
-            custom_node: backendList
+            custom_node: backendList,
+            docker_container_name: projectDetails.project_unique_id.split('_',2),
         }
+        let uuid=temp.docker_container_name[1]
 
         console.log('backendList app pods in script coluds are ---  ', backendList);
         let destination = projectDetails.localUrl + '/docker';
         let templatePath = projectDetails.templateUrl + '/docker';
+
 
         if (!fs.existsSync(destination)) {
             fs.mkdirSync(destination);
@@ -72,7 +80,7 @@ export class DockerService {
 
         //generate script cloud
         let generateDockerScript = st.loadGroup(require(templatePath + '/docker_compose_stg'));
-        let dockerScript = generateDockerScript.render("docker_compose", [temp]);
+        let dockerScript = generateDockerScript.render("docker_compose", [temp,uuid]);
         fs.writeFile(destination + '/docker-compose.yml', dockerScript, function (err) {
             if (err) throw err;
             console.log('geppetto_build_script for cloud is generated!!')
@@ -80,12 +88,12 @@ export class DockerService {
     }
 
     public generate_geppetto_compose(projectDetails, callback: CallableFunction) {
-
         console.log("----generate_geppetto_compose");
         const temp = {
             project_name: projectDetails.name,
+            docker_container_name: projectDetails.project_unique_id.split('_',2),
         }
-
+      let uuid=temp.docker_container_name[1]
         let destination = projectDetails.localUrl + '/docker';
         let templatePath = projectDetails.templateUrl + '/docker';
 
@@ -95,7 +103,7 @@ export class DockerService {
 
         //geppetto compose script
         let generateDockerScript = st.loadGroup(require(templatePath + '/geppetto_compose_stg'));
-        let geppettoScript = generateDockerScript.render("geppetto_compose", [temp]);
+        let geppettoScript = generateDockerScript.render("geppetto_compose", [temp,uuid]);
         fs.writeFile(destination + '/geppetto_compose.sh', geppettoScript, function (err) {
             if (err) throw err;
             console.log('geppetto_compose_script is generated!!')

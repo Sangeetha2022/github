@@ -1,6 +1,9 @@
+system_entry_service(object) ::=<<
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    name: {{ .Values.app.prefix }}-system-entry
   name: {{ .Values.app.prefix }}-system-entry
   namespace: {{ .Values.app.namespace }}
 spec:
@@ -14,4 +17,5 @@ spec:
     targetPort: {{ .Values.service.apigateway.targetPort }}
     nodePort: {{ .Values.service.apigateway.nodePort }}
   selector:
-    app: {{ .Values.app.prefix }}-system-entry
+    name: {{ .Values.app.prefix }}-system-entry
+>>

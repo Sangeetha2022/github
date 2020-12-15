@@ -21,7 +21,7 @@ export class CamundaService {
         // logger.info('Camundaservice.ts : camundarequest');
         resourcemodel.find().then((result) => {
             asyncLoop(result, (resource, next) => {
-                if(resource.resources === 'Landing'){
+                if (resource.resources === 'Landing') {
                     console.log('------ifcondition-loop-----', resource.resources);
                     this.resourcevalue = resource.resources;
                 }
@@ -45,29 +45,33 @@ export class CamundaService {
     public camundaauthorization() {
         // logger.info('Camundaservice.ts : camundaauthorization');
         console.log('----------resource-----', this.resourcevalue);
-        var body = {
+        let body = {
             "variables": {
                 "resources": { "value": `${this.resourcevalue}`, "type": "String" },
-                "resourcetype":{"value":"Screen", "type":"String"}
+                "resourcetype": { "value": "Screen", "type": "String" }
             }
         }
-        // var geturl = 'http://3.92.72.204:32676/engine-rest/engine/default/decision-definition/count';
         var posturl = `${SharedService.camundaURL}/engine-rest/engine/default/decision-definition/key/Accesslevel/evaluate`;
 
         return new Promise(resolve => {
             request.post({ url: posturl, json: body }, function (error, response, body) {
                 console.log('------error---------', error);
-                console.log('------responsebody---------', body);
-                var responsebody = JSON.stringify(body);
-                var finaldata = JSON.parse(responsebody);
-                console.log('------responsebody---------', finaldata);
-                var responsevalue = finaldata[0];
-                const test = responsevalue;
-                const test2 = JSON.stringify(test);
-                // const test3 = JSON.parse(test2);
-                // // var data = test3.replace(/(\r\n|\n|\r|\s|n)/gm, '');
-                // // console.log('-------->>>>', data);
-                resolve(JSON.parse(test2));
+                let responsebody = JSON.stringify(body);
+                let finaldata = JSON.parse(responsebody);
+                let responsevalue = finaldata[0];
+                for (let key in responsevalue) {
+                    if (responsevalue.hasOwnProperty(key)) {
+                        responsevalue[key].value = responsevalue[key].value.replace(/=/g, ":");
+                        responsevalue[key].value = responsevalue[key].value.replace(/(\w+:)|(\w+ :)/g, function (s) {
+                            return '"' + s.substring(0, s.length - 1) + '":';
+                        });
+                        responsevalue[key].value = responsevalue[key].value.replace(/true/g, `"true"`);
+                        responsevalue[key].value = responsevalue[key].value.replace(/false/g, `"false"`);
+                    }
+                }
+                console.log("replace value--------", responsevalue);
+                const finalvalue = JSON.stringify(responsevalue);
+                resolve(JSON.parse(finalvalue));
             });
         })
 

@@ -1,11 +1,14 @@
 app_deployment_yaml(project_name) ::= <<
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: $project_name$-app
   namespace: $project_name$
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      name: {{ .Values.app.prefix }}-app
   template:
     metadata:
       labels:

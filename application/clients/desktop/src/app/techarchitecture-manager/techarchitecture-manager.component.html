@@ -1,5 +1,7 @@
 <mat-expansion-panel>
-  <ngx-spinner bdColor = "rgba(231,220,220,0.33)" size = "small" color = "#b2acac" type = "timer"></ngx-spinner>
+  <ngx-spinner bdColor = "rgba(231,220,220,0.33)" size = "small" color = "#b2acac" [fullScreen] = "true">
+    <img class = "loading-image" src='../../assets/img/loading-animation.gif' />
+  </ngx-spinner>
   <mat-expansion-panel-header>
     <mat-panel-title>
       Technical Architecture

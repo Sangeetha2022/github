@@ -516,7 +516,7 @@ export class ProjectsComponent implements OnInit {
   getTemplateParser() {
     this.spinner.show();
     this.templateScreenService.getTemplateParser(this.logId).subscribe(response => {
-      this.spinner.show();
+      this.spinner.hide();
       console.log('getTemplate parser response in project are --- ', response);
       // this.gepTemplates = gepTemp.body;
       // this.gepTempImages = this.gepTemplates.template_image;

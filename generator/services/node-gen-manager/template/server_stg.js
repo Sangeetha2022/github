@@ -1,6 +1,6 @@
 /*
  * Template group server
- * Compiled on Wed Sep 16 2020 19:54:01 GMT+0530 (India Standard Time)
+ * Compiled on Thu Dec 10 2020 20:21:26 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -127,11 +127,19 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("mongoose.Promise = global.Promise;");
+    w.write("// mongoose.Promise = global.Promise;");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("mongoose.connect(this.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true });");
+    w.write("mongoose.connect(this.mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("            ");
+    w.write(".then(res => { console.log('mongodb connected') })");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("            ");
+    w.write(".catch(err => { console.log('mongo error in connection:', err) });");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
