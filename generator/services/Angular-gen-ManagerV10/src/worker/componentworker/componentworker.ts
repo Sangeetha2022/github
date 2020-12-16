@@ -25,6 +25,7 @@ export class ComponentWorker {
             microflowObject.GpOptions['className'] = firstElement + otherElements + 'Component';;
             const entities = this.constructEntities(details.entities, desktopElement.entity_info);
             microflowObject.GpOptions['entities'] = entities;
+            microflowObject.GpOptions['variables'] = [];
             const constructor = [];
             const constructorObj = {
                 className: firstElement + otherElements + 'Service',
@@ -41,9 +42,46 @@ export class ComponentWorker {
                     }
                 });
             });
+            microflowObject.GpCodeToAdd['flows_info'].forEach((e) => {
+                if (e.flowName === 'GpGetNounById' || e.flowName === 'GpDelete') {
+                    e.parameterName = 'this.queryId';
+                    const variable = {
+                        name: 'queryId',
+                        dataType: 'string'
+                    }
+                    if(microflowObject.GpOptions['variables'].findIndex((e) => e.name === 'queryId') === -1) {
+                        microflowObject.GpOptions['variables'].push(variable);
+                    }
+                }
+            });
+            microflowObject.GpCodeToAdd['route_info'] = flowComponentWorker.constructGpRoute(desktopElement.route_info);
+            if (microflowObject.GpCodeToAdd['route_info'].length > 0) {
+                microflowObject.GpHeaders.push({
+                    "importName": "Router",
+                    "importPath": "@angular/router"
+                });
+                microflowObject.GpOptions.constructor.push({
+                    "className": "Router",
+                    "objectName": "router"
+                });
+            }
+            microflowObject.GpCodeToAdd['lifecycle_info'] = flowComponentWorker.constructLifecycle(details.desktop, desktopElement);
+            if (microflowObject.GpCodeToAdd['lifecycle_info'].length > 0) {
+                microflowObject.GpCodeToAdd['lifecycle_info'].forEach((element: any) => {
+                    if (element.queryParams && element.queryParams === true) {
+                        microflowObject.GpHeaders.push({
+                            "importName": "ActivatedRoute",
+                            "importPath": "@angular/router"
+                        });
+                        microflowObject.GpOptions.constructor.push({
+                            "className": "ActivatedRoute",
+                            "objectName": "activatedRoute"
+                        });
+                    }
+                });
+            }
             console.log('microflowObject------->>>>>>', JSON.stringify(microflowObject));
             let templatePath = path.resolve(__dirname, '../../../templates/component.handlebars');
-            console.log('templatePath---->>>>>>', templatePath);
             let projectGenerationPath = details.projectGenerationPath;
             let applicationPath = projectGenerationPath + '/src/app';
             let screenGenerationPath = applicationPath + `/${screenName}`
@@ -91,10 +129,44 @@ export class ComponentWorker {
     handleBarsFile(filePath, fileData, screenGenerationPath, screenName) {
         return new Promise(resolve => {
             fs.readFile(filePath, 'utf-8', (err, data) => {
-                var source = data;
-                Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
-                    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+                Handlebars.registerHelper("ifCond",function(v1,operator,v2,options) {
+                    switch (operator)
+                    {
+                        case "==":
+                            return (v1==v2)?options.fn(this):options.inverse(this);
+                
+                        case "!=":
+                            return (v1!=v2)?options.fn(this):options.inverse(this);
+                
+                        case "===":
+                            return (v1===v2)?options.fn(this):options.inverse(this);
+                
+                        case "!==":
+                            return (v1!==v2)?options.fn(this):options.inverse(this);
+                
+                        case "&&":
+                            return (v1&&v2)?options.fn(this):options.inverse(this);
+                
+                        case "||":
+                            return (v1||v2)?options.fn(this):options.inverse(this);
+                
+                        case "<":
+                            return (v1<v2)?options.fn(this):options.inverse(this);
+                
+                        case "<=":
+                            return (v1<=v2)?options.fn(this):options.inverse(this);
+                
+                        case ">":
+                            return (v1>v2)?options.fn(this):options.inverse(this);
+                
+                        case ">=":
+                         return (v1>=v2)?options.fn(this):options.inverse(this);
+                
+                        default:
+                            return eval(""+v1+operator+v2)?options.fn(this):options.inverse(this);
+                    }
                 });
+                var source = data;
                 var template = Handlebars.compile(source);
                 var result = template(fileData);
                 Common.createFolders(screenGenerationPath);

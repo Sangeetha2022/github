@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-{{!-- import { {{ serviceClassName }} } from './{{ screenName }}.service'; --}}
 {{#each GpHeaders}}
 import { {{importName}} } from '{{ importPath }}';
 {{/each}}
@@ -11,7 +10,9 @@ import { {{importName}} } from '{{ importPath }}';
 })
 
 export class {{ GpOptions.className }} implements OnInit {
-
+{{#each GpOptions.variables}}
+    {{name}}: {{dataType}};
+{{/each}}
 {{#each GpOptions.entities}}
     public {{ name }} = {
     {{#each field}}
@@ -22,23 +23,48 @@ export class {{ GpOptions.className }} implements OnInit {
 
     constructor (
         {{#each GpOptions.constructor}}
-        private {{ objectName }}: {{ className }}
+        private {{ objectName }}: {{ className }},
         {{/each}}
     ) { }
 
     ngOnInit() {
-    
+    {{#each GpCodeToAdd.lifecycle_info }}
+        {{#if queryParams}}
+        this.activatedRoute.queryParams.subscribe(params => { 
+            this.queryId = params.id; 
+            this.GpGetNounById();
+        });
+        {{/if}}
+    {{/each}}
     }
 {{#each GpCodeToAdd.flows_info }}
     {{ flowName }}() {
         this.{{ ../GpOptions.screenName }}Service.{{ flowName }}({{ parameterName }}).subscribe(data => {
+        {{!-- GpCreate --}}
+        {{#ifCond flowName '==' 'GpCreate'}}
         {{#each field}}
-            {{../parameterName}}.{{name}} = '';
+            {{../entityName}}.{{name}} = '';
         {{/each}}
+        {{/ifCond}}
+        {{!-- GpUpdate --}}
+        {{#ifCond flowName '==' 'GpUpdate'}}
+        {{#each field}}
+            {{../entityName}}.{{name}} = '';
+        {{/each}}
+        {{/ifCond}}
+        {{!-- GpGetNounById --}}
+        {{#ifCond flowName '==' 'GpGetNounById'}}
+            {{entityName}} = data;
+        {{/ifCond}}
         },
         error => {
-            
+            console.log('Error', error);
         });
+    }
+{{/each}}
+{{#each GpCodeToAdd.route_info }}
+    {{ flowName }}(queryId) {
+        {{objectName}}.navigate(['{{navigationUrl}}'], { queryParams: { 'id': queryId } });
     }
 {{/each}}
 }

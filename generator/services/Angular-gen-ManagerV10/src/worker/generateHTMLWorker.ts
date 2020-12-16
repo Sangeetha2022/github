@@ -3,10 +3,8 @@ import * as asyncForEach from 'async-foreach';
 import * as asyncLoop from 'node-async-loop';
 import { Forms } from '../strategy/HTML/Forms';
 import {InputTagGeneration} from '../strategy/HTML/Input';
-import { ComponentWorker } from '../worker/componentworker/componentworker'
 let forms = new Forms();
 let generateInput = new InputTagGeneration();
-const componentWorker = new ComponentWorker();
 
 export class GenerateHtmlWorker {
 
@@ -21,9 +19,6 @@ export class GenerateHtmlWorker {
         this.screenInfo = screenDetails;
         let metaData: any = JSON.parse(screenDetails['gjs-components'][0]);
         this.generateHtml(metaData, screenDetails, details);
-        componentWorker.generateComponent(details, (res, err) => {
-            
-        });
     }
 
     generateHtml(grapesJSMetadata, screensData, details) {
