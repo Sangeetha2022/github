@@ -544,6 +544,10 @@ export class DesktopScreenComponent implements OnInit {
       }
     });
 
+    this.editor.BlockManager.getAll().remove('column3-7');
+    this.editor.BlockManager.getAll().remove('column3');
+    this.editor.BlockManager.getAll().remove('column2');
+
     const comps = this.editor.DomComponents;
     this.editor.DomComponents.Component.createId = function (model) {
       const list = comps.Component.getList(model);
