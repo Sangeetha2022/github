@@ -5,14 +5,12 @@
         "pretty": true,
         "sourceMap": true,
         "resolveJsonModule": true,
-        "target": "ESNext",
+        "target": "es6",
         "outDir": "./dist",
-        "baseUrl": "./lib",
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
+        "baseUrl": "./lib"
     },
     "include": [
-        "src/**/*.ts",
+        "src/**/*.ts", "src/models/NodeModels.ts",
     ],
     "exclude": [
         "node_modules"

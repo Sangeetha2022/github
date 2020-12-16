@@ -45,6 +45,7 @@ export class ApiGatewayService {
                 this.projectName += element.charAt(0).toUpperCase() + element.slice(1);
             }
         })
+        console.log('------feature details-----', req.body.feature);
         // generate docker file
         commonWorker.generateDockerFile(apiGatewayGenerationPath, apiGatewayTemplatePath, this.APIGATEWAY_FOLDERNAME);
         asyncLoop(req.body.nodeResponse, (element, next1) => {
@@ -71,9 +72,57 @@ export class ApiGatewayService {
                     httpUrl: '',
                     httpPort: ''
                 }
-                // temp.nodeName = `${element.entityFileName.toUpperCase()}URL`;
-                temp.nodeName = `${element.featureName.toUpperCase()}${this.URL_NAME}`;
-                temp.httpProxy = `${this.HTTP_NAME}`;
+                /** For external Feature apigateway code */
+                if (element.type === 'external') {
+                    let extclassname;
+
+                    temp.nodeName = `${element.value.featurename.toUpperCase()}${this.URL_NAME}`;
+                    extclassname = element.value.featurename;
+                    temp.httpPort = element.value.Portnumber;
+                    let routearray = element.value.RouteDetails[0].Routes;
+
+                    console.log('--------routearray-------', element);
+                    routearray.forEach(routeelement => {
+                        let extcontrollerDetails = {
+                            methodName: '',
+                            methodUrl: '',
+                            type: '',
+                            apiAction: '',
+                            constantName: this.constantObj.className,
+                            nodeName: '',
+                            exterclassname: '',
+                            requestParameter: '',
+                            responseParameter: ''
+                        }
+                        let extrouteDetails = {
+                            routeUrl: '',
+                            apiAction: '',
+                            methodName: '',
+                            variableName: ''
+                        }
+                        extcontrollerDetails.exterclassname = element.value.featurename;
+
+                        console.log('--------route-----element-------', routeelement);
+                        extrouteDetails.routeUrl = routeelement.Apiendpoint;
+                        extrouteDetails.apiAction = routeelement.ApiMethod;
+                        extrouteDetails.methodName = routeelement.MethodName;
+                        extcontrollerDetails.type = element.type;
+
+                        controllerObj.router.push(extrouteDetails);
+
+                        extcontrollerDetails.methodName = routeelement.MethodName;
+                        extcontrollerDetails.apiAction = routeelement.ApiMethod;
+                        extcontrollerDetails.nodeName = temp.nodeName;
+                        extcontrollerDetails.responseParameter = `${this.RESPONSEPARAMETER_NAME}`;
+                        controllerObj.methods.push(extcontrollerDetails);
+                        this.controllerImport(controllerObj, routeelement);
+                    });
+                    this.controllerArray.push(controllerObj);
+                }
+                if (element.featureName !== undefined) {
+                    temp.nodeName = `${element.featureName.toUpperCase()}${this.URL_NAME}`;
+                    temp.httpPort = element.nodePortNumber;
+                }
                 temp.httpUrl = `${this.projectName.toLowerCase()}-app.${this.projectName.toLowerCase()}.svc.cluster.local`;
                 temp.httpPort = element.nodePortNumber;
 
@@ -82,70 +131,76 @@ export class ApiGatewayService {
                 this.setPackageDependencies(element);
 
                 this.constantObj.constantArray.push(temp);
-                asyncLoop(element.flowAction, (routingElement, next2) => {
-                    const controllerDetails = {
-                        methodName: '',
-                        methodUrl: '',
-                        apiAction: '',
-                        constantName: this.constantObj.className,
-                        nodeName: '',
-                        requestParameter: '',
-                        responseParameter: ''
-                    }
-                    const routeDetails = {
-                        routeUrl: '',
-                        apiAction: '',
-                        methodName: '',
-                        variableName: ''
-                    }
-                    if (routingElement === undefined) {
-                        next2();
-                    } else {
-                        routeDetails.routeUrl = routingElement.routeUrl;
-                        routeDetails.apiAction = routingElement.apiAction;
-                        routeDetails.methodName = routingElement.methodName;
-                        routeDetails.variableName = routingElement.variableName;
-                        controllerObj.router.push(routeDetails);
-
-                        // controller info
-                        controllerDetails.methodName = routingElement.methodName;
-                        controllerDetails.apiAction = routingElement.apiAction;
-                        controllerDetails.nodeName = temp.nodeName;
-                        controllerDetails.responseParameter = `${this.RESPONSEPARAMETER_NAME}`;
-
-                        // import controller component dependencies
-                        this.controllerImport(controllerObj, element);
-
-                        // check camunda login and constent method to generate in apigateway
-                        if (routingElement.routeUrl === this.CAMUNDA_LOGIN_URL ||
-                            routingElement.routeUrl === this.CAMUNDA_CONSENT_URL) {
-                            this.setRoutingDetails(routingElement, controllerDetails);
-                            controllerObj.additional.camunda.isVerify = true;
-                            if (routingElement.routeUrl === this.CAMUNDA_LOGIN_URL) {
-                                controllerObj.additional.camunda.login = controllerDetails;
-                            }
-                            if (routingElement.routeUrl === this.CAMUNDA_CONSENT_URL) {
-                                controllerObj.additional.camunda.consent = controllerDetails;
-                            }
-                        } else {
-                            this.setRoutingDetails(routingElement, controllerDetails);
-                            // if (routingElement.routeUrl === this.CAMUNDA_AUTH_PROXY_URL) {
-                            //     controllerObj.additional.camunda.isVerify = controllerDetails;
-                            // }
-                            controllerObj.methods.push(controllerDetails);
-
+                if (element.flowAction !== undefined) {
+                    asyncLoop(element.flowAction, (routingElement, next2) => {
+                        const controllerDetails = {
+                            methodName: '',
+                            methodUrl: '',
+                            apiAction: '',
+                            constantName: this.constantObj.className,
+                            nodeName: '',
+                            requestParameter: '',
+                            responseParameter: ''
                         }
-                        next2();
-                    }
+                        const routeDetails = {
+                            routeUrl: '',
+                            apiAction: '',
+                            methodName: '',
+                            variableName: ''
+                        }
+                        if (routingElement === undefined) {
+                            next2();
+                        } else {
+                            routeDetails.routeUrl = routingElement.routeUrl;
+                            routeDetails.apiAction = routingElement.apiAction;
+                            routeDetails.methodName = routingElement.methodName;
+                            routeDetails.variableName = routingElement.variableName;
+                            controllerObj.router.push(routeDetails);
 
-                }, (err) => {
-                    if (err) {
-                        next1()
-                    } else {
-                        this.controllerArray.push(controllerObj);
-                        next1()
-                    }
-                })
+                            // controller info
+                            controllerDetails.methodName = routingElement.methodName;
+                            controllerDetails.apiAction = routingElement.apiAction;
+                            controllerDetails.nodeName = temp.nodeName;
+                            controllerDetails.responseParameter = `${this.RESPONSEPARAMETER_NAME}`;
+
+                            // import controller component dependencies
+                            this.controllerImport(controllerObj, element);
+
+                            // check camunda login and constent method to generate in apigateway
+                            if (routingElement.routeUrl === this.CAMUNDA_LOGIN_URL ||
+                                routingElement.routeUrl === this.CAMUNDA_CONSENT_URL) {
+                                this.setRoutingDetails(routingElement, controllerDetails);
+                                controllerObj.additional.camunda.isVerify = true;
+                                if (routingElement.routeUrl === this.CAMUNDA_LOGIN_URL) {
+                                    controllerObj.additional.camunda.login = controllerDetails;
+                                }
+                                if (routingElement.routeUrl === this.CAMUNDA_CONSENT_URL) {
+                                    controllerObj.additional.camunda.consent = controllerDetails;
+                                }
+                            } else {
+                                this.setRoutingDetails(routingElement, controllerDetails);
+                                // if (routingElement.routeUrl === this.CAMUNDA_AUTH_PROXY_URL) {
+                                //     controllerObj.additional.camunda.isVerify = controllerDetails;
+                                // }
+                                controllerObj.methods.push(controllerDetails);
+
+                            }
+                            next2();
+                        }
+
+                    }, (err) => {
+                        if (err) {
+                            next1()
+                        } else {
+                            this.controllerArray.push(controllerObj);
+                            next1()
+                        }
+                    })
+                } else {
+                    console.log('-----no flows for this feature -----');
+                    next1()
+                }
+
 
             }
         }, (err) => {
