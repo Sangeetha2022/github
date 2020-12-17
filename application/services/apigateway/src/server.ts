@@ -36,7 +36,8 @@ import {
     DeleteManagerController,
     SharedController,
     SwaggerController,
-    ReactController
+    ReactController,
+    ExternalfeatureController
 
 
 } from './apicontroller';
@@ -75,7 +76,9 @@ let apisController = [
     new DeleteManagerController(),
     new SharedController(),
     new SwaggerController(),
-    new ReactController()
+    new ReactController(),
+    new ExternalfeatureController()
+
 ]
 
 class App {

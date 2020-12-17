@@ -49,34 +49,17 @@ export class BackendService {
             serverDatabase: details.project.serverDatabase,
             entities: details.entities,
             entitySchema: [],
-            flows: []
+            flows: [],
+            externalfeature: details.externalfeatureconfig
         }
-        const dataStore = await this.getDataStore(feature);
-        console.log('dataStore values are backend services are --###@@@@@@--- ', dataStore);
-        feature.entitySchema = JSON.parse(JSON.stringify(dataStore)).body;
-        console.log('all feature value are------  ', feature);
-
-        // const flows = {
-        //     name: '',
-        //     label: '',
-        //     description: '',
-        //     type: '',
-        //     actionOnData: '',
-        //     createWithDefaultActivity: 0,
-        //     components: [],
-
-        // }
-        // const flowComponent = {
-        //     name: '',
-        //     label: '',
-        //     description: '',
-        //     type: '',
-        //     sequenceId: 0,
-        //     devLanguage: '',
-        //     devFramework: '',
-        //     microFlows: [],
-        //     connector: []
-        // }
+        if (details.entities.length > 0) {
+            const dataStore = await this.getDataStore(feature);
+            console.log('dataStore values are backend services are --###@@@@@@--- ', dataStore);
+            feature.entitySchema = JSON.parse(JSON.stringify(dataStore)).body;
+            console.log('all feature value are------  ', feature);
+        } else {
+            console.log('--------No entity present in this feature-----');
+        }
         let flowCount = 0;
         let flowComponentCount = 0;
         try {
@@ -180,6 +163,10 @@ export class BackendService {
                         callback(node);
                     }
                 })
+            } else if (Object.values(details.externalfeatureconfig).includes('external')) {
+                console.log('------feature -----value------', feature);
+                const nodev2 = await this.generateNode(feature);
+                callback(nodev2);
             }
             else {
                 console.log('no flow has been added for this project so please add a flow');

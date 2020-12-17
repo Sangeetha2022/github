@@ -163,6 +163,9 @@ export class Constants {
     public static get sharedApplication(): string { return this.DESKTOP_ROUTER + '/shared/getbyproject/'; }
     public static get sharedAppImport(): string { return  '/shared/upload'; }
 
+    // ExternalFeatureConfig
+    public static get externalfeatureconfig(): string {return '/externalfeature/upload';  }
+
 
     // regex Constant Expressions
 
