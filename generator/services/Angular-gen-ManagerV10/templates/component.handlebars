@@ -13,6 +13,9 @@ export class {{ GpOptions.className }} implements OnInit {
 {{#each GpOptions.variables}}
     {{name}}: {{dataType}};
 {{/each}}
+{{#each GpOptions.arrayVariables}}
+    {{name}}: {{dataType}} = [{{#each value}}{ {{key1}}: '{{value1}}', {{key2}}: '{{value2}}'  },{{/each}}];
+{{/each}}
 {{#each GpOptions.entities}}
     public {{ name }} = {
     {{#each field}}
@@ -20,6 +23,14 @@ export class {{ GpOptions.className }} implements OnInit {
     {{/each}}
     }
 {{/each}}
+{{#if GpOptions.is_grid_present}}
+    gridApi: any;
+    gridColumnApi: any;
+    rowSelection = 'single';
+    defaultColDef = { editable: false, sortable: true, resizable: true, filter: true };
+    paginationPageSize = 10;
+    rowData: any = [];
+{{/if}}
 
     constructor (
         {{#each GpOptions.constructor}}
@@ -34,6 +45,9 @@ export class {{ GpOptions.className }} implements OnInit {
             this.queryId = params.id; 
             this.GpGetNounById();
         });
+        {{/if}}
+        {{#if getAll}}
+        this.GpGetAllValues();
         {{/if}}
     {{/each}}
     }
@@ -56,6 +70,18 @@ export class {{ GpOptions.className }} implements OnInit {
         {{#ifCond flowName '==' 'GpGetNounById'}}
             {{entityName}} = data;
         {{/ifCond}}
+        {{!-- GpDelete --}}
+        {{#ifCond flowName '==' 'GpDelete'}}
+           this.GpGetNounById();
+        {{/ifCond}}
+        {{!-- GpSearch --}}
+        {{#ifCond flowName '==' 'GpSearch'}}
+           this.rowData = data;
+        {{/ifCond}}
+        {{!-- GpGetAllValues --}}
+        {{#ifCond flowName '==' 'GpGetAllValues'}}
+           this.rowData = data;
+        {{/ifCond}}
         },
         error => {
             console.log('Error', error);
@@ -63,8 +89,14 @@ export class {{ GpOptions.className }} implements OnInit {
     }
 {{/each}}
 {{#each GpCodeToAdd.route_info }}
-    {{ flowName }}(queryId) {
+    {{ flowName }}({{ parameterName }}) {
+    {{#ifCond flowName '==' 'GpRoute'}}
         {{objectName}}.navigate(['{{navigationUrl}}'], { queryParams: { 'id': queryId } });
+    {{/ifCond}}
+    {{#ifCond flowName '==' 'onSelectionChanged'}}
+        const selectedRows = this.gridApi.getSelectedRows();
+        this.GpRoute(selectedRows[0]._id);
+    {{/ifCond}}
     }
 {{/each}}
 }

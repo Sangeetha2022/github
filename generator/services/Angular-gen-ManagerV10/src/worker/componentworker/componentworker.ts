@@ -3,8 +3,10 @@ import * as Handlebars from 'handlebars';
 import * as fs from 'fs';
 import { Common } from '../../config/Common';
 import * as path from 'path';
+import { ThirdPartyWorker } from '../ThirdPartyWorker'
 
 const flowComponentWorker = new FlowComponentWorker();
+const thirdPartyWorker = new ThirdPartyWorker();
 
 export class ComponentWorker {
     generateComponent(details, callback) {
@@ -14,7 +16,7 @@ export class ComponentWorker {
             const screenName = desktopElement.screenName;
             const firstElement = screenName.charAt(0).toUpperCase();
             const otherElements = screenName.substring(1, screenName.length);
-            const microflowObject: any = this.constructMicroFlows(details.flows);
+            let microflowObject: any = this.constructMicroFlows(details.flows);
             const gpHeaders = {
                 importName: firstElement + otherElements + 'Service',
                 importPath: './' + screenName + '.service.ts'
@@ -26,6 +28,7 @@ export class ComponentWorker {
             const entities = this.constructEntities(details.entities, desktopElement.entity_info);
             microflowObject.GpOptions['entities'] = entities;
             microflowObject.GpOptions['variables'] = [];
+            microflowObject.GpOptions['arrayVariables'] = [];
             const constructor = [];
             const constructorObj = {
                 className: firstElement + otherElements + 'Service',
@@ -34,52 +37,10 @@ export class ComponentWorker {
             constructor.push(constructorObj);
             microflowObject.GpOptions['constructor'] = constructor;
             microflowObject.GpCodeToAdd = {};
-            microflowObject.GpCodeToAdd['flows_info'] = flowComponentWorker.constructFlowsInfo(desktopElement.flows_info, details.nodeResponse);
-            entities.forEach((entity) => {
-                microflowObject.GpCodeToAdd['flows_info'].forEach((e) => {
-                    if (e.parameterName && 'this.' + entity.name === e.parameterName) {
-                        e.field = entity.field;
-                    }
-                });
-            });
-            microflowObject.GpCodeToAdd['flows_info'].forEach((e) => {
-                if (e.flowName === 'GpGetNounById' || e.flowName === 'GpDelete') {
-                    e.parameterName = 'this.queryId';
-                    const variable = {
-                        name: 'queryId',
-                        dataType: 'string'
-                    }
-                    if(microflowObject.GpOptions['variables'].findIndex((e) => e.name === 'queryId') === -1) {
-                        microflowObject.GpOptions['variables'].push(variable);
-                    }
-                }
-            });
-            microflowObject.GpCodeToAdd['route_info'] = flowComponentWorker.constructGpRoute(desktopElement.route_info);
-            if (microflowObject.GpCodeToAdd['route_info'].length > 0) {
-                microflowObject.GpHeaders.push({
-                    "importName": "Router",
-                    "importPath": "@angular/router"
-                });
-                microflowObject.GpOptions.constructor.push({
-                    "className": "Router",
-                    "objectName": "router"
-                });
-            }
-            microflowObject.GpCodeToAdd['lifecycle_info'] = flowComponentWorker.constructLifecycle(details.desktop, desktopElement);
-            if (microflowObject.GpCodeToAdd['lifecycle_info'].length > 0) {
-                microflowObject.GpCodeToAdd['lifecycle_info'].forEach((element: any) => {
-                    if (element.queryParams && element.queryParams === true) {
-                        microflowObject.GpHeaders.push({
-                            "importName": "ActivatedRoute",
-                            "importPath": "@angular/router"
-                        });
-                        microflowObject.GpOptions.constructor.push({
-                            "className": "ActivatedRoute",
-                            "objectName": "activatedRoute"
-                        });
-                    }
-                });
-            }
+            microflowObject = flowComponentWorker.constructFlowsInfo(desktopElement.flows_info, details.nodeResponse, microflowObject, entities);
+            microflowObject = flowComponentWorker.constructGpRoute(desktopElement.route_info, microflowObject);
+            microflowObject = flowComponentWorker.constructLifecycle(details.desktop, desktopElement, microflowObject);
+            microflowObject = thirdPartyWorker.constructAgGridComponents(desktopElement, microflowObject);
             console.log('microflowObject------->>>>>>', JSON.stringify(microflowObject));
             let templatePath = path.resolve(__dirname, '../../../templates/component.handlebars');
             let projectGenerationPath = details.projectGenerationPath;
@@ -109,7 +70,6 @@ export class ComponentWorker {
     constructEntities(entities: Array<Object>, entity_info: Array<Object>) {
         const entityIds = entity_info.map((e: any) => e.entityId);
         entities = entities.filter((e: any) => entityIds.includes(e._id));
-        console.log('entities--->>>>', entities);
         let entityArray: any = [];
         entities.forEach((entity: any) => {
             let entityObject: any = {};

@@ -1,6 +1,24 @@
 import { Constant } from "../assets/Constant";
 
 export class ThirdPartyWorker {
+
+    constructAgGridComponents(desktopElement: any, microflowObject: any) {
+        microflowObject.GpOptions['is_grid_present'] = desktopElement.is_grid_present;
+        if (desktopElement.is_grid_present && desktopElement.is_grid_present == true) {
+            if (desktopElement.grid_fields) {
+                const columnDefs = [];
+                desktopElement.grid_fields.custom_field.forEach((element: any) => {
+                    columnDefs.push({ key1: 'headerName', value1: element.columnname, key2: 'field', value2: element.entityfield });
+                });
+                microflowObject.GpOptions.arrayVariables.push({
+                    name: 'columnDefs',
+                    dataType: 'any',
+                    value: columnDefs
+                });
+            }
+        }
+        return microflowObject;
+    }
     // private GRID_HTML = [];
 
     // private GRID_CLICK_HTML = {
