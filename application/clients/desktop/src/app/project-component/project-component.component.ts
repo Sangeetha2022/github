@@ -17,6 +17,9 @@ import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
 import { ToastrService } from 'ngx-toastr';
 import { ValidatorService } from 'src/shared/validator.service';
 import { NgxSpinnerService } from "ngx-spinner";
+import { FileUploader } from 'ng2-file-upload';
+import { SharedService } from 'src/shared/shared.service';
+import { Constants } from '../config/Constant';
 
 @Component({
     selector: 'app-project-component',
@@ -133,6 +136,12 @@ export class EntityManagerComponent implements OnInit {
     menuFId: String;
     menuFName: String;
     screenMenu: any;
+    fileToUpload: File = null;
+    public uploader: FileUploader = new FileUploader({
+        url: '',
+    });
+    private restapi: SharedService;
+
 
     // constant name
     public POPUP_MODAL_VARIABLENAME = 'popupmodal';
@@ -163,6 +172,21 @@ export class EntityManagerComponent implements OnInit {
         this.getScreenByProjectId();
         this.getAllEntityByProjectId();
         this.getMenuBuilderByProjectId();
+
+
+        let newurl = 'http://localhost:3016' + Constants.externalfeatureconfig + '?projectId=' + this.project_id;
+
+        // this.uploader.setOptions({ url: newurl });
+
+        this.uploader.onBeforeUploadItem = (item) => {
+            item.url = newurl;
+          };
+        // console.log('---------this.item----', this.restapi.externalfeatureapi);
+        this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+            this.apiGatewayFile.nativeElement.value = '';
+
+        };
+
     }
 
 
@@ -475,6 +499,8 @@ export class EntityManagerComponent implements OnInit {
     }
     closeFeatureExistingModel() {
         this.displayFeatureModel = 'none';
+        this.apiGatewayFile.nativeElement.value = '';
+
     }
 
     getScreenByProjectId() {

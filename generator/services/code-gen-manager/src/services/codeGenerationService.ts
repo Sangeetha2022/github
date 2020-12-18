@@ -62,6 +62,10 @@ export class CodeGenerationService {
   // private backendArray: any[] = [];
   featureDetails: any;
   private nodeResponse: any[] = [];
+  extfeatureresponse: any = {
+    type: '',
+    value: ''
+  };
 
   public async createProject(req: Request, callback: CallableFunction) {
     const projectId = req.query.projectId;
@@ -154,11 +158,21 @@ export class CodeGenerationService {
             entities: [],
             applicationPort: 0,
             projectGenerationPath: `${applicationServicePath}/${this.CUSTOM_SERVICE_FOLDERNAME}`,
-            project: projectDetails
+            project: projectDetails,
+            externalfeatureconfig: {
+              featurename: '',
+              featuretype: '',
+              externalfeatureconfig_id: '',
+            }
           }
           feature.id = featureElement._id;
           feature.name = featureElement.name;
           feature.description = featureElement.description;
+          if (featureElement.type === 'external') {
+            feature.externalfeatureconfig.featurename = featureElement.name;
+            feature.externalfeatureconfig.featuretype = featureElement.type;
+            feature.externalfeatureconfig.externalfeatureconfig_id = featureElement.externalfeatureconfig;
+          }
           const flows = await this.getProjectFlows(featureElement.flows).catch(err => { console.log('cannot able to get the flows') });
           // console.log('flows response rae -11----  ', flows);
           if (flows) {
@@ -237,8 +251,22 @@ export class CodeGenerationService {
                   console.error('something went wrong in code generation manager after getting the response from backend generation manager', 400);
                 }
               }
-            })
-          } else {
+            })            
+            /** The below else if condition is for generating the external features to understand them please check the issue #604 
+            * in github and also please speak with Dan Castillo before changing this part of code Dev Kishan Dec 10th 2020 */
+          } else if (featureElement.type === 'external') {
+            console.log('-----coming here for external feature', feature);
+            const extfeaturebackendResponse = await this.backendGenProject(feature).catch(
+              err => {
+                console.log('cannot able to geneate the backend node services');
+              }
+            );
+            this.extfeatureresponse.type = featureElement.type;
+            this.extfeatureresponse.value = extfeaturebackendResponse['body'].body.value;
+            this.nodeResponse.push(this.extfeatureresponse);
+            console.log('------External feature backend code generation response-----', extfeaturebackendResponse['body'].body.value);
+            next();
+          }else {
             // without entities generate the frontend screens
             const frontendObj = {
               projectGenerationPath: `${projectPath}/${this.CLIENT_FOLDERNAME}`,

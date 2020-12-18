@@ -35,6 +35,7 @@ import { EditPopupComponent } from './edit-popup/edit-popup.component';
 import { FlowTreeComponent } from './feature-details/flow-tree/flow-tree.component';
 import { FlowTreeService } from './feature-details/flow-tree/flow-tree.service';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     MatInputModule,
     MatTreeModule,
     AgGridModule.withComponents([]),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    FileUploadModule
   ],
   entryComponents: [
     ButtonRendererComponent,
@@ -90,7 +92,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
   providers: [
     FlowTreeService,
-   
+
   ],
   exports: [
     EntityManagerComponent,

@@ -12,6 +12,11 @@ export class SharedService {
     //Shared microservice
     private sharedHost = 'http://localhost:3050';
 
+    // ExternalFeatureconfiguration fileupload api
+    public externalfeaturehost = 'http://localhost:3016';
+
+    public externalfeatureapi: String = this.externalfeaturehost;
+
     // App Service
     public Apigateway: String = SharedService.BaseHost + this.envPort;
     // public Apigateway: String = 'http://localhost:3000';

@@ -70,12 +70,25 @@ export class ApiGatewaySupportWorker {
 
     generateController(generationPath, templatePath, controllerData, callback) {
         console.log('generate controller files are ------ ', util.inspect(controllerData, { showHidden: true, depth: null }));
+        let classname
+        if(controllerData.className !== undefined){
+            classname = controllerData.className.trim();
+        }else{
+            if(classname == undefined){
+                console.log('---------classnae----',classname);
+                controllerData.methods.forEach(methodelement => {
+                    if(methodelement.type === 'external'){
+                        classname = methodelement.exterclassname;
+                    }
+                });
+            }
+        }
         const controllerPath = `${generationPath}/apicontroller`;
         const apiGatewayTemplatePath = path.resolve(__dirname, templatePath);
         Common.createFolders(controllerPath);
         let generateController = st.loadGroup(require(apiGatewayTemplatePath + '/apicontroller_stg'));
         let controllerFile = generateController.render("apicontroller", [controllerData]);
-        fs.writeFile(controllerPath + `/${controllerData.className.trim()}Controller.ts`, controllerFile, function (err) {
+        fs.writeFile(controllerPath + `/${classname}Controller.ts`, controllerFile, function (err) {
             if (err) throw err;
             callback('apicontroller file generated');
         })
