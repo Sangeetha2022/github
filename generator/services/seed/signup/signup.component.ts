@@ -14,6 +14,7 @@ export class SignupComponent implements OnInit {
     password: '',
   };
   public show: boolean;
+  public socialSignup: Boolean = false;
 
 
   constructor(

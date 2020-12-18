@@ -6,14 +6,14 @@
           <span class="welcome mr-1">Welcome</span><span class="back">Back</span>
         </div>
         <div class="please-login-text">Please login to your account</div>
-        <div class="login-with-text mt-5">Login with</div>
-        <div>
+        <div *ngIf="socialLogin!=false" class="login-with-text mt-5">Login with</div>
+        <div *ngIf="socialLogin!=false">
           <button type="button" class="btn btn-primary btn-lg google-btn mr-3 animate"><img class="mr-2"
               src="../../assets/img/google-symbol.png" height="20" alt="google" />{{'source.google' | i18next}}</button>
           <button type="button" class="btn btn-secondary btn-lg facebook-btn ml-3"><img class="mr-2"
               src="../../assets/img/facebook-logo.png" height="20" alt="fb" />{{'source.facebook' | i18next}}</button>
         </div>
-        <div class="or-section mt-3 mb-3">
+        <div *ngIf="socialLogin!=false" class="or-section mt-3 mb-3">
           <p>OR</p>
         </div>
 

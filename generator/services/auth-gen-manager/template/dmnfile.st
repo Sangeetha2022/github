@@ -29,24 +29,24 @@ dmnfile(object) ::=<<
           <text>"Screen"</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_$value.LiteralExpressionId$">
-          <text>'
+          <text>
             $value.outputjson$
-          '</text>
+          </text>
         </outputEntry>
         <outputEntry id="LiteralExpression_$value.LiteralExpression2Id$">
-          <text>'
+          <text>
              $value.outputjson$
-          '</text>
+          </text>
         </outputEntry>
         <outputEntry id="LiteralExpression_$value.LiteralExpression3Id$">
-          <text>'
+          <text>
               $value.outputjson$
-          '</text>
+          </text>
         </outputEntry>
         <outputEntry id="LiteralExpression_$value.LiteralExpression4Id$">
-          <text>'
+          <text>
               $value.outputjson$
-          '</text>
+          </text>
         </outputEntry>
       </rule>
        };separator="\n"$$endif$

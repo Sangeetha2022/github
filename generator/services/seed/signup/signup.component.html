@@ -6,14 +6,14 @@
           <span class="welcome mr-1">Welcome</span><span class="back">!</span>
         </div>
         <div class="please-login-text">Lets start by signing up</div>
-        <div class="login-with-text mt-4">Signup with</div>
-        <div>
+        <div *ngIf="socialSignup !=false" class="login-with-text mt-4">Signup with</div>
+        <div *ngIf="socialSignup !=false">
           <button type="button" class="btn btn-primary btn-lg google-btn mr-3 animate"><img class="mr-2"
               src="../../assets/img/google-symbol.png" height="20" alt="google" />{{'source.google' | i18next}}</button>
           <button type="button" class="btn btn-secondary btn-lg facebook-btn ml-3"><img class="mr-2"
               src="../../assets/img/facebook-logo.png" height="20" alt="fb" />{{'source.facebook' | i18next}}</button>
         </div>
-        <div class="or-section mt-3 mb-2">
+        <div *ngIf="socialSignup !=false" class="or-section mt-3 mb-2">
           <p>OR</p>
         </div>
         <div>
@@ -43,7 +43,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-auto mb-4">
+              <div class="col-auto mb-4 sign-up-css">
                 <label class="sr-only" for="inlineFormInputGroup">Email</label>
                 <div class="input-group mb-2 user-input">
                   <div class="input-group-prepend prepand-img">
@@ -54,7 +54,7 @@
                     id="inlineFormInputGroup" placeholder="Email">
                 </div>
               </div>
-              <div class="col-auto mb-1">
+              <div class="col-auto mb-1 sign-up-css">
                 <label class="sr-only" for="inlineFormInputGroup">Password</label>
                 <div class="input-group password-input">
                   <div class="input-group-prepend prepand-img">
@@ -71,7 +71,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-auto mt-5">
+              <div class="col-auto mt-5 sign-up-css">
                 <button type="submit" (click)="signup(user)"
                   class="btn btn-primary mb-2 login-btn">{{'source.submit' | i18next}}</button>
               </div>
