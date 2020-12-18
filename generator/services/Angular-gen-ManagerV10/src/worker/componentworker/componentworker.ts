@@ -24,7 +24,7 @@ export class ComponentWorker {
             microflowObject.GpHeaders.push(gpHeaders);
             microflowObject.GpOptions = {};
             microflowObject.GpOptions['screenName'] = screenName;
-            microflowObject.GpOptions['className'] = firstElement + otherElements + 'Component';;
+            microflowObject.GpOptions['className'] = firstElement + otherElements + 'Component';
             const entities = this.constructEntities(details.entities, desktopElement.entity_info);
             microflowObject.GpOptions['entities'] = entities;
             microflowObject.GpOptions['variables'] = [];
@@ -42,14 +42,14 @@ export class ComponentWorker {
             microflowObject = flowComponentWorker.constructLifecycle(details.desktop, desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructAgGridComponents(desktopElement, microflowObject);
             console.log('microflowObject------->>>>>>', JSON.stringify(microflowObject));
-            let templatePath = path.resolve(__dirname, '../../../templates/component.handlebars');
-            let projectGenerationPath = details.projectGenerationPath;
-            let applicationPath = projectGenerationPath + '/src/app';
-            let screenGenerationPath = applicationPath + `/${screenName}`
-            let result: any = await this.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName);
+            const templatePath = path.resolve(__dirname, '../../../templates/component.handlebars');
+            const projectGenerationPath = details.projectGenerationPath;
+            const applicationPath = projectGenerationPath + '/src/app';
+            const screenGenerationPath = applicationPath + `/${screenName}`
+            await this.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName);
         });
     }
-    constructMicroFlows(flows: Array<Object>) {
+    private constructMicroFlows(flows: Array<Object>) {
         if (flows && flows.length > 0) {
             const flow: any = flows[0];
             if (flow.components && flow.components.length > 0) {
@@ -67,7 +67,7 @@ export class ComponentWorker {
             }
         }
     }
-    constructEntities(entities: Array<Object>, entity_info: Array<Object>) {
+    private constructEntities(entities: Array<Object>, entity_info: Array<Object>) {
         const entityIds = entity_info.map((e: any) => e.entityId);
         entities = entities.filter((e: any) => entityIds.includes(e._id));
         let entityArray: any = [];
@@ -86,7 +86,7 @@ export class ComponentWorker {
         return entityArray;
     }
 
-    handleBarsFile(filePath, fileData, screenGenerationPath, screenName) {
+    private handleBarsFile(filePath, fileData, screenGenerationPath, screenName) {
         return new Promise(resolve => {
             fs.readFile(filePath, 'utf-8', (err, data) => {
                 Handlebars.registerHelper("ifCond",function(v1,operator,v2,options) {
