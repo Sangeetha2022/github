@@ -106,6 +106,9 @@ export class CodeGenerationService {
     if (!isPathCreated) {
       return callback('code generation path may not be exist', 400);
     }
+    const features = await this.getFeatures(projectId);
+    const FeatureJSON = JSON.parse(features.toString());
+
     // generate template with basic auth 
     const templateObj = {
       projectId: projectId,
@@ -114,7 +117,8 @@ export class CodeGenerationService {
       projectGenerationPath: `${projectPath}/${this.CLIENT_FOLDERNAME}`,
       seedTemplatePath: projectDetails.templateLocation.authTemplatePath,
       authTemplatePath: projectDetails.templateLocation.authorizationTempPath,
-      project: projectDetails
+      project: projectDetails,
+      feature: FeatureJSON
     }
     // angular template
     try {
@@ -130,8 +134,6 @@ export class CodeGenerationService {
     }
     // get feature by projectId
     console.log('before getting project features ');
-    const features = await this.getFeatures(projectId);
-    const FeatureJSON = JSON.parse(features.toString());
     console.log('get feature by project id are ------  ', features, '  length   ', FeatureJSON.body.length);
     if (FeatureJSON.body != undefined && FeatureJSON.body.length === 0) {
       console.log('cannot able to find its features based on this project', 400);

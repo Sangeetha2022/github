@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "dev": "ts-node ./src/server.ts",
+    "dev": "name=development ts-node ./src/server.ts",
     "start": "nodemon ./dist/server.js",
     "prod": "npm run build && npm run start"
   },
@@ -29,6 +29,8 @@
     "ts-node": "^9.0.0",
     "typescript": "^3.2.4",
     "winston": "^3.2.1",
-    "winston-daily-rotate-file": "^3.6.0"
+    "winston-daily-rotate-file": "^3.6.0",
+    "dotenv": "^8.2.0",
+    "ncp": "^2.0.0"
   }
 }

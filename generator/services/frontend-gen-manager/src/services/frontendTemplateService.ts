@@ -20,7 +20,7 @@ export class FrontendTemplateService {
     angularTemplateManagerService = new AngularTemplateManagerService();
     authGenManagerService = new AuthGenManagerService();
     adminGenManagerService = new AdminGenManagerService();
-    reactgenManagerService = new ReactGenManagerService ();
+    reactgenManagerService = new ReactGenManagerService();
     apiAdapter = new ApiAdaptar()
     backend: String;
 
@@ -38,7 +38,7 @@ export class FrontendTemplateService {
             template: null,
             menuBuilder: null
         }
-        console.log('-------get template by project-------',details);
+        console.log('-------get template by project-------', details);
         console.log('details from as per', details.project.clientFramework.label.includes('React'));
         // const templateDetails = await this.getTemplateByProjectId(details.projectId);
         const templateDetails = await this.getTemplateByName(details.project.projectTemplatename);
@@ -54,7 +54,7 @@ export class FrontendTemplateService {
 
         try {
             // console.log('before calling angular template');
-            if(details.project.clientFramework.label.includes('Angular')) {
+            if (details.project.clientFramework.label.includes('Angular')) {
                 const templateResponse = await this.generateAngularTemplate(templateObj);
                 console.log('after calling angular template ---  ', templateResponse);
                 if (templateResponse) {
@@ -66,6 +66,12 @@ export class FrontendTemplateService {
                         screenMenus: templateObj.menuBuilder
 
                     }
+                    let featurevalue = details.feature.body[0];
+                    console.log('------feature-----', featurevalue);
+                    if (featurevalue.type === 'external') {
+                        tempFrontend['externalfeature'] = featurevalue;
+                    }
+                    console.log('-----external feature value-----', tempFrontend);
                     await this.generateAuthFrontendComponent(tempFrontend);
                     console.log('after calling auth gronten component are  ---  ');
                     await this.generateAdminFrontendComponent(tempFrontend);
@@ -76,7 +82,7 @@ export class FrontendTemplateService {
                 let response = await this.generateReact(templateObj);
                 callback(response);
             }
-            
+
         } catch (err) {
             console.log('err in generating the angualr template')
             callback('cannot able to generate the angular template');

@@ -3,10 +3,13 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { Common } from '../config/Common';
 import { FrontendSupportWorker } from '../SupportWorker/frontendSupportWorker';
-
+import { ExternalFeatureService } from '../apiservices/ExternalFeatureService';
+import * as ncp from 'ncp';
+import * as st from 'stringtemplate-js';
 export class FrontendWorker {
 
     private frontendSupportWorker = new FrontendSupportWorker();
+    private externalfeatureservice = new ExternalFeatureService();
     private projectGenerationPath = '';
     private seedPath = '';
     private templatePath = '';
@@ -15,7 +18,7 @@ export class FrontendWorker {
     // FOLDER NAME
     private ADMIN_FOLDERNAME = 'admin';
     private AUTH_FOLDERNAME = 'auth';
-
+    private ADMIN_CONFIGFOLDERNAME = 'adminconfig';
 
     // FILE NAME
     private APP_MODULE_FILENAME = `app.module.ts`;
@@ -69,7 +72,9 @@ export class FrontendWorker {
         importDependency: [],
         path: []
     }
-
+    featuredetails: any;
+    externaladminfeature: any;
+    exterfeaturedetails: any;
     initializeData() {
         this.appModuleInfo = {
             importDependency: [],
@@ -86,11 +91,35 @@ export class FrontendWorker {
         }
     }
 
-    createAdminComponent(details, callback) {
+    async createAdminComponent(details, callback) {
         this.initializeData();
         this.projectGenerationPath = details.templateResponse.applicationPath;
         this.seedPath = details.seedTemplatePath;
         this.templatePath = details.adminTemplatePath;
+        this.exterfeaturedetails = details.externalfeature;
+        console.log('-------value------', this.exterfeaturedetails);
+        if (this.exterfeaturedetails !== undefined) {
+            if (this.exterfeaturedetails.type === 'external') {
+                this.routingModuleInfo.importDependency.push(`import { ${this.ADMIN_CONFIGFOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_CONFIGFOLDERNAME.slice(1).toLowerCase()}Component } from './${this.ADMIN_CONFIGFOLDERNAME.toLowerCase()}/${this.ADMIN_CONFIGFOLDERNAME.toLowerCase()}.component';`);
+                this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_CONFIGFOLDERNAME.toLowerCase()}', component: ${this.ADMIN_CONFIGFOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_CONFIGFOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+
+                let srcpath = this.seedPath + '/' + this.ADMIN_CONFIGFOLDERNAME;
+                let destinationpath = this.projectGenerationPath + '/src/app/' + this.ADMIN_CONFIGFOLDERNAME;
+                ncp.limit = 16;
+                ncp(srcpath, destinationpath, { clobber: false }, (err) => {
+                    if (err) {
+                        console.error('---error occured in the ncp of external feature----', err);
+                    }
+                    console.log('code added.....');
+                });
+
+            }
+            this.featuredetails = await this.Getexternalfeature(details.externalfeature);
+            let adminfeature = this.featuredetails.body[0];
+            console.log('----------admin feature-----', adminfeature)
+            this.externaladminfeature = await this.ExternalfeatureAdmin(adminfeature);
+            console.log('--------Admin feature--html-------', this.externaladminfeature);
+        }
         const applicationPath = `${this.projectGenerationPath}/src/app/${this.ADMIN_FOLDERNAME}`;
         this.generateStaticComponent(applicationPath, this.ADMIN_FOLDERNAME, callback);
     }
@@ -99,8 +128,22 @@ export class FrontendWorker {
     async generateStaticComponent(applicationPath, folderName, callback) {
         const loginSeedPath = `${this.seedPath}/${folderName}`;
         Common.createFolders(applicationPath);
-        await fs.readdirSync(`${this.seedPath}/${folderName}`).forEach((fileElement, index, array) => {
+        await fs.readdirSync(`${this.seedPath}/${folderName}`).forEach(async (fileElement, index, array) => {
             console.log('each files names are -------   ', fileElement);
+            if (fileElement == 'admin.component.html' && this.exterfeaturedetails.type === 'external') {
+                await fs.readFile(`${loginSeedPath}/${fileElement}`, 'utf8', (err, htmlcontent) => {
+                    console.log('----------adminhtml-------', htmlcontent.toString().split("\n"));
+                    let file = htmlcontent.toString().split("\n");
+                    const htmlArray = file.filter(element => element.includes('</div>'));
+                    let htmlindex = file.lastIndexOf(htmlArray[htmlArray.length - 1]);
+                    file.splice(htmlindex + 1, 0, this.externaladminfeature);
+                    console.log('---------------file------', file);
+                    this.frontendSupportWorker.writeStaticFile(applicationPath, fileElement, file, (response) => {
+                        callback('admin component html files are written successfully');
+                    });
+                })
+            }
+            console.log('each files names are -------   ', fileElement, index, array);
             this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
                 if (index === array.length - 1) {
                     callback('static component files are written successfully');
@@ -268,4 +311,55 @@ export class FrontendWorker {
 
     }
 
+
+    Getexternalfeature(extfeature) {
+        let extfeaturedetails = extfeature;
+        let externalfeatureid = extfeaturedetails.externalfeatureconfig;
+        return new Promise((resolve, reject) => {
+            this.externalfeatureservice.getExternalfeature(externalfeatureid, (response, err) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(JSON.parse(response));
+            })
+        })
+    }
+
+
+    ExternalfeatureAdmin(adminfeature) {
+        let srcpath = adminfeature.Featureadmin.Adminuiimg;
+        let filename = srcpath.split('/');
+        console.log('---------filename------', filename);
+        const fileindex = filename.length - 1;
+        let destinationpath = `${this.projectGenerationPath}/src/assets/img/${filename[fileindex]}`;
+        console.log('-------&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&--------', srcpath, destinationpath);
+
+        ncp.limit = 16;
+        /** 
+         * 1st Parameter Source path , 
+         * 2nd Parameter Destination path , 
+         * 3rd parameter is for override options so that even if the file is present it gets overridden.
+        */
+        return new Promise((resolve, reject) => {
+            ncp(srcpath, destinationpath, { clobber: false }, (err) => {
+                if (err) {
+                    console.error('---error occured in the ncp of external feature----', err);
+                    reject(err);
+                }
+
+                let html = {
+                    externalfeaturename: adminfeature.featurename,
+                    imagename: filename[fileindex],
+                    routevalue: 'adminconfig', // For now this been put static but you can change it later dev Kishan for github issue #604
+                }
+                let renderTemplate = st.loadGroup(require(this.templatePath + `/admin_html_stg`));
+                let fileData = renderTemplate.render('admin_html', [html]);
+                console.log('--------filedata------', fileData);
+                resolve(fileData);
+            });
+
+        })
+
+
+    }
 }

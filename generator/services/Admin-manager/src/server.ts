@@ -1,3 +1,5 @@
+import * as dotenv from "dotenv";
+dotenv.config();
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
@@ -5,7 +7,7 @@ import { Routes } from './routes/routes';
 import * as cors from 'cors';
 import { WinstonLogger } from './config/Winstonlogger';
 import { MongoConfig } from './config/MongoConfig';
-
+import { SharedService } from './config/SharedService';
 
 const PORT = 5018;
 
@@ -14,6 +16,8 @@ class App {
     public app = express();
     public routerPrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
+    public apiUrl : SharedService = new SharedService();
+
     constructor() {
         this.logger.setupLogger();
         this.logger.configureWinston(this.app);
