@@ -22,6 +22,10 @@ export const ScreenSchema = new Schema({
         type: Boolean,
         default: false
     },
+    is_bootStrapTable_present: {
+        type: Boolean,
+        default: false
+    },
     grid_fields: {
         htmlId: String,
         componentId: String,

@@ -172,6 +172,7 @@ export class CommandService {
         $this.agGridObject.htmlId = component.ccid;
         $this.agGridObject.componentId = component.cid;
         $this.is_grid_present = true;
+        $this.is_bootStrapTable_present = component.attributes.bootStrapTableCheckBox;
       }
     });
   }
