@@ -110,6 +110,7 @@ export class DesktopScreenComponent implements OnInit {
   };
   selectedFlow: any;
   is_grid_present: Boolean;
+  is_bootStrapTable_present: Boolean;
   agGridObject: any = {
     htmlId: '',
     componentId: '',
@@ -345,6 +346,7 @@ export class DesktopScreenComponent implements OnInit {
     this.isFieldPopupModal = false;
     this.isGridPopup = false;
     this.is_grid_present = false;
+    this.is_bootStrapTable_present = false;
 
     this.agGridFields = this.formBuilder.group({
       selectColumn: ['', Validators.required],
@@ -798,6 +800,7 @@ export class DesktopScreenComponent implements OnInit {
       link_info: this.linkArray,
       screenName: this.screenName,
       is_grid_present: this.is_grid_present,
+      is_bootStrapTable_present: this.is_bootStrapTable_present,
       entity_info: this.screenEntityModel,
       project: this.project_id,
       feature: this.feature_id,

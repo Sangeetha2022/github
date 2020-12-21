@@ -16,7 +16,7 @@ export const externalFeatureconfigschema = new Schema({
          type: String,
          default: uuid.v1
       },
-      name: { type: String, default: null },
+      name: { type: String },
       entity_id: { type: String, ref: 'entities' },
    }],
    Screenarr: [{
@@ -24,7 +24,7 @@ export const externalFeatureconfigschema = new Schema({
          type: String,
          default: uuid.v1
       },
-      name: { type: String, default: null },
+      name: { type: String},
       screen_id: { type: String, ref: 'screens' },
    }],
    Featureflow: [{
@@ -32,7 +32,7 @@ export const externalFeatureconfigschema = new Schema({
          type: String,
          default: uuid.v1
       },
-      name: { type: String, default: null },
+      name: { type: String},
       projectflow_id: { type: String, ref: 'projectflows' },
    }],
    gitRepoUrl: String,
@@ -47,24 +47,23 @@ export const externalFeatureconfigschema = new Schema({
    Portnumber: String,
    Featureadmin: {
       Admindescription: String,
+      Adminuiimg: String,
       Field: {
-         adminui_img: String,
          isapikey: { type: Boolean, default: false },
          Inputfields: [{}],
-         description: String,
+         description: { type: String},
       }
    },
    Featurecontributor: {
-      contributor_name: String,
-      featureprice: Number
+      contributorname: { type: String},
+      featureprice: { type: Number}
    },
    created_at: {
       type: Date,
       default: Date.now
    },
    updated_at: {
-      type: Date,
-      default: null
+      type: Date
    }
 
 }

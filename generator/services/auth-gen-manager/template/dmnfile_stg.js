@@ -1,6 +1,6 @@
 /*
  * Template group dmnfile
- * Compiled on Fri Jul 31 2020 13:19:19 GMT+0530 (India Standard Time)
+ * Compiled on Thu Dec 17 2020 18:03:50 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -154,7 +154,7 @@ r = function(w, rc) {
                      w.write("\">");
                      w.write("\n");
                      w.pushIndentation("          ");
-                     w.write("<text>'");
+                     w.write("<text>");
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("            ");
@@ -162,7 +162,7 @@ r = function(w, rc) {
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("          ");
-                     w.write("'</text>");
+                     w.write("</text>");
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("        ");
@@ -176,7 +176,7 @@ r = function(w, rc) {
                      w.write("\">");
                      w.write("\n");
                      w.pushIndentation("          ");
-                     w.write("<text>'");
+                     w.write("<text>");
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("             ");
@@ -184,7 +184,7 @@ r = function(w, rc) {
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("          ");
-                     w.write("'</text>");
+                     w.write("</text>");
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("        ");
@@ -198,7 +198,7 @@ r = function(w, rc) {
                      w.write("\">");
                      w.write("\n");
                      w.pushIndentation("          ");
-                     w.write("<text>'");
+                     w.write("<text>");
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("              ");
@@ -206,7 +206,7 @@ r = function(w, rc) {
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("          ");
-                     w.write("'</text>");
+                     w.write("</text>");
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("        ");
@@ -220,7 +220,7 @@ r = function(w, rc) {
                      w.write("\">");
                      w.write("\n");
                      w.pushIndentation("          ");
-                     w.write("<text>'");
+                     w.write("<text>");
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("              ");
@@ -228,7 +228,7 @@ r = function(w, rc) {
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("          ");
-                     w.write("'</text>");
+                     w.write("</text>");
                      w.popIndentation();
                      w.write("\n");
                      w.pushIndentation("        ");

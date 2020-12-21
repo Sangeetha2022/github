@@ -13,6 +13,7 @@ let screenobject = [{
     'flows_info': '',
     'screenName': '',
     'is_grid_present': '',
+    'is_bootStrapTable_present': '',
     'entity_info': '',
     'screenType': '',
     'project': ''
@@ -31,6 +32,7 @@ export class DefaultScreendao {
             screenobject['flows_info'] = response[0].flows_info;
             screenobject['screenName'] = response[0].screenName;
             screenobject['is_grid_present'] = response[0].is_grid_present;
+            screenobject['is_bootStrapTable_present'] = response[0].is_bootStrapTable_present;
             screenobject['entity_info'] = response[0].entity_info;
             screenobject['screenType'] = response[0].screenType;
             screenobject['project'] = projectId;

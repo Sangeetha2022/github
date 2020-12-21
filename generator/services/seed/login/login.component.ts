@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit {
   public userDetails: any;
   public tokenError: any;
   public accessLevel: any;
+  public socialLogin: Boolean = false;
   public permission: any[] = [];
   public signup: boolean;
   public newUser: any = [];
