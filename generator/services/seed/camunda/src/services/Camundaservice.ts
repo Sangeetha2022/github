@@ -82,12 +82,20 @@ export class CamundaService {
                 console.log('data---------------->>>', data);
                 var responsebody = JSON.stringify(data);
                 var finaldata = JSON.parse(responsebody);
-                var responsevalue = finaldata[0];
-                const test = responsevalue;
-                const test2 = JSON.stringify(test);
-                // const test3 = JSON.parse(test2);
-                // // var data = test3.replace(/(\r\n|\n|\r|\s|n)/gm, '');
-                resolve(JSON.parse(test2));
+                let responsevalue = finaldata[0];
+                for (let key in responsevalue) {
+                    if (responsevalue.hasOwnProperty(key)) {
+                        responsevalue[key].value = responsevalue[key].value.replace(/=/g, ":");
+                        responsevalue[key].value = responsevalue[key].value.replace(/(\w+:)|(\w+ :)/g, function (s) {
+                            return '"' + s.substring(0, s.length - 1) + '":';
+                        });
+                        responsevalue[key].value = responsevalue[key].value.replace(/true/g, `"true"`);
+                        responsevalue[key].value = responsevalue[key].value.replace(/false/g, `"false"`);
+                    }
+                }
+                console.log("replace value--------", responsevalue);
+                const finalvalue = JSON.stringify(responsevalue);
+                resolve(JSON.parse(finalvalue));
             }).catch(error => {
                 resolve(error);
             })
