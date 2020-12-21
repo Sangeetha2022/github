@@ -5,7 +5,7 @@
         "pretty": true,
         "sourceMap": true,
         "resolveJsonModule": true,
-        "target": "es6",
+        "target": "ESNext",
         "outDir": "./dist",
         "baseUrl": "./lib",
         "experimentalDecorators": true,

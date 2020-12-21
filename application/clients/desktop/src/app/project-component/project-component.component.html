@@ -10,7 +10,9 @@
     <br>
     <!-- <button class="btn btn-success mb-sm-3 float-right">Generate</button> -->
     <div>
-        <ngx-spinner bdColor = "rgba(231,220,220,0.33)" size = "small" color = "#b2acac" type = "timer"></ngx-spinner>
+        <ngx-spinner bdColor = "rgba(231,220,220,0.33)" size = "small" color = "#b2acac" [fullScreen] = "true">
+            <img class = "loading-image" src='../../assets/img/loading-animation.gif' />
+          </ngx-spinner>
         <mat-accordion>
             <mat-expansion-panel [expanded]="true">
                 <mat-expansion-panel-header>
@@ -48,7 +50,7 @@
                                 <button class="btn btn-info" [routerLink]="['/feature-details']"
                                     [queryParams]="{featureId: feature._id,  projectId: project_id}">View
                                     Details</button>
-                                <!-- <button class="btn btn-info ml-sm-3" color="primary" (click)="openModal('create')">Create Flow</button> -->
+                                 <button class="btn btn-info ml-sm-3" color="primary" (click)="openModal('create')">Create Flow</button> -->
                         <!-- <button mat-raised-button (click)="openModal('update')">{{ 'update' | i18next }}</button> -->
                         <!-- <button mat-raised-button color="warn" (click)="deleteRow()">{{ 'delete' | i18next }}</button> -->
                         <!-- </div> -->
@@ -271,14 +273,14 @@
                             <select class="form-control" [(ngModel)]="featureDetails.name"
                                 (change)="onChange($event.target.value)">
                                 <option value="" selected>Select Feature</option>
-                                <option value="" selected>wcmx/acoustic</option>
+                                <!-- <option value="" selected>wcmx/acoustic</option> -->
                              <!-- <option *ngFor="let feature of featureData" value="{{feature.name}}"
                                     ([ngModel])="selectedExistingFeature">{{feature.name}}</option> -->
                             </select>
                         </div>
                     </div>
                     <form #featurForm="ngForm">
-                        <div class="form-group">
+                        <div class="form-group" *ngIf="showAddFeature || showImportFeature">
                             <!-- feature name -->
                             <label for="name">Name</label>
                             <input type="text" class="form-control" name="name" [(ngModel)]="featureInfo.name"
@@ -306,8 +308,14 @@
                                 <input #serviceFile type="file" (change)="fileSelectedBack($event)" />
                             </div>
                             <div class="mb-sm-2">
-                                <label for="name">ApiGateway YAML</label><br />
-                                <input #apiGatewayFile type="file" (change)="fileSelectedApi($event)" />
+                                <label for="file">ExternalFeatureConfig YAML</label><br />
+                                <input #apiGatewayFile  type="file" ng2FileSelect [uploader]="uploader"/>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success btn-s"  (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                                    Upload YAML
+                                </button>
+                                <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>    
                             </div>
                             <!-- <input type="file" class="form-control" name="upload" (change)="handleFileInput($event.target.files)" accept=".yaml,.yml"/> -->
                         </div>
@@ -317,7 +325,7 @@
     </div>
     </div> -->
                         <!-- feature descritpion -->
-                        <div class="form-group">
+                        <div class="form-group" *ngIf="showAddFeature || showImportFeature">
                             <label for="description">Description</label>
                             <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)"
                                 [(ngModel)]="featureInfo.description"></ckeditor>
@@ -330,8 +338,7 @@
     <button class="btn btn-primary" (click)="createFeature()">Create</button>
     <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>
     </div> -->
-            <div class="modal-footer" style="padding: 5px" *ngIf="showAddFeature
-                || showUploadFeature">
+            <div class="modal-footer" style="padding: 5px" *ngIf="showAddFeature">
                 <button class="btn btn-primary" (click)="createFeature()">Create</button>
                 <button type="button" class="btn btn-default" (click)="closeFeatureCreateModel()">Cancel</button>
             </div>

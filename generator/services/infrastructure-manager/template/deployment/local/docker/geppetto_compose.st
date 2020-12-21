@@ -1,4 +1,4 @@
-geppetto_compose(projectdetails) ::= <<
+geppetto_compose(projectdetails,uuid) ::= <<
 #!bin/bash
 
 DESKTOPCODE='../../../application/client/desktop/$projectdetails.project_name$'
@@ -14,8 +14,8 @@ do
     c)  
          echo "Creating new docker images and containers"
          cd \$DESKTOPCODE
-         docker build -t $projectdetails.project_name$ui .
-         docker run --name $projectdetails.project_name$ui --restart=unless-stopped -d -p 5055:5000 $projectdetails.project_name$ui
+         docker build -t $projectdetails.project_name$ui-$uuid$ .
+         docker run --name $projectdetails.project_name$ui-$uuid$ --restart=unless-stopped -d -p 5055:5000 $projectdetails.project_name$ui-$uuid$
          sleep 15
          echo "UI build is done..."
 
@@ -23,25 +23,29 @@ do
          docker-compose up -d --build
          echo "uploading the mongo script..."
          sleep 50
-         docker cp mongo.js mongo:/data/db/
-         docker exec -ti mongo mongo -u admin -p 'password' --authenticationDatabase 'admin' $projectdetails.project_name$ /data/db/mongo.js
+         docker cp mongo.js mongo-$uuid$:/data/db/
+         docker exec -ti mongo-$uuid$ mongo -u admin -p 'password' --authenticationDatabase 'admin' $projectdetails.project_name$ /data/db/mongo.js
          sleep 10
          echo "Process completed"
          ;;
     d)
          echo "Now Deleting all containers and images"
          docker-compose down -v --rmi all 
+         docker rm -f $projectdetails.project_name$ui-$uuid$
+         docker rmi $projectdetails.project_name$ui-$uuid$
          echo "Process completed"
          ;;
     r)
          echo "Now Re-starting the stopped containers"
          docker-compose start
+         docker restart $projectdetails.project_name$ui-$uuid$
          sleep 35
          echo "Process completed"
          ;;
     s)
          echo "Now stopping the running containers"
          docker-compose stop
+         docker stop $projectdetails.project_name$ui-$uuid$
          echo "Process completed"
          ;;
     *)

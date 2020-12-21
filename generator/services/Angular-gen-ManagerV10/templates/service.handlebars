@@ -1,0 +1,65 @@
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+{{#each GpHeaders}}
+import { {{importName}} } from '{{ importPath }}';
+{{/each}}
+
+@Injectable({
+    providedIn: 'root'
+})
+
+export class {{ GpOptions.className }} {
+    constructor(
+        private http: HttpClient,
+        {{#each GpOptions.constructor}}
+        private {{ objectName }}: {{ className }},
+        {{/each}}
+  ) { }
+
+  {{#each GpCodeToAdd.flows_info }}
+  {{!-- GpCreate --}}
+  {{#ifCond methodName '==' 'GpCreate'}}
+    {{methodName}}({{variableName}}: any): Observable<any> {
+        return this.http.{{apiAction}}(this.sharedService.DESKTOP_API + '{{routeUrl}}', {{variableName}});
+    }
+  {{/ifCond}}
+  {{!-- GpUpdate --}}
+  {{#ifCond methodName '==' 'GpUpdate'}}
+    {{methodName}}({{variableName}}: any): Observable<any> {
+        return this.http.{{apiAction}}(this.sharedService.DESKTOP_API + '{{routeUrl}}', {{variableName}});
+    }
+  {{/ifCond}}
+  {{!-- GpGetNounById --}}
+  {{#ifCond methodName '==' 'GpGetNounById'}}
+    {{methodName}}({{variableName}}Id: any): Observable<any> {
+        return this.http.{{apiAction}}(this.sharedService.DESKTOP_API + `{{routeUrl}}/${ {{variableName}}Id }`);
+    }
+  {{/ifCond}}
+  {{!-- GpGetAllValues --}}
+  {{#ifCond methodName '==' 'GpGetAllValues'}}
+    {{methodName}}(): Observable<any> {
+        return this.http.{{apiAction}}(this.sharedService.DESKTOP_API + '{{routeUrl}}');
+    }
+  {{/ifCond}}
+  {{!-- GpDelete --}}
+  {{#ifCond methodName '==' 'GpDelete'}}
+    {{methodName}}({{variableName}}Id: any): Observable<any> {
+        return this.http.{{apiAction}}(this.sharedService.DESKTOP_API + `{{routeUrl}}/${ {{variableName}}Id }`);
+    }
+  {{/ifCond}}
+   {{!-- GpSearch --}}
+  {{#ifCond methodName '==' 'GpSearch'}}
+    {{methodName}}({{variableName}}: any): Observable<any> {
+        const temp = [];
+        const objectKeyPair = Object.entries({{variableName}});
+        objectKeyPair.forEach((element, index) => {
+        if (element[1]) {
+            temp.push(`${element[0]}=${element[1]}`);
+        }
+        });
+        return this.http.{{apiAction}}(this.sharedService.DESKTOP_API + `{{routeUrl}}${temp.length > 0 ? `?${temp.join('&')}` : ''}`);
+    }
+  {{/ifCond}}
+  {{/each}}
+}

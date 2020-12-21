@@ -1,6 +1,8 @@
 <div class="mainDiv" id="editor-c">
 </div>
-<ngx-spinner bdColor = "rgba(231,220,220,0.33)" size = "small" color = "#b2acac" type = "timer" [fullScreen] = "true"></ngx-spinner>
+<ngx-spinner bdColor = "rgba(231,220,220,0.33)" size = "small" color = "#b2acac" [fullScreen] = "true">
+  <img class = "loading-image" src='../../../assets/img/loading-animation.gif' />
+</ngx-spinner>
 
 <!-- grid popup model -->
 <div *ngIf="isGridPopup" id="agGridModal" class="modal" tabindex="-1" role="dialog" style="display: block">
@@ -112,6 +114,7 @@
           <label for="screen-name" class="col-sm-4 col-form-label">Screen Name</label>
           <div class="col-sm-8">
             <input type="text" [(ngModel)]="screenName" (ngModelChange)="isScreenNameExist()" class="form-control"
+            onkeypress=" return ((event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || event.charCode == 8 || (event.charCode >= 48 && event.charCode <= 57))"
               id="screen-name">
             <small *ngIf="screenNameExist" style="font-style: italic;
              color: red;">This screen Name is Exist.</small>

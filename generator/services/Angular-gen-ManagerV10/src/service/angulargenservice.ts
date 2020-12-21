@@ -2,7 +2,11 @@ import { Request, response } from 'express';
 import * as util from 'util';
 import * as asyncLoop from 'node-async-loop';
 import { GenerateHtmlWorker } from '../worker/generateHTMLWorker';
+import { ComponentWorker } from '../worker/componentworker/componentworker';
+import { ComponentServiceWorker } from '../worker/componentservice/componentserviceworker';
 
+const componentWorker = new ComponentWorker();
+const componentServiceWorker = new ComponentServiceWorker();
 let generateHtmlWorker = new GenerateHtmlWorker();
 export class AngularService {
     constructor() {
@@ -19,6 +23,12 @@ export class AngularService {
                 //     callback({ Message: 'feature screens are generated successfully' });
                 // })
             })
+        });
+        componentWorker.generateComponent(details, (res, err) => {
+            
+        });
+        componentServiceWorker.generateComponentService(details, (res, err) => {
+            
         });
     }
 

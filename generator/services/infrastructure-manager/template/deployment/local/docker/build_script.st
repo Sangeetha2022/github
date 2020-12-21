@@ -1,15 +1,15 @@
-build_script(project_name,base_path) ::= <<
+build_script(object) ::= <<
 #!bin/bash
 
-APPLICATION='/$project_name$'
+APPLICATION='/$object.application_name$'
 
 CUSTOMSERVICEPATH='../../../services/custom_services'
 
 HELMPATH='../devops/local'
 
 
-DESKTOPCODE='../../../application/client/desktop/$project_name$'
-DESKTOPIMAGENAME='geppettotest/$project_name$-desktop:1.0'
+DESKTOPCODE='../../../application/client/desktop/$object.application_name$'
+DESKTOPIMAGENAME='geppettotest/$object.application_name$-desktop:1.0'
 
 echo "Started to build docker images for pod...."
 
@@ -17,13 +17,6 @@ echo "Started to build docker images for pod...."
 build_appbuilder_image () {
 
 cd \$DESKTOPCODE
-npm install
-npm rebuild node-sass
-npm uninstall @angular-devkit/build-angular
-npm install @angular-devkit/build-angular
-# if directory is exist
-[ -d "\$(pwd)/dist" ] && rm -rf dist
-ng build
 docker build -t \$DESKTOPIMAGENAME .
 if [ \$? -eq 0 ]; then
     kind load docker-image \$DESKTOPIMAGENAME
@@ -84,7 +77,7 @@ helm_install () {
 
 cd \$HELMPATH
 helm install --dry-run --debug ./helm
-helm install --name $project_name$ ./helm
+helm install --name $object.helm_name$ ./helm
 if [ \$? -eq 0 ]; then
     echo "App Deployment is Done"
 else

@@ -171,8 +171,8 @@ export class FrontendWorker {
     createAuthorizationComponent(callback) {
         const authorizationPath = `${this.projectGenerationPath}/src/app/${this.AUTHORIZATION_FOLDERNAME}`;
         this.generateStaticComponent(authorizationPath, this.AUTHORIZATION_FOLDERNAME);
-        this.generateModule(this.AUTHORIZATION_FOLDERNAME,
-            this.MODULE_TEMPLATENAME, authorizationPath);
+        // this.generateModule(this.AUTHORIZATION_FOLDERNAME,
+        //     this.MODULE_TEMPLATENAME, authorizationPath);
         callback();
     }
 

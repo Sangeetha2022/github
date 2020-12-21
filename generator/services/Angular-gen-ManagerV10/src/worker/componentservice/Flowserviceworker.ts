@@ -3,7 +3,26 @@ import { Constant } from '../../assets/Constant';
 import { constants } from 'fs';
 
 export class FlowServiceWorker {
-
+    constructFlowsInfo(flows_info: Array<Object>, nodeResponse: any, microflowObject: any) {
+        const flows = [];
+        flows_info.forEach((flow: any) => {
+            if (nodeResponse.flowAction && nodeResponse.flowAction.length > 0) {
+                nodeResponse.flowAction.filter((e) => {
+                    if (flow.flowName === e.methodName) {
+                        if (e.routeUrl.includes('/:id')) {
+                            e.routeUrl = e.routeUrl.replace('/:id', '');
+                        }
+                        const duplicateFlows = flows.filter((e) => e.methodName === flow.flowName);
+                        if (duplicateFlows.length === 0) {
+                            flows.push(e);
+                        }
+                    }
+                });
+            }
+        });
+        microflowObject.GpCodeToAdd['flows_info'] = flows;
+        return microflowObject;
+    }
     // private serviceObject: any;
     // private componentName: String = null;
     // private templatePath: String = null;

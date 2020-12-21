@@ -22,6 +22,7 @@ export class Constants {
     public static customConnectorUrl: String;
     public static deleteUrl: String;
     public static sharedUrl: String;
+    public static externalfeature: String;
 
 
     //generator - declaration
@@ -67,6 +68,7 @@ export class Constants {
                 Constants.customConnectorUrl = Constants.appUrl + ":3013";
                 Constants.deleteUrl = process.env.deletemanager + ":3014";
                 Constants.sharedUrl = Constants.appUrl + ":3050";
+                Constants.externalfeature = Constants.appUrl + ":3016";
 
                 //generator
                 Constants.projectGenUrl = process.env.generationmanager + ":5000";
@@ -105,6 +107,7 @@ export class Constants {
                 Constants.customConnectorUrl = Constants.appUrl + ":3013";
                 Constants.deleteUrl = Constants.appUrl + ":3014";
                 Constants.sharedUrl = Constants.appUrl + ":3050";
+                Constants.externalfeature = Constants.appUrl + ":3016";
 
                 //generator
                 Constants.projectGenUrl = Constants.generationUrl + ":5000";

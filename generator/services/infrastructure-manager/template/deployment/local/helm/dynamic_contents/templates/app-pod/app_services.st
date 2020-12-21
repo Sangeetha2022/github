@@ -2,6 +2,8 @@ app_services(object) ::=<<
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    name: {{ .Values.app.prefix }}-app
   name: {{ .Values.app.prefix }}-app
   namespace: {{ .Values.app.namespace }}
 spec:
@@ -25,5 +27,5 @@ $\ $$\ $- name: {{ .Values.service.$custom_node.name$.name \}\}
     targetPort: {{ .Values.service.$custom_node.name$.targetPort \}\}
 };separator="\n"$$endif$
   selector:
-    app: {{ .Values.app.prefix }}-app
+    name: {{ .Values.app.prefix }}-app
 >>
