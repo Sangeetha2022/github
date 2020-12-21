@@ -12,6 +12,7 @@ export const default_screen = {
     flows_info: [],
     screenName: "Admin Screen",
     is_grid_present: false,
+    is_bootStrapTable_present: false,
     entity_info: [],
     screenType: "desktop"
 }

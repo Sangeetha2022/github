@@ -672,6 +672,7 @@ export class TraitsService {
         defaults: Object.assign({}, defaultModel.prototype.defaults, {
           draggable: '*',
           droppable: false,
+          'bootStrapTableCheckBox': true,
           gridOptions: gridOptionsInString,
           secGrid: secGridString,
           script: function () {
@@ -814,11 +815,13 @@ export class TraitsService {
             label: 'colName',
             name: 'colname',
             changeProp: 1
-          }
+          },
+          { type: 'checkbox', name: 'bootStrapTableCheckBox', label: 'Bootstrap Table', changeProp: 1 }
           ],
 
         }),
         init() {
+          this.listenTo(this, 'change:bootStrapTableCheckBox', this.checkbox);
           this.listenTo(this, 'change:name', this.ElementName);
           this.listenTo(this, 'change:entities', this.entities); // listen for active event
           this.listenTo(this, 'change:columns', this.gridColumns);
@@ -844,6 +847,9 @@ export class TraitsService {
           // screensVariable.editor.TraitManager.getTraitsViewer().render();
         },
         ElementName() { },
+        checkbox() {
+          screensVariable.is_bootStrapTable_present = this.attributes.bootStrapTableCheckBox;
+        },
         verb() {
           const verbObj = screensVariable.verbOptions.find(x => x.value === this.changed['verbs']);
           if (verbObj) {
