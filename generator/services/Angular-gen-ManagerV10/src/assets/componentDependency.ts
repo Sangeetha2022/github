@@ -159,3 +159,6 @@ export const component = [
         ]
     }
 ]
+export const moduleHeaders = [
+    { importName: 'FormsModule, ReactiveFormsModule',  importPath: '@angular/forms'}
+];

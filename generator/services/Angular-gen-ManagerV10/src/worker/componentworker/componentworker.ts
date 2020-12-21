@@ -1,14 +1,19 @@
 import { FlowComponentWorker } from "./flowComponentWorker";
-import * as Handlebars from 'handlebars';
-import * as fs from 'fs';
 import { Common } from '../../config/Common';
 import * as path from 'path';
 import { ThirdPartyWorker } from '../ThirdPartyWorker'
+import { Constant } from '../../assets/Constant';
 
 const flowComponentWorker = new FlowComponentWorker();
 const thirdPartyWorker = new ThirdPartyWorker();
 
 export class ComponentWorker {
+    /**
+     * 
+     * @param details 
+     * @param callback 
+     * Generate component.ts file
+     */
     generateComponent(details, callback) {
         details = JSON.parse(JSON.stringify(details));
         console.log('DETAILS--->>>>', JSON.stringify(details));
@@ -41,19 +46,22 @@ export class ComponentWorker {
             microflowObject = flowComponentWorker.constructGpRoute(desktopElement.route_info, microflowObject);
             microflowObject = flowComponentWorker.constructLifecycle(details.desktop, desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructAgGridComponents(desktopElement, microflowObject);
-            console.log('microflowObject------->>>>>>', JSON.stringify(microflowObject));
             const templatePath = path.resolve(__dirname, '../../../templates/component.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/src/app';
             const screenGenerationPath = applicationPath + `/${screenName}`
-            await this.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName);
+            await Common.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.component.ts');
         });
     }
+    /**
+     * @param flows 
+     * Constructing Microflows for Handlebars
+     */
     private constructMicroFlows(flows: Array<Object>) {
         if (flows && flows.length > 0) {
             const flow: any = flows[0];
             if (flow.components && flow.components.length > 0) {
-                const components = flow.components.filter((e) => e.name === 'GpAngularComponent' && e.sequenceId === 1);
+                const components = flow.components.filter((e) => e.name === Constant.GP_ANGULAR_COMPONENT_MICROFLOW && e.sequenceId === 1);
                 if (components.length > 0) {
                     const microflows = components[0].microFlows;
                     if (microflows && microflows.length > 0) {
@@ -67,6 +75,11 @@ export class ComponentWorker {
             }
         }
     }
+    /**
+     * @param entities 
+     * @param entity_info 
+     * Constructing Entities for Handlebars
+     */
     private constructEntities(entities: Array<Object>, entity_info: Array<Object>) {
         const entityIds = entity_info.map((e: any) => e.entityId);
         entities = entities.filter((e: any) => entityIds.includes(e._id));
@@ -84,56 +97,5 @@ export class ComponentWorker {
             }
         });
         return entityArray;
-    }
-
-    private handleBarsFile(filePath, fileData, screenGenerationPath, screenName) {
-        return new Promise(resolve => {
-            fs.readFile(filePath, 'utf-8', (err, data) => {
-                Handlebars.registerHelper("ifCond",function(v1,operator,v2,options) {
-                    switch (operator)
-                    {
-                        case "==":
-                            return (v1==v2)?options.fn(this):options.inverse(this);
-                
-                        case "!=":
-                            return (v1!=v2)?options.fn(this):options.inverse(this);
-                
-                        case "===":
-                            return (v1===v2)?options.fn(this):options.inverse(this);
-                
-                        case "!==":
-                            return (v1!==v2)?options.fn(this):options.inverse(this);
-                
-                        case "&&":
-                            return (v1&&v2)?options.fn(this):options.inverse(this);
-                
-                        case "||":
-                            return (v1||v2)?options.fn(this):options.inverse(this);
-                
-                        case "<":
-                            return (v1<v2)?options.fn(this):options.inverse(this);
-                
-                        case "<=":
-                            return (v1<=v2)?options.fn(this):options.inverse(this);
-                
-                        case ">":
-                            return (v1>v2)?options.fn(this):options.inverse(this);
-                
-                        case ">=":
-                         return (v1>=v2)?options.fn(this):options.inverse(this);
-                
-                        default:
-                            return eval(""+v1+operator+v2)?options.fn(this):options.inverse(this);
-                    }
-                });
-                var source = data;
-                var template = Handlebars.compile(source);
-                var result = template(fileData);
-                Common.createFolders(screenGenerationPath);
-                fs.writeFile(screenGenerationPath + `/${screenName}.component.ts`, result, (response) => {
-                    resolve(response);
-                })
-            });
-        })
     }
 }

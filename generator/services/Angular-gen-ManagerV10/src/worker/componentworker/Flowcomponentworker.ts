@@ -1,13 +1,20 @@
+import { Constant } from '../../assets/Constant';
 
 export class FlowComponentWorker {
-
+    /**
+     * @param flows_info 
+     * @param nodeResponse 
+     * @param microflowObject 
+     * @param entities 
+     * Constructing the flows like GpCreate, GpUpdte, etc...
+     */
     constructFlowsInfo(flows_info: Array<Object>, nodeResponse: any, microflowObject: any, entities: any) {
         const flows = [];
         flows_info.forEach((flow: any) => {
             let temp: any = { flowName: flow.flowName };
             if (nodeResponse.flowAction && nodeResponse.flowAction.length > 0) {
                 nodeResponse.flowAction.filter((e) => {
-                    if (flow.flowName === e.methodName && (e.apiAction === 'post' || e.apiAction === 'put' || e.methodName == 'GpSearch')) {
+                    if (flow.flowName === e.methodName && (e.apiAction === 'post' || e.apiAction === 'put' || e.methodName == Constant.GP_SEARCH_FLOW)) {
                         temp.parameterName = 'this.' + e.variableName;
                     }
                     temp.entityName = 'this.' + e.variableName;
@@ -27,7 +34,7 @@ export class FlowComponentWorker {
             });
         });
         microflowObject.GpCodeToAdd['flows_info'].forEach((e) => {
-            if (e.flowName === 'GpGetNounById' || e.flowName === 'GpDelete') {
+            if (e.flowName === Constant.GP_GETNOUNBYID_FLOW || e.flowName === Constant.GP_DELETE_FLOW) {
                 e.parameterName = 'this.queryId';
                 const variable = {
                     name: 'queryId',
@@ -40,7 +47,11 @@ export class FlowComponentWorker {
         });
         return microflowObject;
     }
-
+    /**
+     * @param route_info 
+     * @param microflowObject 
+     * Constructing the Route
+     */
     constructGpRoute(route_info: Array<Object>, microflowObject: any) {
         if(route_info.length > 0) {
             const routes = [];
@@ -73,6 +84,12 @@ export class FlowComponentWorker {
         return microflowObject;
     }
 
+    /**
+     * @param desktop 
+     * @param desktopElement 
+     * @param microflowObject 
+     * Constructing Lifecycle
+     */
     constructLifecycle(desktop: Array<Object>, desktopElement: any, microflowObject: any) {
         const lifecycle = [];
         const routeInfoObject: Array<Object> = desktop.filter((e: any) => e.route_info.length > 0);
@@ -100,7 +117,7 @@ export class FlowComponentWorker {
             });
         }
         microflowObject.GpCodeToAdd['flows_info'].forEach((element: any) => {
-            if(element.flowName === 'GpGetAllValues') {
+            if(element.flowName === Constant.GP_GETALLVALUES_FLOW) {
                 microflowObject.GpCodeToAdd['lifecycle_info'].push({getAll: true});
             }
         });
