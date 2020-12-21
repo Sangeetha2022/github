@@ -6,9 +6,33 @@ on:
   push:
     branches:
       - dev
+env:
+  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  aws-region: us-east-1      
 ########### Jobs ###########
 jobs:
-  login: 
+  instance:
+    runs-on: ubuntu-latest 
+    outputs:
+        instance_data_value: ${{ steps.ec2.outputs.INSTANCE_STATE }} 
+    steps:
+    - name: aws configuration
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ env.aws-access-key-id }}
+        aws-secret-access-key: ${{ env. aws-secret-access-key}}
+        aws-region: ${{env.aws-region}}
+    - name: Instance State
+      run: echo "::set-output name=INSTANCE_STATE::$(aws ec2 describe-instances --instance-ids i-082c02e8aa3853a62 | jq '.Reservations[].Instances[].State.Name')"
+      id: ec2
+    - name:  Status of Instance 
+      run: |
+          echo ${{ steps.ec2.outputs.INSTANCE_STATE }} 
+
+  login:
+    needs: instance
+    if: needs.instance.outputs.instance_data_value=='"running"'
     runs-on: ubuntu-latest
     steps:
     - name: Update the apt-get & install the sshpass
@@ -23,19 +47,17 @@ jobs:
           git pull git@github.com:dan-castillo/geppettotest.git
           cd devops/docker-compose
           docker-compose down  --rmi all
-          bash geppetto_compose.sh -c
-    - name: aws configuration
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.NEW_ACCESS}}
-        aws-secret-access-key: ${{ secrets.NEW_SECRET }}
-        aws-region: us-east-1
-    - name: Instance Variable
-      run: echo "::set-output name=SELECTED_COLOR::$(aws ec2 describe-instances --instance-ids i-082c02e8aa3853a62 | jq '.Reservations[].Instances[].State.Name')"
-      id: ec2
-    - name: Check the ec2 instance is state
-      run: |
-          echo ${{ steps.ec2.outputs.SELECTED_COLOR }}       
+          echo "Backend Deploy"
+          docker-compose up -d --build
+          sleep 50
+          curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@../../application/services/Camunda/Gep_authorize.dmn" -F "deployment-name=gep_authorize" -F "enable-duplicate-filtering=true" -F "deploy-changed-only=true" http://localhost:8080/engine-rest/deployment/create
+          echo "uploading the seed file....."
+          sleep 30
+          docker exec codegenmanager sh -c "mkdir /geppetto/generated-code; mkdir /geppetto/template;"
+          sleep 20
+          docker cp ../../generator/services/seed codegenmanager:/geppetto/template/
+          echo "seed file copied"
+          echo "Process completed"     
 
   Upload_S3:
     runs-on: ubuntu-latest
@@ -60,6 +82,6 @@ jobs:
         args: --acl public-read --delete
       env:
         AWS_S3_BUCKET: geppetto-dev
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+        AWS_ACCESS_KEY_ID: ${{ env.aws-access-key-id }}
+        AWS_SECRET_ACCESS_KEY: ${{ env. aws-secret-access-key}}
         SOURCE_DIR: "application/clients/desktop/dist/GeppettoBuilder"
