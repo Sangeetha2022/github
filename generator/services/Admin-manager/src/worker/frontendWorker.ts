@@ -130,18 +130,28 @@ export class FrontendWorker {
         Common.createFolders(applicationPath);
         await fs.readdirSync(`${this.seedPath}/${folderName}`).forEach(async (fileElement, index, array) => {
             console.log('each files names are -------   ', fileElement);
-            if (fileElement == 'admin.component.html' && this.exterfeaturedetails.type === 'external') {
-                await fs.readFile(`${loginSeedPath}/${fileElement}`, 'utf8', (err, htmlcontent) => {
-                    console.log('----------adminhtml-------', htmlcontent.toString().split("\n"));
-                    let file = htmlcontent.toString().split("\n");
-                    const htmlArray = file.filter(element => element.includes('</div>'));
-                    let htmlindex = file.lastIndexOf(htmlArray[htmlArray.length - 1]);
-                    file.splice(htmlindex + 1, 0, this.externaladminfeature);
-                    console.log('---------------file------', file);
-                    this.frontendSupportWorker.writeStaticFile(applicationPath, fileElement, file, (response) => {
-                        callback('admin component html files are written successfully');
+            if (fileElement == 'admin.component.html') {
+                if (this.exterfeaturedetails) {
+                    if(this.exterfeaturedetails.type == 'external') {
+                        await fs.readFile(`${loginSeedPath}/${fileElement}`, 'utf8', (err, htmlcontent) => {
+                            console.log('----------adminhtml-------', htmlcontent.toString().split("\n"));
+                            let file = htmlcontent.toString().split("\n");
+                            const htmlArray = file.filter(element => element.includes('</div>'));
+                            let htmlindex = file.lastIndexOf(htmlArray[htmlArray.length - 1]);
+                            file.splice(htmlindex + 1, 0, this.externaladminfeature);
+                            console.log('---------------file------', file);
+                            this.frontendSupportWorker.writeStaticFile(applicationPath, fileElement, file, (response) => {
+                                callback('admin component html files are written successfully');
+                            });
+                        })
+                    }
+                } else {
+                    this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
+                        if (index === array.length - 1) {
+                            callback('static component files are written successfully');
+                        }
                     });
-                })
+                }
             }
             console.log('each files names are -------   ', fileElement, index, array);
             this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
