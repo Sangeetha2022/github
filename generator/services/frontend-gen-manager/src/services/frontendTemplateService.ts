@@ -68,8 +68,10 @@ export class FrontendTemplateService {
                     }
                     let featurevalue = details.feature.body[0];
                     console.log('------feature-----', featurevalue);
-                    if (featurevalue.type === 'external') {
-                        tempFrontend['externalfeature'] = featurevalue;
+                    if(featurevalue) {
+                        if (featurevalue.type === 'external') {
+                            tempFrontend['externalfeature'] = featurevalue;
+                        }
                     }
                     console.log('-----external feature value-----', tempFrontend);
                     await this.generateAuthFrontendComponent(tempFrontend);
