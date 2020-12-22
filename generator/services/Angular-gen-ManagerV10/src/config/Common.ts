@@ -11,7 +11,20 @@ export class Common {
             console.log('error for createing into -----  ', err);
         }
     };
-
+    public static readFile(filePath: string, callback) {
+        const file = fs.readFile(filePath, 'utf-8', (err, data) => {
+            if(err) {
+                callback(null, err);
+            } else {
+                callback(data, null);
+            }
+        });
+    }
+    public static writeFile(filePath, data, callback) {
+        fs.writeFile(filePath, data, (response) => {
+            callback(response);
+        })
+    }
     /**
      * 
      * @param filePath 

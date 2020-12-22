@@ -5,11 +5,20 @@ import { GenerateHtmlWorker } from '../worker/generateHTMLWorker';
 import { ComponentWorker } from '../worker/componentworker/componentworker';
 import { ComponentServiceWorker } from '../worker/componentservice/componentserviceworker';
 import { ComponentModuleWorker } from '../worker/componentmodule/componentmoduleworker';
+import { AppModuleWorker } from '../worker/dependency-worker/AppModuleWorker';
+import { RouteWorker } from '../worker/Routeworker';
+import { AppRoutingModuleWorker } from '../worker/dependency-worker/AppRoutingModuleWorker';
+
+
 
 const componentWorker = new ComponentWorker();
 const componentServiceWorker = new ComponentServiceWorker();
 const generateHtmlWorker = new GenerateHtmlWorker();
 const componentModuleWorker = new ComponentModuleWorker();
+const appModuleWorker = new AppModuleWorker();
+const routeWorker = new RouteWorker()
+const appRoutingModuleWorker = new AppRoutingModuleWorker()
+
 export class AngularService {
     constructor() {
     }
@@ -34,7 +43,18 @@ export class AngularService {
         });
         componentModuleWorker.generateComponentModule(details, (res, err) => {
             
+        });
+        appModuleWorker.importComponentModules(details, (res, err) => {
+            
+        });
+        // routeWorker.generateRouteWorker(details , (res , err) => {
+            
+        // })
+        
+        appRoutingModuleWorker.importRoutingModules(details , (res , err) => {
+
         })
+        
     }
 
     iterateScreens(screenInfo, details, callback) {

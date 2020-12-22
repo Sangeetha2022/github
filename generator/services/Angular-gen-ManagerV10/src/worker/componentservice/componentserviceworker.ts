@@ -13,7 +13,7 @@ export class ComponentServiceWorker {
     generateComponentService(details: any, callback) {
         details = JSON.parse(JSON.stringify(details));
         details.desktop.forEach(async (desktopElement: any) => {
-            const screenName = desktopElement.screenName;
+            const screenName = desktopElement.screenName.toLowerCase();
             const firstElement = screenName.charAt(0).toUpperCase();
             const otherElements = screenName.substring(1, screenName.length);
             let microflowObject: any = this.constructMicroFlows(details.flows);
