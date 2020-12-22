@@ -1,7 +1,6 @@
-import { Common } from '../../config/Common';
+import * as fs from 'fs';
 
 export class AppModuleWorker {
-
     /**
      * 
      * @param details 
@@ -12,7 +11,7 @@ export class AppModuleWorker {
         details = JSON.parse(JSON.stringify(details));
         const projectGenerationPath = details.projectGenerationPath;
         const applicationPath = projectGenerationPath + '/src/app/app.module.ts';
-        Common.readFile(applicationPath, (res, err) => {
+        this.readFile(applicationPath, (res, err) => {
             if (res) {
                 const fileArray: Array<string> = res.split('\n');
                 details.desktop.forEach(async (desktopElement: any) => {
@@ -37,10 +36,24 @@ export class AppModuleWorker {
                         }
                     });
                 });
-                Common.writeFile(applicationPath, fileArray.join('\n'), (res) => {
+                this.writeFile(applicationPath, fileArray.join('\n'), (res) => {
                     callback('Child Modules Imported Successfully');
                 });
             }
         });
+    }
+    private readFile(filePath: string, callback) {
+        const file = fs.readFile(filePath, 'utf-8', (err, data) => {
+            if(err) {
+                callback(null, err);
+            } else {
+                callback(data, null);
+            }
+        });
+    }
+    private writeFile(filePath, data, callback) {
+        fs.writeFile(filePath, data, (response) => {
+            callback(response);
+        })
     }
 }

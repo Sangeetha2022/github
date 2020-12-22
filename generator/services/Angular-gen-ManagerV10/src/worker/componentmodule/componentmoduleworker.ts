@@ -1,7 +1,9 @@
-import { moduleHeaders } from '../../assets/componentDependency';
-import { Common } from '../../config/Common';
 import * as path from 'path';
 
+import { moduleHeaders } from '../../assets/componentDependency';
+import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
+
+const componentSupportWorker = new ComponentSupportWorker();
 export class ComponentModuleWorker {
     /**
      * @param details 
@@ -25,7 +27,7 @@ export class ComponentModuleWorker {
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/src/app';
             const screenGenerationPath = applicationPath + `/${screenName}`
-            await Common.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.module.ts');
+            await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.module.ts');
         });
     }
     /**

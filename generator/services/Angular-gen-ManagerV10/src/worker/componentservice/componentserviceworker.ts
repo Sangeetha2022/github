@@ -1,9 +1,12 @@
 import * as path from 'path';
-import { Common } from '../../config/Common';
+
 import { FlowServiceWorker } from './Flowserviceworker';
 import { Constant } from '../../assets/Constant';
+import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
 
 const flowServiceWorker = new FlowServiceWorker();
+const componentSupportWorker = new ComponentSupportWorker();
+
 export class ComponentServiceWorker {
     /**
      * @param details 
@@ -36,7 +39,7 @@ export class ComponentServiceWorker {
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/src/app';
             const screenGenerationPath = applicationPath + `/${screenName}`;
-            await Common.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.service.ts');
+            await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.service.ts');
         });
     }
     /**

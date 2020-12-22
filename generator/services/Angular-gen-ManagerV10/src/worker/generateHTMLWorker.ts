@@ -3,8 +3,18 @@ import * as asyncForEach from 'async-foreach';
 import * as asyncLoop from 'node-async-loop';
 import { Forms } from '../strategy/HTML/Forms';
 import {InputTagGeneration} from '../strategy/HTML/Input';
+import { ComponentWorker } from '../worker/componentworker/componentworker';
+import { ComponentServiceWorker } from '../worker/componentservice/componentserviceworker';
+import { ComponentModuleWorker } from '../worker/componentmodule/componentmoduleworker';
+import { AppModuleWorker } from '../worker/dependency-worker/AppModuleWorker';
+
 let forms = new Forms();
 let generateInput = new InputTagGeneration();
+
+const componentWorker = new ComponentWorker();
+const componentServiceWorker = new ComponentServiceWorker();
+const componentModuleWorker = new ComponentModuleWorker();
+const appModuleWorker = new AppModuleWorker();
 
 export class GenerateHtmlWorker {
 
@@ -19,8 +29,19 @@ export class GenerateHtmlWorker {
         this.screenInfo = screenDetails;
         let metaData: any = JSON.parse(screenDetails['gjs-components'][0]);
         this.generateHtml(metaData, screenDetails, details);
+        this.generateComponent(details);
     }
-
+    private generateComponent(details) {
+        componentWorker.generateComponent(details, (res, err) => {
+            componentServiceWorker.generateComponentService(details, (res, err) => {
+                componentModuleWorker.generateComponentModule(details, (res, err) => {
+                    appModuleWorker.importComponentModules(details, (res, err) => {
+                        
+                    });
+                });
+            });
+        });
+    }
     generateHtml(grapesJSMetadata, screensData, details) {
         let screenHtmlContent: any;
         this.forEach(grapesJSMetadata, (item, index, arr) => {
