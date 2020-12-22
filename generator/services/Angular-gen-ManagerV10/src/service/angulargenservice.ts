@@ -4,10 +4,12 @@ import * as asyncLoop from 'node-async-loop';
 import { GenerateHtmlWorker } from '../worker/generateHTMLWorker';
 import { ComponentWorker } from '../worker/componentworker/componentworker';
 import { ComponentServiceWorker } from '../worker/componentservice/componentserviceworker';
+import { ComponentModuleWorker } from '../worker/componentmodule/componentmoduleworker';
 
 const componentWorker = new ComponentWorker();
 const componentServiceWorker = new ComponentServiceWorker();
-let generateHtmlWorker = new GenerateHtmlWorker();
+const generateHtmlWorker = new GenerateHtmlWorker();
+const componentModuleWorker = new ComponentModuleWorker();
 export class AngularService {
     constructor() {
     }
@@ -30,6 +32,9 @@ export class AngularService {
         componentServiceWorker.generateComponentService(details, (res, err) => {
             
         });
+        componentModuleWorker.generateComponentModule(details, (res, err) => {
+            
+        })
     }
 
     iterateScreens(screenInfo, details, callback) {

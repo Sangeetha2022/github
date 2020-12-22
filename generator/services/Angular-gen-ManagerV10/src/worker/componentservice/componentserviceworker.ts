@@ -1,11 +1,15 @@
-import * as fs from 'fs';
 import * as path from 'path';
-import * as Handlebars from 'handlebars';
 import { Common } from '../../config/Common';
-import { FlowServiceWorker } from './Flowserviceworker'
+import { FlowServiceWorker } from './Flowserviceworker';
+import { Constant } from '../../assets/Constant';
 
 const flowServiceWorker = new FlowServiceWorker();
 export class ComponentServiceWorker {
+    /**
+     * @param details 
+     * @param callback 
+     * Generate component.service file
+     */
     generateComponentService(details: any, callback) {
         details = JSON.parse(JSON.stringify(details));
         details.desktop.forEach(async (desktopElement: any) => {
@@ -28,20 +32,22 @@ export class ComponentServiceWorker {
             microflowObject.GpOptions['constructor'] = constructor;
             microflowObject.GpCodeToAdd = {};
             microflowObject = flowServiceWorker.constructFlowsInfo(desktopElement.flows_info, details.nodeResponse, microflowObject);
-            console.log('Service MicroflowObject------->>>>>>', JSON.stringify(microflowObject));
             const templatePath = path.resolve(__dirname, '../../../templates/service.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/src/app';
             const screenGenerationPath = applicationPath + `/${screenName}`;
-            await this.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName);
+            await Common.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.service.ts');
         });
     }
-
+    /**
+     * @param flows 
+     * Constructing Microflows for Handlebars
+     */
     private constructMicroFlows(flows: Array<Object>) {
         if (flows && flows.length > 0) {
             const flow: any = flows[0];
             if (flow.components && flow.components.length > 0) {
-                const components = flow.components.filter((e) => e.name === 'GpAngularService' && e.sequenceId === 2);
+                const components = flow.components.filter((e) => e.name === Constant.GP_ANGULAR_SERVICE_MICROFLOW && e.sequenceId === 2);
                 if (components.length > 0) {
                     const microflows = components[0].microFlows;
                     if (microflows && microflows.length > 0) {
@@ -55,72 +61,4 @@ export class ComponentServiceWorker {
             }
         }
     }
-
-    private handleBarsFile(filePath, fileData, screenGenerationPath, screenName) {
-        return new Promise(resolve => {
-            fs.readFile(filePath, 'utf-8', (err, data) => {
-                Handlebars.registerHelper("ifCond",function(v1,operator,v2,options) {
-                    switch (operator)
-                    {
-                        case "==":
-                            return (v1==v2)?options.fn(this):options.inverse(this);
-                
-                        case "!=":
-                            return (v1!=v2)?options.fn(this):options.inverse(this);
-                
-                        case "===":
-                            return (v1===v2)?options.fn(this):options.inverse(this);
-                
-                        case "!==":
-                            return (v1!==v2)?options.fn(this):options.inverse(this);
-                
-                        case "&&":
-                            return (v1&&v2)?options.fn(this):options.inverse(this);
-                
-                        case "||":
-                            return (v1||v2)?options.fn(this):options.inverse(this);
-                
-                        case "<":
-                            return (v1<v2)?options.fn(this):options.inverse(this);
-                
-                        case "<=":
-                            return (v1<=v2)?options.fn(this):options.inverse(this);
-                
-                        case ">":
-                            return (v1>v2)?options.fn(this):options.inverse(this);
-                
-                        case ">=":
-                         return (v1>=v2)?options.fn(this):options.inverse(this);
-                
-                        default:
-                            return eval(""+v1+operator+v2)?options.fn(this):options.inverse(this);
-                    }
-                });
-                var source = data;
-                var template = Handlebars.compile(source);
-                var result = template(fileData);
-                Common.createFolders(screenGenerationPath);
-                fs.writeFile(screenGenerationPath + `/${screenName}.service.ts`, result, (response) => {
-                    resolve(response);
-                })
-            });
-        })
-    }
-    // public generateComponentService(applicationPath, templatePath, componentName, information, callback) {
-    //     const temp = {
-    //         folderName: componentName.toLowerCase(),
-    //         className: componentName.charAt(0).toUpperCase() + componentName.slice(1).toLowerCase(),
-    //         importDependency: [],
-    //         importComponent: [],
-    //         serviceVariable: null,
-    //         serviceConstructorParams: [],
-    //         serviceMethod: []
-    //     }
-    //     flowServiceWorker.generateServiceComponentFlow(information, temp, templatePath);
-    //     componentSupportWorker.generateComponent(applicationPath, templatePath,
-    //         `${componentName.toLowerCase()}.${Constant.SERVICE_EXTENSION}.${Constant.TS_EXTENSION}`,
-    //         Constant.SERIVCE_TEMPLATENAME, temp, (response) => {
-    //             callback();
-    //         });
-    // }
 }

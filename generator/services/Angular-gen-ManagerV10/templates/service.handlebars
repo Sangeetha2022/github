@@ -15,37 +15,37 @@ export class {{ GpOptions.className }} {
         {{#each GpOptions.constructor}}
         private {{ objectName }}: {{ className }},
         {{/each}}
-  ) { }
+    ) { }
 
   {{#each GpCodeToAdd.flows_info }}
   {{!-- GpCreate --}}
   {{#ifCond methodName '==' 'GpCreate'}}
     {{methodName}}({{variableName}}: any): Observable<any> {
-        return this.http.{{apiAction}}(this.sharedService.DESKTOP_API + '{{routeUrl}}', {{variableName}});
+        return this.http.{{apiAction}}( {{ sharedService }} + '{{routeUrl}}', {{variableName}});
     }
   {{/ifCond}}
   {{!-- GpUpdate --}}
   {{#ifCond methodName '==' 'GpUpdate'}}
     {{methodName}}({{variableName}}: any): Observable<any> {
-        return this.http.{{apiAction}}(this.sharedService.DESKTOP_API + '{{routeUrl}}', {{variableName}});
+        return this.http.{{apiAction}}( {{ sharedService }} + '{{routeUrl}}', {{variableName}});
     }
   {{/ifCond}}
   {{!-- GpGetNounById --}}
   {{#ifCond methodName '==' 'GpGetNounById'}}
     {{methodName}}({{variableName}}Id: any): Observable<any> {
-        return this.http.{{apiAction}}(this.sharedService.DESKTOP_API + `{{routeUrl}}/${ {{variableName}}Id }`);
+        return this.http.{{apiAction}}( {{ sharedService }} + `{{routeUrl}}/${ {{variableName}}Id }`);
     }
   {{/ifCond}}
   {{!-- GpGetAllValues --}}
   {{#ifCond methodName '==' 'GpGetAllValues'}}
     {{methodName}}(): Observable<any> {
-        return this.http.{{apiAction}}(this.sharedService.DESKTOP_API + '{{routeUrl}}');
+        return this.http.{{apiAction}}( {{ sharedService }} + '{{routeUrl}}');
     }
   {{/ifCond}}
   {{!-- GpDelete --}}
   {{#ifCond methodName '==' 'GpDelete'}}
     {{methodName}}({{variableName}}Id: any): Observable<any> {
-        return this.http.{{apiAction}}(this.sharedService.DESKTOP_API + `{{routeUrl}}/${ {{variableName}}Id }`);
+        return this.http.{{apiAction}}( {{ sharedService }} + `{{routeUrl}}/${ {{variableName}}Id }`);
     }
   {{/ifCond}}
    {{!-- GpSearch --}}
@@ -58,7 +58,7 @@ export class {{ GpOptions.className }} {
             temp.push(`${element[0]}=${element[1]}`);
         }
         });
-        return this.http.{{apiAction}}(this.sharedService.DESKTOP_API + `{{routeUrl}}${temp.length > 0 ? `?${temp.join('&')}` : ''}`);
+        return this.http.{{apiAction}}( {{ sharedService }} + `{{routeUrl}}${temp.length > 0 ? `?${temp.join('&')}` : ''}`);
     }
   {{/ifCond}}
   {{/each}}
