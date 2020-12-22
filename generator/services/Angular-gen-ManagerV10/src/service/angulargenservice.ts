@@ -2,10 +2,8 @@ import { Request, response } from 'express';
 import * as util from 'util';
 import * as asyncLoop from 'node-async-loop';
 import { GenerateHtmlWorker } from '../worker/generateHTMLWorker';
-import { AppRoutingModuleWorker } from '../worker/dependency-worker/AppRoutingModuleWorker';
 
 const generateHtmlWorker = new GenerateHtmlWorker();
-const appRoutingModuleWorker = new AppRoutingModuleWorker()
 
 export class AngularService {
     constructor() {
@@ -27,9 +25,6 @@ export class AngularService {
             
         // })
         
-        appRoutingModuleWorker.importRoutingModules(details , (res , err) => {
-
-        })
         
     }
 
