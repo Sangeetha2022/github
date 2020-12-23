@@ -1,6 +1,7 @@
 import * as util from 'util';
 import * as asyncForEach from 'async-foreach';
 import * as asyncLoop from 'node-async-loop';
+
 import { Forms } from '../strategy/HTML/Forms';
 import {InputTagGeneration} from '../strategy/HTML/Input';
 import { ComponentWorker } from '../worker/componentworker/componentworker';
@@ -8,9 +9,13 @@ import { ComponentServiceWorker } from '../worker/componentservice/componentserv
 import { ComponentModuleWorker } from '../worker/componentmodule/componentmoduleworker';
 import { AppModuleWorker } from '../worker/dependency-worker/AppModuleWorker';
 import { AppRoutingModuleWorker } from './dependency-worker/AppRoutingModuleWorker';
+import  { BootstrapTable } from '../strategy/HTML/BootstrapTable';
+import { AgGrid } from '../strategy/HTML/Ag-grid'
 
 let forms = new Forms();
 let generateInput = new InputTagGeneration();
+let bootstrapTableHtml = new BootstrapTable();
+let agGridTableHtml = new AgGrid();
 
 const componentWorker = new ComponentWorker();
 const componentServiceWorker = new ComponentServiceWorker();
@@ -59,6 +64,18 @@ export class GenerateHtmlWorker {
             if (this.tagName == 'input') {
                 let formResponse = generateInput.inputGeneration(item);
             }
+            if (this.tagName == 'grid-type') {
+                if(screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
+                    bootstrapTableHtml.BootstrapTableHTMLGeneration(item, screensData, details, (response) => {
+                        screenHtmlContent.push({data: response});
+                    })
+                }
+                else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
+                    agGridTableHtml.agGridTableHTMLGeneration(item, screensData, details, (response) => {
+                        screenHtmlContent.push({data: response});
+                    })
+                }
+            }
         })
     }
 
@@ -69,7 +86,7 @@ export class GenerateHtmlWorker {
         } else if (firstEle.hasOwnProperty('type')) {
             if (
                 firstEle.type != 'grid-row' && firstEle.type != 'grid-item' &&
-                (firstEle.type == 'label' || firstEle.type == 'section' || firstEle.type == 'input')
+                (firstEle.type == 'label' || firstEle.type == 'section' || firstEle.type == 'input' || firstEle.type == 'grid-type')
             ) {
                 tagName = firstEle.type;
             } else if (firstEle.type == 'tab' || firstEle.type == 'link') {

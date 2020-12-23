@@ -2,9 +2,9 @@ import * as fs from 'fs';
 import * as Handlebars from 'handlebars';
 import * as path from 'path';
 
-import { FlowComponentWorker } from "./flowComponentWorker";
+import { ThirdPartyWorker } from '../ThirdPartyWorker';
+import { FlowComponentWorker } from "./Flowcomponentworker";
 import { Common } from '../../config/Common';
-import { ThirdPartyWorker } from '../ThirdPartyWorker'
 import { Constant } from '../../assets/Constant';
 import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
 
