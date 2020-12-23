@@ -1,11 +1,16 @@
+import * as fs from 'fs';
+import * as Handlebars from 'handlebars';
+import * as path from 'path';
+
 import { FlowComponentWorker } from "./flowComponentWorker";
 import { Common } from '../../config/Common';
-import * as path from 'path';
 import { ThirdPartyWorker } from '../ThirdPartyWorker'
 import { Constant } from '../../assets/Constant';
+import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
 
 const flowComponentWorker = new FlowComponentWorker();
 const thirdPartyWorker = new ThirdPartyWorker();
+const componentSupportWorker = new ComponentSupportWorker();
 
 export class ComponentWorker {
     /**
@@ -50,7 +55,7 @@ export class ComponentWorker {
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/src/app';
             const screenGenerationPath = applicationPath + `/${screenName}`
-            await Common.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.component.ts');
+            await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.component.ts');
         });
     }
     /**
