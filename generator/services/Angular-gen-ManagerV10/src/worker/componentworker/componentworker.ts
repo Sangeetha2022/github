@@ -51,11 +51,13 @@ export class ComponentWorker {
             microflowObject = flowComponentWorker.constructGpRoute(desktopElement.route_info, microflowObject);
             microflowObject = flowComponentWorker.constructLifecycle(details.desktop, desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructAgGridComponents(desktopElement, microflowObject);
+            microflowObject = thirdPartyWorker.constructThirdPartyComponents(desktopElement, microflowObject);
             const templatePath = path.resolve(__dirname, '../../../templates/component.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/src/app';
             const screenGenerationPath = applicationPath + `/${screenName}`
             await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.component.ts');
+            callback('Component File Generated Successfully', null);
         });
     }
     /**
@@ -78,6 +80,15 @@ export class ComponentWorker {
                     }
                 }
             }
+        } else {
+            const microflowObject = {
+                GpHeaders: [],
+                GpOptions: [],
+                GpCodeToAdd: [],
+                GpCheck_Connector: [],
+                GpRequest: []
+            }
+            return microflowObject;
         }
     }
     /**

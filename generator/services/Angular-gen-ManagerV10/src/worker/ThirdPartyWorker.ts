@@ -19,6 +19,52 @@ export class ThirdPartyWorker {
         }
         return microflowObject;
     }
+
+    constructThirdPartyComponents(desktopElement, microflowObject) {
+        const gjs_components = JSON.parse(desktopElement['gjs-components'][0]);
+        if(gjs_components && gjs_components.length > 0) {
+            gjs_components.forEach((gjs_element)=> {
+                if(gjs_element.components && gjs_element.components.length > 0) {
+                    gjs_element.components.forEach((gjs_component_element) => {
+                        if(gjs_component_element.tagName && gjs_component_element.type && gjs_component_element.tagName === 'select' && gjs_component_element.type === 'dynamicdropdown-type') {
+                            microflowObject.GpOptions.arrayVariables.push({name: 'itemArray', dataType: 'any', value: []});
+                            return microflowObject;
+                        }
+                        if(gjs_component_element.type && gjs_component_element.type === 'ckeditor5') {
+                            microflowObject['GpHeadersStarAs'] = [];
+                            microflowObject['GpHeadersStarAs'].push({importName: Constant.CLASSIC_EDITOR, importPath: Constant.CLASSIC_EDITOR_PATH});
+                            microflowObject.GpOptions.variables.push({name: Constant.CLASSIC_EDITOR_VARIABLE, dataType: 'any', value: Constant.CLASSIC_EDITOR_VALUE});
+                            return microflowObject;
+                        }
+                    });
+                }
+            });
+        }
+        return microflowObject;
+    }
+
+    constructThirdPartyModuleHeaders(desktopElement, microflowObject) {
+        const gjs_components = JSON.parse(desktopElement['gjs-components'][0]);
+        if(gjs_components && gjs_components.length > 0) {
+            gjs_components.forEach((gjs_element)=> {
+                if(gjs_element.components && gjs_element.components.length > 0) {
+                    gjs_element.components.forEach((gjs_component_element) => {
+                        if(gjs_component_element.tagName && gjs_component_element.type && gjs_component_element.tagName === 'select' && gjs_component_element.type === 'dynamicdropdown-type') {
+                            microflowObject.GpHeaders.push({importName: Constant.NG_SELECT_MODULE, importPath: Constant.NG_SELECT_MODULE_PATH});
+                            microflowObject.GpOptions.modules.push({name: Constant.NG_SELECT_MODULE});
+                            return microflowObject;
+                        }
+                        if(gjs_component_element.type && gjs_component_element.type === 'ckeditor5') {
+                            microflowObject.GpHeaders.push({importName: Constant.CK_EDITOR_MODULE, importPath: Constant.CK_EDITOR_MODULE_PATH});
+                            microflowObject.GpOptions.modules.push({name: Constant.CK_EDITOR_MODULE});
+                            return microflowObject;
+                        }
+                    });
+                }
+            });
+        }
+        return microflowObject;
+    }
     // private GRID_HTML = [];
 
     // private GRID_CLICK_HTML = {

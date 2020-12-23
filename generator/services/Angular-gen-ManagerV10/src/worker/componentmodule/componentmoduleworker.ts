@@ -2,8 +2,10 @@ import * as path from 'path';
 
 import { moduleHeaders } from '../../assets/componentDependency';
 import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
+import { ThirdPartyWorker } from '../ThirdPartyWorker';
 
 const componentSupportWorker = new ComponentSupportWorker();
+const thirdPartyWorker = new ThirdPartyWorker();
 export class ComponentModuleWorker {
     /**
      * @param details 
@@ -23,11 +25,13 @@ export class ComponentModuleWorker {
             microflowObject = this.constructHeaders(desktopElement, microflowObject);
             microflowObject = this.constructModuleRoutes(desktopElement, microflowObject);
             microflowObject.GpOptions['components'] = [{ name: firstElement + otherElements + 'Component' }];
+            microflowObject = thirdPartyWorker.constructThirdPartyModuleHeaders(desktopElement, microflowObject);
             const templatePath = path.resolve(__dirname, '../../../templates/module.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/src/app';
             const screenGenerationPath = applicationPath + `/${screenName}`
             await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.module.ts');
+            callback('Module File Generated Successfully', null);
         });
     }
     /**

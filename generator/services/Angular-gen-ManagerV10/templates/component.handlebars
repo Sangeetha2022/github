@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 {{#each GpHeaders}}
 import { {{importName}} } from '{{ importPath }}';
 {{/each}}
+{{#each GpHeadersStarAs}}
+import * as {{importName}} from '{{ importPath }}';
+{{/each}}
 
 @Component({
   selector: 'app-{{ GpOptions.screenName }}',
@@ -11,7 +14,7 @@ import { {{importName}} } from '{{ importPath }}';
 
 export class {{ GpOptions.className }} implements OnInit {
 {{#each GpOptions.variables}}
-    {{name}}: {{dataType}};
+    {{name}}: {{dataType}}{{#ifCond value '!=' null}} = {{ value }}{{/ifCond}};
 {{/each}}
 {{#each GpOptions.arrayVariables}}
     {{name}}: {{dataType}} = [{{#each value}}{ {{key1}}: '{{value1}}', {{key2}}: '{{value2}}'  },{{/each}}];

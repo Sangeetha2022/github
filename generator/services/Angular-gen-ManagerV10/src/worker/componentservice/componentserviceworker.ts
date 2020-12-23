@@ -40,6 +40,7 @@ export class ComponentServiceWorker {
             const applicationPath = projectGenerationPath + '/src/app';
             const screenGenerationPath = applicationPath + `/${screenName}`;
             await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.service.ts');
+            callback('Service File Generated Successfully', null);
         });
     }
     /**
@@ -62,6 +63,15 @@ export class ComponentServiceWorker {
                     }
                 }
             }
+        } else {
+            const microflowObject = {
+                GpHeaders: [],
+                GpOptions: [],
+                GpCodeToAdd: [],
+                GpCheck_Connector: [],
+                GpRequest: []
+            }
+            return microflowObject;
         }
     }
 }

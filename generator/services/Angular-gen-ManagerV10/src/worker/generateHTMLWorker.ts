@@ -43,11 +43,7 @@ export class GenerateHtmlWorker {
         componentWorker.generateComponent(details, (res, err) => {
             componentServiceWorker.generateComponentService(details, (res, err) => {
                 componentModuleWorker.generateComponentModule(details, (res, err) => {
-                    appModuleWorker.importComponentModules(details, (res, err) => {
-                        appRoutingModuleWorker.importRoutingModules(details , (res , err) => {
-
-                        })
-                    });
+                    
                 });
             });
         });
@@ -108,5 +104,11 @@ export class GenerateHtmlWorker {
             tagName = 'div';
         }
         return tagName;
+    }
+
+    modifyDependency(details, callback) {
+        appModuleWorker.importComponentModules(details, (res, err) => {
+            callback('Modules Imported Successfully', null);
+        });
     }
 }

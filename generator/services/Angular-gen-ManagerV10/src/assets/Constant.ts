@@ -82,6 +82,14 @@ export class Constant {
     public static CKEDITOR_TAGNAME = 'ckeditor';
     public static CKEDITOR_SPAN_IDNAME = 'ckeditorspan';
     public static NGCONTAINER_TAGNAME = 'ng-container';
+    public static CLASSIC_EDITOR = 'ClassicEditor';
+    public static CLASSIC_EDITOR_PATH = '@ckeditor/ckeditor5-build-classic';
+    public static CLASSIC_EDITOR_VARIABLE = 'Editor';
+    public static CLASSIC_EDITOR_VALUE = 'ClassicEditor';
+    public static NG_SELECT_MODULE = 'NgSelectModule';
+    public static NG_SELECT_MODULE_PATH = '@ng-select/ng-select';
+    public static CK_EDITOR_MODULE = 'CKEditorModule';
+    public static CK_EDITOR_MODULE_PATH = '@ckeditor/ckeditor5-angular';
 
     // grid element details
     public static AGGRID_HTMLID_NAME = 'myGrid';
