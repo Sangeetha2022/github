@@ -707,31 +707,36 @@ export class TraitsService {
                     headerName: 'A',
                     field: 'a',
                     sortable: true,
-                    colId: 'col1_id'
+                    colId: 'col1_id',
+                    cellStyle: {border: '1px solid'}
                   },
                   {
                     headerName: 'B',
                     field: 'b',
                     sortable: true,
-                    colId: 'col2_id'
+                    colId: 'col2_id',
+                    cellStyle: {border: '1px solid'}
                   },
                   {
                     headerName: 'C',
                     field: 'c',
                     sortable: true,
-                    colId: 'col3_id'
+                    colId: 'col3_id',
+                    cellStyle: {border: '1px solid'}
                   },
                   {
                     headerName: 'D',
                     field: 'd',
                     sortable: true,
-                    colId: 'col4_id'
+                    colId: 'col4_id',
+                    cellStyle: {border: '1px solid'}
                   },
                   {
                     headerName: 'E',
                     field: 'e',
                     sortable: true,
-                    colId: 'col5_id'
+                    colId: 'col5_id',
+                    cellStyle: {border: '1px solid'}
                   }
                 ];
                 rowData = createRowData();
@@ -765,6 +770,7 @@ export class TraitsService {
                   }
                 },
                 onGridReady: function (params) {
+                  console.log('rendering params', params.api);
                   params.api.sizeColumnsToFit();
 
                   window.addEventListener('resize', function () {
@@ -780,6 +786,7 @@ export class TraitsService {
               // tslint:disable-next-line:no-unused-expression
               new agGrid.Grid(gridDiv, this.gridOptions);
               this.gridOptions.cacheQuickFilter = false;
+              console.log('grid function api', this.gridOptions.api);
               this.gridOptions.api.sizeColumnsToFit();
             };
             let exists = false;

@@ -349,7 +349,8 @@ export class CustomTraitsService {
                         headerName: agGridObject.columnname,
                         field: $this.columnOptions[0].name,
                         sortable: true,
-                        colId: agGridObject.columnid
+                        colId: agGridObject.columnid,
+                        cellStyle: {border: '1px solid'}
                     });
                     $this.agGridObject.default_field.push(agGridObject);
                     $this.agGridObject.custom_field.push(agGridObject);
