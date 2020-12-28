@@ -17,12 +17,14 @@ import { BootstrapTable } from '../strategy/HTML/BootstrapTable';
 import { AgGrid } from '../strategy/HTML/Ag-grid';
 import { ComponentSupportWorker } from '../supportworker/componentsupportworker/componentsupportworker'
 import { Constant } from '../assets/Constant';
+import { Link } from '../strategy/HTML/Link';
 
 let forms = new Forms();
 let generateInput = new InputTagGeneration();
 let bootstrapTableHtml = new BootstrapTable();
 let agGridTableHtml = new AgGrid();
 let componentSupport = new ComponentSupportWorker();
+const link = new Link();
 
 
 const componentWorker = new ComponentWorker();
@@ -90,6 +92,12 @@ export class GenerateHtmlWorker {
                             next();
                         })
                     }
+                }
+                if(this.tagName === 'a') {
+                    link.generateLink(item, screensData, details, (response) => {
+                        screenHtmlContent.push({ data: response });
+                        next();
+                    })
                 }
             } else {
                 next();
