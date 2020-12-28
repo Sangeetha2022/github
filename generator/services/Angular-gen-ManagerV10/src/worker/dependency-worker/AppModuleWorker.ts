@@ -1,5 +1,6 @@
-import * as fs from 'fs';
+import { ComponentSupportWorker } from "../../supportworker/componentsupportworker/componentsupportworker";
 
+const componentSupportWorker = new ComponentSupportWorker();
 export class AppModuleWorker {
     /**
      * 
@@ -11,7 +12,7 @@ export class AppModuleWorker {
         details = JSON.parse(JSON.stringify(details));
         const projectGenerationPath = details.projectGenerationPath;
         const applicationPath = projectGenerationPath + '/src/app/app.module.ts';
-        this.readFile(applicationPath, (res, err) => {
+        componentSupportWorker.readFile(applicationPath, (res, err) => {
             if (res) {
                 const fileArray: Array<string> = res.split('\n');
                 details.desktop.forEach(async (desktopElement: any) => {
@@ -20,7 +21,6 @@ export class AppModuleWorker {
                     const otherElements = screenName.substring(1, screenName.length);
                     const moduleClassName = firstElement + otherElements + 'Module';
                     const importData = "import { " + moduleClassName + " } from './" + screenName + "/" + screenName + ".module';";
-                    const ngModuleIndex = fileArray.indexOf('@NgModule({');
                     fileArray.forEach((element, index) => {
                         if (element.includes('@NgModule({')) {
                             const importDataIndex = fileArray.indexOf(importData);
@@ -36,24 +36,10 @@ export class AppModuleWorker {
                         }
                     });
                 });
-                this.writeFile(applicationPath, fileArray.join('\n'), (res) => {
+                componentSupportWorker.writeFile(applicationPath, fileArray.join('\n'), (res) => {
                     callback('Child Modules Imported Successfully');
                 });
             }
         });
-    }
-    private readFile(filePath: string, callback) {
-        const file = fs.readFile(filePath, 'utf-8', (err, data) => {
-            if(err) {
-                callback(null, err);
-            } else {
-                callback(data, null);
-            }
-        });
-    }
-    private writeFile(filePath, data, callback) {
-        fs.writeFile(filePath, data, (response) => {
-            callback(response);
-        })
     }
 }

@@ -16,33 +16,40 @@ export class RouteWorker {
         return microflowObject;
     }
 
-
-    public generateRouteWorker(details: any, callback) {
-        details = JSON.parse(JSON.stringify(details));
-        details.desktop.forEach(async desktopElement => {
-            const screenName = desktopElement.screenName.toLowerCase();
-            const firstElement = screenName.charAt(0).toUpperCase();
-            const otherElements = screenName.substring(1, screenName.length);
-            const routerComponetName = `${firstElement}${otherElements}Component`
-            let routePayload = this.constructPayLoad()
-            const componentObject = {
-                importName: routerComponetName,
-                importPath: `./${screenName}.component`
+    /**
+     * @param route_info 
+     * @param microflowObject 
+     * Constructing the Route
+     */
+    constructGpRoute(route_info: Array<Object>, microflowObject: any) {
+        if(route_info.length > 0) {
+            const routes = [];
+            route_info.forEach((element: any) => {
+                let temp: any = {};
+                temp.flowName = element.methodName;
+                temp.navigationUrl = './' + element.screenName;
+                temp.objectName = 'this.router';
+                temp.parameterName = 'queryId'
+                routes.push(temp);
+            });
+            routes.push({
+                flowName: 'onSelectionChanged',
+                parameterName: 'event',
+            });
+            microflowObject.GpCodeToAdd['route_info'] = routes;
+            if (microflowObject.GpCodeToAdd['route_info'].length > 0) {
+                microflowObject.GpHeaders.push({
+                    "importName": "Router",
+                    "importPath": "@angular/router"
+                });
+                microflowObject.GpOptions.constructor.push({
+                    "className": "Router",
+                    "objectName": "router"
+                });
             }
-            const routingObject = {
-                path : screenName ,
-                component:routerComponetName
-            }
-            routePayload.GpHeaders.push(componentObject)
-            routePayload.Gproutes.push(routingObject)
-            const templatePath = path.resolve(__dirname, '../../templates/router.handlebars');
-            const projectGenerationPath = details.projectGenerationPath;
-            const applicationPath = projectGenerationPath + '/src/app';
-            const screenGenerationPath = applicationPath + `/${screenName}`
-            await Common.handleBarsFile(templatePath, routePayload, screenGenerationPath, `${screenName}.route.ts`);
-    
-        })
-      
+        } else {
+            microflowObject.GpCodeToAdd['route_info'] = [];
+        }
+        return microflowObject;
     }
-   
 }
