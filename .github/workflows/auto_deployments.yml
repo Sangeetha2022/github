@@ -16,8 +16,8 @@ jobs:
     runs-on: ubuntu-latest 
     outputs:
         instance_data_value: ${{ steps.ec2.outputs.INSTANCE_STATE }} 
-        run_UI_jobs: ${{ steps.UI-frontend.outputs.ui}}
-        run_services_jobs: ${{ steps.services.outputs.service }}
+        run_frontend_jobs: ${{ steps.frontend.outputs.ui}}
+        run_backend_jobs: ${{ steps.Backend.outputs.backend }}
     steps:
     - name: aws configuration
       uses: aws-actions/configure-aws-credentials@v1
@@ -38,21 +38,20 @@ jobs:
         if [ $GITHUB_BASE_REF ]; then
           # Pull Request
           git fetch origin $GITHUB_BASE_REF --depth=1
-          export DIFF=$( git diff --name-only origin/$GITHUB_BASE_REF $GITHUB_SHA )
+          export FILE_DIFF=$( git diff --name-only origin/$GITHUB_BASE_REF $GITHUB_SHA )
           echo "Diff between origin/$GITHUB_BASE_REF and $GITHUB_SHA"
         else
           # Push
           git fetch origin ${{ github.event.before }} --depth=1
-          export DIFF=$( git diff --name-only ${{ github.event.before }} $GITHUB_SHA )
+          export FILE_DIFF=$( git diff --name-only ${{ github.event.before }} $GITHUB_SHA )
           echo "Diff between ${{ github.event.before }} and $GITHUB_SHA"
         fi
-        echo "$DIFF"
-        # Escape newlines (replace \n with %0A)
-        echo "::set-output name=diff::$( echo "$DIFF" | sed ':a;N;$!ba;s/\n/%0A/g' )"
+        echo "$FILE_DIFF"
+        echo "::set-output name=diff::$( echo "$FILE_DIFF" | sed ':a;N;$!ba;s/\n/%0A/g' )"
     - name: UI to build function
-      id: UI-frontend
+      id: frontend
       run: |
-        DIFF="${{ steps.diff.outputs.diff }}"
+        FILE_DIFF="${{ steps.diff.outputs.diff }}"
         while read path;
         do
           directory="$( echo $path )"
@@ -63,26 +62,26 @@ jobs:
             echo "::set-output name=ui::commited"
             break
           fi
-        done <<< "$DIFF"
-    - name: Services function to build
+        done <<< "$FILE_DIFF"
+    - name: Backend function to build
       if: steps.ec2.outputs.INSTANCE_STATE == '"running"'
-      id: services
+      id: Backend
       run: |
-        DIFF="${{ steps.diff.outputs.diff }}"
+        FILE_DIFF="${{ steps.diff.outputs.diff }}"
         while read path;
         do
           directory="$( echo $path )"
           if [[ $directory != application/services/* && $directory != generator/services/*  ]]; then
-            echo "::set-output name=service::notcommited" 
+            echo "::set-output name=backend::notcommited" 
             continue
           else
-            echo "::set-output name=service::commited"
+            echo "::set-output name=backend::commited"
             break
           fi
-        done <<< "$DIFF"
+        done <<< "$FILE_DIFF"
   login:
     needs: validation
-    if: needs.validation.outputs.run_services_jobs == 'commited'
+    if: needs.validation.outputs.run_backend_jobs == 'commited'
     runs-on: ubuntu-latest
     steps:
     - name: Update the apt-get & install the sshpass
@@ -97,7 +96,7 @@ jobs:
           git pull git@github.com:dan-castillo/geppettotest.git
           cd devops/docker-compose
           docker-compose down  --rmi all
-          echo "Backend Deploy"
+          echo "Backend Deploy..."
           docker-compose up -d --build
           sleep 50
           curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@../../application/services/Camunda/Gep_authorize.dmn" -F "deployment-name=gep_authorize" -F "enable-duplicate-filtering=true" -F "deploy-changed-only=true" http://localhost:8080/engine-rest/deployment/create
@@ -107,12 +106,11 @@ jobs:
           sleep 20
           docker cp ../../generator/services/seed codegenmanager:/geppetto/template/
           echo "seed file copied"
-          echo "Process completed"     
-
+          echo "Backend deployment completed"     
   Upload_S3:
     runs-on: ubuntu-latest
     needs: validation
-    if: needs.validation.outputs.run_UI_jobs == 'commited'
+    if: needs.validation.outputs.run_frontend_jobs == 'commited'
     steps:
     - name: Check the  branch
       uses: actions/checkout@v2
