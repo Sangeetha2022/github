@@ -12,10 +12,12 @@ env:
   aws-region: us-east-1      
 ########### Jobs ###########
 jobs:
-  instance:
+  validation:
     runs-on: ubuntu-latest 
     outputs:
         instance_data_value: ${{ steps.ec2.outputs.INSTANCE_STATE }} 
+        run_UI_jobs: ${{ steps.UI-frontend.outputs.ui}}
+        run_services_jobs: ${{ steps.services.outputs.service }}
     steps:
     - name: aws configuration
       uses: aws-actions/configure-aws-credentials@v1
@@ -29,10 +31,59 @@ jobs:
     - name:  Status of Instance 
       run: |
           echo ${{ steps.ec2.outputs.INSTANCE_STATE }} 
-
+    - uses: actions/checkout@v2
+    - name: Check for changes
+      id: diff
+      run: |
+        if [ $GITHUB_BASE_REF ]; then
+          # Pull Request
+          git fetch origin $GITHUB_BASE_REF --depth=1
+          export DIFF=$( git diff --name-only origin/$GITHUB_BASE_REF $GITHUB_SHA )
+          echo "Diff between origin/$GITHUB_BASE_REF and $GITHUB_SHA"
+        else
+          # Push
+          git fetch origin ${{ github.event.before }} --depth=1
+          export DIFF=$( git diff --name-only ${{ github.event.before }} $GITHUB_SHA )
+          echo "Diff between ${{ github.event.before }} and $GITHUB_SHA"
+        fi
+        echo "$DIFF"
+        # Escape newlines (replace \n with %0A)
+        echo "::set-output name=diff::$( echo "$DIFF" | sed ':a;N;$!ba;s/\n/%0A/g' )"
+    - name: UI to build function
+      if: steps.ec2.outputs.INSTANCE_STATE == '"running"'
+      id: UI-frontend
+      run: |
+        DIFF="${{ steps.diff.outputs.diff }}"
+        while read path;
+        do
+          directory="$( echo $path )"
+          if [[ $directory != application/client/desktop/* ]]; then
+            echo "::set-output name=ui::notcommited" 
+            continue
+          else
+            echo "::set-output name=ui::commited"
+            break
+          fi
+        done <<< "$DIFF"
+    - name: Services function to build
+      if: steps.ec2.outputs.INSTANCE_STATE == '"running"'
+      id: services
+      run: |
+        DIFF="${{ steps.diff.outputs.diff }}"
+        while read path;
+        do
+          directory="$( echo $path )"
+          if [[ $directory != application/services/* && $directory != generator/services/*  ]]; then
+            echo "::set-output name=service::notcommited" 
+            continue
+          else
+            echo "::set-output name=service::commited"
+            break
+          fi
+        done <<< "$DIFF"
   login:
-    needs: instance
-    if: needs.instance.outputs.instance_data_value=='"running"'
+    needs: validation
+    if: needs.validation.outputs.run_services_jobs == 'commited'
     runs-on: ubuntu-latest
     steps:
     - name: Update the apt-get & install the sshpass
@@ -61,7 +112,8 @@ jobs:
 
   Upload_S3:
     runs-on: ubuntu-latest
-    needs: login
+    needs: validation
+    if: needs.validation.outputs.run_UI_jobs == 'commited'
     steps:
     - name: Check the  branch
       uses: actions/checkout@v2
