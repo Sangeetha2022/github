@@ -144,4 +144,9 @@ export class Constant {
     // Shared Service Variable Name
 
     public static SHARED_SERVICE = 'this.sharedService.DESKTOP_API';
+
+    // App Path
+    public static SRC_APP = '/src/app';
+    // Handlebars Path
+    public static COMPONENT_PATH = '../../../templates/component.handlebars';
 }

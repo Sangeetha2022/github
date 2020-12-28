@@ -7,10 +7,12 @@ import { FlowComponentWorker } from "./Flowcomponentworker";
 import { Common } from '../../config/Common';
 import { Constant } from '../../assets/Constant';
 import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
+import { RouteWorker } from '../Routeworker';
 
 const flowComponentWorker = new FlowComponentWorker();
 const thirdPartyWorker = new ThirdPartyWorker();
 const componentSupportWorker = new ComponentSupportWorker();
+const routeWorker = new RouteWorker();
 
 export class ComponentWorker {
     /**
@@ -48,13 +50,13 @@ export class ComponentWorker {
             microflowObject.GpOptions['constructor'] = constructor;
             microflowObject.GpCodeToAdd = {};
             microflowObject = flowComponentWorker.constructFlowsInfo(desktopElement.flows_info, details.nodeResponse, microflowObject, entities);
-            microflowObject = flowComponentWorker.constructGpRoute(desktopElement.route_info, microflowObject);
+            microflowObject = routeWorker.constructGpRoute(desktopElement.route_info, microflowObject);
             microflowObject = flowComponentWorker.constructLifecycle(details.desktop, desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructAgGridComponents(desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructThirdPartyComponents(desktopElement, microflowObject);
-            const templatePath = path.resolve(__dirname, '../../../templates/component.handlebars');
+            const templatePath = path.resolve(__dirname, Constant.COMPONENT_PATH);
             const projectGenerationPath = details.projectGenerationPath;
-            const applicationPath = projectGenerationPath + '/src/app';
+            const applicationPath = projectGenerationPath + Constant.SRC_APP;
             const screenGenerationPath = applicationPath + `/${screenName}`
             await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.component.ts');
             callback('Component File Generated Successfully', null);

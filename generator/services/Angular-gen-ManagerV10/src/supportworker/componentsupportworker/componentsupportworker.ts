@@ -61,4 +61,19 @@ export class ComponentSupportWorker {
             });
         })
     }
+
+    public readFile(filePath: string, callback) {
+        const file = fs.readFile(filePath, 'utf-8', (err, data) => {
+            if(err) {
+                callback(null, err);
+            } else {
+                callback(data, null);
+            }
+        });
+    }
+    public writeFile(filePath, data, callback) {
+        fs.writeFile(filePath, data, (response) => {
+            callback(response);
+        })
+    }
 }
