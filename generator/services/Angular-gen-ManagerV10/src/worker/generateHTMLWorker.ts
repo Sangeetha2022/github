@@ -99,7 +99,7 @@ export class GenerateHtmlWorker {
                 console.log(err);
             } else {
                 let fileData = {
-                    screenHtmlContent: screenHtmlContent.join('\n')
+                    screenHtmlContent: screenHtmlContent
                 }
                 this.handleBarsFile(filePath, fileData, screenGenerationPath, screenName);
             }
