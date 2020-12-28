@@ -1,6 +1,6 @@
 /*
  * Template group values_yaml
- * Compiled on Sat Dec 05 2020 19:15:21 GMT+0530 (India Standard Time)
+ * Compiled on Mon Dec 28 2020 18:41:11 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -404,7 +404,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("     ");
-    w.write("image: geppettotest/camunda-local:april2020");
+    w.write("image: geppettodistribution/camunda-local:Jan2021");
     w.popIndentation();
     w.write("\n");
     w.write("\n");

@@ -1,6 +1,6 @@
 /*
  * Template group docker_compose
- * Compiled on Mon Dec 07 2020 17:16:45 GMT+0530 (India Standard Time)
+ * Compiled on Mon Dec 28 2020 18:39:21 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -104,7 +104,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("image: geppettotest/camunda-local:april2020");
+    w.write("image: geppettodistribution/camunda-local:Jan2021");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");

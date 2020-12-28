@@ -1,14 +1,15 @@
 shared_service(object) ::= <<
 $if(object)$
 import { Injectable } from '@angular/core';
+import { environment } from '../environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class $object.className$Service {
 
-    public DESKTOP_API = 'http://'+window.location.hostname+':8000/desktop';
-    public MOBILE_API = '/api/mobile';
+    public DESKTOP_API = environment.DESKTOP_API;
+    public MOBILE_API = environment.MOBILE_API;
 }
 $endif$
 >>
