@@ -12,10 +12,12 @@ env:
   aws-region: us-east-1      
 ########### Jobs ###########
 jobs:
-  instance:
+  validation:
     runs-on: ubuntu-latest 
     outputs:
         instance_data_value: ${{ steps.ec2.outputs.INSTANCE_STATE }} 
+        run_frontend_jobs: ${{ steps.frontend.outputs.ui}}
+        run_backend_jobs: ${{ steps.Backend.outputs.backend }}
     steps:
     - name: aws configuration
       uses: aws-actions/configure-aws-credentials@v1
@@ -29,10 +31,57 @@ jobs:
     - name:  Status of Instance 
       run: |
           echo ${{ steps.ec2.outputs.INSTANCE_STATE }} 
-
+    - uses: actions/checkout@v2
+    - name: Check for changes
+      id: diff
+      run: |
+        if [ $GITHUB_BASE_REF ]; then
+          # Pull Request
+          git fetch origin $GITHUB_BASE_REF --depth=1
+          export FILE_DIFF=$( git diff --name-only origin/$GITHUB_BASE_REF $GITHUB_SHA )
+          echo "Diff between origin/$GITHUB_BASE_REF and $GITHUB_SHA"
+        else
+          # Push
+          git fetch origin ${{ github.event.before }} --depth=1
+          export FILE_DIFF=$( git diff --name-only ${{ github.event.before }} $GITHUB_SHA )
+          echo "Diff between ${{ github.event.before }} and $GITHUB_SHA"
+        fi
+        echo "$FILE_DIFF"
+        echo "::set-output name=diff::$( echo "$FILE_DIFF" | sed ':a;N;$!ba;s/\n/%0A/g' )"
+    - name: UI to build function
+      id: frontend
+      run: |
+        FILE_DIFF="${{ steps.diff.outputs.diff }}"
+        while read path;
+        do
+          directory="$( echo $path )"
+          if [[ $directory != application/client/desktop/* ]]; then
+            echo "::set-output name=ui::notcommited" 
+            continue
+          else
+            echo "::set-output name=ui::commited"
+            break
+          fi
+        done <<< "$FILE_DIFF"
+    - name: Backend function to build
+      if: steps.ec2.outputs.INSTANCE_STATE == '"running"'
+      id: Backend
+      run: |
+        FILE_DIFF="${{ steps.diff.outputs.diff }}"
+        while read path;
+        do
+          directory="$( echo $path )"
+          if [[ $directory != application/services/* && $directory != generator/services/*  ]]; then
+            echo "::set-output name=backend::notcommited" 
+            continue
+          else
+            echo "::set-output name=backend::commited"
+            break
+          fi
+        done <<< "$FILE_DIFF"
   login:
-    needs: instance
-    if: needs.instance.outputs.instance_data_value=='"running"'
+    needs: validation
+    if: needs.validation.outputs.run_backend_jobs == 'commited'
     runs-on: ubuntu-latest
     steps:
     - name: Update the apt-get & install the sshpass
@@ -47,7 +96,7 @@ jobs:
           git pull git@github.com:dan-castillo/geppettotest.git
           cd devops/docker-compose
           docker-compose down  --rmi all
-          echo "Backend Deploy"
+          echo "Backend Deploy..."
           docker-compose up -d --build
           sleep 50
           curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@../../application/services/Camunda/Gep_authorize.dmn" -F "deployment-name=gep_authorize" -F "enable-duplicate-filtering=true" -F "deploy-changed-only=true" http://localhost:8080/engine-rest/deployment/create
@@ -57,11 +106,11 @@ jobs:
           sleep 20
           docker cp ../../generator/services/seed codegenmanager:/geppetto/template/
           echo "seed file copied"
-          echo "Process completed"     
-
+          echo "Backend deployment completed"     
   Upload_S3:
     runs-on: ubuntu-latest
-    needs: login
+    needs: validation
+    if: needs.validation.outputs.run_frontend_jobs == 'commited'
     steps:
     - name: Check the  branch
       uses: actions/checkout@v2
