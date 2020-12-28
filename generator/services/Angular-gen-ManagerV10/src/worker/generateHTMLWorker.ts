@@ -1,21 +1,29 @@
 import * as util from 'util';
 import * as asyncForEach from 'async-foreach';
 import * as asyncLoop from 'node-async-loop';
+import * as Handlebars from 'handlebars';
+import * as fs from 'fs';
+import * as path from 'path';
+import { Common } from '../config/Common';
 
 import { Forms } from '../strategy/HTML/Forms';
-import {InputTagGeneration} from '../strategy/HTML/Input';
+import { InputTagGeneration } from '../strategy/HTML/Input';
 import { ComponentWorker } from '../worker/componentworker/componentworker';
 import { ComponentServiceWorker } from '../worker/componentservice/componentserviceworker';
 import { ComponentModuleWorker } from '../worker/componentmodule/componentmoduleworker';
 import { AppModuleWorker } from '../worker/dependency-worker/AppModuleWorker';
 import { AppRoutingModuleWorker } from './dependency-worker/AppRoutingModuleWorker';
-import  { BootstrapTable } from '../strategy/HTML/BootstrapTable';
-import { AgGrid } from '../strategy/HTML/Ag-grid'
+import { BootstrapTable } from '../strategy/HTML/BootstrapTable';
+import { AgGrid } from '../strategy/HTML/Ag-grid';
+import { ComponentSupportWorker } from '../supportworker/componentsupportworker/componentsupportworker'
+import { Constant } from '../assets/Constant';
 
 let forms = new Forms();
 let generateInput = new InputTagGeneration();
 let bootstrapTableHtml = new BootstrapTable();
 let agGridTableHtml = new AgGrid();
+let componentSupport = new ComponentSupportWorker();
+
 
 const componentWorker = new ComponentWorker();
 const componentServiceWorker = new ComponentServiceWorker();
@@ -43,36 +51,60 @@ export class GenerateHtmlWorker {
         componentWorker.generateComponent(details, (res, err) => {
             componentServiceWorker.generateComponentService(details, (res, err) => {
                 componentModuleWorker.generateComponentModule(details, (res, err) => {
-                    
+
                 });
             });
         });
     }
-    generateHtml(grapesJSMetadata, screensData, details) {
-        let screenHtmlContent: any;
-        this.forEach(grapesJSMetadata, (item, index, arr) => {
-            this.tagName = this.tagNameFunction(item);
-            if (this.tagName == 'form') {
-                forms.formHTMLGeneration(item, screensData, details, (response) => {
-                    screenHtmlContent.push({data: response});
-                });
-            }
-            if (this.tagName == 'input') {
-                let formResponse = generateInput.inputGeneration(item);
-            }
-            if (this.tagName == 'grid-type') {
-                if(screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
-                    bootstrapTableHtml.BootstrapTableHTMLGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({data: response});
-                    })
+    async generateHtml(grapesJSMetadata, screensData, details) {
+        let templatePath = path.resolve(__dirname, '../../templates');
+        let screenHtmlContent = [];
+        let filePath = templatePath + `/componenthtml.handlebars`;
+        let projectGenerationPath = details.projectGenerationPath;
+        let applicationPath = projectGenerationPath + `/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
+        var screenName = screensData.screenName;
+        let screenGenerationPath = applicationPath + `/${screenName}`;
+        await asyncLoop(grapesJSMetadata, (item, next) => {
+            if (item) {
+                this.tagName = this.tagNameFunction(item);
+                if (this.tagName == 'form') {
+                    forms.formHTMLGeneration(item, screensData, details, (response) => {
+                        screenHtmlContent.push({ data: response.toString() });
+                        next();
+                    });
                 }
-                else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
-                    agGridTableHtml.agGridTableHTMLGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({data: response});
-                    })
+                if (this.tagName == 'input') {
+                    let formResponse = generateInput.inputGeneration(item);
+                    next();
                 }
+                if (this.tagName == 'grid-type') {
+                    if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
+                        bootstrapTableHtml.BootstrapTableHTMLGeneration(item, screensData, details, (response) => {
+                            screenHtmlContent.push({ data: response });
+                            next();
+                        })
+                    }
+                    else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
+                        agGridTableHtml.agGridTableHTMLGeneration(item, screensData, details, (response) => {
+                            screenHtmlContent.push({ data: response });
+                            next();
+                        })
+                    }
+                }
+            } else {
+                next();
+            }
+        }, (err) => {
+            if (err) {
+                console.log(err);
+            } else {
+                let fileData = {
+                    screenHtmlContent: screenHtmlContent.join('\n')
+                }
+                this.handleBarsFile(filePath, fileData, screenGenerationPath, screenName);
             }
         })
+        
     }
 
     tagNameFunction(firstEle) {
@@ -110,5 +142,22 @@ export class GenerateHtmlWorker {
         appModuleWorker.importComponentModules(details, (res, err) => {
             callback('Modules Imported Successfully', null);
         });
+    }
+
+    handleBarsFile(filePath, fileData, screenGenerationPath, screenName) {
+        return new Promise(resolve => {
+            fs.readFile(filePath, 'utf-8', (err, data) => {
+                var source = data;
+                Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
+                    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+                });
+                var template = Handlebars.compile(source);
+                var result = template(fileData);
+                Common.createFolders(screenGenerationPath);
+                fs.writeFile(screenGenerationPath + `/${screenName}.component.html`, result, (response) => {
+                    resolve(response);
+                })
+            });
+        })
     }
 }

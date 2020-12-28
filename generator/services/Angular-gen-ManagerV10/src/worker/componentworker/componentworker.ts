@@ -23,7 +23,6 @@ export class ComponentWorker {
      */
     generateComponent(details, callback) {
         details = JSON.parse(JSON.stringify(details));
-        console.log('DETAILS--->>>>', JSON.stringify(details));
         details.desktop.forEach(async (desktopElement: any) => {
             const screenName = desktopElement.screenName.toLowerCase();
             const firstElement = screenName.charAt(0).toUpperCase();

@@ -79,10 +79,7 @@ export class Forms {
                 });
                 var template = Handlebars.compile(source);
                 var result = template(fileData);
-                Common.createFolders(screenGenerationPath);
-                fs.writeFile(screenGenerationPath + `/${screenName}.component.html`, result, (response) => {
-                    resolve(response);
-                })
+                resolve(result);
             });
         })
     }
