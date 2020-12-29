@@ -1,27 +1,27 @@
 import * as Handlebars from 'handlebars';
 import * as fs from 'fs';
-import { response } from 'express';
-import { couldStartTrivia } from 'typescript';
 import * as path from 'path';
-import { Common } from '../../config/Common';
 
 export class Forms {
 
 
     async formHTMLGeneration(formData, screenData, details, callback) {
-        var stylesData = JSON.parse(screenData['gjs-styles']);
-        var screenEntityDetails = screenData.entity_info;
-        var overAllEntities = details.entities;
-        var screenFlowDetails = screenData.flows_info;
+        let screenEntityDetails = screenData.entity_info;
+        let overAllEntities = details.entities;
+        let screenFlowDetails = screenData.flows_info;
         let projectGenerationPath = details.projectGenerationPath;
         let applicationPath = projectGenerationPath + '/src/app';
-        var screenName = screenData.screenName;
+        let screenName = screenData.screenName;
         if (formData.components !== undefined) {
             formData.components.forEach(component => {
                 if (component.classes !== undefined) {
                     component.cssClassName = '';
-                    component.classes.forEach(classData => {
-                        component.cssClassName += `${classData.name} `;
+                    component.classes.forEach((classData, index) => {
+                        component.cssClassName += `${classData.name}`;
+                        if (component.classes.length - 1 == index) {
+                        } else {
+                            component.cssClassName += ` `;
+                        }
                     })
                 }
                 if (component.components !== undefined) {
@@ -46,39 +46,39 @@ export class Forms {
                         if (childComponentData.classes !== undefined) {
                             childComponentData.cssClass = '';
                             childComponentData.classes.forEach((childComponentClassData, index) => {
-                                let childComponentClassDataObject = childComponentClassData;
-                                childComponentData.cssClass += `${childComponentClassData.name} `;
+                                childComponentData.cssClass += `${childComponentClassData.name}`;
+                                if (childComponentData.classes.length - 1 == index) {
+                                } else {
+                                    childComponentData.cssClass += ` `;
+                                }
                             })
                         }
                     });
                 }
-                if (component.attributes !== undefined) {
-                    let componentAttributes = component.attributes;
-                }
             });
         }
 
-        var fileData = {
+        let fileData = {
             components: formData.components
         }
 
         let templatePath = path.resolve(__dirname, './template');
         let filePath = templatePath + `/${formData.tagName}.handlebars`;
         let screenGenerationPath = applicationPath + `/${screenName}`
-        let result: any = await this.handleBarsFile(filePath, fileData, screenGenerationPath, screenName);
+        let result: any = await this.handleBarsFile(filePath, fileData);
         callback(result);
     }
 
 
-    handleBarsFile(filePath, fileData, screenGenerationPath, screenName) {
+    handleBarsFile(filePath, fileData) {
         return new Promise(resolve => {
             fs.readFile(filePath, 'utf-8', (err, data) => {
-                var source = data;
+                let source = data;
                 Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
                     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
                 });
-                var template = Handlebars.compile(source);
-                var result = template(fileData);
+                let template = Handlebars.compile(source);
+                let result = template(fileData);
                 resolve(result);
             });
         })

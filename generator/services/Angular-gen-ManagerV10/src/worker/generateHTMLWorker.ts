@@ -61,7 +61,8 @@ export class GenerateHtmlWorker {
             });
         });
     }
-    async generateHtml(grapesJSMetadata, screensData, details) {
+
+    async generateHtml(gjsComponentMetadata, screensData, details) {
         let templatePath = path.resolve(__dirname, '../../templates');
         let screenHtmlContent = [];
         let filePath = templatePath + `/componenthtml.handlebars`;
@@ -69,19 +70,23 @@ export class GenerateHtmlWorker {
         let applicationPath = projectGenerationPath + `/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
         var screenName = screensData.screenName;
         let screenGenerationPath = applicationPath + `/${screenName}`;
-        await asyncLoop(grapesJSMetadata, (item, next) => {
+        await asyncLoop(gjsComponentMetadata, (item, next) => {
             if (item) {
                 this.tagName = this.tagNameFunction(item);
+                // form generation
                 if (this.tagName == 'form') {
                     forms.formHTMLGeneration(item, screensData, details, (response) => {
                         screenHtmlContent.push({ data: response.toString() });
                         next();
                     });
                 }
+
+                // specific Input generation
                 if (this.tagName == 'input') {
-                    let formResponse = generateInput.inputGeneration(item);
+                    let inputResponse = generateInput.inputGeneration(item);
                     next();
                 }
+                // 
                 if (this.tagName == 'grid-type') {
                     if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
                         bootstrapTableHtml.BootstrapTableHTMLGeneration(item, screensData, details, (response) => {
