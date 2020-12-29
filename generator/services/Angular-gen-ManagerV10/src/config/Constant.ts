@@ -131,4 +131,16 @@ export class Constant {
     public static GP_DELETEBYPARENTID_FLOW = `GpDeleteByParentId`;
     public static GP_GETNOUNBYPARENTID_FLOW = `GpGetNounByParentId`;
 
+    // package module
+    public static PACKAGE_MODULE = [
+        `"angular-i18next": "^5.0.6"`,
+        `"angular-validation-message": "^1.1.0"`,
+        `"i18next": "^14.0.1"`,
+        `"i18next-browser-languagedetector": "^2.2.4"`,
+        `"i18next-sprintf-postprocessor": "^0.2.2"`,
+        ` "i18next-xhr-backend": "^1.5.1"`,
+        `"angular-6-social-login": "^1.1.1",`,
+        `"@ng-select/ng-select": "^5.0.3",`,
+    ]
+
 }
