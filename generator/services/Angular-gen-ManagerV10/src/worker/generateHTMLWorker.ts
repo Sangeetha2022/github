@@ -18,6 +18,7 @@ import { AgGrid } from '../strategy/HTML/Ag-grid';
 import { ComponentSupportWorker } from '../supportworker/componentsupportworker/componentsupportworker'
 import { Constant } from '../config/Constant';
 import { Link } from '../strategy/HTML/Link';
+import { ComponentCSSworker } from './componentworker/componentCSSworker';
 
 let forms = new Forms();
 let generateInput = new InputTagGeneration();
@@ -32,6 +33,7 @@ const componentServiceWorker = new ComponentServiceWorker();
 const componentModuleWorker = new ComponentModuleWorker();
 const appModuleWorker = new AppModuleWorker();
 const appRoutingModuleWorker = new AppRoutingModuleWorker()
+const componetCssWorker = new ComponentCSSworker()
 
 
 export class GenerateHtmlWorker {
@@ -51,9 +53,10 @@ export class GenerateHtmlWorker {
     }
     private generateComponent(details) {
         componentWorker.generateComponent(details, (res, err) => {
-            componentServiceWorker.generateComponentService(details, (res, err) => {
-                componentModuleWorker.generateComponentModule(details, (res, err) => {
-
+            componetCssWorker.generateComponentCss(details, (res, err) => {
+                componentServiceWorker.generateComponentService(details, (res, err) => {
+                    componentModuleWorker.generateComponentModule(details, (res, err) => {
+                    })
                 });
             });
         });
@@ -93,7 +96,7 @@ export class GenerateHtmlWorker {
                         })
                     }
                 }
-                if(this.tagName === 'a') {
+                if (this.tagName === 'a') {
                     link.generateLink(item, screensData, details, (response) => {
                         screenHtmlContent.push({ data: response });
                         next();
@@ -112,7 +115,7 @@ export class GenerateHtmlWorker {
                 this.handleBarsFile(filePath, fileData, screenGenerationPath, screenName);
             }
         })
-        
+
     }
 
     tagNameFunction(firstEle) {
@@ -147,6 +150,9 @@ export class GenerateHtmlWorker {
     }
 
     modifyDependency(details, callback) {
+        appRoutingModuleWorker.importRoutingModules(details, (res, err) => {
+            callback('Lazy loading Imported Successfully', null);
+        })
         appModuleWorker.importComponentModules(details, (res, err) => {
             callback('Modules Imported Successfully', null);
         });
