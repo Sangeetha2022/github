@@ -170,3 +170,9 @@ export const agGridComponents = [
     "paginationPageSize = 10;",
     "rowData: any = [];"
 ];
+export const queryParamSubscribe = [
+    "this.activatedRoute.queryParams.subscribe(params => { ",
+    "this.queryId = params.id;",
+    "this.GpGetNounById();",
+    "});"
+];

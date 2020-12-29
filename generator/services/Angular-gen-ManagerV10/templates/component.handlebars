@@ -39,10 +39,7 @@ export class {{ GpOptions.className }} implements OnInit {
     ngOnInit() {
     {{#each GpCodeToAdd.lifecycle_info }}
         {{#if queryParams}}
-        this.activatedRoute.queryParams.subscribe(params => { 
-            this.queryId = params.id; 
-            this.GpGetNounById();
-        });
+            {{{ queryParamSubscribe }}}
         {{/if}}
         {{#if getAll}}
         this.GpGetAllValues();

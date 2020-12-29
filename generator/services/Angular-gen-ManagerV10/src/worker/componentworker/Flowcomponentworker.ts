@@ -1,4 +1,5 @@
 import { Constant } from '../../config/Constant';
+import { queryParamSubscribe } from '../../config/componentDependency';
 
 export class FlowComponentWorker {
     /**
@@ -62,6 +63,7 @@ export class FlowComponentWorker {
             if(routeInfo && routeInfo.length > 0) {
                 const temp: any = {};
                 temp.queryParams = true;
+                temp.queryParamSubscribe = queryParamSubscribe.join('\n \t');
                 lifecycle.push(temp);
             }
         });
