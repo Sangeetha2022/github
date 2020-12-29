@@ -1,4 +1,4 @@
-import { Constant } from '../assets/Constant';
+import { Constant } from '../config/Constant';
 import * as util from 'util';
 import { Common } from '../config/Common';
 import * as path from 'path';

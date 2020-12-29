@@ -16,7 +16,7 @@ import { AppRoutingModuleWorker } from './dependency-worker/AppRoutingModuleWork
 import { BootstrapTable } from '../strategy/HTML/BootstrapTable';
 import { AgGrid } from '../strategy/HTML/Ag-grid';
 import { ComponentSupportWorker } from '../supportworker/componentsupportworker/componentsupportworker'
-import { Constant } from '../assets/Constant';
+import { Constant } from '../config/Constant';
 import { Link } from '../strategy/HTML/Link';
 
 let forms = new Forms();

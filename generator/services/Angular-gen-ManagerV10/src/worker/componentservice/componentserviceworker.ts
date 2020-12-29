@@ -1,7 +1,7 @@
 import * as path from 'path';
 
 import { FlowServiceWorker } from './Flowserviceworker';
-import { Constant } from '../../assets/Constant';
+import { Constant } from '../../config/Constant';
 import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
 
 const flowServiceWorker = new FlowServiceWorker();

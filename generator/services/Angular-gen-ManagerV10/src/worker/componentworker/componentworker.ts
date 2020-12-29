@@ -5,7 +5,7 @@ import * as path from 'path';
 import { ThirdPartyWorker } from '../ThirdPartyWorker';
 import { FlowComponentWorker } from "./Flowcomponentworker";
 import { Common } from '../../config/Common';
-import { Constant } from '../../assets/Constant';
+import { Constant } from '../../config/Constant';
 import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
 import { RouteWorker } from '../Routeworker';
 

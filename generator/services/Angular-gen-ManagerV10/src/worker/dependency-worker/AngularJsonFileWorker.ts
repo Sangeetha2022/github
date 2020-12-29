@@ -1,5 +1,5 @@
 import {DependencySupportWorker} from '../../supportworker/dependencysupportworker/dependencysupportworker';
-import { Constant } from '../../assets/Constant';
+import { Constant } from '../../config/Constant';
 
 let dependencySupportWorker = new DependencySupportWorker();
 

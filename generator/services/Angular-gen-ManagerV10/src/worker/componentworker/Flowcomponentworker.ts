@@ -1,4 +1,4 @@
-import { Constant } from '../../assets/Constant';
+import { Constant } from '../../config/Constant';
 
 export class FlowComponentWorker {
     /**

@@ -1,4 +1,4 @@
-import { Constant } from '../../assets/Constant'
+import { Constant } from '../../config/Constant'
 export class ComponentCSSworker {
     // public generateComponentCss(applicationPath, templatePath, componentName, information, callback) {
     //     console.log('---------Css information ------', information);
