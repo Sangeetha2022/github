@@ -1,6 +1,6 @@
 import * as path from 'path';
 
-import { moduleHeaders } from '../../assets/componentDependency';
+import { moduleHeaders } from '../../config/componentDependency';
 import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
 import { ThirdPartyWorker } from '../ThirdPartyWorker';
 

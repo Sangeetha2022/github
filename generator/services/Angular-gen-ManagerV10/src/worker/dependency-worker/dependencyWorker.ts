@@ -1,7 +1,10 @@
 import {AngularJsonFileWorker} from './AngularJsonFileWorker';
+import { PackageJsonFileWorker } from '../dependency-worker/packageJsonFileWorker'
 import { Common } from '../../config/Common';
+import { Constant } from '../../config/Constant';
 
 let angularJsonFileWorker = new AngularJsonFileWorker();
+let packageJsonFileWorker = new PackageJsonFileWorker();
 
 export class DependencyWorker {
     public angularJsonData: any;
@@ -31,7 +34,7 @@ export class DependencyWorker {
     //     // if (this.packageModule.length > 0) {
     //     this.configAppModule.push(`    "module": "esnext",`);
     //     console.log(`package json -------`, this.packageModule)
-    //     dependencyWorker.modifyPackageFile(packagePath, this.packageModule);
+        packageJsonFileWorker.modifyPackageFile(packagePath, Constant.PACKAGE_MODULE);
     //     // dependencyWorker.modifyConfigAppJSONFile(packagePath, this.configAppModule);
     //     this.initializePackageModule();
     //     // }
