@@ -13,6 +13,8 @@ export class Constant {
     // flow 
     public static GP_ANGULAR_COMPONENT = `gpangularcomponent`;
     public static GP_ANGULAR_SERVICE = `gpangularservice`;
+    public static GP_ANGULAR_COMPONENT_MICROFLOW = `GpAngularComponent`;
+    public static GP_ANGULAR_SERVICE_MICROFLOW = `GpAngularService`;
 
     // microflow stepName
     public static COMPONENT_HEADER_MICROFLOW = `gpheaders`;
