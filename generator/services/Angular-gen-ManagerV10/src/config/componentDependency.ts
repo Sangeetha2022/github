@@ -162,3 +162,11 @@ export const component = [
 export const moduleHeaders = [
     { importName: 'FormsModule, ReactiveFormsModule',  importPath: '@angular/forms'}
 ];
+export const agGridComponents = [
+    "gridApi: any;",
+    "gridColumnApi: any;",
+    "rowSelection = 'single';",
+    "defaultColDef = { editable: false, sortable: true, resizable: true, filter: true };",
+    "paginationPageSize = 10;",
+    "rowData: any = [];"
+];

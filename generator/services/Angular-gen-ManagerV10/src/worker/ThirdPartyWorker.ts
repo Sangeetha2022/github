@@ -1,10 +1,12 @@
 import { Constant } from "../config/Constant";
+import { agGridComponents } from "../config/componentDependency";
 
 export class ThirdPartyWorker {
 
     constructAgGridComponents(desktopElement: any, microflowObject: any) {
         microflowObject.GpOptions['is_grid_present'] = desktopElement.is_grid_present;
         if (desktopElement.is_grid_present && desktopElement.is_grid_present == true) {
+            microflowObject.GpOptions['grid_components'] = agGridComponents.join('\n \t');
             if (desktopElement.grid_fields) {
                 const columnDefs = [];
                 desktopElement.grid_fields.custom_field.forEach((element: any) => {

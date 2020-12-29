@@ -36,7 +36,7 @@ export class ComponentWorker {
             microflowObject.GpOptions = {};
             microflowObject.GpOptions['screenName'] = screenName;
             microflowObject.GpOptions['className'] = firstElement + otherElements + 'Component';
-            const entities = this.constructEntities(details.entities, desktopElement.entity_info);
+            const entities = this.constructEntities(details.entities, desktopElement.entity_info, desktopElement);
             microflowObject.GpOptions['entities'] = entities;
             microflowObject.GpOptions['variables'] = [];
             microflowObject.GpOptions['arrayVariables'] = [];
@@ -97,11 +97,12 @@ export class ComponentWorker {
      * @param entity_info 
      * Constructing Entities for Handlebars
      */
-    private constructEntities(entities: Array<Object>, entity_info: Array<Object>) {
+    private constructEntities(entities: Array<Object>, entity_info: Array<Object>, desktopElement) {
+        // Mapping the entities for forms
         const entityIds = entity_info.map((e: any) => e.entityId);
-        entities = entities.filter((e: any) => entityIds.includes(e._id));
+        const entitiesFilter = entities.filter((e: any) => entityIds.includes(e._id));
         let entityArray: any = [];
-        entities.forEach((entity: any) => {
+        entitiesFilter.forEach((entity: any) => {
             let entityObject: any = {};
             entityObject.name = entity.name;
             if (entity.field && entity.field.length > 0) {
@@ -113,6 +114,26 @@ export class ComponentWorker {
                 entityArray.push(entityObject);
             }
         });
+        // Mapping the entities for link worker
+        let gjsComponents: any = desktopElement['gjs-components'][0];
+        if (gjsComponents && gjsComponents.length > 0) {
+            gjsComponents = JSON.parse(gjsComponents);
+            gjsComponents.forEach((element: any) => {
+                if (element.entity) {
+                    const entity: any = entities.filter((e: any) => e.name === element.entity);
+                    let entityObject: any = {};
+                    if (entity && entity.length > 0) {
+                        entityObject.name = entity[0].name;
+                        const fieldName = [];
+                        entity[0].field.map(e => {
+                            fieldName.push({ name: e.name });
+                        });
+                        entityObject.field = fieldName;
+                        entityArray.push(entityObject);
+                    }
+                }
+            });
+        }
         return entityArray;
     }
 }

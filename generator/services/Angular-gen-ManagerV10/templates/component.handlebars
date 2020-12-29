@@ -27,12 +27,7 @@ export class {{ GpOptions.className }} implements OnInit {
     }
 {{/each}}
 {{#if GpOptions.is_grid_present}}
-    gridApi: any;
-    gridColumnApi: any;
-    rowSelection = 'single';
-    defaultColDef = { editable: false, sortable: true, resizable: true, filter: true };
-    paginationPageSize = 10;
-    rowData: any = [];
+    {{{ GpOptions.grid_components }}}
 {{/if}}
 
     constructor (
