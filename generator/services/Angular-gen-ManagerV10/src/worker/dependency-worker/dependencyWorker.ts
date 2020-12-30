@@ -9,14 +9,18 @@ let packageJsonFileWorker = new PackageJsonFileWorker();
 export class DependencyWorker {
     public angularJsonData: any;
     public packageModule: any;
-    public modifyDependency(packagePath, srcPath, applicationPath, globalStyle, microFlows, callback) {
+    public modifyDependency(details, callback) {
 
     //toaster implemented angular.json and package.json files
-        if (microFlows.length > 0) {
-            microFlows.map(data => {
+    const flows = details.flows
+    const packagePath = details.projectGenerationPath;
+    const srcPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}`;
+    const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
+        if (flows.length > 0) {
+            flows.map(data => {
                 if (data.actionOnData == 'GpCreate' || data.actionOnData == 'GpUpdate') {
                     this.angularJsonData = [];
-                    this.packageModule.push(`"ngx-toastr": "^10.1.0",`)
+                    Constant.PACKAGE_MODULE.push(`"ngx-toastr": "^10.1.0",`)
                     this.angularJsonData.push('node_modules/ngx-toastr/toastr.css')
                     angularJsonFileWorker.modifyAngularJsonFile(packagePath, this.angularJsonData)
                 }
@@ -44,6 +48,6 @@ export class DependencyWorker {
     //     }
     //     // modify proxy file
     //     flowServiceWorker.modifyProxyFile(packagePath);
-    //     callback();
+        callback();
     }
 }

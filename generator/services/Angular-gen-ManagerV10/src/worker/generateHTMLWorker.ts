@@ -20,6 +20,7 @@ import { ComponentSupportWorker } from '../supportworker/componentsupportworker/
 import { Constant } from '../config/Constant';
 import { Link } from '../strategy/HTML/Link';
 import { ComponentCSSworker } from './componentworker/componentCSSworker';
+import { DependencyWorker } from './dependency-worker/dependencyWorker';
 
 import { CheckBox } from '../strategy/HTML/Checkbox';
 import { Select} from '../strategy/HTML/Select'
@@ -34,13 +35,13 @@ let agGridTableHtml = new AgGrid();
 let componentSupport = new ComponentSupportWorker();
 const link = new Link();
 
-
 const componentWorker = new ComponentWorker();
 const componentServiceWorker = new ComponentServiceWorker();
 const componentModuleWorker = new ComponentModuleWorker();
 const appModuleWorker = new AppModuleWorker();
-const appRoutingModuleWorker = new AppRoutingModuleWorker()
-const componetCssWorker = new ComponentCSSworker()
+const appRoutingModuleWorker = new AppRoutingModuleWorker();
+const componetCssWorker = new ComponentCSSworker();
+const dependencyWorker = new DependencyWorker();
 
 
 export class GenerateHtmlWorker {
@@ -56,13 +57,14 @@ export class GenerateHtmlWorker {
         this.screenInfo = screenDetails;
         let metaData: any = JSON.parse(screenDetails['gjs-components'][0]);
         this.generateHtml(metaData, screenDetails, details);
-        this.generateComponent(details);
+        this.generateComponent(details, callback);
     }
-    private generateComponent(details) {
+    private generateComponent(details, callback) {
         componentWorker.generateComponent(details, (res, err) => {
             componetCssWorker.generateComponentCss(details, (res, err) => {
                 componentServiceWorker.generateComponentService(details, (res, err) => {
                     componentModuleWorker.generateComponentModule(details, (res, err) => {
+                        callback();
                     })
                 });
             });
@@ -180,12 +182,7 @@ export class GenerateHtmlWorker {
     }
 
     modifyDependency(details, callback) {
-        appRoutingModuleWorker.importRoutingModules(details, (res, err) => {
-            callback('Lazy loading Imported Successfully', null);
-        })
-        appModuleWorker.importComponentModules(details, (res, err) => {
-            callback('Modules Imported Successfully', null);
-        });
+        dependencyWorker.modifyDependency(details, callback);
     }
 
     handleBarsFile(filePath, fileData, screenGenerationPath, screenName) {
