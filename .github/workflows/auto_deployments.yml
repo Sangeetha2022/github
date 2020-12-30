@@ -55,7 +55,7 @@ jobs:
         while read path;
         do
           directory="$( echo $path )"
-          if [[ $directory != application/client/desktop/* ]]; then
+          if [[ $directory != application/clients/desktop/* ]]; then
             echo "::set-output name=ui::notcommited" 
             continue
           else
