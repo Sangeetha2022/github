@@ -7,6 +7,8 @@ import * as path from 'path';
 import { Common } from '../config/Common';
 
 import { Forms } from '../strategy/HTML/Forms';
+import { Button } from '../strategy/HTML/Button';
+import { RadioButton } from '../strategy/HTML/Radiobutton';
 import { InputTagGeneration } from '../strategy/HTML/Input';
 import { ComponentWorker } from '../worker/componentworker/componentworker';
 import { ComponentServiceWorker } from '../worker/componentservice/componentserviceworker';
@@ -27,6 +29,8 @@ import { Select} from '../strategy/HTML/Select'
 
 
 let forms = new Forms();
+let button = new Button ();
+let radiobutton = new RadioButton();
 let select = new Select();
 let checkbox = new CheckBox();
 let generateInput = new InputTagGeneration();
@@ -95,17 +99,29 @@ export class GenerateHtmlWorker {
 
                     if (item.type == 'input') {
                         generateInput.inputGeneration(item, screensData, details, (response) => {
-                            screenHtmlContent.push({ data: response.toString() });
+                            screenHtmlContent.push({ data: response.toString() });                            
                             next();
-                        });
+                        });                        
                     }
-
+                    if (item.type == 'radio') {
+                        radiobutton.radiobuttonHTMLGeneration(item, screensData, details, (response) => {
+                           screenHtmlContent.push({ data: response.toString() });
+                           next();
+                       });
+                   }
+                    
                     if (item.type == 'checkbox') {
                         checkbox.checkboxGeneration(item, screensData, details, (response) => {
                             screenHtmlContent.push({ data: response.toString() });
                             next();
                         });
                     }
+                }
+                if (this.tagName == 'button') {
+                    let formResponse = button.buttonHTMLGeneration(item, screensData, details, (response) => {
+                        screenHtmlContent.push({ data: response.toString() });
+                        next();
+                    });
                 }
                 if (this.tagName == 'select') {
                     select.SelectGeneration(item, screensData, details, (response) => {

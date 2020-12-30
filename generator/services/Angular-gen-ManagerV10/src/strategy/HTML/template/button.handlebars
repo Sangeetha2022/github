@@ -1,0 +1,12 @@
+<div id="{{buttonData.attributes.id}}" class="{{buttonData.cssClassName}}">
+
+
+    <button {{#if buttonData.attributes.type}}type="{{buttonData.attributes.type}}" {{/if}}
+        class="{{buttonData.cssClassName}}"
+        name="{{buttonData.name}}" {{#if
+        buttonData.flowDetails.verb}}({{buttonData.flowDetails.verb}})="{{buttonData.flowDetails.flowName}}()" {{/if}}
+        >{{buttonData.content}}</button>
+
+
+
+</div>

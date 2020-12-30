@@ -163,4 +163,7 @@ export class Constant {
         `"@ng-select/ng-select": "^5.0.3",`,
     ]
 
+    //Standalone
+    public static STANDALONE = '[ngModelOptions]="{standalone: true}"';
+
 }
