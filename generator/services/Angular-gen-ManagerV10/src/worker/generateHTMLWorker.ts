@@ -16,11 +16,18 @@ import { AppRoutingModuleWorker } from './dependency-worker/AppRoutingModuleWork
 import { BootstrapTable } from '../strategy/HTML/BootstrapTable';
 import { AgGrid } from '../strategy/HTML/Ag-grid';
 import { ComponentSupportWorker } from '../supportworker/componentsupportworker/componentsupportworker'
+
 import { Constant } from '../config/Constant';
 import { Link } from '../strategy/HTML/Link';
 import { ComponentCSSworker } from './componentworker/componentCSSworker';
 
+import { CheckBox } from '../strategy/HTML/Checkbox';
+import { Select} from '../strategy/HTML/Select'
+
+
 let forms = new Forms();
+let select = new Select();
+let checkbox = new CheckBox();
 let generateInput = new InputTagGeneration();
 let bootstrapTableHtml = new BootstrapTable();
 let agGridTableHtml = new AgGrid();
@@ -83,8 +90,26 @@ export class GenerateHtmlWorker {
 
                 // specific Input generation
                 if (this.tagName == 'input') {
-                    let inputResponse = generateInput.inputGeneration(item);
-                    next();
+
+                    if (item.type == 'input') {
+                        generateInput.inputGeneration(item, screensData, details, (response) => {
+                            screenHtmlContent.push({ data: response.toString() });
+                            next();
+                        });
+                    }
+
+                    if (item.type == 'checkbox') {
+                        checkbox.checkboxGeneration(item, screensData, details, (response) => {
+                            screenHtmlContent.push({ data: response.toString() });
+                            next();
+                        });
+                    }
+                }
+                if (this.tagName == 'select') {
+                    select.SelectGeneration(item, screensData, details, (response) => {
+                        screenHtmlContent.push({ data: response.toString() });
+                        next();
+                    });
                 }
                 // 
                 if (this.tagName == 'grid-type') {

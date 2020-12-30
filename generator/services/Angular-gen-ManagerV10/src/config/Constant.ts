@@ -113,9 +113,10 @@ export class Constant {
     public static NGINX_
 
     // html component tag
-    public static SELECT_TS_OPTION_VARIABLENAME = 'option';
+    public static SELECT_TS_OPTION_VARIABLENAME = 'options';
     public static SELECT_KEY_VARIABLENAME = 'key';
     public static SELECT_VALUE_VARIABLENAME = 'value';
+    public static SELECT_OPTION_TAG = '<option  *ngFor="let option of options" [ngValue]="option.key">{{option.value}}</option>'
 
     // list of flow action
     public static GP_CREATE_FLOW = `GpCreate`;
