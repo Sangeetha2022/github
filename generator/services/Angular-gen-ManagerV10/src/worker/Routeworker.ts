@@ -1,7 +1,4 @@
-import { Constant } from '../config/Constant';
-import * as util from 'util';
-import { Common } from '../config/Common';
-import * as path from 'path';
+import { onSelectionChangedBody } from "../config/componentDependency";
 
 export class RouteWorker {
 
@@ -27,14 +24,14 @@ export class RouteWorker {
             route_info.forEach((element: any) => {
                 let temp: any = {};
                 temp.flowName = element.methodName;
-                temp.navigationUrl = './' + element.screenName;
-                temp.objectName = 'this.router';
-                temp.parameterName = 'queryId'
+                temp.parameterName = 'queryId';
+                temp.body = `this.router.navigate(['./${element.screenName}'], { queryParams: { 'id': queryId } })`;
                 routes.push(temp);
             });
             routes.push({
                 flowName: 'onSelectionChanged',
                 parameterName: 'event',
+                body: onSelectionChangedBody.join('\n \t \t')
             });
             microflowObject.GpCodeToAdd['route_info'] = routes;
             if (microflowObject.GpCodeToAdd['route_info'].length > 0) {

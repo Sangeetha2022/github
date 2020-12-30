@@ -78,7 +78,7 @@ export class GenerateHtmlWorker {
     async generateHtml(gjsComponentMetadata, screensData, details) {
         let templatePath = path.resolve(__dirname, '../../templates');
         let screenHtmlContent = [];
-        let filePath = templatePath + `/componenthtml.handlebars`;
+        let filePath = templatePath + `/ComponentHtml.handlebars`;
         let projectGenerationPath = details.projectGenerationPath;
         let applicationPath = projectGenerationPath + `/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
         var screenName = screensData.screenName;

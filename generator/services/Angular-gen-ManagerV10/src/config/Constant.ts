@@ -148,8 +148,6 @@ export class Constant {
 
     // App Path
     public static SRC_APP = '/src/app';
-    // Handlebars Path
-    public static COMPONENT_PATH = '../../../templates/component.handlebars';
 
     // package module
     public static PACKAGE_MODULE = [

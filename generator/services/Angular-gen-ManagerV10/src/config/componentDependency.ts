@@ -176,3 +176,16 @@ export const queryParamSubscribe = [
     "this.GpGetNounById();",
     "});"
 ];
+export const onSelectionChangedBody = [
+    'const selectedRows = this.gridApi.getSelectedRows();',
+    'this.GpRoute(selectedRows[0]._id);'
+];
+export const gpSearchBody = [
+    'const temp = [];',
+    'const objectKeyPair = Object.entries(paramName);',
+    'objectKeyPair.forEach((element, index) => {',
+        'if (element[1]) {',
+            'temp.push(`${element[0]}=${element[1]}`);',
+        '}',
+    '});'
+];

@@ -25,7 +25,7 @@ export class ComponentCSSworker {
             const screenName = desktopElement.screenName.toLowerCase();
             let cssPayload = this.constructPayLoad()
             cssPayload.screenCssContent.push({ data: desktopElement["gjs-css"] });
-            const templatePath = path.resolve(__dirname, '../../../templates/componentScss.handlebars');
+            const templatePath = path.resolve(__dirname, '../../../templates/ComponentScss.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/' + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME;
             const screenGenerationPath = applicationPath + `/${screenName}`;

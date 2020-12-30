@@ -53,7 +53,7 @@ export class ComponentWorker {
             microflowObject = flowComponentWorker.constructLifecycle(details.desktop, desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructAgGridComponents(desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructThirdPartyComponents(desktopElement, microflowObject);
-            const templatePath = path.resolve(__dirname, '../../../templates/component.handlebars');
+            const templatePath = path.resolve(__dirname, '../../../templates/ComponentTs.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/' + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME;
             const screenGenerationPath = applicationPath + `/${screenName}`;
