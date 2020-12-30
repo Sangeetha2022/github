@@ -71,7 +71,7 @@
         </mat-expansion-panel>
         <mat-expansion-panel>
             <mat-expansion-panel-header>
-                <mat-panel-title> Geppetto demo model Applications</mat-panel-title>
+                <mat-panel-title> Geppetto Sample Applications</mat-panel-title>
             </mat-expansion-panel-header>
             <p>No Projects Available.</p>
         </mat-expansion-panel>
@@ -98,7 +98,8 @@
                                     <div *ngIf="form_control.name.errors.required"> {{'require_name' | i18next}}</div>
                                 </div>
                                 <div *ngIf="isProjectExit" style="color: red">name already exist</div>
-                                <div *ngIf="invalidName" style="color: red">name must starts with alphapet,special charaters not allowed</div>
+                                <div *ngIf="invalidName" style="color: red">name must starts with alphapet,special charaters not allowed
+                                </div>
                                 <div *ngIf="isReserveWord" style="color: red">name must not be reserve word
                                 </div>
                             </div>
@@ -251,8 +252,8 @@
             <div class="modal-footer">
                 <div class="form-group">
                     <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-                  {{ 'Import' | i18next }}
-                </button>
+            {{ 'Import' | i18next }}
+          </button>
                     <button type="button" class="btn button-close" (click)="closeImportModal()">{{ 'Cancel' | i18next }}</button>
                 </div>
             </div>
