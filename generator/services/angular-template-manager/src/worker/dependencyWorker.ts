@@ -14,7 +14,7 @@ export class DependencyWorker {
         // const index = baseTag.join('').findIndex(element => element.includes('gjs-base.css'));
         // console.log('gjs-base css is present are -----  ', index);
         const baseHrefTag: Array<string> = baseTag.filter(element => element.includes('<base href'));
-        if(baseHrefTag.length === 0) {
+        if (baseHrefTag.length === 0) {
             baseTag.push(`<base href="/" />`);
         }
         const temp = {
@@ -112,6 +112,14 @@ export class DependencyWorker {
             Constant.DOCKERFILE_TEMPLATE_NAME, projectName, (response) => {
                 callback();
             })
+
+        // Modify the envoriments file
+        let env = `${generationPath}/${Constant.ENV_FOLDERNAME}`
+        let env_file_name = Constant.ENV_FILENAME
+        this.modifyenvoriments(env, env_file_name);
+        // Modify the prod envoriments file
+        let env_file_name_prod = Constant.ENV_PROD_FILENAME
+        this.modifyenvoriments_prod(env, env_file_name_prod);
     }
 
     modifyAngularJsonFile(applicationPath, fileName) {
@@ -132,5 +140,30 @@ export class DependencyWorker {
         }
     }
 
+    modifyenvoriments(applicationPath, fileName) {
+        const environment = dependencySupportWorker.readFile(applicationPath, fileName);
+        const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
+        let temp = '';
+        temp += `${environment[serveIndex]}`;
+        temp += `\n  DESKTOP_API: 'http://'+window.location.hostname+':8000/desktop',`;
+        temp += `\n  MOBILE_API: '/api/mobile',`;
+        environment.splice(serveIndex, 1, temp);
+        console.log('final env rae ----------  ', environment);
+        dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
+            console.log('successfully write the environment file');
+        });
+    }
 
+    modifyenvoriments_prod(applicationPath, fileName) {
+        const environment = dependencySupportWorker.readFile(applicationPath, fileName);
+        const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
+        let temp = '';
+        temp += `${environment[serveIndex]}`;
+        temp += `\n  DESKTOP_API: 'http://<Your Domain Name or Live IP address>',`;
+        temp += `\n  MOBILE_API: 'http://<Your Domain Name or Live IP address>',`;
+        environment.splice(serveIndex, 1, temp);
+        dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
+            console.log('successfully write the prod environment file');
+        });
+    }
 }

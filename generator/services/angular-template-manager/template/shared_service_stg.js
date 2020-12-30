@@ -1,6 +1,6 @@
 /*
  * Template group shared_service
- * Compiled on Mon Oct 05 2020 21:42:46 GMT+0530 (India Standard Time)
+ * Compiled on Mon Dec 28 2020 17:58:09 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -28,6 +28,8 @@ r = function(w, rc) {
         w.write("\n");
         w.write("import { Injectable } from '@angular/core';");
         w.write("\n");
+        w.write("import { environment } from '../environments/environment';");
+        w.write("\n");
         w.write("\n");
         w.write("@Injectable({");
         w.write("\n");
@@ -38,16 +40,16 @@ r = function(w, rc) {
         w.write("})");
         w.write("\n");
         w.write("export class ");
-        st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 8, column: 21 }));
+        st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 9, column: 21 }));
         w.write("Service {");
         w.write("\n");
         w.write("\n");
         w.pushIndentation("    ");
-        w.write("public DESKTOP_API = 'http://'+window.location.hostname+':8000/desktop';");
+        w.write("public DESKTOP_API = environment.DESKTOP_API;");
         w.popIndentation();
         w.write("\n");
         w.pushIndentation("    ");
-        w.write("public MOBILE_API = '/api/mobile';");
+        w.write("public MOBILE_API = environment.MOBILE_API;");
         w.popIndentation();
         w.write("\n");
         w.write("}");
