@@ -18,6 +18,37 @@ jobs:
         instance_data_value: ${{ steps.ec2.outputs.INSTANCE_STATE }} 
         run_frontend_jobs: ${{ steps.frontend.outputs.ui}}
         run_backend_jobs: ${{ steps.Backend.outputs.backend }}
+        container : ${{ steps.Backend.outputs.featureman }} 
+                ${{ steps.Backend.outputs.entityman }} 
+                ${{ steps.Backend.outputs.flowman }} 
+                ${{ steps.Backend.outputs.microflowman }} 
+                ${{ steps.Backend.outputs.menubuilderman }}
+                ${{ steps.Backend.outputs.screeman }} 
+                ${{ steps.Backend.outputs.securityman }} 
+                ${{ steps.Backend.outputs.camundasvc }} 
+                ${{ steps.Backend.outputs.Auth }}
+                ${{ steps.Backend.outputs.templateman }} 
+                ${{ steps.Backend.outputs.api }} 
+                ${{ steps.Backend.outputs.projectman }} 
+                ${{ steps.Backend.outputs.deleteman }}
+                ${{ steps.Backend.outputs.githubman }} 
+                ${{ steps.Backend.outputs.screengenman }} 
+                ${{ steps.Backend.outputs.mongogenman }}
+                ${{ steps.Backend.outputs.admingenman }}
+                ${{ steps.Backend.outputs.nodegenman }}
+                ${{ steps.Backend.outputs.datastoreman }} 
+                ${{ steps.Backend.outputs.inframan }} 
+                ${{ steps.Backend.outputs.generationman }} 
+                ${{ steps.Backend.outputs.frontgenman }}
+                ${{ steps.Backend.outputs.backendgenman }} 
+                ${{ steps.Backend.outputs.angulargenman }} 
+                ${{ steps.Backend.outputs.angtemplateman }} 
+                ${{ steps.Backend.outputs.reactgenman }}
+                ${{ steps.Backend.outputs.configman }} 
+                ${{ steps.Backend.outputs.authgenman }}
+                ${{ steps.Backend.outputs.codegenman }} 
+                ${{ steps.Backend.outputs.ionicman }} 
+                ${{ steps.Backend.outputs.swaggergenman }}
     steps:
     - name: aws configuration
       uses: aws-actions/configure-aws-credentials@v1
@@ -69,12 +100,132 @@ jobs:
         while read path;
         do
           directory="$( echo $path )"
-          if [[ $directory != application/services/* && $directory != generator/services/*  ]]; then
-            echo "::set-output name=backend::notcommited" 
+          if [[ $directory == application/services/featuremanager/* ]]; then
+              echo "::set-output name=backend::commited" 
+              echo "::set-output name=featureman::featuremanager"
+              continue
+          elif [[ $directory == application/services/entitymanager/* ]]; then
+            echo "::set-output name=backend::commited" 
+            echo "::set-output name=entityman::entitymanager"
+            continue
+          elif [[ $directory == application/services/flowmanager/* ]]; then
+            echo "::set-output name=backend::commited" 
+            echo "::set-output name=flowman::flowmanager"
+            continue
+          elif [[ $directory == application/services/microflowmanager/* ]]; then
+            echo "::set-output name=backend::commited" 
+            echo "::set-output name=microflowman::microflowmanager"
+            continue
+          elif [[ $directory == application/services/menubuildermanager/* ]]; then
+            echo "::set-output name=backend::commited" 
+            echo "::set-output name=menubuilderman::menubuildermanager"
+            continue
+          elif [[ $directory == application/services/screenmanager/* ]]; then
+            echo "::set-output name=backend::commited" 
+            echo "::set-output name=screenman::screenmanager"
+            continue
+          elif [[ $directory == application/services/securitymanager/* ]]; then
+            echo "::set-output name=backend::commited" 
+            echo "::set-output name=securityman::securitymanager"
+            continue
+          elif [[ $directory == application/services/Camunda/* ]]; then
+            echo "::set-output name=backend::commited" 
+            echo "::set-output name=camundasvc::camundasvc"
+            continue
+          elif [[ $directory == application/services/Auth-Proxy/* ]]; then
+            echo "::set-output name=backend::commited" 
+            echo "::set-output name=Auth::authproxy"
+            continue
+          elif [[ $directory == application/services/templatemanager/* ]]; then
+            echo "::set-output name=backend::commited" 
+            echo "::set-output name=templateman::templatemanager"
+            continue
+          elif [[ $directory == application/services/apigateway/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=api::apigateway" 
+            continue
+          elif [[ $directory == application/services/projectmanager/* ]]; then
+            echo "::set-output name=backend::commited" 
+            echo "::set-output name=projectman::projectmanager"
+            continue
+          elif [[ $directory == application/services/deletemanager/* ]]; then
+            echo "::set-output name=backend::commited" 
+            echo "::set-output name=deleteman::deletemanager"
+            continue
+          elif [[ $directory == generator/services/github-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=githubman::githubmanager" 
+            continue
+          elif [[ $directory == generator/services/screen-gen-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=screengenman::angulargenmanager" 
+            continue
+          elif [[ $directory == generator/services/mongo-gen-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=mongogenman::mongogenmanager" 
+            continue
+          elif [[ $directory == generator/services/Admin-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=admingenman::admingenmanger" 
+            continue
+          elif [[ $directory == generator/services/node-gen-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=nodegenman::nodegenmanager" 
+            continue
+          elif [[ $directory == generator/services/datastore-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=datastoreman::datastoremanager" 
+            continue
+          elif [[ $directory == generator/services/infrastructure-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=inframan::inframanager" 
+            continue
+          elif [[ $directory == generator/services/generation-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=generationman::generationmanager" 
+            continue
+          elif [[ $directory == generator/services/frontend-gen-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=frontgenman::frontgenmanager" 
+            continue
+          elif [[ $directory == generator/services/backend-gen-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=backendgenman::backendgenmanager" 
+            continue
+          elif [[ $directory == generator/services/angular-gen-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=angulargenman::angulargenmanager" 
+            continue
+          elif [[ $directory == generator/services/angular-template-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=angtemplateman::angtemplatemanager" 
+            continue
+          elif [[ $directory == generator/services/reactv16-gen-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=reactgenman::reactgenmanager" 
+            continue
+          elif [[ $directory == generator/services/configurationmanager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=configman::configmanager" 
+            continue
+          elif [[ $directory == generator/services/auth-gen-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=authgenman::authgenmanager" 
+            continue
+          elif [[ $directory == generator/services/code-gen-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=codegenman::codegenmanager" 
+            continue
+          elif [[ $directory == generator/services/ionic-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=ionicman::ionicmanager" 
+            continue
+          elif [[ $directory == generator/services/swagger-gen-manager/* ]]; then
+            echo "::set-output name=backend::commited"
+            echo "::set-output name=swaggergenman::swaggergenmanager" 
             continue
           else
-            echo "::set-output name=backend::commited"
-            break
+            echo "::set-output name=backend::notcommited"
           fi
         done <<< "$FILE_DIFF"
   login:
@@ -93,8 +244,9 @@ jobs:
           cd geppettotest
           git pull git@github.com:dan-castillo/geppettotest.git
           cd devops/docker-compose
-          docker-compose down  --rmi all
-          echo "Backend Deploy..."
+          docker-compose down
+          docker rmi ${{ needs.validate.outputs.container }}
+          echo "Backend Deploying..."
           docker-compose up -d --build
           sleep 50
           curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@../../application/services/Camunda/Gep_authorize.dmn" -F "deployment-name=gep_authorize" -F "enable-duplicate-filtering=true" -F "deploy-changed-only=true" http://localhost:8080/engine-rest/deployment/create
