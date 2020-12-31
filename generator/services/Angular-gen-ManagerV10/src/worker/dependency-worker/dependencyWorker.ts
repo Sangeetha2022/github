@@ -2,9 +2,13 @@ import {AngularJsonFileWorker} from './AngularJsonFileWorker';
 import { PackageJsonFileWorker } from '../dependency-worker/packageJsonFileWorker'
 import { Common } from '../../config/Common';
 import { Constant } from '../../config/Constant';
+import { AppRoutingModuleWorker } from './AppRoutingModuleWorker';
+import { AppModuleWorker } from './AppModuleWorker';
 
 let angularJsonFileWorker = new AngularJsonFileWorker();
 let packageJsonFileWorker = new PackageJsonFileWorker();
+const appRoutingModuleWorker = new AppRoutingModuleWorker();
+const appModuleWorker = new AppModuleWorker();
 
 export class DependencyWorker {
     public angularJsonData: any;
@@ -39,6 +43,13 @@ export class DependencyWorker {
     //     this.configAppModule.push(`    "module": "esnext",`);
     //     console.log(`package json -------`, this.packageModule)
         packageJsonFileWorker.modifyPackageFile(packagePath, Constant.PACKAGE_MODULE);
+        appRoutingModuleWorker.importRoutingModules(details, (res, err) => {
+            
+        })
+        appModuleWorker.importComponentModules(details, (res, err) => {
+            
+        });
+
     //     // dependencyWorker.modifyConfigAppJSONFile(packagePath, this.configAppModule);
     //     this.initializePackageModule();
     //     // }
@@ -48,6 +59,6 @@ export class DependencyWorker {
     //     }
     //     // modify proxy file
     //     flowServiceWorker.modifyProxyFile(packagePath);
-        callback();
+        callback('Done');
     }
 }

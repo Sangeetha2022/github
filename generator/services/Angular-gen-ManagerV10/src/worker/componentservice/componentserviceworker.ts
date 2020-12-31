@@ -3,6 +3,7 @@ import * as path from 'path';
 import { FlowServiceWorker } from './Flowserviceworker';
 import { Constant } from '../../config/Constant';
 import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
+import { constructorObj } from '../../config/componentDependency';
 
 const flowServiceWorker = new FlowServiceWorker();
 const componentSupportWorker = new ComponentSupportWorker();
@@ -13,9 +14,9 @@ export class ComponentServiceWorker {
      * @param callback 
      * Generate component.service file
      */
-    generateComponentService(details: any, callback) {
+    async generateComponentService(details: any, desktopElement, callback) {
         details = JSON.parse(JSON.stringify(details));
-        details.desktop.forEach(async (desktopElement: any) => {
+        // details.desktop.forEach(async (desktopElement: any) => {
             const screenName = desktopElement.screenName.toLowerCase();
             const firstElement = screenName.charAt(0).toUpperCase();
             const otherElements = screenName.substring(1, screenName.length);
@@ -27,21 +28,19 @@ export class ComponentServiceWorker {
             microflowObject.GpHeaders.push(gpHeaders);
             microflowObject.GpOptions['className'] = firstElement + otherElements + 'Service';
             const constructor = [];
-            const constructorObj = {
-                className: 'SharedService',
-                objectName: 'sharedService'
-            };
-            constructor.push(constructorObj);
+            constructorObj.forEach(element => {
+                constructor.push(element);
+            });
             microflowObject.GpOptions['constructor'] = constructor;
             microflowObject.GpCodeToAdd = {};
             microflowObject = flowServiceWorker.constructFlowsInfo(desktopElement.flows_info, details.nodeResponse, microflowObject);
-            const templatePath = path.resolve(__dirname, '../../../templates/service.handlebars');
+            const templatePath = path.resolve(__dirname, '../../../templates/ComponentService.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/src/app';
             const screenGenerationPath = applicationPath + `/${screenName}`;
             await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.service.ts');
             callback('Service File Generated Successfully', null);
-        });
+        // });
     }
     /**
      * @param flows 

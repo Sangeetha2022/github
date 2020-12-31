@@ -4,7 +4,6 @@ import { response } from 'express';
 import { couldStartTrivia } from 'typescript';
 import * as path from 'path';
 import { Common } from '../../config/Common';
-import { component } from '../../assets/componentDependency';
 
 export class Button {
 
