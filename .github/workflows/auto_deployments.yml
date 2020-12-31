@@ -18,37 +18,37 @@ jobs:
         instance_data_value: ${{ steps.ec2.outputs.INSTANCE_STATE }} 
         run_frontend_jobs: ${{ steps.frontend.outputs.ui}}
         run_backend_jobs: ${{ steps.Backend.outputs.backend }}
-        container : ${{ steps.Backend.outputs.featureman }} 
-                ${{ steps.Backend.outputs.entityman }} 
-                ${{ steps.Backend.outputs.flowman }} 
-                ${{ steps.Backend.outputs.microflowman }} 
-                ${{ steps.Backend.outputs.menubuilderman }}
-                ${{ steps.Backend.outputs.screeman }} 
-                ${{ steps.Backend.outputs.securityman }} 
+        container : ${{ steps.Backend.outputs.featuremananger }} 
+                ${{ steps.Backend.outputs.entitymananger }} 
+                ${{ steps.Backend.outputs.flowmanager }} 
+                ${{ steps.Backend.outputs.microflowmanager }} 
+                ${{ steps.Backend.outputs.menubuildermanager }}
+                ${{ steps.Backend.outputs.screenmanager }} 
+                ${{ steps.Backend.outputs.securitymanager }} 
                 ${{ steps.Backend.outputs.camundasvc }} 
-                ${{ steps.Backend.outputs.Auth }}
-                ${{ steps.Backend.outputs.templateman }} 
-                ${{ steps.Backend.outputs.api }} 
-                ${{ steps.Backend.outputs.projectman }} 
-                ${{ steps.Backend.outputs.deleteman }}
-                ${{ steps.Backend.outputs.githubman }} 
-                ${{ steps.Backend.outputs.screengenman }} 
-                ${{ steps.Backend.outputs.mongogenman }}
-                ${{ steps.Backend.outputs.admingenman }}
-                ${{ steps.Backend.outputs.nodegenman }}
-                ${{ steps.Backend.outputs.datastoreman }} 
-                ${{ steps.Backend.outputs.inframan }} 
-                ${{ steps.Backend.outputs.generationman }} 
-                ${{ steps.Backend.outputs.frontgenman }}
-                ${{ steps.Backend.outputs.backendgenman }} 
-                ${{ steps.Backend.outputs.angulargenman }} 
-                ${{ steps.Backend.outputs.angtemplateman }} 
-                ${{ steps.Backend.outputs.reactgenman }}
-                ${{ steps.Backend.outputs.configman }} 
-                ${{ steps.Backend.outputs.authgenman }}
-                ${{ steps.Backend.outputs.codegenman }} 
-                ${{ steps.Backend.outputs.ionicman }} 
-                ${{ steps.Backend.outputs.swaggergenman }}
+                ${{ steps.Backend.outputs.Authproxy }}
+                ${{ steps.Backend.outputs.templatemanager }} 
+                ${{ steps.Backend.outputs.apigateway }} 
+                ${{ steps.Backend.outputs.projectmanager }} 
+                ${{ steps.Backend.outputs.deletemanager }}
+                ${{ steps.Backend.outputs.githubmanager }} 
+                ${{ steps.Backend.outputs.screengenmanager }} 
+                ${{ steps.Backend.outputs.mongogenmanager }}
+                ${{ steps.Backend.outputs.admingenmanager }}
+                ${{ steps.Backend.outputs.nodegenmanager }}
+                ${{ steps.Backend.outputs.datastoremanager }} 
+                ${{ steps.Backend.outputs.inframanager }} 
+                ${{ steps.Backend.outputs.generationmanager }} 
+                ${{ steps.Backend.outputs.frontgenmanager }}
+                ${{ steps.Backend.outputs.backendgenmanager }} 
+                ${{ steps.Backend.outputs.angulargenmanager }} 
+                ${{ steps.Backend.outputs.angtemplatemanager }} 
+                ${{ steps.Backend.outputs.reactgenmanager }}
+                ${{ steps.Backend.outputs.configmanagerr }} 
+                ${{ steps.Backend.outputs.authgenmanager }}
+                ${{ steps.Backend.outputs.codegenmanager }} 
+                ${{ steps.Backend.outputs.ionicmanager }} 
+                ${{ steps.Backend.outputs.swaggergenmanager }}
     steps:
     - name: aws configuration
       uses: aws-actions/configure-aws-credentials@v1
@@ -102,31 +102,31 @@ jobs:
           directory="$( echo $path )"
           if [[ $directory == application/services/featuremanager/* ]]; then
               echo "::set-output name=backend::commited" 
-              echo "::set-output name=featureman::featuremanager"
+              echo "::set-output name=featuremanager::featuremanager"
               continue
           elif [[ $directory == application/services/entitymanager/* ]]; then
             echo "::set-output name=backend::commited" 
-            echo "::set-output name=entityman::entitymanager"
+            echo "::set-output name=entitymanager::entitymanager"
             continue
           elif [[ $directory == application/services/flowmanager/* ]]; then
             echo "::set-output name=backend::commited" 
-            echo "::set-output name=flowman::flowmanager"
+            echo "::set-output name=flowmanager::flowmanager"
             continue
           elif [[ $directory == application/services/microflowmanager/* ]]; then
             echo "::set-output name=backend::commited" 
-            echo "::set-output name=microflowman::microflowmanager"
+            echo "::set-output name=microflowmanager::microflowmanager"
             continue
           elif [[ $directory == application/services/menubuildermanager/* ]]; then
             echo "::set-output name=backend::commited" 
-            echo "::set-output name=menubuilderman::menubuildermanager"
+            echo "::set-output name=menubuildermanager::menubuildermanager"
             continue
           elif [[ $directory == application/services/screenmanager/* ]]; then
             echo "::set-output name=backend::commited" 
-            echo "::set-output name=screenman::screenmanager"
+            echo "::set-output name=screenmanager::screenmanager"
             continue
           elif [[ $directory == application/services/securitymanager/* ]]; then
             echo "::set-output name=backend::commited" 
-            echo "::set-output name=securityman::securitymanager"
+            echo "::set-output name=securitymanager::securitymanager"
             continue
           elif [[ $directory == application/services/Camunda/* ]]; then
             echo "::set-output name=backend::commited" 
@@ -134,95 +134,95 @@ jobs:
             continue
           elif [[ $directory == application/services/Auth-Proxy/* ]]; then
             echo "::set-output name=backend::commited" 
-            echo "::set-output name=Auth::authproxy"
+            echo "::set-output name=Authproxy::authproxy"
             continue
           elif [[ $directory == application/services/templatemanager/* ]]; then
             echo "::set-output name=backend::commited" 
-            echo "::set-output name=templateman::templatemanager"
+            echo "::set-output name=templatemanager::templatemanager"
             continue
           elif [[ $directory == application/services/apigateway/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=api::apigateway" 
+            echo "::set-output name=apigateway::apigateway" 
             continue
           elif [[ $directory == application/services/projectmanager/* ]]; then
             echo "::set-output name=backend::commited" 
-            echo "::set-output name=projectman::projectmanager"
+            echo "::set-output name=projectmanager::projectmanager"
             continue
           elif [[ $directory == application/services/deletemanager/* ]]; then
             echo "::set-output name=backend::commited" 
-            echo "::set-output name=deleteman::deletemanager"
+            echo "::set-output name=deletemanager::deletemanager"
             continue
           elif [[ $directory == generator/services/github-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=githubman::githubmanager" 
+            echo "::set-output name=githubmanager::githubmanager" 
             continue
           elif [[ $directory == generator/services/screen-gen-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=screengenman::angulargenmanager" 
+            echo "::set-output name=screengenmanager::screengenmanager" 
             continue
           elif [[ $directory == generator/services/mongo-gen-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=mongogenman::mongogenmanager" 
+            echo "::set-output name=mongogenmanager::mongogenmanager" 
             continue
           elif [[ $directory == generator/services/Admin-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=admingenman::admingenmanger" 
+            echo "::set-output name=admingenmanager::admingenmanger" 
             continue
           elif [[ $directory == generator/services/node-gen-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=nodegenman::nodegenmanager" 
+            echo "::set-output name=nodegenmanager::nodegenmanager" 
             continue
           elif [[ $directory == generator/services/datastore-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=datastoreman::datastoremanager" 
+            echo "::set-output name=datastoremanager::datastoremanager" 
             continue
           elif [[ $directory == generator/services/infrastructure-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=inframan::inframanager" 
+            echo "::set-output name=inframanager::inframanager" 
             continue
           elif [[ $directory == generator/services/generation-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=generationman::generationmanager" 
+            echo "::set-output name=generationmanager::generationmanager" 
             continue
           elif [[ $directory == generator/services/frontend-gen-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=frontgenman::frontgenmanager" 
+            echo "::set-output name=frontgenmanager::frontgenmanager" 
             continue
           elif [[ $directory == generator/services/backend-gen-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=backendgenman::backendgenmanager" 
+            echo "::set-output name=backendgenmanager::backendgenmanager" 
             continue
           elif [[ $directory == generator/services/angular-gen-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=angulargenman::angulargenmanager" 
+            echo "::set-output name=angulargenmanager::angulargenmanager" 
             continue
           elif [[ $directory == generator/services/angular-template-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=angtemplateman::angtemplatemanager" 
+            echo "::set-output name=angtemplatemanager::angtemplatemanager" 
             continue
           elif [[ $directory == generator/services/reactv16-gen-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=reactgenman::reactgenmanager" 
+            echo "::set-output name=reactgenmanager::reactgenmanager" 
             continue
           elif [[ $directory == generator/services/configurationmanager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=configman::configmanager" 
+            echo "::set-output name=configmanager::configmanager" 
             continue
           elif [[ $directory == generator/services/auth-gen-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=authgenman::authgenmanager" 
+            echo "::set-output name=authgenmanager::authgenmanager" 
             continue
           elif [[ $directory == generator/services/code-gen-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=codegenman::codegenmanager" 
+            echo "::set-output name=codegenmanager::codegenmanager" 
             continue
           elif [[ $directory == generator/services/ionic-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=ionicman::ionicmanager" 
+            echo "::set-output name=ionicmanager::ionicmanager" 
             continue
           elif [[ $directory == generator/services/swagger-gen-manager/* ]]; then
             echo "::set-output name=backend::commited"
-            echo "::set-output name=swaggergenman::swaggergenmanager" 
+            echo "::set-output name=swaggergenmanager::swaggergenmanager" 
             continue
           else
             echo "::set-output name=backend::notcommited"
