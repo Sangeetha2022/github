@@ -1,6 +1,5 @@
 version: "3.8"
 services:
-
   mongo:
     image: geppettotest/mongo-local:april2020
     container_name: mongodb
@@ -20,14 +19,13 @@ services:
       start_period: 40s
 
   camunda:
-    image: camunda/camunda-bpm-platform
+    image: geppettodistribution/camunda-local:Jan2021
     container_name: camunda
     ports:
       - "8080:8080"
     depends_on:
       - mongo
 
-   
   featuremanager:
     build: ../../application/services/featuremanager
     image: featuremanager
@@ -37,8 +35,7 @@ services:
     env_file: ../../.env
     depends_on:
       - mongo
-      
-    
+
   entitymanager:
     build: ../../application/services/entitymanager
     image: entitymanager
@@ -48,8 +45,7 @@ services:
     env_file: ../../.env
     depends_on:
       - mongo
-     
-  
+
   flowmanager:
     build: ../../application/services/flowmanager
     image: flowmanager
@@ -59,7 +55,6 @@ services:
     env_file: ../../.env
     depends_on:
       - mongo
-  
 
   microflowmanager:
     build: ../../application/services/microflowmanager
@@ -336,6 +331,18 @@ services:
       - mongo
       - apigateway
 
+  reactgenmanager:
+    build: ../../generator/services/reactv16-gen-manager
+    image: reactgenmanager
+    container_name: reactgenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5045:5045"
+    env_file: ../../.env
+    depends_on:
+      - apigateway
+
   configmanager:
     build: ../../generator/services/configurationmanager
     image: configmanager
@@ -399,11 +406,8 @@ services:
     depends_on:
       - mongo
 
-
 volumes:
   geppetto-volume:
     driver: local
   generated-code:
     driver: local
-  
-  

@@ -20,7 +20,7 @@ services:
       start_period: 40s
 
   camunda:
-    image: geppettotest/camunda-local:april2020
+    image: geppettodistribution/camunda-local:Jan2021
     container_name: camunda-$uuid$
     ports:
       - "0000:8080"

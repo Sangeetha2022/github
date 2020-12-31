@@ -91,7 +91,7 @@ $\ $$\ $$custom_node.name$:
 };separator="\n"$$endif$
   camundapod:
      name: camundapod
-     image: geppettotest/camunda-local:april2020
+     image: geppettodistribution/camunda-local:Jan2021
 
 config:
   vault:

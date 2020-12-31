@@ -10,6 +10,8 @@ export class Constant {
     public static TRANSLATOR_TEMPLATE_NAME: String = 'translator';
     public static COMPONENT_HTML_TEMPLATE_NAME: String = 'component_html';
     public static COMPONENT_TS_TEMPLATE_NAME: String = 'component_ts';
+    public static ENV_FILENAME: String = 'environment.ts';
+    public static ENV_PROD_FILENAME: String = 'environment.prod.ts';
     public static COMPONENT_SPEC_TEMPLATE_NAME: String = 'component_spec';
     public static COMPONENT_SCSS_TEMPLATE_NAME: String = 'component_scss';
     public static COMPONENT_MODULE_TEMPLATE_NAME: String = 'component_module';
@@ -24,6 +26,7 @@ export class Constant {
     public static SHARED_FILENAME: String = 'shared.service.ts';
     public static PROXY_CONFIG_FILENAME: String = 'proxy.conf.ts';
     public static NGINX_FILENAME: String = 'default.conf';
+    public static ENV_FOLDERNAME: String = 'src/environments';
     public static DOCKERFILE_FILENAME: String = 'Dockerfile';
     public static DEFAULT_CONF_FILENAME: String = 'default.conf';
     public static ANGULAR_JSON_FILENAME: String = 'angular.json';
