@@ -18,8 +18,8 @@ jobs:
         instance_data_value: ${{ steps.ec2.outputs.INSTANCE_STATE }} 
         run_frontend_jobs: ${{ steps.frontend.outputs.ui}}
         run_backend_jobs: ${{ steps.Backend.outputs.backend }}
-        container : ${{ steps.Backend.outputs.featuremananger }} 
-                ${{ steps.Backend.outputs.entitymananger }} 
+        container : ${{ steps.Backend.outputs.featuremanager }} 
+                ${{ steps.Backend.outputs.entitymanager }} 
                 ${{ steps.Backend.outputs.flowmanager }} 
                 ${{ steps.Backend.outputs.microflowmanager }} 
                 ${{ steps.Backend.outputs.menubuildermanager }}
@@ -44,7 +44,7 @@ jobs:
                 ${{ steps.Backend.outputs.angulargenmanager }} 
                 ${{ steps.Backend.outputs.angtemplatemanager }} 
                 ${{ steps.Backend.outputs.reactgenmanager }}
-                ${{ steps.Backend.outputs.configmanagerr }} 
+                ${{ steps.Backend.outputs.configmanager }} 
                 ${{ steps.Backend.outputs.authgenmanager }}
                 ${{ steps.Backend.outputs.codegenmanager }} 
                 ${{ steps.Backend.outputs.ionicmanager }} 
