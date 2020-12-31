@@ -1,18 +1,19 @@
-import * as fs from 'fs';
-import * as Handlebars from 'handlebars';
 import * as path from 'path';
 
 import { ThirdPartyWorker } from '../ThirdPartyWorker';
 import { FlowComponentWorker } from "./Flowcomponentworker";
-import { Common } from '../../config/Common';
 import { Constant } from '../../config/Constant';
 import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
 import { RouteWorker } from '../Routeworker';
+import { LinkWorker } from '../linkworker';
+import { ComponentLifecycleWorker } from './componentlifecycle/componenetlifecycleworker';
 
 const flowComponentWorker = new FlowComponentWorker();
 const thirdPartyWorker = new ThirdPartyWorker();
 const componentSupportWorker = new ComponentSupportWorker();
 const routeWorker = new RouteWorker();
+const linkWorker = new LinkWorker();
+const componentLifecycleWorker = new ComponentLifecycleWorker();
 
 export class ComponentWorker {
     /**
@@ -21,9 +22,9 @@ export class ComponentWorker {
      * @param callback 
      * Generate component.ts file
      */
-    generateComponent(details, callback) {
+    async generateComponent(details,desktopElement, callback) {
         details = JSON.parse(JSON.stringify(details));
-        details.desktop.forEach(async (desktopElement: any) => {
+        // details.desktop.forEach(async (desktopElement: any) => {
             const screenName = desktopElement.screenName.toLowerCase();
             const firstElement = screenName.charAt(0).toUpperCase();
             const otherElements = screenName.substring(1, screenName.length);
@@ -50,7 +51,7 @@ export class ComponentWorker {
             microflowObject.GpCodeToAdd = {};
             microflowObject = flowComponentWorker.constructFlowsInfo(desktopElement.flows_info, details.nodeResponse, microflowObject, entities);
             microflowObject = routeWorker.constructGpRoute(desktopElement.route_info, microflowObject);
-            microflowObject = flowComponentWorker.constructLifecycle(details.desktop, desktopElement, microflowObject);
+            microflowObject = componentLifecycleWorker.constructLifecycle(details.desktop, desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructAgGridComponents(desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructThirdPartyComponents(desktopElement, microflowObject);
             const templatePath = path.resolve(__dirname, '../../../templates/ComponentTs.handlebars');
@@ -59,7 +60,7 @@ export class ComponentWorker {
             const screenGenerationPath = applicationPath + `/${screenName}`;
             await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.component.ts');
             callback('Component File Generated Successfully', null);
-        });
+        // });
     }
     /**
      * @param flows 
@@ -114,26 +115,6 @@ export class ComponentWorker {
                 entityArray.push(entityObject);
             }
         });
-        // Mapping the entities for link worker
-        let gjsComponents: any = desktopElement['gjs-components'][0];
-        if (gjsComponents && gjsComponents.length > 0) {
-            gjsComponents = JSON.parse(gjsComponents);
-            gjsComponents.forEach((element: any) => {
-                if (element.entity) {
-                    const entity: any = entities.filter((e: any) => e.name === element.entity);
-                    let entityObject: any = {};
-                    if (entity && entity.length > 0) {
-                        entityObject.name = entity[0].name;
-                        const fieldName = [];
-                        entity[0].field.map(e => {
-                            fieldName.push({ name: e.name });
-                        });
-                        entityObject.field = fieldName;
-                        entityArray.push(entityObject);
-                    }
-                }
-            });
-        }
-        return entityArray;
+        return linkWorker.constructEntitiesForLinkWorker(desktopElement, entityArray, entities);
     }
 }

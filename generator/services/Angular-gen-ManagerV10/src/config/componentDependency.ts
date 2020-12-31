@@ -189,3 +189,13 @@ export const gpSearchBody = [
         '}',
     '});'
 ];
+export const constructorObj = [
+    {
+        className: 'SharedService',
+        objectName: 'sharedService'
+    },
+    {
+        className: 'HttpClient',
+        objectName: 'http'
+    }
+];

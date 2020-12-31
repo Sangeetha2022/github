@@ -61,13 +61,13 @@ export class GenerateHtmlWorker {
         this.screenInfo = screenDetails;
         let metaData: any = JSON.parse(screenDetails['gjs-components'][0]);
         this.generateHtml(metaData, screenDetails, details);
-        this.generateComponent(details, callback);
+        this.generateComponent(details,screenDetails, callback);
     }
-    private generateComponent(details, callback) {
-        componentWorker.generateComponent(details, (res, err) => {
+    private generateComponent(details, screenDetails, callback) {
+        componentWorker.generateComponent(details, screenDetails, (res, err) => {
             componetCssWorker.generateComponentCss(details, (res, err) => {
-                componentServiceWorker.generateComponentService(details, (res, err) => {
-                    componentModuleWorker.generateComponentModule(details, (res, err) => {
+                componentServiceWorker.generateComponentService(details, screenDetails, (res, err) => {
+                    componentModuleWorker.generateComponentModule(details, screenDetails, (res, err) => {
                         callback();
                     })
                 });
@@ -198,7 +198,9 @@ export class GenerateHtmlWorker {
     }
 
     modifyDependency(details, callback) {
-        dependencyWorker.modifyDependency(details, callback);
+        dependencyWorker.modifyDependency(details, (res) => {
+            
+        });
     }
 
     handleBarsFile(filePath, fileData, screenGenerationPath, screenName) {
