@@ -24,7 +24,8 @@ export class ComponentCSSworker {
         details.desktop.forEach(async desktopElement => {
             const screenName = desktopElement.screenName.toLowerCase();
             let cssPayload = this.constructPayLoad()
-            cssPayload.screenCssContent.push({ data: desktopElement["gjs-css"] });
+            const className = await this.setClassNameCss(desktopElement["gjs-css"])
+            cssPayload.screenCssContent.push({ data: className });
             const templatePath = path.resolve(__dirname, '../../../templates/ComponentScss.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/' + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME;
@@ -33,5 +34,14 @@ export class ComponentCSSworker {
             callback('Component scss File Generated Successfully', null);
 
         })
+    }
+
+    //Remove the # and set the .class css
+    private setClassNameCss(cssElement) {
+        return new Promise((reslove) => {
+            const replaceClass = cssElement.split("#").join('.');
+            reslove(replaceClass)
+        })
+
     }
 }
