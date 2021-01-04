@@ -5,6 +5,8 @@ import * as childProcess from 'child_process';
 import { ComponentWorker } from '../worker/componentWorker/componentWorker';
 import { DependencyWorker } from '../worker/dependency-worker/dependencyWorker';
 import { CommonWorker } from '../worker/commonWorker/commonWorker';
+import { json } from 'body-parser';
+// import { CommonWorker } from '../worker/commonWorker/commonWorker';
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
@@ -20,6 +22,7 @@ export class AngularTemplateService {
     private grapesjsCSS = '';
     private menuDetails = '';
     private menuList = [];
+    public grapesjsComponent : any = []
     private templateName = '';
     private apigatewayPortNumber = 0;
     private sharedObj = {
@@ -40,9 +43,8 @@ export class AngularTemplateService {
     public createAngularTemplate(req: Request, callback: CallableFunction) {
 
         this.details = req.body;
-        console.log('-------gjs-component----------',this.details.template);
-        console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
-        const grapesjsComponent = this.details.template['gjs-components'][0];
+        // console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
+        this.grapesjsComponent = this.details.template['gjs-components'][0];
         this.grapesjsCSS = this.details.template['gjs-css'];
         this.templateName = this.details.template.template_name;
         if (this.details.menuBuilder.length > 0) {
@@ -103,10 +105,10 @@ export class AngularTemplateService {
             // console.log('stderr exec ----->>>>    ', stderr);
             if (stdout || stderr) {
                 // this.iterateData = grapesjsComponent;
-                const stringparsing =  JSON.stringify(grapesjsComponent);
+                const stringparsing = JSON.stringify(this.grapesjsComponent);
                 this.iterateData = JSON.parse(stringparsing);
                 // console.log('iterateData filter are -----  ', this.iterateData);
-                this.createLandingPage();
+                // this.createLandingPage();
                 this.generateAngularApp((response) => {
                     // console.log('after await completed')
                     const temp = {
@@ -123,59 +125,62 @@ export class AngularTemplateService {
         });
     }
 
-    public createLandingPage() {
-        if (this.iterateData.length > 0) {
-            console.log('iteratedata lengtha are ------- ', this.iterateData.length);
-            const metadata = JSON.parse(this.iterateData);
-            this.generationPath += `/${this.projectName}`;
-            commonWorker.initializeVariable();
-            var navInfo = metadata.filter(function (element) {
-                return element.tagName == 'nav';
-            })
-            var headerInfo = metadata.filter(function (element) {
-                return element.tagName == 'header';
-            })
-            var footerInfo = metadata.filter(function (element) {
-                return element.tagName == 'footer';
-            })
-            if(navInfo.length == 0 && headerInfo.length > 0){
-                var templateInfo = metadata.filter(function (element) {
-                    return element.tagName != 'nav' && element.tagName !='header' && element.tagName != 'footer';
-                })
-    
-            }else{
-                var templateInfo = metadata.filter(function (element) {
-                    return element.tagName != 'nav' && element.tagName != 'footer';
-                })
-            }
+    // public createLandingPage() {
+    //     if (this.iterateData.length > 0) {
+    //         console.log('iteratedata lengtha are ------- ', this.iterateData.length);
+    //         const metadata = JSON.parse(this.iterateData);
+    //         this.generationPath += `/${this.projectName}`;
+    //         commonWorker.initializeVariable();
+    //         var navInfo = metadata.filter(function (element) {
+    //             return element.tagName == 'nav';
+    //         })
+    //         var headerInfo = metadata.filter(function (element) {
+    //             return element.tagName == 'header';
+    //         })
+    //         var footerInfo = metadata.filter(function (element) {
+    //             return element.tagName == 'footer';
+    //         })
+    //         if(navInfo.length == 0 && headerInfo.length > 0){
+    //             var templateInfo = metadata.filter(function (element) {
+    //                 return element.tagName != 'nav' && element.tagName !='header' && element.tagName != 'footer';
+    //             })
 
-            console.log('----nav------',navInfo.length, headerInfo.length, templateInfo.length);
-            if (navInfo.length > 0) {
-                commonWorker.createHeaderHtml(navInfo, this.menuList);
-            }
-            if (navInfo.length == 0 && headerInfo.length > 0) {
-                this.navigationvalue = 'topnav';
-                commonWorker.createTopHeaderHtml(headerInfo, this.menuList, this.navigationvalue);
-            }
-            if (footerInfo.length > 0) {
-                commonWorker.createFooterHtml(footerInfo);
-            }
-            if (templateInfo.length > 0) {
-                commonWorker.createTemplateHtml(templateInfo);
-            }
+    //         }else{
+    //             var templateInfo = metadata.filter(function (element) {
+    //                 return element.tagName != 'nav' && element.tagName != 'footer';
+    //             })
+    //         }
 
-        }
-    }
+    //         console.log('----nav------',navInfo.length, headerInfo.length, templateInfo.length);
+    //         if (navInfo.length > 0) {
+    //             commonWorker.createHeaderHtml(navInfo, this.menuList);
+    //         }
+    //         if (navInfo.length == 0 && headerInfo.length > 0) {
+    //             this.navigationvalue = 'topnav';
+    //             commonWorker.createTopHeaderHtml(headerInfo, this.menuList, this.navigationvalue);
+    //         }
+    //         if (footerInfo.length > 0) {
+    //             commonWorker.createFooterHtml(footerInfo);
+    //         }
+    //         if (templateInfo.length > 0) {
+    //             commonWorker.createTemplateHtml(templateInfo);
+    //         }
+
+    //     }
+    // }
 
     public generateAngularApp(callback) {
-        return commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, this.templateName, this.menuList, (response) => {
-            return dependencyWorker.generateAppRoutingFile(this.generationPath, this.templatePath, this.menuList, (response) => {
-                console.log('--------checking assets file generation------',this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.projectName)
-                return commonWorker.generateMainFile(this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.projectName, (response) => {
-                    callback(response);
-                });
-            });
-        });
+        return dependencyWorker.generateIndexHtml(this.generationPath, this.templatePath, this.templateName ,this.grapesjsComponent , (res) =>{
+
+        } )
+        //     return commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, this.templateName, this.menuList, (response) => {
+        //         return dependencyWorker.generateAppRoutingFile(this.generationPath, this.templatePath, this.menuList, (response) => {
+        //             console.log('--------checking assets file generation------',this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.projectName)
+        // return commonWorker.generateMainFile(this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.projectName, (response) => {
+        //     callback(response);
+        // });
+        //         });
+        //     });
+        // }
     }
 }
-
