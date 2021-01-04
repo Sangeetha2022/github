@@ -94,7 +94,7 @@ jobs:
           fi
         done <<< "$FILE_DIFF"
     - name: Backend function to build
-        if: env.instance_running == 'running'
+        if: steps.ec2.outputs.INSTANCE_STATE == '"running"'
         id: Backend
         run: |
           FILE_DIFF="${{ steps.diff.outputs.diff }}"
@@ -175,7 +175,7 @@ jobs:
               continue
             elif [[ $directory == generator/services/screen-gen-manager/* ]]; then
               echo "::set-output name=microservices::commited"
-              echo "::set-output name=screengenmanager::angulargenmanager" 
+              echo "::set-output name=screengenmanager::screengenmanager" 
               continue
             elif [[ $directory == generator/services/mongo-gen-manager/* ]]; then
               echo "::set-output name=microservices::commited"
