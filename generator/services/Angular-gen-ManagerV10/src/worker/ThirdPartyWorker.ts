@@ -28,10 +28,12 @@ export class ThirdPartyWorker {
             gjs_components.forEach((gjs_element)=> {
                 if(gjs_element.components && gjs_element.components.length > 0) {
                     gjs_element.components.forEach((gjs_component_element) => {
+                        // Dynamic Dropdown
                         if(gjs_component_element.tagName && gjs_component_element.type && gjs_component_element.tagName === 'select' && gjs_component_element.type === 'dynamicdropdown-type') {
                             microflowObject.GpOptions.arrayVariables.push({name: 'itemArray', dataType: 'any', value: []});
                             return microflowObject;
                         }
+                        // CKEditor
                         if(gjs_component_element.type && gjs_component_element.type === 'ckeditor5') {
                             microflowObject['GpHeadersStarAs'] = [];
                             microflowObject['GpHeadersStarAs'].push({importName: Constant.CLASSIC_EDITOR, importPath: Constant.CLASSIC_EDITOR_PATH});
@@ -39,6 +41,28 @@ export class ThirdPartyWorker {
                             return microflowObject;
                         }
                     });
+                }
+                // Special Dropdown
+                if(gjs_element.type && gjs_element.type === 'specialdropdown-type') {
+                    const components = gjs_element.components;
+                    if(components && components.length > 0) {
+                        components.forEach((element: any) => {
+                            if(element.tagName && element.tagName === 'select') {
+                                const selectComponents = element.components;
+                                if(selectComponents && selectComponents.length > 0) {
+                                    const columnDefs = [];
+                                    selectComponents.forEach((selectComponentsElement: any) => {
+                                        columnDefs.push({ key1: 'key', value1: selectComponentsElement.content, key2: 'value', value2: selectComponentsElement.attributes.value });
+                                    });
+                                    microflowObject.GpOptions.arrayVariables.push({
+                                        name: selectComponents[0].tagName,
+                                        dataType: 'any',
+                                        value: columnDefs
+                                    });
+                                }
+                            }
+                        });
+                    }
                 }
             });
         }
