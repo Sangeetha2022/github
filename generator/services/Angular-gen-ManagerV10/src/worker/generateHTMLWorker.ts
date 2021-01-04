@@ -61,13 +61,12 @@ export class GenerateHtmlWorker {
         this.screenInfo = screenDetails;
         let metaData: any = JSON.parse(screenDetails['gjs-components'][0]);
         this.generateHtml(metaData, screenDetails, details);
-        this.generateComponent(details,screenDetails, callback);
     }
-    private generateComponent(details, screenDetails, callback) {
-        componentWorker.generateComponent(details, screenDetails, (res, err) => {
+    public generateComponent(details, callback) {
+        componentWorker.generateComponentTs(details, (res, err) => {
             componetCssWorker.generateComponentCss(details, (res, err) => {
-                componentServiceWorker.generateComponentService(details, screenDetails, (res, err) => {
-                    componentModuleWorker.generateComponentModule(details, screenDetails, (res, err) => {
+                componentServiceWorker.generateComponentService(details, (res, err) => {
+                    componentModuleWorker.generateComponentModule(details, (res, err) => {
                         callback();
                     })
                 });

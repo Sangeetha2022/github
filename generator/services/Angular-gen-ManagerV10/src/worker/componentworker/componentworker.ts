@@ -22,9 +22,9 @@ export class ComponentWorker {
      * @param callback 
      * Generate component.ts file
      */
-    async generateComponent(details,desktopElement, callback) {
+    async generateComponentTs(details, callback) {
         details = JSON.parse(JSON.stringify(details));
-        // details.desktop.forEach(async (desktopElement: any) => {
+        details.desktop.forEach(async (desktopElement: any) => {
             const screenName = desktopElement.screenName.toLowerCase();
             const firstElement = screenName.charAt(0).toUpperCase();
             const otherElements = screenName.substring(1, screenName.length);
@@ -60,7 +60,7 @@ export class ComponentWorker {
             const screenGenerationPath = applicationPath + `/${screenName}`;
             await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.component.ts');
             callback('Component File Generated Successfully', null);
-        // });
+        });
     }
     /**
      * @param flows 

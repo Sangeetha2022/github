@@ -12,9 +12,9 @@ export class ComponentModuleWorker {
      * @param callback 
      * Generate module.ts file
      */
-    async generateComponentModule(details, desktopElement, callback) {
+    async generateComponentModule(details, callback) {
         details = JSON.parse(JSON.stringify(details));
-        // details.desktop.forEach(async (desktopElement: any) => {
+        details.desktop.forEach(async (desktopElement: any) => {
             const screenName = desktopElement.screenName.toLowerCase();
             const firstElement = screenName.charAt(0).toUpperCase();
             const otherElements = screenName.substring(1, screenName.length);
@@ -32,7 +32,7 @@ export class ComponentModuleWorker {
             const screenGenerationPath = applicationPath + `/${screenName}`
             await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.module.ts');
             callback('Module File Generated Successfully', null);
-        // });
+        });
     }
     /**
      * Constructing Microflows for Handlebars

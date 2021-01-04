@@ -14,9 +14,9 @@ export class ComponentServiceWorker {
      * @param callback 
      * Generate component.service file
      */
-    async generateComponentService(details: any, desktopElement, callback) {
+    async generateComponentService(details: any, callback) {
         details = JSON.parse(JSON.stringify(details));
-        // details.desktop.forEach(async (desktopElement: any) => {
+        details.desktop.forEach(async (desktopElement: any) => {
             const screenName = desktopElement.screenName.toLowerCase();
             const firstElement = screenName.charAt(0).toUpperCase();
             const otherElements = screenName.substring(1, screenName.length);
@@ -40,7 +40,7 @@ export class ComponentServiceWorker {
             const screenGenerationPath = applicationPath + `/${screenName}`;
             await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.service.ts');
             callback('Service File Generated Successfully', null);
-        // });
+        });
     }
     /**
      * @param flows 

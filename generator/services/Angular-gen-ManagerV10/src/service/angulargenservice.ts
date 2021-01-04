@@ -24,7 +24,9 @@ export class AngularService {
         // routeWorker.generateRouteWorker(details , (res , err) => {
             
         // })
-        
+        generateHtmlWorker.generateComponent(details, (res) => {
+            
+        });
         
     }
 
