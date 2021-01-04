@@ -183,7 +183,7 @@ jobs:
               continue
             elif [[ $directory == generator/services/Admin-manager/* ]]; then
               echo "::set-output name=microservices::commited"
-              echo "::set-output name=admingenmanager::admingenmanger" 
+              echo "::set-output name=admingenmanager::admingenmanager" 
               continue
             elif [[ $directory == generator/services/node-gen-manager/* ]]; then
               echo "::set-output name=microservices::commited"
