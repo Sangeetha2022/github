@@ -228,6 +228,80 @@ jobs:
             echo "::set-output name=backend::notcommited"
           fi
         done <<< "$FILE_DIFF"
+  build:
+    name: Date and Version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Date
+        run: echo "::set-output name=DATE_NOW::$(date +'%d/%m/%Y')"
+        id: date  
+      - name: Check the date
+        run: |
+          echo ${{ steps.date.outputs.DATE_NOW }}
+      - uses: actions/checkout@v2
+        with: 
+          path: './'
+      - name: Alpha output
+        run: echo "::set-output name=ALPHA_NO::$(cat ./generator/services/configurationmanager/src/assests/configuration.json | jq -r '.base_config[0].value')"
+        id: alpha
+      - name: Check alpha
+        run: echo ${{ steps.alpha.outputs.ALPHA_NO }}
+      - name: Alpha code
+        uses: xom9ikk/split@v1
+        id: split1
+        with:
+          string: ${{ steps.alpha.outputs.ALPHA_NO }}
+          separator: '-'
+          limit: -1
+      - name: Alpha action
+        uses: xom9ikk/split@v1
+        with:
+          major: ${{ steps.split1.outputs._0 }}
+          minor: ${{ steps.split1.outputs._1 }}
+      - name: Output
+        run: echo "::set-output name=SPLIT_ALPHA::$(( ${{ steps.split1.outputs._1 }}+1 ))"
+        id: splitalpha
+      - name: Check no
+        run: echo ${{ steps.splitalpha.outputs.SPLIT_ALPHA }}
+      - name: Json output
+        run: echo "::set-output name=JSON_NO::$(cat ./generator/services/configurationmanager/src/assests/configuration.json | jq -r '.base_config[1].value')"
+        id: json
+      - name: Check json
+        run: echo ${{ steps.json.outputs.JSON_NO }}
+      - name: Split version code
+        uses: xom9ikk/split@v1
+        id: split
+        with:
+          string: ${{ steps.json.outputs.JSON_NO }}
+          separator: .
+          limit: -1
+      - name: Some other action
+        uses: xom9ikk/split@v1
+        with:
+          major: ${{ steps.split.outputs._0 }}
+          minor: ${{ steps.split.outputs._1 }}
+          patch: ${{ steps.split.outputs._2 }}
+      - name: Add
+        run: echo $(( ${{ steps.split.outputs._2 }}+1 ))
+      - name: Output
+        run: echo "::set-output name=SPLIT::$(( ${{ steps.split.outputs._2 }}+1 ))"
+        id: splitno
+      - name: Check no
+        run: echo ${{ steps.splitno.outputs.SPLIT }}
+      - uses: actions/checkout@v2
+        with: 
+          path: './'      
+      - run: |          
+          echo "jq '.base_config[0].value="${{ steps.split1.outputs._0 }}-${{ steps.splitalpha.outputs.SPLIT_ALPHA }}"' ./generator/services/configurationmanager/src/assests/configuration.json " > ./generator/services/configurationmanager/src/assests/configuration.json
+          echo "jq '.base_config[1].value="${{ steps.split.outputs._0 }}.${{ steps.split.outputs._1 }}.${{ steps.splitno.outputs.SPLIT }}"' ./generator/services/configurationmanager/src/assests/configuration.json " > ./generator/services/configurationmanager/src/assests/configuration.json 
+          echo "jq '.base_config[2].value="${{ steps.date.outputs.DATE_NOW }}"' ./generator/services/configurationmanager/src/assests/configuration.json " > ./generator/services/configurationmanager/src/assests/configuration.json
+     
+      - uses: EndBug/add-and-commit@v6
+        with:
+          message: 'Add the version and date'
+          add: '*.json --force'
+          cwd: './' 
+          token: ${{ secrets.BUILDVERSION_BUILDDATE }}      
   login:
     needs: validation
     if: needs.validation.outputs.run_backend_jobs == 'commited'
