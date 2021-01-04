@@ -24,16 +24,14 @@ export class AngularService {
         // routeWorker.generateRouteWorker(details , (res , err) => {
             
         // })
-        generateHtmlWorker.generateComponent(details, (res) => {
-            
-        });
+        generateHtmlWorker.generateComponent(details, callback);
         
     }
 
     iterateScreens(screenInfo, details, callback) {
-        asyncLoop(screenInfo, (featureScreenElement, next) => {
+        console.log(screenInfo.length);
+        asyncLoop(screenInfo, 0, screenInfo.length-1, (featureScreenElement, next) => {
             if (featureScreenElement) {
-                // console.log('feature  element data------------>>', featureScreenElement);
                 generateHtmlWorker.generate(featureScreenElement, details, (response) => {
                     next();
                 });
