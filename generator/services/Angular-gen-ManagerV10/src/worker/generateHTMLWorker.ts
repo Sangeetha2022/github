@@ -25,11 +25,11 @@ import { ComponentCSSworker } from './componentworker/componentCSSworker';
 import { DependencyWorker } from './dependency-worker/dependencyWorker';
 
 import { CheckBox } from '../strategy/HTML/Checkbox';
-import { Select} from '../strategy/HTML/Select'
+import { Select } from '../strategy/HTML/Select'
 
 
 let forms = new Forms();
-let button = new Button ();
+let button = new Button();
 let radiobutton = new RadioButton();
 let select = new Select();
 let checkbox = new CheckBox();
@@ -81,7 +81,7 @@ export class GenerateHtmlWorker {
         let projectGenerationPath = details.projectGenerationPath;
         let applicationPath = projectGenerationPath + `/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
         var screenName = screensData.screenName;
-        let screenGenerationPath = applicationPath + `/${screenName}`;
+        let screenGenerationPath = applicationPath + `/${screenName.toLowerCase()}`;
         await asyncLoop(gjsComponentMetadata, (item, next) => {
             if (item) {
                 this.tagName = this.tagNameFunction(item);
@@ -98,17 +98,17 @@ export class GenerateHtmlWorker {
 
                     if (item.type == 'input') {
                         generateInput.inputGeneration(item, screensData, details, (response) => {
-                            screenHtmlContent.push({ data: response.toString() });                            
+                            screenHtmlContent.push({ data: response.toString() });
                             next();
-                        });                        
+                        });
                     }
                     if (item.type == 'radio') {
                         radiobutton.radiobuttonHTMLGeneration(item, screensData, details, (response) => {
-                           screenHtmlContent.push({ data: response.toString() });
-                           next();
-                       });
-                   }
-                    
+                            screenHtmlContent.push({ data: response.toString() });
+                            next();
+                        });
+                    }
+
                     if (item.type == 'checkbox') {
                         checkbox.checkboxGeneration(item, screensData, details, (response) => {
                             screenHtmlContent.push({ data: response.toString() });
@@ -198,7 +198,7 @@ export class GenerateHtmlWorker {
 
     modifyDependency(details, callback) {
         dependencyWorker.modifyDependency(details, (res) => {
-            
+
         });
     }
 
@@ -212,7 +212,7 @@ export class GenerateHtmlWorker {
                 var template = Handlebars.compile(source);
                 var result = template(fileData);
                 Common.createFolders(screenGenerationPath);
-                fs.writeFile(screenGenerationPath + `/${screenName}.component.html`, result, (response) => {
+                fs.writeFile(screenGenerationPath + `/${screenName.toLowerCase()}.component.html`, result, (response) => {
                     resolve(response);
                 })
             });

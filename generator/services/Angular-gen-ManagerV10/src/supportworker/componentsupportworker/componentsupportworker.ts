@@ -51,13 +51,15 @@ export class ComponentSupportWorker {
                             return eval(""+v1+operator+v2)?options.fn(this):options.inverse(this);
                     }
                 });
-                var source = data;
-                var template = Handlebars.compile(source);
-                var result = template(fileData);
-                Common.createFolders(screenGenerationPath);
-                fs.writeFile(screenGenerationPath + `/${fileName}`, result, (response) => {
-                    resolve(response);
-                })
+                if(data) {
+                    let source = data;
+                    let template = Handlebars.compile(source);
+                    let result = template(fileData);
+                    Common.createFolders(screenGenerationPath);
+                    fs.writeFile(screenGenerationPath + `/${fileName}`, result, (response) => {
+                        resolve(response);
+                    })
+                }
             });
         })
     }
