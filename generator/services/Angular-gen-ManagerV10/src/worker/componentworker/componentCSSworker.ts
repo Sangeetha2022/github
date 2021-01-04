@@ -1,7 +1,8 @@
+import * as path from 'path';
+import * as asyncLoop from 'node-async-loop';
+
 import { Constant } from '../../config/Constant'
 import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
-import * as path from 'path';
-
 
 const componentSupportWorker = new ComponentSupportWorker();
 
@@ -21,7 +22,7 @@ export class ComponentCSSworker {
 
     public generateComponentCss(details, callback) {
         details = JSON.parse(JSON.stringify(details));
-        details.desktop.forEach(async desktopElement => {
+        asyncLoop(details.desktop, async (desktopElement, next) => {
             const screenName = desktopElement.screenName.toLowerCase();
             let cssPayload = this.constructPayLoad()
             const className = await this.setClassNameCss(desktopElement["gjs-css"])
@@ -31,8 +32,11 @@ export class ComponentCSSworker {
             const applicationPath = projectGenerationPath + '/' + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME;
             const screenGenerationPath = applicationPath + `/${screenName}`;
             await componentSupportWorker.handleBarsFile(templatePath, cssPayload, screenGenerationPath, screenName + '.component.scss');
-            callback('Component scss File Generated Successfully', null);
-
+            next();
+        }, (err) => {
+            if(!err) {
+                callback('Component scss File Generated Successfully', null);
+            }
         })
     }
 

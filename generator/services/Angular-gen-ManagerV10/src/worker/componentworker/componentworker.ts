@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as asyncLoop from 'node-async-loop';
 
 import { ThirdPartyWorker } from '../ThirdPartyWorker';
 import { FlowComponentWorker } from "./Flowcomponentworker";
@@ -24,7 +25,7 @@ export class ComponentWorker {
      */
     async generateComponentTs(details, callback) {
         details = JSON.parse(JSON.stringify(details));
-        details.desktop.forEach(async (desktopElement: any) => {
+        asyncLoop(details.desktop, async (desktopElement, next) => {
             const screenName = desktopElement.screenName.toLowerCase();
             const firstElement = screenName.charAt(0).toUpperCase();
             const otherElements = screenName.substring(1, screenName.length);
@@ -59,7 +60,11 @@ export class ComponentWorker {
             const applicationPath = projectGenerationPath + '/' + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME;
             const screenGenerationPath = applicationPath + `/${screenName}`;
             await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.component.ts');
-            callback('Component File Generated Successfully', null);
+            next();
+        }, (err) => {
+            if (!err) {
+                callback('Component File Generated Successfully', null);
+            }
         });
     }
     /**

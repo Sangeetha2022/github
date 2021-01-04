@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as asyncLoop from 'node-async-loop';
 
 import { FlowServiceWorker } from './Flowserviceworker';
 import { Constant } from '../../config/Constant';
@@ -16,7 +17,7 @@ export class ComponentServiceWorker {
      */
     async generateComponentService(details: any, callback) {
         details = JSON.parse(JSON.stringify(details));
-        details.desktop.forEach(async (desktopElement: any) => {
+        asyncLoop(details.desktop, async (desktopElement, next) => {
             const screenName = desktopElement.screenName.toLowerCase();
             const firstElement = screenName.charAt(0).toUpperCase();
             const otherElements = screenName.substring(1, screenName.length);
@@ -39,7 +40,11 @@ export class ComponentServiceWorker {
             const applicationPath = projectGenerationPath + '/src/app';
             const screenGenerationPath = applicationPath + `/${screenName}`;
             await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.service.ts');
-            callback('Service File Generated Successfully', null);
+            next();
+        }, (err) => {
+            if(!err) {
+                callback('Service File Generated Successfully', null);
+            }
         });
     }
     /**

@@ -5,8 +5,7 @@ import * as childProcess from 'child_process';
 import { ComponentWorker } from '../worker/componentWorker/componentWorker';
 import { DependencyWorker } from '../worker/dependency-worker/dependencyWorker';
 import { CommonWorker } from '../worker/commonWorker/commonWorker';
-import { json } from 'body-parser';
-// import { CommonWorker } from '../worker/commonWorker/commonWorker';
+import { Constant } from '../config/Constant';
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
