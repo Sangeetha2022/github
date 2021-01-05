@@ -1,15 +1,19 @@
+
+
+
 <!doctype html>
 <html lang="en">
-
 <head>
-  {{#each tagData}}
-  { {{tag}} }
+{{#each tagData}}
+{{{data}}}
+{{/each}}
 </head>
-
 <body>
   <app-root></app-root>
-  {{scriptTag}};
+{{#each scriptTagData}}
+{{{data}}}
+{{/each}}
+ 
 </body>
 
 </html>
-{{/each}}

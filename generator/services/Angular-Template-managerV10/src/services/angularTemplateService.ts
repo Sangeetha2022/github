@@ -35,6 +35,7 @@ export class AngularTemplateService {
     private DEFAULT_FEATURENAME = 'default';
     private navigationvalue: any;
 
+
     initalizeDaoVariable() {
 
     }
@@ -42,10 +43,11 @@ export class AngularTemplateService {
     public createAngularTemplate(req: Request, callback: CallableFunction) {
 
         this.details = req.body;
-        // console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
+        console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
         this.grapesjsComponent = this.details.template['gjs-components'][0];
         this.grapesjsCSS = this.details.template['gjs-css'];
         this.templateName = this.details.template.template_name;
+        this.projectName = this.details.project.name
         if (this.details.menuBuilder.length > 0) {
             this.menuList = [];
             // this.menuDetails = this.details.menuBuilder[0].menuDetails;
@@ -169,7 +171,7 @@ export class AngularTemplateService {
     // }
 
     public generateAngularApp(callback) {
-        return dependencyWorker.generateIndexHtml(this.generationPath, this.templatePath, this.templateName ,this.grapesjsComponent , (res) =>{
+        return dependencyWorker.generateIndexHtml(this.generationPath, this.projectName, this.templateName ,this.grapesjsComponent , (res) =>{
 
         } )
         //     return commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, this.templateName, this.menuList, (response) => {

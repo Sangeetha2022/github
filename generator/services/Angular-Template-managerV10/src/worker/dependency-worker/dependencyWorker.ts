@@ -6,61 +6,60 @@ import * as path from 'path';
 const componentSupportWorker = new ComponentSupportWorker()
 export class DependencyWorker {
 
-  public startString: string;
-  public scriptString: string
-  private constructPayLoad() {
-    const indexHtmlObject = {
-      tagData: [],
-    }
-    return indexHtmlObject;
+  private startString: string;
+  private scriptString: string
+
+  //construct object 
+  private indexHtmlObject = {
+    tagData: [],
+    scriptTagData: [],
   }
 
 
-  generateIndexHtml(generationPath, tempatepath, tempateName, IndexHtmlDetails, callback) {
-    let metaData = JSON.parse(IndexHtmlDetails)
+  generateIndexHtml(generationPath, projectName, templateName, indexHtmlDetails, callback) {
+    let metaData = JSON.parse(indexHtmlDetails)
     metaData.map(async tagData => {
-      const applicationPath = generationPath + '/' + Constant.SRC_FOLDERNAME;
-      const templatePath = path.resolve(__dirname, '../../../templates/indexHTML.handlebars');
-      const res = await this.setMetaTag(tagData);
-      // componentSupportWorker.handleBarsFile(templatePath, res, applicationPath, 'index.html')
-
+      await this.setMetaTag(tagData, templateName)
     })
+    const applicationPath = generationPath + `/${projectName}` + `/${Constant.SRC_FOLDERNAME}`;
+    const templatePath = path.resolve(__dirname, '../../../templates/indexHtml.handlebars');
+    componentSupportWorker.handleBarsFile(templatePath, this.indexHtmlObject, applicationPath, 'index.html');
+     callback('Index.html file generated successfully')
   }
 
-  public setMetaTag(meta) {
-    return new Promise((reslove, reject) => {
-      const payLoad = this.constructPayLoad()
+  private setMetaTag(meta, templateName) {
+    new Promise(() => {
       this.startString = ''
       this.scriptString = ''
-      const tagData = {
-        tag: '',
-        scriptTag: ''
-      };
       if (meta.tagName === 'meta' || meta.tagName === 'title' || meta.tagName === 'base' || meta.tagName === 'link') {
         this.startString += `<${meta.tagName}`
         Object.keys(meta.attributes).map(key => {
           this.startString += ` ${key}='${meta.attributes[key]}'`
         })
-        this.startString += `/>`
-        tagData.tag = this.startString;
-        payLoad.tagData.push(tagData);
+        //set the title with template Name
+        if (meta.tagName === 'title') {
+          this.startString += `> ${templateName} </${meta.tagName}>`
+        }
+        else {
+          this.startString += `/>`
+        }
+        this.indexHtmlObject.tagData.push({ data: this.startString })
       }
-      else if (meta.tagName === 'script') {
+       else if (meta.tagName === 'script') {
         this.scriptString += `<${meta.tagName}`
         Object.keys(meta.attributes).map(key => {
           this.scriptString += ` ${key}='${meta.attributes[key]}'`
         })
-        this.scriptString += `> </${meta.tagName}>`
-        tagData.scriptTag = this.scriptString;
-        payLoad.tagData.push(tagData)
+        //added the js funtion 
+        if (meta.content !== '') {
+          this.scriptString += `> ${meta.content} </${meta.tagName}>`
+        }
+        else {
+          this.scriptString += `> </${meta.tagName}>`
+        }
+        this.indexHtmlObject.scriptTagData.push({ data: this.scriptString })
       }
-      reslove(payLoad)
     })
-
-
-
-
-
   }
 
 }
