@@ -245,7 +245,7 @@ jobs:
             echo "::set-output name=microservices::notcommited"
           fi
         done <<< "$FILE_DIFF"
-  Upload build notes:
+  Upload_build_notes:
     needs: validation
     if: needs.validation.outputs.INSTANCE_STATE == '"running"'
     runs-on: ubuntu-latest
