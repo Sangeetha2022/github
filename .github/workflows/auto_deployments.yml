@@ -228,8 +228,9 @@ jobs:
             echo "::set-output name=backend::notcommited"
           fi
         done <<< "$FILE_DIFF"
-  build:
-    name: Date and Version
+  Upload build notes:
+    needs: validation
+    if: needs.validation.outputs.INSTANCE_STATE == '"running"'
     runs-on: ubuntu-latest
     steps:
       - name: Date
@@ -241,32 +242,32 @@ jobs:
       - uses: actions/checkout@v2
         with: 
           path: './'
-      - name: Alpha output
+      - name: Alpha value
         run: echo "::set-output name=ALPHA_NO::$(cat ./generator/services/configurationmanager/src/assests/configuration.json | jq -r '.base_config[0].value')"
         id: alpha
       - name: Check alpha
         run: echo ${{ steps.alpha.outputs.ALPHA_NO }}
-      - name: Alpha code
+      - name: Split Alpha
         uses: xom9ikk/split@v1
         id: split1
         with:
           string: ${{ steps.alpha.outputs.ALPHA_NO }}
           separator: '-'
           limit: -1
-      - name: Alpha action
+      - name: Split action
         uses: xom9ikk/split@v1
         with:
           major: ${{ steps.split1.outputs._0 }}
           minor: ${{ steps.split1.outputs._1 }}
-      - name: Output
+      - name: Alpha_Split Output
         run: echo "::set-output name=SPLIT_ALPHA::$(( ${{ steps.split1.outputs._1 }}+1 ))"
         id: splitalpha
-      - name: Check no
+      - name: Alpha number
         run: echo ${{ steps.splitalpha.outputs.SPLIT_ALPHA }}
-      - name: Json output
+      - name: Build version
         run: echo "::set-output name=JSON_NO::$(cat ./generator/services/configurationmanager/src/assests/configuration.json | jq -r '.base_config[1].value')"
         id: json
-      - name: Check json
+      - name: Check version
         run: echo ${{ steps.json.outputs.JSON_NO }}
       - name: Split version code
         uses: xom9ikk/split@v1
@@ -275,15 +276,15 @@ jobs:
           string: ${{ steps.json.outputs.JSON_NO }}
           separator: .
           limit: -1
-      - name: Some other action
+      - name: Build_Version action
         uses: xom9ikk/split@v1
         with:
           major: ${{ steps.split.outputs._0 }}
           minor: ${{ steps.split.outputs._1 }}
           patch: ${{ steps.split.outputs._2 }}
-      - name: Add
+      - name: Adding the version
         run: echo $(( ${{ steps.split.outputs._2 }}+1 ))
-      - name: Output
+      - name: Adding output
         run: echo "::set-output name=SPLIT::$(( ${{ steps.split.outputs._2 }}+1 ))"
         id: splitno
       - name: Check no
@@ -299,7 +300,7 @@ jobs:
       - uses: EndBug/add-and-commit@v6
         with:
           message: 'Add the version and date'
-          add: '*.json --force'
+          add: './generator/services/configurationmanager/src/assests/configuration.json --force'
           cwd: './' 
           token: ${{ secrets.BUILDVERSION_BUILDDATE }}      
   login:
