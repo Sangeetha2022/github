@@ -52,10 +52,8 @@ export class ComponentSupportWorker {
                     }
                 });
                 var source = data;
-                console.log("sour0ce=====", source)
                 var template = Handlebars.compile(source);
                 var result = template(fileData);
-                console.log("Result--->>", result)
                 Common.createFolders(screenGenerationPath);
                 fs.writeFile(screenGenerationPath + `/${fileName}`, result, (response) => {
                     resolve(response);

@@ -110,7 +110,7 @@ export class AngularTemplateService {
                 this.iterateData = JSON.parse(stringparsing);
                 // console.log('iterateData filter are -----  ', this.iterateData);
                 // this.createLandingPage();
-                this.generateAngularApp((response) => {
+                this.generateAngularApp(this.details, (response) => {
                     // console.log('after await completed')
                     const temp = {
                         shared: {
@@ -170,10 +170,15 @@ export class AngularTemplateService {
     //     }
     // }
 
-    public generateAngularApp(callback) {
-        return dependencyWorker.generateIndexHtml(this.generationPath, this.projectName, this.templateName ,this.grapesjsComponent , (res) =>{
+    public generateAngularApp(details, callback) {
+        dependencyWorker.generateIndexHtml(this.generationPath, this.projectName, this.templateName ,this.grapesjsComponent , (res) =>{
 
-        } )
+        })
+        const filePath = details.projectGenerationPath + '/' + this.projectName + '/' + Constant.SRC_FOLDERNAME;
+        const grapesjsCSS = this.details.template['gjs-css'];
+        commonWorker.generateStyleScss(filePath, grapesjsCSS, (res) => {
+            
+        });
         //     return commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, this.templateName, this.menuList, (response) => {
         //         return dependencyWorker.generateAppRoutingFile(this.generationPath, this.templatePath, this.menuList, (response) => {
         //             console.log('--------checking assets file generation------',this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.projectName)
