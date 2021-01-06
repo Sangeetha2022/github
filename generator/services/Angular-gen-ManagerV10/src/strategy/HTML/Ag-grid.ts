@@ -59,7 +59,8 @@ export class AgGrid {
         let applicationPath = projectGenerationPath + '/src/app';
 
         var fileData = {
-            components: AgGriddata.attributes.id,
+            component_class: AgGriddata.attributes.id,
+            component_name: AgGriddata.name,
             screenName: screenName,
             Flowname: this.flow_name,
             GRID_HTML: this.AG_GRID.values
@@ -77,18 +78,11 @@ export class AgGrid {
             fs.readFile(filePath, 'utf-8', (err, data) => {
                 var source = data;
                 console.log("---------->>>>", source)
-                Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
-                    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
-                });
                 var template = Handlebars.compile(source);
                 console.log("template for the aggrid handlebars----", template)
                 var result = template(fileData);
                 console.log("template for the grid componetne----", result)
-                Common.createFolders(screenGenerationPath);
-                fs.writeFile(screenGenerationPath + `/${screenName}.component.html`, result, (response) => {
-                    console.log('-------------------resolve', response)
-                    resolve(response);
-                })
+                resolve(result);
             });
         })
     }
