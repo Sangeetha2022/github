@@ -247,7 +247,9 @@ jobs:
         done <<< "$FILE_DIFF"
   Upload_build_notes:
     needs: validation
-    if: needs.validation.outputs.INSTANCE_STATE == '"running"'
+    if: |
+       needs.validation.outputs.run_backend_jobs == 'commited' ||
+       needs.validation.outputs.run_frontend_jobs == 'commited'
     runs-on: ubuntu-latest
     steps:
       - name: Date
