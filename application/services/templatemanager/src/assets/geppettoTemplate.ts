@@ -591,7 +591,7 @@ export const geppettoTemplate = [
       }
     ],
     "name": "Red Template",
-    "flag": "active",
+    "flag": "inactive",
     "navigation-type": "side",
     "template_image": [{
       "imagename": 'red_template',
