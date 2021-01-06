@@ -142,28 +142,35 @@ export class DependencyWorker {
 
     modifyenvoriments(applicationPath, fileName) {
         const environment = dependencySupportWorker.readFile(applicationPath, fileName);
-        const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
-        let temp = '';
-        temp += `${environment[serveIndex]}`;
-        temp += `\n  DESKTOP_API: 'http://'+window.location.hostname+':8000/desktop',`;
-        temp += `\n  MOBILE_API: '/api/mobile',`;
-        environment.splice(serveIndex, 1, temp);
-        console.log('final env rae ----------  ', environment);
-        dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
-            console.log('successfully write the environment file');
-        });
+        if (environment[5].replace(/\s/g, '') == "DESKTOP_API:'http://'+window.location.hostname+':8000/desktop',") {
+            console.log("Already envoriments is upto date")
+        } else {
+            const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
+            let temp = '';
+            temp += `${environment[serveIndex]}`;
+            temp += `\n  DESKTOP_API: 'http://'+window.location.hostname+':8000/desktop',`;
+            temp += `\n  MOBILE_API: '/api/mobile',`;
+            environment.splice(serveIndex, 1, temp);
+            dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
+                console.log('successfully write the environment file');
+            });
+        }
     }
 
     modifyenvoriments_prod(applicationPath, fileName) {
         const environment = dependencySupportWorker.readFile(applicationPath, fileName);
-        const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
-        let temp = '';
-        temp += `${environment[serveIndex]}`;
-        temp += `\n  DESKTOP_API: 'http://<Your Domain Name or Live IP address>',`;
-        temp += `\n  MOBILE_API: 'http://<Your Domain Name or Live IP address>',`;
-        environment.splice(serveIndex, 1, temp);
-        dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
-            console.log('successfully write the prod environment file');
-        });
+        if (environment[1].replace(/\s/g, '') == "DESKTOP_API:'http://<YourDomainNameorLiveIPaddress>',") {
+            console.log("Already prods envoriments is upto date")
+        } else {
+            const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
+            let temp = '';
+            temp += `${environment[serveIndex]}`;
+            temp += `\n  DESKTOP_API: 'http://<Your Domain Name or Live IP address>',`;
+            temp += `\n  MOBILE_API: 'http://<Your Domain Name or Live IP address>',`;
+            environment.splice(serveIndex, 1, temp);
+            dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
+                console.log('successfully write the prod environment file');
+            });
+        }
     }
 }
