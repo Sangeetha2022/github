@@ -360,7 +360,7 @@ jobs:
     steps:
     - name: Check the  branch
       uses: actions/checkout@v2
-    - name: Installing the Node and its dependies
+    - name: Installing the Node and its dependencies
       uses: actions/setup-node@v1
       with:
         node-version: 10
