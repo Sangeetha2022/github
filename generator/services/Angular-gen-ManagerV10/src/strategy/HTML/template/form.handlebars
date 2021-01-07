@@ -1,5 +1,4 @@
-<form>
-    {{#each components}}
+<form>{{#each components}}
     <div id="{{attributes.id}}" class="{{cssClassName}}">
     {{#each components}}
         {{#ifEquals type "label"}}
@@ -18,7 +17,5 @@
         <button {{#if attributes.type}}type="{{attributes.type}}"{{/if}} id="{{attributes.id}}" {{#if flowDetails.verb}}({{flowDetails.verb}})="{{flowDetails.flowName}}()"{{/if}} class="{{cssClass}}">{{content}}</button>
         {{/ifEquals}}
     {{/each}}
-    </div>
-    
-    {{/each}}
+    </div>{{/each}}
 </form>

@@ -61,6 +61,7 @@ export class GenerateHtmlWorker {
         this.screenInfo = screenDetails;
         let metaData: any = JSON.parse(screenDetails['gjs-components'][0]);
         this.generateHtml(metaData, screenDetails, details);
+        callback();
     }
     public generateComponent(details, callback) {
         componentWorker.generateComponentTs(details, (res, err) => {
@@ -198,7 +199,7 @@ export class GenerateHtmlWorker {
 
     modifyDependency(details, callback) {
         dependencyWorker.modifyDependency(details, (res) => {
-
+            callback();
         });
     }
 
