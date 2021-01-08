@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - dev
+      - stage
 env:
   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -15,7 +16,11 @@ jobs:
   validation:
     runs-on: ubuntu-latest 
     outputs:
-        instance_data_value: ${{ steps.ec2.outputs.INSTANCE_STATE }} 
+        branch: ${{ steps.ec2.outputs.short_ref }}
+        instance: ${{ steps.branch-commit.outputs.instance }}
+        hosts: ${{ steps.branch-commit.outputs.hosts }}
+        bucket: ${{ steps.branch-commit.outputs.bucket }}
+        instance_data_value: ${{ steps.ec2.outputs.INSTANCE_DEV }} 
         run_frontend_jobs: ${{ steps.frontend.outputs.ui}}
         run_backend_jobs: ${{ steps.Backend.outputs.backend }}
         microservices: ${{ steps.microservice.outputs.microservices }}
@@ -58,11 +63,27 @@ jobs:
         aws-secret-access-key: ${{ env. aws-secret-access-key}}
         aws-region: ${{env.aws-region}}
     - name: Instance State
-      run: echo "::set-output name=INSTANCE_STATE::$(aws ec2 describe-instances --instance-ids i-082c02e8aa3853a62 | jq '.Reservations[].Instances[].State.Name')"
       id: ec2
+      run: |
+        echo "::set-output name=INSTANCE_DEV::$(aws ec2 describe-instances --instance-ids i-082c02e8aa3853a62 | jq '.Reservations[].Instances[].State.Name')"
+        echo "::set-output name=INSTANCE_STAGE::$(aws ec2 describe-instances --instance-ids i-09c99dd87883bc185 | jq '.Reservations[].Instances[].State.Name')"
+        echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+    - name: branch check dev and stage
+      id: branch-commit
+      run: |
+        if [ ${{steps.ec2.outputs.short_ref}} == 'dev' ]; then
+          echo "::set-output name=instance::${{ steps.ec2.outputs.INSTANCE_DEV }}" 
+          echo "::set-output name=hosts::ubuntu@ec2-34-197-46-177.compute-1.amazonaws.com"
+          echo "::set-output name=bucket::geppetto-dev"
+        elif [ ${{steps.ec2.outputs.short_ref}} == 'stage' ]; then
+          echo "::set-output name=instance::${{steps.ec2.outputs.INSTANCE_STAGE}}" 
+          echo "::set-output name=hosts::ubuntu@ec2-34-199-109-78.compute-1.amazonaws.com"
+          echo "::set-output name=bucket::geppetto-stage" 
+        fi
     - name:  Status of Instance 
       run: |
-          echo ${{ steps.ec2.outputs.INSTANCE_STATE }} 
+          echo ${{ steps.ec2.outputs.INSTANCE_DEV }}
+          echo ${{steps.ec2.outputs.INSTANCE_STAGE}} 
     - uses: actions/checkout@v2
     - name: Check for changes
       id: diff
@@ -94,7 +115,7 @@ jobs:
           fi
         done <<< "$FILE_DIFF"
     - name: Backend function to build
-      if: steps.ec2.outputs.INSTANCE_STATE == '"running"'
+      if: ${{ steps.branch-commit.outputs.instance }} == '"running"'
       id: Backend
       run: |
         FILE_DIFF="${{ steps.diff.outputs.diff }}"
@@ -245,83 +266,81 @@ jobs:
             echo "::set-output name=microservices::notcommited"
           fi
         done <<< "$FILE_DIFF"
-  # Upload_build_notes:
-  #   needs: validation
-  #   if: |
-  #      needs.validation.outputs.run_backend_jobs == 'commited' ||
-  #      needs.validation.outputs.run_frontend_jobs == 'commited'
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Date
-  #       run: echo "::set-output name=DATE_NOW::$(date +'%d/%m/%Y')"
-  #       id: date  
-  #     - name: Check the date
-  #       run: |
-  #         echo ${{ steps.date.outputs.DATE_NOW }}
-  #     - uses: actions/checkout@v2
-  #       with: 
-  #         path: './'
-  #     - name: Alpha value
-  #       run: echo "::set-output name=ALPHA_NO::$(cat ./generator/services/configurationmanager/src/assests/configuration.json | jq -r '.base_config[0].value')"
-  #       id: alpha
-  #     - name: Check alpha
-  #       run: echo ${{ steps.alpha.outputs.ALPHA_NO }}
-  #     - name: Split Alpha
-  #       uses: xom9ikk/split@v1
-  #       id: split1
-  #       with:
-  #         string: ${{ steps.alpha.outputs.ALPHA_NO }}
-  #         separator: '-'
-  #         limit: -1
-  #     - name: Split action
-  #       uses: xom9ikk/split@v1
-  #       with:
-  #         major: ${{ steps.split1.outputs._0 }}
-  #         minor: ${{ steps.split1.outputs._1 }}
-  #     - name: Alpha_Split Output
-  #       run: echo "::set-output name=SPLIT_ALPHA::$(( ${{ steps.split1.outputs._1 }}+1 ))"
-  #       id: splitalpha
-  #     - name: Alpha number
-  #       run: echo ${{ steps.splitalpha.outputs.SPLIT_ALPHA }}
-  #     - name: Build version
-  #       run: echo "::set-output name=JSON_NO::$(cat ./generator/services/configurationmanager/src/assests/configuration.json | jq -r '.base_config[1].value')"
-  #       id: json
-  #     - name: Check version
-  #       run: echo ${{ steps.json.outputs.JSON_NO }}
-  #     - name: Split version code
-  #       uses: xom9ikk/split@v1
-  #       id: split
-  #       with:
-  #         string: ${{ steps.json.outputs.JSON_NO }}
-  #         separator: .
-  #         limit: -1
-  #     - name: Build_Version action
-  #       uses: xom9ikk/split@v1
-  #       with:
-  #         major: ${{ steps.split.outputs._0 }}
-  #         minor: ${{ steps.split.outputs._1 }}
-  #         patch: ${{ steps.split.outputs._2 }}
-  #     - name: Adding the version
-  #       run: echo $(( ${{ steps.split.outputs._2 }}+1 ))
-  #     - name: Adding output
-  #       run: echo "::set-output name=SPLIT::$(( ${{ steps.split.outputs._2 }}+1 ))"
-  #       id: splitno
-  #     - name: Check no
-  #       run: echo ${{ steps.splitno.outputs.SPLIT }}
-  #     - uses: actions/checkout@v2
-  #       with: 
-  #         path: './'      
-  #     - run: |          
-  #         echo "jq '.base_config[0].value="${{ steps.split1.outputs._0 }}-${{ steps.splitalpha.outputs.SPLIT_ALPHA }}"' ./generator/services/configurationmanager/src/assests/configuration.json " > ./generator/services/configurationmanager/src/assests/configuration.json
-  #         echo "jq '.base_config[1].value="${{ steps.split.outputs._0 }}.${{ steps.split.outputs._1 }}.${{ steps.splitno.outputs.SPLIT }}"' ./generator/services/configurationmanager/src/assests/configuration.json " > ./generator/services/configurationmanager/src/assests/configuration.json 
-  #         echo "jq '.base_config[2].value="${{ steps.date.outputs.DATE_NOW }}"' ./generator/services/configurationmanager/src/assests/configuration.json " > ./generator/services/configurationmanager/src/assests/configuration.json
+  Upload_build_notes:
+    needs: validation
+    if: needs.validation.outputs.branch == 'stage'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Date
+        run: echo "::set-output name=DATE_NOW::$(date +'%d/%m/%Y')"
+        id: date  
+      - name: Check the date
+        run: |
+          echo ${{ steps.date.outputs.DATE_NOW }}
+      - uses: actions/checkout@v2
+        with: 
+          path: './'
+      - name: Alpha value
+        run: echo "::set-output name=ALPHA_NO::$(cat ./generator/services/configurationmanager/src/assests/configuration.json | jq -r '.base_config[0].value')"
+        id: alpha
+      - name: Check alpha
+        run: echo ${{ steps.alpha.outputs.ALPHA_NO }}
+      - name: Split Alpha
+        uses: xom9ikk/split@v1
+        id: split1
+        with:
+          string: ${{ steps.alpha.outputs.ALPHA_NO }}
+          separator: '-'
+          limit: -1
+      - name: Split action
+        uses: xom9ikk/split@v1
+        with:
+          major: ${{ steps.split1.outputs._0 }}
+          minor: ${{ steps.split1.outputs._1 }}
+      - name: Alpha_Split Output
+        run: echo "::set-output name=SPLIT_ALPHA::$(( ${{ steps.split1.outputs._1 }}+1 ))"
+        id: splitalpha
+      - name: Alpha number
+        run: echo ${{ steps.splitalpha.outputs.SPLIT_ALPHA }}
+      - name: Build version
+        run: echo "::set-output name=JSON_NO::$(cat ./generator/services/configurationmanager/src/assests/configuration.json | jq -r '.base_config[1].value')"
+        id: json
+      - name: Check version
+        run: echo ${{ steps.json.outputs.JSON_NO }}
+      - name: Split version code
+        uses: xom9ikk/split@v1
+        id: split
+        with:
+          string: ${{ steps.json.outputs.JSON_NO }}
+          separator: .
+          limit: -1
+      - name: Build_Version action
+        uses: xom9ikk/split@v1
+        with:
+          major: ${{ steps.split.outputs._0 }}
+          minor: ${{ steps.split.outputs._1 }}
+          patch: ${{ steps.split.outputs._2 }}
+      - name: Adding the version
+        run: echo $(( ${{ steps.split.outputs._2 }}+1 ))
+      - name: Adding output
+        run: echo "::set-output name=SPLIT::$(( ${{ steps.split.outputs._2 }}+1 ))"
+        id: splitno
+      - name: Check no
+        run: echo ${{ steps.splitno.outputs.SPLIT }}
+      - uses: actions/checkout@v2
+        with: 
+          path: './'      
+      - run: |          
+          echo "jq '.base_config[0].value="${{ steps.split1.outputs._0 }}-${{ steps.splitalpha.outputs.SPLIT_ALPHA }}"' ./generator/services/configurationmanager/src/assests/configuration.json " > ./generator/services/configurationmanager/src/assests/configuration.json
+          echo "jq '.base_config[1].value="${{ steps.split.outputs._0 }}.${{ steps.split.outputs._1 }}.${{ steps.splitno.outputs.SPLIT }}"' ./generator/services/configurationmanager/src/assests/configuration.json " > ./generator/services/configurationmanager/src/assests/configuration.json 
+          echo "jq '.base_config[2].value="${{ steps.date.outputs.DATE_NOW }}"' ./generator/services/configurationmanager/src/assests/configuration.json " > ./generator/services/configurationmanager/src/assests/configuration.json
      
-  #     - uses: EndBug/add-and-commit@v6
-  #       with:
-  #         message: 'Add the version and date'
-  #         add: './generator/services/configurationmanager/src/assests/configuration.json --force'
-  #         cwd: './' 
-  #         token: ${{ secrets.BUILDVERSION_BUILDDATE }}            
+      - uses: EndBug/add-and-commit@v6
+        with:
+          message: 'Add the version and date'
+          add: './generator/services/configurationmanager/src/assests/configuration.json --force'
+          cwd: './' 
+          token: ${{ secrets.BUILDVERSION_BUILDDATE }}            
   login:
     needs: validation
     if: needs.validation.outputs.run_backend_jobs == 'commited'
@@ -332,7 +351,7 @@ jobs:
     - name: Login into the dev instance by using SSH
       uses: JimCronqvist/action-ssh@master
       with:
-        hosts: 'ubuntu@ec2-34-197-46-177.compute-1.amazonaws.com'
+        hosts: ${{ needs.validation.outputs.hosts }}
         privateKey: ${{ secrets.PRIVATE_KEY }}
         command: |
           cd geppettotest
@@ -376,7 +395,7 @@ jobs:
       with:
         args: --acl public-read --delete
       env:
-        AWS_S3_BUCKET: geppetto-dev
+        AWS_S3_BUCKET: ${{ needs.validation.outputs.bucket }}
         AWS_ACCESS_KEY_ID: ${{ env.aws-access-key-id }}
         AWS_SECRET_ACCESS_KEY: ${{ env. aws-secret-access-key}}
         SOURCE_DIR: "application/clients/desktop/dist/GeppettoBuilder"
