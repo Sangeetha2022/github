@@ -15,16 +15,15 @@ export class DependencyWorker {
     scriptTagData: [],
   }
 
-
   generateIndexHtml(generationPath, projectName, templateName, indexHtmlDetails, callback) {
     let metaData = JSON.parse(indexHtmlDetails)
     metaData.map(async tagData => {
       await this.setMetaTag(tagData, templateName)
     })
-    const applicationPath = generationPath + `/${projectName}` + `/${Constant.SRC_FOLDERNAME}`;
+    const applicationPath = generationPath + `/${Constant.SRC_FOLDERNAME}`;
     const templatePath = path.resolve(__dirname, '../../../templates/indexHtml.handlebars');
     componentSupportWorker.handleBarsFile(templatePath, this.indexHtmlObject, applicationPath, 'index.html');
-     callback('Index.html file generated successfully')
+    callback('Index.html file generated successfully')
   }
 
   private setMetaTag(meta, templateName) {
@@ -45,7 +44,7 @@ export class DependencyWorker {
         }
         this.indexHtmlObject.tagData.push({ data: this.startString })
       }
-       else if (meta.tagName === 'script') {
+      else if (meta.tagName === 'script') {
         this.scriptString += `<${meta.tagName}`
         Object.keys(meta.attributes).map(key => {
           this.scriptString += ` ${key}='${meta.attributes[key]}'`

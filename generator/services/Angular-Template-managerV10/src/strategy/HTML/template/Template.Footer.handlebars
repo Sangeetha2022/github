@@ -2,16 +2,16 @@
 {{!-- footer --}}
 <footer id="{{attributes.id}}">
   {{#each components}}
-  {{#ifCond tagName '==' undefind}}
-  {{!-- undefind == div --}}
-  <div class="{{#each classes}}{{name}} {{/each}}" id="{{attributes.id}}">
+  {{#ifCond tagName '==' "div"}}
+  {{!-- div --}}
+  <div class="{{classNames}}" id="{{attributes.id}}">
     {{#each components}}
-    {{#ifCond tagName '==' undefind}}
-    {{!-- undefind == div --}}
+    {{#ifCond tagName '==' "div"}}
+    {{!-- div --}}
     <div class="{{#each classes}}{{name}} {{/each}}" id="{{attributes.id}}">
       {{#each components}}
-      {{#ifCond tagName '==' undefind}}
-      {{!-- undefind == div --}}
+      {{#ifCond tagName '==' "div"}}
+      {{!-- div --}}
       <div class="{{#each classes}}{{name}} {{/each}}" id="{{attributes.id}}"> {{content}}
         {{#each components}}
         {{#ifCond tagName '==' "h3"}}
@@ -22,7 +22,7 @@
         {{!-- p --}}
         <p id="{{attributes.id}}">
           {{#each components}}
-          {{#ifCond tagName '==' ""}}
+          {{#ifCond tagName '==' "div"}}
           {{!-- "" -- content only --}}
           {{content}}
           {{/ifCond}}
