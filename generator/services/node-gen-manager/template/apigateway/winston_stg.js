@@ -1,6 +1,6 @@
 /*
  * Template group winston
- * Compiled on Mon Jun 17 2019 11:58:12 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jan 08 2021 10:57:12 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -101,7 +101,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                ");
-    w.write("new winston.transports.Console(),");
+    w.write("new winston.transports.Console({level: 'debug'}),");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                ");
