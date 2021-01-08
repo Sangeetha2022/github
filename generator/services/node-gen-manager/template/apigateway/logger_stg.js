@@ -1,6 +1,6 @@
 /*
  * Template group logger
- * Compiled on Fri Aug 23 2019 19:01:04 GMT+0530 (IST)
+ * Compiled on Fri Jan 08 2021 10:57:02 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -83,7 +83,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("new transports.Console(),");
+    w.write("new transports.Console({level: 'debug'}),");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");

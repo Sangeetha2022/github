@@ -8,6 +8,9 @@ export class FeedSeedData {
 
     seedGenFlowComponentData = async () => {
         configjson.base_config.map(async (flowObj) => {
+            if(flowObj.name == 'build_date') {
+                flowObj.value = new Date().toString();
+            }
             const data = await this.genFlow.findOneAndUpdate({ name: flowObj['name'] }, flowObj, { new: true });
             if (data === null) {
                 const createdFlow = new this.genFlow(flowObj);
