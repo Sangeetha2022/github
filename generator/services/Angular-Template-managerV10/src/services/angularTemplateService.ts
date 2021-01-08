@@ -6,10 +6,18 @@ import { ComponentWorker } from '../worker/componentWorker/componentWorker';
 import { DependencyWorker } from '../worker/dependency-worker/dependencyWorker';
 import { CommonWorker } from '../worker/commonWorker/commonWorker';
 import { Constant } from '../config/Constant';
+import { Header } from '../strategy/HTML/Header';
+import * as fs from 'fs';
+import * as Handlebars from 'handlebars';
+import * as path from 'path';
+import { SideNav } from '../strategy/HTML/SideNav';
+
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
 let dependencyWorker = new DependencyWorker();
+const header = new Header();
+const sideNav = new SideNav();
 
 export class AngularTemplateService {
 
@@ -21,7 +29,7 @@ export class AngularTemplateService {
     private grapesjsCSS = '';
     private menuDetails = '';
     private menuList = [];
-    public grapesjsComponent : any = []
+    public grapesjsComponent: any = []
     private templateName = '';
     private apigatewayPortNumber = 0;
     private sharedObj = {
@@ -32,16 +40,8 @@ export class AngularTemplateService {
         port: 0
     }
     private projectName = '';
-    private DEFAULT_FEATURENAME = 'default';
-    private navigationvalue: any;
-
-
-    initalizeDaoVariable() {
-
-    }
 
     public createAngularTemplate(req: Request, callback: CallableFunction) {
-
         this.details = req.body;
         console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
         this.grapesjsComponent = this.details.template['gjs-components'][0];
@@ -50,39 +50,9 @@ export class AngularTemplateService {
         this.projectName = this.details.project.name
         if (this.details.menuBuilder.length > 0) {
             this.menuList = [];
-            // this.menuDetails = this.details.menuBuilder[0].menuDetails;
             console.log('menudetails before length are ---- ', this.details.menuBuilder.length);
             const primaryLanguageMenuList = this.details.menuBuilder.filter(x => x.language.toLowerCase() == this.details.project.defaultHumanLanguage.toLowerCase())
-            console.log('menudetails after length are ---- ', primaryLanguageMenuList.length);
-            console.log('menudetails after length are -add--- ', util.inspect(primaryLanguageMenuList, { showHidden: true, depth: null }));
             this.menuList = primaryLanguageMenuList;
-            //             primaryLanguageMenuList.forEach(element => {
-            //                 console.log('each array of menus are --------   ', element);
-            //                 if (element && element.menuDetails.length > 0) {
-            //                     element.menuDetails.forEach(menuElement => {
-            //                         const menu = {
-            //                             parent: [],
-            //                             children: []
-            //                         }
-            //                         if (menuElement.featuremenu[0].name.feature != this.DEFAULT_FEATURENAME) {
-            //                             menu.parent.push(menuElement.featuremenu[0].description.feature);
-            //                         }
-            //                         if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
-            //                             menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
-            //                                 const temp = {
-            //                                     route: '',
-            //                                     name: ''
-            //                                 }
-            //                                 temp.route = screenElement;
-            //                                 temp.name = menuElement.screenmenu[0].description.screen[screenIndex];
-            //                                 menu.children.push(temp);
-            //                             })
-            //                         }
-            //                         this.menuList.push(menu);
-            //                     })
-            // }
-            //             })
-            console.log('after added outside ----  ', util.inspect(this.menuList, { showHidden: true, depth: null }));
         }
         this.apigatewayPortNumber = this.details.apigatewayPortNumber;
         this.sharedObj.port = this.apigatewayPortNumber;
@@ -94,8 +64,6 @@ export class AngularTemplateService {
                 this.projectName += element.charAt(0).toUpperCase() + element.slice(1);
             }
         })
-        // console.log('entering into grapejsCSSSSSSSSS --yes--  ', this.grapesjsCSS.indexOf(`home.jpg`));
-        // console.log('entering into grapejsCSSSSSSSSS --no--  ', this.grapesjsCSS.indexOf(`hometest.jpg`));
         this.generationPath = this.details.projectGenerationPath;
         console.log('generation path in angular template are -------- ', this.generationPath);
         Common.createFolders(this.generationPath);
@@ -105,13 +73,10 @@ export class AngularTemplateService {
             // console.log('stdout exec ----->>>>    ', stdout);
             // console.log('stderr exec ----->>>>    ', stderr);
             if (stdout || stderr) {
-                // this.iterateData = grapesjsComponent;
                 const stringparsing = JSON.stringify(this.grapesjsComponent);
                 this.iterateData = JSON.parse(stringparsing);
-                // console.log('iterateData filter are -----  ', this.iterateData);
-                this.createLandingPage();
+                this.createLandingPage(req.body);
                 this.generateAngularApp(this.details, (response) => {
-                    // console.log('after await completed')
                     const temp = {
                         shared: {
                             className: this.sharedObj.className,
@@ -125,66 +90,102 @@ export class AngularTemplateService {
             }
         });
     }
+    public createLandingPage(body) {
+        body = JSON.parse(JSON.stringify(body));
+        let gjsComponents = body.template['gjs-components'][0];
+        gjsComponents = JSON.parse(gjsComponents);
+        if (gjsComponents.length > 0) {
+            const navInfo = gjsComponents.filter((e: any) => e.tagName == 'nav');
+            header.generateHeader(navInfo, (headerRes: any, headerErr: any) => {
+                if (!headerErr) {
+                    const templatePath = path.resolve(__dirname, '../strategy/HTML/template/TemplateHeader.handlebars');
+                    this.handleBarsFile(templatePath, headerRes, (handlebarsRes, handlebarsErr) => {
+                        if (!handlebarsErr) {
+                            console.log('handlebarsRes--->>>>', handlebarsRes);
+                            if (handlebarsRes.includes('<div id="MainMenu">')) {
+                                // Call the sidenav generate function
+                                const sideNavHtml = sideNav.generateSideNav(body);
+                                const handlebarsResArray = handlebarsRes.split('\n');
+                                for(let i = 0; i < handlebarsResArray.length; i++) {
+                                    if(handlebarsResArray[i].includes('<div id="MainMenu">')) {
+                                        handlebarsResArray.splice(i + 1, 0, '\t\t' + sideNavHtml);
+                                        break;
+                                    }
+                                }
+                                for(let i = 0; i < handlebarsResArray.length; i++) {
+                                    if(handlebarsResArray[i].includes('</nav>')) {
+                                        handlebarsResArray.splice(i + 1, 0, Constant.HTML_TAG);
+                                        break;
+                                    }
+                                }
+                                const final = handlebarsResArray.join('\n');
+                                console.log('finalHtml---->>>>>', final);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    }
+    public handleBarsFile(filePath, fileData, callback) {
+        try {
+            fs.readFile(filePath, 'utf-8', (err, data) => {
+                Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
+                    switch (operator) {
+                        case "==":
+                            return (v1 == v2) ? options.fn(this) : options.inverse(this);
 
-    public createLandingPage() {
-        if (this.iterateData.length > 0) {
-            console.log('iteratedata lengtha are ------- ', this.iterateData.length);
-            const metadata = JSON.parse(this.iterateData);
-            this.generationPath += `/${this.projectName}`;
-            // commonWorker.initializeVariable();
-            var navInfo = metadata.filter(function (element) {
-                return element.tagName == 'nav';
-            })
-            var headerInfo = metadata.filter(function (element) {
-                return element.tagName == 'header';
-            })
-            var footerInfo = metadata.filter(function (element) {
-                return element.tagName == 'footer';
-            })
-            if(navInfo.length == 0 && headerInfo.length > 0){
-                var templateInfo = metadata.filter(function (element) {
-                    return element.tagName != 'nav' && element.tagName !='header' && element.tagName != 'footer';
-                })
+                        case "!=":
+                            return (v1 != v2) ? options.fn(this) : options.inverse(this);
 
-            }else{
-                var templateInfo = metadata.filter(function (element) {
-                    return element.tagName != 'nav' && element.tagName != 'footer';
-                })
-            }
-            console.log('----nav------',navInfo.length, headerInfo.length, templateInfo.length);
-            // if (navInfo.length > 0) {
-            //     commonWorker.createHeaderHtml(navInfo, this.menuList);
-            // }
-            // if (navInfo.length == 0 && headerInfo.length > 0) {
-            //     this.navigationvalue = 'topnav';
-            //     commonWorker.createTopHeaderHtml(headerInfo, this.menuList, this.navigationvalue);
-            // }
-            if (footerInfo.length > 0) {
-                commonWorker.createFooterHtml(this.generationPath , footerInfo);
-            }
-            // if (templateInfo.length > 0) {
-            //     commonWorker.createTemplateHtml(templateInfo);
-            // }
+                        case "===":
+                            return (v1 === v2) ? options.fn(this) : options.inverse(this);
 
+                        case "!==":
+                            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+
+                        case "&&":
+                            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+
+                        case "||":
+                            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+
+                        case "<":
+                            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+
+                        case "<=":
+                            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+
+                        case ">":
+                            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+
+                        case ">=":
+                            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+
+                        default:
+                            return eval("" + v1 + operator + v2) ? options.fn(this) : options.inverse(this);
+                    }
+                });
+                if (data) {
+                    const source = data;
+                    const template = Handlebars.compile(source);
+                    const result = template(fileData);
+                    callback(result, null);
+                }
+            });
+        } catch (error) {
+            callback(null, error);
         }
     }
 
     public generateAngularApp(details, callback) {
-        dependencyWorker.generateIndexHtml(this.generationPath, this.projectName, this.templateName ,this.grapesjsComponent , (res) =>{
+        dependencyWorker.generateIndexHtml(this.generationPath, this.projectName, this.templateName, this.grapesjsComponent, (res) => {
+
         })
         const filePath = details.projectGenerationPath + '/' + this.projectName + '/' + Constant.SRC_FOLDERNAME;
         const grapesjsCSS = this.details.template['gjs-css'];
-        // commonWorker.generateStyleScss(filePath, grapesjsCSS, (res) => {
-            
-        // });
-        //     return commonWorker.generateAngularTemplate(this.generationPath, this.templatePath, this.templateName, this.menuList, (response) => {
-        //         return dependencyWorker.generateAppRoutingFile(this.generationPath, this.templatePath, this.menuList, (response) => {
-        //             console.log('--------checking assets file generation------',this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.projectName)
-        // return commonWorker.generateMainFile(this.generationPath, this.templatePath, this.grapesjsCSS, this.sharedObj, this.projectName, (response) => {
-        //     callback(response);
-        // });
-        //         });
-        //     });
-        // }
+        commonWorker.generateStyleScss(filePath, grapesjsCSS, (res) => {
+
+        });
     }
 }
