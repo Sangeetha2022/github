@@ -4,12 +4,11 @@ export class SideNav {
      * @param body 
      * Generate Sidenav
      */
-    generateSideNav(body: any) {
+    generateSideNav(humanLanguageMenus: any) {
         let topNav = [];
         let mainNav = [];
         let bottomNav = [];
         let sideNav: string = '';
-        let humanLanguageMenus = body.menuBuilder.filter((e) => e.language.toLowerCase() === body.project.defaultHumanLanguage.toLowerCase());
         if (humanLanguageMenus && humanLanguageMenus.length > 0) {
             humanLanguageMenus.forEach((element: any) => {
                 if (element.menuDetails && element.menuDetails.length > 0) {

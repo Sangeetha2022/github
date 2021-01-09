@@ -7,18 +7,11 @@ import { DependencyWorker } from '../worker/dependency-worker/dependencyWorker';
 import { CommonWorker } from '../worker/commonWorker/commonWorker';
 import { Constant } from '../config/Constant';
 import { Header } from '../strategy/HTML/Header';
-import * as fs from 'fs';
-import * as Handlebars from 'handlebars';
-import * as path from 'path';
-import { SideNav } from '../strategy/HTML/SideNav';
-import {Landing} from '../strategy/HTML/Landing'
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
 let dependencyWorker = new DependencyWorker();
-const sideNav = new SideNav();
 let header = new Header();
-let landingpage = new Landing();
 
 export class AngularTemplateService {
 
@@ -113,7 +106,8 @@ export class AngularTemplateService {
                 commonWorker.createFooterHtml(this.generationPath, footerInfo);
             }
             if (navInfo.length > 0) {
-                header.generateHeader(navInfo, (response) => {
+                const humanLanguageMenus = body.menuBuilder.filter((e) => e.language.toLowerCase() === body.project.defaultHumanLanguage.toLowerCase());
+                header.generateHeaderComponent(navInfo, humanLanguageMenus, (response) => {
 
                 });
             }

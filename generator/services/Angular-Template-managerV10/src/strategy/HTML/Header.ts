@@ -1,5 +1,17 @@
+import * as fs from 'fs';
+import * as Handlebars from 'handlebars';
+import * as path from 'path';
+import { SideNav } from './SideNav';
+import { Constant } from '../../config/Constant';
+
+const sideNav = new SideNav();
 export class Header {
-    public generateHeader(gjCcomponents: Array<Object>, callback) {
+    public generateHeaderComponent(gjCcomponents: Array<Object>, menuList, callback) {
+        this.generateHeaderHtml(gjCcomponents, menuList, (res, err) => {
+
+        });
+    }
+    private generateHeaderHtml(gjCcomponents: Array<Object>, menuList, callback) {
         try {
             let headerObject: any = {}
             gjCcomponents.forEach((gjCcomponent: any) => {
@@ -32,11 +44,6 @@ export class Header {
                                 if (content) {
                                     componentObj2.content = content;
                                 }
-                                // if (componentObj2.tagName === 'button') {
-                                //     const buttonAttributes = this.setDataToggleAndDataTarget(componentElement2);
-                                //     componentObj2.dataToggle = buttonAttributes.dataToggle;
-                                //     componentObj2.dataTarget = buttonAttributes.dataTarget;
-                                // }
                                 componentObj2.components = [];
                                 if (componentElement2.components && componentElement2.components.length > 0) {
                                     componentElement2.components.forEach((componentElement3: any) => {
@@ -73,7 +80,32 @@ export class Header {
                 }
             });
             console.log('headerObject---->>>>', JSON.stringify(headerObject));
-            callback(headerObject, null);
+            const templatePath = path.resolve(__dirname, './template/TemplateHeader.handlebars');
+            this.handleBarsFile(templatePath, headerObject, (handlebarsRes, handlebarsErr) => {
+                if (!handlebarsErr) {
+                    console.log('handlebarsRes--->>>>', handlebarsRes);
+                    if (handlebarsRes.includes('<div id="MainMenu">')) {
+                        // Call the sidenav generate function
+                        const sideNavHtml = sideNav.generateSideNav(menuList);
+                        const handlebarsResArray = handlebarsRes.split('\n');
+                        for (let i = 0; i < handlebarsResArray.length; i++) {
+                            if (handlebarsResArray[i].includes('<div id="MainMenu">')) {
+                                handlebarsResArray.splice(i + 1, 0, '\t\t' + sideNavHtml);
+                                break;
+                            }
+                        }
+                        for (let i = 0; i < handlebarsResArray.length; i++) {
+                            if (handlebarsResArray[i].includes('</nav>')) {
+                                handlebarsResArray.splice(i + 1, 0, Constant.HTML_TAG);
+                                break;
+                            }
+                        }
+                        const final = handlebarsResArray.join('\n');
+                        console.log('finalHtml---->>>>>', final);
+                    }
+                }
+
+            });
         } catch (error) {
             callback(null, error);
         }
@@ -159,19 +191,54 @@ export class Header {
             return null;
         }
     }
-    /**
-     * 
-     * @param firstEle 
-     * set data-toggle and data-target
-     */
-    // setDataToggleAndDataTarget(firstEle) {
-    //     let buttonAttributes = { dataToggle: '', dataTarget: '' }
-    //     if (firstEle.hasOwnProperty('attributes') && firstEle.attributes.hasOwnProperty('data-toggle')) {
-    //         buttonAttributes.dataToggle = firstEle.attributes['data-toggle'];
-    //     }
-    //     if (firstEle.hasOwnProperty('attributes') && firstEle.attributes.hasOwnProperty('data-target')) {
-    //         buttonAttributes.dataTarget = firstEle.attributes['data-target'];
-    //     }
-    //     return buttonAttributes;
-    // }
+
+    handleBarsFile(filePath, fileData, callback) {
+        try {
+            fs.readFile(filePath, 'utf-8', (err, data) => {
+                Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
+                    switch (operator) {
+                        case "==":
+                            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+
+                        case "!=":
+                            return (v1 != v2) ? options.fn(this) : options.inverse(this);
+
+                        case "===":
+                            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+
+                        case "!==":
+                            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+
+                        case "&&":
+                            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+
+                        case "||":
+                            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+
+                        case "<":
+                            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+
+                        case "<=":
+                            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+
+                        case ">":
+                            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+
+                        case ">=":
+                            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+                        default:
+                            return eval("" + v1 + operator + v2) ? options.fn(this) : options.inverse(this);
+                    }
+                });
+                if (data) {
+                    const source = data;
+                    const template = Handlebars.compile(source);
+                    const result = template(fileData);
+                    callback(result, null);
+                }
+            });
+        } catch (error) {
+            callback(null, error);
+        }
+    }
 }
