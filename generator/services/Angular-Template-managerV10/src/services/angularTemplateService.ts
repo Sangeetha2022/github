@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request, response } from 'express';
 import * as util from 'util';
 import { Common } from '../config/Common';
 import * as childProcess from 'child_process';
@@ -11,13 +11,14 @@ import * as fs from 'fs';
 import * as Handlebars from 'handlebars';
 import * as path from 'path';
 import { SideNav } from '../strategy/HTML/SideNav';
-
+import {Landing} from '../strategy/HTML/Landing'
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
 let dependencyWorker = new DependencyWorker();
-const header = new Header();
 const sideNav = new SideNav();
+let header = new Header();
+let landingpage = new Landing();
 
 export class AngularTemplateService {
 
@@ -29,7 +30,8 @@ export class AngularTemplateService {
     private grapesjsCSS = '';
     private menuDetails = '';
     private menuList = [];
-    public grapesjsComponent: any = []
+    public mainHTML = [];
+    public grapesjsComponent : any = []
     private templateName = '';
     private apigatewayPortNumber = 0;
     private sharedObj = {
@@ -43,21 +45,18 @@ export class AngularTemplateService {
 
     public createAngularTemplate(req: Request, callback: CallableFunction) {
         this.details = req.body;
-        console.log('entering into create angular template in services ----  ', util.inspect(this.details, { showHidden: true, depth: null }));
         this.grapesjsComponent = this.details.template['gjs-components'][0];
         this.grapesjsCSS = this.details.template['gjs-css'];
         this.templateName = this.details.template.template_name;
         this.projectName = this.details.project.name
         if (this.details.menuBuilder.length > 0) {
             this.menuList = [];
-            console.log('menudetails before length are ---- ', this.details.menuBuilder.length);
             const primaryLanguageMenuList = this.details.menuBuilder.filter(x => x.language.toLowerCase() == this.details.project.defaultHumanLanguage.toLowerCase())
             this.menuList = primaryLanguageMenuList;
         }
         this.apigatewayPortNumber = this.details.apigatewayPortNumber;
         this.sharedObj.port = this.apigatewayPortNumber;
         this.details.project.name.split(" ").forEach((element, index) => {
-            console.log('each foldername are ---------  ', element, '  --indx---  ', index);
             if (index === 0) {
                 this.projectName = element;
             } else {
@@ -65,17 +64,14 @@ export class AngularTemplateService {
             }
         })
         this.generationPath = this.details.projectGenerationPath;
-        console.log('generation path in angular template are -------- ', this.generationPath);
         Common.createFolders(this.generationPath);
         this.templatePath = this.details.project.templateLocation.frontendTemplate;
         this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && ng new ${this.projectName} --routing=false --skip-git --style=scss --skip-install`, (error, stdout, stderr) => {
-            // console.log('error exec ----->>>>    ', error);
-            // console.log('stdout exec ----->>>>    ', stdout);
-            // console.log('stderr exec ----->>>>    ', stderr);
             if (stdout || stderr) {
                 const stringparsing = JSON.stringify(this.grapesjsComponent);
                 this.iterateData = JSON.parse(stringparsing);
                 this.createLandingPage(req.body);
+                // console.log('iterateData filter are -----  ', this.iterateData);
                 this.generateAngularApp(this.details, (response) => {
                     const temp = {
                         shared: {
@@ -96,87 +92,76 @@ export class AngularTemplateService {
         gjsComponents = JSON.parse(gjsComponents);
         if (gjsComponents.length > 0) {
             const navInfo = gjsComponents.filter((e: any) => e.tagName == 'nav');
-            header.generateHeader(navInfo, (headerRes: any, headerErr: any) => {
-                if (!headerErr) {
-                    const templatePath = path.resolve(__dirname, '../strategy/HTML/template/TemplateHeader.handlebars');
-                    this.handleBarsFile(templatePath, headerRes, (handlebarsRes, handlebarsErr) => {
-                        if (!handlebarsErr) {
-                            console.log('handlebarsRes--->>>>', handlebarsRes);
-                            if (handlebarsRes.includes('<div id="MainMenu">')) {
-                                // Call the sidenav generate function
-                                const sideNavHtml = sideNav.generateSideNav(body);
-                                const handlebarsResArray = handlebarsRes.split('\n');
-                                for(let i = 0; i < handlebarsResArray.length; i++) {
-                                    if(handlebarsResArray[i].includes('<div id="MainMenu">')) {
-                                        handlebarsResArray.splice(i + 1, 0, '\t\t' + sideNavHtml);
-                                        break;
-                                    }
-                                }
-                                for(let i = 0; i < handlebarsResArray.length; i++) {
-                                    if(handlebarsResArray[i].includes('</nav>')) {
-                                        handlebarsResArray.splice(i + 1, 0, Constant.HTML_TAG);
-                                        break;
-                                    }
-                                }
-                                const final = handlebarsResArray.join('\n');
-                                console.log('finalHtml---->>>>>', final);
-                            }
-                        }
-                    });
-                }
-            });
-        }
-    }
-    public handleBarsFile(filePath, fileData, callback) {
-        try {
-            fs.readFile(filePath, 'utf-8', (err, data) => {
-                Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
-                    switch (operator) {
-                        case "==":
-                            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+            const headerInfo = gjsComponents.filter(function (element) {
+                return element.tagName == 'header';
+            })
+            const footerInfo = gjsComponents.filter(function (element) {
+                return element.tagName == 'footer';
+            })
+            if(navInfo.length == 0 && headerInfo.length > 0){
+                const templateInfo = gjsComponents.filter(function (element) {
+                    return element.tagName != 'nav' && element.tagName !='header' && element.tagName != 'footer';
+                })
 
-                        case "!=":
-                            return (v1 != v2) ? options.fn(this) : options.inverse(this);
+            }else{
+                const templateInfo = gjsComponents.filter(function (element) {
+                    return element.tagName != 'nav' && element.tagName != 'footer' && element.tagName != 'meta' && element.tagName != 'link' 
+                        && element.tagName != 'base' && element.tagName != 'title' && element.tagName != 'link' && element.tagName != 'script';
+                })
+            }
+            if (footerInfo.length > 0) {
+                commonWorker.createFooterHtml(this.generationPath, footerInfo);
+            }
+            if (navInfo.length > 0) {
+                header.generateHeader(navInfo, (response) => {
 
-                        case "===":
-                            return (v1 === v2) ? options.fn(this) : options.inverse(this);
-
-                        case "!==":
-                            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
-
-                        case "&&":
-                            return (v1 && v2) ? options.fn(this) : options.inverse(this);
-
-                        case "||":
-                            return (v1 || v2) ? options.fn(this) : options.inverse(this);
-
-                        case "<":
-                            return (v1 < v2) ? options.fn(this) : options.inverse(this);
-
-                        case "<=":
-                            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-
-                        case ">":
-                            return (v1 > v2) ? options.fn(this) : options.inverse(this);
-
-                        case ">=":
-                            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-
-                        default:
-                            return eval("" + v1 + operator + v2) ? options.fn(this) : options.inverse(this);
-                    }
                 });
-                if (data) {
-                    const source = data;
-                    const template = Handlebars.compile(source);
-                    const result = template(fileData);
-                    callback(result, null);
-                }
-            });
-        } catch (error) {
-            callback(null, error);
+            }
+            
         }
     }
+    // public createLandingPage() {
+    //     if (this.iterateData.length > 0) {
+    //         const metadata = JSON.parse(this.iterateData);
+    //         this.generationPath += `/${this.projectName}`;
+    //         // commonWorker.initializeVariable();
+    //         var navInfo = metadata.filter(function (element) {
+    //             return element.tagName == 'nav';
+    //         })
+    //         var headerInfo = metadata.filter(function (element) {
+    //             return element.tagName == 'header';
+    //         })
+    //         var footerInfo = metadata.filter(function (element) {
+    //             return element.tagName == 'footer';
+    //         })
+    //         if(navInfo.length == 0 && headerInfo.length > 0){
+    //             var templateInfo = metadata.filter(function (element) {
+    //                 return element.tagName != 'nav' && element.tagName !='header' && element.tagName != 'footer';
+    //             })
+
+    //         }else{
+    //             var templateInfo = metadata.filter(function (element) {
+    //                 return element.tagName != 'nav' && element.tagName != 'footer' && element.tagName != 'meta' && element.tagName != 'link' 
+    //                     && element.tagName != 'base' && element.tagName != 'title' && element.tagName != 'link' && element.tagName != 'script';
+    //             })
+    //         }
+
+    //         console.log('----nav------',navInfo.length, headerInfo.length, templateInfo.length);
+    //         if (navInfo.length > 0) {
+    //         header.createHeaderHtml(navInfo, this.menuList);
+    //         }
+    //         if (navInfo.length == 0 && headerInfo.length > 0) {
+    //         this.navigationvalue = 'topnav';
+    //         header.createTopHeaderHtml(headerInfo, this.menuList, this.navigationvalue);
+    //         }
+    //         if (footerInfo.length > 0) {
+    //         commonWorker.createFooterHtml(footerInfo);
+    //         }
+    //         if (templateInfo.length > 0) {
+    //             landingpage.landingPageHTMLGeneration(templateInfo);
+    //         }
+    //     }
+    // }
 
     public generateAngularApp(details, callback) {
         dependencyWorker.generateIndexHtml(this.generationPath, this.projectName, this.templateName, this.grapesjsComponent, (res) => {
@@ -187,5 +172,6 @@ export class AngularTemplateService {
         commonWorker.generateStyleScss(filePath, grapesjsCSS, (res) => {
 
         });
+        callback();
     }
 }

@@ -21,7 +21,7 @@ export class DependencyWorker {
       await this.setMetaTag(tagData, templateName)
     })
     const applicationPath = generationPath + `/${Constant.SRC_FOLDERNAME}`;
-    const templatePath = path.resolve(__dirname, '../../../templates/indexHtml.handlebars');
+    const templatePath = path.resolve(__dirname, '../../../templates/IndexHtml.handlebars');
     componentSupportWorker.handleBarsFile(templatePath, this.indexHtmlObject, applicationPath, 'index.html');
     callback('Index.html file generated successfully')
   }
