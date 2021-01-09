@@ -83,6 +83,7 @@ export class AngularTemplateService {
         body = JSON.parse(JSON.stringify(body));
         let gjsComponents = body.template['gjs-components'][0];
         gjsComponents = JSON.parse(gjsComponents);
+        let templateInfo: any;
         if (gjsComponents.length > 0) {
             const navInfo = gjsComponents.filter((e: any) => e.tagName == 'nav');
             const headerInfo = gjsComponents.filter(function (element) {
@@ -92,12 +93,12 @@ export class AngularTemplateService {
                 return element.tagName == 'footer';
             })
             if(navInfo.length == 0 && headerInfo.length > 0){
-                const templateInfo = gjsComponents.filter(function (element) {
+                templateInfo = gjsComponents.filter(function (element) {
                     return element.tagName != 'nav' && element.tagName !='header' && element.tagName != 'footer';
                 })
 
             }else{
-                const templateInfo = gjsComponents.filter(function (element) {
+                templateInfo = gjsComponents.filter(function (element) {
                     return element.tagName != 'nav' && element.tagName != 'footer' && element.tagName != 'meta' && element.tagName != 'link' 
                         && element.tagName != 'base' && element.tagName != 'title' && element.tagName != 'link' && element.tagName != 'script';
                 })
@@ -110,6 +111,9 @@ export class AngularTemplateService {
                 header.generateHeaderComponent(navInfo, humanLanguageMenus, (response) => {
 
                 });
+            }
+            if (templateInfo.length > 0) {
+                // landingpage.landingPageHTMLGeneration(templateInfo, this.details);
             }
             
         }
