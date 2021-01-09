@@ -14,10 +14,10 @@ export class CommonWorker {
      * @param grapesjsCSS 
      * @param callback 
      */
-    public async generateStyleScss(filePath, grapesjsCSS, callback) {
+    public async generateStyleScss(filePath, CSSData, callback) {
         const fileData = {
             styleScssContent: [
-                { data: grapesjsCSS }
+                { data: CSSData }
             ]
         }
         const templatePath = path.resolve(__dirname, '../../../templates/StyleScss.handlebars');

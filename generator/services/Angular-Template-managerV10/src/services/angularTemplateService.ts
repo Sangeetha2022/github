@@ -7,10 +7,14 @@ import { DependencyWorker } from '../worker/dependency-worker/dependencyWorker';
 import { CommonWorker } from '../worker/commonWorker/commonWorker';
 import { Constant } from '../config/Constant';
 import { Header } from '../strategy/HTML/Header';
+import { GeppettoTemplateGenerator } from '../strategy/HTML/geppetto_template/GeppettoTemplateGenerator';
+import { HpTemplateGenerator } from '../strategy/HTML/hp_template/HpTemplateGenerator'
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
 let dependencyWorker = new DependencyWorker();
+let geppettoTemplate = new GeppettoTemplateGenerator();
+let hpTemplate = new HpTemplateGenerator();
 let header = new Header();
 
 export class AngularTemplateService {
@@ -81,42 +85,18 @@ export class AngularTemplateService {
     }
     public createLandingPage(body) {
         body = JSON.parse(JSON.stringify(body));
-        let gjsComponents = body.template['gjs-components'][0];
-        gjsComponents = JSON.parse(gjsComponents);
-        let templateInfo: any;
-        if (gjsComponents.length > 0) {
-            const navInfo = gjsComponents.filter((e: any) => e.tagName == 'nav');
-            const headerInfo = gjsComponents.filter(function (element) {
-                return element.tagName == 'header';
-            })
-            const footerInfo = gjsComponents.filter(function (element) {
-                return element.tagName == 'footer';
-            })
-            if(navInfo.length == 0 && headerInfo.length > 0){
-                templateInfo = gjsComponents.filter(function (element) {
-                    return element.tagName != 'nav' && element.tagName !='header' && element.tagName != 'footer';
-                })
-
-            }else{
-                templateInfo = gjsComponents.filter(function (element) {
-                    return element.tagName != 'nav' && element.tagName != 'footer' && element.tagName != 'meta' && element.tagName != 'link' 
-                        && element.tagName != 'base' && element.tagName != 'title' && element.tagName != 'link' && element.tagName != 'script';
-                })
-            }
-            if (footerInfo.length > 0) {
-                commonWorker.createFooterHtml(this.generationPath, footerInfo);
-            }
-            if (navInfo.length > 0) {
-                const humanLanguageMenus = body.menuBuilder.filter((e) => e.language.toLowerCase() === body.project.defaultHumanLanguage.toLowerCase());
-                header.generateHeaderComponent(navInfo, humanLanguageMenus, (response) => {
-
-                });
-            }
-            if (templateInfo.length > 0) {
-                // landingpage.landingPageHTMLGeneration(templateInfo, this.details);
-            }
-            
+        let templateName = this.templateName
+        switch (templateName.toLowerCase()) {
+            case 'geppetto template':
+                geppettoTemplate.geppettoTemplateGeneration(body);
+                break;
+            case 'new hp template':
+                hpTemplate.hpTemplateGeneration(body);
+                break;
+            default:
+                break;
         }
+        
     }
     // public createLandingPage() {
     //     if (this.iterateData.length > 0) {
@@ -166,10 +146,10 @@ export class AngularTemplateService {
 
         })
         const filePath = details.projectGenerationPath + '/' + this.projectName + '/' + Constant.SRC_FOLDERNAME;
-        const grapesjsCSS = this.details.template['gjs-css'];
-        commonWorker.generateStyleScss(filePath, grapesjsCSS, (res) => {
+        // const grapesjsCSS = this.details.template['gjs-css'];
+        // commonWorker.generateStyleScss(filePath, grapesjsCSS, (res) => {
 
-        });
+        // });
         callback();
     }
 }
