@@ -55,4 +55,25 @@ export class Constant {
         portNumber: '3000',
         additionalUrl: '/mobile'
     }
+
+    public static FooterModule = {
+        GpHeaders: [
+          {
+            importName: "I18NextModule",
+            importPath: "angular-i18next"
+          },
+          {
+            importName: "FooterComponent",
+            importPath: "./footer.component"
+          }
+        ],
+        GpOptions: {
+          components: [
+            { name: "FooterComponent" }
+          ],
+          modules: [{ name: "I18NextModule.forRoot()" }],
+          screenName: "footer",
+          className: "FooterModule"
+        }
+      }
 }
