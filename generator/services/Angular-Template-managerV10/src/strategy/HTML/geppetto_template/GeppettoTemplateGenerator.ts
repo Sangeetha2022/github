@@ -8,10 +8,12 @@ import { GeppettoHeader } from './GeppettoHeader';
 import { GeppettoSideNav } from './GeppettoSideNav';
 import { Footer } from './GeppettoFooter';
 import { Common } from '../../../config/Common';
+import { ComponentCssWorker } from '../../../worker/componentWorker/componentCSSworker';
 
 const commonWorker = new CommonWorker();
 const componentSupportWorker = new ComponentSupportWorker();
 const geppettoSideNav = new GeppettoSideNav();
+const componentCssWorker = new ComponentCssWorker()
 
 export class GeppettoTemplateGenerator {
     geppettoTemplateGeneration(details) {
@@ -91,7 +93,7 @@ export class GeppettoTemplateGenerator {
         const footerCss = Footer.CSS_DATA;
 
         this.ComponentHtmlGeneration(generationPath, geppettoFooterHTML, 'footer.component.html', (res) => {
-            this.ComponentCssGeneration(generationPath, footerCss, 'footer.component.scss', (res) => {
+            componentCssWorker.ComponentCssGeneration(generationPath, footerCss, 'footer.component.scss', (res) => {
                 callback("Geppetto Footer HTML and CSS generated ")
             })
         })
@@ -105,11 +107,4 @@ export class GeppettoTemplateGenerator {
         })
     }
 
-    public ComponentCssGeneration(filePath, htmlMetaData, fileName, callback) {
-        Common.createFolders(filePath);
-        const path = `${filePath}/${fileName}`
-        componentSupportWorker.writeFile(path, htmlMetaData, (response) => {
-            callback(response);
-        })
-    }
 }
