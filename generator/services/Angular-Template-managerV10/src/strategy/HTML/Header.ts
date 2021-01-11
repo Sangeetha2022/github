@@ -94,12 +94,12 @@ export class Header {
                                 break;
                             }
                         }
-                        for (let i = 0; i < handlebarsResArray.length; i++) {
-                            if (handlebarsResArray[i].includes('</nav>')) {
-                                handlebarsResArray.splice(i + 1, 0, Constant.HTML_TAG);
-                                break;
-                            }
-                        }
+                        // for (let i = 0; i < handlebarsResArray.length; i++) {
+                        //     if (handlebarsResArray[i].includes('</nav>')) {
+                        //         handlebarsResArray.splice(i + 1, 0, Constant.HTML_TAG);
+                        //         break;
+                        //     }
+                        // }
                         const final = handlebarsResArray.join('\n');
                         console.log('finalHtml---->>>>>', final);
                     }

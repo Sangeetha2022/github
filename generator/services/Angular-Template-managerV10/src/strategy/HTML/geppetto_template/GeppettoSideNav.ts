@@ -1,4 +1,4 @@
-export class SideNav {
+export class GeppettoSideNav {
     /**
      * 
      * @param body 
