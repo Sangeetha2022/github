@@ -1,0 +1,26 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+{{#each GpHeaders}}
+import { {{importName}} } from '{{ importPath }}';
+{{/each}}
+
+@NgModule({
+    imports: [
+        CommonModule,
+        RouterModule,
+        {{#each GpOptions.modules}}
+        {{name}},
+        {{/each}}
+    ],
+    declarations: [
+        {{#each GpOptions.components}}
+        {{name}},
+        {{/each}}
+    ], 
+    exports: [
+     {{#each GpOptions.components}}
+        {{name}},
+        {{/each}}
+    ]
+})
+export class {{ GpOptions.className }} { }
