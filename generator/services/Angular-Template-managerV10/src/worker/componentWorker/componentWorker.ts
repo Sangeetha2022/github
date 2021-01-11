@@ -1,8 +1,10 @@
 import { Constant } from "../../config/Constant";
 import * as path from 'path';
 import { ComponentSupportWorker } from "../../supportworker/componentSupportWorker";
+import { ComponentModuleWorker } from "./componentModuleWorker";
 
 const componentSupportWorker = new ComponentSupportWorker()
+const componentModuleWorker = new ComponentModuleWorker()
 export class ComponentWorker {
 
   public generateComponent(generationPath, callback) {
@@ -30,10 +32,10 @@ export class ComponentWorker {
       }
     }
     const footerModule = Constant.FooterModule
-    this.generateComponentTsFile(`${templatePath}/ComponentTs.handlebars`, fileData, applicationPath, 'footer.component.ts', (res) => {
-      this.generateComponentSpcFile(`${templatePath}/ComponentSpec.handlebars`, fileData, applicationPath, 'footer.component.spec.ts', (res) => {
-        this.generateComponentModuleFile(`${templatePath}/ComponentModule.handlebars`, footerModule, applicationPath, 'footer.module.ts', (res) => {
-          callback("Footer component generated");
+    this.generateComponentTsFile(`${templatePath}/${Constant.COMPONENT_TS_HANDELBARS}`, fileData, applicationPath, Constant.FOOTER_TS_FILENAME, (res) => {
+      this.generateComponentSpcFile(`${templatePath}/${Constant.COMPONENT_SPEC_HANDELBARS}`, fileData, applicationPath, Constant.FOOTER_SPEC_FILENAME, (res) => {
+        componentModuleWorker.generateComponentModuleFile(`${templatePath}/${Constant.COMPONENT_MODULE_HANDELBARS}`, footerModule, applicationPath, Constant.FOOTER_MODULE_FILENAME, (res) => {
+          callback("Footer component generated")
         })
       })
     })

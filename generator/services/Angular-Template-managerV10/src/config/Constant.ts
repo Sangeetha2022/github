@@ -41,6 +41,12 @@ export class Constant {
   public static HEADER_FOLDERNAME = 'header';
   public static TEMPLATE_FOLDERNAME = 'template';
   public static FOOTER_FOLDERNAME = 'footer';
+  public static FOOTER_TS_FILENAME: String = 'footer.component.ts';
+  public static FOOTER_SPEC_FILENAME: String = 'footer.component.spec.ts';
+  public static FOOTER_MODULE_FILENAME: String = 'footer.module.ts';
+  public static COMPONENT_TS_HANDELBARS: string = "ComponentTs.handlebars"
+  public static COMPONENT_SPEC_HANDELBARS: string = "ComponentSpec.handlebars"
+  public static COMPONENT_MODULE_HANDELBARS: string = "ComponentModule.handlebars"
 
   // nginx conf data
   public static proxyDesktop = {
