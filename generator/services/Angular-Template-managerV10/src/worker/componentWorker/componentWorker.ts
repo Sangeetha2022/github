@@ -48,15 +48,22 @@ export class ComponentWorker {
     const fileData = {
       GpOptions: {
         screenName: Constant.TEMPLATE_FOLDERNAME,
-        className: `${Constant.TEMPLATE_FOLDERNAME.charAt(0).toUpperCase()}Component`
+        className: `${Constant.TEMPLATE_FOLDERNAME.charAt(0).toUpperCase() + Constant.TEMPLATE_FOLDERNAME.slice(1).toLowerCase()}Component`
       },
       GpHeaders: {
-        importName: `${Constant.TEMPLATE_FOLDERNAME.charAt(0).toUpperCase()}Component`,
+        importName: `${Constant.TEMPLATE_FOLDERNAME.charAt(0).toUpperCase() + Constant.TEMPLATE_FOLDERNAME.slice(1).toLowerCase()}Component`,
         importPath: `./${Constant.TEMPLATE_FOLDERNAME}.component`
       }
     }
+
+    const tsFileData = {
+      GpOptions: {
+        screenName: Constant.TEMPLATE_FOLDERNAME,
+        className: `${Constant.TEMPLATE_FOLDERNAME.charAt(0).toUpperCase() + Constant.TEMPLATE_FOLDERNAME.slice(1).toLowerCase()}Component`
+      }
+    }
     const templateModule = Constant.TemplateModule;
-    this.generateComponentTsFile(`${templatePath}/ComponentTs.handlebars`, fileData, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.component.ts`, (res) => {
+    this.generateComponentTsFile(`${templatePath}/ComponentTs.handlebars`, tsFileData, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.component.ts`, (res) => {
       this.generateComponentSpcFile(`${templatePath}/ComponentSpec.handlebars`, fileData, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.component.spec.ts`, (res) => {
         componentModuleWorker.generateComponentModuleFile(`${templatePath}/ComponentModule.handlebars`, templateModule, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.module.ts`, (res) => {
           callback("template component generated");
