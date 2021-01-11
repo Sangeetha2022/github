@@ -55,10 +55,10 @@ export class ComponentWorker {
         importPath: `./${Constant.TEMPLATE_FOLDERNAME}.component`
       }
     }
-    const footerModule = Constant.FooterModule
+    const templateModule = Constant.TemplateModule;
     this.generateComponentTsFile(`${templatePath}/ComponentTs.handlebars`, fileData, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.component.ts`, (res) => {
       this.generateComponentSpcFile(`${templatePath}/ComponentSpec.handlebars`, fileData, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.component.spec.ts`, (res) => {
-        this.generateComponentModuleFile(`${templatePath}/ComponentModule.handlebars`, footerModule, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.module.ts`, (res) => {
+        componentModuleWorker.generateComponentModuleFile(`${templatePath}/ComponentModule.handlebars`, templateModule, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.module.ts`, (res) => {
           callback("template component generated");
         })
       })
@@ -71,11 +71,6 @@ export class ComponentWorker {
     callback("Component Ts file generated ")
   }
 
-  //Generate component Module file
-  public generateComponentModuleFile(templatePath, fileData, applicationPath, fileName, callback) {
-    componentSupportWorker.handleBarsFile(templatePath, fileData, applicationPath, fileName);
-    callback("Component Ts file generated ")
-  }
 
   public generateComponentSpcFile(templatePath, fileData, applicationPath, fileName, callback) {
     componentSupportWorker.handleBarsFile(templatePath, fileData, applicationPath, fileName);

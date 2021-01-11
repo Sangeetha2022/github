@@ -98,7 +98,7 @@ export class AngularTemplateService {
                 break;
         }  
 
-        let generationPath = `${body.projectGenerationPath}/${this.projectName}`
+        let generationPath = `${body.projectGenerationPath}/${this.projectName}`;
         componentWorker.generateComponent(generationPath , (response) => {
             
         }) 
