@@ -26,7 +26,7 @@ export class GeppettoTemplateGenerator {
         this.generateHTML(details, (response) => {
 
         });
-        this.generateCss(details);
+        this.generateCss(details, (res)=> {});
     }
 
     generateHTML(details, callback) {
@@ -75,13 +75,14 @@ export class GeppettoTemplateGenerator {
         })
     }
 
-    generateCss(details) {
+    generateCss(details,callback) {
         let cssData = GeppettoLanding.CSS_DATA;
         let projectName = details.project.name;
-        const filePath = details.projectGenerationPath + '/' + projectName + '/' + Constant.SRC_FOLDERNAME;
-        commonWorker.generateStyleScss(filePath, cssData, (res) => {
-
-        });
+        const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
+            + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.TEMPLATE_FOLDERNAME;
+        componentCssWorker.ComponentCssGeneration(templateGenerationPath, cssData, `${Constant.TEMPLATE_FOLDERNAME}.component.scss`, (res) => {
+            callback("Geppetto Footer HTML and CSS generated ")
+        })
     }
 
       // generate Footer
@@ -93,7 +94,7 @@ export class GeppettoTemplateGenerator {
         const footerCss = Footer.CSS_DATA;
 
         this.ComponentHtmlGeneration(generationPath, geppettoFooterHTML, 'footer.component.html', (res) => {
-            componentCssWorker.ComponentCssGeneration(generationPath, footerCss, 'footer.component.scss', (res) => {
+            componentCssWorker.ComponentCssGeneration(generationPath, footerCss, `${Constant.FOOTER_FOLDERNAME}`, (res) => {
                 callback("Geppetto Footer HTML and CSS generated ")
             })
         })

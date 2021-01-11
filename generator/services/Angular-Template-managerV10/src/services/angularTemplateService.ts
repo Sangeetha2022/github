@@ -86,7 +86,7 @@ export class AngularTemplateService {
     }
     public createLandingPage(body) {
         body = JSON.parse(JSON.stringify(body));
-        let templateName = this.templateName
+        let templateName = this.templateName;
         switch (templateName.toLowerCase()) {
             case 'geppetto template':
                 geppettoTemplate.geppettoTemplateGeneration(body);
@@ -154,10 +154,10 @@ export class AngularTemplateService {
 
         })
         const filePath = details.projectGenerationPath + '/' + this.projectName + '/' + Constant.SRC_FOLDERNAME;
-        // const grapesjsCSS = this.details.template['gjs-css'];
-        // commonWorker.generateStyleScss(filePath, grapesjsCSS, (res) => {
+        const grapesjsCSS = this.details.template['gjs-css'];
+        commonWorker.generateStyleScss(filePath, grapesjsCSS, (res) => {
 
-        // });
+        });
         callback();
     }
 }
