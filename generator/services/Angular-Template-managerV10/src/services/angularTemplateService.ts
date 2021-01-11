@@ -16,6 +16,7 @@ let dependencyWorker = new DependencyWorker();
 let geppettoTemplate = new GeppettoTemplateGenerator();
 let hpTemplate = new HpTemplateGenerator();
 let header = new Header();
+const componetWorker = new ComponentWorker();
 
 export class AngularTemplateService {
 
@@ -95,7 +96,13 @@ export class AngularTemplateService {
                 break;
             default:
                 break;
-        }
+        }  
+
+        let generationPath = `${body.projectGenerationPath}/${this.projectName}`
+        componentWorker.generateComponent(generationPath , (response) => {
+            
+        }) 
+
         
     }
     // public createLandingPage() {
@@ -142,7 +149,8 @@ export class AngularTemplateService {
     // }
 
     public generateAngularApp(details, callback) {
-        dependencyWorker.generateIndexHtml(this.generationPath, this.projectName, this.templateName, this.grapesjsComponent, (res) => {
+        const generationPath = details.projectGenerationPath + '/' + this.projectName;
+        dependencyWorker.generateIndexHtml(generationPath, this.projectName, this.templateName, this.grapesjsComponent, (res) => {
 
         })
         const filePath = details.projectGenerationPath + '/' + this.projectName + '/' + Constant.SRC_FOLDERNAME;

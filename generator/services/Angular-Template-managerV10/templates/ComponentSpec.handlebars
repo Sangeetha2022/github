@@ -1,0 +1,25 @@
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { {{GpHeaders.importName}} } from '{{ GpHeaders.importPath }}';
+
+describe('{{GpHeaders.importName}}', () => {
+  let component: FooterComponent;
+  let fixture: ComponentFixture<{{GpHeaders.importName}}>;
+
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ {{GpHeaders.importName}} ]
+    })
+    .compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent({{GpHeaders.importName}});
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
