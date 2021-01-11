@@ -6,6 +6,8 @@ import { response } from 'express';
 import { callbackify } from 'util';
 import { GeppettoHeader } from './GeppettoHeader';
 import { GeppettoSideNav } from './GeppettoSideNav';
+import { Footer } from './GeppettoFooter';
+import { Common } from '../../../config/Common';
 
 const commonWorker = new CommonWorker();
 const componentSupportWorker = new ComponentSupportWorker();
@@ -13,6 +15,12 @@ const geppettoSideNav = new GeppettoSideNav();
 
 export class GeppettoTemplateGenerator {
     geppettoTemplateGeneration(details) {
+
+        const projectName = details.project.name;
+        const projectGenerationPath = details.projectGenerationPath
+        this.footerComponent(projectName, projectGenerationPath, (res) => {
+        })
+
         this.generateHTML(details, (response) => {
 
         });
@@ -72,5 +80,36 @@ export class GeppettoTemplateGenerator {
         commonWorker.generateStyleScss(filePath, cssData, (res) => {
 
         });
+    }
+
+      // generate Footer
+      public footerComponent(projectName, projectGenerationPath, callback) {
+        let generationPath = `${projectGenerationPath}/${projectName}/${Constant.SRC_FOLDERNAME}/${Constant.FOOTER_FOLDERNAME}`
+        //HTMl
+        const geppettoFooterHTML = Footer.HTML_TAG;
+        //Css
+        const footerCss = Footer.CSS_DATA;
+
+        this.ComponentHtmlGeneration(generationPath, geppettoFooterHTML, 'footer.component.html', (res) => {
+            this.ComponentCssGeneration(generationPath, footerCss, 'footer.component.scss', (res) => {
+                callback("Geppetto Footer HTML and CSS generated ")
+            })
+        })
+    }
+
+    public ComponentHtmlGeneration(filePath, htmlMetaData, fileName, callback) {
+        Common.createFolders(filePath);
+        const path = `${filePath}/${fileName}`
+        componentSupportWorker.writeFile(path, htmlMetaData, (response) => {
+            callback(response);
+        })
+    }
+
+    public ComponentCssGeneration(filePath, htmlMetaData, fileName, callback) {
+        Common.createFolders(filePath);
+        const path = `${filePath}/${fileName}`
+        componentSupportWorker.writeFile(path, htmlMetaData, (response) => {
+            callback(response);
+        })
     }
 }
