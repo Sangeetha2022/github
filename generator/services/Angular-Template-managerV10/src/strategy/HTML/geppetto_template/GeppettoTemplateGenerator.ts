@@ -53,7 +53,6 @@ export class GeppettoTemplateGenerator {
                 }
             }
             const final = handlebarsResArray.join('\n');
-            console.log('finalHtml---->>>>>', final);
             const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
                 + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.HEADER_FOLDERNAME;
             const filePath = templateGenerationPath + '/header.component.html';

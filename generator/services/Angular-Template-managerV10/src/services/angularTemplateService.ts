@@ -99,7 +99,8 @@ export class AngularTemplateService {
         }  
 
         let generationPath = `${body.projectGenerationPath}/${this.projectName}`;
-        componentWorker.generateComponent(generationPath , (response) => {
+        const templateNameLowerCase = body.template.template_name.toLowerCase();
+        componentWorker.generateComponent(generationPath, templateNameLowerCase, (response) => {
             
         }) 
 
