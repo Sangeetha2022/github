@@ -18,7 +18,7 @@ export class CustomLogger {
       format.printf(info => `\${info.timestamp} \${info.level}: \${info.message}`)
     ),
     transports: [
-      new transports.Console(),
+      new transports.Console({level: 'debug'}),
       new DailyRotateFile({
         filename: `log/flow-%DATE%.log`,
         datePattern: 'YYYY-MM-DD'
