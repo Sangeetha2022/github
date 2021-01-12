@@ -70,12 +70,16 @@ export class HpTemplateGenerator {
     }
 
     generateCss(details) {
+       this.generateTemplateCss(details);
+    }
+
+    generateTemplateCss(details) {
         let cssData = HpLanding.CSS_DATA;
         let projectName = details.project.name;
-        const filePath = details.projectGenerationPath + '/' + projectName + '/' + Constant.SRC_FOLDERNAME;
-        commonWorker.generateStyleScss(filePath, cssData, (res) => {
-
-        });
+        const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
+            + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.TEMPLATE_FOLDERNAME;
+        componentCssWorker.ComponentCssGeneration(templateGenerationPath, cssData, `${Constant.TEMPLATE_FOLDERNAME}.component.scss`, (res) => {
+        })
     }
 
     // generate Footer
