@@ -9,29 +9,32 @@ import { GeppettoSideNav } from './GeppettoSideNav';
 import { Footer } from './GeppettoFooter';
 import { Common } from '../../../config/Common';
 import { ComponentCssWorker } from '../../../worker/componentWorker/componentCSSworker';
+import { AssetWorker } from '../../../worker/assetWorker/assetsWorker';
 
 const commonWorker = new CommonWorker();
 const componentSupportWorker = new ComponentSupportWorker();
 const geppettoSideNav = new GeppettoSideNav();
-const componentCssWorker = new ComponentCssWorker()
+const componentCssWorker = new ComponentCssWorker();
+const assetWorker = new AssetWorker()
 
 export class GeppettoTemplateGenerator {
     geppettoTemplateGeneration(details) {
 
         const projectName = details.project.name;
         const projectGenerationPath = details.projectGenerationPath
+
         this.footerComponent(projectName, projectGenerationPath, (res) => {
         })
 
         this.generateHTML(details, (response) => {
 
         });
-        this.generateCss(details, (res)=> {});
+        this.generateCss(details, (res) => { });
     }
 
     generateHTML(details, callback) {
         this.generateTemplateHtml(details, (response) => {
-            
+
         });
         this.generateHeaderHtml(details, (res, err) => {
         });
@@ -75,7 +78,7 @@ export class GeppettoTemplateGenerator {
         })
     }
 
-    generateCss(details,callback) {
+    generateCss(details, callback) {
         let cssData = GeppettoLanding.CSS_DATA;
         let projectName = details.project.name;
         const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
@@ -85,14 +88,16 @@ export class GeppettoTemplateGenerator {
         })
     }
 
-      // generate Footer
-      public footerComponent(projectName, projectGenerationPath, callback) {
+    // generate Footer
+    public footerComponent(projectName, projectGenerationPath, callback) {
         let generationPath = `${projectGenerationPath}/${projectName}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}/${Constant.FOOTER_FOLDERNAME}`
         //HTMl
         const geppettoFooterHTML = Footer.HTML_TAG;
+        const assetGenerationPath = `${projectGenerationPath}/${projectName}/${Constant.SRC_FOLDERNAME}`
+        const template = "../../../templates"
         //Css
         const footerCss = Footer.CSS_DATA;
-
+        assetWorker.checkAssetFile(assetGenerationPath, geppettoFooterHTML, template)
         this.ComponentHtmlGeneration(generationPath, geppettoFooterHTML, 'footer.component.html', (res) => {
             componentCssWorker.ComponentCssGeneration(generationPath, footerCss, `${Constant.FOOTER_FOLDERNAME}.component.scss`, (res) => {
                 callback("Geppetto Footer HTML and CSS generated ")
