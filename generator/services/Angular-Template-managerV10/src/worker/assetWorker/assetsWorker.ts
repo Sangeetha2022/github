@@ -12,9 +12,7 @@ export class AssetWorker {
     private JAVASCRIPT_FOLDERNAME = 'js';
 
     checkAssetFile(generationPath, arrayData, templatePath) {
-        console.log("template0---path--->>>", templatePath)
         templatePath = path.resolve(__dirname, templatePath);
-        // Common.createFolders(templatePath)
         fs.readdirSync(`${templatePath}/${this.IMAGE_FOLDERNAME}`).forEach(imageElement => {
             const index = arrayData.indexOf(imageElement);
             if (index > -1) {

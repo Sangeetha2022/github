@@ -4,8 +4,10 @@ import * as util from 'util'
 import { ComponentSupportWorker } from "../../supportworker/componentSupportWorker";
 import { Constant } from "../../config/Constant";
 import { Footer } from '../../strategy/HTML/Footer';
+import { AssetWorker } from '../assetWorker/assetsWorker';
 
 const componentSupportWorker = new ComponentSupportWorker();
+const assetWorker = new AssetWorker();
 const footer = new Footer()
 export class CommonWorker {
     /**
@@ -20,8 +22,11 @@ export class CommonWorker {
                 { data: CSSData }
             ]
         }
-        const templatePath = path.resolve(__dirname, '../../../templates/StyleScss.handlebars');
-        await componentSupportWorker.handleBarsFile(templatePath, fileData, filePath, Constant.STYLE_FILENAME);
+        const templatePath = path.resolve(__dirname, '../../../templates');
+        const generationPath = `${fileData}/${Constant.SRC_FOLDERNAME}`
+        //
+        assetWorker.checkAssetFile(filePath, CSSData, templatePath);
+        await componentSupportWorker.handleBarsFile(`${templatePath}/StyleScss.handlebars`, fileData, generationPath, Constant.STYLE_FILENAME);
     }
 
     public createFooterHtml(generationPath , metaData) {
