@@ -10,12 +10,11 @@ export class ComponentWorker {
   public generateComponent(generationPath, templateName, callback) {
     this.templateComponetGeneration(generationPath, (res) => {
       this.footerComponetGeneration(generationPath, (res) => {
-        this.generateHeaderTs(generationPath, templateName, (res) => {
+        this.headerComponentGeneration(generationPath, templateName, (res) => {
             callback();
         });
       })
     })
-
   }
 
   public footerComponetGeneration(generationPath, callback) {
@@ -74,29 +73,41 @@ export class ComponentWorker {
   }
 
   //Generate component Ts file
-  public generateComponentTsFile(templatePath, fileData, applicationPath, fileName, callback) {
-    componentSupportWorker.handleBarsFile(templatePath, fileData, applicationPath, fileName);
+  public async generateComponentTsFile(templatePath, fileData, applicationPath, fileName, callback) {
+    await componentSupportWorker.handleBarsFile(templatePath, fileData, applicationPath, fileName);
     callback("Component Ts file generated ")
   }
 
 
-  public generateComponentSpcFile(templatePath, fileData, applicationPath, fileName, callback) {
-    componentSupportWorker.handleBarsFile(templatePath, fileData, applicationPath, fileName);
+  public async generateComponentSpcFile(templatePath, fileData, applicationPath, fileName, callback) {
+    await componentSupportWorker.handleBarsFile(templatePath, fileData, applicationPath, fileName);
     callback("Component spec file generated ")
   }
-    private async generateHeaderTs(generationPath, templateName, callback) {
-        const handlebarsObject = {
-            GpOptions: { screenName: 'header', className: 'HeaderComponent' },
+    private async headerComponentGeneration(generationPath, templateName, callback) {
+        const tsFileData = {
+            GpOptions: { screenName: Constant.HEADER_FOLDERNAME, className: `${Constant.HEADER_FOLDERNAME.charAt(0).toUpperCase() + Constant.HEADER_FOLDERNAME.slice(1).toLowerCase()}Component` },
             GpCodeToAdd: { lifecycle_info: [] }
         };
-        const templateGenerationPath = generationPath
-            + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.HEADER_FOLDERNAME;
-        const templatePath = path.resolve(__dirname, '../../../templates/ComponentTs.handlebars');
-        const fileName = 'header.component.ts';
-        if (templateName === 'geppetto template') {
-            handlebarsObject.GpCodeToAdd.lifecycle_info.push({ data: `this.userId = sessionStorage.getItem('Id');` });
+        const specFileData = {
+            GpHeaders: {
+                importName: `${Constant.HEADER_FOLDERNAME.charAt(0).toUpperCase() + Constant.HEADER_FOLDERNAME.slice(1).toLowerCase()}Component`,
+                importPath: `./${Constant.HEADER_FOLDERNAME}.component`
+            }
         }
-        await componentSupportWorker.handleBarsFile(templatePath, handlebarsObject, templateGenerationPath, fileName);
-        callback('Header Ts file generated');
+        const templateGenerationPath = generationPath + '/'
+            + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.HEADER_FOLDERNAME;
+        const templatePath = path.resolve(__dirname, '../../../templates');
+        const fileName = `${Constant.HEADER_FOLDERNAME}.component.ts`;
+        if (templateName === 'geppetto template') {
+            tsFileData.GpCodeToAdd.lifecycle_info.push({ data: `this.userId = sessionStorage.getItem('Id');` });
+        }
+        const moduleFileData = Constant.HeaderModule
+        this.generateComponentTsFile(templatePath + '/ComponentTs.handlebars', tsFileData, templateGenerationPath, `${Constant.HEADER_FOLDERNAME}.component.ts`, (res) => {
+            this.generateComponentSpcFile(templatePath + '/ComponentSpec.handlebars', specFileData, templateGenerationPath, `${Constant.HEADER_FOLDERNAME}.component.spec.ts`, (res) => {
+                componentModuleWorker.generateComponentModuleFile(`${templatePath}/ComponentModule.handlebars`, moduleFileData, templateGenerationPath, `${Constant.HEADER_FOLDERNAME}.module.ts`, (res) => {
+                    callback("Header Component Generated");
+                });
+            });
+        });
     }
 }
