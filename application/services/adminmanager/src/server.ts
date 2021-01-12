@@ -7,7 +7,7 @@ import { Routes } from './routes/routes';
 import * as cors from 'cors';
 import { WinstonLogger } from './config/Winstonlogger';
 import { SharedService } from "./config/Sharedservice";
-
+                   
 const PORT = 3010;
 
 export class App {
