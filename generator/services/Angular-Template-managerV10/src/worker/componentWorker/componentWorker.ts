@@ -7,11 +7,12 @@ const componentSupportWorker = new ComponentSupportWorker()
 const componentModuleWorker = new ComponentModuleWorker()
 export class ComponentWorker {
 
-  public generateComponent(generationPath, callback) {
-
+  public generateComponent(generationPath, templateName, callback) {
     this.templateComponetGeneration(generationPath, (res) => {
       this.footerComponetGeneration(generationPath, (res) => {
-        callback();
+        this.generateHeaderTs(generationPath, templateName, (res) => {
+            callback();
+        });
       })
     })
 
@@ -83,5 +84,19 @@ export class ComponentWorker {
     componentSupportWorker.handleBarsFile(templatePath, fileData, applicationPath, fileName);
     callback("Component spec file generated ")
   }
-
+    private async generateHeaderTs(generationPath, templateName, callback) {
+        const handlebarsObject = {
+            GpOptions: { screenName: 'header', className: 'HeaderComponent' },
+            GpCodeToAdd: { lifecycle_info: [] }
+        };
+        const templateGenerationPath = generationPath
+            + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.HEADER_FOLDERNAME;
+        const templatePath = path.resolve(__dirname, '../../../templates/ComponentTs.handlebars');
+        const fileName = 'header.component.ts';
+        if (templateName === 'geppetto template') {
+            handlebarsObject.GpCodeToAdd.lifecycle_info.push({ data: `this.userId = sessionStorage.getItem('Id');` });
+        }
+        await componentSupportWorker.handleBarsFile(templatePath, handlebarsObject, templateGenerationPath, fileName);
+        callback('Header Ts file generated');
+    }
 }

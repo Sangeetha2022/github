@@ -1,77 +1,67 @@
-export class SideNav {
+import { HPHeader } from "./HPHeader";
+
+export class HpTopNav {
     /**
      * 
      * @param body 
-     * Generate Sidenav
+     * Generate TopNav
      */
-    generateSideNav(humanLanguageMenus: any) {
-        let topNav = [];
-        let mainNav = [];
-        let bottomNav = [];
-        let sideNav: string = '';
-        if (humanLanguageMenus && humanLanguageMenus.length > 0) {
-            humanLanguageMenus.forEach((element: any) => {
-                if (element.menuDetails && element.menuDetails.length > 0) {
-                    element.menuDetails.forEach((menuElement: any) => {
-                        if (menuElement.featuremenu[0].name.feature !== 'default') {
-                            mainNav.push(`<div class="list-group panel">
-    <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
-    <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
-                            if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
-                                menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
-                                    mainNav.push(`<a class="list-group-item" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>`);
+    generateTopNav(menuList) {
+        let link = '';
+        if (menuList && menuList.length > 0) {
+            link += `<ul id='template-iyj9x'>\n`;
+            menuList.forEach(element => {
+                element.menuDetails.forEach(menuelement => {
+                    menuelement.featuremenu.forEach(featurename => {
+                        if (featurename.name.feature != 'default') {
+                            link += `<li class="nav-item dropdown">`;
+                            link += `<a class="nav-link dropdown-toggle" data-toggle="dropdown">${featurename.name.feature}</a>`;
+                            link += `<div class="dropdown-menu">`;
+                            menuelement.screenmenu.forEach(screenname => {
+                                screenname.name.screen.forEach(menuname => {
+                                    link += `<a class="dropdown-item" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>`;
                                 });
-                            }
-                            mainNav.push(`</div>`);
-                            mainNav.push(`</div>`);
+                            });
+                            link += `</div>`;
+                            link += `</li>`;
                         } else {
-                            if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
-                                menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
-                                    switch (screenElement) {
+                            menuelement.screenmenu.forEach(screenname => {
+                                screenname.name.screen.forEach(menuname => {
+                                    switch (menuname) {
                                         case 'home':
-                                            topNav.push(`<div class="list-group panel">
-    <a class="list-group-item list-group-item-success" *ngIf='userId!=null'  [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-</div>`);
+                                            link += `<li class="nav-item">
+        <a class="nav-link" *ngIf='userId!=null'  [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
+    </li>`;
                                             break;
                                         case 'login':
-                                            bottomNav.push(`<li>
-    <a class="text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-</li>`);
+                                            link += `<li class="nav-item">
+        <a class="nav-link" *ngIf='userId==null' [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
+    </li>`;
                                             break;
                                         case 'admin':
-                                            mainNav.push(`<div class="list-group panel" *ngIf='isAdminUser'>
-    <a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-</div>`);
+                                            link += `<li class="nav-item" *ngIf='isAdminUser'>
+        <a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
+    </li>`;
                                             break;
                                         case 'logout':
-                                            bottomNav.push(`<div class="list-group panel">
-    <a class="list-group-item list-group-item-success" *ngIf='userId!=null' (click)="logout()">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-</div>`);
+                                            link += `<li class="nav-item">
+        <a class="nav-link" *ngIf='userId!=null' (click)="logout()">{{'source.${menuname}' | i18next}}</a>
+    </li>`;
                                             break;
                                         default:
-                                            mainNav.push(`<div class="list-group panel">
-    <a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-</div>`);
+                                            link += `<li class="nav-item">
+        <a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
+    </li>`;
                                             break;
                                     }
                                 });
-                            }
+                            });
                         }
                     });
-                }
+                });
             });
-            bottomNav.push(`<li>
-    <a href="#translator" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text"> {{'source.selectLanguage' | i18next }} </a>
-    <ul class="collapse list-unstyled" id="translator">
-        <li>
-            <a class="text" *ngFor="let lang of languages" (click)='confirmLangModel(lang)'> {{'languages.' + lang | i18nextCap }}</a>
-        </li>
-    </ul>
-</li>`);
-            sideNav += topNav.join('\n');
-            sideNav += mainNav.join('\n');
-            sideNav += bottomNav.join('\n');
+            link += '\n</ul>'
         }
-        return sideNav;
+        return link;
     }
 }
