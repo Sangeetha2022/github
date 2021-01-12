@@ -25,7 +25,11 @@ import { ComponentCSSworker } from './componentworker/componentCSSworker';
 import { DependencyWorker } from './dependency-worker/dependencyWorker';
 
 import { CheckBox } from '../strategy/HTML/Checkbox';
-import { Select } from '../strategy/HTML/Select'
+import { Select } from '../strategy/HTML/Select';
+import { DynamicDropDown } from '../strategy/HTML/Dynamic-dropdown';
+import { SpecialDropDown } from '../strategy/HTML/SpecialDropDown';
+import { Label } from '../strategy/HTML/Label';
+import { response } from 'express';
 
 
 let forms = new Forms();
@@ -36,6 +40,9 @@ let checkbox = new CheckBox();
 let generateInput = new InputTagGeneration();
 let bootstrapTableHtml = new BootstrapTable();
 let agGridTableHtml = new AgGrid();
+let dynamicDropDown = new DynamicDropDown();
+let specialDropDown = new SpecialDropDown();
+let label = new Label();
 let componentSupport = new ComponentSupportWorker();
 const link = new Link();
 
@@ -86,6 +93,7 @@ export class GenerateHtmlWorker {
         await asyncLoop(gjsComponentMetadata, (item, next) => {
             if (item) {
                 this.tagName = this.tagNameFunction(item);
+                console.log('tag name====================>>>>', this.tagName);
                 // form generation
                 if (this.tagName == 'form') {
                     forms.formHTMLGeneration(item, screensData, details, (response) => {
@@ -150,6 +158,24 @@ export class GenerateHtmlWorker {
                         next();
                     })
                 }
+                if (this.tagName === 'specialdropdown-type') {
+                    specialDropDown.specialDropDownHTMLGeneration(item, screensData, details, (response) => {
+                        screenHtmlContent.push({ data: response });
+                        next();
+                    })
+                }
+                if (this.tagName === 'dynamicdropdown-type') {
+                    dynamicDropDown.dynamicDropDownHTMLGeneration(item, screensData, details, (response) => {
+                        screenHtmlContent.push({ data: response });
+                        next();
+                    })
+                }
+                if (this.tagName === 'label') {
+                    label.labelHTMLGeneration(item, screensData, details, (response) => {
+                        screenHtmlContent.push({ data: response });
+                        next();
+                    })
+                }
             } else {
                 next();
             }
@@ -173,7 +199,7 @@ export class GenerateHtmlWorker {
         } else if (firstEle.hasOwnProperty('type')) {
             if (
                 firstEle.type != 'grid-row' && firstEle.type != 'grid-item' &&
-                (firstEle.type == 'label' || firstEle.type == 'section' || firstEle.type == 'input' || firstEle.type == 'grid-type')
+                (firstEle.type == 'specialdropdown-type' || firstEle.type == 'label' || firstEle.type == 'section' || firstEle.type == 'input' || firstEle.type == 'grid-type')
             ) {
                 tagName = firstEle.type;
             } else if (firstEle.type == 'tab' || firstEle.type == 'link') {
@@ -192,7 +218,11 @@ export class GenerateHtmlWorker {
             }
 
         } else if (!tagName) {
-            tagName = 'div';
+            if (firstEle.components[0].type === 'dynamicdropdown-type') {
+                tagName = firstEle.components[0].type;
+            } else {
+                tagName = 'div';
+            }
         }
         return tagName;
     }
