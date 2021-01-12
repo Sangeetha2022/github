@@ -62,6 +62,27 @@ export class Constant {
     additionalUrl: '/mobile'
   }
 
+  public static HeaderModule = {
+    GpHeaders: [
+      {
+        importName: "I18NextModule",
+        importPath: "angular-i18next"
+      },
+      {
+        importName: "HeaderComponent",
+        importPath: "./header.component"
+      }
+    ],
+    GpOptions: {
+      components: [
+        { name: "HeaderComponent" }
+      ],
+      modules: [{ name: "I18NextModule.forRoot()" }],
+      screenName: "header",
+      className: "HeaderModule"
+    }
+  }
+
   public static FooterModule = {
     GpHeaders: [
       {

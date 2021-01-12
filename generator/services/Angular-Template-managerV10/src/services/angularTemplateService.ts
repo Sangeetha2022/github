@@ -86,6 +86,7 @@ export class AngularTemplateService {
     }
     public createLandingPage(body) {
         body = JSON.parse(JSON.stringify(body));
+        this.generationPath += `/${this.projectName}`;
         let templateName = this.templateName;
         switch (templateName.toLowerCase()) {
             case 'geppetto template':
@@ -97,14 +98,9 @@ export class AngularTemplateService {
             default:
                 break;
         }  
-
-        let generationPath = `${body.projectGenerationPath}/${this.projectName}`;
-        const templateNameLowerCase = body.template.template_name.toLowerCase();
-        componentWorker.generateComponent(generationPath, templateNameLowerCase, (response) => {
+        componentWorker.generateComponent(this.generationPath, this.templateName.toLowerCase(), (response) => {
             
         }) 
-
-        
     }
     // public createLandingPage() {
     //     if (this.iterateData.length > 0) {
