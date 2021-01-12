@@ -24,9 +24,9 @@ export class CommonWorker {
         }
         const templatePath = path.resolve(__dirname, '../../../templates');
         const generationPath = `${fileData}/${Constant.SRC_FOLDERNAME}`
-        //
         assetWorker.checkAssetFile(filePath, CSSData, templatePath);
         await componentSupportWorker.handleBarsFile(`${templatePath}/StyleScss.handlebars`, fileData, generationPath, Constant.STYLE_FILENAME);
+        callback('style.scss file generated');
     }
 
     public createFooterHtml(generationPath , metaData) {

@@ -68,23 +68,24 @@ export class AngularTemplateService {
             if (stdout || stderr) {
                 const stringparsing = JSON.stringify(this.grapesjsComponent);
                 this.iterateData = JSON.parse(stringparsing);
-                this.createLandingPage(req.body);
                 // console.log('iterateData filter are -----  ', this.iterateData);
                 this.generateAngularApp(this.details, (response) => {
-                    const temp = {
-                        shared: {
-                            className: this.sharedObj.className,
-                            variableName: this.sharedObj.variableName,
-                        },
-                        applicationPath: this.generationPath
-                    }
-                    callback(temp);
+                    this.createLandingPage(req.body, (res) => {
+                        const temp = {
+                            shared: {
+                                className: this.sharedObj.className,
+                                variableName: this.sharedObj.variableName,
+                            },
+                            applicationPath: this.generationPath
+                        }
+                        callback(temp);
+                        console.log('after done all the workers');
+                    });
                 });
-                console.log('after done all the workers');
             }
         });
     }
-    public createLandingPage(body) {
+    public createLandingPage(body, callback) {
         body = JSON.parse(JSON.stringify(body));
         this.generationPath += `/${this.projectName}`;
         let templateName = this.templateName;
@@ -99,7 +100,7 @@ export class AngularTemplateService {
                 break;
         }  
         componentWorker.generateComponent(this.generationPath, this.templateName.toLowerCase(), (response) => {
-            
+            callback(response)
         }) 
     }
     // public createLandingPage() {
@@ -148,13 +149,11 @@ export class AngularTemplateService {
     public generateAngularApp(details, callback) {
         const generationPath = details.projectGenerationPath + '/' + this.projectName;
         dependencyWorker.generateIndexHtml(generationPath, this.projectName, this.templateName, this.grapesjsComponent, (res) => {
-
-        })
-        const filePath = details.projectGenerationPath + '/' + this.projectName;
-        const grapesjsCSS = this.details.template['gjs-css'];
-        commonWorker.generateStyleScss(filePath, grapesjsCSS, (res) => {
-
+            const filePath = details.projectGenerationPath + '/' + this.projectName + '/' + Constant.SRC_FOLDERNAME;
+            const grapesjsCSS = this.details.template['gjs-css'];
+            commonWorker.generateStyleScss(filePath, grapesjsCSS, (res) => {
+                callback();
+            });
         });
-        callback();
     }
 }

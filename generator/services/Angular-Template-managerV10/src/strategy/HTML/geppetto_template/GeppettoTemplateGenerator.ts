@@ -85,7 +85,20 @@ export class GeppettoTemplateGenerator {
             + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.TEMPLATE_FOLDERNAME;
         componentCssWorker.ComponentCssGeneration(templateGenerationPath, cssData, `${Constant.TEMPLATE_FOLDERNAME}.component.scss`, (res) => {
             callback("Geppetto Footer HTML and CSS generated ")
-        })
+        });
+        this.generateHeaderCss(details, (res) => {
+            callback(res);
+        });
+    }
+    generateHeaderCss(details, callback) {
+        const cssData = GeppettoHeader.CSS_DATA;
+        const projectName = details.project.name;
+        const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
+            + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.HEADER_FOLDERNAME;
+        Common.createFolders(templateGenerationPath);
+        componentSupportWorker.writeFile(`${templateGenerationPath}/${Constant.HEADER_FOLDERNAME}.component.scss`, cssData, (res) => {
+            callback('Header scss generated');
+        });
     }
 
     // generate Footer

@@ -24,7 +24,9 @@ export class HpTemplateGenerator {
         this.generateHTML(details, (response) => {
 
         });
-        this.generateCss(details);
+        this.generateCss(details, (res) => {
+            
+        });
     }
 
     generateHTML(details, callback) {
@@ -69,8 +71,11 @@ export class HpTemplateGenerator {
         })
     }
 
-    generateCss(details) {
-       this.generateTemplateCss(details);
+    generateCss(details, callback) {
+        this.generateTemplateCss(details);
+        this.generateHeaderCss(details, (res) => {
+            callback();
+        });
     }
 
     generateTemplateCss(details) {
@@ -82,6 +87,16 @@ export class HpTemplateGenerator {
         })
     }
 
+    generateHeaderCss(details, callback) {
+        const cssData = HPHeader.CSS_DATA;
+        const projectName = details.project.name;
+        const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
+            + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.HEADER_FOLDERNAME;
+        Common.createFolders(templateGenerationPath);
+        componentSupportWorker.writeFile(`${templateGenerationPath}/${Constant.HEADER_FOLDERNAME}.component.scss`, cssData, (res) => {
+            callback('Header scss generated');
+        });
+    }
     // generate Footer
     public footerComponent(projectName, projectGenerationPath, callback) {
         let generationPath = `${projectGenerationPath}/${projectName}/${Constant.SRC_FOLDERNAME}/${Constant.FOOTER_FOLDERNAME}`

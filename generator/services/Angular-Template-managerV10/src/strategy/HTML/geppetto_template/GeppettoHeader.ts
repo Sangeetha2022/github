@@ -43,5 +43,24 @@ export class GeppettoHeader {
       </div>
     </div>
   </div>`;
-    public static CSS_DATA = ``;
+    public static CSS_DATA = `
+    .list-group.panel {
+      border: 0;
+      border-radius: 0;
+      margin-bottom: 0;
+    }
+    
+    .list-group-item {
+      border: none !important;
+      background-color: rgba(0, 0, 0, 0.5);
+      font-size: 18px;
+      color: white !important;
+    }
+    
+    .list-group-item-success {
+      background-color: rgba(0, 0, 0, 0.65);
+      font-size: 20px;
+      color: white !important;
+      border-radius: none !important;
+    }`;
 }
