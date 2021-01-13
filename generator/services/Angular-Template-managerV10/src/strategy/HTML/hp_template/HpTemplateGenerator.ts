@@ -69,7 +69,7 @@ export class HpTemplateGenerator {
         const filePath = templateGenerationPath + '/template.component.html';
         const assetGenerationPath = `${templateGenerationPath}/${Constant.SRC_FOLDERNAME}`;
         const template = "../../../templates";
-        assetWorker.checkAssetFile(assetGenerationPath, hpTemplateHTMLData, template);
+        assetWorker.checkAssetFile(`${generationPath}/${projectName}`, hpTemplateHTMLData, template);
         componentSupportWorker.writeFile(filePath, hpTemplateHTMLData, (response) => {
             callback(response);
         })
@@ -90,7 +90,7 @@ export class HpTemplateGenerator {
             + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.TEMPLATE_FOLDERNAME;
         const assetGenerationPath = `${templateGenerationPath}/${Constant.SRC_FOLDERNAME}`;
         const template = "../../../templates";
-        assetWorker.checkAssetFile(assetGenerationPath, cssData, template);
+        assetWorker.checkAssetFile(`${details.projectGenerationPath}/${projectName}`, cssData, template);
         componentCssWorker.ComponentCssGeneration(templateGenerationPath, cssData, `${Constant.TEMPLATE_FOLDERNAME}.component.scss`, (res) => {
             callback('component css file generated');
         })
