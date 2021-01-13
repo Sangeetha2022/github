@@ -72,4 +72,37 @@ export class DependencyWorker {
 
   }
 
+  generateNginxFile(generationPath, templatePath, details, callback) {
+    // shared file path
+    const filePath = `${generationPath}/${Constant.NGINX_FOLDERNAME}`;
+    const proxyArray = [{ ...Constant.proxyDesktop }, { ...Constant.proxyMobile }];
+        console.log('proxyArray for nginx are --- ', proxyArray);
+        const temp = {
+            proxy: {
+              projectName: details.project.name,
+              components: proxyArray
+            }
+        }
+    componentSupportWorker.handleBarsFile(`${templatePath}/NginxDefault.handlebars`, temp, filePath, Constant.NGINX_FILENAME);
+    callback("Nginx file generated")
+  }
+
+  generateProxyFile(generationPath, templatePath, details, callback) {
+    // shared file path
+    const filePath = `${generationPath}/`;
+    const temp = {
+    }
+    componentSupportWorker.handleBarsFile(`${templatePath}/ProxyConfig.handlebars`, temp, filePath, Constant.PROXY_CONFIG_FILENAME);
+    callback("Nginx file generated")
+  }
+
+  generateDockerFile(generationPath, templatePath, details, callback) {
+    // shared file path
+    const filePath = `${generationPath}/`;
+    const temp = {
+    }
+    componentSupportWorker.handleBarsFile(`${templatePath}/Dockerfile.handlebars`, temp, filePath, Constant.DOCKERFILE_FILENAME);
+    callback("Nginx file generated")
+  }
+
 }

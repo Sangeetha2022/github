@@ -37,11 +37,15 @@ export class CommonWorker {
         })
     }
 
-    generateMainFile(generationPath,  templateCss, sharedObj, projectName, callback) {
+    generateMainFile(generationPath,  details, sharedObj, projectName, callback) {
         return dependencyWorker.generateSharedFile(generationPath, templatePath, sharedObj, (response) => {
-            callback('main files are generated');
+            return dependencyWorker.generateNginxFile(generationPath, templatePath, details, (res) => {
+                return dependencyWorker.generateProxyFile(generationPath, templatePath, details, (res) => {
+                    return dependencyWorker.generateDockerFile(generationPath, templatePath, details, (res) => {
+                        callback('main files are generated');
+                    })
+                })
+            })
         });
-
-
     }
 }

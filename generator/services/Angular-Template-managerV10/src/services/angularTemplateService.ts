@@ -152,10 +152,9 @@ export class AngularTemplateService {
             const filePath = details.projectGenerationPath + '/' + this.projectName + '/' + Constant.SRC_FOLDERNAME;
             const grapesjsCSS = this.details.template['gjs-css'];
             commonWorker.generateStyleScss(generationPath, grapesjsCSS, (res) => {
-                return commonWorker.generateMainFile(generationPath,  this.grapesjsCSS, this.sharedObj, this.projectName, (response) => {
+                return commonWorker.generateMainFile(generationPath,  details, this.sharedObj, this.projectName, (response) => {
                     callback(response);
-                  });
-                callback();
+                });
             });
         });
     }
