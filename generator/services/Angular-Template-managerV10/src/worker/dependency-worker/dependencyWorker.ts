@@ -5,6 +5,7 @@ import { DependencySupportWorker } from "../../supportworker/dependencySupportWo
 import { Common } from "../../config/Common";
 
 
+
 const componentSupportWorker = new ComponentSupportWorker()
 const dependencySupportWorker = new DependencySupportWorker();
 const templatePath = path.resolve(__dirname, '../../../templates');
@@ -102,6 +103,14 @@ export class DependencyWorker {
         }
     componentSupportWorker.handleBarsFile(`${templatePath}/NginxDefault.handlebars`, temp, filePath, Constant.NGINX_FILENAME);
     callback("Nginx file generated")
+
+     // Modify the envoriments file
+     let env = `${generationPath}/${Constant.ENV_FOLDERNAME}`
+     let env_file_name = Constant.ENV_FILENAME
+     this.modifyenvoriments(env, env_file_name);
+    //  Modify the prod envoriments file
+     let env_file_name_prod = Constant.ENV_PROD_FILENAME
+     this.modifyenvoriments_prod(env, env_file_name_prod);
   }
 
   generateProxyFile(generationPath, templatePath, details, callback) {
@@ -122,4 +131,42 @@ export class DependencyWorker {
     callback("Nginx file generated")
   }
 
+  modifyenvoriments(applicationPath, fileName) {
+    const environment = dependencySupportWorker.readFile(applicationPath, fileName);
+    if (environment[5].replace(/\s/g, '') == "DESKTOP_API:'http://'+window.location.hostname+':8000/desktop',") {
+        console.log("Already envoriments is upto date")
+    } else {
+        const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
+        let temp = '';
+        temp += `${environment[serveIndex]}`;
+        temp += `\n  DESKTOP_API: 'http://'+window.location.hostname+':8000/desktop',`;
+        temp += `\n  MOBILE_API: '/api/mobile',`;
+        environment.splice(serveIndex, 1, temp);
+        dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
+            console.log('successfully write the environment file');
+        });
+    }
 }
+
+modifyenvoriments_prod(applicationPath, fileName) {
+    const environment = dependencySupportWorker.readFile(applicationPath, fileName);
+    if (environment[1].replace(/\s/g, '') == "DESKTOP_API:'http://<YourDomainNameorLiveIPaddress>',") {
+        console.log("Already prods envoriments is upto date")
+    } else {
+        const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
+        let temp = '';
+        temp += `${environment[serveIndex]}`;
+        temp += `\n  DESKTOP_API: 'http://<Your Domain Name or Live IP address>',`;
+        temp += `\n  MOBILE_API: 'http://<Your Domain Name or Live IP address>',`;
+        environment.splice(serveIndex, 1, temp);
+        dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
+            console.log('successfully write the prod environment file');
+        });
+    }
+}
+
+
+}
+
+    
+

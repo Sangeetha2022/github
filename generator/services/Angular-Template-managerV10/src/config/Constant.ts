@@ -17,6 +17,8 @@ export class Constant {
   public static APP_HTML_TEMPLATE_NAME: String = 'app_html';
   public static APP_COMPONENT_TEMPLATE_NAME: String = 'app_component';
   public static NGINX_CONF_TEMPLATE_NAME: String = 'nginx_default_conf';
+  public static ENV_FOLDERNAME: String = 'src/environments';
+
 
   // file name
   public static STYLE_FILENAME: String = 'styles.scss';
@@ -28,6 +30,8 @@ export class Constant {
   public static DEFAULT_CONF_FILENAME: String = 'default.conf';
   public static ANGULAR_JSON_FILENAME: String = 'angular.json';
   public static TRANSLATOR_MODULE_FILENAME: String = 'translator.module.ts';
+  public static ENV_FILENAME: String = 'environment.ts';
+  public static ENV_PROD_FILENAME: String = 'environment.prod.ts';
 
   // folder name
   public static SHARED_FOLDERNAME: String = 'shared';
