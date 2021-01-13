@@ -5,10 +5,13 @@ import { ComponentSupportWorker } from "../../supportworker/componentSupportWork
 import { Constant } from "../../config/Constant";
 import { Footer } from '../../strategy/HTML/Footer';
 import { AssetWorker } from '../assetWorker/assetsWorker';
+import { DependencyWorker } from '../dependency-worker/dependencyWorker';
 
 const componentSupportWorker = new ComponentSupportWorker();
 const assetWorker = new AssetWorker();
 const footer = new Footer()
+const dependencyWorker = new DependencyWorker();
+const templatePath = path.resolve(__dirname, '../../../templates');
 export class CommonWorker {
     /**
      * Generate styles.scss file
@@ -22,16 +25,23 @@ export class CommonWorker {
                 { data: CSSData }
             ]
         }
-        const templatePath = path.resolve(__dirname, '../../../templates');
-        const generationPath = `${fileData}/${Constant.SRC_FOLDERNAME}`
+        const generationPath = `${filePath}/${Constant.SRC_FOLDERNAME}`
         assetWorker.checkAssetFile(filePath, CSSData, templatePath);
         await componentSupportWorker.handleBarsFile(`${templatePath}/StyleScss.handlebars`, fileData, generationPath, Constant.STYLE_FILENAME);
         callback('style.scss file generated');
     }
 
-    public createFooterHtml(generationPath , metaData) {
+    public createFooterHtml(generationPath, metaData) {
         const footerHtmlMetaData = JSON.parse(JSON.stringify(metaData))
-        footer.footerHTMLGeneration(generationPath,footerHtmlMetaData, async (res) => {
+        footer.footerHTMLGeneration(generationPath, footerHtmlMetaData, async (res) => {
         })
+    }
+
+    generateMainFile(generationPath,  templateCss, sharedObj, projectName, callback) {
+        return dependencyWorker.generateSharedFile(generationPath, templatePath, sharedObj, (response) => {
+            callback('main files are generated');
+        });
+
+
     }
 }

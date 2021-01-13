@@ -1,9 +1,12 @@
 import { Constant } from "../../config/Constant";
 import { ComponentSupportWorker } from "../../supportworker/componentSupportWorker";
 import * as path from 'path';
+import { DependencySupportWorker } from "../../supportworker/dependencySupportWorker";
+import { Common } from "../../config/Common";
 
 
 const componentSupportWorker = new ComponentSupportWorker()
+const dependencySupportWorker = new DependencySupportWorker();
 export class DependencyWorker {
 
   private startString: string;
@@ -23,7 +26,7 @@ export class DependencyWorker {
     const applicationPath = generationPath + `/${Constant.SRC_FOLDERNAME}`;
     const templatePath = path.resolve(__dirname, '../../../templates/IndexHtml.handlebars');
     componentSupportWorker.handleBarsFile(templatePath, this.indexHtmlObject, applicationPath, 'index.html');
-    callback('Index.html file generated successfully')
+    callback('Index.html file generated successf  ully')
   }
 
   private setMetaTag(meta, templateName) {
@@ -59,6 +62,14 @@ export class DependencyWorker {
         this.indexHtmlObject.scriptTagData.push({ data: this.scriptString })
       }
     })
+  }
+
+  generateSharedFile(generationPath, templatePath, sharedObj, callback) {
+    // shared file path
+    const filePath = `${generationPath}/${Constant.SRC_FOLDERNAME}/${Constant.SHARED_FOLDERNAME}`;
+    componentSupportWorker.handleBarsFile(`${templatePath}/SharedService.handlebars`, sharedObj, filePath, 'shared.service.ts');
+    callback("Shared service file generated")
+
   }
 
 }
