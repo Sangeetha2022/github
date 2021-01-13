@@ -3,6 +3,7 @@ import { ComponentSupportWorker } from "../../supportworker/componentSupportWork
 import * as path from 'path';
 import { DependencySupportWorker } from "../../supportworker/dependencySupportWorker";
 import { Common } from "../../config/Common";
+import { translator } from '../../assets/translator';
 
 
 
@@ -130,6 +131,26 @@ export class DependencyWorker {
     componentSupportWorker.handleBarsFile(`${templatePath}/Dockerfile.handlebars`, temp, filePath, Constant.DOCKERFILE_FILENAME);
     callback("Nginx file generated")
   }
+
+  generateTranslatorModuleFile(generationPath, templatePath, details, callback) {
+    // shared file path
+    const filePath = `${generationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}/${Constant.TRANSLATOR_FOLDERNAME}`;
+    const temp = {
+    }
+    componentSupportWorker.handleBarsFile(`${templatePath}/TranslatorModule.handlebars`, temp, filePath, Constant.TRANSLATOR_MODULE_FILENAME);
+    callback("Nginx file generated")
+  }
+
+  generateTranslatorJsonFile(generationPath, templatePath, sharedObj, callback) {
+    const filePath = `${generationPath}/${Constant.SRC_FOLDERNAME}/${Constant.ASSETS_FOLDERNAME}/${Constant.LOCALES_FOLDERNAME}`;
+    Common.createFolders(filePath)
+    const langFolderName = translator.folderName;
+    const fileName = translator.fileName[0];
+    const source = translator.source;
+    return dependencySupportWorker.generateTranslateJsonFiles(filePath, langFolderName, fileName, source, (response) => {
+        callback();
+    })
+}
 
   modifyenvoriments(applicationPath, fileName) {
     const environment = dependencySupportWorker.readFile(applicationPath, fileName);

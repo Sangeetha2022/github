@@ -54,6 +54,7 @@ export class HpTemplateGenerator {
         const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
             + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.HEADER_FOLDERNAME;
         const filePath = templateGenerationPath + '/header.component.html';
+        Common.createFolders(templateGenerationPath);
         componentSupportWorker.writeFile(filePath, final, (response) => {
             callback(response);
         });
