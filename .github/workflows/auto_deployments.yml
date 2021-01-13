@@ -11,7 +11,7 @@ on:
 #   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 #   aws-region: us-east-1      
 # ########### Jobs ###########
-# jobs:
+jobs:
 #   validation:
 #     runs-on: ubuntu-latest 
 #     outputs:
@@ -265,8 +265,7 @@ on:
 #           fi
 #         done <<< "$FILE_DIFF"
   Upload_build_notes:
-    # needs: validation
-    # if: needs.validation.outputs.branch == 'stage'
+    name: Build   
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v2
