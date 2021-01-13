@@ -135,8 +135,8 @@ export class Constant {
 
   public static APP_MODULE_IMPORTS = [
     { importData: "import { BrowserAnimationsModule } from '@angular/platform-browser/animations';", className: 'BrowserAnimationsModule' },
-    { importName: "import { AppRoutingModule } from './app-routing.module';", className: 'AppRoutingModule' },
-    { importName: "import { TranslatorModule } from './translator/translator.module';", className: 'TranslatorModule' },
+    { importData: "import { AppRoutingModule } from './app-routing.module';", className: 'AppRoutingModule' },
+    { importData: "import { TranslatorModule } from './translator/translator.module';", className: 'TranslatorModule' },
     { importData: "import { HeaderModule } from './header/header.module';", className: 'HeaderModule' },
     { importData: "import { FooterModule } from './footer/footer.module';", className: 'FooterModule' },
     { importData: "import { TemplateModule } from './template/template.module';", className: 'TemplateModule' }

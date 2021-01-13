@@ -19,29 +19,25 @@ const assetWorker = new AssetWorker();
 
 export class GeppettoTemplateGenerator {
     geppettoTemplateGeneration(details) {
-
         const projectName = details.project.name;
         const projectGenerationPath = details.projectGenerationPath
-
         this.footerComponent(projectName, projectGenerationPath, (res) => {
-        })
-
-        this.generateHTML(details, (response) => {
-
+            this.generateHTML(details, (response) => {
+                this.generateCss(details, (res) => { });
+            });
         });
-        this.generateCss(details, (res) => { });
     }
 
     generateHTML(details, callback) {
         this.generateTemplateHtml(details, (response) => {
-
+            this.generateHeaderHtml(details, (res, err) => {
+                callback();
+            });
         });
-        this.generateHeaderHtml(details, (res, err) => {
-        });
-        callback();
     }
 
     generateHeaderHtml(details, callback) {
+        console.log('HEADER HTML CALLING');
         const htmlTag = GeppettoHeader.HTML_TAG;
         const menuList = details.menuBuilder.filter(x => x.language.toLowerCase() === details.project.defaultHumanLanguage.toLowerCase());
         const projectName = details.project.name;
@@ -59,7 +55,9 @@ export class GeppettoTemplateGenerator {
             const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
                 + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.HEADER_FOLDERNAME;
             const filePath = templateGenerationPath + '/header.component.html';
+            Common.createFolders(templateGenerationPath);
             componentSupportWorker.writeFile(filePath, final, (response) => {
+                console.log('HEADER HTML GENERATED');
                 callback(response);
             });
         }

@@ -22,12 +22,11 @@ export class HpTemplateGenerator {
         const projectName = details.project.name;
         const projectGenerationPath = details.projectGenerationPath
         this.footerComponent(projectName, projectGenerationPath, (res) => {
-        })
-        this.generateHTML(details, (response) => {
-
-        });
-        this.generateCss(details, (res) => {
+            this.generateHTML(details, (response) => {
+                this.generateCss(details, (res) => {
             
+                });
+            });
         });
     }
 

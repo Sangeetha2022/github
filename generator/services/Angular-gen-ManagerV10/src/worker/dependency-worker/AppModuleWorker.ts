@@ -29,9 +29,21 @@ export class AppModuleWorker {
                             }
                         }
                         if (element.includes('imports: [')) {
-                            const moduleClassNameIndex = fileArray.indexOf(moduleClassName + ',');
+                            const moduleClassNameIndex = fileArray.indexOf('' + ',');
                             if (moduleClassNameIndex === -1) {
                                 fileArray.splice(index + 1, 0, moduleClassName + ',');
+                            }
+                        }
+                        if (element.includes('bootstrap: [')) {
+                            let moduleClassNameIndex = -1;
+                            if(fileArray.indexOf('AppComponent') !== -1) {
+                                moduleClassNameIndex = fileArray.indexOf('AppComponent');
+                            }
+                            if(fileArray.indexOf('\t\tAppComponent') !== -1) {
+                                moduleClassNameIndex = fileArray.indexOf('\t\tAppComponent');
+                            }
+                            if (moduleClassNameIndex === -1) {
+                                fileArray.splice(index + 1, 0, '\t\tAppComponent');
                             }
                         }
                     });

@@ -19,16 +19,18 @@ export class AppModuleWorker {
                 const fileArray: Array<string> = res.split('\n');
                 importDataArray.forEach(async (importElement: any) => {
                     fileArray.forEach((element: any, index) => {
-                        if (element.includes('@NgModule({')) {
-                            const importDataIndex = fileArray.indexOf(importElement.importData);
-                            if (importDataIndex === -1) {
-                                fileArray.splice(index - 1, 0, importElement.importData);
+                        if(element) {
+                            if (element.includes('@NgModule({')) {
+                                const importDataIndex = fileArray.indexOf(importElement.importData);
+                                if (importDataIndex === -1) {
+                                    fileArray.splice(index - 1, 0, importElement.importData);
+                                }
                             }
-                        }
-                        if (element.includes('imports: [')) {
-                            const moduleClassNameIndex = fileArray.indexOf(importElement.className + ',');
-                            if (moduleClassNameIndex === -1) {
-                                fileArray.splice(index + 1, 0, importElement.className + ',');
+                            if (element.includes('imports: [')) {
+                                const moduleClassNameIndex = fileArray.indexOf(importElement.className + ',');
+                                if (moduleClassNameIndex === -1) {
+                                    fileArray.splice(index + 1, 0, importElement.className + ',');
+                                }
                             }
                         }
                     });
