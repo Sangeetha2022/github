@@ -7,6 +7,8 @@ import { Common } from "../../config/Common";
 
 const componentSupportWorker = new ComponentSupportWorker()
 const dependencySupportWorker = new DependencySupportWorker();
+const templatePath = path.resolve(__dirname, '../../../templates');
+
 export class DependencyWorker {
 
   private startString: string;
@@ -24,8 +26,7 @@ export class DependencyWorker {
       await this.setMetaTag(tagData, templateName)
     })
     const applicationPath = generationPath + `/${Constant.SRC_FOLDERNAME}`;
-    const templatePath = path.resolve(__dirname, '../../../templates/IndexHtml.handlebars');
-    componentSupportWorker.handleBarsFile(templatePath, this.indexHtmlObject, applicationPath, 'index.html');
+    componentSupportWorker.handleBarsFile(`${templatePath}/IndexHtml.handlebars`, this.indexHtmlObject, applicationPath, 'index.html');
     callback('Index.html file generated successf  ully')
   }
 
@@ -70,6 +71,22 @@ export class DependencyWorker {
     componentSupportWorker.handleBarsFile(`${templatePath}/SharedService.handlebars`, sharedObj, filePath, 'shared.service.ts');
     callback("Shared service file generated")
 
+  }
+
+  public generateAppRoutingFile(generationPath, callback) {
+    const routing = {
+      importComponent: [],
+      isAuthImport: false,
+      componentPath: []
+    }
+    const folderName = Constant.TEMPLATE_FOLDERNAME;
+    routing.importComponent.push({ classname: folderName.charAt(0).toUpperCase() + folderName.slice(1).toLowerCase(), foldername: folderName });
+    routing.componentPath.push({ path: '', component: folderName.charAt(0).toUpperCase() + folderName.slice(1).toLowerCase(), isAuthProtected: false });
+    // app routing file path
+    console.log("App----Routing----->>>>>", routing)
+    const filePath = `${generationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
+    componentSupportWorker.handleBarsFile(`${templatePath}/AppRoutingModule.handlebars`, routing, filePath, Constant.APP_ROUTING_FILENAME);
+    callback("App Routing Module file generated")
   }
 
   generateNginxFile(generationPath, templatePath, details, callback) {

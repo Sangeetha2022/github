@@ -1,0 +1,25 @@
+{{#if isAuthImport }}
+import { AuthGuard } from './auth/auth.guard';
+{{/if}}
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+{{#each importComponent}}
+import { {{classname}}Component } from './{{foldername}}/{{foldername}}.component';
+{{/each}}
+
+const routes: Routes = [
+   	{{#each componentPath}}
+       [
+       { path: '{{path}}', component: {{component}}Component, {{#if isAuthImport }} canActivate: [AuthGuard] {{/if}}  } 
+       ] 
+    {{/each}}
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+
+

@@ -29,7 +29,7 @@ export class AngularTemplateService {
     private menuDetails = '';
     private menuList = [];
     public mainHTML = [];
-    public grapesjsComponent : any = []
+    public grapesjsComponent: any = []
     private templateName = '';
     private apigatewayPortNumber = 0;
     private sharedObj = {
@@ -98,10 +98,10 @@ export class AngularTemplateService {
                 break;
             default:
                 break;
-        }  
+        }
         componentWorker.generateComponent(this.generationPath, this.templateName.toLowerCase(), (response) => {
             callback(response)
-        }) 
+        })
     }
     // public createLandingPage() {
     //     if (this.iterateData.length > 0) {
@@ -152,8 +152,10 @@ export class AngularTemplateService {
             const filePath = details.projectGenerationPath + '/' + this.projectName + '/' + Constant.SRC_FOLDERNAME;
             const grapesjsCSS = this.details.template['gjs-css'];
             commonWorker.generateStyleScss(generationPath, grapesjsCSS, (res) => {
-                return commonWorker.generateMainFile(generationPath,  details, this.sharedObj, this.projectName, (response) => {
-                    callback(response);
+                return commonWorker.generateMainFile(generationPath, details, this.sharedObj, this.projectName, (response) => {
+                    return dependencyWorker.generateAppRoutingFile(generationPath, (response) => {
+                        callback(response);
+                    });
                 });
             });
         });
