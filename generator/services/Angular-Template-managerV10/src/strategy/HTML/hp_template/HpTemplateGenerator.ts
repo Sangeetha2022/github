@@ -9,11 +9,13 @@ import { Common } from '../../../config/Common';
 import { ComponentCssWorker } from '../../../worker/componentWorker/componentCSSworker';
 import { HPHeader } from './HPHeader';
 import { HpTopNav } from './HpTopNav';
+import { AssetWorker } from '../../../worker/assetWorker/assetsWorker';
 
 let commonWorker = new CommonWorker();
 let componentSupportWorker = new ComponentSupportWorker();
 const componentCssWorker = new ComponentCssWorker();
 const hpTopNav = new HpTopNav();
+const assetWorker = new AssetWorker();
 
 export class HpTemplateGenerator {
     hpTemplateGeneration(details) {
@@ -30,11 +32,10 @@ export class HpTemplateGenerator {
     }
 
     generateHTML(details, callback) {
-        this.generateTemplateHtml(details, (response) => {
-            callback(response)
-        });
         this.generateHeaderHtml(details, (res, err) => {
-
+            this.generateTemplateHtml(details, (response) => {
+                callback(response)
+            });
         });
     }
 
@@ -61,29 +62,37 @@ export class HpTemplateGenerator {
 
     generateTemplateHtml(details, callback) {
         let generationPath = details.projectGenerationPath;
-        let geppettoTemplateHTMLData = HpLanding.HTML_TAG;
+        let hpTemplateHTMLData = HpLanding.HTML_TAG;
         let projectName = details.project.name;
         const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
             + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.TEMPLATE_FOLDERNAME;
         const filePath = templateGenerationPath + '/template.component.html';
-        componentSupportWorker.writeFile(filePath, geppettoTemplateHTMLData, (response) => {
+        const assetGenerationPath = `${templateGenerationPath}/${Constant.SRC_FOLDERNAME}`;
+        const template = "../../../templates";
+        assetWorker.checkAssetFile(assetGenerationPath, hpTemplateHTMLData, template);
+        componentSupportWorker.writeFile(filePath, hpTemplateHTMLData, (response) => {
             callback(response);
         })
     }
 
     generateCss(details, callback) {
-        this.generateTemplateCss(details);
-        this.generateHeaderCss(details, (res) => {
-            callback();
+        this.generateTemplateCss(details, (res)=> {
+            this.generateHeaderCss(details, (res) => {
+                callback();
+            });
         });
     }
 
-    generateTemplateCss(details) {
+    generateTemplateCss(details, callback) {
         let cssData = HpLanding.CSS_DATA;
         let projectName = details.project.name;
         const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
             + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.TEMPLATE_FOLDERNAME;
+        const assetGenerationPath = `${templateGenerationPath}/${Constant.SRC_FOLDERNAME}`;
+        const template = "../../../templates";
+        assetWorker.checkAssetFile(assetGenerationPath, cssData, template);
         componentCssWorker.ComponentCssGeneration(templateGenerationPath, cssData, `${Constant.TEMPLATE_FOLDERNAME}.component.scss`, (res) => {
+            callback('component css file generated');
         })
     }
 
@@ -99,7 +108,7 @@ export class HpTemplateGenerator {
     }
     // generate Footer
     public footerComponent(projectName, projectGenerationPath, callback) {
-        let generationPath = `${projectGenerationPath}/${projectName}/${Constant.SRC_FOLDERNAME}/${Constant.FOOTER_FOLDERNAME}`
+        let generationPath = `${projectGenerationPath}/${projectName}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}/${Constant.FOOTER_FOLDERNAME}`
         //HTMl
         const geppettoFooterHTML = Footer.HTML_TAG;
         //Css

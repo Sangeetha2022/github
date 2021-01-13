@@ -15,7 +15,7 @@ const commonWorker = new CommonWorker();
 const componentSupportWorker = new ComponentSupportWorker();
 const geppettoSideNav = new GeppettoSideNav();
 const componentCssWorker = new ComponentCssWorker();
-const assetWorker = new AssetWorker()
+const assetWorker = new AssetWorker();
 
 export class GeppettoTemplateGenerator {
     geppettoTemplateGeneration(details) {
@@ -73,21 +73,32 @@ export class GeppettoTemplateGenerator {
             + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.TEMPLATE_FOLDERNAME;
         const filePath = templateGenerationPath + `/${Constant.TEMPLATE_FOLDERNAME}.component.html`;
         Common.createFolders(templateGenerationPath);
+        const assetGenerationPath = `${templateGenerationPath}/${Constant.SRC_FOLDERNAME}`;
+        const template = "../../../templates";
+        assetWorker.checkAssetFile(assetGenerationPath, geppettoTemplateHTMLData, template);
         componentSupportWorker.writeFile(filePath, geppettoTemplateHTMLData, (response) => {
             callback(response);
         })
     }
 
     generateCss(details, callback) {
+        this.generateTemplateCss(details, (res)=> {
+            this.generateHeaderCss(details, (res) => {
+                callback(res);
+            });
+        })
+    }
+
+    generateTemplateCss(details, callback) {
         let cssData = GeppettoLanding.CSS_DATA;
         let projectName = details.project.name;
         const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
             + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.TEMPLATE_FOLDERNAME;
+        const assetGenerationPath = `${templateGenerationPath}/${Constant.SRC_FOLDERNAME}`;
+        const template = "../../../templates";
+        assetWorker.checkAssetFile(assetGenerationPath, cssData, template);
         componentCssWorker.ComponentCssGeneration(templateGenerationPath, cssData, `${Constant.TEMPLATE_FOLDERNAME}.component.scss`, (res) => {
-            callback("Geppetto Footer HTML and CSS generated ")
-        });
-        this.generateHeaderCss(details, (res) => {
-            callback(res);
+            callback("Geppetto Footer HTML and CSS generated")
         });
     }
     generateHeaderCss(details, callback) {
