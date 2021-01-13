@@ -8,7 +8,8 @@ import { CommonWorker } from '../worker/commonWorker/commonWorker';
 import { Constant } from '../config/Constant';
 import { Header } from '../strategy/HTML/Header';
 import { GeppettoTemplateGenerator } from '../strategy/HTML/geppetto_template/GeppettoTemplateGenerator';
-import { HpTemplateGenerator } from '../strategy/HTML/hp_template/HpTemplateGenerator'
+import { HpTemplateGenerator } from '../strategy/HTML/hp_template/HpTemplateGenerator';
+import { AppModuleWorker } from '../worker/dependency-worker/AppModuleWorker';
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
@@ -17,6 +18,7 @@ let geppettoTemplate = new GeppettoTemplateGenerator();
 let hpTemplate = new HpTemplateGenerator();
 let header = new Header();
 const componetWorker = new ComponentWorker();
+const appModuleWorker = new AppModuleWorker();
 
 export class AngularTemplateService {
 
@@ -100,8 +102,10 @@ export class AngularTemplateService {
                 break;
         }
         componentWorker.generateComponent(this.generationPath, this.templateName.toLowerCase(), (response) => {
-            callback(response)
-        })
+            appModuleWorker.importComponentModules(body, (res) => {
+                callback(response)
+            });
+        }) 
     }
     // public createLandingPage() {
     //     if (this.iterateData.length > 0) {

@@ -11,14 +11,24 @@ export class ComponentWorker {
     this.templateComponetGeneration(generationPath, (res) => {
       this.footerComponetGeneration(generationPath, (res) => {
         this.headerComponentGeneration(generationPath, templateName, (res) => {
+          this.generateAppComponentTsHtml(generationPath, (res) => {
             callback();
+          });
         });
-      })
-    })
+      });
+    });
   }
 
+  async generateAppComponentTsHtml(generationPath, callback) {
+    const applicationPath = generationPath + `/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
+    const templatePath = path.resolve(__dirname, '../../../templates');
+    componentSupportWorker.handleBarsFile(templatePath + '/' + Constant.APP_COMPONENT_TS_HANDLEBARS, {}, applicationPath, Constant.APP_COMPONENT_TS).then(tsData => {
+      componentSupportWorker.handleBarsFile(templatePath + '/' + Constant.APP_COMPONENT_HTML_HANDLEBARS, {}, applicationPath, Constant.APP_COMPONENT_HTML).then(htmlData => {
+        callback();
+      });
+    });
+  }
   public footerComponetGeneration(generationPath, callback) {
-
     const applicationPath = generationPath + `/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}/${Constant.FOOTER_FOLDERNAME}`;
     const templatePath = path.resolve(__dirname, '../../../templates');
     const fileData = {
@@ -42,7 +52,6 @@ export class ComponentWorker {
   }
 
   public templateComponetGeneration(generationPath, callback) {
-
     const applicationPath = generationPath + `/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}/${Constant.TEMPLATE_FOLDERNAME}`;
     const templatePath = path.resolve(__dirname, '../../../templates');
     const fileData = {

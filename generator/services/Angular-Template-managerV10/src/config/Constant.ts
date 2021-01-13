@@ -47,6 +47,10 @@ export class Constant {
   public static COMPONENT_TS_HANDELBARS: string = "ComponentTs.handlebars"
   public static COMPONENT_SPEC_HANDELBARS: string = "ComponentSpec.handlebars"
   public static COMPONENT_MODULE_HANDELBARS: string = "ComponentModule.handlebars"
+  public static APP_COMPONENT_TS_HANDLEBARS: string = "AppComponentTs.handlebars"
+  public static APP_COMPONENT_HTML_HANDLEBARS: string = "AppComponentHtml.handlebars"
+  public static APP_COMPONENT_TS: string = 'app.component.ts';
+  public static APP_COMPONENT_HTML: string = 'app.component.html';
 
   // nginx conf data
   public static proxyDesktop = {
@@ -124,4 +128,10 @@ export class Constant {
       className: "TemplateModule"
     }
   }
+
+  public static APP_MODULE_IMPORTS = [
+    { importData: "import { HeaderModule } from './header/header.module';", className: 'HeaderModule' },
+    { importData: "import { FooterModule } from './footer/footer.module';", className: 'FooterModule' },
+    { importData: "import { TemplateModule } from './template/template.module';", className: 'TemplateModule' }
+  ];
 }
