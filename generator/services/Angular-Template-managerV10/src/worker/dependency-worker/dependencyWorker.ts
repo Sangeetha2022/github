@@ -4,6 +4,8 @@ import * as path from 'path';
 import { DependencySupportWorker } from "../../supportworker/dependencySupportWorker";
 import { Common } from "../../config/Common";
 import { translator } from '../../assets/translator';
+import * as fs from 'fs';
+import * as Handlebars from 'handlebars';
 
 
 
@@ -138,9 +140,11 @@ export class DependencyWorker {
     // shared file path
     const filePath = `${generationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}/${Constant.TRANSLATOR_FOLDERNAME}`;
     const temp = {
+      lng: 'lng',
+      ns: 'ns'
     }
-    componentSupportWorker.handleBarsFile(`${templatePath}/TranslatorModule.handlebars`, temp, filePath, Constant.TRANSLATOR_MODULE_FILENAME);
-    callback("Nginx file generated")
+    this.handleBarsFile(`${templatePath}/TranslatorModule.handlebars`, temp, filePath, Constant.TRANSLATOR_MODULE_FILENAME);
+    callback("TranslatorModule file generated")
   }
 
   generateTranslatorJsonFile(generationPath, templatePath, sharedObj, callback) {
@@ -205,6 +209,24 @@ export class DependencyWorker {
         callback(err);
       }
     });
+  }
+
+  public handleBarsFile(filePath, fileData, screenGenerationPath, fileName) {
+    return new Promise(resolve => {
+      fs.readFile(filePath, 'utf-8', (err, data) => {
+        Handlebars.registerHelper('surroundWithCurlyBraces', function (text) {
+          var result = '{{' + text + '}}';
+          return new Handlebars.SafeString(result);
+        });
+        const source = data;
+        const template = Handlebars.compile(source);
+        const result = template(fileData);
+        Common.createFolders(screenGenerationPath);
+        fs.writeFile(screenGenerationPath + `/${fileName}`, result, (response) => {
+          resolve(response);
+        })
+      });
+    })
   }
 }
 

@@ -27,7 +27,7 @@ const i18nextOptions = {
   backend: {
     allowMultiLoading: true,
     loadPath: function () {
-      return 'assets/locales/{{lng}}/{{ns}}.json';
+      return 'assets/locales/{{#surroundWithCurlyBraces lng}}{{/surroundWithCurlyBraces}}/{{#surroundWithCurlyBraces ns}}{{/surroundWithCurlyBraces}}.json';
     }
 
   },
