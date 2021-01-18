@@ -80,13 +80,17 @@ export class Constant {
       {
         importName: "HeaderComponent",
         importPath: "./header.component"
+      },
+      {
+        importName: "RouterModule",
+        importPath: "@angular/router"
       }
     ],
     GpOptions: {
       components: [
         { name: "HeaderComponent" }
       ],
-      modules: [{ name: "I18NextModule.forRoot()" }],
+      modules: [{ name: "I18NextModule.forRoot()" }, {name: "RouterModule"}],
       screenName: "header",
       className: "HeaderModule"
     }
