@@ -119,7 +119,7 @@ export class GeppettoTemplateGenerator {
         const template = "../../../templates"
         //Css
         const footerCss = Footer.CSS_DATA;
-        assetWorker.checkAssetFile(assetGenerationPath, geppettoFooterHTML, template)
+        assetWorker.checkAssetFile(`${projectGenerationPath}/${projectName}`, geppettoFooterHTML, template)
         this.ComponentHtmlGeneration(generationPath, geppettoFooterHTML, 'footer.component.html', (res) => {
             componentCssWorker.ComponentCssGeneration(generationPath, footerCss, `${Constant.FOOTER_FOLDERNAME}.component.scss`, (res) => {
                 callback("Geppetto Footer HTML and CSS generated ")
