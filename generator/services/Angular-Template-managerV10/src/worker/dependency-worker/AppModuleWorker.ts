@@ -33,8 +33,11 @@ export class AppModuleWorker {
                                 }
                             }
                             if (element.includes('providers: [],') && importElement.provider) {
-                                fileArray[index] = `providers: [\n\t${importElement.provider},\n\t]`
+                                fileArray[index] = `providers: [\n\t${importElement.provider},\n\t],`
                             }
+                        }
+                        if(element === ',') {
+                            fileArray.splice(index, 1);
                         }
                     });
                 });

@@ -46,6 +46,9 @@ export class AppModuleWorker {
                                 fileArray.splice(index + 1, 0, '\t\tAppComponent');
                             }
                         }
+                        if(element === ',') {
+                            fileArray.splice(index, 1);
+                        }
                     });
                 });
                 componentSupportWorker.writeFile(applicationPath, fileArray.join('\n'), (res) => {
