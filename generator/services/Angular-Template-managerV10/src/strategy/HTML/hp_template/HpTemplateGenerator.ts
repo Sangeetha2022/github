@@ -42,6 +42,8 @@ export class HpTemplateGenerator {
         const menuList = details.menuBuilder.filter(x => x.language.toLowerCase() === details.project.defaultHumanLanguage.toLowerCase());
         const projectName = details.project.name;
         const htmlTag = HPHeader.HTML_TAG;
+        let generationPath = details.projectGenerationPath;
+        const template = "../../../templates";
         const topNavHtml = hpTopNav.generateTopNav(menuList);
         const handlebarsResArray = htmlTag.split('\n');
         for (let i = 0; i < handlebarsResArray.length; i++) {
@@ -54,6 +56,7 @@ export class HpTemplateGenerator {
         const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
             + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.HEADER_FOLDERNAME;
         const filePath = templateGenerationPath + '/header.component.html';
+        assetWorker.checkAssetFile(`${generationPath}/${projectName}`, htmlTag, template);
         Common.createFolders(templateGenerationPath);
         componentSupportWorker.writeFile(filePath, final, (response) => {
             callback(response);
