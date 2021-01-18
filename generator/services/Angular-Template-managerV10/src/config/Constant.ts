@@ -32,6 +32,7 @@ export class Constant {
   public static TRANSLATOR_MODULE_FILENAME: String = 'translator.module.ts';
   public static ENV_FILENAME: String = 'environment.ts';
   public static ENV_PROD_FILENAME: String = 'environment.prod.ts';
+  public static TS_CONFIG_JSON: string = 'tsconfig.json';
 
   // folder name
   public static SHARED_FOLDERNAME: String = 'shared';
@@ -79,13 +80,17 @@ export class Constant {
       {
         importName: "HeaderComponent",
         importPath: "./header.component"
+      },
+      {
+        importName: "RouterModule",
+        importPath: "@angular/router"
       }
     ],
     GpOptions: {
       components: [
         { name: "HeaderComponent" }
       ],
-      modules: [{ name: "I18NextModule.forRoot()" }],
+      modules: [{ name: "I18NextModule.forRoot()" }, {name: "RouterModule"}],
       screenName: "header",
       className: "HeaderModule"
     }
@@ -139,6 +144,7 @@ export class Constant {
     { importData: "import { TranslatorModule } from './translator/translator.module';", className: 'TranslatorModule' },
     { importData: "import { HeaderModule } from './header/header.module';", className: 'HeaderModule' },
     { importData: "import { FooterModule } from './footer/footer.module';", className: 'FooterModule' },
-    { importData: "import { TemplateModule } from './template/template.module';", className: 'TemplateModule' }
+    { importData: "import { TemplateModule } from './template/template.module';", className: 'TemplateModule' },
+    { importData: "import { SharedService } from '../shared/shared.service';", className: '', provider: 'SharedService' }
   ];
 }

@@ -35,10 +35,6 @@ export class ComponentWorker {
       GpOptions: {
         screenName: "footer",
         className: "FooterComponent"
-      },
-      GpHeaders: {
-        importName: "FooterComponent",
-        importPath: "./footer.component"
       }
     }
     const footerModule = Constant.FooterModule

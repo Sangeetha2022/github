@@ -44,7 +44,9 @@ export class CommonWorker {
                     return dependencyWorker.generateDockerFile(generationPath, templatePath, details, (res) => {
                         return dependencyWorker.generateTranslatorModuleFile(generationPath, templatePath, details, (res) => {
                             return dependencyWorker.generateTranslatorJsonFile(generationPath, templatePath, details, (res) => {
-                                callback('main files are generated');
+                                dependencyWorker.modifyTsConfig(generationPath, (tsConfigRes, tsConfigErr) => {
+                                    callback('main files are generated');
+                                });
                             })
                         })
                     })

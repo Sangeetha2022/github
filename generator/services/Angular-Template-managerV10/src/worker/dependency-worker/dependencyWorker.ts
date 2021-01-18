@@ -23,6 +23,8 @@ export class DependencyWorker {
   }
 
   generateIndexHtml(generationPath, projectName, templateName, indexHtmlDetails, callback) {
+    this.indexHtmlObject.tagData = [];
+    this.indexHtmlObject.scriptTagData = [];
     let metaData = JSON.parse(indexHtmlDetails)
     metaData.map(async tagData => {
       await this.setMetaTag(tagData, templateName)
@@ -36,7 +38,7 @@ export class DependencyWorker {
     new Promise(() => {
       this.startString = ''
       this.scriptString = ''
-      if (meta.tagName === 'meta' || meta.tagName === 'title' || meta.tagName === 'base' || meta.tagName === 'link') {
+      if (meta.tagName === 'meta' || meta.tagName === 'title' || meta.tagName === 'link') {
         this.startString += `<${meta.tagName}`
         Object.keys(meta.attributes).map(key => {
           this.startString += ` ${key}='${meta.attributes[key]}'`
@@ -95,23 +97,23 @@ export class DependencyWorker {
     // shared file path
     const filePath = `${generationPath}/${Constant.NGINX_FOLDERNAME}`;
     const proxyArray = [{ ...Constant.proxyDesktop }, { ...Constant.proxyMobile }];
-        console.log('proxyArray for nginx are --- ', proxyArray);
-        const temp = {
-            proxy: {
-              projectName: details.project.name,
-              components: proxyArray
-            }
-        }
+    console.log('proxyArray for nginx are --- ', proxyArray);
+    const temp = {
+      proxy: {
+        projectName: details.project.name,
+        components: proxyArray
+      }
+    }
     componentSupportWorker.handleBarsFile(`${templatePath}/NginxDefault.handlebars`, temp, filePath, Constant.NGINX_FILENAME);
     callback("Nginx file generated")
 
-     // Modify the envoriments file
-     let env = `${generationPath}/${Constant.ENV_FOLDERNAME}`
-     let env_file_name = Constant.ENV_FILENAME
-     this.modifyenvoriments(env, env_file_name);
+    // Modify the envoriments file
+    let env = `${generationPath}/${Constant.ENV_FOLDERNAME}`
+    let env_file_name = Constant.ENV_FILENAME
+    this.modifyenvoriments(env, env_file_name);
     //  Modify the prod envoriments file
-     let env_file_name_prod = Constant.ENV_PROD_FILENAME
-     this.modifyenvoriments_prod(env, env_file_name_prod);
+    let env_file_name_prod = Constant.ENV_PROD_FILENAME
+    this.modifyenvoriments_prod(env, env_file_name_prod);
   }
 
   generateProxyFile(generationPath, templatePath, details, callback) {
@@ -148,46 +150,62 @@ export class DependencyWorker {
     const fileName = translator.fileName[0];
     const source = translator.source;
     return dependencySupportWorker.generateTranslateJsonFiles(filePath, langFolderName, fileName, source, (response) => {
-        callback();
+      callback();
     })
-}
+  }
 
   modifyenvoriments(applicationPath, fileName) {
     const environment = dependencySupportWorker.readFile(applicationPath, fileName);
     if (environment[5].replace(/\s/g, '') == "DESKTOP_API:'http://'+window.location.hostname+':8000/desktop',") {
-        console.log("Already envoriments is upto date")
+      console.log("Already envoriments is upto date")
     } else {
-        const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
-        let temp = '';
-        temp += `${environment[serveIndex]}`;
-        temp += `\n  DESKTOP_API: 'http://'+window.location.hostname+':8000/desktop',`;
-        temp += `\n  MOBILE_API: '/api/mobile',`;
-        environment.splice(serveIndex, 1, temp);
-        dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
-            console.log('successfully write the environment file');
-        });
+      const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
+      let temp = '';
+      temp += `${environment[serveIndex]}`;
+      temp += `\n  DESKTOP_API: 'http://'+window.location.hostname+':8000/desktop',`;
+      temp += `\n  MOBILE_API: '/api/mobile',`;
+      environment.splice(serveIndex, 1, temp);
+      dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
+        console.log('successfully write the environment file');
+      });
     }
-}
+  }
 
-modifyenvoriments_prod(applicationPath, fileName) {
+  modifyenvoriments_prod(applicationPath, fileName) {
     const environment = dependencySupportWorker.readFile(applicationPath, fileName);
     if (environment[1].replace(/\s/g, '') == "DESKTOP_API:'http://<YourDomainNameorLiveIPaddress>',") {
-        console.log("Already prods envoriments is upto date")
+      console.log("Already prods envoriments is upto date")
     } else {
-        const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
-        let temp = '';
-        temp += `${environment[serveIndex]}`;
-        temp += `\n  DESKTOP_API: 'http://<Your Domain Name or Live IP address>',`;
-        temp += `\n  MOBILE_API: 'http://<Your Domain Name or Live IP address>',`;
-        environment.splice(serveIndex, 1, temp);
-        dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
-            console.log('successfully write the prod environment file');
-        });
+      const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
+      let temp = '';
+      temp += `${environment[serveIndex]}`;
+      temp += `\n  DESKTOP_API: 'http://<Your Domain Name or Live IP address>',`;
+      temp += `\n  MOBILE_API: 'http://<Your Domain Name or Live IP address>',`;
+      environment.splice(serveIndex, 1, temp);
+      dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
+        console.log('successfully write the prod environment file');
+      });
     }
+  }
+
+  modifyTsConfig(generationPath, callback) {
+    const filePath = `${generationPath}/${Constant.TS_CONFIG_JSON}`;
+    componentSupportWorker.readFile(filePath, (res, err) => {
+      if (!err) {
+        if (res.includes(`module": "es2020",`)) {
+          res = res.replace(`"module": "es2020",`, `"module": "esNext",`);
+          componentSupportWorker.writeFile(filePath, res, (response) => {
+            callback('tsconfig.json modified successfully');
+          });
+        } else {
+          callback('unable to tsconfig.json file');
+        }
+      } else {
+        callback(err);
+      }
+    });
+  }
 }
 
 
-}
-
-    
 

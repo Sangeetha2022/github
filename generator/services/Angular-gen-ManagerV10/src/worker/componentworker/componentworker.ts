@@ -32,7 +32,7 @@ export class ComponentWorker {
             let microflowObject: any = this.constructMicroFlows(details.flows);
             const gpHeaders = {
                 importName: firstElement + otherElements + 'Service',
-                importPath: './' + screenName + '.service.ts'
+                importPath: './' + screenName + '.service'
             };
             microflowObject.GpHeaders.push(gpHeaders);
             microflowObject.GpOptions = {};

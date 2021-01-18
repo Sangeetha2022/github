@@ -37,7 +37,6 @@ export class GeppettoTemplateGenerator {
     }
 
     generateHeaderHtml(details, callback) {
-        console.log('HEADER HTML CALLING');
         const htmlTag = GeppettoHeader.HTML_TAG;
         const menuList = details.menuBuilder.filter(x => x.language.toLowerCase() === details.project.defaultHumanLanguage.toLowerCase());
         const projectName = details.project.name;
@@ -57,7 +56,6 @@ export class GeppettoTemplateGenerator {
             const filePath = templateGenerationPath + '/header.component.html';
             Common.createFolders(templateGenerationPath);
             componentSupportWorker.writeFile(filePath, final, (response) => {
-                console.log('HEADER HTML GENERATED');
                 callback(response);
             });
         }
