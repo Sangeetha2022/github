@@ -32,6 +32,9 @@ export class AppModuleWorker {
                                     fileArray.splice(index + 1, 0, importElement.className + ',');
                                 }
                             }
+                            if (element.includes('providers: [],') && importElement.provider) {
+                                fileArray[index] = `providers: [\n\t${importElement.provider},\n\t]`
+                            }
                         }
                     });
                 });

@@ -144,6 +144,7 @@ export class Constant {
     { importData: "import { TranslatorModule } from './translator/translator.module';", className: 'TranslatorModule' },
     { importData: "import { HeaderModule } from './header/header.module';", className: 'HeaderModule' },
     { importData: "import { FooterModule } from './footer/footer.module';", className: 'FooterModule' },
-    { importData: "import { TemplateModule } from './template/template.module';", className: 'TemplateModule' }
+    { importData: "import { TemplateModule } from './template/template.module';", className: 'TemplateModule' },
+    { importData: "import { SharedService } from '../shared/shared.service';", className: '', provider: 'SharedService' }
   ];
 }
