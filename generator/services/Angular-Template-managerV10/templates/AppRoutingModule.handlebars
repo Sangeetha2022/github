@@ -10,7 +10,7 @@ import { {{classname}}Component } from './{{foldername}}/{{foldername}}.componen
 const routes: Routes = [
    	{{#each componentPath}}
        [
-       { path: '{{path}}', component: {{component}}Component, {{#if isAuthImport }} canActivate: [AuthGuard] {{/if}}  } 
+       { path: '{{path}}', component: {{component}}Component, pathMatch: 'full' {{#if isAuthImport }} canActivate: [AuthGuard] {{/if}}  } 
        ] 
     {{/each}}
 ];
