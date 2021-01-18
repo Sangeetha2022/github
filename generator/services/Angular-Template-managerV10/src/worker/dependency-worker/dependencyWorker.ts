@@ -186,7 +186,23 @@ modifyenvoriments_prod(applicationPath, fileName) {
     }
 }
 
-
+  modifyTsConfig(generationPath, callback) {
+    const filePath = `${generationPath}/${Constant.TS_CONFIG_JSON}`;
+    componentSupportWorker.readFile(filePath, (res, err) => {
+      if (!err) {
+        if(res.includes(`module": "es2020",`)) {
+          res = res.replace(`"module": "es2020",`, `"module": "esNext",`);
+          componentSupportWorker.writeFile(filePath, res, (response) => {
+            callback('tsconfig.json modified successfully');
+          });
+        } else {
+          callback('unable to tsconfig.json file');
+        }
+      } else {
+        callback(err);
+      }
+    });
+  }
 }
 
     

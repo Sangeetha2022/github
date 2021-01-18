@@ -32,6 +32,7 @@ export class Constant {
   public static TRANSLATOR_MODULE_FILENAME: String = 'translator.module.ts';
   public static ENV_FILENAME: String = 'environment.ts';
   public static ENV_PROD_FILENAME: String = 'environment.prod.ts';
+  public static TS_CONFIG_JSON: string = 'tsconfig.json';
 
   // folder name
   public static SHARED_FOLDERNAME: String = 'shared';
