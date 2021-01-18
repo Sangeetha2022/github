@@ -22,18 +22,18 @@ export class AppModuleWorker {
                     const moduleClassName = firstElement + otherElements + 'Module';
                     const importData = "import { " + moduleClassName + " } from './" + screenName + "/" + screenName + ".module';";
                     fileArray.forEach((element, index) => {
-                        if (element.includes('@NgModule({')) {
-                            const importDataIndex = fileArray.indexOf(importData);
-                            if (importDataIndex === -1) {
-                                fileArray.splice(index - 1, 0, importData);
-                            }
-                        }
-                        if (element.includes('imports: [')) {
-                            const moduleClassNameIndex = fileArray.indexOf(moduleClassName + ',');
-                            if (moduleClassNameIndex === -1) {
-                                fileArray.splice(index + 1, 0, moduleClassName + ',');
-                            }
-                        }
+                        // if (element.includes('@NgModule({')) {
+                        //     const importDataIndex = fileArray.indexOf(importData);
+                        //     if (importDataIndex === -1) {
+                        //         fileArray.splice(index - 1, 0, importData);
+                        //     }
+                        // }
+                        // if (element.includes('imports: [')) {
+                        //     const moduleClassNameIndex = fileArray.indexOf(moduleClassName + ',');
+                        //     if (moduleClassNameIndex === -1) {
+                        //         fileArray.splice(index + 1, 0, moduleClassName + ',');
+                        //     }
+                        // }
                         if (element.includes('bootstrap: [')) {
                             let moduleClassNameIndex = -1;
                             if(fileArray.indexOf('AppComponent') !== -1) {

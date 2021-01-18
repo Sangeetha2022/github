@@ -46,9 +46,9 @@ export class DependencyWorker {
         appRoutingModuleWorker.importRoutingModules(details, (res, err) => {
             
         })
-        // appModuleWorker.importComponentModules(details, (res, err) => {
+        appModuleWorker.importComponentModules(details, (res, err) => {
             
-        // });
+        });
 
     //     // dependencyWorker.modifyConfigAppJSONFile(packagePath, this.configAppModule);
     //     this.initializePackageModule();
