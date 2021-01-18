@@ -24,7 +24,7 @@ server {
     }
 {{#each proxy.components}}
     location ^~ {{locationUrl}} {
-    proxy_pass http://{{../proxy.projectName}}-system-entry.{{../proxy.projectName}}.svc.cluster.local:{{portNumber}}/{{additionalUrl}};
+    proxy_pass http://{{../proxy.projectName}}-system-entry.{{../proxy.projectName}}.svc.cluster.local:{{portNumber}}{{additionalUrl}};
     }
 {{/each}}
 
