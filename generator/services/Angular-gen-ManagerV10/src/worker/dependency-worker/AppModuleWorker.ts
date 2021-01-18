@@ -29,7 +29,7 @@ export class AppModuleWorker {
                             }
                         }
                         if (element.includes('imports: [')) {
-                            const moduleClassNameIndex = fileArray.indexOf('' + ',');
+                            const moduleClassNameIndex = fileArray.indexOf(moduleClassName + ',');
                             if (moduleClassNameIndex === -1) {
                                 fileArray.splice(index + 1, 0, moduleClassName + ',');
                             }
