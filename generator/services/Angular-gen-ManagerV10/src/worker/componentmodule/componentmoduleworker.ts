@@ -64,11 +64,11 @@ export class ComponentModuleWorker {
         microflowObject.GpHeaders.push(moduleHeaders[0]);
         const screenName = desktopElement.screenName;
         const firstElement = screenName.charAt(0).toUpperCase();
-        const otherElements = screenName.substring(1, screenName.length);
+        const otherElements = screenName.substring(1, screenName.length).toLowerCase();
         const componentName = firstElement + otherElements + 'Component';
         const componentObject = {
             importName: componentName,
-            importPath: './' + screenName + '.component'
+            importPath: './' + screenName.toLowerCase() + '.component'
         }
         microflowObject.GpHeaders.push(componentObject);
         if(desktopElement.is_grid_present && desktopElement.is_grid_present === true) {
@@ -87,7 +87,7 @@ export class ComponentModuleWorker {
     private constructModuleRoutes(desktopElement, microflowObject) {
         const screenName = desktopElement.screenName;
         const firstElement = screenName.charAt(0).toUpperCase();
-        const otherElements = screenName.substring(1, screenName.length);
+        const otherElements = screenName.substring(1, screenName.length).toLowerCase();
         const componentName = firstElement + otherElements + 'Component';
         const routingObject = { path: '', component: componentName }
         microflowObject.GpCodeToAdd['routes'] = [];
