@@ -5,7 +5,7 @@
         <label id="{{attributes.id}}" class="{{cssClass}}">{{content}}</label>
         {{/ifEquals}}
         {{#ifEquals type "input"}}
-        <input id="{{attributes.id}}" class="{{cssClass}}" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}"{{/if}} type="text">
+        <input id="{{attributes.id}}" class="{{cssClass}}" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}" [ngModelOptions]="{standalone: true}"{{/if}} type="text">
         {{/ifEquals}}
         {{#ifEquals type "checkbox"}}
         <input type="{{type}}" id="{{attributes.id}}" class="{{cssClass}}">

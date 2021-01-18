@@ -2,6 +2,6 @@
 {{#each dropDownData.components}}
     <ng-select class="{{cssClassName}}" [searchable]="true" [virtualScroll]="true" class="{{attributes.id}}"
         name="{{name}}" bindLabel="{{attributes.entityDetails.fields.name}}" bindValue="{{attributes.entityDetails.fields.name}}" [items]="itemArray" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}"
-        [ngModelOptions]="{standalone: true}"{{/if}} {{#if flowDetails.verb}}({{flowDetails.verb}})="{{flowDetails.flowName}}()"{{/if}}></ng-select>
+         [ngModelOptions]="{standalone: true}"{{/if}} {{#if flowDetails.verb}}({{flowDetails.verb}})="{{flowDetails.flowName}}()"{{/if}}></ng-select>
 {{/each}}
 </div>

@@ -1,7 +1,7 @@
 <div>
    <select id="{{components.attributes.id}}" class="{{components.cssClassName}}" {{#if
       components.attributes.entityDetails.entityName}}[(ngModel)]="{{components.attributes.entityDetails.entityName}}.{{components.attributes.entityDetails.fields.name}}"
-      {{/if}}>
+       [ngModelOptions]="{standalone: true}"{{/if}}>
       {{{components.optionstag}}}
    </select>
 </div>
