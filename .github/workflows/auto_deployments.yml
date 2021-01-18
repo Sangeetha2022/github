@@ -274,7 +274,7 @@ jobs:
         with: 
           path: './'
       - name: Alpha value
-        run: echo "::set-output name=ALPHA_NO::$(cat ./generator/services/configurationmanager/src/assests/configuration.json | jq -r '.base_config[0].value')"
+        run: echo ::set-output name=ALPHA_NO::$(cat ./generator/services/configurationmanager/src/assests/configuration.json | jq -r '.base_config[0].value')
         id: alpha
       - name: Check alpha
         run: echo ${{ steps.alpha.outputs.ALPHA_NO }}
@@ -296,7 +296,7 @@ jobs:
       - name: Alpha number
         run: echo ${{ steps.splitalpha.outputs.SPLIT_ALPHA }}
       - name: Build version
-        run: echo "::set-output name=JSON_NO::$(cat ./generator/services/configurationmanager/src/assests/configuration.json | jq -r '.base_config[1].value')"
+        run: echo ::set-output name=JSON_NO::$(cat ./generator/services/configurationmanager/src/assests/configuration.json | jq -r '.base_config[1].value')
         id: json
       - name: Check version
         run: echo ${{ steps.json.outputs.JSON_NO }}

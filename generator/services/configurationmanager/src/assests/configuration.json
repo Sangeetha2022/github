@@ -1,2635 +1,2636 @@
 {
-	"base_config": [
-		{
-			"name": "version",
-			"label": "",
-			"description": "app version",
-			"value": "Alpha-15",
-			"type": "version",
-			"sub_type": ""
-		},
-		{
-			"name": "build_version",
-			"label": "",
-			"description": "build version",
-			"value": "1.2.8",
-			"type": "version",
-			"sub_type": ""
-		},
-		{
-			"name": "build_date",
-			"label": "",
-			"description": "build Date",
-			"value": "10/10/2020",
-			"type": "date",
-			"sub_type": ""
-		},
-		{
-			"name": "base_generation_directory",
-			"label": "",
-			"description": "",
-			"value": "/home/geppetto/GeppettoGenerator/generated_code",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "default_code_template_directory",
-			"label": "",
-			"description": "",
-			"value": "default",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "root_code_template_location",
-			"label": "",
-			"description": "",
-			"value": "/home/geppetto/GeppettoGenerator/geppetto_templates",
-			"type": "config",
-			"sub_type": "templates"
-		},
-		{
-			"name": "gen_server_directory_name",
-			"label": "",
-			"description": "",
-			"value": "server",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_directory_name",
-			"label": "",
-			"description": "",
-			"value": "client",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_nodejs_directory_name",
-			"label": "",
-			"description": "",
-			"value": "nodejs",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_js_directory_name",
-			"label": "",
-			"description": "",
-			"value": "js",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_server_data_store_directory_name",
-			"label": "",
-			"description": "",
-			"value": "data_store",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "copy_right_range",
-			"label": "",
-			"description": "",
-			"value": "2014 - 2015",
-			"type": "config",
-			"sub_type": "legal"
-		},
-		{
-			"name": "copy_right_sympbol",
-			"label": "",
-			"description": "",
-			"value": "©",
-			"type": "config",
-			"sub_type": "legal"
-		},
-		{
-			"name": "server_rdbms_mysql_template_location",
-			"label": "",
-			"description": "",
-			"value": "server.db",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "server_rdbms_mysql_ddl_template_name",
-			"label": "",
-			"description": "",
-			"value": "mysql_5.6.21_ddl.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "angular_index_file_template_location",
-			"label": "",
-			"description": "",
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "angular_index_file_template_name",
-			"label": "",
-			"description": "",
-			"value": "angular_index_file_v_1_3_12",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_angular_directory_name",
-			"label": "",
-			"description": "",
-			"value": "angular",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "angular_controller_template_location",
-			"label": "",
-			"description": "",
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "angular_controller_template_name",
-			"label": "",
-			"description": "",
-			"value": "angular_controller_v_1_3_12.stg",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_android_directory_name",
-			"label": "",
-			"description": "",
-			"value": "android",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_ios_directory_name",
-			"label": "",
-			"description": "",
-			"value": "ios",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_desktop_directory_name",
-			"label": "",
-			"description": "",
-			"value": "desktop",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_phone_directory_name",
-			"label": "",
-			"description": "",
-			"value": "phone",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_tablet_directory_name",
-			"label": "",
-			"description": "",
-			"value": "tablet",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_angular_app_root_directory_name",
-			"label": "",
-			"description": "",
-			"value": "app",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_app_css_directory_name",
-			"label": "",
-			"description": "",
-			"value": "css",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_app_fonts_directory_name",
-			"label": "",
-			"description": "",
-			"value": "fonts",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_angular_app_root_js_directory_name",
-			"label": "",
-			"description": "",
-			"value": "js",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_angular_app_root_views_directory_name",
-			"label": "",
-			"description": "",
-			"value": "views",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_angular_app_controller_directory_name",
-			"label": "",
-			"description": "",
-			"value": "controllers",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_angular_app_directives_directory_name",
-			"label": "",
-			"description": "",
-			"value": "directives",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_angular_app_services_directory_name",
-			"label": "",
-			"description": "",
-			"value": "services",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_angular_lib_root_directory_name",
-			"label": "",
-			"description": "",
-			"value": "lib",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_app_lib_css_directory_name",
-			"label": "",
-			"description": "",
-			"value": "css",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_app_lib_fonts_directory_name",
-			"label": "",
-			"description": "",
-			"value": "fonts",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "gen_client_app_lib_js_directory_name",
-			"label": "",
-			"description": "",
-			"value": "js",
-			"type": "config",
-			"sub_type": ""
-		},
-		{
-			"name": "GeppettoGitHubUsername",
-			"label": "",
-			"description": null,
-			"value": "GeppettoTeam",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "GeppettoGitHubPassword",
-			"label": " ",
-			"description": null,
-			"value": "tang3456",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_server_node_express_config_directory_name",
-			"label": "",
-			"description": null,
-			"value": "config",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_server_node_express_controllers_directory_name",
-			"label": "",
-			"description": null,
-			"value": "controllers",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_server_node_express_daos_directory_name",
-			"label": "",
-			"description": null,
-			"value": "daos",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_server_node_express_models_directory_name",
-			"label": "",
-			"description": null,
-			"value": "models",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_server_node_express_routes_directory_name",
-			"label": "",
-			"description": null,
-			"value": "routes",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_server_node_express_services_directory_name",
-			"label": "",
-			"description": null,
-			"value": "services",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_server_node_express_sql_queries_directory_name",
-			"label": "",
-			"description": null,
-			"value": "sql_queries",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_server_node_express_routers_directory_name",
-			"label": "",
-			"description": null,
-			"value": "routers",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_package_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_package_template_name",
-			"label": "",
-			"description": null,
-			"value": "package_json_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_sql_queries_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.db",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_sql_queries_template_name",
-			"label": "",
-			"description": null,
-			"value": "sql_properties_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_index_models_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.sequelize",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_index_models_template_name",
-			"label": "",
-			"description": null,
-			"value": "index_models_file",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_sequelize_model_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.sequelize",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_sequelize_model_template_name",
-			"label": "",
-			"description": null,
-			"value": "model_file",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_dao_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_dao_template_name",
-			"label": "",
-			"description": null,
-			"value": "dao_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_service_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_service_template_name",
-			"label": "",
-			"description": null,
-			"value": "service_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_controller_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_controller_template_name",
-			"label": "",
-			"description": null,
-			"value": "controller_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_routes_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_routes_template_name",
-			"label": "",
-			"description": null,
-			"value": "routes_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_index_routers_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_index_routers_template_name",
-			"label": "",
-			"description": null,
-			"value": "routers_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_router_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_router_template_name",
-			"label": "",
-			"description": null,
-			"value": "router_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_main_js_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_main_js_template_name",
-			"label": "",
-			"description": null,
-			"value": "main_js_file",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "run_config",
-			"label": "",
-			"description": null,
-			"value": "PROD",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_host_name",
-			"label": "",
-			"description": null,
-			"value": "http://50.19.50.131",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_swagger_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.swagger",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_swagger_template_name",
-			"label": "",
-			"description": null,
-			"value": "swagger_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_swaggerui_folder_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.swagger.api",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_landing_page_html_template_location",
-			"label": "",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_landing_page_html_template_name",
-			"label": "",
-			"description": null,
-			"value": "landing_page",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_landing_page_controller_template_location",
-			"label": "",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_landing_page_controller_template_name",
-			"label": "",
-			"description": null,
-			"value": "landing_page_controller.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "system_activity_geppetto_login_rest_url_service_template_location",
-			"label": "",
-			"description": null,
-			"value": "client.js.angular.system_level_activities.geppetto_login",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "system_activity_geppetto_login_rest_url_service_template_name",
-			"label": "",
-			"description": null,
-			"value": "rest_url_service",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_desktop_landing_page_controller_template_location",
-			"label": "",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_desktop_landing_page_controller_template_name",
-			"label": "",
-			"description": null,
-			"value": "landing_page_controller_desktop.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_desktop_landing_page_html_template_location",
-			"label": "",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_desktop_landing_page_html_template_name",
-			"label": "",
-			"description": null,
-			"value": "landing_page_desktop",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "interval_clean_up_jobs",
-			"label": "",
-			"description": null,
-			"value": "10000",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "clean_up_jobs_time_interval",
-			"label": "",
-			"description": null,
-			"value": "2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_nielsen_desktop_landing_page_html_template_location",
-			"label": "",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_nielsen_desktop_landing_page_html_template_name",
-			"label": "",
-			"description": null,
-			"value": "landing_page_nielsen_desktop",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_neilsen_android_landing_page_html_template_location",
-			"label": "",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_neilsen_android_landing_page_html_template_name",
-			"label": "",
-			"description": null,
-			"value": "landing_page_nielsen_android",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gradle_script_new_users_location",
-			"label": "",
-			"description": null,
-			"value": "/home/geppetto/GeppettoGenerator/new_user_batch/gradle_scripts/docker",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_client_angular2_directory_name",
-			"label": " ",
-			"description": null,
-			"value": "angular2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_client_angular2_app_root_directory_name",
-			"label": " ",
-			"description": null,
-			"value": "app",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_client_angular2_app_root_ts_directory_name",
-			"label": " ",
-			"description": null,
-			"value": "ts",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_client_angular2_app_components_directory_name",
-			"label": " ",
-			"description": null,
-			"value": "components",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_client_angular2_app_directives_directory_name",
-			"label": " ",
-			"description": null,
-			"value": "directives",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_client_angular2_app_services_directory_name",
-			"label": " ",
-			"description": null,
-			"value": "services",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_pwc_desktop_landing_page_html_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_pwc_desktop_landing_page_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "landing_page_pwc_desktop",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular_wizard_screen_file_template_location",
-			"label": "",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gen_client_saiku_directory_name",
-			"label": " ",
-			"description": null,
-			"value": "saiku",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_gp_one_desktop_landing_page_html_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_gp_one_desktop_landing_page_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "landing_page_gp_one_desktop",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_compose_template_location",
-			"label": " ",
-			"description": null,
-			"value": "docker.docker-compose",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_compose_template_name",
-			"label": " ",
-			"description": null,
-			"value": "docker_compose_v_1.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_gp_two_desktop_landing_page_html_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_gp_two_desktop_landing_page_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "landing_page_gp_two_desktop",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gradle_script_docker_download_location",
-			"label": " ",
-			"description": null,
-			"value": "/home/geppetto/GeppettoGenerator/download_containers_batch/gradle_scripts/docker",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "desktop_rest_url_service_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular.system_level_activities.rest_url_desktop",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "desktop_rest_url_service_template_name",
-			"label": " ",
-			"description": null,
-			"value": "desktop_rest_url_service",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_file_db_mysql_template_location",
-			"label": " ",
-			"description": null,
-			"value": "docker.docker-compose",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_file_db_mysql_template_name",
-			"label": " ",
-			"description": null,
-			"value": "docker_file_mysql.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_file_nodejs_template_location",
-			"label": " ",
-			"description": null,
-			"value": "docker.docker-compose",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_file_nodejs_template_name",
-			"label": " ",
-			"description": null,
-			"value": "docker_file_nodejs.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "gradle_wrapper_files",
-			"label": " ",
-			"description": null,
-			"value": "gradle.wrapper",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "wait_for_it_file_location",
-			"label": " ",
-			"description": null,
-			"value": "docker.wait-for-it",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_build_gradle_file_template_location",
-			"label": " ",
-			"description": null,
-			"value": "docker.docker-compose",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_build_gradle_file_template_name",
-			"label": " ",
-			"description": null,
-			"value": "docker_build_gradle_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_settings_gradle_file_template_location",
-			"label": " ",
-			"description": null,
-			"value": "docker.docker-compose",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_settings_gradle_file_template_name",
-			"label": " ",
-			"description": null,
-			"value": "docker_settings_gradle_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "show_errors_in_web_app",
-			"label": " ",
-			"description": null,
-			"value": "true",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "modal_popup_controller_desktop_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "modal_popup_html_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "modal_popup_controller_desktop_name",
-			"label": " ",
-			"description": null,
-			"value": "modal_popup_controller_desktop",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "modal_popup_html_name",
-			"label": " ",
-			"description": null,
-			"value": "modal_popup_html",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "user_base_folder_for_docker",
-			"label": " ",
-			"description": null,
-			"value": "/home/shared/",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "consul_ip_address_for_docker",
-			"label": " ",
-			"description": null,
-			"value": "172.31.56.245",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_image_mysql_reference",
-			"label": " ",
-			"description": null,
-			"value": "967636366309.dkr.ecr.us-east-1.amazonaws.com/geppetto-mysql:latest",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_compose_build_gradle_file_template_location",
-			"label": " ",
-			"description": null,
-			"value": "docker.docker-compose",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_compose_build_gradle_file_name",
-			"label": " ",
-			"description": null,
-			"value": "docker_gradle_deploy_v1.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_host_url_for_testing",
-			"label": " ",
-			"description": null,
-			"value": "http://localhost:9090",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_image_nodejs_reference",
-			"label": " ",
-			"description": null,
-			"value": "geppetto-node:latest",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_swarm_environment",
-			"label": " ",
-			"description": null,
-			"value": "swarm-master-dev0",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "node_default_files_location",
-			"label": " ",
-			"description": null,
-			"value": "server.nodejs.express.default",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "dns_adress_docker_swarm_host",
-			"label": " ",
-			"description": null,
-			"value": "manager:3375",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "wait_for_statuscode_time",
-			"label": " ",
-			"description": null,
-			"value": "6000",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "no_of_time_to_get_statuscode",
-			"label": " ",
-			"description": null,
-			"value": "10",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular2_template_location",
-			"label": " ",
-			"description": "",
-			"value": "client.js.angular2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular2_module_template_name",
-			"label": " ",
-			"description": null,
-			"value": "angular2_module.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular2_main_template_name",
-			"label": " ",
-			"description": null,
-			"value": "angular2_main.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular2_routing_template_name",
-			"label": " ",
-			"description": null,
-			"value": "angular2_routing.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular2_component_template_name",
-			"label": " ",
-			"description": null,
-			"value": "angular2_component.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular2_landing_page_component_template_name",
-			"label": " ",
-			"description": null,
-			"value": "angular2_landing_page_component.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular2_desktop_landing_page_html_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular2_desktop_landing_page_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "landing_page_desktop",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular2_include_component_template_name",
-			"label": " ",
-			"description": null,
-			"value": "angular2_include_component.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular2_desktop_rest_url_service_template_name",
-			"label": " ",
-			"description": null,
-			"value": "angular2_desktop_rest_url_service",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_image_mongodb_reference",
-			"label": " ",
-			"description": null,
-			"value": "967636366309.dkr.ecr.us-east-1.amazonaws.com/geppetto-mongo:latest",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular2_service_template_name",
-			"label": " ",
-			"description": null,
-			"value": "angular2_service.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular_desktop_wizard_screen_file_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_image_couchbase_reference",
-			"label": " ",
-			"description": null,
-			"value": "geppetto-couchbase",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_file_db_couchbase_template_name",
-			"label": " ",
-			"description": "",
-			"value": "docker_file_couchbase.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_file_db_couchbase_template_location",
-			"label": " ",
-			"description": null,
-			"value": "docker.docker-compose",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "couchbase_configure_node_script_file_location",
-			"label": " ",
-			"description": null,
-			"value": "docker.CouchBase",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "ionic2_code_base_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.ionic2.ionic2_Android-app-base",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_app_module_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_app_module_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "app_module_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_app_component_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_app_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "app_component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_app_html_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_app_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "app_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_home_page_component_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_home_page_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "home_page_component_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_home_page_html_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_home_page_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "home_page_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_pages_export_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_pages_export_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "pages_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_page_html_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_page_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "page_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_page_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_page_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "page_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_ionic_2_service_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_ionic_2_service_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "service_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular2_ionic2_shared_export_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular2_ionic2_shared_export_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "shared_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular4_desktop_code_base_location",
-			"label": " ",
-			"description": "",
-			"value": "client.js.angular4.desktop.code_base",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_desktop_templates_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.desktop",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_desktop_app_module_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "app_module_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_desktop_app_component_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "app_component_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_desktop_app_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "app_component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_desktop_home_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "home_component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_desktop_home_component_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "home_component_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_desktop_module_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "module_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_desktop_interface_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "interface_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_desktop_service_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "angular_service_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_desktop_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_desktop_component_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "component_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "desktop_error_handler_code_base_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.desktop.error_redirect",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular2_desktop_code_base_location",
-			"label": " ",
-			"description": "",
-			"value": "client.js.angular2.desktop.code_base",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_desktop_templates_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.desktop",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_desktop_app_module_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "app_module_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_desktop_app_component_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "app_component_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_desktop_app_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "app_component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_desktop_home_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "home_component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_desktop_home_component_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "home_component_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_desktop_module_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "module_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_desktop_interface_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "interface_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_desktop_service_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "angular_service_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_desktop_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_desktop_component_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "component_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "ionic2_angular4_code_base_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.ionic2.ionic2_Android-app-base",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_app_module_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_app_module_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "app_module_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_app_component_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_app_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "app_component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_app_html_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_app_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "app_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_home_page_component_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_home_page_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "home_page_component_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_home_page_html_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_home_page_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "home_page_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_pages_export_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_pages_export_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "pages_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_page_html_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_page_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "page_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_page_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_page_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "page_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_ionic_2_service_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_ionic_2_service_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "service_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular4_ionic2_shared_export_ts_template_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.ionic2",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular4_ionic2_shared_export_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "shared_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "ionic2_code_base_locaton_IOS",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.ionic2.Ionic2_IOS-app-base",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "delete_code_after_deployment",
-			"label": " ",
-			"description": null,
-			"value": "false",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "consul_ip_address_for_azure_docker_containers_service",
-			"label": " ",
-			"description": null,
-			"value": "172.31.56.245",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "dns_address_for_azure_docker_containers_service",
-			"label": " ",
-			"description": null,
-			"value": "10.1.0.12",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_tablet_templates_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular2.tablet",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_tablet_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_tablet_component_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_component_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_tablet_module_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_module_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_tablet_interface_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_interface_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_tablet_app_module_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_app_module_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_tablet_service_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_angular_service_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_tablet_app_component_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_app_component_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_tablet_app_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_app_component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_tablet_home_component_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_home_component_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_2_tablet_home_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_home_component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular2_tablet_code_base_location",
-			"label": " ",
-			"description": "",
-			"value": "client.js.angular2.tablet.code_base",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "git_hub_url_for_checking_repository_exists",
-			"label": " ",
-			"description": null,
-			"value": "https://api.github.com/repos/GeppettoTeam/",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "git_hub_url_for_creating_repo",
-			"label": " ",
-			"description": null,
-			"value": "https://api.github.com/user/repos",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "git_hub_create_private_repos",
-			"label": " ",
-			"description": null,
-			"value": "false",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_image_nodejs_reference_for_azure",
-			"label": " ",
-			"description": null,
-			"value": "???",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_image_mysql_reference_for_azure",
-			"label": " ",
-			"description": null,
-			"value": "967636366309.dkr.ecr.us-east-1.amazonaws.com/geppetto-mysql:latest",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_azure_host",
-			"label": " ",
-			"description": null,
-			"value": "127.0.0.1:3375",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_host_name_for_azure",
-			"label": " ",
-			"description": null,
-			"value": "http://50.19.50.131",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "IPA_BUILD_WS_IPA_DETAIL",
-			"label": "",
-			"description": null,
-			"value": "http://208.52.161.52:8080/IPA_Details/create_IPA_Details",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_tablet_templates_location",
-			"label": " ",
-			"description": null,
-			"value": "client.js.angular4.tablet",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_tablet_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_tablet_component_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_component_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_tablet_module_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_module_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_tablet_interface_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_interface_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_tablet_app_module_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_app_module_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_tablet_service_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_angular_service_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_tablet_app_component_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_app_component_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_tablet_app_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_app_component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_tablet_home_component_html_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_home_component_html_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "client_angular_js_4_tablet_home_component_ts_template_name",
-			"label": " ",
-			"description": null,
-			"value": "tablet_home_component_ts_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "angular4_tablet_code_base_location",
-			"label": " ",
-			"description": "",
-			"value": "client.js.angular4.tablet.code_base",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "ionic2_code_base_locaton_IOS_angular4",
-			"label": "",
-			"description": " ",
-			"value": "client.js.angular4.ionic2.Ionic2_IOS-app-base",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "APP_HOST",
-			"label": " ",
-			"description": null,
-			"value": "https://builder.geppettosoftware.com/geppetto_appbuilder",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_couchbase_package_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.couchbase",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_couchbase_dao_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.couchbase",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_couchbase_service_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.couchbase",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_couchbase_controller_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.couchbase",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_couchbase_routes_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.couchbase",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_couchbase_index_routers_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.couchbase",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_couchbase_router_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.couchbase",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_couchbase_main_js_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.couchbase",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_couchbase_swagger_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.couchbase.swagger",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_couchbase_swaggerui_folder_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.couchbase.swagger.api",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "node_couchbase_default_files_location",
-			"label": " ",
-			"description": null,
-			"value": "server.nodejs.express.couchbase.default",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_couchbase_model_template_location",
-			"label": "",
-			"description": null,
-			"value": "server.nodejs.express.couchbase.model",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "swagger_rest_custom_properties_template_name",
-			"label": " ",
-			"description": null,
-			"value": "swagger_custom_properties.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_image_nodejs_couchbase_reference",
-			"label": " ",
-			"description": null,
-			"value": "geppetto-node-cb:latest",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "DXL_migration_couchbase_server_password",
-			"label": " ",
-			"description": null,
-			"value": "211218",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "DXL_migration_couchbase_server_username",
-			"label": " ",
-			"description": null,
-			"value": "Administrator",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "DXL_migration_couchbase_server_url",
-			"label": " ",
-			"description": null,
-			"value": "http://34.205.61.224",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "BT_ENVIRONMENT",
-			"label": " ",
-			"description": null,
-			"value": "sandbox",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "BT_MERCHANT_ID",
-			"label": " ",
-			"description": null,
-			"value": "9zvgxsq44xt2j85c",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "BT_PUBLIC_KEY",
-			"label": " ",
-			"description": null,
-			"value": "v5dnbgc49cygxyc8",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "BT_PRIVATE_KEY",
-			"label": " ",
-			"description": null,
-			"value": "9270353f670523815a699bb14939c72f",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "FREE_subscription",
-			"label": " ",
-			"description": null,
-			"value": "3",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "jsreport_config_json_location",
-			"label": " ",
-			"description": null,
-			"value": "activity_module.jsreport",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_mongo_template_location",
-			"label": " ",
-			"description": null,
-			"value": "server.nodejs.express.mongo",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_mongo_dao_template_name",
-			"label": " ",
-			"description": null,
-			"value": "mongo_dao_file.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "node_mongo_default_files_location",
-			"label": " ",
-			"description": null,
-			"value": "server.nodejs.express.mongo.default",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_mongo_model_template_name",
-			"label": " ",
-			"description": null,
-			"value": "mongoose_model_file",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nodejs_express_mongo_service_template_name",
-			"label": " ",
-			"description": null,
-			"value": null,
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nosql_mongo_template_location",
-			"label": " ",
-			"description": null,
-			"value": "server.nosql.mongo",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "server_nosql_mongo_ddl_template_name",
-			"label": " ",
-			"description": null,
-			"value": "mongo_ddl.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "docker_file_db_mongo_template_name",
-			"label": " ",
-			"description": null,
-			"value": "docker_file_mongo.stg",
-			"type": "config",
-			"sub_type": null
-		},
-		{
-			"name": "java_script",
-			"label": "Javascript",
-			"description": null,
-			"value": null,
-			"type": "GpClientLanguage",
-			"sub_type": null
-		},{
-			"name": "angular 10",
-			"label": "Angular 10",
-			"description": null,
-			"value": null,
-			"type": "GpClientDevFramework",
-			"sub_type": null
-		},
-		{
-			"name": "react 16.x(alpha)",
-			"label": "React 16.x(alpha)",
-			"description": null,
-			"value": null,
-			"type": "GpClientDevFramework",
-			"sub_type": null
-		},
-		{
-			"name": "internet_explorer",
-			"label": "IE",
-			"description": null,
-			"value": null,
-			"type": "GpBrowser",
-			"sub_type": null
-		},
-		{
-			"name": "fire_fox",
-			"label": "Firefox",
-			"description": null,
-			"value": null,
-			"type": "GpBrowser",
-			"sub_type": null
-		},
-		{
-			"name": "chrome",
-			"label": "Chrome",
-			"description": null,
-			"value": null,
-			"type": "GpBrowser",
-			"sub_type": null
-		},
-		{
-			"name": "tom_cat 7",
-			"label": "Tomcat 7",
-			"description": null,
-			"value": null,
-			"type": "GpServerRunTime",
-			"sub_type": null
-		},
-		{
-			"name": "tom_cat 8",
-			"label": "Tomcat 8",
-			"description": null,
-			"value": null,
-			"type": "GpServerRunTime",
-			"sub_type": null
-		},
-		{
-			"name": "web_sphere",
-			"label": " ",
-			"description": null,
-			"value": null,
-			"type": "GpServerRunTime",
-			"sub_type": null
-		},
-		{
-			"name": "windows_server",
-			"label": " ",
-			"description": null,
-			"value": null,
-			"type": "GpServerOS",
-			"sub_type": null
-		},
-		{
-			"name": "linux _cent_os",
-			"label": " ",
-			"description": null,
-			"value": null,
-			"type": "GpServerOS",
-			"sub_type": null
-		},
-		{
-			"name": "mysql",
-			"label": "MySQL",
-			"description": null,
-			"value": null,
-			"type": "GpServerDBMS",
-			"sub_type": null
-		},
-		{
-			"name": "mongodb",
-			"label": "MongoDB",
-			"description": null,
-			"value": null,
-			"type": "GpServerDBMS",
-			"sub_type": null
-		},
-		{
-			"name": "server_deployment_environment_dev",
-			"label": " ",
-			"description": null,
-			"value": null,
-			"type": "GpServerCodePattern",
-			"sub_type": null
-		},
-		{
-			"name": "server_deployment_environment_test",
-			"label": " ",
-			"description": null,
-			"value": null,
-			"type": "GpServerDeploymentEnvironment",
-			"sub_type": null
-		},
-		{
-			"name": "server_deployment_environment_uat",
-			"label": " ",
-			"description": null,
-			"value": null,
-			"type": "GpServerDeploymentEnvironment",
-			"sub_type": null
-		},
-		{
-			"name": "server_deployment_environment_prod",
-			"label": " ",
-			"description": null,
-			"value": null,
-			"type": "GpServerDeploymentEnvironment",
-			"sub_type": null
-		},
-		{
-			"name": "client_code_pattern_geppetto_default",
-			"label": " ",
-			"description": null,
-			"value": null,
-			"type": "GpClientCodePattern",
-			"sub_type": null
-		},
-		{
-			"name": "none",
-			"label": "Absolute positions",
-			"description": null,
-			"value": null,
-			"type": "GpDesktopCssFramework",
-			"sub_type": null
-		},
-		{
-			"name": "android",
-			"label": "Android",
-			"description": null,
-			"value": null,
-			"type": "GpClientOS",
-			"sub_type": null
-		},
-		{
-			"name": "ios",
-			"label": "IOS",
-			"description": null,
-			"value": null,
-			"type": "GpClientOS",
-			"sub_type": null
-		},
-		{
-			"name": "windows",
-			"label": "Desktop",
-			"description": null,
-			"value": null,
-			"type": "GpClientOS",
-			"sub_type": null
-		},
-		{
-			"name": "none",
-			"label": "Absolute positions",
-			"description": null,
-			"value": null,
-			"type": "GpMobileCssFramework",
-			"sub_type": null
-		},
-		{
-			"name": "Node.js",
-			"label": "NodeJS",
-			"description": null,
-			"value": null,
-			"type": "GpServerLanguage",
-			"sub_type": null
-		},
-		{
-			"name": "Express",
-			"label": "Express",
-			"description": null,
-			"value": null,
-			"type": "GpServerDevFramework",
-			"sub_type": null
-		},
-		{
-			"name": "bootstrap",
-			"label": "Bootstrap",
-			"description": null,
-			"value": "3.0",
-			"type": "GpDesktopCssFramework",
-			"sub_type": null
-		},
-		{
-			"name": "IonicGrid",
-			"label": "Ionic Grid",
-			"description": null,
-			"value": "2.2.1",
-			"type": "GpMobileCssFramework",
-			"sub_type": null
-		},
-		{
-			"name": "local",
-			"label": "Local Machine",
-			"description": null,
-			"value": null,
-			"type": "GpUserDeploymentTarget",
-			"sub_type": null
-		},
-		{
-			"name": "live",
-			"label": "Live",
-			"description": null,
-			"value": null,
-			"type": "GpUserDeploymentTarget",
-			"sub_type": null
-		},
-		{
-			"name": "aws",
-			"label": "AWS",
-			"description": null,
-			"value": null,
-			"type": "GpUserDeploymentServer",
-			"sub_type": null
-		},
-		{
-			"name": "azure",
-			"label": "Azure",
-			"description": null,
-			"value": null,
-			"type": "GpUserDeploymentServer",
-			"sub_type": null
-		},
-		{
-			"name": "frontendTemplateLocation",
-			"label": "FrontEnd Template Location",
-			"description": "frontend compiled template code storage location",
-			"value": "../../template",
-			"type": "FrontEndTemplate",
-			"sub_type": null
-		},
-		{
-			"name": "backendTemplateLocation",
-			"label": "BackEnd Template Location",
-			"description": "backend complied template code storage location",
-			"value": "../../template",
-			"type": "BackEndTemplate",
-			"sub_type": null
-		},
-		{
-			"name": "mongoTemplateLocation",
-			"label": "Mongo Template Location",
-			"description": "mongo template code storage location",
-			"value": "../../template",
-			"type": "MongoTemplate",
-			"sub_type": null
-		},
-		{
-			"name": "projectGenerationDirectory",
-			"label": "project generation directory",
-			"description": "location of where we want to generate our project code",
-			"value": "/geppetto/generated-code",
-			"type": "ProjectGeneration",
-			"sub_type": null
-		},
-		{
-			"name": "backendGenerationDirectory",
-			"label": "BackEnd Generation Directory",
-			"description": "location of where we want to generate our backend code",
-			"value": "/geppetto/generated-code",
-			"type": "BackEndGeneration",
-			"sub_type": null
-		},
-		{
-			"name": "authGenerationDirectory",
-			"label": "Auth Generation Directory",
-			"description": "Location for the Login generation seed files",
-			"value": "/geppetto/template/seed",
-			"type": "AuthGeneration",
-			"sub_type": null	
-		},
-		{
-			"name": "authorizationDirectory",
-			"label": "Authorization Directory",
-			"description": "Location for the template path of the string template in the Auth gen manager",
-			"value": "../../template",
-			"type": "Authorization",
-			"sub_type": null	
-		},
-		{
-			"name": "adminManagerSeedDirectory",
-			"label": "Admin Manager Directory",
-			"description": "Location for the Admin Manager seed files",
-			"value": "/geppetto/template/seed",
-			"type": "AdminManager",
-			"sub_type": null	
-		}
-	]
+  "base_config": [
+    {
+      "name": "version",
+      "label": "",
+      "description": "app version",
+      "value": "Alpha-16",
+      "type": "version",
+      "sub_type": ""
+    },
+    {
+      "name": "build_version",
+      "label": "",
+      "description": "build version",
+      "value": "1.2.9",
+      "type": "version",
+      "sub_type": ""
+    },
+    {
+      "name": "build_date",
+      "label": "",
+      "description": "build Date",
+      "value": "10/10/2020",
+      "type": "date",
+      "sub_type": ""
+    },
+    {
+      "name": "base_generation_directory",
+      "label": "",
+      "description": "",
+      "value": "/home/geppetto/GeppettoGenerator/generated_code",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "default_code_template_directory",
+      "label": "",
+      "description": "",
+      "value": "default",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "root_code_template_location",
+      "label": "",
+      "description": "",
+      "value": "/home/geppetto/GeppettoGenerator/geppetto_templates",
+      "type": "config",
+      "sub_type": "templates"
+    },
+    {
+      "name": "gen_server_directory_name",
+      "label": "",
+      "description": "",
+      "value": "server",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_directory_name",
+      "label": "",
+      "description": "",
+      "value": "client",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_nodejs_directory_name",
+      "label": "",
+      "description": "",
+      "value": "nodejs",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_js_directory_name",
+      "label": "",
+      "description": "",
+      "value": "js",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_server_data_store_directory_name",
+      "label": "",
+      "description": "",
+      "value": "data_store",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "copy_right_range",
+      "label": "",
+      "description": "",
+      "value": "2014 - 2015",
+      "type": "config",
+      "sub_type": "legal"
+    },
+    {
+      "name": "copy_right_sympbol",
+      "label": "",
+      "description": "",
+      "value": "©",
+      "type": "config",
+      "sub_type": "legal"
+    },
+    {
+      "name": "server_rdbms_mysql_template_location",
+      "label": "",
+      "description": "",
+      "value": "server.db",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "server_rdbms_mysql_ddl_template_name",
+      "label": "",
+      "description": "",
+      "value": "mysql_5.6.21_ddl.stg",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "angular_index_file_template_location",
+      "label": "",
+      "description": "",
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "angular_index_file_template_name",
+      "label": "",
+      "description": "",
+      "value": "angular_index_file_v_1_3_12",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_angular_directory_name",
+      "label": "",
+      "description": "",
+      "value": "angular",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "angular_controller_template_location",
+      "label": "",
+      "description": "",
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "angular_controller_template_name",
+      "label": "",
+      "description": "",
+      "value": "angular_controller_v_1_3_12.stg",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_android_directory_name",
+      "label": "",
+      "description": "",
+      "value": "android",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_ios_directory_name",
+      "label": "",
+      "description": "",
+      "value": "ios",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_desktop_directory_name",
+      "label": "",
+      "description": "",
+      "value": "desktop",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_phone_directory_name",
+      "label": "",
+      "description": "",
+      "value": "phone",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_tablet_directory_name",
+      "label": "",
+      "description": "",
+      "value": "tablet",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_angular_app_root_directory_name",
+      "label": "",
+      "description": "",
+      "value": "app",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_app_css_directory_name",
+      "label": "",
+      "description": "",
+      "value": "css",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_app_fonts_directory_name",
+      "label": "",
+      "description": "",
+      "value": "fonts",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_angular_app_root_js_directory_name",
+      "label": "",
+      "description": "",
+      "value": "js",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_angular_app_root_views_directory_name",
+      "label": "",
+      "description": "",
+      "value": "views",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_angular_app_controller_directory_name",
+      "label": "",
+      "description": "",
+      "value": "controllers",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_angular_app_directives_directory_name",
+      "label": "",
+      "description": "",
+      "value": "directives",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_angular_app_services_directory_name",
+      "label": "",
+      "description": "",
+      "value": "services",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_angular_lib_root_directory_name",
+      "label": "",
+      "description": "",
+      "value": "lib",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_app_lib_css_directory_name",
+      "label": "",
+      "description": "",
+      "value": "css",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_app_lib_fonts_directory_name",
+      "label": "",
+      "description": "",
+      "value": "fonts",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "gen_client_app_lib_js_directory_name",
+      "label": "",
+      "description": "",
+      "value": "js",
+      "type": "config",
+      "sub_type": ""
+    },
+    {
+      "name": "GeppettoGitHubUsername",
+      "label": "",
+      "description": null,
+      "value": "GeppettoTeam",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "GeppettoGitHubPassword",
+      "label": " ",
+      "description": null,
+      "value": "tang3456",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_server_node_express_config_directory_name",
+      "label": "",
+      "description": null,
+      "value": "config",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_server_node_express_controllers_directory_name",
+      "label": "",
+      "description": null,
+      "value": "controllers",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_server_node_express_daos_directory_name",
+      "label": "",
+      "description": null,
+      "value": "daos",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_server_node_express_models_directory_name",
+      "label": "",
+      "description": null,
+      "value": "models",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_server_node_express_routes_directory_name",
+      "label": "",
+      "description": null,
+      "value": "routes",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_server_node_express_services_directory_name",
+      "label": "",
+      "description": null,
+      "value": "services",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_server_node_express_sql_queries_directory_name",
+      "label": "",
+      "description": null,
+      "value": "sql_queries",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_server_node_express_routers_directory_name",
+      "label": "",
+      "description": null,
+      "value": "routers",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_package_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_package_template_name",
+      "label": "",
+      "description": null,
+      "value": "package_json_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_sql_queries_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.db",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_sql_queries_template_name",
+      "label": "",
+      "description": null,
+      "value": "sql_properties_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_index_models_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.sequelize",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_index_models_template_name",
+      "label": "",
+      "description": null,
+      "value": "index_models_file",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_sequelize_model_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.sequelize",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_sequelize_model_template_name",
+      "label": "",
+      "description": null,
+      "value": "model_file",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_dao_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_dao_template_name",
+      "label": "",
+      "description": null,
+      "value": "dao_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_service_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_service_template_name",
+      "label": "",
+      "description": null,
+      "value": "service_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_controller_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_controller_template_name",
+      "label": "",
+      "description": null,
+      "value": "controller_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_routes_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_routes_template_name",
+      "label": "",
+      "description": null,
+      "value": "routes_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_index_routers_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_index_routers_template_name",
+      "label": "",
+      "description": null,
+      "value": "routers_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_router_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_router_template_name",
+      "label": "",
+      "description": null,
+      "value": "router_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_main_js_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_main_js_template_name",
+      "label": "",
+      "description": null,
+      "value": "main_js_file",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "run_config",
+      "label": "",
+      "description": null,
+      "value": "PROD",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_host_name",
+      "label": "",
+      "description": null,
+      "value": "http://50.19.50.131",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_swagger_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.swagger",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_swagger_template_name",
+      "label": "",
+      "description": null,
+      "value": "swagger_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_swaggerui_folder_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.swagger.api",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_landing_page_html_template_location",
+      "label": "",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_landing_page_html_template_name",
+      "label": "",
+      "description": null,
+      "value": "landing_page",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_landing_page_controller_template_location",
+      "label": "",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_landing_page_controller_template_name",
+      "label": "",
+      "description": null,
+      "value": "landing_page_controller.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "system_activity_geppetto_login_rest_url_service_template_location",
+      "label": "",
+      "description": null,
+      "value": "client.js.angular.system_level_activities.geppetto_login",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "system_activity_geppetto_login_rest_url_service_template_name",
+      "label": "",
+      "description": null,
+      "value": "rest_url_service",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_desktop_landing_page_controller_template_location",
+      "label": "",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_desktop_landing_page_controller_template_name",
+      "label": "",
+      "description": null,
+      "value": "landing_page_controller_desktop.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_desktop_landing_page_html_template_location",
+      "label": "",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_desktop_landing_page_html_template_name",
+      "label": "",
+      "description": null,
+      "value": "landing_page_desktop",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "interval_clean_up_jobs",
+      "label": "",
+      "description": null,
+      "value": "10000",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "clean_up_jobs_time_interval",
+      "label": "",
+      "description": null,
+      "value": "2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_nielsen_desktop_landing_page_html_template_location",
+      "label": "",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_nielsen_desktop_landing_page_html_template_name",
+      "label": "",
+      "description": null,
+      "value": "landing_page_nielsen_desktop",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_neilsen_android_landing_page_html_template_location",
+      "label": "",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_neilsen_android_landing_page_html_template_name",
+      "label": "",
+      "description": null,
+      "value": "landing_page_nielsen_android",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gradle_script_new_users_location",
+      "label": "",
+      "description": null,
+      "value": "/home/geppetto/GeppettoGenerator/new_user_batch/gradle_scripts/docker",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_client_angular2_directory_name",
+      "label": " ",
+      "description": null,
+      "value": "angular2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_client_angular2_app_root_directory_name",
+      "label": " ",
+      "description": null,
+      "value": "app",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_client_angular2_app_root_ts_directory_name",
+      "label": " ",
+      "description": null,
+      "value": "ts",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_client_angular2_app_components_directory_name",
+      "label": " ",
+      "description": null,
+      "value": "components",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_client_angular2_app_directives_directory_name",
+      "label": " ",
+      "description": null,
+      "value": "directives",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_client_angular2_app_services_directory_name",
+      "label": " ",
+      "description": null,
+      "value": "services",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_pwc_desktop_landing_page_html_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_pwc_desktop_landing_page_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "landing_page_pwc_desktop",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular_wizard_screen_file_template_location",
+      "label": "",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gen_client_saiku_directory_name",
+      "label": " ",
+      "description": null,
+      "value": "saiku",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_gp_one_desktop_landing_page_html_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_gp_one_desktop_landing_page_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "landing_page_gp_one_desktop",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_compose_template_location",
+      "label": " ",
+      "description": null,
+      "value": "docker.docker-compose",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_compose_template_name",
+      "label": " ",
+      "description": null,
+      "value": "docker_compose_v_1.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_gp_two_desktop_landing_page_html_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_gp_two_desktop_landing_page_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "landing_page_gp_two_desktop",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gradle_script_docker_download_location",
+      "label": " ",
+      "description": null,
+      "value": "/home/geppetto/GeppettoGenerator/download_containers_batch/gradle_scripts/docker",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "desktop_rest_url_service_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular.system_level_activities.rest_url_desktop",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "desktop_rest_url_service_template_name",
+      "label": " ",
+      "description": null,
+      "value": "desktop_rest_url_service",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_file_db_mysql_template_location",
+      "label": " ",
+      "description": null,
+      "value": "docker.docker-compose",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_file_db_mysql_template_name",
+      "label": " ",
+      "description": null,
+      "value": "docker_file_mysql.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_file_nodejs_template_location",
+      "label": " ",
+      "description": null,
+      "value": "docker.docker-compose",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_file_nodejs_template_name",
+      "label": " ",
+      "description": null,
+      "value": "docker_file_nodejs.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "gradle_wrapper_files",
+      "label": " ",
+      "description": null,
+      "value": "gradle.wrapper",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "wait_for_it_file_location",
+      "label": " ",
+      "description": null,
+      "value": "docker.wait-for-it",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_build_gradle_file_template_location",
+      "label": " ",
+      "description": null,
+      "value": "docker.docker-compose",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_build_gradle_file_template_name",
+      "label": " ",
+      "description": null,
+      "value": "docker_build_gradle_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_settings_gradle_file_template_location",
+      "label": " ",
+      "description": null,
+      "value": "docker.docker-compose",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_settings_gradle_file_template_name",
+      "label": " ",
+      "description": null,
+      "value": "docker_settings_gradle_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "show_errors_in_web_app",
+      "label": " ",
+      "description": null,
+      "value": "true",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "modal_popup_controller_desktop_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "modal_popup_html_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "modal_popup_controller_desktop_name",
+      "label": " ",
+      "description": null,
+      "value": "modal_popup_controller_desktop",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "modal_popup_html_name",
+      "label": " ",
+      "description": null,
+      "value": "modal_popup_html",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "user_base_folder_for_docker",
+      "label": " ",
+      "description": null,
+      "value": "/home/shared/",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "consul_ip_address_for_docker",
+      "label": " ",
+      "description": null,
+      "value": "172.31.56.245",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_image_mysql_reference",
+      "label": " ",
+      "description": null,
+      "value": "967636366309.dkr.ecr.us-east-1.amazonaws.com/geppetto-mysql:latest",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_compose_build_gradle_file_template_location",
+      "label": " ",
+      "description": null,
+      "value": "docker.docker-compose",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_compose_build_gradle_file_name",
+      "label": " ",
+      "description": null,
+      "value": "docker_gradle_deploy_v1.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_host_url_for_testing",
+      "label": " ",
+      "description": null,
+      "value": "http://localhost:9090",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_image_nodejs_reference",
+      "label": " ",
+      "description": null,
+      "value": "geppetto-node:latest",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_swarm_environment",
+      "label": " ",
+      "description": null,
+      "value": "swarm-master-dev0",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "node_default_files_location",
+      "label": " ",
+      "description": null,
+      "value": "server.nodejs.express.default",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "dns_adress_docker_swarm_host",
+      "label": " ",
+      "description": null,
+      "value": "manager:3375",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "wait_for_statuscode_time",
+      "label": " ",
+      "description": null,
+      "value": "6000",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "no_of_time_to_get_statuscode",
+      "label": " ",
+      "description": null,
+      "value": "10",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular2_template_location",
+      "label": " ",
+      "description": "",
+      "value": "client.js.angular2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular2_module_template_name",
+      "label": " ",
+      "description": null,
+      "value": "angular2_module.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular2_main_template_name",
+      "label": " ",
+      "description": null,
+      "value": "angular2_main.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular2_routing_template_name",
+      "label": " ",
+      "description": null,
+      "value": "angular2_routing.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular2_component_template_name",
+      "label": " ",
+      "description": null,
+      "value": "angular2_component.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular2_landing_page_component_template_name",
+      "label": " ",
+      "description": null,
+      "value": "angular2_landing_page_component.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular2_desktop_landing_page_html_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular2_desktop_landing_page_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "landing_page_desktop",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular2_include_component_template_name",
+      "label": " ",
+      "description": null,
+      "value": "angular2_include_component.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular2_desktop_rest_url_service_template_name",
+      "label": " ",
+      "description": null,
+      "value": "angular2_desktop_rest_url_service",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_image_mongodb_reference",
+      "label": " ",
+      "description": null,
+      "value": "967636366309.dkr.ecr.us-east-1.amazonaws.com/geppetto-mongo:latest",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular2_service_template_name",
+      "label": " ",
+      "description": null,
+      "value": "angular2_service.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular_desktop_wizard_screen_file_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_image_couchbase_reference",
+      "label": " ",
+      "description": null,
+      "value": "geppetto-couchbase",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_file_db_couchbase_template_name",
+      "label": " ",
+      "description": "",
+      "value": "docker_file_couchbase.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_file_db_couchbase_template_location",
+      "label": " ",
+      "description": null,
+      "value": "docker.docker-compose",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "couchbase_configure_node_script_file_location",
+      "label": " ",
+      "description": null,
+      "value": "docker.CouchBase",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "ionic2_code_base_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.ionic2.ionic2_Android-app-base",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_app_module_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_app_module_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "app_module_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_app_component_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_app_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "app_component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_app_html_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_app_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "app_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_home_page_component_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_home_page_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "home_page_component_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_home_page_html_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_home_page_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "home_page_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_pages_export_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_pages_export_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "pages_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_page_html_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_page_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "page_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_page_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_page_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "page_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_ionic_2_service_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_ionic_2_service_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "service_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular2_ionic2_shared_export_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular2_ionic2_shared_export_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "shared_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular4_desktop_code_base_location",
+      "label": " ",
+      "description": "",
+      "value": "client.js.angular4.desktop.code_base",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_desktop_templates_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.desktop",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_desktop_app_module_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "app_module_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_desktop_app_component_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "app_component_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_desktop_app_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "app_component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_desktop_home_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "home_component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_desktop_home_component_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "home_component_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_desktop_module_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "module_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_desktop_interface_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "interface_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_desktop_service_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "angular_service_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_desktop_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_desktop_component_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "component_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "desktop_error_handler_code_base_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.desktop.error_redirect",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular2_desktop_code_base_location",
+      "label": " ",
+      "description": "",
+      "value": "client.js.angular2.desktop.code_base",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_desktop_templates_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.desktop",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_desktop_app_module_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "app_module_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_desktop_app_component_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "app_component_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_desktop_app_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "app_component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_desktop_home_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "home_component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_desktop_home_component_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "home_component_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_desktop_module_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "module_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_desktop_interface_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "interface_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_desktop_service_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "angular_service_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_desktop_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_desktop_component_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "component_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "ionic2_angular4_code_base_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.ionic2.ionic2_Android-app-base",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_app_module_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_app_module_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "app_module_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_app_component_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_app_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "app_component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_app_html_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_app_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "app_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_home_page_component_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_home_page_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "home_page_component_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_home_page_html_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_home_page_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "home_page_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_pages_export_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_pages_export_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "pages_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_page_html_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_page_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "page_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_page_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_page_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "page_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_ionic_2_service_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_ionic_2_service_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "service_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular4_ionic2_shared_export_ts_template_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.ionic2",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular4_ionic2_shared_export_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "shared_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "ionic2_code_base_locaton_IOS",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.ionic2.Ionic2_IOS-app-base",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "delete_code_after_deployment",
+      "label": " ",
+      "description": null,
+      "value": "false",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "consul_ip_address_for_azure_docker_containers_service",
+      "label": " ",
+      "description": null,
+      "value": "172.31.56.245",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "dns_address_for_azure_docker_containers_service",
+      "label": " ",
+      "description": null,
+      "value": "10.1.0.12",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_tablet_templates_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular2.tablet",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_tablet_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_tablet_component_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_component_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_tablet_module_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_module_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_tablet_interface_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_interface_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_tablet_app_module_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_app_module_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_tablet_service_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_angular_service_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_tablet_app_component_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_app_component_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_tablet_app_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_app_component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_tablet_home_component_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_home_component_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_2_tablet_home_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_home_component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular2_tablet_code_base_location",
+      "label": " ",
+      "description": "",
+      "value": "client.js.angular2.tablet.code_base",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "git_hub_url_for_checking_repository_exists",
+      "label": " ",
+      "description": null,
+      "value": "https://api.github.com/repos/GeppettoTeam/",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "git_hub_url_for_creating_repo",
+      "label": " ",
+      "description": null,
+      "value": "https://api.github.com/user/repos",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "git_hub_create_private_repos",
+      "label": " ",
+      "description": null,
+      "value": "false",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_image_nodejs_reference_for_azure",
+      "label": " ",
+      "description": null,
+      "value": "???",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_image_mysql_reference_for_azure",
+      "label": " ",
+      "description": null,
+      "value": "967636366309.dkr.ecr.us-east-1.amazonaws.com/geppetto-mysql:latest",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_azure_host",
+      "label": " ",
+      "description": null,
+      "value": "127.0.0.1:3375",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_host_name_for_azure",
+      "label": " ",
+      "description": null,
+      "value": "http://50.19.50.131",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "IPA_BUILD_WS_IPA_DETAIL",
+      "label": "",
+      "description": null,
+      "value": "http://208.52.161.52:8080/IPA_Details/create_IPA_Details",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_tablet_templates_location",
+      "label": " ",
+      "description": null,
+      "value": "client.js.angular4.tablet",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_tablet_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_tablet_component_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_component_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_tablet_module_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_module_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_tablet_interface_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_interface_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_tablet_app_module_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_app_module_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_tablet_service_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_angular_service_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_tablet_app_component_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_app_component_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_tablet_app_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_app_component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_tablet_home_component_html_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_home_component_html_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "client_angular_js_4_tablet_home_component_ts_template_name",
+      "label": " ",
+      "description": null,
+      "value": "tablet_home_component_ts_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "angular4_tablet_code_base_location",
+      "label": " ",
+      "description": "",
+      "value": "client.js.angular4.tablet.code_base",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "ionic2_code_base_locaton_IOS_angular4",
+      "label": "",
+      "description": " ",
+      "value": "client.js.angular4.ionic2.Ionic2_IOS-app-base",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "APP_HOST",
+      "label": " ",
+      "description": null,
+      "value": "https://builder.geppettosoftware.com/geppetto_appbuilder",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_couchbase_package_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.couchbase",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_couchbase_dao_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.couchbase",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_couchbase_service_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.couchbase",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_couchbase_controller_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.couchbase",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_couchbase_routes_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.couchbase",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_couchbase_index_routers_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.couchbase",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_couchbase_router_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.couchbase",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_couchbase_main_js_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.couchbase",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_couchbase_swagger_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.couchbase.swagger",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_couchbase_swaggerui_folder_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.couchbase.swagger.api",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "node_couchbase_default_files_location",
+      "label": " ",
+      "description": null,
+      "value": "server.nodejs.express.couchbase.default",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_couchbase_model_template_location",
+      "label": "",
+      "description": null,
+      "value": "server.nodejs.express.couchbase.model",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "swagger_rest_custom_properties_template_name",
+      "label": " ",
+      "description": null,
+      "value": "swagger_custom_properties.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_image_nodejs_couchbase_reference",
+      "label": " ",
+      "description": null,
+      "value": "geppetto-node-cb:latest",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "DXL_migration_couchbase_server_password",
+      "label": " ",
+      "description": null,
+      "value": "211218",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "DXL_migration_couchbase_server_username",
+      "label": " ",
+      "description": null,
+      "value": "Administrator",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "DXL_migration_couchbase_server_url",
+      "label": " ",
+      "description": null,
+      "value": "http://34.205.61.224",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "BT_ENVIRONMENT",
+      "label": " ",
+      "description": null,
+      "value": "sandbox",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "BT_MERCHANT_ID",
+      "label": " ",
+      "description": null,
+      "value": "9zvgxsq44xt2j85c",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "BT_PUBLIC_KEY",
+      "label": " ",
+      "description": null,
+      "value": "v5dnbgc49cygxyc8",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "BT_PRIVATE_KEY",
+      "label": " ",
+      "description": null,
+      "value": "9270353f670523815a699bb14939c72f",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "FREE_subscription",
+      "label": " ",
+      "description": null,
+      "value": "3",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "jsreport_config_json_location",
+      "label": " ",
+      "description": null,
+      "value": "activity_module.jsreport",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_mongo_template_location",
+      "label": " ",
+      "description": null,
+      "value": "server.nodejs.express.mongo",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_mongo_dao_template_name",
+      "label": " ",
+      "description": null,
+      "value": "mongo_dao_file.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "node_mongo_default_files_location",
+      "label": " ",
+      "description": null,
+      "value": "server.nodejs.express.mongo.default",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_mongo_model_template_name",
+      "label": " ",
+      "description": null,
+      "value": "mongoose_model_file",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nodejs_express_mongo_service_template_name",
+      "label": " ",
+      "description": null,
+      "value": null,
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nosql_mongo_template_location",
+      "label": " ",
+      "description": null,
+      "value": "server.nosql.mongo",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "server_nosql_mongo_ddl_template_name",
+      "label": " ",
+      "description": null,
+      "value": "mongo_ddl.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "docker_file_db_mongo_template_name",
+      "label": " ",
+      "description": null,
+      "value": "docker_file_mongo.stg",
+      "type": "config",
+      "sub_type": null
+    },
+    {
+      "name": "java_script",
+      "label": "Javascript",
+      "description": null,
+      "value": null,
+      "type": "GpClientLanguage",
+      "sub_type": null
+    },
+    {
+      "name": "angular 10",
+      "label": "Angular 10",
+      "description": null,
+      "value": null,
+      "type": "GpClientDevFramework",
+      "sub_type": null
+    },
+    {
+      "name": "react 16.x(alpha)",
+      "label": "React 16.x(alpha)",
+      "description": null,
+      "value": null,
+      "type": "GpClientDevFramework",
+      "sub_type": null
+    },
+    {
+      "name": "internet_explorer",
+      "label": "IE",
+      "description": null,
+      "value": null,
+      "type": "GpBrowser",
+      "sub_type": null
+    },
+    {
+      "name": "fire_fox",
+      "label": "Firefox",
+      "description": null,
+      "value": null,
+      "type": "GpBrowser",
+      "sub_type": null
+    },
+    {
+      "name": "chrome",
+      "label": "Chrome",
+      "description": null,
+      "value": null,
+      "type": "GpBrowser",
+      "sub_type": null
+    },
+    {
+      "name": "tom_cat 7",
+      "label": "Tomcat 7",
+      "description": null,
+      "value": null,
+      "type": "GpServerRunTime",
+      "sub_type": null
+    },
+    {
+      "name": "tom_cat 8",
+      "label": "Tomcat 8",
+      "description": null,
+      "value": null,
+      "type": "GpServerRunTime",
+      "sub_type": null
+    },
+    {
+      "name": "web_sphere",
+      "label": " ",
+      "description": null,
+      "value": null,
+      "type": "GpServerRunTime",
+      "sub_type": null
+    },
+    {
+      "name": "windows_server",
+      "label": " ",
+      "description": null,
+      "value": null,
+      "type": "GpServerOS",
+      "sub_type": null
+    },
+    {
+      "name": "linux _cent_os",
+      "label": " ",
+      "description": null,
+      "value": null,
+      "type": "GpServerOS",
+      "sub_type": null
+    },
+    {
+      "name": "mysql",
+      "label": "MySQL",
+      "description": null,
+      "value": null,
+      "type": "GpServerDBMS",
+      "sub_type": null
+    },
+    {
+      "name": "mongodb",
+      "label": "MongoDB",
+      "description": null,
+      "value": null,
+      "type": "GpServerDBMS",
+      "sub_type": null
+    },
+    {
+      "name": "server_deployment_environment_dev",
+      "label": " ",
+      "description": null,
+      "value": null,
+      "type": "GpServerCodePattern",
+      "sub_type": null
+    },
+    {
+      "name": "server_deployment_environment_test",
+      "label": " ",
+      "description": null,
+      "value": null,
+      "type": "GpServerDeploymentEnvironment",
+      "sub_type": null
+    },
+    {
+      "name": "server_deployment_environment_uat",
+      "label": " ",
+      "description": null,
+      "value": null,
+      "type": "GpServerDeploymentEnvironment",
+      "sub_type": null
+    },
+    {
+      "name": "server_deployment_environment_prod",
+      "label": " ",
+      "description": null,
+      "value": null,
+      "type": "GpServerDeploymentEnvironment",
+      "sub_type": null
+    },
+    {
+      "name": "client_code_pattern_geppetto_default",
+      "label": " ",
+      "description": null,
+      "value": null,
+      "type": "GpClientCodePattern",
+      "sub_type": null
+    },
+    {
+      "name": "none",
+      "label": "Absolute positions",
+      "description": null,
+      "value": null,
+      "type": "GpDesktopCssFramework",
+      "sub_type": null
+    },
+    {
+      "name": "android",
+      "label": "Android",
+      "description": null,
+      "value": null,
+      "type": "GpClientOS",
+      "sub_type": null
+    },
+    {
+      "name": "ios",
+      "label": "IOS",
+      "description": null,
+      "value": null,
+      "type": "GpClientOS",
+      "sub_type": null
+    },
+    {
+      "name": "windows",
+      "label": "Desktop",
+      "description": null,
+      "value": null,
+      "type": "GpClientOS",
+      "sub_type": null
+    },
+    {
+      "name": "none",
+      "label": "Absolute positions",
+      "description": null,
+      "value": null,
+      "type": "GpMobileCssFramework",
+      "sub_type": null
+    },
+    {
+      "name": "Node.js",
+      "label": "NodeJS",
+      "description": null,
+      "value": null,
+      "type": "GpServerLanguage",
+      "sub_type": null
+    },
+    {
+      "name": "Express",
+      "label": "Express",
+      "description": null,
+      "value": null,
+      "type": "GpServerDevFramework",
+      "sub_type": null
+    },
+    {
+      "name": "bootstrap",
+      "label": "Bootstrap",
+      "description": null,
+      "value": "3.0",
+      "type": "GpDesktopCssFramework",
+      "sub_type": null
+    },
+    {
+      "name": "IonicGrid",
+      "label": "Ionic Grid",
+      "description": null,
+      "value": "2.2.1",
+      "type": "GpMobileCssFramework",
+      "sub_type": null
+    },
+    {
+      "name": "local",
+      "label": "Local Machine",
+      "description": null,
+      "value": null,
+      "type": "GpUserDeploymentTarget",
+      "sub_type": null
+    },
+    {
+      "name": "live",
+      "label": "Live",
+      "description": null,
+      "value": null,
+      "type": "GpUserDeploymentTarget",
+      "sub_type": null
+    },
+    {
+      "name": "aws",
+      "label": "AWS",
+      "description": null,
+      "value": null,
+      "type": "GpUserDeploymentServer",
+      "sub_type": null
+    },
+    {
+      "name": "azure",
+      "label": "Azure",
+      "description": null,
+      "value": null,
+      "type": "GpUserDeploymentServer",
+      "sub_type": null
+    },
+    {
+      "name": "frontendTemplateLocation",
+      "label": "FrontEnd Template Location",
+      "description": "frontend compiled template code storage location",
+      "value": "../../template",
+      "type": "FrontEndTemplate",
+      "sub_type": null
+    },
+    {
+      "name": "backendTemplateLocation",
+      "label": "BackEnd Template Location",
+      "description": "backend complied template code storage location",
+      "value": "../../template",
+      "type": "BackEndTemplate",
+      "sub_type": null
+    },
+    {
+      "name": "mongoTemplateLocation",
+      "label": "Mongo Template Location",
+      "description": "mongo template code storage location",
+      "value": "../../template",
+      "type": "MongoTemplate",
+      "sub_type": null
+    },
+    {
+      "name": "projectGenerationDirectory",
+      "label": "project generation directory",
+      "description": "location of where we want to generate our project code",
+      "value": "/geppetto/generated-code",
+      "type": "ProjectGeneration",
+      "sub_type": null
+    },
+    {
+      "name": "backendGenerationDirectory",
+      "label": "BackEnd Generation Directory",
+      "description": "location of where we want to generate our backend code",
+      "value": "/geppetto/generated-code",
+      "type": "BackEndGeneration",
+      "sub_type": null
+    },
+    {
+      "name": "authGenerationDirectory",
+      "label": "Auth Generation Directory",
+      "description": "Location for the Login generation seed files",
+      "value": "/geppetto/template/seed",
+      "type": "AuthGeneration",
+      "sub_type": null
+    },
+    {
+      "name": "authorizationDirectory",
+      "label": "Authorization Directory",
+      "description": "Location for the template path of the string template in the Auth gen manager",
+      "value": "../../template",
+      "type": "Authorization",
+      "sub_type": null
+    },
+    {
+      "name": "adminManagerSeedDirectory",
+      "label": "Admin Manager Directory",
+      "description": "Location for the Admin Manager seed files",
+      "value": "/geppetto/template/seed",
+      "type": "AdminManager",
+      "sub_type": null
+    }
+  ]
 }
