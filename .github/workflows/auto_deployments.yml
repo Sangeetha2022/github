@@ -51,7 +51,6 @@ jobs:
                 ${{ steps.microservice.outputs.angulargenmanager }} 
                 ${{ steps.microservice.outputs.angtemplatemanager }} 
                 ${{ steps.microservice.outputs.reactgenmanager }}
-                ${{ steps.microservice.outputs.configmanager }} 
                 ${{ steps.microservice.outputs.authgenmanager }}
                 ${{ steps.microservice.outputs.codegenmanager }} 
                 ${{ steps.microservice.outputs.ionicmanager }} 
@@ -353,7 +352,7 @@ jobs:
           cd devops/docker-compose
           docker-compose down
           if [ ${{ needs.validation.outputs.microservices }} == 'commited' ]; then
-            docker rmi ${{ needs.validation.outputs.container }}
+            docker rmi configmanager ${{ needs.validation.outputs.container }}
           fi
           echo "Backend Deploying..."
           docker-compose up -d --build
