@@ -1,14 +1,18 @@
+import * as asyncLoop from 'node-async-loop';
+
 import {AngularJsonFileWorker} from './AngularJsonFileWorker';
 import { PackageJsonFileWorker } from '../dependency-worker/packageJsonFileWorker'
 import { Common } from '../../config/Common';
 import { Constant } from '../../config/Constant';
 import { AppRoutingModuleWorker } from './AppRoutingModuleWorker';
 import { AppModuleWorker } from './AppModuleWorker';
+import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
 
 let angularJsonFileWorker = new AngularJsonFileWorker();
 let packageJsonFileWorker = new PackageJsonFileWorker();
 const appRoutingModuleWorker = new AppRoutingModuleWorker();
 const appModuleWorker = new AppModuleWorker();
+const componentSupportWorker = new ComponentSupportWorker();
 
 export class DependencyWorker {
     public angularJsonData: any;
@@ -49,6 +53,9 @@ export class DependencyWorker {
         appModuleWorker.importComponentModules(details, (res, err) => {
             
         });
+        this.modifyTranslateJson(details, (res) => {
+
+        });
 
     //     // dependencyWorker.modifyConfigAppJSONFile(packagePath, this.configAppModule);
     //     this.initializePackageModule();
@@ -60,5 +67,29 @@ export class DependencyWorker {
     //     // modify proxy file
     //     flowServiceWorker.modifyProxyFile(packagePath);
         callback('Done');
+    }
+
+    modifyTranslateJson(details, callback) {
+        const languages = ['en', 'es', 'ta']
+        asyncLoop(details.desktop, (desktopElement, desktopNext) => {
+            asyncLoop(languages, (language, languageNext) => {
+                const path = details.projectGenerationPath + '/' + 'src/assets/locales/' + language + '/translation.json';
+                componentSupportWorker.readFile(path, (fileRes) => {
+                    if (fileRes) {
+                        const index = fileRes.indexOf(`"source":{`);
+                        const output = [fileRes.slice(0, index + 10), `"${desktopElement.screenName}":"${desktopElement.screenName}",`, fileRes.slice(index + 10)].join('');
+                        componentSupportWorker.writeFile(path, output, (writeRes) => {
+                            languageNext();
+                        });
+                    }
+                });
+            }, (languageErr) => {
+                desktopNext();
+            });
+        }, (desktoperr) => {
+            if(!desktoperr) {
+                callback('Translate file modification completed');
+            }
+        });
     }
 }
