@@ -71,9 +71,13 @@ export class ComponentModuleWorker {
             importPath: './' + screenName.toLowerCase() + '.component'
         }
         microflowObject.GpHeaders.push(componentObject);
-        if(desktopElement.is_grid_present && desktopElement.is_grid_present === true) {
+        if(desktopElement.is_grid_present && desktopElement.is_grid_present === true  && desktopElement.is_bootStrapTable_present == false) {
             microflowObject.GpHeaders.push({importName: 'AgGridModule', importPath: 'ag-grid-angular'});
             microflowObject.GpOptions['modules'].push({ name: 'AgGridModule' });
+        }
+        if(desktopElement.is_grid_present && desktopElement.is_grid_present === true && desktopElement.is_bootStrapTable_present == true) {
+            microflowObject.GpHeaders.push({importName: 'NgbPaginationModule, NgbAlertModule', importPath: '@ng-bootstrap/ng-bootstrap'}, );
+            microflowObject.GpOptions['modules'].push({ name: 'NgbPaginationModule' });
         }
         return microflowObject;
     }

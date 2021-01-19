@@ -1,0 +1,32 @@
+<h2>{{screenName}}</h2>
+<div class="table table-striped" name={{component_name}}>
+    <table id="table" class="table table-bordered" data-show-header="true"
+        data-pagination="true" data-id-field="name">
+        <thead class="table table-hover">
+            <tr>
+                <th *ngFor="let column of columnDefs">
+                    {{#surroundWithCurlyBraces1 'column.headerName'}}
+                    {{/surroundWithCurlyBraces1}}
+
+                </th>
+            </tr>
+        </thead>
+        <tbody class="table-design" *ngIf="rowData.length==0">
+            <td style="text-align: center;" colspan="5">No Data Found</td>
+        </tbody>
+        <tbody class="table-design" *ngIf="rowData.length>0">
+            <tr {{{rowclick_data}}} {{#if
+                rowclick_present}} style="cursor: pointer;" {{/if}}>
+                {{#each custom_field}}
+                <td>{{#surroundWithCurlyBraces entityfield}}
+                    {{/surroundWithCurlyBraces}}</td>
+                {{/each}}
+            </tr>
+            <br>
+            <ngb-pagination class="d-flex justify-content-start"
+                [(page)]="page"
+                [maxSize]="5" [rotate]="true" [pageSize]="paginationPageSize"
+                [collectionSize]="rowData.length" [boundaryLinks]="true"></ngb-pagination>
+        </tbody>
+    </table>
+</div>

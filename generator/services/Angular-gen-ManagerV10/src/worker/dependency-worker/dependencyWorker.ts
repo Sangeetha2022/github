@@ -19,11 +19,11 @@ export class DependencyWorker {
     public packageModule: any;
     public modifyDependency(details, callback) {
 
-    //toaster implemented angular.json and package.json files
-    const flows = details.flows
-    const packagePath = details.projectGenerationPath;
-    const srcPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}`;
-    const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
+        //toaster implemented angular.json and package.json files
+        const flows = details.flows
+        const packagePath = details.projectGenerationPath;
+        const srcPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}`;
+        const applicationPath = `${details.projectGenerationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
         if (flows.length > 0) {
             flows.map(data => {
                 if (data.actionOnData == 'GpCreate' || data.actionOnData == 'GpUpdate') {
@@ -34,38 +34,48 @@ export class DependencyWorker {
                 }
             })
         }
+        details.desktop.forEach(element => {
+            if (element.is_grid_present == true && element.is_bootStrapTable_present == true) {
+                Constant.PACKAGE_MODULE.push(`"jw-angular-pagination": "^1.2.0",`)
+                Constant.PACKAGE_MODULE.push(`"bootstrap": "~4.5.0",`)
+                Constant.PACKAGE_MODULE.push(`"@ng-bootstrap/ng-bootstrap": "~4.2.2",`)
+                Constant.PACKAGE_MODULE.push(`"@angular/localize": "^11.0.7",`)
+            }
 
-    //    if (this.routeModule.routePath.length > 0) {
-    //         dependencyWorker.modifyAppRouteFile(applicationPath, this.routeModule);
-    //         this.initializeRouteModule();
-    //     }
-    //     if (this.appModule.importDependency.length > 0) {
-    //         dependencyWorker.modifyAppModuleFile(applicationPath, this.appModule);
-    //         this.initializeAppModule();
-    //     }
-    //     // if (this.packageModule.length > 0) {
-    //     this.configAppModule.push(`    "module": "esnext",`);
-    //     console.log(`package json -------`, this.packageModule)
+        });
+
+
+        //    if (this.routeModule.routePath.length > 0) {
+        //         dependencyWorker.modifyAppRouteFile(applicationPath, this.routeModule);
+        //         this.initializeRouteModule();
+        //     }
+        //     if (this.appModule.importDependency.length > 0) {
+        //         dependencyWorker.modifyAppModuleFile(applicationPath, this.appModule);
+        //         this.initializeAppModule();
+        //     }
+        //     // if (this.packageModule.length > 0) {
+        //     this.configAppModule.push(`    "module": "esnext",`);
+        //     console.log(`package json -------`, this.packageModule)
         packageJsonFileWorker.modifyPackageFile(packagePath, Constant.PACKAGE_MODULE);
         appRoutingModuleWorker.importRoutingModules(details, (res, err) => {
-            
+
         })
         appModuleWorker.importComponentModules(details, (res, err) => {
-            
+
         });
         this.modifyTranslateJson(details, (res) => {
 
         });
 
-    //     // dependencyWorker.modifyConfigAppJSONFile(packagePath, this.configAppModule);
-    //     this.initializePackageModule();
-    //     // }
-    //     if (globalStyle.import.length > 0 || globalStyle.others.length > 0) {
-    //         dependencyWorker.modifyGlobalStyles(srcPath, globalStyle);
-    //         this.initializeOtherInfo();
-    //     }
-    //     // modify proxy file
-    //     flowServiceWorker.modifyProxyFile(packagePath);
+        //     // dependencyWorker.modifyConfigAppJSONFile(packagePath, this.configAppModule);
+        //     this.initializePackageModule();
+        //     // }
+        //     if (globalStyle.import.length > 0 || globalStyle.others.length > 0) {
+        //         dependencyWorker.modifyGlobalStyles(srcPath, globalStyle);
+        //         this.initializeOtherInfo();
+        //     }
+        //     // modify proxy file
+        //     flowServiceWorker.modifyProxyFile(packagePath);
         callback('Done');
     }
 

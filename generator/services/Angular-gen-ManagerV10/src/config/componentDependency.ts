@@ -120,6 +120,14 @@ export const component = [
         ]
 
     },
+    // ADDED BOOTSTRAP TABLE
+    {
+        name: 'bootstrap-table',
+        htmlDependencies: [
+            ` *ngFor="let values of rowData`,
+            `| slice: (page-1) * paginationPageSize :(page-1) * paginationPageSize + paginationPageSize"`,        
+        ]
+    },
     // ADDED MODAL
     {
         name: 'modal',
@@ -160,13 +168,17 @@ export const component = [
     }
 ]
 export const moduleHeaders = [
-    { importName: 'FormsModule, ReactiveFormsModule',  importPath: '@angular/forms'}
+    { importName: 'FormsModule, ReactiveFormsModule', importPath: '@angular/forms' }
 ];
 export const agGridComponents = [
     "gridApi: any;",
     "gridColumnApi: any;",
     "rowSelection = 'single';",
     "defaultColDef = { editable: false, sortable: true, resizable: true, filter: true };",
+    "paginationPageSize = 10;",
+    "rowData: any = [];"
+];
+export const bootstrapComponents = [
     "paginationPageSize = 10;",
     "rowData: any = [];"
 ];
@@ -180,13 +192,16 @@ export const onSelectionChangedBody = [
     'const selectedRows = this.gridApi.getSelectedRows();',
     'this.GpRoute(selectedRows[0]._id);'
 ];
+export const onSelectionChangedBody_bootstrap = [
+    'this.GpRoute(values._id);'
+];
 export const gpSearchBody = [
     'const temp = [];',
     'const objectKeyPair = Object.entries(paramName);',
     'objectKeyPair.forEach((element, index) => {',
-        'if (element[1]) {',
-            'temp.push(`${element[0]}=${element[1]}`);',
-        '}',
+    'if (element[1]) {',
+    'temp.push(`${element[0]}=${element[1]}`);',
+    '}',
     '});'
 ];
 export const constructorObj = [
