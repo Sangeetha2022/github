@@ -7,6 +7,8 @@ import { ComponentSupportWorker } from '../../supportworker/componentsupportwork
 const componentSupportWorker = new ComponentSupportWorker();
 
 export class ComponentCSSworker {
+    public bootstrap_css = Constant.bootstrap_css;
+
 
     /**
   * Constructing Microflows for Handlebars
@@ -19,13 +21,17 @@ export class ComponentCSSworker {
     }
 
 
-
     public generateComponentCss(details, callback) {
         details = JSON.parse(JSON.stringify(details));
         asyncLoop(details.desktop, async (desktopElement, next) => {
             const screenName = desktopElement.screenName.toLowerCase();
             let cssPayload = this.constructPayLoad()
-            const className = await this.setClassNameCss(desktopElement["gjs-css"])
+            let className = await this.setClassNameCss(desktopElement["gjs-css"])
+            details.desktop.forEach(element => {
+                if (element.is_grid_present == true && element.is_bootStrapTable_present == true) {
+                    className = this.bootstrap_css[0] + className
+                }
+            })
             cssPayload.screenCssContent.push({ data: className });
             const templatePath = path.resolve(__dirname, '../../../templates/ComponentScss.handlebars');
             const projectGenerationPath = details.projectGenerationPath;

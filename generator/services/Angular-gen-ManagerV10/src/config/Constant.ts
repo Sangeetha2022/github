@@ -96,6 +96,9 @@ export class Constant {
     public static AGGRID_TAGNAME = 'ag-grid-angular';
     public static GRID_READY_METHODNAME = 'gridReady';
 
+    // bootstrap table
+    public static BOOTSTRAP_TAGNAME = 'bootstrap-table';
+
     // component router and its navigate details
     public static ROUTER_DEPENDENCY_NAME = 'router';
     public static ACTIVATEDROUTER_DEPENDENCY_NAME = 'activatedRoute';
@@ -151,16 +154,21 @@ export class Constant {
 
     // package module
     public static PACKAGE_MODULE = [
-        `"angular-i18next": "^5.0.6"`,
-        `"angular-validation-message": "^1.1.0"`,
-        `"i18next": "^14.0.1"`,
-        `"i18next-browser-languagedetector": "^2.2.4"`,
-        `"i18next-sprintf-postprocessor": "^0.2.2"`,
-        ` "i18next-xhr-backend": "^1.5.1"`,
+        `"angular-i18next": "^5.0.6",`,
+        `"angular-validation-message": "^1.1.0",`,
+        `"i18next": "^14.0.1",`,
+        `"i18next-browser-languagedetector": "^2.2.4",`,
+        `"i18next-sprintf-postprocessor": "^0.2.2",`,
+        ` "i18next-xhr-backend": "^1.5.1",`,
         `"angular-6-social-login": "^1.1.1",`,
         `"@ng-select/ng-select": "^5.0.3",`,
     ]
 
+    // css for bootstrap table
+   public static bootstrap_css = [
+       'table.table-bordered { border: 1px solid black;  margin-top: 20px; text-align: left; table-layout: auto; color: black;  background-color: white;margin-top: 190px} table.table-bordered>thead>tr>th { border: 1px solid black; color: black; background-color: darkgrey; } table.table-bordered>tbody>tr>td {border: 1px solid black; }'
+   ]
+    
     //Standalone
     public static STANDALONE = '[ngModelOptions]="{standalone: true}"';
 

@@ -1,11 +1,13 @@
 import { Constant } from "../config/Constant";
 import { agGridComponents } from "../config/componentDependency";
+import { bootstrapComponents } from "../config/componentDependency";
+
 
 export class ThirdPartyWorker {
 
     constructAgGridComponents(desktopElement: any, microflowObject: any) {
         microflowObject.GpOptions['is_grid_present'] = desktopElement.is_grid_present;
-        if (desktopElement.is_grid_present && desktopElement.is_grid_present == true) {
+        if (desktopElement.is_grid_present && desktopElement.is_grid_present == true && desktopElement.is_bootStrapTable_present == false) {
             microflowObject.GpOptions['grid_components'] = agGridComponents.join('\n \t');
             if (desktopElement.grid_fields) {
                 const columnDefs = [];
@@ -20,6 +22,26 @@ export class ThirdPartyWorker {
             }
         }
         return microflowObject;
+    }
+
+    constructBootstrapComponents(desktopElement: any, microflowObject: any) {
+        microflowObject.GpOptions['is_grid_present'] = desktopElement.is_grid_present;
+        if (desktopElement.is_grid_present && desktopElement.is_grid_present == true && desktopElement.is_bootStrapTable_present == true) {
+            microflowObject.GpOptions['grid_components'] = bootstrapComponents.join('\n \t');
+            if (desktopElement.grid_fields) {
+                const columnDefs = [];
+                desktopElement.grid_fields.custom_field.forEach((element: any) => {
+                    columnDefs.push({ key1: 'headerName', value1: element.columnname, key2: 'field', value2: element.entityfield });
+                });
+                microflowObject.GpOptions.arrayVariables.push({
+                    name: 'columnDefs',
+                    dataType: 'any',
+                    value: columnDefs
+                });
+            }
+        }
+        return microflowObject;
+
     }
 
     constructThirdPartyComponents(desktopElement, microflowObject) {

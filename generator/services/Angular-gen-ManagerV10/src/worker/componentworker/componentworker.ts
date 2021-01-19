@@ -51,9 +51,10 @@ export class ComponentWorker {
             microflowObject.GpOptions['constructor'] = constructor;
             microflowObject.GpCodeToAdd = {};
             microflowObject = flowComponentWorker.constructFlowsInfo(desktopElement.flows_info, details.nodeResponse, microflowObject, entities);
-            microflowObject = routeWorker.constructGpRoute(desktopElement.route_info, microflowObject);
+            microflowObject = routeWorker.constructGpRoute(desktopElement.route_info, microflowObject,desktopElement);
             microflowObject = componentLifecycleWorker.constructLifecycle(details.desktop, desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructAgGridComponents(desktopElement, microflowObject);
+            microflowObject = thirdPartyWorker.constructBootstrapComponents(desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructThirdPartyComponents(desktopElement, microflowObject);
             const templatePath = path.resolve(__dirname, '../../../templates/ComponentTs.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
