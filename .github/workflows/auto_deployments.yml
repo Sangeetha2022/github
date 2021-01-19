@@ -16,6 +16,7 @@ jobs:
   validation:
     runs-on: ubuntu-latest 
     outputs:
+        configuration: ${{ steps.branch-commit.outputs.configuration }}
         branch: ${{ steps.ec2.outputs.short_ref }}
         instance: ${{ steps.branch-commit.outputs.instance }}
         hosts: ${{ steps.branch-commit.outputs.hosts }}
@@ -50,7 +51,6 @@ jobs:
                 ${{ steps.microservice.outputs.angulargenmanager }} 
                 ${{ steps.microservice.outputs.angtemplatemanager }} 
                 ${{ steps.microservice.outputs.reactgenmanager }}
-                ${{ steps.microservice.outputs.configmanager }} 
                 ${{ steps.microservice.outputs.authgenmanager }}
                 ${{ steps.microservice.outputs.codegenmanager }} 
                 ${{ steps.microservice.outputs.ionicmanager }} 
@@ -75,10 +75,12 @@ jobs:
           echo "::set-output name=instance::${{ steps.ec2.outputs.INSTANCE_DEV }}" 
           echo "::set-output name=hosts::ubuntu@ec2-34-197-46-177.compute-1.amazonaws.com"
           echo "::set-output name=bucket::geppetto-dev"
+          echo "::set-output name=configuration::devops"
         elif [ ${{steps.ec2.outputs.short_ref}} == 'stage' ]; then
           echo "::set-output name=instance::${{steps.ec2.outputs.INSTANCE_STAGE}}" 
           echo "::set-output name=hosts::ubuntu@ec2-34-199-109-78.compute-1.amazonaws.com"
-          echo "::set-output name=bucket::geppetto-stage" 
+          echo "::set-output name=bucket::geppetto-stage"
+          echo "::set-output name=configuration::production" 
         fi
     - name:  Status of Instance 
       run: |
@@ -350,7 +352,7 @@ jobs:
           cd devops/docker-compose
           docker-compose down
           if [ ${{ needs.validation.outputs.microservices }} == 'commited' ]; then
-            docker rmi ${{ needs.validation.outputs.container }}
+            docker rmi configmanager ${{ needs.validation.outputs.container }}
           fi
           echo "Backend Deploying..."
           docker-compose up -d --build
@@ -380,7 +382,7 @@ jobs:
         npm install -g @angular/cli
         npm i node-sass@4.8.3
         npm i 
-        ng build --configuration=devops
+        ng build --configuration=${{ needs.validation.outputs.configuration }}
     - name: Uploaging dist files into the S3 bucket
       uses: jakejarvis/s3-sync-action@v0.5.1
       with:

@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
-  Port: ":3000",
-  BaseHost: 'http://' + window.location.hostname
+  production: false,
+  Port: "",
+  BaseHost: "https://geppetto-stage.wcm-x.com"
 };
