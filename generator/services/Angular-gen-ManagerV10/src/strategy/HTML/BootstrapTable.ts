@@ -9,7 +9,7 @@ import * as componentDependency from '../../config/componentDependency';
 export class BootstrapTable {
 
     private BT_CLICK_HTML = {
-        htmlOptionName: 'onselectionChanged',
+        htmlOptionName: 'onSelectionChanged',
         htmlMethodName: '(click)',
         htmlParams: 'values'
     }

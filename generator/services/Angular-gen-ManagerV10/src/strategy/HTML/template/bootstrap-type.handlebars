@@ -22,11 +22,12 @@
                     {{/surroundWithCurlyBraces}}</td>
                 {{/each}}
             </tr>
-            <br>
-            <ngb-pagination class="d-flex justify-content-start"
-                [(page)]="page"
-                [maxSize]="5" [rotate]="true" [pageSize]="paginationPageSize"
-                [collectionSize]="rowData.length" [boundaryLinks]="true"></ngb-pagination>
         </tbody>
     </table>
+    <div class="text-right">
+        <ngb-pagination class="d-flex justify-content-start"
+            [(page)]="page"
+            [maxSize]="5" [rotate]="true" [pageSize]="paginationPageSize"
+            [collectionSize]="rowData.length" [boundaryLinks]="true"></ngb-pagination>
+    </div>
 </div>

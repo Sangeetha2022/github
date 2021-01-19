@@ -180,6 +180,7 @@ export const agGridComponents = [
 ];
 export const bootstrapComponents = [
     "paginationPageSize = 10;",
+    "page=1;",
     "rowData: any = [];"
 ];
 export const queryParamSubscribe = [
