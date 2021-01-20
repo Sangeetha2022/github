@@ -9,7 +9,6 @@ import * as componentDependency from '../../config/componentDependency';
 
 
 export class AgGrid {
-    private flow_name;
     
     private AG_GRID = {
         values: ''
@@ -29,6 +28,8 @@ export class AgGrid {
     }];
 
     async agGridTableHTMLGeneration(AgGriddata, screenData, details, callback) {
+        this.AG_GRID.values = '';
+        let flowName = '';
         const findAgGridDependencies = componentDependency.component.find(x => x.name == Constant.AGGRID_TAGNAME);
         if (AgGriddata.components !== undefined) {
             findAgGridDependencies.htmlDependencies.forEach((ag_grid_angular, index) => {
@@ -42,14 +43,14 @@ export class AgGrid {
 
         if(screenData.grid_fields.event=='Rowclick'){
             console.log("Here events rowclick is present--->>>")
-           let gridData = `${this.GRID_CLICK_HTML.htmlOptionName}="${this.GRID_CLICK_HTML.htmlMethodName}(${this.GRID_CLICK_HTML.htmlParams})"`;
+           let gridData = `(${this.GRID_CLICK_HTML.htmlOptionName})="${this.GRID_CLICK_HTML.htmlMethodName}(${this.GRID_CLICK_HTML.htmlParams})"`;
             this.AG_GRID.values += gridData
         }
 
         if (AgGriddata.components !== undefined) {
             screenData.flows_info.forEach(element => {
                 if (AgGriddata.name === element.elementName) {
-                    this.flow_name = element.flowName
+                    flowName = element.flowName
                 }
             });
         }
@@ -62,7 +63,7 @@ export class AgGrid {
             component_class: AgGriddata.attributes.id,
             component_name: AgGriddata.name,
             screenName: screenName,
-            Flowname: this.flow_name,
+            Flowname: flowName,
             GRID_HTML: this.AG_GRID.values
         }
 
