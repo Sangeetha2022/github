@@ -10,7 +10,12 @@ export class HPHeader {
     <div class="navbar mainmenu col-sm-9 flex">
       <nav class="mainmenu-menu nav-menu d-none d-lg-block">
       </nav>
-      <div class="imgtag"><img src="../../assets/img/hp-user.png" width="40">
+      <div class="dropdown">
+        <img class="cursor-pointer" src="../../assets/img/hp-user.png" width="40" />
+        <div class="dropdown-content">
+          <a class="nav-link" *ngIf='userId==null' [routerLink]="['/login']">{{'source.login' | i18next}}</a>
+          <a class="nav-link" *ngIf='userId==null' [routerLink]="['/signup']">{{'source.signup' | i18next}}</a>
+        </div>
       </div>
     </div>
   </div>
@@ -40,7 +45,6 @@ export class HPHeader {
     public static CSS_DATA = `#header .mainmenu {
       background-color: #fff;
       float: right;
-      margin-top: 30px;
       margin-right: 20px;
     }
     
@@ -119,6 +123,49 @@ export class HPHeader {
     .flex {
       flex: 0 0 81%;
       max-width: 81%;
+    }
+    
+    .dropbtn {
+      background-color: #4caf50;
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+    }
+    
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .dropdown-content {
+      display: none;
+      position: fixed;
+      background-color: #fff;
+      min-width: 100px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      right: 4px;
+      text-align: center
+    }
+    
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+    
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+    
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .cursor-pointer {
+      cursor: pointer;
     }
     `;
 }

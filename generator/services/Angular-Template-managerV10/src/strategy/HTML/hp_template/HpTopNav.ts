@@ -34,9 +34,9 @@ export class HpTopNav {
     </li>`;
                                             break;
                                         case 'login':
-                                            link += `<li class="nav-item">
-        <a class="nav-link" *ngIf='userId==null' [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
-    </li>`;
+        //                                     link += `<li class="nav-item">
+        // <a class="nav-link" *ngIf='userId==null' [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
+    // </li>`;
                                             break;
                                         case 'admin':
                                             link += `<li class="nav-item" *ngIf='isAdminUser'>
