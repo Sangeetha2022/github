@@ -1,16 +1,13 @@
 export class Footer {
     
     public static HTML_TAG = `<footer id='footer'>
-    <div class='footer-newsletter' id='template-ij82u'>
-      <div class='container' id='template-i5mn7'>
-        <div class='row justify-content-center' id='template-ilzbk'>
-          <div class='col-lg-6' id='template-isvyy'>
-            <h4 id='template-ixqyi'>Search our knowledge library</h4>
-            <form>
-              <div type='email' name='email' id='template-icpah'>
-              </div>
-              <div type='submit' value='Search' id='template-i5j9f'>
-              </div>
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-6">
+            <h4>Search our knowledge library</h4>
+            <form action="" method="post">
+              <input type="email" name="email"><input type="submit" value="Search">
             </form>
           </div>
         </div>
