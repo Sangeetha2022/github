@@ -29,8 +29,8 @@ export class HpTopNav {
                                 screenname.name.screen.forEach(menuname => {
                                     switch (menuname) {
                                         case 'home':
-                                            link += `<li class="nav-item">
-        <a class="nav-link" *ngIf='userId!=null'  [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
+                                            link += `<li class="nav-item" *ngIf="userId!=null">
+        <a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
     </li>`;
                                             break;
                                         case 'login':
@@ -44,8 +44,8 @@ export class HpTopNav {
     </li>`;
                                             break;
                                         case 'logout':
-                                            link += `<li class="nav-item">
-        <a class="nav-link" *ngIf='userId!=null' (click)="logout()">{{'source.${menuname}' | i18next}}</a>
+                                            link += `<li class="nav-item" *ngIf="userId!=null">
+        <a class="nav-link" (click)="logout()">{{'source.${menuname}' | i18next}}</a>
     </li>`;
                                             break;
                                         default:

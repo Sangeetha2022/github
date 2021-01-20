@@ -26,7 +26,7 @@ export class RouteWorker {
                 let temp: any = {};
                 temp.flowName = element.methodName;
                 temp.parameterName = 'queryId';
-                temp.body = `this.router.navigate(['./${element.screenName}'], { queryParams: { 'id': queryId } })`;
+                temp.body = `this.router.navigate(['./${element.screenName.toLowerCase()}'], { queryParams: { 'id': queryId } })`;
                 routes.push(temp);
             });
             if (desktopElement.is_grid_present == true && desktopElement.is_bootStrapTable_present == false) {
