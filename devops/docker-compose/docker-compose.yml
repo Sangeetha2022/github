@@ -306,7 +306,7 @@ services:
       - admingenmanager
 
   angulargenmanager:
-    build: ../../generator/services/angular-gen-manager
+    build: ../../generator/services/Angular-gen-ManagerV10
     image: angulargenmanager
     container_name: angulargenmanager
     volumes:
@@ -319,7 +319,7 @@ services:
       - apigateway
 
   angtemplatemanager:
-    build: ../../generator/services/angular-template-manager
+    build: ../../generator/services/Angular-Template-managerV10
     image: angtemplatemanager
     container_name: angtemplatemanager
     volumes:

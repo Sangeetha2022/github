@@ -1,0 +1,21 @@
+<form>{{#each components}}
+    <div id="{{attributes.id}}" class="{{cssClassName}}">
+    {{#each components}}
+        {{#ifEquals type "label"}}
+        <label id="{{attributes.id}}" class="{{cssClass}}">{{content}}</label>
+        {{/ifEquals}}
+        {{#ifEquals type "input"}}
+        <input id="{{attributes.id}}" class="{{cssClass}}" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}" [ngModelOptions]="{standalone: true}"{{/if}} type="text">
+        {{/ifEquals}}
+        {{#ifEquals type "checkbox"}}
+        <input type="{{type}}" id="{{attributes.id}}" class="{{cssClass}}">
+        {{/ifEquals}}
+        {{#ifEquals type "textarea"}}
+        <textarea type="text" id="{{attributes.id}}" class="{{cssClass}}"></textarea>
+        {{/ifEquals}}
+        {{#ifEquals type "button"}}
+        <button {{#if attributes.type}}type="{{attributes.type}}"{{/if}} id="{{attributes.id}}" {{#if flowDetails.verb}}({{flowDetails.verb}})="{{flowDetails.flowName}}()"{{/if}} class="{{cssClass}}">{{content}}</button>&nbsp;&nbsp;
+        {{/ifEquals}}
+    {{/each}}
+    </div>{{/each}}
+</form>

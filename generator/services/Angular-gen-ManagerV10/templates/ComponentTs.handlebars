@@ -1,0 +1,64 @@
+import { Component, OnInit } from '@angular/core';
+{{#each GpHeaders}}
+import { {{importName}} } from '{{ importPath }}';
+{{/each}}
+{{#each GpHeadersStarAs}}
+import * as {{importName}} from '{{ importPath }}';
+{{/each}}
+
+@Component({
+  selector: 'app-{{ GpOptions.screenName }}',
+  templateUrl: './{{ GpOptions.screenName }}.component.html',
+  styleUrls: ['./{{ GpOptions.screenName }}.component.scss'],
+})
+
+export class {{ GpOptions.className }} implements OnInit {
+{{#each GpOptions.variables}}
+    {{name}}: {{dataType}}{{#ifCond value '!=' null}} = {{ value }}{{/ifCond}};
+{{/each}}
+{{#each GpOptions.arrayVariables}}
+    {{name}}: {{dataType}} = [{{#each value}}{ {{key1}}: '{{value1}}', {{key2}}: '{{value2}}'  },{{/each}}];
+{{/each}}
+{{#each GpOptions.entities}}
+    public {{ name }} = {
+    {{#each field}}
+        {{ name }}: '',
+    {{/each}}
+    }
+{{/each}}
+{{#if GpOptions.is_grid_present}}
+    {{{ GpOptions.grid_components }}}
+{{/if}}
+
+    constructor (
+        {{#each GpOptions.constructor}}
+        private {{ objectName }}: {{ className }},
+        {{/each}}
+    ) { }
+
+    ngOnInit() {
+    {{#each GpCodeToAdd.lifecycle_info }}
+        {{#if queryParams}}
+            {{{ queryParamSubscribe }}}
+        {{/if}}
+        {{#if getAll}}
+        this.GpGetAllValues();
+        {{/if}}
+    {{/each}}
+    }
+{{#each GpCodeToAdd.flows_info }}
+    {{ flowName }}() {
+        this.{{ ../GpOptions.screenName }}Service.{{ flowName }}({{ parameterName }}).subscribe(data => {
+            {{{ body }}}
+        },
+        error => {
+            console.log('Error', error);
+        });
+    }
+{{/each}}
+{{#each GpCodeToAdd.route_info }}
+    {{ flowName }}({{ parameterName }}) {
+        {{{ body }}}
+    }
+{{/each}}
+}

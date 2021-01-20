@@ -1,0 +1,9 @@
+<div id="{{radiobuttonData.attributes.id}}" class="{{radiobuttonData.cssClassName}}">
+
+    <input class="{{radiobuttonData.cssClassName}}" name="{{radiobuttonData.name}}" type="{{radiobuttonData.attributes.type}}" 
+        entity="{{radiobuttonData.entity}}()" {{#if
+        radiobuttonData.attributes.entityDetails.entityName}}[(ngModel)]="{{radiobuttonData.attributes.entityDetails.entityName}}.{{radiobuttonData.attributes.entityDetails.fields.name}}"
+        {{#if radiobuttonData.standalone}} {{{radiobuttonData.standalone}}}> {{/if}} {{/if}}
+        
+
+</div>

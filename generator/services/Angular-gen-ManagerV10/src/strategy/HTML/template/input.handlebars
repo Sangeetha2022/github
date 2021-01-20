@@ -1,0 +1,5 @@
+<div>
+{{#ifEquals components.type "input"}}
+     <input id="{{components.attributes.id}}" class="{{components.cssClassName}}" {{#if components.attributes.entityDetails.entityName}}[(ngModel)]="{{components.attributes.entityDetails.entityName}}.{{components.attributes.entityDetails.fields.name}}" [ngModelOptions]="{standalone: true}"{{/if}} type="text">      
+{{/ifEquals}}   
+</div>
