@@ -1,8 +1,8 @@
 
 export class HpLanding {
-    public static HTML_TAG = `<section class='d-flex banner' id='hero'>
+    public static HTML_TAG = `<!-- <section class='d-flex banner' id='hero'>
     <img class='img-fluid animated' src='https://www8.hp.com/content/dam/sites/worldwide/homepage/images/banners/learn-student-desktop.jpg' alt='' id='template-i5hzz'>
-</section>
+</section> -->
 <section id="hero" class="d-flex align-items-center">
     <div class="container">
         <div class="row bannermar">

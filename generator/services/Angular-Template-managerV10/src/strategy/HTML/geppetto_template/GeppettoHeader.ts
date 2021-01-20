@@ -52,15 +52,18 @@ export class GeppettoHeader {
     
     .list-group-item {
       border: none !important;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgb(85, 85, 85) !important;
       font-size: 18px;
       color: white !important;
     }
     
     .list-group-item-success {
-      background-color: rgba(0, 0, 0, 0.65);
+      background-color: rgb(85, 85, 85) !important;
       font-size: 20px;
       color: white !important;
       border-radius: none !important;
+    }
+    li {
+      list-style: none;
     }`;
 }

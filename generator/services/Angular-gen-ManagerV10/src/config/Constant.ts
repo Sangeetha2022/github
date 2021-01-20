@@ -174,5 +174,6 @@ export class Constant {
    //  css element for component
    public static CSSDATA = `.label {
     color: black !important;
+    font-size: 15px;
 }`
 }

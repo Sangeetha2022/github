@@ -35,7 +35,7 @@ export class GeppettoSideNav {
                                             break;
                                         case 'login':
                                             bottomNav.push(`<li>
-    <a class="text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+    <a class="list-group-item list-group-item-success text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
 </li>`);
                                             break;
                                         case 'admin':
@@ -61,10 +61,10 @@ export class GeppettoSideNav {
                 }
             });
             bottomNav.push(`<li>
-    <a href="#translator" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle text"> {{'source.selectLanguage' | i18next }} </a>
+    <a href="#translator" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-success dropdown-toggle text"> {{'source.selectLanguage' | i18next }} </a>
     <ul class="collapse list-unstyled" id="translator">
         <li>
-            <a class="text" *ngFor="let lang of languages" (click)='confirmLangModel(lang)'> {{'languages.' + lang | i18nextCap }}</a>
+            <a class="list-group-item text" *ngFor="let lang of languages" (click)='confirmLangModel(lang)'> {{'languages.' + lang | i18nextCap }}</a>
         </li>
     </ul>
 </li>`);
