@@ -33,6 +33,7 @@ export class ComponentCSSworker {
                 }
             })
             cssPayload.screenCssContent.push({ data: className });
+            cssPayload.screenCssContent.push({data: Constant.CSSDATA});
             const templatePath = path.resolve(__dirname, '../../../templates/ComponentScss.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/' + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME;

@@ -6,9 +6,9 @@ export class Footer {
         <div class='footer-col col-md-4' id='template-izxyk'>
           <h3 id='template-iv2y9'>Location</h3>
           <p id='template-itgmk'>
-            Sample Place
+            Maitland, FL 32751-5515
             <br id='template-iovmr'>
-            Sample, XX 99999
+            <b>Email</b>: info@geppettosoftware.com
           </p>
         </div>
         <div class='footer-col col-md-8' id='template-is0vg'>
@@ -22,9 +22,11 @@ export class Footer {
     </div>
     <div class='container' id='template-iw89d'>
       <div class='row' id='template-i90bn'>
-        <div class='col-lg-12' id='template-itzip'>Copyright © GEPPETTO 2016 </div>
+        <div class='col-lg-12' id='template-itzip'>Copyright © GEPPETTO 2020 </div>
       </div>
     </div>
   </footer>`
-    public static CSS_DATA = ``;
+    public static CSS_DATA = `footer {
+      margin-top: 9rem !important;
+  }`;
 }
