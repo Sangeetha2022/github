@@ -184,7 +184,8 @@ export class GenerateHtmlWorker {
                 console.log(err);
             } else {
                 let fileData = {
-                    screenHtmlContent: screenHtmlContent
+                    screenHtmlContent: screenHtmlContent,
+                    screenName: screenName
                 }
                 this.handleBarsFile(filePath, fileData, screenGenerationPath, screenName);
             }

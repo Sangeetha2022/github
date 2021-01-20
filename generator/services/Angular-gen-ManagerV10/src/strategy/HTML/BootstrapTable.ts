@@ -51,7 +51,6 @@ export class BootstrapTable {
         var fileData = {
             component_class: bootstrap_table.attributes.id,
             component_name: bootstrap_table.name,
-            screenName: screenName,
             custom_field: screenData.grid_fields.custom_field,
             rowclick_data: this.BOOTSTRAP.values,
             rowclick_present: rowclick_present

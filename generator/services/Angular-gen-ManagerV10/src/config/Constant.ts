@@ -166,7 +166,7 @@ export class Constant {
 
     // css for bootstrap table
    public static bootstrap_css = [
-       'table.table-bordered { border: 1px solid black;  margin-top: 20px; text-align: left; table-layout: auto; color: black;  background-color: white;margin-top: 190px} table.table-bordered>thead>tr>th { border: 1px solid black; color: black; background-color: darkgrey; } table.table-bordered>tbody>tr>td {border: 1px solid black; }'
+       'table.table-bordered { border: 1px solid black;  margin-top: 20px; text-align: left; table-layout: auto; color: black;  background-color: white;} table.table-bordered>thead>tr>th { border: 1px solid black; color: black; background-color: darkgrey; } table.table-bordered>tbody>tr>td {border: 1px solid black; }'
    ]
     
     //Standalone
