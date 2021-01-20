@@ -47,7 +47,9 @@ export class HPHeader {
       float: right;
       margin-right: 20px;
     }
-    
+    .row {
+      margin-right: 0px;
+    }
     li.imgtag {
       padding-top: 0px !important;
     }
