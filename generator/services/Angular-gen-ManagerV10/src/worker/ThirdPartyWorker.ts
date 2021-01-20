@@ -1,5 +1,5 @@
 import { Constant } from "../config/Constant";
-import { agGridComponents } from "../config/componentDependency";
+import { agGridComponents, onGridReady } from "../config/componentDependency";
 import { bootstrapComponents } from "../config/componentDependency";
 
 
@@ -9,6 +9,12 @@ export class ThirdPartyWorker {
         microflowObject.GpOptions['is_grid_present'] = desktopElement.is_grid_present;
         if (desktopElement.is_grid_present && desktopElement.is_grid_present == true && desktopElement.is_bootStrapTable_present == false) {
             microflowObject.GpOptions['grid_components'] = agGridComponents.join('\n \t');
+            const flowObject = {
+                flowName: 'onGridReady',
+                parameterName: 'params',
+                body: onGridReady
+            };
+            microflowObject.GpCodeToAdd['route_info'].push(flowObject);
             if (desktopElement.grid_fields) {
                 const columnDefs = [];
                 desktopElement.grid_fields.custom_field.forEach((element: any) => {

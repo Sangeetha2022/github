@@ -178,6 +178,10 @@ export const agGridComponents = [
     "paginationPageSize = 10;",
     "rowData: any = [];"
 ];
+export const onGridReady = [`this.gridApi = params.api;
+        this.gridApi.sizeColumnsToFit();
+        this.gridColumnApi = params.columnApi;`
+];
 export const bootstrapComponents = [
     "paginationPageSize = 10;",
     "page=1;",
