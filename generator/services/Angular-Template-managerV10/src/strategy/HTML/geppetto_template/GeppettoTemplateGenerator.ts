@@ -54,6 +54,8 @@ export class GeppettoTemplateGenerator {
             const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
                 + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.HEADER_FOLDERNAME;
             const filePath = templateGenerationPath + '/header.component.html';
+            const template = "../../../templates";
+            assetWorker.checkAssetFile(`${details.projectGenerationPath}/${projectName}`, final, template);
             Common.createFolders(templateGenerationPath);
             componentSupportWorker.writeFile(filePath, final, (response) => {
                 callback(response);
@@ -103,6 +105,8 @@ export class GeppettoTemplateGenerator {
         const templateGenerationPath = details.projectGenerationPath + '/' + projectName + '/'
             + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.HEADER_FOLDERNAME;
         Common.createFolders(templateGenerationPath);
+        const template = "../../../templates";
+            assetWorker.checkAssetFile(`${details.projectGenerationPath}/${projectName}`, cssData, template);
         componentSupportWorker.writeFile(`${templateGenerationPath}/${Constant.HEADER_FOLDERNAME}.component.scss`, cssData, (res) => {
             callback('Header scss generated');
         });

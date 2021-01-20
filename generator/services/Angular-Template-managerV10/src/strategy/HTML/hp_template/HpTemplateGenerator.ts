@@ -47,7 +47,7 @@ export class HpTemplateGenerator {
         const topNavHtml = hpTopNav.generateTopNav(menuList);
         const handlebarsResArray = htmlTag.split('\n');
         for (let i = 0; i < handlebarsResArray.length; i++) {
-            if (handlebarsResArray[i].includes(`<nav class='nav-menu d-none d-lg-block' id='template-in2xm'>`)) {
+            if (handlebarsResArray[i].includes(`<nav class="mainmenu-menu nav-menu d-none d-lg-block">`)) {
                 handlebarsResArray.splice(i + 1, 0, '\t\t' + topNavHtml);
                 break;
             }
