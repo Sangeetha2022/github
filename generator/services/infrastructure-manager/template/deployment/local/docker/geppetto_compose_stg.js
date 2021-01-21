@@ -1,6 +1,6 @@
 /*
  * Template group geppetto_compose
- * Compiled on Thu Jan 21 2021 23:10:07 GMT+0530 (India Standard Time)
+ * Compiled on Thu Jan 21 2021 23:37:39 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -125,7 +125,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");
-    w.write("echo \" Your application is deployed here the link, http://localhost5055 \"");
+    w.write("echo \" Your application is deployed here the link, http://localhost:5055 \"");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");
