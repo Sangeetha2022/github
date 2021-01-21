@@ -1,6 +1,6 @@
 /*
  * Template group modify_app_module
- * Compiled on Thu Oct 03 2019 17:53:09 GMT+0530 (India Standard Time)
+ * Compiled on Thu Jan 21 2021 19:41:09 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -118,28 +118,8 @@ r = function(w, rc) {
     w.write("],");
     w.write("\n");
     w.pushIndentation("  ");
-    w.write("bootstrap: [\n");
+    w.write("bootstrap: [AppComponent]");
     w.popIndentation();
-    if (st.test(st.prop(s, g, rc, s.modules, "boostrap", { file: gFile, line: 8, column: 30 }))) {
-    
-        st.write(w, s, g, rc, (function() {
-        var tp = [],
-        attr = st.prop(s, g, rc, s.modules, "boostrap", { file: gFile, line: 8, column: 49 });
-        tp.push(st.makeSubTemplate(g, function(w, rc) {
-            var g = this.owningGroup,
-            s = this.scope;
-            
-                     st.write(w, s, g, rc, s.name);
-            }, [
-            { name: "name"     }
-            ])); 
-        return st.map(attr, tp);
-        })(), {separator: ",\n"});
-        w.write("\n");
-    
-    
-    }
-    w.write("]");
     w.write("\n");
     w.write("})");
     w.write("\n");
