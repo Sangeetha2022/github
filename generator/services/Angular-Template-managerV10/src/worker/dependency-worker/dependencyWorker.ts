@@ -33,7 +33,7 @@ export class DependencyWorker {
     })
     const applicationPath = generationPath + `/${Constant.SRC_FOLDERNAME}`;
     componentSupportWorker.handleBarsFile(`${templatePath}/IndexHtml.handlebars`, this.indexHtmlObject, applicationPath, 'index.html');
-    callback('Index.html file generated successf  ully')
+    callback('Index.html file generated successfully');
   }
 
   private setMetaTag(meta, templateName) {
@@ -131,6 +131,7 @@ export class DependencyWorker {
     // shared file path
     const filePath = `${generationPath}/`;
     const temp = {
+      fileName: details.project.name
     }
     componentSupportWorker.handleBarsFile(`${templatePath}/Dockerfile.handlebars`, temp, filePath, Constant.DOCKERFILE_FILENAME);
     callback("Nginx file generated")
@@ -210,6 +211,26 @@ export class DependencyWorker {
       }
     });
   }
+
+  // modify_polyfills(generationPath, fileName, details, callback) {
+  //   let applicationPath = `${generationPath}/src/`
+  //   const polyfills = dependencySupportWorker.readFile(applicationPath, Constant.POLYFILLS);
+  //   let temp = '';
+  //   if (polyfills[59] == "import '@angular/localize/init';") {
+  //     console.log("polyfilles is upto date")
+  //     callback('polyfilles is upto date');
+  //   } else {
+  //     const serveIndex = 59;
+  //     let temp = '';
+  //     temp += `${polyfills[serveIndex]}`;
+  //     temp += `import '@angular/localize/init';`;
+  //     polyfills.splice(serveIndex, 1, temp);
+  //     dependencySupportWorker.writeStaticFile(applicationPath, Constant.POLYFILLS, polyfills.join('\n'), (response) => {
+  //       console.log('successfully write the polyfilles file');
+  //       callback('successfully write the polyfilles file');
+  //     });
+  //   }
+  // }
 
   public handleBarsFile(filePath, fileData, screenGenerationPath, fileName) {
     return new Promise(resolve => {

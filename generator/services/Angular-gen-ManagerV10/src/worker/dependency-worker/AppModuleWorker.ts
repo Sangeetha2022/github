@@ -35,11 +35,7 @@ export class AppModuleWorker {
                         //     }
                         // }
                         if (element.includes('bootstrap: [')) {
-                            let moduleClassNameIndex = -1;
-                            if(fileArray.indexOf('AppComponent') !== -1) {
-                                moduleClassNameIndex = fileArray.indexOf('AppComponent');
-                            }
-                            if (moduleClassNameIndex === -1) {
+                            if (fileArray.indexOf('AppComponent') === -1 && fileArray.indexOf('    AppComponent') === -1) {
                                 fileArray.splice(index + 1, 0, 'AppComponent');
                             }
                         }
