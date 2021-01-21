@@ -1,6 +1,6 @@
 export class Footer {
 
-    public static HTML_TAG = `<footer id='template-i0wmf'>
+  public static HTML_TAG = `<footer id='template-i0wmf'>
     <div class='container' id='template-inmrf'>
       <div class='row' id='template-izddy'>
         <div class='footer-col col-md-4' id='template-izxyk'>
@@ -17,7 +17,6 @@ export class Footer {
             placeat,
             animi quo perferendis magni doloremque tempore autem ut maiores, molestias vero repellat earum
             optio similique deleniti explicabo sint?.</p>
-          
         </div>
       </div>
     </div>
@@ -26,17 +25,9 @@ export class Footer {
         <div class='col-lg-12' id='template-itzip'>Copyright © GEPPETTO 2016 </div>
       </div>
     </div>
-    <div>
-      <img class='img-fluid' src='../../assets/img/Geplogo.png' alt='' id='template-i810i'>
-    </div>
   </footer>`
-    public static CSS_DATA = `footer {
+  public static CSS_DATA = `footer {
       margin-top: 9rem !important;
   } 
-  .img-fluid{
-    width: 10%;
-    float: right;
-  }
-  
   `;
 }
