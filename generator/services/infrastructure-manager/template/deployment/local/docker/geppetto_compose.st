@@ -27,6 +27,7 @@ do
          docker exec -ti mongo-$uuid$ mongo -u admin -p 'password' --authenticationDatabase 'admin' $projectdetails.project_name$ /data/db/mongo.js
          sleep 10
          echo "Process completed"
+         echo " Your application is deployed here the link, http://localhost5055 "
          ;;
     d)
          echo "Now Deleting all containers and images"
