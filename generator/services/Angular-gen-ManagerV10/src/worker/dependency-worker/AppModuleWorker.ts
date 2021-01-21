@@ -39,11 +39,8 @@ export class AppModuleWorker {
                             if(fileArray.indexOf('AppComponent') !== -1) {
                                 moduleClassNameIndex = fileArray.indexOf('AppComponent');
                             }
-                            if(fileArray.indexOf('\t\tAppComponent') !== -1) {
-                                moduleClassNameIndex = fileArray.indexOf('\t\tAppComponent');
-                            }
                             if (moduleClassNameIndex === -1) {
-                                fileArray.splice(index + 1, 0, '\t\tAppComponent');
+                                fileArray.splice(index + 1, 0, 'AppComponent');
                             }
                         }
                         if(element === ',') {

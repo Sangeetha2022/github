@@ -30,6 +30,7 @@ import { DynamicDropDown } from '../strategy/HTML/Dynamic-dropdown';
 import { SpecialDropDown } from '../strategy/HTML/SpecialDropDown';
 import { Label } from '../strategy/HTML/Label';
 import { response } from 'express';
+import { ComponentSpecWorker } from './componentworker/ComponentSpecWorker';
 
 
 let forms = new Forms();
@@ -53,6 +54,7 @@ const appModuleWorker = new AppModuleWorker();
 const appRoutingModuleWorker = new AppRoutingModuleWorker();
 const componetCssWorker = new ComponentCSSworker();
 const dependencyWorker = new DependencyWorker();
+const componentSpecWorker = new ComponentSpecWorker();
 
 
 export class GenerateHtmlWorker {
@@ -75,7 +77,9 @@ export class GenerateHtmlWorker {
             componetCssWorker.generateComponentCss(details, (res, err) => {
                 componentServiceWorker.generateComponentService(details, (res, err) => {
                     componentModuleWorker.generateComponentModule(details, (res, err) => {
-                        callback();
+                        componentSpecWorker.generateComponentSpecFile(details, (res, err) => {
+                            callback();
+                        });
                     })
                 });
             });
