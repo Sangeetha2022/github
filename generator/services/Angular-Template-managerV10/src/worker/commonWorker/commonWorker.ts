@@ -45,9 +45,7 @@ export class CommonWorker {
                         return dependencyWorker.generateTranslatorModuleFile(generationPath, templatePath, details, (res) => {
                             return dependencyWorker.generateTranslatorJsonFile(generationPath, templatePath, details, (res) => {
                                 dependencyWorker.modifyTsConfig(generationPath, (tsConfigRes, tsConfigErr) => {
-                                    dependencyWorker.modify_polyfills(generationPath, templatePath, details, (res) => {
-                                        callback('main files are generated');
-                                    });
+                                    callback('main files are generated');
                                 });
                             })
                         })
