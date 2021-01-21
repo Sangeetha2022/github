@@ -7,5 +7,5 @@ RUN npm install -g @angular/cli
 RUN npm install -g serve
 RUN npm install -g concurrently
 RUN npm upgrade -g @angular/cli
-CMD ng build  && concurrently "ng build --watch" "serve dist/$filename$"
+CMD ng build  && concurrently "ng build --watch" "serve dist/{{fileName}}"
 EXPOSE 5000
