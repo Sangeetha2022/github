@@ -35,11 +35,11 @@ export class AppModuleWorker {
                             if (element.includes('providers: [],') && importElement.provider) {
                                 fileArray[index] = `providers: [\n\t${importElement.provider},\n\t],`
                             }
-                            if (element.includes('bootstrap: [')) {
-                                if (fileArray.indexOf('AppComponent') === -1 && fileArray.indexOf('    AppComponent') === -1) {
-                                    fileArray.splice(index + 1, 0, 'AppComponent');
-                                }
-                            }
+                            // if (element.includes('bootstrap: [')) {
+                            //     if (fileArray.indexOf('AppComponent') === -1 && fileArray.indexOf('    AppComponent') === -1) {
+                            //         fileArray.splice(index + 1, 0, 'AppComponent');
+                            //     }
+                            // }
                         }
                         if(element === ',') {
                             fileArray.splice(index, 1);
