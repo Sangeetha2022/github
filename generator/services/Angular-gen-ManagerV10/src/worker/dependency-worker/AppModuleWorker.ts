@@ -34,11 +34,11 @@ export class AppModuleWorker {
                         //         fileArray.splice(index + 1, 0, moduleClassName + ',');
                         //     }
                         // }
-                        if (element.includes('bootstrap: [')) {
-                            if (fileArray.indexOf('AppComponent') === -1 && fileArray.indexOf('    AppComponent') === -1) {
-                                fileArray.splice(index + 1, 0, 'AppComponent');
-                            }
-                        }
+                        // if (element.includes('bootstrap: [')) {
+                        //     if (fileArray.indexOf('AppComponent') === -1 && fileArray.indexOf('    AppComponent') === -1) {
+                        //         fileArray.splice(index + 1, 0, 'AppComponent');
+                        //     }
+                        // }
                         if(element === ',') {
                             fileArray.splice(index, 1);
                         }

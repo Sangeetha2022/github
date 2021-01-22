@@ -22,7 +22,7 @@ export class Footer {
     </div>
     <div class='container' id='template-iw89d'>
       <div class='row' id='template-i90bn'>
-        <div class='col-lg-12' id='template-itzip'>Copyright © GEPPETTO 2016 </div>
+        <div class='col-lg-12' id='template-itzip'>Copyright © GEPPETTO 2021 </div>
       </div>
     </div>
   </footer>`
