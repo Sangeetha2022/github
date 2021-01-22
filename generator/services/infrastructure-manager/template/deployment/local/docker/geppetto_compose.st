@@ -24,7 +24,7 @@ do
          echo "uploading the mongo script..."
          sleep 50
          docker cp mongo.js mongo-$uuid$:/data/db/
-         docker exec -ti mongo-$uuid$ mongo -u admin -p 'password' --authenticationDatabase 'admin' $projectdetails.project_name$ /data/db/mongo.js
+         docker exec -ti mongo-$uuid$ mongo -u admin -p 'password' --authenticationDatabase 'admin' $projectdetails.project_name$_$uuid$ /data/db/mongo.js
          sleep 10
          echo "Process completed"
          echo " Your application is deployed here the link, http://localhost:5055 "

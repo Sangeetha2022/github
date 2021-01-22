@@ -1,6 +1,6 @@
 /*
  * Template group geppetto_compose
- * Compiled on Thu Jan 21 2021 23:37:39 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jan 22 2021 17:48:03 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -114,6 +114,8 @@ r = function(w, rc) {
     st.write(w, s, g, rc, s.uuid);
     w.write(" mongo -u admin -p 'password' --authenticationDatabase 'admin' ");
     st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 27, column: 116 }));
+    w.write("_");
+    st.write(w, s, g, rc, s.uuid);
     w.write(" /data/db/mongo.js");
     w.write("\n");
     w.pushIndentation("         ");
