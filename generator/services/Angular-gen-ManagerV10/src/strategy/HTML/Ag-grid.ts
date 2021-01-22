@@ -78,7 +78,9 @@ export class AgGrid {
         return new Promise(resolve => {
             fs.readFile(filePath, 'utf-8', (err, data) => {
                 var source = data;
-                console.log("---------->>>>", source)
+                Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
+                    return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
+                });
                 var template = Handlebars.compile(source);
                 console.log("template for the aggrid handlebars----", template)
                 var result = template(fileData);

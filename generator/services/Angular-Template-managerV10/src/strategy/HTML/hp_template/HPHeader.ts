@@ -15,7 +15,7 @@ export class HPHeader {
         <div class="dropdown-content">
           <a class="nav-link" *ngIf='userId==null' [routerLink]="['/login']">{{'source.login' | i18next}}</a>
           <a class="nav-link" *ngIf='userId==null' [routerLink]="['/signup']">{{'source.signup' | i18next}}</a>
-          <a class="nav-link" *ngIf='userId!=null' [routerLink]="['/logout']">{{'source.logout' | i18next}}</a>
+          <a class="nav-link" *ngIf='userId!=null' (click)="logout()">{{'source.logout' | i18next}}</a>
         </div>
       </div>
     </div>
