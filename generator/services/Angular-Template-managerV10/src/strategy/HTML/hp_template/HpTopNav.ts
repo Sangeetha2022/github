@@ -9,7 +9,7 @@ export class HpTopNav {
     generateTopNav(menuList) {
         let link = '';
         if (menuList && menuList.length > 0) {
-            link += `<ul id='template-iyj9x'>\n`;
+            link += `<ul id='template-iyj9x' *ngIf="userId!=null">\n`;
             menuList.forEach(element => {
                 element.menuDetails.forEach(menuelement => {
                     menuelement.featuremenu.forEach(featurename => {
