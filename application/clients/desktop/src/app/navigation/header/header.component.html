@@ -8,26 +8,30 @@
             <a class="btn btn-secondary" *ngIf="hideElement" [routerLink]="['/login']">SignIn</a>
             <a class="btn btn-secondary" *ngIf="!hideElement" [routerLink]="['/project']">{{'project' | i18next}}</a>
             <div class="dropdown" *ngIf='permission =="true" '>
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Administrator
-        </button>
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Administrator
+                </button>
                 <div class="dropdown-menu pull-right">
                     <a class="dropdown-item" routerLink="/flow-manager">{{'flowManager' |
-            i18next}}</a>
-                    <a class="dropdown-item" *ngIf='configfields =="true" ' routerLink="/config-manager">Configuration</a>
+                        i18next}}</a>
+                    <a class="dropdown-item" *ngIf='configfields =="true" '
+                        routerLink="/config-manager">Configuration</a>
                     <a class="dropdown-item" *ngIf='configfields =="true" ' routerLink="/admin">Dashboard</a>
                     <a class="dropdown-item" routerLink="/available-connector">Available
-            Connector</a>
+                        Connector</a>
                 </div>
             </div>
-            <div class="btn-group drop-btn">
-                <button type="button" class="btn btn-danger dropdown-toggle btn-design" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Select Language
-        </button>
+            <!-- <div class="btn-group drop-btn">
+                <button type="button" class="btn btn-danger dropdown-toggle btn-design" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Select Language
+                </button>
                 <div class="dropdown-menu">
-                    <option *ngFor="let lang of languages" (click)='confirmLangModel(lang)'>{{ '_languages.' + lang | i18nextCap }}</option>
+                    <option *ngFor="let lang of languages" (click)='confirmLangModel(lang)'>{{ '_languages.' + lang |
+                        i18nextCap }}</option>
                 </div>
-            </div>
+            </div> -->
             <div>
                 <button class="btn btn-secondary" (click)="showAbout()" type="button">About</button>
             </div>
@@ -56,7 +60,7 @@
             <div class="modal-footer" style="padding: 5px;justify-content:
         space-evenly;">
                 <button type="button" (click)="hideAbout()" class="btn btn-default">{{
-          'close' | i18next }}</button>
+                    'close' | i18next }}</button>
             </div>
         </div>
     </div>
@@ -71,16 +75,19 @@
             <a class="btn btn-secondary" *ngIf="hideElement" [routerLink]="['/login']" (click)='closeNav()'>SignIn</a>
             <a class="btn btn-secondary" *ngIf="!hideElement" [routerLink]="['/project']">{{'project' | i18next}}</a>
             <div class="dropdown" *ngIf='permission =="true" '>
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Administrator
-            </button>
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Administrator
+                </button>
                 <div class="dropdown-menu pull-right">
                     <a class="dropdown-item" routerLink="/flow-manager" (click)='closeNav()'>{{'flowManager' |
-                i18next}}</a>
-                    <a class="dropdown-item" *ngIf='configfields =="true" ' routerLink="/config-manager" (click)='closeNav()'>Configuration</a>
-                    <a class="dropdown-item" *ngIf='configfields =="true" ' routerLink="/admin" (click)='closeNav()'>Dashboard</a>
+                        i18next}}</a>
+                    <a class="dropdown-item" *ngIf='configfields =="true" ' routerLink="/config-manager"
+                        (click)='closeNav()'>Configuration</a>
+                    <a class="dropdown-item" *ngIf='configfields =="true" ' routerLink="/admin"
+                        (click)='closeNav()'>Dashboard</a>
                     <a class="dropdown-item" routerLink="/available-connector" (click)='closeNav()'>Available
-                Connector</a>
+                        Connector</a>
                 </div>
             </div>
             <!-- <div class="btn-group drop-btn">
@@ -129,7 +136,8 @@
             </div>
             <div class="modal-footer" style="padding: 5px">
                 <button type="button" (click)="confirmLangChange()" class="btn btn-default">Confirm</button>
-                <button type="button" (click)="onCloseHandled()" class="btn btn-default">{{ 'cancel' | i18next }}</button>
+                <button type="button" (click)="onCloseHandled()" class="btn btn-default">{{ 'cancel' | i18next
+                    }}</button>
             </div>
         </div>
 

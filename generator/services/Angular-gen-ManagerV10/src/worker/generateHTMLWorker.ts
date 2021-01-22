@@ -70,7 +70,7 @@ export class GenerateHtmlWorker {
         this.screenInfo = screenDetails;
         let metaData: any = JSON.parse(screenDetails['gjs-components'][0]);
         this.generateHtml(metaData, screenDetails, details);
-        callback();
+        this.generateComponent(details, callback);
     }
     public generateComponent(details, callback) {
         componentWorker.generateComponentTs(details, (res, err) => {
