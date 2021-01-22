@@ -6,8 +6,8 @@ export class Footer {
         <div class="row justify-content-center">
           <div class="col-lg-6">
             <h4>Search our knowledge library</h4>
-            <form action="" method="post">
-              <input type="email" name="email"><input type="submit" value="Search">
+            <form   >
+              <input type="email" name="email"><input type="submit" value="Search" disabled="disabled">
             </form>
           </div>
         </div>
