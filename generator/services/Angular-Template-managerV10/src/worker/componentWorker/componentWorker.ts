@@ -103,9 +103,7 @@ export class ComponentWorker {
             + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/' + Constant.HEADER_FOLDERNAME;
         const templatePath = path.resolve(__dirname, '../../../templates');
         const fileName = `${Constant.HEADER_FOLDERNAME}.component.ts`;
-        if (templateName === 'geppetto template') {
-            tsFileData.GpCodeToAdd.lifecycle_info.push({ data: `this.userId = sessionStorage.getItem('Id');` });
-        }
+        tsFileData.GpCodeToAdd.lifecycle_info.push({ data: `this.userId = sessionStorage.getItem('Id');` });
         const moduleFileData = Constant.HeaderModule
         this.generateComponentTsFile(templatePath + '/ComponentTs.handlebars', tsFileData, templateGenerationPath, `${Constant.HEADER_FOLDERNAME}.component.ts`, (res) => {
             this.generateComponentSpcFile(templatePath + '/ComponentSpec.handlebars', specFileData, templateGenerationPath, `${Constant.HEADER_FOLDERNAME}.component.spec.ts`, (res) => {

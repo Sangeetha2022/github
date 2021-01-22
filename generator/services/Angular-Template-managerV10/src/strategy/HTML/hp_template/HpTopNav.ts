@@ -44,9 +44,9 @@ export class HpTopNav {
     </li>`;
                                             break;
                                         case 'logout':
-                                            link += `<li class="nav-item" *ngIf="userId!=null">
-        <a class="nav-link" (click)="logout()">{{'source.${menuname}' | i18next}}</a>
-    </li>`;
+    //                                         link += `<li class="nav-item" *ngIf="userId!=null">
+    //     <a class="nav-link" (click)="logout()">{{'source.${menuname}' | i18next}}</a>
+    // </li>`;
                                             break;
                                         default:
                                             link += `<li class="nav-item">
