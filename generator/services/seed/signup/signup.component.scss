@@ -15,6 +15,25 @@ body {
   margin-top: 10%;
 }
 
+label {
+  color: #fff !important;
+}
+
+
+.align-right {
+  float: right;
+  margin-top: -26px;
+}
+
+.invalid-feedback {
+  display: unset !important;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 90%;
+  font-weight: bold;
+  color: #dc3545;
+}
+
 a {
   color: rgba(8, 23, 231, 0.8);
 }

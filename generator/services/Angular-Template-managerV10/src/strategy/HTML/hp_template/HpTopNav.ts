@@ -9,12 +9,12 @@ export class HpTopNav {
     generateTopNav(menuList) {
         let link = '';
         if (menuList && menuList.length > 0) {
-            link += `<ul id='template-iyj9x' *ngIf="userId!=null">\n`;
+            link += `<ul id='template-iyj9x'>\n`;
             menuList.forEach(element => {
                 element.menuDetails.forEach(menuelement => {
                     menuelement.featuremenu.forEach(featurename => {
                         if (featurename.name.feature != 'default') {
-                            link += `<li class="nav-item dropdown">`;
+                            link += `<li class="nav-item dropdown" *ngIf="userId!=null">`;
                             link += `<a class="nav-link dropdown-toggle" data-toggle="dropdown">${featurename.name.feature}</a>`;
                             link += `<div class="dropdown-menu">`;
                             menuelement.screenmenu.forEach(screenname => {

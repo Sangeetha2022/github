@@ -8,6 +8,20 @@ body {
   margin: 0 auto;
 }
 
+.align-right {
+  float: right;
+  margin-top: -26px;
+}
+
+.invalid-feedback {
+  display: unset !important;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 90%;
+  font-weight: bold;
+  color: #dc3545;
+}
+
 
 .geppetto-img {
   display: flex;
@@ -23,6 +37,10 @@ body {
 
 a {
   color: rgba(8, 23, 231, 0.8);
+}
+
+label {
+  color: #fff !important;
 }
 
 .background-images {

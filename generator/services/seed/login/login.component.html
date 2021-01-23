@@ -8,27 +8,43 @@
             <img src="../../assets/img/Group2704.png">
           </div>
           <h3 class="signup-text-color">Please {{'source.login' | i18next}}</h3>
-          <form role="form">
-            <div class="form-group">
-              <label class="signup-text-color">{{'source.email' | i18next}}</label>
-              <input type="text" class="form-control" [(ngModel)]='user.email' name="user">
-            </div>
-            <div class="form-group">
-              <label class="signup-text-color">{{'source.password' | i18next}}</label>
-              <input type="password" class="form-control" [type]="show ? 'text' : 'password'"
-                [(ngModel)]="user.password" name='user' pw-show-hide="icon">
-              <span class="hideeye">
-                <i [ngClass]="show ? 'fa fa-eye' : 'fa fa-eye-slash'" aria-hidden="true" (click)="hideEye()"></i>
-              </span>
+          <form  [formGroup]="loginform">
+            <div formGroupName="logindata">
+              <div class="form-group">
+                <label class="text">Email</label>
+                <input type="email" class="form-control center" formControlName="email" placeholder="Email">
+                <span *ngIf="!loginform.get('logindata.email').valid && loginform.get('logindata.email').touched"
+                  class="invalid-feedback">
+                  Must be a valid Email Id
+                </span>
+              </div>
+              <div class="form-group">
+                <label class="text">Password</label>
+                <input type="password" class="form-control center" formControlName="password" placeholder="Password"
+                  [type]="show ? 'text' : 'password'" pw-show-hide="icon" (keyup.enter)="Login()">
+                <div class="input-group-append align-right">
+                  <span class="input-group-text general-input"><img
+                      [src]="show ? '../../assets/img/eyeopen.png' : '../../assets/img/eyeslash.png'" height="20"
+                      (click)="hideEye()" alt="eye" /></span>
+                </div>
+                <span *ngIf="!loginform.get('logindata.password').valid && loginform.get('logindata.password').touched"
+                  class="invalid-feedback">
+                  A Password must be 8 character and must have a Uppercase , Lowercase and a Special character
+                </span>
+              </div>
             </div>
             <div class="center">
               <button type="submit" class="btn btn login signup-button-color" (click)="Login()">
                 {{'source.login' | i18next}}
               </button>
+              <div style="color:red; text-align: center">
+                {{errormessage}}
+              </div>
             </div>
 
             <div class="rigister">
-              <p class="center signup-text-color">{{'source.plsLogin' | i18next}}? <a routerLink="/signup">{{'source.signup' | i18next}}</a></p>
+              <p class="center signup-text-color">{{'source.plsLogin' | i18next}}? <a
+                  routerLink="/signup">{{'source.signup' | i18next}}</a></p>
             </div>
           </form>
         </div>
@@ -36,4 +52,4 @@
       </div>
       <div class="col-lg-3"></div>
     </div>
-</div>
+  </div>
