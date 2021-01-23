@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './login.service';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { BroadcastService } from './../auth/broadcast.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class LoginComponent implements OnInit {
   public challenge: any;
   public loginChallenge: any;
   public login: any;
+  public loginform: FormGroup;
   public user = {
     email: '',
     password: '',
@@ -41,7 +43,8 @@ export class LoginComponent implements OnInit {
     private route: Router,
     private activatedRoute: ActivatedRoute,
     private broadcast: BroadcastService,
-    private loginservice: LoginService
+    private loginservice: LoginService,
+    private formBuilder: FormBuilder
   ) {
     this.show = false;
   }
@@ -49,7 +52,16 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit() {
+    this.loginform = new FormGroup({
+      'logindata' : new FormGroup({
+        'email': new FormControl(null, [Validators.required, Validators.email]),
+        // tslint:disable-next-line:max-line-length
+        'password': new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}') ])
+      })
+    });
   }
+
+  
 
   closeDeleteFModel() {
     this.displayModel = 'none';
@@ -84,7 +96,11 @@ export class LoginComponent implements OnInit {
 
   Login() {
     this.permission = [];
-    this.loginservice.Login(this.user).subscribe(logindetails => {
+    const logininfo = {
+      email: this.loginform.value.logindata.email,
+      password: this.loginform.value.logindata.password
+    };
+    this.loginservice.Login(logininfo).subscribe(logindetails => {
       if (logindetails.Access !== undefined) {
         this.accessLevel = logindetails.Access[0];
         this.permission.push(this.accessLevel);

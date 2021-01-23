@@ -106,7 +106,7 @@ export class FrontendWorker {
     }
 
     private FormModule = {
-        importDependency: `import { FormsModule } from '@angular/forms';`,
+        importDependency: `import { FormsModule, ReactiveFormsModule } from '@angular/forms';`,
         imports: `FormsModule`
     }
 
@@ -318,7 +318,7 @@ export class FrontendWorker {
             if (folderName !== 'button-renderer') {
                 temp.importDependency.push({ dependencyname: 'NgModule', dependencyPath: '@angular/core' });
                 temp.importDependency.push({ dependencyname: 'CommonModule', dependencyPath: '@angular/common' });
-                temp.importDependency.push({ dependencyname: 'FormsModule', dependencyPath: '@angular/forms' });
+                temp.importDependency.push({ dependencyname: 'FormsModule, ReactiveFormsModule', dependencyPath: '@angular/forms' });
                 temp.importDependency.push({ dependencyname: 'RouterModule', dependencyPath: '@angular/router' });
                 temp.importDependency.push({ dependencyname: 'I18NextModule', dependencyPath: 'angular-i18next' });
 
@@ -336,6 +336,7 @@ export class FrontendWorker {
                 }
                 tempImports.push(`CommonModule`);
                 tempImports.push(`FormsModule`);
+                tempImports.push(`ReactiveFormsModule`);
                 tempImports.push(`RouterModule`);
                 tempImports.push(`I18NextModule.forRoot()`);
 
