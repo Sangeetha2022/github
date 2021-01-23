@@ -475,7 +475,7 @@ export class FrontendWorker {
         })
         if (methodCount > -1) {
             modifyFile.splice(methodCount, 0, this.logoutMethod);
-            modifyFile.splice(methodCount, 0 , this.isApplicableMethod);
+            modifyFile.splice(methodCount, 0, this.isApplicableMethod);
             modifyFile.splice(methodCount, 0, this.confirmLangModel);
             modifyFile.splice(methodCount, 0, this.confirmLangChange);
             modifyFile.splice(methodCount, 0, this.onCloseHandled);
@@ -518,7 +518,8 @@ export class FrontendWorker {
 
     modifyAppModuleFile(appModulePath) {
         appModulePath += `/${this.APP_MODULE_FILENAME}`;
-        fs.readFileSync(appModulePath).toString().split("\n").forEach(appElement => {
+        fs.readFileSync(appModulePath).toString().split("\n").forEach((appElement, index, fileData) => {
+            console.log("fileData--->>", fileData)
             if (appElement.includes('import') && appElement.includes('from')) {
                 console.log('all import depenc are -11-  ', this.appModuleInfo);
                 console.log('all import depenc are -22-  ', this.appModuleInfo.importDependency.findIndex(x => x == appElement));
@@ -560,6 +561,13 @@ export class FrontendWorker {
             if (this.isAppModule.imports) {
                 if (!appElement.includes('[') && !appElement.includes(']')) {
                     if (this.appModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
+                        const existingImport = ['UserModule,', 'HomeModule,', 'SignupModule,', 'LoginModule,']
+                        existingImport.forEach((e) => {
+                            const importDataIndex = fileData.indexOf(e);
+                            if (importDataIndex !== -1) {
+                                fileData.splice(importDataIndex, 1)
+                            }
+                        })
                         this.appModuleInfo.imports.unshift(appElement.replace(',', ''));
                     }
                 }

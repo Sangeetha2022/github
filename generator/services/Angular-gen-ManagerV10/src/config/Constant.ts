@@ -73,6 +73,7 @@ export class Constant {
     public static NGINX_FILENAME = 'default.conf';
     public static ANGULAR_JSON_FILE = 'angular.json';
     public static TS_CONFIG_APP_JSON_FILE = 'tsconfig.app.json';
+    public static POLYFILLS='polyfills.ts'
 
     // ckeditor element details
     public static DIV_TAGNAME = 'div';

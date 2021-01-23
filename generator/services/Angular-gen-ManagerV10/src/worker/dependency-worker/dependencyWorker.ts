@@ -1,6 +1,6 @@
 import * as asyncLoop from 'node-async-loop';
 
-import {AngularJsonFileWorker} from './AngularJsonFileWorker';
+import { AngularJsonFileWorker } from './AngularJsonFileWorker';
 import { PackageJsonFileWorker } from '../dependency-worker/packageJsonFileWorker'
 import { Common } from '../../config/Common';
 import { Constant } from '../../config/Constant';
@@ -40,7 +40,9 @@ export class DependencyWorker {
                 Constant.PACKAGE_MODULE.push(`"bootstrap": "~4.5.0",`)
                 Constant.PACKAGE_MODULE.push(`"@ng-bootstrap/ng-bootstrap": "~4.2.2",`)
                 Constant.PACKAGE_MODULE.push(`"@angular/localize": "^11.0.7",`)
+                this.modify_polyfills(details)
             }
+
 
         });
 
@@ -79,6 +81,20 @@ export class DependencyWorker {
         callback('Done');
     }
 
+    modify_polyfills(details) {
+        let applicationPath = `${details.projectGenerationPath}/src/polyfills.ts`
+        const polyfills = componentSupportWorker.readFile(applicationPath, (fileRes) => {
+            if (fileRes.includes(`import '@angular/localize/init'`)) {
+                console.log("Alreay modified")
+            } else {
+                const index = fileRes.length;
+                const output = [fileRes.slice(0, index), `import '@angular/localize/init';`].join('');
+                componentSupportWorker.writeFile(applicationPath, output, (writeRes) => {
+                });
+            }
+        });
+    }
+
     modifyTranslateJson(details, callback) {
         const languages = ['en', 'es', 'ta']
         asyncLoop(details.desktop, (desktopElement, desktopNext) => {
@@ -97,7 +113,7 @@ export class DependencyWorker {
                 desktopNext();
             });
         }, (desktoperr) => {
-            if(!desktoperr) {
+            if (!desktoperr) {
                 callback('Translate file modification completed');
             }
         });

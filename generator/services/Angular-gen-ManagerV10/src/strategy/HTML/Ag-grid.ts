@@ -9,7 +9,7 @@ import * as componentDependency from '../../config/componentDependency';
 
 
 export class AgGrid {
-    
+
     private AG_GRID = {
         values: ''
     }
@@ -41,9 +41,9 @@ export class AgGrid {
             })
         };
 
-        if(screenData.grid_fields.event=='Rowclick'){
+        if (screenData.grid_fields.event == 'Rowclick' && (screenData.route_info.find(i => i.routeType === 'queryParameter'))) {
             console.log("Here events rowclick is present--->>>")
-           let gridData = `(${this.GRID_CLICK_HTML.htmlOptionName})="${this.GRID_CLICK_HTML.htmlMethodName}(${this.GRID_CLICK_HTML.htmlParams})"`;
+            let gridData = `(${this.GRID_CLICK_HTML.htmlOptionName})="${this.GRID_CLICK_HTML.htmlMethodName}(${this.GRID_CLICK_HTML.htmlParams})"`;
             this.AG_GRID.values += gridData
         }
 
@@ -82,9 +82,7 @@ export class AgGrid {
                     return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
                 });
                 var template = Handlebars.compile(source);
-                console.log("template for the aggrid handlebars----", template)
                 var result = template(fileData);
-                console.log("template for the grid componetne----", result)
                 resolve(result);
             });
         })
