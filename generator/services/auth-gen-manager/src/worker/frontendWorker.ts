@@ -151,6 +151,14 @@ export class FrontendWorker {
         callback();
     }
 
+    //createReadmeFile 
+    createReadMeFile(details, callback) {
+        const generationPath = details.templateResponse.applicationPath.split("/application")
+        const seedPath = `${details.seedTemplatePath}/readMe`;
+        this.frontendSupportWorker.generateStaticFile(generationPath[0], seedPath, "README.md")
+        callback()
+    }
+
     //create config folder from seed files
     createConfig(callback) {
         const configPath = `${this.projectGenerationPath}/src/app/${this.CONFIG_FOLDERNAME}`;
