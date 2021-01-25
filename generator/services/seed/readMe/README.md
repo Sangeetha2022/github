@@ -1,5 +1,5 @@
 # Run Generated application in local
-![Name of image](https://geppetto-stage.s3.amazonaws.com/banner_home.svg)
+![Geppetto logo](https://readmegeppetto.s3.amazonaws.com/banner_home.svg)
 ## Prerequisites:
 - [Docker -v 18.09.7](https://docs.docker.com/engine/install/)
 - [Docker-compose -v 1.27.3](https://docs.docker.com/compose/install/)
@@ -45,8 +45,15 @@ bash geppetto_compose.sh -c (or) bash geppetto_compose.sh -d (or) bash geppetto_
 ```sh
 bash geppetto_compose.sh -c
 ```
-- On the successful completion of the script execution the application, you get the [URL](http://localhost5055) for that.
-- Once script execution is completed make sure to check the all docker container status is `up` by using below command.
+- On the successful completion of the script execution the application, you get the URL for that.
+- Once script execution is completed make sure to check the all docker container status is `up` by using below command. Like below image.
 ```sh
 docker ps -a
 ```
+![docker conatiner status](https://readmegeppetto.s3.amazonaws.com/readme.png)
+
+- Once the status of all containers are up, then your app is running in http://localhost:5055
+
+- In cause if you have face any issue, please refer the [ERROR.md](./ERROR.md) for your reference.
+
+Thanks for using [Geppetto Builder](https://stage.app.geppettosoftware.com).
