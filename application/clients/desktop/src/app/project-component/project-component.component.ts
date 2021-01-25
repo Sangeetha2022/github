@@ -338,8 +338,8 @@ export class EntityManagerComponent implements OnInit {
                     }
                 });
             }
-            this.spinner.show();
             if (!this.isFeatureExist && !this.invalidName && !this.isReserveWord) {
+                this.spinner.show();
                 this.featureInfo.description = this.featureInfo.description.replace(/<[^>]+>/g, '');
                 this.featureInfo.description.trim();
                 console.log("featureData------>", this.featureData);
