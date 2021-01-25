@@ -89,7 +89,7 @@ export class ProjectComponentService {
   }
 
   getGlobalEntityByProjectId(projectId, logId): Observable<any> {
-    return this.http.get(`${this.restapi.Apigateway}${Constants.getGlobalEntityByProjectId}?projectId=${projectId}&log_id=${logId}`);
+    return this.http.get(`${this.restapi.Apigateway}${Constants.getEntity}?projectId=${projectId}&log_id=${logId}`);
   }
 
 
