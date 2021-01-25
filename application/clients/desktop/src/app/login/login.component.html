@@ -25,7 +25,7 @@
             <div class="form-group email_field_size">
                 <label class="text">Email</label>
                 <input type="email" class="form-control center" formControlName="email" placeholder="Email">
-                <span *ngIf="!loginform.get('logindata.email').valid && loginform.get('logindata.email').touched"
+                <span *ngIf="!loginform.get('logindata.email').valid && loginform.get('logindata.email').touched || !loginform.get('logindata.email').valid && submitted "
                     class="invalid-feedback">
                     Must be a valid Email Id
                 </span>
@@ -39,7 +39,7 @@
                             [src]="show ? '../../assets/img/eyeopen.png' : '../../assets/img/eyeslash.png'" height="20"
                             (click)="hideEye()" alt="eye" /></span>
                     </div>
-                <span *ngIf="!loginform.get('logindata.password').valid && loginform.get('logindata.password').touched"
+                <span *ngIf="!loginform.get('logindata.password').valid && loginform.get('logindata.password').touched || !loginform.get('logindata.password').valid && submitted "
                     class="invalid-feedback">
                     A Password must be 8 character and must have a Uppercase , Lowercase and a Special character
                 </span>
@@ -127,13 +127,14 @@
                     </div>
                     <div class="modal-body">
                         <!-- Default input -->
-                        <label for="exampleForm2">First name</label>
+                        <label for="exampleForm2">First name </label>
                         <input type="text" id="exampleForm2" class="form-control" [(ngModel)]='user.firstName'>
                         <!-- Default input -->
                         <label class="pading_top" for="exampleForm2">Last name</label>
                         <input type="text" id="exampleForm2" class="form-control" [(ngModel)]='user.lastName'>
-
                     </div>
+
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"
                             (click)="newUserLogin(sign)">Login</button>

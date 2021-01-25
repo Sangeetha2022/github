@@ -71,10 +71,10 @@ export class LoginComponent implements OnInit {
     // });
 
     this.loginform = new FormGroup({
-      'logindata' : new FormGroup({
+      'logindata': new FormGroup({
         'email': new FormControl(null, [Validators.required, Validators.email]),
         // tslint:disable-next-line:max-line-length
-        'password': new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}') ])
+        'password': new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')])
       })
     });
     // this.loginform = this.formBuilder.group({
@@ -132,16 +132,18 @@ export class LoginComponent implements OnInit {
 
   newuser(value) {
     const invalid = this.loginform;
+    const email = this.loginform.value.logindata.email;
+    const password = this.loginform.value.logindata.password;
     this.new_user = true;
-    console.log('invalid -------------------++++++++++', this.loginform.value.email, 'ddsdsd', this.loginform.value.password);
-    if (this.loginform.value.email !== '' && this.loginform.value.password !== '') {
+    console.log('invalid -------------------++++++++++', email, 'ddsdsd', password);
+    // tslint:disable-next-line:max-line-length
+    if (( email !== null  ||  email !== '') && (password !== null  &&  password !== '') ) {
       this.new_user = false;
       console.log('murugan');
       if (value.checked) {
         this.signup = true;
         this.displayModel = 'block';
         this.isChecked = true;
-
       }
     }
 
@@ -167,6 +169,11 @@ export class LoginComponent implements OnInit {
 
 
   newUserLogin() {
+    const { invalid, value } = this.loginform;
+    this.submitted = true;
+    if (invalid) {
+      return;
+    }
     const signupdetails = {
       email: this.loginform.value.logindata.email,
       password: this.loginform.value.logindata.password,
@@ -205,14 +212,13 @@ export class LoginComponent implements OnInit {
     if (event === false) {
       this.isSingePageSignIn = false;
     }
-    console.log('event-->>', event);
 
   }
 
 
   Login() {
-    const { invalid, value } = this.loginform;
     this.submitted = true;
+    const { invalid, value } = this.loginform;
     if (invalid) {
       return;
     }
@@ -355,7 +361,9 @@ export class LoginComponent implements OnInit {
         if (FbResponse.Access !== undefined) {
           console.log('-------ahdbakjvjakjak--------');
           this.Accesslevel = FbResponse.Access[0];
-          this.permission.push(this.Accesslevel);
+          this.permission
+          
+          .push(this.Accesslevel);
           this.broadcast.sendmessage({ 'Access': this.permission });
           this.broadcast.gaurdarray = [];
           this.broadcast.gaurdarray = this.permission;
@@ -387,7 +395,7 @@ export class LoginComponent implements OnInit {
               console.log('projecttt--#############################->>>');
               this.route.navigate(['project']);
             }
-  
+
           }
         }
       }, error => {
