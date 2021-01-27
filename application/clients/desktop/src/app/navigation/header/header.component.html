@@ -6,6 +6,7 @@
     <div fxFlex fxLayout fxLayoutAlign="end">
         <ul fxLayout fxLayoutGap="15px" class="navigation-items">
             <a class="btn btn-secondary" *ngIf="hideElement" [routerLink]="['/login']">SignIn</a>
+            <a class="btn btn-secondary" *ngIf="!hideElement" (click)="goBack()">{{'go_back' | i18next}}</a>
             <a class="btn btn-secondary" *ngIf="!hideElement" [routerLink]="['/project']">{{'project' | i18next}}</a>
             <div class="dropdown" *ngIf='permission =="true" '>
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
