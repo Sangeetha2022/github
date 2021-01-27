@@ -82,8 +82,11 @@ export class ThirdPartyWorker {
                                     selectComponents.forEach((selectComponentsElement: any) => {
                                         columnDefs.push({ key1: 'key', value1: selectComponentsElement.content, key2: 'value', value2: selectComponentsElement.attributes.value });
                                     });
+                                    const tagName = selectComponents[0].tagName;
+                                    const id = selectComponents[0].attributes.id.replace('-', '');
+                                    const variableName = tagName + id.substring(0, 1).toUpperCase() + id.substring(1, id.length); 
                                     microflowObject.GpOptions.arrayVariables.push({
-                                        name: selectComponents[0].tagName,
+                                        name: variableName,
                                         dataType: 'any',
                                         value: columnDefs
                                     });
