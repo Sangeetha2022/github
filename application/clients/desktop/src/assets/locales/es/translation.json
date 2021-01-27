@@ -11,6 +11,7 @@
     "create":"crear",
     "update":"actualizar",
     "delete":"Borrar",
+    "go_back": "Regresa",
     "placeholder_name":"Ingrese su nombre",
     "placeholder_appContext":"ingrese el contexto de la aplicación",
     "placeholder_description":"introducir descripción",

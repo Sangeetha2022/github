@@ -11,6 +11,7 @@
     "create":"உருவாக்கு",
     "update":"மேம்படுத்து",
     "delete":"நீக்கு",
+    "go_back": "திரும்பிச் செல்",
     "placeholder_name":"பெயரை உள்ளிடவும்",
     "placeholder_appContext":"பயன்பாட்டு சூழலில் உள்ளிடவும்",
     "placeholder_description":"விளக்கத்தை உள்ளிடவும்",

@@ -3,6 +3,7 @@ import { LoginService } from '../../login/loginservice.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { Brodcastservice } from '../../broadcast.service';
 import { AuthGuard } from '../../auth/auth.guard';
+import { Location } from '@angular/common';
 import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 import { DataService } from '../../../shared/data.service';
 import { ConfigManagerService } from 'src/app/config-manager/config-manager.service';
@@ -35,7 +36,8 @@ export class HeaderComponent implements OnInit {
     private logoutservice: LoginService,
     private authService: AuthService,
     private router: Router,
-    public brodcast: Brodcastservice
+    public brodcast: Brodcastservice,
+    private location: Location
   ) {
     this.brodcast.currentusername.subscribe(headerpermission => {
       if (headerpermission !== undefined) {
@@ -59,6 +61,9 @@ export class HeaderComponent implements OnInit {
       }
     });
 
+  }
+  goBack(){
+    this.location.back();
   }
 
   public user: any = {
