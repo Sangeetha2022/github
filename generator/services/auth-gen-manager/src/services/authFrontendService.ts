@@ -21,6 +21,7 @@ export class AuthFrontendService {
         const seedTemplatePath = details.seedTemplatePath;
         this.readImagesAssets(seedTemplatePath, applicationPath);
         this.frontendWorker.createReadMeFile(details, (response) => {
+        this.frontendWorker.createErrorReadMeFile(details , (response) => {
         this.frontendWorker.createLoginComponent(details, (response) => {
             this.frontendWorker.createSignupComponent((response) => {
                 this.frontendWorker.createHomeComponent((response) => {
@@ -38,6 +39,7 @@ export class AuthFrontendService {
                 })
             })
         })
+    })
         });
         callback();
     }

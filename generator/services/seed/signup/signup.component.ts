@@ -17,6 +17,8 @@ export class SignupComponent implements OnInit {
   public show: boolean;
   public signupform: FormGroup;
   public socialSignup: Boolean = false;
+  public submit;
+
 
 
   constructor(
@@ -29,17 +31,22 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     this.signupform = new FormGroup({
-      'signupdata' : new FormGroup({
-        'firstname': new FormControl(null, [Validators.required]),
-        'lastname': new FormControl(null, [Validators.required]),
-        'email': new FormControl(null, [Validators.required, Validators.email]),
-        // tslint:disable-next-line:max-line-length
-        'password': new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}') ])
+      signupdata: new FormGroup({
+        firstname: new FormControl(null, [Validators.required]),
+        lastname: new FormControl(null, [Validators.required]),
+        email: new FormControl(null, [Validators.required, Validators.email]),
+        password: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')])
       })
     });
   }
 
   signup() {
+    this.submit = true;
+
+    // stop here if form is invalid
+    if (this.signupform.invalid) {
+      return;
+    }
     const singupinfo = {
       firstName: this.signupform.value.signupdata.firstname,
       lastName: this.signupform.value.signupdata.lastname,

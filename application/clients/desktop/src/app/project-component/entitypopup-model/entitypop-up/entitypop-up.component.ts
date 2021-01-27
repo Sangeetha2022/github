@@ -68,7 +68,8 @@ export class EntityModelComponent implements OnInit {
         this.hide = true;
         this.projectservice.getGlobalEntityByProjectId(this.projectId, this.logId).subscribe(data => {
             if (data.body && data.body.length > 0) {
-                this.rowData = data.body;
+                let existEntities: any = data.body.filter(x => x.is_default != true && x.entity_type != 'primary');
+                this.rowData = existEntities;
             }
         }, error => {
             console.error('error:', error);

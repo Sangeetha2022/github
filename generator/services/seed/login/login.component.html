@@ -13,7 +13,7 @@
               <div class="form-group">
                 <label class="text">Email</label>
                 <input type="email" class="form-control center" formControlName="email" placeholder="Email">
-                <span *ngIf="!loginform.get('logindata.email').valid && loginform.get('logindata.email').touched"
+                <span *ngIf="!loginform.get('logindata.email').valid && loginform.get('logindata.email').touched || !loginform.get('logindata.email').valid && submit"
                   class="invalid-feedback">
                   Must be a valid Email Id
                 </span>
@@ -27,7 +27,7 @@
                       [src]="show ? '../../assets/img/eyeopen.png' : '../../assets/img/eyeslash.png'" height="20"
                       (click)="hideEye()" alt="eye" /></span>
                 </div>
-                <span *ngIf="!loginform.get('logindata.password').valid && loginform.get('logindata.password').touched"
+                <span *ngIf="!loginform.get('logindata.password').valid && loginform.get('logindata.password').touched || !loginform.get('logindata.password').valid && submit"
                   class="invalid-feedback">
                   A Password must be 8 character and must have a Uppercase , Lowercase and a Special character
                 </span>

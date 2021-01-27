@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
   public displayModel: String = 'none';
   public show: boolean;
   public openId: String = 'openid';
+  public submit = false;
 
 
   constructor(
@@ -53,15 +54,15 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.loginform = new FormGroup({
-      'logindata' : new FormGroup({
-        'email': new FormControl(null, [Validators.required, Validators.email]),
+      logindata: new FormGroup({
+        email: new FormControl(null, [Validators.required, Validators.email]),
         // tslint:disable-next-line:max-line-length
-        'password': new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}') ])
+        password: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')])
       })
     });
   }
 
-  
+
 
   closeDeleteFModel() {
     this.displayModel = 'none';
@@ -95,6 +96,10 @@ export class LoginComponent implements OnInit {
 
 
   Login() {
+    this.submit = true;
+    if (this.loginform.invalid) {
+      return;
+    }
     this.permission = [];
     const logininfo = {
       email: this.loginform.value.logindata.email,
