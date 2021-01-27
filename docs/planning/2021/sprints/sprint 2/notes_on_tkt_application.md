@@ -10,6 +10,16 @@ The initial attempt generated into Git compiled with out errors but when I hit t
 
 ![alt text](./screen_shot_attempt_1.png "error screen")
 
+## Bug explanation and discussion
+
+Jp was able to track down issues that created the screen shot above
+
+1. the Angular app did not compile because a screen was generated that was NOT bound to an Entity the screen in question was the "createSeveiry" screen
+
+2. the labels for the create ticket screen were not generated although this did not create the angular compile issue
+
+3. Need to fix Secondary Entity issue - although this did not cause an error with out it we can not have dropdowns on the createTicket screen that permits the user to give the ticket a severity (aka "high", "medium", "low") or assign a service.
+
 ### Geppetto project information
 
 - Project Name: testticketone
