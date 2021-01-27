@@ -23,9 +23,9 @@
                 <input type="password" class="form-control center" formControlName="password" placeholder="Password"
                   [type]="show ? 'text' : 'password'" pw-show-hide="icon" (keyup.enter)="Login()">
                 <div class="input-group-append align-right">
-                  <span class="input-group-text general-input"><img
+                    <img
                       [src]="show ? '../../assets/img/eyeopen.png' : '../../assets/img/eyeslash.png'" height="20"
-                      (click)="hideEye()" alt="eye" /></span>
+                      (click)="hideEye()" alt="eye" />
                 </div>
                 <span *ngIf="!loginform.get('logindata.password').valid && loginform.get('logindata.password').touched || !loginform.get('logindata.password').valid && submit"
                   class="invalid-feedback">
