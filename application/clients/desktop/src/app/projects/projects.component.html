@@ -126,7 +126,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="primary-language">{{ 'primary_language' | i18next }}</label>
-                                <select class="form-control" id="primary-language" [(ngModel)]=createProject.value.primaryLanguage formControlName="primaryLanguage" (click)=onSecondoryLangSelect() [ngClass]="{ 'is-invalid': submitted && form_control.primaryLanguage.errors }">
+                                <select class="form-control" id="primary-language" [(ngModel)]=createProject.value.primaryLanguage formControlName="primaryLanguage" (change)="onSecondoryLangSelect()" [ngClass]="{ 'is-invalid': submitted && form_control.primaryLanguage.errors }">
                   <!-- <option value="" selected>{{'select_primary' | i18next}}</option> -->
                   <option *ngFor="let p of primaryLanguages" [ngValue]="p">{{ p }}</option>
                 </select>
@@ -141,7 +141,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="secondary-language">{{ 'secondary_language' | i18next }}</label>
-                                <select class="form-control" id="secondary-language" [(ngModel)]=createProject.value.secondoryLanguage formControlName="secondaryLanguage" [ngClass]="{ 'is-invalid': submitted && form_control.secondaryLanguage.errors }">
+                                <select class="form-control" id="secondary-language" [(ngModel)]="createProject.value.secondaryLanguage" formControlName="secondaryLanguage" [ngClass]="{ 'is-invalid': submitted && form_control.secondaryLanguage.errors }">
                   <option value="" selected>{{'select_secondary' | i18next}}</option>
                   <option *ngFor="let s of secondoryLanguages" [ngValue]="s">{{ s}}</option>
                 </select>
@@ -183,7 +183,7 @@
             </div>
             <div class="modal-footer">
                 <div class="form-group">
-                    <button type="button" [disabled]="!templateData || !createProject.value.primaryLanguage || !createProject.value.secondoryLanguage" class="btn button-create" (click)="projectCreate()">{{ 'create' | i18next }}</button>
+                    <button type="button" [disabled]="!templateData || !createProject.value.primaryLanguage || !createProject.value.secondaryLanguage" class="btn button-create" (click)="projectCreate()">{{ 'create' | i18next }}</button>
                     <button type="button" class="btn button-close" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
                 </div>
             </div>
