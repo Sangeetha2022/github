@@ -14,9 +14,9 @@ The initial attempt generated into Git compiled with out errors but when I hit t
 
 Jp was able to track down issues that created the screen shot above
 
-1. the Angular app did not compile because a screen was generated that was NOT bound to an Entity the screen in question was the "createSeveiry" screen
+1. the Angular app did not compile because a screen was generated that was NOT bound to an Entity the screen in question was the "createSeverity" screen
 
-2. the labels for the create ticket screen were not generated although this did not create the angular compile issue
+2. the labels for the create ticket screen were not generated although this did not create the angular compile issue - this issue is tracked under #805
 
 3. Need to fix Secondary Entity issue - although this did not cause an error with out it we can not have dropdowns on the createTicket screen that permits the user to give the ticket a severity (aka "high", "medium", "low") or assign a service.
 
@@ -37,7 +37,13 @@ Jp was able to track down issues that created the screen shot above
 
 1. using the generated code identify why the app did not run on local
 
+---
+
 2. using Camunda/Guards only show the routes for the severitymaintenance and the servicetypemaintenance to Admins . In other words only Admins can see/select these feature from the application menu
+  
+Update: since JP fixed the angular compile issue (task #805) Mithun can now take the first gen code and starts to use us it for his authorization work
+
+---
 
 3. deployed application to either Fargate or EC2
 
