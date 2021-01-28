@@ -11,7 +11,7 @@ export class FlowServiceWorker {
     constructFlowsInfo(flows_info: Array<Object>, nodeResponse: any, microflowObject: any) {
         const flows = [];
         flows_info.forEach((flow: any) => {
-            if (nodeResponse.flowAction && nodeResponse.flowAction.length > 0) {
+            if (nodeResponse && nodeResponse.flowAction && nodeResponse.flowAction.length > 0) {
                 nodeResponse.flowAction.filter((e) => {
                     if (flow.flowName === e.methodName) {
                         if (e.routeUrl.includes('/:id')) {
