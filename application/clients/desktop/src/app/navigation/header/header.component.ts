@@ -16,6 +16,7 @@ import { AuthService, GoogleLoginProvider, FacebookLoginProvider } from 'angular
 })
 export class HeaderComponent implements OnInit {
   hideElement: boolean;
+  backButtonElement: boolean;
   public headergaurd: any;
   public permission: any;
   public currentLanguage: String;
@@ -57,6 +58,12 @@ export class HeaderComponent implements OnInit {
           this.hideElement = true;
         } else {
           this.hideElement = false;
+        }
+        if(event.url === '/project') {
+          this.backButtonElement = true;
+        }
+        else {
+          this.backButtonElement = false;
         }
       }
     });

@@ -106,10 +106,10 @@ export class ComponentWorker {
      */
     private constructEntities(entities: Array<Object>, entity_info: Array<Object>, desktopElement) {
         // Mapping the entities for forms
-        const entityIds = entity_info.map((e: any) => e.entityId);
-        const entitiesFilter = entities.filter((e: any) => entityIds.includes(e._id));
+        // const entityIds = entity_info.map((e: any) => e.entityId);
+        // const entitiesFilter = entities.filter((e: any) => entityIds.includes(e._id));
         let entityArray: any = [];
-        entitiesFilter.forEach((entity: any) => {
+        entities.forEach((entity: any) => {
             let entityObject: any = {};
             entityObject.name = entity.name;
             if (entity.field && entity.field.length > 0) {

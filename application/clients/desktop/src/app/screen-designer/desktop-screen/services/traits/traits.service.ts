@@ -40,6 +40,7 @@ export class TraitsService {
     this.initializeCheckboxMethod(screenGlobalVariable);
     this.initializeRadioMethod(screenGlobalVariable);
     this.initializeButtonMethod(screenGlobalVariable);
+    this.initializeLabelMethod(screenGlobalVariable);
     this.initializeLinkMethod(screenGlobalVariable);
   }
 
@@ -327,6 +328,51 @@ export class TraitsService {
             if (el.tagName === 'BUTTON') {
               return {
                 type: 'button'
+              };
+            }
+          }
+        }
+      ),
+
+      // Define the View
+      view: defaultType.view
+    });
+  }
+
+  // label traits
+  initializeLabelMethod(screenGlobalVariable) {
+    const comps = screenGlobalVariable.editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    comps.addType('label', {
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              {
+                label: 'Name',
+                name: 'name',
+                type: 'text',
+                changeProp: 1
+              },
+              {
+                type: 'content',
+                label: 'contentName',
+                name: 'contentname',
+                changeProp: 1
+              }
+            ]
+          }),
+          init() {
+          },
+        },
+        {
+          isComponent: function (el) {
+            if (el.tagName === 'LABEL') {
+              return {
+                type: 'label'
               };
             }
           }
