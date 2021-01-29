@@ -99,6 +99,13 @@ export class EntityService {
         })
     }
 
+    public getFeatureEntities(req: Request , callback: CallableFunction){
+        const entity = req.body;
+        entityDao.getFeatureEntities(entity , (response) => {
+            callback(response)
+        })
+    }
+
 
     typeCheck(element) {
         if (element.type_name === fieldTypes.NUMBER ||

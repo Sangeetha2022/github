@@ -83,4 +83,11 @@ export class EntityController {
         })
     }
 
+    public getFeatureEntities(req: Request , res: Response) {
+        entityService.getFeatureEntities(req ,(response) => {
+            res.status(200);
+            res.json(response)
+        })
+    }
+
 }

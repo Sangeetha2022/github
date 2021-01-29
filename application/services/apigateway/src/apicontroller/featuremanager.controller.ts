@@ -31,6 +31,7 @@ class FeatureController implements Controller {
         this.router.post('/feature/copyFlows', this.flowcopy);
         this.router.put('/feature/update/entity', this.updateFeatureEntity);
         this.router.get('/feature/getallcopyflow', this.getallcopyflow);
+        this.router.get('/feature/:id/entity' , this.getAllEntityByFeatureID)
     }
 
     public async saveFeature(req: Request, res: Response) {
@@ -165,6 +166,18 @@ class FeatureController implements Controller {
             req.baseUrl === '/mobile' ? res.send(err) :
                 req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
         }
+    }
+
+    public async getAllEntityByFeatureID(req: Request , res: Response) {
+        try {
+            let entityList = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/${req.params.id}/entity` + `?log_id=${req.query.log_id}`));
+            req.baseUrl === '/mobile' ? res.send(entityList) :
+                req.baseUrl === '/desktop' ? res.send(entityList) : res.send(null);
+        } catch(err){
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+
     }
 }
 export { FeatureController };

@@ -8,6 +8,7 @@ import { MongoConfig } from './config/MongoConfig'
 import { WinstonLogger } from './config/WinstonLogger';
 // import { FeedSeedData } from './seed';
 import * as mongoose from "mongoose";
+import { SharedService } from "./config/SharedService";
 
 const PORT = 3006;
 
@@ -17,7 +18,7 @@ class App {
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
     public mongoUrl: String = process.env.mongoUrl;
-
+    public apiUrl: SharedService = new SharedService();
     
     constructor() { 
         this.logger.setupLogger();

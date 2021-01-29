@@ -21,6 +21,9 @@ export class Routes {
         app.route('/feature/project/get').get(this.featureController.getFeatureByProjectId);
         app.route('/feature/update/entity').put(this.featureController.updateFeatureEntity);
 
+        //get FeatureEntity
+        app.route('/feature/:id/entity').get(this.featureController.getFeatureIDByEntity);
+
         app.route('/feature/updateEntity/:featureId').put(this.featureController.featureUpdateEntity)
         app.route('/feature/deleteentity/:featureId/:entityid').delete(this.featureController.featuredeleteEntity);
     }

@@ -1,8 +1,10 @@
 import { Request } from 'express';
+import { EntityManagerService } from '../apiservices/EntityManagerService';
 import { FeatureDao } from '../daos/FeatureDao';
 
 
-let featureDao = new FeatureDao();
+const featureDao = new FeatureDao();
+const enetityManagerService = new EntityManagerService();
 export class FeatureService {
 
     public saveFeature(req: Request, callback: CallableFunction) {
@@ -68,6 +70,16 @@ export class FeatureService {
         console.log("id------->", featureId);
         featureDao.featureUpdateEntity(entity, featureId, (response) => {
             callback(response)
+        })
+    }
+
+    public getFeatureIDByEntity(req: Request, callback: CallableFunction) {
+        const featureId = req.params.id;
+        featureDao.getFeatureById(featureId, (response) => {
+            const enetityID = response.entities.map(({ entityId }) => entityId)
+           enetityManagerService.getAllFeatureEntites(enetityID ,(entityResposne) => {
+               callback(entityResposne)
+           })
         })
     }
 
