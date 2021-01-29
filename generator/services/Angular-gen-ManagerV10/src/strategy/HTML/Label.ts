@@ -38,6 +38,8 @@ export class Label {
         let filePath = templatePath + `/Label.handlebars`;
         let screenGenerationPath = applicationPath + `/${screenName}`
         let result: any = await this.handleBarsFile(filePath, labelData, screenGenerationPath, screenName);
+        console.log('labelData =============>>', labelData);
+        console.log('result =================>>>', result);
         callback(result);
     }
 
