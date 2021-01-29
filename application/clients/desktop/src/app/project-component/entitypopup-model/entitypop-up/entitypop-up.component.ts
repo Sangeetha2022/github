@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { ButtonRendererComponent } from '../../entity-field/rendered/button-renderer/button-renderer.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ProjectComponentService } from '../../project-component.service';
+import { Brodcastservice } from '../../../broadcast.service';
 
 @Component({
     selector: 'app-entitypop-up',
@@ -33,12 +34,13 @@ export class EntityModelComponent implements OnInit {
     public gridColumnApi;
     public defaultColDef;
     public entitytype: any;
+    public featureId: String;
     frameworkComponents: { buttonRenderer: any; };
     options: string[] = ['Create Entity', 'Select Existing Entity'];
 
     constructor(
         public dialogRef: MatDialogRef<EntityModelComponent>, private projectservice: ProjectComponentService,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
+        @Inject(MAT_DIALOG_DATA) public data: any, private brodcastservice: Brodcastservice) {
         this.projectId = data.projectId;
         if (data.savedEntity !== undefined && Object.keys(data.savedEntity).length > 0) {
             this.modelObject.name = data.savedEntity.name;
@@ -66,9 +68,12 @@ export class EntityModelComponent implements OnInit {
 
     ngOnInit() {
         this.hide = true;
+        this.brodcastservice.currentFeatureId.subscribe((featureId: String) => {
+            this.featureId = featureId;
+        });
         this.projectservice.getGlobalEntityByProjectId(this.projectId, this.logId).subscribe(data => {
             if (data.body && data.body.length > 0) {
-                let existEntities: any = data.body.filter(x => x.is_default != true && x.entity_type != 'primary');
+                let existEntities: any = data.body.filter(x => x.is_default != true && x.feature_id !== this.featureId);
                 this.rowData = existEntities;
             }
         }, error => {
