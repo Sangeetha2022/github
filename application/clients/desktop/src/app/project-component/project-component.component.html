@@ -135,7 +135,7 @@
     </mat-card-actions>
     </mat-card> -->
             </mat-expansion-panel>
-            <mat-expansion-panel>
+            <!-- <mat-expansion-panel>
                 <mat-expansion-panel-header>
                     <mat-panel-title> Screens </mat-panel-title>
                 </mat-expansion-panel-header>
@@ -144,15 +144,15 @@
                         <div class='col-md-9'></div>
                         <div class='col-md-3'>
                             <div class="btn-group screens-tag-style">
-                                <!-- <button class="goToButton btn-space btn_color" mat-raised-button
+                                <button class="goToButton btn-space btn_color" mat-raised-button
                                     (click)="editTemplate(screenTempId)">Modify
-                                    Template</button> -->
+                                    Template</button>
                                 <button class="goToButton btn-space btn_color" mat-raised-button
                                     [routerLink]="['/templates']" [queryParams]="{projectId: project_id}">Change
                                     Template</button>
-                                <!-- <button class="goToButton btn-space btn_color" mat-raised-button
+                                <button class="goToButton btn-space btn_color" mat-raised-button
                                     (click)="GoToDesigner()">Add
-                                    Screen</button> -->
+                                    Screen</button>
                             </div>
                         </div>
                     </div>
@@ -171,7 +171,7 @@
                             No Screen Available.
                         </div>
                     </div>
-                </mat-card-content>
+                </mat-card-content> -->
                 <!-- <div class="row" style="margin: 0px;" *ngIf="selecteddefaultEntity && selecteddefaultEntity.length > 0">
     <div class="col-md-4" *ngFor="let defaultEntity of selecteddefaultEntity; let i = index">
     <div class="card">
@@ -186,7 +186,7 @@
     </div>
     </div>
     </div> -->
-            </mat-expansion-panel>
+            <!-- </mat-expansion-panel> -->
             <app-techarchitecture-manager></app-techarchitecture-manager>
             <app-menu-builder></app-menu-builder>
         </mat-accordion>

@@ -20,6 +20,7 @@ import { element, template } from '@angular/core/src/render3';
 import { FlowTreeService } from './flow-tree/flow-tree.service';
 import { DataService } from 'src/shared/data.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Brodcastservice } from '../../broadcast.service';
 
 // import { FormBuilder , FormGroup ,Validators} from `@angular/forms`;
 
@@ -167,7 +168,8 @@ export class FeatureDetailsComponent implements OnInit {
         private flowTreeService: FlowTreeService,
         private dataService: DataService,
         private dialog: MatDialog,
-        private spinner: NgxSpinnerService
+        private spinner: NgxSpinnerService,
+        private brodcastservice: Brodcastservice
     ) {
    
         this.frameworkComponents = {
@@ -951,6 +953,7 @@ export class FeatureDetailsComponent implements OnInit {
         } else {
             dialogDataValue.savedEntity = objectValue;
         }
+        this.brodcastservice.changeFeatureId(this.feature_id);
         const dialogRef = this.dialog.open(EntityModelComponent, {
             width: '350px',
             data: dialogDataValue
