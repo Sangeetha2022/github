@@ -3,7 +3,7 @@
             "name": "version",
             "label": "",
             "description": "app version",
-            "value": "Alpha-23",
+            "value": "Beta-01",
             "type": "version",
             "sub_type": ""
         },
