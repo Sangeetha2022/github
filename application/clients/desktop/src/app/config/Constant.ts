@@ -132,6 +132,8 @@ export class Constants {
     public static get updateEntityFields(): string { return this.DESKTOP_ROUTER + '/entity/field/update'; }
     public static get getAllEntityTypes(): string { return this.DESKTOP_ROUTER + '/entity_type/get'; }
     public static get getEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/entity/feature/get'; }
+    //get the feature entities 
+    public static get getAllEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature'; }
 
     // Delete  microservice
 

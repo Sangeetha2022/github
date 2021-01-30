@@ -56,6 +56,11 @@ export class ProjectComponentService {
   getAllFlows(logId): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFlow}?log_id=${logId}`);
   }
+  //getAllEntityByFeatureId
+  getAllEntityByFeatureId(featureId, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityByFeatureId}/${featureId}/entity?log_id=${logId}`);
+  }
+
   getEntityByFeatureId(featureId, logId): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getEntityByFeatureId}?featureId=${featureId}&log_id=${logId}`);
   }

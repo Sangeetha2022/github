@@ -144,4 +144,15 @@ export class EntityDao {
         });
     }
 
+    public getFeatureEntities(entityIds, callback) {
+        entityModel.find({ _id: { $in: entityIds } }).exec((err, result)=> {
+            if(err){
+                callback(err)
+            }
+            else{
+                callback(result)
+            }
+        })
+    }
+
 }

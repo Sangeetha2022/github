@@ -30,6 +30,10 @@ export class EntityController implements Controller {
         // entity types
         this.router.route('/entity_type/get').get(this.getAllEntityType);
         this.router.route('/entity/global').get(this.getGlobalEntityByProjectId);
+
+        //Get all  feature entities with entity id
+        
+        this.router.route('/entity/feature').post(this.getFeatureEntities)
     }
 
 
@@ -159,6 +163,17 @@ export class EntityController implements Controller {
     public async getGlobalEntityByProjectId(req: Request, res: Response) {
         try {
             let entity = await Promise.resolve(new ApiAdaptar().get(`${Constants.entityUrl}/entity/global?projectId=${req.query.projectId}` + `&log_id=${req.query.log_id}`));
+            req.baseUrl === '/mobile' ? res.send(entity) :
+                req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async getFeatureEntities(req: Request, res: Response) {
+        try {
+            let entity = await Promise.resolve(new ApiAdaptar().post(`${Constants.entityUrl}/entity/feature`+ `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(entity) :
                 req.baseUrl === '/desktop' ? res.send(entity) : res.send(null);
         } catch (err) {

@@ -40,5 +40,8 @@ export class Routes {
         // default entity
         app.route('/projects/default/create').get(this.defaultEntityController.createDefaultEntity);
 
+        //entity feature
+        app.route('/entity/feature').post(this.entityController.getFeatureEntities)
+
     }
 }

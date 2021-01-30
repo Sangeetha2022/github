@@ -354,10 +354,21 @@ export class FeatureDetailsComponent implements OnInit {
 
     getEntityByFeatureId() {
         this.spinner.show();
-        this.projectComponentService.getEntityByFeatureId(this.feature_id, this.logId).subscribe(
+        // this.projectComponentService.getEntityByFeatureId(this.feature_id, this.logId).subscribe(
+        //     (entityData) => {
+        //         this.spinner.hide();
+        //         this.featureEntityDetails = entityData.body;
+        //         this.isPrimaryEntityPresent = this.featureEntityDetails.some(x => x.entity_type === 'primary');
+        //     },
+        //     (error) => {
+
+        //     }
+        // );
+        //Added secondray entity in feature
+        this.projectComponentService.getAllEntityByFeatureId(this.feature_id, this.logId).subscribe(
             (entityData) => {
-                this.spinner.hide();
-                this.featureEntityDetails = entityData.body;
+                  this.spinner.hide();
+                this.featureEntityDetails = entityData.body.body;
                 this.isPrimaryEntityPresent = this.featureEntityDetails.some(x => x.entity_type === 'primary');
             },
             (error) => {

@@ -69,6 +69,13 @@ export class FeatureController {
         })
     }
 
+    public getFeatureIDByEntity(req: Request , res: Response) {
+        featureService.getFeatureIDByEntity(req , (response) => {
+            res.status(200);
+            res.json(response)
+        })
+    }
+
 
     public featuredeleteEntity(req: Request, res: Response) {
         featureService.featuredeleteentity(req, (response) => {
