@@ -122,7 +122,7 @@ export class FeatureDetailsComponent implements OnInit {
         }]
     };
     public paramsType: any;
-    public isStaticOrDynamic: any =[];
+    public isStaticOrDynamic: any = [];
     public quickConnectorsURL: any;
     public apiMethodArray: any = ['select Apis', 'post', 'get', 'put', 'delete'];
     // This is the default title property created by the angular cli. Its responsible for the app works
@@ -157,6 +157,7 @@ export class FeatureDetailsComponent implements OnInit {
     flowEntityName: any;
     public dynamicParamsValue: any;
     public staticParamsValue: any;
+    public selectEntity: any;
 
 
     constructor(
@@ -171,7 +172,7 @@ export class FeatureDetailsComponent implements OnInit {
         private spinner: NgxSpinnerService,
         private brodcastservice: Brodcastservice
     ) {
-   
+
         this.frameworkComponents = {
             buttonRenderer: ButtonRendererComponent,
         };
@@ -367,7 +368,7 @@ export class FeatureDetailsComponent implements OnInit {
         //Added secondray entity in feature
         this.projectComponentService.getAllEntityByFeatureId(this.feature_id, this.logId).subscribe(
             (entityData) => {
-                  this.spinner.hide();
+                this.spinner.hide();
                 this.featureEntityDetails = entityData.body.body;
                 this.isPrimaryEntityPresent = this.featureEntityDetails.some(x => x.entity_type === 'primary');
             },
@@ -514,9 +515,9 @@ export class FeatureDetailsComponent implements OnInit {
 
     }
 
-       dynamicParams(index) {   
-           delete this.quickConnectors.properties[index].value;
-           console.log('delete-->', this.quickConnectors.properties);
+    dynamicParams(index) {
+        delete this.quickConnectors.properties[index].value;
+        console.log('delete-->', this.quickConnectors.properties);
     }
 
 
@@ -532,7 +533,7 @@ export class FeatureDetailsComponent implements OnInit {
     modify(e) {
         e.rowData.components.map(data => {
             data.connector.map(connector => {
-                console.log('e---modify->>>',connector );
+                console.log('e---modify->>>', connector);
                 if (connector.isCustom === true) {
                     console.log('modify--connectors--', connector._id);
                     this.modifyConnectorsId = connector._id;
@@ -559,8 +560,8 @@ export class FeatureDetailsComponent implements OnInit {
     addProperties(): void {
         console.log('this.quic', this.quickConnectors.properties);
         this.quickConnectors.properties.push({
-            key:'',
-            value:'',
+            key: '',
+            value: '',
             isDynamicParams: false
         });
     }
@@ -578,7 +579,7 @@ export class FeatureDetailsComponent implements OnInit {
         this.quickConnectorsURL = `${this.quickConnectors.endPointUrl}?${this.quickConnectors.api_key.key}=${this.quickConnectors.api_key.value}&${keyAndValue}&file_type=json`;
         this.projectComponentService.quickTestcustomConnectors(this.quickConnectors, this.logId).subscribe(response => {
             if (response) {
-                console.log('result000=--',response)
+                console.log('result000=--', response)
                 this.showTreePopup = true;
                 this.displayModelTree = 'block';
                 this.displayModel = 'none';
@@ -591,12 +592,12 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     removeProperties(i) {
-        this.quickConnectors.properties.splice(i , 1);
+        this.quickConnectors.properties.splice(i, 1);
     }
 
     connectorServices() {
         if (this.modifyConnectorsId !== undefined && this.modifyConnectorsId !== null) {
-                    this.showAlert();
+            this.showAlert();
         }
     }
 
@@ -622,14 +623,14 @@ export class FeatureDetailsComponent implements OnInit {
         if (this.modifyConnectorsId !== undefined && this.modifyConnectorsId !== null) {
             this.getQuickConnectorId(this.modifyConnectorsId);
         } else {
-            this.quickConnectors.name = '' ;
-            this.quickConnectors.description = '' ;
-            this.quickConnectors.endPointUrl = '' ;
-            this.quickConnectors.api_key.key = '' ;
-            this.quickConnectors.api_key.value = '' ;
-            this.quickConnectors.apiMethods = '' ;
-            this.quickConnectors.properties[0].key = '' ;
-            this.quickConnectors.properties[0].value = '' ;
+            this.quickConnectors.name = '';
+            this.quickConnectors.description = '';
+            this.quickConnectors.endPointUrl = '';
+            this.quickConnectors.api_key.key = '';
+            this.quickConnectors.api_key.value = '';
+            this.quickConnectors.apiMethods = '';
+            this.quickConnectors.properties[0].key = '';
+            this.quickConnectors.properties[0].value = '';
             this.quickConnectors.properties[0].isDynamicParams = false;
             this.quickConnectors.isQueryParams = '';
             this.quickConnectors.dataBaseName = '';
@@ -642,7 +643,7 @@ export class FeatureDetailsComponent implements OnInit {
     getQuickConnectorId(connector_id) {
         console.log('quick conntors --->', connector_id);
         this.projectComponentService.getConnectorById(connector_id, this.logId).subscribe(response => {
-            console.log('quick connectoes--->',response.body)
+            console.log('quick connectoes--->', response.body)
 
             if (response) {
                 this.quickConnectors = response.body;
@@ -670,7 +671,7 @@ export class FeatureDetailsComponent implements OnInit {
         if (!this.connectorsForm.invalid) {
             this.isService = true;
             this.quickConnectorsType();
-        } 
+        }
     }
 
     quickConnectorsType() {
@@ -801,19 +802,19 @@ export class FeatureDetailsComponent implements OnInit {
                 // tslint:disable-next-line: max-line-length
                 this.quickConnectors.url = `${this.quickConnectors.endPointUrl}?${this.quickConnectors.api_key.key}=${this.quickConnectors.api_key.value}&${keyAndValue}&file_type=json`;
                 this.modifyFlowUpdate();
-            }   else {
+            } else {
                 this.modifyFlowUpdate();
             }
         }
     }
 
     public modifyFlowUpdate() {
-            this.projectComponentService.updateQuickConnectorsById(this.quickConnectors, this.logId).subscribe(result =>{
+        this.projectComponentService.updateQuickConnectorsById(this.quickConnectors, this.logId).subscribe(result => {
             if (result) {
                 this.flowCancel();
             }
             console.log('result---update--', result);
-        },(error) => {
+        }, (error) => {
             console.log('error --', error);
         }
         );
@@ -845,11 +846,13 @@ export class FeatureDetailsComponent implements OnInit {
 
 
     editEntityField(entity: any) {
-        this.router.navigate(['/entity-field'], { queryParams: {
-            entityId: entity._id,
-            featureId: this.feature_id,
-            projectId: this.project_id
-        } });
+        this.router.navigate(['/entity-field'], {
+            queryParams: {
+                entityId: entity._id,
+                featureId: this.feature_id,
+                projectId: this.project_id
+            }
+        });
     }
 
     saveEntityModel() {
@@ -871,20 +874,23 @@ export class FeatureDetailsComponent implements OnInit {
             }
         ];
         this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails, this.logId)
-        .subscribe(featuredetails => {
-        });
+            .subscribe(featuredetails => {
+            });
         this.getFeatureById();
+        this.getEntityByFeatureId();
 
-        this.projectComponentService.updateEntity(entityData, this.logId).subscribe((data) => {
-            this.getEntityByFeatureId();
-        }, (error) => {
-        });
+
+        // this.projectComponentService.updateEntity(entityData, this.logId).subscribe((data) => {
+        //     this.getEntityByFeatureId();
+        // }, (error) => {
+        // });
     }
 
     saveEntity(entityData) {
         this.entity.name = entityData.name;
         this.entity.description = entityData.description;
         this.entity.project_id = this.project_id;
+        delete this.entity._id;
         this.projectComponentService.createEntity(this.entity, this.logId).subscribe(
             (response) => {
                 this.updateEntityId = response.body._id;
@@ -938,7 +944,7 @@ export class FeatureDetailsComponent implements OnInit {
                         if (featuredetails) {
                             this.getEntityByFeatureId();
                         }
-                });
+                    });
             },
             (error) => {
 
@@ -1108,6 +1114,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     openDeleteModel(entity) {
+        this.selectEntity = entity;
         this.selectedEntityId = entity._id;
         this.deletePopup = 'block';
     }
@@ -1130,14 +1137,18 @@ export class FeatureDetailsComponent implements OnInit {
 
     deleteEntityById() {
         this.deletePopup = 'none';
-        this.projectComponentService.deleteEntityById(this.selectedEntityId, this.logId).subscribe(
-            (data) => {
+        if (this.selectEntity.feature_id === this.feature_id) {
+            this.projectComponentService.deleteEntityById(this.selectedEntityId, this.logId).subscribe(
+                (data) => {
+                    this.getEntityByFeatureId();
+                },
+                (error) => {
+                });
+        } else {
+            this.projectComponentService.Deletefeaturedetailsentity(this.feature_id , this.selectedEntityId).subscribe(data => {
                 this.getEntityByFeatureId();
-            },
-            (error) => {
-
-            }
-        );
+            });
+        }
     }
 
 
