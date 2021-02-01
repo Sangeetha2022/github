@@ -13,7 +13,7 @@ export class DmnSupportWorker {
         let generateModel = st.loadGroup(require(pathfile + '/dmnfile_stg'));
         // console.log('------dmnpathfile-----', screenname);
         let modelData = generateModel.render("dmnfile", [screenname]);
-        fs.writeFile(dmnFolder + `/Gep_authorize2.dmn`, modelData, function (err) {
+        fs.writeFile(dmnFolder + `/Gep_authorize.dmn`, modelData, function (err) {
             if (err) throw err;
             callback(' DMN file generated');
         })
