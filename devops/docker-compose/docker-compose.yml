@@ -273,6 +273,32 @@ services:
       - mongo
       - apigateway
       - inframanager
+      - deploymentmanager
+
+  deploymentmanager:
+    build: ../../generator/services/deployment-manager
+    image: deploymentmanager
+    container_name: deploymentmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5005:5005"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - awsdeploymentmanager
+  
+  awsdeploymentmanager:
+    build: ../../generator/services/aws-deployment-manager
+    image: awsdeploymentmanager
+    container_name: awsdeploymentmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5021:5021"
+    env_file: ../../.env
+    depends_on:
+      - deploymentmanager
 
   frontgenmanager:
     build: ../../generator/services/frontend-gen-manager
