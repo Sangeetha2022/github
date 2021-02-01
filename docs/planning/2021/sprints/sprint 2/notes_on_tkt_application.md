@@ -48,3 +48,8 @@ Update: since JP fixed the angular compile issue (task #805) Mithun can now take
 3. deployed application to either Fargate or EC2
 
 4. what ever fixes were done to get the app running needs to be applied to the Geppetto generator and the application generated again to see if the fixes solved the issue
+
+
+Harish deploy to faregate #845
+
+arunadyah - # 846 fargate manually

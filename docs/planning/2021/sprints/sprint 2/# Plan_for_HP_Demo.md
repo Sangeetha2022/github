@@ -14,8 +14,10 @@ The idea is to blend this presentation/demo as much as possible into our sprint 
 
 - Siva
   - HP/WCMX must be running and need to prove the sync from wordpress is working #824
-    - Kibana installed and working in Geppetto stage
-    - Kibana installed and working in HP/WCMX 
+    - Kibana installed and working in Geppetto stage #824
+    - Kibana installed and working in HP/WCMX   - this is #843
+    - bug #844 build issue in stage
+
 
 - jp
   - continue to incorporate authorization/camunda into generated app #805, #830, #833( critical for the demo), #834(service now)
