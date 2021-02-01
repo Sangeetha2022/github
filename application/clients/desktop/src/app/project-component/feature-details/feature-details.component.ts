@@ -890,7 +890,7 @@ export class FeatureDetailsComponent implements OnInit {
         this.entity.name = entityData.name;
         this.entity.description = entityData.description;
         this.entity.project_id = this.project_id;
-        delete this.entity._id;
+        // delete this.entity._id;
         this.projectComponentService.createEntity(this.entity, this.logId).subscribe(
             (response) => {
                 this.updateEntityId = response.body._id;
