@@ -7,9 +7,11 @@ export class SharedService {
     // public static systementryBaseUrl = "http://gep-dev-system-entry.gep-dev-201902.svc.cluster.local";
     // public static apiGatewayURL: String = SharedService.systementryBaseUrl + ":3000";
 
-    public static systementryBaseUrl :string ;
+    public static systementryBaseUrl: string;
     public static apiGatewayURL: String;
     public static aws_deploymentURL: String;
+
+    // public static aws_deploymentURL: String = process.env.awsdeploymentmanager + ":5021"
 
     constructor() {
         this.getURL();
@@ -27,7 +29,7 @@ export class SharedService {
 
             default: SharedService.systementryBaseUrl = process.env.livesystementryBaseUrl;
                 SharedService.apiGatewayURL = SharedService.systementryBaseUrl + ":3000";
-                SharedService.aws_deploymentURL = process.env.awsdeploymentmanager  + ":5021";
+                SharedService.aws_deploymentURL = process.env.awsdeploymentmanager + ":5021";
 
                 break;
         }
