@@ -14,7 +14,6 @@ export class HPHeader {
         <img class="cursor-pointer" src="../../assets/img/hp-user.png" width="40" />
         <div class="dropdown-content">
           <a class="nav-link" *ngIf='userId==null' [routerLink]="['/login']">{{'source.login' | i18next}}</a>
-          <a class="nav-link" *ngIf='userId==null' [routerLink]="['/signup']">{{'source.signup' | i18next}}</a>
           <a class="nav-link" *ngIf='userId!=null' (click)="logout()">{{'source.logout' | i18next}}</a>
         </div>
       </div>
