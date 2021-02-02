@@ -126,7 +126,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="primary-language">{{ 'primary_language' | i18next }}</label>
-                                <select class="form-control" id="primary-language" [(ngModel)]=createProject.value.primaryLanguage formControlName="primaryLanguage" (change)="onSecondoryLangSelect()" [ngClass]="{ 'is-invalid': submitted && form_control.primaryLanguage.errors }">
+                                <select class="form-control" id="primary-language" [(ngModel)]="createProject.value.primaryLanguage" formControlName="primaryLanguage" (change)="onSecondoryLangSelect()" [ngClass]="{ 'is-invalid': submitted && form_control.primaryLanguage.errors }">
                   <!-- <option value="" selected>{{'select_primary' | i18next}}</option> -->
                   <option *ngFor="let p of primaryLanguages" [ngValue]="p">{{ p }}</option>
                 </select>
