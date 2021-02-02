@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import * as fs from 'fs';
 import { SharedService } from '../config/SharedService';
 import { ApiAdaptar } from '../config/ApiAdaptar';
 import * as util from 'util';
@@ -68,7 +69,7 @@ export class FrontendTemplateService {
                     }
                     let featurevalue = details.feature.body[0];
                     console.log('------feature-----', featurevalue);
-                    if(featurevalue) {
+                    if (featurevalue) {
                         if (featurevalue.type === 'external') {
                             tempFrontend['externalfeature'] = featurevalue;
                         }
@@ -81,7 +82,10 @@ export class FrontendTemplateService {
                 callback('angular template are generated');
             }
             if (details.project.clientFramework.label.includes('React')) {
+                const generationPath = details.projectGenerationPath.split("/application");
+                const readmepath = details.project.templateLocation.adminManagerTemplatePath + '/readMe'
                 let response = await this.generateReact(templateObj);
+                this.generate_readme(generationPath, readmepath)
                 callback(response);
             }
 
@@ -100,6 +104,18 @@ export class FrontendTemplateService {
             })
         })
     }
+
+    //readme generation for react
+    generate_readme(generationPath, readmepath) {
+        fs.readFile(`${readmepath}/react_README.md`, 'utf8', (err, result) => {
+            fs.writeFile(generationPath[0] + `/README.md`, result, (err) => {
+                console.log("eroor----", err)
+                if (err) throw err;
+                console.log('README.md for react is generated');
+            })
+        })
+    }
+
 
     getMenuByProjectId(projectId) {
         return new Promise(resolve => {
