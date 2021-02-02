@@ -15,7 +15,7 @@ export class GeppettoHeader {
         <span class='icon-bar' id='template-ihry1'>
         </span>
       </button>
-      <a class='navbar-brand' href='/home' id='template-io1pk'>GEPPETTO</a>
+      <a class='navbar-brand' [routerLink]="['/home']" id='template-io1pk'>GEPPETTO</a>
     </div>
     <div class='collapse navbar-collapse' id='myNavbar'>
       <ul class='nav navbar-nav navbar-right' id='template-ionqz'>

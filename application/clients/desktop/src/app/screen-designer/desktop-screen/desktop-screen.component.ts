@@ -567,7 +567,7 @@ export class DesktopScreenComponent implements OnInit {
       list[nextId] = model;
       return nextId;
     };
-    this.getEntity();
+    // this.getEntity();
 
     // Need to set generated id while component creation
     this.editor.on('component:create', component => {
@@ -978,6 +978,8 @@ export class DesktopScreenComponent implements OnInit {
         featureData => {
           if (featureData.body) {
             this.featurelist = featureData.body;
+            let featureObject = featureData.body;
+            this.getEntity(featureObject);
             this.getProjectFeatureFlows(featureData.body.flows);
           }
         },
@@ -1250,13 +1252,13 @@ export class DesktopScreenComponent implements OnInit {
 
   }
 
-  getEntity() {
+  getEntity(featureObject) {
     if (this.project_id !== undefined && this.feature_id !== undefined) {
       this.projectComponentService
-        .getEntityByFeatureId(this.feature_id, this.logId)
+        .getAllEntityByFeatureId(this.feature_id, this.logId)
         .subscribe(
           response => {
-            this.entityData = response.body;
+            this.entityData = response.body.body;
             if (
               this.entityData !== null &&
               this.entityData !== undefined &&
@@ -1266,19 +1268,23 @@ export class DesktopScreenComponent implements OnInit {
               const entityArray = [];
               entityArray.push({ name: 'none', value: 'none' });
               this.EntityField = this.entityData;
-              this.entityData.forEach(entityElement => {
-                const object = {
-                  name: '',
-                  value: '',
-                  type: ''
-                };
-                object.name = entityElement.name;
-                object.value = entityElement._id;
-                object.type = entityElement.entity_type;
-                entityArray.push(object);
-                this.entitydetails = entityArray;
-                console.log('-----Geppetto service calling----', entityArray);
-              });
+              featureObject.entities.forEach(entity => {
+                this.entityData.forEach(entityElement => {
+                  if(entity.entityId === entityElement._id) {
+                    const object = {
+                      name: '',
+                      value: '',
+                      type: ''
+                    };
+                    object.name = entityElement.name;
+                    object.value = entityElement._id;
+                    object.type = entity.entityType;
+                    entityArray.push(object);
+                    this.entitydetails = entityArray;
+                  }
+                  console.log('-----Geppetto service calling----', entityArray);
+                });
+              })
               this.traitsName = 'entity';
               this.setDefaultType(entityArray);
             } else {
