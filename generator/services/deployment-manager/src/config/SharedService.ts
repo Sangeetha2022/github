@@ -11,7 +11,6 @@ export class SharedService {
     public static apiGatewayURL: String;
     public static aws_deploymentURL: String;
 
-    // public static aws_deploymentURL: String = process.env.awsdeploymentmanager + ":5021"
 
     constructor() {
         this.getURL();
@@ -22,13 +21,11 @@ export class SharedService {
         switch (process.env.localname) {
 
             case process.env.name: SharedService.systementryBaseUrl = process.env.localsystementryBaseUrl;
-                SharedService.apiGatewayURL = SharedService.systementryBaseUrl + ":3000";
                 SharedService.aws_deploymentURL = process.env.awsdeploymentmanager + ":5021";
 
                 break;
 
             default: SharedService.systementryBaseUrl = process.env.livesystementryBaseUrl;
-                SharedService.apiGatewayURL = SharedService.systementryBaseUrl + ":3000";
                 SharedService.aws_deploymentURL = process.env.awsdeploymentmanager + ":5021";
 
                 break;

@@ -1,8 +1,10 @@
 import * as express from "express";
+import * as dotenv from "dotenv";
 import * as bodyParser from "body-parser";
 import { Routes } from "./routes/routes";
 import * as cors from 'cors';
 import { WinstonLogger } from './config/WinstonLogger';
+import { SharedService } from './config/SharedService';
 
 const PORT = 5005;
 
@@ -11,12 +13,14 @@ class App {
     public app: express.Application = express();
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
+    public apiUrl : SharedService = new SharedService();
 
     constructor() {
         this.logger.setupLogger();
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
         this.routePrv.routes(this.app);
+
     }
 
     private initializeMiddlewares() {
