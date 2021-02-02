@@ -154,7 +154,9 @@ export class ProjectsComponent implements OnInit {
       this.getProjectByUserId();
       this.closeImportModal();
     }
-
+    setTimeout(() => {
+      this.onSecondoryLangSelect();
+    }, 1000);
   }
 
   Queryparams() {
