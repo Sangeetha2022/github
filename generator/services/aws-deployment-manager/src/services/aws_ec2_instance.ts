@@ -28,7 +28,7 @@ export class AwsEc2Instance   {
         // file path for live
         let GithubActionGenerationPath_live = githubGenerationPath + '.github/workflows'
         // file path for local
-        let GithubActionGenerationPath_local = githubGenerationPath + 'devops/cloud/aws/github_action'
+        let GithubActionGenerationPath_local = githubGenerationPath + 'devops/cloud/aws/github_actions'
         let templatePath = path.resolve(__dirname, '../../templates/github_actions');
         let filePath = templatePath + `/ec2_instance_deployment.handlebars`;
         let result: any = await this.handleBarsFile(filePath, fileData, GithubActionGenerationPath_live, GithubActionGenerationPath_local)
