@@ -39,7 +39,6 @@
                             [src]="show ? '../../assets/img/eyeopen.png' : '../../assets/img/eyeslash.png'" height="20"
                             (click)="hideEye()" alt="eye" /></span>
                     </div>
-                    {{ loginform.get('logindata.password').valid }}
                 <span *ngIf="!loginform.get('logindata.password').valid && loginform.get('logindata.password').touched || !loginform.get('logindata.password').valid && submitted "
                     class="invalid-feedback">
                     A Password must be 8 character and must have a Uppercase , Lowercase and a Special character
