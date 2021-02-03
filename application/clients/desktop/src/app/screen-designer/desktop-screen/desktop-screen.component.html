@@ -285,14 +285,13 @@
         <form class="m-3">
             <button type="button" class="close" (click)="onCloseModel()" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
-              </button>      
-          <div class="form-group row">
-            <label for="fields">fields</label>
-            <select class="form-control" id="fields"  name="entityFields" [(ngModel)]="entityFields.entityfieldname" (ngModelChange)="onChangeentityfield()" >
-              <option *ngFor="let field of fields " [value]="field.name" >
-                {{ field.name }}</option>
-            </select>
-          </div>
+              </button>     
+              <div class="form-group">
+                <label>fields</label>
+                <select class="form-control" id="fields"  name="entityFields" [(ngModel)]="entityFields.entityfieldname" (ngModelChange)="onChangeentityfield()">
+                  <option *ngFor="let field of fields " [value]="field.name" selected>{{ field.name }}</option>
+                </select>
+              </div> 
         </form>
       </div>
       <div class="modal-footer">
