@@ -184,9 +184,11 @@ export class CodeGenerationService {
           if (featureElement.entities.length > 0) {
             asyncLoop(featureElement.entities, async (featureEntity, entityNext) => {
               console.log('each feature entity ---33---  ', featureEntity);
-              const entity = await this.getEntityById(featureEntity.entityId)
+              const entity = await this.getEntityById(featureEntity.entityId);
+              let entityObject: any = JSON.parse(entity.toString()).body;
+              entityObject.entity_type = featureEntity.entityType;
               console.log('each feature entity ----3.2111---  ', entity);
-              feature.entities.push(JSON.parse(entity.toString()).body)
+              feature.entities.push(entityObject);
               entityNext();
             }, async (entityErr) => {
               if (entityErr) {

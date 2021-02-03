@@ -308,7 +308,7 @@ export class FeatureDetailsComponent implements OnInit {
             if (data) {
                 console.log('dataservice--response --->>', Object.keys(data).length);
                 if (Object.values(data).length !== 0) {
-                    console.log('i am data---response --<>>', data)
+                    console.log('i am data---response --<>>', data);
                     this.flowEntityId = data._id;
                     this.flowEntityName = data.name;
                     this.displayModelTree = 'none';
@@ -887,11 +887,9 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
     saveEntity(entityData) {
-        this.entity.name = entityData.name;
-        this.entity.description = entityData.description;
-        this.entity.project_id = this.project_id;
-        // delete this.entity._id;
-        this.projectComponentService.createEntity(this.entity, this.logId).subscribe(
+        delete entityData._id;
+        entityData.project_id = this.project_id;
+        this.projectComponentService.createEntity(entityData, this.logId).subscribe(
             (response) => {
                 this.updateEntityId = response.body._id;
                 this.entitydetails = [];
