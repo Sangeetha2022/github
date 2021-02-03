@@ -13,12 +13,13 @@ export class SharedService {
 
     // public static infrastructureURL: String = SharedService.generatorBaseUrl + ":5004";
 
+    // public static deploymentURL: String = SharedService.generatorBaseUrl + ":5005";
 
     public static generatorBaseUrl: String;
     public static systementryBaseUrl: String;
     public static apiGatewayURL: String;
     public static infrastructureURL: String;
-
+    public static deploymentURL: String;
 
 
     constructor() {
@@ -34,13 +35,14 @@ export class SharedService {
                 SharedService.generatorBaseUrl = process.env.localgeneratorBaseUrl;
                 SharedService.apiGatewayURL = SharedService.systementryBaseUrl + ":3000";
                 SharedService.infrastructureURL = process.env.inframanager + ":5004";
-              
+                SharedService.deploymentURL = process.env.deploymenmanager + ":5005";
                 break;
 
             default: SharedService.systementryBaseUrl = process.env.livesystementryBaseUrl;
                 SharedService.generatorBaseUrl = process.env.livegeneratorBaseUrl;
                 SharedService.apiGatewayURL = SharedService.systementryBaseUrl + ":3000";
                 SharedService.infrastructureURL = SharedService.generatorBaseUrl + ":5004";
+                SharedService.deploymentURL = SharedService.generatorBaseUrl + ":5005";
 
                 break;
         }
