@@ -285,9 +285,8 @@ services:
       - "5005:5005"
     env_file: ../../.env
     depends_on:
-      - mongo
       - awsdeploymentmanager
-  
+      
   awsdeploymentmanager:
     build: ../../generator/services/aws-deployment-manager
     image: awsdeploymentmanager
@@ -297,8 +296,6 @@ services:
     ports:
       - "5021:5021"
     env_file: ../../.env
-    depends_on:
-      - deploymentmanager
 
   frontgenmanager:
     build: ../../generator/services/frontend-gen-manager

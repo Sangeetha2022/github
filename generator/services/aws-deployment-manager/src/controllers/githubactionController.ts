@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { aws_ec2_instance } from '../services/aws_ec2_instance';
-import { github_actions_local } from '../services/aws_ec2_instance_local'
-let AWS_EC2_INSTANCE = new aws_ec2_instance();
-let GITHUB_ACTIONS_LOCAL = new github_actions_local()
+import { AwsEc2Instance } from '../services/aws_ec2_instance';
+import { Github_Actions_Local } from '../services/aws_ec2_instance_local'
+let AWS_EC2_INSTANCE = new AwsEc2Instance();
+let GITHUB_ACTIONS_LOCAL = new Github_Actions_Local()
 export class githubactionController {
 
     public generategithubaction(req: Request, res: Response) {

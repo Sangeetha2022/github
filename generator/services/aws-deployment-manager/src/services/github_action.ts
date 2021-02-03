@@ -1,8 +1,8 @@
-import { github_actions_local } from './aws_ec2_instance_local'
-import { aws_ec2_instance } from './aws_ec2_instance'
-let Github_Actions_Local = new github_actions_local
-let Github_Actions_Live = new aws_ec2_instance
+import { Github_Actions_Local } from './aws_ec2_instance_local'
+import { AwsEc2Instance } from './aws_ec2_instance'
+let GithubActionsLocal = new Github_Actions_Local
+let GithubActionsLive = new AwsEc2Instance
 
-export class github_actions {
+export class GithubActions {
 
 }

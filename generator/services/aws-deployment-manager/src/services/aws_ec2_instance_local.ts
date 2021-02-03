@@ -7,7 +7,7 @@ import { Common } from '../config/Common';
 import { Constant } from '../config/Constant';
 
 
-export class github_actions_local {
+export class Github_Actions_Local {
     private screenName = 'aws_ec2_instance.yml'
     filePath: any;
     fileData: any;

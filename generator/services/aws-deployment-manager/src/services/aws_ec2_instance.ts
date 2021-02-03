@@ -7,7 +7,7 @@ import { Common } from '../config/Common';
 import { Constant } from '../config/Constant';
 
 
-export class aws_ec2_instance {
+export class AwsEc2Instance   {
     private screenName = 'aws_ec2_instance.yml'
     filePath: any;
     fileData: any;
