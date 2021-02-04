@@ -52,7 +52,7 @@ export class DmnWorkerFile {
             menu.forEach(element => {
                 console.log('--------screen value----', element);
                 output[element.resources] = [];
-                if(element.resources == 'admin'){
+                if(element.resources == 'admin' || element.resources == 'authorization'){
                     element.role = 'Admin';
                 }
                 if (element.role == 'Admin') {

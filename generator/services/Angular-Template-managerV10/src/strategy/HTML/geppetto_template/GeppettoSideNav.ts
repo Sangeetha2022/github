@@ -14,11 +14,14 @@ export class GeppettoSideNav {
                 if (element.menuDetails && element.menuDetails.length > 0) {
                     element.menuDetails.forEach((menuElement: any) => {
                         if (menuElement.featuremenu[0].name.feature !== 'default') {
-                            mainNav.push(`<div class="list-group panel" *ngIf='userId!=null'>
-    <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
-    <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
+                            //                         mainNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
+                            // <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
+                            // <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
                             if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
                                 menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
+                                    mainNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
+                                    <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
+                                    <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
                                     mainNav.push(`<a class="list-group-item" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>`);
                                 });
                             }
@@ -37,6 +40,11 @@ export class GeppettoSideNav {
                                             bottomNav.push(`<li>
     <a class="list-group-item list-group-item-success text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
 </li>`);
+                                            break;
+                                        case 'authorization':
+                                            bottomNav.push(`<div class="list-group panel" *ngIf='isAdminUser'>
+                                            <a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+                                        </div>`);
                                             break;
                                         case 'admin':
                                             mainNav.push(`<div class="list-group panel" *ngIf='isAdminUser'>
