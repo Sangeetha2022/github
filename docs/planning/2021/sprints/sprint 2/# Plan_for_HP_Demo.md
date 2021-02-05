@@ -14,8 +14,10 @@ The idea is to blend this presentation/demo as much as possible into our sprint 
 
 - Siva
   - HP/WCMX must be running and need to prove the sync from wordpress is working #824
-    - Kibana installed and working in Geppetto stage
-    - Kibana installed and working in HP/WCMX 
+    - Kibana installed and working in Geppetto stage #824
+    - Kibana installed and working in HP/WCMX   - this is #843
+    - bug #844 build issue in stage
+
 
 - jp
   - continue to incorporate authorization/camunda into generated app #805, #830, #833( critical for the demo), #834(service now)
@@ -28,17 +30,17 @@ The idea is to blend this presentation/demo as much as possible into our sprint 
   - priority bugs that affect HP demo #780
 
 - Manavalan
-  - deploymentmanager, and awsdeploymentmanager - Alpha github actions generation for EC2
+  - deploymentmanager, and awsdeploymentmanager - Alpha github actions generation for EC2 **done for S3**
   - change default deployment to "local" #831, #832
 
 - Manikandan
   - firebasegenerationmanger - Alpha generation (this show HP that Geppetto does NOT impose a technical stack)
 
 - Mithun
-  - integrate generated app with Camunda using the Ticket app as a guide #780
+  - integrate generated app with Camunda using the Ticket app as a guide #780 **partially done** **not done in generator**
   - create screen/service to allow an admin of the generated application to create/update roles/groups - currently this is hardcoded
 
 - Arunodhayam/Harish
-  - deploy ticket app (fargate or ec2 if fargate not ready) #797
-  - workout fargate - Manavlan will help since they keep having the NPM problem
+  - deploy ticket app (fargate or ec2 if fargate not ready) #797 - **done**
+  - workout fargate - Manavlan will help since they keep having the NPM problem **done**
 
