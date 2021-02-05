@@ -34,14 +34,16 @@ export class FrontendSupportWorker {
         // })
     }
 
-    public generateFile(applicationPath, authTemplatePath, fileName, templateName, information, callback) {
+    public async generateFile(applicationPath, authTemplatePath, fileName, templateName, information, callback) {
         console.log(`generate file aof informat ion are -${fileName}---  `, information, ' --- foldername ---  ', fileName);
         authTemplatePath = path.resolve(__dirname, authTemplatePath);
         Common.createFolders(applicationPath);
         let renderTemplate = st.loadGroup(require(authTemplatePath + `/${templateName}_stg`));
         let fileData = renderTemplate.render(templateName, [information]);
-        this.writeFile(applicationPath + `/${fileName}`, fileData, null)
+        console.log('fileData---->>>>', fileData);
+        await this.writeFile(applicationPath + `/${fileName}`, fileData, null)
             .then(() => {
+                console.log('1111111111111-------');
                 callback('successfully written the file');
             }).catch(error => {
                 callback('cannot able to written the file');

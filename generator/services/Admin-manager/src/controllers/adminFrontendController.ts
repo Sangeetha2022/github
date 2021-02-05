@@ -6,6 +6,8 @@ const adminServcie = new AdminFrontendServcie();
 export class AdminFrontendController {
  
     public adminFrontend(req: Request, res: Response) {
+        const date = new Date();
+        console.log('DATE---->>>>>', date.getHours() + ':' + date.getMinutes() + ':', date.getSeconds() + ':' + date.getMilliseconds());
         adminServcie.adminFrontend(req, (response, err) => {
             if (err) {
                 res.send(err);

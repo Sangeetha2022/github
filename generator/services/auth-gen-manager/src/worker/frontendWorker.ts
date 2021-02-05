@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as asyncLoop from 'node-async-loop';
 import { Common } from '../config/Common';
 import { FrontendSupportWorker } from '../Supportworker/frontendSupportWorker';
 
@@ -143,84 +144,96 @@ export class FrontendWorker {
         this.seedPath = details.seedTemplatePath;
         this.authTemplatePath = details.authTemplatePath;
         const loginApplicationPath = `${this.projectGenerationPath}/src/app/${this.LOGIN_FOLDERNAME}`;
-        this.generateStaticComponent(loginApplicationPath, this.LOGIN_FOLDERNAME);
-        this.generateServiceComponent(details.templateResponse.shared, this.LOGIN_FOLDERNAME,
-            this.LOGIN_SERVICE_TEMPLATENAME, loginApplicationPath);
-        this.generateModule(this.LOGIN_FOLDERNAME,
-            this.MODULE_TEMPLATENAME, loginApplicationPath);
-        callback();
+        this.generateStaticComponent(loginApplicationPath, this.LOGIN_FOLDERNAME, () => {
+            this.generateServiceComponent(details.templateResponse.shared, this.LOGIN_FOLDERNAME,
+                this.LOGIN_SERVICE_TEMPLATENAME, loginApplicationPath, () => {
+                    this.generateModule(this.LOGIN_FOLDERNAME, this.MODULE_TEMPLATENAME, loginApplicationPath, () => {
+                        callback();
+                    });
+                });
+        });
     }
 
     //createReadmeFile 
-    createReadMeFile(details, callback) {
+    async createReadMeFile(details, callback) {
         const generationPath = details.templateResponse.applicationPath.split("/application")
         const seedPath = `${details.seedTemplatePath}/readMe`;
-        this.frontendSupportWorker.generateStaticFile(generationPath[0], seedPath, "README.md")
-        callback()
+        await this.frontendSupportWorker.generateStaticFile(generationPath[0], seedPath, "README.md", () => {
+            callback()
+        });
     }
 
      //createReadmeFile 
-     createErrorReadMeFile(details, callback) {
+     async createErrorReadMeFile(details, callback) {
         const generationPath = details.templateResponse.applicationPath.split("/application")
         const seedPath = `${details.seedTemplatePath}/readMe`;
-        this.frontendSupportWorker.generateStaticFile(generationPath[0], seedPath, "ERROR.md")
-        callback()
+        await this.frontendSupportWorker.generateStaticFile(generationPath[0], seedPath, "ERROR.md", () => {
+            callback();
+        });
     }
 
     //create config folder from seed files
-    createConfig(callback) {
+    async createConfig(callback) {
         const configPath = `${this.projectGenerationPath}/src/app/${this.CONFIG_FOLDERNAME}`;
-        this.generateStaticComponent(configPath, this.CONFIG_FOLDERNAME);
-        callback();
+        await this.generateStaticComponent(configPath, this.CONFIG_FOLDERNAME, () => {
+            callback();
+        });
     }
 
     // create signup component from seed files
-    createSignupComponent(callback) {
+    async createSignupComponent(callback) {
         const signupApplicationPath = `${this.projectGenerationPath}/src/app/${this.SIGNUP_FOLDERNAME}`;
-        this.generateStaticComponent(signupApplicationPath, this.SIGNUP_FOLDERNAME);
-        this.generateModule(this.SIGNUP_FOLDERNAME,
-            this.MODULE_TEMPLATENAME, signupApplicationPath);
-        callback();
+        this.generateStaticComponent(signupApplicationPath, this.SIGNUP_FOLDERNAME, () => {
+            this.generateModule(this.SIGNUP_FOLDERNAME, this.MODULE_TEMPLATENAME, signupApplicationPath, () => {
+                callback();
+            });
+        });
     }
 
     // create authorization component from seed files
-    createAuthorizationComponent(callback) {
+    async createAuthorizationComponent(callback) {
         const authorizationPath = `${this.projectGenerationPath}/src/app/${this.AUTHORIZATION_FOLDERNAME}`;
-        this.generateStaticComponent(authorizationPath, this.AUTHORIZATION_FOLDERNAME);
-        this.generateModule(this.AUTHORIZATION_FOLDERNAME,
-            this.MODULE_TEMPLATENAME, authorizationPath);
-        callback();
+        await this.generateStaticComponent(authorizationPath, this.AUTHORIZATION_FOLDERNAME, () => {
+          this.generateModule(this.AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, authorizationPath, () => {
+            callback();
+          });
+        });
     }
 
     // create home component from seed files
-    createHomeComponent(callback) {
+    async createHomeComponent(callback) {
         const homeApplicationPath = `${this.projectGenerationPath}/src/app/${this.HOME_FOLDERNAME}`;
-        this.generateStaticComponent(homeApplicationPath, this.HOME_FOLDERNAME);
-        this.generateModule(this.HOME_FOLDERNAME,
-            this.MODULE_TEMPLATENAME, homeApplicationPath);
-        callback();
+        this.generateStaticComponent(homeApplicationPath, this.HOME_FOLDERNAME, () => {
+            this.
+            (this.HOME_FOLDERNAME, this.MODULE_TEMPLATENAME, homeApplicationPath, () => {
+                callback();
+            });
+        });
     }
 
     // create user component from seed files
-    createUserComponent(callback) {
+    async createUserComponent(callback) {
         const userApplicationPath = `${this.projectGenerationPath}/src/app/${this.USER_FOLDERNAME}`;
         const profileApplicationPath = `${userApplicationPath}/${this.PROFILE_SETTINGS_FOLDERNAME}`;
         const buttonRendererApplicationPath = `${userApplicationPath}/${this.BUTTON_RENDERER_FOLDERNAME}`;
-        this.generateStaticComponent(userApplicationPath, this.USER_FOLDERNAME);
-        this.generateStaticComponent(profileApplicationPath, this.PROFILE_SETTINGS_FOLDERNAME);
-        this.generateStaticComponent(buttonRendererApplicationPath, this.BUTTON_RENDERER_FOLDERNAME);
-        this.generateModule(this.USER_FOLDERNAME,
-            this.MODULE_TEMPLATENAME, userApplicationPath);
-        this.generateModule(this.PROFILE_SETTINGS_FOLDERNAME,
-            this.MODULE_TEMPLATENAME, profileApplicationPath);
-        this.generateModule(this.BUTTON_RENDERER_FOLDERNAME,
-            this.MODULE_TEMPLATENAME, buttonRendererApplicationPath);
-        callback();
+        this.generateStaticComponent(userApplicationPath, this.USER_FOLDERNAME, () => {
+            this.generateStaticComponent(profileApplicationPath, this.PROFILE_SETTINGS_FOLDERNAME, () => {
+                this.generateStaticComponent(buttonRendererApplicationPath, this.BUTTON_RENDERER_FOLDERNAME, () => {
+                    this.generateModule(this.USER_FOLDERNAME, this.MODULE_TEMPLATENAME, userApplicationPath, () => {
+                        this.generateModule(this.PROFILE_SETTINGS_FOLDERNAME, this.MODULE_TEMPLATENAME, profileApplicationPath, () => {
+                            this.generateModule(this.BUTTON_RENDERER_FOLDERNAME, this.MODULE_TEMPLATENAME, buttonRendererApplicationPath, () => {
+                                callback();
+                            });
+                        });
+                    });
+                });
+            });
+        });
     }
 
 
     // create auth component from seed files
-    createAuthComponent(menus, callback) {
+    async createAuthComponent(menus, callback) {
         this.allMenus(menus);
         const templateName = `/authguard`;
         const fileName = `/auth.guard.ts`
@@ -228,10 +241,11 @@ export class FrontendWorker {
         if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`) < 0) {
             this.routingModuleInfo.importDependency.push(`import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`);
         }
-        this.generateStaticComponent(AuthApplicationPath, this.AUTH_FOLDERNAME);
-        this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateName, this.routingMenus);
-        callback();
-
+        await this.generateStaticComponent(AuthApplicationPath, this.AUTH_FOLDERNAME, () => {
+            this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateName, this.routingMenus, () => {
+                callback();
+            });
+        });
     }
 
 
@@ -258,13 +272,14 @@ export class FrontendWorker {
 
 
     // add method in header component
-    generateAppFile(callback) {
+    async generateAppFile(callback) {
         const headerComponentPath = `${this.projectGenerationPath}/src/app`;
-        this.modifyAppFile(headerComponentPath, this.HEADER_FOLDERNAME);
-        callback();
+        this.modifyAppFile(headerComponentPath, this.HEADER_FOLDERNAME, () => {
+            callback();
+        });
     }
 
-    async generateStaticComponent(applicationPath, folderName) {
+    async generateStaticComponent(applicationPath, folderName, callback) {
         let loginSeedPath;
         if (folderName === 'profilesettings' || folderName === 'button-renderer') {
             loginSeedPath = `${this.seedPath}/user/${folderName}`;
@@ -272,14 +287,25 @@ export class FrontendWorker {
             loginSeedPath = `${this.seedPath}/${folderName}`;
         }
         Common.createFolders(applicationPath);
-        await fs.readdirSync(loginSeedPath).forEach(fileElement => {
-            this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement);
-        })
+        let fileArray = await fs.readdirSync(loginSeedPath);
+        asyncLoop(fileArray, (element, next) => {
+            this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, element, () => {
+                next();
+            });
+        }, err => {
+            callback();
+        });
+        // fs.readdirSync(loginSeedPath).forEach(async fileElement => {
+        //     this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, () => {
+        //         console.log('222222222222', folderName);
+        //         callback();
+        //     });
+        // });
 
 
     }
 
-    async generateServiceComponent(sharedObj, folderName, templateName, applicationPath) {
+    async generateServiceComponent(sharedObj, folderName, templateName, applicationPath, callback) {
         const fileName = `${folderName}.${this.SERVICE_NAME}.ts`;
         const temp = {
             className: folderName.charAt(0).toUpperCase() + folderName.slice(1),
@@ -289,10 +315,12 @@ export class FrontendWorker {
                 variableName: sharedObj.variableName
             }
         }
-        this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp);
+        this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp, () => {
+            callback();
+        });
     }
 
-    async generateModule(folderName, templateName, applicationPath) {
+    async generateModule(folderName, templateName, applicationPath, callback) {
         let fileName;
         if (folderName !== 'button-renderer' && folderName !== 'authorization') {
             if (folderName !== 'profilesettings') {
@@ -388,44 +416,49 @@ export class FrontendWorker {
         }
         if (folderName !== 'button-renderer') {
             if (folderName !== 'profilesettings') {
-                this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp);
+                this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp, () => {
+                    callback();
+                });
+            } else {
+                callback();
             }
+        } else {
+            callback();
         }
     }
 
-    modifyFiles() {
+    async modifyFiles(callback) {
         const appModulePath = `${this.projectGenerationPath}/src/app`;
         this.modifyAppModuleFile(appModulePath);
         this.modifyAppRoutingModuleFile(appModulePath);
-        this.modifyPackageJsonFile();
-        // modify app module
-        // import httpclientmodule in app module files
-        // this.appModuleInfo.importDependency.push();
-        // this.appModuleInfo.imports.push();
-        if (this.appModuleInfo.importDependency.findIndex(x => x == this.httpClient.importDependency) < 0) {
-            this.appModuleInfo.importDependency.push(this.httpClient.importDependency);
-            this.appModuleInfo.imports.push(this.httpClient.imports);
-        }
+        this.modifyPackageJsonFile(() => {
+            // modify app module
+            // import httpclientmodule in app module files
+            // this.appModuleInfo.importDependency.push();
+            // this.appModuleInfo.imports.push();
+            if (this.appModuleInfo.importDependency.findIndex(x => x == this.httpClient.importDependency) < 0) {
+                this.appModuleInfo.importDependency.push(this.httpClient.importDependency);
+                this.appModuleInfo.imports.push(this.httpClient.imports);
+            }
 
-        if (this.appModuleInfo.importDependency.findIndex(x => x == this.FormModule.importDependency) < 0) {
-            this.appModuleInfo.importDependency.push(this.FormModule.importDependency);
-            this.appModuleInfo.imports.push(this.FormModule.imports);
-        }
-
-        console.log('final app module importing ----- ', this.appModuleInfo);
-        console.log('final routing modules importing ----- ', this.routingModuleInfo);
-
-        this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath,
-            this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo);
-
-        // modify app routing file
-        this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath,
-            this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo);
+            if (this.appModuleInfo.importDependency.findIndex(x => x == this.FormModule.importDependency) < 0) {
+                this.appModuleInfo.importDependency.push(this.FormModule.importDependency);
+                this.appModuleInfo.imports.push(this.FormModule.imports);
+            }
+            console.log('final app module importing ----- ', this.appModuleInfo);
+            console.log('final routing modules importing ----- ', this.routingModuleInfo);
+            this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath, this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo, () => {
+                // modify app routing file
+                this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath, this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo, () => {
+                    callback();
+                });
+            });
+        });
         // console.log('modifyu files values are -------  ', this.appModuleInfo);
         // console.log('modifyu files values are -app routing files a------  ', this.routingModuleInfo);
     }
 
-    modifyAppFile(appPath, fileName) {
+    async modifyAppFile(appPath, fileName, callback) {
         console.log('modufle app file path are ----  ', `${appPath}/${fileName}/${fileName}/${fileName}.component.ts`)
         const modifyFile = fs.readFileSync(`${appPath}/${fileName}/${fileName}.component.ts`).toString().split("\n");
         // modifyFile.forEach((appElement, index) => {
@@ -528,8 +561,9 @@ export class FrontendWorker {
 
         // }
         // console.log('last } index ----->>>>>>>>>>  ', index);
-        this.frontendSupportWorker.writeStaticFile(`${appPath}/${fileName}`, `${fileName}.component.ts`, modifyFile);
-
+        await this.frontendSupportWorker.writeStaticFile(`${appPath}/${fileName}`, `${fileName}.component.ts`, modifyFile, () => {
+            callback();
+        });
     }
 
     modifyAppModuleFile(appModulePath) {
@@ -577,7 +611,7 @@ export class FrontendWorker {
             if (this.isAppModule.imports) {
                 if (!appElement.includes('[') && !appElement.includes(']')) {
                     if (this.appModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
-                        const existingImport = ['UserModule,', 'HomeModule,', 'SignupModule,', 'LoginModule,']
+                        const existingImport = ['  UserModule,','UserModule','UserModule,', 'HomeModule,', 'SignupModule,', 'LoginModule,']
                         existingImport.forEach((e) => {
                             const importDataIndex = fileData.indexOf(e);
                             if (importDataIndex !== -1) {
@@ -646,7 +680,7 @@ export class FrontendWorker {
         })
     }
 
-    modifyPackageJsonFile() {
+    async modifyPackageJsonFile(callback) {
         const packageInfo = fs.readFileSync(`${this.projectGenerationPath}/${this.PACKAGE_FILENAME}`).toString().split("\n");
         console.log('after separate package json ----  ', packageInfo);
         console.log('after separate package json -indexOf---  ', packageInfo.indexOf(`"dependencies": {`));
@@ -659,9 +693,10 @@ export class FrontendWorker {
                     packageInfo.splice(index + 10, 0, packageElement);
                 }
             })
-            this.frontendSupportWorker.writeStaticFile(this.projectGenerationPath, this.PACKAGE_FILENAME, packageInfo);
+        this.frontendSupportWorker.writeStaticFile(this.projectGenerationPath, this.PACKAGE_FILENAME, packageInfo, () => {
+            callback();
+        });
         }
         console.log('after added values in package are -------  ', packageInfo);
-
     }
 }

@@ -12,25 +12,42 @@ export class AuthFrontendService {
     private IMAGE_GENERATION_FOLDERNAME = 'img';
 
 
-    public authfrontendservice(req: Request, callback) {
+    public async authfrontendservice(req: Request, callback) {
         console.log('entering into services file')
         console.log('auth frontend services are --------------   ', req.body, ' ---req.body.applicationPath-- ', req.body.applicationPath);
         const details = req.body;
         const menus = req.body.screenMenus
         const applicationPath = details.templateResponse.applicationPath;
         const seedTemplatePath = details.seedTemplatePath;
-        this.readImagesAssets(seedTemplatePath, applicationPath);
+        await this.readImagesAssets(seedTemplatePath, applicationPath);
         this.frontendWorker.createReadMeFile(details, (response) => {
-        this.frontendWorker.createErrorReadMeFile(details , (response) => {
-        this.frontendWorker.createLoginComponent(details, (response) => {
-            this.frontendWorker.createSignupComponent((response) => {
-                this.frontendWorker.createHomeComponent((response) => {
-                    this.frontendWorker.createAuthorizationComponent((response) => {
-                        this.frontendWorker.createConfig((response) => {
-                            this.frontendWorker.createUserComponent((response) => {
-                                this.frontendWorker.createAuthComponent(menus, (response) => {
-                                    this.frontendWorker.generateAppFile((response) => {
-                                        this.frontendWorker.modifyFiles();
+            console.log('1111111111111');
+            this.frontendWorker.createErrorReadMeFile(details, (response) => {
+                console.log('2222222222222');
+                this.frontendWorker.createLoginComponent(details, (response) => {
+                    console.log('33333333333333');
+                    this.frontendWorker.createSignupComponent((response) => {
+                        console.log('444444444444444');
+                        this.frontendWorker.createHomeComponent((response) => {
+                            console.log('555555555555555');
+                            this.frontendWorker.createAuthorizationComponent((response) => {
+                                console.log('6666666666666');
+                                this.frontendWorker.createConfig((response) => {
+                                    console.log('77777777777777');
+                                    this.frontendWorker.createUserComponent((response) => {
+                                        console.log('88888888888888');
+                                        this.frontendWorker.createAuthComponent(menus, (response) => {
+                                            console.log('9999999999999999');
+                                            this.frontendWorker.generateAppFile((response) => {
+                                                console.log('10 10 10 10 10 10 10 10 10 10');
+                                                this.frontendWorker.modifyFiles(() => {
+                                                    console.log('11 11 11 11 11 11 11 11 11');
+                                                    const date = new Date();
+                                                    console.log('RES DATE---->>>>>', date.getHours() + ':', date.getMinutes() + ':', date.getSeconds() + ':' + date.getMilliseconds());
+                                                    callback();
+                                                });
+                                            })
+                                        })
                                     })
                                 })
                             })
@@ -38,24 +55,21 @@ export class AuthFrontendService {
                     })
                 })
             })
-        })
-    })
-        });
-        callback();
-    }
-
-    readImagesAssets(templatePath, generationPath) {
-        fs.readdirSync(`${templatePath}/${this.IMAGE_FOLDERNAME}`).forEach(imageElement => {
-            this.generateAssetFile(generationPath, templatePath, imageElement);
         });
     }
 
-    private generateAssetFile(generationPath, templatePath, imageElement) {
+    async readImagesAssets(templatePath, generationPath) {
+        await fs.readdirSync(`${templatePath}/${this.IMAGE_FOLDERNAME}`).forEach(async imageElement => {
+            await this.generateAssetFile(generationPath, templatePath, imageElement);
+        });
+    }
+
+    private async generateAssetFile(generationPath, templatePath, imageElement) {
         templatePath = path.resolve(__dirname, templatePath);
         templatePath += `/${this.IMAGE_FOLDERNAME}`;
         generationPath = `${generationPath}/src/assets/${this.IMAGE_GENERATION_FOLDERNAME}`;
-        Common.createFolders(generationPath);
-        this.frontendSupportWorker.writeAssetsImageFile(generationPath, templatePath, imageElement);
+        await Common.createFolders(generationPath);
+        await this.frontendSupportWorker.writeAssetsImageFile(generationPath, templatePath, imageElement);
     }
 
 
