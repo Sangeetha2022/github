@@ -162,7 +162,7 @@ export class FrontendWorker {
         })
     }
 
-    modifyFiles() {
+    async modifyFiles() {
         const appModulePath = `${this.projectGenerationPath}/src/app`;
         this.modifyAppModuleFile(appModulePath);
         // future use
@@ -184,11 +184,11 @@ export class FrontendWorker {
             this.appModuleInfo.importDependency.push(this.adminComponent.module.importDependency);
             this.appModuleInfo.imports.push(this.adminComponent.module.imports);
         }
-        this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
+        await this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
             this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo, (response) => { });
 
         // future use of modify app routing file
-        this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
+        await this.frontendSupportWorker.generateFile(appModulePath, this.templatePath,
             this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo, (response) => { });
         console.log('modifyu files values are -------  ', this.appModuleInfo);
         console.log('modifyu files values are -app routing files a------  ', this.routingModuleInfo);
