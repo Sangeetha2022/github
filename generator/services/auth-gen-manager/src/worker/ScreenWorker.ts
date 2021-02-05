@@ -20,19 +20,20 @@ export class ScreenWorker {
         console.log('-------menu-----', menu.length);
         if (menu.length > 0) {
             menu.forEach(element => {
-                // console.log('-----menu----', element.menuDetails); 
-                element.menuDetails.forEach(element2 => {
-                    const screendetails = element2.screenmenu;
-                    screendetails.forEach(element3 => {
-                        // console.log('screens------',element3.description);
-                        const screendescription = element3.description;
-                        screendescription.screen.forEach(element4 => {
-                            // console.log('-------screen----', typeof element4); 
-                            screensname.push(element4);
-                            // console.log('------screen----', screensname);
+                console.log('--language--', element.language); 
+                if (element.language == 'English'){
+                    element.menuDetails.forEach(element2 => {
+                        const screendetails = element2.screenmenu;
+                        screendetails.forEach(element3 => {
+                            const screendescription = element3.name;
+                            screendescription.screen.forEach(element4 => {
+                                // console.log('-------screen----', typeof element4); 
+                                screensname.push(element4);
+                                console.log('------screensname----', screensname);
+                            });
                         });
                     });
-                });
+                }
             });
         } else {
             console.log('----else part----');

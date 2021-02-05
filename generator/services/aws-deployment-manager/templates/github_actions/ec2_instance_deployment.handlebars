@@ -1,0 +1,55 @@
+name: aws_ec2_deployments_for_{{project_name}}
+on:
+  push:
+    branches: 
+      - master
+      - geppetto
+  pull_request:
+    branches: 
+      - master
+      - geppetto
+env:
+  AWS_ACCESS_KEY_ID: ${{#surroundWithCurlyBraces ' secrets.AWS_ACCESS_KEY_ID '}}{{/surroundWithCurlyBraces}}
+  AWS_SECRET_ACCESS_KEY: ${{#surroundWithCurlyBraces ' secrets.AWS_SECRET_ACCESS_KEY '}}{{/surroundWithCurlyBraces}}
+  AWS_REGION: ${{#surroundWithCurlyBraces ' secrets.AWS_REGION '}}{{/surroundWithCurlyBraces}}
+
+jobs:
+  Prerequisites:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure the aws cli
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{#surroundWithCurlyBraces ' env.AWS_ACCESS_KEY_ID '}}{{/surroundWithCurlyBraces}}
+          aws-secret-access-key: ${{#surroundWithCurlyBraces ' env.AWS_ACCESS_KEY_ID '}}{{/surroundWithCurlyBraces}}
+          aws-region: ${{#surroundWithCurlyBraces ' env.AWS_ACCESS_KEY_ID '}}{{/surroundWithCurlyBraces}}
+      - name: Creating the S3 bucket
+        run: aws s3api create-bucket --bucket {{s3_bucket_name}} --region us-east-1
+  Upload_S3_Bucket:
+    needs: Prerequisites
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+      - name: Install the node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12  
+      - name: Installing angular/cli
+        run: npm install -g @angular/cli
+      - name: Installing the node modules
+        working-directory: ./application/client/desktop/{{project_name}}
+        run: npm install
+      - name: Production build
+        run: ng build --configuration=production
+      - uses: jakejarvis/s3-sync-action@v0.5.1
+        with:
+          args: --acl public-read --delete
+        env:
+          AWS_S3_BUCKET: {{s3_bucket_name}}
+          AWS_ACCESS_KEY_ID: ${{#surroundWithCurlyBraces ' env.AWS_ACCESS_KEY_ID '}}{{/surroundWithCurlyBraces}}
+          AWS_SECRET_ACCESS_KEY: ${{#surroundWithCurlyBraces ' env.AWS_SECRET_ACCESS_KEY '}}{{/surroundWithCurlyBraces}}
+          AWS_REGION: ${{#surroundWithCurlyBraces ' env.AWS_REGION '}}{{/surroundWithCurlyBraces}}
+          SOURCE_DIR: "application/client/desktop/{{project_name}}/dist/{{project_name}}"
+      - name: Enable the static webhosting
+        run: aws s3 website s3://{{s3_bucket_name}}/ --index-document index.html --error-document error.html

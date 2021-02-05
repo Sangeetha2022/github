@@ -1,18 +1,19 @@
 import { Request, Response, NextFunction } from "express";
-import { DeploymentController } from "../controllers/local/deployment.controller";
-import { AWSDeploymentController } from "../controllers/aws/aws-deployment.controller";
-import { GeppettoAWSDeploymentController } from "../controllers/aws/gep-aws-deployment.controller";
-import { GeppettoLocalDeploymentController } from "../controllers/local/gep-local-deployment.controller";
-import { IPAController } from "../controllers/aws/ios-build.controller";
-import { AndroidController } from "../controllers/aws/android-build.controller";
-
+// import { DeploymentController } from "../controllers/local/deployment.controller";
+// import { AWSDeploymentController } from "../controllers/aws/aws-deployment.controller";
+// import { GeppettoAWSDeploymentController } from "../controllers/aws/gep-aws-deployment.controller";
+// import { GeppettoLocalDeploymentController } from "../controllers/local/gep-local-deployment.controller";
+// import { IPAController } from "../controllers/aws/ios-build.controller";
+// import { AndroidController } from "../controllers/aws/android-build.controller";
+import { DeploymentManager } from "../controllers/cloudController"
 export class Routes {
-    public deployController: DeploymentController = new DeploymentController();
-    public geppettoLocalDeploymentController : GeppettoLocalDeploymentController = new GeppettoLocalDeploymentController();
-    public awsDeployController: AWSDeploymentController = new AWSDeploymentController();
-    public geppettoAWSDeploymentController : GeppettoAWSDeploymentController = new GeppettoAWSDeploymentController();
-    public ipaController : IPAController = new IPAController();
-    public androidController : AndroidController = new AndroidController();
+    // public deployController: DeploymentController = new DeploymentController();
+    // public geppettoLocalDeploymentController: GeppettoLocalDeploymentController = new GeppettoLocalDeploymentController();
+    // public awsDeployController: AWSDeploymentController = new AWSDeploymentController();
+    // public geppettoAWSDeploymentController: GeppettoAWSDeploymentController = new GeppettoAWSDeploymentController();
+    // public ipaController: IPAController = new IPAController();
+    // public androidController: AndroidController = new AndroidController();
+    public deploymentmanager: DeploymentManager = new DeploymentManager();
 
     public routes(app): void {
         app.route('/health/deploymentmanager').get((req: Request, res: Response) => {
@@ -20,17 +21,18 @@ export class Routes {
                 status: 'up'
             })
         })
+        app.route('/generate/deployment/:project_id').post(this.deploymentmanager.generate_deployment);
 
-        app.route('/generate/deployment/local/:project_id').post(this.deployController.generateDeploymentLocal);
-         
-        app.route('/generate/deployment/aws/:project_id').post(this.awsDeployController.generateDeploymentAWS);
+        // app.route('/generate/deployment/local/:project_id').post(this.deployController.generateDeploymentLocal);
 
-        app.route('/generate/deployment/aws/geppetto/:environment').post(this.geppettoAWSDeploymentController.ReDeploymentAWS);
+        // app.route('/generate/deployment/aws/:project_id').post(this.awsDeployController.generateDeploymentAWS);
 
-        app.route('/generate/deployment/local/geppetto/:environment').post(this.geppettoLocalDeploymentController.ReDeploymentLocal);
+        // app.route('/generate/deployment/aws/geppetto/:environment').post(this.geppettoAWSDeploymentController.ReDeploymentAWS);
+
+        // app.route('/generate/deployment/local/geppetto/:environment').post(this.geppettoLocalDeploymentController.ReDeploymentLocal);
 
 
-        app.route('/generate/ios/:project_id').post(this.ipaController.generateIPA);
-        app.route('/generate/android/:project_id').post(this.androidController.generateAPK);
+        // app.route('/generate/ios/:project_id').post(this.ipaController.generateIPA);
+        // app.route('/generate/android/:project_id').post(this.androidController.generateAPK);
     }
 }

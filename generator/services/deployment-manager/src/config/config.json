@@ -7,16 +7,17 @@
     "AWS": {
         "TEMPLATE_URL": "../../../template/deployment/aws",
         "DESTINATION_URL": "/home/balaji/WORK/GEPPETTO/GeppettoNew/generated_code/",
-        "TERRAFORM_FILE":"/deployment/aws/terraform/terraform.tfvars",
-        "TERRAFORM_AWS_PLUGIN":"/deploymentmanager/aws"
+        "TERRAFORM_FILE": "/deployment/aws/terraform/terraform.tfvars",
+        "TERRAFORM_AWS_PLUGIN": "/deploymentmanager/aws",
+        "GITHUB_ACTIONS": ""
     },
     "KUBECONFIG": {
         "YAML": "./kube-config",
         "URL": ""
     },
-    "GEPPETTO":{
-      "DEV":{
-          "URL":"./src/config/geppetto"
-      }
+    "GEPPETTO": {
+        "DEV": {
+            "URL": "./src/config/geppetto"
+        }
     }
 }

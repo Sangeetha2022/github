@@ -181,7 +181,7 @@ export class ConnectorManagerComponent implements OnInit {
                 if (element['_id'] === this.projectInfo.servertarget._id) {
                   this.selected.deploymentTarget = element;
                 }
-              } else if (element['label'] === 'Live') {
+              } else if (element['label'] === 'Local Machine') {
                 this.selected.deploymentTarget = element;
               }
               break;
