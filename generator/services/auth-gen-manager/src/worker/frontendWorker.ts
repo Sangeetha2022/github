@@ -204,8 +204,7 @@ export class FrontendWorker {
     async createHomeComponent(callback) {
         const homeApplicationPath = `${this.projectGenerationPath}/src/app/${this.HOME_FOLDERNAME}`;
         this.generateStaticComponent(homeApplicationPath, this.HOME_FOLDERNAME, () => {
-            this.
-            (this.HOME_FOLDERNAME, this.MODULE_TEMPLATENAME, homeApplicationPath, () => {
+            this.generateModule(this.HOME_FOLDERNAME, this.MODULE_TEMPLATENAME, homeApplicationPath, () => {
                 callback();
             });
         });
