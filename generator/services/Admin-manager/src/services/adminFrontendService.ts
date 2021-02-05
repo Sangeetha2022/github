@@ -12,8 +12,9 @@ export class AdminFrontendServcie {
     public adminFrontend(req: Request, callback: CallableFunction) {
         console.log('req----tempalte-->>', req.body);
         const details = req.body;
-        this.frontendWorker.createAdminComponent(details, (response) => {
-            this.frontendWorker.modifyFiles();
+        this.frontendWorker.createAdminComponent(details, async (response) => {
+            await this.frontendWorker.modifyFiles();
+            console.log('22222222222222---------');
             callback();
         });
 

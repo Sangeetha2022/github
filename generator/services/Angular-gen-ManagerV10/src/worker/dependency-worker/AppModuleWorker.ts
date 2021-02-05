@@ -15,6 +15,7 @@ export class AppModuleWorker {
         componentSupportWorker.readFile(applicationPath, (res, err) => {
             if (res) {
                 const fileArray: Array<string> = res.split('\n');
+                console.log('FILE ARRAY1111---->>>>', fileArray);
                 // details.desktop.forEach(async (desktopElement: any) => {
                     // const screenName = desktopElement.screenName.toLowerCase();
                     // const firstElement = screenName.charAt(0).toUpperCase();
@@ -44,13 +45,15 @@ export class AppModuleWorker {
                         }
                         // imports secton is getting duplicated. To avoid this, adding the condition
                         for (let i = 1; i < fileArray.length; i++) {
-                            if(element && fileArray[index + i] && element.trim() === fileArray[index + i].trim() && element !== '],') {
+                            if(element && fileArray[index + i] && element.trim().split(',')[0] === fileArray[index + i].trim().split(',')[0] && element !== '],') {
+                                console.log('TEST    --->>>>   ', element.trim().split(',')[0], '===', fileArray[index + i].trim().split(',')[0]);
                                 fileArray.splice(index, 1);
                                 break;
                             }
                         }
                     });
                 // });
+                console.log('FILE ARRAY2222---->>>>', fileArray);
                 componentSupportWorker.writeFile(applicationPath, fileArray.join('\n'), (res) => {
                     callback('Child Modules Imported Successfully');
                 });

@@ -56,7 +56,7 @@ export class AuthService {
     private AUTH_PROXY_FOLDERNAME = 'Auth-Proxy';
     private SECURITY_FOLDERNAME = 'securitymanager';
 
-    public auth(req: Request, callback) {
+    public async auth(req: Request, callback) {
         // console.log('path ---- >>>', req.query.projectName);
         this.sourcePath = this.authGenFiles.projectpath = req.query.projectPath;
         this.authGenFiles.templatepath = req.query.authTemplate;
@@ -71,7 +71,7 @@ export class AuthService {
                 }
             })
         }
-        Common.createFolders(this.authGenFiles.projectpath);
+        await Common.createFolders(this.authGenFiles.projectpath);
         if (this.sourcePath) {
             if (!fs.existsSync(this.sourcePath)) {
                 console.log('-----coming here for source floder creation---', this.sourcePath);
@@ -692,7 +692,7 @@ export class AuthService {
     async generateServerFile(applicationPath, templatePath, templateName, fileName, information) {
         console.log('generateServerfile are ----- ', applicationPath, ' --templatePath---  ', templatePath, ' --fileName-- ', fileName, ' --information-- ', information)
         templatePath = path.resolve(__dirname, templatePath);
-        Common.createFolders(applicationPath);
+        await Common.createFolders(applicationPath);
         let renderTemplate = st.loadGroup(require(templatePath + `/${templateName}_stg`));
         let fileData = renderTemplate.render(templateName, [information]);
         await fs.writeFile(applicationPath + `/${fileName}.ts`, fileData, function (err) {

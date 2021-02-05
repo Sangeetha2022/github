@@ -5,11 +5,11 @@ import { Common } from '../config/Common';
 
 export class ScreenSupportWorker {
 
-    screenfilegenerate(screenname, applicationPath, templatePath,callback) {
+    async screenfilegenerate(screenname, applicationPath, templatePath,callback) {
         applicationPath += `/src`;
-        Common.createFolders(applicationPath);
+        await Common.createFolders(applicationPath);
         applicationPath += `/assets`;
-        Common.createFolders(applicationPath);
+        await Common.createFolders(applicationPath);
         let pathFile = path.resolve(__dirname, templatePath);
         console.log('------screenpathFile-----', pathFile);
         let generateModel = st.loadGroup(require(pathFile + '/seed_stg'));
