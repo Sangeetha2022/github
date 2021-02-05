@@ -1,6 +1,6 @@
 /*
  * Template group authguard
- * Compiled on Wed Aug 05 2020 16:43:23 GMT+0530 (India Standard Time)
+ * Compiled on Thu Feb 04 2021 15:36:21 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -283,7 +283,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                  ");
-    w.write("if (accessvalue[0][role].value == true) {");
+    w.write("if (accessvalue[0][role].value == 'true') {");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                    ");
@@ -363,7 +363,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                  ");
-    w.write("if (accessvalue[0][role].value == true) {");
+    w.write("if (accessvalue[0][role].value == 'true') {");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                    ");
@@ -443,7 +443,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                  ");
-    w.write("if (accessvalue[0][role].value == true) {");
+    w.write("if (accessvalue[0][role].value == 'true') {");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                    ");
@@ -523,7 +523,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                  ");
-    w.write("if (accessvalue[0][role].value == true) {");
+    w.write("if (accessvalue[0][role].value == 'true') {");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                    ");

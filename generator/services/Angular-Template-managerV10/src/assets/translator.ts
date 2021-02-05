@@ -7,7 +7,13 @@ export const translator = {
 }
 
 export const english = {
-    "home": "Home", "login": "Login", "admin": "Admin", "logout": "Logout", "selectLanguage": "Select Language", "plsLogin": "Please Login or",
+    "home": "Home",
+    "login": "Login",
+    "admin": "Admin",
+    "logout": "Logout",
+    "authorization": "Authorization",
+    "selectLanguage": "Select Language",
+    "plsLogin": "Please Login or",
     "signup": "Signup",
     "email": "Email",
     "password": "Password",
@@ -25,7 +31,13 @@ export const english = {
 };
 
 export const tamil = {
-    "home": "முகப்பு", "login": "உள் நுழை", "admin": "நிர்வாகம்", "logout": "வெளியேறு", "selectLanguage": "மொழியை தேர்ந்தெடுங்கள்", "plsLogin": "தயவுசெய்து உள்நுழைக அல்லது",
+    "home": "முகப்பு",
+    "login": "உள் நுழை",
+    "admin": "நிர்வாகம்",
+    "logout": "வெளியேறு",
+    "authorization": "அங்கீகாரம்",
+    "selectLanguage": "மொழியை தேர்ந்தெடுங்கள்",
+    "plsLogin": "தயவுசெய்து உள்நுழைக அல்லது",
     "signup": "பதிவு செய்ய",
     "email": "மின்னஞ்சல்",
     "password": "கடவுச்சொல்",
@@ -43,7 +55,13 @@ export const tamil = {
 };
 
 export const spanish = {
-    "home": "casa", "login": "Iniciar sesión", "admin": "administración", "logout": "cerrar sesión", "selectLanguage": "Seleccione el idioma", "plsLogin": "Por favor Iniciar sesión o",
+    "home": "casa",
+    "login": "Iniciar sesión",
+    "admin": "administración",
+    "logout": "cerrar sesión",
+    "authorization": "autorización",
+    "selectLanguage": "Seleccione el idioma",
+    "plsLogin": "Por favor Iniciar sesión o",
     "signup": "Registro",
     "email": "correo electrónico",
     "password": "contraseña",

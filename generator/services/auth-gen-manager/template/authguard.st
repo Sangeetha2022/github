@@ -74,7 +74,7 @@ export class AuthGuard implements CanActivate {
               const accessvalue = permissionlevel[key];
               for (let role in accessvalue[0]) {
                 if (role == 'Admin') {
-                  if (accessvalue[0][role].value == true) {
+                  if (accessvalue[0][role].value == 'true') {
                     for (let i = 0; i < this.route.config.length; i++) {
                       this.viewPermission = accessvalue[0][role].value;
                       this.permissions.push(key);
@@ -94,7 +94,7 @@ export class AuthGuard implements CanActivate {
               const accessvalue = permissionlevel[key];
               for (let role in accessvalue[0]) {
                 if (role == 'Developer') {
-                  if (accessvalue[0][role].value == true) {
+                  if (accessvalue[0][role].value == 'true') {
                     for (let i = 0; i < this.route.config.length; i++) {
                       this.viewPermission = accessvalue[0][role].value;
                       this.permissions.push(key);
@@ -114,7 +114,7 @@ export class AuthGuard implements CanActivate {
               const accessvalue = permissionlevel[key];
               for (let role in accessvalue[0]) {
                 if (role == 'User') {
-                  if (accessvalue[0][role].value == true) {
+                  if (accessvalue[0][role].value == 'true') {
                     for (let i = 0; i < this.route.config.length; i++) {
                       this.viewPermission = accessvalue[0][role].value;
                       this.permissions.push(key);
@@ -134,7 +134,7 @@ export class AuthGuard implements CanActivate {
               const accessvalue = permissionlevel[key];
               for (let role in accessvalue[0]) {
                 if (role == 'Guest') {
-                  if (accessvalue[0][role].value == true) {
+                  if (accessvalue[0][role].value == 'true') {
                     for (let i = 0; i < this.route.config.length; i++) {
                       this.viewPermission = accessvalue[0][role].value;
                       this.permissions.push(key);

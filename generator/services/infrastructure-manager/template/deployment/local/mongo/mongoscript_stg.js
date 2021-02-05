@@ -1,6 +1,6 @@
 /*
  * Template group mongoscript
- * Compiled on Fri Sep 04 2020 17:19:55 GMT+0530 (India Standard Time)
+ * Compiled on Wed Feb 03 2021 18:31:25 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -98,7 +98,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("\"password\": \"gepUser\",");
+    w.write("\"password\": \"gepUser@123\",");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
@@ -162,7 +162,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("temp.password = \"gepAdmin\";");
+    w.write("temp.password = \"gepAdmin@123\";");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");

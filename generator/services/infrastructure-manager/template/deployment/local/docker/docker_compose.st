@@ -41,7 +41,7 @@ services:
     image: camundaservice
     container_name: camundasvc-$uuid$
     ports:
-      - "0000:8002"
+      - "8002:8002"
     env_file: .env
     depends_on:
       - mongo
