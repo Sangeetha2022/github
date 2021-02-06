@@ -42,7 +42,7 @@ export class GeppettoSideNav {
 </li>`);
                                             break;
                                         case 'authorization':
-                                            bottomNav.push(`<div class="list-group panel" *ngIf='isAdminUser'>
+                                            bottomNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
                                             <a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
                                         </div>`);
                                             break;
