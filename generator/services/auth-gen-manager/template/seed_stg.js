@@ -1,6 +1,6 @@
 /*
  * Template group seed
- * Compiled on Thu Jul 18 2019 21:14:12 GMT+0530 (India Standard Time)
+ * Compiled on Sat Feb 06 2021 19:38:53 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -39,7 +39,7 @@ r = function(w, rc) {
             
                      w.write("{\"resources\":\"");
                      st.write(w, s, g, rc, s.value);
-                     w.write("\"}");
+                     w.write("\", \"role\":\"Guest\"}");
                      w.write("\n");
                      w.write("    ");
             }, [
