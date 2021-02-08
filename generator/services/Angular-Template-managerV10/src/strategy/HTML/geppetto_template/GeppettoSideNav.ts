@@ -14,15 +14,12 @@ export class GeppettoSideNav {
                 if (element.menuDetails && element.menuDetails.length > 0) {
                     element.menuDetails.forEach((menuElement: any) => {
                         if (menuElement.featuremenu[0].name.feature !== 'default') {
-                            //                         mainNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                            // <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
-                            // <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
                             if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
-                                menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
-                                    mainNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                                    <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
-                                    <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
-                                    mainNav.push(`<a class="list-group-item" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>`);
+                                mainNav.push(`<div class="list-group panel" *ngIf='userId'>
+                                <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
+                                <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
+                                menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {                                   
+                                    mainNav.push(`<a class="list-group-item" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>`);
                                 });
                             }
                             mainNav.push(`</div>`);
