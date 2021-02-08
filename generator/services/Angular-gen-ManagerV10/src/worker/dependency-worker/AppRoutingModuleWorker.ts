@@ -19,7 +19,7 @@ export class AppRoutingModuleWorker {
           const firstElement = screenName.charAt(0).toUpperCase();
           const otherElements = screenName.substring(1, screenName.length);
           const moduleClassName = firstElement + otherElements + 'Module';
-          const importRoute = `{ path : '${screenName}', loadChildren: () => import('./${screenName}/${screenName}.module').then(m => m.${moduleClassName}) } , `
+          const importRoute = `{ path : '${screenName}', loadChildren: () => import('./${screenName}/${screenName}.module').then(m => m.${moduleClassName}), canActivate: [AuthGuard] } , `
           const ngModuleIndex = fileArray.indexOf('@NgModule({');
 
           fileArray.forEach((element, index) => {

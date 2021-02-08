@@ -28,8 +28,10 @@ export class ScreenWorker {
                             const screendescription = element3.name;
                             screendescription.screen.forEach(element4 => {
                                 // console.log('-------screen----', typeof element4); 
-                                screensname.push(element4);
-                                console.log('------screensname----', screensname);
+                                if (element4 !== 'login' && element4 !== 'logout' && element4 !== 'authorization'){
+                                    screensname.push(element4);
+                                    console.log('------screensname----', screensname);
+                                }
                             });
                         });
                     });
