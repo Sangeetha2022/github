@@ -1,6 +1,6 @@
 /*
  * Template group docker_compose
- * Compiled on Wed Feb 03 2021 18:31:41 GMT+0530 (India Standard Time)
+ * Compiled on Mon Feb 08 2021 13:59:53 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -130,8 +130,9 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("image: authproxy");
+    w.write("image: authproxy-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("container_name: authproxy-");
@@ -172,8 +173,9 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("image: camundaservice");
+    w.write("image: camundaservice-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("container_name: camundasvc-");
@@ -214,8 +216,9 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("image: securitymanager");
+    w.write("image: securitymanager-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("container_name: securitymanager-");
@@ -256,8 +259,9 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("image: apigateway");
+    w.write("image: apigateway-");
     w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
     w.write("\n");
     w.pushIndentation("    ");
     w.write("container_name: apigateway-");

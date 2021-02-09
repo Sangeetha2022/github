@@ -27,7 +27,7 @@ services:
 
   authproxy:
     build: ../../../application/services/default_services/authproxy
-    image: authproxy
+    image: authproxy-$uuid$
     container_name: authproxy-$uuid$
     ports:
       - "0000:8001"
@@ -38,7 +38,7 @@ services:
 
   camundaservice:
     build: ../../../application/services/default_services/camunda
-    image: camundaservice
+    image: camundaservice-$uuid$
     container_name: camundasvc-$uuid$
     ports:
       - "8002:8002"
@@ -49,7 +49,7 @@ services:
 
   securitymanager:
     build: ../../../application/services/default_services/securitymanager
-    image: securitymanager
+    image: securitymanager-$uuid$
     container_name: securitymanager-$uuid$
     ports:
       - "0000:8003"
@@ -60,7 +60,7 @@ services:
 
   apigateway:
     build: ../../../application/services/custom_services/apigateway
-    image: apigateway
+    image: apigateway-$uuid$
     container_name: apigateway-$uuid$
     ports:
       - "8000:8000"
