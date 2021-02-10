@@ -9,8 +9,9 @@ export class FlowComponentWorker {
      * @param entities 
      * Constructing the flows like GpCreate, GpUpdte, etc...
      */
-    constructFlowsInfo(flows_info: Array<Object>, nodeResponse: any, microflowObject: any, entities: any) {
+    constructFlowsInfo(desktopElement, flows_info: Array<Object>, nodeResponse: any, microflowObject: any, entities: any) {
         const flows = [];
+        const gjs_components: any = JSON.parse(desktopElement['gjs-components'][0]);
         flows_info.forEach((flow: any) => {
             if (nodeResponse && nodeResponse.flowAction && nodeResponse.flowAction.length > 0) {
                 nodeResponse.flowAction.filter((e) => {
@@ -72,7 +73,20 @@ export class FlowComponentWorker {
                             const variables = [];
                             const flowAction = nodeResponse.flowAction.filter((item) => item.methodName === Constant.GP_SEARCH_FLOW || item.methodName === Constant.GP_GETALLVALUES_FLOW);
                             if (flowAction && flowAction.length > 0) {
-                                variables.push('this.rowData = data');
+                                if(desktopElement.is_grid_present === true) {
+                                    variables.push('this.rowData = data;');
+                                } else if (gjs_components.length > 0) {
+                                    gjs_components.forEach(gjs_element => {
+                                        if(gjs_element.components.length > 0) {
+                                            gjs_element.components.forEach(data => {
+                                                if(data.type === 'dynamicdropdown-type') {
+                                                    variables.push('this.itemArray = data;');
+                                                }
+                                            })
+                                        }
+                                    })                                    
+                                }
+                                
                             }
                             if (variables.length > 0) {
                                 temp.body = variables.join('\n \t \t');

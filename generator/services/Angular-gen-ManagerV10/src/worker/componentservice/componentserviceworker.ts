@@ -34,7 +34,7 @@ export class ComponentServiceWorker {
             });
             microflowObject.GpOptions['constructor'] = constructor;
             microflowObject.GpCodeToAdd = {};
-            microflowObject = flowServiceWorker.constructFlowsInfo(desktopElement.flows_info, details.nodeResponse, microflowObject);
+            microflowObject = flowServiceWorker.constructFlowsInfo(details, desktopElement, desktopElement.flows_info, details.nodeResponse, microflowObject);
             const templatePath = path.resolve(__dirname, '../../../templates/ComponentService.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/src/app';

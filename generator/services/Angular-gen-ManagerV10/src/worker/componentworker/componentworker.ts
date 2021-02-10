@@ -50,7 +50,7 @@ export class ComponentWorker {
             constructor.push(constructorObj);
             microflowObject.GpOptions['constructor'] = constructor;
             microflowObject.GpCodeToAdd = {};
-            microflowObject = flowComponentWorker.constructFlowsInfo(desktopElement.flows_info, details.nodeResponse, microflowObject, entities);
+            microflowObject = flowComponentWorker.constructFlowsInfo(desktopElement, desktopElement.flows_info, details.nodeResponse, microflowObject, entities);
             microflowObject = routeWorker.constructGpRoute(desktopElement.route_info, microflowObject,desktopElement);
             microflowObject = componentLifecycleWorker.constructLifecycle(details.desktop, desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructAgGridComponents(desktopElement, microflowObject);

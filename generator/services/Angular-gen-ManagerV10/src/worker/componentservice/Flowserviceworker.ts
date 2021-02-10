@@ -8,7 +8,7 @@ export class FlowServiceWorker {
      * @param microflowObject 
      * Constructing Flows like GpCreate, GpUpdate, etc... http request methods
      */
-    constructFlowsInfo(flows_info: Array<Object>, nodeResponse: any, microflowObject: any) {
+    constructFlowsInfo(details, desktopElement, flows_info: Array<Object>, nodeResponse: any, microflowObject: any) {
         const flows = [];
         flows_info.forEach((flow: any) => {
             if (nodeResponse && nodeResponse.flowAction && nodeResponse.flowAction.length > 0) {
@@ -31,7 +31,17 @@ export class FlowServiceWorker {
                             }
                             // Mapping GpGetAllValues Flow Action Body
                             if(e.methodName === Constant.GP_GETALLVALUES_FLOW) {
-                                e['body'] = `return this.http.${e.apiAction}(this.sharedService.DESKTOP_API + '${e.routeUrl}');`;
+                                desktopElement.entity_info.forEach(entity => {
+                                    if(entity.htmlId === flow.htmlId) {
+                                        let entites = details.entities.filter((x) => x._id === entity.entityId);
+                                        let entityObject = entites[0];
+                                        e.routeUrl = e.routeUrl.replace(e.routeUrl, `/${entityObject.name}`);
+                                        e['body'] = `return this.http.${e.apiAction}(this.sharedService.DESKTOP_API + '${e.routeUrl}');`;
+                                    } else {
+                                        e['body'] = `return this.http.${e.apiAction}(this.sharedService.DESKTOP_API + '${e.routeUrl}');`;
+                                    }
+                                })
+                                
                             }
                             // Mapping GpSearch Flow Action Body
                             if(e.methodName === Constant.GP_SEARCH_FLOW) {
