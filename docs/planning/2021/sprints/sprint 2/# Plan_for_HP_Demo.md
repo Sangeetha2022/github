@@ -1,5 +1,18 @@
 # Plan for HP Demo
 
+## Final notes
+
+We had the demo and nothing blew up, Sean noted that I was on a roll!
+The team did very well! and I am very proud of them and what we accomplished
+Dahyana form Colombia team attended, but I did not invite Paynalli as I though it best for them to focus on Reactive IDM as I did not think anything would financially come out of this demo/meeting
+The feedback from the client Hang Ng - was typical of hard core techies - although an interesting idea he did not see how it could work for complex use cases
+
+## Takes away
+
+- we are on the right track
+- we need to explain with a video/medium article/sample how you would extend what Geppetto generates into a more complex use case
+- should we use the Video project?
+
 ## Goal/notes for Sprint
 
 - We want to present to HP the current version of Geppetto
