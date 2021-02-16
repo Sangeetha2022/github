@@ -75,15 +75,13 @@ export class FlowComponentWorker {
                             let entityName = '';
                             const flowAction = nodeResponse.flowAction.filter((item) => item.methodName === Constant.GP_SEARCH_FLOW || item.methodName === Constant.GP_GETALLVALUES_FLOW);
                             desktopElement.entity_info.forEach(entity => {
-                                console.log('entity info details =======>>>', entity);
                                 if (entity.htmlId === flow.htmlId) {
                                     let entites = details.entities.filter((x) => x._id === entity.entityId);
                                     let entityObject = entites[0];
                                     entityObject.field.forEach((fieldData) => {
                                         if(fieldData._id === entity.fields.fieldId && fieldData.type_name === 'Entity') {
-                                            console.log('field object data ===========>>>', fieldData);
                                             entityName = fieldData.entity_id.name;
-                                            temp.flowName = entityName + Constant.GP_GETALLVALUES_FLOW;
+                                            temp.flowName = fieldData.entity_id.name + Constant.GP_GETALLVALUES_FLOW;
                                         }
                                     });
                                     
@@ -94,17 +92,52 @@ export class FlowComponentWorker {
                                         variables.push('this.rowData = data;');
                                     } else if (gjs_components.length > 0) {
                                         gjs_components.forEach(gjs_element => {
-                                            if (gjs_element.components.length > 0) {
-                                                gjs_element.components.forEach(data => {
-                                                    console.log('data ===============>>>', data);
-                                                    if (data.type === 'dynamicdropdown-type' && entity.htmlId === data.attributes.id) {
-                                                        let entites = details.entities.filter((x) => x._id === entity.entityId);
-                                                        let entityObject = entites[0];
-                                                        if (entityName === entityObject.name) {
-                                                            variables.push(`this.${entityObject.name}itemArray = data;`);
+                                            if(gjs_element.components) {
+                                                if (gjs_element.components.length > 0) {
+                                                    gjs_element.components.forEach(data => {
+                                                        if(data.components && data.components.length > 0) {
+                                                            data.components.forEach(childData => {
+                                                                if(childData.components && childData.components.length > 0) {
+                                                                    childData.components.forEach(grandChildData => {
+                                                                        if (grandChildData.type === 'dynamicdropdown-type' && entity.htmlId === grandChildData.attributes.id) {
+                                                                            let entites = details.entities.filter((x) => x._id === entity.entityId);
+                                                                            let entityObject = entites[0];
+                                                                            entityObject.field.forEach((fieldData) => {
+                                                                                if(fieldData._id === entity.fields.fieldId && fieldData.type_name === 'Entity') {
+                                                                                    if (entityName === fieldData.entity_id.name) {
+                                                                                        variables.push(`this.${fieldData.entity_id.name}itemArray = data;`);
+                                                                                    }
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    })
+                                                                }
+                                                                if (childData.type === 'dynamicdropdown-type' && entity.htmlId === childData.attributes.id) {
+                                                                    let entites = details.entities.filter((x) => x._id === entity.entityId);
+                                                                    let entityObject = entites[0];
+                                                                    entityObject.field.forEach((fieldData) => {
+                                                                        if(fieldData._id === entity.fields.fieldId && fieldData.type_name === 'Entity') {
+                                                                            if (entityName === fieldData.entity_id.name) {
+                                                                                variables.push(`this.${fieldData.entity_id.name}itemArray = data;`);
+                                                                            }
+                                                                        }
+                                                                    });
+                                                                }
+                                                            })
                                                         }
-                                                    }
-                                                })
+                                                        if (data.type === 'dynamicdropdown-type' && entity.htmlId === data.attributes.id) {
+                                                            let entites = details.entities.filter((x) => x._id === entity.entityId);
+                                                            let entityObject = entites[0];
+                                                            entityObject.field.forEach((fieldData) => {
+                                                                if(fieldData._id === entity.fields.fieldId && fieldData.type_name === 'Entity') {
+                                                                    if (entityName === fieldData.entity_id.name) {
+                                                                        variables.push(`this.${fieldData.entity_id.name}itemArray = data;`);
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                    })
+                                                }
                                             }
                                         })
                                     }

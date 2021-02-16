@@ -55,7 +55,7 @@ export class ComponentWorker {
             microflowObject = componentLifecycleWorker.constructLifecycle(details.desktop, desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructAgGridComponents(desktopElement, microflowObject);
             microflowObject = thirdPartyWorker.constructBootstrapComponents(desktopElement, microflowObject);
-            microflowObject = thirdPartyWorker.constructThirdPartyComponents(desktopElement, microflowObject);
+            microflowObject = thirdPartyWorker.constructThirdPartyComponents(details, desktopElement, microflowObject);
             const templatePath = path.resolve(__dirname, '../../../templates/ComponentTs.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/' + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME;

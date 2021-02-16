@@ -14,6 +14,15 @@
         {{#ifEquals type "textarea"}}
         <textarea type="text" id="{{attributes.id}}" class="{{cssClass}}" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}" [ngModelOptions]="{standalone: true}"{{/if}}></textarea>
         {{/ifEquals}}
+        {{#if components}}
+        {{#each components}}
+        {{#ifEquals type "dynamicdropdown-type"}}
+        <ng-select class="{{cssClassName}}" [searchable]="true" [virtualScroll]="true" class="{{attributes.id}}"
+        name="{{name}}" bindLabel="{{attributes.entityDetails.mappedEntityFieldName}}" bindValue="{{attributes.entityDetails.mappedEntityFieldName}}" [items]="{{attributes.entityDetails.mappedEntityName}}itemArray" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}"
+         [ngModelOptions]="{standalone: true}"{{/if}} {{#if flowDetails.verb}}({{flowDetails.verb}})="{{attributes.entityDetails.mappedEntityName}}{{flowDetails.flowName}}()"{{/if}}></ng-select>
+        {{/ifEquals}}
+        {{/each}}
+        {{/if}}
         {{#ifEquals type "button"}}
         <button {{#if attributes.type}}type="{{attributes.type}}"{{/if}} id="{{attributes.id}}" {{#if flowDetails.verb}}({{flowDetails.verb}})="{{flowDetails.flowName}}()"{{/if}} class="{{cssClass}}">{{content}}</button>&nbsp;&nbsp;
         {{/ifEquals}}
@@ -30,6 +39,11 @@
         {{/ifEquals}}
         {{#ifEquals type "textarea"}}
         <textarea type="text" id="{{attributes.id}}" class="{{cssClassName}}" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}" [ngModelOptions]="{standalone: true}"{{/if}}></textarea>
+        {{/ifEquals}}
+        {{#ifEquals type "dynamicdropdown-type"}}
+        <ng-select class="{{cssClassName}}" [searchable]="true" [virtualScroll]="true" class="{{attributes.id}}"
+        name="{{name}}" bindLabel="{{attributes.entityDetails.mappedEntityFieldName}}" bindValue="{{attributes.entityDetails.mappedEntityFieldName}}" [items]="{{attributes.entityDetails.mappedEntityName}}itemArray" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}"
+         [ngModelOptions]="{standalone: true}"{{/if}} {{#if flowDetails.verb}}({{flowDetails.verb}})="{{attributes.entityDetails.mappedEntityName}}{{flowDetails.flowName}}()"{{/if}}></ng-select>
         {{/ifEquals}}
         {{#ifEquals type "button"}}
         <button {{#if attributes.type}}type="{{attributes.type}}"{{/if}} id="{{attributes.id}}" {{#if flowDetails.verb}}({{flowDetails.verb}})="{{flowDetails.flowName}}()"{{/if}} class="{{cssClassName}}">{{content}}</button>&nbsp;&nbsp;
@@ -49,6 +63,11 @@
         {{/ifEquals}}
         {{#ifEquals type "textarea"}}
         <textarea type="text" id="{{attributes.id}}" class="{{cssClass}}" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}" [ngModelOptions]="{standalone: true}"{{/if}}></textarea>
+        {{/ifEquals}}
+        {{#ifEquals type "dynamicdropdown-type"}}
+        <ng-select class="{{cssClassName}}" [searchable]="true" [virtualScroll]="true" class="{{attributes.id}}"
+        name="{{name}}" bindLabel="{{attributes.entityDetails.mappedEntityFieldName}}" bindValue="{{attributes.entityDetails.mappedEntityFieldName}}" [items]="{{attributes.entityDetails.mappedEntityName}}itemArray" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}"
+         [ngModelOptions]="{standalone: true}"{{/if}} {{#if flowDetails.verb}}({{flowDetails.verb}})="{{attributes.entityDetails.mappedEntityName}}{{flowDetails.flowName}}()"{{/if}}></ng-select>
         {{/ifEquals}}
         {{#ifEquals type "button"}}
         <button {{#if attributes.type}}type="{{attributes.type}}"{{/if}} id="{{attributes.id}}" {{#if flowDetails.verb}}({{flowDetails.verb}})="{{flowDetails.flowName}}()"{{/if}} class="{{cssClass}}">{{content}}</button>&nbsp;&nbsp;

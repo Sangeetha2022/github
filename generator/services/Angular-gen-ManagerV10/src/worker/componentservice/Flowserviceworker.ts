@@ -38,11 +38,16 @@ export class FlowServiceWorker {
                                     if(entity.htmlId === flow.htmlId) {
                                         let entites = details.entities.filter((x) => x._id === entity.entityId);
                                         let entityObject = entites[0];
-                                        flowActionObject.apiAction = e.apiAction;
-                                        flowActionObject.variableName = entityObject.name;
-                                        flowActionObject.methodName = entityObject.name + Constant.GP_GETALLVALUES_FLOW;
-                                        flowActionObject.routeUrl = `/${entityObject.name}`;
-                                        flowActionObject['body'] = `return this.http.${flowActionObject.apiAction}(this.sharedService.DESKTOP_API + '${flowActionObject.routeUrl}');`;
+                                        entityObject.field.forEach((fieldData) => {
+                                            if(fieldData._id === entity.fields.fieldId && fieldData.type_name === 'Entity') {
+                                                flowActionObject.apiAction = e.apiAction;
+                                                flowActionObject.variableName = fieldData.entity_id.name;
+                                                flowActionObject.methodName = fieldData.entity_id.name + Constant.GP_GETALLVALUES_FLOW;
+                                                flowActionObject.routeUrl = `/${fieldData.entity_id.name}`;
+                                                flowActionObject['body'] = `return this.http.${flowActionObject.apiAction}(this.sharedService.DESKTOP_API + '${flowActionObject.routeUrl}');`;
+                                            }
+                                        })
+                                        
                                     } else {
                                         flowActionObject['body'] = `return this.http.${flowActionObject.apiAction}(this.sharedService.DESKTOP_API + '${flowActionObject.routeUrl}');`;
                                     }
