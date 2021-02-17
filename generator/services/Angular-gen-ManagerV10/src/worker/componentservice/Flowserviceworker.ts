@@ -20,26 +20,26 @@ export class FlowServiceWorker {
                         const duplicateFlows = flows.filter((e) => e.methodName === flow.flowName);
                         if (duplicateFlows.length === 0) {
                             // Mapping GpCreate and GpUpdate Flow Actions Body
-                            if(e.methodName === Constant.GP_CREATE_FLOW || e.methodName === Constant.GP_UPDATE_FLOW) {
+                            if (e.methodName === Constant.GP_CREATE_FLOW || e.methodName === Constant.GP_UPDATE_FLOW) {
                                 e['paramName'] = e.variableName;
                                 e['body'] = `return this.http.${e.apiAction}(this.sharedService.DESKTOP_API + '${e.routeUrl}', ${e['paramName']});`;
                                 flows.push(e);
                             }
                             // Mapping GpGetNounById and GpDelete Flow Actions Body
-                            if(e.methodName === Constant.GP_GETNOUNBYID_FLOW || e.methodName === Constant.GP_DELETE_FLOW) {
+                            if (e.methodName === Constant.GP_GETNOUNBYID_FLOW || e.methodName === Constant.GP_DELETE_FLOW) {
                                 e['paramName'] = e.variableName + 'Id';
                                 e['body'] = `return this.http.${e.apiAction}(this.sharedService.DESKTOP_API + '${e.routeUrl}/' + ${e['paramName']});`;
                                 flows.push(e);
                             }
                             // Mapping GpGetAllValues Flow Action Body
-                            if(e.methodName === Constant.GP_GETALLVALUES_FLOW) {
-                                let flowActionObject:any = {};
+                            if (e.methodName === Constant.GP_GETALLVALUES_FLOW) {
+                                let flowActionObject: any = {};
                                 await desktopElement.entity_info.forEach(entity => {
-                                    if(entity.htmlId === flow.htmlId) {
+                                    if (entity.htmlId === flow.htmlId) {
                                         let entites = details.entities.filter((x) => x._id === entity.entityId);
                                         let entityObject = entites[0];
                                         entityObject.field.forEach((fieldData) => {
-                                            if(fieldData._id === entity.fields.fieldId && fieldData.type_name === 'Entity') {
+                                            if (fieldData._id === entity.fields.fieldId && fieldData.type_name === 'Entity') {
                                                 flowActionObject.apiAction = e.apiAction;
                                                 flowActionObject.variableName = fieldData.entity_id.name;
                                                 flowActionObject.methodName = fieldData.entity_id.name + Constant.GP_GETALLVALUES_FLOW;
@@ -47,7 +47,7 @@ export class FlowServiceWorker {
                                                 flowActionObject['body'] = `return this.http.${flowActionObject.apiAction}(this.sharedService.DESKTOP_API + '${flowActionObject.routeUrl}');`;
                                             }
                                         })
-                                        
+
                                     } else {
                                         flowActionObject['body'] = `return this.http.${flowActionObject.apiAction}(this.sharedService.DESKTOP_API + '${flowActionObject.routeUrl}');`;
                                     }
@@ -55,7 +55,7 @@ export class FlowServiceWorker {
                                 flows.push(flowActionObject);
                             }
                             // Mapping GpSearch Flow Action Body
-                            if(e.methodName === Constant.GP_SEARCH_FLOW) {
+                            if (e.methodName === Constant.GP_SEARCH_FLOW) {
                                 e['paramName'] = e.variableName;
                                 e['body'] = gpSearchBody.join('\n \t \t');
                                 e['body'] = e['body'].replace('paramName', e.variableName);

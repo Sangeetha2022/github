@@ -26,7 +26,7 @@ export class DynamicDropDown {
                             overAllEntities.forEach((entity: any) => {
                                 if (entityField.entityId === entity._id) {
                                     entity.field.forEach(fieldData => {
-                                        if(fieldData._id === entityField.fields.fieldId && fieldData.type_name === 'Entity') {
+                                        if (fieldData._id === entityField.fields.fieldId && fieldData.type_name === 'Entity') {
                                             let mappedFieldDetails = fieldData.entity_id.field.filter((x) => x._id === fieldData.entity_field);
                                             let fieldDataObject = mappedFieldDetails[0];
                                             entityField.mappedEntityName = fieldData.entity_id.name;
@@ -48,7 +48,7 @@ export class DynamicDropDown {
                 if (component.components !== undefined) {
                     component.components.forEach((childComponentData, index) => {
                         if (childComponentData.name !== undefined) {
-                            
+
                         }
                         screenFlowDetails.forEach((flow: any) => {
                             if (childComponentData.name === flow.elementName) {

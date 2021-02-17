@@ -26,7 +26,7 @@ export class Forms {
                 }
                 if (component.components !== undefined) {
                     component.components.forEach((childComponentData, index) => {
-                        if(childComponentData.components !== undefined) {
+                        if (childComponentData.components !== undefined) {
                             childComponentData.components.forEach((grandChildComponentData, index) => {
                                 if (grandChildComponentData.name !== undefined) {
                                     screenEntityDetails.forEach(async (entityField: any) => {
@@ -34,7 +34,7 @@ export class Forms {
                                             overAllEntities.forEach((entity: any) => {
                                                 if (entityField.entityId === entity._id) {
                                                     entity.field.forEach(fieldData => {
-                                                        if(fieldData._id === entityField.fields.fieldId && fieldData.type_name === 'Entity') {
+                                                        if (fieldData._id === entityField.fields.fieldId && fieldData.type_name === 'Entity') {
                                                             let mappedFieldDetails = fieldData.entity_id.field.filter((x) => x._id === fieldData.entity_field);
                                                             let fieldDataObject = mappedFieldDetails[0];
                                                             entityField.mappedEntityName = fieldData.entity_id.name;
@@ -71,7 +71,7 @@ export class Forms {
                                     overAllEntities.forEach((entity: any) => {
                                         if (entityField.entityId === entity._id) {
                                             entity.field.forEach(fieldData => {
-                                                if(fieldData._id === entityField.fields.fieldId && fieldData.type_name === 'Entity') {
+                                                if (fieldData._id === entityField.fields.fieldId && fieldData.type_name === 'Entity') {
                                                     let mappedFieldDetails = fieldData.entity_id.field.filter((x) => x._id === fieldData.entity_field);
                                                     let fieldDataObject = mappedFieldDetails[0];
                                                     entityField.mappedEntityName = fieldData.entity_id.name;
