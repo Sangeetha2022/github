@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Details:</h1>
 <div mat-dialog-content>
   <mat-form-field>
-    <mat-select [(ngModel)]="popupData.entity">
+    <mat-select [(ngModel)]="popupData.entity" (selectionChange)="onSelectionChanged()">
       <mat-option [value]="">-- None --</mat-option>
       <ng-container *ngFor="let entity of passedValue.allEntity">
         <mat-option *ngIf="passedValue.currentObj._id != entity._id" [value]="entity._id">
@@ -10,6 +10,17 @@
       </ng-container>
     </mat-select>
     <mat-label>Select Entity</mat-label>
+  </mat-form-field>
+  <mat-form-field *ngIf="selectFieldModal === true">
+    <mat-select [(ngModel)]="popupData.field">
+      <mat-option [value]="">-- None --</mat-option>
+      <ng-container *ngFor="let field of fieldsValue">
+        <mat-option [value]="field">
+          {{field.name}}
+        </mat-option>
+      </ng-container>
+    </mat-select>
+    <mat-label>Select Field</mat-label>
   </mat-form-field>
   <div *ngIf="passedValue.standard != null">
     <b>or</b>
@@ -35,6 +46,6 @@
 <div mat-dialog-actions>
   <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
   <!-- <button mat-raised-button color="warn" (click)="get()">get</button> -->
-  <button mat-raised-button color="primary" [disabled]="popupData.entity != undefined && popupData.standard != undefined"
+  <button mat-raised-button color="primary" [disabled]="popupData.entity != undefined && popupData.standard != undefined && popupData.field != undefined"
     [mat-dialog-close]="popupData">Ok</button>
 </div>

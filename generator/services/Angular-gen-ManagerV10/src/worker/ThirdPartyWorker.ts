@@ -50,41 +50,104 @@ export class ThirdPartyWorker {
 
     }
 
-    constructThirdPartyComponents(desktopElement, microflowObject) {
+    constructThirdPartyComponents(details, desktopElement, microflowObject) {
         const gjs_components = JSON.parse(desktopElement['gjs-components'][0]);
-        if(gjs_components && gjs_components.length > 0) {
-            gjs_components.forEach((gjs_element)=> {
-                if(gjs_element.components && gjs_element.components.length > 0) {
+        if (gjs_components && gjs_components.length > 0) {
+            gjs_components.forEach((gjs_element) => {
+                if (gjs_element.components && gjs_element.components.length > 0) {
                     gjs_element.components.forEach((gjs_component_element) => {
+                        if (gjs_component_element.components && gjs_component_element.components.length > 0) {
+                            gjs_component_element.components.forEach((gjs_component_child_element) => {
+                                if(gjs_component_child_element.components && gjs_component_child_element.components.length > 0) {
+                                    gjs_component_child_element.components.forEach((gjs_component_grand_child_element) => {
+                                        // Dynamic Dropdown
+                                        if (gjs_component_grand_child_element.tagName && gjs_component_grand_child_element.type && gjs_component_grand_child_element.tagName === 'select' && gjs_component_grand_child_element.type === 'dynamicdropdown-type') {
+                                            desktopElement.entity_info.forEach(entity => {
+                                                if (entity.htmlId === gjs_component_grand_child_element.attributes.id) {
+                                                    let entities = details.entities.filter((x) => x._id === gjs_component_grand_child_element.entity);
+                                                    let entityObject = entities[0];
+                                                    entityObject.field.forEach(fieldData => {
+                                                        if (entity.fields.fieldId === fieldData._id && fieldData.type_name === 'Entity') {
+                                                            microflowObject.GpOptions.arrayVariables.push({ name: `${fieldData.entity_id.name}itemArray`, dataType: 'any', value: [] });
+                                                            return microflowObject;
+                                                        }
+                                                    })
+                                                }
+                                            })
+                                        }
+                                        // CKEditor
+                                        // if (gjs_component_grand_child_element.type && gjs_component_grand_child_element.type === 'ckeditor5') {
+                                        //     microflowObject['GpHeadersStarAs'] = [];
+                                        //     microflowObject['GpHeadersStarAs'].push({ importName: Constant.CLASSIC_EDITOR, importPath: Constant.CLASSIC_EDITOR_PATH });
+                                        //     microflowObject.GpOptions.variables.push({ name: Constant.CLASSIC_EDITOR_VARIABLE, dataType: 'any', value: Constant.CLASSIC_EDITOR_VALUE });
+                                        //     return microflowObject;
+                                        // }
+                                    });
+                                }
+                                // Dynamic Dropdown
+                                if (gjs_component_child_element.tagName && gjs_component_child_element.type && gjs_component_child_element.tagName === 'select' && gjs_component_child_element.type === 'dynamicdropdown-type') {
+                                    desktopElement.entity_info.forEach(entity => {
+                                        if (entity.htmlId === gjs_component_child_element.attributes.id) {
+                                            let entities = details.entities.filter((x) => x._id === gjs_component_child_element.entity);
+                                            let entityObject = entities[0];
+                                            entityObject.field.forEach(fieldData => {
+                                                if (entity.fields.fieldId === fieldData._id && fieldData.type_name === 'Entity') {
+                                                    microflowObject.GpOptions.arrayVariables.push({ name: `${fieldData.entity_id.name}itemArray`, dataType: 'any', value: [] });
+                                                    return microflowObject;
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                                // CKEditor
+                                // if (gjs_component_child_element.type && gjs_component_child_element.type === 'ckeditor5') {
+                                //     microflowObject['GpHeadersStarAs'] = [];
+                                //     microflowObject['GpHeadersStarAs'].push({ importName: Constant.CLASSIC_EDITOR, importPath: Constant.CLASSIC_EDITOR_PATH });
+                                //     microflowObject.GpOptions.variables.push({ name: Constant.CLASSIC_EDITOR_VARIABLE, dataType: 'any', value: Constant.CLASSIC_EDITOR_VALUE });
+                                //     return microflowObject;
+                                // }
+                            });
+                        }
                         // Dynamic Dropdown
-                        if(gjs_component_element.tagName && gjs_component_element.type && gjs_component_element.tagName === 'select' && gjs_component_element.type === 'dynamicdropdown-type') {
-                            microflowObject.GpOptions.arrayVariables.push({name: 'itemArray', dataType: 'any', value: []});
-                            return microflowObject;
+                        if (gjs_component_element.tagName && gjs_component_element.type && gjs_component_element.tagName === 'select' && gjs_component_element.type === 'dynamicdropdown-type') {
+                            desktopElement.entity_info.forEach(entity => {
+                                if (entity.htmlId === gjs_component_element.attributes.id) {
+                                    let entities = details.entities.filter((x) => x._id === gjs_component_element.entity);
+                                    let entityObject = entities[0];
+                                    entityObject.field.forEach(fieldData => {
+                                        if (entity.fields.fieldId === fieldData._id && fieldData.type_name === 'Entity') {
+                                            microflowObject.GpOptions.arrayVariables.push({ name: `${fieldData.entity_id.name}itemArray`, dataType: 'any', value: [] });
+                                            return microflowObject;
+                                        }
+                                    })
+                                }
+                            })
                         }
                         // CKEditor
-                        if(gjs_component_element.type && gjs_component_element.type === 'ckeditor5') {
+                        if (gjs_component_element.type && gjs_component_element.type === 'ckeditor5') {
                             microflowObject['GpHeadersStarAs'] = [];
-                            microflowObject['GpHeadersStarAs'].push({importName: Constant.CLASSIC_EDITOR, importPath: Constant.CLASSIC_EDITOR_PATH});
-                            microflowObject.GpOptions.variables.push({name: Constant.CLASSIC_EDITOR_VARIABLE, dataType: 'any', value: Constant.CLASSIC_EDITOR_VALUE});
+                            microflowObject['GpHeadersStarAs'].push({ importName: Constant.CLASSIC_EDITOR, importPath: Constant.CLASSIC_EDITOR_PATH });
+                            microflowObject.GpOptions.variables.push({ name: Constant.CLASSIC_EDITOR_VARIABLE, dataType: 'any', value: Constant.CLASSIC_EDITOR_VALUE });
                             return microflowObject;
                         }
+
                     });
                 }
                 // Special Dropdown
-                if(gjs_element.type && gjs_element.type === 'specialdropdown-type') {
+                if (gjs_element.type && gjs_element.type === 'specialdropdown-type') {
                     const components = gjs_element.components;
-                    if(components && components.length > 0) {
+                    if (components && components.length > 0) {
                         components.forEach((element: any) => {
-                            if(element.tagName && element.tagName === 'select') {
+                            if (element.tagName && element.tagName === 'select') {
                                 const selectComponents = element.components;
-                                if(selectComponents && selectComponents.length > 0) {
+                                if (selectComponents && selectComponents.length > 0) {
                                     const columnDefs = [];
                                     selectComponents.forEach((selectComponentsElement: any) => {
                                         columnDefs.push({ key1: 'key', value1: selectComponentsElement.content, key2: 'value', value2: selectComponentsElement.attributes.value });
                                     });
                                     const tagName = selectComponents[0].tagName;
                                     const id = selectComponents[0].attributes.id.replace('-', '');
-                                    const variableName = tagName + id.substring(0, 1).toUpperCase() + id.substring(1, id.length); 
+                                    const variableName = tagName + id.substring(0, 1).toUpperCase() + id.substring(1, id.length);
                                     microflowObject.GpOptions.arrayVariables.push({
                                         name: variableName,
                                         dataType: 'any',
@@ -102,18 +165,18 @@ export class ThirdPartyWorker {
 
     constructThirdPartyModuleHeaders(desktopElement, microflowObject) {
         const gjs_components = JSON.parse(desktopElement['gjs-components'][0]);
-        if(gjs_components && gjs_components.length > 0) {
-            gjs_components.forEach((gjs_element)=> {
-                if(gjs_element.components && gjs_element.components.length > 0) {
+        if (gjs_components && gjs_components.length > 0) {
+            gjs_components.forEach((gjs_element) => {
+                if (gjs_element.components && gjs_element.components.length > 0) {
                     gjs_element.components.forEach((gjs_component_element) => {
-                        if(gjs_component_element.tagName && gjs_component_element.type && gjs_component_element.tagName === 'select' && gjs_component_element.type === 'dynamicdropdown-type') {
-                            microflowObject.GpHeaders.push({importName: Constant.NG_SELECT_MODULE, importPath: Constant.NG_SELECT_MODULE_PATH});
-                            microflowObject.GpOptions.modules.push({name: Constant.NG_SELECT_MODULE});
+                        if (gjs_component_element.tagName && gjs_component_element.type && gjs_component_element.tagName === 'select' && gjs_component_element.type === 'dynamicdropdown-type') {
+                            microflowObject.GpHeaders.push({ importName: Constant.NG_SELECT_MODULE, importPath: Constant.NG_SELECT_MODULE_PATH });
+                            microflowObject.GpOptions.modules.push({ name: Constant.NG_SELECT_MODULE });
                             return microflowObject;
                         }
-                        if(gjs_component_element.type && gjs_component_element.type === 'ckeditor5') {
-                            microflowObject.GpHeaders.push({importName: Constant.CK_EDITOR_MODULE, importPath: Constant.CK_EDITOR_MODULE_PATH});
-                            microflowObject.GpOptions.modules.push({name: Constant.CK_EDITOR_MODULE});
+                        if (gjs_component_element.type && gjs_component_element.type === 'ckeditor5') {
+                            microflowObject.GpHeaders.push({ importName: Constant.CK_EDITOR_MODULE, importPath: Constant.CK_EDITOR_MODULE_PATH });
+                            microflowObject.GpOptions.modules.push({ name: Constant.CK_EDITOR_MODULE });
                             return microflowObject;
                         }
                     });

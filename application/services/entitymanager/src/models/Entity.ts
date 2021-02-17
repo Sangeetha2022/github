@@ -51,6 +51,7 @@ export const EntitySchema = new Schema({
         list_type: { type: String, default: null },
         list_value: { type: String, default: null },
         entity_id: { type: String, ref: 'entities' },
+        entity_field: { type: String, default: null },
         created_at: {
             type: Date,
             default: Date.now

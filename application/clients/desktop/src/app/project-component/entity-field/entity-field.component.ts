@@ -252,12 +252,14 @@ export class EntityFieldComponent implements OnInit {
           e.data.is_entity_type = true;
           e.data.is_list_type = false;
           e.data.entity_id = entityData.entity;
+          e.data.entity_field = entityData.field;
           e.data.list_type = null;
           e.data.list_value = null;
         } else {
           e.data.is_list_type = true;
           e.data.is_entity_type = false;
           e.data.entity_id = entityData.entity;
+          e.data.entity_field = entityData.field;
           if (entityData.standard !== undefined) {
             e.data.list_type = 'standard';
             e.data.list_value = entityData.standard;
@@ -266,6 +268,7 @@ export class EntityFieldComponent implements OnInit {
             e.data.list_type = 'entity';
             e.data.list_value = null;
             e.data.entity_id = entityData.entity;
+            e.data.entity_field = entityData.field;
           }
         }
       }

@@ -42,6 +42,7 @@ export class EntityModelComponent implements OnInit {
         public dialogRef: MatDialogRef<EntityModelComponent>, private projectservice: ProjectComponentService,
         @Inject(MAT_DIALOG_DATA) public data: any, private brodcastservice: Brodcastservice) {
         this.projectId = data.projectId;
+            console.log('-------------KISHAN--->>>', data.savedEntity);
         if (data.savedEntity !== undefined && Object.keys(data.savedEntity).length > 0) {
             this.modelObject.name = data.savedEntity.name;
             this.modelObject.description = data.savedEntity.description;
@@ -59,21 +60,33 @@ export class EntityModelComponent implements OnInit {
             this.isPrimaryEntityPresent = data.isPrimaryEntityPresent;
             if (this.isPrimaryEntityPresent) {
                 this.modelObject.entityType = 'secondary';
+            } else {
+                this.modelObject.entityType = 'primary';
             }
         }
+
         this.frameworkComponents = {
             buttonRenderer: ButtonRendererComponent,
         };
     }
 
     ngOnInit() {
+        let featureEntityId: any = [];
         this.hide = true;
         this.brodcastservice.currentFeatureId.subscribe((featureId: String) => {
             this.featureId = featureId;
         });
+        this.projectservice.getFeatureById(this.featureId, this.projectId).subscribe((fatureEntity) => {
+            if (fatureEntity.body && fatureEntity.body.entities && fatureEntity.body.entities.length > 0) {
+                featureEntityId = fatureEntity.body.entities.map(({ entityId }) => entityId);
+            }
+        });
         this.projectservice.getGlobalEntityByProjectId(this.projectId, this.logId).subscribe(data => {
-            if (data.body && data.body.length > 0) {
-                let existEntities: any = data.body.filter(x => x.is_default != true && x.feature_id !== this.featureId);
+            if (featureEntityId.length > 0 && data.body && data.body.length > 0) {
+                const existingEntites = data.body.filter(x => x.is_default !== true && !featureEntityId.includes(x._id));
+                this.rowData = existingEntites;
+            } else if (data.body && data.body.length > 0) {
+                const existEntities: any = data.body.filter(x => x.is_default !== true && x.feature_id !== this.featureId);
                 this.rowData = existEntities;
             }
         }, error => {
@@ -85,7 +98,7 @@ export class EntityModelComponent implements OnInit {
     onNoClick(): void {
         this.dialogRef.close();
     }
-
+    
     onAdd(): void {
         this.dialogRef.close();
     }
@@ -152,9 +165,11 @@ export class EntityModelComponent implements OnInit {
 
     onSelectionChanged() {
         this.selectedentity = this.gridApi.getSelectedRows();
-        this.modelObject.name = this.selectedentity[0].name;
-        this.modelObject.description = this.selectedentity[0].description;
-        this.modelObject.selectentity = 'Existing';
-        this.modelObject.entity_id = this.selectedentity[0]._id;
+        if (this.selectedentity.length > 0) {
+            this.modelObject.name = this.selectedentity[0].name;
+            this.modelObject.description = this.selectedentity[0].description;
+            this.modelObject.selectentity = 'Existing';
+            this.modelObject.entity_id = this.selectedentity[0]._id;
+        }
     }
 }
