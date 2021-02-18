@@ -22,7 +22,7 @@ export class MongoWorker {
             if (!element.is_entity_type && !element.is_list_type) {
                 fieldValue.push(`${element.name}: ${element.data_type}`)
             } else if (typeof element.entity_id === "object" && !element.is_list_type) {
-                fieldValue.push(`${element.name}: { type: Schema.Types.ObjectId, ref: '${element.entity_id.name}' }`)
+                fieldValue.push(`${element.name}: { type: Schema.Types.String, ref: '${element.entity_id.name}' }`)
             } else if (typeof element.entity_id === "object" && element.is_list_type) {
                 fieldValue.push(`${element.name}: [{ type: Schema.Types.ObjectId, ref: '${element.entity_id.name}' }]`)
             } else if (element.is_list_type && typeof element.entity_id !== "object") {
