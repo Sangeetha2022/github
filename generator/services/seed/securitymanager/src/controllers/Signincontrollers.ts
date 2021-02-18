@@ -80,6 +80,28 @@ export class Signincontroller {
         })
     }
 
+    public saveroles(req: Request, res: Response) {
+        new CustomLogger().showLogger('info', 'Enter into Signincontrollers.ts: saveroles');
+
+        signinservice.saveroleservice(req, (response) => {
+            res.status(200);
+            res.json(response);
+            new CustomLogger().showLogger('info', 'Exit from Signincontrollers.ts: saveroles');
+
+        });
+    }
+
+    public deleteroles(req: Request, res: Response) {
+        new CustomLogger().showLogger('info', 'Enter into Signincontrollers.ts: deleteroles');
+
+        signinservice.deleteroleservice(req, (response) => {
+            res.status(200);
+            res.json(response);
+            new CustomLogger().showLogger('info', 'Exit from Signincontrollers.ts: deleteroles');
+
+        });
+    }
+
     public updateuser(req: Request, res: Response) {
         new CustomLogger().showLogger('info', 'Enter into Signincontrollers.ts: updateuser');
 
