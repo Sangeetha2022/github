@@ -46,7 +46,7 @@ export class DmnWorkerFile {
     let output = {};
     let finaloutputarr = [];
     let lastslice = '';
-    let roles23 = {};
+    let role_key = {};
 
     if (menu.length > 0) {
       menu.forEach(element => {
@@ -56,18 +56,18 @@ export class DmnWorkerFile {
         this.rolesarray.forEach(elements => {
 
           if (role === elements) {
-            roles23[elements] = {
+            role_key[elements] = {
               value: true
             }
           }
 
           else {
-            roles23[elements] = {
+            role_key[elements] = {
               value: false
             }
           }
         });
-        output[element.resources].push(roles23);
+        output[element.resources].push(role_key);
         console.log("element resources-newwww>", output[element.resources]);
         finaloutputarr.push(output);
         lastslice = finaloutputarr[finaloutputarr.length - 1];
