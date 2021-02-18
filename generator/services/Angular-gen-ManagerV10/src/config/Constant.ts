@@ -162,7 +162,7 @@ export class Constant {
         `"i18next-sprintf-postprocessor": "^0.2.2",`,
         ` "i18next-xhr-backend": "^1.5.1",`,
         `"angular-6-social-login": "^1.1.1",`,
-        `"@ng-select/ng-select": "^5.0.3",`,
+        `"@ng-select/ng-select": "~1.6.3",`,
     ]
 
     // css for bootstrap table
