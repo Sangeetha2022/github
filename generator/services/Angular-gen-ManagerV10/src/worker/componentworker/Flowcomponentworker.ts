@@ -74,11 +74,14 @@ export class FlowComponentWorker {
                             const variables = [];
                             let entityName = '';
                             const flowAction = nodeResponse.flowAction.filter((item) => item.methodName === Constant.GP_SEARCH_FLOW || item.methodName === Constant.GP_GETALLVALUES_FLOW);
-                            gjs_components.forEach(item => {
-                                if(item.type === 'grid-type') {
-                                    variables.push('this.rowData = data;');
+                            if(flow.flowName === Constant.GP_SEARCH_FLOW) {
+                                variables.push(`this.rowData = data;`);
+                            } else if(flow.flowName === Constant.GP_GETALLVALUES_FLOW) {
+                                let getallFlowEntities = desktopElement.entity_info.filter((x) => x.htmlId === flow.htmlId);
+                                if(getallFlowEntities.length === 0) {
+                                    variables.push(`this.rowData = data;`);
                                 }
-                            })
+                            }
                             desktopElement.entity_info.forEach(entity => {
                                 if (entity.htmlId === flow.htmlId) {
                                     let entites = details.entities.filter((x) => x._id === entity.entityId);
@@ -89,12 +92,9 @@ export class FlowComponentWorker {
                                             temp.flowName = fieldData.entity_id.name + Constant.GP_GETALLVALUES_FLOW;
                                         }
                                     });
-                                    
-                                    
                                 }
                                 if (flowAction && flowAction.length > 0) {
-                                    if (desktopElement.is_grid_present === true) {
-                                    } else if (gjs_components.length > 0) {
+                                    if (gjs_components.length > 0) {
                                         gjs_components.forEach(gjs_element => {
                                             if(gjs_element.components) {
                                                 if (gjs_element.components.length > 0) {

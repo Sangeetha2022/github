@@ -48,9 +48,6 @@ export class FlowServiceWorker {
                                                 flowActionObject['body'] = `return this.http.${flowActionObject.apiAction}(this.sharedService.DESKTOP_API + '${flowActionObject.routeUrl}');`;
                                             }
                                         })
-
-                                    } else {
-                                        flowActionObject['body'] = `return this.http.${e.apiAction}(this.sharedService.DESKTOP_API + '${e.routeUrl}');`;
                                     }
                                 })
                                 gjs_components.forEach(item => {

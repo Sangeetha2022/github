@@ -15,14 +15,14 @@
         <textarea type="text" id="{{attributes.id}}" class="{{cssClass}}" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}" [ngModelOptions]="{standalone: true}"{{/if}}></textarea>
         {{/ifEquals}}
         {{#ifEquals type "dynamicdropdown-type"}}
-        <ng-select class="{{cssClassName}}" [searchable]="true" [virtualScroll]="true" class="{{attributes.id}}"
+        <ng-select class="{{cssClassName}}" style="margin-top: -10px;" [searchable]="true" [virtualScroll]="true" class="{{attributes.id}}"
         name="{{name}}" bindLabel="{{attributes.entityDetails.mappedEntityFieldName}}" bindValue="{{attributes.entityDetails.mappedEntityFieldName}}" [items]="{{attributes.entityDetails.mappedEntityName}}itemArray" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}"
          [ngModelOptions]="{standalone: true}"{{/if}} {{#if flowDetails.verb}}({{flowDetails.verb}})="{{attributes.entityDetails.mappedEntityName}}{{flowDetails.flowName}}()"{{/if}}></ng-select>
         {{/ifEquals}}
         {{#if components}}
         {{#each components}}
         {{#ifEquals type "dynamicdropdown-type"}}
-        <ng-select class="{{cssClassName}}" [searchable]="true" [virtualScroll]="true" class="{{attributes.id}}"
+        <ng-select class="{{cssClassName}}" style="margin-top: -10px;" [searchable]="true" [virtualScroll]="true" class="{{attributes.id}}"
         name="{{name}}" bindLabel="{{attributes.entityDetails.mappedEntityFieldName}}" bindValue="{{attributes.entityDetails.mappedEntityFieldName}}" [items]="{{attributes.entityDetails.mappedEntityName}}itemArray" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}"
          [ngModelOptions]="{standalone: true}"{{/if}} {{#if flowDetails.verb}}({{flowDetails.verb}})="{{attributes.entityDetails.mappedEntityName}}{{flowDetails.flowName}}()"{{/if}}></ng-select>
         {{/ifEquals}}
@@ -46,7 +46,7 @@
         <textarea type="text" id="{{attributes.id}}" class="{{cssClassName}}" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}" [ngModelOptions]="{standalone: true}"{{/if}}></textarea>
         {{/ifEquals}}
         {{#ifEquals type "dynamicdropdown-type"}}
-        <ng-select class="{{cssClassName}}" [searchable]="true" [virtualScroll]="true" class="{{attributes.id}}"
+        <ng-select class="{{cssClassName}}" style="margin-top: -10px;" [searchable]="true" [virtualScroll]="true" class="{{attributes.id}}"
         name="{{name}}" bindLabel="{{attributes.entityDetails.mappedEntityFieldName}}" bindValue="{{attributes.entityDetails.mappedEntityFieldName}}" [items]="{{attributes.entityDetails.mappedEntityName}}itemArray" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}"
          [ngModelOptions]="{standalone: true}"{{/if}} {{#if flowDetails.verb}}({{flowDetails.verb}})="{{attributes.entityDetails.mappedEntityName}}{{flowDetails.flowName}}()"{{/if}}></ng-select>
         {{/ifEquals}}
@@ -70,7 +70,7 @@
         <textarea type="text" id="{{attributes.id}}" class="{{cssClass}}" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}" [ngModelOptions]="{standalone: true}"{{/if}}></textarea>
         {{/ifEquals}}
         {{#ifEquals type "dynamicdropdown-type"}}
-        <ng-select class="{{cssClassName}}" [searchable]="true" [virtualScroll]="true" class="{{attributes.id}}"
+        <ng-select class="{{cssClassName}}" style="margin-top: -10px;" [searchable]="true" [virtualScroll]="true" class="{{attributes.id}}"
         name="{{name}}" bindLabel="{{attributes.entityDetails.mappedEntityFieldName}}" bindValue="{{attributes.entityDetails.mappedEntityFieldName}}" [items]="{{attributes.entityDetails.mappedEntityName}}itemArray" {{#if attributes.entityDetails.entityName}}[(ngModel)]="{{attributes.entityDetails.entityName}}.{{attributes.entityDetails.fields.name}}"
          [ngModelOptions]="{standalone: true}"{{/if}} {{#if flowDetails.verb}}({{flowDetails.verb}})="{{attributes.entityDetails.mappedEntityName}}{{flowDetails.flowName}}()"{{/if}}></ng-select>
         {{/ifEquals}}
