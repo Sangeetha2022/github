@@ -52,7 +52,7 @@ services:
     image: securitymanager-$uuid$
     container_name: securitymanager-$uuid$
     ports:
-      - "0000:8003"
+      - "8003:8003"
     env_file: .env
     depends_on:
       - mongo

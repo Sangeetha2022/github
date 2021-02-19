@@ -19,7 +19,7 @@ export class SigninDao {
         new CustomLogger().showLogger('info', 'Enter into SigninDao.ts: signindao');
         rolemodel.find().then(result => {
             asyncLoop(result, (roles, next) => {
-                if (roles.role === 'Standarduser') {
+                if (roles.role === 'User') {
                     this.signuprole = roles._id;
                 }
                 next();
