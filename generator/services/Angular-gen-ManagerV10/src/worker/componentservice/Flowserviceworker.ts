@@ -10,6 +10,7 @@ export class FlowServiceWorker {
      */
     constructFlowsInfo(details, desktopElement, flows_info: Array<Object>, nodeResponse: any, microflowObject: any) {
         const flows = [];
+        let gjs_components = JSON.parse(desktopElement['gjs-components'][0]);
         flows_info.forEach((flow: any) => {
             if (nodeResponse && nodeResponse.flowAction && nodeResponse.flowAction.length > 0) {
                 nodeResponse.flowAction.filter(async (e) => {
@@ -49,7 +50,15 @@ export class FlowServiceWorker {
                                         })
 
                                     } else {
-                                        flowActionObject['body'] = `return this.http.${flowActionObject.apiAction}(this.sharedService.DESKTOP_API + '${flowActionObject.routeUrl}');`;
+                                        flowActionObject['body'] = `return this.http.${e.apiAction}(this.sharedService.DESKTOP_API + '${e.routeUrl}');`;
+                                    }
+                                })
+                                gjs_components.forEach(item => {
+                                    if(item.type === 'grid-type') {
+                                        if(item.attributes.id === flow.htmlId) {
+                                            flowActionObject = e;
+                                            flowActionObject['body'] = `return this.http.${flowActionObject.apiAction}(this.sharedService.DESKTOP_API + '${flowActionObject.routeUrl}');`;
+                                        }
                                     }
                                 })
                                 flows.push(flowActionObject);
