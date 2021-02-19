@@ -17,6 +17,7 @@ export class FrontendWorker {
     private USER_FOLDERNAME = 'user';
     private CONFIG_FOLDERNAME = 'config'
     private AUTHORIZATION_FOLDERNAME = 'authorization';
+    private MANAGEROLES_FOLDERNAME = 'manageroles';
     private PROFILE_SETTINGS_FOLDERNAME = 'profilesettings';
     private BUTTON_RENDERER_FOLDERNAME = 'button-renderer';
     private AUTH_FOLDERNAME = 'auth';
@@ -200,6 +201,16 @@ export class FrontendWorker {
         });
     }
 
+    // create manageroles component from seed files
+    async createManageroleComponent(callback) {
+        const managerolesPath = `${this.projectGenerationPath}/src/app/${this.MANAGEROLES_FOLDERNAME}`;
+        await this.generateStaticComponent(managerolesPath, this.MANAGEROLES_FOLDERNAME, () => {
+            this.generateModule(this.MANAGEROLES_FOLDERNAME, this.MODULE_TEMPLATENAME, managerolesPath, () => {
+            callback();
+            });
+        });
+    }
+
     // create home component from seed files
     async createHomeComponent(callback) {
         const homeApplicationPath = `${this.projectGenerationPath}/src/app/${this.HOME_FOLDERNAME}`;
@@ -333,7 +344,7 @@ export class FrontendWorker {
         // app module dependency
         // this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
         // this.appModuleInfo.imports.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)}`);
-        if (folderName !== 'profilesettings' && folderName !== 'authorization') {
+        if (folderName !== 'profilesettings' && folderName !== 'authorization' && folderName !== 'manageroles') {
             if (folderName !== 'button-renderer') {
                 if (this.appModuleInfo.importDependency.findIndex(x => x == `import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`) < 0) {
                     this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
@@ -347,6 +358,11 @@ export class FrontendWorker {
         if (folderName === 'authorization') {
             this.appModuleInfo.importDependency.push(`import { AuthorizationComponent } from './${folderName}/${folderName}.component';`);
             this.appModuleInfo.declarations.push(`AuthorizationComponent`);
+        }
+
+        if (folderName === 'manageroles') {
+            this.appModuleInfo.importDependency.push(`import { ManagerolesComponent } from './${folderName}/${folderName}.component';`);
+            this.appModuleInfo.declarations.push(`ManagerolesComponent`);
         }
 
         const temp = {
@@ -406,7 +422,7 @@ export class FrontendWorker {
                 } else if (folderName === 'user') {
                     let pathName = `${folderName}management`
                     this.routingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
-                } else if (folderName === 'home' || folderName === 'authorization') {
+                } else if (folderName === 'home' || folderName === 'authorization' || folderName === 'manageroles') {
                     this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
                 } else {
                     this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);

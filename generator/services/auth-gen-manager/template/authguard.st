@@ -63,17 +63,13 @@ export class AuthGuard implements CanActivate {
 
       if (this.accessRoutes) {
         this.accessRoutes.forEach(element => {
-          let Admin = element['Admin'];
-          let Developer = element['Developer'];
-          let Guest = element['Guest'];
-          let StandardUser = element['Standard User'];
           this.permissions = [];
-          if (this.userRole == 'Admin') {
-            const permissionlevel = JSON.parse(Admin.value);
+          if (this.userRole) {
+            const permissionlevel = JSON.parse(element[this.userRole].value);
             for (let key in permissionlevel) {
               const accessvalue = permissionlevel[key];
               for (let role in accessvalue[0]) {
-                if (role == 'Admin') {
+                if (role == this.userRole) {
                   if (accessvalue[0][role].value == 'true') {
                     for (let i = 0; i < this.route.config.length; i++) {
                       this.viewPermission = accessvalue[0][role].value;
@@ -82,67 +78,7 @@ export class AuthGuard implements CanActivate {
                       this.routearray = this.routearray.filter((item, index) => this.routearray.indexOf(item) === index)
                       this.permissions = this.permissions.filter((item, index) => this.permissions.indexOf(item) === index)
                     }
-                    this.broadcastService.sendMessage({ 'Admin': this.permissions });
-                  }
-                }
-              }
-            }
-          }
-          if (this.userRole == 'Developer') {
-            const permissionlevel = JSON.parse((Developer.value));
-            for (let key in permissionlevel) {
-              const accessvalue = permissionlevel[key];
-              for (let role in accessvalue[0]) {
-                if (role == 'Developer') {
-                  if (accessvalue[0][role].value == 'true') {
-                    for (let i = 0; i < this.route.config.length; i++) {
-                      this.viewPermission = accessvalue[0][role].value;
-                      this.permissions.push(key);
-                      this.permissions = this.permissions.filter((item, index) => this.permissions.indexOf(item) === index)
-                      this.routearray.push(key);
-                      this.routearray = this.routearray.filter((item, index) => this.routearray.indexOf(item) === index)
-                    }
-                    this.broadcastService.sendMessage({ 'Developer': this.permissions });
-                  }
-                }
-              }
-            }
-          }
-          if (this.userRole == 'Standarduser') {
-            const permissionlevel = JSON.parse((StandardUser.value));
-            for (let key in permissionlevel) {
-              const accessvalue = permissionlevel[key];
-              for (let role in accessvalue[0]) {
-                if (role == 'User') {
-                  if (accessvalue[0][role].value == 'true') {
-                    for (let i = 0; i < this.route.config.length; i++) {
-                      this.viewPermission = accessvalue[0][role].value;
-                      this.permissions.push(key);
-                      this.permissions = this.permissions.filter((item, index) => this.permissions.indexOf(item) === index)
-                      this.routearray.push(key);
-                      this.routearray = this.routearray.filter((item, index) => this.routearray.indexOf(item) === index)
-                    }
-                    this.broadcastService.sendMessage({ 'User': this.permissions });
-                  }
-                }
-              }
-            }
-          }
-          if (this.userRole == 'Guest') {
-            const permissionlevel = JSON.parse((Guest.value));
-            for (let key in permissionlevel) {
-              const accessvalue = permissionlevel[key];
-              for (let role in accessvalue[0]) {
-                if (role == 'Guest') {
-                  if (accessvalue[0][role].value == 'true') {
-                    for (let i = 0; i < this.route.config.length; i++) {
-                      this.viewPermission = accessvalue[0][role].value;
-                      this.permissions.push(key);
-                      this.permissions = this.permissions.filter((item, index) => this.permissions.indexOf(item) === index)
-                      this.routearray.push(key);
-                      this.routearray = this.routearray.filter((item, index) => this.routearray.indexOf(item) === index)
-                    }
-                    this.broadcastService.sendMessage({ 'Guest': this.permissions });
+                    this.broadcastService.sendMessage({ role: this.permissions });
                   }
                 }
               }

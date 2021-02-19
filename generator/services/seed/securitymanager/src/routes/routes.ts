@@ -19,8 +19,9 @@ export class Routes {
         app.route('/getallusers').get(this.signincontroller.getallusers);
         app.route('/getuser/:id').get(this.signincontroller.getuserbyid);
         app.route('/getallroles').get(this.signincontroller.getallroles);
+        app.route('/saveroles').post(this.signincontroller.saveroles);
+        app.route('/deleteroles/:id').delete(this.signincontroller.deleteroles);
         app.route('/updateuser').put(this.signincontroller.updateuser);
-
-        
+    
     }
 }

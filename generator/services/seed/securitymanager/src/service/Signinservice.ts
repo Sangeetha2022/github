@@ -79,6 +79,27 @@ export class Signinservice {
         })
     }
 
+
+    public saveroleservice(req: Request, callback) {
+        new CustomLogger().showLogger('info', 'Enter into Signinservice.ts: saveroleservice');
+        let roleDetails = req.body;
+        signindao.saveroledao(roleDetails, (response) => {
+            new CustomLogger().showLogger('info', 'Exit from Signinservice.ts: saveroleservice');
+            callback(response);
+
+        })
+    }
+
+    public deleteroleservice(req: Request, callback) {
+        new CustomLogger().showLogger('info', 'Enter into Signinservice.ts: deleteroleservice');
+        const roleId = req.params.id;
+        signindao.deleteroledao(roleId, (response) => {
+            new CustomLogger().showLogger('info', 'Exit from Signinservice.ts: deleteroleservice');
+            callback(response);
+
+        })
+    }
+
     public updateuserservice(req: Request, callback) {
         new CustomLogger().showLogger('info', 'Enter into Signinservice.ts: updateuserservice');
 

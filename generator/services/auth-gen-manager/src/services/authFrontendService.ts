@@ -32,20 +32,22 @@ export class AuthFrontendService {
                             console.log('555555555555555');
                             this.frontendWorker.createAuthorizationComponent((response) => {
                                 console.log('6666666666666');
-                                this.frontendWorker.createConfig((response) => {
-                                    console.log('77777777777777');
-                                    this.frontendWorker.createUserComponent((response) => {
-                                        console.log('88888888888888');
-                                        this.frontendWorker.createAuthComponent(menus, (response) => {
-                                            console.log('9999999999999999');
-                                            this.frontendWorker.generateAppFile((response) => {
-                                                console.log('10 10 10 10 10 10 10 10 10 10');
-                                                this.frontendWorker.modifyFiles(() => {
-                                                    console.log('11 11 11 11 11 11 11 11 11');
-                                                    const date = new Date();
-                                                    console.log('RES DATE---->>>>>', date.getHours() + ':', date.getMinutes() + ':', date.getSeconds() + ':' + date.getMilliseconds());
-                                                    callback();
-                                                });
+                                this.frontendWorker.createManageroleComponent((response) => {
+                                    this.frontendWorker.createConfig((response) => {
+                                        console.log('77777777777777');
+                                        this.frontendWorker.createUserComponent((response) => {
+                                            console.log('88888888888888');
+                                            this.frontendWorker.createAuthComponent(menus, (response) => {
+                                                console.log('9999999999999999');
+                                                this.frontendWorker.generateAppFile((response) => {
+                                                    console.log('10 10 10 10 10 10 10 10 10 10');
+                                                    this.frontendWorker.modifyFiles(() => {
+                                                        console.log('11 11 11 11 11 11 11 11 11');
+                                                        const date = new Date();
+                                                        console.log('RES DATE---->>>>>', date.getHours() + ':', date.getMinutes() + ':', date.getSeconds() + ':' + date.getMilliseconds());
+                                                        callback();
+                                                    });
+                                                })
                                             })
                                         })
                                     })

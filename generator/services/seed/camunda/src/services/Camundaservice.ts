@@ -14,6 +14,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 let listofresources = [];
+let role_data;
 let camundadao = new Camundadao();
 const resourcemodel = mongoose.model('resource', Resourceschema);
 
@@ -50,14 +51,14 @@ export class CamundaService {
     }
 
 
-    public postscreensservice(screencontent, callback){
-        camundadao.postscreens(screencontent,(response)=>{
+    public postscreensservice(screencontent, callback) {
+        camundadao.postscreens(screencontent, (response) => {
             callback(response);
         })
     }
 
-    public getallscreensservice(req:Request,callback){
-        camundadao.getallscreen(response=>{
+    public getallscreensservice(req: Request, callback) {
+        camundadao.getallscreen(response => {
             callback(response);
         });
     }
@@ -75,36 +76,38 @@ export class CamundaService {
         new CustomLogger().showLogger('info', 'Exit from Camundaservice.ts: camundaauthorization');
 
         return new Promise(resolve => {
-            fetch( postUrl, { method: 'POST', body: JSON.stringify(body),
-                    headers: { 'Content-Type': 'application/json' }
+            fetch(postUrl, {
+                method: 'POST', body: JSON.stringify(body),
+                headers: { 'Content-Type': 'application/json' }
             }).then(res => res.json())
-            .then((data) => {
-                console.log('data---------------->>>', data);
-                var responsebody = JSON.stringify(data);
-                var finaldata = JSON.parse(responsebody);
-                let responsevalue = finaldata[0];
-                for (let key in responsevalue) {
-                    if (responsevalue.hasOwnProperty(key)) {
-                        responsevalue[key].value = responsevalue[key].value.replace(/=/g, ":");
-                        responsevalue[key].value = responsevalue[key].value.replace(/(\w+:)|(\w+ :)/g, function (s) {
-                            return '"' + s.substring(0, s.length - 1) + '":';
-                        });
-                        responsevalue[key].value = responsevalue[key].value.replace(/true/g, `"true"`);
-                        responsevalue[key].value = responsevalue[key].value.replace(/false/g, `"false"`);
+                .then((data) => {
+                    console.log('data---------------->>>', data);
+                    var responsebody = JSON.stringify(data);
+                    var finaldata = JSON.parse(responsebody);
+                    let responsevalue = finaldata[0];
+                    for (let key in responsevalue) {
+                        if (responsevalue.hasOwnProperty(key)) {
+                            responsevalue[key].value = responsevalue[key].value.replace(/=/g, ":");
+                            responsevalue[key].value = responsevalue[key].value.replace(/(\w+:)|(\w+ :)/g, function (s) {
+                                return '"' + s.substring(0, s.length - 1) + '":';
+                            });
+                            responsevalue[key].value = responsevalue[key].value.replace(/true/g, `"true"`);
+                            responsevalue[key].value = responsevalue[key].value.replace(/false/g, `"false"`);
+                        }
                     }
-                }
-                console.log("replace value--------", responsevalue);
-                const finalvalue = JSON.stringify(responsevalue);
-                resolve(JSON.parse(finalvalue));
-            }).catch(error => {
-                resolve(error);
-            })
+                    console.log("replace value--------", responsevalue);
+                    const finalvalue = JSON.stringify(responsevalue);
+                    resolve(JSON.parse(finalvalue));
+                }).catch(error => {
+                    resolve(error);
+                })
         })
     }
 
-    generateDMN(pageTitles, callback) {
+    async generateDMN(pageTitles, callback) {
         console.log('REQ=====>>>>>', pageTitles);
-        this.dmnworker.dmnTable(pageTitles, async (response) => {
+        let allroles = await this.getroles();
+        this.dmnworker.dmnTable(pageTitles, allroles, async (response) => {
             let dmnresponse = await this.postDMNtoCamunda();
             callback(dmnresponse);
         })
@@ -131,5 +134,33 @@ export class CamundaService {
             console.log('error-----------', error);
         })
 
+    }
+
+    public async getroles() {
+        let allroles = [];
+        return new Promise((resolve, reject) => {
+            const getUrl = `${camundaService.securityUrl}/getallroles`;
+            fetch(getUrl).then((response) => {
+                response.json().then(data => {
+                    role_data = data;
+                    console.log('role_data----->', role_data);
+                    if (role_data.length > 0) {
+                        role_data.forEach(element => {
+                            allroles.push(element.role);
+                        }
+                        )
+                    };
+
+                    console.log("allroles---->", allroles);
+                    resolve(allroles);
+                    // return allroles;
+                })
+
+            }).catch(error => {
+                console.log('error------->>>', error);
+                reject(error);
+            })
+
+        })
     }
 }
