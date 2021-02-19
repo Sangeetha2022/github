@@ -33,13 +33,15 @@ export class Github_Action_Task_Defination {
             custom_features: backendList
         }
         // file path for local
-        let screenGenerationPath = projectDetails.projectGenerationPath + `/${project_name}/` + 'devops/cloud/aws/github_actions/workflows'
+        let GithubActionGenerationPath_local = projectDetails.projectGenerationPath + `/${project_name}/` + 'devops/cloud/aws/github_actions/workflows'
+        // file path for live
+        let GithubActionGenerationPath_live = projectDetails.projectGenerationPath+`/${project_name}/` + '.github/workflows'
         let templatePath = path.resolve(__dirname, '../../../templates/github_actions');
         let filePath = templatePath + `/task_defination.handlebars`;
-        let result: any = await this.handleBarsFile(filePath, fileData, screenGenerationPath)
+        let result: any = await this.handleBarsFile(filePath, fileData, GithubActionGenerationPath_local,GithubActionGenerationPath_live,projectDetails)
         callback(response)
     }
-    handleBarsFile(filePath, fileData, screenGenerationPath) {
+    handleBarsFile(filePath, fileData, GithubActionGenerationPath_local,GithubActionGenerationPath_live,projectDetails) {
         Handlebars.registerHelper('surroundWithCurlyBraces', function (text) {
             var result = '{{ ' + text + ' }}';
             return new Handlebars.SafeString(result);
@@ -52,9 +54,14 @@ export class Github_Action_Task_Defination {
                 var source = data;
                 var template = Handlebars.compile(source);
                 var result = template(fileData);
-                Common.createFolders(screenGenerationPath);
-                fs.writeFile(screenGenerationPath + `/task-definition.ts`, result, (response) => {
+                Common.createFolders(GithubActionGenerationPath_local);
+                fs.writeFile(GithubActionGenerationPath_local + `/task-definition.ts`, result, (response) => {
                     resolve(response);
+                    if (projectDetails.deploymentTarget.label === 'Live') {
+                        fs.writeFile(GithubActionGenerationPath_live + `/task-definition.ts`, result, (response) => {
+                            resolve(response);
+                        })
+                    }
                 })
             });
         })

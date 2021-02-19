@@ -13,9 +13,7 @@ export class GithubActions {
 
     public Generate_GithubAction_Live(req: Request, callback: CallableFunction) {
         GithubActionsLive.create_ec2_instance_workflows_live(req, (res) => {
-            GithubActionTaskDefination.create_fargate_task_defination(req, (res) => {
-                callback({ Message: 'github action for live  are generated successfully' })
-            })
+            callback({ Message: 'github action & Readme for live are generated successfully' })
         })
     }
 

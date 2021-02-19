@@ -11,11 +11,13 @@ on:
       - geppetto
       - main
 env:
-  AWS_ACCOUNT_ID: ${{#surroundWithCurlyBraces 'secrets.ACCOUNT_NO' }}{{/surroundWithCurlyBraces}}
+  AWS_ACCOUNT_ID: ${{#surroundWithCurlyBraces 'secrets.AWS_ACCOUNT_ID' }}{{/surroundWithCurlyBraces}}
   AWS_ROLE_FOR_FARGATE: ${{#surroundWithCurlyBraces ' secrets.AWS_ROLE_FOR_FARGATE '}}{{/surroundWithCurlyBraces}}
   AWS_ACCESS_KEY_ID: ${{#surroundWithCurlyBraces ' secrets.AWS_ACCESS_KEY_ID '}}{{/surroundWithCurlyBraces}}
   AWS_SECRET_ACCESS_KEY: ${{#surroundWithCurlyBraces ' secrets.AWS_SECRET_ACCESS_KEY '}}{{/surroundWithCurlyBraces}}
   AWS_REGION: ${{#surroundWithCurlyBraces ' secrets.AWS_REGION '}}{{/surroundWithCurlyBraces}}
+  AWS_VPC_SUBNET: ${{#surroundWithCurlyBraces ' secrets.AWS_VPC_SUBNET '}}{{/surroundWithCurlyBraces}}
+  AWS_VPC_SECURITY_GROUP: ${{#surroundWithCurlyBraces ' secrets.AWS_VPC_SECURITY_GROUP '}}{{/surroundWithCurlyBraces}}
   AWS_ECS_CLUSTER_NAME: ${{#surroundWithCurlyBraces ' secrets.AWS_ECS_CLUSTER_NAME '}}{{/surroundWithCurlyBraces}}
   PROJECT_NAME: {{s3_bucket_name}}
   AWS_S3_BUCKET_NAME: {{s3_bucket_name}}
@@ -122,9 +124,11 @@ jobs:
           task-definition: ${{#surroundWithCurlyBraces 'steps.task-def.outputs.task-definition' }}{{/surroundWithCurlyBraces}}
           cluster: ${{#surroundWithCurlyBraces ' env.AWS_ECS_CLUSTER_NAME '}}{{/surroundWithCurlyBraces}}
           wait-for-service-stability: true
+      - name: Run the ECS task definition
+        run: aws ecs run-task --cluster ${{#surroundWithCurlyBraces ' env.AWS_ECS_CLUSTER_NAME '}}{{/surroundWithCurlyBraces}}  --task-definition {{project_name}} --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[${{#surroundWithCurlyBraces ' env.AWS_VPC_SUBNET '}}{{/surroundWithCurlyBraces}}],securityGroups=[${{#surroundWithCurlyBraces ' env.AWS_VPC_SECURITY_GROUP '}}{{/surroundWithCurlyBraces}}],assignPublicIp=ENABLED}"
 
   Upload_S3_Bucket:
-    needs: Prerequisites
+    needs: Deploy_backend
     runs-on: ubuntu-latest
     steps:
       - name: Setup repo
@@ -147,6 +151,7 @@ jobs:
         with:
           args: --acl public-read --delete
         env:
+          AWS_S3_BUCKET: ${{#surroundWithCurlyBraces ' env.AWS_S3_BUCKET_NAME '}}{{/surroundWithCurlyBraces}}
           AWS_ACCESS_KEY_ID: ${{#surroundWithCurlyBraces ' env.AWS_ACCESS_KEY_ID '}}{{/surroundWithCurlyBraces}}
           AWS_SECRET_ACCESS_KEY: ${{#surroundWithCurlyBraces ' env.AWS_SECRET_ACCESS_KEY '}}{{/surroundWithCurlyBraces}}
           AWS_REGION: ${{#surroundWithCurlyBraces ' env.AWS_REGION '}}{{/surroundWithCurlyBraces}}

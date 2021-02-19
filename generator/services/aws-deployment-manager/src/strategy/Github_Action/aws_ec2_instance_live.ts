@@ -5,7 +5,9 @@ import { Request, response } from 'express';
 import * as util from 'util';
 import { Common } from '../../config/Common';
 import { Constant } from '../../config/Constant';
+import { Github_Action_Task_Defination } from './aws_task_configuration'
 
+let GithubActionTaskDefination = new Github_Action_Task_Defination()
 
 export class Github_Actions_Live {
     private screenName = 'aws_ec2_instance.yml'
@@ -51,6 +53,9 @@ export class Github_Actions_Live {
         let filePath = templatePath + `/ec2_instance_deployment.handlebars`;
         let result: any = await this.handleBarsFile(filePath, fileData, GithubActionGenerationPath_live, GithubActionGenerationPath_local)
         callback(response)
+        GithubActionTaskDefination.create_fargate_task_defination(req, (res) => {
+            callback({ Message: 'github action for live  are generated successfully' })
+        })
     }
 
     handleBarsFile(filePath, fileData, GithubActionGenerationPath_live, GithubActionGenerationPath_local) {
