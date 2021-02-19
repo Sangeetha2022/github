@@ -11,4 +11,11 @@ export class Constants {
 
     public getallscreen: string = 'http://' + window.location.hostname + ':8002/getallscreens';
 
+    public getallroles: string = 'http://' + window.location.hostname + ':8003/getallroles';
+
+    public saverole: string = 'http://' + window.location.hostname + ':8003/saveroles';
+
+    public deleterole: string = 'http://' + window.location.hostname + ':8003/deleteroles';
+
+
 }
