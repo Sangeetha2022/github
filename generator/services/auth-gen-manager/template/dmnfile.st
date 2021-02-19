@@ -17,8 +17,7 @@ dmnfile(object) ::=<<
         </inputExpression>
       </input>
       <output id="output_1" label="admin" name="Admin" typeRef="string" />
-      <output id="OutputClause_0vdltyr" label="developer" name="Developer" typeRef="string" />
-      <output id="OutputClause_16m831c" label="user" name="Standard User" typeRef="string" />
+      <output id="OutputClause_16m831c" label="user" name="User" typeRef="string" />
       <output id="OutputClause_06hgt34" label="guest" name="Guest" typeRef="string" />
       $if(object)$$object:{value |
         <rule id="DecisionRule_$value.DecisionRuleId$">

@@ -1,6 +1,6 @@
 /*
  * Template group mongoscript
- * Compiled on Wed Feb 03 2021 18:31:25 GMT+0530 (India Standard Time)
+ * Compiled on Fri Feb 19 2021 18:36:47 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -58,7 +58,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("            ");
-    w.write("\"$in\": [\"Standarduser\", \"_id\"]");
+    w.write("\"$in\": [\"User\", \"_id\"]");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("          ");

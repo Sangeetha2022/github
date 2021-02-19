@@ -8,7 +8,7 @@ db.roles.find(
         },
         {
           "role": {
-            "\$in": ["Standarduser", "_id"]
+            "\$in": ["User", "_id"]
           }
         }
       ]

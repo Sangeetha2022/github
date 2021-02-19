@@ -19,6 +19,7 @@ export class AuthorizationComponent implements OnInit {
   pages = [];
   pageTitles = [];
   rolepages = [];
+  rolelist: any;
 
   constructor(private authService: AuthorizationService, private router: Router, private constants: Constants) {
     this.router.config.forEach(pages => {
@@ -31,6 +32,7 @@ export class AuthorizationComponent implements OnInit {
 
   ngOnInit() {
     this.getQuoteOMaticPages();
+    this.getRoles();
   }
   getQuoteOMaticPages() {
     this.authService.get(this.constants.getallscreen).subscribe((screendata) => {
@@ -96,6 +98,19 @@ export class AuthorizationComponent implements OnInit {
       console.log('DATA=====>>>>>>', data);
     }, (error) => {
       console.log('Error on generating DMN', error);
+    });
+  }
+
+
+  getRoles() {
+    this.authService.get(this.constants.getallroles).subscribe((rolelist) => {
+      // screendata.forEach(element => {
+      //   this.camundapage = element.resources;
+      // });
+      this.rolelist = rolelist;
+      console.log("role from db--->", this.rolelist)
+    }, (error) => {
+      console.log('Error --->>>>>', error);
     });
   }
 
