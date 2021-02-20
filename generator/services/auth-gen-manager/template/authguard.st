@@ -62,6 +62,10 @@ export class AuthGuard implements CanActivate {
       this.accessRoutes = JSON.parse(sessionStorage.getItem('Access'));
 
       if (this.accessRoutes) {
+        if (this.routeName && this.routeName[1].includes('?')) {
+          this.routeName = this.routeName[1].split('?');
+          this.routeName[1] = this.routeName[0];
+        }
         this.accessRoutes.forEach(element => {
           this.permissions = [];
           if (this.userRole) {
