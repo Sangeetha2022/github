@@ -66,7 +66,7 @@ export class AuthorizationComponent implements OnInit {
     newpages.forEach(resource => {
       const guestobject = {
         resources: resource,
-        role: 'Guest'
+        role: 'User'
       };
       this.newpages.push(guestobject);
     });
@@ -108,7 +108,6 @@ export class AuthorizationComponent implements OnInit {
       //   this.camundapage = element.resources;
       // });
       this.rolelist = rolelist;
-      console.log("role from db--->", this.rolelist)
     }, (error) => {
       console.log('Error --->>>>>', error);
     });

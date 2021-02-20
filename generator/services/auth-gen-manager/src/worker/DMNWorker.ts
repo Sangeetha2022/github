@@ -89,6 +89,23 @@ export class DmnWorkerFile {
                     }
                     output[element.resources].push(User);
                 }
+                if (element.role == 'Developer') {
+                    let User = {
+                        Admin: {
+                            value: false
+                        },
+                        Developer: {
+                            value: true
+                        },
+                        User: {
+                            value: false
+                        },
+                        Guest: {
+                            value: false
+                        }
+                    }
+                    output[element.resources].push(User);
+                }
                 if (element.role == 'Guest') {
                     let Guest = {
                         Admin: {

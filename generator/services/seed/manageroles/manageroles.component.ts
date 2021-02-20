@@ -37,7 +37,6 @@ export class ManagerolesComponent implements OnInit {
 
   remove(role) {
     this.manageRolesService.delete(this.constants.deleterole + '/' + role._id).subscribe((data) => {
-      console.log("data---delete", data);
       this.getRoles();
     }, (error) => {
       console.log('Error in data save ---->>', error);
@@ -63,7 +62,6 @@ export class ManagerolesComponent implements OnInit {
   getRoles() {
     this.manageRolesService.get(this.constants.getallroles).subscribe((rolelist) => {
       this.rolelist = rolelist;
-      console.log("role from db--->", this.rolelist)
     }, (error) => {
       console.log('Error --->>>>>', error);
     });

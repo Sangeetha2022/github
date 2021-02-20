@@ -1,6 +1,6 @@
 /*
  * Template group docker_compose
- * Compiled on Mon Feb 08 2021 13:59:53 GMT+0530 (India Standard Time)
+ * Compiled on Fri Feb 19 2021 23:17:16 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -230,7 +230,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("- \"0000:8003\"");
+    w.write("- \"8003:8003\"");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
