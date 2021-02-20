@@ -3,6 +3,7 @@ import { DmnSupportWorker } from '../supportworker/DMNsupportWorker';
 import * as generate from 'nanoid/generate';
 import * as dictionary from 'nanoid-dictionary';
 import { camundaService } from '../config/camundaService';
+import * as asyncloop from 'node-async-loop';
 
 let dmnSupportFile = new DmnSupportWorker();
 
@@ -53,21 +54,25 @@ export class DmnWorkerFile {
         console.log('eachj descriptions are ----  ', element);
         output[element.resources] = [];
         let role = element.role
-        this.rolesarray.forEach(elements => {
-
-          if (role === elements) {
-            role_key[elements] = {
+        asyncloop(this.rolesarray, (element, next) => {
+          if (role === element) {
+            role_key[element] = {
               value: true
             }
           }
-
           else {
-            role_key[elements] = {
+            role_key[element] = {
               value: false
             }
           }
-        });
-        output[element.resources].push(role_key);
+          next();
+        }, (error) => {
+          if (error) {
+            console.log('Error occured in Asyncloop');
+          }
+          output[element.resources].push(role_key);
+          role_key = {};
+        })
         console.log("element resources-newwww>", output[element.resources]);
         finaloutputarr.push(output);
         lastslice = finaloutputarr[finaloutputarr.length - 1];
