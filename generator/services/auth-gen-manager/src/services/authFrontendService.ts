@@ -21,30 +21,18 @@ export class AuthFrontendService {
         const seedTemplatePath = details.seedTemplatePath;
         await this.readImagesAssets(seedTemplatePath, applicationPath);
         this.frontendWorker.createReadMeFile(details, (response) => {
-            console.log('1111111111111');
             this.frontendWorker.createErrorReadMeFile(details, (response) => {
-                console.log('2222222222222');
                 this.frontendWorker.createLoginComponent(details, (response) => {
-                    console.log('33333333333333');
                     this.frontendWorker.createSignupComponent((response) => {
-                        console.log('444444444444444');
                         this.frontendWorker.createHomeComponent((response) => {
-                            console.log('555555555555555');
                             this.frontendWorker.createAuthorizationComponent((response) => {
-                                console.log('6666666666666');
                                 this.frontendWorker.createManageroleComponent((response) => {
                                     this.frontendWorker.createConfig((response) => {
-                                        console.log('77777777777777');
                                         this.frontendWorker.createUserComponent((response) => {
-                                            console.log('88888888888888');
                                             this.frontendWorker.createAuthComponent(menus, (response) => {
-                                                console.log('9999999999999999');
                                                 this.frontendWorker.generateAppFile((response) => {
-                                                    console.log('10 10 10 10 10 10 10 10 10 10');
                                                     this.frontendWorker.modifyFiles(() => {
-                                                        console.log('11 11 11 11 11 11 11 11 11');
                                                         const date = new Date();
-                                                        console.log('RES DATE---->>>>>', date.getHours() + ':', date.getMinutes() + ':', date.getSeconds() + ':' + date.getMilliseconds());
                                                         callback();
                                                     });
                                                 })

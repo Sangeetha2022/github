@@ -14,7 +14,6 @@ export class AdminFrontendServcie {
         const details = req.body;
         this.frontendWorker.createAdminComponent(details, async (response) => {
             await this.frontendWorker.modifyFiles();
-            console.log('22222222222222---------');
             callback();
         });
 

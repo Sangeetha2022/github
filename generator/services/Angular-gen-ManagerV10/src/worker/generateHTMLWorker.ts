@@ -5,6 +5,7 @@ import * as Handlebars from 'handlebars';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Common } from '../config/Common';
+import * as beautify from 'beautify';
 
 import { Forms } from '../strategy/HTML/Forms';
 import { Button } from '../strategy/HTML/Button';
@@ -61,6 +62,7 @@ export class GenerateHtmlWorker {
 
     private forEach = asyncForEach.forEach;
     private tagName: String = null;
+    private htmlContent: String = '';
     // Screen details
 
     private screenInfo: any;
@@ -85,9 +87,81 @@ export class GenerateHtmlWorker {
             });
         });
     }
+    /**
+     * Set Attributes
+     * @param item 
+     */
+    setAttributes(item) {
+        if (item.hasOwnProperty('attributes')) {
+            // this.htmlContent += `id="${item.attributes.id}" `;
+            const keys = Object.keys(item.attributes);
+            keys.forEach((key) => {
+                this.htmlContent += `${key}="${item.attributes[key]}" `
+            });
+        }
+    }
 
+    /**
+     * Set Classes
+     * @param item 
+     * @param tagName 
+     */
+    setClasses(item, tagName) {
+        let classess = '';
+        if(item.hasOwnProperty('classes')) {
+            item.classes.forEach((element, index) => {
+                if(index + 1 === item.classes.length) {
+                    classess += element.name;
+                } else {
+                    classess += element.name + ' ';
+                }
+            });
+        }
+        this.htmlContent = tagName !== 'img' && tagName !== 'input' ? this.htmlContent + `class="${classess}">\n` : this.htmlContent + `class="${classess}"/>\n`;
+    }
+    /**
+     * Set Content
+     * @param item 
+     */
+    setContent(item) {
+        if (item.hasOwnProperty('content') && item.content) {
+            this.htmlContent += item.content;
+        }
+    }
+    /**
+     * Set close tag
+     * @param tagName 
+     */
+    setCloseTag(tagName) {
+        if(tagName !== 'img' && tagName !== 'input') {
+            this.htmlContent += `</${tagName}>\n`;
+        }
+    }
+    /**
+     * Recursive Function for Create HTML from Nested JSON Object
+     * @param gjsComponentMetadata
+     */
+    createHtmlfromNestedObject(gjsComponentMetadata: Array<Object>) {
+        gjsComponentMetadata.forEach((gjsElement: any) => {
+            const tagName = this.tagNameFunction(gjsElement);
+                this.htmlContent += '<' + tagName + ' ';
+                this.setAttributes(gjsElement);
+                this.setClasses(gjsElement, tagName);
+                this.setContent(gjsElement);
+            if(gjsElement.hasOwnProperty('components') && gjsElement.components.length > 0) {
+                this.createHtmlfromNestedObject(gjsElement.components);
+            }
+            this.setCloseTag(tagName);
+        });
+    }
     async generateHtml(gjsComponentMetadata, screensData, details) {
-        let templatePath = path.resolve(__dirname, '../../templates');
+        console.log('DETAILS---->>>>', JSON.stringify(details));
+        this.htmlContent = '';
+        this.createHtmlfromNestedObject(gjsComponentMetadata);
+        console.log('HTML CONTENT--->>>>', this.htmlContent);
+        const beautifyHtml = beautify(this.htmlContent, {format: 'html'});
+        const templatePath = path.resolve(__dirname, '../../templates');
+        console.log('BEAUTIFY HTML--->>>', beautifyHtml);
         let screenHtmlContent = [];
         let filePath = templatePath + `/ComponentHtml.handlebars`;
         let projectGenerationPath = details.projectGenerationPath;
@@ -223,7 +297,7 @@ export class GenerateHtmlWorker {
             }
 
         } else if (!tagName) {
-            if (firstEle.components[0].type === 'dynamicdropdown-type') {
+            if (firstEle.components && firstEle.components.length > 0 && firstEle.components[0].type === 'dynamicdropdown-type') {
                 tagName = firstEle.components[0].type;
             } else {
                 tagName = 'div';
