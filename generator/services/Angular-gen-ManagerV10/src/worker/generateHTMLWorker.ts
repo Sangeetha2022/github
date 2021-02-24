@@ -100,6 +100,38 @@ export class GenerateHtmlWorker {
             });
         }
     }
+    /**
+     * Set AngularAttributes(ngModel, click)
+     */
+    setAngularAttributes(gjsElement, screensData, tagName, details) {
+        if(gjsElement.attributes && gjsElement.attributes.id) {
+            // Appending entities for two way binding
+            if(screensData.entity_info && screensData.entity_info.length > 0) {
+                let twoWayBinding = '';
+                screensData.entity_info.forEach((entity: any) => {
+                    twoWayBinding = '';
+                    const entityId = entity.entityId;
+                    if(details.entities && details.entities.length > 0) {
+                        const entityFilter = details.entities.filter(e => e._id === entityId);
+                        if(entityFilter.length > 0) {
+                            twoWayBinding = entity.fields.name ? twoWayBinding + entityFilter[0].name + '.' + entity.fields.name : '';
+                            if(twoWayBinding && gjsElement.attributes && gjsElement.attributes.id && gjsElement.attributes.id === entity.htmlId) {
+                                this.htmlContent += `[(ngModel)]="${twoWayBinding}" [ngModelOptions]="{standalone: true}" `;
+                            }
+                        }
+                    }
+                });
+            }
+            // Appending click event
+            if(screensData.flows_info && screensData.flows_info.length > 0) {
+                screensData.flows_info.forEach((flow) => {
+                    if(flow.htmlId && gjsElement.attributes && gjsElement.attributes.id && gjsElement.attributes.id === flow.htmlId) {
+                        this.htmlContent += `(click)="${flow.flowName}()" `;
+                    }
+                });
+            }
+        }
+    }
 
     /**
      * Set Classes
@@ -141,15 +173,16 @@ export class GenerateHtmlWorker {
      * Recursive Function for Create HTML from Nested JSON Object
      * @param gjsComponentMetadata
      */
-    createHtmlfromNestedObject(gjsComponentMetadata: Array<Object>) {
+    createHtmlfromNestedObject(gjsComponentMetadata: Array<Object>, screensData, details) {
         gjsComponentMetadata.forEach((gjsElement: any) => {
             const tagName = this.tagNameFunction(gjsElement);
                 this.htmlContent += '<' + tagName + ' ';
                 this.setAttributes(gjsElement);
+                this.setAngularAttributes(gjsElement, screensData, tagName, details);
                 this.setClasses(gjsElement, tagName);
                 this.setContent(gjsElement);
             if(gjsElement.hasOwnProperty('components') && gjsElement.components.length > 0) {
-                this.createHtmlfromNestedObject(gjsElement.components);
+                this.createHtmlfromNestedObject(gjsElement.components, screensData, details);
             }
             this.setCloseTag(tagName);
         });
@@ -157,7 +190,7 @@ export class GenerateHtmlWorker {
     async generateHtml(gjsComponentMetadata, screensData, details) {
         console.log('DETAILS---->>>>', JSON.stringify(details));
         this.htmlContent = '';
-        this.createHtmlfromNestedObject(gjsComponentMetadata);
+        this.createHtmlfromNestedObject(gjsComponentMetadata, screensData, details);
         console.log('HTML CONTENT--->>>>', this.htmlContent);
         const beautifyHtml = beautify(this.htmlContent, {format: 'html'});
         const templatePath = path.resolve(__dirname, '../../templates');
