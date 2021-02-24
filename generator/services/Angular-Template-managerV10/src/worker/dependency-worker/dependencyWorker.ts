@@ -27,7 +27,7 @@ export class DependencyWorker {
   generateIndexHtml(generationPath, projectName, templateName, indexHtmlDetails, callback) {
     this.indexHtmlObject.tagData = [];
     this.indexHtmlObject.scriptTagData = [];
-    let metaData = JSON.parse(indexHtmlDetails)
+    let metaData = JSON.parse(indexHtmlDetails);
     metaData.map(async tagData => {
       await this.setMetaTag(tagData, templateName)
     })
