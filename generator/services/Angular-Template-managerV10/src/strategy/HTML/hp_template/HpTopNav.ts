@@ -13,15 +13,21 @@ export class HpTopNav {
             menuList.forEach(element => {
                 element.menuDetails.forEach(menuelement => {
                     menuelement.featuremenu.forEach(featurename => {
-                        if (featurename.name.feature != 'default') {    
-                            link += `<li class="nav-item dropdown" *ngIf='userId'>`;
-                            link += `<a class="nav-link dropdown-toggle" data-toggle="dropdown">${featurename.name.feature}</a>`;
-                            link += `<div class="dropdown-menu">`;
-                            menuelement.screenmenu.forEach(screenname => {
-                                screenname.name.screen.forEach(menuname => {
-                                    link += `<a class="dropdown-item" *ngIf="isApplicable('${menuname.toLowerCase()}') && userId" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>`;
+                        if (featurename.name.feature != 'default') {
+                            // link += `<li class="nav-item dropdown" *ngIf='userId'>`;
+                            // link += `<a class="nav-link dropdown-toggle" data-toggle="dropdown">${featurename.name.feature}</a>`;
+                            // link += `<div class="dropdown-menu">`;
+                            if (menuelement.screenmenu && menuelement.screenmenu.length > 0) {
+                                menuelement.screenmenu[0].name.screen.forEach((menuname, menuIndex) => {
+                                    if (menuIndex === 0) {
+                                        link += `<li class="nav-item dropdown" *ngIf="isApplicable('${menuname.toLowerCase()}') && userId">`;
+                                        link += `<a class="nav-link dropdown-toggle" data-toggle="dropdown">${featurename.name.feature}</a>`;
+                                        link += `<div class="dropdown-menu">`;
+                                    }
+                                    link += `<a class="dropdown-item" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>`;
                                 });
-                            });
+                            }
+
                             link += `</div>`;
                             link += `</li>`;
                         } else {
@@ -42,10 +48,12 @@ export class HpTopNav {
                                             link += `<li class="nav-item" *ngIf='isAdminUser'>
         <a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
     </li>`;
+                                            break;
                                         case 'authorization':
                                             link += `<li class="nav-item" *ngIf="isApplicable('${menuname.toLowerCase()}') && userId">
 <a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
 </li>`;
+                                            break;
                                         case 'manageroles':
                                             link += `<li class="nav-item" *ngIf="isApplicable('${menuname.toLowerCase()}') && userId">
 <a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
