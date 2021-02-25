@@ -1,9 +1,8 @@
 # Add new template to geppetto
 ## Aim:
- This document for procedure of adding new template in geppetto application
-geppetto can make different types of UI designs by user friendly designed template web pges and template screens.
+ To layout the procedure to add new template to geppetto application. Geppetto can different different types of UI designs by user friendly designed template web pges and template screens.
 ## Requirements:
-We need geppetto UI application and some node application server for adding the new template. what are the applications need to be list out below:
+We need geppetto UI application and some node application server for adding the new template. List of applications needed are listed below:
 
 -Template html file
 
@@ -27,14 +26,14 @@ We need geppetto UI application and some node application server for adding the 
 ### 1) To get the code from template html file
 Copy the code from designed template html file this code also includes html and style tags. And also make sure the assets images are kept in the angular template managerv10.
 
-### 2) Place the code to screen designer and Save the screen
+### 2) Insert the copied code from template html file to screen designer and Save the screen
 place the whatever copied from the template html file
 ![screen-designer](https://user-images.githubusercontent.com/61690990/109115661-67b13100-7765-11eb-9690-e1ad142368e2.png)
-select the import button then we can able see the template in screen designer
-and save the template screen. It will store into the mongo db with screens collection. we can able to get the template data from here.
+select the import button then the template in screen designer
+and save the template screen. It will store into the mongo db with screens collection. we can get the template data from here.
 
 ### 3) To create a new object in template array in template manager
-Next step we gonna go to create a new object for adding new template in templates Array as same as from existing geppetto template, It includes gjs-components, gjs-html, gjs-css, gjs-assets, gjs-style etc.
+Next we are going to create a new object for adding new template in templates Array as same as from existing geppetto template, It includes gjs-components, gjs-html, gjs-css, gjs-assets, gjs-style etc.
 ![geppettotemplates](https://user-images.githubusercontent.com/61690990/109117922-a4caf280-7768-11eb-8b9d-32a30f28ff76.png)
 
     file path:/applcation/services/template-manager/src/assets/geppettoTemplate.ts
@@ -47,10 +46,11 @@ we need to place the codes in template manager from saved screen data such as gj
 Now we have new template object in template manager so next need to delete the geppetto templates table for existing templates and re run the template manager micro service
  It will automatically update with new template details in DB.
     ``Note:make sure template object flag is active``
+
 ![flag-name](https://user-images.githubusercontent.com/61690990/109133993-92a67f80-777b-11eb-9f84-303eef7b623b.png)
 
 ### 6) To add the customized html and css code in angular template managerv10
-here only we need to add the customized html and css element for template screen, header and footer for template
+Here only we need to add the customized html and css element for template screen, header and footer for template.
 It consumes separate folders and files for each templates
 ![separate](https://user-images.githubusercontent.com/61690990/109134360-f6c94380-777b-11eb-8792-e7c45de4444a.png)
 
@@ -61,4 +61,5 @@ such as
 # Conclusion:
 Finally we have added the new template to geppetto application, If you want to see the template in the dropdown during project creation, 
 ![oie_Z1bKMC3IzA1q](https://user-images.githubusercontent.com/61690990/109136219-e914bd80-777d-11eb-9cba-3ebc9e458271.png)
+
 then you must add the flag is active in template object other wise not showed in the UI but it store into the Data Base.
