@@ -1,6 +1,6 @@
 # Add new template to geppetto
 ## Aim:
- To layout the procedure to add new template to geppetto application. Geppetto can different different types of UI designs by user friendly designed template web pges and template screens.
+ To layout the procedure to add new template to geppetto application. Geppetto can generate different types of UI designs by user friendly designed template web pges and template screens.
 ## Requirements:
 We need geppetto UI application and some node application server for adding the new template. List of applications needed are listed below:
 
