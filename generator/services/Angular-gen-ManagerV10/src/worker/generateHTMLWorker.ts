@@ -45,7 +45,7 @@ let agGridTableHtml = new AgGrid();
 let dynamicDropDown = new DynamicDropDown();
 let specialDropDown = new SpecialDropDown();
 let label = new Label();
-let componentSupport = new ComponentSupportWorker();
+let componentSupportWorker = new ComponentSupportWorker();
 const link = new Link();
 
 const componentWorker = new ComponentWorker();
@@ -103,8 +103,8 @@ export class GenerateHtmlWorker {
     /**
      * Set AngularAttributes(ngModel, click)
      */
-    setAngularAttributes(gjsElement, screensData, tagName, details) {
-        if(gjsElement.attributes && gjsElement.attributes.id) {
+    setAngularAttributes(gjsElement, screensData, tagName, details, callback) {
+        if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option' && gjsElement.attributes && gjsElement.attributes.id) {
             // Appending entities for two way binding
             if(screensData.entity_info && screensData.entity_info.length > 0) {
                 let twoWayBinding = '';
@@ -130,9 +130,50 @@ export class GenerateHtmlWorker {
                     }
                 });
             }
+            callback();
+        }
+        // Set grid-type
+        else if (tagName === 'grid-type') {
+            // Create bootstrap table
+            if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
+                bootstrapTableHtml.BootstrapTableHTMLGeneration(gjsElement, screensData, details, (response) => {
+                    this.htmlContent += response;
+                    callback();
+                });
+            }
+            // Create ag-grid table
+            else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
+                agGridTableHtml.agGridTableHTMLGeneration(gjsElement, screensData, details, (response) => {
+                    this.htmlContent += response;
+                    callback();
+                });
+            }
+        }
+        // Set specialdropdown-type
+        else if (tagName === 'specialdropdown-type') {
+            specialDropDown.specialDropDownHTMLGeneration(gjsElement, screensData, details, (response) => {
+                this.htmlContent += response;
+                callback();
+            });
+        }
+        // Set dynamicdropdown-type
+        else if (tagName === 'dynamicdropdown-type') {
+            dynamicDropDown.dynamicDropDownHTMLGeneration(gjsElement, screensData, details, (response) => {
+                this.htmlContent += response;
+                callback();
+            });
+        }
+        // Set select 
+        else if (tagName === 'select' && !gjsElement.hasOwnProperty('name')) {
+            select.SelectGeneration(gjsElement, screensData, details, (response) => {
+                this.htmlContent += response;
+                callback();
+            });
+        } 
+        else {
+            callback();
         }
     }
-
     /**
      * Set Classes
      * @param item 
@@ -173,135 +214,54 @@ export class GenerateHtmlWorker {
      * Recursive Function for Create HTML from Nested JSON Object
      * @param gjsComponentMetadata
      */
-    createHtmlfromNestedObject(gjsComponentMetadata: Array<Object>, screensData, details) {
-        gjsComponentMetadata.forEach((gjsElement: any) => {
+    createHtmlfromNestedObject(gjsComponentMetadata: Array<Object>, screensData, details, callback) {
+        asyncLoop(gjsComponentMetadata, (gjsElement, next) => {
             const tagName = this.tagNameFunction(gjsElement);
+            if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option') {
                 this.htmlContent += '<' + tagName + ' ';
                 this.setAttributes(gjsElement);
-                this.setAngularAttributes(gjsElement, screensData, tagName, details);
-                this.setClasses(gjsElement, tagName);
-                this.setContent(gjsElement);
-            if(gjsElement.hasOwnProperty('components') && gjsElement.components.length > 0) {
-                this.createHtmlfromNestedObject(gjsElement.components, screensData, details);
             }
-            this.setCloseTag(tagName);
+            this.setAngularAttributes(gjsElement, screensData, tagName, details, (res) => {
+                if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option') {
+                    this.setClasses(gjsElement, tagName);
+                    this.setContent(gjsElement);
+                }
+                if (gjsElement.hasOwnProperty('components') && gjsElement.components.length > 0) {
+                    this.createHtmlfromNestedObject(gjsElement.components, screensData, details, (res) => {
+                    });
+                }
+                if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option') {
+                    this.setCloseTag(tagName);
+                }
+                next();
+            });
+        }, (err) => {
+            if (err) {
+                callback('');
+            } else {
+                callback(this.htmlContent);
+            }
         });
     }
     async generateHtml(gjsComponentMetadata, screensData, details) {
-        console.log('DETAILS---->>>>', JSON.stringify(details));
         this.htmlContent = '';
-        this.createHtmlfromNestedObject(gjsComponentMetadata, screensData, details);
-        console.log('HTML CONTENT--->>>>', this.htmlContent);
-        const beautifyHtml = beautify(this.htmlContent, {format: 'html'});
         const templatePath = path.resolve(__dirname, '../../templates');
-        console.log('BEAUTIFY HTML--->>>', beautifyHtml);
         let screenHtmlContent = [];
         let filePath = templatePath + `/ComponentHtml.handlebars`;
         let projectGenerationPath = details.projectGenerationPath;
         let applicationPath = projectGenerationPath + `/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
-        var screenName = screensData.screenName;
-        let screenGenerationPath = applicationPath + `/${screenName.toLowerCase()}`;
-        await asyncLoop(gjsComponentMetadata, (item, next) => {
-            if (item) {
-                this.tagName = this.tagNameFunction(item);
-                console.log('tag name====================>>>>', this.tagName);
-                // form generation
-                if (this.tagName == 'form') {
-                    forms.formHTMLGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response.toString() });
-                        next();
-                    });
-                }
-
-                // specific Input generation
-                if (this.tagName == 'input') {
-
-                    if (item.type == 'input') {
-                        generateInput.inputGeneration(item, screensData, details, (response) => {
-                            screenHtmlContent.push({ data: response.toString() });
-                            next();
-                        });
-                    }
-                    if (item.type == 'radio') {
-                        radiobutton.radiobuttonHTMLGeneration(item, screensData, details, (response) => {
-                            screenHtmlContent.push({ data: response.toString() });
-                            next();
-                        });
-                    }
-
-                    if (item.type == 'checkbox') {
-                        checkbox.checkboxGeneration(item, screensData, details, (response) => {
-                            screenHtmlContent.push({ data: response.toString() });
-                            next();
-                        });
-                    }
-                }
-                if (this.tagName == 'button') {
-                    let formResponse = button.buttonHTMLGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response.toString() });
-                        next();
-                    });
-                }
-                if (this.tagName == 'select') {
-                    select.SelectGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response.toString() });
-                        next();
-                    });
-                }
-                // 
-                if (this.tagName == 'grid-type') {
-                    if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
-                        bootstrapTableHtml.BootstrapTableHTMLGeneration(item, screensData, details, (response) => {
-                            screenHtmlContent.push({ data: response });
-                            next();
-                        })
-                    }
-                    else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
-                        agGridTableHtml.agGridTableHTMLGeneration(item, screensData, details, (response) => {
-                            screenHtmlContent.push({ data: response });
-                            next();
-                        })
-                    }
-                }
-                if (this.tagName === 'a') {
-                    link.generateLink(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response });
-                        next();
-                    })
-                }
-                if (this.tagName === 'specialdropdown-type') {
-                    specialDropDown.specialDropDownHTMLGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response });
-                        next();
-                    })
-                }
-                if (this.tagName === 'dynamicdropdown-type') {
-                    dynamicDropDown.dynamicDropDownHTMLGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response });
-                        next();
-                    })
-                }
-                if (this.tagName === 'label') {
-                    label.labelHTMLGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response });
-                        next();
-                    })
-                }
-            } else {
-                next();
-            }
-        }, (err) => {
-            if (err) {
-                console.log(err);
-            } else {
-                let fileData = {
-                    screenHtmlContent: screenHtmlContent,
-                    screenName: screenName
-                }
-                this.handleBarsFile(filePath, fileData, screenGenerationPath, screenName);
-            }
-        })
-
+        const screenName = screensData.screenName;
+        const firstElement = screenName.charAt(0).toUpperCase();
+        const otherElements = screenName.substring(1, screenName.length);
+        const screenGenerationPath = applicationPath + `/${screenName.toLowerCase()}`;
+        Common.createFolders(screenGenerationPath);
+        this.createHtmlfromNestedObject(gjsComponentMetadata, screensData, details, (response) => {
+            response = `<h2 class="screen-align">${firstElement + otherElements}</h2>` + response;
+            const beautifyHtml = beautify(response, { format: 'html' });
+            componentSupportWorker.writeFile(screenGenerationPath + `/${screenName.toLowerCase()}.component.html`, beautifyHtml, (writeResponse) => {
+                // handle callback;
+            });
+        });
     }
 
     tagNameFunction(firstEle) {
