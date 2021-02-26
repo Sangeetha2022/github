@@ -262,6 +262,106 @@ export class GenerateHtmlWorker {
                 // handle callback;
             });
         });
+        // await asyncLoop(gjsComponentMetadata, (item, next) => {
+        //     if (item) {
+        //         this.tagName = this.tagNameFunction(item);
+        //         console.log('tag name====================>>>>', this.tagName);
+        //         // form generation
+        //         if (this.tagName == 'form') {
+        //             forms.formHTMLGeneration(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response.toString() });
+        //                 next();
+        //             });
+        //         }
+
+        //         // specific Input generation
+        //         if (this.tagName == 'input') {
+
+        //             if (item.type == 'input') {
+        //                 generateInput.inputGeneration(item, screensData, details, (response) => {
+        //                     screenHtmlContent.push({ data: response.toString() });
+        //                     next();
+        //                 });
+        //             }
+        //             if (item.type == 'radio') {
+        //                 radiobutton.radiobuttonHTMLGeneration(item, screensData, details, (response) => {
+        //                     screenHtmlContent.push({ data: response.toString() });
+        //                     next();
+        //                 });
+        //             }
+
+        //             if (item.type == 'checkbox') {
+        //                 checkbox.checkboxGeneration(item, screensData, details, (response) => {
+        //                     screenHtmlContent.push({ data: response.toString() });
+        //                     next();
+        //                 });
+        //             }
+        //         }
+        //         if (this.tagName == 'button') {
+        //             let formResponse = button.buttonHTMLGeneration(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response.toString() });
+        //                 next();
+        //             });
+        //         }
+        //         if (this.tagName == 'select') {
+        //             select.SelectGeneration(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response.toString() });
+        //                 next();
+        //             });
+        //         }
+        //         // 
+        //         if (this.tagName == 'grid-type') {
+        //             if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
+        //                 bootstrapTableHtml.BootstrapTableHTMLGeneration(item, screensData, details, (response) => {
+        //                     screenHtmlContent.push({ data: response });
+        //                     next();
+        //                 })
+        //             }
+        //             else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
+        //                 agGridTableHtml.agGridTableHTMLGeneration(item, screensData, details, (response) => {
+        //                     screenHtmlContent.push({ data: response });
+        //                     next();
+        //                 })
+        //             }
+        //         }
+        //         if (this.tagName === 'a') {
+        //             link.generateLink(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response });
+        //                 next();
+        //             })
+        //         }
+        //         if (this.tagName === 'specialdropdown-type') {
+        //             specialDropDown.specialDropDownHTMLGeneration(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response });
+        //                 next();
+        //             })
+        //         }
+        //         if (this.tagName === 'dynamicdropdown-type') {
+        //             dynamicDropDown.dynamicDropDownHTMLGeneration(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response });
+        //                 next();
+        //             })
+        //         }
+        //         if (this.tagName === 'label') {
+        //             label.labelHTMLGeneration(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response });
+        //                 next();
+        //             })
+        //         }
+        //     } else {
+        //         next();
+        //     }
+        // }, (err) => {
+        //     if (err) {
+        //         console.log(err);
+        //     } else {
+        //         let fileData = {
+        //             screenHtmlContent: screenHtmlContent,
+        //             screenName: screenName
+        //         }
+        //         this.handleBarsFile(filePath, fileData, screenGenerationPath, screenName);
+        //     }
+        // })
     }
 
     tagNameFunction(firstEle) {
