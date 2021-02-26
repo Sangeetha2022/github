@@ -1,6 +1,6 @@
-import { HPHeader } from "./HPHeader";
+import { RedHeader } from "./RedHeader";
 
-export class HpTopNav {
+export class RedTopNav {
     /**
      * 
      * @param body 

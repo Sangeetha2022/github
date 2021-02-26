@@ -9,12 +9,14 @@ import { Constant } from '../config/Constant';
 import { Header } from '../strategy/HTML/Header';
 import { GeppettoTemplateGenerator } from '../strategy/HTML/geppetto_template/GeppettoTemplateGenerator';
 import { HpTemplateGenerator } from '../strategy/HTML/hp_template/HpTemplateGenerator';
+import { RedHpTemplateGenerator } from '../strategy/HTML/red_template/RedTemplateGenerator';
 import { AppModuleWorker } from '../worker/dependency-worker/AppModuleWorker';
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
 let dependencyWorker = new DependencyWorker();
 let geppettoTemplate = new GeppettoTemplateGenerator();
+let redHpTemplate = new RedHpTemplateGenerator();
 let hpTemplate = new HpTemplateGenerator();
 let header = new Header();
 const componetWorker = new ComponentWorker();
@@ -97,6 +99,9 @@ export class AngularTemplateService {
                 break;
             case 'new hp template':
                 hpTemplate.hpTemplateGeneration(body);
+                break;
+            case 'red template':
+                redHpTemplate.redHpTemplateGeneration(body);
                 break;
             default:
                 break;

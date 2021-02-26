@@ -14,9 +14,10 @@ export class DmnWorkerFile {
         let screensjson = JSON.parse(screens);
         let menu = screensjson.body;
         console.log('-------menu---nnnnn--', menu[0].menu_option);
+        console.log('-------language---nnnnn--', menu[0].language);
         if (menu.length > 0) {
             menu.forEach(element => {
-                if (element.menu_option === true) {
+                if (element.menu_option === true && element.language === 'English') {
                     console.log('---foreach--menu--nnnn--', element);
                     element.menuDetails.forEach(element2 => {
                         const screendetails = element2.screenmenu;

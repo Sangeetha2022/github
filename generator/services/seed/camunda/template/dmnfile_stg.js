@@ -1,6 +1,6 @@
 /*
  * Template group dmnfile
- * Compiled on Thu Feb 18 2021 14:52:00 GMT+0530 (India Standard Time)
+ * Compiled on Wed Feb 24 2021 19:52:19 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -159,93 +159,46 @@ r = function(w, rc) {
                      w.write("</inputEntry>");
                      w.popIndentation();
                      w.write("\n");
-                     w.pushIndentation("        ");
-                     w.write("<outputEntry id=\"LiteralExpression_");
-                     w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "LiteralExpressionId", { file: gFile, line: 30, column: 50 }));
-                     w.write("\">");
-                     w.write("\n");
-                     w.pushIndentation("          ");
-                     w.write("<text>");
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("            ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "outputjson", { file: gFile, line: 32, column: 19 }));
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("          ");
-                     w.write("</text>");
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("        ");
-                     w.write("</outputEntry>");
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("        ");
-                     w.write("<outputEntry id=\"LiteralExpression_");
-                     w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "LiteralExpression2Id", { file: gFile, line: 35, column: 50 }));
-                     w.write("\">");
-                     w.write("\n");
-                     w.pushIndentation("          ");
-                     w.write("<text>");
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("             ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "outputjson", { file: gFile, line: 37, column: 20 }));
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("          ");
-                     w.write("</text>");
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("        ");
-                     w.write("</outputEntry>");
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("        ");
-                     w.write("<outputEntry id=\"LiteralExpression_");
-                     w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "LiteralExpression3Id", { file: gFile, line: 40, column: 50 }));
-                     w.write("\">");
-                     w.write("\n");
-                     w.pushIndentation("          ");
-                     w.write("<text>");
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("              ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "outputjson", { file: gFile, line: 42, column: 21 }));
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("          ");
-                     w.write("</text>");
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("        ");
-                     w.write("</outputEntry>");
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("        ");
-                     w.write("<outputEntry id=\"LiteralExpression_");
-                     w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "LiteralExpression4Id", { file: gFile, line: 45, column: 50 }));
-                     w.write("\">");
-                     w.write("\n");
-                     w.pushIndentation("          ");
-                     w.write("<text>");
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("              ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "outputjson", { file: gFile, line: 47, column: 21 }));
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("          ");
-                     w.write("</text>");
-                     w.popIndentation();
-                     w.write("\n");
-                     w.pushIndentation("        ");
-                     w.write("</outputEntry>");
-                     w.popIndentation();
+                     w.write("        ");
+                     if (st.test(s.roles)) {
+                     
+                         st.write(w, s, g, rc, (function() {
+                         var tp = [],
+                         attr = s.roles;
+                         tp.push(st.makeSubTemplate(g, function(w, rc) {
+                             var g = this.owningGroup,
+                             s = this.scope;
+                             
+                                      w.write("<outputEntry id=\"LiteralExpression_");
+                                      st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "DecisionRuleId", { file: gFile, line: 31, column: 50 }));
+                                      st.write(w, s, g, rc, st.prop(s, g, rc, s.values, "role", { file: gFile, line: 31, column: 73 }));
+                                      w.write("\">");
+                                      w.write("\n");
+                                      w.pushIndentation("          ");
+                                      w.write("<text>");
+                                      w.popIndentation();
+                                      w.write("\n");
+                                      w.pushIndentation("            ");
+                                      st.write(w, s, g, rc, st.prop(s, g, rc, s.value, "outputjson", { file: gFile, line: 33, column: 19 }));
+                                      w.popIndentation();
+                                      w.write("\n");
+                                      w.pushIndentation("          ");
+                                      w.write("</text>");
+                                      w.popIndentation();
+                                      w.write("\n");
+                                      w.pushIndentation("        ");
+                                      w.write("</outputEntry>");
+                                      w.popIndentation();
+                                      w.write("\n");
+                                      w.write("         ");
+                             }, [
+                             { name: "values"     }
+                             ])); 
+                         return st.map(attr, tp);
+                         })());
+                     
+                     
+                     }
                      w.write("\n");
                      w.pushIndentation("      ");
                      w.write("</rule>");

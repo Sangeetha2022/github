@@ -36,17 +36,6 @@ services:
       - mongo
       - camunda
 
-  camundaservice:
-    build: ../../../application/services/default_services/camunda
-    image: camundaservice-$uuid$
-    container_name: camundasvc-$uuid$
-    ports:
-      - "8002:8002"
-    env_file: .env
-    depends_on:
-      - mongo
-      - camunda
-
   securitymanager:
     build: ../../../application/services/default_services/securitymanager
     image: securitymanager-$uuid$
@@ -57,6 +46,18 @@ services:
     depends_on:
       - mongo
       - camunda
+
+  camundaservice:
+    build: ../../../application/services/default_services/camunda
+    image: camundaservice-$uuid$
+    container_name: camundasvc-$uuid$
+    ports:
+      - "8002:8002"
+    env_file: .env
+    depends_on:
+      - mongo
+      - camunda
+      - securitymanager
 
   apigateway:
     build: ../../../application/services/custom_services/apigateway

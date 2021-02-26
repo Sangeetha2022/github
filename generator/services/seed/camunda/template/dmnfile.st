@@ -27,26 +27,13 @@ dmnfile(object, roles) ::=<<
         <inputEntry id="UnaryTests_$value.UnaryTests2Id$">
           <text>"Screen"</text>
         </inputEntry>
-        <outputEntry id="LiteralExpression_$value.LiteralExpressionId$">
+        $if(roles)$$roles:{values |
+        <outputEntry id="LiteralExpression_$value.DecisionRuleId$$values.role$">
           <text>
             $value.outputjson$
           </text>
         </outputEntry>
-        <outputEntry id="LiteralExpression_$value.LiteralExpression2Id$">
-          <text>
-             $value.outputjson$
-          </text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_$value.LiteralExpression3Id$">
-          <text>
-              $value.outputjson$
-          </text>
-        </outputEntry>
-        <outputEntry id="LiteralExpression_$value.LiteralExpression4Id$">
-          <text>
-              $value.outputjson$
-          </text>
-        </outputEntry>
+         }$$endif$
       </rule>
        };separator="\n"$$endif$
            </decisionTable>
