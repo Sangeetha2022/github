@@ -5,6 +5,7 @@ import * as Handlebars from 'handlebars';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Common } from '../config/Common';
+import * as beautify from 'beautify';
 
 import { Forms } from '../strategy/HTML/Forms';
 import { Button } from '../strategy/HTML/Button';
@@ -44,7 +45,7 @@ let agGridTableHtml = new AgGrid();
 let dynamicDropDown = new DynamicDropDown();
 let specialDropDown = new SpecialDropDown();
 let label = new Label();
-let componentSupport = new ComponentSupportWorker();
+let componentSupportWorker = new ComponentSupportWorker();
 const link = new Link();
 
 const componentWorker = new ComponentWorker();
@@ -61,6 +62,7 @@ export class GenerateHtmlWorker {
 
     private forEach = asyncForEach.forEach;
     private tagName: String = null;
+    private htmlContent: String = '';
     // Screen details
 
     private screenInfo: any;
@@ -85,116 +87,281 @@ export class GenerateHtmlWorker {
             });
         });
     }
-
+    /**
+     * Set Attributes
+     * @param item 
+     */
+    setAttributes(item) {
+        if (item.hasOwnProperty('attributes')) {
+            // this.htmlContent += `id="${item.attributes.id}" `;
+            const keys = Object.keys(item.attributes);
+            keys.forEach((key) => {
+                this.htmlContent += `${key}="${item.attributes[key]}" `
+            });
+        }
+    }
+    /**
+     * Set AngularAttributes(ngModel, click)
+     */
+    setAngularAttributes(gjsElement, screensData, tagName, details, callback) {
+        if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option' && gjsElement.attributes && gjsElement.attributes.id) {
+            // Appending entities for two way binding
+            if(screensData.entity_info && screensData.entity_info.length > 0) {
+                let twoWayBinding = '';
+                screensData.entity_info.forEach((entity: any) => {
+                    twoWayBinding = '';
+                    const entityId = entity.entityId;
+                    if(details.entities && details.entities.length > 0) {
+                        const entityFilter = details.entities.filter(e => e._id === entityId);
+                        if(entityFilter.length > 0) {
+                            twoWayBinding = entity.fields.name ? twoWayBinding + entityFilter[0].name + '.' + entity.fields.name : '';
+                            if(twoWayBinding && gjsElement.attributes && gjsElement.attributes.id && gjsElement.attributes.id === entity.htmlId) {
+                                this.htmlContent += `[(ngModel)]="${twoWayBinding}" [ngModelOptions]="{standalone: true}" `;
+                            }
+                        }
+                    }
+                });
+            }
+            // Appending click event
+            if(screensData.flows_info && screensData.flows_info.length > 0) {
+                screensData.flows_info.forEach((flow) => {
+                    if(flow.htmlId && gjsElement.attributes && gjsElement.attributes.id && gjsElement.attributes.id === flow.htmlId) {
+                        this.htmlContent += `(click)="${flow.flowName}()" `;
+                    }
+                });
+            }
+            callback();
+        }
+        // Set grid-type
+        else if (tagName === 'grid-type') {
+            // Create bootstrap table
+            if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
+                bootstrapTableHtml.BootstrapTableHTMLGeneration(gjsElement, screensData, details, (response) => {
+                    this.htmlContent += response;
+                    callback();
+                });
+            }
+            // Create ag-grid table
+            else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
+                agGridTableHtml.agGridTableHTMLGeneration(gjsElement, screensData, details, (response) => {
+                    this.htmlContent += response;
+                    callback();
+                });
+            }
+        }
+        // Set specialdropdown-type
+        else if (tagName === 'specialdropdown-type') {
+            specialDropDown.specialDropDownHTMLGeneration(gjsElement, screensData, details, (response) => {
+                this.htmlContent += response;
+                callback();
+            });
+        }
+        // Set dynamicdropdown-type
+        else if (tagName === 'dynamicdropdown-type') {
+            dynamicDropDown.dynamicDropDownHTMLGeneration(gjsElement, screensData, details, (response) => {
+                this.htmlContent += response;
+                callback();
+            });
+        }
+        // Set select 
+        else if (tagName === 'select' && !gjsElement.hasOwnProperty('name')) {
+            select.SelectGeneration(gjsElement, screensData, details, (response) => {
+                this.htmlContent += response;
+                callback();
+            });
+        } 
+        else {
+            callback();
+        }
+    }
+    /**
+     * Set Classes
+     * @param item 
+     * @param tagName 
+     */
+    setClasses(item, tagName) {
+        let classess = '';
+        if(item.hasOwnProperty('classes')) {
+            item.classes.forEach((element, index) => {
+                if(index + 1 === item.classes.length) {
+                    classess += element.name;
+                } else {
+                    classess += element.name + ' ';
+                }
+            });
+        }
+        this.htmlContent = tagName !== 'img' && tagName !== 'input' ? this.htmlContent + `class="${classess}">\n` : this.htmlContent + `class="${classess}"/>\n`;
+    }
+    /**
+     * Set Content
+     * @param item 
+     */
+    setContent(item) {
+        if (item.hasOwnProperty('content') && item.content) {
+            this.htmlContent += item.content;
+        }
+    }
+    /**
+     * Set close tag
+     * @param tagName 
+     */
+    setCloseTag(tagName) {
+        if(tagName !== 'img' && tagName !== 'input') {
+            this.htmlContent += `</${tagName}>\n`;
+        }
+    }
+    /**
+     * Recursive Function for Create HTML from Nested JSON Object
+     * @param gjsComponentMetadata
+     */
+    createHtmlfromNestedObject(gjsComponentMetadata: Array<Object>, screensData, details, callback) {
+        asyncLoop(gjsComponentMetadata, (gjsElement, next) => {
+            const tagName = this.tagNameFunction(gjsElement);
+            if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option') {
+                this.htmlContent += '<' + tagName + ' ';
+                this.setAttributes(gjsElement);
+            }
+            this.setAngularAttributes(gjsElement, screensData, tagName, details, (res) => {
+                if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option') {
+                    this.setClasses(gjsElement, tagName);
+                    this.setContent(gjsElement);
+                }
+                if (gjsElement.hasOwnProperty('components') && gjsElement.components.length > 0) {
+                    this.createHtmlfromNestedObject(gjsElement.components, screensData, details, (res) => {
+                    });
+                }
+                if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option') {
+                    this.setCloseTag(tagName);
+                }
+                next();
+            });
+        }, (err) => {
+            if (err) {
+                callback('');
+            } else {
+                callback(this.htmlContent);
+            }
+        });
+    }
     async generateHtml(gjsComponentMetadata, screensData, details) {
-        let templatePath = path.resolve(__dirname, '../../templates');
+        this.htmlContent = '';
+        const templatePath = path.resolve(__dirname, '../../templates');
         let screenHtmlContent = [];
         let filePath = templatePath + `/ComponentHtml.handlebars`;
         let projectGenerationPath = details.projectGenerationPath;
         let applicationPath = projectGenerationPath + `/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
-        var screenName = screensData.screenName;
-        let screenGenerationPath = applicationPath + `/${screenName.toLowerCase()}`;
-        await asyncLoop(gjsComponentMetadata, (item, next) => {
-            if (item) {
-                this.tagName = this.tagNameFunction(item);
-                console.log('tag name====================>>>>', this.tagName);
-                // form generation
-                if (this.tagName == 'form') {
-                    forms.formHTMLGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response.toString() });
-                        next();
-                    });
-                }
+        const screenName = screensData.screenName;
+        const firstElement = screenName.charAt(0).toUpperCase();
+        const otherElements = screenName.substring(1, screenName.length);
+        const screenGenerationPath = applicationPath + `/${screenName.toLowerCase()}`;
+        Common.createFolders(screenGenerationPath);
+        this.createHtmlfromNestedObject(gjsComponentMetadata, screensData, details, (response) => {
+            response = `<h2 class="screen-align">${firstElement + otherElements}</h2>` + response;
+            const beautifyHtml = beautify(response, { format: 'html' });
+            componentSupportWorker.writeFile(screenGenerationPath + `/${screenName.toLowerCase()}.component.html`, beautifyHtml, (writeResponse) => {
+                // handle callback;
+            });
+        });
+        // await asyncLoop(gjsComponentMetadata, (item, next) => {
+        //     if (item) {
+        //         this.tagName = this.tagNameFunction(item);
+        //         console.log('tag name====================>>>>', this.tagName);
+        //         // form generation
+        //         if (this.tagName == 'form') {
+        //             forms.formHTMLGeneration(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response.toString() });
+        //                 next();
+        //             });
+        //         }
 
-                // specific Input generation
-                if (this.tagName == 'input') {
+        //         // specific Input generation
+        //         if (this.tagName == 'input') {
 
-                    if (item.type == 'input') {
-                        generateInput.inputGeneration(item, screensData, details, (response) => {
-                            screenHtmlContent.push({ data: response.toString() });
-                            next();
-                        });
-                    }
-                    if (item.type == 'radio') {
-                        radiobutton.radiobuttonHTMLGeneration(item, screensData, details, (response) => {
-                            screenHtmlContent.push({ data: response.toString() });
-                            next();
-                        });
-                    }
+        //             if (item.type == 'input') {
+        //                 generateInput.inputGeneration(item, screensData, details, (response) => {
+        //                     screenHtmlContent.push({ data: response.toString() });
+        //                     next();
+        //                 });
+        //             }
+        //             if (item.type == 'radio') {
+        //                 radiobutton.radiobuttonHTMLGeneration(item, screensData, details, (response) => {
+        //                     screenHtmlContent.push({ data: response.toString() });
+        //                     next();
+        //                 });
+        //             }
 
-                    if (item.type == 'checkbox') {
-                        checkbox.checkboxGeneration(item, screensData, details, (response) => {
-                            screenHtmlContent.push({ data: response.toString() });
-                            next();
-                        });
-                    }
-                }
-                if (this.tagName == 'button') {
-                    let formResponse = button.buttonHTMLGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response.toString() });
-                        next();
-                    });
-                }
-                if (this.tagName == 'select') {
-                    select.SelectGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response.toString() });
-                        next();
-                    });
-                }
-                // 
-                if (this.tagName == 'grid-type') {
-                    if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
-                        bootstrapTableHtml.BootstrapTableHTMLGeneration(item, screensData, details, (response) => {
-                            screenHtmlContent.push({ data: response });
-                            next();
-                        })
-                    }
-                    else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
-                        agGridTableHtml.agGridTableHTMLGeneration(item, screensData, details, (response) => {
-                            screenHtmlContent.push({ data: response });
-                            next();
-                        })
-                    }
-                }
-                if (this.tagName === 'a') {
-                    link.generateLink(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response });
-                        next();
-                    })
-                }
-                if (this.tagName === 'specialdropdown-type') {
-                    specialDropDown.specialDropDownHTMLGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response });
-                        next();
-                    })
-                }
-                if (this.tagName === 'dynamicdropdown-type') {
-                    dynamicDropDown.dynamicDropDownHTMLGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response });
-                        next();
-                    })
-                }
-                if (this.tagName === 'label') {
-                    label.labelHTMLGeneration(item, screensData, details, (response) => {
-                        screenHtmlContent.push({ data: response });
-                        next();
-                    })
-                }
-            } else {
-                next();
-            }
-        }, (err) => {
-            if (err) {
-                console.log(err);
-            } else {
-                let fileData = {
-                    screenHtmlContent: screenHtmlContent,
-                    screenName: screenName
-                }
-                this.handleBarsFile(filePath, fileData, screenGenerationPath, screenName);
-            }
-        })
-
+        //             if (item.type == 'checkbox') {
+        //                 checkbox.checkboxGeneration(item, screensData, details, (response) => {
+        //                     screenHtmlContent.push({ data: response.toString() });
+        //                     next();
+        //                 });
+        //             }
+        //         }
+        //         if (this.tagName == 'button') {
+        //             let formResponse = button.buttonHTMLGeneration(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response.toString() });
+        //                 next();
+        //             });
+        //         }
+        //         if (this.tagName == 'select') {
+        //             select.SelectGeneration(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response.toString() });
+        //                 next();
+        //             });
+        //         }
+        //         // 
+        //         if (this.tagName == 'grid-type') {
+        //             if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
+        //                 bootstrapTableHtml.BootstrapTableHTMLGeneration(item, screensData, details, (response) => {
+        //                     screenHtmlContent.push({ data: response });
+        //                     next();
+        //                 })
+        //             }
+        //             else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
+        //                 agGridTableHtml.agGridTableHTMLGeneration(item, screensData, details, (response) => {
+        //                     screenHtmlContent.push({ data: response });
+        //                     next();
+        //                 })
+        //             }
+        //         }
+        //         if (this.tagName === 'a') {
+        //             link.generateLink(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response });
+        //                 next();
+        //             })
+        //         }
+        //         if (this.tagName === 'specialdropdown-type') {
+        //             specialDropDown.specialDropDownHTMLGeneration(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response });
+        //                 next();
+        //             })
+        //         }
+        //         if (this.tagName === 'dynamicdropdown-type') {
+        //             dynamicDropDown.dynamicDropDownHTMLGeneration(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response });
+        //                 next();
+        //             })
+        //         }
+        //         if (this.tagName === 'label') {
+        //             label.labelHTMLGeneration(item, screensData, details, (response) => {
+        //                 screenHtmlContent.push({ data: response });
+        //                 next();
+        //             })
+        //         }
+        //     } else {
+        //         next();
+        //     }
+        // }, (err) => {
+        //     if (err) {
+        //         console.log(err);
+        //     } else {
+        //         let fileData = {
+        //             screenHtmlContent: screenHtmlContent,
+        //             screenName: screenName
+        //         }
+        //         this.handleBarsFile(filePath, fileData, screenGenerationPath, screenName);
+        //     }
+        // })
     }
 
     tagNameFunction(firstEle) {
@@ -223,7 +390,7 @@ export class GenerateHtmlWorker {
             }
 
         } else if (!tagName) {
-            if (firstEle.components[0].type === 'dynamicdropdown-type') {
+            if (firstEle.components && firstEle.components.length > 0 && firstEle.components[0].type === 'dynamicdropdown-type') {
                 tagName = firstEle.components[0].type;
             } else {
                 tagName = 'div';

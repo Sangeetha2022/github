@@ -43,7 +43,6 @@ export class FrontendSupportWorker {
         console.log('fileData---->>>>', fileData);
         await this.writeFile(applicationPath + `/${fileName}`, fileData, null)
             .then(() => {
-                console.log('1111111111111-------');
                 callback('successfully written the file');
             }).catch(error => {
                 callback('cannot able to written the file');
