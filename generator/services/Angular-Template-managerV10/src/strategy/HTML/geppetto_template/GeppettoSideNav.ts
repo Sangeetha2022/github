@@ -34,39 +34,25 @@ export class GeppettoSideNav {
                                 menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
                                     switch (screenElement) {
                                         case 'home':
-                                            topNav.push(`<div class="list-group panel">
-    <a class="list-group-item list-group-item-success" *ngIf='userId!=null'  [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-</div>`);
+                                            topNav.push(`<div class="list-group panel"><a class="list-group-item list-group-item-success" *ngIf='userId!=null'  [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a></div>`);
                                             break;
                                         case 'login':
-                                            bottomNav.push(`<li>
-    <a class="list-group-item list-group-item-success text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-</li>`);
+                                            bottomNav.push(`<li><a class="list-group-item list-group-item-success text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a></li>`);
                                             break;
                                         case 'authorization':
-                                            bottomNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                                            <a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-                                        </div>`);
+                                            bottomNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId"><a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a></div>`);
                                             break;
                                         case 'manageroles':
-                                            bottomNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                                            <a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-                                            </div>`);
+                                            bottomNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId"><a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a></div>`);
                                             break;
                                         case 'admin':
-                                            mainNav.push(`<div class="list-group panel" *ngIf='isAdminUser'>
-    <a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-</div>`);
+                                            mainNav.push(`<div class="list-group panel" *ngIf='isAdminUser'><a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a></div>`);
                                             break;
                                         case 'logout':
-                                            bottomNav.push(`<div class="list-group panel">
-    <a class="list-group-item list-group-item-success" *ngIf='userId!=null' (click)="logout()">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-</div>`);
+                                            bottomNav.push(`<div class="list-group panel"><a class="list-group-item list-group-item-success" *ngIf='userId!=null' (click)="logout()">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a></div>`);
                                             break;
                                         default:
-                                            mainNav.push(`<div class="list-group panel">
-    <a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-</div>`);
+                                            mainNav.push(`<div class="list-group panel"><a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a></div>`);
                                             break;
                                     }
                                 });

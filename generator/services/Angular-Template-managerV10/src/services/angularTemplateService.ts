@@ -11,6 +11,9 @@ import { GeppettoTemplateGenerator } from '../strategy/HTML/geppetto_template/Ge
 import { HpTemplateGenerator } from '../strategy/HTML/hp_template/HpTemplateGenerator';
 import { RedHpTemplateGenerator } from '../strategy/HTML/red_template/RedTemplateGenerator';
 import { AppModuleWorker } from '../worker/dependency-worker/AppModuleWorker';
+import { ComponentSupportWorker } from '../supportworker/componentSupportWorker';
+import * as asyncLoop from 'node-async-loop';
+import { GeppettoSideNav } from '../strategy/HTML/geppetto_template/GeppettoSideNav';
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
@@ -21,6 +24,8 @@ let hpTemplate = new HpTemplateGenerator();
 let header = new Header();
 const componetWorker = new ComponentWorker();
 const appModuleWorker = new AppModuleWorker();
+const componentSupportWorker = new ComponentSupportWorker();
+const geppettoSideNav = new GeppettoSideNav();
 
 export class AngularTemplateService {
 
@@ -44,6 +49,7 @@ export class AngularTemplateService {
         port: 0
     }
     private projectName = '';
+    private htmlContent: string = '';
 
     public createAngularTemplate(req: Request, callback: CallableFunction) {
         this.details = req.body;
@@ -90,9 +96,11 @@ export class AngularTemplateService {
         });
     }
     public createLandingPage(body, callback) {
+        console.log('BODY---->>>>', JSON.stringify(body));
         body = JSON.parse(JSON.stringify(body));
         this.generationPath += `/${this.projectName}`;
         let templateName = this.templateName;
+        this.generateHtml(body);
         switch (templateName.toLowerCase()) {
             case 'geppetto template':
                 geppettoTemplate.geppettoTemplateGeneration(body);
@@ -110,7 +118,115 @@ export class AngularTemplateService {
             appModuleWorker.importComponentModules(body, (res) => {
                 callback(response)
             });
-        }) 
+        })
+    }
+    generateHtml(body) {
+        let gjsComponents = body.template['gjs-components'][0];
+        gjsComponents = gjsComponents ? JSON.parse(gjsComponents) : [];
+        if (gjsComponents && gjsComponents.length > 0) {
+            asyncLoop(gjsComponents, (gjsElement, next) => {
+                const tagName = componentSupportWorker.tagNameFunction(gjsElement);
+                if (tagName === 'nav') {
+                    // Generating Header Component
+                    this.createHtmlfromNestedObject([gjsElement], (res) => {
+                        console.log('RESPONSE---->>>>', res);
+                        const menuList = body.menuBuilder.filter(x => x.language.toLowerCase() === body.project.defaultHumanLanguage.toLowerCase());
+                        const projectName = body.project.name;
+                        if (res.includes(`<div id="MainMenu" class="">`)) {
+                            const sideNavHtml = geppettoSideNav.generateSideNav(menuList);
+                            const responseArray = res.split('\n');
+                            for (let i = 0; i < responseArray.length; i++) {
+                                if (responseArray[i].includes(`<div id="MainMenu" class="">`)) {
+                                    responseArray.splice(i + 1, 0, sideNavHtml);
+                                    break;
+                                }
+                            }
+                            this.htmlContent = responseArray.join('\n');
+                        }
+                        next();
+                    });
+                } else {
+                    next();
+                }
+            }, err => {
+                if (err) {
+                    console.log('ERROR---->>>>', err);
+                } else {
+                    console.log('HTML CONTENT---->>>>', this.htmlContent);
+                }
+            });
+        }
+    }
+    createHtmlfromNestedObject(gjsComponentMetadata: Array<Object>, callback) {
+        asyncLoop(gjsComponentMetadata, (gjsElement, next) => {
+            const tagName = componentSupportWorker.tagNameFunction(gjsElement);
+            this.htmlContent += '<' + tagName + ' ';
+            this.setAttributes(gjsElement);
+            this.setClasses(gjsElement, tagName);
+            this.setContent(gjsElement);
+            if (gjsElement.hasOwnProperty('components') && gjsElement.components.length > 0) {
+                this.createHtmlfromNestedObject(gjsElement.components, (res) => {
+                });
+            }
+            this.setCloseTag(tagName);
+            next();
+        }, (err) => {
+            if (err) {
+                callback('');
+            } else {
+                callback(this.htmlContent);
+            }
+        });
+    }
+    /**
+     * Set Attributes
+     * @param item 
+     */
+    setAttributes(item) {
+        if (item.hasOwnProperty('attributes')) {
+            // this.htmlContent += `id="${item.attributes.id}" `;
+            const keys = Object.keys(item.attributes);
+            keys.forEach((key) => {
+                // Replacing href to [routerLink] in <a> tag
+                this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="${item.attributes[key]}" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
+            });
+        }
+    }
+    /**
+     * Set Classes
+     * @param item 
+     * @param tagName 
+     */
+    setClasses(item, tagName) {
+        let classess = '';
+        if (item.hasOwnProperty('classes')) {
+            item.classes.forEach((element, index) => {
+                if (index + 1 === item.classes.length) {
+                    classess += element.name;
+                } else {
+                    classess += element.name + ' ';
+                }
+            });
+        }
+        this.htmlContent = tagName !== 'img' && tagName !== 'input' ? this.htmlContent + `class="${classess}">\n` : this.htmlContent + `class="${classess}"/>\n`;
+    }
+    /**
+     * Set Content
+     * @param item 
+     */
+    setContent(item) {
+        if (item.hasOwnProperty('content') && item.content) {
+            this.htmlContent += item.content;
+        }
+    }
+    /**
+     * Set close tag
+     * @param tagName 
+     */
+    setCloseTag(tagName) {
+        if (tagName !== 'img' && tagName !== 'input') {
+            this.htmlContent += `</${tagName}>\n`;
+        }
     }
     // public createLandingPage() {
     //     if (this.iterateData.length > 0) {

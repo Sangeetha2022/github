@@ -76,4 +76,38 @@ export class ComponentSupportWorker {
             callback(response);
         })
     }
+
+    tagNameFunction(firstEle) {
+        let tagName = null;
+        if (firstEle.hasOwnProperty('tagName')) {
+            tagName = firstEle.tagName;
+        }
+        else if (firstEle.hasOwnProperty('type')) {
+            if (firstEle.type != 'grid-row' && firstEle.type != 'grid-item' &&
+                (firstEle.type == 'label' || firstEle.type == 'section')) {
+                tagName = firstEle.type;
+            }
+            else if (firstEle.type == 'tab' || firstEle.type == 'link') {
+                tagName = 'a';
+            }
+            else if (firstEle.type == 'image') {
+                tagName = 'img';
+            }
+            else {
+                tagName = 'div';
+            }
+        }
+        if (firstEle.type === 'header') {
+            if (firstEle.tagName) {
+                tagName = firstEle.tagName;
+            }
+            else {
+                tagName = 'h1';
+            }
+        }
+        else if (!tagName) {
+            tagName = 'div';
+        }
+        return tagName;
+    }
 }
