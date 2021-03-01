@@ -3,7 +3,7 @@
             "name": "version",
             "label": "",
             "description": "app version",
-            "value": "Beta-03",
+            "value": "Beta-04",
             "type": "version",
             "sub_type": ""
         },
@@ -11,7 +11,7 @@
             "name": "build_version",
             "label": "",
             "description": "build version",
-            "value": "1.2.31",
+            "value": "1.2.41",
             "type": "version",
             "sub_type": ""
         },
@@ -2579,7 +2579,7 @@
             "name": "projectGenerationDirectory",
             "label": "project generation directory",
             "description": "location of where we want to generate our project code",
-            "value": "/geppetto/generated-code",
+            "value": "/home/decoders/Videos/generated-code",
             "type": "ProjectGeneration",
             "sub_type": null
         },
@@ -2587,7 +2587,7 @@
             "name": "backendGenerationDirectory",
             "label": "BackEnd Generation Directory",
             "description": "location of where we want to generate our backend code",
-            "value": "/geppetto/generated-code",
+            "value": "/home/decoders/Videos/generated-code",
             "type": "BackEndGeneration",
             "sub_type": null
         },
@@ -2595,7 +2595,7 @@
             "name": "authGenerationDirectory",
             "label": "Auth Generation Directory",
             "description": "Location for the Login generation seed files",
-            "value": "/geppetto/template/seed",
+            "value": "/home/decoders/Music/geppetto-dev/geppettotest/generator/services/seed",
             "type": "AuthGeneration",
             "sub_type": null
         },
@@ -2603,7 +2603,7 @@
             "name": "authorizationDirectory",
             "label": "Authorization Directory",
             "description": "Location for the template path of the string template in the Auth gen manager",
-            "value": "../../template",
+            "value": "/home/decoders/Music/geppetto-dev/geppettotest/generator/services/auth-gen-manager/template",
             "type": "Authorization",
             "sub_type": null
         },
@@ -2611,7 +2611,7 @@
             "name": "adminManagerSeedDirectory",
             "label": "Admin Manager Directory",
             "description": "Location for the Admin Manager seed files",
-            "value": "/geppetto/template/seed",
+            "value": "/home/decoders/Music/geppetto-dev/geppettotest/generator/services/seed",
             "type": "AdminManager",
             "sub_type": null
         }
