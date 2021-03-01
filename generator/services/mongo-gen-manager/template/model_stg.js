@@ -1,6 +1,6 @@
 /*
  * Template group model
- * Compiled on Tue May 28 2019 14:44:02 GMT+0530 (India Standard Time)
+ * Compiled on Fri Feb 26 2021 19:02:10 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -33,6 +33,22 @@ r = function(w, rc) {
     w.write("export const ");
     st.write(w, s, g, rc, s.ModelName);
     w.write("Schema = new Schema({");
+    w.write("\n");
+    w.pushIndentation("   ");
+    w.write("created_date: { type: Date, default: Date.now },");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("   ");
+    w.write("created_by: { type: String },");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("   ");
+    w.write("last_modified_by: { type: String },");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("   ");
+    w.write("last_modified_date: { type: Date, default: Date.now },");
+    w.popIndentation();
     w.write("\n");
     w.pushIndentation("   ");
     st.write(w, s, g, rc, (function() {
