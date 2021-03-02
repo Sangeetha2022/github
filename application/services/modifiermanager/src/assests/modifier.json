@@ -1,0 +1,19 @@
+{
+    "modifier": [
+        {
+            "modifier_name": "GpSearch-By",
+            "modify_target_type": "Flow",
+            "description": "this is modifies search"
+        },
+        {
+            "modifier_name": "GpUpdate-SpecificValues",
+            "modify_target_type": "Flow",
+            "description": "this is modifies update flow"
+        },
+        {
+            "modifier_name": "GpwhoKnows",
+            "modify_target_type": "UIElement",
+            "description": "this is modifies UI element"
+        }
+    ]
+}

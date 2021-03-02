@@ -37,7 +37,8 @@ import {
     SharedController,
     SwaggerController,
     ReactController,
-    ExternalfeatureController
+    ExternalfeatureController,
+    ModifierManagerController
 
 
 } from './apicontroller';
@@ -77,7 +78,8 @@ let apisController = [
     new SharedController(),
     new SwaggerController(),
     new ReactController(),
-    new ExternalfeatureController()
+    new ExternalfeatureController(),
+    new ModifierManagerController()
 
 ]
 

@@ -16,6 +16,7 @@ export * from './customConnectors.controller';
 export * from './deletemanager.controller';
 export * from './shared.Controller';
 export * from './externalfeature.controller';
+export * from './modifiermanager.controller';
 
 
 
