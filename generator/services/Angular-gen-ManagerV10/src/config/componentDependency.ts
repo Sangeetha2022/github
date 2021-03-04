@@ -64,17 +64,17 @@ export const component = [
     {
         name: 'ag-grid-angular',
         htmlDependencies: [
-            '#agGrid',
-            'style="width: 100%; height: 100%;"',
-            'id="myGrid"',
-            'class="ag-theme-balham"',
-            `[columnDefs]="columnDefs"`,
-            `[pagination]="true"`,
-            `[paginationPageSize]="paginationPageSize"`,
-            `[defaultColDef]="defaultColDef"`,
-            `[rowData]="rowData"`,
-            `[rowSelection]="rowSelection"`,
-            `(gridReady)="onGridReady($event)"`,
+            '#agGrid ',
+            'style="width: 100%; height: 100%;" ',
+            'id="myGrid" ',
+            'class="ag-theme-balham" ',
+            `[columnDefs]="columnDefs" `,
+            `[pagination]="true" `,
+            `[paginationPageSize]="paginationPageSize" `,
+            `[defaultColDef]="defaultColDef" `,
+            `[rowData]="rowData" `,
+            `[rowSelection]="rowSelection" `,
+            `(gridReady)="onGridReady($event)" `,
             `domLayout='autoHeight'`
         ],
         componentVariableList: [

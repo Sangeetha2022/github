@@ -32,6 +32,8 @@ import { SpecialDropDown } from '../strategy/HTML/SpecialDropDown';
 import { Label } from '../strategy/HTML/Label';
 import { response } from 'express';
 import { ComponentSpecWorker } from './componentworker/ComponentSpecWorker';
+import * as componentDependency from '../config/componentDependency';
+
 
 
 let forms = new Forms();
@@ -67,6 +69,12 @@ export class GenerateHtmlWorker {
 
     private screenInfo: any;
 
+    private GRID_CLICK_HTML = {
+        htmlOptionName: 'selectionChanged',
+        htmlMethodName: 'onSelectionChanged',
+        htmlParams: '$event'
+    }
+
     generate(screenDetails, details, callback) {
         // add default styles
         this.screenInfo = screenDetails;
@@ -93,7 +101,6 @@ export class GenerateHtmlWorker {
      */
     setAttributes(item) {
         if (item.hasOwnProperty('attributes')) {
-            // this.htmlContent += `id="${item.attributes.id}" `;
             const keys = Object.keys(item.attributes);
             keys.forEach((key) => {
                 this.htmlContent += `${key}="${item.attributes[key]}" `
@@ -103,8 +110,8 @@ export class GenerateHtmlWorker {
     /**
      * Set AngularAttributes(ngModel, click)
      */
-    setAngularAttributes(gjsElement, screensData, tagName, details, callback) {
-        if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option' && gjsElement.attributes && gjsElement.attributes.id) {
+    setAngularAttributes(gjsElement, screensData, tagName, details) {
+        if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'select' && tagName !== 'option' && gjsElement.attributes && gjsElement.attributes.id) {
             // Appending entities for two way binding
             if(screensData.entity_info && screensData.entity_info.length > 0) {
                 let twoWayBinding = '';
@@ -130,49 +137,51 @@ export class GenerateHtmlWorker {
                     }
                 });
             }
-            callback();
+            // callback(gjsElement);
         }
         // Set grid-type
-        else if (tagName === 'grid-type') {
-            // Create bootstrap table
-            if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
-                bootstrapTableHtml.BootstrapTableHTMLGeneration(gjsElement, screensData, details, (response) => {
-                    this.htmlContent += response;
-                    callback();
-                });
-            }
-            // Create ag-grid table
-            else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
-                agGridTableHtml.agGridTableHTMLGeneration(gjsElement, screensData, details, (response) => {
-                    this.htmlContent += response;
-                    callback();
-                });
-            }
-        }
-        // Set specialdropdown-type
-        else if (tagName === 'specialdropdown-type') {
-            specialDropDown.specialDropDownHTMLGeneration(gjsElement, screensData, details, (response) => {
-                this.htmlContent += response;
-                callback();
-            });
-        }
-        // Set dynamicdropdown-type
-        else if (tagName === 'dynamicdropdown-type') {
-            dynamicDropDown.dynamicDropDownHTMLGeneration(gjsElement, screensData, details, (response) => {
-                this.htmlContent += response;
-                callback();
-            });
-        }
-        // Set select 
-        else if (tagName === 'select' && !gjsElement.hasOwnProperty('name')) {
-            select.SelectGeneration(gjsElement, screensData, details, (response) => {
-                this.htmlContent += response;
-                callback();
-            });
-        } 
-        else {
-            callback();
-        }
+        // else if (tagName === 'grid-type') {
+        //     // Create bootstrap table
+        //     if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
+        //         bootstrapTableHtml.BootstrapTableHTMLGeneration(gjsElement, screensData, details, (response) => {
+        //             this.htmlContent += response;
+        //             callback('Grid Type Completed');
+        //         });
+        //     }
+        //     // Create ag-grid table
+        //     else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
+        //         agGridTableHtml.agGridTableHTMLGeneration(gjsElement, screensData, details, (response) => {
+        //             this.htmlContent += response;
+        //             callback('Ag-Grid Completed');
+        //         });
+        //     }
+        // }
+        // // Set specialdropdown-type
+        // else if (tagName === 'specialdropdown-type') {
+        //     specialDropDown.specialDropDownHTMLGeneration(gjsElement, screensData, details, (response) => {
+        //         this.htmlContent += response;
+        //         callback('Special Dropdown Completed');
+        //     });
+        // }
+        // // Set dynamicdropdown-type
+        // else if (tagName === 'dynamicdropdown-type') {
+        //     console.log('11111111111   BEFORE HTML CONTENT---->>>>', this.htmlContent);
+        //     dynamicDropDown.dynamicDropDownHTMLGeneration(gjsElement, screensData, details, (response) => {
+        //         console.log('3333333333333 DROPDOWN RESPONSE---->>>>', response);
+        //         this.htmlContent += response;
+        //         callback('DYNAMIC DROP DOWN' +  JSON.stringify(gjsElement));
+        //     });
+        // }
+        // // Set select 
+        // else if (tagName === 'select' && !gjsElement.hasOwnProperty('name')) {
+        //     select.SelectGeneration(gjsElement, screensData, details, (response) => {
+        //         this.htmlContent += response;
+        //         callback('Select Completed');
+        //     });
+        // } 
+        // else {
+        //     callback('Else Block' + JSON.stringify(gjsElement));
+        // }
     }
     /**
      * Set Classes
@@ -191,7 +200,7 @@ export class GenerateHtmlWorker {
             });
         }
         this.htmlContent = tagName !== 'img' && tagName !== 'input' ? this.htmlContent + `class="${classess}">\n` : this.htmlContent + `class="${classess}"/>\n`;
-    }
+    } 
     /**
      * Set Content
      * @param item 
@@ -207,34 +216,181 @@ export class GenerateHtmlWorker {
      */
     setCloseTag(tagName) {
         if(tagName !== 'img' && tagName !== 'input') {
-            this.htmlContent += `</${tagName}>\n`;
+            if(tagName === 'dynamicdropdown-type' || tagName === 'specialdropdown-type') {
+                this.htmlContent += `</ng-select>`;
+            } else {
+                this.htmlContent += `</${tagName}>\n`;
+            }
         }
+    }
+    /**
+     * Generate Dynamic Dropdown
+     * @param gjsElement 
+     * @param screensData 
+     * @param tagName 
+     * @param details 
+     */
+    generateDynamicDropDown(gjsElement, screensData, tagName, details) {
+        const screenEntityDetails = screensData.entity_info;
+        const overAllEntities = details.entities;
+        let mappedEntityName = '';
+        let bindLable = ''
+        this.htmlContent += `<div `;
+        this.setAttributes(gjsElement);
+        this.setClasses(gjsElement, tagName);
+        const gjsElementComponents = gjsElement.components[0];
+        this.htmlContent += `<ng-select `;
+        this.setAttributes(gjsElementComponents);
+        this.htmlContent += `name="${gjsElementComponents.name || ''}" `;
+        this.htmlContent += `[searchable]="true" [virtualScroll]="true" `
+        // this.htmlContent += `bindLabel="" bindValue="" `;
+        if (gjsElement.components && gjsElement.components.length > 0) {
+            gjsElement.components.forEach(component => {
+                screenEntityDetails.forEach(async (entityField: any) => {
+                    if (component.name === entityField.elementName) {
+                        overAllEntities.forEach((entity: any) => {
+                            if (entityField.entityId === entity._id) {
+                                entity.field.forEach(fieldData => {
+                                    if (fieldData._id === entityField.fields.fieldId && fieldData.type_name === 'Entity') {
+                                        let mappedFieldDetails = fieldData.entity_id.field.filter((x) => x._id === fieldData.entity_field);
+                                        let fieldDataObject = mappedFieldDetails[0];
+                                        mappedEntityName = fieldData.entity_id.name;
+                                        bindLable = fieldDataObject.name;
+                                        // this.htmlContent += `bindLabel="${fieldDataObject.name}" bindValue="${fieldDataObject.name}" `
+                                    }
+                                })
+                                // entityField.entityName = entity.name;
+                                // component.attributes.entityDetails = entityField;
+                            }
+                        })
+                    }
+                });
+            });
+        }
+        this.htmlContent += `[items]="${mappedEntityName}itemArray" `;
+        this.htmlContent += `bindLabel="${bindLable}" bindValue="${bindLable}" `
+        this.setAngularAttributes(gjsElementComponents, screensData, tagName, details);
+        this.setClasses(gjsElementComponents, tagName);
+        this.setCloseTag(tagName);
+        this.setCloseTag('div');
+    }
+    /**
+     * Generate Special Dropdown
+     * @param gjsElement 
+     * @param tagName 
+     * @param details 
+     */
+    generateSpecialDropdown(gjsElement, tagName) {
+        this.htmlContent += `<div `;
+        this.setAttributes(gjsElement);
+        this.setClasses(gjsElement, tagName);
+        gjsElement = gjsElement.components[0];
+        this.htmlContent += `<ng-select `;
+        this.setAttributes(gjsElement);
+        this.htmlContent += `[searchable]="true" [virtualScroll]="true" name="${gjsElement.name || ''}" `;
+        this.setClasses(gjsElement, tagName);
+        this.setCloseTag(tagName);
+        this.setCloseTag('div');
+    }
+    /**
+     * 
+     * @param gjsElement 
+     * @param tagName 
+     */
+    generateSelect(gjsElement, tagName) {
+        this.htmlContent += `<div>`;
+        this.htmlContent += `<select `;
+        this.setAttributes(gjsElement);
+        this.setClasses(gjsElement, tagName);
+        this.htmlContent += `<option  *ngFor="let option of options" [ngValue]="option.key">{{option.value}}</option>`;
+        this.setCloseTag(tagName);
+        this.setCloseTag('div');
+    }
+    /**
+     * 
+     * @param gjsElement 
+     * @param screensData 
+     * @param tagName 
+     */
+    generateAgGrid(gjsElement, screensData) {
+        this.htmlContent += `<div `;
+        this.htmlContent += `name="${gjsElement.name}" `;
+        this.setAttributes(gjsElement);
+        if (gjsElement.components !== undefined) {
+            screensData.flows_info.forEach(element => {
+                if (gjsElement.name === element.elementName) {
+                    if (element.flowName && element.flowName === 'GpGetAllValues') {
+                        this.htmlContent += `(click)="GpGetAllValues()"`;
+                    }
+                }
+            });
+        }
+        this.htmlContent += '>';
+        const findAgGridDependencies = componentDependency.component.find(x => x.name == Constant.AGGRID_TAGNAME);
+        if (gjsElement.components !== undefined) {
+            this.htmlContent += `<ag-grid-angular `;
+            findAgGridDependencies.htmlDependencies.forEach((ag_grid_angular) => {
+                this.htmlContent += ag_grid_angular.toString();
+            });
+            if (screensData.grid_fields && screensData.grid_fields.event == 'Rowclick' && (screensData.route_info.find(i => i.routeType === 'queryParameter'))) {
+                const gridData = `(${this.GRID_CLICK_HTML.htmlOptionName})="${this.GRID_CLICK_HTML.htmlMethodName}(${this.GRID_CLICK_HTML.htmlParams})"`;
+                this.htmlContent += gridData;
+            }
+            this.htmlContent += `>`;
+            this.setCloseTag('ag-grid-angular');
+            this.setCloseTag('div');
+        };
+    }
+    generateBootstrapTable(gjsElement, screensData, tagName) {
+
     }
     /**
      * Recursive Function for Create HTML from Nested JSON Object
      * @param gjsComponentMetadata
      */
     createHtmlfromNestedObject(gjsComponentMetadata: Array<Object>, screensData, details, callback) {
-        asyncLoop(gjsComponentMetadata, (gjsElement, next) => {
+        asyncLoop(gjsComponentMetadata, async (gjsElement, next) => {
             const tagName = this.tagNameFunction(gjsElement);
             if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option') {
                 this.htmlContent += '<' + tagName + ' ';
                 this.setAttributes(gjsElement);
             }
-            this.setAngularAttributes(gjsElement, screensData, tagName, details, (res) => {
-                if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option') {
-                    this.setClasses(gjsElement, tagName);
-                    this.setContent(gjsElement);
+            this.setAngularAttributes(gjsElement, screensData, tagName, details);
+            if (tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option') {
+                this.setClasses(gjsElement, tagName);
+                this.setContent(gjsElement);
+            }
+
+            if (tagName === 'dynamicdropdown-type') {
+                this.generateDynamicDropDown(gjsElement, screensData, tagName, details);
+            }
+            if(tagName === 'specialdropdown-type') {
+                this.generateSpecialDropdown(gjsElement, tagName);
+            }
+            if (tagName === 'select' && !gjsElement.hasOwnProperty('name')) {
+                this.generateSelect(gjsElement, tagName);
+            }
+            if (tagName === 'grid-type') {
+                // Create bootstrap table
+                if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
+                    // bootstrapTableHtml.BootstrapTableHTMLGeneration(gjsElement, screensData, details, (response) => {
+                    //     console.log('RESPONSE---->>>>', response);
+                    // });
+                    // this.generateBootstrapTable(gjsElement, screensData, tagName);
                 }
-                if (gjsElement.hasOwnProperty('components') && gjsElement.components.length > 0) {
-                    this.createHtmlfromNestedObject(gjsElement.components, screensData, details, (res) => {
-                    });
+                // Create ag-grid table
+                else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
+                    this.generateAgGrid(gjsElement, screensData);
                 }
-                if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'select' && tagName !== 'option') {
-                    this.setCloseTag(tagName);
-                }
-                next();
-            });
+            }
+            if (gjsElement.hasOwnProperty('components') && gjsElement.components.length > 0) {
+                this.createHtmlfromNestedObject(gjsElement.components, screensData, details, (res) => {
+                });
+            } 
+            if (tagName !== 'grid-type' && tagName !== 'dynamicdropdown-type' && tagName !== 'specialdropdown-type' && tagName !== 'select' && tagName !== 'option') {
+                this.setCloseTag(tagName);
+            }
+            next();
         }, (err) => {
             if (err) {
                 callback('');
@@ -244,6 +400,7 @@ export class GenerateHtmlWorker {
         });
     }
     async generateHtml(gjsComponentMetadata, screensData, details) {
+        console.log('DETAILS---->>>>', JSON.stringify(details));
         this.htmlContent = '';
         const templatePath = path.resolve(__dirname, '../../templates');
         let screenHtmlContent = [];
@@ -256,6 +413,7 @@ export class GenerateHtmlWorker {
         const screenGenerationPath = applicationPath + `/${screenName.toLowerCase()}`;
         Common.createFolders(screenGenerationPath);
         this.createHtmlfromNestedObject(gjsComponentMetadata, screensData, details, (response) => {
+            console.log('HTML CONTENT---->>>>', response);
             response = `<h2 class="screen-align">${firstElement + otherElements}</h2>` + response;
             const beautifyHtml = beautify(response, { format: 'html' });
             componentSupportWorker.writeFile(screenGenerationPath + `/${screenName.toLowerCase()}.component.html`, beautifyHtml, (writeResponse) => {
