@@ -31,6 +31,7 @@ export * from './generator/mongo.controller';
 export * from './generator/node.controller';
 export * from './generator/angular.controller';
 export * from './generator/github.controller';
+export * from './generator/privategithub.controller';
 export * from './generator/authgencontroller';
 export * from './generator/angularTemplate.controller';
 export * from './generator/swagger.controller';

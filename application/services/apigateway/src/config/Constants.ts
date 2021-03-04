@@ -1,6 +1,3 @@
-
-
-
 export class Constants {
 
     public static appUrl: String;
@@ -37,6 +34,7 @@ export class Constants {
     public static angularGenUrl: String;
     public static angularTemplateGenUrl: String;
     public static githubUrl: String;
+    public static privateGithubUrl: String;
     public static authgenUrl: String;
     public static swaggerGenUrl: String;
     public static reactgenUrl: String;
@@ -82,6 +80,7 @@ export class Constants {
                 Constants.angularGenUrl = process.env.angulargenmanager + ":5014";
                 Constants.angularTemplateGenUrl = process.env.angtemplatemanager + ":5015";
                 Constants.githubUrl = process.env.githubmanager + ":5016";
+                Constants.privateGithubUrl = process.env.privategithubmanager + ":5022";
                 Constants.authgenUrl = process.env.authgenmanager + ":5017";
                 Constants.swaggerGenUrl = process.env.swaggergenmanager + ":5020";
                 Constants.reactgenUrl = process.env.reactgenmanager + ":5045";
@@ -121,6 +120,7 @@ export class Constants {
                 Constants.angularGenUrl = Constants.generationUrl + ":5014";
                 Constants.angularTemplateGenUrl = Constants.generationUrl + ":5015";
                 Constants.githubUrl = Constants.generationUrl + ":5016";
+                Constants.privateGithubUrl = Constants.generationUrl + ":5022";
                 Constants.authgenUrl = Constants.generationUrl + ":5017";
                 Constants.swaggerGenUrl = Constants.generationUrl + ":5020";
                 Constants.reactgenUrl = Constants.generationUrl + ":5045";
