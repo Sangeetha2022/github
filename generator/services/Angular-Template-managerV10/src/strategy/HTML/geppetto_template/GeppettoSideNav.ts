@@ -53,6 +53,11 @@ export class GeppettoSideNav {
                                             <a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
                                             </div>`);
                                             break;
+                                        case 'manageusers':
+                                            bottomNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
+                                            <a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+                                            </div>`);
+                                            break;
                                         case 'admin':
                                             mainNav.push(`<div class="list-group panel" *ngIf='isAdminUser'>
     <a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
