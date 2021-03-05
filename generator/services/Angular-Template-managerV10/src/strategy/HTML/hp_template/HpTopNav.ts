@@ -59,6 +59,11 @@ export class HpTopNav {
 <a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
 </li>`;
                                             break;
+                                        case 'manageusers':
+                                            link += `<li class="nav-item" *ngIf="isApplicable('${menuname.toLowerCase()}') && userId">
+<a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
+</li>`;
+                                            break;
                                         case 'logout':
                                             //                                         link += `<li class="nav-item" *ngIf="userId!=null">
                                             //     <a class="nav-link" (click)="logout()">{{'source.${menuname}' | i18next}}</a>

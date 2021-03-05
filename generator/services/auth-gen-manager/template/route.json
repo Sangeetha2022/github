@@ -73,6 +73,18 @@
                     "apiAction": "put",
                     "methodName": "updateUser",
                     "variableName": "User"
+                },
+                {
+                    "routeUrl": "/saveroles",
+                    "apiAction": "post",
+                    "methodName": "saveRoles",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/deleteroles/:id",
+                    "apiAction": "delete",
+                    "methodName": "deleteRoles",
+                    "variableName": "User"
                 }
             ]
         },
@@ -132,6 +144,24 @@
                     "routeUrl": "/accesslevel",
                     "apiAction": "post",
                     "methodName": "camunda",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/savescreen",
+                    "apiAction": "post",
+                    "methodName": "savescreen",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/dmngenerate",
+                    "apiAction": "post",
+                    "methodName": "dmngenerate",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/getallscreens",
+                    "apiAction": "get",
+                    "methodName": "getallscreens",
                     "variableName": "User"
                 }
             ]
