@@ -27,7 +27,7 @@ export class ManagerolesComponent implements OnInit {
     this.custom_role.push(this.name);
     this.enablebutton = true;
     let rolename = { "role": this.name }
-    this.manageRolesService.post(this.constants.saverole, rolename).subscribe((data) => {
+    this.manageRolesService.GpSaveRoles(rolename).subscribe((data) => {
       this.getRoles();
     }, (error) => {
       console.log('Error in data save ---->>', error);
@@ -36,12 +36,11 @@ export class ManagerolesComponent implements OnInit {
   }
 
   remove(role) {
-    this.manageRolesService.delete(this.constants.deleterole + '/' + role._id).subscribe((data) => {
+    this.manageRolesService.GpDeleteRoles(role._id).subscribe((data) => {
       this.getRoles();
     }, (error) => {
       console.log('Error in data save ---->>', error);
     });
-    // this.custom_role.splice(index, 1);
   }
 
   getInputValue(e) {
@@ -52,18 +51,13 @@ export class ManagerolesComponent implements OnInit {
     else {
       this.enablebutton = true;
     }
-    // var duplicatecheck = this.default_role.includes(event) || this.custom_role.includes(event);
-    // if (duplicatecheck) {
-    //   this.enablebutton = true;
-    //   alert("Role already exist");
-    // }
   }
 
   getRoles() {
-    this.manageRolesService.get(this.constants.getallroles).subscribe((rolelist) => {
+    this.manageRolesService.GpGetAllRoles().subscribe((rolelist) => {
       this.rolelist = rolelist;
     }, (error) => {
-      console.log('Error --->>>>>', error);
+      console.log('Error--->>>>>', error);
     });
   }
 }
