@@ -17,7 +17,6 @@ export class AppModuleWorker {
             if (res) {
                 const importDataArray = Constant.APP_MODULE_IMPORTS;
                 const fileArray: Array<string> = res.split('\n');
-                console.log('FILE ARRAY1111---->>>>', fileArray);
                 importDataArray.forEach(async (importElement: any) => {
                     fileArray.forEach((element: any, index) => {
                         if(element) {
@@ -42,7 +41,6 @@ export class AppModuleWorker {
                         }
                     });
                 });
-                console.log('FILE ARRAY2222---->>>>', fileArray);
                 componentSupportWorker.writeFile(applicationPath, fileArray.join('\n'), (res) => {
                     callback('Child Modules Imported Successfully');
                 });
