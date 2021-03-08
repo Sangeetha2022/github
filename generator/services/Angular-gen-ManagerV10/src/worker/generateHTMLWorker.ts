@@ -110,7 +110,7 @@ export class GenerateHtmlWorker {
     /**
      * Set AngularAttributes(ngModel, click)
      */
-    setAngularAttributes(gjsElement, screensData, tagName, details) {
+    setAngularAttributes(gjsElement, screensData, tagName, details, mappedEntityName = '') {
         if(tagName !== 'grid-type' && tagName !== 'specialdropdown-type' && tagName !== 'select' && tagName !== 'option' && gjsElement.attributes && gjsElement.attributes.id) {
             // Appending entities for two way binding
             if(screensData.entity_info && screensData.entity_info.length > 0) {
@@ -132,8 +132,12 @@ export class GenerateHtmlWorker {
             // Appending click event
             if(screensData.flows_info && screensData.flows_info.length > 0) {
                 screensData.flows_info.forEach((flow) => {
-                    if(flow.htmlId && gjsElement.attributes && gjsElement.attributes.id && gjsElement.attributes.id === flow.htmlId) {
+                    if(flow.htmlId && gjsElement.attributes && gjsElement.attributes.id && gjsElement.attributes.id === flow.htmlId && tagName !== 'dynamicdropdown-type' && !mappedEntityName) {
                         this.htmlContent += `(click)="${flow.flowName}()" `;
+                    } 
+                    // Adding entity name before the methos only for dynamicdropdown-type click event
+                    else if(flow.htmlId && gjsElement.attributes && gjsElement.attributes.id && gjsElement.attributes.id === flow.htmlId && tagName === 'dynamicdropdown-type' && mappedEntityName) {
+                        this.htmlContent += `(click)="${mappedEntityName + flow.flowName}()" `;
                     }
                 });
             }
@@ -243,7 +247,6 @@ export class GenerateHtmlWorker {
         this.setAttributes(gjsElementComponents);
         this.htmlContent += `name="${gjsElementComponents.name || ''}" `;
         this.htmlContent += `[searchable]="true" [virtualScroll]="true" `
-        // this.htmlContent += `bindLabel="" bindValue="" `;
         if (gjsElement.components && gjsElement.components.length > 0) {
             gjsElement.components.forEach(component => {
                 screenEntityDetails.forEach(async (entityField: any) => {
@@ -269,7 +272,7 @@ export class GenerateHtmlWorker {
         }
         this.htmlContent += `[items]="${mappedEntityName}itemArray" `;
         this.htmlContent += `bindLabel="${bindLable}" bindValue="${bindLable}" `
-        this.setAngularAttributes(gjsElementComponents, screensData, tagName, details);
+        this.setAngularAttributes(gjsElementComponents, screensData, tagName, details, mappedEntityName);
         this.setClasses(gjsElementComponents, tagName);
         this.setCloseTag(tagName);
         this.setCloseTag('div');
