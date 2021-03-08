@@ -35,7 +35,7 @@ export class AuthorizationComponent implements OnInit {
     this.getRoles();
   }
   getQuoteOMaticPages() {
-    this.authService.get(this.constants.getallscreen).subscribe((screendata) => {
+    this.authService.GpGetAllScreen().subscribe((screendata) => {
       this.storedpages = screendata;
       screendata.forEach(element => {
         this.camundapage = element.resources;
@@ -89,28 +89,23 @@ export class AuthorizationComponent implements OnInit {
       this.pageTitles.push(tempObj);
     });
     console.log('FINAL OBJECT====>>>>', this.pageTitles);
-    this.authService.post(this.constants.savescreen, this.pageTitles).subscribe((data) => {
+    this.authService.SaveScreen(this.pageTitles).subscribe((data) => {
       console.log('Data saved------->>', data);
     }, (error) => {
       console.log('Error in data save ---->>', error);
     });
-    this.authService.post(this.constants.pageTitles, this.pageTitles).subscribe((data) => {
+    this.authService.DmnGenerate(this.pageTitles).subscribe((data) => {
       console.log('DATA=====>>>>>>', data);
     }, (error) => {
       console.log('Error on generating DMN', error);
     });
   }
 
-
   getRoles() {
-    this.authService.get(this.constants.getallroles).subscribe((rolelist) => {
-      // screendata.forEach(element => {
-      //   this.camundapage = element.resources;
-      // });
+    this.authService.GpGetAllRoles().subscribe((rolelist) => {
       this.rolelist = rolelist;
     }, (error) => {
       console.log('Error --->>>>>', error);
     });
   }
-
 }

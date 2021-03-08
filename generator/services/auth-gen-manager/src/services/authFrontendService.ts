@@ -27,14 +27,16 @@ export class AuthFrontendService {
                         this.frontendWorker.createHomeComponent((response) => {
                             this.frontendWorker.createAuthorizationComponent((response) => {
                                 this.frontendWorker.createManageroleComponent((response) => {
-                                    this.frontendWorker.createConfig((response) => {
-                                        this.frontendWorker.createUserComponent((response) => {
-                                            this.frontendWorker.createAuthComponent(menus, (response) => {
-                                                this.frontendWorker.generateAppFile((response) => {
-                                                    this.frontendWorker.modifyFiles(() => {
-                                                        const date = new Date();
-                                                        callback();
-                                                    });
+                                    this.frontendWorker.createManageuserComponent((response) => {
+                                        this.frontendWorker.createConfig((response) => {
+                                            this.frontendWorker.createUserComponent((response) => {
+                                                this.frontendWorker.createAuthComponent(menus, (response) => {
+                                                    this.frontendWorker.generateAppFile((response) => {
+                                                        this.frontendWorker.modifyFiles(() => {
+                                                            const date = new Date();
+                                                            callback();
+                                                        });
+                                                    })
                                                 })
                                             })
                                         })
