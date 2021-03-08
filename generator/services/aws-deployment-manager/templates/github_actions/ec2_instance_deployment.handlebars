@@ -88,7 +88,7 @@ jobs:
           {{/each}}
      
   Deploy_backend:
-    needs: Build_and_upload_docker_iamges_to_ECR
+    needs: Build_and_upload_docker_images_to_ECR
     runs-on: ubuntu-latest
     outputs:
         public_ip: ${{#surroundWithCurlyBraces ' steps.networkInterfaceId.outputs.PUBLIC_IP_ADDRESS '}}{{/surroundWithCurlyBraces}}
@@ -125,7 +125,7 @@ jobs:
       - name: Run the ECS task definition
         id: networkInterfaceId
         run: |
-          run_task=$(aws ecs run-task --capacity-provider-strategy capacityProvider=FARGATE_SPOT --cluster ${{#surroundWithCurlyBraces ' env.AWS_ECS_CLUSTER_NAME '}}{{/surroundWithCurlyBraces}}  --task-definition {{project_name}} --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[${{#surroundWithCurlyBraces ' env.AWS_VPC_SUBNET '}}{{/surroundWithCurlyBraces}}],securityGroups=[${{#surroundWithCurlyBraces ' env.AWS_VPC_SECURITY_GROUP '}}{{/surroundWithCurlyBraces}}],assignPublicIp=ENABLED}" | jq  -r '.tasks[].taskArn')
+          run_task=$(aws ecs run-task --capacity-provider-strategy capacityProvider=FARGATE_SPOT --cluster ${{#surroundWithCurlyBraces ' env.AWS_ECS_CLUSTER_NAME '}}{{/surroundWithCurlyBraces}}  --task-definition {{project_name}}  --network-configuration "awsvpcConfiguration={subnets=[${{#surroundWithCurlyBraces ' env.AWS_VPC_SUBNET '}}{{/surroundWithCurlyBraces}}],securityGroups=[${{#surroundWithCurlyBraces ' env.AWS_VPC_SECURITY_GROUP '}}{{/surroundWithCurlyBraces}}],assignPublicIp=ENABLED}" | jq  -r '.tasks[].taskArn')
           sleep 20s
           echo "::set-output name=NETWORK_ID::$(aws ecs describe-tasks --cluster ${{#surroundWithCurlyBraces ' env.AWS_ECS_CLUSTER_NAME '}}{{/surroundWithCurlyBraces}} --tasks $run_task | jq '.tasks[].attachments[].details[1].value')"
           echo "::set-output name=PUBLIC_IP_ADDRESS::$(aws ec2 describe-network-interfaces --network-interface-ids ${{#surroundWithCurlyBraces ' steps.networkInterfaceId.outputs.NETWORK_ID '}}{{/surroundWithCurlyBraces}}  | jq -r '.NetworkInterfaces[].PrivateIpAddresses[].Association.PublicIp')"

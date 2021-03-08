@@ -9,7 +9,7 @@ const sodium = require('tweetsodium');
 
 let git = null;
 let commitTo = 'GitHub';
-const octokit = new Octokit({ auth: process.env.gitPassword });
+const octokit = new Octokit({ auth: process.env.PrivategitPassword });
 
 
 
@@ -28,9 +28,9 @@ export class PrivateGitHubService {
             git.checkIsRepo().then((status) => {
                 // this.githubCreds((response) => {
                 creds = {
-                    username: process.env.gitUsername,
-                    password: process.env.gitPassword,
-                    email: process.env.gitEmail
+                    username: process.env.PrivategitUsername,
+                    password: process.env.PrivategitPassword,
+                    email: process.env.PrivategitEmail
                 }
 
                 if (!status && commitTo.toLocaleLowerCase() === 'github') {
@@ -89,7 +89,7 @@ export class PrivateGitHubService {
         });
         this.githubCreds((response) => {
             Object.keys(response).forEach(function (secrets) {
-            const octokit = new Octokit({ auth: process.env.gitPassword });
+            const octokit = new Octokit({ auth: process.env.PrivategitPassword });
             const key = publicKey;
             const value = response[secrets];    
             const messageBytes = Buffer.from(value);
