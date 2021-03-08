@@ -135,7 +135,7 @@ export class GenerateHtmlWorker {
                     if(flow.htmlId && gjsElement.attributes && gjsElement.attributes.id && gjsElement.attributes.id === flow.htmlId && tagName !== 'dynamicdropdown-type' && !mappedEntityName) {
                         this.htmlContent += `(click)="${flow.flowName}()" `;
                     } 
-                    // Adding entity name before the methos only for dynamicdropdown-type click event
+                    // Adding entity name before the methods only for dynamicdropdown-type click event
                     else if(flow.htmlId && gjsElement.attributes && gjsElement.attributes.id && gjsElement.attributes.id === flow.htmlId && tagName === 'dynamicdropdown-type' && mappedEntityName) {
                         this.htmlContent += `(click)="${mappedEntityName + flow.flowName}()" `;
                     }
@@ -345,7 +345,25 @@ export class GenerateHtmlWorker {
         };
     }
     generateBootstrapTable(gjsElement, screensData, tagName) {
-
+        this.htmlContent += `<div `;
+        this.htmlContent = gjsElement.name ? this.htmlContent + `name="${gjsElement.name}" ` : this.htmlContent + '';
+        this.setClasses(gjsElement, tagName);
+        const findAgGridDependencies = componentDependency.component.find(x => x.name == Constant.BOOTSTRAP_TAGNAME);
+        this.htmlContent += findAgGridDependencies.bootstrapTable;
+        // rowclick
+        if (screensData.grid_fields && screensData.grid_fields.event &&  screensData.grid_fields.event == "Rowclick" && (screensData.route_info.find(i => i.routeType === 'queryParameter'))) {
+            this.htmlContent += `<tr (click)="onSelectionChanged(values)"  *ngFor="let values of rowData | slice: (page-1) * paginationPageSize :(page-1) * paginationPageSize + paginationPageSize" style="cursor: pointer;">`;
+        } else {
+            this.htmlContent += `<tr  *ngFor="let values of rowData | slice: (page-1) * paginationPageSize :(page-1) * paginationPageSize + paginationPageSize">`;
+        }
+        if(screensData.grid_fields && screensData.grid_fields.custom_field && screensData.grid_fields.custom_field.length > 0) {
+            screensData.grid_fields.custom_field.forEach(element => {
+                this.htmlContent += `<td>{{ values.${element.entityfield} }}</td>`
+            });
+        }
+        this.htmlContent += `</tr> </tbody></table>`;
+        this.htmlContent += findAgGridDependencies.paginationSection;
+        this.setCloseTag('div');
     }
     /**
      * Recursive Function for Create HTML from Nested JSON Object
@@ -376,10 +394,7 @@ export class GenerateHtmlWorker {
             if (tagName === 'grid-type') {
                 // Create bootstrap table
                 if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == true) {
-                    // bootstrapTableHtml.BootstrapTableHTMLGeneration(gjsElement, screensData, details, (response) => {
-                    //     console.log('RESPONSE---->>>>', response);
-                    // });
-                    // this.generateBootstrapTable(gjsElement, screensData, tagName);
+                    this.generateBootstrapTable(gjsElement, screensData, tagName);
                 }
                 // Create ag-grid table
                 else if (screensData.is_grid_present == true && screensData.is_bootStrapTable_present == false) {
