@@ -16,6 +16,8 @@ export class TemplateController implements Controller {
 
     private initializeRoutes() {
         this.router.post('/template/save', this.addTemplate);
+        this.router.post('/project/template/save', this.addProjectTemplate);
+        this.router.get('/project/template/:projectid', this.getProjectTemplate);
         this.router.get('/template/get/project/:projectid', this.getAllTemplateByProject);
         this.router.get('/template/get/:id', this.getTemplateByID);
         this.router.get('/template/getall', this.getAllTemplates);
@@ -28,6 +30,28 @@ export class TemplateController implements Controller {
     public async addTemplate(req: Request, res: Response) {
         try {
             let result = await Promise.resolve(new ApiAdaptar().post(Constants.templateUrl + '/template/save' + `?log_id=${req.query.log_id}`, req.body));
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async addProjectTemplate(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().post(Constants.templateUrl + '/project/template/save' + `?log_id=${req.query.log_id}`, req.body));
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public getProjectTemplate = async (req: Request, res: Response) => {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/project/template/' + req.params.projectid + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {

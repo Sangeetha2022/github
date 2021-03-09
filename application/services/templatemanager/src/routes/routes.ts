@@ -16,7 +16,9 @@ export class Routes {
         })
 
         app.route('/template/save').post(this.templateController.addTemplate);
+        app.route('/project/template/save').post(this.templateController.addProjectTemplate);
         app.route('/template/get/project/:projectid').get(this.templateController.getAllTemplateByProject)
+        app.route('/project/template/:projectid').get(this.templateController.getProjectTemplateByProject)
         app.route('/template/get/:id').get(this.templateController.getTemplateByID)
         app.route('/template/getall').get(this.templateController.getAllTemplates)
         app.route('/template/update/:id').put(this.templateController.updateTemplate)

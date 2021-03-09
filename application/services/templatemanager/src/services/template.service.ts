@@ -11,9 +11,21 @@ export class TemplateService {
         })
     }
 
+    public addProjectTemplate(req: Request, callback: CallableFunction) {
+        templateDao.addProjectTemplate(req, (template) => {
+            callback(template);
+        });
+    }
+
     public getAllTemplateByProject(req: Request, callback: CallableFunction) {
         templateDao.getAllTemplateByProject(req, (template) => {
             callback(template)
+        });
+    }
+
+    public getProjectTemplateByProject(req: Request, callback: CallableFunction) {
+        templateDao.getProjectTemplateByProject(req, (template) => {
+            callback(template);
         })
     }
 

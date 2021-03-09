@@ -1,8 +1,10 @@
 import * as mongoose from 'mongoose';
 import { TemplateSchema } from '../models/template.model';
+import { ProjectTemplateSchema } from '../models/project.template.model';
 import { Request } from 'express';
 
 const Template = mongoose.model('Geppetto_Template', TemplateSchema);
+const ProjectTemplate = mongoose.model('Geppetto_Project_Template', ProjectTemplateSchema);
 
 export class TemplateDao {
 
@@ -18,9 +20,31 @@ export class TemplateDao {
         });
     }
 
+    public addProjectTemplate(req: Request, callback: CallableFunction) {
+        let newTemplate = new ProjectTemplate(req.body);
+        newTemplate.save((err, template) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(template);
+            }
+        });
+    }
+
     public getAllTemplateByProject(req: Request, callback: CallableFunction) {
         let projectId = req.params.projectid;
         Template.find({ project_id: projectId }, (err, template) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(template);
+            }
+        });
+    }
+
+    public getProjectTemplateByProject(req: Request, callback: CallableFunction) {
+        let projectId = req.params.projectid;
+        ProjectTemplate.find({ project_id: projectId }, (err, template) => {
             if (err) {
                 callback(err);
             } else {

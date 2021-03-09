@@ -13,8 +13,22 @@ export class TemplateController {
         })
     }
 
+    public addProjectTemplate(req: Request, res: Response) {
+        templateService.addProjectTemplate(req, (user) => {
+            res.status(200); // status for the response
+            res.json(user); 
+        });
+    }
+
     public getAllTemplateByProject(req: Request, res: Response) {
         templateService.getAllTemplateByProject(req, (user) => {
+            res.status(200); // status for the response
+            res.json(user); 
+        })
+    }
+
+    public getProjectTemplateByProject(req: Request, res: Response) {
+        templateService.getProjectTemplateByProject(req, (user) => {
             res.status(200); // status for the response
             res.json(user); 
         })

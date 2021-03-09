@@ -154,6 +154,8 @@ export class Constants {
     public static get getAllTemplates(): string { return this.DESKTOP_ROUTER + '/template/getall'; }
     public static get getTemplateParser(): string { return this.DESKTOP_ROUTER + '/templateparser/get'; }
     public static get getTemplateByName(): string {return this.DESKTOP_ROUTER + '/template/gettemplatename' ;}
+    public static get addProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template/save';}
+    public static get getProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template';}
     // generation
     public static get projectSocket(): string { return this.DESKTOP_ROUTER + '/generate'; }
     public static get getAllNotifyProject(): string { return this.DESKTOP_ROUTER + '/projectgen/project'; }
