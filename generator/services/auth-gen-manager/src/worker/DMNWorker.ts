@@ -13,6 +13,7 @@ export class DmnWorkerFile {
         console.log('------templatepath---screens---nnn->>>', screens);
         let screensjson = JSON.parse(screens);
         let menu = screensjson.body;
+        this.screenarr = [];
         console.log('-------menu---nnnnn--', menu[0].menu_option);
         console.log('-------language---nnnnn--', menu[0].language);
         if (menu.length > 0) {
