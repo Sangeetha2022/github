@@ -127,6 +127,7 @@ export class DmnWorkerFile {
                 finaloutputarr.push(output);
                 lastslice = finaloutputarr[finaloutputarr.length - 1];
             });
+            console.log('last slice ================>>>>', lastslice);
             return lastslice;
         }
         else {
@@ -149,6 +150,7 @@ export class DmnWorkerFile {
             screensname.LiteralExpression3Id = generate(dictionary.numbers, 6);
             this.screenarray.push(screensname);
         }
+        console.log('this.screenarray else part ============>>', this.screenarray);
         return this.screenarray;
     }
 
