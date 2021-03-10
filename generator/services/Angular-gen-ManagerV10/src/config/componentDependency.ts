@@ -126,7 +126,28 @@ export const component = [
         htmlDependencies: [
             ` *ngFor="let values of rowData`,
             `| slice: (page-1) * paginationPageSize :(page-1) * paginationPageSize + paginationPageSize"`,        
-        ]
+        ],
+        bootstrapTable:
+            `<table id="table" class="table table-bordered  table-striped"
+            data-show-header="true"
+            data-pagination="true" data-id-field="name">
+            <thead class="table table-hover">
+                <tr>
+                    <th *ngFor="let column of columnDefs">
+    {{column.headerName}}
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="table-design" *ngIf="rowData.length==0">
+                <td style="text-align: center;" colspan="5">No Data Found</td>
+            </tbody>
+            <tbody class="table-design" *ngIf="rowData.length>0">`,
+        paginationSection: `<div class="text-right">
+        <ngb-pagination class="d-flex justify-content-start"
+            [(page)]="page"
+            [maxSize]="5" [rotate]="true" [pageSize]="paginationPageSize"
+            [collectionSize]="rowData.length" [boundaryLinks]="true"></ngb-pagination>
+    </div>`
     },
     // ADDED MODAL
     {
