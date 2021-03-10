@@ -48,6 +48,18 @@ export class TemplateController {
         })
     }
 
+    public getProjectTemplateByID(req: Request, res: Response) {
+        templateService.getProjectTemplateByID(req, (user, err) => {
+            if (err) {
+                res.status(500); // status for the response
+                res.json(err); 
+            } else {
+                res.status(200); // status for the response
+                res.json(user); 
+            }
+        })
+    }
+
     public getTemplateByName(req:Request, res:Response){
         console.log('---------templatename----',req.query.template_name);
         templateService.getTemplateByName(req,(templatedetails)=>{

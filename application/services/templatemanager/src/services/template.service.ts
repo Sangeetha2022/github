@@ -49,6 +49,16 @@ export class TemplateService {
         })
     }
 
+    public getProjectTemplateByID(req: Request, callback: CallableFunction) {
+        templateDao.getProjectTemplateByID(req, (template, err) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(template);
+            }
+        })
+    }
+
     public updateTemplate(req: Request, callback: CallableFunction) {
         templateDao.updateTemplate(req, (template) => {
             callback(template)

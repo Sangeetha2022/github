@@ -96,6 +96,17 @@ export class TemplateDao {
         });
     }
 
+    public getProjectTemplateByID(req: Request, callback: CallableFunction) {
+        const id = req.params.id;
+        ProjectTemplate.find({ _id: id}, (err, template) => {
+            if(err) {
+                callback(null, err);
+            } else {
+                callback(template, null);
+            }
+        });
+    }
+
     public updateTemplate(req: Request, callback: CallableFunction) {
         Template.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, template) => {
             if (err) {

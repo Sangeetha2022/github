@@ -20,6 +20,7 @@ export class TemplateController implements Controller {
         this.router.get('/project/template/:projectid', this.getProjectTemplate);
         this.router.get('/template/get/project/:projectid', this.getAllTemplateByProject);
         this.router.get('/template/get/:id', this.getTemplateByID);
+        this.router.get('/project/template/get/:id', this.getProjectTemplateByID);
         this.router.get('/template/getall', this.getAllTemplates);
         this.router.put('/template/update/:id', this.updateTemplate);
         this.router.delete('/template/delete/:id', this.deleteTemplate);
@@ -110,6 +111,17 @@ export class TemplateController implements Controller {
     public getTemplateByID = async (req: Request, res: Response) => {
         try {
             let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/template/get/' + req.params.id + `?log_id=${req.query.log_id}`));
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public getProjectTemplateByID = async (req: Request, res: Response) => {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/project/template/get/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {

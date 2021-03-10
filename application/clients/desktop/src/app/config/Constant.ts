@@ -156,6 +156,7 @@ export class Constants {
     public static get getTemplateByName(): string {return this.DESKTOP_ROUTER + '/template/gettemplatename' ;}
     public static get addProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template/save';}
     public static get getProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template';}
+    public static get getProjectTemplateById(): string {return this.DESKTOP_ROUTER + '/project/template/get';}
     // generation
     public static get projectSocket(): string { return this.DESKTOP_ROUTER + '/generate'; }
     public static get getAllNotifyProject(): string { return this.DESKTOP_ROUTER + '/projectgen/project'; }

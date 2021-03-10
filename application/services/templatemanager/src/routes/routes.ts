@@ -20,6 +20,7 @@ export class Routes {
         app.route('/template/get/project/:projectid').get(this.templateController.getAllTemplateByProject)
         app.route('/project/template/:projectid').get(this.templateController.getProjectTemplateByProject)
         app.route('/template/get/:id').get(this.templateController.getTemplateByID)
+        app.route('/project/template/get/:id').get(this.templateController.getProjectTemplateByID)
         app.route('/template/getall').get(this.templateController.getAllTemplates)
         app.route('/template/update/:id').put(this.templateController.updateTemplate)
         app.route('/template/delete/:id').delete(this.templateController.deleteTemplate)

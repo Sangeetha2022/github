@@ -335,6 +335,9 @@ export class DesktopScreenComponent implements OnInit {
       if (params.screenType !== undefined && params.screenType !== null) {
         this.screenType = params.screenType;
       }
+      if (params.projectTemplateId) {
+        this.getProjectTemplate(params.projectTemplateId);
+      }
       // if (params.screenOption !== undefined && params.screenOption !== null) {
       //     this.screenOption = params.screenOption;
       // }
@@ -594,6 +597,28 @@ export class DesktopScreenComponent implements OnInit {
     }
     this.setImportOption();
   }
+  getProjectTemplate(id) {
+    this.screenDesignerService.getProjectTemplate(id, this.logId).subscribe((response: any) => {
+      console.log('TEMPLATE RESPONSE---->>>>', response);
+      if(response && response.body && response.body.length > 0) {
+        let gjsComponents = response.body[0]['gjs-components'][0] || null;
+        let gjsStyles = response.body[0]['gjs-styles'][0] || null;
+        const gjsCss = response.body[0]['gjs-css'] || null;
+        if (gjsComponents) {
+          gjsComponents = JSON.parse(gjsComponents);
+          console.log('GJS COMPONENTS---->>>>', gjsComponents);
+          this.editor.setComponents(gjsComponents);
+        }
+        if (gjsStyles) {
+          gjsStyles = JSON.parse(gjsStyles);
+          this.editor.setStyle(gjsStyles);
+        }
+        if (gjsCss) {
+          this.editor.setStyle(gjsCss);
+        }
+      }
+    });
+  }
   setImportOption() {
     const pfx = this.editor.getConfig().stylePrefix;
     const modal = this.editor.Modal;
@@ -808,6 +833,7 @@ export class DesktopScreenComponent implements OnInit {
       screenOption: this.screenOption,
       specific_attribute_Event: this.specific_attribute_Event
     });
+    console.log('REMOTE STORAGE---->>>>', this.RemoteStorage.get('params'));
   }
 
   // get screens by project id
@@ -2011,6 +2037,7 @@ export class DesktopScreenComponent implements OnInit {
   }
   createFeatureIfNotExist() {
     const currentStorageDetails = this.editor.StorageManager.getCurrentStorage();
+    console.log('currentStorageDetails---->>>>', currentStorageDetails)
     const saveButton = this.editor.Panels.getButton('options', 'save-page');
     if (this.project_id !== undefined && this.feature_id !== undefined) {
       this.editor.store();
@@ -2146,7 +2173,6 @@ export class DesktopScreenComponent implements OnInit {
 
                 }
               });
-
 
 
             this.screenDesignerService.updateScreen(screenid, screendetails, this.logId).subscribe(

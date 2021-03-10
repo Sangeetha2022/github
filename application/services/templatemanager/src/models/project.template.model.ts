@@ -21,10 +21,7 @@ export const ProjectTemplateSchema = new Schema({
     'scripts': [String],
     'template_image': [],
     'css-guidelines': [],
-    'template_name': {
-        type:String,
-        unique: true,
-    },
+    'template_name': String,
     date: {
         type: Date,
         default: Date.now

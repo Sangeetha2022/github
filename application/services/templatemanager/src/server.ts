@@ -30,9 +30,10 @@ class App {
     }
 
     private initializeMiddlewares() {
-        this.app.use(bodyParser.json());
+        // this.app.use(bodyParser.json());
+        this.app.use(bodyParser.json({limit: '50mb'}))
         this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.use(cors({ credentials: true, origin: true }))
+        this.app.use(cors({ credentials: true, origin: true }));
     }
 
     private mongoSetup(): void {
@@ -58,7 +59,6 @@ class App {
     }
 
 }
-
 new App().app.listen(PORT, () => {
     console.log('Express server listening on port ' + PORT);
 })
