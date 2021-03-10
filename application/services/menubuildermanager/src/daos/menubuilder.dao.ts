@@ -7,6 +7,7 @@ const MenuBuilder = mongoose.model('menu_builder', MenuBuilderSchema);
 export class MenuBuilderDao {
 
     public addMenu(menuObject, callback: CallableFunction) {
+        console.log('menuObject =================>>>>', menuObject);
         let newProject = new MenuBuilder(menuObject);
         newProject.save((err, project) => {
             if (err) {
@@ -42,6 +43,7 @@ export class MenuBuilderDao {
 
 
     public updateMenu(req: Request, callback: CallableFunction) {
+        console.log('menu update by menu id =+=============>>>>', req.params);
         MenuBuilder.findOneAndUpdate({ _id: req.params.id }, { $set: req.body }, { new: true, useFindAndModify: false }, (err, project) => {
             if (err) {
                 callback(err);
@@ -52,6 +54,7 @@ export class MenuBuilderDao {
     }
 
     public updateMenuByProjectId(req: Request, callback: CallableFunction) {
+        console.log('menu update by project id =+=============>>>>', req.params.projectId);
         MenuBuilder.findOneAndUpdate({ project: req.params.projectId }, { $set: req.body }, { new: true, useFindAndModify: false }, (err, project) => {
             if (err) {
                 callback(err);
