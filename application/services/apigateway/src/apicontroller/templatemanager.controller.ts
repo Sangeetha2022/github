@@ -23,9 +23,11 @@ export class TemplateController implements Controller {
         this.router.get('/project/template/get/:id', this.getProjectTemplateByID);
         this.router.get('/template/getall', this.getAllTemplates);
         this.router.put('/template/update/:id', this.updateTemplate);
+        this.router.post('/project/template/update/:id', this.updateProjectTemplate);
         this.router.delete('/template/delete/:id', this.deleteTemplate);
         this.router.get('/template/gettemplatename',this.getTemplateByName);
         this.router.get('/templateparser/get', this.getTemplateParser);
+        this.router.delete('/project/template/delete/:id', this.deleteProjectTemplate);
     }
 
     public async addTemplate(req: Request, res: Response) {
@@ -64,6 +66,17 @@ export class TemplateController implements Controller {
     public async updateTemplate(req: Request, res: Response) {
         try {
             let result = await Promise.resolve(new ApiAdaptar().put(Constants.templateUrl + '/template/update/' + req.params.id + `?log_id=${req.query.log_id}`, req.body));
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async updateProjectTemplate(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().post(Constants.templateUrl + '/project/template/update/' + req.params.id + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -144,6 +157,17 @@ export class TemplateController implements Controller {
     public getTemplateParser = async (req: Request, res: Response) => {
         try {
             let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/templateparser/get' + `?log_id=${req.query.log_id}`));
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async deleteProjectTemplate(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.templateUrl + '/project/template/delete/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {

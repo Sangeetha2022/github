@@ -268,6 +268,20 @@ export class DesktopScreenComponent implements OnInit {
     elementName: '',
     selected_event: ''
   };
+  isTemplateEdit: boolean = false;
+  templateObj: {
+    _id: '',
+    stylesheets: '',
+    scripts: '',
+    template_image: '',
+    'css-guidelines': '',
+    template_name: '',
+    project_id: '',
+    date: '',
+    __v: 0
+  };
+  modifyTemplateUrl: string;
+  projectTemplateId: any;
 
 
   constructor(
@@ -335,8 +349,10 @@ export class DesktopScreenComponent implements OnInit {
       if (params.screenType !== undefined && params.screenType !== null) {
         this.screenType = params.screenType;
       }
-      if (params.projectTemplateId) {
-        this.getProjectTemplate(params.projectTemplateId);
+      if (params['project-template-id']) {
+        this.isTemplateEdit = true;
+        this.projectTemplateId = params['project-template-id'];
+        this.getProjectTemplate(this.projectTemplateId);
       }
       // if (params.screenOption !== undefined && params.screenOption !== null) {
       //     this.screenOption = params.screenOption;
@@ -358,6 +374,7 @@ export class DesktopScreenComponent implements OnInit {
     });
     this.saveTemplateURL = `${this.sharedService.Apigateway}${Constants.addScreen}`;
     this.updateTemplateURL = `${this.sharedService.Apigateway}${Constants.updateScreen}`;
+    this.modifyTemplateUrl = `${this.sharedService.Apigateway}${Constants.updateProjectTemplate}`;
     let addStyles = [];
     let addScripts = [];
     const plugins = ['grapesjs-preset-webpage'];
@@ -598,15 +615,28 @@ export class DesktopScreenComponent implements OnInit {
     this.setImportOption();
   }
   getProjectTemplate(id) {
+    this.spinner.show();
     this.screenDesignerService.getProjectTemplate(id, this.logId).subscribe((response: any) => {
+      this.spinner.hide();
       console.log('TEMPLATE RESPONSE---->>>>', response);
       if(response && response.body && response.body.length > 0) {
-        let gjsComponents = response.body[0]['gjs-components'][0] || null;
-        let gjsStyles = response.body[0]['gjs-styles'][0] || null;
-        const gjsCss = response.body[0]['gjs-css'] || null;
+        const body = response.body[0];
+        this.templateObj = {
+          _id: body._id,
+          stylesheets: body.stylesheets,
+          scripts: body.scripts,
+          template_image: body.template_image,
+          'css-guidelines': body['css-guidelines'],
+          template_name: body.template_name,
+          project_id: body.project_id,
+          date: body.date,
+          __v: body.__v
+        };
+        let gjsComponents = body['gjs-components'][0] || null;
+        let gjsStyles = body['gjs-styles'][0] || null;
+        const gjsCss = body['gjs-css'] || null;
         if (gjsComponents) {
           gjsComponents = JSON.parse(gjsComponents);
-          console.log('GJS COMPONENTS---->>>>', gjsComponents);
           this.editor.setComponents(gjsComponents);
         }
         if (gjsStyles) {
@@ -617,6 +647,8 @@ export class DesktopScreenComponent implements OnInit {
           this.editor.setStyle(gjsCss);
         }
       }
+    }, err => {
+      this.spinner.hide();
     });
   }
   setImportOption() {
@@ -815,25 +847,33 @@ export class DesktopScreenComponent implements OnInit {
     this.onCloseHandled();
   }
 
-  saveRemoteStorage() {
-    this.RemoteStorage.set('params', {
-      'component-lifecycle': this.componentLifeCycle,
-      'special-events': this.specialEvents,
-      grid_fields: this.agGridObject,
-      flows_info: this.screenFlows,
-      route_info: this.routeFlows,
-      link_info: this.linkArray,
-      screenName: this.screenName,
-      is_grid_present: this.is_grid_present,
-      is_bootStrapTable_present: this.is_bootStrapTable_present,
-      entity_info: this.screenEntityModel,
-      project: this.project_id,
-      feature: this.feature_id,
-      screenType: this.screenType,
-      screenOption: this.screenOption,
-      specific_attribute_Event: this.specific_attribute_Event
-    });
-    console.log('REMOTE STORAGE---->>>>', this.RemoteStorage.get('params'));
+  saveRemoteStorage(params = {}) {
+    if (Object.keys(params).length > 0) {
+      this.RemoteStorage.set('params', params);
+      this.editor.StorageManager.get('remote').set({
+        urlStore: `${this.modifyTemplateUrl}/${this.templateObj._id}?log_id=${this.logId}`,
+      });
+    } else {
+      this.RemoteStorage.set('params', {
+        'component-lifecycle': this.componentLifeCycle,
+        'special-events': this.specialEvents,
+        grid_fields: this.agGridObject,
+        flows_info: this.screenFlows,
+        route_info: this.routeFlows,
+        link_info: this.linkArray,
+        screenName: this.screenName,
+        is_grid_present: this.is_grid_present,
+        is_bootStrapTable_present: this.is_bootStrapTable_present,
+        entity_info: this.screenEntityModel,
+        project: this.project_id,
+        feature: this.feature_id,
+        screenType: this.screenType,
+        screenOption: this.screenOption,
+        specific_attribute_Event: this.specific_attribute_Event
+      });
+    }
+    // console.log('REMOTE STORAGE---->>>>', this.RemoteStorage.get('params'));
+    // console.log('CURRENT STORAGE---->>>>', this.editor.StorageManager.getCurrentStorage())
   }
 
   // get screens by project id
@@ -2026,18 +2066,27 @@ export class DesktopScreenComponent implements OnInit {
 
   updateScreeName() {
     const $this = this;
-    this.saveRemoteStorage();
-    this.createFeatureIfNotExist();
-    this.closeScreeName();
-    this.editor.on('storage:response', function (e) {
-      console.log('storage id are -------------    ', e);
-      $this.screen_id = e.body._id;
-      $this.getScreenById();
-    });
+    if (this.isTemplateEdit) {
+      this.saveRemoteStorage(this.templateObj);
+      this.closeScreeName();
+      this.spinner.show();
+      this.editor.store((data) => {
+        console.log('DATA---->>>>', data);
+        this.getProjectTemplate(this.projectTemplateId);
+      });
+    } else {
+      this.saveRemoteStorage();
+      this.createFeatureIfNotExist();
+      this.closeScreeName();
+      this.editor.on('storage:response', function (e) {
+        console.log('storage id are -------------    ', e);
+        $this.screen_id = e.body._id;
+        $this.getScreenById();
+      });
+    }
   }
   createFeatureIfNotExist() {
     const currentStorageDetails = this.editor.StorageManager.getCurrentStorage();
-    console.log('currentStorageDetails---->>>>', currentStorageDetails)
     const saveButton = this.editor.Panels.getButton('options', 'save-page');
     if (this.project_id !== undefined && this.feature_id !== undefined) {
       this.editor.store();

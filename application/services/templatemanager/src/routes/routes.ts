@@ -23,7 +23,9 @@ export class Routes {
         app.route('/project/template/get/:id').get(this.templateController.getProjectTemplateByID)
         app.route('/template/getall').get(this.templateController.getAllTemplates)
         app.route('/template/update/:id').put(this.templateController.updateTemplate)
+        app.route('/project/template/update/:id').post(this.templateController.updateProjectTemplate);
         app.route('/template/delete/:id').delete(this.templateController.deleteTemplate)
+        app.route('/project/template/delete/:id').delete(this.templateController.deleteProjectTemplate);
 
         //to get templatebyname for a project
         app.route('/template/gettemplatename').get(this.templateController.getTemplateByName);

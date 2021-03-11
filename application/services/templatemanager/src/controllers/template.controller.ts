@@ -75,10 +75,34 @@ export class TemplateController {
         })
     }
 
+    public updateProjectTemplate(req: Request, res: Response) {
+        templateService.updateProjectTemplate(req, (user, err) => {
+            if (err) {
+                res.status(500); // status for the response
+                res.json(err); 
+            } else {
+                res.status(200); // status for the response
+                res.json(user); 
+            }
+        });
+    }
+
     public deleteTemplate(req: Request, res: Response) {
         templateService.deleteTemplate(req, (user) => {
             res.status(200); // status for the response
             res.json(user);
         })
+    }
+
+    public deleteProjectTemplate(req: Request, res: Response) {
+        templateService.deleteProjectTemplate(req, (user, err) => {
+            if (err) {
+                res.status(500); // status for the response
+                res.json(err);
+            } else {
+                res.status(200); // status for the response
+                res.json(user);
+            }
+        });
     }
 }

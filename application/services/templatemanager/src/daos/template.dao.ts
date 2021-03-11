@@ -117,12 +117,32 @@ export class TemplateDao {
         });
     }
 
+    public updateProjectTemplate(req: Request, callback: CallableFunction) {
+        ProjectTemplate.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, template) => {
+            if (err) {
+                callback(null, err);
+            } else {
+                callback(template, null);
+            }
+        });
+    }
+
     public deleteTemplate(req: Request, callback: CallableFunction) {
         Template.findByIdAndDelete(req.params.id, (err, template) => {
             if (err) {
                 callback(err);
             } else {
                 callback({ message: 'Successfully deleted contact!' });
+            }
+        });
+    }
+
+    public deleteProjectTemplate(req: Request, callback: CallableFunction) {
+        ProjectTemplate.deleteOne({project_id: req.params.id}, (err, template) => {
+            if (err) {
+                callback(null, err);
+            } else {
+                callback({ message: 'Template Deleted Successfully!' }, null);
             }
         });
     }

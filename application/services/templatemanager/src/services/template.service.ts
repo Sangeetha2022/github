@@ -65,9 +65,29 @@ export class TemplateService {
         })
     }
 
+    public updateProjectTemplate(req: Request, callback: CallableFunction) {
+        templateDao.updateProjectTemplate(req, (template, err) => {
+            if (err) {
+                callback(null, err);
+            } else {
+                callback(template, null);
+            }
+        });
+    }
+
     public deleteTemplate(req: Request, callback: CallableFunction) {
         templateDao.deleteTemplate(req, (template) => {
             callback(template)
         })
+    }
+
+    public deleteProjectTemplate(req: Request, callback: CallableFunction) {
+        templateDao.deleteProjectTemplate(req, (template, err) => {
+            if (err) {
+                callback(null, err);
+            } else {
+                callback(template, null);
+            }
+        });
     }
 }
