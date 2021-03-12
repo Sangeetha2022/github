@@ -17,11 +17,11 @@ export class GitHubService {
         let creds = {};
     try {
         git.checkIsRepo().then((status) => {
-            // this.githubCreds((response) => {
+            this.githubCreds((response) => {
                 creds = {
-                    username : process.env.gitUsername,
-                    password : process.env.gitPassword,
-                    email : process.env.gitEmail
+                    username : response.gitUsername,
+                    password : response.gitPassword,
+                    email : response.gitEmail
                 }
                
                 if (!status && commitTo.toLocaleLowerCase() === 'github') {
@@ -29,7 +29,7 @@ export class GitHubService {
                 } else {
                     this.updateGitRepo(creds, callback)
                 }
-            // })
+            })
         })
     } catch(err) {
         callback('cannot able to push the code in github');

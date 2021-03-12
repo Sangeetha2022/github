@@ -46,7 +46,7 @@ export class Github_Actions_Local {
         let templatePath = path.resolve(__dirname, '../../../templates/github_actions');
         let filePath = templatePath + `/ec2_instance_deployment.handlebars`;
         let result: any = await this.handleBarsFile(filePath, fileData, screenGenerationPath, this.screenName)
-        callback(response)
+        callback(result);
     }
     handleBarsFile(filePath, fileData, screenGenerationPath, screenName) {
         Handlebars.registerHelper('surroundWithCurlyBraces', function (text) {

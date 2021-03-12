@@ -91,7 +91,7 @@ jobs:
     needs: Build_and_upload_docker_images_to_ECR
     runs-on: ubuntu-latest
     outputs:
-        public_ip: ${{#surroundWithCurlyBraces ' steps.networkInterfaceId.outputs.PUBLIC_IP_ADDRESS '}}{{/surroundWithCurlyBraces}}
+        public_ip: ${{#surroundWithCurlyBraces ' steps.publicIpAddress.outputs.PUBLIC_IP_ADDRESS '}}{{/surroundWithCurlyBraces}}
     steps:
       - name: Check the  branch
         uses: actions/checkout@v2
@@ -125,10 +125,27 @@ jobs:
       - name: Run the ECS task definition
         id: networkInterfaceId
         run: |
-          run_task=$(aws ecs run-task --capacity-provider-strategy capacityProvider=FARGATE_SPOT --cluster ${{#surroundWithCurlyBraces ' env.AWS_ECS_CLUSTER_NAME '}}{{/surroundWithCurlyBraces}}  --task-definition {{project_name}}  --network-configuration "awsvpcConfiguration={subnets=[${{#surroundWithCurlyBraces ' env.AWS_VPC_SUBNET '}}{{/surroundWithCurlyBraces}}],securityGroups=[${{#surroundWithCurlyBraces ' env.AWS_VPC_SECURITY_GROUP '}}{{/surroundWithCurlyBraces}}],assignPublicIp=ENABLED}" | jq  -r '.tasks[].taskArn')
+          echo "::set-output name=run_task::$(aws ecs run-task --capacity-provider-strategy capacityProvider=FARGATE_SPOT --cluster ${{#surroundWithCurlyBraces ' env.AWS_ECS_CLUSTER_NAME '}}{{/surroundWithCurlyBraces}}  --task-definition {{project_name}}  --network-configuration "awsvpcConfiguration={subnets=[${{#surroundWithCurlyBraces ' env.AWS_VPC_SUBNET '}}{{/surroundWithCurlyBraces}}],securityGroups=[${{#surroundWithCurlyBraces ' env.AWS_VPC_SECURITY_GROUP '}}{{/surroundWithCurlyBraces}}],assignPublicIp=ENABLED}" | jq  -r '.tasks[].taskArn')"
           sleep 20s
-          echo "::set-output name=NETWORK_ID::$(aws ecs describe-tasks --cluster ${{#surroundWithCurlyBraces ' env.AWS_ECS_CLUSTER_NAME '}}{{/surroundWithCurlyBraces}} --tasks $run_task | jq '.tasks[].attachments[].details[1].value')"
-          echo "::set-output name=PUBLIC_IP_ADDRESS::$(aws ec2 describe-network-interfaces --network-interface-ids ${{#surroundWithCurlyBraces ' steps.networkInterfaceId.outputs.NETWORK_ID '}}{{/surroundWithCurlyBraces}}  | jq -r '.NetworkInterfaces[].PrivateIpAddresses[].Association.PublicIp')"
+      - uses: jungwinter/split@v1
+        id: split
+        with:
+          msg: ${{#surroundWithCurlyBraces 'steps.networkInterfaceId.outputs.run_task' }}{{/surroundWithCurlyBraces}}
+          seperator: '/'
+          max limit: -1
+      - name: network describe ENI IDS
+        id: eniIds
+        run : |
+          echo "::set-output name=NETWORK_ID::$(aws ecs describe-tasks --cluster ${{#surroundWithCurlyBraces ' env.AWS_ECS_CLUSTER_NAME '}}{{/surroundWithCurlyBraces}} --tasks ${{#surroundWithCurlyBraces 'steps.split.outputs._2' }}{{/surroundWithCurlyBraces}} | jq '.tasks[].attachments[].details[1].value')"
+      - name: network describe pulblicIp
+        id: publicIpAddress
+        run : |
+          echo "::set-output name=PUBLIC_IP_ADDRESS::$(aws ec2 describe-network-interfaces --network-interface-ids ${{#surroundWithCurlyBraces ' steps.eniIds.outputs.NETWORK_ID '}}{{/surroundWithCurlyBraces}}  | jq -r '.NetworkInterfaces[].PrivateIpAddresses[].Association.PublicIp')"
+      - name: describe value on check variable
+        run : |
+          echo ${{#surroundWithCurlyBraces 'steps.split.outputs._2' }}{{/surroundWithCurlyBraces}}
+          echo ${{#surroundWithCurlyBraces 'steps.eniIds.outputs.NETWORK_ID' }}{{/surroundWithCurlyBraces}}
+          echo ${{#surroundWithCurlyBraces 'steps.publicIpAddress.outputs.PUBLIC_IP_ADDRESS' }}{{/surroundWithCurlyBraces}}
   Upload_S3_Bucket:
     needs: Deploy_backend
     runs-on: ubuntu-latest
