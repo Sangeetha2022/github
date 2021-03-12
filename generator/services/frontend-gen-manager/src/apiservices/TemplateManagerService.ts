@@ -15,4 +15,14 @@ export class TemplateManagerService {
             callback(error);
         })
     }
+
+    getTemplateByProject(projectId, callback) {
+        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/template/project/${projectId}`).then(
+            data => {
+                callback(data);
+            }
+        ).catch(error => {
+            callback(error);
+        })
+    }
 }

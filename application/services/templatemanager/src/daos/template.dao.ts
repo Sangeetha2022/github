@@ -107,6 +107,32 @@ export class TemplateDao {
         });
     }
 
+    public getProjectTemplateByProjectId(req: Request, callback: CallableFunction) {
+        const projectId = req.params.id;
+        ProjectTemplate.find({ project_id: projectId }, (err, templatedetails) => {
+            if (err) {
+                callback(null, err);
+            } else {
+                let template = {}
+                if (templatedetails.length > 0) {
+                    template = {
+                        'gjs-assets': templatedetails[0]['gjs-assets'],
+                        'gjs-styles': templatedetails[0]['gjs-styles'],
+                        'gjs-components': templatedetails[0]['gjs-components'],
+                        'stylesheets': templatedetails[0]['stylesheets'],
+                        'scripts': templatedetails[0]['scripts'],
+                        'css-guidelines': templatedetails[0]['css-guidelines'],
+                        'gjs-css': templatedetails[0]['gjs-css'],
+                        'gjs-html': templatedetails[0]['gjs-html'],
+                        'template_id': templatedetails[0]._id,
+                        'template_name': templatedetails[0].template_name,
+                    };
+                }
+                callback(template, null);
+            }
+        });
+    }
+
     public updateTemplate(req: Request, callback: CallableFunction) {
         Template.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, template) => {
             if (err) {
