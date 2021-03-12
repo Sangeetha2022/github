@@ -13,6 +13,7 @@ export class DmnWorkerFile {
         console.log('------templatepath---screens---nnn->>>', screens);
         let screensjson = JSON.parse(screens);
         let menu = screensjson.body;
+        this.screenarr = [];
         console.log('-------menu---nnnnn--', menu[0].menu_option);
         console.log('-------language---nnnnn--', menu[0].language);
         if (menu.length > 0) {
@@ -127,6 +128,7 @@ export class DmnWorkerFile {
                 finaloutputarr.push(output);
                 lastslice = finaloutputarr[finaloutputarr.length - 1];
             });
+            console.log('last slice ================>>>>', lastslice);
             return lastslice;
         }
         else {
@@ -149,6 +151,7 @@ export class DmnWorkerFile {
             screensname.LiteralExpression3Id = generate(dictionary.numbers, 6);
             this.screenarray.push(screensname);
         }
+        console.log('this.screenarray else part ============>>', this.screenarray);
         return this.screenarray;
     }
 
