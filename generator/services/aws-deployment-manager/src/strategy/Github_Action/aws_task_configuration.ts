@@ -39,7 +39,7 @@ export class Github_Action_Task_Defination {
         let templatePath = path.resolve(__dirname, '../../../templates/github_actions');
         let filePath = templatePath + `/task_defination.handlebars`;
         let result: any = await this.handleBarsFile(filePath, fileData, GithubActionGenerationPath_local,GithubActionGenerationPath_live,projectDetails)
-        callback(response)
+        callback(result);
     }
     handleBarsFile(filePath, fileData, GithubActionGenerationPath_local,GithubActionGenerationPath_live,projectDetails) {
         Handlebars.registerHelper('surroundWithCurlyBraces', function (text) {

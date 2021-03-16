@@ -52,7 +52,7 @@ export class Github_Actions_Live {
         let templatePath = path.resolve(__dirname, '../../../templates/github_actions');
         let filePath = templatePath + `/ec2_instance_deployment.handlebars`;
         let result: any = await this.handleBarsFile(filePath, fileData, GithubActionGenerationPath_live, GithubActionGenerationPath_local)
-        callback(response)
+        // callback(response)
         GithubActionTaskDefination.create_fargate_task_defination(req, (res) => {
             callback({ Message: 'github action for live  are generated successfully' })
         })

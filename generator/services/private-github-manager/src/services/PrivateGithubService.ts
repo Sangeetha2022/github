@@ -9,7 +9,7 @@ const sodium = require('tweetsodium');
 
 let git = null;
 let commitTo = 'GitHub';
-const octokit = new Octokit({ auth: process.env.PrivategitPassword });
+//const octokit = new Octokit({ auth: process.env.PrivategitPassword });
 
 
 
@@ -26,19 +26,19 @@ export class PrivateGitHubService {
         let creds = {};
         try {
             git.checkIsRepo().then((status) => {
-                // this.githubCreds((response) => {
-                creds = {
-                    username: process.env.PrivategitUsername,
-                    password: process.env.PrivategitPassword,
-                    email: process.env.PrivategitEmail
-                }
+                this.githubCreds((response) => {
+                    creds = {
+                        username: response.PrivategitUsername,
+                        password: response.PrivategitPassword,
+                        email: response.PrivategitEmail
+                    }
 
-                if (!status && commitTo.toLocaleLowerCase() === 'github') {
-                    this.createRepoInGitHub(creds, details, callback)
-                } else {
-                    this.updateGitRepo(creds, callback)
-                }
-                // })
+                    if (!status && commitTo.toLocaleLowerCase() === 'github') {
+                        this.createRepoInGitHub(creds, details, callback)
+                    } else {
+                        this.updateGitRepo(creds, callback)
+                    }
+                })
             })
         } catch (err) {
             callback('cannot able to push the code in github');
@@ -81,6 +81,7 @@ export class PrivateGitHubService {
         }).catch((err) => {
             callback(err.error.message)
         })
+        const octokit = new Octokit({ auth: PASS });
         const publicKeyResponse = await octokit.request(`GET /repos/${USER}/${reponame}/actions/secrets/public-key`);
         const publicKey = publicKeyResponse.data.key;
         const publicKeyId = publicKeyResponse.data.key_id;
@@ -89,7 +90,7 @@ export class PrivateGitHubService {
         });
         this.githubCreds((response) => {
             Object.keys(response).forEach(function (secrets) {
-            const octokit = new Octokit({ auth: process.env.PrivategitPassword });
+            const octokit = new Octokit({ auth: response.PrivategitPassword });
             const key = publicKey;
             const value = response[secrets];    
             const messageBytes = Buffer.from(value);
