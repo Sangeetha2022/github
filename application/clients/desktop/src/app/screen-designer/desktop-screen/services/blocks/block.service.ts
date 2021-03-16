@@ -173,7 +173,7 @@ export class BlockService {
          </svg>\n  <div class="gjs-block-label"> Dynamic Dropdown </div>`,
       category: 'special',
       // tslint:disable-next-line:max-line-length
-      content: `<div  style="padding-top:10px; padding-right: 2px; padding-left: 2px; padding-bottom: 10px">
+      content: `<div  style="padding-top:0px; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
       <select data-gjs-type="dynamicdropdown-type">
       <option value="1">1</option>
       </select>
