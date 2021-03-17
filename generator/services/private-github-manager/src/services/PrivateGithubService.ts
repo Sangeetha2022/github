@@ -26,11 +26,11 @@ export class PrivateGitHubService {
         let creds = {};
         try {
             git.checkIsRepo().then((status) => {
-                this.githubCreds((response) => {
+                this.githubCreds((credentials) => {
                     creds = {
-                        username: response.PrivategitUsername,
-                        password: response.PrivategitPassword,
-                        email: response.PrivategitEmail
+                        username: credentials.PrivategitUsername,
+                        password: credentials.PrivategitPassword,
+                        email: credentials.PrivategitEmail
                     }
 
                     if (!status && commitTo.toLocaleLowerCase() === 'github') {
@@ -47,8 +47,8 @@ export class PrivateGitHubService {
 
     private githubCreds(callback) {
         let gConfig = new GithubConfig();
-        gConfig.githubConfig(function (response) {
-            callback(response);
+        gConfig.githubPrivateConfig(function(credentials) {
+            callback(credentials);
         });
     }
 
@@ -86,13 +86,13 @@ export class PrivateGitHubService {
         const publicKey = publicKeyResponse.data.key;
         const publicKeyId = publicKeyResponse.data.key_id;
         let gConfig = new GithubConfig();
-        gConfig.githubConfig(function (response) {
-        });
-        this.githubCreds((response) => {
-            Object.keys(response).forEach(function (secrets) {
-            const octokit = new Octokit({ auth: response.PrivategitPassword });
+        // gConfig.githubPrivateConfig(function (credentials) {
+        // });
+        this.githubCreds((credentials) => {
+            Object.keys(credentials).forEach(function (secrets) {
+            const octokit = new Octokit({ auth: credentials.PrivategitPassword });
             const key = publicKey;
-            const value = response[secrets];    
+            const value = credentials[secrets];    
             const messageBytes = Buffer.from(value);
             const keyBytes = Buffer.from(key, 'base64');
             const encryptedBytes = sodium.seal(messageBytes, keyBytes);
