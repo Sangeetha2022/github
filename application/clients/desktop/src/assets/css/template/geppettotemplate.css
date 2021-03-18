@@ -47,12 +47,11 @@ body{
     margin-left: -15px;
 }
 
-.cell {
-    width: 33% !important;
+/* .cell {
     display: table-cell;
     height: 75px;
-    margin: 5px !important;
-}
+    padding: 10px !important;
+} */
 
 .div {
     background-color: "black";

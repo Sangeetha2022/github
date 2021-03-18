@@ -51,7 +51,7 @@ export class ComponentCSSworker {
     private setClassNameCss(cssElement) {
         return new Promise((reslove) => {
             const replaceClass = cssElement.split("#").join('.');
-            reslove(replaceClass)
+            reslove(cssElement)
         })
 
     }

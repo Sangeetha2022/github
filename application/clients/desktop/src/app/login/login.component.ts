@@ -235,7 +235,7 @@ export class LoginComponent implements OnInit {
         this.broadcast.gaurdarray = [];
         this.broadcast.gaurdarray = this.permission;
         console.log('------------loginresponse-----', this.permission);
-        // sessionStorage.setItem('Access', JSON.stringify(this.permission));
+        sessionStorage.setItem('Access', JSON.stringify(this.permission));
       }
       this.Userdetails = logindetails.Userdetails;
       this.tokenerror = logindetails.error;
@@ -419,7 +419,7 @@ export class LoginComponent implements OnInit {
         this.permission.push(this.Accesslevel);
         console.log('------------loginresponse-----', this.permission);
         this.broadcast.sendmessage({ 'Access': this.permission });
-        // sessionStorage.setItem('Access', JSON.stringify(this.permission));
+        sessionStorage.setItem('Access', JSON.stringify(this.permission));
       }
       this.Userdetails = consentvalue.Userdetails;
       this.id = this.Userdetails.body._id;
