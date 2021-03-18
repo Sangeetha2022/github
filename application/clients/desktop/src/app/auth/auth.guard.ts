@@ -55,10 +55,9 @@ export class AuthGuard implements CanActivate {
       // this.routename = url.split('/');
       // this.consentroute = this.routename[3];
       if (this.accessroutes === undefined) {
-        this.accessroutes = this.broadcast.gaurdarray;
+        this.accessroutes = JSON.parse(sessionStorage.getItem('Access'));
       }
-      console.log('accessroutes routername are ------    ', this.routename);
-      if (this.accessroutes) {
+      if (this.accessroutes.length > 0) {
         if (this.routename && this.routename[1].includes('profile?id=')) {
           this.routename = this.routename[1].split('?');
           this.routename[1] = this.routename[0];
