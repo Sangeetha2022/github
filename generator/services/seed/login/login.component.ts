@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
       logindata: new FormGroup({
         email: new FormControl(null, [Validators.required, Validators.email]),
         // tslint:disable-next-line:max-line-length
-        password: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-8])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')])
+        password: new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])[A-Za-z\d].{8,}')])
       })
     });
   }

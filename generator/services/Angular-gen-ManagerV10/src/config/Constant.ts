@@ -173,8 +173,5 @@ export class Constant {
     //Standalone
     public static STANDALONE = '[ngModelOptions]="{standalone: true}"';
    //  css element for component
-   public static CSSDATA = `.label {
-    color: black !important;
-    font-size: 15px;
-}`
+   public static CSSDATA = ``
 }
