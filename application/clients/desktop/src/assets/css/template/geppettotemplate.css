@@ -20,11 +20,11 @@ body{
     background-color:rgb(255, 255, 255);
 }
 
-.form-control {
+/* .form-control {
     display: block;
     width: 100%;
     height: 34px;
-    /* padding: 6px 12px; */
+    padding: 6px 12px;
     font-size: 14px;
     line-height: 1.42857143;
     color: chartreuse;
@@ -33,7 +33,7 @@ body{
     border: 1px solid #ccc;
     border-radius: 4px;
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-}
+} */
 
 .row {
     display: table;
@@ -43,8 +43,6 @@ body{
     padding-left: 10px;
     width: 100%;
     flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px;
 }
 
 /* .cell {
@@ -57,10 +55,10 @@ body{
     background-color: "black";
 }
 
-.input {
+/* .input {
     padding: 8px;
     border: ridge;
-    /* width: 100%; */
+    width: 100%;
     border-color: rgb(230, 60, 215);
 }
 
@@ -76,7 +74,7 @@ body{
     border: ridge;
     width: 100%;
     border-color: rgb(241, 87, 41);
-}
+} */
 .input-textarea {
     padding: 8px;
     border: ridge;
@@ -90,7 +88,7 @@ body{
 }
 
 .label {
-    color: blue;
+    color: black;
 }
 
 .form {
@@ -99,7 +97,7 @@ body{
 
 }
 
-.button {
+/* .button {
     color: #fff ;
     text-transform: uppercase;
     text-decoration: none;
@@ -108,7 +106,7 @@ body{
     transition: all 0.4s ease 0s;
     width: 20%;
     height: 35px
-}
+} */
 
 .h1 {
     color: "green"
