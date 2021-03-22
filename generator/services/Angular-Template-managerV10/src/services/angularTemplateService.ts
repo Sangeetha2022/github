@@ -200,6 +200,7 @@ export class AngularTemplateService {
         }
     }
     generateHtml(body, templateName) {
+        console.log('BODY---->>>>', JSON.stringify(body));
         let gjsComponents = body.template['gjs-components'][0];
         gjsComponents = gjsComponents ? JSON.parse(gjsComponents) : [];
         if (gjsComponents && gjsComponents.length > 0) {
@@ -221,7 +222,10 @@ export class AngularTemplateService {
     }
     createHtmlfromNestedObject(gjsComponentMetadata: Array<Object>, callback) {
         asyncLoop(gjsComponentMetadata, (gjsElement, next) => {
-            const tagName = componentSupportWorker.tagNameFunction(gjsElement);
+            let tagName = componentSupportWorker.tagNameFunction(gjsElement);
+            if (tagName === 'p') {
+                tagName = 'div';
+            }
             this.htmlContent += '<' + tagName + ' ';
             this.setAttributes(gjsElement);
             this.setClasses(gjsElement, tagName);
@@ -230,7 +234,9 @@ export class AngularTemplateService {
                 this.createHtmlfromNestedObject(gjsElement.components, (res) => {
                 });
             }
-            this.setCloseTag(tagName);
+            if(tagName !== 'hr' && tagName !== 'br') {
+                this.setCloseTag(tagName);
+            }
             next();
         }, (err) => {
             if (err) {
@@ -250,7 +256,11 @@ export class AngularTemplateService {
             const keys = Object.keys(item.attributes);
             keys.forEach((key) => {
                 // Replacing href to [routerLink] in <a> tag
-                this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="${item.attributes[key]}" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
+                if(item.attributes[key] !== '#') {
+                    this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['${item.attributes[key]}']" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
+                } else {
+                    this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['/']" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
+                }
             });
         }
     }

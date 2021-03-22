@@ -105,13 +105,17 @@ export class Constant {
       {
         importName: "FooterComponent",
         importPath: "./footer.component"
+      },
+      {
+        importName: "RouterModule",
+        importPath: "@angular/router"
       }
     ],
     GpOptions: {
       components: [
         { name: "FooterComponent" }
       ],
-      modules: [{ name: "I18NextModule.forRoot()" }],
+      modules: [{ name: "I18NextModule.forRoot()" }, { name: "RouterModule"}],
       screenName: "footer",
       className: "FooterModule"
     }
@@ -126,13 +130,17 @@ export class Constant {
       {
         importName: "TemplateComponent",
         importPath: "./template.component"
+      },
+      {
+        importName: "RouterModule",
+        importPath: "@angular/router"
       }
     ],
     GpOptions: {
       components: [
         { name: "TemplateComponent" }
       ],
-      modules: [{ name: "I18NextModule.forRoot()" }],
+      modules: [{ name: "I18NextModule.forRoot()" }, { name: "RouterModule"}],
       screenName: "Template",
       className: "TemplateModule"
     }
