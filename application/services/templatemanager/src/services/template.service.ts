@@ -11,9 +11,21 @@ export class TemplateService {
         })
     }
 
+    public addProjectTemplate(req: Request, callback: CallableFunction) {
+        templateDao.addProjectTemplate(req, (template) => {
+            callback(template);
+        });
+    }
+
     public getAllTemplateByProject(req: Request, callback: CallableFunction) {
         templateDao.getAllTemplateByProject(req, (template) => {
             callback(template)
+        });
+    }
+
+    public getProjectTemplateByProject(req: Request, callback: CallableFunction) {
+        templateDao.getProjectTemplateByProject(req, (template) => {
+            callback(template);
         })
     }
 
@@ -37,15 +49,55 @@ export class TemplateService {
         })
     }
 
+    public getProjectTemplateByID(req: Request, callback: CallableFunction) {
+        templateDao.getProjectTemplateByID(req, (template, err) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(template);
+            }
+        })
+    }
+
+    public getProjectTemplateByProjectId(req: Request, callback: CallableFunction) {
+        templateDao.getProjectTemplateByProjectId(req, (template, err) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(template);
+            }
+        })
+    }
+
     public updateTemplate(req: Request, callback: CallableFunction) {
         templateDao.updateTemplate(req, (template) => {
             callback(template)
         })
     }
 
+    public updateProjectTemplate(req: Request, callback: CallableFunction) {
+        templateDao.updateProjectTemplate(req, (template, err) => {
+            if (err) {
+                callback(null, err);
+            } else {
+                callback(template, null);
+            }
+        });
+    }
+
     public deleteTemplate(req: Request, callback: CallableFunction) {
         templateDao.deleteTemplate(req, (template) => {
             callback(template)
         })
+    }
+
+    public deleteProjectTemplate(req: Request, callback: CallableFunction) {
+        templateDao.deleteProjectTemplate(req, (template, err) => {
+            if (err) {
+                callback(null, err);
+            } else {
+                callback(template, null);
+            }
+        });
     }
 }

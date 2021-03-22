@@ -42,10 +42,10 @@ export class FrontendTemplateService {
         console.log('-------get template by project-------', details);
         console.log('details from as per', details.project.clientFramework.label.includes('React'));
         // const templateDetails = await this.getTemplateByProjectId(details.projectId);
-        const templateDetails = await this.getTemplateByName(details.project.projectTemplatename);
-
-        console.log('template of project are ---- ', util.inspect(templateDetails, { showHidden: true, depth: null }));
-        const templateJSON = JSON.parse(templateDetails.toString());
+        // const templateDetails = await this.getTemplateByName(details.project.projectTemplatename);
+        const templateData = await this.getTemplateByProject(details.projectId);
+        console.log('template of project are ---- ', util.inspect(templateData, { showHidden: true, depth: null }));
+        const templateJSON = JSON.parse(templateData.toString());
         const menuDetails = await this.getMenuByProjectId(details.projectId);
         const menuJSON = JSON.parse(menuDetails.toString());
         // console.log('menuJSON are ------  ', util.inspect(menuDetails, { showHidden: true, depth: null }));
@@ -169,6 +169,14 @@ export class FrontendTemplateService {
     getTemplateByName(templateName) {
         return new Promise(resolve => {
             this.templateManagerService.getTemplateByName(templateName, (data) => {
+                resolve(data);
+            })
+        })
+    }
+
+    getTemplateByProject(projectId) {
+        return new Promise(resolve => {
+            this.templateManagerService.getTemplateByProject(projectId, (data) => {
                 resolve(data);
             })
         })
