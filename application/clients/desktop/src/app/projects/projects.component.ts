@@ -399,6 +399,14 @@ export class ProjectsComponent implements OnInit {
                 }, (error) => {
                   console.error('cannot able to create the default menu for this project ', error);
                 });
+                // Save user template
+                this.projectsService.getGepTemplate(dataToSave.app_ui_template, this.logId).subscribe(data => {
+                  data.body.project_id = projectDetail._id;
+                  if(data && data.body) {
+                    this.projectsService.addProjectTemplate(data.body, this.logId).subscribe(postRes => {
+                    });
+                  }
+                });
             }
             this.getProjectByUserId();
           }, error => {

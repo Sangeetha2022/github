@@ -1,8 +1,10 @@
 import * as mongoose from 'mongoose';
 import { TemplateSchema } from '../models/template.model';
+import { ProjectTemplateSchema } from '../models/project.template.model';
 import { Request } from 'express';
 
 const Template = mongoose.model('Geppetto_Template', TemplateSchema);
+const ProjectTemplate = mongoose.model('Geppetto_Project_Template', ProjectTemplateSchema);
 
 export class TemplateDao {
 
@@ -18,9 +20,31 @@ export class TemplateDao {
         });
     }
 
+    public addProjectTemplate(req: Request, callback: CallableFunction) {
+        let newTemplate = new ProjectTemplate(req.body);
+        newTemplate.save((err, template) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(template);
+            }
+        });
+    }
+
     public getAllTemplateByProject(req: Request, callback: CallableFunction) {
         let projectId = req.params.projectid;
         Template.find({ project_id: projectId }, (err, template) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(template);
+            }
+        });
+    }
+
+    public getProjectTemplateByProject(req: Request, callback: CallableFunction) {
+        let projectId = req.params.projectid;
+        ProjectTemplate.find({ project_id: projectId }, (err, template) => {
             if (err) {
                 callback(err);
             } else {
@@ -72,6 +96,43 @@ export class TemplateDao {
         });
     }
 
+    public getProjectTemplateByID(req: Request, callback: CallableFunction) {
+        const id = req.params.id;
+        ProjectTemplate.find({ _id: id}, (err, template) => {
+            if(err) {
+                callback(null, err);
+            } else {
+                callback(template, null);
+            }
+        });
+    }
+
+    public getProjectTemplateByProjectId(req: Request, callback: CallableFunction) {
+        const projectId = req.params.id;
+        ProjectTemplate.find({ project_id: projectId }, (err, templatedetails) => {
+            if (err) {
+                callback(null, err);
+            } else {
+                let template = {}
+                if (templatedetails.length > 0) {
+                    template = {
+                        'gjs-assets': templatedetails[0]['gjs-assets'],
+                        'gjs-styles': templatedetails[0]['gjs-styles'],
+                        'gjs-components': templatedetails[0]['gjs-components'],
+                        'stylesheets': templatedetails[0]['stylesheets'],
+                        'scripts': templatedetails[0]['scripts'],
+                        'css-guidelines': templatedetails[0]['css-guidelines'],
+                        'gjs-css': templatedetails[0]['gjs-css'],
+                        'gjs-html': templatedetails[0]['gjs-html'],
+                        'template_id': templatedetails[0]._id,
+                        'template_name': templatedetails[0].template_name,
+                    };
+                }
+                callback(template, null);
+            }
+        });
+    }
+
     public updateTemplate(req: Request, callback: CallableFunction) {
         Template.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, template) => {
             if (err) {
@@ -82,12 +143,32 @@ export class TemplateDao {
         });
     }
 
+    public updateProjectTemplate(req: Request, callback: CallableFunction) {
+        ProjectTemplate.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, (err, template) => {
+            if (err) {
+                callback(null, err);
+            } else {
+                callback(template, null);
+            }
+        });
+    }
+
     public deleteTemplate(req: Request, callback: CallableFunction) {
         Template.findByIdAndDelete(req.params.id, (err, template) => {
             if (err) {
                 callback(err);
             } else {
                 callback({ message: 'Successfully deleted contact!' });
+            }
+        });
+    }
+
+    public deleteProjectTemplate(req: Request, callback: CallableFunction) {
+        ProjectTemplate.deleteOne({project_id: req.params.id}, (err, template) => {
+            if (err) {
+                callback(null, err);
+            } else {
+                callback({ message: 'Template Deleted Successfully!' }, null);
             }
         });
     }

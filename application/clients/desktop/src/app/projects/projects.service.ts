@@ -51,6 +51,14 @@ export class ProjectsService {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectById}/${projectId}` + `?log_id=${logId}`);
   }
 
+  getGepTemplate(templateName, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getTemplateByName}?template_name=${templateName}&log_id=${logId}`);
+  }
+
+  addProjectTemplate(body, logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.addProjectTemplate}?log_id=${logId}`, body);
+  }
+
   // websocket connections
 
   public initSocket(): void {

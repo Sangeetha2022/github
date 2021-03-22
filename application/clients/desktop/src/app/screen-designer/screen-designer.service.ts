@@ -48,6 +48,10 @@ export class ScreenDesignerService {
     return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenTemplateByProjectId}?projectId=${projectId}`);
   }
 
+  getProjectTemplate(id, logId) {
+    return this.http.get(`${this.sharedService.Apigateway}${Constants.getProjectTemplateById}/${id}?log_id=${logId}`);
+  }
+
   // delete microservice
 
   deleteScreenById(screenId, logId): Observable<any> {

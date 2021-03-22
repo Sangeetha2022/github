@@ -36,6 +36,7 @@ import { FlowTreeComponent } from './feature-details/flow-tree/flow-tree.compone
 import { FlowTreeService } from './feature-details/flow-tree/flow-tree.service';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { FileUploadModule } from 'ng2-file-upload';
+import { TemplateManagerComponent } from '../template-manager/template-manager.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     ScreenPopupComponent,
     EntityModelComponent,
     FlowTreeComponent,
-    EditPopupComponent
+    EditPopupComponent,
+    TemplateManagerComponent
   ],
   imports: [
     CommonModule,

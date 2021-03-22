@@ -1,5 +1,4 @@
 import { Request, response } from 'express';
-import * as util from 'util';
 import { Common } from '../config/Common';
 import * as childProcess from 'child_process';
 import { ComponentWorker } from '../worker/componentWorker/componentWorker';
@@ -14,6 +13,11 @@ import { AppModuleWorker } from '../worker/dependency-worker/AppModuleWorker';
 import { ComponentSupportWorker } from '../supportworker/componentSupportWorker';
 import * as asyncLoop from 'node-async-loop';
 import { GeppettoSideNav } from '../strategy/HTML/geppetto_template/GeppettoSideNav';
+import { ConfimModalPopup } from '../assets/headerComponent';
+import * as beautify from 'beautify';
+import { GeppettoHeader } from '../strategy/HTML/geppetto_template/GeppettoHeader';
+import { GeppettoLanding } from '../strategy/HTML/geppetto_template/GeppettoLanding';
+import { Footer } from '../strategy/HTML/geppetto_template/GeppettoFooter';
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
@@ -53,6 +57,7 @@ export class AngularTemplateService {
 
     public createAngularTemplate(req: Request, callback: CallableFunction) {
         this.details = req.body;
+        const data = this.details.template['gjs-components'][0];
         this.grapesjsComponent = this.details.template['gjs-components'][0];
         this.grapesjsCSS = this.details.template['gjs-css'];
         this.templateName = this.details.template.template_name;
@@ -100,59 +105,116 @@ export class AngularTemplateService {
         body = JSON.parse(JSON.stringify(body));
         this.generationPath += `/${this.projectName}`;
         let templateName = this.templateName;
-        this.generateHtml(body);
-        switch (templateName.toLowerCase()) {
-            case 'geppetto template':
-                geppettoTemplate.geppettoTemplateGeneration(body);
-                break;
-            case 'new hp template':
-                hpTemplate.hpTemplateGeneration(body);
-                break;
-            case 'red template':
-                redHpTemplate.redHpTemplateGeneration(body);
-                break;
-            default:
-                break;
-        }
+        this.generateHtml(body, templateName);
+        // switch (templateName.toLowerCase()) {
+        //     case 'geppetto template':
+        //         geppettoTemplate.geppettoTemplateGeneration(body);
+        //         break;
+        //     case 'new hp template':
+        //         hpTemplate.hpTemplateGeneration(body);
+        //         break;
+        //     case 'red template':
+        //         redHpTemplate.redHpTemplateGeneration(body);
+        //         break;
+        //     default:
+        //         break;
+        // }
         componentWorker.generateComponent(this.generationPath, this.templateName.toLowerCase(), (response) => {
             appModuleWorker.importComponentModules(body, (res) => {
                 callback(response)
             });
         })
     }
-    generateHtml(body) {
+
+    generateGeppettoTemplate(gjsElement, body, tagName, callback) {
+        const projectName = body.project.name;
+        const templateGenerationPath = body.projectGenerationPath + '/' + projectName + '/'
+                    + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/';
+        if (tagName === 'nav') {
+            // Generating Header Component
+            this.htmlContent = '';
+            this.createHtmlfromNestedObject([gjsElement], (res) => {
+                const menuList = body.menuBuilder.filter(x => x.language.toLowerCase() === body.project.defaultHumanLanguage.toLowerCase());
+                let responseArray = [];
+                if (res.includes(`<div id="MainMenu" class="">`)) {
+                    const sideNavHtml = geppettoSideNav.generateSideNav(menuList);
+                    responseArray = res.split('\n');
+                    for (let i = 0; i < responseArray.length; i++) {
+                        if (responseArray[i].includes(`<div id="MainMenu" class="">`)) {
+                            responseArray.splice(i + 1, 0, sideNavHtml);
+                            break;
+                        }
+                    }
+                }
+                const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.html';
+                const data = responseArray.join('\n') + ConfimModalPopup.htmlTag[0];
+                Common.createFolders(templateGenerationPath + Constant.HEADER_FOLDERNAME);
+                componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), (res) => {
+                    callback();
+                });
+                // Generate Header SCSS File
+                const cssData = GeppettoHeader.CSS_DATA;
+                const cssFilePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.scss';
+                componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
+                });
+            });
+        } else if (tagName === 'header') {
+            // Generate Template Component
+            this.htmlContent = '';
+            this.createHtmlfromNestedObject([gjsElement], (res) => {
+                callback();
+            });
+        } else if (tagName === 'section') {
+            // Generate Template Component
+            this.createHtmlfromNestedObject([gjsElement], (res) => {
+                Common.createFolders(templateGenerationPath + Constant.TEMPLATE_FOLDERNAME);
+                const filePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.component.html';
+                componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
+                    callback();
+                });
+                // Generate Template SCSS File
+                const cssData = GeppettoLanding.CSS_DATA;
+                const cssFilePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.component.scss';
+                componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
+                });
+            });
+        } else if (tagName === 'footer') {
+            // Generate Footer Component
+            console.log('FOOTER COMPONENT');
+            this.htmlContent = '';
+            this.createHtmlfromNestedObject([gjsElement], (res) => {
+                const filePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.html';
+                Common.createFolders(templateGenerationPath + Constant.FOOTER_FOLDERNAME);
+                componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
+                    console.log('FOOTER COMPONENT GENERATED SUCCESSFULLY');
+                    callback();
+                });
+                // Generate Footer SCSS File
+                const cssData = Footer.CSS_DATA;
+                const cssFilePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.scss';
+                componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
+                });
+            });
+        } else {
+            callback();
+        }
+    }
+    generateHtml(body, templateName) {
         let gjsComponents = body.template['gjs-components'][0];
         gjsComponents = gjsComponents ? JSON.parse(gjsComponents) : [];
         if (gjsComponents && gjsComponents.length > 0) {
             asyncLoop(gjsComponents, (gjsElement, next) => {
                 const tagName = componentSupportWorker.tagNameFunction(gjsElement);
-                if (tagName === 'nav') {
-                    // Generating Header Component
-                    this.createHtmlfromNestedObject([gjsElement], (res) => {
-                        console.log('RESPONSE---->>>>', res);
-                        const menuList = body.menuBuilder.filter(x => x.language.toLowerCase() === body.project.defaultHumanLanguage.toLowerCase());
-                        const projectName = body.project.name;
-                        if (res.includes(`<div id="MainMenu" class="">`)) {
-                            const sideNavHtml = geppettoSideNav.generateSideNav(menuList);
-                            const responseArray = res.split('\n');
-                            for (let i = 0; i < responseArray.length; i++) {
-                                if (responseArray[i].includes(`<div id="MainMenu" class="">`)) {
-                                    responseArray.splice(i + 1, 0, sideNavHtml);
-                                    break;
-                                }
-                            }
-                            this.htmlContent = responseArray.join('\n');
-                        }
+                // Geppetto Template Generation
+                if (templateName.toLowerCase() === 'geppetto template') {
+                    this.generateGeppettoTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
-                } else {
-                    next();
                 }
             }, err => {
                 if (err) {
                     console.log('ERROR---->>>>', err);
                 } else {
-                    console.log('HTML CONTENT---->>>>', this.htmlContent);
                 }
             });
         }

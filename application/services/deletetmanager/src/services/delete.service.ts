@@ -8,6 +8,7 @@ import {
     FlowManagerService
 
 } from '../apiservices/index';
+import { TemplateMicroService } from '../apiservices/TemplateMicroService';
 
 
 export class DeleteService {
@@ -18,6 +19,7 @@ export class DeleteService {
     private screenManagerService = new ScreenManagerService();
     private projectManagerService = new ProjectManagerService();
     private flowManagerService = new FlowManagerService();
+    private templateMicroService = new TemplateMicroService();
 
 
     public async deleteProjectById(req: Request, callback) {
@@ -29,9 +31,17 @@ export class DeleteService {
         this.deleteProjectMenu(req, projectId);
         this.deleteProjectEntity(req, projectId);
         this.deleteProjectScreen(req, projectId);
+        this.deletePojectTemplate(req, projectId);
         callback({ message: 'Successfully deleted records connected with project!' })
     }
 
+    public async deletePojectTemplate(req, projectId) {
+        return new Promise(resolve => {
+            this.templateMicroService.deleteProjectTemplate(req, projectId, (data) => {
+                resolve(data);
+            })
+        });
+    }
 
     public async deleteEntity(req: Request, callback) {
         const entityId = req.params.id;
