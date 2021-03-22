@@ -166,6 +166,31 @@
   </div>
 </div>
 
+<!-- <div id="ProjectEventPopup" class="projectmodal" tabindex="-1" role="dialog" style="display: none">
+  <div class="modal-dialog modal-lg" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="display: block;">
+        <button type="button" class="close" (click)="projectCancelEvent()" data-dismiss="projectmodal" aria-hidden="true">x</button>
+        <h3>Choose an Flow</h3>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
+            [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="rowData" [animateRows]="true"
+            [defaultColDef]="defaultColDef" domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10"
+            [floatingFilter]="true" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
+          </ag-grid-angular>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="form-group">
+          <button type="button" class="btn btn-primary button-create" (click)="saveEvent()">ok</button>
+          <button type="button" class="btn btn-danger button-close" (click)="projectCancelEvent()">cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
 <!-- link popup modal -->
 <div *ngIf="isLinkPopup" id="LinkPopup" class="modal" tabindex="-1" role="dialog" style="display: block">
   <div class="modal-dialog modal-md" role="dialog">

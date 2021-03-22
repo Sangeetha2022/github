@@ -1,12 +1,12 @@
 import * as mongoose from 'mongoose';
-import ModifierModel from '../models/DefaultModifier';
+import DefaultModifierModel from '../models/DefaultModifier';
 import { Request, Response } from 'express';
 
 // const Features = mongoose.model('Features', FeaturesSchema);
 
 export class ModifierDao {
 
-    private modifier = ModifierModel;
+    private modifier = DefaultModifierModel;
 
 
     public saveModifier(modifierData, callback: CallableFunction) {
@@ -41,6 +41,17 @@ export class ModifierDao {
         });
     }
 
+    public getAllDefaultModifiers(callback: CallableFunction) {
+        this.modifier.find({}, (err, modifier) => {
+            if (err) {
+                callback(err)
+            } else {
+                callback(modifier)
+            }
+        });
+    }
+
+
     public getModifierById(modifierId, callback: CallableFunction) {
         this.modifier.findById(modifierId, (err, modifier) => {
             if (err) {
@@ -51,16 +62,11 @@ export class ModifierDao {
         });
     }
 
-    public getFeatureModifiers(modifiersId, callback: CallableFunction) {
-        console.log('get feature modifiers in doa');
+    public getFlowModifiers(modifiersId, callback: CallableFunction) {
+        console.log('get flow modifiers in doa');
         this.modifier.find().where('_id')
             .in(modifiersId)
-            .populate({
-                path: 'components',
-                populate: {
-                    path: 'connector',
-                }
-            }).exec((err, modifier) => {
+            .exec((err, modifier) => {
                 console.log('modifiers exec error ----  ', err);
                 console.log('modifiers exec success ----  ', modifier);
                 if (err) {

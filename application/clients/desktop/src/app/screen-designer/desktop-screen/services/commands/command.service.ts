@@ -12,6 +12,7 @@ export class CommandService {
   project_id: any;
   screenArray: any[] = [];
   screen_id: any;
+  buttonComponent: any;
   @ViewChild('myModal') myModal: ElementRef;
 
   constructor(
@@ -89,12 +90,44 @@ export class CommandService {
           }
         );
       } else if (component.attributes.tagName === 'button') {
-        component.get('traits').add(
+        component.get('traits').set([
+          {
+            label: 'Name',
+            name: 'name',
+            type: 'text',
+            changeProp: 1
+          },
+          {
+            type: 'content',
+            label: 'contentName',
+            name: 'contentname',
+            changeProp: 1
+          },
+          {
+            type: 'select',
+            label: 'verb',
+            name: 'verbs',
+            changeProp: 1,
+            options: $this.verbOptions
+          },
           {
             name: 'actionButton',
             label: 'Action',
             type: 'actionButton'
+          },
+          {
+            type: 'select',
+            label: 'modifiers',
+            name: 'modifiers',
+            changeProp: 1,
+            options: $this.filterModifiers // Modifier binding
+          },
+          {
+            name: 'valueButton',
+            label: 'Modify By',
+            type: 'valueButton'
           }
+          ]
         );
       }
       if (component.attributes.type === 'dynamicdropdown-type') {

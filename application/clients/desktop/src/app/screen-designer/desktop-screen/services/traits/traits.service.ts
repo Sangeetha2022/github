@@ -313,6 +313,7 @@ export class TraitsService {
           }),
           init() {
             this.listenTo(this, 'change:verbs', this.verb);
+            this.listenTo(this, 'change:modifiers', this.modifier);
           },
           verb() {
             const verbObj = screenGlobalVariable.verbOptions.find(
@@ -320,6 +321,15 @@ export class TraitsService {
             );
             if (verbObj) {
               screenGlobalVariable.buttonVerb = verbObj.key;
+            }
+          },
+          modifier() {
+            const modifierObj = screenGlobalVariable.filterModifiers.find(
+              x => x.value === this.changed['modifiers']
+            );
+            if (modifierObj) {
+              screenGlobalVariable.filterModifier = modifierObj.key;
+              screenGlobalVariable.filterModifierName = modifierObj.value;
             }
           }
         },

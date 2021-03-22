@@ -10,6 +10,7 @@ export let modifierUsageSchema = mongoose.Schema({
   modifier_id: String,
   modifier_name: String,
   description: String,
+  modify_by_value: String,
   modify_target_type: String,
   modify_target_type_id: String,
 });

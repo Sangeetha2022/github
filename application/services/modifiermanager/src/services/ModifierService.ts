@@ -26,6 +26,11 @@ export class ModifierService {
             callback(modifier)
         })
     }
+    public getAllDefaultModifiers(req: Request, callback: CallableFunction) {
+        modifierDao.getAllDefaultModifiers((modifier) => {
+            callback(modifier)
+        })
+    }
 
     public getModifierById(req: Request, callback: CallableFunction) {
         const modifierId = req.query.modifierId;
@@ -34,9 +39,9 @@ export class ModifierService {
         })
     }
 
-    public getFeatureModifiers(req: Request, callback: CallableFunction) {
+    public getFlowModifiers(req: Request, callback: CallableFunction) {
         const modifiersId = req.body;
-        modifierDao.getFeatureModifiers(modifiersId, (modifier) => {
+        modifierDao.getFlowModifiers(modifiersId, (modifier) => {
             callback(modifier)
         })
     }

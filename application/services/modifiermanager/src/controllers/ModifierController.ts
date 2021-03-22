@@ -26,6 +26,13 @@ export class modifierController {
         })
     }
 
+    public getAllDefaultModifiers(req: Request, res: Response) {
+        modifierService.getAllDefaultModifiers(req, (response) => {
+            res.status(200); // status for the response
+            res.json(response);
+        })
+    }
+
     public getModifierById(req: Request, res: Response) {
         modifierService.getModifierById(req, (response) => {
             res.status(200); // status for the response
@@ -33,8 +40,8 @@ export class modifierController {
         })
     }
 
-    public getFeatureModifiers(req: Request, res: Response) {
-        modifierService.getFeatureModifiers(req, (response) => {
+    public getFlowModifiers(req: Request, res: Response) {
+        modifierService.getFlowModifiers(req, (response) => {
             res.status(200); // status for the response
             res.json(response);
         })

@@ -15,6 +15,6 @@ let defaultModifierSchema = mongoose.Schema({
   },
 });
 
-const ModifierModel = mongoose.model('default_modifiers', defaultModifierSchema, 'default_modifiers');
+const DefaultModifierModel = mongoose.model('default_modifiers', defaultModifierSchema, 'default_modifiers');
 
-export default ModifierModel;
+export default DefaultModifierModel;
