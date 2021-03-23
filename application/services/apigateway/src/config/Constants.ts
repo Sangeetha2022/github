@@ -68,7 +68,7 @@ export class Constants {
                 Constants.deleteUrl = process.env.deletemanager + ":3014";
                 Constants.sharedUrl = Constants.appUrl + ":3050";
                 Constants.externalfeature = Constants.appUrl + ":3016";
-                Constants.modifierUrl = process.env.modifiermanager + "3030"
+                Constants.modifierUrl = process.env.modifiermanager + ":3030"
 
                 //generator
                 Constants.projectGenUrl = process.env.generationmanager + ":5000";
