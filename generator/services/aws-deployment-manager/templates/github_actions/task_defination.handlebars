@@ -71,7 +71,13 @@ module.exports = {
             "environmentFiles": null,
             "environment": null,
             "secrets": null,
-            "mountPoints": [],
+            "mountPoints": [
+                {
+                  "readOnly": null,
+                  "containerPath": "/path/to/container",
+                  "sourceVolume": "{{project_name}}"
+                }
+              ],
             "volumesFrom": null,
             "hostname": null,
             "user": null,
@@ -113,7 +119,13 @@ module.exports = {
             {{/each}}
             ],
             "secrets": null,
-            "mountPoints": [],
+            "mountPoints": [
+                {
+                  "readOnly": null,
+                  "containerPath": "/path/to/container",
+                  "sourceVolume": "{{project_name}}"
+                }
+              ],
             "volumesFrom": null,
             "hostname": null,
             "user": null,
@@ -151,7 +163,13 @@ module.exports = {
             "environmentFiles": null,
             "environment": [{"name":"MONGO_DB_URL","value":"mongodb://admin:password@127.0.0.1:27017/{{project_name}}_{{project_unique_id}}?authSource=admin"},{"name":"CAMUNDAURL","value":"http://127.0.0.1:8002"}],
             "secrets": null,
-            "mountPoints": [],
+            "mountPoints": [
+                {
+                  "readOnly": null,
+                  "containerPath": "/path/to/container",
+                  "sourceVolume": "{{project_name}}"
+                }
+              ],
             "volumesFrom": null,
             "hostname": null,
             "user": null,
@@ -189,7 +207,13 @@ module.exports = {
             "environmentFiles": null,
             "environment": [{"name":"MONGO_DB_URL","value":"mongodb://admin:password@127.0.0.1:27017/{{project_name}}_{{project_unique_id}}?authSource=admin"},{"name":"CAMUNDAPOD_URL","value":"http://127.0.0.1:8080"},{"name":"SECURITYURL","value":"http://127.0.0.1:8003"},{"name":"AUTHPROXYURL","value":"http://127.0.0.1:8001"},{"name":"ADMINURL","value":"http://127.0.0.1:8004"},{"name":"CAMUNDAURL","value":"http://127.0.0.1:8002"},{"name":"APIGATEWAY","value":"http://127.0.0.1:8000"}],
             "secrets": null,
-            "mountPoints": [],
+            "mountPoints": [
+                {
+                  "readOnly": null,
+                  "containerPath": "/path/to/container",
+                  "sourceVolume": "{{project_name}}"
+                }
+              ],
             "volumesFrom": null,
             "hostname": null,
             "user": null,
@@ -226,7 +250,13 @@ module.exports = {
             ],
             "environmentFiles": null,
             "environment": [{"name":"MONGO_DB_URL","value":"mongodb://admin:password@127.0.0.1:27017/{{project_name}}_{{project_unique_id}}?authSource=admin"},{"name":"CAMUNDAPOD_URL","value":"http://127.0.0.1:8080"},{"name":"SECURITYURL","value":"http://127.0.0.1:8003"},{"name":"AUTHPROXYURL","value":"http://127.0.0.1:8001"},{"name":"ADMINURL","value":"http://127.0.0.1:8004"},{"name":"CAMUNDAURL","value":"http://127.0.0.1:8002"},{"name":"APIGATEWAY","value":"http://127.0.0.1:8000"}],
-            "secrets": null,
+            "mountPoints": [
+                {
+                  "readOnly": null,
+                  "containerPath": "/path/to/container",
+                  "sourceVolume": "{{project_name}}"
+                }
+              ],
             "mountPoints": [],
             "volumesFrom": null,
             "hostname": null,
@@ -266,7 +296,13 @@ module.exports = {
             "environmentFiles": null,
             "environment": [{"name":"MONGO_DB_URL","value":"mongodb://admin:password@127.0.0.1:27017/{{../project_name}}_{{../project_unique_id}}?authSource=admin"}],
             "secrets": null,
-            "mountPoints": [],
+            "mountPoints": [
+                {
+                  "readOnly": null,
+                  "containerPath": "/path/to/container",
+                  "sourceVolume": "{{project_name}}"
+                }
+              ],
             "volumesFrom": null,
             "hostname": null,
             "user": null,
