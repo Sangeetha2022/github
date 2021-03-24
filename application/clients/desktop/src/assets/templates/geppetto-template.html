@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            margin-left: 0px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            margin-left: 0px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin-top: 0px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            margin-left: 0px;
+            font-family: "Open Sans", sans-serif;
+            background-image: initial;
+            background-position-x: initial;
+            background-position-y: initial;
+            background-size: initial;
+            background-repeat-x: initial;
+            background-repeat-y: initial;
+            background-attachment: initial;
+            background-origin: initial;
+            background-clip: initial;
+            background-color: rgb(255, 255, 255);
+        }
+
+        section {
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        .contentTitle {
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        .navbar-inverse {
+            background-color: rgb(128, 128, 128) !important;
+            border-top-color: rgb(128, 128, 128) !important;
+            border-right-color: rgb(128, 128, 128) !important;
+            border-bottom-color: rgb(128, 128, 128) !important;
+            border-left-color: rgb(128, 128, 128) !important;
+        }
+
+        .navbar-inverse .navbar-brand {
+            color: rgb(255, 255, 255) !important;
+        }
+
+        .navbar-inverse .navbar-nav>li>a {
+            color: rgb(255, 255, 255);
+            padding-top: 17px;
+            padding-right: 12px;
+            padding-bottom: 17px;
+            padding-left: 12px;
+        }
+
+        header {
+            background-image: url("../img/home.jpg");
+            background-position-x: 50%;
+            background-position-y: 50%;
+            background-repeat-x: no-repeat;
+            background-repeat-y: no-repeat;
+            background-attachment: initial;
+            background-origin: initial;
+            background-clip: initial;
+            background-color: initial;
+            padding-top: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+            padding-left: 0px;
+            background-size: cover;
+            margin-top: -2%;
+            min-height: 600px;
+        }
+
+        #home-sec .overlay {
+            background-color: rgba(149, 166, 248, 0.75);
+            min-height: 600px;
+        }
+
+        .geppettoHeader {
+            line-height: 80px !important;
+            font-size: 45px !important;
+            font-weight: 900 !important;
+            color: rgb(255, 255, 255) !important;
+        }
+
+        #home-sec mark {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: rgb(255, 255, 255);
+            padding-top: 0px;
+            padding-right: 5px;
+            padding-bottom: 0px;
+            padding-left: 20px;
+            margin-top: 0px;
+            margin-right: 15px;
+            margin-bottom: 0px;
+            margin-left: 8px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-bottom-left-radius: 10px;
+        }
+
+        #features-sec h3 {
+            color: rgb(102, 101, 101);
+        }
+
+        #features-sec hr {
+            border-top-width: 1px;
+            border-right-width: 1px;
+            border-bottom-width: 1px;
+            border-left-width: 1px;
+            border-top-style: solid;
+            border-right-style: solid;
+            border-bottom-style: solid;
+            border-left-style: solid;
+            border-top-color: rgb(184, 94, 255);
+            border-right-color: rgb(184, 94, 255);
+            border-bottom-color: rgb(184, 94, 255);
+            border-left-color: rgb(184, 94, 255);
+            border-image-source: initial;
+            border-image-slice: initial;
+            border-image-width: initial;
+            border-image-outset: initial;
+            border-image-repeat: initial;
+            width: 30%;
+        }
+
+        #features-sec p {
+            line-height: 30px;
+            color: rgb(156, 156, 156);
+        }
+
+        #skill-sec h4 {
+            text-align: center;
+            padding-top: 20px;
+            font-weight: 900;
+        }
+
+        #skill-sec .overlay {
+            padding-top: 50px;
+            min-height: 250px;
+            background-color: rgba(5, 5, 5, 0.45);
+        }
+
+        #advance-sec h3 {
+            color: rgb(102, 101, 101);
+        }
+
+        #advance-sec p {
+            line-height: 30px;
+            color: rgb(156, 156, 156);
+        }
+
+        #just-sec .overlay {
+            background-image: initial;
+            background-position-x: initial;
+            background-position-y: initial;
+            background-size: initial;
+            background-repeat-x: initial;
+            background-repeat-y: initial;
+            background-attachment: initial;
+            background-origin: initial;
+            background-clip: initial;
+            background-color: rgba(72, 104, 233, 0.95);
+            padding-top: 50px;
+            padding-right: 30px;
+            padding-bottom: 50px;
+            padding-left: 30px;
+        }
+
+        .portfolio-item img:hover {
+            cursor: pointer;
+            transform: scale(1.5, 1.5);
+            transition-duration: 0.3s;
+            z-index: 1;
+        }
+
+        ul#filters {
+            padding-top: 0px;
+            padding-right: 0px;
+            padding-bottom: 0px;
+            padding-left: 0px;
+        }
+
+        #filters li {
+            display: -webkit-inline-box;
+        }
+
+        #filters li span {
+            display: block;
+            padding-top: 5px;
+            padding-right: 4px;
+            padding-bottom: 5px;
+            padding-left: 4px;
+            text-decoration-line: none;
+            text-decoration-style: initial;
+            text-decoration-color: initial;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        #port-folio .portfolio-item {
+            box-sizing: border-box;
+            width: 100%;
+            float: left;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            display: none;
+        }
+
+        footer {
+            background-color: rgb(50, 51, 58);
+            color: rgb(255, 255, 255);
+            margin-top: 4rem;
+            font-weight: 200;
+            padding-top: 100px;
+            padding-right: 0px;
+            padding-bottom: 100px;
+            padding-left: 0px;
+        }
+
+        footer h3 {
+            color: rgb(255, 255, 255);
+            font-weight: 900;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 0px;
+            position: fixed;
+            z-index: 1;
+            top: 0px;
+            left: 0px;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow-x: hidden;
+            transition-duration: 0.5s;
+            transition-timing-function: ease;
+            transition-delay: 0s;
+            transition-property: all;
+            padding-top: 60px;
+            font-family: "Open Sans", sans-serif;
+        }
+
+        .sidenav a {
+            text-decoration-line: none;
+            text-decoration-style: initial;
+            text-decoration-color: initial;
+            color: rgb(255, 255, 255);
+            display: block;
+            transition-duration: 0.3s;
+            transition-timing-function: ease;
+            transition-delay: 0s;
+            transition-property: all;
+            background-color: transparent;
+            font-size: 20px;
+            padding-top: 10px;
+            padding-right: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        .sidenav .closebtn {
+            color: white;
+            position: absolute;
+            top: 0px;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        a.list-group-item:focus,
+        a.list-group-item:hover,
+        button.list-group-item:focus,
+        button.list-group-item:hover {
+            color: rgb(85, 85, 85) !important;
+            text-decoration-line: none !important;
+            text-decoration-style: initial !important;
+            text-decoration-color: initial !important;
+            background-color: rgb(245, 245, 245) !important;
+        }
+
+        a.list-group-item-success:hover {
+            color: rgb(60, 118, 61) !important;
+            background-color: rgb(208, 233, 198) !important;
+        }
+
+        #in2oj {
+            font-size: 30px;
+            cursor: pointer;
+            float: left;
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                margin-top: -20px;
+                margin-right: 0px;
+                margin-bottom: 0px;
+                margin-left: 0px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            header {
+                margin-top: -20px;
+                margin-right: 0px;
+                margin-bottom: 0px;
+                margin-left: 0px;
+            }
+        }
+    </style>
+</head>
+
+<body id="wrapper">
+    <meta charset="UTF-8" id="template-irve" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" id="template-ipar" />
+    <meta http-equiv="Pragma" content="no-cache" id="template-ibdr" />
+    <meta http-equiv="Expires" content="0" id="template-iptc" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" id="template-i6k2" />
+    <meta name="description" content="This is a sample HTML created by GEPPETTO" id="template-izla" />
+    <meta name="author" content="GEPPETTO" id="template-i6ws" />
+    <meta name="keywords" content="geppetto,web,development" id="template-i55a" />
+    <title id="template-iylf">Geppetto
+    </title>
+    <base href="/" id="template-ivvn" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" id="template-ikdx" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        id="template-iwsj" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+        id="template-i0xxw" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" id="template-itbbj"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" id="template-iu8eq"></script>
+    <script id="template-i29cx">      function openNav() {
+            document.getElementById("mySidenav").style.width = "18%";
+        }
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+    </script>
+    <nav id="template-i090p" class="navbar navbar-inverse">
+        <div id="template-iyoc4" class="navbar-header">
+            <span onclick="openNav()" id="in2oj" class="">
+                ☰</span>
+
+            <button type="button" data-toggle="collapse" data-target="#myNavbar" id="template-ioico"
+                class="navbar-toggle">
+                <span id="template-iy169" class="icon-bar">
+                </span>
+
+                <span id="template-ivo7o" class="icon-bar">
+                </span>
+
+                <span id="template-ihry1" class="icon-bar">
+                </span>
+
+            </button>
+            <a [routerLink]="['/home']" id="template-io1pk" class="navbar-brand">
+                GEPPETTO</a>
+
+        </div>
+        <div id="myNavbar" class="collapse navbar-collapse">
+            <ul id="template-ionqz" class="nav navbar-nav navbar-right">
+                <li id="template-ivm2e" class="active">
+                    <a [routerLink]="['/']" id="template-iz682" class="">
+                        Home</a>
+
+                </li>
+            </ul>
+        </div>
+        <div id="mySidenav" class="sidenav">
+            <a [routerLink]="['javascript:void(0)']" onclick="closeNav()" id="template-if7ki" class="closebtn">
+                ×</a>
+
+            <div id="MainMenu" class="">
+
+            </div>
+        </div>
+    </nav>
+    <header id="template-io8gv">
+        <div id="template-iqtiy" class="container">
+            <div id="template-iulmb" class="row">
+                <div id="template-ichmx" class="col-lg-12">
+                    <h1 id="template-isrlz" class="geppettoHeader">GEPPETTO TEMPLATE
+                    </h1>
+                    <span id="template-i0cef">This is an HTML template developed by
+                        GEPPETTO</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section id="template-ixzbd">
+        <div id="template-i1op4" class="container">
+            <div id="template-ic28d" class="row">
+                <div id="template-irc61" class="col-lg-12">
+                    <h2 id="template-ivikk" class="contentTitle">Content Title
+                    </h2>
+                    <hr id="template-i2clp" />
+                </div>
+            </div>
+            <div id="template-ih0eg" class="row">
+                <div id="template-iv38l" class="col-lg-6">
+                    <p id="template-i2obh">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ratione quo
+                        alias fugit maiores
+                        enim odio amet, harum provident necessitatibus, error eveniet iste non voluptatibus dolore rem
+                        voluptates deleniti quos?
+                    </p>
+                    <a id="template-ie5vy"></a>
+                </div>
+                <div id="template-injql" class="col-lg-6">
+                    <p id="template-iuxz1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolor ratione quo
+                        alias fugit maiores
+                        enim odio amet, harum provident necessitatibus, error eveniet iste non voluptatibus dolore rem
+                        voluptates deleniti quos?
+                    </p>
+                    <button id="template-iu6hv" class="btn btn-default">Read More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer id="template-i0wmf">
+        <div id="template-inmrf" class="container">
+            <div id="template-izddy" class="row">
+                <div id="template-izxyk" class="footer-col col-md-4">
+                    <h3 id="template-iv2y9">Location
+                    </h3>
+                    <p id="template-itgmk">Maitland, FL 32751-5515
+                        <br id="template-iovmr" />Email : info@geppettosoftware.com
+                    </p>
+                </div>
+                <div id="template-is0vg" class="footer-col col-md-8">
+                    <h3 id="template-i8zah">About Geppetto
+                    </h3>
+                    <p id="template-inb4l">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum incidunt
+                        reprehenderit placeat,
+                        animi quo perferendis magni doloremque tempore autem ut maiores, molestias vero repellat earum
+                        optio similique deleniti explicabo sint?.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div id="template-iw89d" class="container">
+            <div id="template-i90bn" class="row">
+                <div id="template-itzip" class="col-lg-12">Copyright © GEPPETTO 2021
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <label for="template">Select Template</label>
                                 <select class="form-control" [(ngModel)]="templateData" id="template" formControlName="template" [ngClass]="{ 'is-invalid': submitted && form_control.secondoryLanguage }">
@@ -116,6 +116,12 @@
                                     <div *ngIf="form_control.template.errors.required">must select one template
                                     </div>
                                 </div>
+                            </div>
+                        </div> -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!-- <label for="select-template">Select Template</label> -->
+                                <button id="select-template" mat-raised-button color="primary" class="mt-4" (click)="openTemplateModal()">Select Template</button>
                             </div>
                         </div>
                     </div>
@@ -183,8 +189,49 @@
             </div>
             <div class="modal-footer">
                 <div class="form-group">
-                    <button type="button" [disabled]="!templateData || !createProject.value.primaryLanguage || !createProject.value.secondaryLanguage" class="btn button-create" (click)="projectCreate()">{{ 'create' | i18next }}</button>
+                    <button type="button" [disabled]="!templateObj?.app_ui_template || !createProject.value.primaryLanguage || !createProject.value.secondaryLanguage" class="btn button-create" (click)="projectCreate()">{{ 'create' | i18next }}</button>
                     <button type="button" class="btn button-close" (click)="onCloseHandled()">{{ 'cancel' | i18next }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayTemplateModel}">
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+            <div class="container">
+                <form class="m-3">
+                    <div class="row scroll-v" style="margin: 0px;">
+                        <div class="col-md-6" *ngFor="let template of gepTemplates;let i = index">
+                            <div class="sitecard">
+                                <div class="sitecard-preview-c">
+                                    <div class="sitecard-template">
+                                        <div (click)="onPreviewClick(template)" class="height-60 mt-5">
+                                            <mat-icon>preview</mat-icon> <span style="font-size: 26px">Preview</span>
+                                        </div>
+                                        <div class="height-60" (click)="onTemplateSelect(template)">
+                                            <mat-icon>check_circle_outline</mat-icon> <span style="font-size: 26px">Select</span>
+                                        </div>
+                                    </div>
+                                    <div class="sitecard-preview" [ngStyle]="{'background-image':'url('+template.template_image[0].image+')'}">
+                                    </div>
+                                </div>
+                                <div class="sitecard-info u-p--m">
+                                    <div title="Draft" class="sitecard-status sitecard-status-1"></div>
+                                    <div class="sitecard-title">{{ template.name }}</div>
+                                    <div class="sitecard__pub-info tp-size--s">
+                                        Created On: --
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group">
+                    <button type="button" class="btn button-close" (click)="closeTemplateModal()">{{ 'cancel' | i18next }}</button>
                 </div>
             </div>
         </div>
