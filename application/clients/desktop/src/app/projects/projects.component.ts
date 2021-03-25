@@ -26,6 +26,7 @@ export class ProjectsComponent implements OnInit {
   @ViewChild('myInput')
   myInputVariable: ElementRef;
   displayModel: String = 'none';
+  displayTemplateModel: String = 'none';
   displayImportModel: String = 'none';
   fileToUpload: File = null;
   delmodal: String = 'none';
@@ -71,6 +72,11 @@ export class ProjectsComponent implements OnInit {
   public uploader: FileUploader = new FileUploader({
     url: '',
   });
+  templateObj: {
+    app_ui_template: '',
+    app_ui_template_id: '',
+    app_ui_template_name: ''
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -175,12 +181,32 @@ export class ProjectsComponent implements OnInit {
   openModal() {
     this.displayModel = 'block';
   }
+  openTemplateModal() {
+    this.displayTemplateModel = 'block';
+  }
+  closeTemplateModal() {
+    this.displayTemplateModel = 'none';
+  }
   openImportModal() {
     this.displayImportModel = 'block';
   }
   closeImportModal() {
     this.displayImportModel = 'none';
     this.myInputVariable.nativeElement.value = "";
+  }
+  onTemplateSelect(template) {
+    this.templateObj = {
+      app_ui_template: template.name,
+      app_ui_template_id: template._id,
+      app_ui_template_name: template.template_name
+    };
+    this.closeTemplateModal();
+  }
+  onPreviewClick(template) {
+    // console.log('TEMPLATE---->>>>', template);    
+    if(template.name) {
+      window.open(`assets/templates/${template.name.split(' ').join('-').toLowerCase()}.html`);
+    }
   }
   // importProject() {
   //   this.projectsService.importSharedServiceYaml(this.fileToUpload,this.UserId).subscribe(data => {
@@ -208,6 +234,9 @@ export class ProjectsComponent implements OnInit {
     this.isReserveWord = false;
     this.createProject.clearValidators();
     this.createProject.reset();
+    this.templateObj.app_ui_template = '';
+    this.templateObj.app_ui_template_id = '';
+    this.templateObj.app_ui_template_name = '';
   }
   openGeneratorModal() {
     this.displayGenratorModel = 'block';
@@ -323,9 +352,12 @@ export class ProjectsComponent implements OnInit {
       client_widget_frameworks: null,
       mobile_css_framework: null,
       desktop_css_framework: null,
-      app_ui_template: this.createProject.value.template.name,
-      app_ui_template_id: this.createProject.value.template._id,
-      app_ui_template_name: this.createProject.value.template.template_name,
+      // app_ui_template: this.createProject.value.template.name,
+      // app_ui_template_id: this.createProject.value.template._id,
+      // app_ui_template_name: this.createProject.value.template.template_name,
+      app_ui_template: this.templateObj.app_ui_template,
+      app_ui_template_id: this.templateObj.app_ui_template_id,
+      app_ui_template_name: this.templateObj.app_ui_template_name,
       app_ui_template_img: null,
       client_code_pattern: null,
       server_code_pattern: null,
