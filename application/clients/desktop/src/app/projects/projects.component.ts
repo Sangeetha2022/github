@@ -203,7 +203,6 @@ export class ProjectsComponent implements OnInit {
     this.closeTemplateModal();
   }
   onPreviewClick(template) {
-    // console.log('TEMPLATE---->>>>', template);    
     if(template.name) {
       window.open(`assets/templates/${template.name.split(' ').join('-').toLowerCase()}.html`);
     }
