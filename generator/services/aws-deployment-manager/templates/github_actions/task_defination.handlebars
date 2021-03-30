@@ -257,7 +257,6 @@ module.exports = {
                   "sourceVolume": "{{project_name}}"
                 }
               ],
-            "mountPoints": [],
             "volumesFrom": null,
             "hostname": null,
             "user": null,
@@ -328,8 +327,20 @@ module.exports = {
     ],
     "volumes": [
         {
-            "host": {},
-            "name": "{{project_name}}"
+        "fsxWindowsFileServerVolumeConfiguration": null,
+        "efsVolumeConfiguration": {
+            "transitEncryptionPort": null,
+            "fileSystemId": `${process.env.EFS_ID}`,
+            "authorizationConfig": {
+            "iam": "DISABLED",
+            "accessPointId": null
+            },
+            "transitEncryption": "DISABLED",
+            "rootDirectory": "/"
+        },
+        "name": "{{project_name}}",
+        "host": null,
+        "dockerVolumeConfiguration": null
         }
     ],
     "networkMode": "awsvpc",

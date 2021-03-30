@@ -99,10 +99,17 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 10
+      - name: EFS volume attach task definition
+        id: EfsID
+        run: echo "::set-output name=FILESYSTEM_ID::$(aws efs create-file-system --performance-mode generalPurpose --throughput-mode bursting --encrypted --tags Key=Name,Value={{s3_bucket_name}} | jq '.FileSystemId')"
+      - name: EFS SecurityGroups Added
+        run: |
+          sleep 10s
+          aws efs create-mount-target --file-system-id ${{#surroundWithCurlyBraces 'steps.EfsID.outputs.FILESYSTEM_ID'}}{{/surroundWithCurlyBraces}} --subnet-id ${{#surroundWithCurlyBraces 'env.AWS_VPC_SUBNET'}}{{/surroundWithCurlyBraces}} --security-group ${{#surroundWithCurlyBraces 'env.AWS_VPC_SECURITY_GROUP'}}{{/surroundWithCurlyBraces}}
       - name: Convert the task_defination.ts to json
         working-directory: .github/workflows
         run: |
-          AWS_ACCOUNT_ID="${{#surroundWithCurlyBraces 'env.AWS_ACCOUNT_ID'}}{{/surroundWithCurlyBraces}}" AWS_ROLE_FOR_FARGATE="${{#surroundWithCurlyBraces 'env.AWS_ROLE_FOR_FARGATE'}}{{/surroundWithCurlyBraces}}" node task-definition.ts >> task-definition.json
+          AWS_ACCOUNT_ID="${{#surroundWithCurlyBraces 'env.AWS_ACCOUNT_ID'}}{{/surroundWithCurlyBraces}}" AWS_ROLE_FOR_FARGATE="${{#surroundWithCurlyBraces 'env.AWS_ROLE_FOR_FARGATE'}}{{/surroundWithCurlyBraces}}" EFS_ID="${{#surroundWithCurlyBraces 'steps.EfsID.outputs.FILESYSTEM_ID'}}{{/surroundWithCurlyBraces}}" node task-definition.ts >> task-definition.json
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -191,11 +198,22 @@ jobs:
       - name: "Create an A record set"
         uses: Roosterfish/aws-route53-record-set-action@master
         with: 
-          aws_access_key_id: ${{#surroundWithCurlyBraces 'secrets.AWS_ACCESS_KEY_ID_ROUTE53' }}{{/surroundWithCurlyBraces}}
-          aws_secret_access_key: ${{#surroundWithCurlyBraces 'secrets.AWS_SECRET_ACCESS_KEY_ROUTE53' }}{{/surroundWithCurlyBraces}}
+          aws_access_key_id: ${{#surroundWithCurlyBraces 'secrets.AWS_ACCESS_KEY_ID' }}{{/surroundWithCurlyBraces}}
+          aws_secret_access_key: ${{#surroundWithCurlyBraces 'secrets.AWS_SECRET_ACCESS_KEY' }}{{/surroundWithCurlyBraces}}
           aws_route53_hosted_zone_id: ${{#surroundWithCurlyBraces 'secrets.AWS_ROUTE53_HOSTED_ZONE_ID' }}{{/surroundWithCurlyBraces}}
           aws_route53_rr_action: "CREATE"
           aws_route53_rr_name: "{{s3_bucket_name}}.geppetto.link"
           aws_route53_rr_type: "CNAME"
           aws_route53_rr_ttl: "300"
           aws_route53_rr_value: "{{s3_bucket_name}}.geppetto.link.s3-website-us-east-1.amazonaws.com."
+  Mongodb_Script_Upload:
+    needs: [ Route53_geppetto_link, Deploy_backend ]
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v2
+        with: 
+          path: './'
+      - name: Take time to Mongodb_Script_Upload
+        run: |
+          sleep 10s
+          mongo ${{#surroundWithCurlyBraces 'needs.Deploy_backend.outputs.public_ip' }}{{/surroundWithCurlyBraces}}:27017/{{project_name}}_{{project_unique_id}} -u admin -p password --authenticationDatabase admin < devops/local/docker/mongo.js
