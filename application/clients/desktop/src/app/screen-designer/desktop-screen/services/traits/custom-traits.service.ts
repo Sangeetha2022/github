@@ -86,14 +86,39 @@ export class CustomTraitsService {
             events: {
                 'click': async function () {
                     console.log('---------action button clicked here-------');
+                    const oldElement = $this.screenFlows.filter(x => x.elementName === this.target.attributes.name);
                     let element: any = await this.getEntityDetails($this);
+                    if (element && element.length > 0) {
+                        element.forEach((entity: any) => {
+                          if (entity.is_default === true) {
+                            entity.field.forEach(data => {
+                              $this.allEntityByProject.push(data);
+                            });
+                          } else if (entity.feature_id === $this.feature_id){
+                            entity.field.forEach(data => {
+                              $this.allEntityByProject.push(data);
+                            });
+                          }
+                        });
+                    }
+                    $this.tableRowData = $this.allEntityByProject;
                     const eventPopupModel = document.getElementById('ProjectEventPopup');
                     if (element && element.length > 0) {
-                        $this.selectedFlowObj = $this.listOfFLows.filter(x => x._id === element[0].flow);
+                        // $this.selectedFlowObj = $this.listOfFLows.filter(x => x._id === element[0].flow);
                         console.log('-------selectedflowobj------', $this.selectedFlowObj);
                         /*Here we match the which of the flow is already been added in the screen flow info and make the checkbox 
                         checked for that row in ag-grid. For more details refer issue #381 in github developer is Kishan 21May2020 */
-                        rows = $this.gridApi.getCellRendererInstances();
+                        rows = $this.gridApi1.getCellRendererInstances();
+                        Object.keys(rows).forEach(k => {
+                            /** The below condition is for show the flow action for selected attribute in the screen designer.
+                             *  For more details check issue #401 in github developer Kishan 29Jun2020 */
+                           // tslint:disable-next-line: triple-equals
+                           if ($this.selectedModifierValue[0].name == rows[k].params.data.name) {
+                               rows[k].params.eGridCell.children[0].checked = true;
+                           } else {
+                               rows[k].params.eGridCell.children[0].checked = false;
+                           }
+                       });
                     } else {
                         $this.selectedFlowObj = null;
                     }

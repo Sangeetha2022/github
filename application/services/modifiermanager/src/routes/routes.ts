@@ -13,6 +13,8 @@ export class Routes {
         })
 
         app.route('/modifier/save').post(this.modifierController.saveModifier);
+        app.route('/modifier/usage/save').post(this.modifierController.saveModifierUsage);
+        app.route('/modifier/usage/get/projectdetials').post(this.modifierController.getModifierByProjectDetails);
         app.route('/modifier/update').put(this.modifierController.updateModifier);
         app.route('/modifier/getall').get(this.modifierController.getAllModifier);
         app.route('/modifier/default/getall').get(this.modifierController.getAllDefaultModifiers);

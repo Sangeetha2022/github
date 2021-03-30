@@ -36,4 +36,8 @@ export class FlowManagerService {
     return this.api.post(`${this.restapi.Apigateway}${Constants.getFlowModifiers}` + `?log_id=${logId}`, projectFlowsId);
   }
 
+  saveModifyierUsage(details, logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveModifierUsage}?log_id=${logId}`, details);
+  }
+
 }

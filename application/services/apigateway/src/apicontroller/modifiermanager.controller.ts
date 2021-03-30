@@ -16,6 +16,7 @@ class ModifierManagerController implements Controller {
 
     private initializeRoutes() {
         this.router.post('/modifier/save', this.saveModifier);
+        this.router.post('/modifier/usage/save', this.saveModifierUsage);
         this.router.put('/modifier/update', this.updateModifier);
         this.router.get('/modifier/getall', this.getAllModifier);
         this.router.get('/modifier/default/getall', this.getAllDefaultModifiers);
@@ -24,12 +25,37 @@ class ModifierManagerController implements Controller {
         this.router.post('/modifier/feature/language/get', this.getFeatureModifiersByLanguage);
         this.router.get('/modifier/project/get', this.getModifierByProjectId);
         this.router.delete('/modifier/delete', this.deleteModifier);
+        this.router.get('/modifier/usage/get/projectdetials', this.getModifierByProjectDetails);
 
     }
 
     public async saveModifier(req: Request, res: Response) {
         try {
             let modifier = await Promise.resolve(new ApiAdaptar().post(`${Constants.modifierUrl}/modifier/save` + `?log_id=${req.query.log_id}`, req.body));
+            req.baseUrl === '/mobile' ? res.send(modifier) :
+                req.baseUrl === '/desktop' ? res.send(modifier) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async saveModifierUsage(req: Request, res: Response) {
+        try {
+            let modifier = await Promise.resolve(new ApiAdaptar().post(`${Constants.modifierUrl}/modifier/usage/save` + `?log_id=${req.query.log_id}`, req.body));
+            req.baseUrl === '/mobile' ? res.send(modifier) :
+                req.baseUrl === '/desktop' ? res.send(modifier) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async getModifierByProjectDetails(req: Request, res: Response) {
+        try {
+            let modifier = await Promise.resolve(new ApiAdaptar().get(`${Constants.modifierUrl}/modifier/usage/get/projectdetials
+                ?project_id=${req.query.project_id}&feature_id=${req.query.feature_id}&modify_target_type_id=${req.query.modify_target_type_id}`
+                + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(modifier) :
                 req.baseUrl === '/desktop' ? res.send(modifier) : res.send(null);
         } catch (err) {

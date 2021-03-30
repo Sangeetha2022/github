@@ -18,6 +18,7 @@ export class ProjectgenService {
     private deploymentManagerService: DeploymentManagerService = new DeploymentManagerService();
     private privategithubservice: PrivateGithubManagerService = new PrivateGithubManagerService();
     private projectObj: any = {
+        id:  '',
         name: '',
         description: '',
         defaultHumanLanguage: '',
@@ -103,6 +104,7 @@ export class ProjectgenService {
                     console.log('i am the prblm', projectInfo);
                     console.log('i am the prblm%%%% body ', projectInfo.body);
                     this.projectObj.name = projectInfo.body.name;
+                    this.projectObj.id = projectInfo.body._id;
                     this.projectObj.project_unique_id = projectInfo.body.project_unique_id;
                     this.projectObj.projectTemplatename = projectInfo.body.app_ui_template;
                     this.projectObj.description = projectInfo.body.description;

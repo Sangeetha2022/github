@@ -371,7 +371,7 @@ export class NodeService {
                             tempFlow.type = flowElement.type;
                             tempFlow.actionOnData = flowElement.actionOnData;
                             const controller = controllerWorker.createController(tempFlow, gpController, entityElement, this.controllerObj);
-                            const service = serviceWorker.createService(tempFlow, gpService, entityElement, this.serviceObj);
+                            const service = serviceWorker.createService(tempFlow, gpService, entityElement, this.serviceObj, details);
                             const dao = daoWorker.createDao(tempFlow, gpDao, entityElement, this.daoObj);
                             const route = routeWorker.createRoutes(tempFlow, entityElement, this.routeObj);
 

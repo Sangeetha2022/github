@@ -11,6 +11,20 @@ export class ModifierService {
             callback(modifier)
         })
     }
+    public saveModifierUsage(req: Request, callback: CallableFunction) {
+        const modifierData = req.body;
+        modifierDao.saveModifierUsage(modifierData, (modifier) => {
+            callback(modifier)
+        })
+    }
+
+    public getModifierByProjectDetails(req: Request, callback: CallableFunction) {
+        const projectDetials = req.query;
+        console.log('getmodifier by project id are ------ ', projectDetials);
+        modifierDao.getModifierByProjectDetails(projectDetials, (modifier) => {
+            callback(modifier)
+        })
+    }
 
     public updateModifier(req: Request, callback: CallableFunction) {
         const modifierId = req.body._id;

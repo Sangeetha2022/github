@@ -12,6 +12,20 @@ export class modifierController {
         })
     }
 
+    public saveModifierUsage(req: Request, res: Response) {
+        modifierService.saveModifierUsage(req, (response) => {
+            res.status(200); // status for the response
+            res.json(response);
+        })
+    }
+
+    public getModifierByProjectDetails(req: Request, res: Response) {
+        modifierService.getModifierByProjectDetails(req, (response) => {
+            res.status(200); // status for the response
+            res.json(response);
+        })
+    }
+
     public updateModifier(req: Request, res: Response) {
         modifierService.updateModifier(req, (response) => {
             res.status(200); // status for the response

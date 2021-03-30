@@ -1,7 +1,9 @@
 import * as util from 'util';
 import { ServiceSupportWorker } from '../supportworker/ServiceSupportWorker';
+import { ModifierManagerService } from '../apiservices/ModifierManagerService';
 
 let serviceSupportWorker = new ServiceSupportWorker();
+let modifierManagerService = new ModifierManagerService();
 
 export class ServiceWorker {
 
@@ -15,6 +17,7 @@ export class ServiceWorker {
             outsideClass: []
         },
         gpConnector: {},
+        gpModifiers: {},
         function: {
             methodName: '',
             requestParameter: '',
@@ -28,13 +31,14 @@ export class ServiceWorker {
     private gpService;
     count = 0;
 
-    createService(flowDetail, gpService, entityElement, serviceObj) {
+    createService(flowDetail, gpService, entityElement, serviceObj, details) {
         this.flowDetail = flowDetail;
         this.entitySchema = entityElement;
         this.gpService = gpService;
         this.gpStart(serviceObj);
         this.gpVariableStatement(serviceObj);
         this.gpCheckConnector();
+        this.gpFunctionModifierBody(details);
         this.gpFunction();
         return this.tempService;
     }
@@ -128,6 +132,22 @@ export class ServiceWorker {
             if (this.gpService.connector.length > 0) {
             }
         }
+    }
+
+    gpCheckModifier(details) {
+        const gpCheckModifiers = this.gpService.microFlows.find(
+            function (element, index, array) {
+                if (element.microFlowStepName === 'GpCheck_Modifiers') {
+                    return element;
+                }
+            });
+        if (gpCheckModifiers !== undefined) {
+          this.gpFunctionModifierBody(details);
+        }
+    }
+
+    gpFunctionModifierBody(details) {
+        console.log('details for modifiers ===============>>>>', details);
     }
 
     gpFunction() {

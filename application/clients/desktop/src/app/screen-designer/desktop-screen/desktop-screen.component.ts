@@ -109,6 +109,7 @@ export class DesktopScreenComponent implements OnInit {
     entityId: ''
   };
   selectedFlow: any;
+  selectedModifierValue: any;
   is_grid_present: Boolean;
   is_bootStrapTable_present: Boolean;
   agGridObject: any = {
@@ -123,12 +124,21 @@ export class DesktopScreenComponent implements OnInit {
   routeFlows: any[] = [];
   listOfFLows: any[] = [];
   gridApi: any;
+  gridApi1: any;
   gridColumnApi: any;
+  gridColumnApi1: any;
   public isGridPopup: Boolean;
   currentAgGridData: any;
   defaultColumn: any;
   RemoteStorage: any;
   columnDefs: any;
+  TablecolumnDefs: Array<object> = [];
+  tableRowData: any = [];
+  tableDefaultColDef: Object;
+  allEntityByProject: Array<object> = [];
+  flowObject: any;
+  modifierUsageObject: any;
+  modifiersDetails: any = [];
   rowSelection: string;
   isLifeCycleRow: Boolean;
   defaultColDef: any;
@@ -323,8 +333,26 @@ export class DesktopScreenComponent implements OnInit {
         width: 230
       }
     ];
+
+    this.TablecolumnDefs = [
+      {
+        cellRenderer: this.checkboxCellRenderer,
+        width: 105
+      },
+      {
+        headerName: 'Name',
+        field: 'name',
+        filter: 'agTextColumnFilter'
+      },
+      { headerName: 'Type', field: 'type_name', filter: 'agTextColumnFilter' },
+      { headerName: 'Description', field: 'description', filter: 'agTextColumnFilter' }
+    ];
     this.rowSelection = 'single';
     this.defaultColDef = {
+      sortable: true,
+      filter: true
+    };
+    this.tableDefaultColDef = {
       sortable: true,
       filter: true
     };
@@ -601,6 +629,7 @@ export class DesktopScreenComponent implements OnInit {
     this.traitService.initMethod(this);
     this.getEntityType();
     this.getAllFlows();
+    this.getEntityByProjectId();
     // this.getAllDefaultModifiers();
     this.getProjectDetails();
     this.addCustomBlocks();
@@ -891,6 +920,15 @@ export class DesktopScreenComponent implements OnInit {
     );
   }
 
+  getEntityByProjectId() {
+    this.projectComponentService.getEntityByProjectId(this.project_id, this.logId).subscribe(
+      data => {
+
+      },
+      error => { }
+    );
+  }
+
   getScreenById() {
     console.log('get screen by id are ------   ', this.screen_id);
     console.log('==========screenName=========', this.screenName);
@@ -1075,19 +1113,19 @@ export class DesktopScreenComponent implements OnInit {
     this.closeEventPopup();
   }
 
-  // projectCancelEvent() {
-  //   this.projectCloseEventPopup();
-  // }
+  projectCancelEvent() {
+    this.projectCloseEventPopup();
+  }
 
   closeEventPopup() {
     const eventPopupModel = <HTMLElement>document.querySelector('#EventPopup');
     eventPopupModel.style.display = 'none';
   }
 
-  // projectCloseEventPopup() {
-  //   const eventPopupModel = <HTMLElement>document.querySelector('#ProjectEventPopup');
-  //   eventPopupModel.style.display = 'none';
-  // }
+  projectCloseEventPopup() {
+    const eventPopupModel = <HTMLElement>document.querySelector('#ProjectEventPopup');
+    eventPopupModel.style.display = 'none';
+  }
 
   closeConnectorPopup() {
     this.isConnectorPopup = false;
@@ -1276,6 +1314,7 @@ export class DesktopScreenComponent implements OnInit {
   // save flow details
   async saveFlowDetails(verbInfo) {
     this.filterModifiers = [];
+    this.modifierUsageObject = {};
     const flowObj = {
       htmlId: '',
       componentId: '',
@@ -1296,6 +1335,8 @@ export class DesktopScreenComponent implements OnInit {
     }
     flowObj.flow = this.selectedFlow[0]._id;
     flowObj.flowName = this.selectedFlow[0].name;
+    this.modifierUsageObject.modify_target_type_id = flowObj.flow;
+    this.modifierUsageObject.modify_target_type_name = flowObj.flowName;
     // remove flows if it present without elementName
     const flowIndex = this.checkIfFlowExist(flowObj.flow, '');
     if (flowIndex > -1) {
@@ -1317,6 +1358,20 @@ export class DesktopScreenComponent implements OnInit {
     this.saveRemoteStorage();
   }
 
+  async saveModifierValue() {
+    this.modifierUsageObject.modify_by_value = this.selectedModifierValue[0].name;
+    this.modifiersDetails.push(this.modifierUsageObject);
+    // const arrayData = await this.getUniqueListByFlow(this.modifiersDetails, 'modify_target_type_name');
+    this.projectCloseEventPopup();
+    console.log('this.modifiersDetails', this.modifiersDetails);
+  }
+
+  // getUniqueListByFlow(modifiersDetails, key) {
+  //  return modifiersDetails.filter((data,index)=>{
+  //   return modifiersDetails.indexOf(data) === index;
+  // })
+  // }
+ 
   getFilteredModifiers(logId, selectedFlowModifiers) {
     return new Promise((resolve) => {
       this.flowManagerService.getFlowModifiers(selectedFlowModifiers, this.logId).subscribe(response => {
@@ -1348,6 +1403,23 @@ export class DesktopScreenComponent implements OnInit {
     this.selectedFlow = this.gridApi.getSelectedRows();
     Object.keys(rows).forEach(k => {
       if (this.selectedFlow.length > 0) {
+        if (rows[k].params.node.selected === true) {
+          rows[k].params.eGridCell.children[0].checked = true;
+        } else {
+          rows[k].params.eGridCell.children[0].checked = false;
+        }
+      }
+    });
+
+  }
+
+  tableOnSelectionChanged(event) {
+    let rows: any;
+    rows = event.api.getCellRendererInstances();
+    this.selectedModifierValue = this.gridApi1.getSelectedRows();
+    console.log('this.selectedModifierValue[0]', this.selectedModifierValue[0]);
+    Object.keys(rows).forEach(k => {
+      if (this.selectedModifierValue.length > 0) {
         if (rows[k].params.node.selected === true) {
           rows[k].params.eGridCell.children[0].checked = true;
         } else {
@@ -2019,6 +2091,12 @@ export class DesktopScreenComponent implements OnInit {
     this.gridColumnApi = params.columnApi;
   }
 
+  onTableGridReady(params) {
+    this.gridApi1 = params.api;
+    this.gridApi1.sizeColumnsToFit();
+    this.gridColumnApi1 = params.columnApi;
+  }
+
   onCloseModel() {
     this.entityFields['entityfieldname'] = {};
     this.entityFields['entityId'] = {};
@@ -2107,8 +2185,12 @@ export class DesktopScreenComponent implements OnInit {
 
   updateScreeName() {
     const $this = this;
+    const ArratData = []
     if (this.isTemplateEdit) {
       this.saveRemoteStorage(this.templateObj);
+      this.flowManagerService.saveModifyierUsage(this.modifiersDetails, this.logId).subscribe(respo => {
+      
+      })
       this.closeScreeName();
       this.spinner.show();
       this.editor.store((data) => {
@@ -2117,6 +2199,9 @@ export class DesktopScreenComponent implements OnInit {
       });
     } else {
       this.saveRemoteStorage();
+      this.flowManagerService.saveModifyierUsage(this.modifiersDetails, this.logId).subscribe(respo => {
+      
+      })
       this.createFeatureIfNotExist();
       this.closeScreeName();
       this.editor.on('storage:response', function (e) {
