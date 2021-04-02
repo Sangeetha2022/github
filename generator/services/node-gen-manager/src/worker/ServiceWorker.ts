@@ -7,7 +7,7 @@ let modifierManagerService = new ModifierManagerService();
 
 export class ServiceWorker {
 
-    private tempService = {
+    public tempService = {
         GpStart: {
             dependencies: []
         },
@@ -17,28 +17,39 @@ export class ServiceWorker {
             outsideClass: []
         },
         gpConnector: {},
-        gpModifiers: {},
+        
         function: {
             methodName: '',
             requestParameter: '',
             responseVariable: '',
             variable: '',
-            return: ''
+            return: '',
+            gpModifiers: {
+                jwt_token_variable: '',
+                encoded_varibale: '',
+                variable_name: '',
+                variable: '',
+                variable_object: [],
+                jwt_verify: '',
+                modifiers: []
+            }
         },
     }
     private flowDetail;
     private entitySchema;
     private gpService;
+    private modifiers;
     count = 0;
 
-    createService(flowDetail, gpService, entityElement, serviceObj, details) {
+    createService(flowDetail, gpService, entityElement, serviceObj, modifierResponse) {
         this.flowDetail = flowDetail;
         this.entitySchema = entityElement;
         this.gpService = gpService;
+        this.modifiers = modifierResponse.body;
         this.gpStart(serviceObj);
         this.gpVariableStatement(serviceObj);
         this.gpCheckConnector();
-        this.gpFunctionModifierBody(details);
+        this.gpCheckModifier(flowDetail, modifierResponse);
         this.gpFunction();
         return this.tempService;
     }
@@ -134,20 +145,68 @@ export class ServiceWorker {
         }
     }
 
-    gpCheckModifier(details) {
-        const gpCheckModifiers = this.gpService.microFlows.find(
-            function (element, index, array) {
-                if (element.microFlowStepName === 'GpCheck_Modifiers') {
-                    return element;
-                }
-            });
-        if (gpCheckModifiers !== undefined) {
-          this.gpFunctionModifierBody(details);
+    gpCheckModifier(flowDetail, modifierResponse) {
+        if(flowDetail.actionOnData === 'GpSearch') {
+            const gpCheckModifiers = this.gpService.microFlows.find(
+                function (element, index, array) {
+                    if (element.microFlowStepName === 'GpCheck_Modifiers') {
+                        return element;
+                    }
+                });
+            if (gpCheckModifiers !== undefined) {
+                this.gpFunctionModifierBody(modifierResponse);
+            }
+        } else {
+            this.tempService.function.gpModifiers = {
+                jwt_token_variable: '',
+                encoded_varibale: '',
+                variable_name: '',
+                variable: '',
+                jwt_verify: '',
+                variable_object: [],
+                modifiers: []
+            }
         }
     }
 
-    gpFunctionModifierBody(details) {
-        console.log('details for modifiers ===============>>>>', details);
+    gpFunctionModifierBody(modifierResponse) {
+        if(modifierResponse.body.length > 0) {
+            this.tempService.function.gpModifiers.jwt_token_variable = `let jwt_token = req.query.jwt_token;`;
+            this.tempService.function.gpModifiers.encoded_varibale = `let decodedObject: any = await this.verifyToken(jwt_token);`;
+            this.tempService.function.gpModifiers.variable_name = `${this.entitySchema.fileName}Data`;
+            this.tempService.function.gpModifiers.variable = `${this.entitySchema.fileName}Data = null;`;
+            this.tempService.function.gpModifiers.jwt_verify = `verifyToken(jwt_token) {
+                return new Promise(resolve => {
+                    jwt.verify(jwt_token, 'geppettosecret', (err, decoded) => {
+                        resolve(decoded);
+                    })
+                })
+            }`;
+            this.tempService.function.gpModifiers.variable_object.push(`let ${this.entitySchema.fileName}Data = {`);
+            modifierResponse.body.forEach(modifier => {
+                if(modifier.modify_by_value === 'email') {
+                    this.tempService.function.gpModifiers.variable_object.push(`created_by: '',`);
+                    modifier.modifier_variable = `${this.entitySchema.fileName}Data.created_by = decodedObject['${modifier.modify_by_value}']`;
+                }
+                else {
+                    this.tempService.function.gpModifiers.variable_object.push(`${modifier.modify_by_value}: '',`);
+                    modifier.modifier_variable = `${this.entitySchema.fileName}Data.${modifier.modify_by_value} = decodedObject.${modifier.modify_by_value}`;
+                }
+                this.tempService.function.gpModifiers.modifiers.push(modifier);
+            })
+        } else {
+            this.tempService.function.gpModifiers.modifiers = null;
+        }
+    }
+
+    checkModifierByProjectDetails(projectDetials) {
+        return new Promise((resolve) => {
+            modifierManagerService.getModifiersByProjectDetails(projectDetials, (res: any) => {
+                resolve(JSON.parse(res));
+            })
+        }).catch(err => {
+            console.log('error', err);
+        })
     }
 
     gpFunction() {
@@ -181,7 +240,8 @@ export class ServiceWorker {
                 this.tempService.function.methodName = this.flowDetail.actionOnData;
                 this.tempService.function.requestParameter = `${this.entitySchema.fileName}Data`;
                 this.tempService.function.responseVariable = `response`;
-                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.query;`;
+                if(this.modifiers.length === 0) this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.query;`;
+                else this.tempService.function.variable = ``;
                 break;
             case 'GpUpdate':
                 this.tempService.function.methodName = this.flowDetail.actionOnData;

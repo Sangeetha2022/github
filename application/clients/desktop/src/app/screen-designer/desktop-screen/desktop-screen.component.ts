@@ -1360,6 +1360,8 @@ export class DesktopScreenComponent implements OnInit {
 
   async saveModifierValue() {
     this.modifierUsageObject.modify_by_value = this.selectedModifierValue[0].name;
+    this.modifierUsageObject.project_id = this.project_id;
+    this.modifierUsageObject.feature_id = this.feature_id;
     this.modifiersDetails.push(this.modifierUsageObject);
     // const arrayData = await this.getUniqueListByFlow(this.modifiersDetails, 'modify_target_type_name');
     this.projectCloseEventPopup();

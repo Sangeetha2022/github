@@ -19,8 +19,11 @@ export class ModifierService {
     }
 
     public getModifierByProjectDetails(req: Request, callback: CallableFunction) {
-        const projectDetials = req.query;
-        console.log('getmodifier by project id are ------ ', projectDetials);
+        const projectDetials = {
+            project_id: req.query.project_id,
+            feature_id: req.query.feature_id,
+            modify_target_type_id: req.query.modify_target_type_id
+        };
         modifierDao.getModifierByProjectDetails(projectDetials, (modifier) => {
             callback(modifier)
         })

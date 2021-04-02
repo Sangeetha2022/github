@@ -53,9 +53,7 @@ class ModifierManagerController implements Controller {
 
     public async getModifierByProjectDetails(req: Request, res: Response) {
         try {
-            let modifier = await Promise.resolve(new ApiAdaptar().get(`${Constants.modifierUrl}/modifier/usage/get/projectdetials
-                ?project_id=${req.query.project_id}&feature_id=${req.query.feature_id}&modify_target_type_id=${req.query.modify_target_type_id}`
-                + `&log_id=${req.query.log_id}`));
+            let modifier = await Promise.resolve(new ApiAdaptar().get(`${Constants.modifierUrl}/modifier/usage/get/projectdetials?project_id=${req.query.project_id}&feature_id=${req.query.feature_id}&modify_target_type_id=${req.query.modify_target_type_id}`));
             req.baseUrl === '/mobile' ? res.send(modifier) :
                 req.baseUrl === '/desktop' ? res.send(modifier) : res.send(null);
         } catch (err) {
