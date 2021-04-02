@@ -21,7 +21,7 @@ A user can clone a project within their own workspace.
 1. User selects project that they wish to copy/clone
 2. The CloneManager microservice does the following:
 
-A. reads the selected project - starting with the Project collection and then reading all the other components (Entities, Flows, Screens, Modifiers)
-B. Change the name of the project by appending a (1) to the name and description. Note that the (1) maybe (2) or (3) or (x) depending if the users makes a copy of a copy - so you have to do a findOne operation in Mongo with the new name before you insert it back into the DB,
-C. Take what it reads in step A with the new name and description from step B and insert new back into the DB allowing Mongo to generate the new IDs.
-D. refresh the project page to see the new copy of the project
+- A. reads the selected project - starting with the Project collection and then reading all the other components (Entities, Flows, Screens, Modifiers)
+- B. Change the name of the project by appending a (1) to the name and description. Note that the (1) maybe (2) or (3) or (x) depending if the users makes a copy of a copy - so you have to do a findOne operation in Mongo with the new name before you insert it back into the DB,
+- C. Take what it reads in step A with the new name and description from step B and insert new back into the DB allowing Mongo to generate the new IDs.
+  refresh the project page to see the new copy of the project
