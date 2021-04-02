@@ -27,3 +27,7 @@ The User entity is needed strictly for generation purposes to facilitate potenti
 The **SystemEntryMS** can have 1 to N secondary entities. In the context of **SystemEntryMS** the secondary entities are used to identify which other MicroServices are needed in order to provide the information required of the **SEF**, specifically the system landing page which is the first page/screen that a user is presented after successful authentication.
 
 The typical usage for the secondary entities is when the application needs to show a dashboard that is composed of data obtained from multiple sources/MicroServices.
+
+OJO ADD A PICTURE OF WHAT YOU MEAN BY A DASHBOARD
+
+OJO TALK ABOUT THE Generator - SefGenerationManager -- this has to have two call two other managers or maybe we just have the two managers - SefGenFrontEndManager and SefBackEndGenManager
