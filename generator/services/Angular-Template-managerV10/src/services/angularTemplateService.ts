@@ -101,7 +101,6 @@ export class AngularTemplateService {
         });
     }
     public createLandingPage(body, callback) {
-        console.log('BODY---->>>>', JSON.stringify(body));
         body = JSON.parse(JSON.stringify(body));
         this.generationPath += `/${this.projectName}`;
         let templateName = this.templateName;
@@ -126,6 +125,73 @@ export class AngularTemplateService {
         })
     }
 
+    /**
+     * 
+     * @param gjsElement 
+     * @param body 
+     * @param tagName 
+     * @param callback 
+     */
+    generateWeConnectTemplate(gjsElement, body, tagName, callback) {
+        const projectName = body.project.name;
+        const templateGenerationPath = body.projectGenerationPath + '/' + projectName + '/'
+                    + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/';
+        if (tagName === 'header') {
+            // Generating Header Component
+            this.htmlContent = '';
+            this.createHtmlfromNestedObject([gjsElement], (res) => {
+                const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.html';
+                Common.createFolders(templateGenerationPath + Constant.HEADER_FOLDERNAME);
+                componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), (res) => {
+                    this.htmlContent = '';
+                    callback();
+                });
+                // Generate Header SCSS File
+                const cssData = '';
+                const cssFilePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.scss';
+                componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
+                });
+            });
+        } else if (tagName === 'section') {
+            // Generate Template Component
+            this.createHtmlfromNestedObject([gjsElement], (res) => {
+                Common.createFolders(templateGenerationPath + Constant.TEMPLATE_FOLDERNAME);
+                const filePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.component.html';
+                componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
+                    callback();
+                });
+                // Generate Template SCSS File
+                const cssData = '';
+                const cssFilePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.component.scss';
+                componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
+                });
+            });
+        } else if (tagName === 'footer') {
+            // Generate Footer Component
+            this.htmlContent = '';
+            this.createHtmlfromNestedObject([gjsElement], (res) => {
+                const filePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.html';
+                Common.createFolders(templateGenerationPath + Constant.FOOTER_FOLDERNAME);
+                componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
+                    callback();
+                });
+                // Generate Footer SCSS File
+                const cssData = Footer.CSS_DATA;
+                const cssFilePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.scss';
+                componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
+                });
+            });
+        } else {
+            callback();
+        }
+    }
+    /**
+     * 
+     * @param gjsElement 
+     * @param body 
+     * @param tagName 
+     * @param callback 
+     */
     generateGeppettoTemplate(gjsElement, body, tagName, callback) {
         const projectName = body.project.name;
         const templateGenerationPath = body.projectGenerationPath + '/' + projectName + '/'
@@ -209,6 +275,10 @@ export class AngularTemplateService {
                 // Geppetto Template Generation
                 if (templateName.toLowerCase() === 'geppetto template') {
                     this.generateGeppettoTemplate(gjsElement, body, tagName, (res) => {
+                        next();
+                    });
+                } else if (templateName.toLowerCase() === 'weconnect template') {
+                    this.generateWeConnectTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
                 }
