@@ -204,7 +204,7 @@ export class ProjectsComponent implements OnInit {
   }
   onPreviewClick(template) {
     if(template.name) {
-      window.open(`assets/templates/${template.name.split(' ').join('-').toLowerCase()}.html`);
+      window.open(`assets/templates/${template.name.split(' ').join('-').toLowerCase()}/index.html`);
     }
   }
   // importProject() {

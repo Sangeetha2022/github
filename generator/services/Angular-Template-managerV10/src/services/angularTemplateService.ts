@@ -173,6 +173,7 @@ export class AngularTemplateService {
                 const filePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.html';
                 Common.createFolders(templateGenerationPath + Constant.FOOTER_FOLDERNAME);
                 componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
+                    this.htmlContent = '';
                     callback();
                 });
                 // Generate Footer SCSS File
@@ -246,13 +247,12 @@ export class AngularTemplateService {
             });
         } else if (tagName === 'footer') {
             // Generate Footer Component
-            console.log('FOOTER COMPONENT');
             this.htmlContent = '';
             this.createHtmlfromNestedObject([gjsElement], (res) => {
                 const filePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.html';
                 Common.createFolders(templateGenerationPath + Constant.FOOTER_FOLDERNAME);
                 componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
-                    console.log('FOOTER COMPONENT GENERATED SUCCESSFULLY');
+                    this.htmlContent = '';
                     callback();
                 });
                 // Generate Footer SCSS File
@@ -277,7 +277,7 @@ export class AngularTemplateService {
                     this.generateGeppettoTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
-                } else if (templateName.toLowerCase() === 'weconnect template') {
+                } else if (templateName.toLowerCase() === 'weconnect template' || templateName.toLowerCase() === 'mrs travel template') {
                     this.generateWeConnectTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
