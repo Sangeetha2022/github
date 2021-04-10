@@ -918,6 +918,9 @@ export class DesktopScreenComponent implements OnInit {
               this.is_grid_present = this.existScreenDetail[0][
                 'is_grid_present'
               ];
+              this.is_bootStrapTable_present = this.existScreenDetail[0][
+                'is_bootStrapTable_present'
+              ];
               this.agGridObject = this.existScreenDetail[0]['grid_fields'];
               this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
               this.screenFlows = this.existScreenDetail[0]['flows_info'];
