@@ -29,10 +29,6 @@ export class {{ GpOptions.className }} implements OnInit {
 {{#if GpOptions.entities}}
 {{#each GpOptions.entities}}
     public {{ name }} = {
-        created_date: '',
-        created_by: '',
-        last_modified_by: '',
-        last_modified_date: '',
     {{#each field}}
         {{ name }}: '',
     {{/each}}
@@ -51,13 +47,6 @@ export class {{ GpOptions.className }} implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.jwtToken = sessionStorage.getItem('email')
-        {{#if GpOptions.entities}}
-        {{#each GpOptions.entities}}
-        {{ name }}.created_by = sessionStorage.getItem('email'); 
-        
-        {{/each}}
-    {{/if}}
     {{#if GpCodeToAdd.lifecycle_info}}
     {{#each GpCodeToAdd.lifecycle_info }}
         {{{data}}}
