@@ -130,6 +130,33 @@ export class CommandService {
           ]
         );
       }
+
+      if (component.attributes.tagName === 'input') {
+        component.get('traits').set([
+          { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
+          { name: 'placeholder', label: 'Placeholder' },
+          { type: 'checkbox', name: 'required', label: 'Required' },
+          {
+              type: 'select',
+              label: 'FieldType',
+              name: 'entity',
+              options: [],
+              changeProp: 1
+          },
+          {
+            type: 'select',
+            label: 'entity',
+            name: 'entity',
+            changeProp: 1,
+            options: $this.entitydetails
+          },
+          {
+            type: 'entityFieldButton',
+            label: 'Field',
+            name: 'Field'
+          }
+        ]);
+      }
       if (component.attributes.type === 'dynamicdropdown-type') {
         component.get('traits').add(
           {

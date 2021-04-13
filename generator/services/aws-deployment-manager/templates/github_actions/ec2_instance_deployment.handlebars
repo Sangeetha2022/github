@@ -173,11 +173,11 @@ jobs:
       - name: Link the backend apigateway
         working-directory: ./application/client/desktop/{{project_name}}/src/environments
         run: |
-          rm -rf environment.prod.ts
-          echo 'export const environment = { DESKTOP_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:8000/desktop`, MOBILE_API: `http://<Your Domain Name or Live IP address>`, production: true };' >> environment.prod.ts
+          rm -rf environment.ts
+          echo 'export const environment = { DESKTOP_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:8000/desktop`, MOBILE_API: `/api/mobile`, production: false };' >> environment.ts
       - name: Production build
         working-directory: ./application/client/desktop/{{project_name}}
-        run: ng build --configuration=production
+        run: ng build
       - uses: jakejarvis/s3-sync-action@v0.5.1
         with:
           args: --acl public-read --delete
