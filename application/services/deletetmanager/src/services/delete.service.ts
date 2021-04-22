@@ -308,9 +308,9 @@ export class DeleteService {
     getScreenById(req, screenId) {
         return new Promise(resolve => {
             this.screenManagerService.getScreenById(req, screenId, (data) => {
-                data.body.body.map(({ feature }) => {
-                    this.deleteFeatureById(req, feature)
-                })
+                // data.body.body.map(({ feature }) => {
+                //     this.deleteFeatureById(req, feature)
+                // })
                 resolve(data);
             })
         });
