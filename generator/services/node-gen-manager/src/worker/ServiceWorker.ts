@@ -178,7 +178,7 @@ export class ServiceWorker {
             this.tempService.function.gpModifiers.jwt_verify = `verifyToken(jwt_token) {
                 return new Promise(resolve => {
                     jwt.verify(jwt_token, 'geppettosecret', (err, decoded) => {
-                        resolve(decoded);
+                        resolve(JSON.parse(JSON.stringify(decoded)));
                     })
                 })
             }`;
@@ -186,7 +186,7 @@ export class ServiceWorker {
             modifierResponse.body.forEach(modifier => {
                 if(modifier.modify_by_value === 'email') {
                     this.tempService.function.gpModifiers.variable_object.push(`created_by: '',`);
-                    modifier.modifier_variable = `${this.entitySchema.fileName}Data.created_by = decodedObject['${modifier.modify_by_value}']`;
+                    modifier.modifier_variable = `${this.entitySchema.fileName}Data.created_by = decodedObject.${modifier.modify_by_value};`;
                 }
                 else {
                     this.tempService.function.gpModifiers.variable_object.push(`${modifier.modify_by_value}: '',`);
@@ -194,6 +194,7 @@ export class ServiceWorker {
                 }
                 this.tempService.function.gpModifiers.modifiers.push(modifier);
             })
+            this.tempService.function.gpModifiers.variable_object.push(`};`)
         } else {
             this.tempService.function.gpModifiers.modifiers = null;
         }

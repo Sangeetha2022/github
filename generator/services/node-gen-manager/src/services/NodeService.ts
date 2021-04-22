@@ -441,8 +441,10 @@ export class NodeService {
                             serviceTemp.responseVariable = service.function.responseVariable;
                             serviceTemp.variable = service.function.variable;
                             serviceTemp.return = service.function.return;
-                            serviceTemp.modifiersObject = service.function.gpModifiers;
-                            serviceTemp.modifiersObject.variable_object.push(`};`);
+                            if(service.function.gpModifiers.modifiers.length > 0){
+                                // serviceTemp.modifiersObject.variable_object.push(`};`);
+                                serviceTemp.modifiersObject = service.function.gpModifiers;
+                            }
                             this.serviceObj.flowAction.push(serviceTemp);
 
                             // gp function dao
@@ -614,6 +616,7 @@ export class NodeService {
                             this.swagger.push(swaggerpath);
                         })
                         this.swaggerObj.paths = this.swagger;
+                        console.log('this.service =============>>', this.service[0].flowAction);
                         controllerWorker.generateControllerFile(projectGenerationPath, templateLocation, this.controller);
                         serviceWorker.generateServiceFile(projectGenerationPath, templateLocation, this.service);
                         daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);

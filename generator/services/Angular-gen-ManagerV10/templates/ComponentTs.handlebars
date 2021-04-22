@@ -41,12 +41,16 @@ export class {{ GpOptions.className }} implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.jwtToken = sessionStorage.getItem('JwtToken');
         {{#if GpOptions.entities}}
         {{#each GpOptions.entities}}
-        {{ name }}.created_by = sessionStorage.getItem('email'); 
+        this.{{ name }}.created_by = sessionStorage.getItem('email'); 
         {{/each}}
         {{/if}}
+        {{#each GpCodeToAdd.flows_info }}
+        {{#ifCond lifeCycleData '===' 'OnLoad'}}
+        this.{{flowName}}();
+        {{/ifCond}}
+        {{/each}}
     {{#each GpCodeToAdd.lifecycle_info }}
         {{#if queryParams}}
             {{{ queryParamSubscribe }}}
