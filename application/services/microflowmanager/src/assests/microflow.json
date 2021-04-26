@@ -1,6 +1,5 @@
 {
-    "microFlows": [
-        {
+    "microFlows": [{
             "_id": "8828d164-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpAngularComponent",
             "microFlowStepName": "GpHeaders",
@@ -22,6 +21,7 @@
             "_id": "8828f871-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpAngularComponent",
             "microFlowStepName": "GpCheck_Connector",
+            "connector": [],
             "sequenceId": 4
         },
         {
@@ -53,6 +53,7 @@
             "_id": "88291f84-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpAngularService",
             "microFlowStepName": "GpCheck_Connector",
+            "connector": [],
             "sequenceId": 4
         },
         {
@@ -83,6 +84,7 @@
             "_id": "88291f80-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpIonicAngularComponent",
             "microFlowStepName": "GpCheck_Connector",
+            "connector": [],
             "sequenceId": 4
         },
         {
@@ -113,6 +115,7 @@
             "_id": "88294695-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpIonicAngularService",
             "microFlowStepName": "GpCheck_Connector",
+            "connector": [],
             "sequenceId": 4
         },
         {
@@ -137,6 +140,7 @@
             "_id": "88285c31-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressController",
             "microFlowStepName": "GpCheck_Connector",
+            "connector": [],
             "sequenceId": 3
         },
         {
@@ -173,6 +177,7 @@
             "_id": "88288344-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressService",
             "microFlowStepName": "GpCheck_Connector",
+            "connector": [],
             "sequenceId": 3
         },
         {
@@ -209,6 +214,7 @@
             "_id": "8828aa53-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressDao",
             "microFlowStepName": "GpCheck_Connector",
+            "connector": [],
             "sequenceId": 3
         },
         {
