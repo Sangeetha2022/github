@@ -81,8 +81,8 @@ export class ProjectMicroFlowDao {
     }
 
 
-    public deleteProjectMicroFlow(ProjectMicroFlowId, callback: CallableFunction) {
-        this.ProjectMicroFlow.findByIdAndDelete(ProjectMicroFlowId, (err, ProjectMicroFlow) => {
+    public deleteProjectMicroFlow(ProjectMicroFlowIds, callback: CallableFunction) {
+        this.ProjectMicroFlow.deleteMany({_id: {$in: ProjectMicroFlowIds}}, (err, ProjectMicroFlow) => {
             if (err) {
                 callback(err);
             } else {

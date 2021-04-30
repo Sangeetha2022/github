@@ -13,8 +13,8 @@ export class ProjectMicroFlowService{
     }
 
     public updateProjectMicroFlow(req: Request, callback: CallableFunction) {
-        const ProjectMicroFlowId = req.body._id;
-        const ProjectMicroFlowData = req.body;
+        const ProjectMicroFlowId = req.body.connector_id;
+        const ProjectMicroFlowData = req.body.micro_object;
         projectMicroFlowDao.updateProjectMicroFlow(ProjectMicroFlowId, ProjectMicroFlowData, (ProjectMicroFlow) => {
             callback(ProjectMicroFlow)
         })
@@ -55,8 +55,8 @@ export class ProjectMicroFlowService{
     }
 
     public deleteProjectMicroFlow(req: Request, callback: CallableFunction) {
-        const ProjectMicroFlowId = req.query.ProjectMicroFlowId;
-        projectMicroFlowDao.deleteProjectMicroFlow(ProjectMicroFlowId, (ProjectMicroFlow) => {
+        const ProjectMicroFlowIds = req.body;
+        projectMicroFlowDao.deleteProjectMicroFlow(ProjectMicroFlowIds, (ProjectMicroFlow) => {
             callback(ProjectMicroFlow)
         })
     }

@@ -712,19 +712,19 @@ export class FeatureDetailsComponent implements OnInit {
             };
             let isConnectorPresent = false;
             if (response.body.service === 'backEnd') {
-                this.modifyComponents.map(backEnd => {
-                    if (backEnd.name === 'GpExpressDao') {
+                this.modifyComponents.map(async (backEnd) => {
+                    // if (backEnd.name === 'GpExpressDao' || backEnd.name === 'GpExpressService' || backEnd.name === 'GpExpressController') {
                         tempData.flowComponentId = backEnd._id;
-                        this.updateFlowCompConnectorById(tempData);
-                    }
+                        this.updateFlowCompMicroFlowConnectorById(tempData);
+                    // }
                 });
             } else if (response.body.service === 'frontEnd') {
                 this.modifyComponents.map(frontEnd => {
-                    if (frontEnd.name === 'GpAngularService' || frontEnd.name === 'GpIonicAngularService') {
+                    // if (frontEnd.name === 'GpAngularService' || frontEnd.name === 'GpIonicAngularService') {
                         isConnectorPresent = true;
                         tempData.flowComponentId = frontEnd._id;
-                        this.updateFlowCompConnectorById(tempData);
-                    }
+                        this.updateFlowCompMicroFlowConnectorById(tempData);
+                    // }
 
                 });
             } else {
@@ -757,7 +757,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
 
-    updateFlowCompConnectorById(data) {
+    updateFlowCompMicroFlowConnectorById(data) {
         this.projectComponentService.updateFlowCompConnectorById(data, this.logId).subscribe(response => {
             if (response) {
                 console.log('may i coming----')

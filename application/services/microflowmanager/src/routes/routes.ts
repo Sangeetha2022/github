@@ -25,8 +25,9 @@ export class Routes {
         // project micro flows
         app.route('/microflow/project/save').post(this.projectMicroFlowController.saveProjectMicroFlow);
         app.route('/microflow/project/getall').get(this.projectMicroFlowController.getAllProjectMicroFlow);
+        app.route('/microflow/project/component/get').post(this.projectMicroFlowController.getProjectMicroFlow);
         app.route('/microflow/project/getbyid/:id').get(this.projectMicroFlowController.getProjectMicroFlowByID);
-        app.route('/microflow/project/delete').delete(this.projectMicroFlowController.deleteProjectMicroFlow);
+        app.route('/microflow/project/delete').post(this.projectMicroFlowController.deleteProjectMicroFlow);
         app.route('/microflow/project/update').put(this.projectMicroFlowController.updateProjectMicroFlow);
     }
 }
