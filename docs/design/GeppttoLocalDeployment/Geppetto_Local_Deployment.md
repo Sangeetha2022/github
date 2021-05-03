@@ -121,13 +121,13 @@ Put localhost:8080/camunda-welcome/index.html
 * Now click Enable new engine in the right side corner.
 
 
-       ![12g](https://user-images.githubusercontent.com/71403617/116859112-19188b00-ac1d-11eb-897e-42bf2a3e8b25.png)
+![12g](https://user-images.githubusercontent.com/71403617/116859112-19188b00-ac1d-11eb-897e-42bf2a3e8b25.png)
 
 
 * Click the KV and click the Next button.
 
 
-       ![13g](https://user-images.githubusercontent.com/71403617/116859115-19b12180-ac1d-11eb-87d1-296e1a00fa57.png)
+![13g](https://user-images.githubusercontent.com/71403617/116859115-19b12180-ac1d-11eb-87d1-296e1a00fa57.png)
 
 
 * Click Method Options.
@@ -136,19 +136,19 @@ Put localhost:8080/camunda-welcome/index.html
 * Change the version from 2 to 1.
 
 
-       ![14g](https://user-images.githubusercontent.com/71403617/116859118-1ae24e80-ac1d-11eb-9c1b-c2e12fe52a4f.png)
+![14g](https://user-images.githubusercontent.com/71403617/116859118-1ae24e80-ac1d-11eb-9c1b-c2e12fe52a4f.png)
 
 
 * And click the Enable Engine button.
 
 
-       ![15g](https://user-images.githubusercontent.com/71403617/116859129-203f9900-ac1d-11eb-9572-a22f6338b874.png)
+![15g](https://user-images.githubusercontent.com/71403617/116859129-203f9900-ac1d-11eb-9572-a22f6338b874.png)
 
 
 * Click Create secret button to add the GitHub secret.
 
 
-       ![16g](https://user-images.githubusercontent.com/71403617/116859132-20d82f80-ac1d-11eb-9c7f-7b1ce2a85eeb.png)
+![16g](https://user-images.githubusercontent.com/71403617/116859132-20d82f80-ac1d-11eb-9c7f-7b1ce2a85eeb.png)
 
 
 
@@ -160,7 +160,7 @@ Put localhost:8080/camunda-welcome/index.html
          "gitPassword": "your git personal access token",
          "gitUsername": "your user name"
 
-       ![17g](https://user-images.githubusercontent.com/71403617/116859133-2170c600-ac1d-11eb-84d2-ebea7cc14a53.png)
+![17g](https://user-images.githubusercontent.com/71403617/116859133-2170c600-ac1d-11eb-84d2-ebea7cc14a53.png)
 
 
 * Click the save button and you have saved your GitHub credentials.
@@ -169,21 +169,21 @@ Put localhost:8080/camunda-welcome/index.html
 * Put localhost:5050 in your browser and you can able to view GEPPETTO .
 
 
-       ![18g](https://user-images.githubusercontent.com/71403617/116859136-22095c80-ac1d-11eb-9772-aec009992f7e.png)
+![18g](https://user-images.githubusercontent.com/71403617/116859136-22095c80-ac1d-11eb-9772-aec009992f7e.png)
 
 
 
 * Then click the “SignIn”  button, and give your Email and Password(make sure the given password must be 8 characters and must have an Uppercase, Lowercase, and a Special character) and then click the “New User” button you like below.
 
 
-       ![19g](https://user-images.githubusercontent.com/71403617/116859137-233a8980-ac1d-11eb-94b0-ee113bc34cd1.png)
+![19g](https://user-images.githubusercontent.com/71403617/116859137-233a8980-ac1d-11eb-94b0-ee113bc34cd1.png)
 
 
 
 * Give your First Name and Last Name and then click the “Login” button.It will take you Geppetto Dashboard. Now you can able to create Project
 
 
-       ![20g](https://user-images.githubusercontent.com/71403617/116859139-246bb680-ac1d-11eb-89d1-31355d5929ff.png)
+![20g](https://user-images.githubusercontent.com/71403617/116859139-246bb680-ac1d-11eb-89d1-31355d5929ff.png)
 
 
 Note: When you generate the application via Geppetto, that code is pushed to your GitHub.
