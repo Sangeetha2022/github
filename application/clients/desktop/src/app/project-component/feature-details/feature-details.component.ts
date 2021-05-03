@@ -713,18 +713,18 @@ export class FeatureDetailsComponent implements OnInit {
             let isConnectorPresent = false;
             if (response.body.service === 'backEnd') {
                 this.modifyComponents.map(async (backEnd) => {
-                    // if (backEnd.name === 'GpExpressDao' || backEnd.name === 'GpExpressService' || backEnd.name === 'GpExpressController') {
+                    if (backEnd.name === 'GpExpressService') {
                         tempData.flowComponentId = backEnd._id;
                         this.updateFlowCompMicroFlowConnectorById(tempData);
-                    // }
+                    }
                 });
             } else if (response.body.service === 'frontEnd') {
                 this.modifyComponents.map(frontEnd => {
-                    // if (frontEnd.name === 'GpAngularService' || frontEnd.name === 'GpIonicAngularService') {
+                    if (frontEnd.name === 'GpAngularService' || frontEnd.name === 'GpIonicAngularService') {
                         isConnectorPresent = true;
                         tempData.flowComponentId = frontEnd._id;
                         this.updateFlowCompMicroFlowConnectorById(tempData);
-                    // }
+                    }
 
                 });
             } else {
