@@ -27,20 +27,20 @@ git clone https://*********************/geppettotest.git
 * Click setting in the drop-down.
 
 
-       ![1g](https://user-images.githubusercontent.com/71403617/116858822-a3142400-ac1c-11eb-9503-f9d1d8a23223.png)
+![1g](https://user-images.githubusercontent.com/71403617/116858822-a3142400-ac1c-11eb-9503-f9d1d8a23223.png)
 
 
 * In the Settings, you can view the Developer setting and click it.
 
 
-       ![2g](https://user-images.githubusercontent.com/71403617/116858959-dd7dc100-ac1c-11eb-9257-d6420fa219ba.png)
+![2g](https://user-images.githubusercontent.com/71403617/116858959-dd7dc100-ac1c-11eb-9257-d6420fa219ba.png)
 
 
 
 * Here You can view Personal access Token and click it then click Generate new token in the right corner side.
 
 
-       ![3g](https://user-images.githubusercontent.com/71403617/116859000-ea9ab000-ac1c-11eb-9b31-6769974269e3.png)
+![3g](https://user-images.githubusercontent.com/71403617/116859000-ea9ab000-ac1c-11eb-9b31-6769974269e3.png)
 
 
 
@@ -48,19 +48,19 @@ git clone https://*********************/geppettotest.git
 * After you add Note:(any name) and click the following checkboxes.
 
 
-       ![4g](https://user-images.githubusercontent.com/71403617/116859050-fedead00-ac1c-11eb-9033-50ea55280c6d.png)
+![4g](https://user-images.githubusercontent.com/71403617/116859050-fedead00-ac1c-11eb-9033-50ea55280c6d.png)
 
 
 * Finally, click the Generate Token on the same page. Placed at the bottom of the page.
 
 
-       ![5g](https://user-images.githubusercontent.com/71403617/116859061-030aca80-ac1d-11eb-8f82-f8db17207a15.png)
+![5g](https://user-images.githubusercontent.com/71403617/116859061-030aca80-ac1d-11eb-8f82-f8db17207a15.png)
 
 
 * Now you can get a New Personal access Token like this
 
 
-       ![6g](https://user-images.githubusercontent.com/71403617/116859068-056d2480-ac1d-11eb-8a60-0044bcd2ef33.png)
+![6g](https://user-images.githubusercontent.com/71403617/116859068-056d2480-ac1d-11eb-8a60-0044bcd2ef33.png)
 
 * Please copy the Personal access token
 
@@ -86,27 +86,27 @@ Put localhost:8080/camunda-welcome/index.html
 * Hit the above URL in the browser, you can view a page like this.
 
 
-       ![7g](https://user-images.githubusercontent.com/71403617/116859076-08681500-ac1d-11eb-99d4-9331fa459eb6.png)
+![7g](https://user-images.githubusercontent.com/71403617/116859076-08681500-ac1d-11eb-99d4-9331fa459eb6.png)
 
 
 * Click Cockpit in the browser and log in.
 
 
-       ![8g](https://user-images.githubusercontent.com/71403617/116859102-161d9a80-ac1d-11eb-84ed-31d45b71cc37.png)
+![8g](https://user-images.githubusercontent.com/71403617/116859102-161d9a80-ac1d-11eb-84ed-31d45b71cc37.png)
 
 
 ### Username: demo,  Password: demo ##
 * Click More dropdown in the browser and select Deployments.
 
 
-       ![9g](https://user-images.githubusercontent.com/71403617/116859104-174ec780-ac1d-11eb-8172-881f24daca5e.png)
+![9g](https://user-images.githubusercontent.com/71403617/116859104-174ec780-ac1d-11eb-8172-881f24daca5e.png)
 
 
 
 * You can able to see  Gep_authorize.dmn
 
 
-       ![10g](https://user-images.githubusercontent.com/71403617/116859106-17e75e00-ac1d-11eb-9f39-45349d47f621.png)
+![10g](https://user-images.githubusercontent.com/71403617/116859106-17e75e00-ac1d-11eb-9f39-45349d47f621.png)
 
 
 
@@ -115,7 +115,7 @@ Put localhost:8080/camunda-welcome/index.html
 * Put localhost:8200 in the browser and the token is vault-geppetto-2021.\
 
 
-       ![11g](https://user-images.githubusercontent.com/71403617/116859108-187ff480-ac1d-11eb-9e9e-ad87c7872858.png)
+![11g](https://user-images.githubusercontent.com/71403617/116859108-187ff480-ac1d-11eb-9e9e-ad87c7872858.png)
 
 
 * Now click Enable new engine in the right side corner.
