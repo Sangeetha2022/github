@@ -95,7 +95,7 @@ Now make on terminal,
 
 ## After all containers are up you need to check the Gep_authorize.dmn file placed in camunda.
 
-Put [localhost:8080/camunda-welcome/index.html](localhost:8080/camunda-welcome/index.html)
+Put [localhost:8080/camunda-welcome/index.html](http://localhost:8080/camunda-welcome/index.html)
 
 * Hit the above URL in the browser, you can view a page like this.
 
@@ -128,7 +128,7 @@ Put [localhost:8080/camunda-welcome/index.html](localhost:8080/camunda-welcome/i
 
 ## Adding credentials to Vault:
 
-* Put [localhost:8200](localhost:8200) in the browser and the token is **vault-geppetto-2021**
+* Put [localhost:8200](http://localhost:8200) in the browser and the token is **vault-geppetto-2021**
 
 
 ![11g](https://user-images.githubusercontent.com/71403617/116859108-187ff480-ac1d-11eb-9e9e-ad87c7872858.png)
@@ -188,7 +188,7 @@ Put [localhost:8080/camunda-welcome/index.html](localhost:8080/camunda-welcome/i
 * Click the **save** button and you have saved your GitHub credentials.
 
 
-* Put [localhost:5050](localhost:5050) in your browser and you can able to view **GEPPETTO** .
+* Put [localhost:5050](http://localhost:5050) in your browser and you can able to view **GEPPETTO** .
 
 
 ![18g](https://user-images.githubusercontent.com/71403617/116859136-22095c80-ac1d-11eb-9772-aec009992f7e.png)
