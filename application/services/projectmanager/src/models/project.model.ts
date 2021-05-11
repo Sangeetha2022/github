@@ -13,6 +13,7 @@ export const ProjectSchema = new Schema({
     default_module_id: { type: String },
     default_module_label: { type: String },
     notes: { type: String },
+    shared_visibility: { type: String, default: null},
     clientlanguage: { type: String, ref: 'gp_config', default: null },
     clientframework: { type: String, ref: 'gp_config', default: null },
     serverlanguage: { type: String, ref: 'gp_config', default: null },

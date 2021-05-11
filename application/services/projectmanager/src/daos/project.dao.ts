@@ -33,7 +33,32 @@ export class ProjectDao {
             if (err) {
                 callback(err);
             } else {
-                callback(project);
+                let getAllProjects = [];
+                project.forEach(function (details) {
+                    getAllProjects.push(new Promise((resolve, reject) => {
+                        if (details.app_ui_template_img == null) {
+                            new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/template/get/${details.app_ui_template_name}`)
+                                .then(
+                                    (data: any) => {
+                                        let result = JSON.parse(data)
+                                        let templateImage;
+                                        let templateName;
+                                        result.body.forEach(template => {
+                                            templateImage = template.template_image[0].image,
+                                                templateName = template.template_name
+                                        })
+                                        if (details.app_ui_template_name == templateName) {
+                                            details.app_ui_template_img = templateImage;
+                                            resolve(details)
+                                        }
+                                    });
+                        }
+                    }));
+                })
+                Promise.all(getAllProjects).then(values => {
+                    let merged = [].concat.apply([], values);
+                    callback(merged)
+                })
             }
         });
     }
