@@ -186,6 +186,17 @@ services:
     depends_on:
       - mongo
       - apigateway
+  
+  clonemanager:
+    build: ../../application/services/clonemanager
+    image: clonemanager
+    container_name: clonemanager
+    ports:
+      - "3051:3051"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
 
   githubmanager:
     build: ../../generator/services/github-manager
