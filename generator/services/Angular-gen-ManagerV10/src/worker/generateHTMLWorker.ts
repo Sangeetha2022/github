@@ -361,7 +361,7 @@ export class GenerateHtmlWorker {
                 this.htmlContent += `<td>{{ values.${element.entityfield} }}</td>`
             });
         }
-        this.htmlContent += `</tr> </tbody></table>`;
+        this.htmlContent += `</tr> </tbody></table></div>`;
         this.htmlContent += findAgGridDependencies.paginationSection;
         this.setCloseTag('div');
     }

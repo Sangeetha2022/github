@@ -128,7 +128,8 @@ export const component = [
             `| slice: (page-1) * paginationPageSize :(page-1) * paginationPageSize + paginationPageSize"`,        
         ],
         bootstrapTable:
-            `<table id="table" class="table table-bordered  table-striped"
+            `<div class="tableBg">
+            <table id="table" class="table table-bordered  table-striped table-curved"
             data-show-header="true"
             data-pagination="true" data-id-field="name">
             <thead class="table table-hover">
@@ -142,12 +143,14 @@ export const component = [
                 <td style="text-align: center;" colspan="5">No Data Found</td>
             </tbody>
             <tbody class="table-design" *ngIf="rowData.length>0">`,
-        paginationSection: `<div class="text-right">
+        paginationSection: `<div class="bottomPage">
+        <div class="text-right">
         <ngb-pagination class="d-flex justify-content-start"
             [(page)]="page"
             [maxSize]="5" [rotate]="true" [pageSize]="paginationPageSize"
             [collectionSize]="rowData.length" [boundaryLinks]="true"></ngb-pagination>
-    </div>`
+    </div></div>
+    <div id="myGrid" class=""></div>`,
     },
     // ADDED MODAL
     {
