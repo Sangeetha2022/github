@@ -36,6 +36,7 @@ import {
     customConnectors,
     DeleteManagerController,
     SharedController,
+    CloneController,
     SwaggerController,
     ReactController,
     ExternalfeatureController
@@ -77,6 +78,7 @@ let apisController = [
     new customConnectors(),
     new DeleteManagerController(),
     new SharedController(),
+    new CloneController(),
     new SwaggerController(),
     new ReactController(),
     new ExternalfeatureController()
