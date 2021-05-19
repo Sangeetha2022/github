@@ -21,6 +21,7 @@ import { FlowTreeService } from './flow-tree/flow-tree.service';
 import { DataService } from 'src/shared/data.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Brodcastservice } from '../../broadcast.service';
+import { ProjectsService } from  '../../projects/projects.service'
 
 // import { FormBuilder , FormGroup ,Validators} from `@angular/forms`;
 
@@ -170,7 +171,8 @@ export class FeatureDetailsComponent implements OnInit {
         private dataService: DataService,
         private dialog: MatDialog,
         private spinner: NgxSpinnerService,
-        private brodcastservice: Brodcastservice
+        private brodcastservice: Brodcastservice,
+        private projectService: ProjectsService
     ) {
 
         this.frameworkComponents = {
@@ -711,6 +713,16 @@ export class FeatureDetailsComponent implements OnInit {
                 flowComponentId: '',
             };
             let isConnectorPresent = false;
+            const adminsObject = {
+                admin_need_object: {
+                    administration_type: 'connector',
+                    name: response.body.name,
+                    id: this.quickConnectorId
+                }
+            }
+            this.projectService.updateProjectById(this.project_id, adminsObject, this.logId).subscribe(res => {
+
+            })
             if (response.body.service === 'backEnd') {
                 this.modifyComponents.map(async (backEnd) => {
                     if (backEnd.name === 'GpExpressService') {

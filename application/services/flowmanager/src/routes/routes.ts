@@ -48,6 +48,7 @@ export class Routes {
         //quick connectors
 
         app.route('/save/quickConnectors').post(this.qucikConnectorController.saveConnectors);
+        app.route('/get/connectorsbyids').post(this.qucikConnectorController.getConnectorsByIds)
         app.route('/get/quickConnectorbyid/:id').get(this.qucikConnectorController.getConnectorById);
         app.route('/quickUpdateConnectorsById/:id').put(this.qucikConnectorController.updateQuickConnectorsById)
         app.route('/getConnectors').get(this.qucikConnectorController.getConnectors)

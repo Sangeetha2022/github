@@ -19,6 +19,13 @@ export class QuickConnectorsService {
         })
 
     }
+    public getConnectorsByIds(req: Request, callback: CallableFunction) {
+        let id = req.body;
+        quickConnectorsDao.getConnectorsByIds(id, (response) => {
+            callback(response);
+        })
+
+    }
 
     public getConnectorByEntity(req: Request, callback: CallableFunction) {
         let entityId = req.params.entityid;

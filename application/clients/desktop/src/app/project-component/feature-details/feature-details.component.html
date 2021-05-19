@@ -345,7 +345,7 @@
                   </div>
                   <div class="form-group">
                     <label>Upload Collection File :</label>
-                    <input type="file" formControlName="endPoint" class="form-control" placeholder="Enter EndPoint URL"
+                    <input type="text" formControlName="endPoint" class="form-control" placeholder="Enter EndPoint URL"
                       [(ngModel)]="quickConnectors.endPointUrl" name="endPoint"
                       [ngClass]="{ 'is-invalid': submitted && f.endPoint.errors }" />
                     <div *ngIf="submitted && f.endPoint.errors" class="invalid-feedback">
@@ -366,7 +366,7 @@
                 </div>
               </div>
             </form>
-            <!-- <div class="cantainer">
+            <div class="cantainer">
               <div class="row">
                   <mat-radio-group aria-label="Select an option"
                   [(ngModel)]="quickConnectors.isQueryParams" name="isQueryParams" (click)="queryParamsMethod()">
@@ -375,8 +375,8 @@
                   </mat-radio-button>
                 </mat-radio-group>
               </div>
-            </div> -->
-            <!-- <div class="cantainer" *ngIf="isAddConnector">
+            </div>
+            <div class="cantainer" *ngIf="isAddConnector">
               <div class="row">
                 <div class="col-md-6">
                   <label>ApiKey</label>
@@ -402,8 +402,8 @@
                   Properties</button>
               </div>
             </div>
-            <br> -->
-            <!-- <div *ngIf="isAddConnector">
+            <br>
+            <div *ngIf="isAddConnector">
               <div class="cantainer" *ngFor="let property of quickConnectors.properties; let i = index">
                 <div class="row">
                   <div class="col-md-3">
@@ -420,8 +420,8 @@
                         [disabled]="quickConnectors.properties[i].isDynamicParams ? true : null"
                         [(ngModel)]="quickConnectors.properties[i].value" />
                     </div>
-                  </div> -->
-                  <!-- <div class="col-md-2">
+                  </div>
+                  <div class="col-md-2">
                           <br *ngIf="i === 0">
                           <mat-radio-group>
                               <mat-radio-button class="example-radio-button" value="isStaticParams" >static</mat-radio-button>
@@ -432,8 +432,8 @@
                             <mat-radio-group>
                               <mat-radio-button class="example-radio-button" value="isDynamicParams" >Dynamic</mat-radio-button>
                             </mat-radio-group>
-                      </div> -->
-                  <!-- <div class="col-md-4">
+                      </div>
+                  <div class="col-md-4">
                     <br *ngIf="i === 0">
                     <mat-radio-group aria-label="Select an option"
                       [(ngModel)]="quickConnectors.properties[i].isDynamicParams">
@@ -451,8 +451,8 @@
                   </div>
                 </div>
               </div>
-            </div> -->
-            <!-- <div class='container'>
+            </div>
+            <div class='container'>
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
@@ -504,7 +504,7 @@
               </mat-radio-group>
             </div>
           </div>
-        </div> -->
+        </div>
         <div class="modal-footer" *ngIf="!modifyConnectorsId">
           <button type="button" class="btn button-create ok_btn" id="update" (click)="onSubmit()">Save</button>
           <button type="button" class="btn button-close delete_btn" id="update" (click)="flowCancel()">Cancel</button>

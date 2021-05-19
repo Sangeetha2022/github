@@ -1,15 +1,18 @@
-import { Response } from 'express';
+import { response, Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Common } from '../config/Common';
 import { FrontendSupportWorker } from '../SupportWorker/frontendSupportWorker';
 import { ExternalFeatureService } from '../apiservices/ExternalFeatureService';
+import { ConnectorService } from '../apiservices/ConnectorService'
 import * as ncp from 'ncp';
 import * as st from 'stringtemplate-js';
+import { Constant } from '../config/Constant'
 export class FrontendWorker {
 
     private frontendSupportWorker = new FrontendSupportWorker();
     private externalfeatureservice = new ExternalFeatureService();
+    private connectorService = new ConnectorService();
     private projectGenerationPath = '';
     private seedPath = '';
     private templatePath = '';
@@ -93,6 +96,7 @@ export class FrontendWorker {
 
     async createAdminComponent(details, callback) {
         this.initializeData();
+        console.log('details =========>>>>>', details);
         this.projectGenerationPath = details.templateResponse.applicationPath;
         this.seedPath = details.seedTemplatePath;
         this.templatePath = details.adminTemplatePath;
@@ -121,12 +125,17 @@ export class FrontendWorker {
             console.log('--------Admin feature--html-------', this.externaladminfeature);
         }
         const applicationPath = `${this.projectGenerationPath}/src/app/${this.ADMIN_FOLDERNAME}`;
-        this.generateStaticComponent(applicationPath, this.ADMIN_FOLDERNAME, callback);
+        this.generateStaticComponent(details, applicationPath, this.ADMIN_FOLDERNAME, callback);
     }
 
 
-    async generateStaticComponent(applicationPath, folderName, callback) {
+    async generateStaticComponent(details, applicationPath, folderName, callback) {
         const loginSeedPath = `${this.seedPath}/${folderName}`;
+        let projectDetails: any = await this.getConnectorByProjectId(details.project_id);
+        let connectorsDetails = projectDetails.body.needs_administration;
+        const connectorIds = connectorsDetails.map(({id}) => id);
+        let connectorArray:any = await this.getConnectorById(connectorIds);
+        let connectorsData = Constant.JSON_DATA;
         Common.createFolders(applicationPath);
         await fs.readdirSync(`${this.seedPath}/${folderName}`).forEach(async (fileElement, index, array) => {
             console.log('each files names are -------   ', fileElement);
@@ -146,19 +155,60 @@ export class FrontendWorker {
                         })
                     }
                 } else {
-                    this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
-                        if (index === array.length - 1) {
-                            callback('static component files are written successfully');
-                        }
-                    });
+                    if(connectorsData.length > 0) {
+                        let adminHtmlData = {
+                            connectors: []
+                        };
+                        connectorsData.forEach(async (connectorObject) => {
+                            let jsonObject: any = JSON.parse(connectorObject.data);
+                            console.log('connectorObject' , jsonObject);
+                            adminHtmlData.connectors.push(`<div class="card-header collapsed" role="tab" id="headingOneH" href="#${connectorObject.name}" data-toggle="collapse"
+                            data-parent="#accordionH" aria-expanded="false" aria-controls="collapseOneH">
+                            <a class="card-title">${connectorObject.name}</a>
+                          </div>
+                          <div class="collapse" id="${connectorObject.name}" role="tabpanel" aria-labelledby="headingOneH">
+                            <div class="card-body">
+                              <a routerLink="/${connectorObject.name.toLowerCase()}" class="btn btn-primary">${connectorObject.name}</a>
+                            </div>
+                          </div>`)
+                          await this.frontendSupportWorker.generateFile(applicationPath, this.templatePath, fileElement, 'admin_dynamic_html', adminHtmlData, (response) => {
+                            console.log(response);
+                          })
+                        })
+                    } else {
+                        // this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
+                        //     if (index === array.length - 1) {
+                        //         callback('static component files are written successfully');
+                        //     }
+                        // });
+                    }
+                   
                 }
+            } else {
+                console.log('each files names are -------   ', fileElement, index, array);
+                this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
+                    if (index === array.length - 1) {
+                        callback('static component files are written successfully');
+                    }
+                });
             }
-            console.log('each files names are -------   ', fileElement, index, array);
-            this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
-                if (index === array.length - 1) {
-                    callback('static component files are written successfully');
-                }
-            });
+            
+        })
+    }
+
+    getConnectorByProjectId(projectId) {
+        return new Promise((resolve, reject) =>{
+            this.connectorService.getConnectorByProjectId(projectId, (response) => {
+                resolve(JSON.parse(response));
+            })
+        })
+    }
+
+    getConnectorById(connectorIds) {
+        return new Promise((resolve, reject) =>{
+            this.connectorService.getConnectorByIds(connectorIds, (response) => {
+                resolve(response);
+            })
         })
     }
 
