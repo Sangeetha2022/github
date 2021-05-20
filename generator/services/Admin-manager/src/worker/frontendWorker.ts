@@ -172,7 +172,14 @@ export class FrontendWorker {
                             </div>
                           </div>`)
                           await this.frontendSupportWorker.generateFile(applicationPath, this.templatePath, fileElement, 'admin_dynamic_html', adminHtmlData, (response) => {
-                            console.log(response);
+                          })
+                          let groupedData = jsonObject.item.reduce((r, a) => {
+                            r[a.request.auth] = r[a.request.auth] || [];
+                            r[a.request.auth].push(a);
+                            return r;
+                        }, Object.create(null));
+                          jsonObject.item.forEach(data => {
+                              let requestData = data.request.auth;
                           })
                         })
                     } else {
