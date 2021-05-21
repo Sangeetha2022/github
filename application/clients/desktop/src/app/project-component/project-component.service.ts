@@ -14,6 +14,7 @@ export class ProjectComponentService {
     private api: ApiService,
     private restapi: SharedService,
     private http: HttpClient,
+    private fileUpload : SharedService,
   ) { }
 
 
@@ -176,4 +177,8 @@ export class ProjectComponentService {
   //   return this.api.post(`http://localhost:3013/updateConnectors`, updateFlow);
   // }
 
+  //gepfileToUpload
+  gepfileToUpload(){
+    return `${this.fileUpload.gepfileupload}${Constants.GepFile}`;
+  }
 }

@@ -175,6 +175,16 @@ services:
     depends_on:
       - mongo
       - apigateway
+  
+  gepfilemanager:
+    build: ../../application/services/gepfilemanager
+    image: gepfilemanager
+    container_name: gepfilemanager
+    ports:
+      - "8015:8015"
+    env_file: ../../.env
+    depends_on:
+      - mongo
 
   deletemanager:
     build: ../../application/services/deletetmanager

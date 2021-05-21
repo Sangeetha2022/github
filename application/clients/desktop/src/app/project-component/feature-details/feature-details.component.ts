@@ -22,6 +22,8 @@ import { DataService } from 'src/shared/data.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Brodcastservice } from '../../broadcast.service';
 import { ProjectsService } from  '../../projects/projects.service'
+import { Observable } from 'rxjs';
+import { ApiService } from '../../config/api.service';
 
 // import { FormBuilder , FormGroup ,Validators} from `@angular/forms`;
 
@@ -159,7 +161,8 @@ export class FeatureDetailsComponent implements OnInit {
     public dynamicParamsValue: any;
     public staticParamsValue: any;
     public selectEntity: any;
-
+    public selectedFiles: any;
+    public currentFileUpload:any;
 
     constructor(
         private projectComponentService: ProjectComponentService,
@@ -172,7 +175,8 @@ export class FeatureDetailsComponent implements OnInit {
         private dialog: MatDialog,
         private spinner: NgxSpinnerService,
         private brodcastservice: Brodcastservice,
-        private projectService: ProjectsService
+        private projectService: ProjectsService,
+        private api: ApiService,
     ) {
 
         this.frameworkComponents = {
@@ -1189,5 +1193,25 @@ export class FeatureDetailsComponent implements OnInit {
     }
     closedeleteScreenPopup() {
         this.deletescreenPopup = 'none';
+    }
+
+    //gepfiledatasend
+    selectFile(event: any) {
+        this.selectedFiles = event.target.files;
+    }
+    uploadFile() {
+        this.currentFileUpload = this.selectedFiles.item(0);
+        this.gepfileToUpload(this.currentFileUpload)
+    }
+    //gepfilemanager
+    gepfileToUpload(fileToUpload: File):Observable<any> {
+        const endpoint = this.projectComponentService.gepfileToUpload();
+        const formData: FormData = new FormData();
+        formData.append('fileKey', fileToUpload, fileToUpload.name);
+        fetch(endpoint, {
+            method: 'POST',
+            body: formData
+        })
+        return this.api.post(endpoint, formData);
     }
 }
