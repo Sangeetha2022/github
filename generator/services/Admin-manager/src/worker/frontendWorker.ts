@@ -161,7 +161,7 @@ export class FrontendWorker {
                         };
                         connectorsData.forEach(async (connectorObject) => {
                             let jsonObject: any = JSON.parse(connectorObject.data);
-                            console.log('connectorObject' , jsonObject);
+                            console.log('connectorObject' , jsonObject.item);
                             adminHtmlData.connectors.push(`<div class="card-header collapsed" role="tab" id="headingOneH" href="#${connectorObject.name}" data-toggle="collapse"
                             data-parent="#accordionH" aria-expanded="false" aria-controls="collapseOneH">
                             <a class="card-title">${connectorObject.name}</a>
@@ -173,14 +173,12 @@ export class FrontendWorker {
                           </div>`)
                           await this.frontendSupportWorker.generateFile(applicationPath, this.templatePath, fileElement, 'admin_dynamic_html', adminHtmlData, (response) => {
                           })
-                          let groupedData = jsonObject.item.reduce((r, a) => {
-                            r[a.request.auth] = r[a.request.auth] || [];
-                            r[a.request.auth].push(a);
-                            return r;
-                        }, Object.create(null));
-                          jsonObject.item.forEach(data => {
-                              let requestData = data.request.auth;
-                          })
+
+                          
+                          
+                        //   jsonObject.item.forEach(data => {
+                        //       let requestData = data.request.auth;
+                        //   })
                         })
                     } else {
                         // this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
