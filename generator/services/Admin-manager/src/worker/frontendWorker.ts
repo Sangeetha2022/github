@@ -159,6 +159,9 @@ export class FrontendWorker {
                         let adminHtmlData = {
                             connectors: []
                         };
+                        let connector_admin_data = {
+                            connectors: []
+                        }
                         connectorsData.forEach(async (connectorObject) => {
                             let jsonObject: any = JSON.parse(connectorObject.data);
                             console.log('connectorObject' , jsonObject.item);
@@ -173,19 +176,46 @@ export class FrontendWorker {
                           </div>`)
                           await this.frontendSupportWorker.generateFile(applicationPath, this.templatePath, fileElement, 'admin_dynamic_html', adminHtmlData, (response) => {
                           })
-
-                          
-                          
-                        //   jsonObject.item.forEach(data => {
-                        //       let requestData = data.request.auth;
-                        //   })
+                          let arrayData = jsonObject.item.filter(function (a) {
+                            var key = a.request.auth.type;
+                            if (!this[key]) {
+                                this[key] = true;
+                                return true;
+                            }
+                        }, Object.create(null));
+                        await arrayData.forEach(data => {
+                            Object.keys(data.request.auth).forEach(key => {
+                                if(typeof(data.request.auth[key]) == "object") {
+                                   data.request.auth[key].forEach(childData => {
+                                    Object.keys(childData).forEach(childkeys => {
+                                        connector_admin_data.connectors.push(`<div id="template-ivnj" class="row">
+                                        <div id="template-ikqf" class="cell form-group">
+                                            <label id="template-iytwi" class="label">${childkeys}</label>
+                                            <input id="template-isk94" placeholder="please enter Value" 
+                                                class="input form-control" />
+                                        </div>
+                                    </div>`);
+                                    })
+                                }) 
+                                }
+                            })
+                        });
+                        await this.frontendSupportWorker.generateFile(applicationPath+connectorObject.name.toLowerCase(), this.templatePath, 
+                            "connector-admin.component.html", 'connector_admin_html',
+                             connector_admin_data, (response) => {
+                                this.frontendSupportWorker.generateFile(applicationPath+connectorObject.name.toLowerCase(), this.templatePath, 
+                                "connector-admin.component.scss", 'connector_admin_css',
+                                 null, (response) => {
+                            })
+                        })
+  
                         })
                     } else {
-                        // this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
-                        //     if (index === array.length - 1) {
-                        //         callback('static component files are written successfully');
-                        //     }
-                        // });
+                        this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
+                            if (index === array.length - 1) {
+                                callback('static component files are written successfully');
+                            }
+                        });
                     }
                    
                 }

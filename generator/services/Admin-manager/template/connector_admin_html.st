@@ -1,4 +1,4 @@
-connector_admin_html(html) ::= <<
+connector_admin_html(connector_admin_html) ::= <<
     <form>
     <div>
         $if(connector_admin_html.connectors)$$connector_admin_html.connectors:{name | $name$};separator="\n"$$endif$

@@ -1,6 +1,6 @@
 /*
  * Template group connector_admin_html
- * Compiled on Fri May 21 2021 21:20:38 GMT+0530 (India Standard Time)
+ * Compiled on Mon May 24 2021 21:40:14 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -83,7 +83,7 @@ r = function(w, rc) {
     w.write("</form>");
 };
 r.args = [
-        { name: "html"     }
+        { name: "connector_admin_html"     }
 ];
 group.addTemplate("/connector_admin_html", r); 
 
