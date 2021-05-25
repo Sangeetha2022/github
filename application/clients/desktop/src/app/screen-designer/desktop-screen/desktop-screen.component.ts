@@ -952,7 +952,7 @@ export class DesktopScreenComponent implements OnInit {
               this.editor.setComponents(
                 JSON.parse(this.existScreenDetail[0]['gjs-components'])
               );
-              this.editor.setStyle(this.existScreenDetail[0]['gjs-css']);
+              this.editor.setStyle(JSON.parse(this.existScreenDetail[0]['gjs-styles'][0]) || this.existScreenDetail[0]['gjs-css']);
               console.log('------get grapesjs css-------', this.editor.getStyle());
               //   this.editor.render();
             }
@@ -2074,7 +2074,6 @@ export class DesktopScreenComponent implements OnInit {
       this.closeScreeName();
       this.spinner.show();
       this.editor.store((data) => {
-        console.log('DATA---->>>>', data);
         this.getProjectTemplate(this.projectTemplateId);
       });
     } else {
