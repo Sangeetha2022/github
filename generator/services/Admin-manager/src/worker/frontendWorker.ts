@@ -133,15 +133,15 @@ export class FrontendWorker {
         const loginSeedPath = `${this.seedPath}/${folderName}`;
         let projectDetails: any = await this.getConnectorByProjectId(details.project_id);
         let connectorsDetails = projectDetails.body.needs_administration;
-        const connectorIds = connectorsDetails.map(({id}) => id);
-        let connectorArray:any = await this.getConnectorById(connectorIds);
+        const connectorIds = connectorsDetails.map(({ id }) => id);
+        let connectorArray: any = await this.getConnectorById(connectorIds);
         let connectorsData = Constant.JSON_DATA;
         Common.createFolders(applicationPath);
         await fs.readdirSync(`${this.seedPath}/${folderName}`).forEach(async (fileElement, index, array) => {
             console.log('each files names are -------   ', fileElement);
             if (fileElement == 'admin.component.html') {
                 if (this.exterfeaturedetails) {
-                    if(this.exterfeaturedetails.type == 'external') {
+                    if (this.exterfeaturedetails.type == 'external') {
                         await fs.readFile(`${loginSeedPath}/${fileElement}`, 'utf8', (err, htmlcontent) => {
                             console.log('----------adminhtml-------', htmlcontent.toString().split("\n"));
                             let file = htmlcontent.toString().split("\n");
@@ -155,7 +155,8 @@ export class FrontendWorker {
                         })
                     }
                 } else {
-                    if(connectorsData.length > 0) {
+                    if (connectorsData.length > 0) {
+
                         let adminHtmlData = {
                             connectors: []
                         };
@@ -164,7 +165,8 @@ export class FrontendWorker {
                         }
                         connectorsData.forEach(async (connectorObject) => {
                             let jsonObject: any = JSON.parse(connectorObject.data);
-                            console.log('connectorObject' , jsonObject.item);
+                            
+                            console.log('connectorObject', jsonObject.item);
                             adminHtmlData.connectors.push(`<div class="card-header collapsed" role="tab" id="headingOneH" href="#${connectorObject.name}" data-toggle="collapse"
                             data-parent="#accordionH" aria-expanded="false" aria-controls="collapseOneH">
                             <a class="card-title">${connectorObject.name}</a>
@@ -174,41 +176,36 @@ export class FrontendWorker {
                               <a routerLink="/${connectorObject.name.toLowerCase()}" class="btn btn-primary">${connectorObject.name}</a>
                             </div>
                           </div>`)
-                          await this.frontendSupportWorker.generateFile(applicationPath, this.templatePath, fileElement, 'admin_dynamic_html', adminHtmlData, (response) => {
-                          })
-                          let arrayData = jsonObject.item.filter(function (a) {
-                            var key = a.request.auth.type;
-                            if (!this[key]) {
-                                this[key] = true;
-                                return true;
-                            }
-                        }, Object.create(null));
-                        await arrayData.forEach(data => {
-                            Object.keys(data.request.auth).forEach(key => {
-                                if(typeof(data.request.auth[key]) == "object") {
-                                   data.request.auth[key].forEach(childData => {
-                                    Object.keys(childData).forEach(childkeys => {
-                                        connector_admin_data.connectors.push(`<div id="template-ivnj" class="row">
+                            await this.frontendSupportWorker.generateFile(applicationPath, this.templatePath, fileElement, 'admin_dynamic_html', adminHtmlData, (response) => {
+                            })
+                            let arrayData = jsonObject.item.filter(function (a) {
+                                var key = a.request.auth.type;
+                                if (!this[key]) {
+                                    this[key] = true;
+                                    return true;
+                                }
+                            }, Object.create(null));
+                            await arrayData.forEach(data => {
+                                Object.keys(data.request.auth).forEach(key => {
+                                    if (typeof (data.request.auth[key]) == "object") {
+                                        data.request.auth[key].forEach(childData => {
+                                            Object.keys(childData).forEach(childkeys => {
+                                                connector_admin_data.connectors.push(`<div id="template-ivnj" class="row">
                                         <div id="template-ikqf" class="cell form-group">
                                             <label id="template-iytwi" class="label">${childkeys}</label>
                                             <input id="template-isk94" placeholder="please enter Value" 
                                                 class="input form-control" />
                                         </div>
                                     </div>`);
-                                    })
-                                }) 
-                                }
-                            })
-                        });
-                        await this.frontendSupportWorker.generateFile(applicationPath+connectorObject.name.toLowerCase(), this.templatePath, 
-                            "connector-admin.component.html", 'connector_admin_html',
-                             connector_admin_data, (response) => {
-                                this.frontendSupportWorker.generateFile(applicationPath+connectorObject.name.toLowerCase(), this.templatePath, 
-                                "connector-admin.component.scss", 'connector_admin_css',
-                                 null, (response) => {
-                            })
-                        })
-  
+                                            })
+                                        })
+                                    }
+                                })
+                            });
+                            this.generateConnectorAdminHtml(applicationPath, connectorObject, connector_admin_data);
+                            this.generateConnectorAdminCss(applicationPath, connectorObject);
+                            this.generateConnectorAdminComponentTs(applicationPath, connectorObject, arrayData);
+
                         })
                     } else {
                         this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
@@ -217,7 +214,7 @@ export class FrontendWorker {
                             }
                         });
                     }
-                   
+
                 }
             } else {
                 console.log('each files names are -------   ', fileElement, index, array);
@@ -227,12 +224,47 @@ export class FrontendWorker {
                     }
                 });
             }
-            
+
         })
     }
 
+    generateConnectorAdminComponentTs(applicationPath, connectorObject, arrayData) {
+        const temp = {
+            folderName: connectorObject.name.toLowerCase(),
+            className: connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase(),
+            dependedComponentNames: [],
+            importDependency: [
+                { dependencyName: `Component, OnInit`, dependencyPath: '@angular/core' },
+                { dependencyName: `Router`, dependencyPath: '@angular/router' }
+            ],
+            importComponent: [],
+            importAsteriskDependency: [],
+            scriptVariable: [],
+            componentVariable: [],
+            componentConstructorParams: [],
+            componentOnInit: [],
+            componentOnAfterView: [],
+            componentMethod: []
+        }
+
+
+    }
+
+    generateConnectorAdminCss(applicationPath, connectorObject) {
+        this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
+            "connector-admin.component.scss", 'connector_admin_css', null, (response) => {
+            })
+    }
+
+    generateConnectorAdminHtml(applicationPath, connectorObject, connector_admin_data) {
+        this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
+            "connector-admin.component.html", 'connector_admin_html',
+            connector_admin_data, (response) => {
+            })
+    }
+
     getConnectorByProjectId(projectId) {
-        return new Promise((resolve, reject) =>{
+        return new Promise((resolve, reject) => {
             this.connectorService.getConnectorByProjectId(projectId, (response) => {
                 resolve(JSON.parse(response));
             })
@@ -240,7 +272,7 @@ export class FrontendWorker {
     }
 
     getConnectorById(connectorIds) {
-        return new Promise((resolve, reject) =>{
+        return new Promise((resolve, reject) => {
             this.connectorService.getConnectorByIds(connectorIds, (response) => {
                 resolve(response);
             })
