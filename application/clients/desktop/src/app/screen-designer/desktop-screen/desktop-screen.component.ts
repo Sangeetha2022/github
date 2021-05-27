@@ -550,7 +550,7 @@ export class DesktopScreenComponent implements OnInit {
           '<div class="gjs-assets-empty"><i class="fa fa-picture-o"></i><br>No images, yet</div>',
         dropzoneContent:
           '<div class="gjs-dropzone-inner">Drop here your assets</div>',
-        dropzone: 1,
+        dropzone: 0,
         uploadText: 'Drop files here or click to upload',
       },
       storageManager: {
