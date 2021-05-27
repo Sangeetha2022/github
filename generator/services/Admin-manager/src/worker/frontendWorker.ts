@@ -189,15 +189,13 @@ export class FrontendWorker {
                                 Object.keys(data.request.auth).forEach(key => {
                                     if (typeof (data.request.auth[key]) == "object") {
                                         data.request.auth[key].forEach(childData => {
-                                            Object.keys(childData).forEach(childkeys => {
-                                                connector_admin_data.connectors.push(`<div id="template-ivnj" class="row">
-                                        <div id="template-ikqf" class="cell form-group">
-                                            <label id="template-iytwi" class="label">${childkeys}</label>
+                                            connector_admin_data.connectors.push(`<div id="template-ivnj" class="row">
+                                            <div id="template-ikqf" class="cell form-group">
+                                            <label id="template-iytwi" class="label">${childData.key}</label>
                                             <input id="template-isk94" placeholder="please enter Value" 
                                                 class="input form-control" />
-                                        </div>
-                                    </div>`);
-                                            })
+                                            </div>
+                                            </div>`);
                                         })
                                     }
                                 })
@@ -228,7 +226,7 @@ export class FrontendWorker {
         })
     }
 
-    generateConnectorAdminComponentTs(applicationPath, connectorObject, arrayData) {
+    async generateConnectorAdminComponentTs(applicationPath, connectorObject, arrayData) {
         const temp = {
             folderName: connectorObject.name.toLowerCase(),
             className: connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase(),
@@ -237,7 +235,12 @@ export class FrontendWorker {
                 { dependencyName: `Component, OnInit`, dependencyPath: '@angular/core' },
                 { dependencyName: `Router`, dependencyPath: '@angular/router' }
             ],
-            importComponent: [],
+            importComponent: [
+                {
+                    classname: `${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Service`,
+                    path: `./${connectorObject.name.toLowerCase()}service.service`
+                }
+            ],
             importAsteriskDependency: [],
             scriptVariable: [],
             componentVariable: [],
@@ -246,7 +249,29 @@ export class FrontendWorker {
             componentOnAfterView: [],
             componentMethod: []
         }
-
+        temp.componentConstructorParams.push(`private ${temp.folderName}Service: ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Service`)
+        await arrayData.forEach(async (data) => {
+            temp.componentVariable.push(`public ${temp.folderName}Data = {`);
+            temp.componentMethod.push(`GpCreate() {`)
+            temp.componentMethod.push(`this.${temp.folderName}Service.GpCreate(this.${temp.folderName}Data).subscribe(data => {`)
+            await Object.keys(data.request.auth).forEach(key => {
+                if (typeof (data.request.auth[key]) == "object") {
+                    data.request.auth[key].forEach(childData => {
+                        temp.componentVariable.push(`${childData.key}: '',`);
+                        temp.componentMethod.push(`this.${temp.folderName}Data.${childData.key} = '';`)
+                    })
+                }
+            })
+            temp.componentVariable.push(`}`);
+            temp.componentMethod.push(`},
+            error => {
+                console.log('Error', error);
+            });
+        }`)
+        })
+        this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
+        `${connectorObject.name.toLowerCase()}-admin.component.ts`, `connector_admin_component_ts`, temp, (response) => {
+        })
 
     }
 

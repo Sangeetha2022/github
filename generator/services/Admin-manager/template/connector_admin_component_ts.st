@@ -1,4 +1,4 @@
-component_ts(object) ::= <<
+connector_admin_component_ts(object) ::= <<
 $if(object.importDependency)$$object.importDependency:{name | import { $name.dependencyName$ \} from '$name.dependencyPath$';};separator="\n"$$endif$
 $if(object.thirdpartyDependency)$$object.thirdpartyDependency:{name | import { $name.dependencyName$\} from '$name.dependencyPath$';};separator="\n"$$endif$
 $if(object.importComponent)$$object.importComponent:{name | import { $name.classname$ \} from '$name.path$';};separator="\n"$$endif$
@@ -12,7 +12,7 @@ $if(object.scriptVariable)$$object.scriptVariable:{name | declare var $name$: an
 })
 export class $object.className$Component implements OnInit {
 $if(object.componentVariable)$
-$object.componentVariable:{name | $name$;};separator="\n"$
+$object.componentVariable:{name | $name$};separator="\n"$
 $endif$
   constructor(
 $if(object.componentConstructorParams)$$object.componentConstructorParams:{name | $name$};separator=",\n"$$endif$
