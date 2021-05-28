@@ -1,7 +1,7 @@
 export class Constant {
     public static JSON_DATA = [
         {
-            name: 'MLS-GRID',
+            name: 'MLSGRID',
             data: `{
                 "info": {
                     "_postman_id": "30c910ff-1209-47e9-a2af-a25c34413f14",
