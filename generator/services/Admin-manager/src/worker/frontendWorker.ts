@@ -192,8 +192,8 @@ export class FrontendWorker {
                                             connector_admin_data.connectors.push(`<div id="template-ivnj" class="row">
                                             <div id="template-ikqf" class="cell form-group">
                                             <label id="template-iytwi" class="label">${childData.key}</label>
-                                            <input id="template-isk94" placeholder="please enter Value" 
-                                                class="input form-control" />
+                                            <input id="template-isk94" placeholder="Please Enter Value" [(ngModel)]="${connectorObject.name.toLowerCase()}Data.${childData.key}"
+                                            [ngModelOptions]="{standalone: true}"  class="input form-control" />
                                             </div>
                                             </div>`);
                                         })
@@ -203,6 +203,8 @@ export class FrontendWorker {
                             this.generateConnectorAdminHtml(applicationPath, connectorObject, connector_admin_data);
                             this.generateConnectorAdminCss(applicationPath, connectorObject);
                             this.generateConnectorAdminComponentTs(applicationPath, connectorObject, arrayData);
+                            this.generateConnectorServiceSpec(applicationPath, connectorObject, arrayData);
+                            this.generateConnectorService(applicationPath, connectorObject, arrayData);
 
                         })
                     } else {
@@ -226,6 +228,52 @@ export class FrontendWorker {
         })
     }
 
+    async generateConnectorServiceSpec(applicationPath, connectorObject, arrayData) {
+        const fileData = {
+            className: connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase(),
+            folderName: `${connectorObject.name.toLowerCase()}-admin`
+        }
+        this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
+        `${connectorObject.name.toLowerCase()}-admin.service.spec.ts`, `connector_admin_component_spec`, fileData, (response) => {
+        });
+    }
+
+    async generateConnectorService(applicationPath, connectorObject, arrayData) {
+        const temp = {
+            folderName: connectorObject.name.toLowerCase(),
+            className: connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase(),
+            importDependency: [
+                { dependencyName: `Observable`, dependencyPath: 'rxjs' },
+                { dependencyName: `HttpClient`, dependencyPath: '@angular/common/http' },
+            ],
+            importComponent: [
+                {
+                    classname: `SharedService`,
+                    path: `../../shared/shared.service`
+                }
+            ],
+            importAsteriskDependency: [],
+            scriptVariable: [],
+            serviceVariable: [],
+            serviceConstructorParams: [
+                `private sharedService: SharedService, private http: HttpClient`
+            ],
+            componentOnInit: [],
+            componentOnAfterView: [],
+            serviceMethod: []
+        }
+        await temp.serviceMethod.push(`GpCreate(${temp.folderName}): Observable<any> {
+            return this.http.post(this.sharedService.DESKTOP_API + '/${temp.folderName}', ${temp.folderName});
+        }`);
+        this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
+        `${connectorObject.name.toLowerCase()}-admin.service.ts`, `connector_admin_component_service`, temp, (response) => {
+        });
+    }
+
+    async generateConnectorModule(applicationPath, connectorObject, arrayData) {
+
+    }
+
     async generateConnectorAdminComponentTs(applicationPath, connectorObject, arrayData) {
         const temp = {
             folderName: connectorObject.name.toLowerCase(),
@@ -238,7 +286,7 @@ export class FrontendWorker {
             importComponent: [
                 {
                     classname: `${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Service`,
-                    path: `./${connectorObject.name.toLowerCase()}service.service`
+                    path: `./${connectorObject.name.toLowerCase()}-admin.service`
                 }
             ],
             importAsteriskDependency: [],
@@ -277,13 +325,13 @@ export class FrontendWorker {
 
     generateConnectorAdminCss(applicationPath, connectorObject) {
         this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
-            "connector-admin.component.scss", 'connector_admin_css', null, (response) => {
+            `${connectorObject.name.toLowerCase()}-admin.component.scss`, 'connector_admin_css', null, (response) => {
             })
     }
 
     generateConnectorAdminHtml(applicationPath, connectorObject, connector_admin_data) {
         this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
-            "connector-admin.component.html", 'connector_admin_html',
+            `${connectorObject.name.toLowerCase()}-admin.component.html`, 'connector_admin_html',
             connector_admin_data, (response) => {
             })
     }
