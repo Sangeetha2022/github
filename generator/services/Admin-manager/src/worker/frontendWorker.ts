@@ -40,6 +40,7 @@ export class FrontendWorker {
         boostrap: false
     }
     private authPackageDependency = [];
+    public connectorArrayObject = [];
 
     private adminComponent = {
         module: {
@@ -136,6 +137,7 @@ export class FrontendWorker {
         const connectorIds = connectorsDetails.map(({ id }) => id);
         let connectorArray: any = await this.getConnectorById(connectorIds);
         let connectorsData = Constant.JSON_DATA;
+        this.connectorArrayObject = connectorsData;
         Common.createFolders(applicationPath);
         await fs.readdirSync(`${this.seedPath}/${folderName}`).forEach(async (fileElement, index, array) => {
             console.log('each files names are -------   ', fileElement);
@@ -205,6 +207,7 @@ export class FrontendWorker {
                             this.generateConnectorAdminComponentTs(applicationPath, connectorObject, arrayData);
                             this.generateConnectorServiceSpec(applicationPath, connectorObject, arrayData);
                             this.generateConnectorService(applicationPath, connectorObject, arrayData);
+                            this.generateConnectorModule(applicationPath, connectorObject, arrayData);
 
                         })
                     } else {
@@ -271,7 +274,19 @@ export class FrontendWorker {
     }
 
     async generateConnectorModule(applicationPath, connectorObject, arrayData) {
-
+        let moduleComponent = {
+            importDependency: [],
+            imports: [],
+            declarations: [],
+            className: connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()
+        }
+        moduleComponent.importDependency = Constant.moduleImportDependency;
+        moduleComponent.importDependency.push({dependencyName: `${moduleComponent.className}Component`, dependencyPath: `./${connectorObject.name.toLowerCase()}-admin.component`});
+        moduleComponent.imports = Constant.importsArray;
+        moduleComponent.declarations.push(`${moduleComponent.className}Component`);
+        this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
+        `${connectorObject.name.toLowerCase()}-admin.module.ts`, `connector_admin_component_module`, moduleComponent, (response) => {
+        });
     }
 
     async generateConnectorAdminComponentTs(applicationPath, connectorObject, arrayData) {
@@ -369,6 +384,11 @@ export class FrontendWorker {
         if (this.appModuleInfo.importDependency.findIndex(x => x == this.httpClient.importDependency) < 0) {
             this.appModuleInfo.importDependency.push(this.httpClient.importDependency);
             this.appModuleInfo.imports.push(this.httpClient.imports);
+        }
+        if(this.connectorArrayObject.length > 0) {
+            this.connectorArrayObject.forEach(connectorObject => {
+                
+            })
         }
         if (this.appModuleInfo.importDependency.findIndex(x => x == this.adminComponent.module.importDependency) < 0) {
             this.appModuleInfo.importDependency.push(this.adminComponent.module.importDependency);

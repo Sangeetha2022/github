@@ -194,5 +194,21 @@ export class Constant {
         }
     ];
 
+    public static moduleImportDependency = [
+        {dependencyName: 'NgModule', dependencyPath: '@angular/core'},
+        {dependencyName: 'CommonModule', dependencyPath: '@angular/common'},
+        {dependencyName: 'RouterModule', dependencyPath: '@angular/router'},
+        {dependencyName: 'I18NextModule', dependencyPath: 'angular-i18next'},
+        {dependencyName: 'FormsModule, ReactiveFormsModule', dependencyPath: '@angular/forms'}
+    ]
+
+    public static importsArray = [
+        `CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        RouterModule,
+        I18NextModule.forRoot()`
+    ]
+
     
 }
