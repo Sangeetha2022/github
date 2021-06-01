@@ -158,7 +158,6 @@ export class FrontendWorker {
                     }
                 } else {
                     if (connectorsData.length > 0) {
-
                         let adminHtmlData = {
                             connectors: []
                         };
@@ -167,7 +166,6 @@ export class FrontendWorker {
                         }
                         connectorsData.forEach(async (connectorObject) => {
                             let jsonObject: any = JSON.parse(connectorObject.data);
-                            
                             console.log('connectorObject', jsonObject.item);
                             adminHtmlData.connectors.push(`<div class="card-header collapsed" role="tab" id="headingOneH" href="#${connectorObject.name}" data-toggle="collapse"
                             data-parent="#accordionH" aria-expanded="false" aria-controls="collapseOneH">
@@ -202,6 +200,7 @@ export class FrontendWorker {
                                     }
                                 })
                             });
+                            applicationPath = `${this.projectGenerationPath}/src/app/${connectorObject.name.toLowerCase()}-admin`;
                             this.generateConnectorAdminHtml(applicationPath, connectorObject, connector_admin_data);
                             this.generateConnectorAdminCss(applicationPath, connectorObject);
                             this.generateConnectorAdminComponentTs(applicationPath, connectorObject, arrayData);
@@ -236,7 +235,7 @@ export class FrontendWorker {
             className: connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase(),
             folderName: `${connectorObject.name.toLowerCase()}-admin`
         }
-        this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
+        this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
         `${connectorObject.name.toLowerCase()}-admin.service.spec.ts`, `connector_admin_component_spec`, fileData, (response) => {
         });
     }
@@ -268,7 +267,7 @@ export class FrontendWorker {
         await temp.serviceMethod.push(`GpCreate(${temp.folderName}): Observable<any> {
             return this.http.post(this.sharedService.DESKTOP_API + '/${temp.folderName}', ${temp.folderName});
         }`);
-        this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
+        this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
         `${connectorObject.name.toLowerCase()}-admin.service.ts`, `connector_admin_component_service`, temp, (response) => {
         });
     }
@@ -284,7 +283,7 @@ export class FrontendWorker {
         moduleComponent.importDependency.push({dependencyName: `${moduleComponent.className}Component`, dependencyPath: `./${connectorObject.name.toLowerCase()}-admin.component`});
         moduleComponent.imports = Constant.importsArray;
         moduleComponent.declarations.push(`${moduleComponent.className}Component`);
-        this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
+        this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
         `${connectorObject.name.toLowerCase()}-admin.module.ts`, `connector_admin_component_module`, moduleComponent, (response) => {
         });
     }
@@ -332,20 +331,20 @@ export class FrontendWorker {
             });
         }`)
         })
-        this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
+        this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
         `${connectorObject.name.toLowerCase()}-admin.component.ts`, `connector_admin_component_ts`, temp, (response) => {
         })
 
     }
 
     generateConnectorAdminCss(applicationPath, connectorObject) {
-        this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
+        this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
             `${connectorObject.name.toLowerCase()}-admin.component.scss`, 'connector_admin_css', null, (response) => {
             })
     }
 
     generateConnectorAdminHtml(applicationPath, connectorObject, connector_admin_data) {
-        this.frontendSupportWorker.generateFile(applicationPath + connectorObject.name.toLowerCase(), this.templatePath,
+        this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
             `${connectorObject.name.toLowerCase()}-admin.component.html`, 'connector_admin_html',
             connector_admin_data, (response) => {
             })
@@ -387,7 +386,10 @@ export class FrontendWorker {
         }
         if(this.connectorArrayObject.length > 0) {
             this.connectorArrayObject.forEach(connectorObject => {
-                
+                this.routingModuleInfo.importDependency.push(`import { ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Component } from './${connectorObject.name.toLowerCase()}-admin/${connectorObject.name.toLowerCase()}-admin.component';`);
+                this.routingModuleInfo.path.push(`{ path: '${connectorObject.name.toLowerCase()}', component: ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] },`);
+                this.appModuleInfo.importDependency.push(`import { ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Module } from './${connectorObject.name.toLowerCase()}-admin/${connectorObject.name.toLowerCase()}-admin.module';`);
+                this.appModuleInfo.imports.push(`${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Module`);
             })
         }
         if (this.appModuleInfo.importDependency.findIndex(x => x == this.adminComponent.module.importDependency) < 0) {
