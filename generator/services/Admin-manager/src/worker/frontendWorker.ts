@@ -161,10 +161,11 @@ export class FrontendWorker {
                         let adminHtmlData = {
                             connectors: []
                         };
-                        let connector_admin_data = {
-                            connectors: []
-                        }
+
                         connectorsData.forEach(async (connectorObject) => {
+                            let connector_admin_data = {
+                                connectors: []
+                            }
                             let jsonObject: any = JSON.parse(connectorObject.data);
                             console.log('connectorObject', jsonObject.item);
                             adminHtmlData.connectors.push(`<div class="card-header collapsed" role="tab" id="headingOneH" href="#${connectorObject.name}" data-toggle="collapse"
@@ -236,8 +237,8 @@ export class FrontendWorker {
             folderName: `${connectorObject.name.toLowerCase()}-admin`
         }
         this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
-        `${connectorObject.name.toLowerCase()}-admin.service.spec.ts`, `connector_admin_component_spec`, fileData, (response) => {
-        });
+            `${connectorObject.name.toLowerCase()}-admin.service.spec.ts`, `connector_admin_component_spec`, fileData, (response) => {
+            });
     }
 
     async generateConnectorService(applicationPath, connectorObject, arrayData) {
@@ -268,19 +269,26 @@ export class FrontendWorker {
             return this.http.post(this.sharedService.DESKTOP_API + '/${temp.folderName}', ${temp.folderName});
         }`);
         this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
-        `${connectorObject.name.toLowerCase()}-admin.service.ts`, `connector_admin_component_service`, temp, (response) => {
-        });
+            `${connectorObject.name.toLowerCase()}-admin.service.ts`, `connector_admin_component_service`, temp, (response) => {
+            });
     }
 
-    async generateConnectorModule(applicationPath, connectorObject, arrayData) {
+    generateConnectorModule(applicationPath, connectorObject, arrayData) {
         let moduleComponent = {
-            importDependency: [],
+            importDependency: [
+                { dependencyName: 'NgModule', dependencyPath: '@angular/core' },
+                { dependencyName: 'CommonModule', dependencyPath: '@angular/common' },
+                { dependencyName: 'RouterModule', dependencyPath: '@angular/router' },
+                { dependencyName: 'I18NextModule', dependencyPath: 'angular-i18next' },
+                { dependencyName: 'FormsModule, ReactiveFormsModule', dependencyPath: '@angular/forms' }
+            ],
             imports: [],
             declarations: [],
-            className: connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()
+            className: ''
         }
-        moduleComponent.importDependency = Constant.moduleImportDependency;
-        moduleComponent.importDependency.push({dependencyName: `${moduleComponent.className}Component`, dependencyPath: `./${connectorObject.name.toLowerCase()}-admin.component`});
+        console.log('moduleComponent.importDependency ===========>>>', moduleComponent.importDependency);
+        moduleComponent.className = connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase();
+        moduleComponent.importDependency.push({ dependencyName: `${moduleComponent.className}Component`, dependencyPath: `./${connectorObject.name.toLowerCase()}-admin.component` });
         moduleComponent.imports = Constant.importsArray;
         moduleComponent.declarations.push(`${moduleComponent.className}Component`);
         this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
@@ -332,8 +340,8 @@ export class FrontendWorker {
         }`)
         })
         this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
-        `${connectorObject.name.toLowerCase()}-admin.component.ts`, `connector_admin_component_ts`, temp, (response) => {
-        })
+            `${connectorObject.name.toLowerCase()}-admin.component.ts`, `connector_admin_component_ts`, temp, (response) => {
+            })
 
     }
 
@@ -373,7 +381,7 @@ export class FrontendWorker {
         this.modifyAppRoutingModuleFile(appModulePath);
         if (this.routingModuleInfo.importDependency.findIndex(x => x == this.adminAppRoutingModule.importDependency) < 0) {
             this.routingModuleInfo.importDependency.push(`import { ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component } from './${this.ADMIN_FOLDERNAME.toLowerCase()}/${this.ADMIN_FOLDERNAME.toLowerCase()}.component';`);
-            this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] },`);
+            this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
         }
         this.modifyPackageJsonFile();
         // modify app module
@@ -384,10 +392,10 @@ export class FrontendWorker {
             this.appModuleInfo.importDependency.push(this.httpClient.importDependency);
             this.appModuleInfo.imports.push(this.httpClient.imports);
         }
-        if(this.connectorArrayObject.length > 0) {
+        if (this.connectorArrayObject.length > 0) {
             this.connectorArrayObject.forEach(connectorObject => {
                 this.routingModuleInfo.importDependency.push(`import { ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Component } from './${connectorObject.name.toLowerCase()}-admin/${connectorObject.name.toLowerCase()}-admin.component';`);
-                this.routingModuleInfo.path.push(`{ path: '${connectorObject.name.toLowerCase()}', component: ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] },`);
+                this.routingModuleInfo.path.push(`{ path: '${connectorObject.name.toLowerCase()}', component: ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Component }`);
                 this.appModuleInfo.importDependency.push(`import { ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Module } from './${connectorObject.name.toLowerCase()}-admin/${connectorObject.name.toLowerCase()}-admin.module';`);
                 this.appModuleInfo.imports.push(`${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Module`);
             })

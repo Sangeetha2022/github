@@ -1,6 +1,6 @@
 /*
  * Template group connector_admin_component_ts
- * Compiled on Thu May 27 2021 21:01:44 GMT+0530 (India Standard Time)
+ * Compiled on Thu Jun 03 2021 18:13:32 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -149,13 +149,13 @@ r = function(w, rc) {
     w.write("templateUrl: './");
     w.popIndentation();
     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 10, column: 26 }));
-    w.write(".component.html',");
+    w.write("-admin.component.html',");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("styleUrls: ['./");
     w.popIndentation();
     st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "folderName", { file: gFile, line: 11, column: 25 }));
-    w.write(".component.scss'],");
+    w.write("-admin.component.scss'],");
     w.write("\n");
     w.write("})");
     w.write("\n");

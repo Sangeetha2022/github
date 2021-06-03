@@ -7,8 +7,8 @@ $if(object.importAsteriskDependency)$$object.importAsteriskDependency:{name | im
 $if(object.scriptVariable)$$object.scriptVariable:{name | declare var $name$: any;};separator="\n"$$endif$
 @Component({
   selector: 'app-$object.folderName$',
-  templateUrl: './$object.folderName$.component.html',
-  styleUrls: ['./$object.folderName$.component.scss'],
+  templateUrl: './$object.folderName$-admin.component.html',
+  styleUrls: ['./$object.folderName$-admin.component.scss'],
 })
 export class $object.className$Component implements OnInit {
 $if(object.componentVariable)$
