@@ -348,7 +348,8 @@
                     <input type="file" formControlName="endPoint" class="form-control" placeholder="Enter EndPoint URL" id="file" (change)='selectFile($event)'
                       [(ngModel)]="quickConnectors.endPointUrl" name="endPoint"
                       [ngClass]="{ 'is-invalid': submitted && f.endPoint.errors }" />
-                      <button type = "button" id="fileupload" (click)="uploadFile()">Send</button>
+                      <br>
+                      <button mat-raised-button color="primary" type = "button" id="fileupload" (click)="uploadFile()">Send</button>
                     <div *ngIf="submitted && f.endPoint.errors" class="invalid-feedback">
                       <div *ngIf="f.endPoint.errors.required">File is required</div>
                     </div>
@@ -367,7 +368,7 @@
                 </div>
               </div>
             </form>
-            <div class="cantainer">
+            <!-- <div class="cantainer">
               <div class="row">
                   <mat-radio-group aria-label="Select an option"
                   [(ngModel)]="quickConnectors.isQueryParams" name="isQueryParams" (click)="queryParamsMethod()">
@@ -376,8 +377,8 @@
                   </mat-radio-button>
                 </mat-radio-group>
               </div>
-            </div>
-            <div class="cantainer" *ngIf="isAddConnector">
+            </div> -->
+            <!-- <div class="cantainer" *ngIf="isAddConnector">
               <div class="row">
                 <div class="col-md-6">
                   <label>ApiKey</label>
@@ -396,8 +397,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row" *ngIf="isAddConnector">
+            </div> -->
+            <!-- <div class="row" *ngIf="isAddConnector">
               <div class="col-md-12">
                 <button class="btn btn-primary" type="button" (click)="addProperties()">Add Connector
                   Properties</button>
@@ -476,9 +477,9 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <button type="button" class="btn button-close delete_btn" id="update" (click)="quickTest()">Quick
-              Test</button>
+            </div> -->
+            <!-- <button type="button" class="btn button-close delete_btn" id="update" (click)="quickTest()">Quick
+              Test</button> -->
             <div>
               <br>
               <div>
@@ -491,10 +492,10 @@
                  FrontEnd </mat-radio-button>
               </mat-radio-group>
             </div>
-            <div>
+            <!-- <div>
               <h3>Connector Types</h3>
-            </div>
-            <div class="row">
+            </div> -->
+            <!-- <div class="row">
               <mat-radio-group aria-label="Select an option" [(ngModel)]="quickConnectors.connectorsType" name="connectorsType" >
                 <mat-radio-button value="quickConnectors">Quick
                   connectors</mat-radio-button>&nbsp;
@@ -503,7 +504,7 @@
                 <mat-radio-button value="customConnecetors" >
                   Custom Connector</mat-radio-button>
               </mat-radio-group>
-            </div>
+            </div> -->
           </div>
         </div>
         <div class="modal-footer" *ngIf="!modifyConnectorsId">
