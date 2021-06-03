@@ -4,6 +4,12 @@
     "version": "1.0.0",
     "description": "\"Generic file uploads/downloads/management\"",
     "author": "gepinfo.@gmail.com",
+    "repo":{
+        "type": "github",
+        "location": "https://github.com/dan-castillo/gepFileManager.git",
+        "branch" : "main"
+
+    },
     "license":{
         "type": "OSS", 
         "name": "Apache 2",
