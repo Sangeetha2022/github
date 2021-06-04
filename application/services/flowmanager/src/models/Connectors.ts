@@ -24,35 +24,7 @@ export let connectorSchema = mongoose.Schema({
             properties: [],
         }
     ],
-    mls: [
-        {
-            name: { type: String, default: null },
-            auth: {type: String, default: false },
-            bearer: [{
-                key: { type: String, default: false },
-                value: { type: String, default: false },
-                type: { type: String, default: false },
-            }],
-            method: { type: String, default: false },
-            header: [{
-                type: String, default: false
-            }],
-            url: [{
-                raw: { type: String, default: null },
-                name: { type: String, default: null },
-                protocol: { type: String, default: null },
-                path: { type: String, default: null },
-                host: [{    
-                    raw: { type: Array, default: null },
-                }],
-                query: [{
-                    key: { type: String, default: null },
-                    value: { type: String, default: null },
-
-                }]
-            }],
-        }
-    ],
+    externalConnector:[],
     url: {
         type: String,
         default: null

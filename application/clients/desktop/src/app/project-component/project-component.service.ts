@@ -4,6 +4,7 @@ import { ApiService } from '../config/api.service';
 import { SharedService } from '../../shared/shared.service';
 import { Constants } from '../config/Constant';
 import { HttpClient, HttpBackend } from '@angular/common/http';
+import { JsonPipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class ProjectComponentService {
     private api: ApiService,
     private restapi: SharedService,
     private http: HttpClient,
+    private fileUpload : SharedService,
   ) { }
 
 
@@ -176,4 +178,22 @@ export class ProjectComponentService {
   //   return this.api.post(`http://localhost:3013/updateConnectors`, updateFlow);
   // }
 
+  //gepfileToUpload
+  gepfileToUpload(){
+    return `${this.fileUpload.gepfileupload}${Constants.GepFile}`;
+  }
+
+  upload(file):Observable<any> {
+  
+    // Create form data
+    const formData = new FormData(); 
+      
+    // Store form name as "file" with file data
+    formData.append("filekey", file, file.name);
+    // fetch(this.gepfileToUpload(), {
+    //   method: 'POST',
+    //   body: formData
+    // })
+    return this.http.post(this.gepfileToUpload(), formData); 
+  }
 }

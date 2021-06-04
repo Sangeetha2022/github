@@ -22,6 +22,8 @@ import { DataService } from 'src/shared/data.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Brodcastservice } from '../../broadcast.service';
 import { ProjectsService } from  '../../projects/projects.service'
+import { Observable } from 'rxjs';
+import { ApiService } from '../../config/api.service';
 
 // import { FormBuilder , FormGroup ,Validators} from `@angular/forms`;
 
@@ -159,7 +161,8 @@ export class FeatureDetailsComponent implements OnInit {
     public dynamicParamsValue: any;
     public staticParamsValue: any;
     public selectEntity: any;
-
+    public selectedFiles: any;
+    public currentFileUpload:any;
 
     constructor(
         private projectComponentService: ProjectComponentService,
@@ -172,7 +175,8 @@ export class FeatureDetailsComponent implements OnInit {
         private dialog: MatDialog,
         private spinner: NgxSpinnerService,
         private brodcastservice: Brodcastservice,
-        private projectService: ProjectsService
+        private projectService: ProjectsService,
+        private api: ApiService,
     ) {
 
         this.frameworkComponents = {
@@ -676,6 +680,36 @@ export class FeatureDetailsComponent implements OnInit {
         }
     }
 
+    //gepfiledatasend
+    selectFile(event: any) {
+        this.selectedFiles = event.target.files;
+    }
+    uploadFile() {
+        this.currentFileUpload = this.selectedFiles.item(0);
+        this.gepfileToUpload(this.currentFileUpload)
+    }
+    //gepfilemanager
+    public resultId: any;
+    gepfileToUpload(fileToUpload: File){
+    //    this.projectComponentService.upload(fileToUpload).subscribe((res) => {
+    //        console.log("resposne to file upload",res);
+    //    })
+        const endpoint = this.projectComponentService.gepfileToUpload();
+        const formData: FormData = new FormData();
+        formData.append('fileKey', fileToUpload, fileToUpload.name);
+        fetch(endpoint, {
+            method: 'POST',
+            body: formData
+        }).then( res => res.json()
+        ).then((resultData) => {
+            console.log("response send data from file upload ",resultData);
+            console.log("response send data from file upload ",resultData._id);
+            this.resultId = resultData._id;
+        })
+        // return this.api.post(endpoint, formData)
+
+    }
+    
     quickConnectorsType() {
         const tempObj = {
             url: this.quickConnectorsURL,
@@ -690,8 +724,9 @@ export class FeatureDetailsComponent implements OnInit {
             apiMethods: this.quickConnectors.apiMethods,
             service: this.quickConnectors.service,
             api_key: this.quickConnectors.api_key,
-            isQueryParams: this.quickConnectors.isQueryParams,
+            // isQueryParams: this.quickConnectors.isQueryParams,
             connectorsType: this.quickConnectors.connectorsType,
+            externalConnector: [this.resultId],
             availableApi: [
                 {
                     'name': 'availble',
@@ -707,6 +742,7 @@ export class FeatureDetailsComponent implements OnInit {
         // tempObj.properties.push(this.quickConnectors.properties);
         console.log('temp==obj--', tempObj);
         this.projectComponentService.quickConnectors(tempObj, this.logId).subscribe(response => {
+            console.log("response body",response.body,response.body._id);
             this.quickConnectorId = response.body._id;
             const tempData = {
                 connectorId: this.quickConnectorId,
