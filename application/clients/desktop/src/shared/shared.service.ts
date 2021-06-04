@@ -13,7 +13,7 @@ export class SharedService {
     private sharedHost = 'http://localhost:3050';
 
     //gepfileupload
-    public gepfileupload = 'http://localhost:8015';
+    public gepfileupload = 'http://localhost:3013';
 
     // ExternalFeatureconfiguration fileupload api
     public externalfeaturehost = 'http://localhost:3016';

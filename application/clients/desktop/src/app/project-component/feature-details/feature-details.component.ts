@@ -684,9 +684,13 @@ export class FeatureDetailsComponent implements OnInit {
     selectFile(event: any) {
         this.selectedFiles = event.target.files;
     }
+    public filesave = false;
     uploadFile() {
         this.currentFileUpload = this.selectedFiles.item(0);
-        this.gepfileToUpload(this.currentFileUpload)
+        this.gepfileToUpload(this.currentFileUpload);
+        setTimeout(() => {
+            this.filesave = true;
+        },100)
     }
     //gepfilemanager
     public resultId: any;

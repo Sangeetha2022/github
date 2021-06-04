@@ -6,14 +6,14 @@ import * as cors from 'cors';
 import { WinstonLogger } from './config/WinstonLogger';
 import * as dotenv from 'dotenv';
 
-const PORT = 8015;
+const PORT = 3013;
 
 class App {
 
     public app: express.Application = express();
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
-    public mongoUrl: string = process.env.mongoUrl;
+    public mongoUrl: string = "mongodb://admin:password@mongo:27017/GeppettoStage?authSource=admin";
 
     constructor() { 
         this.logger.setupLogger();

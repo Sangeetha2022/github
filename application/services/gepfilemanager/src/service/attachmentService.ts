@@ -38,9 +38,9 @@ export class AttachmentService {
                     s3URL = "https://projectmonk.s3.amazonaws.com/" + fileKey;
                     let temp = await attachmentToS3Dao.fileUploadToS3(data, fileKey);
                 }
-                else if (resource === 'FS') {
-                    attachmentToFileSystem.fileSaveToSystem(dataObject, fileName);
-                }
+                // else if (resource === 'FS') {
+                //     attachmentToFileSystem.fileSaveToSystem(dataObject, fileName);
+                // }
 
                 attachmentToDBDao.addAttachment("", dataObject, fileName, (response) => {
                     new CustomLogger().showLogger('info', 'Exit from attachmentService.ts: addAttachment');

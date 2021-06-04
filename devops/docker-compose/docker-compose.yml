@@ -181,7 +181,7 @@ services:
     image: gepfilemanager
     container_name: gepfilemanager
     ports:
-      - "8015:8015"
+      - "3013:3013"
     env_file: ../../.env
     depends_on:
       - mongo

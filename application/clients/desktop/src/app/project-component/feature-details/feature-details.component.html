@@ -349,7 +349,8 @@
                       [(ngModel)]="quickConnectors.endPointUrl" name="endPoint"
                       [ngClass]="{ 'is-invalid': submitted && f.endPoint.errors }" />
                       <br>
-                      <button mat-raised-button color="primary" type = "button" id="fileupload" (click)="uploadFile()">Send</button>
+                      <button mat-raised-button color="primary" type = "button" id="fileupload" (click)="uploadFile()">Send</button> 
+                      <p *ngIf= "filesave" style="color:green; display:inline-block">FILE UPLOADED TO DB</p>
                     <div *ngIf="submitted && f.endPoint.errors" class="invalid-feedback">
                       <div *ngIf="f.endPoint.errors.required">File is required</div>
                     </div>
