@@ -1,9 +1,10 @@
 {
     "feature-name": "gepFileManager",
-    "type": "external",
+    "type": "external-QUESTION: what are other types?",
     "version": "1.0.0",
     "description": "\"Generic file uploads/downloads/management\"",
     "author": "gepinfo.@gmail.com",
+    "icon-location": "/xx/ff/ggg/file-manager.png",
     "repo":{
         "type": "github",
         "location": "https://github.com/dan-castillo/gepFileManager.git",
@@ -17,6 +18,14 @@
         "term": "",
         "comments": "best effort support"
     },
+
+    "entry-point": {
+        "default-entry": "client",
+        "entry-point-access": "/xxx/yyy/ddd",
+        "alternate-entry": "server",
+        "alternate-entry-point-access": "/ddd/fff/www"
+    },
+
     "server-properties":{
         "runtime": "nodejs",
         "runtime-version": "14.0.0",
@@ -28,13 +37,24 @@
             {
                 "name": "gepFileUpload",
                 "api": "/eeee/xxxx/",
-                "api-method": "post"
-
+                "api-method": "post",
+                "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT?",
+                "output": "see question on input - this need to return an ID"
             },
             {
                 "name": "gepFileDownload",
                 "api": "/eeee/xxxx/",
-                "api-method": "get"
+                "api-method": "get",
+                "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                "output": "see question on input"
+
+            },
+            {
+                "name":"gepFileGetAvailable",
+                "api":"/eeee/xxxx/",
+                "api-method":"get",
+                "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT?",
+                "output": "see question on input"
 
             }
 
