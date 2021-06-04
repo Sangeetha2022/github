@@ -136,7 +136,12 @@ export class FrontendWorker {
         let connectorsDetails = projectDetails.body.needs_administration;
         const connectorIds = connectorsDetails.map(({ id }) => id);
         let connectorArray: any = await this.getConnectorById(connectorIds);
-        let connectorsData = Constant.JSON_DATA;
+        // console.log('connectorArray ===========>>>', connectorArray);
+        // console.log('filesIdArray ===============>>>', filesIdArray);
+        // let filesArrayData: any = await this.getFilesById(filesIdArray);
+        // let fileData = filesArrayData.body.map(({fileData}) => fileData);
+        // console.log('fileData ===============>>>>', fileData)
+        let connectorsData = connectorArray.body;
         this.connectorArrayObject = connectorsData;
         Common.createFolders(applicationPath);
         await fs.readdirSync(`${this.seedPath}/${folderName}`).forEach(async (fileElement, index, array) => {
@@ -163,10 +168,13 @@ export class FrontendWorker {
                         };
 
                         connectorsData.forEach(async (connectorObject) => {
+                            console.log('connectorObject ============>>>', connectorObject);
+                            let filesArrayData: any = await this.getFilesById(connectorObject.externalConnector);
+                            console.log('filesArrayData ==========>', filesArrayData);
                             let connector_admin_data = {
                                 connectors: []
                             }
-                            let jsonObject: any = JSON.parse(connectorObject.data);
+                            let jsonObject: any = filesArrayData.body[0].fileData;
                             console.log('connectorObject', jsonObject.item);
                             adminHtmlData.connectors.push(`<div class="card-header collapsed" role="tab" id="headingOneH" href="#${connectorObject.name}" data-toggle="collapse"
                             data-parent="#accordionH" aria-expanded="false" aria-controls="collapseOneH">
@@ -369,6 +377,15 @@ export class FrontendWorker {
     getConnectorById(connectorIds) {
         return new Promise((resolve, reject) => {
             this.connectorService.getConnectorByIds(connectorIds, (response) => {
+                resolve(response);
+            })
+        })
+    }
+
+    getFilesById(connectorIds) {
+        return new Promise((resolve, reject) => {
+            this.connectorService.getFileByIds(connectorIds, (response) => {
+                console.log('response of file array datat ', response);
                 resolve(response);
             })
         })

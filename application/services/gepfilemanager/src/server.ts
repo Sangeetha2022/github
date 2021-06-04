@@ -1,10 +1,11 @@
 import * as express from 'express';
+import * as dotenv from "dotenv";
+dotenv.config();
 import * as bodyParser from 'body-parser';
 import { Routes } from './routes/routes';
 import * as mongoose from 'mongoose';
 import * as cors from 'cors';
 import { WinstonLogger } from './config/WinstonLogger';
-import * as dotenv from 'dotenv';
 
 const PORT = 8015;
 

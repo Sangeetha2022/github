@@ -17,6 +17,7 @@ export * from './deletemanager.controller';
 export * from './shared.Controller';
 export * from './clone.Controller';
 export * from './externalfeature.controller';
+export * from './gepfilemanager.controller';
 
 
 

@@ -28,6 +28,19 @@ export class AttachmentToDBDao {
         });
     }
 
+    public getAttachment(fileIds, callback) {
+        new CustomLogger().showLogger('info', 'Enter into attachmentToDBDao.ts: getAttachment');
+        attachmentModel.find().where('_id').in(fileIds).exec((err, filesArray) => {
+            if(err) {
+                new CustomLogger().showLogger('info', 'Exit from attachmentToDBDao.ts: getAttachment');
+                callback(err)
+            } else {
+                new CustomLogger().showLogger('info', 'Exit from attachmentToDBDao.ts: getAttachment');
+                callback(filesArray)
+            }
+        })
+    }
+
     public deleteAttachment(fileKey, callback) {
         new CustomLogger().showLogger('info', 'Enter into attachmentToDBDao.ts: deleteAttachment')
         attachmentModel.deleteOne({s3FileKey: fileKey}).then((result) => {

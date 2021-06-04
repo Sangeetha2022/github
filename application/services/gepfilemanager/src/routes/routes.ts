@@ -14,6 +14,7 @@ export class Routes {
 
         //attachemnt routes
         app.route('/addAttachment').post(this.attach.addAttachment);
+        app.route('/getattachment').post(this.attach.getAttachment);
         app.route('/deleteAttachment').delete(this.attach.deleteAttachment);
         app.route('/downloadAttachment').get(this.attach.downloadAttachment);
     }

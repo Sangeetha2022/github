@@ -25,4 +25,15 @@ export class ConnectorService {
             callback(error);
         })
     }
+
+    getFileByIds(fileIds, callback) {
+        new ApiAdaptar().post(
+            `${SharedService.apiGatewayURL}/desktop/getattachment`, fileIds).then(
+            data => {
+                callback(data);
+            }
+        ).catch(error => {
+            callback(error);
+        })
+    }
 }

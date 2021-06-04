@@ -14,6 +14,16 @@ export class AttachmentController {
             new CustomLogger().showLogger('info', 'Exit from attachmentController.ts: createAttachment');
         })
     }
+
+    public getAttachment(req: Request, res: Response) {
+        new CustomLogger().showLogger('info', 'Enter into attachmentController.ts: createAttachment');
+        attachmentService.getAttachment(req, (response) => {
+            res.status(201);
+            res.json(response);
+            new CustomLogger().showLogger('info', 'Exit from attachmentController.ts: createAttachment');
+        })
+    }
+
     public deleteAttachment(req: Request, res: Response) {
         attachmentService.deleteAttachment(req, (response) => {
             new CustomLogger().showLogger('info', 'Enter into attachmentController.ts: deleteAttachment');

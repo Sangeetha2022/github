@@ -90,4 +90,14 @@ export class AttachmentService {
         });
     }
 
+    public getAttachment(req: Request, callback) {
+        new CustomLogger().showLogger('info', 'Enter into attachmentService.ts: getAttachment');
+        console.log('req.body ', req.body);
+        var fileIds = req.body;
+        attachmentToDBDao.getAttachment(fileIds, (response) => {
+            new CustomLogger().showLogger('info', 'Exit from attachmentService.ts: getAttachment');
+            callback(response);
+        });
+    }
+
 }
