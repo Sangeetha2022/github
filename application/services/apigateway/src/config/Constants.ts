@@ -21,6 +21,7 @@ export class Constants {
     public static sharedUrl: String;
     public static cloneUrl: String;
     public static externalfeature: String;
+    public static gepFileUrl: String;
 
 
     //generator - declaration

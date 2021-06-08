@@ -19,7 +19,6 @@ export class Routes {
         })
 
         app.route('/flow/save').post(this.flowController.saveFlow);
-        app.route('/flow/connectors').post(this.flowController.saveConnectors);
         app.route('/flow/update').put(this.flowController.updateFlow);
         app.route('/flow/getall').get(this.flowController.getAllFlow);
         app.route('/flow/get').get(this.flowController.getFlowById);
@@ -56,10 +55,9 @@ export class Routes {
 
         //quick connectors
 
-        app.route('/save/quickConnectors').post(this.qucikConnectorController.saveConnectors)
         app.route('/get/quickConnectorbyentity/:entityid').get(this.qucikConnectorController.getConnectorByEntity)
         app.route('/delete/quickConnectorbyid/:id').delete(this.qucikConnectorController.deleteConnectorById)
         app.route('/delete/quickConnectorbyentityid/:entityid').delete(this.qucikConnectorController.deleteConnectorByEntityId)
-        app.route('/get/quickConnectorbyid/:id').get(this.qucikConnectorController.getConnectorById)
+
     }
 }

@@ -25,6 +25,7 @@ export class AttachmentService {
             resource = 'FS';
             fileName=id+"_"+filename;
             file.on('data', async function (data) {
+                let originalFileData = JSON.parse(data.toString());
                 let dataObject = JSON.parse(data.toString());
                 dataObject.item.map((data, index) => {
                     data.request.auth[data.request.auth.type].map((data, index) => {
@@ -42,9 +43,13 @@ export class AttachmentService {
                     attachmentToFileSystem.fileSaveToSystem(dataObject, fileName);
                 }
 
-                attachmentToDBDao.addAttachment("", dataObject, fileName, (response) => {
+                attachmentToDBDao.addAttachment("", dataObject, fileName, async (response: any) => {
+                    let resObject = {
+                        resp: response,
+                        originalFileData: originalFileData
+                    }
                     new CustomLogger().showLogger('info', 'Exit from attachmentService.ts: addAttachment');
-                    callback(response);
+                    callback(resObject);
                 });
             });
         });
