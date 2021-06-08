@@ -163,6 +163,7 @@ export class FeatureDetailsComponent implements OnInit {
     public selectEntity: any;
     public selectedFiles: any;
     public currentFileUpload:any;
+    public originalFileData: any;
 
     constructor(
         private projectComponentService: ProjectComponentService,
@@ -697,14 +698,16 @@ export class FeatureDetailsComponent implements OnInit {
         const endpoint = this.projectComponentService.gepfileToUpload();
         const formData: FormData = new FormData();
         formData.append('fileKey', fileToUpload, fileToUpload.name);
+        console.log('fileToUpload +++', formData);
         fetch(endpoint, {
             method: 'POST',
             body: formData
         }).then( res => res.json()
         ).then((resultData) => {
-            console.log("response send data from file upload ",resultData);
-            console.log("response send data from file upload ",resultData._id);
-            this.resultId = resultData._id;
+            console.log("response send data from file upload ",resultData.resp);
+            console.log("response send data from file upload ",resultData.resp._id);
+            this.resultId = resultData.resp._id;
+            this.originalFileData = resultData.originalFileData;
         })
         // return this.api.post(endpoint, formData)
 
@@ -727,6 +730,9 @@ export class FeatureDetailsComponent implements OnInit {
             // isQueryParams: this.quickConnectors.isQueryParams,
             connectorsType: this.quickConnectors.connectorsType,
             externalConnector: [this.resultId],
+            project_id: this.project_id,
+            original_file_data: this.originalFileData,
+            feature_id: this.feature_id,
             availableApi: [
                 {
                     'name': 'availble',
