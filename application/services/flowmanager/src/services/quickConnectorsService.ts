@@ -106,11 +106,20 @@ export class QuickConnectorsService {
                 console.log('Request name:', exec.item.name);
                 const response = JSON.parse(exec.response.stream);
                 console.log('Response:', JSON.parse(exec.response.stream));
-                const payload = { name: '', field: []};
+                const payload: any = { name: '', field: []};
                 const refPayload: any = { name: '', field: []};
-                payload.name = myConnectors.info.name;
+                payload.name = req.body.original_file_data.info.name;
                 const responseKeys: string[] = Object.keys(response);
                 console.log('KEYS--->>>', responseKeys);
+                payload.is_default = false;
+                payload.updated_at = new Date();
+                payload.description = req.body.original_file_data.info.name;
+                payload.entity_type = 'primary';
+                payload.project_id = req.body.project_id;
+                payload.feature_id = req.body.feature_id;
+                payload.created_by = '';
+                payload.last_modified_by = '';
+                payload.created_at = new Date();
                 asyncLoop(responseKeys, async (key, next) => {
                 // responseKeys.forEach(async key => {
                     console.log('Is that array ===========>>>>', Array.isArray(response[key]));
@@ -121,7 +130,7 @@ export class QuickConnectorsService {
                             console.log('NESTED--->>>', nestedObject);
                             Object.keys(nestedObject).forEach(nestedKey => {
                                 keys.push(nestedKey);
-                            }); 
+                            });
                         });
                         if (keys.length > 0) {
                             const fieldArray = [];
@@ -153,21 +162,55 @@ export class QuickConnectorsService {
                             });
                             refPayload.field = fieldArray;
                             console.log('REF PAYLOAD---->>>', refPayload);
-                            let entity = await Promise.resolve(new ApiAdaptar().post(`http://localhost:3005/entity/save`+ `?log_id=${req.query.log_id}`, refPayload));
+                            let entity: any = await Promise.resolve(new ApiAdaptar().post(`http://localhost:3005/entity/save`+ `?log_id=${req.query.log_id}`, refPayload));
+                            payload.field.push(
+                                {
+                                    name: key,
+                                    type_name: 'List',
+                                    data_type: String,
+                                    description: key,
+                                    is_entity_type: false,
+                                    is_list_type: false,
+                                    list_type: null,
+                                    list_value: null,
+                                    entity_id: entity._id
+                                }
+                            )
                             console.log('ENTITY--->>>>>', entity);
                             next();
                         }
                     } else {
+                        payload.field.push(
+                            {
+                                name: key,
+                                type_name: 'Text',
+                                data_type: null,
+                                description: key,
+                                is_entity_type: false,
+                                is_list_type: false,
+                                list_type: null,
+                                list_value: null,
+                                entity_id: null,
+                            }
+                        )
                         next();
+                    }
+                }, async (err) => {
+                    if(err) {
+                        console.log('error -----', err);
+                    } else {
+                        // primary entity creation
+                        let entity: any = await Promise.resolve(new ApiAdaptar().post(`http://localhost:3005/entity/save`+ `?log_id=${req.query.log_id}`, payload));
+                        let data = req.body;
+                        // quickConnectorsDao.saveConnectors(data, (response) => {
+                        //     callback(response);
+                        // })
                     }
                 });
                 // });
             });
         });
-        // let data = req.body;
-        // quickConnectorsDao.saveConnectors(data, (response) => {
-        //     callback(response);
-        // })
+        
     }
 
     public getFileByIds(fileIds) {
