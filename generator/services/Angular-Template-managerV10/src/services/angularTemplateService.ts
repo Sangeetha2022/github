@@ -18,6 +18,12 @@ import * as beautify from 'beautify';
 import { GeppettoHeader } from '../strategy/HTML/geppetto_template/GeppettoHeader';
 import { GeppettoLanding } from '../strategy/HTML/geppetto_template/GeppettoLanding';
 import { Footer } from '../strategy/HTML/geppetto_template/GeppettoFooter';
+//SideNav path
+import { TemplateSideNav } from '../strategy/HTML/generateNavigation/SideNav';
+import { TemplateHeader } from '../strategy/HTML/generateNavigation/Header';
+import { TemplateLanding } from '../strategy/HTML/generateNavigation/Landing';
+import { TemplateGenerator } from '../strategy/HTML/generateNavigation/TemplateGenerator';
+import { TemplateFooter } from '../strategy/HTML/generateNavigation/Footer';
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
@@ -197,7 +203,6 @@ export class AngularTemplateService {
         const projectName = body.project.name;
         const templateGenerationPath = body.projectGenerationPath + '/' + projectName + '/'
                     + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/';
-                    console.log("tag name from data method",tagName);
         if (tagName === 'nav') {
             // Generating Header Component
             this.htmlContent = '';
@@ -205,7 +210,7 @@ export class AngularTemplateService {
                 const menuList = body.menuBuilder.filter(x => x.language.toLowerCase() === body.project.defaultHumanLanguage.toLowerCase());
                 let responseArray = [];
                 if (res.includes(`<div id="MainMenu" class="">`)) {
-                    const sideNavHtml = geppettoSideNav.generateSideNav(menuList);
+                    const sideNavHtml = TemplateSideNav.generatedSideNav(menuList);
                     responseArray = res.split('\n');
                     for (let i = 0; i < responseArray.length; i++) {
                         if (responseArray[i].includes(`<div id="MainMenu" class="">`)) {
@@ -221,7 +226,7 @@ export class AngularTemplateService {
                     callback();
                 });
                 // Generate Header SCSS File
-                const cssData = GeppettoHeader.CSS_DATA;
+                const cssData = TemplateHeader.CSS_DATA;
                 const cssFilePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.scss';
                 componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
                 });
@@ -241,7 +246,7 @@ export class AngularTemplateService {
                     callback();
                 });
                 // Generate Template SCSS File
-                const cssData = GeppettoLanding.CSS_DATA;
+                const cssData = TemplateLanding.CSS_DATA;
                 const cssFilePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.component.scss';
                 componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
                 });
@@ -257,7 +262,7 @@ export class AngularTemplateService {
                     callback();
                 });
                 // Generate Footer SCSS File
-                const cssData = Footer.CSS_DATA;
+                const cssData = TemplateFooter.CSS_DATA;
                 const cssFilePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.scss';
                 componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
                 });
@@ -266,6 +271,13 @@ export class AngularTemplateService {
             callback();
         }
     }
+    /**
+     * 
+     * @param gjsElement 
+     * @param body 
+     * @param tagName 
+     * @param callback 
+     */
     generateGeppettoTemplate(gjsElement, body, tagName, callback) {
         const projectName = body.project.name;
         const templateGenerationPath = body.projectGenerationPath + '/' + projectName + '/'
