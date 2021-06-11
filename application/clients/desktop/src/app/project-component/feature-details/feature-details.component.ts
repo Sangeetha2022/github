@@ -762,6 +762,7 @@ export class FeatureDetailsComponent implements OnInit {
                     id: this.quickConnectorId
                 }
             }
+            this.getEntityByFeatureId();
             this.projectService.updateProjectById(this.project_id, adminsObject, this.logId).subscribe(res => {
 
             })

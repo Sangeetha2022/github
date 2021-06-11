@@ -1,7 +1,8 @@
 import { Request, response, Response } from 'express'
 import { QuickConnectorsDao } from '../daos/quickConnectorsDao';
 import { GepFileManagerService } from '../apiservices/GepFileManagerService';
-import { EntityManagerService } from '../apiservices/EntityManagerService'
+import { EntityManagerService } from '../apiservices/EntityManagerService';
+import {FeatureManagerService} from '../apiservices/FeatureManagerService'
 const newman = require('newman');
 import { ApiAdaptar } from '../config/ApiAdaptar';
 import * as asyncLoop from 'node-async-loop';
@@ -9,6 +10,7 @@ import * as asyncLoop from 'node-async-loop';
 const quickConnectorsDao = new QuickConnectorsDao();
 const gepFileManagerService = new GepFileManagerService();
 const entityManagerService = new EntityManagerService();
+const featureManagerService = new FeatureManagerService();
 const samplePayload = {
     "is_default": false,
     "updated_at": "2021-06-01T06:20:31.631Z",
@@ -99,16 +101,15 @@ const myConnectors = {
 export class QuickConnectorsService {
     public async saveConnectors(req: Request, callback: CallableFunction) {
         let newmanResponse: any = await this.getNewmanResponse(req);
-        newmanResponse.run.executions.forEach(exec => {
+        asyncLoop(newmanResponse.run.executions, async (exec, next) => {
+            let existEntity: any = await this.getDynamicEntity(req);
+            let jsonData = JSON.parse(existEntity);
             const requestName = exec.item.name
-            console.log('Request name:', exec.item.name);
             const response = JSON.parse(exec.response.stream);
-            console.log('Response:', JSON.parse(exec.response.stream));
-            const payload: any = { name: '', field: []};
-            const refPayload: any = { name: '', field: []};
+            const payload: any = { name: '', field: [] };
+            const refPayload: any = { name: '', field: [] };
             payload.name = req.body.original_file_data.info.name;
             const responseKeys: string[] = Object.keys(response);
-            console.log('KEYS--->>>', responseKeys);
             payload.is_default = false;
             payload.updated_at = new Date();
             payload.description = req.body.original_file_data.info.name;
@@ -118,9 +119,9 @@ export class QuickConnectorsService {
             payload.created_by = '';
             payload.last_modified_by = '';
             payload.created_at = new Date();
-            asyncLoop(responseKeys, async (key, next) => {
-            // responseKeys.forEach(async key => {
-                if(Array.isArray(response[key])) {
+            asyncLoop(responseKeys, async (key, next1) => {
+                // responseKeys.forEach(async key => {
+                if (Array.isArray(response[key])) {
                     const keys = [];
                     await response[key].forEach(nestedObject => {
                         Object.keys(nestedObject).forEach(nestedKey => {
@@ -129,7 +130,7 @@ export class QuickConnectorsService {
                     });
                     if (keys.length > 0) {
                         const fieldArray = [];
-                        const uniqueKeys = [ ...new Set(keys) ];
+                        const uniqueKeys = [...new Set(keys)];
                         refPayload.name = key;
                         refPayload.is_default = false;
                         refPayload.updated_at = new Date();
@@ -155,20 +156,27 @@ export class QuickConnectorsService {
                         });
                         refPayload.field = fieldArray;
                         let entity: any = await this.createDynamicEntity(req, refPayload);
-                        payload.field.push(
-                            {
-                                name: key,
-                                type_name: 'List',
-                                data_type: String,
-                                description: key,
-                                is_entity_type: false,
-                                is_list_type: false,
-                                list_type: null,
-                                list_value: null,
-                                entity_id: entity.body._id
-                            }
-                        )
-                        next();
+                        console.log('entity secondary ==============>>>', entity);
+                        if(entity.body) {
+                            payload.field.push(
+                                {
+                                    name: key,
+                                    type_name: 'List',
+                                    data_type: String,
+                                    description: key,
+                                    is_entity_type: false,
+                                    is_list_type: false,
+                                    list_type: null,
+                                    list_value: null,
+                                    entity_id: entity.body._id
+                                }
+                            )
+                            let updatefeatureEntities = await this.featureUpdateEntity(req, entity.body);
+                            console.log('updatefeatureEntities for secondary==========>>>', updatefeatureEntities)
+                        } else {
+                            next1();
+                        }
+                        next1();
                     }
                 } else {
                     payload.field.push(
@@ -184,36 +192,57 @@ export class QuickConnectorsService {
                             entity_id: null,
                         }
                     )
-                    next();
+                    next1();
                 }
-            }, async (err) => {
-                if(err) {
-                    console.log('error -----', err);
+            }, async (error) => {
+                if (error) {
+                    console.log('error -----', error);
                 } else {
-                    // primary entity creation
-                    let existEntity: any = await this.getDynamicEntity(req);
-                    let jsonData = JSON.parse(existEntity);
-                    const existEntityArray = jsonData.body.filter((x) => x.entity_type ==='primary');
-                    if(existEntityArray.length === 0) {
+                    const existEntityArray = jsonData.body.filter((x) => x.entity_type === 'primary');
+                    if (existEntityArray.length == 0) {
                         let entity: any = await this.createDynamicEntity(req, payload);
-                        
+                        console.log('entity primary =============+>>>', entity)
+                        let updatefeatureEntities = await this.featureUpdateEntity(req, entity.body);
+                        console.log('updatefeatureEntities for primary ==========>>>', updatefeatureEntities)
+                        next();
+                    } else {
+                        next();
                     }
-                    // else {
-                    //     let existEntityObject = existEntityArray[0];
-                    //     payload.field.forEach(data => {
-                    //         existEntityObject.field.push(data)
-                    //     })
-                    //     this.updateEntity(req, existEntityObject);
-                    // }
-                    let data = req.body;
-                    quickConnectorsDao.saveConnectors(data, (response) => {
-                        callback(response);
-                    })
                 }
             });
-            // });
-        });
 
+        }, (err) => {
+            if (err) {
+                console.log('error ----------', err);
+            } else {
+                let data = req.body;
+                quickConnectorsDao.saveConnectors(data, (response) => {
+                    callback(response)
+                })
+            }
+            
+        })
+    }
+
+    public featureUpdateEntity(req, entityObject) {
+        return new Promise((resolve, reject) => {
+            let entitydetails = [
+                {
+                    'entities':
+                    {
+                        'entityType': entityObject.entity_type,
+                        'entityId': entityObject._id
+                    },
+                    'name': entityObject.name,
+                    'description': entityObject.description,
+                    'updated_date': Date.now()
+                }
+            ];
+            console.log('entity details ===========>>>>', entitydetails);
+            featureManagerService.featureUpdateEntity(req, entitydetails, (response) => {
+                resolve(response);
+            })
+        })
     }
 
     public getNewmanResponse(req) {
