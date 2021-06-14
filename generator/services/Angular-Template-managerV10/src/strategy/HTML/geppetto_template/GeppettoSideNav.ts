@@ -18,12 +18,12 @@ export class GeppettoSideNav {
                                 // mainNav.push(`<div class="list-group panel" *ngIf='userId'>
                                 // <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
                                 // <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
-                                menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {   
-                                    if (screenIndex === 0){
-                                    mainNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
+                                menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
+                                    if (screenIndex === 0) {
+                                        mainNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
                                     <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
-                                    <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);  
-                                    }                              
+                                    <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
+                                    }
                                     mainNav.push(`<a class="list-group-item" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>`);
                                 });
                             }
@@ -67,13 +67,13 @@ export class GeppettoSideNav {
                 }
             });
             bottomNav.push(`<li>
-    <a href="#translator" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-success dropdown-toggle text"> {{'source.selectLanguage' | i18next }} </a>
-    <ul class="collapse list-unstyled" id="translator">
-        <li>
-            <a class="list-group-item text" *ngFor="let lang of languages" (click)='confirmLangModel(lang)'> {{'languages.' + lang | i18nextCap }}</a>
-        </li>
-    </ul>
-</li>`);
+                <a href="#translator" data-toggle="collapse" aria-expanded="false" class="list-group-item list-group-item-success dropdown-toggle text"> {{'source.selectLanguage' | i18next }} </a>
+                <ul class="collapse list-unstyled" id="translator">
+                    <li>
+                        <a class="list-group-item text" *ngFor="let lang of languages" (click)='confirmLangModel(lang)'> {{'languages.' + lang | i18nextCap }}</a>
+                    </li>
+                </ul>
+            </li>`);
             sideNav += topNav.join('\n');
             sideNav += mainNav.join('\n');
             sideNav += bottomNav.join('\n');

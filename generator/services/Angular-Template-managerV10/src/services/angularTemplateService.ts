@@ -18,6 +18,12 @@ import * as beautify from 'beautify';
 import { GeppettoHeader } from '../strategy/HTML/geppetto_template/GeppettoHeader';
 import { GeppettoLanding } from '../strategy/HTML/geppetto_template/GeppettoLanding';
 import { Footer } from '../strategy/HTML/geppetto_template/GeppettoFooter';
+//SideNav path
+import { TemplateSideNav } from '../strategy/HTML/generateNavigation/SideNav';
+import { TemplateHeader } from '../strategy/HTML/generateNavigation/Header';
+import { TemplateLanding } from '../strategy/HTML/generateNavigation/Landing';
+import { TemplateGenerator } from '../strategy/HTML/generateNavigation/TemplateGenerator';
+import { TemplateFooter } from '../strategy/HTML/generateNavigation/Footer';
 
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
@@ -193,6 +199,85 @@ export class AngularTemplateService {
      * @param tagName 
      * @param callback 
      */
+     generateSideNavTemplate(gjsElement, body, tagName, callback) {
+        const projectName = body.project.name;
+        const templateGenerationPath = body.projectGenerationPath + '/' + projectName + '/'
+                    + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME + '/';
+        if (tagName === 'nav') {
+            // Generating Header Component
+            this.htmlContent = '';
+            this.createHtmlfromNestedObject([gjsElement], (res) => {
+                const menuList = body.menuBuilder.filter(x => x.language.toLowerCase() === body.project.defaultHumanLanguage.toLowerCase());
+                let responseArray = [];
+                if (res.includes(`<div id="MainMenu" class="">`)) {
+                    const sideNavHtml = TemplateSideNav.generatedSideNav(menuList);
+                    responseArray = res.split('\n');
+                    for (let i = 0; i < responseArray.length; i++) {
+                        if (responseArray[i].includes(`<div id="MainMenu" class="">`)) {
+                            responseArray.splice(i + 1, 0, sideNavHtml);
+                            break;
+                        }
+                    }
+                }
+                const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.html';
+                const data = responseArray.join('\n') + ConfimModalPopup.htmlTag[0];
+                Common.createFolders(templateGenerationPath + Constant.HEADER_FOLDERNAME);
+                componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), (res) => {
+                    callback();
+                });
+                // Generate Header SCSS File
+                const cssData = TemplateHeader.CSS_DATA;
+                const cssFilePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.scss';
+                componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
+                });
+            });
+        } else if (tagName === 'header') {
+            // Generate Template Component
+            this.htmlContent = '';
+            this.createHtmlfromNestedObject([gjsElement], (res) => {
+                callback();
+            });
+        } else if (tagName === 'section') {
+            // Generate Template Component
+            this.createHtmlfromNestedObject([gjsElement], (res) => {
+                Common.createFolders(templateGenerationPath + Constant.TEMPLATE_FOLDERNAME);
+                const filePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.component.html';
+                componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
+                    callback();
+                });
+                // Generate Template SCSS File
+                const cssData = TemplateLanding.CSS_DATA;
+                const cssFilePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.component.scss';
+                componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
+                });
+            });
+        } else if (tagName === 'footer') {
+            // Generate Footer Component
+            this.htmlContent = '';
+            this.createHtmlfromNestedObject([gjsElement], (res) => {
+                const filePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.html';
+                Common.createFolders(templateGenerationPath + Constant.FOOTER_FOLDERNAME);
+                componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
+                    this.htmlContent = '';
+                    callback();
+                });
+                // Generate Footer SCSS File
+                const cssData = TemplateFooter.CSS_DATA;
+                const cssFilePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.scss';
+                componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
+                });
+            });
+        } else {
+            callback();
+        }
+    }
+    /**
+     * 
+     * @param gjsElement 
+     * @param body 
+     * @param tagName 
+     * @param callback 
+     */
     generateGeppettoTemplate(gjsElement, body, tagName, callback) {
         const projectName = body.project.name;
         const templateGenerationPath = body.projectGenerationPath + '/' + projectName + '/'
@@ -281,6 +366,10 @@ export class AngularTemplateService {
                     this.generateWeConnectTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
+                } else if (templateName.toLowerCase() === 'architecture template') {
+                    this.generateSideNavTemplate(gjsElement, body, tagName, (res) => {
+                        next();
+                    });
                 }
             }, err => {
                 if (err) {
@@ -325,9 +414,9 @@ export class AngularTemplateService {
             // this.htmlContent += `id="${item.attributes.id}" `;
             const keys = Object.keys(item.attributes);
             keys.forEach((key) => {
-                // Replacing href to [routerLink] in <a> tag
+                // Replacing "href to [routerLink]", "[routerlink] to [routerLink]" in <a> tag
                 if(item.attributes[key] !== '#') {
-                    this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['${item.attributes[key]}']" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
+                    this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['${item.attributes[key]}']" ` : this.htmlContent = key === '[routerlink]' ? this.htmlContent + `[routerLink]="${item.attributes[key]}" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
                 } else {
                     this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['/']" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
                 }
