@@ -350,7 +350,7 @@
                       [ngClass]="{ 'is-invalid': submitted && f.endPoint.errors }" />
                       <br>
                       <button mat-raised-button color="primary" type = "button" id="fileupload" (click)="uploadFile()">Send</button> 
-                      <p *ngIf= "filesave" style="color:green; display:inline-block">FILE UPLOADED TO DB</p>
+                      <p *ngIf= "filesave" style="color:green; display:inline-block !important;text-indent: 25px;">FILE UPLOADED</p>
                     <div *ngIf="submitted && f.endPoint.errors" class="invalid-feedback">
                       <div *ngIf="f.endPoint.errors.required">File is required</div>
                     </div>
