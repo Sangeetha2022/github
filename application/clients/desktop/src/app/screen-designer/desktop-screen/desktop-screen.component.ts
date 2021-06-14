@@ -544,13 +544,14 @@ export class DesktopScreenComponent implements OnInit {
       },
       assetManager: {
         assets: [],
-        upload:
-          'https://grapedrop.com/asset-upload/ad8906ca2d4d4fcfb0c99f0a11082f4d',
+        upload: 0,
         params: {},
         noAssets:
           '<div class="gjs-assets-empty"><i class="fa fa-picture-o"></i><br>No images, yet</div>',
         dropzoneContent:
-          '<div class="gjs-dropzone-inner">Drop here your assets</div>'
+          '<div class="gjs-dropzone-inner">Drop here your assets</div>',
+        dropzone: 0,
+        uploadText: 'Drop files here or click to upload',
       },
       storageManager: {
         type: 'remote',
@@ -565,11 +566,9 @@ export class DesktopScreenComponent implements OnInit {
         clearProperties: 1,
       }
     });
-
     // this.editor.BlockManager.getAll().remove('column3-7');
     // this.editor.BlockManager.getAll().remove('column3');
     // this.editor.BlockManager.getAll().remove('column2');
-
     const comps = this.editor.DomComponents;
     this.editor.DomComponents.Component.createId = function (model) {
       const list = comps.Component.getList(model);
@@ -952,7 +951,7 @@ export class DesktopScreenComponent implements OnInit {
               this.editor.setComponents(
                 JSON.parse(this.existScreenDetail[0]['gjs-components'])
               );
-              this.editor.setStyle(this.existScreenDetail[0]['gjs-css']);
+              this.editor.setStyle(JSON.parse(this.existScreenDetail[0]['gjs-styles'][0]) || this.existScreenDetail[0]['gjs-css']);
               console.log('------get grapesjs css-------', this.editor.getStyle());
               //   this.editor.render();
             }
@@ -2074,7 +2073,6 @@ export class DesktopScreenComponent implements OnInit {
       this.closeScreeName();
       this.spinner.show();
       this.editor.store((data) => {
-        console.log('DATA---->>>>', data);
         this.getProjectTemplate(this.projectTemplateId);
       });
     } else {
