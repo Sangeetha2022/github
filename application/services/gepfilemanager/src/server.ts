@@ -6,7 +6,7 @@ import * as cors from 'cors';
 import { WinstonLogger } from './config/WinstonLogger';
 import * as dotenv from 'dotenv';
 
-const PORT = 3013;
+const PORT = 3015;
 
 class App {
 
