@@ -87,38 +87,38 @@ export class LoginComponent implements OnInit {
       this.borderStyle.email = '#ced4da';
     });
 
-    this.loginservice.getConfigurations().subscribe((response: any) => {
-      console.log('response data------------->>>', response.body);
-      response.body.forEach((element: any) => {
-        console.log('data------------------>>', element);
-        if (element.socialNetwork === 'Google') {
-          this.googleLoginData = element.appId;
-        }
-        if (element.socialNetwork === 'FaceBook') {
-          this.faceBookLoginData = element.appId;
-        }
-      });
+    // this.loginservice.getConfigurations().subscribe((response: any) => {
+    //   console.log('response data------------->>>', response.body);
+    //   response.body.forEach((element: any) => {
+    //     console.log('data------------------>>', element);
+    //     if (element.socialNetwork === 'Google') {
+    //       this.googleLoginData = element.appId;
+    //     }
+    //     if (element.socialNetwork === 'FaceBook') {
+    //       this.faceBookLoginData = element.appId;
+    //     }
+    //   });
 
-    });
-    this.getAuthserviceConfigs();
+    // });
+    // this.getAuthserviceConfigs();
   }
 
   get f() { return this.loginform.controls; }
 
-  getAuthserviceConfigs() {
-    const config = new AuthServiceConfig([
-      {
-        id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider(this.googleLoginData)
-      },
-      {
-        id: FacebookLoginProvider.PROVIDER_ID,
-        provider: new FacebookLoginProvider(this.faceBookLoginData)
-      }
+  // getAuthserviceConfigs() {
+  //   const config = new AuthServiceConfig([
+  //     {
+  //       id: GoogleLoginProvider.PROVIDER_ID,
+  //       provider: new GoogleLoginProvider(this.googleLoginData)
+  //     },
+  //     {
+  //       id: FacebookLoginProvider.PROVIDER_ID,
+  //       provider: new FacebookLoginProvider(this.faceBookLoginData)
+  //     }
 
-    ]);
-    return config;
-  }
+  //   ]);
+  //   return config;
+  // }
 
   closeDeleteFModel() {
     this.displayModel = 'none';
@@ -277,7 +277,8 @@ export class LoginComponent implements OnInit {
   googlesigin(socialPlatform: string) {
     console.log('google');
     let socialPlatformProvider;
-    let data = this.getAuthserviceConfigs();
+    // let data = this.getAuthserviceConfigs();
+    let data;
     console.log('socialPlatformProvider', data.providers);
 
     if (socialPlatform === 'google') {
