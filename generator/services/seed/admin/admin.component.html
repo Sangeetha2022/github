@@ -11,6 +11,18 @@
           <a routerLink="/usermanagement" class="btn btn-primary">{{'source.userManagement' | i18next}}</a>
         </div>
       </div>
+      <div class="card-header collapsed" role="tab" id="headingThreeH" href="#system_creds_admin-gjs" data-toggle="collapse"
+        data-parent="#accordionH" aria-expanded="false" aria-controls="collapseThreeH">
+        <a class="card-title">System Credentials Administration</a>
+      </div>
+      <div class="collapse" id="system_creds_admin-gjs" role="tabpanel" aria-labelledby="headingThreeH">
+        <div class="card-body">
+          <button type="button" class="btn" (click)="route3()">Vault Administration</button>&nbsp;&nbsp;
+        </div>
+        <div class="card-body">
+          <button type="button" class="btn" (click)="route3()">DB Administration</button>&nbsp;&nbsp;
+        </div>
+      </div>
     </div>
   </div>
 </div>

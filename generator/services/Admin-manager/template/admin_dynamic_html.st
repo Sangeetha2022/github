@@ -12,6 +12,15 @@ admin_dynamic_html(dynamic_html) ::= <<
           <a routerLink="/usermanagement" class="btn btn-primary">{{'source.userManagement' | i18next}}</a>
         </div>
       </div>
+      <div class="card-header collapsed" role="tab" id="headingThreeH" href="#system_creds_admin-gjs" data-toggle="collapse"
+        data-parent="#accordionH" aria-expanded="false" aria-controls="collapseThreeH">
+        <a class="card-title">System Credentials Administration</a>
+      </div>
+      <div class="collapse" id="system_creds_admin-gjs" role="tabpanel" aria-labelledby="headingThreeH">
+        <div class="card-body">
+          <a type="button" class="btn btn-primary" routerLink="/vaultadmin">Vault Administration</a>&nbsp;&nbsp;
+        </div>
+      </div>
       $if(dynamic_html.connectors)$$dynamic_html.connectors:{name | $name$};separator="\n"$$endif$
     </div>
   </div>

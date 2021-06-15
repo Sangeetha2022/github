@@ -24,6 +24,7 @@ export class FrontendWorker {
     private AUTH_FOLDERNAME = 'auth';
     private HEADER_FOLDERNAME = 'header';
     private BROADCAST_FOLDERNAME = 'broadcast';
+    private VAULT_ADMIN = 'vault-admin';
 
     // FILE NAME
     private SERVICE_NAME = 'service';
@@ -150,6 +151,22 @@ export class FrontendWorker {
             this.generateServiceComponent(details.templateResponse.shared, this.LOGIN_FOLDERNAME,
                 this.LOGIN_SERVICE_TEMPLATENAME, loginApplicationPath, () => {
                     this.generateModule(this.LOGIN_FOLDERNAME, this.MODULE_TEMPLATENAME, loginApplicationPath, () => {
+                        callback();
+                    });
+                });
+        });
+    }
+    
+    async createVaultAdminComponent(details, callback) {
+        this.initializeData();
+        this.projectGenerationPath = details.templateResponse.applicationPath;
+        this.seedPath = details.seedTemplatePath;
+        this.authTemplatePath = details.authTemplatePath;
+        const loginApplicationPath = `${this.projectGenerationPath}/src/app/${this.VAULT_ADMIN}`;
+        this.generateStaticComponent(loginApplicationPath, this.VAULT_ADMIN, () => {
+            this.generateServiceComponent(details.templateResponse.shared, this.VAULT_ADMIN,
+                this.LOGIN_SERVICE_TEMPLATENAME, loginApplicationPath, () => {
+                    this.generateModule(this.VAULT_ADMIN, this.MODULE_TEMPLATENAME, loginApplicationPath, () => {
                         callback();
                     });
                 });
