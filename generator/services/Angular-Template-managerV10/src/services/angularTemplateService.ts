@@ -28,7 +28,6 @@ import { TemplateFooter } from '../strategy/HTML/generateNavigation/Footer';
 import { TemplateTopNav } from '../strategy/HTML/generateTopNavigation/TopNav';
 import { TopTemplateHeader } from '../strategy/HTML/generateTopNavigation/TopNavHeader';
 import { TopTemplateLanding } from '../strategy/HTML/generateTopNavigation/TopNavLanding';
-import { TopTemplateGenerator } from '../strategy/HTML/generateTopNavigation/TopNavTemplateGenerator';
 import { TopTemplateFooter } from '../strategy/HTML/generateTopNavigation/TopNavFooter';
 let commonWorker = new CommonWorker();
 let componentWorker = new ComponentWorker();
