@@ -47,15 +47,20 @@
                                 </a>
                             </div>
                             <!-- <div class="col-xs-3 sitecard-action-c">
-                <a class="sitecard-action" data-toggle="tooltip" title="" data-original-title="Clone">
-                  <mat-icon class="base-icon">file_copy</mat-icon>
-                </a>
-              </div> -->
+                                    <a class="sitecard-action" data-toggle="tooltip" title="" data-original-title="Clone">
+                                    <mat-icon class="base-icon">file_copy</mat-icon>
+                                    </a>
+                                </div> -->
                             <div class="col-xs-4 sitecard-action-c">
+                                <a class="sitecard-action" (click)="cloneProject(proj)" data-toggle="tooltip" title="" data-original-title="Clone">
+                                    <mat-icon class="base-icon">file_copy</mat-icon>
+                                </a>
+                            </div>
+                            <!-- <div class="col-xs-4 sitecard-action-c">
                                 <a class="sitecard-action" (click)="generateProject(proj)" data-toggle="tooltip" title="" data-original-title="Settings">
                                     <mat-icon class="base-icon">get_app</mat-icon>
                                 </a>
-                            </div>
+                            </div> -->
                             <div class="col-xs-4 sitecard-action-c">
                                 <a class="sitecard-action entity-action-remove" (click)="openDeleteModel(proj)">
                                     <mat-icon class="base-icon">delete</mat-icon>

@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
     Port: "",
-    BaseHost: "https://geppetto.wcm-x.com",
+    BaseHost: "https://devapi.geppettosoftware.com",
 };

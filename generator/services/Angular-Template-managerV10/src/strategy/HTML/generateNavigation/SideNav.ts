@@ -49,17 +49,18 @@ export class TemplateSideNav {
                                         case 'home':
                                             topNav.push(`<div id="i0xya-2" class="cell gpd-clm">
                                                             <div id="i60c7-2" class="gdp-row gpd-grid">
-                                                                <div id="icrvgp" class="cell gpd-clm" *ngIf='userId!=null'>
-                                                                    <div id="i6vd27" class="gdp-row gpd-grid" *ngIf='userId!=null'>
-                                                                        <div id="inlo1l" class="cell gpd-clm" *ngIf='userId!=null'>
-                                                                            <i id="iyxitk" class="fa fa-home" aria-hidden="true"></i>
+                                                                <div id="ibuiwl" class="cell gpd-clm"><img id="imvflv" /></div>
+                                                                    <div id="icrvgp" class="cell gpd-clm" *ngIf='userId!=null'>
+                                                                        <div id="i6vd27" class="gdp-row gpd-grid" *ngIf='userId!=null'>
+                                                                            <div id="inlo1l" class="cell gpd-clm" *ngIf='userId!=null'>
+                                                                                <i id="iyxitk" class="fa fa-home" aria-hidden="true"></i>
+                                                                            </div>
+                                                                            <div id="iytw4t" class="cell gpd-clm">
+                                                                                <a id="i9imej" class="gpd-text"
+                                                                                    *ngIf='userId!=null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+                                                                            </div>
                                                                         </div>
-                                                                        <div id="iytw4t" class="cell gpd-clm">
-                                                                            <a id="i9imej" class="gpd-text"
-                                                                                *ngIf='userId!=null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>`);
+                                                                    </div>`);
                                             break;
                                         case 'login':
                                             bottomNav.push(`<li>

@@ -171,9 +171,13 @@ export class TemplateHeader {
         #i0xya-2 {
             padding: 0 0 0 0;
             flex-basis: 23%;
-            background-color: rgb(30, 30, 30);
+            background-color: black;
             display: block;
-            height: 92vh;
+            height: 160vh;
+        }
+        #ibuiwl {
+            text-align: right;
+            padding: 30px;
         }
         #i60c7-2:hover {
             margin: 0 0 0 0;
