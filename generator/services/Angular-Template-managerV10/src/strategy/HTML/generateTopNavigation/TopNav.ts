@@ -76,7 +76,10 @@ export class TemplateTopNav {
                                 });
                             } 
                         }
-                        bottomNav.push(`
+                    });
+                }
+            });
+            bottomNav.push(`
                             <a id="i4izs3" class="menu-link">
                                 <a style="font-size: medium;" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true"
                                 class="btn dropdown-toggle" id="dropdownMenuButton"> 
@@ -87,22 +90,23 @@ export class TemplateTopNav {
                                     </li>
                                 </ul>
                             </a>`);
-                        if(true){
-                            if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
-                                menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
-                                    switch (screenElement) {
-                                        case 'login':
-                                            bottomNav.push(`<button id="ipek5x" class="btn btn-primary" type="button" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
-                                                            </button>`);
-                                            break;
-                                        case 'logout':
-                                            bottomNav.push(`<button type="button" id="ipek5x" class="btn btn-primary" *ngIf='userId!=null' (click)="logout()">
-                                                                <a style="color: white;">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
-                                                            </button>`);
-                                            break;
-                                    }
-                                });
-                            }
+            humanLanguageMenus.forEach((element: any) => {
+                if (element.menuDetails && element.menuDetails.length > 0) {
+                    element.menuDetails.forEach((menuElement: any) => {
+                        if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
+                            menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
+                                switch (screenElement) {
+                                    case 'login':
+                                        bottomNav.push(`<button id="ipek5x" class="btn btn-primary" type="button" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
+                                                        </button>`);
+                                        break;
+                                    case 'logout':
+                                        bottomNav.push(`<button type="button" id="ipek5x" class="btn btn-primary" *ngIf='userId!=null' (click)="logout()">
+                                                            <a style="color: white;">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+                                                        </button>`);
+                                        break;
+                                }
+                            });
                         }
                     });
                 }
