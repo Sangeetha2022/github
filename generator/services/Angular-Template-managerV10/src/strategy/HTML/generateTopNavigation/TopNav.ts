@@ -20,15 +20,14 @@ export class TemplateTopNav {
                                 // <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
                                 menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
                                     if (screenIndex === 0) {
-                                        mainNav.push(`<a id="ifylpi" class="menu-link"*ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
+                                        mainNav.push(`<a id="izdchj" href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="menu-link"*ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
                                                         <a style="font-size: medium;" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true"
                                                         class="btn-secondary dropdown-toggle" id="dropdownMenuButton" data-parent="#MainMenu">
-                                                        <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}">${menuElement.featuremenu[0].name.feature} </a>
-                                                        <i class="fa fa-caret-down"></i></a>
+                                                        ${menuElement.featuremenu[0].name.feature} </a>
                                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">
                                                         <li>`);
                                     }
-                                    mainNav.push(`<a id="ifylpi" class="dropdown-item" [routerLink]="['/${screenElement.toLowerCase()}']"><a {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>`);
+                                    mainNav.push(`<a id="ifylpi" class="dropdown-item" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>`);
                                 });
                             }
                             mainNav.push(`</li>`);
@@ -40,41 +39,54 @@ export class TemplateTopNav {
                                 menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
                                     switch (screenElement) {
                                         case 'home':
-                                            topNav.push(`<a id="izdchj" class="nav-link nav-item active" *ngIf='userId!=null'>
-                                                            <a [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+                                            topNav.push(`<a id="izdchj" class="menu-link" *ngIf='userId!=null' [routerLink]="['/${screenElement.toLowerCase()}']">
+                                                                {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
+                                                            
                                                         </a>`);
                                             break;
                                         case 'authorization':
-                                            bottomNav.push(`<a id="izdchj" class="nav-link nav-item active"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                                                                <a [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+                                            bottomNav.push(`<a id="izdchj" class="menu-link"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId" [routerLink]="['/${screenElement.toLowerCase()}']">
+                                                                {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
+                                                                
                                                             </a>`);
                                             break;
                                         case 'manageroles':
-                                            bottomNav.push(`<a id="izdchj" class="nav-link nav-item active" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                                                                <a [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+                                            bottomNav.push(`<a id="izdchj" class="menu-link" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId" [routerLink]="['/${screenElement.toLowerCase()}']">
+                                                                {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
                                                             </a>`);
                                             break;
                                         case 'manageusers':
-                                            bottomNav.push(`<a id="izdchj" class="nav-link nav-item active" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
-                                                                <a [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+                                            bottomNav.push(`<a id="izdchj" class="menu-link" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId" [routerLink]="['/${screenElement.toLowerCase()}']">
+                                                                {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
                                                             </a>`);
                                             break;
                                         case 'admin':
-                                            mainNav.push(`<a id="izdchj" class="nav-link nav-item active" *ngIf='isAdminUser'>
-                                                            <a [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+                                            mainNav.push(`<a id="izdchj" class="menu-link" *ngIf='isAdminUser' [routerLink]="['/${screenElement.toLowerCase()}']">
+                                                            {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
                                                          </a>`);
                                             break;
                                         default:
                                             if(screenElement !== 'login' && screenElement !== 'logout') {
-                                                mainNav.push(`<a id="izdchj" class="nav-link nav-item active">
-                                                            <a [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+                                                mainNav.push(`<a id="izdchj" class="menu-link" [routerLink]="['/${screenElement.toLowerCase()}']">
+                                                            {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
                                                         </a>`);
                                             }
                                             break;
                                     }
                                 });
                             } 
-                        } 
+                        }
+                        bottomNav.push(`
+                            <a id="i4izs3" class="menu-link">
+                                <a style="font-size: medium;" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true"
+                                class="btn dropdown-toggle" id="dropdownMenuButton"> 
+                                {{'source.selectLanguage' | i18next }} <b class="caret"></b> </a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li>
+                                        <a class="dropdown-item" *ngFor="let lang of languages" (click)='confirmLangModel(lang)'> {{'languages.' + lang | i18nextCap }}</a>
+                                    </li>
+                                </ul>
+                            </a>`);
                         if(true){
                             if (menuElement.screenmenu && menuElement.screenmenu.length > 0) {
                                 menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
@@ -95,17 +107,6 @@ export class TemplateTopNav {
                     });
                 }
             });
-            bottomNav.push(`
-                            <a id="ifylpi" class="menu-link">
-                                <a style="font-size: medium;" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true"
-                                class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton"> 
-                                {{'source.selectLanguage' | i18next }} <b class="caret"></b> </a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li>
-                                        <a class="dropdown-item" *ngFor="let lang of languages" (click)='confirmLangModel(lang)'> {{'languages.' + lang | i18nextCap }}</a>
-                                    </li>
-                                </ul>
-                            </a>`);
             sideNav += topNav.join('\n');
             sideNav += mainNav.join('\n');
             sideNav += bottomNav.join('\n');

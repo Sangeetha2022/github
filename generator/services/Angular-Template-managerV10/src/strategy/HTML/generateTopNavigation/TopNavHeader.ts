@@ -55,14 +55,14 @@ export class TopTemplateHeader {
     #izdchj:hover {
         background-color: #649F87;
         border-radius: 5px 5px 5px 5px;
-        padding: 10px 20px 14px 20px;
-        color: #f9f9f9 !important;
+        padding: 8px 20px 8px 20px;
+        color: #f9f9f9;
         font-weight: 400;
     }
     
     #izdchj {
         padding: 8px 20px 8px 20px;
-        color: #f4f4f4 !important;
+        color: inherit;
         font-size: medium;
     }
     
@@ -94,13 +94,12 @@ export class TopTemplateHeader {
         float: right
     }
     
-    
     .menu-link {
         margin: 0;
         color: inherit;
         opacity: 0.75;
         text-decoration: none;
-        display: inline-block !important;
+        display: inline-block;
         vertical-align: middle;
         padding: 10px 15px;
         transition: opacity 0.25s;
