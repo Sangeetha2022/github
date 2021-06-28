@@ -76,7 +76,7 @@ export class TemplateHeader {
         
         // --------------------------------------------------------------------
         #icrvgp {
-            padding: 5px 0 5px 20px;
+            padding: 5px 0 5px 10px;
             height: 50px;
             flex: 1 1 100%;
         }
@@ -100,7 +100,7 @@ export class TemplateHeader {
         }
         #i9imej {
             color: #ffffff;
-            font-size: 22px;
+            font-size: 18px;
             padding: 0 0 0 0;
             line-height: 24px;
         }
@@ -166,14 +166,18 @@ export class TemplateHeader {
         #iyxitk {
             color: white;
             max-width: 90%;
-            font-size: 22px;
+            font-size: 18px;
         }
         #i0xya-2 {
             padding: 0 0 0 0;
             flex-basis: 23%;
-            background-color: rgb(30, 30, 30);
+            background-color: black;
             display: block;
-            height: 92vh;
+            height: 160vh;
+        }
+        #ibuiwl {
+            text-align: right;
+            padding: 15px;
         }
         #i60c7-2:hover {
             margin: 0 0 0 0;

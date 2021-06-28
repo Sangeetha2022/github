@@ -339,7 +339,7 @@ a.list-group-item-success:hover {
   .sidenav .closebtn {
     color: white;
     position: absolute;
-    top: 0px;
+    top: 60px;
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
