@@ -1,7 +1,7 @@
 {
-  "name": "vault",
+  "name": "system-credentials-manager",
   "version": "1.0.0",
-  "description": "vault Node Microservice",
+  "description": "system credentials manager microservice",
   "main": "dist/server.js",
   "scripts": {
     "test": "ng test",

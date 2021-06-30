@@ -1,5 +1,5 @@
 {
-    "compilerOptions": {
+        "compilerOptions": {
         "module": "commonjs",
         "moduleResolution": "node",
         "pretty": true,

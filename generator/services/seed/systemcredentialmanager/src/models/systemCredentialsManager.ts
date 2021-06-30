@@ -6,9 +6,9 @@ const Schema = mongoose.Schema;
 
 
 
-export const vaultSchema = new Schema({
+export const systemCredentialsManagerSchema = new Schema({
    type: {type:String },
-   credentials: {type: String},
+   credentials: {type: Array<String>},
    userId: {type: String},
    created_date: { type: Date, default: Date.now },
    created_by: { type: String },
@@ -17,5 +17,5 @@ export const vaultSchema = new Schema({
    
 })
 
-const vaultModel = mongoose.model('vault', vaultSchema, 'vault');
-export default vaultModel;
+const systemCredentialsManagerModel = mongoose.model('systemCredentialsManager', systemCredentialsManagerSchema, 'systemCredentialsManager');
+export default systemCredentialsManagerModel;

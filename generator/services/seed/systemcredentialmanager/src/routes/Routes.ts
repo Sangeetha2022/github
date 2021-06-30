@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { vaultController } from '../controller/vaultController';
+import { systemCredentialsManagerController } from '../controller/systemCredentialsManagerController';
 
 
 export class Routes {
-    private vault: vaultController = new vaultController();
+    private systemCredentialsManager: systemCredentialsManagerController = new systemCredentialsManagerController();
     
     public routes(app): void {
           app.route('/health/entity-service').get((req: Request, res: Response) => {
@@ -11,11 +11,11 @@ export class Routes {
                 status: 'up'
             })
         })
-app.route('/vault/get/search').get(this.vault.GpSearch);
-app.route('/vault').put(this.vault.GpUpdate);
-app.route('/vault').get(this.vault.GpGetAllValues);
-app.route('/vault/:id').delete(this.vault.GpDelete);
-app.route('/vault').post(this.vault.GpCreate);
+app.route('/scm/get/search').get(this.systemCredentialsManager.GpSearch);
+app.route('/scm').put(this.systemCredentialsManager.GpUpdate);
+app.route('/scm').get(this.systemCredentialsManager.GpGetAllValues);
+app.route('/scm/:id').delete(this.systemCredentialsManager.GpDelete);
+app.route('/scm').post(this.systemCredentialsManager.GpCreate);
      }
 
 }
