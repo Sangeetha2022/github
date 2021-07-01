@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { systemCredentialsManagerDao } from '../dao/systemCredentialsManagerDao';
+import { systemCredentialsManagerDao } from '../dao/systemCredentialsManagerDBDao';
 import { CustomLogger } from '../config/Logger'
 let systemCredentialsManager = new systemCredentialsManagerDao();
 
