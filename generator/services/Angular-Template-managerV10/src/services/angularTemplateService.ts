@@ -455,7 +455,10 @@ export class AngularTemplateService {
                         next();
                     });
                 } else if (templateName.toLowerCase() === 'nature template') {
-                    console.log("if nature template------------------------------");
+                    this.generateTopNavTemplate(gjsElement, body, tagName, (res) => {
+                        next();
+                    });
+                } else if (templateName.toLowerCase() === 'ibm template') {
                     this.generateTopNavTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
