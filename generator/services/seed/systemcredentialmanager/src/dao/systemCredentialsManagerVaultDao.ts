@@ -64,13 +64,10 @@ callback(error);
 public GpCreate(systemCredentialsManagerData, callback){
 new CustomLogger().showLogger('info', 'Enter into systemCredentialsManagerVaultDao.ts: GpCreate')
 let temp = new systemCredentialsManagerModel(systemCredentialsManagerData);
-;
 temp.save().then((result)	=>	{
 new CustomLogger().showLogger('info', 'Exit from systemCredentialsManagerVaultDao.ts: GpCreate');
 callback(result);
 }).catch((error)=>{
 callback(error);
 });}
-
-
 }
