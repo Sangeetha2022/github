@@ -49,7 +49,7 @@ export class TopTemplateHeader {
       margin: 0 0 0 0;
     }
     #i4izs3 {
-        margin: 0 270px 0 0;
+        margin: 0 100px 0 0;
     }
     
     #izdchj:hover {
@@ -97,7 +97,7 @@ export class TopTemplateHeader {
     .menu-link {
         margin: 0;
         color: inherit;
-        opacity: 0.75;
+        opacity: 1;
         text-decoration: none;
         display: inline-block;
         vertical-align: middle;
