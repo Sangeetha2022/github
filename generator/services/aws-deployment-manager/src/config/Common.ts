@@ -15,7 +15,7 @@ export class Common {
     try {
       if (fs.existsSync(path,)) {
         console.log("Removing the folder----", path)
-        fs.rmdirSync(path, { recursive: true })
+        fs.rmdirSync(path)
       }
     } catch (err) {
       console.log('error for removing into -----  ', err);
