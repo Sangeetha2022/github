@@ -1,4 +1,3 @@
-import * as mongoose from 'mongoose';
 import systemCredentialsManagerModel from '../models/systemCredentialsManager';
 import { CustomLogger } from '../config/Logger'
 
@@ -61,10 +60,13 @@ callback(result);
 }).catch((error)=>{
 callback(error);
 });}
+
+
+
+
 public GpCreate(systemCredentialsManagerData, callback){
 new CustomLogger().showLogger('info', 'Enter into systemCredentialsManagerDBDao.ts: GpCreate')
 let temp = new systemCredentialsManagerModel(systemCredentialsManagerData);
-;
 temp.save().then((result)	=>	{
 new CustomLogger().showLogger('info', 'Exit from systemCredentialsManagerDBDao.ts: GpCreate');
 callback(result);

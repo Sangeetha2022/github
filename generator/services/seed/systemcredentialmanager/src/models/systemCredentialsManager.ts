@@ -8,7 +8,7 @@ const Schema = mongoose.Schema;
 
 export const systemCredentialsManagerSchema = new Schema({
    type: {type:String },
-   credentials: {type: Array<String>},
+   credentials:{},
    userId: {type: String},
    created_date: { type: Date, default: Date.now },
    created_by: { type: String },
