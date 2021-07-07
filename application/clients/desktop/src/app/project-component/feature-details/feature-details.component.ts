@@ -772,7 +772,7 @@ export class FeatureDetailsComponent implements OnInit {
             })
             if (response.body.service === 'backEnd') {
                 this.modifyComponents.map(async (backEnd) => {
-                    if (backEnd.name === 'GpExpressService') {
+                    if (backEnd.name === 'GpExpressDao') {
                         tempData.flowComponentId = backEnd._id;
                         this.updateFlowCompMicroFlowConnectorById(tempData);
                     }

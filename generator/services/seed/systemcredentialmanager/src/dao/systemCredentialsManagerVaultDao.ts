@@ -27,10 +27,20 @@ vault: any;
         });
     }
 
-    public GpVaultCreate(data, callback) {
-        const temp = data.credentials.userName;
+    public GpVaultGetByConnectorName(connectorName, callback) {
+        new CustomLogger().showLogger('info', 'Enter into systemCredentialsManagerVaultDao.ts: GpReadAll')
+        vault.list('kv/kubernetes/sourcecode/' + connectorName).then((data) => {
+        new CustomLogger().showLogger('info', 'Exit from systemCredentialsManagerVaultDao.ts: GpReadAll');
+        callback(data);
+        }).catch((error) => {
+        callback(error);
+        });
+    }
+
+    public GpVaultCreate(connectorName, data, callback) {
+        const temp = data.credentials;
         new CustomLogger().showLogger('info', 'Enter into systemCredentialsManagerVaultDao.ts: GpCreate')
-        vault.write(`kv/kubernetes/sourcecode/${temp}`, data.credentials).then((data) => {
+        vault.write(`kv/kubernetes/sourcecode/${connectorName}`, temp).then((data) => {
         new CustomLogger().showLogger('info', 'Exit from systemCredentialsManagerVaultDao.ts: GpCreate');
         callback(data);
         }).catch((error) => {

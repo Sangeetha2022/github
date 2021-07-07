@@ -29,6 +29,7 @@
     "mongoose": "~5.4.7",
     "nanoid": "^2.0.3",
     "nanoid-dictionary": "^2.0.0",
+    "ncp": "^2.0.0",
     "node-async-loop": "^1.2.2",
     "node-fetch": "^2.3.0",
     "node-vault": "^0.9.5",

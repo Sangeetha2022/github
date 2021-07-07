@@ -21,6 +21,7 @@ packageJson(object) ::= <<
     "express": "^4.16.4",
     "express-winston": "^3.0.1",
     "mongoose": "^5.4.9",
+    "node-vault": "^0.9.5",
     "nodemon": "^1.18.9",
     "typescript": "^3.3.1",
     "util": "^0.11.1",

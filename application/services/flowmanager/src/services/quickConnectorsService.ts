@@ -145,7 +145,7 @@ export class QuickConnectorsService {
                             fieldArray.push({
                                 name: uniqueKey,
                                 type_name: 'Text',
-                                data_type: null,
+                                data_type: String,
                                 description: uniqueKey,
                                 is_entity_type: false,
                                 is_list_type: false,
@@ -162,7 +162,7 @@ export class QuickConnectorsService {
                                 {
                                     name: key,
                                     type_name: 'List',
-                                    data_type: String,
+                                    data_type: Array,
                                     description: key,
                                     is_entity_type: false,
                                     is_list_type: false,
@@ -183,7 +183,7 @@ export class QuickConnectorsService {
                         {
                             name: key,
                             type_name: 'Text',
-                            data_type: null,
+                            data_type: String,
                             description: key,
                             is_entity_type: false,
                             is_list_type: false,

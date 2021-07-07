@@ -28,9 +28,12 @@ export class AttachmentService {
                 let originalFileData = JSON.parse(data.toString());
                 let dataObject = JSON.parse(data.toString());
                 dataObject.item.map((data, index) => {
-                    data.request.auth[data.request.auth.type].map((data, index) => {
-                        data.value = "";
-                    })
+                    if(data.request.auth !== undefined && data.request.auth[data.request.auth.type] !== undefined) {
+                        data.request.auth[data.request.auth.type].map((data, index) => {
+                            data.value = "";
+                        })
+                    } else {
+                    }
                 })
                 if (resource === 'S3') {
                     console.log('inside busboy data');

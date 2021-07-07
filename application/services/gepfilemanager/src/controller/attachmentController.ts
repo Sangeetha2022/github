@@ -7,7 +7,6 @@ export class AttachmentController {
 
     public addAttachment(req: Request, res: Response) {
         new CustomLogger().showLogger('info', 'Enter into attachmentController.ts: createAttachment');
-        console.log("data send attachment---------------",req);
         attachmentService.addAttachment(req, (response) => {
             res.status(201);
             res.json(response);

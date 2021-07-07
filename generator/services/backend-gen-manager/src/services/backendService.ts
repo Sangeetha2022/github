@@ -14,6 +14,7 @@ import * as util from 'util';
 import * as path from 'path';
 import * as asyncLoop from 'node-async-loop';
 import { DataStoreManagerService } from '../apiservices/DataStoreManagerService';
+import { FlowConnectorManagerService } from '../apiservices/FlowConnectorManagerService';
 import { Common } from '../config/Common';
 
 export class BackendService {
@@ -21,7 +22,8 @@ export class BackendService {
     nodeService = new NodeGenManagerService();
     microFlowService = new MicroFlowManagerService();
     dataStoreService = new DataStoreManagerService();
-    apiAdapter = new ApiAdaptar()
+    apiAdapter = new ApiAdaptar();
+    flowConnectors = new FlowConnectorManagerService();
     backend: String;
 
     public async createProject(req: Request, callback: CallableFunction) {
@@ -132,6 +134,13 @@ export class BackendService {
                                 } else {
                                     const microFlows = await this.getMicroFlows(componentElement.microFlows);
                                     flowComponent.microFlows = JSON.parse(JSON.stringify(microFlows)).body;
+                                    console.log('flowComponent.microFlows =====>>>>', flowComponent.microFlows);
+                                    if(componentElement.connector.length > 0) {
+                                        let connectorResponse: any = await this.getFileByIds(componentElement);
+                                        flowComponent.connector = connectorResponse;
+                                    } else {
+                                        flowComponent.connector = componentElement.connector;
+                                    }
                                     flowComponent.connector = componentElement.connector;
                                     flows.components.push(flowComponent);
                                     flowComponentCount++;
@@ -197,6 +206,33 @@ export class BackendService {
             this.nodeService.generateNode(details, (data) => {
                 resolve(data);
             })
+        })
+    }
+
+    getFileByIds(componentElement) {
+        return new Promise(resolve => {
+            let count = 0;
+            asyncLoop(componentElement.connector, async (data, next) => {
+                console.log('data.externalConnector =========>>>', data);
+                if (data.externalConnector !== undefined && data.externalConnector.length > 0) {
+                    this.flowConnectors.getFileByIds(data.externalConnector, (response) => {
+                        componentElement.connector[count].externalConnector = response.body;
+                    count++;
+                    next();
+                    })
+                    
+                } else {
+                    count++;
+                    next();
+                }
+            }, async (error) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    resolve(componentElement.connector);
+                }
+            });
+            
         })
     }
 

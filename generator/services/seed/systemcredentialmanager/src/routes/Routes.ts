@@ -11,10 +11,10 @@ export class Routes {
                 status: 'up'
             })
         })
-app.route('/scm/search/:userName').get(this.systemCredentialsManager.GpSearch);
-app.route('/scm/update/:userName').put(this.systemCredentialsManager.GpUpdate);
+app.route('/scm/search').get(this.systemCredentialsManager.GpSearch);
+app.route('/scm/update').put(this.systemCredentialsManager.GpUpdate);
 app.route('/scm').get(this.systemCredentialsManager.GpGetAllValues);
-app.route('/scm/:userName').delete(this.systemCredentialsManager.GpDelete);
+app.route('/scm').delete(this.systemCredentialsManager.GpDelete);
 app.route('/scm').post(this.systemCredentialsManager.GpCreate);
      }
 

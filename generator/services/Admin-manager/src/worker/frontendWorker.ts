@@ -274,7 +274,8 @@ export class FrontendWorker {
             serviceMethod: []
         }
         await temp.serviceMethod.push(`GpCreate(${temp.folderName}): Observable<any> {
-            return this.http.post(this.sharedService.DESKTOP_API + '/${temp.folderName}', ${temp.folderName});
+            let user_id =  sessionStorage.getItem('Id');
+            return this.http.post(this.sharedService.DESKTOP_API + '/scm?user_id=' + user_id, ${temp.folderName});
         }`);
         this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
             `${connectorObject.name.toLowerCase()}-admin.service.ts`, `connector_admin_component_service`, temp, (response) => {
@@ -340,6 +341,7 @@ export class FrontendWorker {
                     })
                 }
             })
+            temp.componentVariable.push(`${temp.folderName}Storage: '',`);
             temp.componentVariable.push(`}`);
             temp.componentMethod.push(`},
             error => {

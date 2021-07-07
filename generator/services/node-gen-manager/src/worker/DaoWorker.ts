@@ -1,5 +1,6 @@
 import * as util from 'util';
 import { DaoSupportWorker } from '../supportworker/DaoSupportWorker';
+import * as Constants from '../config/Constants'
 
 let daoSupportWorker = new DaoSupportWorker();
 
@@ -18,6 +19,23 @@ export class DaoWorker {
         }, {
             name: 'request-promise-native',
             version: '^1.0.7'
+        }]
+    }
+
+    private fetchNPM = {
+        componentVariable: 'fetch',
+        componentDependencies: [{
+            name: '* as fetch',
+            path: 'node-fetch'
+        },
+        {
+            name: '{ ApiAdaptar }',
+            path: '../config/apiAdapter'
+        }
+    ],
+        packageDependencies: [{
+            name: 'node-fetch',
+            version: '^2.3.0'
         }]
     }
 
@@ -40,7 +58,13 @@ export class DaoWorker {
             query: '',
             return: '',
             isJsonFormat: false,
-            connectorEntityName: null
+            connectorEntityName: null,
+            connector: {
+                SCM_method_call: '',
+                get_vault_data: '',
+                fetch_request: '',
+                fetch_respone: '',
+            }
         },
         packageDependencies: []
     }
@@ -159,16 +183,26 @@ export class DaoWorker {
 
     addExternalConnector() {
         console.log('gpDao connector vlaues ar e---  ', this.gpDao.connector[0]);
-        const externalConnector = this.gpDao.connector[0];
-        this.tempDao.function.verbs = this.requestNPM.componentVariable;
-        this.tempDao.function.query = `\`${externalConnector.url}\``;
+        const connector = this.gpDao.connector[0].externalConnector[0].fileData;
+        const externalConnector = this.gpDao.connector[0].externalConnector[0].fileData.item[0].request;
+        if(externalConnector.auth !== undefined){
+            this.tempDao.function.query = `'${externalConnector.url.raw}', { method: "${externalConnector.method}", body: JSON.stringify(${this.entitySchema.fileName}Data), headers: { 'Content-Type': 'application/json', 'Authorization': '${externalConnector.auth.type}' + credentials.${externalConnector.auth.type}}}`;
+        }
+        this.tempDao.function.verbs = this.fetchNPM.componentVariable;
+        if(externalConnector.method === 'POST' || externalConnector.method === 'PUT') {
+            this.tempDao.function.query = `'${externalConnector.url.raw}', { method: "${externalConnector.method}", body: JSON.stringify(${this.entitySchema.fileName}Data), headers: { 'Content-Type': 'application/json' }}`;
+        } else {
+            this.tempDao.function.query = `'${externalConnector.url.raw}', { method: "${externalConnector.method}", headers: { 'Content-Type': 'application/json' }}`;
+        }
+        this.tempDao.function.connector.SCM_method_call = `this.getCredentialsData(${connector.info.name})`;
+        this.tempDao.function.connector.fetch_respone = `result.json()).then((result) =>`;
         this.tempDao.function.isJsonFormat = true;
-        this.tempDao.function.connectorEntityName = externalConnector.entityName;
+        // this.tempDao.function.connectorEntityName = externalConnector.entityName;
         // add component gpStart dependencies
-        this.tempDao.GpStart.dependencies = this.tempDao.GpStart.dependencies.concat(this.requestNPM.componentDependencies);
+        this.tempDao.GpStart.dependencies = this.tempDao.GpStart.dependencies.concat(this.fetchNPM.componentDependencies);
 
         // add package json dependencies
-        this.tempDao.packageDependencies = this.tempDao.packageDependencies.concat(this.requestNPM.packageDependencies);
+        this.tempDao.packageDependencies = this.tempDao.packageDependencies.concat(this.fetchNPM.packageDependencies);
     }
 
     gpFunction() {
@@ -207,6 +241,7 @@ export class DaoWorker {
                     this.tempDao.function.verbs = `temp.save`;
                     this.tempDao.function.isJsonFormat = false;
                     this.tempDao.function.connectorEntityName = null;
+                    this.tempDao.function.connector = undefined;
                 }
                 break;
             case 'GpSearch':
@@ -242,6 +277,7 @@ export class DaoWorker {
                     ]}`;
                     this.tempDao.function.isJsonFormat = false;
                     this.tempDao.function.connectorEntityName = null;
+                    this.tempDao.function.connector = undefined;
                 }
                 break;
             case 'GpUpdate':
@@ -252,6 +288,7 @@ export class DaoWorker {
                     this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
                     this.tempDao.function.isJsonFormat = false;
                     this.tempDao.function.connectorEntityName = null;
+                    this.tempDao.function.connector = undefined;
                 }
                 break;
             case 'GpDelete':
@@ -262,6 +299,7 @@ export class DaoWorker {
                     this.tempDao.function.query = `${this.entitySchema.fileName}Id`;
                     this.tempDao.function.isJsonFormat = false;
                     this.tempDao.function.connectorEntityName = null;
+                    this.tempDao.function.connector = undefined;
                 }
                 break;
             case 'GpGetAllValues':
@@ -271,6 +309,7 @@ export class DaoWorker {
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
                     this.tempDao.function.isJsonFormat = false;
                     this.tempDao.function.connectorEntityName = null;
+                    this.tempDao.function.connector = undefined;
                 }
                 break;
             case 'GpSearchDetail':
@@ -283,6 +322,7 @@ export class DaoWorker {
                     this.tempDao.function.query = `{ _id: ${this.entitySchema.fileName}Data._id }, ${this.entitySchema.fileName}Data, { new: true }`;
                     this.tempDao.function.isJsonFormat = false;
                     this.tempDao.function.connectorEntityName = null;
+                    this.tempDao.function.connector = undefined;
                 }
                 break;
             case 'GpDeleteNounRelationship':
@@ -317,6 +357,7 @@ export class DaoWorker {
                     this.tempDao.function.query = `${this.entitySchema.fileName}Id`;
                     this.tempDao.function.isJsonFormat = false;
                     this.tempDao.function.connectorEntityName = null;
+                    this.tempDao.function.connector = undefined;
                 }
                 break;
             case 'GpDeleteByParentId':
