@@ -190,6 +190,12 @@
                     "apiAction": "get",
                     "methodName": "GpSearch",
                     "variableName": "User"
+                },
+                {
+                    "routeUrl": "/scmbyname",
+                    "apiAction": "get",
+                    "methodName": "GpGetVaultByName",
+                    "variableName": "User"
                 }
             ]
         }

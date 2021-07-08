@@ -14,6 +14,7 @@ export class Routes {
 app.route('/scm/search').get(this.systemCredentialsManager.GpSearch);
 app.route('/scm/update').put(this.systemCredentialsManager.GpUpdate);
 app.route('/scm').get(this.systemCredentialsManager.GpGetAllValues);
+app.route('/scmbyname').get(this.systemCredentialsManager.GpGetVaultByName);
 app.route('/scm').delete(this.systemCredentialsManager.GpDelete);
 app.route('/scm').post(this.systemCredentialsManager.GpCreate);
      }

@@ -275,7 +275,7 @@ export class FrontendWorker {
         }
         await temp.serviceMethod.push(`GpCreate(${temp.folderName}): Observable<any> {
             let user_id =  sessionStorage.getItem('Id');
-            return this.http.post(this.sharedService.DESKTOP_API + '/scm?user_id=' + user_id, ${temp.folderName});
+            return this.http.post(this.sharedService.DESKTOP_API + '/scm?connector_name=${temp.folderName}', ${temp.folderName});
         }`);
         this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
             `${connectorObject.name.toLowerCase()}-admin.service.ts`, `connector_admin_component_service`, temp, (response) => {

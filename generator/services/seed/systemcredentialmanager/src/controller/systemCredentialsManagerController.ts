@@ -31,6 +31,14 @@ export class systemCredentialsManagerController {
             new CustomLogger().showLogger('info', 'Exit from systemCredentialsManagerController.ts: GpGetAllValues');
         })
     }
+    public GpGetVaultByName(req: Request, res: Response) {
+        systemCredentialsManager.GpGetVaultByName(req, (response) => {
+            new CustomLogger().showLogger('info', 'Enter into systemCredentialsManagerController.ts: GpGetVaultByName');
+            res.status(200);
+            res.json(response);
+            new CustomLogger().showLogger('info', 'Exit from systemCredentialsManagerController.ts: GpGetVaultByName');
+        })
+    }
     public GpDelete(req: Request, res: Response) {
         systemCredentialsManager.GpDelete(req, (response) => {
             new CustomLogger().showLogger('info', 'Enter into systemCredentialsManagerController.ts: GpDelete');
