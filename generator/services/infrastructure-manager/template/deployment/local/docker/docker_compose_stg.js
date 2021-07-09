@@ -1,6 +1,6 @@
 /*
  * Template group docker_compose
- * Compiled on Mon Feb 22 2021 12:44:37 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jul 09 2021 12:57:50 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -96,6 +96,47 @@ r = function(w, rc) {
     w.write("\n");
     w.pushIndentation("      ");
     w.write("start_period: 40s");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("vault:");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("image: vault");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("container_name: vault-");
+    w.popIndentation();
+    st.write(w, s, g, rc, s.uuid);
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("ports:");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("- \"8200:8200\"");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("environment:");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("      ");
+    w.write("VAULT_SERVER: \"http://127.0.0.1:8200\"");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("      ");
+    w.write("VAULT_DEV_ROOT_TOKEN_ID: vault-geppetto-2021");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("cap_add:");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("- IPC_LOCK");
     w.popIndentation();
     w.write("\n");
     w.write("\n");
@@ -304,17 +345,17 @@ r = function(w, rc) {
     w.write("- securitymanager");
     w.popIndentation();
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 74, column: 19 }))) {
+    if (st.test(st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 84, column: 19 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 74, column: 48 });
+        attr = st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 84, column: 48 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
                      w.write("      - ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 75, column: 39 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 85, column: 39 }));
                      w.write("\n");
             }, [
             { name: "custom_node"     }
@@ -327,35 +368,35 @@ r = function(w, rc) {
     w.write("\n");
     w.write("\n");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 79, column: 19 }))) {
+    if (st.test(st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 89, column: 19 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 79, column: 48 });
+        attr = st.prop(s, g, rc, s.projectdetails, "custom_node", { file: gFile, line: 89, column: 48 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
                      w.write("  ");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 80, column: 21 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 90, column: 21 }));
                      w.write(": ");
                      w.write("\n");
                      w.pushIndentation("    ");
                      w.write("build: ../../../application/services/custom_services/");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 81, column: 70 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 91, column: 70 }));
                      w.write("\n");
                      w.pushIndentation("    ");
                      w.write("image: ");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 82, column: 24 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 92, column: 24 }));
                      w.write("-");
                      st.write(w, s, g, rc, s.uuid);
                      w.write("\n");
                      w.pushIndentation("    ");
                      w.write("container_name: ");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 83, column: 33 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "name", { file: gFile, line: 93, column: 33 }));
                      w.write("-");
                      st.write(w, s, g, rc, s.uuid);
                      w.write("\n");
@@ -366,9 +407,9 @@ r = function(w, rc) {
                      w.pushIndentation("      ");
                      w.write("- ");
                      w.popIndentation();
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 85, column: 21 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 95, column: 21 }));
                      w.write(":");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 85, column: 40 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.custom_node, "port", { file: gFile, line: 95, column: 40 }));
                      w.write("\n");
                      w.pushIndentation("    ");
                      w.write("env_file: .env");
@@ -395,7 +436,7 @@ r = function(w, rc) {
     w.write("volumes:");
     w.write("\n");
     w.pushIndentation("  ");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 92, column: 18 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 102, column: 18 }));
     w.popIndentation();
     w.write("-volume:");
     w.write("\n");

@@ -181,7 +181,7 @@ export class DaoWorker {
         return true;
     }
 
-    addExternalConnector() {
+    async addExternalConnector() {
         console.log('gpDao connector vlaues ar e---  ', this.gpDao.connector[0]);
         const connector = this.gpDao.connector[0].externalConnector[0].fileData;
         const externalConnector = this.gpDao.connector[0].externalConnector[0].fileData.item[0].request;
@@ -194,7 +194,7 @@ export class DaoWorker {
         } else {
             this.tempDao.function.query = `'${externalConnector.url.raw}', { method: "${externalConnector.method}", headers: { 'Content-Type': 'application/json' }}`;
         }
-        this.tempDao.function.connector.SCM_method_call = `this.getCredentialsData(${connector.info.name})`;
+        this.tempDao.function.connector.SCM_method_call = `let credentialData = await this.getCredentialsData('${connector.info.name}')`;
         this.tempDao.function.connector.fetch_respone = `result.json()).then((result) =>`;
         this.tempDao.function.isJsonFormat = true;
         // this.tempDao.function.connectorEntityName = externalConnector.entityName;

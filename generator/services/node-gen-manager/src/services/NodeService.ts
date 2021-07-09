@@ -441,7 +441,12 @@ export class NodeService {
                                 return: '',
                                 isJsonFormat: false,
                                 connectorEntityName: null,
-                                connector: undefined,
+                                connector: {
+                                    SCM_method_call: undefined,
+                                    get_vault_data: undefined,
+                                    fetch_request: undefined,
+                                    fetch_respone: undefined,
+                                },
                             }
                             daoTemp.methodName = dao.function.methodName;
                             daoTemp.parameter = dao.function.parameter;
