@@ -1,0 +1,171 @@
+a {
+  text-decoration: none;
+  color: white;
+}
+.headerLogo {
+  cursor: pointer;
+}
+a:hover,
+a:active {
+  color: lightgray;
+}
+
+.navigation-items {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+mat-toolbar {
+  border-radius: 3px;
+}
+
+.mat-toolbar {
+ // position: fixed;
+ // top: 20px;
+  //z-index: 999;
+ 
+}
+.header_img1 {
+  width: 60%;
+  height: 100px;
+}
+.mat-toolbar.mat-primary {
+ // background: grey;
+ background-color: #333354;
+}
+
+.dropdown-item {
+  color: black;
+}
+
+@media (max-width: 959px) {
+  mat-toolbar {
+    border-radius: 0px;
+  }
+}
+
+.mobile_only {
+  display: none;
+ 
+}
+.desktop_only {
+  display: block;
+}
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575px) {
+
+  .mobile_only {
+    display: block !important;
+   
+  }
+  .desktop_only {
+    display: none !important;
+  }
+  .header_img1 {
+    width: 60%;
+    height: 100px;
+  }
+  .overlay {
+    height: 0%;
+    width: 100%;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    background-color: rgb(0, 0, 0);
+    background-color: #333354; 
+    overflow-y: hidden;
+    transition: 0.5s;
+  }
+
+  .overlay-content {
+    position: relative;
+    top: -10%;
+    width: 100%;
+    text-align: left;
+    margin-top: 30px;
+  }
+
+  .overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 24px;
+    display: block;
+    transition: 0.3s;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .overlay a:hover,
+  .overlay a:focus {
+    color: #f1f1f1;
+  }
+
+  .overlay .closebtn {
+    position: absolute;
+    top: 23px;
+    right: 4px;
+    font-size: 60px;
+  }
+
+  @media screen and (max-height: 450px) {
+    .overlay {
+      overflow-y: auto;
+    }
+    .overlay a {
+      font-size: 20px;
+    }
+    .overlay .closebtn {
+      font-size: 40px;
+      top: 15px;
+      right: 35px;
+    }
+  }
+  .header_img {
+    width: 100%;
+    height: 80px;
+  }
+  .m_header {
+    //background-image: linear-gradient(to bottom, #003366, #335c85);
+     background-color: #333354; 
+    height: 75px;
+  }
+  .menu_btn {
+    text-align: right;
+    color: white;
+    padding-top: 7%;
+  }
+  .btn-secondary {
+    background-color: unset;
+    border: unset;
+  }
+  .btn-danger {
+    color: #fff;
+    background-color: unset;
+    border-color: unset;
+    border: unset;
+    font-size: 24px;
+  }
+  .btn-secondary {
+    background-color: unset;
+    border: unset;
+    width: auto;
+    font-size: 24px;
+  }
+  .dropdown-menu {
+    width: 100%;
+}
+}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767px) {
+}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991px) {
+}
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199px) {
+}

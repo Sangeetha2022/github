@@ -1,0 +1,330 @@
+* {
+     box-sizing: border-box;
+}
+ body {
+    margin: 0;
+}
+*{
+    box-sizing:border-box;
+}
+body{
+    margin:0;
+}
+#wrapper{
+    color:#777;
+    font-family:Helvetica, serif;
+}
+#ixiq{
+    font-weight:200;
+    padding:0 0 50px 0;
+    background-image:url(assets/img/tpl-img-overlay-gray.png), url(assets/img/tpl-img-bg-night.jpg);
+    background-repeat:repeat, repeat;
+    background-size:auto, auto;
+    color:#fff;
+    background-attachment:scroll, fixed;
+    background-position:left top, center top;
+}
+#is1e{
+    padding:100px 0 100px 0;
+    text-align:center;
+}
+#i75x3{
+    font-size:3rem;
+    margin:39.84px 0 40px 0;
+    text-transform:uppercase;
+}
+#iefgm{
+    padding:10px;
+    font-size:1.5rem;
+    margin:0 0 40px 0;
+}
+.button2{
+    display:inline-block;
+    padding-top:15px;
+    padding-right:30px;
+    padding-bottom:15px;
+    padding-left:30px;
+    text-decoration-line:none;
+    text-decoration-style:initial;
+    text-decoration-color:initial;
+    text-align:center;
+    opacity:1;
+    transition-duration:0.25s, 0.25s;
+    transition-timing-function:initial, initial;
+    transition-delay:initial, initial;
+    transition-property:color, opacity;
+    border-top-left-radius:100px;
+    border-top-right-radius:100px;
+    border-bottom-right-radius:100px;
+    border-bottom-left-radius:100px;
+    color:white;
+    background-color:#65dca7;
+}
+.button2:hover{
+    opacity:0.85;
+}
+.button2:active{
+    opacity:0.95;
+}
+#iqnnz{
+    font-weight:200;
+    padding:100px 0 100px 0;
+    background-color:#eee;
+}
+#iwj7y{
+    padding:25px 0;
+}
+#iagw6{
+    white-space:initial;
+    background-color:#fff;
+    box-shadow:0 3px 5px 0 rgba(0, 0, 0, 0.1);
+    border-radius:3px 3px 3px 3px;
+    padding:0 0 0 0;
+    margin:0 0 75px 0;
+}
+#i0yqf{
+    background-image:url(assets/img/tpl-img-singer.jpg);
+    background-position:left top;
+    background-attachment:scroll;
+    background-size:cover;
+    flex-basis:81%;
+    min-height:200px;
+    background-repeat:no-repeat;
+}
+#ivpjm{
+    padding:25px 45px 25px 45px;
+}
+#ibfle{
+    padding:10px;
+    margin:0 0 20px 0;
+    line-height:2em;
+}
+.button4{
+    display:inline-block;
+    padding-top:15px;
+    padding-right:30px;
+    padding-bottom:15px;
+    padding-left:30px;
+    text-decoration-line:none;
+    text-decoration-style:initial;
+    text-decoration-color:initial;
+    text-align:center;
+    opacity:1;
+    transition-duration:0.25s, 0.25s;
+    transition-timing-function:initial, initial;
+    transition-delay:initial, initial;
+    transition-property:color, opacity;
+    border-top-left-radius:100px;
+    border-top-right-radius:100px;
+    border-bottom-right-radius:100px;
+    border-bottom-left-radius:100px;
+    border-top-width:2px;
+    border-right-width:2px;
+    border-bottom-width:2px;
+    border-left-width:2px;
+    border-top-style:solid;
+    border-right-style:solid;
+    border-bottom-style:solid;
+    border-left-style:solid;
+    border-top-color:rgb(220, 101, 155);
+    border-right-color:rgb(220, 101, 155);
+    border-bottom-color:rgb(220, 101, 155);
+    border-left-color:rgb(220, 101, 155);
+    border-image-source:initial;
+    border-image-slice:initial;
+    border-image-width:initial;
+    border-image-outset:initial;
+    border-image-repeat:initial;
+    color:#65dca7;
+    border:2px solid #65dca7;
+}
+.button4:hover{
+    opacity:0.85;
+}
+.button4:active{
+    opacity:0.95;
+}
+#i1gq0i{
+    white-space:initial;
+    background-color:#fff;
+    box-shadow:0 3px 5px 0 rgba(0, 0, 0, 0.1);
+    border-radius:3px 3px 3px 3px;
+    padding:0 0 0 0;
+    margin:0 0 75px 0;
+}
+#ibzpqg{
+    background-image:url(assets/img/tpl-img-concert.jpg);
+    background-position:left top;
+    background-attachment:scroll;
+    background-size:cover;
+    flex-basis:81%;
+    min-height:200px;
+    background-repeat:no-repeat;
+}
+#ihc8hq{
+    padding:25px 45px 25px 45px;
+}
+#i0aql5{
+    padding:10px;
+    margin:0 0 20px 0;
+    line-height:2em;
+}
+#izoy69{
+    font-weight:200;
+    padding:50px 0;
+    text-align:center;
+}
+#i5quel{
+    padding:25px 0;
+}
+#imoaj9{
+    font-weight:200;
+    padding:50px 0;
+    background-image:url(assets/img/tpl-img-overlay-gray.png), url(assets/img/tpl-img-dj-focus.jpg);
+    background-position:left top, left top;
+    background-attachment:scroll, fixed;
+    background-repeat:repeat, no-repeat;
+    background-size:auto, cover;
+    color:#fff;
+}
+#idjdxt{
+    padding:25px 0;
+    text-align:center;
+}
+#itzgli{
+    margin:39.84px 0 15px 0;
+    color:#343434;
+}
+#ihbb42{
+    padding:10px;
+    font-size:1.5rem;
+    margin:0 0 40px 0;
+}
+#iqkvy{
+    font-size:2.5rem;
+    margin:39.84px 0 30px 0;
+}
+#ix7sn{
+    padding:10px;
+    font-size:1.5rem;
+    margin:0 0 30px 0;
+}
+#irvn4{
+    color:#fff;
+    border:2px solid #fff;
+}
+.section-form4{
+    font-weight:200;
+    padding-top:100px;
+    padding-bottom:100px;
+    color:white;
+    background-repeat-x:no-repeat;
+    background-repeat-y:no-repeat;
+    background-position-x:center;
+    background-position-y:top;
+    background-color:#1E2832;
+}
+#i3dh5f{
+    max-width:700px;
+    margin:0 auto;
+}
+#ilks5u{
+    padding-top:10px;
+    padding-bottom:10px;
+}
+#is97gn{
+    padding:10px 0 10px 0;
+}
+#ir31sg{
+    margin:0 0 30px 0;
+}
+#ibkngv{
+    text-align:center;
+}
+#ilimvf{
+    border:0 none rgba(216, 216, 216, 0);
+    font-size:1rem;
+}
+#i2yrwj{
+    font-size:2.5rem;
+    margin:0 0 30px 0;
+    text-align:center;
+}
+.input{
+    background-color:rgba(255, 255, 255, 0.05);
+}
+.button4.button2{
+    background-color:transparent;
+}
+.textarea{
+    background-color:rgba(255, 255, 255, 0.05);
+    min-height:100px;
+}
+#i8wfdq{
+    background-image:url(assets/img/tpl-img-bottles.jpg);
+    background-attachment:scroll;
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-size:cover;
+}
+#iqrl1m{
+    background-image:url(assets/img/tpl-img-guy-concert.jpg);
+    background-attachment:scroll;
+    background-size:cover;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+#i5kxoy{
+    background-image:url(assets/img/tpl-img-disco.jpg);
+    background-attachment:scroll;
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:cover;
+}
+#ipkbrg{
+    height:250px;
+}
+#io1osg{
+    height:250px;
+}
+#i5hhsg{
+    background-image:url(assets/img/tpl-img-fireworks.jpg);
+    background-attachment:scroll;
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-size:cover;
+}
+#ipjjy8{
+    background-image:url(assets/img/tpl-img-disco-neon.jpg);
+    background-attachment:scroll;
+    background-size:cover;
+    background-position:center center;
+    background-repeat:no-repeat;
+}
+#idqjgr{
+    background-image:url(assets/img/tpl-img-neon-focus.jpg);
+    background-attachment:scroll;
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-size:cover;
+}
+#i7p07{
+    display:none;
+}
+#i6bea{
+    display:none;
+}
+#i6p5fu{
+    display:none;
+}
+#iikat7{
+    display:none;
+}
+@media (max-width: 768px){
+    #ipkbrg{
+        height:800px;
+    }
+    #io1osg{
+        height:800px;
+    }
+}
