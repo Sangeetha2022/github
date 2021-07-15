@@ -1,23 +1,9 @@
-.footer_img{
-   // width: 30%;
-   // margin-bottom: 3%;
-  }
-//   footer{
-//       position:absolute;
-//       bottom: 0;
-//       width: 100%;
-//   }
 footer{
   color: whitesmoke;
   background-color: #333354;
   position: fixed;
-  //height: 100px;
   bottom: 0;
   width: 100%;
-  //overflow:auto;
- 
- // overflow-x: hidden;
-  //bottom: 0
 }
 .top_row{
     padding-top: 2%;
@@ -41,14 +27,4 @@ footer{
         padding-top: 1%;
         font-size: 7pt;
       }
-  }
-  
-  // Medium devices (tablets, less than 992px)
-  @media (max-width: 991px) {
-  
-  }
-  
-  // Large devices (desktops, less than 1200px)
-  @media (max-width: 1199px) {
-  
   }

@@ -5,18 +5,11 @@
 
   <div fxFlex fxLayout fxLayoutAlign="end">
       <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-
-
         <select #langselect  (change)="translate.use(langselect.value)" id="">
-  
-          
           <option *ngFor="let lang of usrlang"   [value]="lang">{{ lang  }}</option>
-        
         </select>
         <a>{{'HOME.SIGNIN' | translate}}</a>
         <a>{{'HOME.ABOUT' | translate}}</a>
-        
-  
       </ul>
   </div>
 </mat-toolbar>
@@ -28,7 +21,6 @@
       <div class="overlay-content">
           <a class="btn btn-secondary"  [routerLink]="['/login']" (click)='closeNav()'>SignIn</a>
           <a class="btn btn-secondary"  [routerLink]="['/login']" (click)='closeNav()'>About</a>
-
       </div>
   </div>
   <div class="container">

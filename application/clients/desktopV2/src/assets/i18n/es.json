@@ -3,6 +3,11 @@
         "HEADING":"Bienvenida a la geppetto",
         "DESCRIPTION":"Geppetto le permite crear aplicaciones de la manera más rápida",
         "SIGNIN":"Iniciar sesión",
-        "ABOUT":"Acerca de"
+        "ABOUT":"Acerca de",
+        "LANGUAGE":{
+            "en": "English",
+            "ta": "தமிழ்",
+            "es": "Español"
+        }
     }
 }

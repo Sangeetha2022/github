@@ -1,6 +1,3 @@
-
-
-
 div.bg_img.bg_img {
   background-image: url("../../assets/banner_home.svg");
   background-position: center;
@@ -15,36 +12,9 @@ h1{
   font-weight: bold;
   letter-spacing: 1px;
 }
-
-
 // // Extra small devices (portrait phones, less than 576px)
 @media (max-width: 575px) {
   div.bg_img.bg_img{
     min-height: 100px;
-   
   }
-
-
-}
-
-// // Small devices (landscape phones, less than 768px)
-@media (max-width: 767px) {
-
-}
-
-// // Medium devices (tablets, less than 992px)
-@media (max-width: 991px) {
-
-}
-
-// // Large devices (desktops, less than 1200px)
-@media (max-width: 1199px) {
- 
-}
-
-// // iphone 5 only......
-@media only screen and (min-device-width: 320px) and (max-device-width: 568px)
-and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71) and (orientation:portrait)
-{
-
 }
