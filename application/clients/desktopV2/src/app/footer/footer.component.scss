@@ -1,0 +1,54 @@
+.footer_img{
+   // width: 30%;
+   // margin-bottom: 3%;
+  }
+//   footer{
+//       position:absolute;
+//       bottom: 0;
+//       width: 100%;
+//   }
+footer{
+  color: whitesmoke;
+  background-color: #333354;
+  position: fixed;
+  //height: 100px;
+  bottom: 0;
+  width: 100%;
+  //overflow:auto;
+ 
+ // overflow-x: hidden;
+  //bottom: 0
+}
+.top_row{
+    padding-top: 2%;
+    font-size: 9pt;
+  }
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575px){
+    .mobile_view{
+      min-width: 20%;
+    }
+    .m_address{
+      min-width: 74%;
+    }
+  }
+  
+  // Small devices (landscape phones, less than 768px)//Mobile phones
+  @media (max-width: 767px) {
+  
+    .top_row{
+        padding-top: 1%;
+        font-size: 7pt;
+      }
+  }
+  
+  // Medium devices (tablets, less than 992px)
+  @media (max-width: 991px) {
+  
+  }
+  
+  // Large devices (desktops, less than 1200px)
+  @media (max-width: 1199px) {
+  
+  }
