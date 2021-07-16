@@ -106,9 +106,10 @@ export class QuickConnectorsService {
             let jsonData = JSON.parse(existEntity);
             const requestName = exec.item.name
             const response = JSON.parse(exec.response.stream);
-            const payload: any = { name: '', field: [] };
-            const refPayload: any = { name: '', field: [] };
+            let payload: any = { name: '', field: [] };
+            let refPayload: any = { name: '', field: [] };
             payload.name = req.body.original_file_data.info.name;
+            const requestItem = req.body.original_file_data.item[0];
             const responseKeys: string[] = Object.keys(response);
             payload.is_default = false;
             payload.updated_at = new Date();
@@ -200,6 +201,23 @@ export class QuickConnectorsService {
                 } else {
                     const existEntityArray = jsonData.body.filter((x) => x.entity_type === 'primary');
                     if (existEntityArray.length == 0) {
+                        if(requestItem.request.url.query && requestItem.request.url.query.length > 0) {
+                            requestItem.request.url.query.forEach((data) => {
+                                payload.field.push(
+                                    {
+                                        name: data.key,
+                                        type_name: 'Text',
+                                        data_type: String,
+                                        description: data.key,
+                                        is_entity_type: false,
+                                        is_list_type: false,
+                                        list_type: null,
+                                        list_value: null,
+                                        entity_id: null,
+                                    }
+                                )
+                            })
+                        }
                         let entity: any = await this.createDynamicEntity(req, payload);
                         console.log('entity primary =============+>>>', entity)
                         let updatefeatureEntities = await this.featureUpdateEntity(req, entity.body);

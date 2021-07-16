@@ -19,15 +19,15 @@ services:
       retries: 5
       start_period: 40s
   vault:
-  image: vault
-  container_name: vault-$uuid$
-  ports:
-    - "8200:8200"
-  environment:
-      VAULT_SERVER: "http://127.0.0.1:8200"
-      VAULT_DEV_ROOT_TOKEN_ID: vault-geppetto-2021
-  cap_add:
-    - IPC_LOCK
+    image: vault
+    container_name: vault-$uuid$
+    ports:
+      - "8200:8200"
+    environment:
+        VAULT_SERVER: "http://127.0.0.1:8200"
+        VAULT_DEV_ROOT_TOKEN_ID: vault-geppetto-2021
+    cap_add:
+      - IPC_LOCK
 
   camunda:
     image: geppettodistribution/camunda-local:Jan2021
@@ -57,6 +57,17 @@ services:
       - mongo
       - camunda
 
+  systemcredentialmanager:
+    build: ../../../application/services/default_services/systemcredentialmanager
+    image: systemcredentialmanager-$uuid$
+    container_name: systemcredentialmanager-$uuid$
+    ports:
+      - "8005:8005"
+    env_file: .env
+    depends_on:
+      - mongo
+      - vault
+
   camundaservice:
     build: ../../../application/services/default_services/camunda
     image: camundaservice-$uuid$
@@ -81,6 +92,7 @@ services:
       - camundaservice
       - authproxy
       - securitymanager
+      - systemcredentialmanager
 $if(projectdetails.custom_node)$$projectdetails.custom_node:{custom_node | 
 $\ $$\ $$\ $$\ $$\ $$\ $- $custom_node.name$
 };separator=""$$endif$

@@ -1,6 +1,6 @@
 /*
  * Template group dao
- * Compiled on Fri Jul 09 2021 23:38:46 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jul 16 2021 18:22:24 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -142,38 +142,58 @@ r = function(w, rc) {
                      w.write("\n");
                      w.write("\n");
                      w.write("    ");
-                     if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.flowObj, "connector", { file: gFile, line: 13, column: 16 }), "SCM_method_call", { file: gFile, line: 13, column: 26 }))) {
+                     if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.flowObj, "connector", { file: gFile, line: 13, column: 16 }), "query_object", { file: gFile, line: 13, column: 26 }))) {
                      
-                         st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.flowObj, "connector", { file: gFile, line: 13, column: 52 }), "SCM_method_call", { file: gFile, line: 13, column: 62 }));
+                         st.write(w, s, g, rc, (function() {
+                         var tp = [],
+                         attr = st.prop(s, g, rc, st.prop(s, g, rc, s.flowObj, "connector", { file: gFile, line: 13, column: 49 }), "query_object", { file: gFile, line: 13, column: 59 });
+                         tp.push(st.makeSubTemplate(g, function(w, rc) {
+                             var g = this.owningGroup,
+                             s = this.scope;
+                             
+                                      st.write(w, s, g, rc, s.queryObject);
+                             }, [
+                             { name: "queryObject"     }
+                             ])); 
+                         return st.map(attr, tp);
+                         })(), {separator: "\n"});
+                     
+                     
+                     }
+                     w.write("\n");
+                     w.write("    ");
+                     if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.flowObj, "connector", { file: gFile, line: 14, column: 16 }), "SCM_method_call", { file: gFile, line: 14, column: 26 }))) {
+                     
+                         st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.flowObj, "connector", { file: gFile, line: 14, column: 52 }), "SCM_method_call", { file: gFile, line: 14, column: 62 }));
                          w.write(";");
                      
                      
                      }
                      w.write("\n");
                      w.write("    ");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "objectiteration", { file: gFile, line: 14, column: 16 }))) {
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "objectiteration", { file: gFile, line: 15, column: 16 }))) {
                      
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "objectiteration", { file: gFile, line: 14, column: 42 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "objectiteration", { file: gFile, line: 15, column: 42 }));
                          w.write(";");
                      
                      
                      }
                      w.write("\n");
                      w.write("    ");
-                     if (st.test(st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 15, column: 16 }))) {
+                     if (st.test(st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 16, column: 16 }))) {
                      
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 15, column: 32 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "verbs", { file: gFile, line: 16, column: 32 }));
                          w.write("(");
-                         if (st.test(st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 15, column: 51 }))) {
+                         if (st.test(st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 16, column: 51 }))) {
                          
-                             st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 15, column: 67 }));
+                             st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "query", { file: gFile, line: 16, column: 67 }));
                          
                          
                          }
                          w.write(").then((result)\t=>");
-                         if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.flowObj, "connector", { file: gFile, line: 15, column: 113 }), "fetch_respone", { file: gFile, line: 15, column: 123 }))) {
+                         if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, s.flowObj, "connector", { file: gFile, line: 16, column: 113 }), "fetch_respone", { file: gFile, line: 16, column: 123 }))) {
                          
-                             st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.flowObj, "connector", { file: gFile, line: 15, column: 147 }), "fetch_respone", { file: gFile, line: 15, column: 157 }));
+                             st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.flowObj, "connector", { file: gFile, line: 16, column: 147 }), "fetch_respone", { file: gFile, line: 16, column: 157 }));
                          
                          
                          }
@@ -182,21 +202,21 @@ r = function(w, rc) {
                          w.pushIndentation("        ");
                          w.write("new CustomLogger().showLogger('info', 'Exit from ");
                          w.popIndentation();
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 16, column: 65 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "entityFileName", { file: gFile, line: 17, column: 65 }));
                          w.write("Dao.ts: ");
-                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 16, column: 97 }));
+                         st.write(w, s, g, rc, st.prop(s, g, rc, s.flowObj, "methodName", { file: gFile, line: 17, column: 97 }));
                          w.write("');\n");
                          w.write("\n");
                          w.write("        ");
-                         if (st.test(! st.test(st.prop(s, g, rc, s.flowObj, "isJsonFormat", { file: gFile, line: 17, column: 21 })))) {
+                         if (st.test(! st.test(st.prop(s, g, rc, s.flowObj, "isJsonFormat", { file: gFile, line: 18, column: 21 })))) {
                          
                              w.write("callback(result);");
                          
                          
                          }
-                         if (st.test(st.prop(s, g, rc, s.flowObj, "isJsonFormat", { file: gFile, line: 17, column: 71 }))) {
+                         if (st.test(st.prop(s, g, rc, s.flowObj, "isJsonFormat", { file: gFile, line: 18, column: 71 }))) {
                          
-                             w.write("callback(JSON.parse(result));");
+                             w.write("callback(result);");
                          
                          
                          }

@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as asyncLoop from 'node-async-loop';
 import { Common } from '../config/Common';
+import * as util from 'util';
 import { FrontendSupportWorker } from '../Supportworker/frontendSupportWorker';
 
 export class FrontendWorker {
@@ -160,13 +161,12 @@ export class FrontendWorker {
     }
     
     async createVaultAdminComponent(details, callback) {
-        this.initializeData();
         this.projectGenerationPath = details.templateResponse.applicationPath;
         this.seedPath = details.seedTemplatePath;
         this.authTemplatePath = details.authTemplatePath;
         const vaultApplicationPath = `${this.projectGenerationPath}/src/app/${this.VAULT_ADMIN}`;
         this.generateStaticComponent(vaultApplicationPath, this.VAULT_ADMIN, () => {
-            this.generateModule(this.VAULT_FILE_NAME, this.MODULE_TEMPLATENAME, vaultApplicationPath, () => {
+            this.generateModule(this.VAULT_ADMIN, this.MODULE_TEMPLATENAME, vaultApplicationPath, () => {
                 callback();
             });
         });

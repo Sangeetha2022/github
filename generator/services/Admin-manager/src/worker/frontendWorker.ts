@@ -188,26 +188,35 @@ export class FrontendWorker {
                             await this.frontendSupportWorker.generateFile(applicationPath, this.templatePath, fileElement, 'admin_dynamic_html', adminHtmlData, (response) => {
                             })
                             let arrayData = jsonObject.item.filter(function (a) {
-                                var key = a.request.auth.type;
+                                let key: any;
+                                if(a.request.auth !== undefined) {
+                                     key = a.request.auth.type;
+                                } else {
+                                    key = undefined;
+                                }
+                                console.log('key ===========>>>', key)
+                                console.log('!this[key] ===========>>>', !this[key]);
                                 if (!this[key]) {
                                     this[key] = true;
                                     return true;
                                 }
                             }, Object.create(null));
                             await arrayData.forEach(data => {
-                                Object.keys(data.request.auth).forEach(key => {
-                                    if (typeof (data.request.auth[key]) == "object") {
-                                        data.request.auth[key].forEach(childData => {
-                                            connector_admin_data.connectors.push(`<div id="template-ivnj" class="row">
-                                            <div id="template-ikqf" class="cell form-group">
-                                            <label id="template-iytwi" class="label">${childData.key}</label>
-                                            <input id="template-isk94" placeholder="Please Enter Value" [(ngModel)]="${connectorObject.name.toLowerCase()}Data.${childData.key}"
-                                            [ngModelOptions]="{standalone: true}"  class="input form-control" />
-                                            </div>
-                                            </div>`);
-                                        })
-                                    }
-                                })
+                                if(data.request.auth !== undefined) {
+                                    Object.keys(data.request.auth).forEach(key => {
+                                        if (typeof (data.request.auth[key]) == "object") {
+                                            data.request.auth[key].forEach(childData => {
+                                                connector_admin_data.connectors.push(`<div id="template-ivnj" class="row">
+                                                <div id="template-ikqf" class="cell form-group">
+                                                <label id="template-iytwi" class="label">${childData.key}</label>
+                                                <input id="template-isk94" placeholder="Please Enter Value" [(ngModel)]="${connectorObject.name.toLowerCase()}Data.${childData.key}"
+                                                [ngModelOptions]="{standalone: true}"  class="input form-control" />
+                                                </div>
+                                                </div>`);
+                                            })
+                                        }
+                                    })
+                                }
                             });
                             applicationPath = `${this.projectGenerationPath}/src/app/${connectorObject.name.toLowerCase()}-admin`;
                             this.generateConnectorAdminHtml(applicationPath, connectorObject, connector_admin_data);
@@ -336,7 +345,7 @@ export class FrontendWorker {
             await Object.keys(data.request.auth).forEach(key => {
                 if (typeof (data.request.auth[key]) == "object") {
                     data.request.auth[key].forEach(childData => {
-                        temp.componentVariable.push(`${childData.key}: '',`);
+                        temp.componentVariable.push(`'${childData.key}': '',`);
                         temp.componentMethod.push(`this.${temp.folderName}Data.${childData.key} = '';`)
                     })
                 }

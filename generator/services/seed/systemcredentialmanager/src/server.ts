@@ -1,8 +1,8 @@
 import * as express from 'express';
-import { Routes } from './routes/Routes';
+import { Routes } from './routes/routes';
 import * as mongoose from 'mongoose';
 import * as cors from 'cors';
-import { WinstonLogger } from './config/WinstonLogger';
+import { WinstonLogger } from './config/Winstonlogger';
 import * as dotenv from 'dotenv';
 
 

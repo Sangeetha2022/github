@@ -1,6 +1,7 @@
 import * as util from 'util';
 import { DaoSupportWorker } from '../supportworker/DaoSupportWorker';
-import * as Constants from '../config/Constants'
+import * as Constants from '../config/Constants';
+import * as asyncLoop from 'node-async-loop';
 
 let daoSupportWorker = new DaoSupportWorker();
 
@@ -31,6 +32,10 @@ export class DaoWorker {
         {
             name: '{ ApiAdaptar }',
             path: '../config/apiAdapter'
+        },
+        {
+            name: '{ URL, URLSearchParams }',
+            path: 'url'
         }
     ],
         packageDependencies: [{
@@ -64,6 +69,7 @@ export class DaoWorker {
                 get_vault_data: '',
                 fetch_request: '',
                 fetch_respone: '',
+                query_object: []
             }
         },
         packageDependencies: []
@@ -185,16 +191,65 @@ export class DaoWorker {
         console.log('gpDao connector vlaues ar e---  ', this.gpDao.connector[0]);
         const connector = this.gpDao.connector[0].externalConnector[0].fileData;
         const externalConnector = this.gpDao.connector[0].externalConnector[0].fileData.item[0].request;
-        if(externalConnector.auth !== undefined){
-            this.tempDao.function.query = `'${externalConnector.url.raw}', { method: "${externalConnector.method}", body: JSON.stringify(${this.entitySchema.fileName}Data), headers: { 'Content-Type': 'application/json', 'Authorization': '${externalConnector.auth.type}' + credentials.${externalConnector.auth.type}}}`;
-        }
         this.tempDao.function.verbs = this.fetchNPM.componentVariable;
-        if(externalConnector.method === 'POST' || externalConnector.method === 'PUT') {
-            this.tempDao.function.query = `'${externalConnector.url.raw}', { method: "${externalConnector.method}", body: JSON.stringify(${this.entitySchema.fileName}Data), headers: { 'Content-Type': 'application/json' }}`;
-        } else {
-            this.tempDao.function.query = `'${externalConnector.url.raw}', { method: "${externalConnector.method}", headers: { 'Content-Type': 'application/json' }}`;
+        this.tempDao.function.connector.SCM_method_call = `let credentialData: any = await this.getCredentialsData('${connector.info.name}')`;
+        let connectorUrlObject: any = {
+            protocol:'',
+            host:'',
+            port: '',
+            path: '',
         }
-        this.tempDao.function.connector.SCM_method_call = `let credentialData = await this.getCredentialsData('${connector.info.name}')`;
+        let queryObject: any ={}
+        let connectorUrl = `'${externalConnector.url.protocol}://`
+        externalConnector.url.host.forEach((hostData, index) => {
+            if(index == externalConnector.url.host.length) {
+                connectorUrlObject.host += `${hostData}`
+                if(externalConnector.url.port) {
+                    connectorUrlObject.host += `:${externalConnector.url.port}`;
+                }
+            } else {
+                connectorUrlObject.host += `${hostData}.`
+            }
+        })
+        externalConnector.url.path.forEach((pathData, index) => {
+            connectorUrlObject.path += `/${pathData}`
+        })
+        connectorUrl += `${connectorUrlObject.host}${connectorUrlObject.path}'`;
+        if(externalConnector.url.query.length > 0) {
+            connectorUrl += `+ '?' + new URLSearchParams(queryObject)`;
+            this.tempDao.function.connector.query_object.push(`let queryObject = {`);
+            asyncLoop(externalConnector.url.query, async (data: any, next) => {
+                let key = data.key;
+                console.log('index',externalConnector.url.query.indexOf(data))
+                if(externalConnector.url.query.indexOf(data) === externalConnector.url.query.length) {
+                    this.tempDao.function.connector.query_object.push(`${key}: ${this.entitySchema.fileName}Data.${key}`);
+                    next();
+                } else {
+                    this.tempDao.function.connector.query_object.push(`${key}: ${this.entitySchema.fileName}Data.${key},`);
+                    next();
+                }
+            }, (err) =>{
+                if(err) throw err;
+                else {
+                    this.tempDao.function.connector.query_object.push(`}`);
+                    console.log('queryObject', JSON.stringify(queryObject));
+                }
+            })
+        }
+        if(externalConnector.method === 'POST' || externalConnector.method === 'PUT') {
+            if(externalConnector.auth !== undefined){
+                this.tempDao.function.query = `${connectorUrl}, { method: "${externalConnector.method}", body: JSON.stringify(${this.entitySchema.fileName}Data), headers: { 'Content-Type': 'application/json', 'Authorization': '${externalConnector.auth.type}' + credentialData.body.${externalConnector.auth.type}}}`;
+            } else {
+                this.tempDao.function.query = `${connectorUrl}, { method: "${externalConnector.method}", body: JSON.stringify(${this.entitySchema.fileName}Data), headers: { 'Content-Type': 'application/json' }}`;
+            }
+        } else {
+            console.log('connectorUrl', connectorUrl);
+            if(externalConnector.auth !== undefined) {
+                this.tempDao.function.query = `${connectorUrl}, { method: "${externalConnector.method}", headers: { 'Content-Type': 'application/json', 'Authorization': '${externalConnector.auth.type}' + credentialData.body.${externalConnector.auth.type} }}`;
+            } else {
+                this.tempDao.function.query = `${connectorUrl}, { method: "${externalConnector.method}", headers: { 'Content-Type': 'application/json' }}`;
+            }
+        }
         this.tempDao.function.connector.fetch_respone = `result.json()).then((result) =>`;
         this.tempDao.function.isJsonFormat = true;
         // this.tempDao.function.connectorEntityName = externalConnector.entityName;
@@ -278,6 +333,8 @@ export class DaoWorker {
                     this.tempDao.function.isJsonFormat = false;
                     this.tempDao.function.connectorEntityName = null;
                     this.tempDao.function.connector = undefined;
+                } else {
+
                 }
                 break;
             case 'GpUpdate':

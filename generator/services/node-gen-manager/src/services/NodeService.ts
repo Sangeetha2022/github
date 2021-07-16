@@ -446,6 +446,7 @@ export class NodeService {
                                     get_vault_data: undefined,
                                     fetch_request: undefined,
                                     fetch_respone: undefined,
+                                    query_object: undefined,
                                 },
                             }
                             daoTemp.methodName = dao.function.methodName;
