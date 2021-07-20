@@ -70,7 +70,7 @@ export class Constants {
                 Constants.cloneUrl = process.env.clonemanager + ":3051";
                 Constants.sharedUrl = Constants.appUrl + ":3050";
                 Constants.externalfeature = Constants.appUrl + ":3016";
-                Constants.gepFileUrl = process.env.gepfilemanager + ":8015";
+                Constants.gepFileUrl = process.env.gepfilemanager + ":3015";
 
                 //generator
                 Constants.projectGenUrl = process.env.generationmanager + ":5000";
