@@ -9,6 +9,7 @@ import { WinstonLogger } from './config/WinstonLogger';
 // import { FeedSeedData } from './seed';
 import * as mongoose from "mongoose";
 import { SharedService } from "./config/SharedService";
+import { FeedSeedData } from './seed';
 
 const PORT = 3006;
 
@@ -25,7 +26,7 @@ class App {
         this.logger.configureWinston(this.app);
         this.initializeMiddlewares();
         this.mongoSetup();
-        // this.mongoSeedData();
+        this.mongoSeedData();
         this.routePrv.routes(this.app);
     }
 
@@ -52,10 +53,10 @@ class App {
         }
     }
 
-    // private mongoSeedData(): void {
-    //     let seedData = new FeedSeedData()
-    //     seedData.seedFeatureData();
-    // }
+    private mongoSeedData(): void {
+        let seedData = new FeedSeedData()
+        seedData.seedSefFeature();
+    }
 
 }
 

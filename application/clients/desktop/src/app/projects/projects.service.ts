@@ -37,6 +37,10 @@ export class ProjectsService {
     return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultEntity}/?projectId=${projectId}&log_id=${logId}`);
   }
 
+  createDefaultFeature(projectId: String, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.defaultFeature}/?projectId=${projectId}&log_id=${logId}`);
+  }
+
   createDefaultScreens(projectId: String, logId): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultScreens}/?projectId=${projectId}&`);
   }
