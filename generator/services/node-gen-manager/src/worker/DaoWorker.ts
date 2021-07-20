@@ -215,7 +215,7 @@ export class DaoWorker {
             connectorUrlObject.path += `/${pathData}`
         })
         connectorUrl += `${connectorUrlObject.host}${connectorUrlObject.path}'`;
-        if(externalConnector.url.query.length > 0) {
+        if(externalConnector.url.query && externalConnector.url.query.length > 0) {
             connectorUrl += `+ '?' + new URLSearchParams(queryObject)`;
             this.tempDao.function.connector.query_object.push(`let queryObject = {`);
             asyncLoop(externalConnector.url.query, async (data: any, next) => {
@@ -236,19 +236,21 @@ export class DaoWorker {
                 }
             })
         }
+        this.tempDao.function.query = `${connectorUrl}, { method: "${externalConnector.method}"`;
         if(externalConnector.method === 'POST' || externalConnector.method === 'PUT') {
-            if(externalConnector.auth !== undefined){
-                this.tempDao.function.query = `${connectorUrl}, { method: "${externalConnector.method}", body: JSON.stringify(${this.entitySchema.fileName}Data), headers: { 'Content-Type': 'application/json', 'Authorization': '${externalConnector.auth.type}' + credentialData.body.${externalConnector.auth.type}}}`;
-            } else {
-                this.tempDao.function.query = `${connectorUrl}, { method: "${externalConnector.method}", body: JSON.stringify(${this.entitySchema.fileName}Data), headers: { 'Content-Type': 'application/json' }}`;
+            this.tempDao.function.query += `, body: JSON.stringify(${this.entitySchema.fileName}Data),`
+        }
+        this.tempDao.function.query += `, headers: { 'Content-Type': 'application/json'`
+        if(externalConnector.auth !== undefined) {
+            if(externalConnector.auth.type == 'basic') {
+                let creds = '`\${credentialData.body.basic.username}:\${credentialData.body.basic.password}`';
+                this.tempDao.function.query += `, 'Authorization': '${externalConnector.auth.type}' + btoa(${creds})}}`;
+            }
+            if(externalConnector.auth.type == 'bearer') {
+                this.tempDao.function.query += `, 'Authorization': '${externalConnector.auth.type}' + credentialData.body.${externalConnector.auth.type}.token}}`;
             }
         } else {
-            console.log('connectorUrl', connectorUrl);
-            if(externalConnector.auth !== undefined) {
-                this.tempDao.function.query = `${connectorUrl}, { method: "${externalConnector.method}", headers: { 'Content-Type': 'application/json', 'Authorization': '${externalConnector.auth.type}' + credentialData.body.${externalConnector.auth.type} }}`;
-            } else {
-                this.tempDao.function.query = `${connectorUrl}, { method: "${externalConnector.method}", headers: { 'Content-Type': 'application/json' }}`;
-            }
+            this.tempDao.function.query += `}}`
         }
         this.tempDao.function.connector.fetch_respone = `result.json()).then((result) =>`;
         this.tempDao.function.isJsonFormat = true;
@@ -297,6 +299,9 @@ export class DaoWorker {
                     this.tempDao.function.isJsonFormat = false;
                     this.tempDao.function.connectorEntityName = null;
                     this.tempDao.function.connector = undefined;
+                    this.tempDao.function.connector = undefined;
+                } else {
+
                 }
                 break;
             case 'GpSearch':
