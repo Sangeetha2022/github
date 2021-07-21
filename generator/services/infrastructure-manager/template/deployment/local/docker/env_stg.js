@@ -1,6 +1,6 @@
 /*
  * Template group env
- * Compiled on Wed Jul 07 2021 23:18:29 GMT+0530 (India Standard Time)
+ * Compiled on Wed Jul 21 2021 16:05:57 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -51,7 +51,7 @@ r = function(w, rc) {
     st.write(w, s, g, rc, s.uuid);
     w.write(":8200");
     w.write("\n");
-    w.write("VAULT_TOKEN=myroot");
+    w.write("VAULT_TOKEN=vault-geppetto-2021");
     w.write("\n");
     w.write("MONGO_DB_URL=mongodb://admin:password@mongo-");
     st.write(w, s, g, rc, s.uuid);

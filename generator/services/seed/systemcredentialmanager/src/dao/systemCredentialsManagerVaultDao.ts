@@ -6,11 +6,11 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 let vaultOptions = {
     apiVersion: 'v1',
-    endpoint: `${process.env.VAULT_PORT}`
+    endpoint: `${process.env.VAULT_URL}`,
+    token: `${process.env.VAULT_TOKEN}`
 };
 
 var vault = require("node-vault")(vaultOptions);
-vault.token = `${process.env.VAULT_TOKEN}`;
 export class systemCredentialsManagerVaultDao {
 vault: any;
 
