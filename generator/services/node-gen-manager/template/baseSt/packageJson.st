@@ -17,6 +17,8 @@ packageJson(object) ::= <<
     "@types/express": "^4.16.1",
     "ts-node": "^9.0.0",
     "body-parser": "^1.18.3",
+    "btoa-atob": "^0.1.2",
+    "btoa": "^1.2.1",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "express-winston": "^3.0.1",

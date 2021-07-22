@@ -36,6 +36,10 @@ export class DaoWorker {
         {
             name: '{ URL, URLSearchParams }',
             path: 'url'
+        },
+        {
+            name: '* as btoa',
+            path: 'btoa'
         }
     ],
         packageDependencies: [{
@@ -243,11 +247,11 @@ export class DaoWorker {
         this.tempDao.function.query += `, headers: { 'Content-Type': 'application/json'`
         if(externalConnector.auth !== undefined) {
             if(externalConnector.auth.type == 'basic') {
-                let creds = '`\${credentialData.body.basic.username}:\${credentialData.body.basic.password}`';
-                this.tempDao.function.query += `, 'Authorization': '${externalConnector.auth.type}' + btoa(${creds})}}`;
+                let creds = '`\${credentialData.data.username}:\${credentialData.data.password}`';
+                this.tempDao.function.query += `, 'Authorization': '${externalConnector.auth.type} ' + btoa(${creds})}}`;
             }
             if(externalConnector.auth.type == 'bearer') {
-                this.tempDao.function.query += `, 'Authorization': '${externalConnector.auth.type}' + credentialData.body.${externalConnector.auth.type}.token}}`;
+                this.tempDao.function.query += `, 'Authorization': '${externalConnector.auth.type} ' + credentialData.body.${externalConnector.auth.type}.token}}`;
             }
         } else {
             this.tempDao.function.query += `}}`
