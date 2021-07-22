@@ -6,8 +6,8 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 let vaultOptions = {
     apiVersion: 'v1',
-    endpoint: `${process.env.VAULT_URL}`,
-    token: `${process.env.VAULT_TOKEN}`
+    endpoint: process.env.VAULT_URL,
+    token: process.env.VAULT_TOKEN
 };
 
 var vault = require("node-vault")(vaultOptions);
@@ -38,7 +38,7 @@ vault: any;
     }
 
     public GpVaultCreate(connectorName, data, callback) {
-        const temp = data.credentials;
+        const temp = data;
         new CustomLogger().showLogger('info', 'Enter into systemCredentialsManagerVaultDao.ts: GpCreate')
         vault.write(`kv/kubernetes/sourcecode/${connectorName}`, temp).then((data) => {
         new CustomLogger().showLogger('info', 'Exit from systemCredentialsManagerVaultDao.ts: GpCreate');
@@ -49,10 +49,10 @@ vault: any;
     }
 
 
-    public GpVaultUpdate(data, callback) {
-        const temp = data.credentials.userName;
+    public GpVaultUpdate(connectorName, data, callback) {
+        const temp = data;
         new CustomLogger().showLogger('info', 'Enter into systemCredentialsManagerVaultDao.ts: GpUpdate')
-        vault.put(`kv/kubernetes/sourcecode/${temp}`, data.credentials).then((data) => {
+        vault.put(`kv/kubernetes/sourcecode/${connectorName}`, data).then((data) => {
         new CustomLogger().showLogger('info', 'Exit from systemCredentialsManagerVaultDao.ts: GpUpdate');
         callback(data);
         }).catch((error) => {

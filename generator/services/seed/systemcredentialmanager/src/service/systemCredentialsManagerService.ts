@@ -24,13 +24,14 @@ export class systemCredentialsManagerService {
     }
 
     public GpUpdate(req: Request, callback) {
-        new CustomLogger().showLogger('info', 'Enter into systemCredentialsManagerService.ts: GpUpdate')
+        new CustomLogger().showLogger('info', 'Enter into systemCredentialsManagerService.ts: GpUpdate');
+        const systemCredentialsManagerId = req.query.connector_name;
         const systemCredentialsManagerData = req.body;
         /*systemCredentialsManager.GpSearch(systemCredentialsManagerData, (response) => {
         new CustomLogger().showLogger('info', 'Exit from systemCredentialsManagerService.ts: GpSearch')
         callback(response);
         }); */
-        systemCredentialsManagerVault.GpVaultUpdate(systemCredentialsManagerData, (response) => {
+        systemCredentialsManagerVault.GpVaultUpdate(systemCredentialsManagerId, systemCredentialsManagerData, (response) => {
         new CustomLogger().showLogger('info', 'Exit from systemCredentialsManagerService.ts: GpUpdate')
         callback(response);
         });
