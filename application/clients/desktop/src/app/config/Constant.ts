@@ -95,6 +95,9 @@ export class Constants {
     public static get getAllFeatureByFeatureid(): String { return this.DESKTOP_ROUTER + '/feature/details/getallbyfeatureid'; }
     public static get deleteFeature(): String { return this.DESKTOP_ROUTER + '/feature/delete'; }
 
+    // default feature
+    public static get defaultFeature(): String{ return this.DESKTOP_ROUTER + '/feature/default/save'; }
+
     // old  Feature Details
     public static get getAllFeatureDetailsByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature/details/getbyfeatureid/'; }
 
