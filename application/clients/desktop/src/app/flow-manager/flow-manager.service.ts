@@ -27,5 +27,17 @@ export class FlowManagerService {
   getAllFlows(logId): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFlow}?log_id=${logId}`);
   }
+  
+  getAllDefaultModifiers(logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllDefaultModifier}?log_id=${logId}`);
+  }
+
+  getFlowModifiers(projectFlowsId, logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.getFlowModifiers}` + `?log_id=${logId}`, projectFlowsId);
+  }
+
+  saveModifyierUsage(details, logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveModifierUsage}?log_id=${logId}`, details);
+  }
 
 }
