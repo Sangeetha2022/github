@@ -21,6 +21,9 @@ export class ProjectsService {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectByUserId}/${UserId}?log_id=${logId}`);
   }
 
+  getProjectByAll(UserId, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectByAll}?log_id=${logId}`);
+  }
 
   deleteProjectFlowByProjectId(projectId, logId): Observable<any> {
     return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteProjectFlowByProjectId}/${projectId}?log_id=${logId}`);
@@ -32,6 +35,10 @@ export class ProjectsService {
 
   createDefaultEntity(projectId: String, logId): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultEntity}/?projectId=${projectId}&log_id=${logId}`);
+  }
+
+  createDefaultFeature(projectId: String, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.defaultFeature}/?projectId=${projectId}&log_id=${logId}`);
   }
 
   createDefaultScreens(projectId: String, logId): Observable<any> {
@@ -75,10 +82,16 @@ export class ProjectsService {
     return this.http.post(`${this.restapi.Apigateway}${Constants.projectSocket}/${projectgen.project_id}` + `?log_id=${logId}`, projectgen);
   }
 
+  public cloneProject(projectgen, logId) {
+    var data = this.http.get(`${this.restapi.Apigateway}${Constants.clonedApplication}/${projectgen.project_id}` + `/user/${projectgen.user_id}` + `?log_id=${logId}`);
+    return data;
+  }
+
   // socket
   public getProjectNotify(project_id): Observable<any> {
     const observable = new Observable(observer => {
       this.socket.on('gen_notify_' + project_id, (data) => {
+        console.log("socket data",data);
         observer.next(data);
       });
       return () => {

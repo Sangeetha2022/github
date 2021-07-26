@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as asyncLoop from 'node-async-loop';
+import * as beautify from 'beautify';
 
 import { Constant } from '../../config/Constant'
 import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
@@ -24,21 +25,37 @@ export class ComponentCSSworker {
     public generateComponentCss(details, callback) {
         details = JSON.parse(JSON.stringify(details));
         asyncLoop(details.desktop, async (desktopElement, next) => {
+            let cssData = '';
             const screenName = desktopElement.screenName.toLowerCase();
             let cssPayload = this.constructPayLoad()
-            let className = await this.setClassNameCss(desktopElement["gjs-css"])
+            let className = await this.setClassNameCss(desktopElement["gjs-css"]);
+            let gjsStyles = JSON.parse(desktopElement['gjs-styles']);
+            gjsStyles.forEach(element => {
+                if (Object.keys(element).includes('style') && Object.keys(element).includes('selectors')) {
+                    element.selectors.forEach((selector, index) => {
+                        cssData += '.' + selector.name;
+                        if (element.selectors.length - 1 === index) {
+                            cssData += ' {';
+                            const styleArray: string[] = Object.keys(element.style);
+                            styleArray.forEach(style => {
+                                cssData += style + ':' + element.style[style] + ';\n'
+                            });
+                        }
+                    });
+                    cssData += '}';
+                }
+            });
             details.desktop.forEach(element => {
                 if (element.is_grid_present == true && element.is_bootStrapTable_present == true) {
-                    className = this.bootstrap_css[0] + className
+                    cssData += this.bootstrap_css[0];
                 }
-            })
-            cssPayload.screenCssContent.push({ data: className });
-            cssPayload.screenCssContent.push({data: Constant.CSSDATA});
-            const templatePath = path.resolve(__dirname, '../../../templates/ComponentScss.handlebars');
+            });
+            const beautifyCss = beautify(cssData, { format: 'css' });
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/' + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME;
-            const screenGenerationPath = applicationPath + `/${screenName}`;
-            await componentSupportWorker.handleBarsFile(templatePath, cssPayload, screenGenerationPath, screenName + '.component.scss');
+            const screenGenerationPath = applicationPath + `/${screenName}/`;
+            await componentSupportWorker.writeFile(screenGenerationPath + screenName + '.component.scss', beautifyCss, () => {
+            });
             next();
         }, (err) => {
             if(!err) {

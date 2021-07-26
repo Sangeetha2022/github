@@ -1,0 +1,20 @@
+div.bg_img.bg_img {
+  background-image: url("../../assets/banner_home.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 300px;
+  background-size: 100% auto;
+  background-attachment: unset;
+}
+h1{
+  font-size: 35px;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+// // Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575px) {
+  div.bg_img.bg_img{
+    min-height: 100px;
+  }
+}

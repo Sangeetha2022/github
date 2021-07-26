@@ -1,9 +1,11 @@
 import { FeatureController } from "../controllers/FeatureController";
 import { Request, Response } from "express";
+import { DefaultFeatureController } from '../controllers/DefaultFeatureController'
 
 export class Routes {
 
     public featureController: FeatureController = new FeatureController()
+    public defaultFeatureController: DefaultFeatureController = new DefaultFeatureController();
 
     public routes(app): void {
         app.route('/health/micro-service').get((req: Request, res: Response) => {
@@ -26,5 +28,8 @@ export class Routes {
 
         app.route('/feature/updateEntity/:featureId').put(this.featureController.featureUpdateEntity)
         app.route('/feature/deleteentity/:featureId/:entityid').delete(this.featureController.featuredeleteEntity);
+
+        // default features
+        app.route('/feature/default/save').get(this.defaultFeatureController.saveDefaultFeature);
     }
 }

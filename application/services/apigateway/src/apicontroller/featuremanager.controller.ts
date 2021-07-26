@@ -31,12 +31,24 @@ class FeatureController implements Controller {
         this.router.post('/feature/copyFlows', this.flowcopy);
         this.router.put('/feature/update/entity', this.updateFeatureEntity);
         this.router.get('/feature/getallcopyflow', this.getallcopyflow);
-        this.router.get('/feature/:id/entity' , this.getAllEntityByFeatureID)
+        this.router.get('/feature/:id/entity' , this.getAllEntityByFeatureID);
+        this.router.get('/feature/default/save', this.saveDefaultFeature);
     }
 
     public async saveFeature(req: Request, res: Response) {
         try {
             let feature = await Promise.resolve(new ApiAdaptar().post(`${Constants.featureUrl}/feature/save` + `?log_id=${req.query.log_id}`, req.body));
+            req.baseUrl === '/mobile' ? res.send(feature) :
+                req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async saveDefaultFeature(req: Request, res: Response) {
+        try {
+            let feature = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/default/save?projectId=${req.query.projectId}` + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         } catch (err) {

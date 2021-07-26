@@ -37,6 +37,7 @@ export class ProjectsComponent implements OnInit {
   primaryLanguages: string[] = ['English', 'Tamil', 'Spanish'];
   submitted = false;
   myAllProjects: any = [];
+  cloneAllProjects: any = [];
   createdProject: any = [];
   genNotifyArr: any = [];
   userNotifyArr: any = [];
@@ -98,6 +99,7 @@ export class ProjectsComponent implements OnInit {
   ngOnInit() {
     this.UserId = sessionStorage.getItem('Id');
     this.getProjectByUserId();
+    this.getCloneProjectById();
     this.getAllTemplates();
     this.getTemplateParser();
     this.createProject = this.formBuilder.group({
@@ -158,6 +160,7 @@ export class ProjectsComponent implements OnInit {
     this.uploader.onCompleteItem = (item:any,response:any,status:any,headers:any)=>{
       // console.log('FileUpload: uploaded successfully:',item,status,response);
       this.getProjectByUserId();
+      this.getCloneProjectById();
       this.closeImportModal();
     }
     setTimeout(() => {
@@ -257,6 +260,21 @@ export class ProjectsComponent implements OnInit {
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });
+  }
+
+  getCloneProjectById() {
+    this.spinner.show();
+    this.cloneAllProjects = [];
+    this.projectsService.getProjectByAll(this.UserId, this.logId).subscribe( async data => {
+      if (data) {
+        this.spinner.hide();
+        let sampleData = data.body.filter((global)=> global.shared_visibility === 'Global');
+        this.cloneAllProjects = sampleData;
+      }
+    }, error => {
+      console.log('Check the browser console to see more info.', 'Error!');
+    });
+    
   }
 
   // nameOnChnage(event) {
@@ -392,6 +410,7 @@ export class ProjectsComponent implements OnInit {
 
     this.projectsService.getProjectByUserId(this.UserId, this.logId).subscribe(async (data) => {
       this.getProjectByUserId();
+      this.getCloneProjectById();
       if (data) {
         this.myAllProjects = data.body;
         await this.myAllProjects.forEach(userProjects => {
@@ -418,6 +437,12 @@ export class ProjectsComponent implements OnInit {
                 }, (error) => {
                   console.error('cannot able to create the default screens for this project', error);
                 });
+              // default feature (System Entry Feature)
+              this.projectsService.createDefaultFeature(projectDetail._id, this.logId).subscribe(
+                (defaultFeature) => {
+                }, error => {
+                  console.error('cannot able to create the default feature for this project ', error);
+                })
               // create default menus
               console.log('create project values are ------- ', dataToSave);
               this.projectsService.createDefaultMenu(
@@ -440,6 +465,7 @@ export class ProjectsComponent implements OnInit {
                 });
             }
             this.getProjectByUserId();
+            this.getCloneProjectById();
           }, error => {
             console.error('cannot able to save the project', error);
           });
@@ -486,6 +512,46 @@ export class ProjectsComponent implements OnInit {
     });
   }
 
+  //cloneProject
+  async cloneProject(project) {
+    const cloneproject = {
+      project_id: project._id,
+      project_name: project.name,
+
+      user_id: sessionStorage.getItem('Id'),
+
+      status: 'gen_requested',
+      status_message: 'generation requested',
+      stack_trace: 'gen_processing',
+      claimed: 't',
+      parent_gen_id: '0'
+
+    };
+    this.projectsService.cloneProject(cloneproject, this.logId).subscribe(data => {
+      var firstBody = data['body'];
+      var addData = firstBody['body'];
+      
+      console.log('projectid',firstBody);
+
+      setTimeout(() => {
+        if (cloneproject.project_id !== addData._id) {
+          this.toastr.success('PROJECT CLONED: '+ addData.project_unique_id +'','',
+          {
+            closeButton: true,
+            disableTimeOut: false
+          });
+        }
+        this.getCloneProjectById();
+        this.getProjectByUserId();
+      },1500);
+      
+    }, error => {
+        this.toastr.error('Failed!', 'Operation', {
+          closeButton: true,
+          disableTimeOut: false
+        });
+    });
+  }
   // socket
   initSocket() {
     this.projectsService.initSocket();

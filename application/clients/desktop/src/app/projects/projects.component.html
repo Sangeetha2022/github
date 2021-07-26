@@ -47,15 +47,20 @@
                                 </a>
                             </div>
                             <!-- <div class="col-xs-3 sitecard-action-c">
-                <a class="sitecard-action" data-toggle="tooltip" title="" data-original-title="Clone">
-                  <mat-icon class="base-icon">file_copy</mat-icon>
-                </a>
-              </div> -->
+                                    <a class="sitecard-action" data-toggle="tooltip" title="" data-original-title="Clone">
+                                    <mat-icon class="base-icon">file_copy</mat-icon>
+                                    </a>
+                                </div> -->
                             <div class="col-xs-4 sitecard-action-c">
+                                <a class="sitecard-action" (click)="cloneProject(proj)" data-toggle="tooltip" title="" data-original-title="Clone">
+                                    <mat-icon class="base-icon">file_copy</mat-icon>
+                                </a>
+                            </div>
+                            <!-- <div class="col-xs-4 sitecard-action-c">
                                 <a class="sitecard-action" (click)="generateProject(proj)" data-toggle="tooltip" title="" data-original-title="Settings">
                                     <mat-icon class="base-icon">get_app</mat-icon>
                                 </a>
-                            </div>
+                            </div> -->
                             <div class="col-xs-4 sitecard-action-c">
                                 <a class="sitecard-action entity-action-remove" (click)="openDeleteModel(proj)">
                                     <mat-icon class="base-icon">delete</mat-icon>
@@ -73,7 +78,57 @@
             <mat-expansion-panel-header>
                 <mat-panel-title> Geppetto Sample Applications</mat-panel-title>
             </mat-expansion-panel-header>
-            <p>No Projects Available.</p>
+            <div class="row" style="margin: 0px;">
+                <div class="col-md-3" *ngFor="let cloneproj of cloneAllProjects; let i = index">
+                    <div class="sitecard">
+                        <div class="sitecard-preview-c">
+                            <a (click)="cloneProject(cloneproj)">
+                                <div class="sitecard__overlay" data-toggle="tooltip" title="" data-original-title="Clone">
+                                    <mat-icon class="material-icons" style="font-size: 80px; align-items: center; display: flex; margin-top: 70px; width: 100%; justify-content: center;" >content_copy</mat-icon> 
+                                    <!-- <span style="font-size: 26px">clone</span> -->
+                                </div>
+                                <div class="sitecard-preview" [ngStyle]="{'background-image': 'url('+cloneproj.app_ui_template_img+')'}">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="sitecard-info u-p--m">
+                            <div title="Draft" class="sitecard-status sitecard-status-1"></div>
+                            <div class="sitecard-temp-name">{{cloneproj.app_ui_template}}</div>
+                            <div class="sitecard-title">{{cloneproj.name}}</div>
+                            <!-- <div class="sitecard-desc">{{proj.description}}</div> -->
+                            <div class="sitecard__pub-info tp-size--s">
+                                Created On: --
+                            </div>
+                        </div>
+
+                        <!-- <div class="sitecard-actions">
+                            <div class="col-xs-4 sitecard-action-c">
+                                <a class="sitecard-action" (click)="editProject(proj)" data-toggle="tooltip" title="" data-original-title="Edit">
+                                    <mat-icon class="base-icon">edit</mat-icon>
+                                </a>
+                            </div>
+                            <div class="col-xs-3 sitecard-action-c">
+                                <a class="sitecard-action" data-toggle="tooltip" title="" data-original-title="Clone">
+                                    <mat-icon class="base-icon">file_copy</mat-icon>
+                                </a>
+                            </div>
+                            <div class="col-xs-4 sitecard-action-c">
+                                <a class="sitecard-action" (click)="cloneProject(proj)" data-toggle="tooltip" title="" data-original-title="Clone">
+                                    <mat-icon class="base-icon">file_copy</mat-icon>
+                                </a>
+                            </div>
+                            <div class="col-xs-4 sitecard-action-c">
+                                <a class="sitecard-action entity-action-remove" (click)="openDeleteModel(proj)">
+                                    <mat-icon class="base-icon">delete</mat-icon>
+                                </a>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-md-4" *ngIf="cloneAllProjects.length === 0">
+                    No Projects Available.
+                </div>
+            </div>
         </mat-expansion-panel>
         <!-- <mat-expansion-panel>
             <mat-expansion-panel-header>

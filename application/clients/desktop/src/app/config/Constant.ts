@@ -46,6 +46,7 @@ export class Constants {
     public static get saveProject(): string { return this.DESKTOP_ROUTER + '/projects/add'; }
     public static get deleteProject(): string { return this.DESKTOP_ROUTER + '/projects/delete/'; }
     public static get getProjectByUserId(): string { return this.DESKTOP_ROUTER + '/projects/getbyuserid'; }
+    public static get getProjectByAll(): string { return this.DESKTOP_ROUTER + '/projects/getall'; }
     public static get createDefaultEntity(): String { return this.DESKTOP_ROUTER + '/projects/default/create'; }
     public static get updateProjectById(): String { return this.DESKTOP_ROUTER + '/projects/update'; }
     public static get getProjectById(): String { return this.DESKTOP_ROUTER + '/projects/getbyid'; }
@@ -101,6 +102,9 @@ export class Constants {
     public static get getFeatureByProjectId(): String { return this.DESKTOP_ROUTER + '/feature/project/get'; }
     public static get getAllFeatureByFeatureid(): String { return this.DESKTOP_ROUTER + '/feature/details/getallbyfeatureid'; }
     public static get deleteFeature(): String { return this.DESKTOP_ROUTER + '/feature/delete'; }
+
+    // default feature
+    public static get defaultFeature(): String{ return this.DESKTOP_ROUTER + '/feature/default/save'; }
 
     // old  Feature Details
     public static get getAllFeatureDetailsByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature/details/getbyfeatureid/'; }
@@ -180,6 +184,8 @@ export class Constants {
     // ExternalFeatureConfig
     public static get externalfeatureconfig(): string {return '/externalfeature/upload';  }
 
+    // cloned application
+    public static get clonedApplication(): string { return this.DESKTOP_ROUTER + '/clone/getbyproject' }
 
     // regex Constant Expressions
 

@@ -1,0 +1,30 @@
+footer{
+  color: whitesmoke;
+  background-color: #333354;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.top_row{
+    padding-top: 2%;
+    font-size: 9pt;
+  }
+
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575px){
+    .mobile_view{
+      min-width: 20%;
+    }
+    .m_address{
+      min-width: 74%;
+    }
+  }
+  
+  // Small devices (landscape phones, less than 768px)//Mobile phones
+  @media (max-width: 767px) {
+  
+    .top_row{
+        padding-top: 1%;
+        font-size: 7pt;
+      }
+  }
