@@ -5,7 +5,7 @@ The purpose of this document is to describe the components and interactions of t
 ## Definition and Intended use
 
 - What is a reusable feature?
-  A reusable feature is a piece of function that can be shared/reused between projects
+  A reusable feature is a piece of functionality that can be shared/reused between projects
 
 - Intended Use
 
@@ -21,3 +21,4 @@ In the same vein, Geppetto apps only support NodeJs for the backend, that means 
 - notifications
 - payments (stripe, braintree, square)
 - Wcmx - wordpress
+- Wcmx - grapesjs
