@@ -110,7 +110,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("\"mongoose\": \"^5.4.9\",");
+    w.write("\"mongoose\": \"~5.4.9\",");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
