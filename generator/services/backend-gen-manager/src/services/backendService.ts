@@ -39,11 +39,13 @@ export class BackendService {
         Common.createFolders(backendPath);
         Common.createFolders(microservicePath);
         const feature = {
+            featureId: details.id,
             featureName: details.name,
             applicationPort: details.applicationPort,
             projectGenerationPath: microservicePath,
             templateLocation: details.project.templateLocation,
             projectName: details.project.name,
+            projectId: details.project.id,
             primaryLanguage: details.project.defaultHumanLanguage,
             secondaryLanguage: details.project.otherHumanLanguage,
             serverLanguage: details.project.serverLanguage,
@@ -69,6 +71,7 @@ export class BackendService {
                 asyncLoop(details.flows, (flowElement, flowNext) => {
                     console.log(`each flows are --@@@@@@@@@@@  ${flowCount}  `, flowElement);
                     const flows = {
+                        id: '',
                         name: '',
                         label: '',
                         description: '',
@@ -83,6 +86,7 @@ export class BackendService {
                         flowCount++;
                         flowNext();
                     } else {
+                        flows.id = flowElement._id;
                         flows.name = flowElement.name;
                         flows.label = flowElement.label;
                         flows.description = flowElement.description;

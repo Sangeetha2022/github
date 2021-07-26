@@ -142,6 +142,10 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
+    w.write("\"jsonwebtoken\": \"8.5.1\",");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
     w.write("\"winston-daily-rotate-file\": \"^3.6.0\"");
     w.popIndentation();
     if (st.test(st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 31, column: 52 }))) {

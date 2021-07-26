@@ -181,22 +181,28 @@
             "sequenceId": 3
         },
         {
+            "_id": "88288346-7003-11e9-abdd-ffb308621fd2",
+            "componentName": "GpExpressService",
+            "microFlowStepName": "GpCheck_Modifiers",
+            "sequenceId": 4
+        },
+        {
             "_id": "88288345-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressService",
             "microFlowStepName": "GpDaoCall",
-            "sequenceId": 4
+            "sequenceId": 5
         },
         {
             "_id": "8828aa50-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressService",
             "microFlowStepName": "GpReturn",
-            "sequenceId": 5
+            "sequenceId": 6
         },
         {
             "_id": "8828aa51-7003-11e9-abdd-ffb308621fd2",
             "componentName": "GpExpressService",
             "microFlowStepName": "GpEnd",
-            "sequenceId": 6
+            "sequenceId": 7
         },
         {
             "_id": "8828aa52-7003-11e9-abdd-ffb308621fd2",

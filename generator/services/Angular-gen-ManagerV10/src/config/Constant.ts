@@ -91,6 +91,7 @@ export class Constant {
     public static NG_SELECT_MODULE_PATH = '@ng-select/ng-select';
     public static CK_EDITOR_MODULE = 'CKEditorModule';
     public static CK_EDITOR_MODULE_PATH = '@ckeditor/ckeditor5-angular';
+    public static JWT_TOKEN = "`?jwt_token=${jwt_token}`"
 
     // grid element details
     public static AGGRID_HTMLID_NAME = 'myGrid';

@@ -14,6 +14,7 @@ import { AttachmentWorker } from '../worker/AttachmentWorker';
 import { ExternalFeatureWorker } from '../worker/externalfeatureWorker';
 import { FlowConnectorManagerService } from '../apiservices/FlowConnectorManagerService';
 import {ApiGatewaySupportWorker} from '../supportworker/ApiGatewaySupportWorker'
+import { ModifierManagerService } from '../apiservices/ModifierManagerService';
 
 let controllerWorker = new ControllerWorker();
 let serviceWorker = new ServiceWorker();
@@ -26,6 +27,7 @@ let externalfeatureservice = new ExternalFeatureService();
 let externalfeatureworker = new ExternalFeatureWorker();
 let flowConnectors = new FlowConnectorManagerService();
 let apigatewaySupportWorker = new ApiGatewaySupportWorker();
+let modifierManagerService = new ModifierManagerService();
 
 export class NodeService {
 
@@ -62,7 +64,8 @@ export class NodeService {
             insideClass: [],
             outsideClass: []
         },
-        flowAction: []
+        flowAction: [],
+        
     }
 
     // dao
@@ -365,21 +368,29 @@ export class NodeService {
                                 })
 
                             const tempFlow = {
+                                id: '',
                                 name: '',
                                 label: '',
                                 description: '',
                                 type: '',
                                 actionOnData: ''
                             }
+                            tempFlow.id = flowElement.id;
                             tempFlow.name = flowElement.name;
                             tempFlow.label = flowElement.label;
                             tempFlow.description = flowElement.description;
                             tempFlow.type = flowElement.type;
                             tempFlow.actionOnData = flowElement.actionOnData;
                             console.log('gpDa ----->>>', util.inspect(gpDao, { showHidden: true, depth: null }));
+                            const projectDetials = {
+                                project_id: details.projectId,
+                                feature_id: details.featureId,
+                                modify_target_type_id: flowElement.id
+                            }
+                            let modifierResponse: any = await this.getModifierByProjectDetails(projectDetials);
                             const controller = controllerWorker.createController(tempFlow, gpController, entityElement, this.controllerObj);
-                            const service = serviceWorker.createService(tempFlow, gpService, entityElement, this.serviceObj);
-                            const dao = daoWorker.createDao(tempFlow, gpDao, entityElement, this.daoObj);
+                            const service = serviceWorker.createService(tempFlow, gpService, entityElement, this.serviceObj, modifierResponse);
+                            const dao = daoWorker.createDao(tempFlow, gpDao, entityElement, this.daoObj, modifierResponse);
                             const route = routeWorker.createRoutes(tempFlow, entityElement, this.routeObj);
 
                             // import dependencies
@@ -421,13 +432,26 @@ export class NodeService {
                                 requestParameter: '',
                                 responseVariable: '',
                                 variable: '',
-                                return: ''
+                                return: '',
+                                modifiersObject: {
+                                    jwt_token_variable: '',
+                                    encoded_varibale: '',
+                                    jwt_verify: '',
+                                    variable_name: '',
+                                    variable: '',
+                                    variable_object: [],
+                                    modifiers: []
+                                }
                             }
                             serviceTemp.methodName = service.function.methodName;
                             serviceTemp.requestParameter = service.function.requestParameter;
                             serviceTemp.responseVariable = service.function.responseVariable;
                             serviceTemp.variable = service.function.variable;
                             serviceTemp.return = service.function.return;
+                            if(service.function.gpModifiers.modifiers.length > 0){
+                                // serviceTemp.modifiersObject.variable_object.push(`};`);
+                                serviceTemp.modifiersObject = service.function.gpModifiers;
+                            }
                             this.serviceObj.flowAction.push(serviceTemp);
 
                             // gp function dao
@@ -615,6 +639,7 @@ export class NodeService {
                             this.swagger.push(swaggerpath);
                         })
                         this.swaggerObj.paths = this.swagger;
+                        console.log('this.service =============>>', this.service[0].flowAction);
                         controllerWorker.generateControllerFile(projectGenerationPath, templateLocation, this.controller);
                         serviceWorker.generateServiceFile(projectGenerationPath, templateLocation, this.service);
                         daoWorker.generateDaoFile(projectGenerationPath, templateLocation, this.dao);
@@ -643,6 +668,16 @@ export class NodeService {
                 callback('Something went wrong in Node Gen MicroService');
             }
         }
+    }
+
+    getModifierByProjectDetails(projectDetials) {
+        return new Promise((resolve) => {
+            modifierManagerService.getModifiersByProjectDetails(projectDetials, (res: any) => {
+                resolve(JSON.parse(res));
+            })
+        }).catch(err => {
+            console.log('error', err);
+        })
     }
 
     public uniqueByLast(data, key) {

@@ -437,6 +437,12 @@ export class ProjectsComponent implements OnInit {
                 }, (error) => {
                   console.error('cannot able to create the default screens for this project', error);
                 });
+              // default feature (System Entry Feature)
+              this.projectsService.createDefaultFeature(projectDetail._id, this.logId).subscribe(
+                (defaultFeature) => {
+                }, error => {
+                  console.error('cannot able to create the default feature for this project ', error);
+                })
               // create default menus
               console.log('create project values are ------- ', dataToSave);
               this.projectsService.createDefaultMenu(

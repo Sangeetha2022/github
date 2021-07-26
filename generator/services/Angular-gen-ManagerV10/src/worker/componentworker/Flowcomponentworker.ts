@@ -17,7 +17,11 @@ export class FlowComponentWorker {
             if (nodeResponse && nodeResponse.flowAction && nodeResponse.flowAction.length > 0) {
                 nodeResponse.flowAction.filter((e) => {
                     if (flow.flowName === e.methodName) {
-                        let temp: any = { flowName: flow.flowName };
+                        let temp: any = { flowName: flow.flowName, lifeCycleData: '' };
+                        temp.lifeCycleData = '';
+                        if(gjs_components[0].events === 'OnLoad') {
+                            temp.lifeCycleData = 'OnLoad';
+                        }
                         // if (nodeResponse && nodeResponse.flowAction && nodeResponse.flowAction.length > 0) {
                         nodeResponse.flowAction.filter((e) => {
                             if (flow.flowName === e.methodName && (e.apiAction === 'post' || e.apiAction === 'put' || e.methodName == Constant.GP_SEARCH_FLOW)) {
@@ -73,6 +77,7 @@ export class FlowComponentWorker {
                         if (flow.flowName === Constant.GP_SEARCH_FLOW || flow.flowName === Constant.GP_GETALLVALUES_FLOW) {
                             const variables = [];
                             let entityName = '';
+                            let lifeCycleData: any;
                             const flowAction = nodeResponse.flowAction.filter((item) => item.methodName === Constant.GP_SEARCH_FLOW || item.methodName === Constant.GP_GETALLVALUES_FLOW);
                             if(flow.flowName === Constant.GP_SEARCH_FLOW) {
                                 variables.push(`this.rowData = data;`);

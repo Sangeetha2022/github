@@ -14,6 +14,9 @@ export let projectFlowSchema = mongoose.Schema({
   components: [
     { type: mongoose.Schema.Types.String, ref: 'project_flowcomponents' }
   ],
+  modifiers: [
+    { type: mongoose.Schema.Types.String, ref: 'default_modifiers' }
+  ],
   actionOnData: String,
   createWithDefaultActivity: Number,
   flowType:String,

@@ -34,6 +34,14 @@ export class Constants {
     public static get deleteFlow(): string { return this.DESKTOP_ROUTER + '/flow/delete'; }
     public static get addFilesUrl(): string { return this.DESKTOP_ROUTER + '/addfile'; }
 
+    // modifier apis
+    public static get saveModifier(): string { return this.DESKTOP_ROUTER + '/modifier/save'; }
+    public static get saveModifierUsage(): string { return this.DESKTOP_ROUTER + '/modifier/usage/save'; }
+    public static get updateModifier(): string { return this.DESKTOP_ROUTER + '/modifier/update'; }
+    public static get getAllDefaultModifier(): String { return this.DESKTOP_ROUTER + '/modifier/default/getall'; }
+    public static get getFlowModifiers(): String { return this.DESKTOP_ROUTER + '/modifier/flow/get'; }
+    public static get deleteModifier(): string { return this.DESKTOP_ROUTER + '/modifier/delete'; }
+
     // project apis
     public static get saveProject(): string { return this.DESKTOP_ROUTER + '/projects/add'; }
     public static get deleteProject(): string { return this.DESKTOP_ROUTER + '/projects/delete/'; }
@@ -94,6 +102,9 @@ export class Constants {
     public static get getFeatureByProjectId(): String { return this.DESKTOP_ROUTER + '/feature/project/get'; }
     public static get getAllFeatureByFeatureid(): String { return this.DESKTOP_ROUTER + '/feature/details/getallbyfeatureid'; }
     public static get deleteFeature(): String { return this.DESKTOP_ROUTER + '/feature/delete'; }
+
+    // default feature
+    public static get defaultFeature(): String{ return this.DESKTOP_ROUTER + '/feature/default/save'; }
 
     // old  Feature Details
     public static get getAllFeatureDetailsByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature/details/getbyfeatureid/'; }
