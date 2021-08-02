@@ -2,7 +2,7 @@ import { Request, response, Response } from 'express'
 import { QuickConnectorsDao } from '../daos/quickConnectorsDao';
 import { GepFileManagerService } from '../apiservices/GepFileManagerService';
 import { EntityManagerService } from '../apiservices/EntityManagerService';
-import {FeatureManagerService} from '../apiservices/FeatureManagerService'
+import { FeatureManagerService } from '../apiservices/FeatureManagerService'
 const newman = require('newman');
 import { ApiAdaptar } from '../config/ApiAdaptar';
 import * as asyncLoop from 'node-async-loop';
@@ -104,7 +104,7 @@ export class QuickConnectorsService {
         asyncLoop(newmanResponse.run.executions, async (exec, next) => {
             let existEntity: any = await this.getDynamicEntity(req);
             let jsonData = JSON.parse(existEntity);
-            const requestName = exec.item.name
+            const requestName = exec.item.name;
             const response = JSON.parse(exec.response.stream);
             let payload: any = { name: '', field: [] };
             let refPayload: any = { name: '', field: [] };
@@ -122,13 +122,21 @@ export class QuickConnectorsService {
             payload.created_at = new Date();
             asyncLoop(responseKeys, async (key, next1) => {
                 // responseKeys.forEach(async key => {
-                if (Array.isArray(response[key])) {
+                if (Array.isArray(response[key]) || typeof response[key] == 'object') {
+                    console.log(' this is array')
                     const keys = [];
-                    await response[key].forEach(nestedObject => {
-                        Object.keys(nestedObject).forEach(nestedKey => {
+                    if (Array.isArray(response[key])) {
+                        await response[key].forEach(nestedObject => {
+                            Object.keys(nestedObject).forEach(nestedKey => {
+                                keys.push(nestedKey);
+                            });
+                        });
+                    }
+                    if (typeof response[key] == 'object') {
+                        await Object.keys(response[key]).forEach(nestedKey => {
                             keys.push(nestedKey);
                         });
-                    });
+                    }
                     if (keys.length > 0) {
                         const fieldArray = [];
                         const uniqueKeys = [...new Set(keys)];
@@ -142,6 +150,7 @@ export class QuickConnectorsService {
                         refPayload.created_by = '';
                         refPayload.last_modified_by = '';
                         refPayload.created_at = new Date();
+                        console.log('uniqueKeys ==========>>>', uniqueKeys);
                         uniqueKeys.forEach(uniqueKey => {
                             fieldArray.push({
                                 name: uniqueKey,
@@ -156,30 +165,39 @@ export class QuickConnectorsService {
                             });
                         });
                         refPayload.field = fieldArray;
-                        let entity: any = await this.createDynamicEntity(req, refPayload);
-                        console.log('entity secondary ==============>>>', entity);
-                        if(entity.body) {
-                            payload.field.push(
-                                {
-                                    name: key,
-                                    type_name: 'List',
-                                    data_type: Array,
-                                    description: key,
-                                    is_entity_type: false,
-                                    is_list_type: false,
-                                    list_type: null,
-                                    list_value: null,
-                                    entity_id: entity.body._id
-                                }
-                            )
-                            let updatefeatureEntities = await this.featureUpdateEntity(req, entity.body);
-                            console.log('updatefeatureEntities for secondary==========>>>', updatefeatureEntities)
-                        } else {
+                        let existSecondary = jsonData.body.filter((x) => x.name === refPayload.name);
+                        if (existSecondary.length === 0) {
+                            let entity: any = await this.createDynamicEntity(req, refPayload);
+                            console.log('entity secondary ==============>>>', entity);
+                            if (entity.body._id) {
+                                payload.field.push(
+                                    {
+                                        name: key,
+                                        type_name: 'List',
+                                        data_type: Array,
+                                        description: key,
+                                        is_entity_type: false,
+                                        is_list_type: false,
+                                        list_type: null,
+                                        list_value: null,
+                                        entity_id: entity.body._id
+                                    }
+                                )
+                                let updatefeatureEntities = await this.featureUpdateEntity(req, entity.body);
+                                console.log('updatefeatureEntities for secondary==========>>>', updatefeatureEntities)
+                            } else {
+                                console.log('secondary entity is not created')
+                                next1();
+                            }
                             next1();
+                        } else {
+                            this.updateDynamicEntity(req, existSecondary[0]);
+                            next1();
+                            
                         }
-                        next1();
                     }
                 } else {
+                    console.log('is not an array', response[key]);
                     payload.field.push(
                         {
                             name: key,
@@ -199,32 +217,43 @@ export class QuickConnectorsService {
                 if (error) {
                     console.log('error -----', error);
                 } else {
+                    console.log('enter into the finished the nested sync loop')
+                    if (requestItem.request.url.query && requestItem.request.url.query.length > 0) {
+                        requestItem.request.url.query.forEach((data) => {
+                            payload.field.push(
+                                {
+                                    name: data.key,
+                                    type_name: 'Text',
+                                    data_type: String,
+                                    description: data.key,
+                                    is_entity_type: false,
+                                    is_list_type: false,
+                                    list_type: null,
+                                    list_value: null,
+                                    entity_id: null,
+                                }
+                            )
+                        })
+                    }
                     const existEntityArray = jsonData.body.filter((x) => x.entity_type === 'primary');
                     if (existEntityArray.length == 0) {
-                        if(requestItem.request.url.query && requestItem.request.url.query.length > 0) {
-                            requestItem.request.url.query.forEach((data) => {
-                                payload.field.push(
-                                    {
-                                        name: data.key,
-                                        type_name: 'Text',
-                                        data_type: String,
-                                        description: data.key,
-                                        is_entity_type: false,
-                                        is_list_type: false,
-                                        list_type: null,
-                                        list_value: null,
-                                        entity_id: null,
-                                    }
-                                )
-                            })
-                        }
                         let entity: any = await this.createDynamicEntity(req, payload);
-                        console.log('entity primary =============+>>>', entity)
                         let updatefeatureEntities = await this.featureUpdateEntity(req, entity.body);
-                        console.log('updatefeatureEntities for primary ==========>>>', updatefeatureEntities)
                         next();
                     } else {
-                        next();
+                        if (jsonData.body.length > 0) {
+                            let uniqueData: Array<any> = this.removeDuplicateInArray(jsonData.body, item => item.name);
+                            console.log('uniqueData ======>>', uniqueData);
+                            await uniqueData.forEach(async (data) => {
+                                console.log('data ==========>>>>', data)
+                                let concatedArray = payload.field.concat(data.field);
+                                let uniqueData = await this.removeDuplicateInArray(concatedArray, item => item.name);
+                                data.field = uniqueData;
+                                let updateEntity = await this.updateEntity(req, data);
+                                await this.featureUpdateEntity(req, data);
+                            })
+                            next();
+                        }
                     }
                 }
             });
@@ -234,11 +263,26 @@ export class QuickConnectorsService {
                 console.log('error ----------', err);
             } else {
                 let data = req.body;
+                console.log('enter to save the connectors');
                 quickConnectorsDao.saveConnectors(data, (response) => {
                     callback(response)
                 })
             }
-            
+
+        })
+    }
+
+    public removeDuplicateInArray(data, key) {
+        return [
+            ...new Map(data.map(item => [key(item), item])).values()
+        ]
+    }
+
+    public updateDynamicEntity(req, payload) {
+        return new Promise((resolve, reject) => {
+            entityManagerService.updateEntity(req, payload, (response) => {
+                resolve(response);
+            })
         })
     }
 
