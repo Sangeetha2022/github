@@ -334,6 +334,24 @@
             "createWithDefaultActivity": 0
         },
         {
+            "_id": "a330b8d0-7619-11e9-8b28-fb1133df238d",
+            "name": "GpSEF",
+            "label": "sef",
+            "description": "searches a noun",
+            "type": "basic",
+            "components": [
+                "a332b4a2-7619-11e9-8b28-fb1133df238c",
+                "a33350e1-7619-11e9-8b28-fb1133df238c",
+                "a33377f1-7619-11e9-8b28-fb1133df238c",
+                "a33377f3-7619-11e9-8b28-fb1133df238c",
+                "a332b4a1-7619-11e9-8b28-fb1133df238c",
+                "a33377f2-7619-11e9-8b28-fb1133df238c",
+                "a3339f00-7619-11e9-8b28-fb1133df238c"
+            ],
+            "actionOnData": "GpSEF",
+            "createWithDefaultActivity": 0
+        },
+        {
             "_id": "a33043a1-7619-11e9-8b28-fb1133df238c",
             "name": "GpUpdate",
             "label": "update",
