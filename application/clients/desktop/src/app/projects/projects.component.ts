@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Component, OnInit, Injectable, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, Injectable, ViewChild, ElementRef } from '@angular/core';
 import { AppComponentService } from '../app.component.service';
 import { ProjectsService } from '../projects/projects.service';
 import { DataService } from '../../shared/data.service';
@@ -69,6 +69,10 @@ export class ProjectsComponent implements OnInit {
   public defaultscreenvalue: any;
   gepTemplates: any = [];
   public logId = sessionStorage.getItem('LogId');
+  public flowsArray;
+  public defaultFeatureInfo: any;
+  public entitydetails: { 'entities': { 'entityType': any; 'entityId': any; }; 'name': any; 'description': any; 'updated_date': number; }[];
+  public defaultEntityInfo: any;
   templateData: any;
   public uploader: FileUploader = new FileUploader({
     url: '',
@@ -101,6 +105,7 @@ export class ProjectsComponent implements OnInit {
     this.getProjectByUserId();
     this.getCloneProjectById();
     this.getAllTemplates();
+    this.getAllFlows();
     this.getTemplateParser();
     this.createProject = this.formBuilder.group({
       // const control = new FormControl('1', Validators.pattern('[a-zA-Z ]*'));
@@ -153,11 +158,11 @@ export class ProjectsComponent implements OnInit {
     }
     let UserId = sessionStorage.getItem('Id');
 
-    this.uploader.onBeforeUploadItem = (item)=>{
+    this.uploader.onBeforeUploadItem = (item) => {
       item.url = `${this.restapi.sharedserviceapi}${Constants.sharedAppImport}/${UserId}`
     }
-    
-    this.uploader.onCompleteItem = (item:any,response:any,status:any,headers:any)=>{
+
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       // console.log('FileUpload: uploaded successfully:',item,status,response);
       this.getProjectByUserId();
       this.getCloneProjectById();
@@ -179,6 +184,12 @@ export class ProjectsComponent implements OnInit {
     this.params.scope = this.scopes;
     this.params.state = this.states;
 
+  }
+
+  getAllFlows() {
+    this.projectsService.getAllFlows(this.logId).subscribe((response) => {
+      this.flowsArray = response.body;
+    })
   }
 
   openModal() {
@@ -206,7 +217,7 @@ export class ProjectsComponent implements OnInit {
     this.closeTemplateModal();
   }
   onPreviewClick(template) {
-    if(template.name) {
+    if (template.name) {
       window.open(`assets/templates/${template.name.split(' ').join('-').toLowerCase()}/index.html`);
     }
   }
@@ -265,16 +276,16 @@ export class ProjectsComponent implements OnInit {
   getCloneProjectById() {
     this.spinner.show();
     this.cloneAllProjects = [];
-    this.projectsService.getProjectByAll(this.UserId, this.logId).subscribe( async data => {
+    this.projectsService.getProjectByAll(this.UserId, this.logId).subscribe(async data => {
       if (data) {
         this.spinner.hide();
-        let sampleData = data.body.filter((global)=> global.shared_visibility === 'Global');
+        let sampleData = data.body.filter((global) => global.shared_visibility === 'Global');
         this.cloneAllProjects = sampleData;
       }
     }, error => {
       console.log('Check the browser console to see more info.', 'Error!');
     });
-    
+
   }
 
   // nameOnChnage(event) {
@@ -302,7 +313,7 @@ export class ProjectsComponent implements OnInit {
   editProject(project) {
     console.log('edit project are --------- ', project);
     this.dataService.setProjectInfo(project);
-    this.templateScreenService.getTemplateByName(project.app_ui_template, this.logId).subscribe(data=>{
+    this.templateScreenService.getTemplateByName(project.app_ui_template, this.logId).subscribe(data => {
       console.log('after get the project template ----  ', data);
       const response = data.body;
       localStorage.setItem('stylesheets', JSON.stringify(response['stylesheets']));
@@ -310,7 +321,7 @@ export class ProjectsComponent implements OnInit {
       localStorage.setItem('css_guidelines', JSON.stringify(response['css-guidelines']));
       localStorage.setItem('templateName', project.app_ui_template);
 
-    },error=>{
+    }, error => {
       console.log('cannot able to template details');
     });
     this.router.navigate(['/project-component'], { queryParams: { projectId: project._id } });
@@ -320,7 +331,7 @@ export class ProjectsComponent implements OnInit {
 
     this.secondoryLanguages = this.primaryLanguages;
     this.secondoryLanguages = this.secondoryLanguages.filter(item => item !== this.createProject.value.primaryLanguage)
-     
+
   }
 
 
@@ -427,6 +438,31 @@ export class ProjectsComponent implements OnInit {
               // create default entity
               this.projectsService.createDefaultEntity(projectDetail._id, this.logId).subscribe(
                 (defaultRes) => {
+                  this.entitydetails = [];
+                  this.defaultEntityInfo = defaultRes.body;
+                  this.entitydetails = [
+                    {
+                      'entities':
+                      {
+                        'entityType': 'primary',
+                        'entityId': this.defaultEntityInfo._id
+                      },
+                      'name': this.defaultEntityInfo.name,
+                      'description': this.defaultEntityInfo.description,
+                      'updated_date': Date.now()
+                    }
+                  ];
+                  this.projectsService.createDefaultFeature(projectDetail._id, this.logId).subscribe(
+                    async (defaultFeature) => {
+                      
+                      this.defaultFeatureInfo = defaultFeature.body;
+                      // this.defaultFeatureInfo.entities = this.defaultFeatureInfo.entities.concat(this.entitydetails);
+                      let gpSefFlowArray = this.flowsArray.map(({ _id, _v, ...rest }) => ({ ...rest })).filter(flow => flow.name === 'GpSEF');
+                      let updateFlowInFeature = await this.saveManyProjectFlow(gpSefFlowArray);
+                      let updateEntityinFeature = await this.updateInFeatureEntity();
+                    }, error => {
+                      console.error('cannot able to create the default feature for this project ', error);
+                    })
                 }, (error) => {
                   console.error('cannot able to create the default entity for this project ', error);
                 });
@@ -438,11 +474,6 @@ export class ProjectsComponent implements OnInit {
                   console.error('cannot able to create the default screens for this project', error);
                 });
               // default feature (System Entry Feature)
-              this.projectsService.createDefaultFeature(projectDetail._id, this.logId).subscribe(
-                (defaultFeature) => {
-                }, error => {
-                  console.error('cannot able to create the default feature for this project ', error);
-                })
               // create default menus
               console.log('create project values are ------- ', dataToSave);
               this.projectsService.createDefaultMenu(
@@ -455,14 +486,14 @@ export class ProjectsComponent implements OnInit {
                 }, (error) => {
                   console.error('cannot able to create the default menu for this project ', error);
                 });
-                // Save user template
-                this.projectsService.getGepTemplate(dataToSave.app_ui_template, this.logId).subscribe(data => {
-                  data.body.project_id = projectDetail._id;
-                  if(data && data.body) {
-                    this.projectsService.addProjectTemplate(data.body, this.logId).subscribe(postRes => {
-                    });
-                  }
-                });
+              // Save user template
+              this.projectsService.getGepTemplate(dataToSave.app_ui_template, this.logId).subscribe(data => {
+                data.body.project_id = projectDetail._id;
+                if (data && data.body) {
+                  this.projectsService.addProjectTemplate(data.body, this.logId).subscribe(postRes => {
+                  });
+                }
+              });
             }
             this.getProjectByUserId();
             this.getCloneProjectById();
@@ -476,6 +507,48 @@ export class ProjectsComponent implements OnInit {
     }, error => {
       console.error('cannot able to get all the projects.', error);
     });
+  }
+
+  updateInFeatureEntity() {
+    return new Promise((resolve, reject) => {
+      this.projectsService.Updatefeaturedetailsentity(this.defaultFeatureInfo._id, this.entitydetails, this.logId).subscribe(data => {
+        console.log(data);
+        resolve(data);
+      })
+    })
+    
+  }
+
+  async saveManyProjectFlow(projectFlowList) {
+    return new Promise((resolve, reject) => {
+      this.spinner.show();
+    this.projectsService.saveManyProjectFlow(projectFlowList, this.logId).subscribe(
+      async (response) => {
+        if (response.body) {
+          // get only the specific values
+          this.spinner.hide();
+          const projectFlowsId = response.body.map(({ _id }) => _id);
+          this.defaultFeatureInfo.flows = this.defaultFeatureInfo.flows.concat(projectFlowsId);
+          let updatefeature = await this.saveFlowsInFeature();
+          resolve(updatefeature);
+        }
+      },
+      error => {
+        console.log('cannot able to save the many projectFlows');
+      });
+    })
+  }
+
+
+  saveFlowsInFeature() {
+    return new Promise((resolve, reject) => {
+      this.projectsService.updateFeature(this.defaultFeatureInfo, this.logId).subscribe(
+        response => {
+          console.log('save in flow --in feature -->>', response);
+          resolve(response);
+        },
+        error => { });
+    })
   }
 
   // generation
@@ -530,26 +603,26 @@ export class ProjectsComponent implements OnInit {
     this.projectsService.cloneProject(cloneproject, this.logId).subscribe(data => {
       var firstBody = data['body'];
       var addData = firstBody['body'];
-      
-      console.log('projectid',firstBody);
+
+      console.log('projectid', firstBody);
 
       setTimeout(() => {
         if (cloneproject.project_id !== addData._id) {
-          this.toastr.success('PROJECT CLONED: '+ addData.project_unique_id +'','',
-          {
-            closeButton: true,
-            disableTimeOut: false
-          });
+          this.toastr.success('PROJECT CLONED: ' + addData.project_unique_id + '', '',
+            {
+              closeButton: true,
+              disableTimeOut: false
+            });
         }
         this.getCloneProjectById();
         this.getProjectByUserId();
-      },1500);
-      
+      }, 1500);
+
     }, error => {
-        this.toastr.error('Failed!', 'Operation', {
-          closeButton: true,
-          disableTimeOut: false
-        });
+      this.toastr.error('Failed!', 'Operation', {
+        closeButton: true,
+        disableTimeOut: false
+      });
     });
   }
   // socket
