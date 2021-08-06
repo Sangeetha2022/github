@@ -1,20 +1,249 @@
-div.bg_img.bg_img {
-  background-image: url("../../assets/banner_home.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 300px;
-  background-size: 100% auto;
-  background-attachment: unset;
+#i307x {
+    height: 90vh;
+    padding: 0 0 0 0;
 }
-h1{
-  font-size: 35px;
-  font-family: 'Times New Roman', Times, serif;
-  font-weight: bold;
-  letter-spacing: 1px;
+
+.gpd-section {
+    display: flex;
+    padding: 50px 0
 }
-// // Extra small devices (portrait phones, less than 576px)
-@media (max-width: 575px) {
-  div.bg_img.bg_img{
-    min-height: 100px;
-  }
+
+#iz59b {
+    max-width: 100%;
+    margin: 0 0 0 0;
+    width: 100%;
+}
+
+.gpd-container {
+    width: 90%;
+    padding: 25px 0;
+    margin: 0 auto;
+    max-width: 1200px
+}
+
+.gpd-cnt {
+    padding: 0;
+}
+
+#i4a8d {
+    padding: 0 0 0 0;
+    height: 100%;
+}
+
+.gdp-row,
+.row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    padding: 10px;
+    min-height: 75px;
+    flex-direction: row
+}
+
+.gpd-grid {
+    min-height: auto;
+    padding: 10px 0;
+}
+
+#izo03 {
+    padding: 50px 0 50px 90px;
+    background-color: #ffffff;
+    background-image: url('https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/4842d7c090d4463ba383d1c3b0b7dc39_sdffs.png');
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: scroll;
+    background-size: auto;
+    flex-basis: 100%;
+}
+
+.gpd-clm {
+    padding: 5px 0;
+}
+
+.cell,
+.cell-gut,
+.gdp-cell,
+.gdp-cell-gut {
+    flex-grow: 1;
+    flex-basis: 100%;
+    padding: 5px
+}
+
+.cell-gut,
+.gdp-cell-gut {
+    padding-right: 15px
+}
+
+#iu1f2 {
+    flex-direction: column;
+    padding: 0 0 0 0;
+    height: 100%;
+    justify-content: flex-start;
+}
+
+#ivbp5 {
+    flex: 0 1 auto;
+}
+
+#ibrd5 {
+    color: black;
+    max-width: 38%;
+}
+
+#iw4wh {
+    flex: 0 1 auto;
+    margin: 20px 0 0 0;
+}
+
+#i7lpe {
+    padding: 0 0 0 0;
+    font-family: Montserrat, sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 42px;
+    margin: 0 0 0 2px;
+}
+
+.gpd-icon,
+.gpd-link,
+.gpd-link-box,
+.gpd-text {
+    display: inline-block;
+    text-decoration: none;
+    color: inherit
+}
+
+.gpd-link,
+.gpd-link-box,
+.gpd-text {
+    vertical-align: top;
+    padding: 10px;
+    max-width: 100%
+}
+
+#ishz7 {
+    flex: 0 1 auto;
+    margin: 145px 0 0 0;
+}
+
+#i55xt {
+    background-image: linear-gradient(to right, #52daff 0%, #079dfa 100%);
+    background-repeat: repeat;
+    background-position: left top;
+    background-attachment: scroll;
+    background-size: auto;
+    text-transform: uppercase;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 12px 37px 12px 37px;
+    font-weight: 600;
+    border-radius: 5px 5px 5px 5px;
+}
+
+#iba96 {
+    background-image: linear-gradient(to right, #52daff 0%, #079dfa 100%);
+    background-repeat: repeat;
+    background-position: left top;
+    background-attachment: scroll;
+    background-size: auto;
+    text-transform: uppercase;
+    color: #ffffff;
+    font-size: 18px;
+    padding: 12px 37px 12px 37px;
+    font-weight: 600;
+    border-radius: 5px 5px 5px 5px;
+    margin: 0 0 0 35px;
+}
+
+#imysg {
+    padding: 0 0 0 0;
+    background-image: url('https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/0e3954e1eabe4444b304617b2f95dcdd_group_17236.png');
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: scroll;
+    background-size: cover;
+}
+
+#ia17i {
+    align-items: center;
+    height: 100%;
+}
+
+#i4b93 {
+    text-align: center;
+}
+
+#ihygk {
+    color: black;
+    width: 75%;
+}
+
+@media (max-width:768px) {
+    .gdp-row,
+    .row {
+        flex-wrap: wrap
+    }
+    .cell-gut,
+    .gdp-cell-gut {
+        padding-right: 0
+    }
+    #iu1f2 {
+        margin: 0 10px 0 10px;
+        flex-direction: column;
+    }
+    #ibrd5 {
+        max-width: 100%;
+        width: 32%;
+    }
+}
+
+@media (max-width: 415px) {
+    #izo03 {
+        padding: 50px 10px 50px 10px;
+    }
+    #ivbp5 {
+        text-align: center;
+    }
+    #ibrd5 {
+        width: 70%;
+    }
+    #iw4wh {
+        text-align: center;
+        margin: 20px 0 0 0;
+    }
+    #ishz7 {
+        text-align: center;
+        margin: 130px 0 0 0;
+    }
+    #imysg {
+        display: none;
+    }
+    #ia17i {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    #izo03 {
+        padding: 50px 0 50px 0;
+    }
+    #ivbp5 {
+        margin: 0 0 0 0;
+        text-align: center;
+    }
+    #iw4wh {
+        text-align: center;
+        margin: 50px 0 0 0;
+    }
+    #i7lpe {
+        text-align: center;
+    }
+    #ishz7 {
+        text-align: center;
+        margin: 135px 0 0 0;
+    }
+    #imysg {
+        display: none;
+    }
 }

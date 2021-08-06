@@ -7,7 +7,7 @@ import {HttpClient,HttpClientModule} from '@angular/common/http';
 import {HomepageComponent} from './homepage/homepage.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
-import {TranslateLoader,TranslateModule} from '@ngx-translate/core';
+import {TranslateLoader,TranslateModule, TranslateService} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {MissingTranslationHandler,MissingTranslationHandlerParams} from '@ngx-translate/core';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -18,6 +18,10 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
+import { LoginComponent } from './login/login.component';
+import { LoggerModule } from 'ngx-logger';
+import { environment } from 'src/environments/environment';
+
 
 export class MyMissingTranslationHandler implements MissingTranslationHandler {
     handle(params: MissingTranslationHandlerParams) {
@@ -35,6 +39,7 @@ export class MyMissingTranslationHandler implements MissingTranslationHandler {
      HomepageComponent,
      HeaderComponent,
      FooterComponent,
+     LoginComponent,
   ],
   imports: 
   [
@@ -60,9 +65,11 @@ export class MyMissingTranslationHandler implements MissingTranslationHandler {
       },
       missingTranslationHandler: {provide: MissingTranslationHandler, useClass: MyMissingTranslationHandler},
     }), 
+    LoggerModule.forRoot(environment.logging)
   ],
   bootstrap: [AppComponent],
 })
 
 export class AppModule {
+
 }

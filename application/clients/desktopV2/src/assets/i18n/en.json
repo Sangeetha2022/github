@@ -1,15 +1,12 @@
 {
-    "HOME":{
-        "HEADING":"Welcome to the Geppetto",
-        "DESCRIPTION":"Geppetto allows you to create Application in fastest manner",
-        "SIGNIN":"Sign In",
-        "ABOUT":"About",
-        "LANGUAGE":{
-            "en": "English",
-            "ta": "தமிழ்",
-            "es": "Español"
-        }
+    "HOME": {
+        "HEADING1": "The Cloud Native",
+        "HEADING2": "​​​​​​​Low Code Platform",
+        "SIGNUP": "SIGN UP",
+        "LOGIN": "LOGIN",
+        "SEARCH_FOR": "Search for..",
+        "ABOUT": "About"
     }
-  
-  
+
+
 }

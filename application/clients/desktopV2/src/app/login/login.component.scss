@@ -1,0 +1,179 @@
+#i307x {
+    height: 90vh;
+    padding: 0 0 0 0;
+}
+
+.gpd-section {
+    display: flex;
+    padding: 50px 0
+}
+
+#iz59b {
+    max-width: 100%;
+    margin: 0 0 0 0;
+    width: 100%;
+}
+
+.gpd-container {
+    width: 90%;
+    padding: 25px 0;
+    margin: 0 auto;
+    max-width: 1200px
+}
+
+.gpd-cnt {
+    padding: 0;
+}
+
+#i4a8d {
+    padding: 0 0 0 0;
+    height: 100%;
+}
+
+.gdp-row,
+.row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    padding: 10px;
+    min-height: 75px;
+    flex-direction: row
+}
+
+.gpd-grid {
+    min-height: auto;
+    padding: 10px 0;
+}
+
+#imysg {
+    padding: 0 80px 0 80px;
+    background-image: url('https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/f9ead937886d4438bb05aed9e0b41931_group_17238.png');
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: scroll;
+    background-size: cover;
+}
+
+.gpd-clm {
+    padding: 5px 0;
+}
+
+.cell,
+.cell-gut,
+.gdp-cell,
+.gdp-cell-gut {
+    flex-grow: 1;
+    flex-basis: 100%;
+    padding: 5px
+}
+
+.cell-gut,
+.gdp-cell-gut {
+    padding-right: 15px
+}
+
+#ia17i {
+    align-items: center;
+    height: 100%;
+    padding: 10px 0 10px 0;
+}
+
+#i4b93 {
+    text-align: center;
+}
+
+#ihygk {
+    color: black;
+    width: 38%;
+}
+
+#izo03 {
+    padding: 30px 0 50px 0;
+    background-color: #ffffff;
+}
+
+#ili0n {
+    flex-direction: column;
+    padding: 0 0 0 0;
+    margin: 20px 0 0 99px;
+}
+
+.gpd-header {
+    margin: 0;
+}
+
+#i39ya {
+    font-family: Montserrat, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.gpd-text {
+    display: inline-block;
+    text-decoration: none;
+    color: inherit;
+    vertical-align: top;
+    padding: 10px;
+    max-width: 100%
+}
+
+#i7pe3 {
+    padding: 10px 0 10px 0;
+}
+
+#ixc5n {
+    padding: 30px 0 5px 0;
+}
+
+#iiiok {
+    background-color: #F5F5F5;
+    width: 75%;
+    border: 0 inset rgb(118, 118, 118);
+    height: 43px;
+    padding: 1px 2px 1px 20px;
+}
+
+#i5v47 {
+    background-color: #F5F5F5;
+    width: 75%;
+    border: 0 inset rgb(118, 118, 118);
+    height: 43px;
+    margin: 31px 0 0 0;
+    padding: 1px 2px 1px 20px;
+}
+
+#ix20h {
+    margin: 65px 0 0 0;
+}
+
+#iaoq5 {
+    padding: 10px 160px 10px 160px;
+    text-transform: uppercase;
+    color: #ffffff;
+    font-family: Montserrat, sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    background-color: #5db18c;
+    box-shadow: 3px 4px 5px 6px rgba(60, 198, 54, 0.08);
+}
+
+#i7ijz {
+    text-align: left;
+    font-family: Montserrat, sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 0 0 0 60px;
+    margin: 15px 0 16px 0;
+}
+
+@media (max-width:768px) {
+    .gdp-row,
+    .row {
+        flex-wrap: wrap
+    }
+    .cell-gut,
+    .gdp-cell-gut {
+        padding-right: 0
+    }
+}
