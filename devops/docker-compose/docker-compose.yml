@@ -176,6 +176,17 @@ services:
       - mongo
       - apigateway
 
+  modifiermanager:
+    build: ../../application/services/modifiermanager
+    image: modifiermanager
+    container_name: modifiermanager
+    ports:
+      - "3030:3030"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
+
   deletemanager:
     build: ../../application/services/deletetmanager
     image: deletemanager

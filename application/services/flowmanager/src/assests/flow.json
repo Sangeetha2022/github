@@ -240,6 +240,9 @@
                 "a33377f2-7619-11e9-8b28-fb1133df238c",
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
+            "modifiers": [
+                "01299b80-7b56-11eb-85d8-cda6aa1b4d7d"
+            ],
             "actionOnData": "GpGetNounById",
             "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
@@ -292,6 +295,9 @@
                 "a33377f2-7619-11e9-8b28-fb1133df238c",
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
+            "modifiers": [
+                "01299b80-7b56-11eb-85d8-cda6aa1b4d7d"
+            ],
             "actionOnData": "GpSearchForUpdate",
             "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
@@ -312,6 +318,9 @@
                 "a33377f2-7619-11e9-8b28-fb1133df238c",
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
+            "modifiers": [
+                "01299b80-7b56-11eb-85d8-cda6aa1b4d7d"
+            ],
             "actionOnData": "GpGetAllValues",
             "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 1
@@ -330,6 +339,9 @@
                 "a332b4a1-7619-11e9-8b28-fb1133df238c",
                 "a33377f2-7619-11e9-8b28-fb1133df238c",
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
+            ],
+            "modifiers": [
+                "01299b80-7b56-11eb-85d8-cda6aa1b4d7d"
             ],
             "actionOnData": "GpCreate",
             "flowType":"GeppettoFlow",
@@ -351,6 +363,9 @@
                 "a33377f2-7619-11e9-8b28-fb1133df238c",
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
+            "modifiers": [
+                "01299b80-7b56-11eb-85d8-cda6aa1b4d7d"
+            ],
             "actionOnData": "GpDelete",
             "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 1
@@ -371,7 +386,30 @@
                 "a33377f2-7619-11e9-8b28-fb1133df238c",
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
             ],
+            "modifiers": [
+                "01299b80-7b56-11eb-85d8-cda6aa1b4d7d"
+            ],
             "actionOnData": "GpSearch",
+            "flowType":"GeppettoFlow",
+            "createWithDefaultActivity": 0
+        },
+        {
+            "_id": "a330b8d0-7619-11e9-8b28-fb1133df238d",
+            "name": "GpSEF",
+            "label": "sef",
+            "flag": "active",
+            "description": "searches a noun",
+            "type": "basic",
+            "components": [
+                "a332b4a2-7619-11e9-8b28-fb1133df238c",
+                "a33350e1-7619-11e9-8b28-fb1133df238c",
+                "a33377f1-7619-11e9-8b28-fb1133df238c",
+                "a33377f3-7619-11e9-8b28-fb1133df238c",
+                "a332b4a1-7619-11e9-8b28-fb1133df238c",
+                "a33377f2-7619-11e9-8b28-fb1133df238c",
+                "a3339f00-7619-11e9-8b28-fb1133df238c"
+            ],
+            "actionOnData": "GpSEF",
             "flowType":"GeppettoFlow",
             "createWithDefaultActivity": 0
         },
@@ -390,6 +428,9 @@
                 "a332b4a1-7619-11e9-8b28-fb1133df238c",
                 "a33377f2-7619-11e9-8b28-fb1133df238c",
                 "a3339f00-7619-11e9-8b28-fb1133df238c"
+            ],
+            "modifiers": [
+                "69171d70-7ca6-11eb-8699-7fc65f06b6b6"
             ],
             "actionOnData": "GpUpdate",
             "flowType":"GeppettoFlow",

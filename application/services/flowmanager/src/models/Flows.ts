@@ -14,6 +14,9 @@ let flowSchema = mongoose.Schema({
   components: [
     { type: mongoose.Schema.Types.String, ref: 'flow_components' }
   ],
+  modifiers: [
+    { type: mongoose.Schema.Types.String, ref: 'default_modifiers' }
+  ],
   actionOnData: String,
   createWithDefaultActivity: Number,
   flowType:String,

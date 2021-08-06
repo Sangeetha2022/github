@@ -1,0 +1,25 @@
+{
+    "modifier": [
+        {
+            "_id": "69171d70-7ca6-11eb-8699-7fc65f06b6b6",
+            "modifier_name": "GpUpdate-SpecificValues",
+            "modify_target_type": "Flow",
+            "description": "this is modifies update flow",
+            "__v": 0
+        },
+        {
+            "_id": "6916f660-7ca6-11eb-8699-7fc65f06b6b6",
+            "modifier_name": "GpwhoKnows",
+            "modify_target_type": "UIElement",
+            "description": "this is modifies UI element",
+            "__v": 0
+        },
+        {
+            "_id": "01299b80-7b56-11eb-85d8-cda6aa1b4d7d",
+            "modifier_name": "GpSearch-By",
+            "modify_target_type": "Flow",
+            "description": "this is modifies search",
+            "__v": 0
+        }
+    ]
+}

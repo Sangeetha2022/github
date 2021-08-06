@@ -37,6 +37,10 @@ export class ProjectsService {
     return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultEntity}/?projectId=${projectId}&log_id=${logId}`);
   }
 
+  createDefaultFeature(projectId: String, logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.defaultFeature}/?projectId=${projectId}&log_id=${logId}`);
+  }
+
   createDefaultScreens(projectId: String, logId): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultScreens}/?projectId=${projectId}&`);
   }
@@ -112,6 +116,26 @@ export class ProjectsService {
   // importSharedServiceYaml(): Observable<any> {
   //   return this.api.post(`${this.restapi.Apigateway}${Constants.sharedAppImport}`)
   // }
+
+  getAllFlows(logId): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFlow}?log_id=${logId}`);
+  }
+
+  updateFeature(feature: any, logId): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFeature}?log_id=${logId}`, feature);
+  }
+
+  Updatefeaturedetailsentity(featureid: any, entitydetails: any, logId: any): Observable<any> {
+    return this.http.put(`${this.restapi.Apigateway}${Constants.featureUpdateEntity}${featureid}?log_id=${logId}`, entitydetails);
+  }
+
+  getallProjectFlow(logId): Observable<any>  {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getallProjectFlow}` + `?log_id=${logId}`);
+  }
+
+  saveManyProjectFlow(data, logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveManyProjectFlow}` + `?log_id=${logId}`, data);
+  }
 
   importSharedServiceYaml(fileToUpload: File, user_id): Observable<any> {
     const endpoint = `${this.restapi.Apigateway}${Constants.sharedAppImport}/${user_id}`;

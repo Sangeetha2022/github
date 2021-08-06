@@ -47,12 +47,14 @@ export class DaoWorker {
     private flowDetail;
     private entitySchema;
     private gpDao;
+    private modifiers;
     count = 0;
 
-    createDao(flowDetail, gpDao, entityElement, daoObj) {
+    createDao(flowDetail, gpDao, entityElement, daoObj, modifierResponse) {
         this.flowDetail = flowDetail;
         this.entitySchema = entityElement;
         this.gpDao = gpDao;
+        this.modifiers = modifierResponse.body;
         this.gpStart(daoObj);
         this.gpVariableStatement(daoObj);
         // this.gpCheckConnector();
@@ -219,27 +221,41 @@ export class DaoWorker {
                     this.tempDao.function.variable += `let and_obj = {} ;`;
                     this.tempDao.function.variable += `let orkey ;`;
                     this.tempDao.function.variable += `let or_obj = {} ;`
-                    this.tempDao.function.objectiteration = `Object.entries(${this.entitySchema.fileName}Data).forEach(
-                        ([key,value]) => {
-                            if(value !== ''){
-                                andkey = key;
-                                and_obj[andkey] = value;
+                    if(this.modifiers.length > 0) {
+                        this.tempDao.function.objectiteration = `Object.entries(${this.entitySchema.fileName}Data).forEach(
+                            ([key,value]) => {
+                                if(value !== ''){
+                                    andkey = key;
+                                    and_obj[andkey] = value;
+                                }
                             }
-                            else{
-                                orkey = key;
-                                or_obj[orkey] = { $ne: '' }
+                        );`;
+                        this.tempDao.function.query = `{ $and: [and_obj] }`;
+
+                    } else {
+                        this.tempDao.function.objectiteration = `Object.entries(${this.entitySchema.fileName}Data).forEach(
+                            ([key,value]) => {
+                                if(value !== ''){
+                                    andkey = key;
+                                    and_obj[andkey] = value;
+                                }
+                                else{
+                                    orkey = key;
+                                    or_obj[orkey] = { $ne: '' }
+                                }
                             }
-                        }
-                    );`
+                        );`;
+                        this.tempDao.function.query = `{$and: [
+                            {
+                                $or: [
+                                   or_obj
+                                ]
+                            },
+                            and_obj
+                        ]}`;
+                    }
                     this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
-                    this.tempDao.function.query = `{$and: [
-                        {
-                            $or: [
-                               or_obj
-                            ]
-                        },
-                        and_obj
-                    ]}`;
+                    
                     this.tempDao.function.isJsonFormat = false;
                     this.tempDao.function.connectorEntityName = null;
                 }

@@ -313,6 +313,7 @@ export class TraitsService {
           }),
           init() {
             this.listenTo(this, 'change:verbs', this.verb);
+            this.listenTo(this, 'change:modifiers', this.modifier);
           },
           verb() {
             const verbObj = screenGlobalVariable.verbOptions.find(
@@ -320,6 +321,16 @@ export class TraitsService {
             );
             if (verbObj) {
               screenGlobalVariable.buttonVerb = verbObj.key;
+            }
+          },
+          modifier() {
+            const modifierObj = screenGlobalVariable.filterModifiers.find(
+              x => x.value === this.changed['modifiers']
+            );
+            if (modifierObj) {
+              screenGlobalVariable.modifierUsageObject.modifier_id = modifierObj.key;
+              screenGlobalVariable.modifierUsageObject.modifier_name = modifierObj.value;
+              screenGlobalVariable.modifierUsageObject.modify_target_type = 'flow';
             }
           }
         },
@@ -881,6 +892,7 @@ export class TraitsService {
           this.listenTo(this, 'change:colname', this.columnName);
           this.listenTo(this, 'change:verbs', this.verb);
           this.listenTo(this, 'change:events', this.handlechangetype);
+          this.listenTo(this, 'change:modifiers', this.modifier);
         },
         handlechangetype() {
           // tslint:disable-next-line:max-line-length
@@ -898,6 +910,16 @@ export class TraitsService {
           $this.broadcastservice.updateDataselection({ 'event': eventchangetrigger });
           console.log('--------changed event-----', changedValue , screensVariable);
           // screensVariable.editor.TraitManager.getTraitsViewer().render();
+        },
+        modifier() {
+          const modifierObj = screensVariable.filterModifiers.find(
+            x => x.value === this.changed['modifiers']
+          );
+          if (modifierObj) {
+            screensVariable.modifierUsageObject.modifier_id = modifierObj.key;
+            screensVariable.modifierUsageObject.modifier_name = modifierObj.value;
+            screensVariable.modifierUsageObject.modify_target_type = 'flow';
+          }
         },
         ElementName() { },
         checkbox() {

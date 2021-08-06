@@ -12,6 +12,7 @@ export class CommandService {
   project_id: any;
   screenArray: any[] = [];
   screen_id: any;
+  buttonComponent: any;
   @ViewChild('myModal') myModal: ElementRef;
 
   constructor(
@@ -113,35 +114,21 @@ export class CommandService {
             name: 'actionButton',
             label: 'Action',
             type: 'actionButton'
-          }
-        ]);
-      }
-
-      if (component.attributes.tagName === 'input') {
-        component.get('traits').set([
-          { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
-          { name: 'placeholder', label: 'Placeholder' },
-          { type: 'checkbox', name: 'required', label: 'Required' },
-          {
-              type: 'select',
-              label: 'FieldType',
-              name: 'entity',
-              options: [],
-              changeProp: 1
           },
           {
             type: 'select',
-            label: 'entity',
-            name: 'entity',
+            label: 'modifiers',
+            name: 'modifiers',
             changeProp: 1,
-            options: $this.entitydetails
+            options: $this.filterModifiers // Modifier binding
           },
           {
-            type: 'entityFieldButton',
-            label: 'Field',
-            name: 'Field'
+            name: 'valueButton',
+            label: 'Modify By',
+            type: 'valueButton'
           }
-        ]);
+          ]
+        );
       }
 
       if (component.attributes.tagName === 'input') {
@@ -223,6 +210,18 @@ export class CommandService {
             name: 'actionButton',
             label: 'Action',
             type: 'actionButton'
+          },
+          {
+            type: 'select',
+            label: 'modifiers',
+            name: 'modifiers',
+            changeProp: 1,
+            options: $this.filterModifiers // Modifier binding
+          },
+          {
+            name: 'valueButton',
+            label: 'Modify By',
+            type: 'valueButton'
           },
           {
             name: 'routeButton',
