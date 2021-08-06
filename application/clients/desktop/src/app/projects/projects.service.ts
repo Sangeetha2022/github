@@ -45,6 +45,10 @@ export class ProjectsService {
     return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultScreens}/?projectId=${projectId}&`);
   }
 
+  createSefScreens(projectId: String, featureId: String, data: any,  logId): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.createSefScreens}/?projectId=${projectId}&log_id=${logId}&featureId=${featureId}`, data);
+  }
+
   createDefaultMenu(projectId: String, primaryLanguage: String, secondaryLanguage: String, logId: any): Observable<any> {
     // tslint:disable-next-line:max-line-length
     return this.api.get(`${this.restapi.Apigateway}${Constants.createDefaultMenu}/?projectId=${projectId}&primaryLanguage=${primaryLanguage}&secondaryLanguage=${secondaryLanguage}&log_id=${logId}`);

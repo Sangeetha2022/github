@@ -51,6 +51,7 @@ class App {
     private mongoSeedData(): void {
         let seedData = new Feedseeddata();
         seedData.defaultScreen();
+        seedData.sefScreen();
     }
 
 }
