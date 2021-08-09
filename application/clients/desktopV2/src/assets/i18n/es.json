@@ -6,5 +6,22 @@
         "LOGIN": "ACCESO",
         "SEARCH_FOR": "Buscar..",
         "ABOUT": "Acerca de"
+    },
+    "LOGIN": {
+        "HEADER": "Iniciar sesión en Geppetto",
+        "DESCRIPTION": "¡Bienvenido de nuevo! Inicie sesión con sus datos que ingresó durante el registro",
+        "INPUT1": "Nombre de usuario",
+        "INPUT2": "Clave",
+        "BUTTON_TXT": "Acceso",
+        "ACCOUNT": "No tengo una cuenta?",
+        "SIGNUP": "Inscribirse"
+    },
+    "ABOUT": {
+        "ABOUT": "Acerca de",
+        "CLOSE": "Cerrar",
+        "VERSION": "Versión :",
+        "BUILD_VERSION": "Versión de compilación :",
+        "BUILD_DATE": "La fecha de construcción :",
+        "LICENCE": "Licencias de código abierto :"
     }
 }

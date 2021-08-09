@@ -243,3 +243,237 @@ img {
         width: 50%;
     }
 }
+
+//About us css
+.gpd-container {
+    width: 90%;
+    padding: 25px 0;
+    margin: 0 auto;
+    max-width: 1200px
+}
+
+.gpd-cnt {
+    padding: 0;
+}
+
+.gpd-section {
+    display: flex;
+    padding: 50px 0
+}
+
+#igsgh {
+    //  background-image: url('https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/61943676d037400aa3ac7eaa645107d7_overlay.png');
+    // background-repeat: no-repeat;
+    //   background-position: left top;
+    // background-attachment: scroll;
+    // background-size: cover;
+    height: 90vh;
+}
+
+#i4dcs {
+    margin: 0 auto 0 auto;
+    width: 40%;
+    height: 400px;
+    padding: 0 0 0 0;
+}
+
+#i7skc {
+    background-color: #F7F6F6;
+    padding: 0 0 0 0;
+    border-radius: 10px 10px 10px 10px;
+    border: 8px solid #FFFFFF;
+    height: 120%;
+}
+
+#iiwr1 {
+    flex-direction: column;
+    padding: 0 0 0 0;
+}
+
+#ixk6e {
+    padding: 5px 15px 5px 15px;
+}
+
+#idapf {
+    padding: 0 0 0 0;
+}
+
+#in0sl {
+    text-align: center;
+}
+
+#ixixk {
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    color: #302C5E;
+    font-size: 20px;
+}
+
+#ijc7k {
+    padding: 0 0 0 0;
+    text-align: right;
+    align-self: center;
+}
+
+#ivare {
+    width: 25%;
+    margin: 0 0 0 auto;
+}
+
+#it9sw {
+    text-align: center;
+    background-color: #ffffff;
+    box-shadow: 0 0 5px 3px rgba(194, 194, 194, 0.25);
+    border-radius: 5px 5px 5px 5px;
+    padding: 2px 0 5px 0;
+    align-self: center;
+}
+
+#i3bzx {
+    color: black;
+    width: 35%;
+}
+
+#ikaoo {
+    padding: 10px 25px 10px 25px;
+}
+
+#if2r9 {
+    background-color: #ffffff;
+    border-radius: 5px 5px 5px 5px;
+    padding: 20px 10px 30px 22px;
+    margin: 15px 0 0 0;
+}
+
+#ivibj {
+    flex-direction: column;
+    padding: 5px 0 5px 0;
+}
+
+#iulkg {
+    padding: 0 0 0 0;
+}
+
+#ion9w {
+    color: #7F7F7F;
+    font-family: Montserrat, sans-serif;
+    padding: 5px 0 5px 10px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+#ierhw {
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 5px 10px 5px 10px;
+}
+
+#i37ll {
+    padding: 0 0 0 0;
+}
+
+#izvqi {
+    color: #7F7F7F;
+    font-family: Montserrat, sans-serif;
+    padding: 5px 0 5px 10px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+#ihl6b {
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 5px 10px 5px 10px;
+}
+
+#i2n1j {
+    padding: 0 0 0 0;
+}
+
+#i4bql {
+    color: #7F7F7F;
+    font-family: Montserrat, sans-serif;
+    padding: 5px 0 5px 10px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+#imw3k {
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 5px 10px 5px 10px;
+}
+
+#i61kk {
+    padding: 0 0 0 0;
+}
+
+#izfza {
+    color: #7F7F7F;
+    font-family: Montserrat, sans-serif;
+    padding: 5px 0 5px 10px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+#i7ath {
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 5px 10px 5px 10px;
+    color: #766FD4;
+    text-decoration: underline;
+}
+
+#iylnl {
+    text-align: center;
+    margin: 8px 0 0 0;
+}
+
+#i158z {
+    background-color: #141E4F;
+    color: #ffffff;
+    font-family: Montserrat, sans-serif;
+    padding: 10px 28px 10px 28px;
+    border-radius: 8px 8px 8px 8px;
+}
+
+.gpd-link,
+.gpd-link-box,
+.gpd-text {
+    display: inline-block;
+    text-decoration: none;
+    color: inherit;
+    vertical-align: top;
+    padding: 10px;
+    max-width: 100%
+}
+
+@media (max-width: 768px) {
+    #igsgh {
+        height: 100vh;
+    }
+    #i4dcs {
+        width: 75%;
+    }
+    #ixk6e {
+        white-space: nowrap;
+    }
+    #idapf {
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+}
+
+@media (max-width: 415px) {
+    #igsgh {
+        background-size: cover;
+        padding: 20px 0 50px 0;
+    }
+    #i4dcs {
+        width: 95%;
+    }
+}

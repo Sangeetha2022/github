@@ -6,7 +6,25 @@
         "LOGIN": "LOGIN",
         "SEARCH_FOR": "Search for..",
         "ABOUT": "About"
+    },
+    "LOGIN": {
+        "HEADER": "Log in to Geppetto",
+        "DESCRIPTION": "Welcome back! Login with your data that you entered during registration",
+        "INPUT1": "Username",
+        "INPUT2": "Password",
+        "BUTTON_TXT": "Login",
+        "ACCOUNT": "Don't have an account?",
+        "SIGNUP": "Sign Up"
+    },
+    "ABOUT": {
+        "ABOUT": "About",
+        "CLOSE": "Close",
+        "VERSION": "Version :",
+        "BUILD_VERSION": "Build Version :",
+        "BUILD_DATE": "Build Date :",
+        "LICENCE": "Open Source Licenses :"
     }
+
 
 
 }

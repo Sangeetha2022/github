@@ -73,4 +73,10 @@ export class HeaderComponent implements OnInit {
       return false;
     }
 }
+showAbout() {
+  document.getElementById('model1')!.style.display = 'block';
+}
+hideAbout() {
+  document.getElementById('model1')!.style.display = 'none';
+}
 }
