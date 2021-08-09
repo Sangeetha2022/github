@@ -26,6 +26,7 @@ class ScreenController implements Controller {
         this.router.get('/screen/getbyfeatureid/:id', this.getAllScreenByFeatureId);
         this.router.get('/screen/template', this.getTemplateByProjectId);
         this.router.get('/projects/default/screen', this.createDefaultScreen);
+        this.router.post('/projects/default/sefscreen', this.createSefScreen);
 
     }
 
@@ -147,6 +148,19 @@ class ScreenController implements Controller {
     public async createDefaultScreen(req: Request, res: Response) {
         try {
             let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.screenUrl}/projects/default/screen?projectId=${req.query.projectId}` + `&log_id=${req.query.log_id}`));
+            req.baseUrl === '/mobile' ? res.send(result) :
+                req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async createSefScreen(req: Request, res: Response) {
+        try {
+            let result = await Promise.resolve(new ApiAdaptar().post(
+            `${Constants.screenUrl}/projects/default/sefscreen?projectId=${req.query.projectId}`
+             + `&log_id=${req.query.log_id}` + `&featureId=${req.query.featureId}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
