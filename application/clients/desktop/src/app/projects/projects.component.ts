@@ -41,6 +41,7 @@ export class ProjectsComponent implements OnInit {
   createdProject: any = [];
   genNotifyArr: any = [];
   userNotifyArr: any = [];
+  public flowDeatilsArray: any = [];
   public UserId: any;
   public defaultEntity: any = {
     project_name: '',
@@ -460,6 +461,7 @@ export class ProjectsComponent implements OnInit {
                       let gpSefFlowArray = this.flowsArray.map(({ _id, _v, ...rest }) => ({ ...rest })).filter(flow => flow.name === 'GpSEF');
                       let updateFlowInFeature = await this.saveManyProjectFlow(gpSefFlowArray);
                       let updateEntityinFeature = await this.updateInFeatureEntity();
+                      let createSefScreen = await this.createSefScreen(projectDetail);
                     }, error => {
                       console.error('cannot able to create the default feature for this project ', error);
                     })
@@ -524,6 +526,25 @@ export class ProjectsComponent implements OnInit {
     
   }
 
+  createSefScreen(projectDetail) {
+    return new Promise(resolve => {
+      let sefFlowData = this.flowDeatilsArray.filter((x) => x.name === 'GpSEF');
+      let data = {
+        "htmlId" : "template-x2d",
+        "componentId" : "c2189",
+        "elementName" : "button_template-iowtv",
+        "verb" : "",
+        "event" : "onload",
+        "flowName" : "GpSEF",
+        "flow" : sefFlowData[0]._id
+      }
+      this.projectsService.createSefScreens(projectDetail._id, this.defaultFeatureInfo._id, data, this.logId).subscribe(res => {
+        console.log('res ============>>>', res);
+        resolve(res);
+      })
+    })
+  }
+
   async saveManyProjectFlow(projectFlowList) {
     return new Promise((resolve, reject) => {
       this.spinner.show();
@@ -531,6 +552,7 @@ export class ProjectsComponent implements OnInit {
       async (response) => {
         if (response.body) {
           // get only the specific values
+          this.flowDeatilsArray = response.body;
           this.spinner.hide();
           const projectFlowsId = response.body.map(({ _id }) => _id);
           this.defaultFeatureInfo.flows = this.defaultFeatureInfo.flows.concat(projectFlowsId);

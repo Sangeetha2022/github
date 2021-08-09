@@ -7,7 +7,7 @@
    * Docker         | version 20.10.2
    * Docker-compose | version 1.28.2
    * Node           | version 10.19.0
-   * Angular-cli    | version 11.2.11
+   * Angular-cli    | version 7.3.9
 
 
 * Once your machine has installed all requirements  you are able to run the Geppetto application in your local machine by using docker-compose.

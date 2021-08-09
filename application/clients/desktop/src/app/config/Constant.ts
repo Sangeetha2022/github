@@ -51,6 +51,7 @@ export class Constants {
     public static get updateProjectById(): String { return this.DESKTOP_ROUTER + '/projects/update'; }
     public static get getProjectById(): String { return this.DESKTOP_ROUTER + '/projects/getbyid'; }
     public static get createDefaultScreens(): String { return this.DESKTOP_ROUTER + '/projects/default/screen'; }
+    public static get createSefScreens(): String { return this.DESKTOP_ROUTER + '/projects/default/sefscreen'; }
 
     // menu apis
     public static get saveMenu(): String { return this.DESKTOP_ROUTER + '/menu/save'; }

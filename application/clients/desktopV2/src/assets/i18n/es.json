@@ -1,13 +1,10 @@
 {
-    "HOME":{
-        "HEADING":"Bienvenida a la geppetto",
-        "DESCRIPTION":"Geppetto le permite crear aplicaciones de la manera más rápida",
-        "SIGNIN":"Iniciar sesión",
-        "ABOUT":"Acerca de",
-        "LANGUAGE":{
-            "en": "English",
-            "ta": "தமிழ்",
-            "es": "Español"
-        }
+    "HOME": {
+        "HEADING1": "El nativo de la nube",
+        "HEADING2": "​​​​​​​Plataforma Low Code",
+        "SIGNUP": "INSCRIBIRSE",
+        "LOGIN": "ACCESO",
+        "SEARCH_FOR": "Buscar..",
+        "ABOUT": "Acerca de"
     }
 }

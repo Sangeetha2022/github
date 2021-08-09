@@ -1,12 +1,14 @@
 
 import { ScreenController } from '../controllers/ScreenController';
 import { DefaultScreencontroller } from '../controllers/defaultScreencontroller';
+import { SefScreenController } from '../controllers/sefScreenController';
 import { Request, Response, NextFunction } from "express";
 
 export class Routes {
 
     public screenController: ScreenController = new ScreenController();
     public defaultController: DefaultScreencontroller = new DefaultScreencontroller();
+    public sefScreenController: SefScreenController = new SefScreenController();
 
     public routes(app): void {
 
@@ -28,5 +30,8 @@ export class Routes {
 
         // default screen created for new project
         app.route('/projects/default/screen').get(this.defaultController.createdefaultscreen);
+
+        // default SEF screen created for new project
+        app.route('/projects/default/sefscreen').post(this.sefScreenController.createSefScreen);
     }
 }

@@ -1,37 +1,28 @@
-<mat-toolbar color="primary" class="desktop_only">
-  <div class="headerLogo" [routerLink]="['/project']" >
-      <img class="header_img1" src="/assets/img/skin/logo-geppetto.svg" />
-  </div>
-
-  <div fxFlex fxLayout fxLayoutAlign="end">
-      <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-        <select #langselect  (change)="translate.use(langselect.value)" id="">
-          <option *ngFor="let lang of usrlang"   [value]="lang">{{ lang  }}</option>
-        </select>
-        <a>{{'HOME.SIGNIN' | translate}}</a>
-        <a>{{'HOME.ABOUT' | translate}}</a>
-      </ul>
-  </div>
-</mat-toolbar>
-
-<div class="mobile_only">
-  <div id="myNav" class="overlay">
-      <img class="header_img1" src="/assets/img/skin/logo-geppetto.svg" />
-      <a href="javascript:void(0)" class="closebtn" (click)='closeNav()'>&times;</a>
-      <div class="overlay-content">
-          <a class="btn btn-secondary"  [routerLink]="['/login']" (click)='closeNav()'>SignIn</a>
-          <a class="btn btn-secondary"  [routerLink]="['/login']" (click)='closeNav()'>About</a>
-      </div>
-  </div>
-  <div class="container">
-      <div class="row m_header">
-          <div class="col">
-              <img class="header_img" src="/assets/img/skin/logo-geppetto.svg" />
-          </div>
-          <div class="col menu_btn">
-              <span style="font-size:30px;cursor:pointer" (click)='openNav()'>&#9776;</span>
-          </div>
-      </div>
-  </div>
-</div>
-
+<header id="izil" class="header1">
+    <div id="i575rl" class="container">
+        <div data-columns="1" data-gjs="navbar" id="iyp1im" class="row no-gutters">
+            <div data-column="1" id="inpxw9" class="cell">
+                <img id="i11uk-2" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/648ae51765794176a2eb5f551b532533_gwp_white_logo.png" />
+                <div id="i088e" class="burger">
+                    <div class="burger-line-dark">
+                    </div>
+                    <div class="burger-line-dark">
+                    </div>
+                    <div class="burger-line-dark">
+                    </div>
+                </div>
+            </div>
+            <div data-column="1" id="i8smfs" class="cell">
+                <div id="i1t03" class="gdp-row gpd-grid">
+                    <div id="i8r2e" class="cell gpd-clm">
+                        <select #langselect (change)="onChange(langselect.value)" class="btn btn-primary" id="">
+                            <option *ngFor="let lang of display_langs"   [value]="lang">{{ lang  }}</option>
+                          </select>
+                    </div>
+                    <div id="i4r7l-2" class="cell gpd-clm"><input type="text" placeholder="{{ 'HOME.ABOUT' | translate}}" id="idvlo-2" class="form-control" /></div>
+                    <div class="cell gpd-clm" id="imllt"><button type="button" class="btn btn-primary" id="iwghy">{{'HOME.ABOUT' | translate}}</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
