@@ -55,10 +55,6 @@
     background-size: cover;
 }
 
-.gpd-clm {
-    padding: 5px 0;
-}
-
 .cell,
 .cell-gut,
 .gdp-cell,
@@ -71,6 +67,10 @@
 .cell-gut,
 .gdp-cell-gut {
     padding-right: 15px
+}
+
+.gpd-clm {
+    padding: 5px 0;
 }
 
 #ia17i {
@@ -99,27 +99,29 @@
     margin: 20px 0 0 99px;
 }
 
-.gpd-header {
-    margin: 0;
-}
-
 #i39ya {
     font-family: Montserrat, sans-serif;
     font-size: 28px;
     font-weight: 700;
 }
 
-.gpd-text {
-    display: inline-block;
-    text-decoration: none;
-    color: inherit;
-    vertical-align: top;
-    padding: 10px;
-    max-width: 100%
+.gpd-header {
+    margin: 0;
 }
 
 #i7pe3 {
     padding: 10px 0 10px 0;
+}
+
+.gpd-link,
+.gpd-link-box,
+.gpd-text {
+    vertical-align: top;
+    padding: 10px;
+    max-width: 100%;
+    display: inline-block;
+    text-decoration: none;
+    color: inherit
 }
 
 #ixc5n {
@@ -172,8 +174,79 @@
     .row {
         flex-wrap: wrap
     }
+    #imysg {
+        display: none;
+    }
     .cell-gut,
     .gdp-cell-gut {
         padding-right: 0
+    }
+    #ili0n {
+        margin: 20px 10px 0 10px;
+    }
+    #iz7p3 {
+        text-align: center;
+    }
+    #i39ya {
+        text-align: center;
+    }
+    #i7pe3 {
+        width: 50%;
+    }
+    #ixc5n {
+        text-align: center;
+        margin: 15px 0 0 0;
+    }
+    #iiiok {
+        width: 50%;
+        margin: 0 auto 0 auto;
+    }
+    #i5v47 {
+        width: 50%;
+        margin: 31px auto 0 auto;
+    }
+    #ix20h {
+        text-align: center;
+    }
+    #i7ijz {
+        text-align: center;
+        padding: 0 0 0 0;
+    }
+}
+
+@media (max-width: 415px) {
+    #imysg {
+        display: none;
+    }
+    #izo03 {
+        padding: 30px 0 30px 0;
+    }
+    #ili0n {
+        margin: 20px 10px 0 10px;
+    }
+    #iz7p3 {
+        padding: 5px 15px 5px 15px;
+    }
+    #i39ya {
+        text-align: center;
+    }
+    #i7pe3 {
+        text-align: center;
+        width: 100%;
+    }
+    #ixc5n {
+        padding: 30px 15px 5px 15px;
+    }
+    #iiiok {
+        width: 100%;
+    }
+    #i5v47 {
+        width: 100%;
+    }
+    #ix20h {
+        text-align: center;
+    }
+    #iaoq5 {
+        padding: 10px 135px 10px 135px;
     }
 }
