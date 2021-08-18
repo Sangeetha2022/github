@@ -1,24 +1,49 @@
-<section id="i307x" class="gpd-section">
-    <div id="iz59b" class="gpd-container gpd-cnt">
-        <div id="i4a8d" class="gdp-row gpd-grid">
-            <div id="imysg" class="cell gpd-clm">
-                <div id="ia17i" class="gdp-row gpd-grid">
-                    <div id="i4b93" class="cell gpd-clm"><img id="ihygk" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/7aa5befb081c4c4ab410f00c9823454e_geplblue.png" />
-                    </div>
-                </div>
+<section>
+    <div class="container-fluid fill">
+        <div id="map" class="row">
+            <div class="col-lg-7" id="imysg">
+                <img id="ihygk" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/7aa5befb081c4c4ab410f00c9823454e_geplblue.png" />
             </div>
-            <div id="izo03" class="cell gpd-clm">
-                <div id="ili0n" class="gdp-row gpd-grid">
-                    <div id="iz7p3" class="cell gpd-clm">
-                        <h1 id="i39ya" class="gpd-header">{{'LOGIN.HEADER' | translate}}</h1>
-                        <div id="i7pe3" class="gpd-text">{{'LOGIN.DESCRIPTION' | translate}}
+            <div class="col-lg-5 px-5 pt-5" style="margin-top:6%;">
+                <form [formGroup]="loginform">
+                    <div id="full_div" formGroupName="logindata">
+                        <h1 id="i39ya">{{'LOGIN.HEADER' | translate}}</h1>
+                        <p id="i7pe3">{{'LOGIN.DESCRIPTION' | translate}}</p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" id="email_input" formControlName="email" placeholder="{{'LOGIN.INPUT1' | translate}}" class="form-control my-4 p-3">
+                                <span *ngIf="!loginform.get('logindata.email').valid && loginform.get('logindata.email').touched || !loginform.get('logindata.email').valid && submitted" class="invalid-feedback ">
+                                    Must be a valid Email Id
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" id="password_input" formControlName="password" placeholder="{{'LOGIN.INPUT2' | translate}}" class="form-control my-4 p-3">
+                                <span *ngIf="!loginform.get('logindata.password').valid && loginform.get('logindata.password').touched || !loginform.get('logindata.password').valid && submitted" class="invalid-feedback">
+                                    A Password must be 8 character and must have a Uppercase , Lowercase and a Special character
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row" id="btn">
+                            <div class="col-lg-12">
+                                <button id="btn1" (click)="login()" class="btn btn btn-success  p-3">Login</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <span class="invalid-feedback">
+                                    {{errormessage}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <p id="i7ijz">{{'LOGIN.ACCOUNT' | translate}} &nbsp;<span style="color:#2ecc71;"><a routerLink="/signup"><u>{{'LOGIN.SIGNUP' | translate}}</u></a></span></p>
+                            </div>
                         </div>
                     </div>
-                    <div id="ixc5n" class="cell gpd-clm"><input type="text" placeholder="{{'LOGIN.INPUT1' | translate}}" id="iiiok" class="form-control" /><input type="text" placeholder="{{'LOGIN.INPUT2' | translate}}" id="i5v47" class="form-control" /></div>
-                    <div id="ix20h" class="cell gpd-clm"><button type="button" id="iaoq5" class="btn btn-primary">{{'LOGIN.BUTTON_TXT' | translate}}</button>
-                        <p id="i7ijz">{{'LOGIN.ACCOUNT' | translate}} &nbsp;<span style="color:#2ecc71;"><u>{{'LOGIN.SIGNUP' | translate}}</u></span></p>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
+<nav id="nav1" class="navbar navbar-expand-lg  navbar-dark ">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img id="header_logo" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/83f15bb5f2974eeabd3874cc5eec66f9_new_logo_gep.png" alt="logo">
@@ -10,11 +10,11 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             </ul>
             <div id="i1t03" class="gdp-row gpd-grid">
-                <select #langselect (change)="onChange(langselect.value)" class="btn btn-primary me-2" id="">
+                <select #langselect (change)="onChange(langselect.value)" class="btn btn-outline-dark me-4" id="lang_dropdown">
                     <option *ngFor="let lang of display_langs"   [value]="lang">{{ lang  }}</option>
                   </select>
-                <div id="i4r7l-2" class="cell gpd-clm"><input type="text" placeholder="{{'HOME.SEARCH_FOR' | translate}}" id="idvlo-2" class="form-control"></div>
-                <div class="cell gpd-clm" id="imllt"><button type="button" class="btn btn-primary" (click)="showAbout()" id="iwghy">{{'HOME.ABOUT' | translate}}</button></div>
+                <!-- <div id="i4r7l-2" class="cell gpd-clm"><input type="text" placeholder="{{'HOME.SEARCH_FOR' | translate}}" id="idvlo-2" class="form-control"></div> -->
+                <div class="cell gpd-clm" id="imllt"><button type="button" class="btn btn-primary me-4" (click)="showAbout()" id="iwghy">{{'HOME.ABOUT' | translate}}</button></div>
             </div>
         </div>
     </div>

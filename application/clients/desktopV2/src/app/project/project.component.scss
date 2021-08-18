@@ -1,0 +1,112 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
+#i0tser,
+#i0tse {
+    font-size: 24px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    margin: 5px 0 5px 0;
+    color: #302C5E;
+    white-space: nowrap;
+}
+
+.sitecard {
+    -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, .1);
+    background-color: #383b42;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+#ihclgr {
+    white-space: nowrap;
+    background-color: #5DB18C;
+    color: #ffffff;
+    padding: 8px 20px 8px 20px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    float: right;
+}
+
+::ng-deep .mat-expansion-indicator::after {
+    height: 20px;
+    width: 35px;
+    background-image: url(https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/ee20d2208c0541068ab983ac52331f68_noun_sort_3095077.png);
+    background-size: cover;
+    border: none;
+    border-width: 0 !important;
+    transform: rotate(0) !important;
+}
+
+#divider {
+    margin: 0 0 0 0;
+    height: 1.2px;
+    background-color: #e5e5e5;
+    border-top-width: 0px;
+}
+
+#mat_body {
+    margin-right: 15px;
+}
+
+.base-icon {
+    font-size: 20px;
+    color: white;
+}
+
+#sitecard_icons {
+    margin-left: 8%;
+}
+
+@media (max-width: 768px) {
+    // .container {
+    //     width: 104%;
+    // }
+    .container {
+        width: 88%
+    }
+    #mat_body {
+        margin-left: 18px;
+    }
+    #i0tser {
+        font-size: 18px;
+    }
+    #i0tse {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 415px) {
+    // .container {
+    //     width: 104%;
+    // }
+    .container {
+        width: 88%
+    }
+    #mat_body {
+        margin-left: 18px;
+    }
+    #i0tser {
+        font-size: 18px;
+    }
+    #i0tse {
+        font-size: 18px;
+    }
+}
+
+// @media(max-width: 320px) {
+//     .container {
+//         width: 104%;
+//     }
+// }
+// @media (min-width:641px) {
+//     //for i-pad
+//     .container {
+//         width: 100%;
+//     }
+// }
+@media (min-width: 1200px) {
+    .container {
+        width: 100%;
+    }
+}

@@ -7,6 +7,7 @@ import {HttpClient,HttpClientModule} from '@angular/common/http';
 import {HomepageComponent} from './homepage/homepage.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 import {TranslateLoader,TranslateModule, TranslateService} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {MissingTranslationHandler,MissingTranslationHandlerParams} from '@ngx-translate/core';
@@ -16,11 +17,15 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatExpansionModule} from '@angular/material/expansion';
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { LoggerModule } from 'ngx-logger';
 import { environment } from 'src/environments/environment';
+import { SharedService } from 'src/shared/shared.service';
+import { SignupComponent } from './signup/signup.component';
+import { ProjectComponent } from './project/project.component';
 
 
 export class MyMissingTranslationHandler implements MissingTranslationHandler {
@@ -40,6 +45,8 @@ export class MyMissingTranslationHandler implements MissingTranslationHandler {
      HeaderComponent,
      FooterComponent,
      LoginComponent,
+     SignupComponent,
+     ProjectComponent,
   ],
   imports: 
   [
@@ -53,10 +60,12 @@ export class MyMissingTranslationHandler implements MissingTranslationHandler {
     MatIconModule,
     MatToolbarModule,
     MatButtonModule,
+    MatDividerModule,
     MatSidenavModule,
     MatFormFieldModule,
     BrowserAnimationsModule,
     MatCardModule,
+    MatExpansionModule,
     TranslateModule.forRoot({
       loader:{
         provide:TranslateLoader,
@@ -67,6 +76,7 @@ export class MyMissingTranslationHandler implements MissingTranslationHandler {
     }), 
     LoggerModule.forRoot(environment.logging)
   ],
+  providers: [SharedService],
   bootstrap: [AppComponent],
 })
 

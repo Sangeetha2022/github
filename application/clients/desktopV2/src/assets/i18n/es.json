@@ -14,7 +14,8 @@
         "INPUT2": "Clave",
         "BUTTON_TXT": "Acceso",
         "ACCOUNT": "No tengo una cuenta?",
-        "SIGNUP": "Inscribirse"
+        "SIGNUP": "Inscribirse",
+        "LOGIN_ERROR": "Usuario o contraseña invalido"
     },
     "ABOUT": {
         "ABOUT": "Acerca de",

@@ -141,7 +141,37 @@
 }
 
 #iwghy {
-    padding: 5px 20px 5px 20px;
+    cursor: pointer;
+    // border-radius: 3em;
+    color: #fff;
+    background-image: linear-gradient(to right, #52daff 0%, #079dfa 100%);
+    border: 0;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 23px;
+    padding: 11px 33px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+}
+
+#lang_dropdown {
+    cursor: pointer;
+    // border-radius: 3em;
+    color: #fff;
+    background-image: linear-gradient(to right, #52daff 0%, #079dfa 100%);
+    border: 0;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 23px;
+    padding: 15px 33px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+}
+
+#iwghy:hover {
+    background-image: none;
+    background-color: #1b2534;
+}
+
+#lang_dropdown:hover {
+    background-image: none;
+    background-color: #1b2534;
 }
 
 #ifpp3 {
@@ -182,7 +212,33 @@ img {
     display: inline-block
 }
 
+#nav1 {
+    background-color: #1b2534;
+}
+
 @media (max-width:768px) {
+    #lang_dropdown {
+        cursor: pointer;
+        // border-radius: 3em;
+        color: #fff;
+        background-image: linear-gradient(to right, #52daff 0%, #079dfa 100%);
+        border: 0;
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 23px;
+        padding: 10px 28px;
+        box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+    }
+    #iwghy {
+        cursor: pointer;
+        // border-radius: 3em;
+        color: #fff;
+        background-image: linear-gradient(to right, #52daff 0%, #079dfa 100%);
+        border: 0;
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 23px;
+        padding: 6px 28px;
+        box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+    }
     #header_logo {
         width: 100px;
     }

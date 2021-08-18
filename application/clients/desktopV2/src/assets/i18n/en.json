@@ -14,7 +14,8 @@
         "INPUT2": "Password",
         "BUTTON_TXT": "Login",
         "ACCOUNT": "Don't have an account?",
-        "SIGNUP": "Sign Up"
+        "SIGNUP": "Sign Up",
+        "LOGIN_ERROR": "Invalid Username or Password"
     },
     "ABOUT": {
         "ABOUT": "About",

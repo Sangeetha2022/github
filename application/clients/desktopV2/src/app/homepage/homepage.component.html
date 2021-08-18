@@ -3,14 +3,23 @@
         <div id="i4a8d" class="gdp-row gpd-grid">
             <div id="izo03" class="cell gpd-clm">
                 <div id="iu1f2" class="gdp-row gpd-grid">
-                    <div id="ivbp5" class="cell gpd-clm"><img id="ibrd5" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/83f15bb5f2974eeabd3874cc5eec66f9_new_logo_gep.png" />
-                    </div>
-                    <div id="iw4wh" class="cell gpd-clm">
-                        <div id="i7lpe" class="gpd-text">{{'HOME.HEADING1' | translate}}<br>​​​​​​​{{'HOME.HEADING2' | translate}}</div>
-                    </div>
-                    <div id="ishz7" class="cell gpd-clm">
-                        <button type="button" id="i55xt" class="btn btn-primary">{{'HOME.SIGNUP' | translate}}</button>
-                        <button type="button" id="iba96" routerLink="/login" class="btn btn-primary">{{'HOME.LOGIN' | translate}}</button>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-11">
+                                <div class="card card-body bg-light" id="card_style">
+                                    <img id="card_logo" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/83f15bb5f2974eeabd3874cc5eec66f9_new_logo_gep.png" />
+                                    <h1 id="heading_tag">{{'HOME.HEADING1' | translate}} ​​​​​​​{{'HOME.HEADING2' | translate}}</h1>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="signup_btn">
+                                            <button type="button" routerLink="/signup" id="i55xt" class="btn btn-primary">{{'HOME.SIGNUP' | translate}}</button>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" id="login_btn">
+                                            <button type="button" routerLink="/login" id="iba96" class="btn btn-primary">{{'HOME.LOGIN' | translate}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
