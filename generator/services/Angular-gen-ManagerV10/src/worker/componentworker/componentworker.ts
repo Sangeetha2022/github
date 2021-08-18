@@ -50,6 +50,7 @@ export class ComponentWorker {
             constructor.push(constructorObj);
             microflowObject.GpOptions['constructor'] = constructor;
             microflowObject.GpCodeToAdd = {};
+            console.log('noderesponse data ', details.nodeResponse.flowAction)
             microflowObject = flowComponentWorker.constructFlowsInfo(details, desktopElement, desktopElement.flows_info, details.nodeResponse, microflowObject, entities);
             microflowObject = routeWorker.constructGpRoute(desktopElement.route_info, microflowObject,desktopElement);
             microflowObject = componentLifecycleWorker.constructLifecycle(details.desktop, desktopElement, microflowObject);
@@ -60,6 +61,11 @@ export class ComponentWorker {
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/' + Constant.SRC_FOLDERNAME + '/' + Constant.APP_FOLDERNAME;
             const screenGenerationPath = applicationPath + `/${screenName}`;
+            console.log('templatepath-------------',templatePath,'/n',
+                'microflowobject------------------',microflowObject,'/n',
+                'screenGenerationPath-------------',screenGenerationPath,'/n',
+                'screenName-----------------------', screenName + '.component.ts'
+            );
             await componentSupportWorker.handleBarsFile(templatePath, microflowObject, screenGenerationPath, screenName + '.component.ts');
             next();
         }, (err) => {

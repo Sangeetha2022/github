@@ -260,6 +260,55 @@ export class DaoWorker {
                     this.tempDao.function.connectorEntityName = null;
                 }
                 break;
+            case 'GpSEF':
+                this.tempDao.function.methodName = this.flowDetail.actionOnData;
+                this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
+                if (isDefault) {
+                    /** The below is the code for the search criteria GpSearch before 
+                     * making changes for the Objectiteration object or the query please check github issues #412 by Kishan on August 10th 2020*/
+                    this.tempDao.function.variable += `let andkey ;`;
+                    this.tempDao.function.variable += `let and_obj = {} ;`;
+                    this.tempDao.function.variable += `let orkey ;`;
+                    this.tempDao.function.variable += `let or_obj = {} ;`
+                    if(this.modifiers.length > 0) {
+                        this.tempDao.function.objectiteration = `Object.entries(${this.entitySchema.fileName}Data).forEach(
+                            ([key,value]) => {
+                                if(value !== ''){
+                                    andkey = key;
+                                    and_obj[andkey] = value;
+                                }
+                            }
+                        );`;
+                        this.tempDao.function.query = `{ $and: [and_obj] }`;
+
+                    } else {
+                        this.tempDao.function.objectiteration = `Object.entries(${this.entitySchema.fileName}Data).forEach(
+                            ([key,value]) => {
+                                if(value !== ''){
+                                    andkey = key;
+                                    and_obj[andkey] = value;
+                                }
+                                else{
+                                    orkey = key;
+                                    or_obj[orkey] = { $ne: '' }
+                                }
+                            }
+                        );`;
+                        this.tempDao.function.query = `{$and: [
+                            {
+                                $or: [
+                                    or_obj
+                                ]
+                            },
+                            and_obj
+                        ]}`;
+                    }
+                    this.tempDao.function.verbs = `this.${this.entitySchema.fileName}.find`;
+                    
+                    this.tempDao.function.isJsonFormat = false;
+                    this.tempDao.function.connectorEntityName = null;
+                }
+                break;
             case 'GpUpdate':
                 this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;

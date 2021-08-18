@@ -40,7 +40,8 @@ import {
     SwaggerController,
     ReactController,
     ExternalfeatureController,
-    ModifierManagerController
+    ModifierManagerController,
+    DefaultServicesController
 
 
 } from './apicontroller';
@@ -83,8 +84,8 @@ let apisController = [
     new SwaggerController(),
     new ReactController(),
     new ExternalfeatureController(),
-    new ModifierManagerController()
-
+    new ModifierManagerController(),
+    new DefaultServicesController()
 ]
 
 class App {
