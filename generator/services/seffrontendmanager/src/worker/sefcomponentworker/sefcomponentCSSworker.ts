@@ -44,7 +44,6 @@ export class SefComponentCSSworker {
                         }
                     });
                     cssData += '}';
-                    
                 }
             });
             details.desktop.forEach(element => {

@@ -12,7 +12,7 @@ import { Button } from '../strategy/HTML/Button';
 import { RadioButton } from '../strategy/HTML/Radiobutton';
 import { InputTagGeneration } from '../strategy/HTML/Input';
 import { SefComponentWorker } from './sefcomponentworker/sefcomponentworker';
-import { SefComponentServiceWorker } from '../worker/componentservice/sefcomponentserviceworker';
+import { SefComponentServiceWorker } from './sefcomponentservice/sefcomponentserviceworker';
 import { SefComponentModuleWorker } from '../worker/componentmodule/sefcomponentmoduleworker';
 import { AppModuleWorker } from '../worker/dependency-worker/AppModuleWorker';
 import { AppRoutingModuleWorker } from './dependency-worker/AppRoutingModuleWorker';
