@@ -157,6 +157,7 @@
 #card_style {
     margin: 70px 30px 0 0;
     padding: 10%;
+    box-shadow: 10px 10px 5px grey;
 }
 
 #heading_tag {
@@ -186,7 +187,7 @@
 
 #imysg {
     padding: 0 0 0 0;
-    background-image: url('https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/0e3954e1eabe4444b304617b2f95dcdd_group_17236.png');
+    background-image: url('/assets/images/homepage/banner_bg.png');
     background-repeat: no-repeat;
     background-position: right top;
     background-attachment: scroll;

@@ -50,8 +50,25 @@
 }
 
 .base-icon {
-    font-size: 20px;
+    position: relative;
+    top: 10%;
     color: white;
+}
+
+.loading-image {
+    margin-bottom: 15px;
+}
+
+#duplicate_icon {
+    background-image: url('/assets/images/project/duplicate_white.svg');
+}
+
+#edit_icon {
+    background-image: url('/assets/images/project/edit_white.svg');
+}
+
+#delete_icon {
+    background-image: url('/assets/images/project/delete_white.svg');
 }
 
 #sitecard_icons {
@@ -59,9 +76,6 @@
 }
 
 @media (max-width: 768px) {
-    // .container {
-    //     width: 104%;
-    // }
     .container {
         width: 88%
     }
@@ -77,9 +91,6 @@
 }
 
 @media (max-width: 415px) {
-    // .container {
-    //     width: 104%;
-    // }
     .container {
         width: 88%
     }

@@ -26,6 +26,9 @@ import { environment } from 'src/environments/environment';
 import { SharedService } from 'src/shared/shared.service';
 import { SignupComponent } from './signup/signup.component';
 import { ProjectComponent } from './project/project.component';
+import { ApiService } from './config/api.service';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
 
 
 export class MyMissingTranslationHandler implements MissingTranslationHandler {
@@ -66,6 +69,8 @@ export class MyMissingTranslationHandler implements MissingTranslationHandler {
     BrowserAnimationsModule,
     MatCardModule,
     MatExpansionModule,
+    NgxSpinnerModule,
+    ToastrModule.forRoot({ preventDuplicates: true }),
     TranslateModule.forRoot({
       loader:{
         provide:TranslateLoader,
@@ -76,7 +81,7 @@ export class MyMissingTranslationHandler implements MissingTranslationHandler {
     }), 
     LoggerModule.forRoot(environment.logging)
   ],
-  providers: [SharedService],
+  providers: [SharedService,ApiService],
   bootstrap: [AppComponent],
 })
 
