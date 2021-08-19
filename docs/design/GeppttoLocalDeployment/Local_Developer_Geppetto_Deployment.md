@@ -1,6 +1,6 @@
 # Geppetto Application Developer Deployment
 
-The purpose of this document is to provide the requirements and the process to set up a local/developer copy of the Geppetto application
+The purpose of this document is to provide the requirements and process to set up a local/developer copy of the Geppetto application
 
 ## Pre requisites
 
@@ -31,3 +31,6 @@ The Geppetto application requires the following:
 &nbsp;
 
 ***Command:***$~$ ***git clone*** $~$ https://github.com/dan-castillo/geppettotest.git
+
+
+
