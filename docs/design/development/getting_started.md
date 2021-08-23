@@ -43,6 +43,12 @@ The Geppetto application requires the following:
 
 - Docker
   - [How to Install Docker On Ubuntu 20.04 LTS Focal Fossa](https://www.youtube.com/watch?v=aMKUuaga85A)
+    1. once docker is installed execute this command: $~~$ ***sudo usermod -aG docker $USER***
+    2. close all apps including the terminal
+    3. shutdown the machine
+    4. restart the machine and open a terminal issue this command: $~~~$ ***docker ps -a***
+    5. if your screen looks like the image below docker is successfully installed on your machine 
+    ![alt text](./images/test-docker-success.png "docker success")
   - [Official Docker Documentation](https://docs.docker.com/engine/install/ubuntu/)
 
 ### Step four
