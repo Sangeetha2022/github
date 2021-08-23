@@ -49,14 +49,24 @@ The Geppetto application requires the following:
     4. restart the machine and open a terminal issue this command: $~~~$ ***docker ps -a***
     5. if your screen looks like the image below docker is successfully installed on your machine 
     ![alt text](./images/test-docker-success.png "docker success")
-  - [Official Docker Documentation](https://docs.docker.com/engine/install/ubuntu/)
 
-### Step four
+## Step four
+
+- Install Curl
+  - [Installing Curl on Ubuntu](https://www.cyberciti.biz/faq/how-to-install-curl-command-on-a-ubuntu-linux/)
+
+### Step Five
+
+- Install Docker Compose
+  - [How to Install docker-compose](
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04)
+
+### Step five
 
 - NVM
   - [Installing NVM](https://github.com/nvm-sh/nvm#install--update-script)
 
-### Step five
+### Step yyy
 
 - Node
   - [Install via NVM](https://github.com/nvm-sh/nvm#usage)
