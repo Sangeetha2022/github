@@ -15,7 +15,7 @@ The Geppetto application requires the following:
 | Docker           | 20.10.x                           |
 | Docker-compose   | 1.29.x                            |
 | NVM              | latest version for github         |
-| Node             | 14.15.x                           |
+| Node             | 14.17.5                           |
 | NPM              | 7.20.x                            |
 | Angular-cli      | 12.1.3                            |
 | VS Code          | July 2021 (version 1.59) or above |
@@ -61,17 +61,29 @@ The Geppetto application requires the following:
   - [How to Install docker-compose](
 https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-compose-on-ubuntu-20-04)
 
-### Step five
+### Step six
 
 - NVM
   - [Installing NVM](https://github.com/nvm-sh/nvm#install--update-script)
+  - [Verify NVM Installation](https://github.com/nvm-sh/nvm#verify-installation)
 
-### Step yyy
+### Step seven
 
 - Node
   - [Install via NVM](https://github.com/nvm-sh/nvm#usage)
+  - Example for node version 14.17.5 the command is: ***nvm install 14.17.5***
+  - Validate Node version
+    - run this command: ***node --version***
 
-### Step xxx
+### Step eight
+
+- Upgrade NPM
+
+  - Type this command: ***npm $~~$ install $~~$-g $~~$ npm@latest***
+  - Verify NPM version
+    - Type this command: ***npm --version*** you should see "7.21.0"
+  
+### Step nine
 
 - Clone from Github:
 &nbsp;
