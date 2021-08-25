@@ -90,7 +90,13 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-c
 
 ***Command:***$~$ ***git clone*** $~$ https://github.com/dan-castillo/geppettotest.git
 
+
 ### Step ten
+
+- Install Angular globally
+   -npm instal @angular@12/
+
+### Step eleven
 
 - Install VS Code
 
