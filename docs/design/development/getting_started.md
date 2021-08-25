@@ -90,5 +90,10 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-c
 
 ***Command:***$~$ ***git clone*** $~$ https://github.com/dan-castillo/geppettotest.git
 
+### Step ten
+
+- Install VS Code
+
+
 
 ## Testing local installation - Create and Generate and Application
