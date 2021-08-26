@@ -29,17 +29,33 @@ The Geppetto application requires the following:
 &nbsp;
 &nbsp;
 
+
 ### Step one
-
-- Git
-  - [Install Git on Ubuntu](https://linuxconfig.org/how-to-install-git-on-ubuntu-20-04-lts-focal-fossa-linux)
-
-### Step two
 
 - Github 
   - [Sign up](https://github.com/)
 
+
+### Step two
+
+- Git
+  - [Install Git on Ubuntu](https://linuxconfig.org/how-to-install-git-on-ubuntu-20-04-lts-focal-fossa-linux)
+
 ### Step three
+
+- VS Code
+  - [Install VS Code](https://linuxize.com/post/how-to-install-visual-studio-code-on-ubuntu-20-04/)
+  - Install VS Code extensions
+    - [Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
+    - [Markdown](https://marketplace.visualstudio.com/items?itemName=DavidAnson.vscode-markdownlint)
+      - [How to use Markdown](https://thisdavej.com/build-an-amazing-markdown-editor-using-visual-studio-code-and-pandoc/)
+    - [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+    - [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+    - [Bracket Pair Colorizer](https://marketplace.visualstudio.com/items?itemName=CoenraadS.bracket-pair-colorizer)
+    - [Vs Code Icons](https://marketplace.visualstudio.com/items?itemName=vscode-icons-team.vscode-icons)
+    - [Angular Snippets](https://marketplace.visualstudio.com/items?itemName=johnpapa.Angular2)
+
+### Step four
 
 - Docker
   - [How to Install Docker On Ubuntu 20.04 LTS Focal Fossa](https://www.youtube.com/watch?v=aMKUuaga85A)
@@ -90,13 +106,7 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-c
 
 ***Command:***$~$ ***git clone*** $~$ https://github.com/dan-castillo/geppettotest.git
 
-
 ### Step ten
-
-- Install Angular globally
-   -npm instal @angular@12/
-
-### Step eleven
 
 - Install VS Code
 
