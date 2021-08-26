@@ -12,6 +12,9 @@ export class SharedService {
     //Shared microservice
     private sharedHost = 'http://localhost:3050';
 
+    //gepfileupload
+    public gepfileupload = 'http://localhost:3015';
+
     // ExternalFeatureconfiguration fileupload api
     public externalfeaturehost = 'http://localhost:3016';
 

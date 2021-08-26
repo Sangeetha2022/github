@@ -1,28 +1,72 @@
-<header id="izil" class="header1">
-    <div id="i575rl" class="container">
-        <div data-columns="1" data-gjs="navbar" id="iyp1im" class="row no-gutters">
-            <div data-column="1" id="inpxw9" class="cell">
-                <img id="i11uk-2" src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/648ae51765794176a2eb5f551b532533_gwp_white_logo.png" />
-                <div id="i088e" class="burger">
-                    <div class="burger-line-dark">
-                    </div>
-                    <div class="burger-line-dark">
-                    </div>
-                    <div class="burger-line-dark">
-                    </div>
-                </div>
-            </div>
-            <div data-column="1" id="i8smfs" class="cell">
-                <div id="i1t03" class="gdp-row gpd-grid">
-                    <div id="i8r2e" class="cell gpd-clm">
-                        <select #langselect (change)="onChange(langselect.value)" class="btn btn-primary" id="">
-                            <option *ngFor="let lang of display_langs"   [value]="lang">{{ lang  }}</option>
-                          </select>
-                    </div>
-                    <div id="i4r7l-2" class="cell gpd-clm"><input type="text" placeholder="{{ 'HOME.ABOUT' | translate}}" id="idvlo-2" class="form-control" /></div>
-                    <div class="cell gpd-clm" id="imllt"><button type="button" class="btn btn-primary" id="iwghy">{{'HOME.ABOUT' | translate}}</button></div>
-                </div>
+<nav id="nav1" class="navbar navbar-expand-lg  navbar-dark ">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img id="header_logo" src="./assets/images/header/logo.png" alt="logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            </ul>
+            <div id="i1t03" class="gdp-row gpd-grid">
+                <select #langselect (change)="onChange(langselect.value)" class="btn btn-outline-dark me-4" id="lang_dropdown">
+                    <option *ngFor="let lang of display_langs"   [value]="lang">{{ lang  }}</option>
+                  </select>
+                <div class="cell gpd-clm" id="imllt"><button type="button" class="btn btn-primary me-4" (click)="showAbout()" id="iwghy">{{'HOME.ABOUT' | translate}}</button></div>
             </div>
         </div>
     </div>
-</header>
+</nav>
+<div class="modal" id="model1" tabindex="-1" role="dialog" [ngStyle]="{'top':
+  '100px','display':'none'}">
+    <section class="gpd-section" id="igsgh">
+        <div class="gpd-container gpd-cnt">
+            <div class="gdp-row gpd-grid" id="i4dcs">
+                <div class="cell gpd-clm" id="i7skc">
+                    <div class="gdp-row gpd-grid" id="iiwr1">
+                        <div class="cell gpd-clm" id="ixk6e">
+                            <div class="gdp-row gpd-grid" id="idapf">
+                                <div class="cell gpd-clm"></div>
+                                <div class="cell gpd-clm" id="in0sl">
+                                    <div class="gpd-text" id="ixixk">{{'ABOUT.ABOUT' | translate}}</div>
+                                </div>
+                                <div class="cell gpd-clm" id="ijc7k">
+                                    <div class="gdp-row gpd-grid" id="ivare">
+                                        <div class="cell gpd-clm" id="it9sw"><img id="i3bzx" (click)="hideAbout()" src="./assets/images/header/close.png" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cell gpd-clm">
+                            <div class="gdp-row gpd-grid" id="ikaoo">
+                                <div class="cell gpd-clm" id="if2r9">
+                                    <div class="gdp-row gpd-grid" id="ivibj">
+                                        <div class="cell gpd-clm" id="iulkg">
+                                            <div class="gpd-text" id="ion9w">{{'ABOUT.VERSION' | translate}}</div>
+                                            <div class="gpd-text" id="ierhw">Beta -11</div>
+                                        </div>
+                                        <div class="cell gpd-clm" id="i37ll">
+                                            <div class="gpd-text" id="izvqi">{{'ABOUT.BUILD_VERSION' | translate}}</div>
+                                            <div class="gpd-text" id="ihl6b">1.11.41</div>
+                                        </div>
+                                        <div class="cell gpd-clm" id="i2n1j">
+                                            <div class="gpd-text" id="i4bql">{{'ABOUT.BUILD_DATE' | translate}}</div>
+                                            <div class="gpd-text" id="imw3k">Jun 8, 2021 10:38:10 AM</div>
+                                        </div>
+                                        <div class="cell gpd-clm" id="i61kk">
+                                            <div class="gpd-text" id="izfza">{{'ABOUT.LICENCE' | translate}}</div>
+                                            <div class="gpd-text" id="i7ath">kdooannnallcna</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cell gpd-clm" id="iylnl"><button type="button" (click)="hideAbout()" class="btn btn-primary" id="i158z">{{'ABOUT.CLOSE' | translate}}</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

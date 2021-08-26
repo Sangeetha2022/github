@@ -21,6 +21,7 @@ export class Constants {
     public static sharedUrl: String;
     public static cloneUrl: String;
     public static externalfeature: String;
+    public static gepFileUrl: String;
     public static modifierUrl: String;
 
 
@@ -71,6 +72,7 @@ export class Constants {
                 Constants.cloneUrl = process.env.clonemanager + ":3051";
                 Constants.sharedUrl = Constants.appUrl + ":3050";
                 Constants.externalfeature = Constants.appUrl + ":3016";
+                Constants.gepFileUrl = process.env.gepfilemanager + ":3015";
                 Constants.modifierUrl = process.env.modifiermanager + ":3030"
 
                 //generator

@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as asyncLoop from 'node-async-loop';
 import { Common } from '../config/Common';
+import * as util from 'util';
 import { FrontendSupportWorker } from '../Supportworker/frontendSupportWorker';
 
 export class FrontendWorker {
@@ -24,6 +25,8 @@ export class FrontendWorker {
     private AUTH_FOLDERNAME = 'auth';
     private HEADER_FOLDERNAME = 'header';
     private BROADCAST_FOLDERNAME = 'broadcast';
+    private VAULT_ADMIN = 'vaultadmin';
+    private VAULT_FILE_NAME = 'vault-admin'
 
     // FILE NAME
     private SERVICE_NAME = 'service';
@@ -38,6 +41,7 @@ export class FrontendWorker {
     private MODULE_TEMPLATENAME = 'component_module';
     private MODIFY_APP_MODULE_TEMPLATENAME = `modify_app_module`;
     private MODIFY_APP_ROUTNG_TEMPLATENAME = `modify_app_routing`;
+    private VAULT_SERVICE_TEMPLATENAME = 'vault_service'
 
     // Methods
     private logoutMethod = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\tthis.userId = sessionStorage.getItem('Id');\n\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
@@ -158,6 +162,18 @@ export class FrontendWorker {
                         callback();
                     });
                 });
+        });
+    }
+    
+    async createVaultAdminComponent(details, callback) {
+        this.projectGenerationPath = details.templateResponse.applicationPath;
+        this.seedPath = details.seedTemplatePath;
+        this.authTemplatePath = details.authTemplatePath;
+        const vaultApplicationPath = `${this.projectGenerationPath}/src/app/${this.VAULT_ADMIN}`;
+        this.generateStaticComponent(vaultApplicationPath, this.VAULT_ADMIN, () => {
+            this.generateModule(this.VAULT_ADMIN, this.MODULE_TEMPLATENAME, vaultApplicationPath, () => {
+                callback();
+            });
         });
     }
 

@@ -9,11 +9,11 @@ export const ProjectSchema = new Schema({
         default: uuid.v1
     },
     name: { type: String, required: 'Enter a project name' },
-    project_unique_id: {type: String},
+    project_unique_id: { type: String },
     default_module_id: { type: String },
     default_module_label: { type: String },
     notes: { type: String },
-    shared_visibility: { type: String, default: null},
+    shared_visibility: { type: String, default: null },
     clientlanguage: { type: String, ref: 'gp_config', default: null },
     clientframework: { type: String, ref: 'gp_config', default: null },
     serverlanguage: { type: String, ref: 'gp_config', default: null },
@@ -46,6 +46,7 @@ export const ProjectSchema = new Schema({
     global_extensions: { type: String },
     ui_navigation_styles: { type: String },
     supported_browsers: { type: String },
+    needs_administration: { type: Array },
     default_human_language: { type: String },
     other_human_languages: { type: String },
     entity: { type: String },
@@ -61,5 +62,5 @@ export const ProjectSchema = new Schema({
     lotus_notes_cred_enabled: { type: String },
     user_deployment_target: { type: String },
     server_deployment_target: { type: String },
-    UserId: { type: String}
+    UserId: { type: String }
 });
