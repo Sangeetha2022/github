@@ -5,7 +5,7 @@
                 <img id="ihygk" src="./assets/images/login/logo.png" />
             </div>
             <div class="col-lg-5 px-5 pt-5" style="margin-top:3%;">
-                <div class="card card-body bg-light" id="card_style">
+                <div class="card card-body bg-light p-lg-3 p-0" id="card_style">
                     <div class="container" style="width: 90%;">
                         <form [formGroup]="loginform">
                             <div id="full_div" formGroupName="logindata">
@@ -15,21 +15,21 @@
                                     <div class="col-lg-12">
                                         <input type="text" id="email_input" formControlName="email" placeholder="{{'LOGIN.INPUT1' | translate}}" class="form-control my-4 p-3">
                                         <span *ngIf="!loginform.get('logindata.email').valid && loginform.get('logindata.email').touched || !loginform.get('logindata.email').valid && submitted" class="invalid-feedback ">
-                                            Must be a valid Email Id
+                                            {{'SIGNUP.EMAIL_ERROR' | translate}}
                                         </span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <input type="text" id="password_input" formControlName="password" placeholder="{{'LOGIN.INPUT2' | translate}}" class="form-control my-4 p-3">
+                                        <input type="password" id="password_input" formControlName="password" placeholder="{{'LOGIN.INPUT2' | translate}}" class="form-control my-4 p-3">
                                         <span *ngIf="!loginform.get('logindata.password').valid && loginform.get('logindata.password').touched || !loginform.get('logindata.password').valid && submitted" class="invalid-feedback">
-                                            A Password must be 8 character and must have a Uppercase , Lowercase and a Special character
+                                            {{'SIGNUP.PASSWORD_ERROR' | translate}}
                                         </span>
                                     </div>
                                 </div>
                                 <div class="row" id="btn">
                                     <div class="col-lg-12">
-                                        <button id="btn1" (click)="login()" class="btn btn btn-success  p-3">Login</button>
+                                        <button id="btn1" (click)="login()" class="btn btn btn-success  p-3">{{'LOGIN.BUTTON_TXT' | translate}}</button>
                                     </div>
                                 </div>
                                 <div class="row">

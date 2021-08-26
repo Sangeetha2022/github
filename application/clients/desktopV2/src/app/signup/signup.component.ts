@@ -36,6 +36,7 @@ export class SignupComponent implements OnInit {
   }
   get f() { return this.registerform.controls; }
 
+  //To Register the new User
   register(){
     const { invalid, value } = this.registerform;
     this.submitted=true;

@@ -4,29 +4,29 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12 my-4 p-4">
-            <button class="btn btn-lg btn-success" id="ihclgr">Create Project</button>
+            <button class="btn btn-lg btn-success" id="ihclgr" (click)="openModal()"> {{'PROJECT.CREATE_PROJ' | translate}}</button>
         </div>
     </div>
     <div class="row">
         <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
                 <mat-panel-title id="i0tser">
-                    My Applications
+                    {{'PROJECT.APPLICATION' | translate}}
                 </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-divider class="my-3" id="divider"></mat-divider>
             <div class="row" id="mat_body">
                 <div class="col-md-3" *ngFor="let proj of myAllProjects; let i = index">
-                    <div class="sitecard">
-                        <img id="img1" src="./assets/images/project/template1.png" alt="">
-                        <!-- <img  src="{{proj.app_ui_template_img}}" alt=""> -->
-                        <div class="container" style="position: absolute;top:135px">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <h2 style="color: wheat;">{{proj.app_ui_template}}</h2>
-                                </div>
-                                <div class="col-lg-12">
-                                    <h4 style="color: white">{{proj.name}}</h4>
+                    <div class="card" style="background-color: #383b42;border-radius: 10px;">
+                        <div class="card_image" style="background: url('{{proj.app_ui_template_img}}');">
+                            <div class="container" style="position: absolute;top:165px">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h5 style="color: black;">{{proj.app_ui_template}}</h5>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <h6 style="color: white">{{proj.name}}</h6>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -45,37 +45,42 @@
                     <br>
                 </div>
                 <div class="col-md-4" *ngIf="myAllProjects.length === 0">
-                    No Projects Available.
+                    {{'PROJECT.NO_PROJECTS' | translate}}
                 </div>
             </div>
         </mat-expansion-panel>
-
-        <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel [expanded]="false">
             <mat-expansion-panel-header>
                 <mat-panel-title id="i0tse">
-                    Geppetto Sample Application
+                    {{'PROJECT.GEPPETTO_APPLICATION' | translate}}
                 </mat-panel-title>
             </mat-expansion-panel-header>
             <mat-divider class="my-3" id="divider"></mat-divider>
             <div class="row" id="mat_body">
                 <div class="col-md-3" *ngFor="let cloneproj of cloneAllProjects; let i = index">
-                    <div class="sitecard">
-                        <img src="./assets/images/project/template2.png" alt="">
-                        <div class="container" style="position: absolute;top:135px">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <h2 style="color: wheat;">{{cloneproj.app_ui_template}}</h2>
+                    <div class="card" style="background-color: #383b42;border-radius: 10px;">
+                        <div class="card_image" style="background: url('{{cloneproj.app_ui_template_img}}');">
+                            <div class="container" style="position: absolute;top:165px">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h5 style="color: black;">{{cloneproj.app_ui_template}}</h5>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <h6 style="color: white">{{cloneproj.name}}</h6>
+                                    </div>
                                 </div>
-                                <div class="col-lg-12">
-                                    <h4 style="color: white">{{cloneproj.name}}</h4>
-                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-around">
+                            <div class="p-2 bd-highlight">
+                                <mat-icon class="base-icon" id="duplicate_icon" (click)="cloneProject(cloneproj)" style="cursor: pointer;"></mat-icon>
                             </div>
                         </div>
                     </div>
                     <br>
                 </div>
                 <div class="col-md-4" *ngIf="cloneAllProjects.length === 0">
-                    No Projects Available.
+                    {{'PROJECT.NO_PROJECTS' | translate}}
                 </div>
             </div>
         </mat-expansion-panel>
@@ -85,11 +90,136 @@
     <div class="modal-dialog modal-sm" role="dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <p>Please click confirm to delete this project ? </p>
+                <p> {{'PROJECT.CONFIRM_DELETE' | translate}} </p>
             </div>
             <div class="modal-footer" style="padding: 5px">
-                <button type="button" (click)="deleteMyProjects()" class="btn btn-default">Confirm</button>
-                <button type="button" (click)="onCloseHandled()" class="btn btn-default">cancel</button>
+                <button type="button" (click)="deleteMyProjects()" class="btn btn-default">{{'PROJECT.CONFIRM_BTN' | translate}}</button>
+                <button type="button" (click)="onCloseHandled()" class="btn btn-default">{{'PROJECT.CANCEL_BTN' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModel}">
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container p-5" style="background-color:#f7f6f6">
+                    <form [formGroup]="createProject">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <img id="close_btn" (click)="onCloseHandled()" src="./assets/images/header/close.png" alt="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label>{{'PROJECT.NAME' | translate}}</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input type="text" formControlName="name" class="form-control mt-2">
+                                <div *ngIf="submitted && form_control.name.errors" class="invalid-feedback">
+                                    <div *ngIf="form_control.name.errors.required">{{'PROJECT.NAME_ERROR' | translate}}</div>
+                                </div>
+                                <div *ngIf="isProjectExit" style="color: red">{{'PROJECT.ALREADY_NAME_EXIST' | translate}}</div>
+                                <div *ngIf="invalidName" style="color: red">{{'PROJECT.SPECIAL_NAME_ERROR' | translate}}
+                                </div>
+                                <div *ngIf="isReserveWord" style="color: red">{{'PROJECT.RESERVED_NAME_ERROR' | translate}}
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <button class="btn btn-primary mt-2" id="template_btn" (click)="openTemplateModal()">{{'PROJECT.SELECT_TEMP' | translate}}</button>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>{{'PROJECT.PRIMARY_LANG' | translate}}</label>
+                                    <select class="form-select mt-2" formControlName="primaryLanguage" (change)="onSecondoryLangSelect()" [ngClass]="{ 'is-invalid': submitted && form_control.primaryLanguage.errors }">
+                                        <option *ngFor="let primary_lang of primaryLanguages" [ngValue]="primary_lang">{{ primary_lang }}</option>
+                                    </select>
+                                    <div *ngIf="submitted && form_control.primaryLanguage.errors" class="invalid-feedback">
+                                        <div *ngIf="form_control.primaryLanguage.errors.required">Required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>{{'PROJECT.SECONDARY_LANG' | translate}}</label>
+                                    <select type="text" class="form-select mt-2" formControlName="secondaryLanguage" [ngClass]="{ 'is-invalid': submitted && form_control.secondaryLanguage.errors }">
+                                        <option selected>{{'PROJECT.SELECT_SEC_LANG' | translate}}</option>
+                                        <option *ngFor="let secondary_lang of secondoryLanguages" [ngValue]="secondary_lang">{{ secondary_lang }}</option>
+                                    </select>
+                                    <div *ngIf="submitted && form_control.secondaryLanguage.errors" class="invalid-feedback">
+                                        <div *ngIf="form_control.secondaryLanguage.errors.required">Required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="container">
+                        <div class="row mt-4">
+                            <div class="d-flex justify-content-center">
+                                <div class="p-2 mt-4">
+                                    <button id="create_btn" [disabled]="!templateObj?.app_ui_template || !createProject.value.name || !createProject.value.primaryLanguage || !createProject.value.secondaryLanguage" class="btn btn-success" (click)="projectCreate()">create</button>
+                                </div>
+                                <div class="p-2 mt-4">
+                                    <button id="cancel_btn" class="btn btn-success" (click)="onCloseHandled()">{{'PROJECT.CANCEL_BTN' | translate}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayTemplateModel}">
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="container" style="background-color:#f7f6f6">
+                    <form action="">
+                        <div class="row">
+                            <div class="col-md-6" *ngFor="let template of gepTemplates;let i = index">
+                                <div class="card p-2 m-2" id="card_temp">
+                                    <div class="sitecard_template">
+                                        <div (click)="onPreviewClick(template)" class="height-60 mt-5">
+                                            <mat-icon>preview</mat-icon> <span style="font-size: 26px">Preview</span>
+                                        </div>
+                                        <div class="height-60" (click)="onTemplateSelect(template)">
+                                            <mat-icon>check_circle_outline</mat-icon> <span style="font-size: 26px">Select</span>
+                                        </div>
+                                    </div>
+                                    <img class="select_template_image" src="{{template.template_image[0].image}}" alt=" ">
+                                    <div class="container" style="position: absolute;top:225px">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <p style="color: black;font-weight:bolder;">{{template.name}}</p>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <p style="color: white"> Created On: --
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="d-flex justify-content-center">
+                            <div class="p-2">
+                                <button id="template_btn" class="btn btn-success" (click)="onCloseHandled()">{{'PROJECT.CANCEL_BTN' | translate}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

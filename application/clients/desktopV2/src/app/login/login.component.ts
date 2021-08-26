@@ -63,6 +63,8 @@ export class LoginComponent implements OnInit {
       this.logger.log('error',error)
     });
   }
+
+  //To Login and Validate the user
   login(){
     this.submitted = true;
     const { invalid, value } = this.loginform;

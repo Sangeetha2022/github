@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "test": {
+        "GeppettoBuilder": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:application": {
@@ -17,7 +17,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/test",
+                        "outputPath": "dist/GeppettoBuilder",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -39,13 +39,13 @@
                         "production": {
                             "budgets": [{
                                     "type": "initial",
-                                    "maximumWarning": "500kb",
-                                    "maximumError": "1mb"
+                                    "maximumWarning": "9mb",
+                                    "maximumError": "10mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "2kb",
-                                    "maximumError": "4kb"
+                                    "maximumWarning": "10kb",
+                                    "maximumError": "10kb"
                                 }
                             ],
                             "fileReplacements": [{
@@ -69,10 +69,10 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "test:build:production"
+                            "browserTarget": "GeppettoBuilder:build:production"
                         },
                         "development": {
-                            "browserTarget": "test:build:development"
+                            "browserTarget": "GeppettoBuilder:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
@@ -80,7 +80,7 @@
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "test:build"
+                        "browserTarget": "GeppettoBuilder:build"
                     }
                 },
                 "test": {
@@ -103,5 +103,5 @@
             }
         }
     },
-    "defaultProject": "test"
+    "defaultProject": "GeppettoBuilder"
 }

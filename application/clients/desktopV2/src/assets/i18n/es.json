@@ -17,6 +17,20 @@
         "SIGNUP": "Inscribirse",
         "LOGIN_ERROR": "Usuario o contraseña invalido"
     },
+    "SIGNUP": {
+        "PLEASE_REGISTER": "Por favor regístrese",
+        "FIRSTNAME": "Primer nombre",
+        "LASTNAME": "Apellido",
+        "EMAIL": "Correo electrónico",
+        "PASSWORD": "Contraseña",
+        "REGISTER": "Registrarse",
+        "ALREADY": "Ya registrado?",
+        "LOGIN": "Entre aquí",
+        "FNAME_ERROR": "Debe ser un nombre válido",
+        "LNAME_ERROR": "Debe ser un apellido válido",
+        "EMAIL_ERROR": "Debe ser una identificación de correo electrónico válida",
+        "PASSWORD_ERROR": "Una contraseña debe tener 8 caracteres y debe tener mayúsculas, minúsculas y un carácter especial"
+    },
     "ABOUT": {
         "ABOUT": "Acerca de",
         "CLOSE": "Cerrar",
@@ -24,5 +38,24 @@
         "BUILD_VERSION": "Versión de compilación :",
         "BUILD_DATE": "La fecha de construcción :",
         "LICENCE": "Licencias de código abierto :"
+    },
+    "PROJECT": {
+        "APPLICATION": "Mis aplicaciónes",
+        "GEPPETTO_APPLICATION": "Aplicación de muestra de Geppetto",
+        "CREATE_PROJ": "Crear proyecto",
+        "NAME": "Nombre",
+        "PRIMARY_LANG": "Lenguaje primario",
+        "SECONDARY_LANG": "Lengua secundaria",
+        "SELECT_TEMP": "Seleccionar plantilla",
+        "CREATE_BTN": "Crear",
+        "CANCEL_BTN": "Cancelar",
+        "SELECT_SEC_LANG": "Seleccionar idioma secundario",
+        "NO_PROJECTS": "No hay proyectos disponibles.",
+        "CONFIRM_DELETE": "Haga clic en confirmar para eliminar este proyecto?",
+        "CONFIRM_BTN": "Confirmar",
+        "NAME_ERROR": "Nombre requerido",
+        "ALREADY_NAME_EXIST": "El nombre ya existe",
+        "SPECIAL_NAME_ERROR": "El nombre debe comenzar con el alfabeto, no se permiten caracteres especiales.",
+        "RESERVED_NAME_ERROR": "El nombre no debe ser palabra de reserva"
     }
 }

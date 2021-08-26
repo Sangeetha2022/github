@@ -13,7 +13,6 @@
                 <select #langselect (change)="onChange(langselect.value)" class="btn btn-outline-dark me-4" id="lang_dropdown">
                     <option *ngFor="let lang of display_langs"   [value]="lang">{{ lang  }}</option>
                   </select>
-                <!-- <div id="i4r7l-2" class="cell gpd-clm"><input type="text" placeholder="{{'HOME.SEARCH_FOR' | translate}}" id="idvlo-2" class="form-control"></div> -->
                 <div class="cell gpd-clm" id="imllt"><button type="button" class="btn btn-primary me-4" (click)="showAbout()" id="iwghy">{{'HOME.ABOUT' | translate}}</button></div>
             </div>
         </div>

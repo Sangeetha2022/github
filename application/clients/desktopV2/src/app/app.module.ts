@@ -29,6 +29,7 @@ import { ProjectComponent } from './project/project.component';
 import { ApiService } from './config/api.service';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
+import { TemplateScreenComponent } from './template-screen/template-screen.component';
 
 
 export class MyMissingTranslationHandler implements MissingTranslationHandler {
@@ -50,6 +51,7 @@ export class MyMissingTranslationHandler implements MissingTranslationHandler {
      LoginComponent,
      SignupComponent,
      ProjectComponent,
+     TemplateScreenComponent,
   ],
   imports: 
   [

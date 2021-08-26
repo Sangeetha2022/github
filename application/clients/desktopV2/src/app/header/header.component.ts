@@ -15,7 +15,6 @@ export class HeaderComponent implements OnInit {
   display_langs:any=[];
  
   constructor(public translate:TranslateService) { 
-    
     this.Global_Languages=global_lang_json;
     var arr = [];
     for (var j in this.Global_Languages['default']) {
