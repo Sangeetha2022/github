@@ -6,7 +6,57 @@
         "LOGIN": "LOGIN",
         "SEARCH_FOR": "Search for..",
         "ABOUT": "About"
+    },
+    "LOGIN": {
+        "HEADER": "Log in to Geppetto",
+        "DESCRIPTION": "Welcome back! Login with your data that you entered during registration",
+        "INPUT1": "Username",
+        "INPUT2": "Password",
+        "BUTTON_TXT": "Login",
+        "ACCOUNT": "Don't have an account?",
+        "SIGNUP": "Sign Up",
+        "LOGIN_ERROR": "Invalid Username or Password"
+    },
+    "SIGNUP": {
+        "PLEASE_REGISTER": "Please Register",
+        "FIRSTNAME": "FirstName",
+        "LASTNAME": "LastName",
+        "EMAIL": "Email",
+        "PASSWORD": "Password",
+        "REGISTER": "Register",
+        "ALREADY": "Already Registered?",
+        "LOGIN": "Login here",
+        "FNAME_ERROR": "Must be a valid FirstName",
+        "LNAME_ERROR": "Must be a valid LasttName",
+        "EMAIL_ERROR": "Must be a valid Email Id",
+        "PASSWORD_ERROR": "A Password must be 8 character and must have a Uppercase , Lowercase and a Special character"
+    },
+    "ABOUT": {
+        "ABOUT": "About",
+        "CLOSE": "Close",
+        "VERSION": "Version :",
+        "BUILD_VERSION": "Build Version :",
+        "BUILD_DATE": "Build Date :",
+        "LICENCE": "Open Source Licenses :"
+    },
+    "PROJECT": {
+        "APPLICATION": "My Applications",
+        "GEPPETTO_APPLICATION": "Geppetto Sample Application",
+        "CREATE_PROJ": "Create Project",
+        "NAME": "Name",
+        "PRIMARY_LANG": "Primary Language",
+        "SECONDARY_LANG": "Secondary Language",
+        "SELECT_TEMP": "Select Template",
+        "CREATE_BTN": "Create",
+        "CANCEL_BTN": "Cancel",
+        "SELECT_SEC_LANG": "Select Secondary Language",
+        "NO_PROJECTS": "No Projects Available.",
+        "CONFIRM_DELETE": "Please click confirm to delete this project ?",
+        "CONFIRM_BTN": "Confirm",
+        "NAME_ERROR": "Name required",
+        "ALREADY_NAME_EXIST": "Name already exist",
+        "SPECIAL_NAME_ERROR": "Name must starts with alphapet,special charaters not allowed",
+        "RESERVED_NAME_ERROR": "Name must not be reserve word"
     }
-
 
 }

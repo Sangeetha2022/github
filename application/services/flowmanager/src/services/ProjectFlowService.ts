@@ -2,19 +2,23 @@ import { Request, NextFunction } from 'express';
 import { ProjectFlowDao } from '../daos/ProjectFlowDao';
 import { ProjectFlowComponentDao } from '../daos/ProjectFlowComponentDao';
 import * as asyncLoop from 'node-async-loop';
+import { MicroFlowManagerService } from '../apiservices/MicroFlowManagerService'
 
 let projectFlowDao = new ProjectFlowDao();
 let projectFlowComponentDao = new ProjectFlowComponentDao();
+let microflowManagerService = new MicroFlowManagerService();
 export class ProjectFlowService {
 
 
     public ProjectFlow(req: Request, callback: CallableFunction) {
         const projectFlowData = req.body;
         const tempArray = [];
-        asyncLoop(projectFlowData, (element, next) => {
+        asyncLoop(projectFlowData, async (element, next) => {
             if (element) {
+                let flowComponentArray: any = [];
                 const flowComponentData = element.components.map(({ _id, _v, ...rest }) => ({ ...rest }));
-                projectFlowComponentDao.ProjectFlowComponent(flowComponentData, (result) => {
+                flowComponentArray = await this.saveMicroflowData(flowComponentData);
+                projectFlowComponentDao.ProjectFlowComponent(flowComponentArray, (result) => {
                     const temp = result.map(({ _id }) => _id);
                     element.components = temp;
                     tempArray.push(element);
@@ -39,6 +43,29 @@ export class ProjectFlowService {
         const projectFlowData = req.body;
         projectFlowDao.createProjectFlows(projectFlowData, (result) => {
             callback(result)
+        })
+    }
+
+    saveMicroflowData(flowComponentData) {
+        return new Promise((resolve, reject) => {
+            let flowComponentArray = [];
+            asyncLoop(flowComponentData, (data: any, next) => {
+                microflowManagerService.getMicroFlows(data.microFlows, (res) => {
+                    const microflowArray = res.body.map(({_id, __v, createdAt, ...rest}) => ({...rest}));
+                    microflowManagerService.saveBulkMicroFlows(microflowArray, (response) => {
+                        const temp = response.body.map(({ _id }) => _id);
+                        data.microFlows = temp;
+                        flowComponentArray.push(data);
+                        next();
+                    })
+                })
+            }, (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(flowComponentArray);
+                }
+            })
         })
     }
 

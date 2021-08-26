@@ -46,6 +46,7 @@ class FlowManagerController implements Controller {
         this.router.post('/save/quickConnectors', this.saveConnectors);
         this.router.get('/get/quickConnectorbyentity/:entityid', this.getConnectorByEntity);
         this.router.get('/get/quickConnectorbyid/:id', this.getConnectorById);
+        this.router.post('/get/connectorsbyids', this.getConnectorsByIds);
         this.router.get('/getConnectors', this.getConnectors)
         this.router.delete('/delete/quickConnectorbyid/:id', this.deleteConnectorById);
         this.router.delete('/delete/quickConnectorbyentityid/:entityid', this.deleteConnectorByEntityId);
@@ -311,6 +312,18 @@ class FlowManagerController implements Controller {
     public async getConnectorById(req: Request, res: Response) {
         try {
             let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/get/quickConnectorbyid/${req.params.id}` + `?log_id=${req.query.log_id}`));
+            req.baseUrl === '/mobile' ? res.send(flow) :
+                req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
+        } catch (err) {
+            req.baseUrl === '/mobile' ? res.send(err) :
+                req.baseUrl === '/desktop' ? res.send(err) : res.send(null);
+        }
+    }
+
+    public async getConnectorsByIds(req: Request, res: Response) {
+        try {
+            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/get/connectorsbyids` + `?log_id=${req.query.log_id}`, req.body));
+            console.log('flow ==============>>>>', flow);
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {

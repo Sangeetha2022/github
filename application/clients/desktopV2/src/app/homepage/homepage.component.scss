@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
 #i307x {
     height: 90vh;
     padding: 0 0 0 0;
@@ -12,6 +13,16 @@
     max-width: 100%;
     margin: 0 0 0 0;
     width: 100%;
+}
+
+#signup_btn {
+    text-align: left;
+    padding: 10%;
+}
+
+#login_btn {
+    text-align: left;
+    padding: 10%;
 }
 
 .gpd-container {
@@ -136,9 +147,27 @@
     text-transform: uppercase;
     color: #ffffff;
     font-size: 18px;
-    padding: 12px 37px 12px 37px;
+    padding: 10%;
+    width: 100%;
     font-weight: 600;
     border-radius: 5px 5px 5px 5px;
+    margin: 0 0 0 0px;
+}
+
+#card_style {
+    margin: 70px 30px 0 0;
+    padding: 10%;
+    box-shadow: 10px 10px 5px grey;
+}
+
+#heading_tag {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 42px;
+    margin-top: 10%;
+    // margin: 70px 0 0 0;
+    text-align: center;
 }
 
 #iba96 {
@@ -150,15 +179,15 @@
     text-transform: uppercase;
     color: #ffffff;
     font-size: 18px;
-    padding: 12px 37px 12px 37px;
+    width: 100%;
+    padding: 10%;
     font-weight: 600;
     border-radius: 5px 5px 5px 5px;
-    margin: 0 0 0 35px;
 }
 
 #imysg {
     padding: 0 0 0 0;
-    background-image: url('https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/0e3954e1eabe4444b304617b2f95dcdd_group_17236.png');
+    background-image: url('/assets/images/homepage/banner_bg.png');
     background-repeat: no-repeat;
     background-position: right top;
     background-attachment: scroll;
@@ -179,7 +208,25 @@
     width: 75%;
 }
 
+#card_logo {
+    width: 70%;
+    margin: 0 auto;
+    float: none;
+    margin-bottom: 10px;
+}
+
 @media (max-width:768px) {
+    #heading_tag {
+        padding: 0 0 0 0;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 32px;
+        text-align: center;
+    }
+    #i55xt {
+        margin: 0 0 0 0;
+    }
     .gdp-row,
     .row {
         flex-wrap: wrap
@@ -199,6 +246,35 @@
 }
 
 @media (max-width: 415px) {
+    #heading_tag {
+        padding: 0 0 0 0;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 42px;
+        text-align: center;
+    }
+    #card_logo {
+        width: 100%;
+        margin: 0 auto;
+        float: none;
+        margin-bottom: 10px;
+    }
+    #card_style {
+        margin: 0 0 0 0;
+        padding: 10%;
+    }
+    #i55xt {
+        margin: 0 0 0 0;
+    }
+    #signup_btn {
+        text-align: center;
+        padding: 10%;
+    }
+    #login_btn {
+        text-align: center;
+        padding: 10%;
+    }
     #izo03 {
         padding: 50px 10px 50px 10px;
     }
@@ -225,6 +301,24 @@
 }
 
 @media (max-width: 768px) {
+    #card_logo {
+        width: 100%;
+        margin: 0 auto;
+        float: none;
+        margin-bottom: 10px;
+    }
+    #card_style {
+        margin: 0 0 0 0;
+        padding: 10%;
+    }
+    #signup_btn {
+        text-align: center;
+        padding: 10%;
+    }
+    #login_btn {
+        text-align: center;
+        padding: 10%;
+    }
     #izo03 {
         padding: 50px 0 50px 0;
     }

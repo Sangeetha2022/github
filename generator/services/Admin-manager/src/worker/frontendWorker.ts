@@ -1,15 +1,18 @@
-import { Response } from 'express';
+import { response, Response } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
 import { Common } from '../config/Common';
 import { FrontendSupportWorker } from '../SupportWorker/frontendSupportWorker';
 import { ExternalFeatureService } from '../apiservices/ExternalFeatureService';
+import { ConnectorService } from '../apiservices/ConnectorService'
 import * as ncp from 'ncp';
 import * as st from 'stringtemplate-js';
+import { Constant } from '../config/Constant'
 export class FrontendWorker {
 
     private frontendSupportWorker = new FrontendSupportWorker();
     private externalfeatureservice = new ExternalFeatureService();
+    private connectorService = new ConnectorService();
     private projectGenerationPath = '';
     private seedPath = '';
     private templatePath = '';
@@ -37,6 +40,7 @@ export class FrontendWorker {
         boostrap: false
     }
     private authPackageDependency = [];
+    public connectorArrayObject = [];
 
     private adminComponent = {
         module: {
@@ -93,6 +97,7 @@ export class FrontendWorker {
 
     async createAdminComponent(details, callback) {
         this.initializeData();
+        console.log('details =========>>>>>', details);
         this.projectGenerationPath = details.templateResponse.applicationPath;
         this.seedPath = details.seedTemplatePath;
         this.templatePath = details.adminTemplatePath;
@@ -121,18 +126,29 @@ export class FrontendWorker {
             console.log('--------Admin feature--html-------', this.externaladminfeature);
         }
         const applicationPath = `${this.projectGenerationPath}/src/app/${this.ADMIN_FOLDERNAME}`;
-        this.generateStaticComponent(applicationPath, this.ADMIN_FOLDERNAME, callback);
+        this.generateStaticComponent(details, applicationPath, this.ADMIN_FOLDERNAME, callback);
     }
 
 
-    async generateStaticComponent(applicationPath, folderName, callback) {
+    async generateStaticComponent(details, applicationPath, folderName, callback) {
         const loginSeedPath = `${this.seedPath}/${folderName}`;
+        let projectDetails: any = await this.getConnectorByProjectId(details.project_id);
+        let connectorsDetails = projectDetails.body.needs_administration;
+        const connectorIds = connectorsDetails.map(({ id }) => id);
+        let connectorArray: any = await this.getConnectorById(connectorIds);
+        // console.log('connectorArray ===========>>>', connectorArray);
+        // console.log('filesIdArray ===============>>>', filesIdArray);
+        // let filesArrayData: any = await this.getFilesById(filesIdArray);
+        // let fileData = filesArrayData.body.map(({fileData}) => fileData);
+        // console.log('fileData ===============>>>>', fileData)
+        let connectorsData = connectorArray.body;
+        this.connectorArrayObject = connectorsData;
         Common.createFolders(applicationPath);
         await fs.readdirSync(`${this.seedPath}/${folderName}`).forEach(async (fileElement, index, array) => {
             console.log('each files names are -------   ', fileElement);
             if (fileElement == 'admin.component.html') {
                 if (this.exterfeaturedetails) {
-                    if(this.exterfeaturedetails.type == 'external') {
+                    if (this.exterfeaturedetails.type == 'external') {
                         await fs.readFile(`${loginSeedPath}/${fileElement}`, 'utf8', (err, htmlcontent) => {
                             console.log('----------adminhtml-------', htmlcontent.toString().split("\n"));
                             let file = htmlcontent.toString().split("\n");
@@ -146,19 +162,243 @@ export class FrontendWorker {
                         })
                     }
                 } else {
-                    this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
-                        if (index === array.length - 1) {
-                            callback('static component files are written successfully');
-                        }
-                    });
+                    if (connectorsData.length > 0) {
+                        let adminHtmlData = {
+                            connectors: []
+                        };
+
+                        connectorsData.forEach(async (connectorObject) => {
+                            console.log('connectorObject ============>>>', connectorObject);
+                            let filesArrayData: any = await this.getFilesById(connectorObject.externalConnector);
+                            console.log('filesArrayData ==========>', filesArrayData);
+                            let connector_admin_data = {
+                                connectors: []
+                            }
+                            let jsonObject: any = filesArrayData.body[0].fileData;
+                            console.log('connectorObject', jsonObject.item);
+                            adminHtmlData.connectors.push(`<div class="card-header collapsed" role="tab" id="headingOneH" href="#${connectorObject.name}" data-toggle="collapse"
+                            data-parent="#accordionH" aria-expanded="false" aria-controls="collapseOneH">
+                            <a class="card-title">${connectorObject.name}</a>
+                          </div>
+                          <div class="collapse" id="${connectorObject.name}" role="tabpanel" aria-labelledby="headingOneH">
+                            <div class="card-body">
+                              <a routerLink="/${connectorObject.name.toLowerCase()}" class="btn btn-primary">${connectorObject.name}</a>
+                            </div>
+                          </div>`)
+                            await this.frontendSupportWorker.generateFile(applicationPath, this.templatePath, fileElement, 'admin_dynamic_html', adminHtmlData, (response) => {
+                            })
+                            let arrayData = jsonObject.item.filter(function (a) {
+                                let key: any;
+                                if(a.request.auth !== undefined) {
+                                     key = a.request.auth.type;
+                                } else {
+                                    key = undefined;
+                                }
+                                console.log('key ===========>>>', key)
+                                console.log('!this[key] ===========>>>', !this[key]);
+                                if (!this[key]) {
+                                    this[key] = true;
+                                    return true;
+                                }
+                            }, Object.create(null));
+                            await arrayData.forEach(data => {
+                                if(data.request.auth !== undefined) {
+                                    Object.keys(data.request.auth).forEach(key => {
+                                        if (typeof (data.request.auth[key]) == "object") {
+                                            data.request.auth[key].forEach(childData => {
+                                                connector_admin_data.connectors.push(`<div id="template-ivnj" class="row">
+                                                <div id="template-ikqf" class="cell form-group">
+                                                <label id="template-iytwi" class="label">${childData.key}</label>
+                                                <input id="template-isk94" placeholder="Please Enter Value" [(ngModel)]="${connectorObject.name.toLowerCase()}Data.${childData.key}"
+                                                [ngModelOptions]="{standalone: true}"  class="input form-control" />
+                                                </div>
+                                                </div>`);
+                                            })
+                                        }
+                                    })
+                                }
+                            });
+                            applicationPath = `${this.projectGenerationPath}/src/app/${connectorObject.name.toLowerCase()}-admin`;
+                            this.generateConnectorAdminHtml(applicationPath, connectorObject, connector_admin_data);
+                            this.generateConnectorAdminCss(applicationPath, connectorObject);
+                            this.generateConnectorAdminComponentTs(applicationPath, connectorObject, arrayData);
+                            this.generateConnectorServiceSpec(applicationPath, connectorObject, arrayData);
+                            this.generateConnectorService(applicationPath, connectorObject, arrayData);
+                            this.generateConnectorModule(applicationPath, connectorObject, arrayData);
+
+                        })
+                    } else {
+                        this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
+                            if (index === array.length - 1) {
+                                callback('static component files are written successfully');
+                            }
+                        });
+                    }
+
                 }
+            } else {
+                console.log('each files names are -------   ', fileElement, index, array);
+                this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
+                    if (index === array.length - 1) {
+                        callback('static component files are written successfully');
+                    }
+                });
             }
-            console.log('each files names are -------   ', fileElement, index, array);
-            this.frontendSupportWorker.generateStaticFile(applicationPath, loginSeedPath, fileElement, (response) => {
-                if (index === array.length - 1) {
-                    callback('static component files are written successfully');
-                }
+
+        })
+    }
+
+    async generateConnectorServiceSpec(applicationPath, connectorObject, arrayData) {
+        const fileData = {
+            className: connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase(),
+            folderName: `${connectorObject.name.toLowerCase()}-admin`
+        }
+        this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
+            `${connectorObject.name.toLowerCase()}-admin.service.spec.ts`, `connector_admin_component_spec`, fileData, (response) => {
             });
+    }
+
+    async generateConnectorService(applicationPath, connectorObject, arrayData) {
+        const temp = {
+            folderName: connectorObject.name.toLowerCase(),
+            className: connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase(),
+            importDependency: [
+                { dependencyName: `Observable`, dependencyPath: 'rxjs' },
+                { dependencyName: `HttpClient`, dependencyPath: '@angular/common/http' },
+            ],
+            importComponent: [
+                {
+                    classname: `SharedService`,
+                    path: `../../shared/shared.service`
+                }
+            ],
+            importAsteriskDependency: [],
+            scriptVariable: [],
+            serviceVariable: [],
+            serviceConstructorParams: [
+                `private sharedService: SharedService, private http: HttpClient`
+            ],
+            componentOnInit: [],
+            componentOnAfterView: [],
+            serviceMethod: []
+        }
+        await temp.serviceMethod.push(`GpCreate(${temp.folderName}): Observable<any> {
+            let user_id =  sessionStorage.getItem('Id');
+            return this.http.post(this.sharedService.DESKTOP_API + '/scm?connector_name=${temp.folderName}', ${temp.folderName});
+        }`);
+        this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
+            `${connectorObject.name.toLowerCase()}-admin.service.ts`, `connector_admin_component_service`, temp, (response) => {
+            });
+    }
+
+    generateConnectorModule(applicationPath, connectorObject, arrayData) {
+        let moduleComponent = {
+            importDependency: [
+                { dependencyName: 'NgModule', dependencyPath: '@angular/core' },
+                { dependencyName: 'CommonModule', dependencyPath: '@angular/common' },
+                { dependencyName: 'RouterModule', dependencyPath: '@angular/router' },
+                { dependencyName: 'I18NextModule', dependencyPath: 'angular-i18next' },
+                { dependencyName: 'FormsModule, ReactiveFormsModule', dependencyPath: '@angular/forms' }
+            ],
+            imports: [],
+            declarations: [],
+            className: ''
+        }
+        console.log('moduleComponent.importDependency ===========>>>', moduleComponent.importDependency);
+        moduleComponent.className = connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase();
+        moduleComponent.importDependency.push({ dependencyName: `${moduleComponent.className}Component`, dependencyPath: `./${connectorObject.name.toLowerCase()}-admin.component` });
+        moduleComponent.imports = Constant.importsArray;
+        moduleComponent.declarations.push(`${moduleComponent.className}Component`);
+        this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
+        `${connectorObject.name.toLowerCase()}-admin.module.ts`, `connector_admin_component_module`, moduleComponent, (response) => {
+        });
+    }
+
+    async generateConnectorAdminComponentTs(applicationPath, connectorObject, arrayData) {
+        const temp = {
+            folderName: connectorObject.name.toLowerCase(),
+            className: connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase(),
+            dependedComponentNames: [],
+            importDependency: [
+                { dependencyName: `Component, OnInit`, dependencyPath: '@angular/core' },
+                { dependencyName: `Router`, dependencyPath: '@angular/router' }
+            ],
+            importComponent: [
+                {
+                    classname: `${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Service`,
+                    path: `./${connectorObject.name.toLowerCase()}-admin.service`
+                }
+            ],
+            importAsteriskDependency: [],
+            scriptVariable: [],
+            componentVariable: [],
+            componentConstructorParams: [],
+            componentOnInit: [],
+            componentOnAfterView: [],
+            componentMethod: []
+        }
+        temp.componentConstructorParams.push(`private ${temp.folderName}Service: ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Service`)
+        await arrayData.forEach(async (data) => {
+            temp.componentVariable.push(`public ${temp.folderName}Data = {`);
+            temp.componentMethod.push(`GpCreate() {`)
+            temp.componentMethod.push(`this.${temp.folderName}Service.GpCreate(this.${temp.folderName}Data).subscribe(data => {`)
+            await Object.keys(data.request.auth).forEach(key => {
+                if (typeof (data.request.auth[key]) == "object") {
+                    data.request.auth[key].forEach(childData => {
+                        temp.componentVariable.push(`'${childData.key}': '',`);
+                        temp.componentMethod.push(`this.${temp.folderName}Data.${childData.key} = '';`)
+                    })
+                }
+            })
+            temp.componentVariable.push(`${temp.folderName}Storage: '',`);
+            temp.componentVariable.push(`}`);
+            temp.componentMethod.push(`},
+            error => {
+                console.log('Error', error);
+            });
+        }`)
+        })
+        this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
+            `${connectorObject.name.toLowerCase()}-admin.component.ts`, `connector_admin_component_ts`, temp, (response) => {
+            })
+
+    }
+
+    generateConnectorAdminCss(applicationPath, connectorObject) {
+        this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
+            `${connectorObject.name.toLowerCase()}-admin.component.scss`, 'connector_admin_css', null, (response) => {
+            })
+    }
+
+    generateConnectorAdminHtml(applicationPath, connectorObject, connector_admin_data) {
+        this.frontendSupportWorker.generateFile(applicationPath, this.templatePath,
+            `${connectorObject.name.toLowerCase()}-admin.component.html`, 'connector_admin_html',
+            connector_admin_data, (response) => {
+            })
+    }
+
+    getConnectorByProjectId(projectId) {
+        return new Promise((resolve, reject) => {
+            this.connectorService.getConnectorByProjectId(projectId, (response) => {
+                resolve(JSON.parse(response));
+            })
+        })
+    }
+
+    getConnectorById(connectorIds) {
+        return new Promise((resolve, reject) => {
+            this.connectorService.getConnectorByIds(connectorIds, (response) => {
+                resolve(response);
+            })
+        })
+    }
+
+    getFilesById(connectorIds) {
+        return new Promise((resolve, reject) => {
+            this.connectorService.getFileByIds(connectorIds, (response) => {
+                console.log('response of file array datat ', response);
+                resolve(response);
+            })
         })
     }
 
@@ -169,7 +409,7 @@ export class FrontendWorker {
         this.modifyAppRoutingModuleFile(appModulePath);
         if (this.routingModuleInfo.importDependency.findIndex(x => x == this.adminAppRoutingModule.importDependency) < 0) {
             this.routingModuleInfo.importDependency.push(`import { ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component } from './${this.ADMIN_FOLDERNAME.toLowerCase()}/${this.ADMIN_FOLDERNAME.toLowerCase()}.component';`);
-            this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] },`);
+            this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
         }
         this.modifyPackageJsonFile();
         // modify app module
@@ -179,6 +419,14 @@ export class FrontendWorker {
         if (this.appModuleInfo.importDependency.findIndex(x => x == this.httpClient.importDependency) < 0) {
             this.appModuleInfo.importDependency.push(this.httpClient.importDependency);
             this.appModuleInfo.imports.push(this.httpClient.imports);
+        }
+        if (this.connectorArrayObject.length > 0) {
+            this.connectorArrayObject.forEach(connectorObject => {
+                this.routingModuleInfo.importDependency.push(`import { ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Component } from './${connectorObject.name.toLowerCase()}-admin/${connectorObject.name.toLowerCase()}-admin.component';`);
+                this.routingModuleInfo.path.push(`{ path: '${connectorObject.name.toLowerCase()}', component: ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Component }`);
+                this.appModuleInfo.importDependency.push(`import { ${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Module } from './${connectorObject.name.toLowerCase()}-admin/${connectorObject.name.toLowerCase()}-admin.module';`);
+                this.appModuleInfo.imports.push(`${connectorObject.name.charAt(0).toUpperCase() + connectorObject.name.slice(1).toLowerCase()}Module`);
+            })
         }
         if (this.appModuleInfo.importDependency.findIndex(x => x == this.adminComponent.module.importDependency) < 0) {
             this.appModuleInfo.importDependency.push(this.adminComponent.module.importDependency);

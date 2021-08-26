@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import { FlowService } from '../services/FlowService';
 
-let flowService = new FlowService()
+
+let flowService = new FlowService();
 
 export class FlowController {
 

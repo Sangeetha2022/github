@@ -1,8 +1,11 @@
+import * as cors from 'cors';
+import * as dotenv from "dotenv";
+dotenv.config();
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import { Routes } from './routes/routes';
 import { WinstonLogger } from './config/WinstonLogger';
-import * as cors from 'cors';
+import { SharedService } from './config/SharedService';
 
 const PORT = 5012;
 
@@ -11,6 +14,7 @@ class App {
     public app: express.Application = express();
     public routePrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
+    public apiUrl : SharedService = new SharedService();
     
     constructor() { 
         this.logger.setupLogger();

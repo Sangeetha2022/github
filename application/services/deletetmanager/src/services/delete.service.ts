@@ -5,7 +5,8 @@ import {
     EntityManagerService,
     ScreenManagerService,
     ProjectManagerService,
-    FlowManagerService
+    FlowManagerService,
+    MicroFlowManagerService
 
 } from '../apiservices/index';
 import { TemplateMicroService } from '../apiservices/TemplateMicroService';
@@ -20,6 +21,7 @@ export class DeleteService {
     private projectManagerService = new ProjectManagerService();
     private flowManagerService = new FlowManagerService();
     private templateMicroService = new TemplateMicroService();
+    private microFlowManagerService = new MicroFlowManagerService();
 
 
     public async deleteProjectById(req: Request, callback) {
@@ -220,7 +222,8 @@ export class DeleteService {
             this.flowManagerService.getProjectFlowById(req, flowId, (data) => {
                 data.body.body.map(({ components }) => {
                     components.map(async component => {
-                        await this.getProjectFlowCompById(req, component);
+                        let componentsObject:any = await this.getProjectFlowCompById(req, component);
+                        await this.deleteProjectFlowCompMicroFlowsByIds(req, componentsObject.body.body[0].microFlows);
                         await this.deleteProjectFlowCompById(req, component)
                     })
                 })
@@ -257,6 +260,14 @@ export class DeleteService {
     deleteProjectFlowCompById(req, flowCompId) {
         return new Promise(resolve => {
             this.flowManagerService.deleteProjectFlowComponent(req, flowCompId, (data) => {
+                resolve(data);
+            })
+        });
+    }
+
+    deleteProjectFlowCompMicroFlowsByIds(req, microFlowIds) {
+        return new Promise(resolve => {
+            this.microFlowManagerService.deleteProjectFlowCompMicroFlowsByIds(req, microFlowIds, (data) => {
                 resolve(data);
             })
         });

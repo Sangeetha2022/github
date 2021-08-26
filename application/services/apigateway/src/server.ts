@@ -41,7 +41,8 @@ import {
     ReactController,
     ExternalfeatureController,
     ModifierManagerController,
-    DefaultServicesController
+    DefaultServicesController,
+    GepFileManagerController
 
 
 } from './apicontroller';
@@ -85,7 +86,8 @@ let apisController = [
     new ReactController(),
     new ExternalfeatureController(),
     new ModifierManagerController(),
-    new DefaultServicesController()
+    new DefaultServicesController(),
+    new GepFileManagerController(),
 ]
 
 class App {
