@@ -21,6 +21,9 @@ import { FlowTreeService } from './flow-tree/flow-tree.service';
 import { DataService } from 'src/shared/data.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Brodcastservice } from '../../broadcast.service';
+import { ProjectsService } from  '../../projects/projects.service'
+import { Observable } from 'rxjs';
+import { ApiService } from '../../config/api.service';
 
 // import { FormBuilder , FormGroup ,Validators} from `@angular/forms`;
 
@@ -158,7 +161,9 @@ export class FeatureDetailsComponent implements OnInit {
     public dynamicParamsValue: any;
     public staticParamsValue: any;
     public selectEntity: any;
-
+    public selectedFiles: any;
+    public currentFileUpload:any;
+    public originalFileData: any;
 
     constructor(
         private projectComponentService: ProjectComponentService,
@@ -170,7 +175,9 @@ export class FeatureDetailsComponent implements OnInit {
         private dataService: DataService,
         private dialog: MatDialog,
         private spinner: NgxSpinnerService,
-        private brodcastservice: Brodcastservice
+        private brodcastservice: Brodcastservice,
+        private projectService: ProjectsService,
+        private api: ApiService,
     ) {
 
         this.frameworkComponents = {
@@ -674,6 +681,42 @@ export class FeatureDetailsComponent implements OnInit {
         }
     }
 
+    //gepfiledatasend
+    selectFile(event: any) {
+        this.selectedFiles = event.target.files;
+    }
+    public filesave = false;
+    uploadFile() {
+        this.currentFileUpload = this.selectedFiles.item(0);
+        this.gepfileToUpload(this.currentFileUpload);
+        setTimeout(() => {
+            this.filesave = true;
+        },100)
+    }
+    //gepfilemanager
+    public resultId: any;
+    gepfileToUpload(fileToUpload: File){
+    //    this.projectComponentService.upload(fileToUpload).subscribe((res) => {
+    //        console.log("resposne to file upload",res);
+    //    })
+        const endpoint = this.projectComponentService.gepfileToUpload();
+        const formData: FormData = new FormData();
+        formData.append('fileKey', fileToUpload, fileToUpload.name);
+        console.log('fileToUpload +++', formData);
+        fetch(endpoint, {
+            method: 'POST',
+            body: formData
+        }).then( res => res.json()
+        ).then((resultData) => {
+            console.log("response send data from file upload ",resultData.resp);
+            console.log("response send data from file upload ",resultData.resp._id);
+            this.resultId = resultData.resp._id;
+            this.originalFileData = resultData.originalFileData;
+        })
+        // return this.api.post(endpoint, formData)
+
+    }
+    
     quickConnectorsType() {
         const tempObj = {
             url: this.quickConnectorsURL,
@@ -688,8 +731,12 @@ export class FeatureDetailsComponent implements OnInit {
             apiMethods: this.quickConnectors.apiMethods,
             service: this.quickConnectors.service,
             api_key: this.quickConnectors.api_key,
-            isQueryParams: this.quickConnectors.isQueryParams,
+            // isQueryParams: this.quickConnectors.isQueryParams,
             connectorsType: this.quickConnectors.connectorsType,
+            externalConnector: [this.resultId],
+            project_id: this.project_id,
+            original_file_data: this.originalFileData,
+            feature_id: this.feature_id,
             availableApi: [
                 {
                     'name': 'availble',
@@ -705,17 +752,29 @@ export class FeatureDetailsComponent implements OnInit {
         // tempObj.properties.push(this.quickConnectors.properties);
         console.log('temp==obj--', tempObj);
         this.projectComponentService.quickConnectors(tempObj, this.logId).subscribe(response => {
+            console.log("response body",response.body,response.body._id);
             this.quickConnectorId = response.body._id;
             const tempData = {
                 connectorId: this.quickConnectorId,
                 flowComponentId: '',
             };
             let isConnectorPresent = false;
+            const adminsObject = {
+                admin_need_object: {
+                    administration_type: 'connector',
+                    name: response.body.name,
+                    id: this.quickConnectorId
+                }
+            }
+            this.getEntityByFeatureId();
+            this.projectService.updateProjectById(this.project_id, adminsObject, this.logId).subscribe(res => {
+
+            })
             if (response.body.service === 'backEnd') {
-                this.modifyComponents.map(backEnd => {
+                this.modifyComponents.map(async (backEnd) => {
                     if (backEnd.name === 'GpExpressDao') {
                         tempData.flowComponentId = backEnd._id;
-                        this.updateFlowCompConnectorById(tempData);
+                        this.updateFlowCompMicroFlowConnectorById(tempData);
                     }
                 });
             } else if (response.body.service === 'frontEnd') {
@@ -723,7 +782,7 @@ export class FeatureDetailsComponent implements OnInit {
                     if (frontEnd.name === 'GpAngularService' || frontEnd.name === 'GpIonicAngularService') {
                         isConnectorPresent = true;
                         tempData.flowComponentId = frontEnd._id;
-                        this.updateFlowCompConnectorById(tempData);
+                        this.updateFlowCompMicroFlowConnectorById(tempData);
                     }
 
                 });
@@ -757,7 +816,7 @@ export class FeatureDetailsComponent implements OnInit {
     }
 
 
-    updateFlowCompConnectorById(data) {
+    updateFlowCompMicroFlowConnectorById(data) {
         this.projectComponentService.updateFlowCompConnectorById(data, this.logId).subscribe(response => {
             if (response) {
                 console.log('may i coming----')

@@ -48,16 +48,16 @@ export class Routes {
         //quick connectors
 
         app.route('/save/quickConnectors').post(this.qucikConnectorController.saveConnectors);
+        app.route('/get/connectorsbyids').post(this.qucikConnectorController.getConnectorsByIds)
         app.route('/get/quickConnectorbyid/:id').get(this.qucikConnectorController.getConnectorById);
         app.route('/quickUpdateConnectorsById/:id').put(this.qucikConnectorController.updateQuickConnectorsById)
         app.route('/getConnectors').get(this.qucikConnectorController.getConnectors)
 
         //quick connectors
 
-        app.route('/save/quickConnectors').post(this.qucikConnectorController.saveConnectors)
         app.route('/get/quickConnectorbyentity/:entityid').get(this.qucikConnectorController.getConnectorByEntity)
         app.route('/delete/quickConnectorbyid/:id').delete(this.qucikConnectorController.deleteConnectorById)
         app.route('/delete/quickConnectorbyentityid/:entityid').delete(this.qucikConnectorController.deleteConnectorByEntityId)
-        app.route('/get/quickConnectorbyid/:id').get(this.qucikConnectorController.getConnectorById)
+
     }
 }

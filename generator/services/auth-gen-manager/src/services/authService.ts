@@ -12,6 +12,7 @@ import { Routes } from '../../template/route.json';
 import { Common } from '../config/Common';
 import { AuthProxyWorker } from '../worker/authProxyWorker'
 import { resolve } from 'dns';
+import * as ncp from 'ncp';
 
 export class AuthService {
 
@@ -25,6 +26,8 @@ export class AuthService {
         camundaFolder: '',
         securityPath: '',
         authProxyPath: '',
+        systemCredsManagerPath: '',
+        systemCredsManagerFolder: '',
         camundaPath: '',
         apigatewaypath: '',
         FrontendLogin: '',
@@ -43,7 +46,8 @@ export class AuthService {
     private ports = {
         security: 8003,
         camunda: 8002,
-        authProxy: 8001
+        authProxy: 8001,
+        system_credential: 8005
     }
     // templateName
     private SERVER_TEMPLATENAME = 'server_file';
@@ -55,6 +59,7 @@ export class AuthService {
     private CAMUNDA_FOLDERNAME = 'camunda';
     private AUTH_PROXY_FOLDERNAME = 'Auth-Proxy';
     private SECURITY_FOLDERNAME = 'securitymanager';
+    private SYSTEM_CREDENTIAL_MANAGER = 'systemcredentialmanager'
 
     public async auth(req: Request, callback) {
         // console.log('path ---- >>>', req.query.projectName);
@@ -83,9 +88,11 @@ export class AuthService {
         this.authGenFiles.securityPath = `${this.authGenFiles.pathFile}/${this.SECURITY_FOLDERNAME}`;
         this.authGenFiles.authProxyPath = `${this.authGenFiles.pathFile}/${this.AUTH_PROXY_FOLDERNAME}`;
         this.authGenFiles.camundaPath = `${this.authGenFiles.pathFile}/${this.CAMUNDA_FOLDERNAME}`;
+        this.authGenFiles.systemCredsManagerPath = `${this.authGenFiles.pathFile}/${this.SYSTEM_CREDENTIAL_MANAGER}`;
         this.authGenFiles.folder = this.sourcePath + `/${this.SECURITY_FOLDERNAME}`;
         this.authGenFiles.proxyFolder = this.sourcePath + `/authproxy`;
         this.authGenFiles.camundaFolder = this.sourcePath + `/${this.CAMUNDA_FOLDERNAME}`;
+        this.authGenFiles.systemCredsManagerFolder = this.sourcePath + `/${this.SYSTEM_CREDENTIAL_MANAGER}`
 
         if (this.authGenFiles) {
 
@@ -100,6 +107,10 @@ export class AuthService {
             if (this.authGenFiles.camundaPath) {
                 this.createFolder();
                 this.camundaService(callback)
+            }
+            if(this.authGenFiles.systemCredsManagerPath) {
+                this.createFolder();
+                this.credentialManagerService(callback);
             }
         }
     }
@@ -124,6 +135,32 @@ export class AuthService {
                 fs.mkdirSync(this.authGenFiles.apigatewayfolder);
             }
         }
+        if (this.authGenFiles.systemCredsManagerPath) {
+            if (!fs.existsSync(this.authGenFiles.systemCredsManagerFolder)) {
+                fs.mkdirSync(this.authGenFiles.systemCredsManagerFolder);
+            }
+        }
+    }
+
+    // System Credential Manager
+    public async credentialManagerService(callback) {
+        ncp.limit = 16;
+        ncp(this.authGenFiles.systemCredsManagerPath, this.authGenFiles.systemCredsManagerFolder, { clobber: false }, (err) => {
+            if (err) {
+                console.error('---error occured in the ncp of system credential feature----', err);
+            }
+            const temp = {
+                port: this.ports.system_credential,
+                projectName: this.projectName.toLowerCase(),
+                databaseName: this.projectName.toLowerCase(),
+                isDmnFile: false,
+                isSeed: false
+            }
+            console.log('system credential generation folder are ------before authProxyPath---------   ', this.authGenFiles);
+            this.generateServerFile(`${this.authGenFiles.systemCredsManagerFolder}/src`, this.authGenFiles.templatepath,
+                this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
+            console.log('code added.....');
+        });
     }
 
     // AuthProxy

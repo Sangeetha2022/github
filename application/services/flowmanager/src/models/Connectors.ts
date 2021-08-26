@@ -10,11 +10,14 @@ export let connectorSchema = mongoose.Schema({
     description: String,
     apiMethods: String,
     entity_id: String,
-    entityName:String,  
+    entityName: String,
+    project_id: String,
+    feature_id: String,
+    flow_id: String,
     api_key: {},
     service: String,
-    isQueryParams:Boolean,
-    endPointUrl:String,
+    isQueryParams: Boolean,
+    endPointUrl: String,
     connectorsType: String,
     availableApi: [
         {
@@ -24,6 +27,7 @@ export let connectorSchema = mongoose.Schema({
             properties: [],
         }
     ],
+    externalConnector:[],
     url: {
         type: String,
         default: null
@@ -43,6 +47,14 @@ export let connectorSchema = mongoose.Schema({
         default: false
     },
     properties: [],
+    type: {
+        type: String,
+        default: false
+    },
+    call_from: {
+        type: String,
+        default: false
+    },
     createdAt: {
         type: Date,
         default: Date.now

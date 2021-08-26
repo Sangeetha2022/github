@@ -9,6 +9,7 @@ export let microFlowSchema = mongoose.Schema({
     componentName: String,
     microFlowStepName: String,
     sequenceId: String,
+    connector: Array,
     createdAt: {
         type: Date,
         default: Date.now

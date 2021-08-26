@@ -40,6 +40,7 @@ import {
     SwaggerController,
     ReactController,
     ExternalfeatureController,
+    GepFileManagerController,
     ModifierManagerController
 
 
@@ -83,6 +84,7 @@ let apisController = [
     new SwaggerController(),
     new ReactController(),
     new ExternalfeatureController(),
+    new GepFileManagerController(),
     new ModifierManagerController()
 
 ]

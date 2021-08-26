@@ -24,9 +24,25 @@ export class ProjectService {
     }
 
     public updateProject(req: Request, callback: CallableFunction) {
-        projectDao.updateProject(req, (project) => {
-            callback(project)
-        })
+        if(req.body.hasOwnProperty('admin_need_object')) {
+            this.getProjectByID(req, (projectDetails) => {
+                let adminsArray = projectDetails.needs_administration;
+                adminsArray.push(req.body.admin_need_object);
+                req.body.needs_administration = adminsArray;
+                projectDao.updateProject(req, (project) => {
+                    callback(project)
+                })
+            })
+        } else {
+            projectDao.updateProject(req, (project) => {
+                callback(project)
+            })
+        }
+
+        // projectDao.updateProject(req, (project) => {
+        //     callback(project)
+        // })
+        
     }
 
     public deleteProject(req: Request, callback: CallableFunction) {

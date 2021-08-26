@@ -30,12 +30,14 @@ export class AuthFrontendService {
                                     this.frontendWorker.createManageuserComponent((response) => {
                                         this.frontendWorker.createConfig((response) => {
                                             this.frontendWorker.createUserComponent((response) => {
-                                                this.frontendWorker.createAuthComponent(menus, (response) => {
-                                                    this.frontendWorker.generateAppFile((response) => {
-                                                        this.frontendWorker.modifyFiles(() => {
-                                                            const date = new Date();
-                                                            callback();
-                                                        });
+                                                this.frontendWorker.createVaultAdminComponent(details, (response) => {
+                                                    this.frontendWorker.createAuthComponent(menus, (response) => {
+                                                        this.frontendWorker.generateAppFile((response) => {
+                                                            this.frontendWorker.modifyFiles(() => {
+                                                                const date = new Date();
+                                                                callback();
+                                                            });
+                                                        })
                                                     })
                                                 })
                                             })

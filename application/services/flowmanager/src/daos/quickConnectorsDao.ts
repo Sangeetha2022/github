@@ -38,6 +38,16 @@ export class QuickConnectorsDao {
         })
     }
 
+    public getConnectorsByIds(connectorId, callback) {
+        connector.find().where('_id').in(connectorId).exec((err, connectorArray) => {
+            if(err) {
+                callback(err)
+            } else {
+                callback(connectorArray)
+            }
+        });
+    }
+
     public updateQuickConnectorsById(updateConnectors, callback: CallableFunction) {
         console.log('update --response-- /,', updateConnectors);
         connector.findOneAndUpdate({ _id: updateConnectors }, updateConnectors, { new: true }, (err, connectors) => {
