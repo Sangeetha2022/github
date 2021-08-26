@@ -1,0 +1,62 @@
+<section>
+    <div class="container-fluid fill">
+        <div id="map" class="row">
+            <div class="col-lg-7" id="imysg">
+                <img id="ihygk" src="./assets/images/login/logo.png" />
+            </div>
+            <div class="col-lg-5 px-5 pt-5" style="margin-top:3%;">
+                <form [formGroup]="registerform">
+                    <div id="full_div" formGroupName="registerdata">
+                        <h1 id="i39ya">{{'SIGNUP.PLEASE_REGISTER' | translate}}</h1>
+
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" formControlName="firstname" id="fname_input" placeholder="{{'SIGNUP.FIRSTNAME' | translate}}" class="form-control my-4 p-3">
+                                <span *ngIf="!registerform.get('registerdata.firstname').valid && registerform.get('registerdata.firstname').touched || !registerform.get('registerdata.firstname').valid && submitted" class="invalid-feedback ">
+                                    {{'SIGNUP.FNAME_ERROR' | translate}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" formControlName="lastname" id="lname_input" placeholder="{{'SIGNUP.LASTNAME' | translate}}" class="form-control my-4 p-3">
+                                <span *ngIf="!registerform.get('registerdata.lastname').valid && registerform.get('registerdata.lastname').touched || !registerform.get('registerdata.lastname').valid && submitted" class="invalid-feedback ">
+                                    {{'SIGNUP.LNAME_ERROR' | translate}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="text" formControlName="email" id="email_input" placeholder="{{'SIGNUP.EMAIL' | translate}}" class="form-control my-4 p-3">
+                                <span *ngIf="!registerform.get('registerdata.email').valid && registerform.get('registerdata.email').touched || !registerform.get('registerdata.email').valid && submitted" class="invalid-feedback ">
+                                    {{'SIGNUP.EMAIL_ERROR' | translate}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="password" formControlName="password" id="password_input" placeholder="{{'SIGNUP.PASSWORD' | translate}}" class="form-control my-4 p-3">
+                                <span *ngIf="!registerform.get('registerdata.password').valid && registerform.get('registerdata.password').touched || !registerform.get('registerdata.password').valid && submitted" class="invalid-feedback ">
+                                    {{'SIGNUP.PASSWORD_ERROR' | translate}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row" id="btn">
+                            <div class="col-lg-12">
+                                <button id="btn1" (click)="register()" class="btn btn btn-info  p-3">{{'SIGNUP.REGISTER' | translate}}</button>
+                                <span class="invalid-feedback ">
+                                    {{errormessage}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 p-4">
+                                <p>{{'SIGNUP.ALREADY' | translate}} <a href="" routerLink="/login"><u>{{'SIGNUP.LOGIN' | translate}}</u></a></p>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

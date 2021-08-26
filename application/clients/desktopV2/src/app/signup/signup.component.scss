@@ -1,0 +1,133 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
+#btn1 {
+    //margin-left: 10%;
+    width: 100%;
+}
+
+#btn {
+    padding-top: 5%;
+}
+
+#i7ijz {
+    // margin-left: 10%;
+    text-align: center;
+    padding-top: 5%;
+}
+
+img {
+    display: block;
+    margin: 0 auto;
+    padding-top: 30%;
+}
+
+#i39ya {
+    text-align: center;
+    font-family: Montserrat, sans-serif;
+    font-size: 50px;
+    font-weight: 700;
+}
+
+#full_div {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+#i7pe3 {
+    padding: 10px 0 10px 0;
+    font-size: 20px;
+}
+
+#i4b93 {
+    text-align: center;
+}
+
+#imysg {
+    padding: 0 80px 0 80px;
+    background-image: url('/assets/images/login/banner.png');
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: scroll;
+    background-size: cover;
+    min-height: 90vh;
+}
+
+#error_text {
+    padding-top: 5%;
+    color: red;
+    text-align: center;
+}
+
+.invalid-feedback {
+    display: unset !important;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 100%;
+    font-weight: bold;
+    color: #dc3545;
+}
+
+#email_input {
+    background-color: #F5F5F5;
+}
+
+#password_input {
+    background-color: #F5F5F5;
+}
+
+#fname_input {
+    background-color: #F5F5F5;
+}
+
+#lname_input {
+    background-color: #F5F5F5;
+}
+
+@media(max-width:768px) {
+    #ihygk,
+    #imysg {
+        display: none;
+    }
+    #i39ya {
+        font-size: 25px;
+        text-align: center;
+    }
+    #i7pe3 {
+        width: 100%;
+        text-align: center;
+    }
+    #email_input {
+        margin-left: auto;
+    }
+    #password_input {
+        margin-left: auto;
+    }
+    #btn1 {
+        margin-left: auto;
+    }
+    #i7ijz {
+        margin-left: auto;
+    }
+}
+
+@media(max-width:415px) {
+    #i39ya {
+        font-size: 25px;
+        text-align: center;
+    }
+    #i7pe3 {
+        text-align: center;
+        width: 100%;
+    }
+    #email_input {
+        margin-left: auto;
+    }
+    #password_input {
+        margin-left: auto;
+    }
+    #btn1 {
+        margin-left: auto;
+    }
+    #i7ijz {
+        margin-left: auto;
+    }
+}
