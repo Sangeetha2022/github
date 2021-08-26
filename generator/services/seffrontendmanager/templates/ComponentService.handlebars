@@ -1,0 +1,33 @@
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+{{#each GpHeaders}}
+import { {{importName}} } from '{{ importPath }}';
+{{/each}}
+
+@Injectable({
+    providedIn: 'root'
+})
+
+export class {{ GpOptions.className }} {
+    constructor(
+        {{#each GpOptions.constructor}}
+        private {{ objectName }}: {{ className }},
+        {{/each}}
+    ) { }
+  {{#ifCond GpOptions.featureName '===' 'systementry'}}
+    {{#each GpCodeToAdd.flows_info }}
+      {{ methodName }}(Id: any): Observable<any> {
+          {{{ body }}}
+      }
+    {{/each}}
+  {{/ifCond}}
+  {{#ifCond GpOptions.featureName '!==' 'systementry'}}
+    {{#each GpCodeToAdd.flows_info }}
+      {{ methodName }}({{ paramName }}): Observable<any> {
+          {{{ body }}}
+      }
+    {{/each}}
+  {{/ifCond}}
+
+}

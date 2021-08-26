@@ -387,6 +387,7 @@ export class NodeService {
                                 feature_id: details.featureId,
                                 modify_target_type_id: flowElement.id
                             }
+                            console.log('temp', tempFlow);
                             let modifierResponse: any = await this.getModifierByProjectDetails(projectDetials);
                             const controller = controllerWorker.createController(tempFlow, gpController, entityElement, this.controllerObj);
                             const service = serviceWorker.createService(tempFlow, gpService, entityElement, this.serviceObj, modifierResponse);

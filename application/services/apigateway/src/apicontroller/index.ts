@@ -39,5 +39,5 @@ export * from './generator/authgencontroller';
 export * from './generator/angularTemplate.controller';
 export * from './generator/swagger.controller';
 export * from './generator/react.controller';
-
+export * from './generator/defaultServices.controller';
 

@@ -388,6 +388,19 @@ services:
     depends_on:
       - mongo
       - apigateway
+  
+  seffrontendmanager:
+    build: ../../generator/services/seffrontendmanager
+    image: seffrontendmanager
+    container_name: seffrontendmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5023:5023"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
 
   angtemplatemanager:
     build: ../../generator/services/Angular-Template-managerV10

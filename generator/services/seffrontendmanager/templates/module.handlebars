@@ -1,0 +1,24 @@
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
+{{#each GpHeaders}}
+import { {{importName}} } from '{{ importPath }}';
+{{/each}}
+
+@NgModule({
+    imports: [
+        CommonModule,
+        RouterModule,
+        NgSelectModule,
+        {{#each GpOptions.modules}}
+        {{name}},
+        {{/each}}
+    ],
+    declarations: [
+        {{#each GpOptions.components}}
+        {{name}},
+        {{/each}}
+    ]
+})
+export class {{ GpOptions.className }} { }

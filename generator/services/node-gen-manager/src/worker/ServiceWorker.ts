@@ -268,6 +268,12 @@ export class ServiceWorker {
                 this.tempService.function.responseVariable = `response`;
                 this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.body;`;
                 break;
+            case 'GpSEF':
+                this.tempService.function.methodName = this.flowDetail.actionOnData;
+                this.tempService.function.requestParameter = `${this.entitySchema.fileName}Data`;
+                this.tempService.function.responseVariable = `response`;
+                this.tempService.function.variable = ` ${this.entitySchema.fileName}Data = req.body;`;
+                break;
             case 'GpDeleteNounRelationship':
                 break;
             case 'GpFileUpload':

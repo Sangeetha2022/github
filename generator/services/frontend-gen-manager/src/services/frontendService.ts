@@ -239,6 +239,7 @@ export class FrontendService {
 
     generateAngular(details) {
         return new Promise(resolve => {
+            console.log('angular generate manager ang gen', details);
             this.angularGenManagerService.generateAngular(details, (data) => {
                 resolve(data);
             })

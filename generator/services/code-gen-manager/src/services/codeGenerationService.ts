@@ -85,10 +85,11 @@ export class CodeGenerationService {
     try {
       console.log('i am auth ******---->>', projectPath);
       const auth = await this.authGenPath(projectId, `${applicationServicePath}/${this.DEFAULT_SERVICE_FOLDERNAME}`,
-        projectDetails.templateLocation.authTemplatePath,
-        projectDetails.templateLocation.authorizationTempPath, projectDetails.name).catch(error => {
-          console.log('cannot able to create the auth files');
-        });
+      projectDetails.templateLocation.authTemplatePath,
+      projectDetails.templateLocation.authorizationTempPath, projectDetails.name).catch(error => {
+        console.log('cannot able to create the auth files');
+      });
+      console.log('auth', auth);
       let authJSON = null;
       if (auth) {
         authJSON = JSON.parse(auth.toString());

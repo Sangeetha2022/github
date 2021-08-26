@@ -35,6 +35,7 @@ export class Constants {
     public static nodeGenUrl: String;
     public static frontendGenUrl: String;
     public static angularGenUrl: String;
+    public static defaultServicesUrl: String;
     public static angularTemplateGenUrl: String;
     public static githubUrl: String;
     public static privateGithubUrl: String;
@@ -84,6 +85,7 @@ export class Constants {
                 Constants.nodeGenUrl = process.env.nodegenmanager + ":5012";
                 Constants.frontendGenUrl = process.env.frontgenmanager + ":5013";
                 Constants.angularGenUrl = process.env.angulargenmanager + ":5014";
+                Constants.defaultServicesUrl = process.env.seffrontendmanager + ":5023";
                 Constants.angularTemplateGenUrl = process.env.angtemplatemanager + ":5015";
                 Constants.githubUrl = process.env.githubmanager + ":5016";
                 Constants.privateGithubUrl = process.env.privategithubmanager + ":5022";
@@ -126,6 +128,7 @@ export class Constants {
                 Constants.nodeGenUrl = Constants.generationUrl + ":5012";
                 Constants.frontendGenUrl = Constants.generationUrl + ":5013";
                 Constants.angularGenUrl = Constants.generationUrl + ":5014";
+                Constants.defaultServicesUrl = Constants.generationUrl + ":5023";
                 Constants.angularTemplateGenUrl = Constants.generationUrl + ":5015";
                 Constants.githubUrl = Constants.generationUrl + ":5016";
                 Constants.privateGithubUrl = Constants.generationUrl + ":5022";
