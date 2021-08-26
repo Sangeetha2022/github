@@ -16,7 +16,7 @@ export let projectFlowComponentSchema = mongoose.Schema({
   devFramework: String,
   microFlows: [{
     type: mongoose.Schema.Types.String,
-    ref: 'micro_flows'
+    ref: 'project_micro_flows'
   }],
   connector: [
     { type: mongoose.Schema.Types.String, ref: 'connectors' }

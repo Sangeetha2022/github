@@ -34,9 +34,9 @@ export class LoginService {
     return this.http.post(this.restapi.Apigateway + Constants.fbLogIn, fbUser);
   }
 
-  getConfigurations() {
-    return this.http.get(this.restapi.Apigateway + Constants.getConfigs);
-  }
+  // getConfigurations() {
+  //   return this.http.get(this.restapi.Apigateway + Constants.getConfigs);
+  // }
 
   addConfigurations(configs) {
     return this.http.post(this.restapi.Apigateway + Constants.addConfigs, configs);

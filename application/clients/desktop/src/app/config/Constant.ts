@@ -188,6 +188,9 @@ export class Constants {
     // cloned application
     public static get clonedApplication(): string { return this.DESKTOP_ROUTER + '/clone/getbyproject' }
 
+    //gepfilemanager 
+    public static get GepFile(): string { return '/addAttachment'};
+
     // regex Constant Expressions
 
     public static get getConstantReservedWords(): String {

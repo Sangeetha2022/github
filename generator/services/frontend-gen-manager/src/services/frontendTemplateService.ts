@@ -64,7 +64,8 @@ export class FrontendTemplateService {
                         seedTemplatePath: details.seedTemplatePath,
                         authTemplatePath: details.authTemplatePath,
                         adminTemplatePath: details.project.templateLocation.frontendTemplate,
-                        screenMenus: templateObj.menuBuilder
+                        screenMenus: templateObj.menuBuilder,
+                        project_id: details.projectId
 
                     }
                     let featurevalue = details.feature.body[0];

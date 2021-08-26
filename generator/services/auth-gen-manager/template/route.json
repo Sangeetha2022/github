@@ -1,26 +1,20 @@
 {
-    "Routes": [
-        {
+    "Routes": [{
             "featureName": "security",
             "entityModelName": "security",
             "entityFileName": "security",
             "nodePortNumber": "3007",
             "import": {
-                "packageDependencies": [
-                    {
-                        "name": "* as jwt",
-                        "path": "jsonwebtoken"
-                    }
-                ]
+                "packageDependencies": [{
+                    "name": "* as jwt",
+                    "path": "jsonwebtoken"
+                }]
             },
-            "package": [
-                {
-                    "name": "jsonwebtoken",
-                    "version": "8.5.1"
-                }
-            ],
-            "flowAction": [
-                {
+            "package": [{
+                "name": "jsonwebtoken",
+                "version": "8.5.1"
+            }],
+            "flowAction": [{
                     "routeUrl": "/signup",
                     "apiAction": "post",
                     "methodName": "signup",
@@ -93,22 +87,19 @@
             "entityModelName": "Authproxy",
             "entityFileName": "Authproxy",
             "nodePortNumber": "3009",
-            "flowAction": [
-                {
-                    "routeUrl": "/proxy",
-                    "apiAction": "post",
-                    "methodName": "user",
-                    "variableName": "User"
-                }
-            ]
+            "flowAction": [{
+                "routeUrl": "/proxy",
+                "apiAction": "post",
+                "methodName": "user",
+                "variableName": "User"
+            }]
         },
         {
             "featureName": "Admin",
             "entityModelName": "Admin",
             "entityFileName": "Admin",
             "nodePortNumber": "3010",
-            "flowAction": [
-                {
+            "flowAction": [{
                     "routeUrl": "/admin/getusers",
                     "apiAction": "get",
                     "methodName": "getAllUser",
@@ -139,8 +130,7 @@
             "entityModelName": "Camunda",
             "entityFileName": "Camunda",
             "nodePortNumber": "3008",
-            "flowAction": [
-                {
+            "flowAction": [{
                     "routeUrl": "/accesslevel",
                     "apiAction": "post",
                     "methodName": "camunda",
@@ -165,6 +155,50 @@
                     "variableName": "User"
                 }
             ]
+        },
+        {
+            "featureName": "systemcredentialmanager",
+            "entityModelName": "systemcredentialmanager",
+            "entityFileName": "systemcredentialmanager",
+            "nodePortNumber": "8005",
+            "flowAction": [{
+                    "routeUrl": "/scm",
+                    "apiAction": "post",
+                    "methodName": "GpCreate",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/scm",
+                    "apiAction": "get",
+                    "methodName": "GpGetAllValues",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/scm",
+                    "apiAction": "delete",
+                    "methodName": "GpDelete",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/scm/update",
+                    "apiAction": "put",
+                    "methodName": "GpUpdate",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/scm/search",
+                    "apiAction": "get",
+                    "methodName": "GpSearch",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/scmbyname",
+                    "apiAction": "get",
+                    "methodName": "GpGetVaultByName",
+                    "variableName": "User"
+                }
+            ]
         }
+
     ]
 }

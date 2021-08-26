@@ -12,6 +12,8 @@ import { CommonWorker } from '../worker/CommonWorker';
 import * as Constants from '../config/Constants';
 import { AttachmentWorker } from '../worker/AttachmentWorker';
 import { ExternalFeatureWorker } from '../worker/externalfeatureWorker';
+import { FlowConnectorManagerService } from '../apiservices/FlowConnectorManagerService';
+import {ApiGatewaySupportWorker} from '../supportworker/ApiGatewaySupportWorker'
 import { ModifierManagerService } from '../apiservices/ModifierManagerService';
 
 let controllerWorker = new ControllerWorker();
@@ -23,6 +25,8 @@ let attachWorker = new AttachmentWorker
 let swaggerGen = new SwaggerGenManagerService();
 let externalfeatureservice = new ExternalFeatureService();
 let externalfeatureworker = new ExternalFeatureWorker();
+let flowConnectors = new FlowConnectorManagerService();
+let apigatewaySupportWorker = new ApiGatewaySupportWorker();
 let modifierManagerService = new ModifierManagerService();
 
 export class NodeService {
@@ -77,7 +81,8 @@ export class NodeService {
             insideClass: [],
             outsideClass: []
         },
-        flowAction: []
+        flowAction: [],
+        connector: []
     }
 
     // route
@@ -207,7 +212,8 @@ export class NodeService {
                 insideClass: [],
                 outsideClass: []
             },
-            flowAction: []
+            flowAction: [],
+            connector: []
         }
 
 
@@ -375,6 +381,7 @@ export class NodeService {
                             tempFlow.description = flowElement.description;
                             tempFlow.type = flowElement.type;
                             tempFlow.actionOnData = flowElement.actionOnData;
+                            console.log('gpDa ----->>>', util.inspect(gpDao, { showHidden: true, depth: null }));
                             const projectDetials = {
                                 project_id: details.projectId,
                                 feature_id: details.featureId,
@@ -441,7 +448,7 @@ export class NodeService {
                             serviceTemp.responseVariable = service.function.responseVariable;
                             serviceTemp.variable = service.function.variable;
                             serviceTemp.return = service.function.return;
-                            if(service.function.gpModifiers.modifiers.length > 0){
+                            if(service.function.gpModifiers.modifiers !== null && service.function.gpModifiers.modifiers.length > 0){
                                 // serviceTemp.modifiersObject.variable_object.push(`};`);
                                 serviceTemp.modifiersObject = service.function.gpModifiers;
                             }
@@ -457,7 +464,14 @@ export class NodeService {
                                 query: '',
                                 return: '',
                                 isJsonFormat: false,
-                                connectorEntityName: null
+                                connectorEntityName: null,
+                                connector: {
+                                    SCM_method_call: undefined,
+                                    get_vault_data: undefined,
+                                    fetch_request: undefined,
+                                    fetch_respone: undefined,
+                                    query_object: undefined,
+                                },
                             }
                             daoTemp.methodName = dao.function.methodName;
                             daoTemp.parameter = dao.function.parameter;
@@ -468,7 +482,11 @@ export class NodeService {
                             daoTemp.return = dao.function.return;
                             daoTemp.isJsonFormat = dao.function.isJsonFormat;
                             daoTemp.connectorEntityName = dao.function.connectorEntityName;
+                            daoTemp.connector = dao.function.connector;
                             console.log('-------------dao objects---------', daoTemp);
+                            if(daoTemp.connector !== undefined) {
+                                this.daoObj.connector = Constants.VAULT_REQUEST;
+                            }
                             this.daoObj.flowAction.push(daoTemp);
 
 
@@ -597,7 +615,12 @@ export class NodeService {
                         entities.forEach(entity => {
                             entity.type = 'object';
                             entity.field.forEach(field => {
-                                field.data_type = field.data_type.toLowerCase();
+                                console.log('field data type', field.data_type);
+                                if (field.data_type !== null) {
+                                    field.data_type = field.data_type.toLowerCase();
+                                } else {
+                                    field.data_type = 'string'
+                                }
                             })
                             this.swaggerObj.components.push(entity);
                             this.swaggerObj.tags.push(entity);
@@ -637,6 +660,7 @@ export class NodeService {
                         commonWorker.generateTsConfigFile(projectGenerationPath, templateLocation);
                         commonWorker.generateWinstonLoggerFile(projectGenerationPath, templateLocation);
                         commonWorker.generateLoggerFile(projectGenerationPath, templateLocation);
+                        apigatewaySupportWorker.generateApiAdapter(projectGenerationPath + '/src/config', templateLocation+'/apigateway');
                         callback(this.route);
                     }
                 })
@@ -677,7 +701,7 @@ export class NodeService {
     public generateexternalfeature(projectGenerationPath, externalfeatureres) {
         return new Promise((resolve, reject) => {
             externalfeatureworker.externalfeature(projectGenerationPath, externalfeatureres, (response, err) => {
-                if(err){
+                if (err) {
                     reject(err);
                 }
                 resolve(response);

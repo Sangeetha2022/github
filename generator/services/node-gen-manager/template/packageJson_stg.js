@@ -1,6 +1,6 @@
 /*
  * Template group packageJson
- * Compiled on Thu Apr 01 2021 20:13:03 GMT+0530 (India Standard Time)
+ * Compiled on Thu Jul 22 2021 21:30:15 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -98,6 +98,14 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
+    w.write("\"btoa-atob\": \"^0.1.2\",");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("\"btoa\": \"^1.2.1\",");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
     w.write("\"cors\": \"^2.8.5\",");
     w.popIndentation();
     w.write("\n");
@@ -110,7 +118,11 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("\"mongoose\": \"~5.4.9\",");
+    w.write("\"mongoose\": \"^5.4.9\",");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("\"node-vault\": \"^0.9.5\",");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
@@ -136,7 +148,7 @@ r = function(w, rc) {
     w.pushIndentation("    ");
     w.write("\"winston-daily-rotate-file\": \"^3.6.0\"");
     w.popIndentation();
-    if (st.test(st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 29, column: 52 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 31, column: 52 }))) {
     
         w.write(",");
     
@@ -144,19 +156,19 @@ r = function(w, rc) {
     }
     w.write("\n");
     w.write("    ");
-    if (st.test(st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 30, column: 15 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 32, column: 15 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 30, column: 37 });
+        attr = st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 32, column: 37 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
                      w.write("\"");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "name", { file: gFile, line: 30, column: 77 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "name", { file: gFile, line: 32, column: 77 }));
                      w.write("\": \"");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "version", { file: gFile, line: 30, column: 98 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "version", { file: gFile, line: 32, column: 98 }));
                      w.write("\"");
             }, [
             { name: "dependency"     }

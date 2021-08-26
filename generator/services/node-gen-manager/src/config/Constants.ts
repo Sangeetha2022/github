@@ -1,5 +1,5 @@
 export const LOCALURL = 'http://localhost:';
-export const APIGATEWAYURL = process.env.localsystementryBaseUrl + ":3000";
+export const APIGATEWAYURL = 'http://localhost' + ":3000";
 
 export const SWAGGERBASEDETAILS: any = {
     version: '1.3.0',
@@ -10,3 +10,16 @@ export const SWAGGERBASEDETAILS: any = {
     licenseUrl: 'https://www.apache.org/licenses/LICENSE-2.0.html',
     termsOfService: 'http://api_url/terms/'
 }
+
+export const VAULT_REQUEST = [
+    {
+        data: `getCredentialsData(connectorName) {
+        return new Promise(resolve => {
+            new ApiAdaptar().get('http://localhost:8000/desktop/scmbyname?connector_name=' + connectorName).then(
+                data => {
+                    resolve(data);
+                }
+            )
+        })
+    }`}
+];
