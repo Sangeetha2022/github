@@ -31,10 +31,10 @@ export class SefFlowComponentWorker {
                             let lifeCycleData: any;
                             const flowAction = nodeResponse.flowAction.filter((item) => item.methodName === Constant.GP_SEF_FLOW );
                             if(flow.flowName === Constant.GP_SEF_FLOW) {
-                                variables.push(`this.firstName = logindetails.firstname;\n \t \tthis.lastName = logindetails.lastname;}
+                                variables.push(`this.firstName = logindetails.firstname;\n \t \tthis.lastName = logindetails.lastname;});
                                 const colors = ['#006400', '#B22222'];
 
-                                this.dataservice.getChartData(this.Id).subscribe(getCharts => {
+                                this.sefscreenService.getChartData(this.Id).subscribe(getCharts => {
                                 // tslint:disable-next-line:radix
                                 this.open = getCharts.data1;
                                 console.log(this.open);
@@ -93,7 +93,7 @@ export class SefFlowComponentWorker {
                                     type: undefined,
                                     }]
                                 });
-                                });`);
+                                `);
                             } 
                             desktopElement.entity_info.forEach(entity => {
                                 if (entity.htmlId === flow.htmlId) {

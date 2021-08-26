@@ -33,6 +33,11 @@ export class SideNav {
     <a class="list-group-item list-group-item-success" *ngIf='userId!=null'  [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
 </div>`);
                                             break;
+                                        case 'sefscreen':
+                                            bottomNav.push(`<div class="list-group panel">
+    <a class="list-group-item list-group-item-success" *ngIf='userId!=null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
+</div>`);
+                                            break;
                                         case 'login':
                                             bottomNav.push(`<li>
     <a class="text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>

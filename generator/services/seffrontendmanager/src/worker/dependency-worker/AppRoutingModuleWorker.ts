@@ -15,11 +15,14 @@ export class AppRoutingModuleWorker {
       if (res) {
         const fileArray: Array<string> = res.split('\n');
         details.desktop.forEach(async (desktopElement: any) => {
+          let importRoute;
           const screenName = desktopElement.screenName.toLowerCase();
           const firstElement = screenName.charAt(0).toUpperCase();
           const otherElements = screenName.substring(1, screenName.length);
           const moduleClassName = firstElement + otherElements + 'Module';
-          const importRoute = `{ path : '${screenName}', loadChildren: () => import('./${screenName}/${screenName}.module').then(m => m.${moduleClassName}), canActivate: [AuthGuard] } , `
+          if(screenName !== 'sefscreen'){
+          importRoute = `{ path : '${screenName}', loadChildren: () => import('./${screenName}/${screenName}.module').then(m => m.${moduleClassName}), canActivate: [AuthGuard] } , `
+          }
           const ngModuleIndex = fileArray.indexOf('@NgModule({');
 
           fileArray.forEach((element, index) => {

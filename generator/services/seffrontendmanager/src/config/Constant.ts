@@ -165,6 +165,9 @@ export class Constant {
         ` "i18next-xhr-backend": "^1.5.1",`,
         `"angular-6-social-login": "^1.1.1",`,
         `"@ng-select/ng-select": "~1.6.3",`,
+        `"faker": "^5.5.3",`,
+        `"grapesjs": "^0.17.19",`,
+        `"highcharts": "^9.1.2",`
     ]
 
     // css for bootstrap table

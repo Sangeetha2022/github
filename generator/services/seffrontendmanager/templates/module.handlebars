@@ -14,11 +14,6 @@ import { {{importName}} } from '{{ importPath }}';
         {{#each GpOptions.modules}}
         {{name}},
         {{/each}}
-        RouterModule.forChild([
-            {{#each GpCodeToAdd.routes}}
-            { path: '{{ path }}', component: {{ component }} },
-            {{/each}}
-        ])
     ],
     declarations: [
         {{#each GpOptions.components}}

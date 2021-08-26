@@ -17,7 +17,7 @@ export class {{ GpOptions.className }} {
     ) { }
   {{#ifCond GpOptions.featureName '===' 'systementry'}}
     {{#each GpCodeToAdd.flows_info }}
-      getData(Id: any): Observable<any> {
+      {{ methodName }}(Id: any): Observable<any> {
           {{{ body }}}
       }
     {{/each}}

@@ -65,6 +65,11 @@ export class TemplateTopNav {
                                                             {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
                                                          </a>`);
                                             break;
+                                        case 'sefscreen':
+                                            mainNav.push(`<a id="izdchj" class="menu-link nav-item" *ngIf='userId!=null' [routerLink]="['/${screenElement.toLowerCase()}']">
+                                                            {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
+                                                            </a>`);
+                                            break;
                                         default:
                                             if(screenElement !== 'login' && screenElement !== 'logout') {
                                                 mainNav.push(`<a id="izdchj" class="menu-link nav-item" [routerLink]="['/${screenElement.toLowerCase()}']">

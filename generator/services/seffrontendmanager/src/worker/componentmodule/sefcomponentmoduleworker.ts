@@ -27,6 +27,8 @@ export class SefComponentModuleWorker {
             microflowObject = this.constructModuleRoutes(desktopElement, microflowObject);
             microflowObject.GpOptions['components'] = [{ name: firstElement + otherElements + 'Component' }];
             microflowObject = thirdPartyWorker.constructThirdPartyModuleHeaders(desktopElement, microflowObject);
+            console.log('path genrate test------', microflowObject, microflowObject.GpCodeToAdd.routes);
+            
             const templatePath = path.resolve(__dirname, '../../../templates/module.handlebars');
             const projectGenerationPath = details.projectGenerationPath;
             const applicationPath = projectGenerationPath + '/src/app';
