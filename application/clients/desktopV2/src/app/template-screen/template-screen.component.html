@@ -1,0 +1,21 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12 mt-3">
+            <h1 style="text-align: center;">
+                Geppetto Templates
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 mt-2" *ngFor="let template of gepTemplates;let i = index">
+            <div class="card">
+                <a class="img-card">
+                    <img src={{template.template_image[0].image}} />
+                </a>
+                <div class="card-body">
+                    <p>{{template.name}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
