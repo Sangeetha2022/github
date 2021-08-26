@@ -448,7 +448,7 @@ export class NodeService {
                             serviceTemp.responseVariable = service.function.responseVariable;
                             serviceTemp.variable = service.function.variable;
                             serviceTemp.return = service.function.return;
-                            if(service.function.gpModifiers.modifiers.length > 0){
+                            if(service.function.gpModifiers.modifiers !== null && service.function.gpModifiers.modifiers.length > 0){
                                 // serviceTemp.modifiersObject.variable_object.push(`};`);
                                 serviceTemp.modifiersObject = service.function.gpModifiers;
                             }

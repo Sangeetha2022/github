@@ -105,6 +105,7 @@ export class QuickConnectorsService {
             let existEntity: any = await this.getDynamicEntity(req);
             let jsonData = JSON.parse(existEntity);
             const requestName = exec.item.name;
+            if(exec.response.stream.toString() === '') next();
             const response = JSON.parse(exec.response.stream);
             let payload: any = { name: '', field: [] };
             let refPayload: any = { name: '', field: [] };

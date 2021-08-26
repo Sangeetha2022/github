@@ -41,14 +41,14 @@ export class DaoWorker {
             name: '* as btoa',
             path: 'btoa'
         }
-    ],
+        ],
         packageDependencies: [{
             name: 'node-fetch',
             version: '^2.3.0'
         }]
     }
 
-    private tempDao = {
+    public tempDao = {
         GpStart: {
             dependencies: []
         },
@@ -82,6 +82,7 @@ export class DaoWorker {
     private entitySchema;
     private gpDao;
     private modifiers;
+    private daoObj;
     count = 0;
 
     createDao(flowDetail, gpDao, entityElement, daoObj, modifierResponse) {
@@ -89,6 +90,7 @@ export class DaoWorker {
         this.entitySchema = entityElement;
         this.gpDao = gpDao;
         this.modifiers = modifierResponse.body;
+        this.daoObj = daoObj;
         this.gpStart(daoObj);
         this.gpVariableStatement(daoObj);
         // this.gpCheckConnector();
@@ -195,64 +197,80 @@ export class DaoWorker {
 
     async addExternalConnector() {
         console.log('gpDao connector vlaues ar e---  ', this.gpDao.connector[0]);
+        this.externalConnectorStart();
         const connector = this.gpDao.connector[0].externalConnector[0].fileData;
         const externalConnector = this.gpDao.connector[0].externalConnector[0].fileData.item[0].request;
         this.tempDao.function.verbs = this.fetchNPM.componentVariable;
         this.tempDao.function.connector.SCM_method_call = `let credentialData: any = await this.getCredentialsData('${connector.info.name}')`;
         let connectorUrlObject: any = {
-            protocol:'',
-            host:'',
+            protocol: '',
+            host: '',
             port: '',
             path: '',
         }
-        let queryObject: any ={}
+        let queryObject: any = {}
         let connectorUrl = `'${externalConnector.url.protocol}://`
-        externalConnector.url.host.forEach((hostData, index) => {
-            if(index == externalConnector.url.host.length) {
-                connectorUrlObject.host += `${hostData}`
-                if(externalConnector.url.port) {
+        // externalConnector.url.host.forEach((hostData, index) => {
+        //     if (index == externalConnector.url.host.length) {
+        //         if (externalConnector.url.port) {
+        //             connectorUrlObject.host += `:${externalConnector.url.port}`;
+        //         }
+        //         connectorUrlObject.host += `${hostData}`
+        //     } else {
+        //         connectorUrlObject.host += `${hostData}.`
+        //     }
+        // })
+
+        for (let i = 0; i < externalConnector.url.host.length; i++) {
+            if (i == externalConnector.url.host.length - 1) {
+                if (externalConnector.url.port) {
                     connectorUrlObject.host += `:${externalConnector.url.port}`;
                 }
+                connectorUrlObject.host += `${externalConnector.url.host[i]}`
             } else {
-                connectorUrlObject.host += `${hostData}.`
+                connectorUrlObject.host += `${externalConnector.url.host[i]}.`
             }
-        })
+        }
+
         externalConnector.url.path.forEach((pathData, index) => {
             connectorUrlObject.path += `/${pathData}`
         })
         connectorUrl += `${connectorUrlObject.host}${connectorUrlObject.path}'`;
-        if(externalConnector.url.query && externalConnector.url.query.length > 0) {
+        if (externalConnector.url.query && externalConnector.url.query.length > 0) {
             connectorUrl += `+ '?' + new URLSearchParams(queryObject)`;
-            this.tempDao.function.connector.query_object.push(`let queryObject = {`);
-            asyncLoop(externalConnector.url.query, async (data: any, next) => {
-                let key = data.key;
-                console.log('index',externalConnector.url.query.indexOf(data))
-                if(externalConnector.url.query.indexOf(data) === externalConnector.url.query.length) {
-                    this.tempDao.function.connector.query_object.push(`${key}: ${this.entitySchema.fileName}Data.${key}`);
-                    next();
-                } else {
-                    this.tempDao.function.connector.query_object.push(`${key}: ${this.entitySchema.fileName}Data.${key},`);
-                    next();
-                }
-            }, (err) =>{
-                if(err) throw err;
-                else {
-                    this.tempDao.function.connector.query_object.push(`}`);
-                    console.log('queryObject', JSON.stringify(queryObject));
-                }
-            })
+            console.log('this.flowDetail.actionOnData ========>>>', this.flowDetail.actionOnData);
+            if ( this.flowDetail.actionOnData !== 'GpGetAllValues') {
+                this.tempDao.function.connector.query_object.push(`let queryObject = {`);
+                asyncLoop(externalConnector.url.query, async (data: any, next) => {
+                    let key = data.key;
+                    console.log('index', externalConnector.url.query.indexOf(data))
+                    if (externalConnector.url.query.indexOf(data) === externalConnector.url.query.length) {
+                        this.tempDao.function.connector.query_object.push(`${key}: ${this.entitySchema.fileName}Data.${key}`);
+                        next();
+                    } else {
+                        this.tempDao.function.connector.query_object.push(`${key}: ${this.entitySchema.fileName}Data.${key},`);
+                        next();
+                    }
+                }, (err) => {
+                    if (err) throw err;
+                    else {
+                        this.tempDao.function.connector.query_object.push(`}`);
+                        console.log('queryObject', JSON.stringify(queryObject));
+                    }
+                })
+            }
         }
         this.tempDao.function.query = `${connectorUrl}, { method: "${externalConnector.method}"`;
-        if(externalConnector.method === 'POST' || externalConnector.method === 'PUT') {
+        if (externalConnector.method === 'POST' || externalConnector.method === 'PUT') {
             this.tempDao.function.query += `, body: JSON.stringify(${this.entitySchema.fileName}Data),`
         }
         this.tempDao.function.query += `, headers: { 'Content-Type': 'application/json'`
-        if(externalConnector.auth !== undefined) {
-            if(externalConnector.auth.type == 'basic') {
+        if (externalConnector.auth !== undefined) {
+            if (externalConnector.auth.type == 'basic') {
                 let creds = '`\${credentialData.data.username}:\${credentialData.data.password}`';
                 this.tempDao.function.query += `, 'Authorization': '${externalConnector.auth.type} ' + btoa(${creds})}}`;
             }
-            if(externalConnector.auth.type == 'bearer') {
+            if (externalConnector.auth.type == 'bearer') {
                 this.tempDao.function.query += `, 'Authorization': '${externalConnector.auth.type} ' + credentialData.body.${externalConnector.auth.type}.token}}`;
             }
         } else {
@@ -262,10 +280,51 @@ export class DaoWorker {
         this.tempDao.function.isJsonFormat = true;
         // this.tempDao.function.connectorEntityName = externalConnector.entityName;
         // add component gpStart dependencies
-        this.tempDao.GpStart.dependencies = this.tempDao.GpStart.dependencies.concat(this.fetchNPM.componentDependencies);
 
         // add package json dependencies
-        this.tempDao.packageDependencies = this.tempDao.packageDependencies.concat(this.fetchNPM.packageDependencies);
+    }
+
+    externalConnectorStart() {
+        const fetchPathIndex = this.daoObj.import.dependencies.findIndex(x => x.path == `node-fetch`);
+        if (fetchPathIndex < 0) {
+            const tempImport = {
+                name: '',
+                path: ''
+            }
+            tempImport.name = `* as fetch`;
+            tempImport.path = `node-fetch`;
+            this.tempDao.GpStart.dependencies.push(tempImport);
+        }
+        const apiAdapterPathIndex = this.daoObj.import.dependencies.findIndex(x => x.path == `../config/apiAdapter`);
+        if (apiAdapterPathIndex < 0) {
+            const tempImport = {
+                name: '',
+                path: ''
+            }
+            tempImport.name = `{ ApiAdaptar }`;
+            tempImport.path = `../config/apiAdapter`;
+            this.tempDao.GpStart.dependencies.push(tempImport);
+        }
+        const urlPathIndex = this.daoObj.import.dependencies.findIndex(x => x.path == `url`);
+        if (urlPathIndex < 0) {
+            const tempImport = {
+                name: '',
+                path: ''
+            }
+            tempImport.name = `{ URL, URLSearchParams }`;
+            tempImport.path = `url`;
+            this.tempDao.GpStart.dependencies.push(tempImport);
+        }
+        const btoaPathIndex = this.daoObj.import.dependencies.findIndex(x => x.path == `btoa`);
+        if (btoaPathIndex < 0) {
+            const tempImport = {
+                name: '',
+                path: ''
+            }
+            tempImport.name = `* as btoa`;
+            tempImport.path = `btoa`;
+            this.tempDao.GpStart.dependencies.push(tempImport);
+        }
     }
 
     gpFunction() {
@@ -297,7 +356,7 @@ export class DaoWorker {
         const isDefault = this.gpCheckConnector();
         switch (this.flowDetail.actionOnData) {
             case 'GpCreate':
-                this.tempDao.function.methodName =  this.flowDetail.actionOnData;
+                this.tempDao.function.methodName = this.flowDetail.actionOnData;
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}Data, callback`;
                 if (isDefault) {
                     this.tempDao.function.variable = `let temp = new ${this.entitySchema.modelName}(${this.entitySchema.fileName}Data)`;
@@ -320,7 +379,7 @@ export class DaoWorker {
                     this.tempDao.function.variable += `let and_obj = {} ;`;
                     this.tempDao.function.variable += `let orkey ;`;
                     this.tempDao.function.variable += `let or_obj = {} ;`
-                    if(this.modifiers.length > 0) {
+                    if (this.modifiers.length > 0) {
                         this.tempDao.function.objectiteration = `Object.entries(${this.entitySchema.fileName}Data).forEach(
                             ([key,value]) => {
                                 if(value !== ''){

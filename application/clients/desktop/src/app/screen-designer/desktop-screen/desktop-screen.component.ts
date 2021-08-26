@@ -2272,9 +2272,17 @@ export class DesktopScreenComponent implements OnInit {
 
   getscreendetailsbyid(screenid) {
 
-    const GetByIdFlowObj = this.allflowlist.find(
-      x => x.name === 'GpGetNounById'
-    );
+    let GetByIdFlowObj: any;
+
+    if(this.listOfFLows.find(x => x.name === 'GpGetNounById')) {
+      GetByIdFlowObj = this.listOfFLows.find(
+        x => x.name === 'GpGetNounById'
+      );
+    } else {
+      GetByIdFlowObj = this.allflowlist.find(
+        x => x.name === 'GpGetNounById'
+      );
+    }
 
     const flowObj = {
       htmlId: '',
