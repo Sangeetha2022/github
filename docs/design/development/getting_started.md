@@ -66,7 +66,7 @@ The Geppetto application requires the following:
     5. if your screen looks like the image below docker is successfully installed on your machine 
     ![alt text](./images/test-docker-success.png "docker success")
 
-## Step four
+## Step five
 
 - Install Curl
   - [Installing Curl on Ubuntu](https://www.cyberciti.biz/faq/how-to-install-curl-command-on-a-ubuntu-linux/)
@@ -97,18 +97,20 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-c
 
   - Type this command: ***npm $~~$ install $~~$-g $~~$ npm@latest***
   - Verify NPM version
-    - Type this command: ***npm --version*** you should see "7.21.0"
+    - Type this command:$~~$ ***npm $~~$--version*** $~~$you should see "7.21.0"
   
 ### Step nine
+
+- Angular
+  - [Install a specific Angular version](https://www.npmjs.com/package/@angular/cli)
+    - Type this command: $~~$ ***npm install -g @angular/cli@12.1.3***
+
+### Step ten
 
 - Clone from Github:
 &nbsp;
 
 ***Command:***$~$ ***git clone*** $~$ https://github.com/dan-castillo/geppettotest.git
-
-### Step ten
-
-- Install VS Code
 
 
 
