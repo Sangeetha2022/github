@@ -59,6 +59,16 @@ services:
     depends_on:
       - mongo
 
+  modifiermanager:
+    build: ../../application/services/modifiermanager
+    image: modifiermanager
+    container_name: modifiermanager
+    ports:
+      - "3030:3030"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+
   flowmanager:
     build: ../../application/services/flowmanager
     image: flowmanager
