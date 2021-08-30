@@ -112,6 +112,17 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-c
 
 ***Command:***$~$ ***git clone*** $~$ https://github.com/dan-castillo/geppettotest.git
 
+### Step eleven
+
+- Start the app
+  - MAC users please note: you must increase the memory allocated to docker to 12 GB before starting the system (see image below)
+  - Navigate to /geppettotest/devops/docker-compose
+  - issue the following command: ***bash $~~$ geppetto_compose.sh $~~$ -c***
+
+- Allocation more memory (RAM) to docker on a MAC
+  - on the Docker Desktop dashboard click on the gear symbol upper right hand
+  
+
 
 
 ## Testing local installation - Create and Generate and Application
