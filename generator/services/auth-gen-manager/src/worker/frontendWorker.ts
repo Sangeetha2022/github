@@ -473,7 +473,7 @@ export class FrontendWorker {
                 //     this.routingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`);
                 //     console.log('test the sefscreen', this.routingModuleInfo.path, this.routingModuleInfo.importDependency);
                     
-                // }
+                // }    
             }
         }
         if (folderName !== 'button-renderer') {
