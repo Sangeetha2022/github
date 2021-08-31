@@ -1,0 +1,77 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
+#ihclgr {
+    white-space: nowrap;
+    background-color: #5DB18C;
+    color: #ffffff;
+    padding: 8px 20px 8px 20px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    float: right;
+}
+
+::ng-deep .mat-expansion-indicator::after {
+    height: 20px;
+    width: 35px;
+    background-image: url('/assets/images/project/arrow.png');
+    background-size: cover;
+    border: none;
+    border-width: 0 !important;
+    transform: rotate(0) !important;
+}
+
+#divider {
+    margin: 0 0 0 0;
+    height: 1.2px;
+    background-color: #e5e5e5;
+    border-top-width: 0px;
+}
+
+#feature_heading {
+    font-size: 20px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    margin: 5px 0 5px 0;
+    color: #302C5E;
+    white-space: nowrap;
+}
+
+#button_color {
+    background-color: #01155A;
+    color: #ffffff;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    padding: 6px 22px 6px 22px;
+    width: 100%;
+}
+
+#Entry_text_description {
+    width: 100%;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    color: #404040;
+    padding: 0 0 0 10px;
+    margin: 5px 0 0 0;
+}
+
+.example-radio-button {
+    margin: 5px;
+}
+
+#project_heading {
+    //font-size: 20px;
+    text-align: center;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    margin: 5px 0 5px 0;
+    color: #302C5E;
+    white-space: nowrap;
+}
+
+#Entry_text_heading {
+    width: 100%;
+    font-family: Montserrat, sans-serif;
+    color: #302C5E;
+    font-weight: 700;
+    font-size: 19px;
+    padding: 0 0 0 10px;
+}

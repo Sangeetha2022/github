@@ -16,6 +16,9 @@ export class ProjectService {
   getProjectByUserId(UserId:string, logId:string): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectByUserId}/${UserId}?log_id=${logId}`);
   }
+  getProjectById(projectId: string, logId: string): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectById}/${projectId}` + `?log_id=${logId}`);
+  }
 
   getProjectByAll(UserId:string, logId:string): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectByAll}?log_id=${logId}`);

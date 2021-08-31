@@ -1,0 +1,123 @@
+<ngx-spinner bdColor="rgba(231,220,220,0.33)" size="small" color="#b2acac" [fullScreen]="true">
+    <img class="loading-image" src='./assets/images/loading-animation.gif' />
+</ngx-spinner>
+<div class="container">
+    <h1 style="text-align: center;">Project Components</h1>
+
+    <h3 id="project_heading">Project Name: {{ project_display_Name }}</h3>
+    <div class="row">
+        <div class="col-md-12 my-4 p-4">
+            <button class="btn btn-lg btn-success" id="ihclgr">Generate Application</button>
+        </div>
+    </div>
+    <div class="row">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header style="padding: 5%;">
+                    <mat-panel-title id="feature_heading">My Features </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="float-end">
+                    <button class="btn" id="ihclgr" color="primary" (click)="openFeatureDialog()">Add Features</button>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4" *ngFor="let feature of
+                    projectFeatureData; let i= index">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <img src="./assets/images/project_components/feature.png" alt="">
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <h5 id="Entry_text_heading" class="card-title">{{feature.name}}</h5>
+                                        <p id="Entry_text_description" class="card-text">{{feature.description}}</p>
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2 mt-3">
+                                    <button class="btn btn-primary" id="button_color" type="button" [routerLink]="['/feature-details']" [queryParams]="{featureId: feature._id,
+                                        projectId: project_id}">View</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header style="padding: 5%;">
+                    <mat-panel-title id="feature_heading"> Entities</mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="float-end">
+                    <button class="btn" id="ihclgr" color="primary">Add Entity</button>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <img src="./assets/images/project_components/feature.png" alt="">
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <h5 id="Entry_text_heading" class="card-title">User</h5>
+                                        <p id="Entry_text_description" class="card-text">User Details</p>
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2 mt-3">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <button class="btn btn-block btn-primary" type="button">Edit</button>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <button class="btn btn-danger" type="button">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
+
+<!-- ADD FEATURE DIALOG BOX -->
+
+<div class="modal" tabindex="-1" data-keyboard="true" aria-hidden="true" data-backdrop="true" role="dialog" [ngStyle]="{'top': '100px','display':displayFeatureModel}">
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="feature modal-content">
+            <div class="modal-body">
+                <div class="container">
+                    <h1>Add Feature</h1>
+                    <div class="row">
+                        <mat-radio-group layout="row" [(ngModel)]="selectedOption">
+                            <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option" (change)="radioChange($event)">
+                                {{option}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <form #featurForm="ngForm">
+                        <div class="form-group" *ngIf="showAddFeature || showImportFeature">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" name="name" [(ngModel)]="featureInfo.name" (ngModelChange)="onFeatureChange($event)" #name="ngModel" [ngClass]="{ 'is-invalid':
+                                featurForm.submitted && name.invalid }" required />
+                            <div *ngIf="isFeatureExist" style="color: red">Feature name already exist</div>
+                            <div *ngIf="invalidName" style="color: red">name must starts with alphapet,special charaters not allowed</div>
+                            <div *ngIf="isReserveWord" style="color: red">name must not be reserve word
+                            </div>
+                        </div>
+                        <div class="form-group" *ngIf="showAddFeature || showImportFeature">
+                            <label for="description">Description</label>
+                            <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)" [(ngModel)]="featureInfo.description"></ckeditor>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 5px">
+                <button class="btn btn-primary">Create</button>
+                <button type="button" class="btn btn-default">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>

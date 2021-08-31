@@ -1,0 +1,65 @@
+<ngx-spinner bdColor="rgba(231,220,220,0.33)" size="small" color="#b2acac" [fullScreen]="true">
+    <img class="loading-image" src='./assets/images/loading-animation.gif' />
+</ngx-spinner>
+<div class="container">
+    <h1 style="text-align: center;">Feature Details</h1>
+
+    <h3 id="project_heading">Selected Feature: {{ selectedFeatureName }}</h3>
+    <div class="row" style="margin-top: 8%;">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header style="padding: 5%;">
+                    <mat-panel-title id="feature_heading">Entities </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="float-end">
+                    <button class="btn" id="ihclgr" color="primary">Add Entity</button>
+                </div>
+                <div class="row" *ngIf="featureEntityDetails.length> 0">
+                    <div class="col-sm-4" *ngFor="let entity of featureEntityDetails; let i = index">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <img src="./assets/images/project_components/feature.png" alt="">
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <h5 id="Entry_text_heading" class="card-title">{{entity.name}}</h5>
+                                        <p id="Entry_text_description" class="card-text">{{entity.description}}</p>
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2 mt-3">
+                                    <div class="row">
+                                        <div class="col-lg-8">
+                                            <button class="btn btn-block btn-primary" type="button">Edit</button>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <button class="btn btn-danger" type="button">Delete</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" class="col-md-4" *ngIf="featureEntityDetails.length === 0">
+                        No Feature Available.
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header style="padding: 5%;">
+                    <mat-panel-title id="feature_heading">Feature Flows</mat-panel-title>
+                </mat-expansion-panel-header>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header style="padding: 5%;">
+                    <mat-panel-title id="feature_heading">Screens</mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-card-content>
+                    <div class="float-end">
+                        <button class="btn" id="ihclgr" color="primary" (click)="GoToDesigner()">Add Screen</button>
+                    </div>
+                </mat-card-content>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<h1 mat-dialog-title class="dialogHeader">Choose the Screen:</h1>
+<div mat-dialog-content>
+    <div class="row screenImg">
+        <div class="col-md-6 col-sm-6 col-lg-6">
+            <input id="image1" type="radio" name="radioImage" [(ngModel)]="image1" [value]="image1" (click)="type('desktop')" />
+            <label class="radioButton image1" for="image1"></label>
+        </div>
+        <div class="col-md-6 col-sm-6 col-lg-6">
+            <input id="image2" type="radio" name="radioImage" [(ngModel)]="image2" value="image2" (click)="type('mobile')" />
+            <label class="radioButton image2" for="image2"></label>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row mt-4">
+        <div class="d-flex justify-content-center">
+            <div class="p-2 mt-4">
+                <button id="Cancel_btn" class="btn btn-primary" (click)="onNoClick()">Cancel</button>
+            </div>
+            <div class="p-2 mt-4">
+                <button id="Ok_btn" mat-raised-button color="primary" [mat-dialog-close]="screen" cdkFocusInitial>Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
