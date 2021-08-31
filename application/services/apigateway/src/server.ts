@@ -45,6 +45,7 @@ import {
     GepFileManagerController
 
 
+
 } from './apicontroller';
 
 import { WinstonLogger } from './config/WinstonLogger';
@@ -87,7 +88,7 @@ let apisController = [
     new ExternalfeatureController(),
     new ModifierManagerController(),
     new DefaultServicesController(),
-    new GepFileManagerController(),
+    new GepFileManagerController()
 ]
 
 class App {

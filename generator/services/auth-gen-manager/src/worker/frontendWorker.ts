@@ -462,22 +462,18 @@ export class FrontendWorker {
                 } else if (folderName === 'home' || folderName === 'authorization' || folderName === 'manageroles' || folderName === 'manageusers') {
                     this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
                 } else {
-                    // const pushData = this.routingModuleInfo.path.includes(`{ path: 'sefscreen', component: SefscreenComponent}`)
-                    // console.log('check the loop', pushData);
-                    // if(!pushData){
-                        this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);
-                        console.log('test the sefscreen', this.routingModuleInfo.path);
-                    // }
+                    this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);
+                    console.log('test the sefscreen', this.routingModuleInfo.path);
                 }
-                const pushSefData = this.routingModuleInfo.path.includes(`{ path: 'sefscreen', component: SefscreenComponent, canActivate: [AuthGuard] }`);
-                const pushSefDepend = this.routingModuleInfo.importDependency.includes(`import { SefscreenComponent } from './sefscreen/sefscreen.component';`);
-                if(!pushSefData && !pushSefDepend){
-                    folderName = 'sefscreen';
-                    this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
-                    this.routingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`);
-                    console.log('test the sefscreen', this.routingModuleInfo.path, this.routingModuleInfo.importDependency);
+                // const pushSefData = this.routingModuleInfo.path.includes(`{ path: 'sefscreen', component: SefscreenComponent, canActivate: [AuthGuard] }`);
+                // const pushSefDepend = this.routingModuleInfo.importDependency.includes(`import { SefscreenComponent } from './sefscreen/sefscreen.component';`);
+                // if(!pushSefData && !pushSefDepend){
+                //     folderName = 'sefscreen';
+                //     this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                //     this.routingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`);
+                //     console.log('test the sefscreen', this.routingModuleInfo.path, this.routingModuleInfo.importDependency);
                     
-                }
+                // }    
             }
         }
         if (folderName !== 'button-renderer') {
@@ -511,8 +507,8 @@ export class FrontendWorker {
                 this.appModuleInfo.importDependency.push(this.FormModule.importDependency);
                 this.appModuleInfo.imports.push(this.FormModule.imports);
             }
-            this.appModuleInfo.importDependency.push(this.SefScreenModule.importDependency);
-            this.appModuleInfo.imports.push(this.SefScreenModule.imports);
+            // this.appModuleInfo.importDependency.push(this.SefScreenModule.importDependency);
+            // this.appModuleInfo.imports.push(this.SefScreenModule.imports);
             console.log('final app module importing ----- ', this.appModuleInfo);
             console.log('final routing modules importing ----- ', this.routingModuleInfo);
             this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath, this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo, () => {
