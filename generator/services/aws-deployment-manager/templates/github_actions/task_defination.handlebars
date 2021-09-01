@@ -387,7 +387,7 @@ module.exports = {
         }
     ],
     "networkMode": "awsvpc",
-    "memory": "3072",
+    "memory": "4096",
     "cpu": "1024",
     "executionRoleArn": `arn:aws:iam::${process.env.AWS_ACCOUNT_ID}:role/${process.env.AWS_ROLE_FOR_FARGATE}`,
     "family": "{{project_name}}",
