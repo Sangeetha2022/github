@@ -122,8 +122,11 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-c
   - MAC users please note: you must increase the memory allocated to docker to 12 GB before starting the system
     - Allocate more memory (RAM) to docker on a MAC
       - on the Docker Desktop dashboard click on the gear symbol upper right hand
+&nbsp;
+&nbsp;
        ![alt text](./images/docker-settings.png "change docker settings")
-
+&nbsp;
+&nbsp;
     - Increase the memory allocated to docker
      ![alt text](./images/docker-memory-resources.png "change docker settings")
 
@@ -132,3 +135,7 @@ https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-c
 
 
 ## Testing local installation - Create and Generate and Application
+
+
+Camunda issue
+curl -i -X POST -H "Content-Type: multipart/form-data" -F "data=@../../application/services/Camunda/Gep_authorize.dmn" -F "deployment-name=gep_authorize" -F "enable-duplicate-filtering=true" -F "deploy-changed-only=true" http://localhost:8080/engine-rest/deployment/create
