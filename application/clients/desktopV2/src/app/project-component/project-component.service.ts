@@ -15,6 +15,9 @@ export class ProjectComponentService {
   getFeatureByProjectId(projectId: any, logId: any): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getFeatureByProjectId}?projectId=${projectId}&log_id=${logId}`);
   }
+  saveFeatures(feature: any, logId:any): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveFeature}?log_id=${logId}`, feature);
+  }
   getAllEntityByFeatureId(featureId:any, logId:any): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityByFeatureId}/${featureId}/entity?log_id=${logId}`);
   }
@@ -26,5 +29,11 @@ export class ProjectComponentService {
   }
   getAllFlows(logId:any): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFlow}?log_id=${logId}`);
+  }
+  getAllEntityType(logId:any): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityTypes}` + `?log_id=${logId}`);
+  }
+  getEntityByProjectId(projectId: String, logId: any): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getEntity}?projectId=${projectId}&log_id=${logId}`);
   }
 }

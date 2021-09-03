@@ -7,6 +7,7 @@ import { ProjectService } from '../project/project.service';
 import { IMenu } from './interface/Menu';
 import { ProjectComponentService } from './project-component.service';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ValidatorService } from 'src/shared/validator.service';
 
 
 @Component({
@@ -54,7 +55,8 @@ public featureInfo: any = {
     private route: ActivatedRoute,
     private dataService:DataService,
     private projectComponentService: ProjectComponentService,
-    private logger:LoggingService) { }
+    private logger:LoggingService,
+    private validatorService: ValidatorService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -155,6 +157,7 @@ getFeatureByProjectId() {
   );
 }
 
+//To get the selected project
 getSelectedProject() {
   this.spinner.show();
   this.dataService.currentProjectInfo.subscribe(
@@ -164,4 +167,50 @@ getSelectedProject() {
       }
   );
 }
+  //To close the feature model popup box
+  closeFeatureCreateModel() {
+        this.displayFeatureModel = 'none';
+  }
+
+  //To create the new feature
+  createFeature() {
+    this.featureInfo.name = this.featureInfo.name.toLowerCase();
+    this.featureInfo.project = this.project_id;
+    this.validatorService.checkNamingConvention(this.featureInfo.name);
+    this.validatorService.checkReserveWords(this.featureInfo.name);
+    this.validatorService.currentProjectInfo.subscribe(data => {
+        if (data === null) {
+            this.invalidName = true;
+        } else {
+            this.invalidName = false;
+        }
+    });
+    this.validatorService.currentProjectReserveWordInfo.subscribe(reserveWord => {
+        this.isReserveWord = reserveWord;
+    });
+    this.projectComponentService.getFeatureByProjectId(this.project_id, this.logId).subscribe(projFeature => {
+      if (projFeature.body.length > 0) {
+        projFeature.body.forEach((feature: { name: any; }) => {
+            if (feature.name === this.featureInfo.name) {
+                this.isFeatureExist = true;
+            }
+        });
+    }
+    if (!this.isFeatureExist && !this.invalidName && !this.isReserveWord) {
+      this.spinner.show();
+      this.featureInfo.description = this.featureInfo.description.replace(/<[^>]+>/g, '');
+      this.featureInfo.description.trim();
+      this.projectComponentService.saveFeatures(this.featureInfo, this.logId).subscribe(
+        (featureData) => {
+          this.featureInfo = { name: '', description: '', project: '', type: '' };
+          this.displayFeatureModel = 'none';
+          this.getFeatureByProjectId();
+          this.spinner.hide();
+        },
+        (error) => {
+          this.logger.log('error',error);
+        })
+    }
+    });
+  }
 }

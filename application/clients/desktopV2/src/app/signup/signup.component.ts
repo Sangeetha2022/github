@@ -14,8 +14,8 @@ import { Router } from '@angular/router';
 export class SignupComponent implements OnInit {
   public registerform:any;
   public Userdetails:any;
-  public logId:any;
-  public id: any;
+  public logId:string='';
+  public id: string='';
   public errormessage: any;
   public openId: String = 'openid';
   public Accesslevel: any;
@@ -60,7 +60,6 @@ export class SignupComponent implements OnInit {
           this.Consent();
           this.route.navigate(['login']);
         }
-
       }
     });
   }

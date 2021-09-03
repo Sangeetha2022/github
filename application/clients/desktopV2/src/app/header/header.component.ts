@@ -72,14 +72,18 @@ export class HeaderComponent implements OnInit {
   }
   ngOnInit(){
   }
+  //To open the Navbar content in mobile view
   openNav() {
    document.getElementById('myNav')!.style.height = '50%';
   }
+
+  //To close the Navbar content in mobile view
   closeNav() {
     document.getElementById('myNav')!.style.height = '0%';
   }
+  
+  //To change the browser language 
   onChange(val:any) {
-
     if(val=='English'){
       this.translate.use('en');
       return true;
@@ -97,15 +101,18 @@ export class HeaderComponent implements OnInit {
       return false;
     }
 }
+
+//To open the About popup
 showAbout() {
  document.getElementById('model1')!.style.display = 'block';
 }
+
+//To Hide the About popup
 hideAbout() {
   document.getElementById('model1')!.style.display = 'none';
 }
-goBack(){
-  this.location.back();
-}
+
+//To Logout from application
 Logout(){
   this.user.id = sessionStorage.getItem('Id');
   this.logoutservice.Logout(this.user).subscribe(data => {

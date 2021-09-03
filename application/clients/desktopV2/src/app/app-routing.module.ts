@@ -8,7 +8,9 @@ import { ProjectComponent } from './project/project.component';
 import { SignupComponent } from './signup/signup.component';
 import { TemplateScreenComponent } from './template-screen/template-screen.component';
 import { DesktopScreenComponent } from './screen-designer/desktop-screen/desktop-screen.component';
+
 const routes: Routes = [
+  
   { path: '', component: HomepageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },

@@ -3,8 +3,7 @@
 </ngx-spinner>
 <div class="container">
     <h1 style="text-align: center;">Project Components</h1>
-
-    <h3 id="project_heading">Project Name: {{ project_display_Name }}</h3>
+    <h5 id="project_heading">Project Name: {{ project_display_Name }}</h5>
     <div class="row">
         <div class="col-md-12 my-4 p-4">
             <button class="btn btn-lg btn-success" id="ihclgr">Generate Application</button>
@@ -16,20 +15,22 @@
                 <mat-expansion-panel-header style="padding: 5%;">
                     <mat-panel-title id="feature_heading">My Features </mat-panel-title>
                 </mat-expansion-panel-header>
-                <div class="float-end">
-                    <button class="btn" id="ihclgr" color="primary" (click)="openFeatureDialog()">Add Features</button>
-                </div>
                 <div class="row">
+                    <div class="col-lg-12">
+                        <button class="btn" id="ihclgr" color="primary" (click)="openFeatureDialog()">Add Features</button>
+                    </div>
+                </div>
+                <div class="row mt-2">
                     <div class="col-sm-4" *ngFor="let feature of
                     projectFeatureData; let i= index">
-                        <div class="card">
+                        <div class="card p-2">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <img src="./assets/images/project_components/feature.png" alt="">
                                     </div>
                                     <div class="col-lg-8">
-                                        <h5 id="Entry_text_heading" class="card-title">{{feature.name}}</h5>
+                                        <p id="Entry_text_heading" class="card-title">{{feature.name}}</p>
                                         <p id="Entry_text_description" class="card-text">{{feature.description}}</p>
                                     </div>
                                 </div>
@@ -87,17 +88,17 @@
     <div class="modal-dialog modal-lg" role="dialog">
         <div class="feature modal-content">
             <div class="modal-body">
-                <div class="container">
-                    <h1>Add Feature</h1>
+                <div class="container p-3" style="background-color: #f7f6f6;">
+                    <h1 id="add_feature_heading">Add Feature</h1>
                     <div class="row">
                         <mat-radio-group layout="row" [(ngModel)]="selectedOption">
-                            <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option" (change)="radioChange($event)">
+                            <mat-radio-button class="col-lg-4" *ngFor="let option of options" [value]="option" (change)="radioChange($event)">
                                 {{option}}
                             </mat-radio-button>
                         </mat-radio-group>
                     </div>
                     <form #featurForm="ngForm">
-                        <div class="form-group" *ngIf="showAddFeature || showImportFeature">
+                        <div class="form-group mt-3" *ngIf="showAddFeature || showImportFeature">
                             <label for="name">Name</label>
                             <input type="text" class="form-control" name="name" [(ngModel)]="featureInfo.name" (ngModelChange)="onFeatureChange($event)" #name="ngModel" [ngClass]="{ 'is-invalid':
                                 featurForm.submitted && name.invalid }" required />
@@ -106,18 +107,23 @@
                             <div *ngIf="isReserveWord" style="color: red">name must not be reserve word
                             </div>
                         </div>
-                        <div class="form-group" *ngIf="showAddFeature || showImportFeature">
+                        <div class="form-group mt-3" *ngIf="showAddFeature || showImportFeature">
                             <label for="description">Description</label>
                             <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)" [(ngModel)]="featureInfo.description"></ckeditor>
                         </div>
                     </form>
+                    <div class="row mt-4">
+                        <div class="d-flex justify-content-center">
+                            <div class="p-2 mt-4">
+                                <button id="create_btn" class="btn btn-default" (click)="createFeature()">Create</button>
+                            </div>
+                            <div class="p-2 mt-4">
+                                <button id="cancel_btn" type="button" class="btn btn-default" (click)="closeFeatureCreateModel()">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer" style="padding: 5px">
-                <button class="btn btn-primary">Create</button>
-                <button type="button" class="btn btn-default">Cancel</button>
-            </div>
         </div>
-
     </div>
 </div>

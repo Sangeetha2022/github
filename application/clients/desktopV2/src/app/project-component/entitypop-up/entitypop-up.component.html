@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 style="text-align: center;">Entity</h3>
+        </div>
+    </div>
+    <!-- Add Entity Radiobutton popup -->
+    <div *ngIf="hide">
+        <div class="row p-3">
+            <div class="col-lg-12">
+                <mat-radio-group layout="row">
+                    <mat-radio-button class="col-lg-6" *ngFor="let option of options" [value]="option" (change)="radioChange($event)">
+                        {{option}}
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+        <div class="row pt-2">
+            <div class="d-flex justify-content-center">
+                <div class="p-2">
+                    <button class="btn btn-danger">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- To create new entity -->
+    <div *ngIf="create" class="row">
+        <div class="col-lg-12">
+            <label>Name</label>
+            <input type="text" class="form-control" [(ngModel)]="modelObject.name">
+        </div>
+        <div class="col-lg-12">
+            <label>Description</label>
+            <input type="text" class="form-control" [(ngModel)]="modelObject.description">
+        </div>
+        <div class="col-lg-12">
+            <div class="d-flex justify-content-center">
+                <div class="p-2 mt-4">
+                    <button id="create_btn" class="btn btn-primary">Back</button>
+                </div>
+                <div class="p-2 mt-4">
+                    <button id="cancel_btn" type="button" class="btn btn-info">Add</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <mat-radio-group layout="row" [(ngModel)]="modelObject.entityType">
+                <mat-radio-button [disabled]="isPrimaryEntityPresent" value="primary">Primary</mat-radio-button>
+                <mat-radio-button value="secondary">Secondary</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+</div>

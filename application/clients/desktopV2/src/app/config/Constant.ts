@@ -44,6 +44,7 @@ export class Constants {
         public static get deleteEntity(): string { return this.DESKTOP_ROUTER + '/entity/delete'; }
         public static get allEntity(): string { return this.DESKTOP_ROUTER + '/entity/getall'; }
         public static get featureUpdateEntity(): string { return this.DESKTOP_ROUTER + '/feature/updateEntity/'; }
+        public static get getAllEntityTypes(): string { return this.DESKTOP_ROUTER + '/entity_type/get'; }
 
         //get the feature entities 
         public static get getAllEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature'; }

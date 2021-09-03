@@ -7,11 +7,13 @@ import {MatRadioModule} from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
+import { EntitypopUpComponent } from './entitypop-up/entitypop-up.component';
 
 
 @NgModule({
   declarations: [
-    ScreenPopupComponent
+    ScreenPopupComponent,
+    EntitypopUpComponent
   ],
   imports: [
     CommonModule,

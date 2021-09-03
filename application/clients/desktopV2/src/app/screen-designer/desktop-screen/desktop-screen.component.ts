@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-//import * as constant from '../../../assets/data/constant.json';
 
 // @ts-ignore
 import grapesjs from 'node_modules/grapesjs';
+import { ProjectComponentService } from 'src/app/project-component/project-component.service';
+import { BlockService } from './services/Blocks/block.service';
+import { PanelService } from './services/Panels/panel.service';
+import { TraitsService } from './services/Traits/traits.service';
 @Component({
   selector: 'app-desktop-screen',
   templateUrl: './desktop-screen.component.html',
@@ -15,10 +18,14 @@ export class DesktopScreenComponent implements OnInit {
   feature_id: String='';
   project_id: String='';
   screen_id: String='';
+  traitsName: String='';
   isTemplateEdit:boolean=false;
+  logId: any = sessionStorage.getItem('LogId');
+  dataBindingTypes: any[] = [];
   projectTemplateId:any;
  
-  constructor(private activatedRoute:ActivatedRoute) { }
+  constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,private panelService:PanelService,
+    private projectComponentService:ProjectComponentService,private traitService:TraitsService) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -34,13 +41,8 @@ export class DesktopScreenComponent implements OnInit {
       if (params.screenType !== undefined && params.screenType !== null) {
         this.screenType = params.screenType;
       }
-      // if (params['project-template-id']) {
-      //   this.isTemplateEdit = true;
-      //   this.projectTemplateId = params['project-template-id'];
-      //   this.getProjectTemplate(this.projectTemplateId);
-      // }
     });
-    const plugins = ['grapesjs-preset-webpage'];
+    const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor'];
     const updateParams = {
       method: 'PATCH'
     };
@@ -90,7 +92,7 @@ export class DesktopScreenComponent implements OnInit {
       
       this.editor = grapesjs.init({
         container: '#editor-c',
-        height: '100%',
+        height: '110%',
         showDevices: 0,
         showOffsets: 1,
         avoidInlineStyle: 1,
@@ -101,80 +103,90 @@ export class DesktopScreenComponent implements OnInit {
         plugins: plugins,
         pluginsOpts: {
           'grapesjs-preset-webpage': {
-            isDev: 0,
-            fonts: [],
-         // unsplash: constant['unsplash'],
-          //  assetIcons: constant['assets'],
-            updateParams: updateParams,
-            labelTop: 'Top',
-            labelRight: 'Right',
-            labelBottom: 'Bottom',
-            labelLeft: 'Left',
-            labelWidth: 'Width',
-            labelStyle: 'Style',
-            labelColor: 'Fill Color',
-            labelBorder: 'Border',
-            labelBorderRadius: 'Border Radius',
-            labelBackground: 'Background',
-            labelShadow: 'Shadow',
-            labelBoxShadow: 'Box Shadow',
-            labelXpos: 'Offset X',
-            labelYpos: 'Offset Y',
-            labelBlur: 'Blur',
-            labelSpread: 'Spread',
-            labelShadowType: 'Shadow Type',
-            labelTextShadow: 'Text Shadow',
-            labelImage: 'Image',
-            labelRepeat: 'Repeat',
-            labelPosition: 'Position',
-            labelAttachment: 'Attachment',
-            labelSize: 'Size',
-            labelExtra: 'Extra',
-            labelOpacity: 'Opacity',
-            labelBurgerMenu: 'Burger Menu',
-            labelFont: 'Font',
-            labelSlider: 'Slider',
-            labelInputGroup: 'Input group',
-            labelFormGroup: 'Form group',
-            labelSelectOption: 'Select Option',
-            labelSelect: 'Select',
-            labelOptions: 'Options',
-            labelOption: 'Option',
-            labelMessage: 'Message',
-            labelTextarea: 'Textarea',
-            labelSend: 'Send',
-            labelButton: 'Button',
-            labelCheckbox: 'Checkbox',
-            labelRadio: 'Radio',
-            labelMethod: 'Method',
-            labelAction: 'Action',
-            labelFormActionPlh: '(default Grapedrop)',
-            labelName: 'Name',
-            labelFormNamePlh: 'eg. Top Form',
-            labelState: 'State',
-            labelStateNormal: 'Normal',
-            labelStateSuccess: 'Success',
-            labelStateError: 'Error',
-            labelMsgSuccess: 'Thanks! We received your request',
-            labelMsgError:
-              'An error occurred on processing your request, try again!',
-            labelPublish: 'Publish',
-            labelTemplate: 'Template',
-            labelTemplatePage: 'page',
-            labelDataBind: 'Data Binding',
-            labelDeleteAsset: 'Delete Asset',
-            labelAreYouSureAsset:
-              'This operation can&#039;t be undone. Are you sure?',
-            labelCancel: 'Cancel',
-            labelConfirm: 'Confirm'
-          }
+          },
         },
         assetManager: {
           assets: [
            
           ],
+        },
+        styleManager: {
+          //To avoid duplicate stylemanager values
+          clearProperties: true,
         }
       });
+      this.traitService.initMethod(this);
+      this.getEntityType();
+      this.addCustomBlocks();
+      this.panelManager();
+  }
+
+  //To add Custom Blocks
+  addCustomBlocks() {
+    this.blockservice.addHeadingTag(this.editor);
+    this.blockservice.addCKeditor5(this.editor);
+  }
+
+  //Function Contains custom buttons in panels
+  panelManager() {
+    this.panelService.addSaveButton(this.editor);
+    this.panelService.addCancelButton(this.editor);
+  }
+
+  getEntityType() {
+    this.projectComponentService.getAllEntityType(this.logId).subscribe(
+      data => {
+        if (data.body) {
+          data.body.forEach((element: { typename: string; }) => {
+            const object = {
+              name: '',
+              value: ''
+            };
+            if (
+              element.typename === 'Number' ||
+              element.typename === 'Decimal'
+            ) {
+              object.name = element.typename;
+              object.value = 'Number';
+            } else if (element.typename === 'Date') {
+              object.name = element.typename;
+              object.value = 'Date';
+            } else if (element.typename === 'Boolean') {
+              object.name = element.typename;
+              object.value = 'Boolean';
+            } else {
+              object.name = element.typename;
+              object.value = 'String';
+            }
+            this.dataBindingTypes.push(object);
+          });
+        }
+        console.log(
+          'after build databinding types are --- ',
+          this.dataBindingTypes
+        );
+      },
+      error => { }
+    );
+  }
+  setDefaultType(EntityBinding:any) {
+    // ckeditor traits
+    this.editor.DomComponents.getType(
+      'ckeditor5'
+    ).model.prototype.defaults.traits.push(
+      {
+        type: 'select',
+        label: this.traitsName,
+        name: this.traitsName,
+        options: EntityBinding,
+        changeProp: 1
+      },
+      {
+        type: 'entityFieldButton',
+        label: 'Field',
+        name: 'Field'
+      }
+    );
   }
 
 }

@@ -1,12 +1,9 @@
-<app-header></app-header>
-<router-outlet></router-outlet>
-<app-footer></app-footer>
-<!-- <div class="wrapper">
+<div class="wrapper">
     <app-header></app-header>
     <div class="content">
-        <div style="height:1000px;">
+        <div id="main-content">
             <router-outlet></router-outlet>
         </div>
     </div>
-    <app-footer></app-footer>
-</div> -->
+    <app-footer *ngIf="Footer"></app-footer>
+</div>
