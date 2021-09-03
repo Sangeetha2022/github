@@ -262,7 +262,7 @@ export class AngularTemplateService {
                 const filePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.html';
                 Common.createFolders(templateGenerationPath + Constant.FOOTER_FOLDERNAME);
                 componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
-                    this.htmlContent = '';
+                 this.htmlContent = '';
                     callback();
                 });
                 // Generate Footer SCSS File
@@ -446,8 +446,8 @@ export class AngularTemplateService {
                     this.generateGeppettoTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
-                } else if (templateName.toLowerCase() === 'weconnect template' || templateName.toLowerCase() === 'mrs travel template') {
-                    this.generateWeConnectTemplate(gjsElement, body, tagName, (res) => {
+                } else if (templateName.toLowerCase() === 'weconnect template') {
+                    this.generateSideNavTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
                 } else if (templateName.toLowerCase() === 'architecture template') {
