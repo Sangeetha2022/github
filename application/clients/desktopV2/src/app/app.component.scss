@@ -1,0 +1,33 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+    height: 1000px;
+    overflow: auto;
+}
+
+#main-content {
+    height: 1000px;
+}
+
+@media (max-width: 768px) {
+    #main-content {
+        height: auto;
+    }
+}
+
+@media (max-width: 320px) {
+    #main-content {
+        height: auto;
+    }
+}

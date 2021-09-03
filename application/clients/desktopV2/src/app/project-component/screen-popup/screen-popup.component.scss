@@ -1,0 +1,73 @@
+.image1 {
+    background-image: url('/assets/images/project_components/desktop.png');
+    width: 150px !important;
+    height: 150px !important;
+}
+
+.image2 {
+    background-image: url('/assets/images/project_components/mobile.png');
+    width: 130px !important;
+    height: 130px !important;
+}
+
+.screenImg input:active+.radioButton {
+    opacity: .2;
+}
+
+.screenImg input:checked+.radioButton {
+    -webkit-filter: none;
+    -moz-filter: none;
+    filter: none;
+}
+
+.screenImg {
+    text-align: center;
+}
+
+.screenImg input {
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.radioButton {
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 100px;
+    height: 70px;
+    -webkit-transition: all 100ms ease-in;
+    -moz-transition: all 100ms ease-in;
+    transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.0) grayscale(1) opacity(.7);
+    -moz-filter: brightness(1.0) grayscale(1) opacity(.7);
+    filter: brightness(1.0) grayscale(1) opacity(.7);
+}
+
+.btn.btn-primary {
+    background-color: #00789A;
+    border: 0 solid rgb(0, 93, 192);
+    padding: 6px 20px 6px 20px;
+    transition: background-color 0.2s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+#Ok_btn {
+    background-color: #5DB18C;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    color: #ffffff;
+    border-radius: 5px 5px 5px 5px;
+    padding: 10px 40px 10px 40px;
+}
+
+#Cancel_btn {
+    background-color: #9297A7;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    color: #ffffff;
+    border-radius: 5px 5px 5px 5px;
+    padding: 10px 20px 10px 20px;
+}

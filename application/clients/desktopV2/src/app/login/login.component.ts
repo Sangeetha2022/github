@@ -14,11 +14,11 @@ import { SignupService } from '../signup/signup.service';
 })
 export class LoginComponent implements OnInit {
   public loginform:any;
-  public logId: any;
+  public logId:string='';
   public Accesslevel: any;
   public permission: any[] = [];
   public Userdetails:any;
-  public id: any;
+  public id: string='';
   public lastloggedintime: any;
   public tokenerror: any;
   public submitted:boolean = false;
@@ -76,7 +76,6 @@ export class LoginComponent implements OnInit {
       password: this.loginform.value.logindata.password
     };
     this.loginservice.Login(logininfo).subscribe(logindetails=>{
-      
       if (logindetails.Access !== undefined) {
         this.Accesslevel = logindetails.Access[0];
         this.permission.push(this.Accesslevel);

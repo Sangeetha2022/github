@@ -1,4 +1,10 @@
 {
+    "HEADER": {
+        "GOBACK": "Go Back",
+        "HOME": "Home",
+        "LOGOUT": "Logout",
+        "SIGNIN": "SignIn"
+    },
     "HOME": {
         "HEADING1": "The Cloud Native",
         "HEADING2": "​​​​​​​Low Code Platform",

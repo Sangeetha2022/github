@@ -9,6 +9,10 @@ export class LoggingService {
   constructor(public logger:NGXLogger) { }
   log(level:string, message:string) {
     switch (level) {
+      case 'log' : {
+        this.logger.log(message);
+        break;
+      }
       case 'debug' : {
         this.logger.debug(message);
         break;

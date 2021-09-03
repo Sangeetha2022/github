@@ -14,4 +14,7 @@ export class LoginService {
   Login(user: any): Observable<any> {
     return this.http.post(this.restapi.Apigateway +  Constants.Login, user);
   }
+  Logout(user: any): Observable<any> {
+    return this.http.post(this.restapi.Apigateway + Constants.Logout, user);
+  }
 }

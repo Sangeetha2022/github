@@ -8,10 +8,12 @@ export class Constants {
         public static get Login(): string { return this.DESKTOP_ROUTER + '/login'; }
         public static get signup(): string { return this.DESKTOP_ROUTER + '/signup'; }
         public static get Consent(): string { return this.DESKTOP_ROUTER + '/consent'; }
+        public static get Logout(): string { return this.DESKTOP_ROUTER + '/logout'; }
 
         // project apis
         public static get saveProject(): string { return this.DESKTOP_ROUTER + '/projects/add'; }
         public static get getProjectByUserId(): string { return this.DESKTOP_ROUTER + '/projects/getbyuserid'; }
+        public static get getProjectById(): String { return this.DESKTOP_ROUTER + '/projects/getbyid'; }
         public static get getProjectByAll(): string { return this.DESKTOP_ROUTER + '/projects/getall'; }
         public static get deleteProject(): string { return this.DESKTOP_ROUTER + '/projects/delete/'; }
         public static get deleteProjectFlowByProjectId(): string { return this.DESKTOP_ROUTER + '/delete/project'; }
@@ -32,6 +34,8 @@ export class Constants {
         // new Feature
         public static get saveFeature(): String { return this.DESKTOP_ROUTER + '/feature/save'; }
         public static get updateFeature(): String { return this.DESKTOP_ROUTER + '/feature/update'; }
+        public static get getFeatureByProjectId(): String { return this.DESKTOP_ROUTER + '/feature/project/get'; }
+        public static get getFeatureById(): String { return this.DESKTOP_ROUTER + '/feature/get'; }
 
         // Entity
         public static get saveEntity(): string { return this.DESKTOP_ROUTER + '/entity/save'; }
@@ -40,6 +44,10 @@ export class Constants {
         public static get deleteEntity(): string { return this.DESKTOP_ROUTER + '/entity/delete'; }
         public static get allEntity(): string { return this.DESKTOP_ROUTER + '/entity/getall'; }
         public static get featureUpdateEntity(): string { return this.DESKTOP_ROUTER + '/feature/updateEntity/'; }
+        public static get getAllEntityTypes(): string { return this.DESKTOP_ROUTER + '/entity_type/get'; }
+
+        //get the feature entities 
+        public static get getAllEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature'; }
 
         // Templates
         public static get getAllTemplates(): string { return this.DESKTOP_ROUTER + '/template/getall'; }
@@ -49,6 +57,7 @@ export class Constants {
 
         //Flow api's
         public static get getAllFlow(): String { return this.DESKTOP_ROUTER + '/flow/getall'; }
+        public static get getProjectVersion(): string { return this.DESKTOP_ROUTER + '/generation_flow/getbyname'; }
 
         // menu apis
         public static get createDefaultMenu(): String { return this.DESKTOP_ROUTER + '/menu/default'; }

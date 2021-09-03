@@ -7,6 +7,7 @@ import { ValidatorService } from 'src/shared/validator.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from 'src/shared/data.service';
 import { TemplateScreenService } from '../template-screen/template-screen.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-project',
@@ -54,7 +55,8 @@ export class ProjectComponent implements OnInit {
     private toastr: ToastrService,
     private validatorService: ValidatorService,
     private dataService: DataService,
-    private templateScreenService:TemplateScreenService) { }
+    private templateScreenService:TemplateScreenService,
+    private router:Router) { }
 
   ngOnInit(): void {
     this.createProject = this.formBuilder.group({
@@ -249,10 +251,25 @@ export class ProjectComponent implements OnInit {
 
   //Assining Secondary Languages and calling in Change model in primary dropdown
   onSecondoryLangSelect() {
-
     this.secondoryLanguages = this.primaryLanguages;
     this.secondoryLanguages = this.secondoryLanguages.filter(item => item !== this.createProject.value.primaryLanguage)
+  }
 
+  editProject(project:any) {
+    this.logger.log('log',project);
+    this.dataService.setProjectInfo(project);
+    this.templateScreenService.getTemplateByName(project.app_ui_template, this.logId).subscribe(data => {
+      console.log('after get the project template ----  ', data);
+      const response = data.body;
+      localStorage.setItem('stylesheets', JSON.stringify(response['stylesheets']));
+      localStorage.setItem('scripts', JSON.stringify(response['scripts']));
+      localStorage.setItem('css_guidelines', JSON.stringify(response['css-guidelines']));
+      localStorage.setItem('templateName', project.app_ui_template);
+
+    }, error => {
+      console.log('cannot able to template details');
+    });
+    this.router.navigate(['/project-component'], { queryParams: { projectId: project._id } });
   }
 
   //To Create New Project

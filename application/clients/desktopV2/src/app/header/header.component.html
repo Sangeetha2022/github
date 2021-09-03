@@ -1,4 +1,4 @@
-<nav id="nav1" class="navbar navbar-expand-lg  navbar-dark ">
+<nav id="nav1" class="navbar navbar-expand-lg py-2 navbar-dark ">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img id="header_logo" src="./assets/images/header/logo.png" alt="logo">
@@ -10,10 +10,15 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             </ul>
             <div id="i1t03" class="gdp-row gpd-grid">
-                <select #langselect (change)="onChange(langselect.value)" class="btn btn-outline-dark me-4" id="lang_dropdown">
-                    <option *ngFor="let lang of display_langs"   [value]="lang">{{ lang  }}</option>
-                  </select>
-                <div class="cell gpd-clm" id="imllt"><button type="button" class="btn btn-primary me-4" (click)="showAbout()" id="iwghy">{{'HOME.ABOUT' | translate}}</button></div>
+                <button type="button" *ngIf="!hideElement" routerLink="/homepage" class="btn btn-primary me-4 py-2 mr-2" id="iwghy">{{'HEADER.HOME' | translate}}</button>
+                <div class="cell gpd-clm" id="imllt">
+                    <select #langselect (change)="onChange(langselect.value)" class="btn btn-outline-dark me-4 py-2" id="lang_dropdown">
+                        <option *ngFor="let lang of display_langs"   [value]="lang">{{ lang  }}</option>
+                      </select>
+                    <button type="button" class="btn btn-primary me-4 py-2" (click)="showAbout()" id="iwghy">{{'HOME.ABOUT' | translate}}</button>
+                    <button type="button" *ngIf="hideElement" routerLink="/login" class="btn btn-primary me-4 py-2" id="iwghy">{{'HEADER.SIGNIN' | translate}}</button>
+                    <button type="button" *ngIf="!hideElement" (click)="Logout()" class="btn btn-primary me-4 py-2" id="iwghy">{{'HEADER.LOGOUT' | translate}}</button>
+                </div>
             </div>
         </div>
     </div>
@@ -45,15 +50,15 @@
                                     <div class="gdp-row gpd-grid" id="ivibj">
                                         <div class="cell gpd-clm" id="iulkg">
                                             <div class="gpd-text" id="ion9w">{{'ABOUT.VERSION' | translate}}</div>
-                                            <div class="gpd-text" id="ierhw">Beta -11</div>
+                                            <div class="gpd-text" id="ierhw">{{versionData.value}}</div>
                                         </div>
                                         <div class="cell gpd-clm" id="i37ll">
                                             <div class="gpd-text" id="izvqi">{{'ABOUT.BUILD_VERSION' | translate}}</div>
-                                            <div class="gpd-text" id="ihl6b">1.11.41</div>
+                                            <div class="gpd-text" id="ihl6b">{{buildVersionData.value}}</div>
                                         </div>
                                         <div class="cell gpd-clm" id="i2n1j">
                                             <div class="gpd-text" id="i4bql">{{'ABOUT.BUILD_DATE' | translate}}</div>
-                                            <div class="gpd-text" id="imw3k">Jun 8, 2021 10:38:10 AM</div>
+                                            <div class="gpd-text" id="imw3k">{{buildVersionDate.value | date: 'MMM d, y, h:mm:ss a'}}</div>
                                         </div>
                                         <div class="cell gpd-clm" id="i61kk">
                                             <div class="gpd-text" id="izfza">{{'ABOUT.LICENCE' | translate}}</div>

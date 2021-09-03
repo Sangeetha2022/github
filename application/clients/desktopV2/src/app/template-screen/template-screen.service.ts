@@ -14,4 +14,7 @@ export class TemplateScreenService {
   getAllTemplates(logId:any): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllTemplates}?log_id=${logId}`);
   }
+  getTemplateByName(templatename:string, logId:string): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getTemplateByName}?template_name=${templatename}&log_id=${logId}`)
+  }
 }

@@ -23,20 +23,6 @@ export class TemplateScreenComponent implements OnInit {
       this.spinner.hide();
       this.gepTemplates = response.body;
       this.gepTempImages = this.gepTemplates.template_image;
-      // this.screenDesignerService.getScreenByProjectId(this.project_id, this.logId).subscribe(screenResponse => {
-      //   this.projectTemp = screenResponse.body;
-      //   this.projectTempId = this.projectTemp[0]._id;
-      //   this.selectedIndex = [];
-      //   this.gepTemplates.forEach((element, index) => {
-      //     if (element.name === this.projectTemp[0].screenName) {
-      //       this.selectedIndex.push(index);
-      //       this.selected = true;
-      //       // this.selectedTemplate = template;
-      //     } else {
-      //       this.selected = false;
-      //     }
-      //   });
-      // });
     });
   }
 
