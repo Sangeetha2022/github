@@ -115,8 +115,6 @@ export class DesktopScreenComponent implements OnInit {
           clearProperties: true,
         }
       });
-      this.traitService.initMethod(this);
-      this.getEntityType();
       this.addCustomBlocks();
       this.panelManager();
   }
@@ -133,60 +131,5 @@ export class DesktopScreenComponent implements OnInit {
     this.panelService.addCancelButton(this.editor);
   }
 
-  getEntityType() {
-    this.projectComponentService.getAllEntityType(this.logId).subscribe(
-      data => {
-        if (data.body) {
-          data.body.forEach((element: { typename: string; }) => {
-            const object = {
-              name: '',
-              value: ''
-            };
-            if (
-              element.typename === 'Number' ||
-              element.typename === 'Decimal'
-            ) {
-              object.name = element.typename;
-              object.value = 'Number';
-            } else if (element.typename === 'Date') {
-              object.name = element.typename;
-              object.value = 'Date';
-            } else if (element.typename === 'Boolean') {
-              object.name = element.typename;
-              object.value = 'Boolean';
-            } else {
-              object.name = element.typename;
-              object.value = 'String';
-            }
-            this.dataBindingTypes.push(object);
-          });
-        }
-        console.log(
-          'after build databinding types are --- ',
-          this.dataBindingTypes
-        );
-      },
-      error => { }
-    );
-  }
-  setDefaultType(EntityBinding:any) {
-    // ckeditor traits
-    this.editor.DomComponents.getType(
-      'ckeditor5'
-    ).model.prototype.defaults.traits.push(
-      {
-        type: 'select',
-        label: this.traitsName,
-        name: this.traitsName,
-        options: EntityBinding,
-        changeProp: 1
-      },
-      {
-        type: 'entityFieldButton',
-        label: 'Field',
-        name: 'Field'
-      }
-    );
-  }
 
 }

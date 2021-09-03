@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import  *  as  global_lang_json  from  'src/assets/i18n/languages.json';
 import { LoginService } from '../login/login.service';
 import { LoggingService } from '../config/logging.service';
+import { ConfigManagerService } from '../config-manager/config-manager.service';
 
 @Component({
   selector: 'app-header',
@@ -18,19 +19,30 @@ export class HeaderComponent implements OnInit {
   hideElement:boolean=false;
   backButtonElement:boolean=false;
   permission: boolean=false;
-  
+  versionData: any = {};
+  buildVersionData: any = {};
+  buildVersionDate: any = {};
+  logId:any = sessionStorage.getItem('LogId');
   display_langs:any=[];
   public user: any = {
     id: ''
   };
  
-  constructor(public translate:TranslateService,public router:Router, private logoutservice: LoginService,private location: Location,private logger:LoggingService) { 
-    this.Global_Languages=global_lang_json;
+  constructor(public translate:TranslateService,
+    public router:Router,
+    private configurationService: ConfigManagerService,
+    private logoutservice: LoginService,
+    private location: Location,
+    private logger:LoggingService) { 
+    
+      this.Global_Languages=global_lang_json;
     var arr = [];
     for (var j in this.Global_Languages['default']) {
         arr.push([j, this.Global_Languages['default'][j]]);
     }
     var langs=navigator.languages;
+    console.log(langs);
+    
     for(var i=0;i<langs.length;i++){
       arr.forEach(element => {
         if(langs[i]==element[0]){
@@ -102,9 +114,30 @@ export class HeaderComponent implements OnInit {
     }
 }
 
-//To open the About popup
+//To open the About popup and get build and version details
 showAbout() {
  document.getElementById('model1')!.style.display = 'block';
+ this.configurationService.getVersion('version', this.logId).subscribe(data => {
+  this.versionData = data.body;
+},
+  error => {
+    this.logger.log('error',error);
+  });
+this.configurationService.getBuildVersion('build_version', this.logId).subscribe(data => {
+  this.buildVersionData = data.body;
+},
+  error => {
+    this.logger.log('error',error);
+  });
+
+this.configurationService.getBuildVersion('build_date', this.logId).subscribe(data => {
+  console.log("build_date",data);
+  
+  this.buildVersionDate = data.body;
+},
+  error => {
+    this.logger.log('error',error);
+  });
 }
 
 //To Hide the About popup

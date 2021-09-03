@@ -36,6 +36,7 @@ import { EntityManagerComponent } from './project-component/project-component.co
 import { FeatureDetailsComponent } from './project-component/feature-details/feature-details.component';
 import { ProjectComponentModule } from './project-component/project-component.module';
 import { ScreenDesignerModule } from './screen-designer/screen-designer.module';
+import { ConfigManagerComponent } from './config-manager/config-manager.component';
 //import { HomepageModule } from './homepage/homepage.module';
 
 export class MyMissingTranslationHandler implements MissingTranslationHandler {
@@ -60,6 +61,7 @@ export class MyMissingTranslationHandler implements MissingTranslationHandler {
      TemplateScreenComponent,
      EntityManagerComponent,
      FeatureDetailsComponent,
+     ConfigManagerComponent,
   ],
   imports: 
   [

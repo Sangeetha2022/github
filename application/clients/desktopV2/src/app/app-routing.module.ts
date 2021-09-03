@@ -8,13 +8,14 @@ import { ProjectComponent } from './project/project.component';
 import { SignupComponent } from './signup/signup.component';
 import { TemplateScreenComponent } from './template-screen/template-screen.component';
 import { DesktopScreenComponent } from './screen-designer/desktop-screen/desktop-screen.component';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   
   { path: '', component: HomepageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'project', component: ProjectComponent },
+  { path: 'project', component: ProjectComponent,canActivate: [AuthGuard] },
   { path: 'project-component', component: EntityManagerComponent },
   { path: 'feature-details', component: FeatureDetailsComponent },
   { path: 'templates', component: TemplateScreenComponent },

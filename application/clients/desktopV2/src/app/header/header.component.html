@@ -50,15 +50,15 @@
                                     <div class="gdp-row gpd-grid" id="ivibj">
                                         <div class="cell gpd-clm" id="iulkg">
                                             <div class="gpd-text" id="ion9w">{{'ABOUT.VERSION' | translate}}</div>
-                                            <div class="gpd-text" id="ierhw">Beta -11</div>
+                                            <div class="gpd-text" id="ierhw">{{versionData.value}}</div>
                                         </div>
                                         <div class="cell gpd-clm" id="i37ll">
                                             <div class="gpd-text" id="izvqi">{{'ABOUT.BUILD_VERSION' | translate}}</div>
-                                            <div class="gpd-text" id="ihl6b">1.11.41</div>
+                                            <div class="gpd-text" id="ihl6b">{{buildVersionData.value}}</div>
                                         </div>
                                         <div class="cell gpd-clm" id="i2n1j">
                                             <div class="gpd-text" id="i4bql">{{'ABOUT.BUILD_DATE' | translate}}</div>
-                                            <div class="gpd-text" id="imw3k">Jun 8, 2021 10:38:10 AM</div>
+                                            <div class="gpd-text" id="imw3k">{{buildVersionDate.value | date: 'MMM d, y, h:mm:ss a'}}</div>
                                         </div>
                                         <div class="cell gpd-clm" id="i61kk">
                                             <div class="gpd-text" id="izfza">{{'ABOUT.LICENCE' | translate}}</div>

@@ -57,6 +57,7 @@ export class Constants {
 
         //Flow api's
         public static get getAllFlow(): String { return this.DESKTOP_ROUTER + '/flow/getall'; }
+        public static get getProjectVersion(): string { return this.DESKTOP_ROUTER + '/generation_flow/getbyname'; }
 
         // menu apis
         public static get createDefaultMenu(): String { return this.DESKTOP_ROUTER + '/menu/default'; }
