@@ -109,6 +109,7 @@ export class DesktopScreenComponent implements OnInit {
           assets: [
            
           ],
+          uploadText: 'Drop files here or click to upload',
         },
         styleManager: {
           //To avoid duplicate stylemanager values

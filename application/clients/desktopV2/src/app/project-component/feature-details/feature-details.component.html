@@ -18,7 +18,7 @@
                 </mat-expansion-panel-header>
                 <div class="row">
                     <div class="col-lg-12">
-                        <button class="btn" id="ihclgr" color="primary">Add Entity</button>
+                        <button class="btn" id="ihclgr" color="primary" (click)="saveEntityModel()">Add Entity</button>
                     </div>
                 </div>
                 <div class="row mt-2" *ngIf="featureEntityDetails.length> 0">
@@ -40,7 +40,7 @@
                                             <button class="btn btn-block btn-primary" type="button">Edit</button>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4">
-                                            <button class="btn btn-danger" type="button">Delete</button>
+                                            <button class="btn btn-danger" (click)="openDeleteModel(entity)" type="button">Delete</button>
                                         </div>
                                     </div>
                                 </div>
@@ -68,5 +68,19 @@
                 </mat-card-content>
             </mat-expansion-panel>
         </mat-accordion>
+    </div>
+</div>
+<!-- TO Display Delete model popup -->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deletePopup}">
+    <div class="modal-dialog modal-sm" role="dialog">
+        <div class="modal-content">
+            <div class="delete modal-body">
+                <p>Please click confirm to delete this project ? </p>
+            </div>
+            <div class="modal-footer" style="padding: 5px">
+                <button type="button" class="btn btn-default" (click)="deleteEntityById()">Confirm</button> &nbsp;
+                <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>

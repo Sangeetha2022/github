@@ -21,7 +21,30 @@ export class EntitypopUpComponent implements OnInit {
     selectentity: '',
     entity_id: '',
 };
-  constructor() { 
+  constructor( @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<EntitypopUpComponent>) { 
+    this.projectId = data.projectId;
+    //Storing the values of Entity component when user add new entity
+    if (data.savedEntity !== undefined && Object.keys(data.savedEntity).length > 0) {
+      this.modelObject.name = data.savedEntity.name;
+      this.modelObject.description = data.savedEntity.description;
+      this.modelObject.entityType = data.savedEntity.entity_type;
+      if (this.modelObject.entityType === 'primary') {
+          this.isPrimaryEntityPresent = false;
+      } else {
+          if (data.isPrimaryEntityPresent) {
+              this.isPrimaryEntityPresent = true;
+          } else {
+              this.isPrimaryEntityPresent = false;
+          }
+      }
+  } else {
+      this.isPrimaryEntityPresent = data.isPrimaryEntityPresent;
+      if (this.isPrimaryEntityPresent) {
+          this.modelObject.entityType = 'secondary';
+      } else {
+          this.modelObject.entityType = 'primary';
+      }
+  }
   }
 
   ngOnInit(): void {
@@ -38,5 +61,11 @@ export class EntitypopUpComponent implements OnInit {
          this.hide = false;
     }
 }
+    //Used in back button functionality
+    showOptions() {
+      this.hide = true;
+      this.create = this.existing = false;
+      this.dialogRef.updateSize('400px', '200px');
+    }
 
 }

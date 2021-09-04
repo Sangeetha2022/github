@@ -40,6 +40,7 @@ export class Constants {
         // Entity
         public static get saveEntity(): string { return this.DESKTOP_ROUTER + '/entity/save'; }
         public static get updateEntity(): string { return this.DESKTOP_ROUTER + '/entity/update'; }
+        public static get featuredeleteEntity(): string { return this.DESKTOP_ROUTER + '/feature/deleteentity'; }
         public static get getEntity(): string { return this.DESKTOP_ROUTER + '/entity/get'; }
         public static get deleteEntity(): string { return this.DESKTOP_ROUTER + '/entity/delete'; }
         public static get allEntity(): string { return this.DESKTOP_ROUTER + '/entity/getall'; }
@@ -58,6 +59,11 @@ export class Constants {
         //Flow api's
         public static get getAllFlow(): String { return this.DESKTOP_ROUTER + '/flow/getall'; }
         public static get getProjectVersion(): string { return this.DESKTOP_ROUTER + '/generation_flow/getbyname'; }
+
+        // delete project
+        public static get deleteFlowById(): string { return this.DESKTOP_ROUTER + '/delete/flow'; }
+        public static get deleteEntityById(): string { return this.DESKTOP_ROUTER + '/delete/entity'; }
+        public static get deleteScreenById(): string { return this.DESKTOP_ROUTER + '/delete/screen'; }
 
         // menu apis
         public static get createDefaultMenu(): String { return this.DESKTOP_ROUTER + '/menu/default'; }

@@ -37,10 +37,10 @@
         <div class="col-lg-12">
             <div class="d-flex justify-content-center">
                 <div class="p-2 mt-4">
-                    <button id="create_btn" class="btn btn-primary">Back</button>
+                    <button id="create_btn" *ngIf="!hide" (click)="showOptions()" class="btn btn-primary">Back</button>
                 </div>
                 <div class="p-2 mt-4">
-                    <button id="cancel_btn" type="button" class="btn btn-info">Add</button>
+                    <button id="cancel_btn" *ngIf="create" type="button" [mat-dialog-close]="modelObject" class="btn btn-info">Add</button>
                 </div>
             </div>
         </div>

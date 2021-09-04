@@ -1,25 +1,38 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import { FeatureDetailsComponent } from './project-component/feature-details/feature-details.component';
-import {HomepageComponent} from './homepage/homepage.component';
-import { LoginComponent } from './login/login.component';
-import { EntityManagerComponent } from './project-component/project-component.component';
-import { ProjectComponent } from './project/project.component';
-import { SignupComponent } from './signup/signup.component';
-import { TemplateScreenComponent } from './template-screen/template-screen.component';
-import { DesktopScreenComponent } from './screen-designer/desktop-screen/desktop-screen.component';
 import { AuthGuard } from './auth/auth.guard';
+import { FeatureDetailsComponent } from './project-component/feature-details/feature-details.component';
+import { EntityManagerComponent } from './project-component/project-component.component';
 
 const routes: Routes = [
   
-  { path: '', component: HomepageComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: 'project', component: ProjectComponent,canActivate: [AuthGuard] },
+  {
+    path: '',
+    loadChildren: () => import('./homepage/homepage.module').then(m => m.HomepageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
+  },
+  {
+    path: 'signup',
+    loadChildren: () => import('./signup/signup.module').then(m => m.SignupModule)
+  },
+  {
+    path: 'project',
+    loadChildren: () => import('./project/project.module').then(m => m.ProjectModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'templates',
+    loadChildren: () => import('./template-screen/template-screen.module').then(m => m.TemplateScreenModule)
+  },
+  {
+    path: 'desktopscreen',
+    loadChildren: () => import('./screen-designer/screen-designer.module').then(m => m.ScreenDesignerModule)
+  },
   { path: 'project-component', component: EntityManagerComponent },
   { path: 'feature-details', component: FeatureDetailsComponent },
-  { path: 'templates', component: TemplateScreenComponent },
-  { path: 'desktopscreen', component: DesktopScreenComponent },
   { path: '', redirectTo: '', pathMatch: 'full' },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

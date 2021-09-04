@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output ,EventEmitter} from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
@@ -6,6 +6,9 @@ import  *  as  global_lang_json  from  'src/assets/i18n/languages.json';
 import { LoginService } from '../login/login.service';
 import { LoggingService } from '../config/logging.service';
 import { ConfigManagerService } from '../config-manager/config-manager.service';
+import { SharedService } from 'src/shared/shared.service';
+
+
 
 @Component({
   selector: 'app-header',
@@ -27,12 +30,13 @@ export class HeaderComponent implements OnInit {
   public user: any = {
     id: ''
   };
- 
+  @Output() messageEvent = new EventEmitter<string>();
   constructor(public translate:TranslateService,
     public router:Router,
     private configurationService: ConfigManagerService,
     private logoutservice: LoginService,
     private location: Location,
+    public shared:SharedService,
     private logger:LoggingService) { 
     
       this.Global_Languages=global_lang_json;
@@ -97,14 +101,17 @@ export class HeaderComponent implements OnInit {
   //To change the browser language 
   onChange(val:any) {
     if(val=='English'){
+      this.messageEvent.emit(val);
       this.translate.use('en');
       return true;
     }
     if(val=='தமிழ்'){
+      this.messageEvent.emit(val);
       this.translate.use('ta');
       return true;
     }
     if(val=='español'){
+      this.messageEvent.emit(val);
       this.translate.use('es');
       return true;
     }
