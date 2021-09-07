@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ScreenPopupComponent } from './screen-popup/screen-popup.component';
@@ -9,12 +9,15 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { EntitypopUpComponent } from './entitypop-up/entitypop-up.component';
 import { FeatureDetailsComponent } from './feature-details/feature-details.component';
+import { EntityFieldComponent } from './entity-field/entity-field.component';
+// import {  AgGridAngular, AgGridModule } from 'ag-grid-angular';
 
 
 @NgModule({
   declarations: [
     ScreenPopupComponent,
     EntitypopUpComponent,
+    EntityFieldComponent,
   ],
   imports: [
     CommonModule,
@@ -23,7 +26,9 @@ import { FeatureDetailsComponent } from './feature-details/feature-details.compo
     MatRadioModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+   // AgGridModule.withComponents([]),
+   // AgGridAngular
   ],
   exports:[
 
@@ -33,6 +38,7 @@ import { FeatureDetailsComponent } from './feature-details/feature-details.compo
   ],
   providers:[
 
-  ]
+  ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class ProjectComponentModule { }

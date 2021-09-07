@@ -56,6 +56,20 @@
                 <mat-expansion-panel-header style="padding: 5%;">
                     <mat-panel-title id="feature_heading">Feature Flows</mat-panel-title>
                 </mat-expansion-panel-header>
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <button class="btn" id="ihclgr" color="primary" (click)="openFeatureFlowDialog(feature_id)">Add Flows</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="flowTable container mt-sm-3">
+                        <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData" [animateRows]="true" [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true"
+                            [paginationPageSize]="10" [suppressRowClickSelection]="true" [suppressRowClickSelection]="true" [frameworkComponents]="frameworkComponents" [floatingFilter]="true" (gridReady)="onFeatureFlowGridReady($event)">
+                        </ag-grid-angular>
+                    </div>
+                </div>
+
             </mat-expansion-panel>
             <mat-expansion-panel>
                 <mat-expansion-panel-header style="padding: 5%;">
@@ -81,6 +95,37 @@
                 <button type="button" class="btn btn-default" (click)="deleteEntityById()">Confirm</button> &nbsp;
                 <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
             </div>
+        </div>
+    </div>
+</div>
+<!-- To display feature flow model in ag grid -->
+<div id="EventPopup" class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':displayFeatureFlowModal}">
+    <div class="modal-dialog modal-lg flow_popup" role="dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <div class="container">
+                    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData" [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef"
+                        domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10" [floatingFilter]="true" (selectionChanged)="onRowSelectionChanged($event)" (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2">
+                        <button id="create_btn" class="btn btn-default" (click)="createProjectFlow()">Save</button>
+                    </div>
+                    <div class="p-2">
+                        <button id="cancel_btn" type="button" class="btn btn-default" (click)="closeFeatureFlowModal()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" (click)="createProjectFlow()">Save</button>
+                    <button type="button" class="btn btn-danger" (click)="closeFeatureFlowModal()">cancel</button>
+                </div>
+            </div> -->
         </div>
     </div>
 </div>

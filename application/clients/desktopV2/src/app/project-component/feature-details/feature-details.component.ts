@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Brodcastservice } from 'src/app/broadcast.service';
 import { LoggingService } from 'src/app/config/logging.service';
+import { ButtonRendererComponent } from '../entity-field/button-renderer/button-renderer.component';
 import { EntitypopUpComponent } from '../entitypop-up/entitypop-up.component';
 import { IEntity } from '../interface/Entity';
 import { ProjectComponentService } from '../project-component.service';
@@ -15,41 +16,130 @@ import { ScreenPopupComponent } from '../screen-popup/screen-popup.component';
   styleUrls: ['./feature-details.component.scss']
 })
 export class FeatureDetailsComponent implements OnInit {
-
+    flowInFeatureColumn:any[]=[];
+    featureEntityDetails: any[] = [];
+    entitydetails: any[] = [];
+    feature_id: any;
+    flowInFeatureColDef: any;
+    project_id:any;
+    entityid: any;
+    updateEntityId: any;
+    featureFlowGrid:any;
+    rowSelectionFlow:string='';
+    defaultColDef:any;
+    public logId = sessionStorage.getItem('LogId');
+    isPrimaryEntityPresent!: Boolean;
+    featureInfo: any;
+    selectedFeatureName: String='';
+    flowInFeatureRowData: any[] = [];
+    frameworkComponents: { buttonRenderer: any; };
+    rowData: any = [];
+    selectEntity:any;
+    selectedEntityId:any;
+    modifyConnectorsId: any;
+    columnFlow: any = [];
+    displayFeatureFlowModal:string='none';
+    gridApi:any;
+    gridColumnApi:any;
+    deletePopup :string= '';
+    public entity: IEntity = {
+      name: '',
+      description: '',
+      entity_type: '',
+      project_id: '',
+      feature_id: '',
+      created_by: '',
+      last_modified_by: '',
+      updated_at: new Date(),
+      field: []
+  };
+  public modifyFlows: any = {
+      flowName: '',
+      flowLable: '',
+      flowDescription: '',
+      flowAction: '',
+      flowId: '',
+  };
+  public selectedFlowObj: any;
+  public selectedFlow: any;
+  public modifyComponents: any = [];
+  quickConnectorName: string='';
   constructor(private spinner:NgxSpinnerService,
     private projectComponentService:ProjectComponentService,
     private broadcastservice:Brodcastservice,
     private route:ActivatedRoute,
     private dialog: MatDialog,
     private router:Router,
-    private logger:LoggingService) { }
+    private logger:LoggingService) {
+        
+        this.frameworkComponents = {
+            buttonRenderer: ButtonRendererComponent,
+        };
+        this.columnFlow = [
+            {
+                headerName: 'Name', field: 'name',
+                filter: 'agTextColumnFilter',
+                checkboxSelection: true
+            },
+            {
+                headerName: 'Label', field: 'label',
+                filter: 'agTextColumnFilter'
+            },
+            {
+                headerName: 'Description', field: 'description',
+                filter: 'agTextColumnFilter'
+            },
+            {
+                headerName: 'Action', field: 'actionOnData',
+                filter: 'agTextColumnFilter'
+            },
 
-  featureEntityDetails: any[] = [];
-  entitydetails: any[] = [];
-  feature_id: any;
-  project_id:any;
-  entityid: any;
-  updateEntityId: any;
-  public logId = sessionStorage.getItem('LogId');
-  isPrimaryEntityPresent!: Boolean;
-  featureInfo: any;
-  selectedFeatureName: String='';
-  flowInFeatureRowData: any[] = [];
-  rowData: any = [];
-  selectEntity:any;
-  selectedEntityId:any;
-  deletePopup :string= '';
-  public entity: IEntity = {
-    name: '',
-    description: '',
-    entity_type: '',
-    project_id: '',
-    feature_id: '',
-    created_by: '',
-    last_modified_by: '',
-    updated_at: new Date(),
-    field: []
-};
+
+        ];
+        this.rowSelectionFlow = 'multiple';
+        this.defaultColDef = {
+            enableValue: true,
+        };
+        this.flowInFeatureColumn = [
+            {
+                headerName: 'Name', field: 'name',
+                filter: 'agTextColumnFilter'
+            },
+            { headerName: 'Label', field: 'label', filter: 'agTextColumnFilter' },
+            { headerName: 'Description', field: 'description', filter: 'agTextColumnFilter' },
+            { headerName: 'Action', field: 'actionOnData', filter: 'agTextColumnFilter' },
+            {
+                headerName: 'Remove',
+                width: 100,
+                cellRenderer: 'buttonRenderer',
+                editable: false,
+                sortable: false,
+                filter: false,
+                cellRendererParams: {
+                    onClick: this.removeRow.bind(this),
+                    label: 'Remove'
+                }
+            },
+            {
+                headerName: 'Modify',
+                width: 100,
+                cellRenderer: 'buttonRenderer',
+                editable: false,
+                sortable: false,
+                filter: false,
+                cellRendererParams: {
+                    onClick: this.modify.bind(this),
+                    label: 'Modify'
+                }
+            },
+        ];
+        this.flowInFeatureColDef = {
+            enableValue: true,
+            filter: true,
+            sortable: true, 
+        };
+     }
+  
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
         if (params.featureId !== undefined && params.featureId !== null) {
@@ -63,6 +153,109 @@ export class FeatureDetailsComponent implements OnInit {
     this.getFeatureById();
     this.getEntityByFeatureId();
   }
+
+    //To remove the particular feature flow
+    removeRow(e:any) {
+        const index = this.featureInfo.flows.findIndex((x: any) => x === e.rowData._id);
+        if (index > -1) {
+            this.featureInfo.flows.splice(index, 1);
+            this.deleteFlowById(e.rowData._id);
+            this.saveFlowsInFeature();
+        }
+    }
+    onFeatureFlowGridReady(params:any) {
+        this.featureFlowGrid = params.api;
+        this.featureFlowGrid.sizeColumnsToFit();
+    }
+    //To modify the flow and this function will call in modify action click
+    modify(e: { rowData: { components: any[]; flowType: string; name: any; label: any; description: any; actionOnData: any; _id: any; }; }) {
+        e.rowData.components.map((data: { connector: any[]; }) => {
+            data.connector.map((connector: { isCustom: boolean; _id: any; }) => {
+                console.log('e---modify->>>', connector);
+                if (connector.isCustom === true) {
+                    console.log('modify--connectors--', connector._id);
+                    this.modifyConnectorsId = connector._id;
+                }
+            });
+        });
+        if (e.rowData.flowType === 'GeppettoFlow') {
+            this.modifyFlows.flowName = e.rowData.name;
+            this.modifyFlows.flowLable = e.rowData.label;
+            this.modifyFlows.flowDescription = e.rowData.description;
+            this.modifyFlows.flowAction = e.rowData.actionOnData;
+            this.modifyFlows.flowId = e.rowData._id;
+            this.selectedFlowObj = e.rowData;
+            this.modifyComponents = e.rowData.components;
+            this.quickConnectorName = 'quickConnectors';
+        
+        }
+    }
+    //to get the selected row values fron aggrid feature flow popup box
+    onRowSelectionChanged(event:any) {
+        this.selectedFlow = this.gridApi.getSelectedRows();
+
+    }
+    onGridReady(params:any) {
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+        this.gridApi.sizeColumnsToFit();
+    }
+    //This function will called inside remove row to remove the flow by id
+    deleteFlowById(flowId:any) {
+        this.spinner.show();
+        this.projectComponentService.deleteFlowById(flowId, this.logId).subscribe(
+            data => {
+                //this.deleteConnectorPopup = 'none';
+                this.getProjectFeatureFlows();
+                this.getAllFlows();
+                this.getEntityByFeatureId();
+                this.spinner.hide();
+            },
+            error => {
+                console.log('cannot able to delete the projectFlow ', error);
+            });
+    }
+    //To close the featureflow model popup box
+    closeFeatureFlowModal() {
+        this.displayFeatureFlowModal = 'none';
+    }
+    //To create the project flow and this function will called in save button in ag grid feature popup box
+    createProjectFlow() {
+        if (this.selectedFlow.length > 0) {
+            // removing _id and store
+            const projectFlowList = this.selectedFlow.map(({_id,_v,...rest}:any) => ({ ...rest }));
+            console.log('save many project flows--->>', projectFlowList);
+            this.saveManyProjectFlow(projectFlowList);
+        }
+    }
+    //Saving multiple project flows and this function will be called in create project flow function
+    saveManyProjectFlow(projectFlowList:any) {
+        this.spinner.show();
+        this.projectComponentService.saveManyProjectFlow(projectFlowList, this.logId).subscribe(
+            response => {
+                if (response.body) {
+                    this.spinner.hide();
+                    const projectFlowsId = response.body.map(({_id}: any) => _id);
+                    this.featureInfo.flows = this.featureInfo.flows.concat(projectFlowsId);
+                    this.saveFlowsInFeature();
+                }
+            },
+            error => {
+                console.log('cannot able to save the many projectFlows');
+            });
+    }
+    //To save the flows
+    saveFlowsInFeature() {
+        this.projectComponentService.updateFeature(this.featureInfo, this.logId).subscribe(
+            response => {
+                console.log('save in flow --in feature -->>', response);
+                this.featureInfo = response.body;
+                this.displayFeatureFlowModal = 'none';
+                this.flowInFeatureRowData = this.featureInfo.flows;
+                this.getProjectFeatureFlows();
+            },
+            error => { });
+    }
 
   //To get the  feature by id
   getFeatureById() {
@@ -162,6 +355,11 @@ export class FeatureDetailsComponent implements OnInit {
                 });
             }
         });
+    }
+    //To open add flows feature dialog box
+    openFeatureFlowDialog(id:any) {
+        this.displayFeatureFlowModal = 'block';
+        this.getAllFlows();
     }
 
     //Function is used to save the entity values if exisisting entity present
@@ -338,5 +536,4 @@ export class FeatureDetailsComponent implements OnInit {
             }
         });
     }
-
 }

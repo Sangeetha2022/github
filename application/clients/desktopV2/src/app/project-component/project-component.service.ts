@@ -20,6 +20,9 @@ export class ProjectComponentService {
   saveFeatures(feature: any, logId:any): Observable<any> {
     return this.api.post(`${this.restapi.Apigateway}${Constants.saveFeature}?log_id=${logId}`, feature);
   }
+  updateFeature(feature: any, logId:any): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateFeature}?log_id=${logId}`, feature);
+  }
   getAllEntityByFeatureId(featureId:any, logId:any): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllEntityByFeatureId}/${featureId}/entity?log_id=${logId}`);
   }
@@ -53,5 +56,12 @@ export class ProjectComponentService {
   }
   Deletefeaturedetailsentity(featureid: any, entityid: any): Observable<any> {
     return this.http.delete(`${this.restapi.Apigateway}${Constants.featuredeleteEntity}/${featureid}/${entityid}`);
+  }
+
+  saveManyProjectFlow(data:any, logId:any): Observable<any> {
+    return this.api.post(`${this.restapi.Apigateway}${Constants.saveManyProjectFlow}` + `?log_id=${logId}`, data);
+  }
+  deleteFlowById(FlowId: String, logId:any): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteFlowById}/${FlowId}` + `?log_id=${logId}`);
   }
 }

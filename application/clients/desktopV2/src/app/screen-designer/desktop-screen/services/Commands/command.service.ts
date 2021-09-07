@@ -52,23 +52,7 @@ export class CommandService {
       }
     });
   }
-  dragAndDrop($this:any) {
-    $this.editor.on('block:drag:stop', function (model:any) {
-      console.log('model drag and drop are ----- ', model);
-      const ckeditorspan = model.find('#ckeditorspan');
-      const ckeditorTextAreaModels = model.find('span #ckeditortextarea');
-            // ckeditor
-      // set dynamic name in ckeditor span
-      ckeditorspan.forEach((element: { attributes: { traits: { target: { set: (arg0: string, arg1: string) => void; }; }; }; ccid: any; }) => {
-        element.attributes.traits.target.set('name', `ckeditor_${element.ccid}`);
-      });
-      // remove unwanted classes and add the classname if available
-      ckeditorTextAreaModels.forEach((element: { attributes: { traits: { target: { set: (arg0: string, arg1: string) => void; }; }; }; ccid: any; }) => {
-        $this.setElementCSS(element, 'ckeditor', 'textarea');
-        element.attributes.traits.target.set('name', `ckeditor_${element.ccid}`);
-      });
-    })
-  }
+
   componentSelected($this:any) {
     $this.editor.on('component:selected', function (component:any) {
       const entityTrait = component.getTrait('entity');
@@ -78,16 +62,49 @@ export class CommandService {
       removeTriatName.forEach((name, index) => {
         component.removeTrait(name);
       });
-      if (entityTrait && component.attributes.type !== 'grid-type') {
-        entityTrait.set('options', $this.dataBindingTypes);
-        component.get('traits').add(
+      if (component.attributes.tagName === 'input') {
+        alert()
+        component.get('traits').set([
+          { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
+          { name: 'placeholder', label: 'Placeholder' },
+          { type: 'checkbox', name: 'required', label: 'Required' },
+          {
+              type: 'select',
+              label: 'FieldType',
+              name: 'entity',
+              options: [],
+              changeProp: 1
+          },
+          {
+            type: 'select',
+            label: 'entity',
+            name: 'entity',
+            changeProp: 1,
+            options: $this.entitydetails
+          },
           {
             type: 'entityFieldButton',
             label: 'Field',
             name: 'Field'
           }
-        );
+        ]);
       }
     });
   }
+  dragAndDrop($this:any) {
+    $this.editor.on('block:drag:stop', function (model:any) {
+      console.log('model drag and drop are ----- ', model);
+      const allInputModels = model.find('[data-gjs-type="input"]');
+      console.log('allInputModels ---  ', allInputModels);
+      if (allInputModels.length === 0 && model.attributes.tagName === 'input') {
+        allInputModels.push(model);
+      }
+         // input
+         allInputModels.forEach((element: { attributes: { traits: { target: { set: (arg0: string, arg1: string) => void; }; }; }; ccid: any; }) => {
+          $this.setElementCSS(element, 'input', null);
+          element.attributes.traits.target.set('name', `input_${element.ccid}`);
+        });
+    })
+  }
+
 }

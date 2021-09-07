@@ -1,4 +1,4 @@
-import { Component, OnInit, Output ,EventEmitter} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
@@ -30,7 +30,6 @@ export class HeaderComponent implements OnInit {
   public user: any = {
     id: ''
   };
-  @Output() messageEvent = new EventEmitter<string>();
   constructor(public translate:TranslateService,
     public router:Router,
     private configurationService: ConfigManagerService,
@@ -45,7 +44,7 @@ export class HeaderComponent implements OnInit {
         arr.push([j, this.Global_Languages['default'][j]]);
     }
     var langs=navigator.languages;
-    console.log(langs);
+    console.log("langs",langs);
     
     for(var i=0;i<langs.length;i++){
       arr.forEach(element => {
@@ -72,7 +71,7 @@ export class HeaderComponent implements OnInit {
     }
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if (event.url === '/login' || event.url === '/consent' || event.url === '/') {
+        if (event.url === '/login' || event.url === '/consent' || event.url === '/signup' || event.url === '/') {
           this.hideElement = true;
         } else {
           this.hideElement = false;
@@ -101,17 +100,14 @@ export class HeaderComponent implements OnInit {
   //To change the browser language 
   onChange(val:any) {
     if(val=='English'){
-      this.messageEvent.emit(val);
       this.translate.use('en');
       return true;
     }
     if(val=='தமிழ்'){
-      this.messageEvent.emit(val);
       this.translate.use('ta');
       return true;
     }
     if(val=='español'){
-      this.messageEvent.emit(val);
       this.translate.use('es');
       return true;
     }

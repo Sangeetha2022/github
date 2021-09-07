@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import grapesjs from 'node_modules/grapesjs';
 import { ProjectComponentService } from 'src/app/project-component/project-component.service';
 import { BlockService } from './services/Blocks/block.service';
+import { CommandService } from './services/Commands/command.service';
 import { PanelService } from './services/Panels/panel.service';
 import { TraitsService } from './services/Traits/traits.service';
 @Component({
@@ -22,10 +23,13 @@ export class DesktopScreenComponent implements OnInit {
   isTemplateEdit:boolean=false;
   logId: any = sessionStorage.getItem('LogId');
   dataBindingTypes: any[] = [];
+  stylesheets: any[] = [];
+  scripts: any[] = [];
+  cssGuidelines: any[] = [];
   projectTemplateId:any;
  
   constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,private panelService:PanelService,
-    private projectComponentService:ProjectComponentService,private traitService:TraitsService) { }
+    private projectComponentService:ProjectComponentService,private traitService:TraitsService,private commandService:CommandService) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -42,6 +46,9 @@ export class DesktopScreenComponent implements OnInit {
         this.screenType = params.screenType;
       }
     });
+    this.stylesheets = JSON.parse(localStorage.getItem('stylesheets')|| '{}');
+    this.scripts = JSON.parse(localStorage.getItem('scripts')|| '{}');
+    this.cssGuidelines = JSON.parse(localStorage.getItem('css_guidelines')|| '{}');
     const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor'];
     const updateParams = {
       method: 'PATCH'
@@ -114,10 +121,21 @@ export class DesktopScreenComponent implements OnInit {
         styleManager: {
           //To avoid duplicate stylemanager values
           clearProperties: true,
-        }
+        },
+        storageManager: {
+          type: 'remote',
+          autosave: false,
+          autoload: false,
+          storeComponents: true,
+          storeStyles: true,
+          contentTypeJson: true,
+          urlStore: ''
+        },
       });
       this.addCustomBlocks();
       this.panelManager();
+      this.traitService.initMethod(this);
+      this.editorCommands();
   }
 
   //To add Custom Blocks
@@ -131,6 +149,49 @@ export class DesktopScreenComponent implements OnInit {
     this.panelService.addSaveButton(this.editor);
     this.panelService.addCancelButton(this.editor);
   }
+  editorCommands() {
+    console.log('-------draganddrop-----this', this);
+    this.commandService.componentSelected(this);
+    this.commandService.dragAndDrop(this);
+  }
+  // set component element css based on cssGuideLines
+  setElementCSS(element:any, tagName:any, removeTagClassName:any) {
+    const gepStyle = JSON.parse(localStorage.getItem('templateparser')|| '{}');
+    console.log('gep default styles are -----  ', gepStyle, ' cssguideines are ---  ', this.cssGuidelines, '  tagname  ', tagName);
+    let temp = null;
+    if (this.cssGuidelines) {
+      temp = this.cssGuidelines.find(x => x.tagName === tagName);
 
+    }
+    console.log(
+      'set element css ar e----  ',
+      temp,
+      '  --tagname--  ',
+      tagName,
+      '  --removeTagClassName- ',
+      removeTagClassName
+    );
+    if (temp) {
+      console.log(' if parts');
+      element.addClass(temp.className);
+    } else if (gepStyle && gepStyle.length > 0) {
+      console.log('entered in else if parts');
+      gepStyle.forEach((gepEle: { css: { [x: string]: any; }; }) => {
+        const tempCSS = gepEle.css[tagName];
+        if (tempCSS) {
+          element.addClass(tempCSS.className);
+        }
+      });
+    }
+    if (removeTagClassName) {
+      const removeTemp = this.cssGuidelines.find(
+        x => x.tagName === removeTagClassName
+      );
+      console.log('removeTagClassName parts  ----   ', removeTemp);
+      if (removeTemp) {
+        element.removeClass(removeTemp.className);
+      }
+    }
+  }
 
 }
