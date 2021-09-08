@@ -26,6 +26,42 @@
         "alternate-entry-point-access": "/ddd/fff/www"
     },
 
+    "entities": {
+        "the-entities":[
+            {
+                "name": "inventoryItem",
+                "fields":[
+                    {
+                        "type": "text",
+                        "name": "short description"
+                    },
+                    {
+                        "type": "text",
+                        "name": "long description"
+                    },
+                    {
+                        "type": "number",
+                        "name": "cost"
+                    },
+                    {
+                        "type": "number",
+                        "name": "price"
+                    },
+                    {
+                        "type": "list",
+                        "descriptors":[
+                            "key": "text"
+                        ]
+                    }
+
+
+                ]
+
+            }
+
+        ]
+
+    },
     "server-properties":{
         "runtime": "nodejs",
         "runtime-version": "14.0.0",
