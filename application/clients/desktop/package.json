@@ -16,6 +16,7 @@
   },
   "private": true,
   "dependencies": {
+    "node-sass": "^4.14.1",
     "@angular-devkit/build-angular": "^0.12.4",
     "@angular/animations": "^7.1.4",
     "@angular/cdk": "^7.3.1",
