@@ -15,3 +15,6 @@ Once the connection to Low Code platforms was realized, the designers of Geppett
 
 In its most basic form all business software deals with the manipulation of Data.  
 When you use Facebook, get paid at work (electronically!), or use a calory tracker to make sure you don't gain weight, you are manipulating or consuming data.
+
+
+OJO: Talk about separation of concerns when you talk about a FLOW and MicroFlow - maybe tie it back to requirements and architecture
