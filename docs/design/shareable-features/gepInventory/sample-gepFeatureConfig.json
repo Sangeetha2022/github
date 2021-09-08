@@ -1,0 +1,85 @@
+{
+    "feature-name": "gepFileManager",
+    "type": "external-QUESTION: what are other types?",
+    "version": "1.0.0",
+    "description": "\"Generic file uploads/downloads/management\"",
+    "author": "gepinfo.@gmail.com",
+    "icon-location": "/xx/ff/ggg/file-manager.png",
+    "repo":{
+        "type": "github",
+        "location": "https://github.com/dan-castillo/gepFileManager.git",
+        "branch" : "main"
+
+    },
+    "license":{
+        "type": "OSS", 
+        "name": "Apache 2",
+        "price": "0",
+        "term": "",
+        "comments": "best effort support"
+    },
+
+    "entry-point": {
+        "default-entry": "client",
+        "entry-point-access": "/xxx/yyy/ddd",
+        "alternate-entry": "server",
+        "alternate-entry-point-access": "/ddd/fff/www"
+    },
+
+    "server-properties":{
+        "runtime": "nodejs",
+        "runtime-version": "14.0.0",
+        "dev-framework": "express",
+        "dev-framework-version": "4.7.1",
+        "datastore": "mongo",
+        "datastore-version": "4.1.1",
+        "flows":[
+            {
+                "name": "gepFileUpload",
+                "api": "/eeee/xxxx/",
+                "api-method": "post",
+                "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT?",
+                "output": "see question on input - this need to return an ID"
+            },
+            {
+                "name": "gepFileDownload",
+                "api": "/eeee/xxxx/",
+                "api-method": "get",
+                "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                "output": "see question on input"
+
+            },
+            {
+                "name":"gepFileGetAvailable",
+                "api":"/eeee/xxxx/",
+                "api-method":"get",
+                "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT?",
+                "output": "see question on input"
+
+            }
+
+        ]
+    },
+    "client-properties":{
+      "framework": "angular",
+      "framework-version": "12.0.0",
+      "flows":[
+        {
+            "name": "gepFileUpload",
+            "route": "/hkkjhk/hkhkk",
+            "component-name": "upload-screen"
+
+        },
+        {
+            "name": "gepFileDownload",
+            "route": "/hkkjhk/hkhkk",
+            "component-name": "download-screen"
+
+
+        }
+
+    ]
+
+    }
+  }
+  
