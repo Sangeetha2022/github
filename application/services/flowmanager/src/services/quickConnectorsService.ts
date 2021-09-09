@@ -123,8 +123,8 @@ export class QuickConnectorsService {
             payload.created_at = new Date();
             asyncLoop(responseKeys, async (key, next1) => {
                 // responseKeys.forEach(async key => {
-                if (Array.isArray(response[key]) || typeof response[key] == 'object') {
-                    console.log(' this is array')
+                if (Array.isArray((response[key])  && response[key] !== null) || (typeof response[key] == 'object' && response[key] !== null)) {
+                    console.log(' this is array', Array.isArray(response[key]))
                     const keys = [];
                     if (Array.isArray(response[key])) {
                         await response[key].forEach(nestedObject => {
