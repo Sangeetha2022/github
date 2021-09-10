@@ -50,7 +50,11 @@
                     {
                         "type": "list",
                         "descriptors":[
-                            "key": "text"
+                            {
+                                "key": "text",
+                                "value": "text"
+                            }
+                            
                         ]
                     }
 
