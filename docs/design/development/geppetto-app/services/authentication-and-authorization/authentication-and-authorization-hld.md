@@ -14,6 +14,11 @@
 
 ## Camunda DMN
 
+## Authorization Manager in Generated applications
+
+- [] what are the components involved? should they be in the Generator docs?
+- lets create a context diagram of the components
+
 ### Getting started docs
 
 -First Download the camunda
