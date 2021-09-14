@@ -466,7 +466,10 @@ export class AngularTemplateService {
                     this.generateSideNavTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
-
+                }else if (templateName.toLowerCase() === 'electric-ecommerce template') {
+                    this.generateTopNavTemplate(gjsElement, body, tagName, (res) => {
+                        next();
+                    });
                 }
             },
              err => {
