@@ -28,6 +28,7 @@ packageJson(object) ::= <<
     "typescript": "^3.3.1",
     "util": "^0.11.1",
     "winston": "^3.2.1",
+    "node-fetch":"^2.3.0",
     "jsonwebtoken": "8.5.1",
     "winston-daily-rotate-file": "^3.6.0"$if(object.dependencies)$,$endif$
     $if(object.dependencies)$$object.dependencies:{dependency | "$dependency.name$": "$dependency.version$"};separator=",\n"$$endif$
