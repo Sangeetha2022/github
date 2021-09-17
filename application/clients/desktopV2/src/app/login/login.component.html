@@ -21,7 +21,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <input type="password" id="password_input" formControlName="password" placeholder="{{'LOGIN.INPUT2' | translate}}" class="form-control my-4 p-3">
+                                        <input type="password" id="password_input" formControlName="password" placeholder="{{'LOGIN.INPUT2' | translate}}" class="form-control  my-4 p-3" [type]="hide ? 'password' : 'text'">
+                                        <!-- <mat-icon class="fa fa-eye-slash" id="eye_icon" (click)="password_hide()">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon> -->
                                         <span *ngIf="!loginform.get('logindata.password').valid && loginform.get('logindata.password').touched || !loginform.get('logindata.password').valid && submitted" class="invalid-feedback">
                                             {{'SIGNUP.PASSWORD_ERROR' | translate}}
                                         </span>

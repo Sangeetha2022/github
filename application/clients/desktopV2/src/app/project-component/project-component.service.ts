@@ -44,8 +44,20 @@ export class ProjectComponentService {
   createEntity(entity: any, logId:any): Observable<any> {
     return this.api.post(`${this.restapi.Apigateway}${Constants.saveEntity}?log_id=${logId}`, entity);
   }
+  deleteEntity(entityId: String, logId: any): Observable<any> {
+    return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteEntity}` + `/${entityId}` + `?log_id=${logId}`);
+  }
   updateEntity(entity: any, logId: any): Observable<any> {
     return this.api.put(`${this.restapi.Apigateway}${Constants.updateEntity}?log_id=${logId}`, entity);
+  }
+  updateEntityField(entity: any, logId: any): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateEntityFields}` + `?log_id=${logId}`, entity);
+  }
+  getByIdEntity(entityId: any, logId: any): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getEntity}/${entityId}?log_id=${logId}`);
+  }
+  getGlobalEntityByProjectId(projectId:any, logId:any): Observable<any> {
+    return this.http.get(`${this.restapi.Apigateway}${Constants.getEntity}?projectId=${projectId}&log_id=${logId}`);
   }
 
   Updatefeaturedetailsentity(featureid: any, entitydetails: any, logId: any): Observable<any> {

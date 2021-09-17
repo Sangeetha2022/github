@@ -56,14 +56,26 @@ export class CommandService {
   componentSelected($this:any) {
     $this.editor.on('component:selected', function (component:any) {
       const entityTrait = component.getTrait('entity');
-      const removeTriatName = ['Field', 'modalButton',
-        'fieldButton', 'verbs', 'actionButton',
-        'routeButton', 'addButton', 'removeButton'];
-      removeTriatName.forEach((name, index) => {
-        component.removeTrait(name);
-      });
+      console.log("entityTrait is",entityTrait);
+      
+      // const removeTriatName = ['Field', 'modalButton',
+      //   'fieldButton', 'verbs', 'actionButton',
+      //   'routeButton', 'addButton', 'removeButton'];
+      // removeTriatName.forEach((name, index) => {
+      //   component.removeTrait(name);
+      // });
+      if (entityTrait && component.attributes.type !== 'grid-type') {
+        entityTrait.set('options', $this.dataBindingTypes);
+        component.get('traits').add(
+          {
+            type: 'entityFieldButton',
+            label: 'Field',
+            name: 'Field'
+          }
+        );
+      }
       if (component.attributes.tagName === 'input') {
-        alert()
+        alert("inside component selected input trait")
         component.get('traits').set([
           { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
           { name: 'placeholder', label: 'Placeholder' },

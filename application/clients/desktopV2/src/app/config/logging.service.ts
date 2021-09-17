@@ -5,9 +5,8 @@ import { NGXLogger } from 'ngx-logger';
   providedIn: 'root'
 })
 export class LoggingService {
-
   constructor(public logger:NGXLogger) { }
-  log(level:string, message:string) {
+  log(level:string ,message:string) {
     switch (level) {
       case 'log' : {
         this.logger.log(message);

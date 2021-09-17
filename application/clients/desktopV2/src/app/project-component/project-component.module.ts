@@ -10,14 +10,16 @@ import { FormsModule } from '@angular/forms';
 import { EntitypopUpComponent } from './entitypop-up/entitypop-up.component';
 import { FeatureDetailsComponent } from './feature-details/feature-details.component';
 import { EntityFieldComponent } from './entity-field/entity-field.component';
-// import {  AgGridAngular, AgGridModule } from 'ag-grid-angular';
-
+ import {  AgGridAngular, AgGridModule } from 'ag-grid-angular';
+import { FieldPopupModalComponent } from './entity-field/field-popup-modal/field-popup-modal.component';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
     ScreenPopupComponent,
     EntitypopUpComponent,
     EntityFieldComponent,
+    FieldPopupModalComponent,
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { EntityFieldComponent } from './entity-field/entity-field.component';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-   // AgGridModule.withComponents([]),
+    MatSelectModule,
+    AgGridModule.withComponents([]),
    // AgGridAngular
   ],
   exports:[

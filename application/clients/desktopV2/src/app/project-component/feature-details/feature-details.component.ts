@@ -379,9 +379,23 @@ export class FeatureDetailsComponent implements OnInit {
         ];
         this.projectComponentService.Updatefeaturedetailsentity(this.feature_id, this.entitydetails, this.logId)
             .subscribe(featuredetails => {
+                if(featuredetails){
+                    this.getFeatureById();
+                    this.getEntityByFeatureId();
+                }
+               
             });
-        this.getFeatureById();
-        this.getEntityByFeatureId();
+       
+    }
+    //To edit particular entity
+    editEntityField(entity: any) {
+        this.router.navigate(['/entity-field'], {
+            queryParams: {
+                entityId: entity._id,
+                featureId: this.feature_id,
+                projectId: this.project_id
+            }
+        });
     }
 
     //Function is used to save the entity values
@@ -502,7 +516,6 @@ export class FeatureDetailsComponent implements OnInit {
             width: '350px',
             data: dialogDataValue
         });
-        console.log("dialogDataValue 1",dialogDataValue);
         dialogRef.afterClosed().subscribe(entityData => {
             if (entityData) {
                 this.entityid = entityData.entity_id;
@@ -515,6 +528,7 @@ export class FeatureDetailsComponent implements OnInit {
                 if (entityData !== undefined) {
                     if (objectValue === null) {
                         if (entityData.selectentity === 'Existing') {
+                            //alert()
                             this.AddEntity(this.entity);
                         } else {
                             this.saveEntity(this.entity);

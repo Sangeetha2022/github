@@ -10,6 +10,7 @@ export class TraitsService {
   constructor() { }
   initMethod(screenGlobalVariable:any) {
     this.initializeInputMethod(screenGlobalVariable);
+    this.initializeSelectMethod(screenGlobalVariable);
   }
 
   initializeInputMethod(screenGlobalVariable:any) {
@@ -38,6 +39,50 @@ export class TraitsService {
           ],
         }
       },
+
+      // Define the View
+      view: defaultType.view
+    });
+  }
+
+  // Select values are ---
+  initializeSelectMethod(screenGlobalVariable:any) {
+    const $this = this;
+    const comps = screenGlobalVariable.editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    comps.addType('select', {
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              { name: 'name', label: 'Name', changeProp: 1 },
+              { label: 'Options', type: 'select-options' },
+              {
+                type: 'select',
+                label: 'FieldType',
+                name: 'entity',
+                options: [],
+                changeProp: 1
+              },
+              // { type: 'checkbox', name: 'required', label: 'Required' }
+            ]
+          })
+        },
+        {
+          isComponent:  (el: { tagName: string; })=> {
+            if (el.tagName === 'SELECT') {
+              return {
+                type: 'select'
+              };
+            }
+            return null;
+          }
+        }
+      ),
 
       // Define the View
       view: defaultType.view

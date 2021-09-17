@@ -42,6 +42,7 @@ export class Constants {
         public static get updateEntity(): string { return this.DESKTOP_ROUTER + '/entity/update'; }
         public static get featuredeleteEntity(): string { return this.DESKTOP_ROUTER + '/feature/deleteentity'; }
         public static get getEntity(): string { return this.DESKTOP_ROUTER + '/entity/get'; }
+        public static get updateEntityFields(): string { return this.DESKTOP_ROUTER + '/entity/field/update'; }
         public static get deleteEntity(): string { return this.DESKTOP_ROUTER + '/entity/delete'; }
         public static get allEntity(): string { return this.DESKTOP_ROUTER + '/entity/getall'; }
         public static get featureUpdateEntity(): string { return this.DESKTOP_ROUTER + '/feature/updateEntity/'; }
@@ -54,6 +55,7 @@ export class Constants {
         public static get getAllTemplates(): string { return this.DESKTOP_ROUTER + '/template/getall'; }
         public static get getTemplateParser(): string { return this.DESKTOP_ROUTER + '/templateparser/get'; }
         public static get getTemplateByName(): string {return this.DESKTOP_ROUTER + '/template/gettemplatename' ;}
+        public static get getProjectTemplateById(): string {return this.DESKTOP_ROUTER + '/project/template/get';}
         public static get addProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template/save';}
 
         //Flow api's
@@ -87,5 +89,10 @@ export class Constants {
         scrollbars,scrollBy,scrollTo,Select,self,setInterval,setTimeout,status,statusbar,stop,String,
         Submit,sun,taint,Text,Textarea,toolbar,top,toString,unescape,untaint,unwatch,valueOf,watch,window,id`;
         }
+
+        public static get getConstantSpecialCharacters(): String {
+                return `\`|\\~|\\!|\\@|\\#|\\$|\\%|\\^|\\&|\\*|\\(|\\)|
+                \\+|\\=|\\[|\\{|\\]|\\}|\\||\\\\|\\'|\\<|\\,|\\.|\\>|\\?|\\/|\\""|\\"|\\;|\\:|\\s`;
+            }
   
 }

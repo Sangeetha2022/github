@@ -1,4 +1,4 @@
-<div class="wrapper">
+<!-- <div class="wrapper">
     <app-header></app-header>
     <div class="content">
         <div id="main-content">
@@ -6,4 +6,7 @@
         </div>
     </div>
     <app-footer *ngIf="Footer"></app-footer>
-</div>
+</div> -->
+<app-header></app-header>
+<router-outlet></router-outlet>
+<app-footer id="footer_id" *ngIf="Footer"></app-footer>

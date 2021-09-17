@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 // @ts-ignore
 import grapesjs from 'node_modules/grapesjs';
 import { ProjectComponentService } from 'src/app/project-component/project-component.service';
+import { ScreenDesignerService } from '../screen-designer.service';
 import { BlockService } from './services/Blocks/block.service';
 import { CommandService } from './services/Commands/command.service';
 import { PanelService } from './services/Panels/panel.service';
@@ -27,9 +29,22 @@ export class DesktopScreenComponent implements OnInit {
   scripts: any[] = [];
   cssGuidelines: any[] = [];
   projectTemplateId:any;
+  public featurelist: any;
+  templateObj:any= {
+    _id: '',
+    stylesheets: '',
+    scripts: '',
+    template_image: '',
+    'css-guidelines': '',
+    template_name: '',
+    project_id: '',
+    date: '',
+    __v: 0
+  };
  
   constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,private panelService:PanelService,
-    private projectComponentService:ProjectComponentService,private traitService:TraitsService,private commandService:CommandService) { }
+    private projectComponentService:ProjectComponentService,private traitService:TraitsService,private commandService:CommandService,
+    private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -44,6 +59,11 @@ export class DesktopScreenComponent implements OnInit {
       }
       if (params.screenType !== undefined && params.screenType !== null) {
         this.screenType = params.screenType;
+      }
+      if (params['project-template-id']) {
+        this.isTemplateEdit = true;
+        this.projectTemplateId = params['project-template-id'];
+        this.getProjectTemplate(this.projectTemplateId);
       }
     });
     this.stylesheets = JSON.parse(localStorage.getItem('stylesheets')|| '{}');
@@ -132,6 +152,8 @@ export class DesktopScreenComponent implements OnInit {
           urlStore: ''
         },
       });
+      this.getFeatureById();
+      this.getEntityType();
       this.addCustomBlocks();
       this.panelManager();
       this.traitService.initMethod(this);
@@ -192,6 +214,252 @@ export class DesktopScreenComponent implements OnInit {
         element.removeClass(removeTemp.className);
       }
     }
+  }
+  //To get Project Template this function called when modify template clicked
+  getProjectTemplate(id:any) {
+    this.spinner.show();
+    this.screenDesignerService.getProjectTemplate(id, this.logId).subscribe((response: any) => {
+      this.spinner.hide();
+      console.log('TEMPLATE RESPONSE---->>>>', response);
+      if(response && response.body && response.body.length > 0) {
+        const body = response.body[0];
+        this.templateObj = {
+          _id: body._id,
+          stylesheets: body.stylesheets,
+          scripts: body.scripts,
+          template_image: body.template_image,
+          'css-guidelines': body['css-guidelines'],
+          template_name: body.template_name,
+          project_id: body.project_id,
+          date: body.date,
+          __v: body.__v
+        };
+        let gjsComponents = body['gjs-components'][0] || null;
+        let gjsStyles = body['gjs-styles'][0] || null;
+        const gjsCss = body['gjs-css'] || null;
+        if (gjsComponents) {
+          gjsComponents = JSON.parse(gjsComponents);
+          this.editor.setComponents(gjsComponents);
+        }
+        if (gjsStyles) {
+          gjsStyles = JSON.parse(gjsStyles);
+          this.editor.setStyle(gjsStyles);
+        }
+        if (gjsCss) {
+          this.editor.setStyle(gjsCss);
+        }
+      }
+    });
+  }
+  public entityData:any;
+  EntityField: any[] = [];
+  entitydetails:any;
+  public selectentityarray: any[] = [];
+  listOfFLows: any[] = [];
+  rowData: any;
+  getEntity(featureObject:any) {
+    if (this.project_id !== undefined && this.feature_id !== undefined) {
+      this.projectComponentService
+        .getAllEntityByFeatureId(this.feature_id, this.logId)
+        .subscribe(
+          response => {
+            this.entityData = response.body.body;
+            if (
+              this.entityData !== null &&
+              this.entityData !== undefined &&
+              this.entityData.length > 0
+            ) {
+              console.log('entityData details using Feature id --------  ', this.entityData);
+              const entityArray: { name: string; value: string; type?: string; }[] = [];
+              entityArray.push({ name: 'none', value: 'none' });
+              this.EntityField = this.entityData;
+              featureObject.entities.forEach((entity: { entityId: any; entityType: string; }) => {
+                this.entityData.forEach((entityElement: { _id: string; name: string; }) => {
+                  if(entity.entityId === entityElement._id) {
+                    const object = {
+                      name: '',
+                      value: '',
+                      type: ''
+                    };
+                    object.name = entityElement.name;
+                    object.value = entityElement._id;
+                    object.type = entity.entityType;
+                    entityArray.push(object);
+                    this.entitydetails = entityArray;
+                  }
+                  console.log('-----Geppetto service calling----', entityArray);
+                });
+              })
+              this.traitsName = 'entity';
+              this.setDefaultType(entityArray);
+            } else {
+              console.log('----------coming in feature entity else part-------');
+              this.traitsName = 'dataBinding';
+              this.setDefaultType(this.dataBindingTypes);
+            }
+          },
+          error => { }
+        );
+    } else {
+      console.log('---------------else coming first---');
+      this.projectComponentService
+        .getEntityByProjectId(this.project_id, this.logId)
+        .subscribe(
+          response => {
+            const allEntityData = response.body;
+            if (
+              allEntityData !== null &&
+              allEntityData !== undefined &&
+              allEntityData.length > 0
+            ) {
+              console.log('entityData details using Project id --------  ', this.entityData);
+              const entityArray: { name: string; value: string; type?: string; }[] = [];
+              entityArray.push({ name: 'none', value: 'none' });
+              this.EntityField = allEntityData;
+              allEntityData.forEach((entityElement: { name: string; _id: string; entity_type: string; }) => {
+                // const data = JSON.parse(entityElement);
+                const object = {
+                  name: '',
+                  value: '',
+                  type: ''
+                };
+                object.name = entityElement.name;
+                object.value = entityElement._id;
+                object.type = entityElement.entity_type;
+                entityArray.push(object);
+                this.entitydetails = entityArray;
+              });
+              this.traitsName = 'entity';
+              this.setDefaultType(entityArray);
+            } else {
+              console.log('----------coming in entity else part-------');
+              this.traitsName = 'dataBinding';
+              this.setDefaultType(this.dataBindingTypes);
+            }
+          },
+          error => { }
+        );
+    }
+  }
+  getEntityType() {
+    this.projectComponentService.getAllEntityType(this.logId).subscribe(
+      data => {
+        if (data.body) {
+          data.body.forEach((element: { typename: string; }) => {
+            const object = {
+              name: '',
+              value: ''
+            };
+            if (
+              element.typename === 'Number' ||
+              element.typename === 'Decimal'
+            ) {
+              object.name = element.typename;
+              object.value = 'Number';
+            } else if (element.typename === 'Date') {
+              object.name = element.typename;
+              object.value = 'Date';
+            } else if (element.typename === 'Boolean') {
+              object.name = element.typename;
+              object.value = 'Boolean';
+            } else {
+              object.name = element.typename;
+              object.value = 'String';
+            }
+            this.dataBindingTypes.push(object);
+          });
+        }
+        console.log(
+          'after build databinding types are --- ',
+          this.dataBindingTypes
+        );
+      },
+      error => { }
+    );
+  }
+  setDefaultType(EntityBinding:any) {
+    EntityBinding.forEach((entitylist: { type: string; }) => {
+      if (entitylist.type === 'secondary') {
+        this.selectentityarray.push(entitylist);
+
+      }
+      console.log('-----selectEntityarray-----', this.selectentityarray);
+    });
+        // input traits
+        this.editor.DomComponents.getType(
+          'input'
+        ).model.prototype.defaults.traits.push(
+          {
+            type: 'select',
+            label: this.traitsName,
+            name: this.traitsName,
+            options: EntityBinding,
+            changeProp: 1
+          },
+          {
+            type: 'entityFieldButton',
+            label: 'Field',
+            name: 'Field'
+          });
+        console.log('--------selectentity----->>>>', this.editor.DomComponents);
+        // select traits
+        this.editor.DomComponents.getType(
+          'select'
+        ).model.prototype.defaults.traits.push(
+          {
+            type: 'select',
+            label: this.traitsName,
+            name: this.traitsName,
+            options: this.selectentityarray,
+            changeProp: 1
+          },
+          {
+            type: 'entityFieldButton',
+            label: 'Field',
+            name: 'Field'
+          }
+        );
+  }
+  getFeatureById() {
+    if (this.feature_id) {
+      this.projectComponentService.getFeatureById(this.feature_id, this.logId).subscribe(
+        featureData => {
+          if (featureData.body) {
+            this.featurelist = featureData.body;
+            let featureObject = featureData.body;
+            this.getEntity(featureObject);
+            this.getProjectFeatureFlows(featureData.body.flows);
+          }
+        },
+        error => {
+          console.error('cannot able to get the feature data');
+        }
+      );
+    }
+  }
+  getProjectFeatureFlows(projectFlowsID:any) {
+    console.log('projectFlowsID ==============>>>', projectFlowsID)
+    this.projectComponentService
+      .getProjectFeatureFlows(projectFlowsID, this.logId)
+      .subscribe(
+        data => {
+          this.listOfFLows = data.body;
+          console.log('this.listOfFLows =============>>', this.listOfFLows);
+          if (this.listOfFLows) {
+            if (this.feature_id !== undefined && this.feature_id != null) {
+              this.rowData = this.listOfFLows;
+            } else {
+              const createFlow = this.listOfFLows.find(
+                x => x.name === 'GpCreate'
+              );
+              this.rowData = [createFlow];
+            }
+          }
+        },
+        error => {
+          console.error('cannot able to get the projectFeatureFlows');
+        }
+      );
   }
 
 }

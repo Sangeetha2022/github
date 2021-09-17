@@ -6,12 +6,12 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
 @Component({
   selector: 'app-button-renderer',
   template: `
-    <button [disabled]="isDisabled" class="removeRow" style="color:white;background-color: red;
-    border: none;" type="button" (click)="onClick($event)">{{label}}</button>
+  <div class="row">
+  <div class="col-lg-12">
+  <button [disabled]="isDisabled" class="btn btn-danger" (click)="onClick($event)">{{label}}</button>
+  </div>
+</div>
     `,
-  styles: [
-    'removeRow: { color:white }'
-  ]
 })
 
 export class ButtonRendererComponent implements ICellRendererAngularComp {

@@ -5,6 +5,7 @@ import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -15,7 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoginRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule
+    TranslateModule,
+    MatIconModule
   ]
 })
 export class LoginModule { }

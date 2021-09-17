@@ -10,10 +10,10 @@
         </div>
     </div>
 
-    <div class="row" style="margin-top: 8%;">
+    <div class="row" style="margin-top: 5%;">
         <mat-accordion>
             <mat-expansion-panel [expanded]="true">
-                <mat-expansion-panel-header style="padding: 5%;">
+                <mat-expansion-panel-header style="padding: 3%;">
                     <mat-panel-title id="feature_heading">Entities </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="row">
@@ -22,26 +22,24 @@
                     </div>
                 </div>
                 <div class="row mt-2" *ngIf="featureEntityDetails.length> 0">
-                    <div class="col-sm-4" *ngFor="let entity of featureEntityDetails; let i = index">
+                    <div class="col-lg-4" *ngFor="let entity of featureEntityDetails; let i = index">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-4">
-                                        <img src="./assets/images/project_components/feature.png" alt="">
+                                    <div class="col-lg-6">
+                                        <img src="./assets/images/project_components/entity.png" alt="">
                                     </div>
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-6">
                                         <h5 id="Entry_text_heading" class="card-title">{{entity.name}}</h5>
                                         <p id="Entry_text_description" class="card-text">{{entity.description}}</p>
                                     </div>
                                 </div>
-                                <div class="d-grid gap-2 mt-3">
-                                    <div class="row">
-                                        <div class="col-lg-8 col-md-8 col-sm-8">
-                                            <button class="btn btn-block btn-primary" type="button">Edit</button>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4">
-                                            <button class="btn btn-danger" (click)="openDeleteModel(entity)" type="button">Delete</button>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-lg-6 ">
+                                        <button class="btn btn-block btn-outline-primary w-100 mt-3" (click)="editEntityField(entity)" type="button">Edit</button>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <button class="btn btn-block btn-outline-danger w-100 mt-3" (click)="openDeleteModel(entity)" type="button">Delete</button>
                                     </div>
                                 </div>
                             </div>
@@ -53,18 +51,18 @@
                 </div>
             </mat-expansion-panel>
             <mat-expansion-panel>
-                <mat-expansion-panel-header style="padding: 5%;">
+                <mat-expansion-panel-header style="padding: 3%;">
                     <mat-panel-title id="feature_heading">Feature Flows</mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="row">
                     <div class="col-md-6"></div>
                     <div class="col-md-6">
-                        <button class="btn" id="ihclgr" color="primary" (click)="openFeatureFlowDialog(feature_id)">Add Flows</button>
+                        <button class="btn" id="ihclgr" (click)="openFeatureFlowDialog(feature_id)" color="primary">Add Flows</button>
                     </div>
                 </div>
                 <div class="row">
                     <div class="flowTable container mt-sm-3">
-                        <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData" [animateRows]="true" [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true"
+                        <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-material" [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData" [animateRows]="true" [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true"
                             [paginationPageSize]="10" [suppressRowClickSelection]="true" [suppressRowClickSelection]="true" [frameworkComponents]="frameworkComponents" [floatingFilter]="true" (gridReady)="onFeatureFlowGridReady($event)">
                         </ag-grid-angular>
                     </div>
@@ -72,7 +70,7 @@
 
             </mat-expansion-panel>
             <mat-expansion-panel>
-                <mat-expansion-panel-header style="padding: 5%;">
+                <mat-expansion-panel-header style="padding: 3%;">
                     <mat-panel-title id="feature_heading">Screens</mat-panel-title>
                 </mat-expansion-panel-header>
                 <mat-card-content>
@@ -105,7 +103,7 @@
             <div class="modal-body">
 
                 <div class="container">
-                    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData" [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef"
+                    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-material" [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData" [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef"
                         domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10" [floatingFilter]="true" (selectionChanged)="onRowSelectionChanged($event)" (gridReady)="onGridReady($event)">
                     </ag-grid-angular>
                 </div>
@@ -120,12 +118,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="modal-footer">
-                <div class="form-group">
-                    <button type="button" class="btn btn-primary" (click)="createProjectFlow()">Save</button>
-                    <button type="button" class="btn btn-danger" (click)="closeFeatureFlowModal()">cancel</button>
-                </div>
-            </div> -->
         </div>
     </div>
 </div>

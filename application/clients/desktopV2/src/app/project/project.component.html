@@ -18,6 +18,11 @@
             <div class="row" id="mat_body">
                 <div class="col-md-3" *ngFor="let proj of myAllProjects; let i = index">
                     <div class="card" style="background-color: #383b42;border-radius: 10px;">
+                        <div class="sitecard_template">
+                            <div (click)="editProject(proj)" style="margin-top: 60%;">
+                                <mat-icon>edit</mat-icon> <span style="font-size: 26px">Edit</span>
+                            </div>
+                        </div>
                         <div class="card_image" style="background: url('{{proj.app_ui_template_img}}');">
                             <div class="container" style="position: absolute;top:165px">
                                 <div class="row">
@@ -42,6 +47,7 @@
                             </div>
                         </div>
                     </div>
+
                     <br>
                 </div>
                 <div class="col-md-4" *ngIf="myAllProjects.length === 0">
