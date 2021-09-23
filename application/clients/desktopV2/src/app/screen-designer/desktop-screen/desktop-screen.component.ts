@@ -1,15 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { nanoid } from 'nanoid';
+import { customAlphabet } from 'nanoid'
 import { NgxSpinnerService } from 'ngx-spinner';
 
 // @ts-ignore
 import grapesjs from 'node_modules/grapesjs';
 import { ProjectComponentService } from 'src/app/project-component/project-component.service';
+import { SharedService } from 'src/shared/shared.service';
 import { ScreenDesignerService } from '../screen-designer.service';
 import { BlockService } from './services/Blocks/block.service';
 import { CommandService } from './services/Commands/command.service';
 import { PanelService } from './services/Panels/panel.service';
 import { TraitsService } from './services/Traits/traits.service';
+import { Constants } from 'src/app/config/Constant';
+import { CustomTraitsService } from './services/Traits/custom-traits.service';
 @Component({
   selector: 'app-desktop-screen',
   templateUrl: './desktop-screen.component.html',
@@ -30,6 +35,8 @@ export class DesktopScreenComponent implements OnInit {
   cssGuidelines: any[] = [];
   projectTemplateId:any;
   public featurelist: any;
+  existScreenDetail: any;
+  screenArrayByProjectId: any;
   templateObj:any= {
     _id: '',
     stylesheets: '',
@@ -41,10 +48,17 @@ export class DesktopScreenComponent implements OnInit {
     date: '',
     __v: 0
   };
- 
+
+  screenNameExist: Boolean = false;
+  screenName: any;
+  RemoteStorage:any;
+  saveTemplateURL:any;
+  updateTemplateURL:any;
+  modifyTemplateUrl:any;
   constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,private panelService:PanelService,
     private projectComponentService:ProjectComponentService,private traitService:TraitsService,private commandService:CommandService,
-    private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,) { }
+    private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,private sharedService:SharedService,
+    private customTraitService:CustomTraitsService) { }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -70,9 +84,18 @@ export class DesktopScreenComponent implements OnInit {
     this.scripts = JSON.parse(localStorage.getItem('scripts')|| '{}');
     this.cssGuidelines = JSON.parse(localStorage.getItem('css_guidelines')|| '{}');
     const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor'];
+    let addStyles:any = [];
+    let addScripts:any = [];
     const updateParams = {
       method: 'PATCH'
     };
+    if (this.stylesheets) {
+      addStyles = this.stylesheets;
+    }
+    if (this.scripts) {
+      addScripts = this.scripts;
+    }
+   
        // desktop plugins
        grapesjs.plugins.add('desktop-plugin', function (editor:any, options:any) {
         console.log('desktop plugins editor are --11-- ', editor);
@@ -138,6 +161,10 @@ export class DesktopScreenComponent implements OnInit {
           ],
           uploadText: 'Drop files here or click to upload',
         },
+        canvas: {
+          styles: addStyles,
+          scripts: addScripts
+        },
         styleManager: {
           //To avoid duplicate stylemanager values
           clearProperties: true,
@@ -152,14 +179,44 @@ export class DesktopScreenComponent implements OnInit {
           urlStore: ''
         },
       });
+      const comps = this.editor.DomComponents;
+      this.editor.DomComponents.Component.createId = function (model:any) {
+        const list = comps.Component.getList(model);
+        const { id } = model.get('attributes');
+        let nextId;
+  
+        if (id) {
+          // only commented this line, to keep the original id.
+          nextId = id;
+          model.setId(nextId);
+        } else {
+          nextId = 'template-' + comps.Component.getNewId(list);
+        }
+  
+        list[nextId] = model;
+        return nextId;
+      };
+      // this.getEntity();
+  
+      // Need to set generated id while component creation
+      this.editor.on('component:create', (component: { setId: (arg0: any) => void; getId: () => any; }) => {
+        component.setId(component.getId());
+      });
+      this.getScreenById();
       this.getFeatureById();
       this.getEntityType();
       this.addCustomBlocks();
       this.panelManager();
       this.traitService.initMethod(this);
       this.editorCommands();
+      const nanoid = customAlphabet('1234567890', 6)
+      this.screenName = `screen${nanoid()}`;
+      this.RemoteStorage = this.editor.StorageManager.get('remote');
+      this.saveTemplateURL = `${this.sharedService.Apigateway}${Constants.addScreen}`;
+      this.updateTemplateURL = `${this.sharedService.Apigateway}${Constants.updateScreen}`;
+      this.modifyTemplateUrl = `${this.sharedService.Apigateway}${Constants.updateProjectTemplate}`;
   }
-
+ 
   //To add Custom Blocks
   addCustomBlocks() {
     this.blockservice.addHeadingTag(this.editor);
@@ -174,6 +231,10 @@ export class DesktopScreenComponent implements OnInit {
   editorCommands() {
     console.log('-------draganddrop-----this', this);
     this.commandService.componentSelected(this);
+    this.commandService.toggle(this);
+    this.commandService.removeComponent(this);
+    this.commandService.updateComponentName(this);
+    this.commandService.updateTraits(this);
     this.commandService.dragAndDrop(this);
   }
   // set component element css based on cssGuideLines
@@ -378,6 +439,7 @@ export class DesktopScreenComponent implements OnInit {
     );
   }
   setDefaultType(EntityBinding:any) {
+   
     EntityBinding.forEach((entitylist: { type: string; }) => {
       if (entitylist.type === 'secondary') {
         this.selectentityarray.push(entitylist);
@@ -385,6 +447,7 @@ export class DesktopScreenComponent implements OnInit {
       }
       console.log('-----selectEntityarray-----', this.selectentityarray);
     });
+    this.customTraitService.entityFieldButton(this);
         // input traits
         this.editor.DomComponents.getType(
           'input'
@@ -400,7 +463,8 @@ export class DesktopScreenComponent implements OnInit {
             type: 'entityFieldButton',
             label: 'Field',
             name: 'Field'
-          });
+          }
+          );
         console.log('--------selectentity----->>>>', this.editor.DomComponents);
         // select traits
         this.editor.DomComponents.getType(
@@ -419,6 +483,29 @@ export class DesktopScreenComponent implements OnInit {
             name: 'Field'
           }
         );
+            // add traits at the state of initialization
+    this.editor.DomComponents.getWrapper()
+    .get('traits')
+    .add([
+      {
+        type: 'select',
+        label: 'verb',
+        name: 'componentVerb',
+        changeProp: 1,
+        options: []
+      },
+      {
+        name: 'multiflowButton',
+        label: 'Action',
+        type: 'multiflowButton'
+      },
+      {
+        type: 'checkbox',
+        label: 'isPopup',
+        name: 'popupmodal',
+        changeProp: 1
+      }
+    ]);
   }
   getFeatureById() {
     if (this.feature_id) {
@@ -461,5 +548,151 @@ export class DesktopScreenComponent implements OnInit {
         }
       );
   }
-
+    //To omit special characters in input field
+    omit_special_char(event:any)
+    {   
+      var k;  
+      k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+      return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+    }
+    isScreenNameExist() {
+      const index = this.screenArrayByProjectId.findIndex(
+        (        x: { screenName: any; _id: String; }) => x.screenName === this.screenName && x._id !== this.screen_id
+      );
+      if (index > -1) {
+        this.screenNameExist = true;
+      } else {
+        this.screenNameExist = false;
+      }
+    }
+    saveRemoteStorage(params = {}) {
+      if (Object.keys(params).length > 0) {
+        this.RemoteStorage.set('params', params);
+        this.editor.StorageManager.get('remote').set({
+          urlStore: `${this.modifyTemplateUrl}/${this.templateObj._id}?log_id=${this.logId}`,
+        });
+      } else {
+        this.RemoteStorage.set('params', {
+          screenName: this.screenName,
+          project: this.project_id,
+          feature: this.feature_id,
+          screenType: this.screenType
+        });
+      }
+    }
+    closeScreeName() {
+      const model = document.getElementById('myModal');
+      model!.style.display = 'none';
+      const saveButton = this.editor.Panels.getButton('options', 'save-page');
+      saveButton.set('active', 0);
+    }
+    getScreenById() {
+      console.log('get screen by id are ------   ', this.screen_id);
+      console.log('==========screenName=========', this.screenName);
+      console.log('------------ remote', this.editor.StorageManager.get('remote'));
+      console.log('+++++++++', this.updateTemplateURL);
+      if (this.screen_id) {
+        this.spinner.show();
+        this.editor.StorageManager.get('remote').set({
+          urlStore: `${this.updateTemplateURL}${this.screen_id}`,
+        });
+  
+        this.screenDesignerService.getScreenById(this.screen_id, this.logId).subscribe(
+          response => {
+            console.log('response ================ for screen data =========+>>>', response);
+            if (response.body) {
+              this.spinner.hide();
+              this.existScreenDetail = response.body;
+              console.log('------screen response-----', this.existScreenDetail);
+              if (this.existScreenDetail[0]['entity_info']) {
+                const entityinfo = this.existScreenDetail[0]['entity_info'];
+                console.log('----from screen---entityinfo-----', entityinfo, this.entitydetails);
+              }
+              if (this.existScreenDetail[0]['gjs-components']) {
+                this.feature_id = this.existScreenDetail[0]['feature'];
+                this.project_id = this.existScreenDetail[0]['project'];
+                this.screenName = this.existScreenDetail[0]['screenName'];
+                // this.is_grid_present = this.existScreenDetail[0][
+                //   'is_grid_present'
+                // ];
+                // this.agGridObject = this.existScreenDetail[0]['grid_fields'];
+                // this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
+                // this.screenFlows = this.existScreenDetail[0]['flows_info'];
+                // this.routeFlows = this.existScreenDetail[0]['route_info'];
+                // this.componentLifeCycle = this.existScreenDetail[0][
+                //   'component-lifecycle'
+                // ];
+                // this.specialEvents = this.existScreenDetail[0]['special-events'];
+                // this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
+                // this.linkArray = this.existScreenDetail[0]['link_info'];
+                // this.addGridBlocks();
+  
+               // // change colname array
+                // if (this.agGridObject && this.agGridObject.custom_field.length > 0)
+                //  {
+                //   this.columnOptions = [];
+                //   this.agGridObject.custom_field.forEach(customField => {
+                //     const temp = { value: '', name: '' };
+                //     temp.value = customField.columnid;
+                //     temp.name = customField.columnname;
+                //     this.columnOptions.push(temp);
+                //   });
+                //   console.log(' gjs component------------ value -------', this.agGridObject);
+                // }
+                this.editor.setComponents(
+                  JSON.parse(this.existScreenDetail[0]['gjs-components'])
+                );
+                this.editor.setStyle(JSON.parse(this.existScreenDetail[0]['gjs-styles'][0]) || this.existScreenDetail[0]['gjs-css']);
+                console.log('------get grapesjs css-------', this.editor.getStyle());
+                //   this.editor.render();
+              }
+            } else {
+              console.log('------empty response coming for screen api');
+            }
+          },
+          error => {
+            console.log('screenId error are ---- ', error);
+          }
+        );
+      } else {
+        this.editor.StorageManager.get('remote').set({
+          urlStore: this.saveTemplateURL
+        });
+      }
+    }
+    updatescreen(){
+      const $this = this;
+      const ArratData = []
+      if (this.isTemplateEdit) {
+        this.saveRemoteStorage(this.templateObj);
+        // this.flowManagerService.saveModifyierUsage(this.modifiersDetails, this.logId).subscribe(respo => {
+        
+        // })
+        //this.closeScreeName();
+        this.spinner.show();
+        this.editor.store((data:any) => {
+          this.getProjectTemplate(this.projectTemplateId);
+        });
+      } else {
+        this.saveRemoteStorage();
+        // this.flowManagerService.saveModifyierUsage(this.modifiersDetails, this.logId).subscribe(respo => {
+        
+        // })
+        //this.createFeatureIfNotExist();
+        //this.closeScreeName();
+        // this.editor.on('storage:load', function (e:any) {
+        //   console.log('storage id are -------------    ', e);
+        //   $this.screen_id = e.body._id;
+        //  $this.getScreenById();
+        // });
+        $this.getScreenById();
+        this.editor.store((data:any) => {
+         
+          console.log('storage id are -------------    ', data);
+          $this.screen_id = data.body._id;
+        });
+        $this.getScreenById();
+        this.closeScreeName();
+      }
+    }
 }

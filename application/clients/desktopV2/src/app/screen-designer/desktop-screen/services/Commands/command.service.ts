@@ -58,12 +58,12 @@ export class CommandService {
       const entityTrait = component.getTrait('entity');
       console.log("entityTrait is",entityTrait);
       
-      // const removeTriatName = ['Field', 'modalButton',
-      //   'fieldButton', 'verbs', 'actionButton',
-      //   'routeButton', 'addButton', 'removeButton'];
-      // removeTriatName.forEach((name, index) => {
-      //   component.removeTrait(name);
-      // });
+      const removeTriatName = ['Field', 'modalButton',
+        'fieldButton', 'verbs', 'actionButton',
+        'routeButton', 'addButton', 'removeButton'];
+      removeTriatName.forEach((name, index) => {
+        component.removeTrait(name);
+      });
       if (entityTrait && component.attributes.type !== 'grid-type') {
         entityTrait.set('options', $this.dataBindingTypes);
         component.get('traits').add(
@@ -100,6 +100,169 @@ export class CommandService {
             name: 'Field'
           }
         ]);
+      }
+    });
+  }
+  toggle($this:any) {
+    // it worked well if we inject the buttons close to the input fields
+    $this.editor.on('component:toggled', (model: any) => { });
+  }
+   removeComponent($this:any) {
+    // it called when we remove the component
+    $this.editor.on(`component:remove`, function (model:any) {
+      const parentComponent = model.get('components');
+      let componentIndex = 0;
+      if (model.attributes && model.attributes.name) {
+        componentIndex = $this.routeFlows.findIndex((x: { elementName: any; }) =>
+          x.elementName === model.attributes.name
+        );
+
+        if (componentIndex > -1) {
+          // remove flows first if present in flows_info
+          const flowInfoIndex = $this.screenFlows.findIndex((x: { elementName: any; componentId: string; }) =>
+            x.elementName === $this.routeFlows[componentIndex].elementName && x.componentId !== '');
+          if (flowInfoIndex > -1) {
+            $this.screenFlows.splice(flowInfoIndex, 1);
+          }
+          $this.routeFlows.splice(componentIndex, 1);
+
+        }
+        // remove special events
+        componentIndex = $this.specialEvents.findIndex((x: { elementName: any; }) =>
+          x.elementName === model.attributes.name);
+        if (componentIndex > -1) {
+          $this.specialEvents.splice(componentIndex, 1);
+        }
+
+        // remove link information
+        componentIndex = $this.linkArray.findIndex((x: { elementName: any; }) =>
+          x.elementName === model.attributes.name);
+        if (componentIndex > -1) {
+          $this.linkArray.splice(componentIndex, 1);
+        }
+      }
+      if (parentComponent.length === 0) {
+        componentIndex = $this.screenEntityModel.findIndex((x: { elementName: any; }) =>
+          x.elementName === parentComponent.parent.attributes.name
+        );
+        if (componentIndex > -1) {
+          $this.screenEntityModel.splice(componentIndex, 1);
+        }
+        componentIndex = $this.screenFlows.findIndex((x: { elementName: any; componentId: string; }) =>
+          x.elementName === parentComponent.parent.attributes.name && x.componentId !== ''
+        );
+        if (componentIndex > -1) {
+          $this.screenFlows.splice(componentIndex, 1);
+        }
+        const elementNameIndex = $this.ElementNameArray.findIndex((x: any) => x === parentComponent.parent.attributes.name);
+        if (elementNameIndex > -1) {
+          $this.ElementNameArray.splice(elementNameIndex, 1);
+        }
+        $this.saveRemoteStorage();
+      } else {
+        model.get('components').each((child: { attributes: { name: any; }; }) => {
+          componentIndex = $this.screenEntityModel.findIndex((x: { elementName: any; }) =>
+            x.elementName === child.attributes.name
+          );
+          if (componentIndex > -1) {
+            $this.screenEntityModel.splice(componentIndex, 1);
+          }
+          componentIndex = $this.screenFlows.findIndex((x: { elementName: any; componentId: string; }) =>
+            x.elementName === child.attributes.name && x.componentId !== ''
+          );
+          if (componentIndex > -1) {
+            $this.screenFlows.splice(componentIndex, 1);
+          }
+          const elementNameIndex = $this.ElementNameArray.findIndex((x: any) => x === child.attributes.name);
+          if (elementNameIndex > -1) {
+            $this.ElementNameArray.splice(elementNameIndex, 1);
+          }
+          // remove element for special events
+          const specialEventIndex = $this.specialEvents.findIndex((x: { elementName: any; }) => x.elementName === child.attributes.name);
+          if (specialEventIndex > -1) {
+            $this.specialEvents.splice(specialEventIndex, 1);
+          }
+
+          // remove element for link
+          const linkIndex = $this.linkArray.findIndex((x: { elementName: any; }) => x.elementName === child.attributes.name);
+          if (linkIndex > -1) {
+            $this.linkArray.splice(linkIndex, 1);
+          }
+        });
+        $this.saveRemoteStorage();
+      }
+    });
+
+  }
+  updateComponentName($this:any) {
+    // it called when we update the component traits name
+    $this.editor.on(`component:update:name`, function (model:any) {
+      if (model._previousAttributes.name === '') {
+        $this.ElementNameArray.push(model.attributes.name);
+      } else {
+        const elementNameIndex = $this.ElementNameArray.findIndex((x: any) => x === model.attributes.name);
+        if (elementNameIndex > -1) {
+          model.attributes.traits.target.set('name', `${model._previousAttributes.name}`);
+          $this.editor.TraitManager.getTraitsViewer().render();
+        } else {
+          $this.ElementNameArray.push(model.attributes.name);
+        }
+      }
+      const entityIndex = $this.screenEntityModel.findIndex((x:any) =>
+        x.elementName === model._previousAttributes.name);
+      if (entityIndex > -1) {
+        $this.screenEntityModel[entityIndex].elementName = model.attributes.name;
+        $this.saveRemoteStorage();
+      }
+      const flowIndex = $this.screenFlows.findIndex((x:any) =>
+        x.elementName === model._previousAttributes.name && x.componentId !== '');
+      if (flowIndex > -1) {
+        $this.screenFlows[flowIndex].elementName = model.attributes.name;
+      }
+      // rename element in routeFlows
+      const routeIndex = $this.routeFlows.findIndex((x:any) =>
+        x.elementName === model._previousAttributes.name);
+      if (routeIndex > -1) {
+        $this.routeFlows[routeIndex].elementName = model.attributes.name;
+      }
+      // rename special events
+      const specialEventIndex = $this.specialEvents.findIndex((x:any) =>
+        x.elementName === model._previousAttributes.name);
+      if (specialEventIndex > -1) {
+        $this.specialEvents[specialEventIndex].elementName = model.attributes.name;
+      }
+
+      // rename link events
+      const linkIndex = $this.linkArray.findIndex((x:any) =>
+        x.elementName === model._previousAttributes.name);
+      if (linkIndex > -1) {
+        $this.linkArray[linkIndex].elementName = model.attributes.name;
+      }
+
+      $this.saveRemoteStorage();
+    });
+  }
+  updateTraits($this:any) {
+    // select entity if triats values changed then its called
+    $this.editor.on(`component:update:entity`, function (model:any) {
+      $this.selectedEntityModel = model.changed['entity'];
+      $this.selectedHtmlElement.htmlId = model.ccid;
+      $this.selectedHtmlElement.componentId = model.cid;
+      $this.selectedHtmlElement.elementName = model.attributes.name;
+    });
+
+    // called when we change value in component lifecycle verbs
+    $this.editor.on(`component:update:componentVerb`, function (model:any) {
+      $this.selectedEntityModel = model.changed['componentVerb'];
+      $this.componentVerb = $this.componentVerbList.find((x:any) => x.value === model.changed['componentVerb']).key;
+    });
+
+    // set whether the screen type as popupmodal or normal one
+    $this.editor.on(`component:update:popupmodal`, function (model:any) {
+      if (model.changed['popupmodal']) {
+        $this.screenOption = 'popupmodal';
+      } else {
+        $this.screenOption = 'normal';
       }
     });
   }

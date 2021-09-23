@@ -37,6 +37,17 @@ export class Constants {
         public static get getFeatureByProjectId(): String { return this.DESKTOP_ROUTER + '/feature/project/get'; }
         public static get getFeatureById(): String { return this.DESKTOP_ROUTER + '/feature/get'; }
 
+        // Feature Screen
+        public static get addScreen(): string { return this.DESKTOP_ROUTER + '/screen/save'; }
+        public static get getScreenByID(): string { return this.DESKTOP_ROUTER + '/screen/get'; }
+        public static get deleteScreen(): string { return this.DESKTOP_ROUTER + '/screen/delete'; }
+        public static get getScreenByFeatureName(): string { return this.DESKTOP_ROUTER + '/screen/getbyfeature/'; }
+        public static get updateScreen(): string { return this.DESKTOP_ROUTER + '/screen/update/'; }
+        public static get getScreenByProjectAndFeatureId(): string { return this.DESKTOP_ROUTER + '/screen/getbyprojectandfeatureid/'; }
+        public static get getScreenByProjectId(): string { return this.DESKTOP_ROUTER + '/screen/getbyprojectid'; }
+        public static get getScreenByFeatureId(): string { return this.DESKTOP_ROUTER + '/screen/getbyfeatureid'; }
+        public static get getScreenTemplateByProjectId(): string { return this.DESKTOP_ROUTER + '/screen/template'; }
+
         // Entity
         public static get saveEntity(): string { return this.DESKTOP_ROUTER + '/entity/save'; }
         public static get updateEntity(): string { return this.DESKTOP_ROUTER + '/entity/update'; }
@@ -57,6 +68,7 @@ export class Constants {
         public static get getTemplateByName(): string {return this.DESKTOP_ROUTER + '/template/gettemplatename' ;}
         public static get getProjectTemplateById(): string {return this.DESKTOP_ROUTER + '/project/template/get';}
         public static get addProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template/save';}
+        public static get updateProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template/update';}
 
         //Flow api's
         public static get getAllFlow(): String { return this.DESKTOP_ROUTER + '/flow/getall'; }

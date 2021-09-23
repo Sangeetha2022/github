@@ -4,11 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Brodcastservice } from 'src/app/broadcast.service';
 import { LoggingService } from 'src/app/config/logging.service';
+import { ScreenDesignerService } from 'src/app/screen-designer/screen-designer.service';
 import { ButtonRendererComponent } from '../entity-field/button-renderer/button-renderer.component';
 import { EntitypopUpComponent } from '../entitypop-up/entitypop-up.component';
 import { IEntity } from '../interface/Entity';
 import { ProjectComponentService } from '../project-component.service';
 import { ScreenPopupComponent } from '../screen-popup/screen-popup.component';
+
 
 @Component({
   selector: 'app-feature-details',
@@ -34,11 +36,14 @@ export class FeatureDetailsComponent implements OnInit {
     flowInFeatureRowData: any[] = [];
     frameworkComponents: { buttonRenderer: any; };
     rowData: any = [];
+    screenDetails:any[]=[];
     selectEntity:any;
     selectedEntityId:any;
     modifyConnectorsId: any;
     columnFlow: any = [];
     displayFeatureFlowModal:string='none';
+    deletescreenPopup: string='none';
+    selectedScreenId:any;
     gridApi:any;
     gridColumnApi:any;
     deletePopup :string= '';
@@ -70,7 +75,8 @@ export class FeatureDetailsComponent implements OnInit {
     private route:ActivatedRoute,
     private dialog: MatDialog,
     private router:Router,
-    private logger:LoggingService) {
+    private logger:LoggingService,
+    private screenService: ScreenDesignerService,) {
         
         this.frameworkComponents = {
             buttonRenderer: ButtonRendererComponent,
@@ -152,6 +158,7 @@ export class FeatureDetailsComponent implements OnInit {
     });
     this.getFeatureById();
     this.getEntityByFeatureId();
+    this.getScreenByFeatureId();
   }
 
     //To remove the particular feature flow
@@ -549,5 +556,50 @@ export class FeatureDetailsComponent implements OnInit {
                 }
             }
         });
+    }
+    getScreenByFeatureId() {
+        //alert()
+        this.spinner.show();
+        this.screenService.getScreenByFeatureId(this.feature_id, this.logId).subscribe(
+            (screenData) => {
+                console.log("screenData",screenData);
+                
+                this.spinner.hide();
+                this.screenDetails = screenData.body;
+            },
+            (error) => {
+                console.log('cannot able to get the screen based on featureId  ', error);
+            }
+        );
+    }
+
+    editScreen(screenId:any, screenType:any) {
+        this.router.navigate(['/desktopscreen'], {
+            queryParams: {
+                projectId: this.project_id, screenId: screenId,
+                featureId: this.feature_id,
+                screenType: screenType
+            }
+        });
+    }
+
+    deleteScreen(screenId:any) {
+        this.deletescreenPopup = 'block';
+        this.selectedScreenId = screenId;
+    }
+    deleteScreenByIdPopup() {
+        this.deletescreenPopup = 'none';
+        this.screenService.deleteScreenById(this.selectedScreenId, this.logId).subscribe(
+            (data) => {
+                this.getScreenByFeatureId();
+
+            },
+            (error) => {
+
+            }
+        );
+    }
+    closedeleteScreenPopup() {
+        this.deletescreenPopup = 'none';
     }
 }

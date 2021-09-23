@@ -19,6 +19,8 @@ export class TraitsService {
     const comps = screenGlobalVariable.editor.DomComponents;
     const defaultType = comps.getType('default');
     const defaultModel = defaultType.model;
+    console.log("defaultModel",defaultModel);
+    
     comps.addType('input', {
       isComponent: (el: { tagName: string; }) => el.tagName === 'INPUT',
       model: {

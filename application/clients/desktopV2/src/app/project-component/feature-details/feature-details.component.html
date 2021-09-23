@@ -74,8 +74,28 @@
                     <mat-panel-title id="feature_heading">Screens</mat-panel-title>
                 </mat-expansion-panel-header>
                 <mat-card-content>
-                    <div class="float-end">
-                        <button class="btn" id="ihclgr" color="primary" (click)="GoToDesigner()">Add Screen</button>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button class="btn" id="ihclgr" color="primary" (click)="GoToDesigner()">Add Screen</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3" *ngFor="let screen of screenDetails; let i = index">
+                            <p id="Entry_text_heading">{{screen?.screenName}}</p>
+                            <img id="desk_img" src="/assets/images/project_components/desktop.png" *ngIf="screen.screenType === 'desktop'" alt="Desktop">
+                            <img id="mobile_img" src="/assets/images/project_components/mobile.png" *ngIf="screen.screenType === 'mobile'" alt="Mobile">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <mat-icon style="cursor:pointer" (click)="editScreen(screen._id, screen.screenType)">edit</mat-icon>
+                                </div>
+                                <div class="col-lg-6">
+                                    <mat-icon (click)="deleteScreen(screen._id)" style="cursor:pointer">delete</mat-icon>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="screenDetails.length === 0">
+                            No Screen Available.
+                        </div>
                     </div>
                 </mat-card-content>
             </mat-expansion-panel>
@@ -87,11 +107,25 @@
     <div class="modal-dialog modal-sm" role="dialog">
         <div class="modal-content">
             <div class="delete modal-body">
-                <p>Please click confirm to delete this project ? </p>
+                <p>Please click confirm to delete this project ?</p>
             </div>
             <div class="modal-footer" style="padding: 5px">
                 <button type="button" class="btn btn-default" (click)="deleteEntityById()">Confirm</button> &nbsp;
                 <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- TO Display Delete screen model popup -->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deletescreenPopup}">
+    <div class="modal-dialog modal-sm" role="dialog">
+        <div class="modal-content">
+            <div class="delete modal-body">
+                <p>Please click confirm to delete this Screen</p>
+            </div>
+            <div class="modal-footer" style="padding: 5px">
+                <button type="button" class="btn btn-default" (click)="deleteScreenByIdPopup()">Confirm</button> &nbsp;
+                <button type="button" class="btn btn-default" (click)="closedeleteScreenPopup()">Cancel</button>
             </div>
         </div>
     </div>
