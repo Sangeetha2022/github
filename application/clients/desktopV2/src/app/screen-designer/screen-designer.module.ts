@@ -6,17 +6,18 @@ import { DesktopScreenComponent } from './desktop-screen/desktop-screen.componen
  import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
  import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
  import { NgxSpinnerModule } from 'ngx-spinner';
+import { ScreenDesignerRoutingModule } from './screen-designer-routing.module';
 
 @NgModule({
   declarations: [DesktopScreenComponent],
   imports: [
      CommonModule,
      FormsModule,
-     BrowserAnimationsModule,
-    CKEditorModule,
+     CKEditorModule,
    // AgGridModule.withComponents([]),
      ReactiveFormsModule,
-     NgxSpinnerModule
+     NgxSpinnerModule,
+     ScreenDesignerRoutingModule
   ]
 })
 export class ScreenDesignerModule { }

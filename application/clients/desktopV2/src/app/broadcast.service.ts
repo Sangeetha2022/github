@@ -16,6 +16,10 @@ export class Brodcastservice {
     public currentusername = this.currentUserNamestore.asObservable();
     private featureId = new BehaviorSubject<String>('default featureId');
     
+     // Send feature id to EntityModelComponent
+     public currentFeatureId = this.featureId.asObservable();
+ 
+
     sendmessage(message: {}) {
         this.currentUserNamestore.next(message);
     }

@@ -10,38 +10,36 @@
         </div>
     </div>
 
-    <div class="row" style="margin-top: 8%;">
+    <div class="row" style="margin-top: 5%;">
         <mat-accordion>
             <mat-expansion-panel [expanded]="true">
-                <mat-expansion-panel-header style="padding: 5%;">
+                <mat-expansion-panel-header style="padding: 3%;">
                     <mat-panel-title id="feature_heading">Entities </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="row">
                     <div class="col-lg-12">
-                        <button class="btn" id="ihclgr" color="primary">Add Entity</button>
+                        <button class="btn" id="ihclgr" color="primary" (click)="saveEntityModel()">Add Entity</button>
                     </div>
                 </div>
                 <div class="row mt-2" *ngIf="featureEntityDetails.length> 0">
-                    <div class="col-sm-4" *ngFor="let entity of featureEntityDetails; let i = index">
+                    <div class="col-lg-4" *ngFor="let entity of featureEntityDetails; let i = index">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-4">
-                                        <img src="./assets/images/project_components/feature.png" alt="">
+                                    <div class="col-lg-6">
+                                        <img src="./assets/images/project_components/entity.png" alt="">
                                     </div>
-                                    <div class="col-lg-8">
+                                    <div class="col-lg-6">
                                         <h5 id="Entry_text_heading" class="card-title">{{entity.name}}</h5>
                                         <p id="Entry_text_description" class="card-text">{{entity.description}}</p>
                                     </div>
                                 </div>
-                                <div class="d-grid gap-2 mt-3">
-                                    <div class="row">
-                                        <div class="col-lg-8 col-md-8 col-sm-8">
-                                            <button class="btn btn-block btn-primary" type="button">Edit</button>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4">
-                                            <button class="btn btn-danger" type="button">Delete</button>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-lg-6 ">
+                                        <button class="btn btn-block btn-outline-primary w-100 mt-3" (click)="editEntityField(entity)" type="button">Edit</button>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <button class="btn btn-block btn-outline-danger w-100 mt-3" (click)="openDeleteModel(entity)" type="button">Delete</button>
                                     </div>
                                 </div>
                             </div>
@@ -53,20 +51,107 @@
                 </div>
             </mat-expansion-panel>
             <mat-expansion-panel>
-                <mat-expansion-panel-header style="padding: 5%;">
+                <mat-expansion-panel-header style="padding: 3%;">
                     <mat-panel-title id="feature_heading">Feature Flows</mat-panel-title>
                 </mat-expansion-panel-header>
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <button class="btn" id="ihclgr" (click)="openFeatureFlowDialog(feature_id)" color="primary">Add Flows</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="flowTable container mt-sm-3">
+                        <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-material" [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData" [animateRows]="true" [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true"
+                            [paginationPageSize]="10" [suppressRowClickSelection]="true" [suppressRowClickSelection]="true" [frameworkComponents]="frameworkComponents" [floatingFilter]="true" (gridReady)="onFeatureFlowGridReady($event)">
+                        </ag-grid-angular>
+                    </div>
+                </div>
+
             </mat-expansion-panel>
             <mat-expansion-panel>
-                <mat-expansion-panel-header style="padding: 5%;">
+                <mat-expansion-panel-header style="padding: 3%;">
                     <mat-panel-title id="feature_heading">Screens</mat-panel-title>
                 </mat-expansion-panel-header>
                 <mat-card-content>
-                    <div class="float-end">
-                        <button class="btn" id="ihclgr" color="primary" (click)="GoToDesigner()">Add Screen</button>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <button class="btn" id="ihclgr" color="primary" (click)="GoToDesigner()">Add Screen</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3" *ngFor="let screen of screenDetails; let i = index">
+                            <p id="Entry_text_heading">{{screen?.screenName}}</p>
+                            <img id="desk_img" src="/assets/images/project_components/desktop.png" *ngIf="screen.screenType === 'desktop'" alt="Desktop">
+                            <img id="mobile_img" src="/assets/images/project_components/mobile.png" *ngIf="screen.screenType === 'mobile'" alt="Mobile">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <mat-icon style="cursor:pointer" (click)="editScreen(screen._id, screen.screenType)">edit</mat-icon>
+                                </div>
+                                <div class="col-lg-6">
+                                    <mat-icon (click)="deleteScreen(screen._id)" style="cursor:pointer">delete</mat-icon>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4" *ngIf="screenDetails.length === 0">
+                            No Screen Available.
+                        </div>
                     </div>
                 </mat-card-content>
             </mat-expansion-panel>
         </mat-accordion>
+    </div>
+</div>
+<!-- TO Display Delete model popup -->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deletePopup}">
+    <div class="modal-dialog modal-sm" role="dialog">
+        <div class="modal-content">
+            <div class="delete modal-body">
+                <p>Please click confirm to delete this project ?</p>
+            </div>
+            <div class="modal-footer" style="padding: 5px">
+                <button type="button" class="btn btn-default" (click)="deleteEntityById()">Confirm</button> &nbsp;
+                <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- TO Display Delete screen model popup -->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deletescreenPopup}">
+    <div class="modal-dialog modal-sm" role="dialog">
+        <div class="modal-content">
+            <div class="delete modal-body">
+                <p>Please click confirm to delete this Screen</p>
+            </div>
+            <div class="modal-footer" style="padding: 5px">
+                <button type="button" class="btn btn-default" (click)="deleteScreenByIdPopup()">Confirm</button> &nbsp;
+                <button type="button" class="btn btn-default" (click)="closedeleteScreenPopup()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- To display feature flow model in ag grid -->
+<div id="EventPopup" class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':displayFeatureFlowModal}">
+    <div class="modal-dialog modal-lg flow_popup" role="dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <div class="container">
+                    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-material" [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData" [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef"
+                        domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10" [floatingFilter]="true" (selectionChanged)="onRowSelectionChanged($event)" (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2">
+                        <button id="create_btn" class="btn btn-default" (click)="createProjectFlow()">Save</button>
+                    </div>
+                    <div class="p-2">
+                        <button id="cancel_btn" type="button" class="btn btn-default" (click)="closeFeatureFlowModal()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

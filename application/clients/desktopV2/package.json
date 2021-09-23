@@ -28,6 +28,7 @@
         "@ngx-translate/core": "^13.0.0",
         "@ngx-translate/http-loader": "^6.0.0",
         "ag-grid-angular": "^26.0.0",
+        "ag-grid-community": "^26.0.0",
         "angular-material": "^1.2.3",
         "bootstrap": "^5.0.2",
         "grapesjs": "^0.17.25",
