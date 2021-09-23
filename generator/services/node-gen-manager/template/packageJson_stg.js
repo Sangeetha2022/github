@@ -1,6 +1,6 @@
 /*
  * Template group packageJson
- * Compiled on Thu Jul 22 2021 21:30:15 GMT+0530 (India Standard Time)
+ * Compiled on Wed Sep 15 2021 15:01:41 GMT+0530 (IST)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -142,13 +142,17 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
+    w.write("\"node-fetch\":\"^2.3.0\",");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
     w.write("\"jsonwebtoken\": \"8.5.1\",");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
     w.write("\"winston-daily-rotate-file\": \"^3.6.0\"");
     w.popIndentation();
-    if (st.test(st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 31, column: 52 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 33, column: 52 }))) {
     
         w.write(",");
     
@@ -156,19 +160,19 @@ r = function(w, rc) {
     }
     w.write("\n");
     w.write("    ");
-    if (st.test(st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 32, column: 15 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 34, column: 15 }))) {
     
         st.write(w, s, g, rc, (function() {
         var tp = [],
-        attr = st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 32, column: 37 });
+        attr = st.prop(s, g, rc, s.object, "dependencies", { file: gFile, line: 34, column: 37 });
         tp.push(st.makeSubTemplate(g, function(w, rc) {
             var g = this.owningGroup,
             s = this.scope;
             
                      w.write("\"");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "name", { file: gFile, line: 32, column: 77 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "name", { file: gFile, line: 34, column: 77 }));
                      w.write("\": \"");
-                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "version", { file: gFile, line: 32, column: 98 }));
+                     st.write(w, s, g, rc, st.prop(s, g, rc, s.dependency, "version", { file: gFile, line: 34, column: 98 }));
                      w.write("\"");
             }, [
             { name: "dependency"     }
