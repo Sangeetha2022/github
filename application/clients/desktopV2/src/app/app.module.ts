@@ -32,6 +32,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {MissingTranslationHandler,MissingTranslationHandlerParams} from '@ngx-translate/core';
 import { ProjectComponentModule } from './project-component/project-component.module';
 import {  AgGridAngular, AgGridModule } from 'ag-grid-angular';
+import { ConnectorManagerModule } from './techarchitecture-manager/techarchitecture-manager.module';
 export class MyMissingTranslationHandler implements MissingTranslationHandler {
   handle(params: MissingTranslationHandlerParams) {
     return JSON.stringify(params);
@@ -52,6 +53,7 @@ export function httpLoaderfactory(http:HttpClient){
   ],
   imports: 
   [
+    ConnectorManagerModule,
       AgGridModule.withComponents([]),
     HeaderModule,
     BrowserModule,

@@ -21,4 +21,8 @@ export class ConfigManagerService {
   getBuildDate(name:string): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getProjectVersion}/${name}`);
   }
+
+  getTechProperties(logId:string): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getConfigTechProperties}?log_id=${logId}`);
+  }
 }

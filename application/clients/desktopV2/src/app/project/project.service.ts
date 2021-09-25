@@ -26,7 +26,9 @@ export class ProjectService {
   deleteProjectFlowByProjectId(projectId:string, logId:string): Observable<any> {
     return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteProjectFlowByProjectId}/${projectId}?log_id=${logId}`);
   }
-
+  updateProjectById(projectId: String, projectDetails: any, logId: any): Observable<any> {
+    return this.api.put(`${this.restapi.Apigateway}${Constants.updateProjectById}/${projectId}` + `?log_id=${logId}`, projectDetails);
+  }
   deleteProject(id:string, logId:string): Observable<any> {
     return this.api.delete(this.restapi.Apigateway + Constants.deleteProject + id + `?log_id=${logId}`);
   }

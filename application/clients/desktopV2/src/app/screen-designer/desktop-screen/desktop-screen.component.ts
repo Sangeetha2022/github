@@ -232,7 +232,7 @@ export class DesktopScreenComponent implements OnInit {
     console.log('-------draganddrop-----this', this);
     this.commandService.componentSelected(this);
     this.commandService.toggle(this);
-    this.commandService.removeComponent(this);
+    //this.commandService.removeComponent(this);
     this.commandService.updateComponentName(this);
     this.commandService.updateTraits(this);
     this.commandService.dragAndDrop(this);
