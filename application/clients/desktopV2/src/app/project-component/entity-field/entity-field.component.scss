@@ -1,0 +1,42 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
+#Add_row {
+    white-space: nowrap;
+    background-color: #5DB18C;
+    color: #ffffff;
+    padding: 8px 20px 8px 20px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+}
+
+#Entity_heading {
+    text-align: left;
+    font-family: Montserrat, sans-serif;
+    font-weight: 700;
+    color: #302C5E;
+    white-space: nowrap;
+}
+
+#create_btn {
+    background-color: #5DB18C;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    color: #ffffff;
+    border-radius: 5px 5px 5px 5px;
+    padding: 10px 20px 10px 20px;
+}
+
+#cancel_btn {
+    background-color: #9297A7;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    color: #ffffff;
+    border-radius: 5px 5px 5px 5px;
+    padding: 10px 20px 10px 20px;
+}
+
+#error_msg {
+    font-family: Montserrat, sans-serif;
+    color: #ec4629;
+    text-align: center;
+    margin-top: 5%;
+}

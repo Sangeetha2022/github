@@ -12,7 +12,7 @@
     <div class="row">
         <mat-accordion>
             <mat-expansion-panel [expanded]="true">
-                <mat-expansion-panel-header style="padding: 5%;">
+                <mat-expansion-panel-header style="padding: 3%;">
                     <mat-panel-title id="feature_heading">My Features </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div class="row">
@@ -27,7 +27,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-4">
-                                        <img src="./assets/images/project_components/feature.png" alt="">
+                                        <img src="./assets/images/project_components/gear.png" alt="">
                                     </div>
                                     <div class="col-lg-8">
                                         <p id="Entry_text_heading" class="card-title">{{feature.name}}</p>
@@ -44,39 +44,57 @@
                 </div>
             </mat-expansion-panel>
             <mat-expansion-panel>
-                <mat-expansion-panel-header style="padding: 5%;">
+                <mat-expansion-panel-header style="padding: 3%;">
                     <mat-panel-title id="feature_heading"> Entities</mat-panel-title>
                 </mat-expansion-panel-header>
-                <div class="float-end">
-                    <button class="btn" id="ihclgr" color="primary">Add Entity</button>
-                </div>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-lg-12">
+                        <button class="btn" id="ihclgr" color="primary">Add Entity</button>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-sm-4" *ngFor="let entity of projectEntity; let i= index">
                         <div class="card">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-4">
-                                        <img src="./assets/images/project_components/feature.png" alt="">
+                                        <img src="./assets/images/project_components/entity.png" alt="">
                                     </div>
                                     <div class="col-lg-8">
-                                        <h5 id="Entry_text_heading" class="card-title">User</h5>
-                                        <p id="Entry_text_description" class="card-text">User Details</p>
+                                        <p id="Entry_text_heading" class="card-title">{{entity.name}}</p>
+                                        <p id="Entry_text_description" class="card-text">{{entity.description}}</p>
                                     </div>
                                 </div>
-                                <div class="d-grid gap-2 mt-3">
-                                    <div class="row">
-                                        <div class="col-lg-8">
-                                            <button class="btn btn-block btn-primary" type="button">Edit</button>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <button class="btn btn-danger" type="button">Delete</button>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-lg-6 ">
+                                        <button class="btn btn-block btn-outline-primary w-100 mt-3" (click)="editEntityField(entity)" type="button">Edit</button>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <button class="btn btn-block btn-outline-danger w-100 mt-3" [disabled]="entity.is_default" (click)="openDeleteModel(entity)" type="button">Delete</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="false">
+                <mat-expansion-panel-header style="padding: 3%;">
+                    <mat-panel-title id="feature_heading">Technical Architecture</mat-panel-title>
+                </mat-expansion-panel-header>
+                <h1 class="text-center">Coming Soon</h1>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="false">
+                <mat-expansion-panel-header style="padding: 3%;">
+                    <mat-panel-title id="feature_heading">Menu Builder</mat-panel-title>
+                </mat-expansion-panel-header>
+                <h1 class="text-center">Coming Soon</h1>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="false">
+                <mat-expansion-panel-header style="padding: 3%;">
+                    <mat-panel-title id="feature_heading">Template Manager</mat-panel-title>
+                </mat-expansion-panel-header>
+                <h1 class="text-center">Coming Soon</h1>
             </mat-expansion-panel>
         </mat-accordion>
     </div>
@@ -125,5 +143,21 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<!-- To Delete Entity Popup model -->
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top':
+    '100px','display':deletePopup}">
+    <div class="modal-dialog modal-sm" role="dialog">
+        <div class="modal-content">
+            <div class="delete modal-body">
+                <p>Please confirm to delete this entity ? </p>
+            </div>
+            <div class="modal-footer" style="padding: 5px">
+                <button type="button" class="btn btn-default" (click)="deleteEntityById()">Confirm</button> &nbsp;
+                <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
+            </div>
+        </div>
+
     </div>
 </div>

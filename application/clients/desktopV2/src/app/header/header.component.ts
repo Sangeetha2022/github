@@ -6,6 +6,9 @@ import  *  as  global_lang_json  from  'src/assets/i18n/languages.json';
 import { LoginService } from '../login/login.service';
 import { LoggingService } from '../config/logging.service';
 import { ConfigManagerService } from '../config-manager/config-manager.service';
+import { SharedService } from 'src/shared/shared.service';
+
+
 
 @Component({
   selector: 'app-header',
@@ -27,12 +30,12 @@ export class HeaderComponent implements OnInit {
   public user: any = {
     id: ''
   };
- 
   constructor(public translate:TranslateService,
     public router:Router,
     private configurationService: ConfigManagerService,
     private logoutservice: LoginService,
     private location: Location,
+    public shared:SharedService,
     private logger:LoggingService) { 
     
       this.Global_Languages=global_lang_json;
@@ -41,7 +44,7 @@ export class HeaderComponent implements OnInit {
         arr.push([j, this.Global_Languages['default'][j]]);
     }
     var langs=navigator.languages;
-    console.log(langs);
+    console.log("langs",langs);
     
     for(var i=0;i<langs.length;i++){
       arr.forEach(element => {
@@ -68,7 +71,7 @@ export class HeaderComponent implements OnInit {
     }
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        if (event.url === '/login' || event.url === '/consent' || event.url === '/') {
+        if (event.url === '/login' || event.url === '/consent' || event.url === '/signup' || event.url === '/') {
           this.hideElement = true;
         } else {
           this.hideElement = false;

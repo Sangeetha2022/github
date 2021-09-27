@@ -231,7 +231,6 @@ export class DaoWorker {
                 connectorUrlObject.host += `${externalConnector.url.host[i]}.`
             }
         }
-
         externalConnector.url.path.forEach((pathData, index) => {
             connectorUrlObject.path += `/${pathData}`
         })
@@ -254,17 +253,49 @@ export class DaoWorker {
                 }, (err) => {
                     if (err) throw err;
                     else {
+                        console.log('queryObject ============>>>', JSON.stringify(queryObject));
                         this.tempDao.function.connector.query_object.push(`}`);
-                        console.log('queryObject', JSON.stringify(queryObject));
+                        console.log('queryObject ============>>>', JSON.stringify(queryObject));
+                        if(externalConnector.body.mode === 'urlencoded') {
+                            this.tempDao.function.connector.query_object.push(Constants.urlencodedFunction);
+                        }
                     }
                 })
             }
+        } else if(externalConnector.body.mode && externalConnector.body.mode === 'urlencoded'){
+            asyncLoop(externalConnector.body.urlencoded, async (data: any, next) => {
+                let key = data.key;
+                if (externalConnector.url.query.indexOf(data) === externalConnector.url.query.length) {
+                    this.tempDao.function.connector.query_object.push(`${key}: ${this.entitySchema.fileName}Data.${key}`);
+                    next();
+                } else {
+                    this.tempDao.function.connector.query_object.push(`${key}: ${this.entitySchema.fileName}Data.${key},`);
+                    next();
+                }
+            }, (err) => {
+                if (err) throw err;
+                else {
+                    this.tempDao.function.connector.query_object.push(`}`);
+                    if(externalConnector.body.mode === 'urlencoded') {
+                        this.tempDao.function.connector.query_object.push(Constants.urlencodedFunction);
+                    }
+                }
+            })
         }
+        
         this.tempDao.function.query = `${connectorUrl}, { method: "${externalConnector.method}"`;
         if (externalConnector.method === 'POST' || externalConnector.method === 'PUT') {
-            this.tempDao.function.query += `, body: JSON.stringify(${this.entitySchema.fileName}Data),`
+            if(externalConnector.body.mode === 'urlencoded') {
+                this.tempDao.function.query += `, body: encodeFormData(queryObject),`
+            } else {
+                this.tempDao.function.query += `, body: JSON.stringify(${this.entitySchema.fileName}Data),`
+            }
         }
-        this.tempDao.function.query += `, headers: { 'Content-Type': 'application/json'`
+        if(externalConnector.body.mode === 'urlencoded') {
+            this.tempDao.function.query += `, headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'`
+        } else {
+            this.tempDao.function.query += `, headers: { 'Content-Type': 'application/json'`
+        }
         if (externalConnector.auth !== undefined) {
             if (externalConnector.auth.type == 'basic') {
                 let creds = '`\${credentialData.data.username}:\${credentialData.data.password}`';

@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   public submitted:boolean = false;
   public errormessage:string='';
   public openId: String = 'openid';
+  hide: boolean = true;
   constructor(public route: Router ,public loginservice:LoginService,public logger:LoggingService,public broadcast: Brodcastservice,public SignupService:SignupService) { }
  
   ngOnInit(): void {
@@ -33,6 +34,9 @@ export class LoginComponent implements OnInit {
         'password': new FormControl(null, [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])[A-Za-z\d].{8,}')])
       })
     });
+  }
+  password_hide(){
+    this.hide = !this.hide;
   }
   get f() { return this.loginform.controls; }
   Consent() {

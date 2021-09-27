@@ -37,10 +37,23 @@ export class Constants {
         public static get getFeatureByProjectId(): String { return this.DESKTOP_ROUTER + '/feature/project/get'; }
         public static get getFeatureById(): String { return this.DESKTOP_ROUTER + '/feature/get'; }
 
+        // Feature Screen
+        public static get addScreen(): string { return this.DESKTOP_ROUTER + '/screen/save'; }
+        public static get getScreenByID(): string { return this.DESKTOP_ROUTER + '/screen/get'; }
+        public static get deleteScreen(): string { return this.DESKTOP_ROUTER + '/screen/delete'; }
+        public static get getScreenByFeatureName(): string { return this.DESKTOP_ROUTER + '/screen/getbyfeature/'; }
+        public static get updateScreen(): string { return this.DESKTOP_ROUTER + '/screen/update/'; }
+        public static get getScreenByProjectAndFeatureId(): string { return this.DESKTOP_ROUTER + '/screen/getbyprojectandfeatureid/'; }
+        public static get getScreenByProjectId(): string { return this.DESKTOP_ROUTER + '/screen/getbyprojectid'; }
+        public static get getScreenByFeatureId(): string { return this.DESKTOP_ROUTER + '/screen/getbyfeatureid'; }
+        public static get getScreenTemplateByProjectId(): string { return this.DESKTOP_ROUTER + '/screen/template'; }
+
         // Entity
         public static get saveEntity(): string { return this.DESKTOP_ROUTER + '/entity/save'; }
         public static get updateEntity(): string { return this.DESKTOP_ROUTER + '/entity/update'; }
+        public static get featuredeleteEntity(): string { return this.DESKTOP_ROUTER + '/feature/deleteentity'; }
         public static get getEntity(): string { return this.DESKTOP_ROUTER + '/entity/get'; }
+        public static get updateEntityFields(): string { return this.DESKTOP_ROUTER + '/entity/field/update'; }
         public static get deleteEntity(): string { return this.DESKTOP_ROUTER + '/entity/delete'; }
         public static get allEntity(): string { return this.DESKTOP_ROUTER + '/entity/getall'; }
         public static get featureUpdateEntity(): string { return this.DESKTOP_ROUTER + '/feature/updateEntity/'; }
@@ -53,11 +66,18 @@ export class Constants {
         public static get getAllTemplates(): string { return this.DESKTOP_ROUTER + '/template/getall'; }
         public static get getTemplateParser(): string { return this.DESKTOP_ROUTER + '/templateparser/get'; }
         public static get getTemplateByName(): string {return this.DESKTOP_ROUTER + '/template/gettemplatename' ;}
+        public static get getProjectTemplateById(): string {return this.DESKTOP_ROUTER + '/project/template/get';}
         public static get addProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template/save';}
+        public static get updateProjectTemplate(): string {return this.DESKTOP_ROUTER + '/project/template/update';}
 
         //Flow api's
         public static get getAllFlow(): String { return this.DESKTOP_ROUTER + '/flow/getall'; }
         public static get getProjectVersion(): string { return this.DESKTOP_ROUTER + '/generation_flow/getbyname'; }
+
+        // delete project
+        public static get deleteFlowById(): string { return this.DESKTOP_ROUTER + '/delete/flow'; }
+        public static get deleteEntityById(): string { return this.DESKTOP_ROUTER + '/delete/entity'; }
+        public static get deleteScreenById(): string { return this.DESKTOP_ROUTER + '/delete/screen'; }
 
         // menu apis
         public static get createDefaultMenu(): String { return this.DESKTOP_ROUTER + '/menu/default'; }
@@ -81,5 +101,10 @@ export class Constants {
         scrollbars,scrollBy,scrollTo,Select,self,setInterval,setTimeout,status,statusbar,stop,String,
         Submit,sun,taint,Text,Textarea,toolbar,top,toString,unescape,untaint,unwatch,valueOf,watch,window,id`;
         }
+
+        public static get getConstantSpecialCharacters(): String {
+                return `\`|\\~|\\!|\\@|\\#|\\$|\\%|\\^|\\&|\\*|\\(|\\)|
+                \\+|\\=|\\[|\\{|\\]|\\}|\\||\\\\|\\'|\\<|\\,|\\.|\\>|\\?|\\/|\\""|\\"|\\;|\\:|\\s`;
+            }
   
 }

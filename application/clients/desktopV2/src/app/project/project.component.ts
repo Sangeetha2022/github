@@ -88,6 +88,7 @@ export class ProjectComponent implements OnInit {
     this.getProjectByUserId();
     this.getCloneProjectById();
     this.getAllTemplates();
+    this.getTemplateParser();
     this.getAllFlows();
     setTimeout(() => {
       this.onSecondoryLangSelect();
@@ -106,6 +107,20 @@ export class ProjectComponent implements OnInit {
     }, error => {
       this.logger.log('error',error);
     });
+  }
+  //Get template parser and store it in localstorage
+  getTemplateParser() {
+    this.spinner.show();
+    this.templateScreenService.getTemplateParser(this.logId).subscribe(response => {
+      this.spinner.hide();
+      console.log('getTemplate parser response in project are --- ', response);
+      if (response) {
+        localStorage.setItem('templateparser', JSON.stringify(response.body));
+      }
+    },
+      error => {
+        console.log('Check the browser console to see more info.', 'Error!');
+      });
   }
    
   //Getting All UserTemplates
