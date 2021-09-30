@@ -1,0 +1,144 @@
+{
+    "resources": [
+        {
+            "id": 9080800,
+            "role": "Admin",
+            "screens": [
+                {
+                    "screenname": "createscreen",
+                    "fields": [
+                        {
+                            "name": "category",
+                            "fieldType": "text"
+                        }
+                    ]
+                },
+                {
+                    "screenname": "inventorysearch",
+                    "fields": [
+                        {
+                            "name": "category",
+                            "fieldType": "text"
+                        }
+                    ]
+                },
+                {
+                    "screenname": "seemodel",
+                    "fields": [
+                        {
+                            "name": "category",
+                            "fieldType": "text"
+                        }
+                    ]
+                },
+                {
+                    "screenname": "createtags",
+                    "fields": [
+                        {
+                            "name": "brand",
+                            "fieldType": "text"
+                        }
+                    ]
+                },
+                {
+                    "screenname": "updatetags",
+                    "fields": [
+                        {
+                            "name": "brand",
+                            "fieldType": "text"
+                        }
+                    ]
+                },
+                {
+                    "screenname": "home",
+                    "fields": [
+                        {
+                            "name": "brand",
+                            "fieldType": "text"
+                        }
+                    ]
+                },
+                {
+                    "screenname": "search",
+                    "fields": [
+                        {
+                            "name": "brand",
+                            "fieldType": "text"
+                        }
+                    ]
+                },
+                {
+                    "screenname": "catalog",
+                    "fields": [
+                        {
+                            "name": "brand",
+                            "fieldType": "text"
+                        }
+                    ]
+                },
+                {
+                    "screenname": "admin",
+                    "fields": [
+                        {
+                            "name": "brand",
+                            "fieldType": "text"
+                        }
+                    ]
+                }
+            ]
+            
+        },
+        {
+            "id": 9080802,
+            "role": "User",
+            "screens": [
+                {
+                    "screenname": "catalog",
+                    "fields": [
+                        {
+                            "name": "brand",
+                            "fieldType": "text"
+                        }
+                    ]
+                }
+                
+            ]
+            
+        },
+        {
+            "id": 9080802,
+            "role": "Guest",
+            "screens": [
+                {
+                    "screenname": "catalog",
+                    "fields": [
+                        {
+                            "name": "brand",
+                            "fieldType": "text"
+                        }
+                    ]
+                },
+                {
+                    "screenname": "search",
+                    "fields": [
+                        {
+                            "name": "brand",
+                            "fieldType": "text"
+                        }
+                    ]
+                },
+                {
+                    "screenname": "search",
+                    "fields": [
+                        {
+                            "name": "brand",
+                            "fieldType": "text"
+                        }
+                    ]
+                }
+                
+            ]
+            
+        }
+    ]
+}
