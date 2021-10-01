@@ -41,9 +41,9 @@ export class SefComponentCSSworker {
                             styleArray.forEach(style => {
                                 cssData += style + ':' + element.style[style] + ';\n'
                             });
+                            cssData += '}';
                         }
                     });
-                    cssData += '}';
                 }
             });
             details.desktop.forEach(element => {
