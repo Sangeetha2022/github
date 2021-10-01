@@ -173,6 +173,7 @@ services:
       - configmanager
       - mongogenmanager
       - nodegenmanager
+      - sefnodegenmanager
       - swaggergenmanager
 
   projectmanager:
@@ -289,6 +290,18 @@ services:
       - generated-code:/geppetto/
     ports:
       - "5012:5012"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+  
+  sefnodegenmanager:
+    build: ../../generator/services/sef-node-gen-manager
+    image: sefnodegenmanager
+    container_name: sefnodegenmanager
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+       - "5024:5024"
     env_file: ../../.env
     depends_on:
       - mongo

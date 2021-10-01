@@ -1,5 +1,3 @@
-
-
 import { Request, Response } from 'express';
 import { ApiGatewayService } from '../services/ApiGatewayService';
 

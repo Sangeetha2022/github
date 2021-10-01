@@ -7,6 +7,7 @@ export class NodeController {
 
     public createProjectNode(req: Request, res: Response) {
         nodeService.createProjectNode(req, (response) => {
+            console.log('get a SEF resposne ',response,'node stringfiy-----',JSON.stringify(response));
             res.status(200);
             res.json(response);
         })

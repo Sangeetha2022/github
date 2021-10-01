@@ -32,6 +32,7 @@ export class ComponentCSSworker {
             let gjsStyles = JSON.parse(desktopElement['gjs-styles']);
             gjsStyles.forEach(element => {
                 if (Object.keys(element).includes('style') && Object.keys(element).includes('selectors')) {
+                    console.log('css geta data first', element.selectors);
                     element.selectors.forEach((selector, index) => {
                         cssData += '.' + selector.name;
                         if (element.selectors.length - 1 === index) {
@@ -43,6 +44,7 @@ export class ComponentCSSworker {
                         }
                     });
                     cssData += '}';
+                    console.log('finish a complete css', cssData);
                 }
             });
             details.desktop.forEach(element => {

@@ -10,6 +10,7 @@ import { SharedService } from '../config/SharedService';
 import { ApiAdaptar } from '../config/ApiAdaptar';
 import { MicroFlowManagerService } from '../apiservices/MicroFlowManagerService';
 import { NodeGenManagerService } from '../apiservices/NodeGenManagerService';
+import { SefNodeGenManagerService } from '../apiservices/SefNodeGenManagerService';
 import * as util from 'util';
 import * as path from 'path';
 import * as asyncLoop from 'node-async-loop';
@@ -20,6 +21,7 @@ import { Common } from '../config/Common';
 export class BackendService {
     sharedService = new SharedService();
     nodeService = new NodeGenManagerService();
+    sefNodeService = new SefNodeGenManagerService();
     microFlowService = new MicroFlowManagerService();
     dataStoreService = new DataStoreManagerService();
     apiAdapter = new ApiAdaptar();
@@ -172,6 +174,7 @@ export class BackendService {
                     } else {
                         console.log('flow iteration completed %%%%%%%%%%%%% ----- ', util.inspect(feature, { showHidden: true, depth: null }));
                         const node = await this.generateNode(feature);
+                        console.log('test what response from node services', node);
                         console.log('node %%%%%%%%%%%%% ???????----- ', util.inspect(node, { showHidden: true, depth: null }));
                         callback(node);
                     }
@@ -179,6 +182,7 @@ export class BackendService {
             } else if (Object.values(details.externalfeatureconfig).includes('external')) {
                 console.log('------feature -----value------', feature);
                 const nodev2 = await this.generateNode(feature);
+                console.log('test what response from node services', nodev2);
                 callback(nodev2);
             }
             else {
@@ -207,9 +211,16 @@ export class BackendService {
 
     generateNode(details) {
         return new Promise(resolve => {
-            this.nodeService.generateNode(details, (data) => {
-                resolve(data);
-            })
+            console.log('testing new feature', details.featureName !== 'SystemEntry', details.featureName);
+            if(details.featureName !== 'SystemEntry'){
+                this.nodeService.generateNode(details, (data) => {
+                    resolve(data);
+                });
+            } else {
+                this.sefNodeService.generateSefNode(details, (data) => {
+                    resolve(data);
+                });
+            }
         })
     }
 

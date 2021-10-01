@@ -40,4 +40,4 @@ export * from './generator/angularTemplate.controller';
 export * from './generator/swagger.controller';
 export * from './generator/react.controller';
 export * from './generator/defaultServices.controller';
-
+export * from './generator/sefnode.controller';
