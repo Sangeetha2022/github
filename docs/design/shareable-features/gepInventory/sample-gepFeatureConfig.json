@@ -1,13 +1,13 @@
 {
-    "feature-name": "gepFileManager",
+    "feature-name": "gepInventory",
     "type": "external-QUESTION: what are other types?",
     "version": "1.0.0",
-    "description": "\"Generic file uploads/downloads/management\"",
+    "description": "\"Provides Inventory Management Functions\"",
     "author": "gepinfo.@gmail.com",
     "icon-location": "/xx/ff/ggg/file-manager.png",
     "repo":{
         "type": "github",
-        "location": "https://github.com/dan-castillo/gepFileManager.git",
+        "location": "https://github.com/dan-castillo/gepInventory.git",
         "branch" : "main"
 
     },
@@ -26,6 +26,46 @@
         "alternate-entry-point-access": "/ddd/fff/www"
     },
 
+    "entities": {
+        "the-entities":[
+            {
+                "name": "inventoryItem",
+                "fields":[
+                    {
+                        "type": "text",
+                        "name": "short description"
+                    },
+                    {
+                        "type": "text",
+                        "name": "long description"
+                    },
+                    {
+                        "type": "number",
+                        "name": "cost"
+                    },
+                    {
+                        "type": "number",
+                        "name": "price"
+                    },
+                    {
+                        "type": "list",
+                        "descriptors":[
+                            {
+                                "key": "text",
+                                "value": "text"
+                            }
+                            
+                        ]
+                    }
+
+
+                ]
+
+            }
+
+        ]
+
+    },
     "server-properties":{
         "runtime": "nodejs",
         "runtime-version": "14.0.0",
