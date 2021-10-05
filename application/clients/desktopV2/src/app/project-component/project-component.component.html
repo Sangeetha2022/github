@@ -6,7 +6,7 @@
     <h5 id="project_heading">Project Name: {{ project_display_Name }}</h5>
     <div class="row">
         <div class="col-md-12 my-4 p-4">
-            <button class="btn btn-lg btn-success" id="ihclgr">Generate Application</button>
+            <button class="btn btn-lg btn-success" id="ihclgr" (click)="generateCode()">Generate Application</button>
         </div>
     </div>
     <div class="row">
@@ -78,12 +78,7 @@
                     </div>
                 </div>
             </mat-expansion-panel>
-            <mat-expansion-panel [expanded]="false">
-                <mat-expansion-panel-header style="padding: 3%;">
-                    <mat-panel-title id="feature_heading">Technical Architecture</mat-panel-title>
-                </mat-expansion-panel-header>
-                <h1 class="text-center">Coming Soon</h1>
-            </mat-expansion-panel>
+            <app-techarchitecture-manager></app-techarchitecture-manager>
             <mat-expansion-panel [expanded]="false">
                 <mat-expansion-panel-header style="padding: 3%;">
                     <mat-panel-title id="feature_heading">Menu Builder</mat-panel-title>

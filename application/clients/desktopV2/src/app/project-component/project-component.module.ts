@@ -13,9 +13,12 @@ import { EntityFieldComponent } from './entity-field/entity-field.component';
  import {  AgGridAngular, AgGridModule } from 'ag-grid-angular';
 import { FieldPopupModalComponent } from './entity-field/field-popup-modal/field-popup-modal.component';
 import {MatSelectModule} from '@angular/material/select';
+import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitecture-manager.module';
+import { EntityManagerComponent } from './project-component.component';
 
 @NgModule({
   declarations: [
+    
     ScreenPopupComponent,
     EntitypopUpComponent,
     EntityFieldComponent,
@@ -23,6 +26,7 @@ import {MatSelectModule} from '@angular/material/select';
   ],
   imports: [
     CommonModule,
+   ConnectorManagerModule,
     RouterModule,
     MatDialogModule,
     MatRadioModule,
@@ -33,8 +37,8 @@ import {MatSelectModule} from '@angular/material/select';
     AgGridModule.withComponents([]),
    // AgGridAngular
   ],
-  exports:[
-
+  exports: [
+    
   ],
   entryComponents: [
     ScreenPopupComponent,

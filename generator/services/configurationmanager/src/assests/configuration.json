@@ -2336,6 +2336,14 @@
             "sub_type": null
         },
         {
+            "name": "angular 12",
+            "label": "Angular 12",
+            "description": null,
+            "value": null,
+            "type": "GpClientDevFramework",
+            "sub_type": null
+        },
+        {
             "name": "react 16.x(alpha)",
             "label": "React 16.x(alpha)",
             "description": null,

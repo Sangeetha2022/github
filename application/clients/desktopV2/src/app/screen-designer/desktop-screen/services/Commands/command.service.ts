@@ -270,15 +270,37 @@ export class CommandService {
     $this.editor.on('block:drag:stop', function (model:any) {
       console.log('model drag and drop are ----- ', model);
       const allInputModels = model.find('[data-gjs-type="input"]');
+      const allButtonModels = model.find('button');
+      const allImageBlockModels = model.find('.gpd-image-block');
+      const allImageModels = model.find('.gjs-plh-image');
       console.log('allInputModels ---  ', allInputModels);
+      console.log('allButtonModels ---  ', allButtonModels);
       if (allInputModels.length === 0 && model.attributes.tagName === 'input') {
         allInputModels.push(model);
+      }
+      if (allButtonModels.length === 0 && model.attributes.tagName === 'button') {
+        allButtonModels.push(model);
       }
          // input
          allInputModels.forEach((element: { attributes: { traits: { target: { set: (arg0: string, arg1: string) => void; }; }; }; ccid: any; }) => {
           $this.setElementCSS(element, 'input', null);
           element.attributes.traits.target.set('name', `input_${element.ccid}`);
         });
+              // button
+      allButtonModels.forEach((element: { attributes: { traits: { target: { set: (arg0: string, arg1: string) => void; }; }; }; ccid: any; }) => {
+        // set default verbs for button
+        $this.buttonVerb = 'click';
+        $this.setElementCSS(element, 'button', null);
+        element.attributes.traits.target.set('name', `button_${element.ccid}`);
+      });
+        // image blocks
+        allImageBlockModels.forEach((element: { attributes: { traits: { target: { set: (arg0: string, arg1: string) => void; }; }; }; ccid: any; }) => {
+          element.attributes.traits.target.set('name', `image_${element.ccid}`);
+        });
+           // images
+      allImageModels.forEach((element: { attributes: { traits: { target: { set: (arg0: string, arg1: string) => void; }; }; }; ccid: any; }) => {
+        element.attributes.traits.target.set('name', `image_${element.ccid}`);
+      });
     })
   }
 

@@ -76,4 +76,11 @@ export class ProjectComponentService {
   deleteFlowById(FlowId: String, logId:any): Observable<any> {
     return this.api.delete(`${this.restapi.Apigateway}${Constants.deleteFlowById}/${FlowId}` + `?log_id=${logId}`);
   }
+  exportSharedServiceYaml(projectId:any, logId:any): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.sharedApplication}${projectId}` + `?log_id=${logId}`);
+  }
+    // codegenerate Api
+    codeGenerate(projectId: any, logId:any): Observable<any> {
+      return this.api.get(`${this.restapi.Apigateway}${Constants.projectGeneration}/${projectId}${Constants.GET}` + `?log_id=${logId}`);
+    }
 }

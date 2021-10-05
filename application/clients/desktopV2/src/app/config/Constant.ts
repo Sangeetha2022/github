@@ -15,6 +15,7 @@ export class Constants {
         public static get getProjectByUserId(): string { return this.DESKTOP_ROUTER + '/projects/getbyuserid'; }
         public static get getProjectById(): String { return this.DESKTOP_ROUTER + '/projects/getbyid'; }
         public static get getProjectByAll(): string { return this.DESKTOP_ROUTER + '/projects/getall'; }
+        public static get updateProjectById(): String { return this.DESKTOP_ROUTER + '/projects/update'; }
         public static get deleteProject(): string { return this.DESKTOP_ROUTER + '/projects/delete/'; }
         public static get deleteProjectFlowByProjectId(): string { return this.DESKTOP_ROUTER + '/delete/project'; }
         public static get createDefaultEntity(): String { return this.DESKTOP_ROUTER + '/projects/default/create'; }
@@ -62,6 +63,17 @@ export class Constants {
         //get the feature entities 
         public static get getAllEntityByFeatureId(): string { return this.DESKTOP_ROUTER + '/feature'; }
 
+            // shared application
+        public static get sharedApplication(): string { return this.DESKTOP_ROUTER + '/shared/getbyproject/'; }
+        public static get sharedAppImport(): string { return  '/shared/upload'; }
+
+        // generation
+        public static get projectSocket(): string { return this.DESKTOP_ROUTER + '/generate'; }
+        public static get getAllNotifyProject(): string { return this.DESKTOP_ROUTER + '/projectgen/project'; }
+        public static get getAllUserNotify(): string { return this.DESKTOP_ROUTER + '/projectgen/user'; }
+        public static get projectGeneration(): string { return this.DESKTOP_ROUTER + '/projectgen/project'; }
+        public static GET = '/get';
+
         // Templates
         public static get getAllTemplates(): string { return this.DESKTOP_ROUTER + '/template/getall'; }
         public static get getTemplateParser(): string { return this.DESKTOP_ROUTER + '/templateparser/get'; }
@@ -73,6 +85,7 @@ export class Constants {
         //Flow api's
         public static get getAllFlow(): String { return this.DESKTOP_ROUTER + '/flow/getall'; }
         public static get getProjectVersion(): string { return this.DESKTOP_ROUTER + '/generation_flow/getbyname'; }
+        public static get getConfigTechProperties(): string { return this.DESKTOP_ROUTER + '/generation_flow/getproperties'; }
 
         // delete project
         public static get deleteFlowById(): string { return this.DESKTOP_ROUTER + '/delete/flow'; }
