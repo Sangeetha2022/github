@@ -442,7 +442,7 @@ export class AngularTemplateService {
             asyncLoop(gjsComponents, (gjsElement, next) => {
                 const tagName = componentSupportWorker.tagNameFunction(gjsElement);
                 // Geppetto Template Generation
-                if (templateName.toLowerCase() === 'geppetto template') {
+                if (templateName.toLowerCase() === 'oldgeppetto template') {
                     this.generateGeppettoTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
@@ -462,7 +462,7 @@ export class AngularTemplateService {
                     this.generateTopNavTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
-                }else if (templateName.toLowerCase() === 'newgeppetto-template') {
+                }else if (templateName.toLowerCase() === 'geppetto-template') {
                     this.generateSideNavTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });

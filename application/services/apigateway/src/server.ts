@@ -43,13 +43,12 @@ import {
     ExternalfeatureController,
     ModifierManagerController,
     DefaultServicesController,
-    GepFileManagerController
-
-
-
+    GepFileManagerController,
 } from './apicontroller';
 
 import { WinstonLogger } from './config/WinstonLogger';
+import { AngularControllerV12 } from './apicontroller/generator/angularV12.controller';
+import { AngularTemplateControllerV12 } from './apicontroller/generator/angularTemplateV12.controller';
 
 const PORT = 3000;
 
@@ -71,6 +70,7 @@ let apisController = [
     new NodeController(),
     new SefNodeController(),
     new AngularController(),
+    new AngularControllerV12(),
     new ConfigurationController(),
     new MenubuilderController(),
     new ScreenController(),
@@ -79,6 +79,7 @@ let apisController = [
     new PrivateGithubController(),
     new Authgencontroller(),
     new AngularTemplateController(),
+    new AngularTemplateControllerV12(),
     new AdminController(),
     new TemplateController(),
     new customConnectors(),
