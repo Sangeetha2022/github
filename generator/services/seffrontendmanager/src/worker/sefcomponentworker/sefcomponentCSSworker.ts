@@ -23,6 +23,7 @@ export class SefComponentCSSworker {
 
 
     public generateComponentCss(details, callback) {
+        console.log('data from css generator');
         details = JSON.parse(JSON.stringify(details));
         asyncLoop(details.desktop, async (desktopElement, next) => {
             let cssData = '';
@@ -34,16 +35,18 @@ export class SefComponentCSSworker {
             gjsStyles.forEach(element => {
                 if (Object.keys(element).includes('style') && Object.keys(element).includes('selectors')) {
                     element.selectors.forEach((selector, index) => {
-                        cssData += '.' + selector.name;
+                        console.log('css geta data first', element.selectors);
+                        cssData += '#' + selector.name;
                         if (element.selectors.length - 1 === index) {
                             cssData += ' {';
                             const styleArray: string[] = Object.keys(element.style);
                             styleArray.forEach(style => {
                                 cssData += style + ':' + element.style[style] + ';\n'
                             });
+                            cssData += '}';
                         }
                     });
-                    cssData += '}';
+                    console.log('finish a complete css', cssData);
                 }
             });
             details.desktop.forEach(element => {

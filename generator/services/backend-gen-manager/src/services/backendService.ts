@@ -211,8 +211,8 @@ export class BackendService {
 
     generateNode(details) {
         return new Promise(resolve => {
-            console.log('testing new feature', details.featureName !== 'SystemEntry', details.featureName);
-            if(details.featureName !== 'SystemEntry'){
+            console.log('testing new feature', details.featureName !== 'systementry', details.featureName);
+            if(details.featureName !== 'systementry'){
                 this.nodeService.generateNode(details, (data) => {
                     resolve(data);
                 });

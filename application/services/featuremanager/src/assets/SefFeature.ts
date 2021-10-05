@@ -1,6 +1,6 @@
 export const SefFeature = {
 	flows : [],
-	name : "SystemEntry",
+	name : "systementry",
 	"description" : "System Entry Feature",
 	is_default: true,
 	"entities" : [],

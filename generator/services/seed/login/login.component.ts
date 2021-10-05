@@ -134,7 +134,7 @@ export class LoginComponent implements OnInit {
           if (this.userDetails.Idtoken === null || this.userDetails.Idtoken === '') {
             this.Consent();
           } else {
-            this.route.navigate(['home']);
+            this.route.navigate(['sefscreen']);
           }
 
         }
@@ -164,7 +164,7 @@ export class LoginComponent implements OnInit {
       this.userDetails = consentValue.Userdetails;
       this.id = this.userDetails._id;
       this.lastLoggedInTime = this.userDetails.loggedinDate;
-      this.route.navigate(['home']);
+      this.route.navigate(['sefscreen']);
       sessionStorage.setItem('Id', this.id);
       sessionStorage.setItem('lastLoggedInTime', this.lastLoggedInTime);
       sessionStorage.setItem('email', this.userDetails.email);
