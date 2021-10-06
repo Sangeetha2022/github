@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   mongo:
-    image: geppettotest/mongo-local:sept2021
+    image: geppettotest/mongo-local:april2020
     container_name: mongodb
     restart: unless-stopped
     environment:
