@@ -6,7 +6,7 @@ import { SharedService } from '../config/SharedService';
 export class FrontendGenManagerService {
 
     FrontendGenProject(data, callback) {
-        console.log('calling frontend generation manager -----  ', `${SharedService.apiGatewayURL}/desktop/frontend/project`);
+        console.log('calling frontend generation manager -----  ', `${SharedService.apiGatewayURL}/desktop/frontend/project`, data);
         new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/frontend/project`, data).then(
             data => {
                 callback(data);

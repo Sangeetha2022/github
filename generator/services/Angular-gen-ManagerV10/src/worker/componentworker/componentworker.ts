@@ -30,11 +30,13 @@ export class ComponentWorker {
             const firstElement = screenName.charAt(0).toUpperCase();
             const otherElements = screenName.substring(1, screenName.length);
             let microflowObject: any = this.constructMicroFlows(details.flows);
+            console.log('microflows gpheaders', microflowObject)
             const gpHeaders = {
                 importName: firstElement + otherElements + 'Service',
                 importPath: './' + screenName + '.service'
             };
             microflowObject.GpHeaders.push(gpHeaders);
+            console.log('microflows headers', microflowObject.GpHeaders);
             microflowObject.GpOptions = {};
             microflowObject.GpOptions['screenName'] = screenName;
             microflowObject.GpOptions['className'] = firstElement + otherElements + 'Component';
@@ -81,15 +83,20 @@ export class ComponentWorker {
     private constructMicroFlows(flows: Array<Object>) {
         if (flows && flows.length > 0) {
             const flow: any = flows[0];
+            console.log('flow logs-----', flow);
             if (flow.components && flow.components.length > 0) {
+                console.log('flow components', flow.components);
                 const components = flow.components.filter((e) => e.name === Constant.GP_ANGULAR_COMPONENT_MICROFLOW && e.sequenceId === 1);
+                console.log('flow condition testing------------', components);
                 if (components.length > 0) {
                     const microflows = components[0].microFlows;
+                    console.log('micro components ', microflows);
                     if (microflows && microflows.length > 0) {
                         let microflowObject: Object = {};
                         microflows.forEach((microflow: any) => {
                             microflowObject[microflow.microFlowStepName] = []
                         });
+                        console.log('full microflows', microflowObject);
                         return microflowObject;
                     }
                 }
@@ -102,6 +109,7 @@ export class ComponentWorker {
                 GpCheck_Connector: [],
                 GpRequest: []
             }
+            console.log('full microflows', microflowObject);
             return microflowObject;
         }
     }

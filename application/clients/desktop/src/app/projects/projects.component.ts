@@ -453,18 +453,18 @@ export class ProjectsComponent implements OnInit {
                       'updated_date': Date.now()
                     }
                   ];
-                  // this.projectsService.createDefaultFeature(projectDetail._id, this.logId).subscribe(
-                  //   async (defaultFeature) => {
+                  this.projectsService.createDefaultFeature(projectDetail._id, this.logId).subscribe(
+                    async (defaultFeature) => {
                       
-                  //     this.defaultFeatureInfo = defaultFeature.body;
-                  //     // this.defaultFeatureInfo.entities = this.defaultFeatureInfo.entities.concat(this.entitydetails);
-                  //     let gpSefFlowArray = this.flowsArray.map(({ _id, _v, ...rest }) => ({ ...rest })).filter(flow => flow.name === 'GpSEF');
-                  //     let updateFlowInFeature = await this.saveManyProjectFlow(gpSefFlowArray);
-                  //     let updateEntityinFeature = await this.updateInFeatureEntity();
-                  //     let createSefScreen = await this.createSefScreen(projectDetail);
-                  //   }, error => {
-                  //     console.error('cannot able to create the default feature for this project ', error);
-                  //   })
+                      this.defaultFeatureInfo = defaultFeature.body;
+                      // this.defaultFeatureInfo.entities = this.defaultFeatureInfo.entities.concat(this.entitydetails);
+                      let gpSefFlowArray = this.flowsArray.map(({ _id, _v, ...rest }) => ({ ...rest })).filter(flow => flow.name === 'GpSEF');
+                      let updateFlowInFeature = await this.saveManyProjectFlow(gpSefFlowArray);
+                      let updateEntityinFeature = await this.updateInFeatureEntity();
+                      let createSefScreen = await this.createSefScreen(projectDetail);
+                    }, error => {
+                      console.error('cannot able to create the default feature for this project ', error);
+                    })
                 }, (error) => {
                   console.error('cannot able to create the default entity for this project ', error);
                 });

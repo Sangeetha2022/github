@@ -73,7 +73,7 @@ export class LocalInfrastructureController {
           uppername: ''
         }
 
-        temp.name = backendElement.featureName;
+        temp.name = backendElement.featureName.toLowerCase();
         temp.uppername = backendElement.featureName.toUpperCase();
         temp.port = backendElement.nodePortNumber;
         backendList.push(temp);

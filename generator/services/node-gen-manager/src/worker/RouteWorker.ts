@@ -127,14 +127,6 @@ export class RouteWorker {
                 this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
                 this.tempRoutes.function.variableName = this.entitySchema.fileName;
                 break;
-            case 'GpSEF':
-                // search and getNounById both are same
-                //this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}/systemEntryFeature/userdata/${Id}`;
-                this.tempRoutes.function.routeUrl = `/systemEntryFeature/userdata/\${Id}`;
-                this.tempRoutes.function.apiAction = `get`;
-                this.tempRoutes.function.methodName = this.flowDetail.actionOnData;
-                this.tempRoutes.function.variableName = this.entitySchema.fileName;
-                break;
             case 'GpUpdate':
                 this.tempRoutes.function.routeUrl = `/${this.entitySchema.fileName}`;
                 this.tempRoutes.function.apiAction = `put`;
