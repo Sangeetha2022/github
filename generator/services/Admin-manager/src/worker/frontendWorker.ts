@@ -106,7 +106,7 @@ export class FrontendWorker {
         if (this.exterfeaturedetails !== undefined) {
             if (this.exterfeaturedetails.type === 'external') {
                 this.routingModuleInfo.importDependency.push(`import { ${this.ADMIN_CONFIGFOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_CONFIGFOLDERNAME.slice(1).toLowerCase()}Component } from './${this.ADMIN_CONFIGFOLDERNAME.toLowerCase()}/${this.ADMIN_CONFIGFOLDERNAME.toLowerCase()}.component';`);
-                this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_CONFIGFOLDERNAME.toLowerCase()}', component: ${this.ADMIN_CONFIGFOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_CONFIGFOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_CONFIGFOLDERNAME.toLowerCase()}', component: ${this.ADMIN_CONFIGFOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_CONFIGFOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] },`);
 
                 let srcpath = this.seedPath + '/' + this.ADMIN_CONFIGFOLDERNAME;
                 let destinationpath = this.projectGenerationPath + '/src/app/' + this.ADMIN_CONFIGFOLDERNAME;
@@ -409,7 +409,7 @@ export class FrontendWorker {
         this.modifyAppRoutingModuleFile(appModulePath);
         if (this.routingModuleInfo.importDependency.findIndex(x => x == this.adminAppRoutingModule.importDependency) < 0) {
             this.routingModuleInfo.importDependency.push(`import { ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component } from './${this.ADMIN_FOLDERNAME.toLowerCase()}/${this.ADMIN_FOLDERNAME.toLowerCase()}.component';`);
-            this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+            this.routingModuleInfo.path.push(`{ path: '${this.ADMIN_FOLDERNAME.toLowerCase()}', component: ${this.ADMIN_FOLDERNAME.charAt(0).toUpperCase() + this.ADMIN_FOLDERNAME.slice(1).toLowerCase()}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] },`);
         }
         this.modifyPackageJsonFile();
         // modify app module
