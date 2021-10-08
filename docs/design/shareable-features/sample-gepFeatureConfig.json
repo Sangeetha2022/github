@@ -11,6 +11,10 @@
         "branch" : "main"
 
     },
+    "security":{
+        "verification-status": "not verified",
+        "verification-id": ""
+    },
     "license":{
         "type": "OSS", 
         "name": "Apache 2",
@@ -18,6 +22,44 @@
         "term": "",
         "comments": "best effort support"
     },
+    "entities":[
+        {
+            "name": "entity-one",
+            "fields":[
+                {
+                    "name": "field-one",
+                    "description": "description one",
+                    "type": "text"
+                },
+                {
+                    "name": "field-two",
+                    "description": "description two",
+                    "type": "number"
+                }
+
+            ]
+
+        },
+        {
+            "name": "entity-two",
+            "fields":[
+                {
+                    "name": "field-one",
+                    "description": "description one",
+                    "type": "text"
+                },
+                {
+                    "name": "field-two",
+                    "description": "description two",
+                    "type": "number"
+                }
+
+            ]
+
+        }
+        
+
+    ],
 
     "entry-point": {
         "default-entry": "client",
@@ -60,9 +102,37 @@
 
         ]
     },
-    "client-properties":{
+    "web-client-properties":{
       "framework": "angular",
       "framework-version": "12.0.0",
+      "screens":[
+        {
+            "name": "upload-screen",
+            "route": "/hkkjhk/hkhkk",
+            "component-name": "upload-screen",
+            "meta-data": 
+            {
+                "type": "GJS",
+                "location": "/dhdhd/hdhdh.xxx"
+
+            }
+
+
+        },
+        {
+            "name": "down-screen",
+            "route": "/hkkjhk/hkhkk",
+            "component-name": "download-screen",
+            "meta-data": 
+            {
+                "type": "GJS",
+                "location": "/dhdhd/hdhdh.xxx"
+
+            }
+
+
+        }
+      ],
       "flows":[
         {
             "name": "gepFileUpload",
