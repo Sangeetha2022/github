@@ -50,26 +50,26 @@ use sudo command with pem key public DNS name login on terminal
 **sudo ssh -i "ubuntu-******.pem" ubuntu@--------------**
 
 Use **vi geppetto.sh**
--- Paste a file prequesting installation new machine 
-	sudo apt-get update
-	sudo apt install npm -y
-	sleep 5s
-	sudo apt install nodejs
-	sudo npm install -g @angular/cli@7.3.9
-	sudo apt  install awscli -y
-	sleep 5s
-	sudo apt install docker.io -y
-	sleep 2s
-	sudo curl -L --fail 		https://github.com/docker/compose/releases/download/1.28.2/run.sh -o 	/usr/local/bin/docker-compose
-	sudo chmod +x /usr/local/bin/docker-compose
-	sudo apt install nginx -y
-	sleep 2s
-	mkdir efs
-	sudo apt-get install nfs-common -y
-	**add to this file EFS volume command***
-	sleep 2s
-	systemctl status nginx 
-	sudo groupadd docker; sudo gpasswd -a $USER docker; newgrp docker;
+Paste a file prequesting installation new machine 
+- sudo apt-get update
+- sudo apt install npm -y
+- sleep 5s
+- sudo apt install nodejs
+- sudo npm install -g @angular/cli@7.3.9
+- sudo apt  install awscli -y
+- sleep 5s
+- sudo apt install docker.io -y
+- sleep 2s
+- sudo curl -L --fail 		https://github.com/docker/compose/releases/download/1.28.2/run.sh -o 	/usr/local/bin/docker-compose
+- sudo chmod +x /usr/local/bin/docker-compose
+- sudo apt install nginx -y
+- sleep 2s
+- mkdir efs
+- sudo apt-get install nfs-common -y
+**add to this file EFS volume command***
+- sleep 2s
+- systemctl status nginx 
+- sudo groupadd docker; sudo gpasswd -a $USER docker; newgrp docker;
 
 Step 2: 
 Use a command to run a **docker-compose** file  

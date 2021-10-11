@@ -1,0 +1,39 @@
+.ibf7xm {
+    flex-direction: column;
+    align-items: center;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+    border-bottom-left-radius: 25px;
+    background-image: radial-gradient(circle at center top,#d8edd6 0,#fff 100%);
+    background-position-x: left;
+    background-position-y: top;
+    background-attachment: scroll;
+    background-size: auto;
+    padding: 50px 0 35px;
+    width: 80%;
+    box-shadow: 0 0 16px 15px hsla(0,0%,79%,.1);
+    margin: 0 auto 0 20px;
+}
+.elctric-bike-img-width{
+    width: 75%;
+}
+
+.electric-bike-description-title{
+    font-family: Montserrat,sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 15px;
+    letter-spacing: 1px;
+    padding: 10px 0 10px;
+    text-align: center;
+}
+
+.electric-bike-description-sub-title{
+    font-family: Montserrat,sans-serif;
+    font-weight: 500;
+    text-transform: none;
+    font-size: 16px;
+    color: #898989;
+    text-align: center;
+}
