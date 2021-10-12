@@ -24,6 +24,8 @@ export class AngularService {
                     })
                 // })
         } else {
+            console.log("entering else part",details);
+            
             const primaryScreens = details.desktop.filter(x => x.route_info.length > 0 || x["special-events"].length > 0);
             const secondaryScreens = details.desktop.filter(x => x.route_info.length == 0 && x["special-events"].length == 0);
             this.iterateScreens(primaryScreens, details, (response) => {

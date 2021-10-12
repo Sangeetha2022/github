@@ -1,4 +1,4 @@
-FROM node:14.11.0-alpine
+FROM node:14.15.0-alpine
 COPY . /angulartemplatemanagerV12
 WORKDIR /angulartemplatemanagerV12
 RUN npm install

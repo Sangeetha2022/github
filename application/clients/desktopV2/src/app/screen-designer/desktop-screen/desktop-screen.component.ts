@@ -153,6 +153,7 @@ export class DesktopScreenComponent implements OnInit {
         plugins: plugins,
         pluginsOpts: {
           'grapesjs-preset-webpage': {
+            
           },
         },
         assetManager: {
@@ -243,7 +244,11 @@ export class DesktopScreenComponent implements OnInit {
     console.log('gep default styles are -----  ', gepStyle, ' cssguideines are ---  ', this.cssGuidelines, '  tagname  ', tagName);
     let temp = null;
     if (this.cssGuidelines) {
+      console.log("cssGuidelines",this.cssGuidelines);
+      
       temp = this.cssGuidelines.find(x => x.tagName === tagName);
+      console.log("temp===>",temp);
+      
 
     }
     console.log(

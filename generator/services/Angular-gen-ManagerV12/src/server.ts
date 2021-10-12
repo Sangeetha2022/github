@@ -7,7 +7,7 @@ import * as cors from 'cors';
 import { WinstonLogger } from './config/WinstonLogger';
 import { SharedService } from './config/SharedService';
 
-const PORT = 6014;
+const PORT = 5028;
 const logDir = 'log';
 
 class App {

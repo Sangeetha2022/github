@@ -75,7 +75,7 @@ export class CommandService {
         );
       }
       if (component.attributes.tagName === 'input') {
-        alert("inside component selected input trait")
+        //alert("inside component selected input trait")
         component.get('traits').set([
           { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
           { name: 'placeholder', label: 'Placeholder' },
@@ -270,35 +270,55 @@ export class CommandService {
     $this.editor.on('block:drag:stop', function (model:any) {
       console.log('model drag and drop are ----- ', model);
       const allInputModels = model.find('[data-gjs-type="input"]');
+      const allFormModels = model.find('form');
+      console.log("form-----",allFormModels);
+      
+
       const allButtonModels = model.find('button');
       const allImageBlockModels = model.find('.gpd-image-block');
       const allImageModels = model.find('.gjs-plh-image');
+      const allLabelModels = model.find('[data-gjs-type="label"]');
       console.log('allInputModels ---  ', allInputModels);
       console.log('allButtonModels ---  ', allButtonModels);
+      console.log('alllabelModels ---  ', allLabelModels);
+      console.log('formall models are ------- ', allFormModels);
       if (allInputModels.length === 0 && model.attributes.tagName === 'input') {
         allInputModels.push(model);
+      }
+      if (allFormModels.length === 0 && model.attributes.tagName === 'form') {
+        $this.setElementCSS(model, 'form', null);
       }
       if (allButtonModels.length === 0 && model.attributes.tagName === 'button') {
         allButtonModels.push(model);
       }
+      if (allLabelModels.length === 0 && model.attributes.tagName === 'label') {
+        allLabelModels.push(model);
+      }
+         // label
+         allLabelModels.forEach((element:any) => {
+          $this.setElementCSS(element, 'label', null);
+          //element.attributes.traits.target.set('name', `label_${element.ccid}`);
+        });
          // input
-         allInputModels.forEach((element: { attributes: { traits: { target: { set: (arg0: string, arg1: string) => void; }; }; }; ccid: any; }) => {
+         allInputModels.forEach((element:any) => {
           $this.setElementCSS(element, 'input', null);
+          console.log("element.ccid",element.ccid);
+          
           element.attributes.traits.target.set('name', `input_${element.ccid}`);
         });
               // button
-      allButtonModels.forEach((element: { attributes: { traits: { target: { set: (arg0: string, arg1: string) => void; }; }; }; ccid: any; }) => {
+      allButtonModels.forEach((element:any) => {
         // set default verbs for button
         $this.buttonVerb = 'click';
         $this.setElementCSS(element, 'button', null);
         element.attributes.traits.target.set('name', `button_${element.ccid}`);
       });
         // image blocks
-        allImageBlockModels.forEach((element: { attributes: { traits: { target: { set: (arg0: string, arg1: string) => void; }; }; }; ccid: any; }) => {
+        allImageBlockModels.forEach((element:any) => {
           element.attributes.traits.target.set('name', `image_${element.ccid}`);
         });
            // images
-      allImageModels.forEach((element: { attributes: { traits: { target: { set: (arg0: string, arg1: string) => void; }; }; }; ccid: any; }) => {
+      allImageModels.forEach((element:any) => {
         element.attributes.traits.target.set('name', `image_${element.ccid}`);
       });
     })

@@ -153,6 +153,7 @@ export class FrontendWorker {
         this.initializeData();
         this.projectGenerationPath = details.templateResponse.applicationPath;
         this.seedPath = details.seedTemplatePath;
+        console.log("seedPath ====>",this.seedPath);
         this.authTemplatePath = details.authTemplatePath;
         const loginApplicationPath = `${this.projectGenerationPath}/src/app/${this.LOGIN_FOLDERNAME}`;
         this.generateStaticComponent(loginApplicationPath, this.LOGIN_FOLDERNAME, () => {
