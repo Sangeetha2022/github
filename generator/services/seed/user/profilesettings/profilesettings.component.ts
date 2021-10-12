@@ -35,7 +35,7 @@ export class ProfilesettingsComponent implements OnInit {
   public roles: any[] = [];
   public rolechange: any;
   public defaultUserRole: any;
-  public defaultRole: {}
+  public defaultRole!: {};
 
   ngOnInit() {
     this.Queryparams();
@@ -79,7 +79,7 @@ export class ProfilesettingsComponent implements OnInit {
     });
   }
 
-  onChange(event) {
+  onChange(event:any) {
     this.rolechange = '';
     // console.log('selected  event---->>>', event);
 

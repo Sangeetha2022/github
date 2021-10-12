@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ButtonRendererComponent } from './button-renderer/button-renderer.component';
 
 
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -18,13 +19,13 @@ export class UserComponent implements OnInit {
 
   }
 
-  public rowData;
-  public columnDefs;
-  public gridApi;
-  public gridColumnApi;
-  public Userdetails;
+  public rowData:any;
+  public columnDefs:any;
+  public gridApi:any;
+  public gridColumnApi:any;
+  public Userdetails:any;
 
-  defaultColDef: { editable: boolean; sortable: boolean; filter: boolean; };
+  defaultColDef!: { editable: boolean; sortable: boolean; filter: boolean; };
   frameworkComponents: { buttonRenderer: any; };
 
   ngOnInit() {
@@ -34,8 +35,10 @@ export class UserComponent implements OnInit {
 
   Users() {
     this.adminservice.Getallusers().subscribe(data => {
-      this.rowData = data.body.body;
-      this.Userdetails = data.body.body;
+      console.log("data",data);
+      this.rowData = data;
+      this.Userdetails = data;
+       console.log("eee--->",this.Userdetails);
     }, error => {
       console.error('error:', error);
     });
@@ -90,15 +93,17 @@ export class UserComponent implements OnInit {
     this.Users();
   }
 
-  onGridReady(params) {
+  onGridReady(params:any) {
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
     this.gridColumnApi = params.columnApi;
   }
 
-  Editaction(e) {
+  Editaction(e:any) {
     const rows = e.rowData;
+    console.log("rows===================",rows);
     // console.log('selectedrow------->>>', rows);
+   // this.route.navigate(['profile'], { queryParams: { id: rows._id } });
     this.route.navigate(['profile'], { queryParams: { id: rows._id } });
   }
 }
