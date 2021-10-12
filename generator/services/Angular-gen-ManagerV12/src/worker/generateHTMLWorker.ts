@@ -201,12 +201,10 @@ export class GenerateHtmlWorker {
                 if((index + 1 === item.classes.length)) {
                         classess += element.name;
                         if(!element.name){
-                            for (const val of item.classes) {
-                                console.log("val",val);
-                                classess +=  val + ' ';
-                                if(classess.includes('undefined')){
-                                    classess= classess.split('undefined')[1];
-                                }
+                            classess = '';
+                            for (const class_value of item.classes) {
+                                console.log("val",class_value);
+                                classess +=  class_value + ' ';
                             }
                         }
                         console.log("classess",classess);

@@ -153,6 +153,7 @@ export class DesktopScreenComponent implements OnInit {
         plugins: plugins,
         pluginsOpts: {
           'grapesjs-preset-webpage': {
+            
           },
         },
         assetManager: {
@@ -246,6 +247,8 @@ export class DesktopScreenComponent implements OnInit {
       console.log("cssGuidelines",this.cssGuidelines);
       
       temp = this.cssGuidelines.find(x => x.tagName === tagName);
+      console.log("temp===>",temp);
+      
 
     }
     console.log(

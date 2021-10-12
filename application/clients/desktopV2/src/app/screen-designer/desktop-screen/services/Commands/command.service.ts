@@ -75,7 +75,7 @@ export class CommandService {
         );
       }
       if (component.attributes.tagName === 'input') {
-        alert("inside component selected input trait")
+        //alert("inside component selected input trait")
         component.get('traits').set([
           { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
           { name: 'placeholder', label: 'Placeholder' },
@@ -270,6 +270,10 @@ export class CommandService {
     $this.editor.on('block:drag:stop', function (model:any) {
       console.log('model drag and drop are ----- ', model);
       const allInputModels = model.find('[data-gjs-type="input"]');
+      const allFormModels = model.find('form');
+      console.log("form-----",allFormModels);
+      
+
       const allButtonModels = model.find('button');
       const allImageBlockModels = model.find('.gpd-image-block');
       const allImageModels = model.find('.gjs-plh-image');
@@ -277,8 +281,12 @@ export class CommandService {
       console.log('allInputModels ---  ', allInputModels);
       console.log('allButtonModels ---  ', allButtonModels);
       console.log('alllabelModels ---  ', allLabelModels);
+      console.log('formall models are ------- ', allFormModels);
       if (allInputModels.length === 0 && model.attributes.tagName === 'input') {
         allInputModels.push(model);
+      }
+      if (allFormModels.length === 0 && model.attributes.tagName === 'form') {
+        $this.setElementCSS(model, 'form', null);
       }
       if (allButtonModels.length === 0 && model.attributes.tagName === 'button') {
         allButtonModels.push(model);
