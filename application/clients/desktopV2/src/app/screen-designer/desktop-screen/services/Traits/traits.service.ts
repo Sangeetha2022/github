@@ -12,6 +12,7 @@ export class TraitsService {
     this.initializeInputMethod(screenGlobalVariable);
     this.initializeSelectMethod(screenGlobalVariable);
     this.initializeButtonMethod(screenGlobalVariable);
+    this.initializeLabelMethod(screenGlobalVariable);
   }
 
   initializeInputMethod(screenGlobalVariable:any) {
@@ -47,6 +48,57 @@ export class TraitsService {
       view: defaultType.view
     });
   }
+
+    // label traits
+    initializeLabelMethod(screenGlobalVariable:any) {
+      const comps = screenGlobalVariable.editor.DomComponents;
+      console.log("comps==>",comps);
+      
+      const defaultType = comps.getType('default');
+      console.log("defaultType==>",defaultType);
+      const defaultModel = defaultType.model;
+      console.log("defaultModel==>",defaultModel);
+      comps.addType('label', {
+        model: defaultModel.extend(
+          {
+            defaults: Object.assign({}, defaultModel.prototype.defaults, {
+              draggable: '*',
+              droppable: false,
+              traits: [
+                {
+                  label: 'Name',
+                  name: 'name',
+                  type: 'text',
+                  changeProp: 1
+                },
+                {
+                  type: 'content',
+                  label: 'contentName',
+                  name: 'contentname',
+                  changeProp: 1
+                }
+              ],
+             tagName: 'label',
+            }),
+            init() {
+            },
+          },
+          {
+            isComponent:  (el: { tagName: string; })=> {
+              if (el.tagName === 'LABEL') {
+                return {
+                  type: 'label'
+                };
+              }
+              return null;
+            }
+          }
+        ),
+  
+        // Define the View
+        view: defaultType.view
+      });
+    }
 
   // Select values are ---
   initializeSelectMethod(screenGlobalVariable:any) {

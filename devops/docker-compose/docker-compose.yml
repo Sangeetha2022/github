@@ -419,7 +419,7 @@ services:
     volumes:
       - generated-code:/geppetto/
     ports:
-      - "6014:6014"
+      - "5028:5028"
     env_file: ../../.env
     depends_on:
       - mongo
@@ -458,7 +458,7 @@ services:
     volumes:
       - generated-code:/geppetto/
     ports:
-      - "6015:6015"
+      - "5029:5029"
     env_file: ../../.env
     depends_on:
       - mongo

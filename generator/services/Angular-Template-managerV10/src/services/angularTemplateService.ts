@@ -90,6 +90,9 @@ export class AngularTemplateService {
         Common.createFolders(this.generationPath);
         this.templatePath = this.details.project.templateLocation.frontendTemplate;
         this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && ng new ${this.projectName} --routing=false --skip-git --style=scss --skip-install`, (error, stdout, stderr) => {
+            console.log('error exec ----->>>>    ', error);
+            console.log('stdout exec ----->>>>    ', stdout);
+            console.log('stderr exec ----->>>>    ', stderr);
             if (stdout || stderr) {
                 const stringparsing = JSON.stringify(this.grapesjsComponent);
                 this.iterateData = JSON.parse(stringparsing);

@@ -195,11 +195,21 @@ export class GenerateHtmlWorker {
     setClasses(item, tagName) {
         let classess = '';
         if(item.hasOwnProperty('classes')) {
+            console.log("inside set class");
             item.classes.forEach((element, index) => {
-                if(index + 1 === item.classes.length) {
-                    classess += element.name;
-                } else {
-                    classess += element.name + ' ';
+                console.log("element===>",element);
+                if((index + 1 === item.classes.length)) {
+                        classess += element.name;
+                        if(!element.name){
+                            for (const val of item.classes) {
+                                console.log("val",val);
+                                classess +=  val + ' ';
+                                if(classess.includes('undefined')){
+                                    classess= classess.split('undefined')[1];
+                                }
+                            }
+                        }
+                        console.log("classess",classess);
                 }
             });
         }
@@ -418,6 +428,8 @@ export class GenerateHtmlWorker {
         });
     }
     async generateHtml(gjsComponentMetadata, screensData, details) {
+        console.log("gjsComponentMetadata===",gjsComponentMetadata);
+        
         console.log('DETAILS---->>>>', JSON.stringify(details));
         this.htmlContent = '';
         const templatePath = path.resolve(__dirname, '../../templates');
