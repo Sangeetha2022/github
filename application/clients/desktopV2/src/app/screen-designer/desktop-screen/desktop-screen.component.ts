@@ -31,6 +31,7 @@ export class DesktopScreenComponent implements OnInit {
   logId: any = sessionStorage.getItem('LogId');
   dataBindingTypes: any[] = [];
   stylesheets: any[] = [];
+  templateName:string='';
   scripts: any[] = [];
   cssGuidelines: any[] = [];
   projectTemplateId:any;
@@ -83,6 +84,7 @@ export class DesktopScreenComponent implements OnInit {
     this.stylesheets = JSON.parse(localStorage.getItem('stylesheets')|| '{}');
     this.scripts = JSON.parse(localStorage.getItem('scripts')|| '{}');
     this.cssGuidelines = JSON.parse(localStorage.getItem('css_guidelines')|| '{}');
+    this.templateName=localStorage.getItem('templateName')?.toLocaleLowerCase().replace(' ','') || '{}';
     const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor'];
     let addStyles:any = [];
     let addScripts:any = [];
@@ -140,6 +142,9 @@ export class DesktopScreenComponent implements OnInit {
         plugins.push('mobile-plugin');
       }
       
+      //  addStyles.push(`./assets/css/template/${this.templateName.replace(/ +/g, "")}.css`);
+      addStyles.push(`./assets/css/template/${this.templateName.replace(/ +/g, "")}.css`);
+    console.log('--------template css file location--------', addStyles);
       this.editor = grapesjs.init({
         container: '#editor-c',
         height: '110%',
@@ -247,9 +252,7 @@ export class DesktopScreenComponent implements OnInit {
       console.log("cssGuidelines",this.cssGuidelines);
       
       temp = this.cssGuidelines.find(x => x.tagName === tagName);
-      console.log("temp===>",temp);
-      
-
+      console.log("temp vv",temp);
     }
     console.log(
       'set element css ar e----  ',
@@ -265,6 +268,8 @@ export class DesktopScreenComponent implements OnInit {
     } else if (gepStyle && gepStyle.length > 0) {
       console.log('entered in else if parts');
       gepStyle.forEach((gepEle: { css: { [x: string]: any; }; }) => {
+        console.log("gepEle===",gepEle);
+        
         const tempCSS = gepEle.css[tagName];
         if (tempCSS) {
           element.addClass(tempCSS.className);

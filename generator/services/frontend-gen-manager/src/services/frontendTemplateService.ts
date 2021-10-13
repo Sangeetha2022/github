@@ -27,6 +27,8 @@ export class FrontendTemplateService {
 
     public async frontendTemplateProject(req: Request, callback: CallableFunction) {
         const details = req.body;
+        console.log("frontendTemplateProject details==>",details);
+        
         Common.createFolders(details.projectGenerationPath);
         const projectGenerationPath = `${details.projectGenerationPath}/${Constant.DESKTOP_FOLDERNAME}`;
         // console.log('create project template vluae are -----------   ', details);
@@ -62,13 +64,16 @@ export class FrontendTemplateService {
                 if (templateResponse) {
                     const tempFrontend = {
                         templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
-                        seedTemplatePath: details.seedTemplatePath,
+                        seedTemplatePath: details.seedTemplatePath +'/angular12',
+                       // seedTemplatePath: details.seedTemplatePath,
                         authTemplatePath: details.authTemplatePath,
                         adminTemplatePath: details.project.templateLocation.frontendTemplate,
                         screenMenus: templateObj.menuBuilder,
                         project_id: details.projectId
 
                     }
+                    console.log("tempFrontend===",tempFrontend);
+                    
                     let featurevalue = details.feature.body[0];
                     console.log('------feature-----', featurevalue);
                     if (featurevalue) {
