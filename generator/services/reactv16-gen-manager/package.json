@@ -18,6 +18,8 @@
         "body-parser": "^1.18.3",
         "cors": "^2.8.5",
         "dotenv": "^8.2.0",
+        "beautify": "0.0.8",
+        "handlebars": "^4.7.6",
         "express": "^4.16.4",
         "express-winston": "^3.0.1",
         "ncp": "^2.0.0",

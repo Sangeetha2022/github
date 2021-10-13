@@ -16,7 +16,7 @@ export class SefFlowServiceWorker {
                 nodeResponse.flowAction.filter(async (e) => {
                     if (flow.flowName === e.methodName) {
                         if (e.routeUrl.includes('/:id')) {
-                            e.routeUrl = e.routeUrl.replace('/:id', '');
+                            e.routeUrl = e.routeUrl.replace('/:id', '/${Id}');
                         }
                         const duplicateFlows = flows.filter((e) => e.methodName === flow.flowName);
                         if (duplicateFlows.length === 0) {
@@ -24,9 +24,9 @@ export class SefFlowServiceWorker {
                             if (e.methodName === Constant.GP_SEF_FLOW) {
 
                                 e['body'] = `let jwt_token = sessionStorage.getItem('JwtToken');
-                                \n \t \treturn this.http.${e.apiAction}(this.sharedService.DESKTOP_API + '${e.routeUrl}' + ${Constant.JWT_TOKEN}, ${e['paramName']});}
+                                \n \t \treturn this.http.${e.apiAction}(this.sharedService.DESKTOP_API + \`${e.routeUrl}\` + ${Constant.JWT_TOKEN}, ${e['paramName']});}
                                 getChartData(Id:any): Observable<any> {
-                                    return this.http.get(this.sharedService.DESKTOP_API + '/systemEntryFeature/chart/\${Id}');`;
+                                    return this.http.get(this.sharedService.DESKTOP_API + \`/systemEntryFeature/chart/\${Id}\`);`;
                                 flows.push(e);
                             }
                         }
