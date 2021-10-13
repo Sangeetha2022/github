@@ -64,7 +64,7 @@ export class FrontendTemplateService {
                 if (templateResponse) {
                     const tempFrontend = {
                         templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
-                        seedTemplatePath: details.seedTemplatePath +'/angular12',
+                        seedTemplatePath: details.seedTemplatePath +'/AngularV12',
                        // seedTemplatePath: details.seedTemplatePath,
                         authTemplatePath: details.authTemplatePath,
                         adminTemplatePath: details.project.templateLocation.frontendTemplate,
