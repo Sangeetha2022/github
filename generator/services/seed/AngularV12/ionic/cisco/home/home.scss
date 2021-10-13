@@ -1,0 +1,78 @@
+.ciscoLogo {
+  max-width: 45%;
+  margin-left: 15%;
+}
+img {
+  width: 100%;
+  height: 100%;
+}
+
+.myCard {
+  position: relative;
+}
+
+.card {
+  background-color: #000; // black
+  box-shadow: none;
+}
+
+.myOverlay {
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  position: absolute;
+  z-index: 99;
+  bottom: 0px;
+  opacity: 0.5;
+  color: #f8f8f9;
+  font-weight: bold;
+}
+
+.ciscoText {
+  font-size: 8px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.myCard1 {
+  background-color: #58585b;
+}
+
+.toolbar-background {
+  background-color: #2abdeb !important;
+}
+
+.footerText {
+  font-size: 8px;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.twitter {
+  height: 27px;
+  width: 31px;
+  margin-top: 6px;
+}
+
+.facebook {
+  width: 35px;
+  height: 28px;
+  margin-top: 5px;
+  margin-left: -20%;
+}
+
+.linkedIn {
+  width: 32px;
+  height: 30px;
+  margin-top: 3px;
+  /* margin-right: -50%; */
+  margin-left: -39%;
+}
+
+.youtube {
+  width: 32px;
+  height: 32px;
+  margin-top: 2px;
+  /* margin-right: -50%; */
+  margin-left: -50%;
+}

@@ -19,6 +19,8 @@ export class AuthFrontendService {
         const menus = req.body.screenMenus
         const applicationPath = details.templateResponse.applicationPath;
         const seedTemplatePath = details.seedTemplatePath;
+        console.log("seedTemplatePath====>",seedTemplatePath);
+        
         await this.readImagesAssets(seedTemplatePath, applicationPath);
         this.frontendWorker.createReadMeFile(details, (response) => {
             this.frontendWorker.createErrorReadMeFile(details, (response) => {
