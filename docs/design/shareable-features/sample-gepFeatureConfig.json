@@ -1,9 +1,11 @@
 {
     "feature-name": "gepFileManager",
+    "sharing-visibility-status": "admin",
     "type": "external-QUESTION: what are other types?",
     "version": "1.0.0",
+    "last-modified-date": "10-16-2021",
     "description": "\"Generic file uploads/downloads/management\"",
-    "author": "gepinfo.@gmail.com",
+    "author": "gepinfo@gmail.com",
     "icon-location": "/xx/ff/ggg/file-manager.png",
     "repo":{
         "type": "github",
@@ -15,6 +17,15 @@
         "verification-status": "not verified",
         "verification-id": ""
     },
+    "quality":{
+        "quality-status": "not reviewed",
+        "quality-id": ""
+
+    },
+    "geppetto-framework":{
+        "generator-version": "",
+        "generator-build-id": ""
+    },
     "license":{
         "type": "OSS", 
         "name": "Apache 2",
@@ -24,17 +35,37 @@
     },
     "entities":[
         {
-            "name": "entity-one",
+            "name": "attachment",
             "fields":[
                 {
-                    "name": "field-one",
-                    "description": "description one",
+                    "name": "fileUrl",
+                    "description": "xxxx description one",
                     "type": "text"
                 },
                 {
-                    "name": "field-two",
-                    "description": "description two",
-                    "type": "number"
+                    "name": "fileKey",
+                    "description": "xxxxx description two",
+                    "type": "text"
+                },
+                {
+                    "name": "fileData",
+                    "description": "xxxxx description three",
+                    "type": "Object"
+                },
+                {
+                    "name": "resources",
+                    "description": "xxxxx description four",
+                    "type": "text"
+                },
+                {
+                    "name": "createdOn",
+                    "description": "xxxxx description five",
+                    "type": "Date"
+                },
+                {
+                    "name": "updatedOn",
+                    "description": "xxxxx description six",
+                    "type": "Date"
                 }
 
             ]
