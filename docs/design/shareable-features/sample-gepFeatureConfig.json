@@ -2,7 +2,6 @@
     "feature-name": "gepFileManager",
     "sharing-visibility-status": "admin",
     "type": "external-QUESTION: what are other types?",
-    "version": "1.0.0",
     "last-modified-date": "10-16-2021",
     "description": "\"Generic file uploads/downloads/management\"",
     "author": "gepinfo@gmail.com",
@@ -10,8 +9,8 @@
     "repo":{
         "type": "github",
         "location": "https://github.com/dan-castillo/gepFileManager.git",
-        "branch" : "main"
-
+        "branch" : "main",
+        "release-version-tag": "xx.xx.xx"
     },
     "security":{
         "verification-status": "not verified",
@@ -33,6 +32,11 @@
         "term": "",
         "comments": "best effort support"
     },
+    "primary-entity": "attachment",
+    "secondary-entities":[
+        "entity-two",
+        "entity-three"
+    ],
     "entities":[
         {
             "name": "attachment",
@@ -87,7 +91,25 @@
 
             ]
 
+        },
+        {
+            "name": "entity-three",
+            "fields":[
+                {
+                    "name": "field-one",
+                    "description": "description one",
+                    "type": "text"
+                },
+                {
+                    "name": "field-two",
+                    "description": "description two",
+                    "type": "number"
+                }
+
+            ]
+
         }
+
         
 
     ],
