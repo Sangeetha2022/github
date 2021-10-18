@@ -5,11 +5,16 @@ import * as childProcess from 'child_process';
 import * as ncp from 'ncp';
 import * as asyncLoop from 'node-async-loop';
 import { Constant } from '../config/Constant';
+import * as beautify from 'beautify';
+import { ConfimModalPopup } from '../assets/headerComponents';
+import { ComponentSupportWorker } from '../supportworker/componentSupportWorker';
 //TopNav path
 import { TemplateTopNav } from '../strategy/HTML/generateTopNavigation/TopNav';
 import { TopTemplateHeader } from '../strategy/HTML/generateTopNavigation/TopNavHeader';
 import { TopTemplateLanding } from '../strategy/HTML/generateTopNavigation/TopNavLanding';
 import { TopTemplateFooter } from '../strategy/HTML/generateTopNavigation/TopNavFooter';
+
+const componentSupportWorker = new ComponentSupportWorker();
 export class ReactService {
     private exec = childProcess.exec;
     private details = null;
@@ -75,7 +80,7 @@ export class ReactService {
                        }
                    }
                }
-               const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.html';
+               const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.tsx';
                const data = responseArray.join('\n') + ConfimModalPopup.htmlTag[0];
                Common.createFolders(templateGenerationPath + Constant.HEADER_FOLDERNAME);
                componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), (res) => {
@@ -97,7 +102,7 @@ export class ReactService {
            // Generate Template Component
            this.createHtmlfromNestedObject([gjsElement], (res) => {
                Common.createFolders(templateGenerationPath + Constant.TEMPLATE_FOLDERNAME);
-               const filePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.component.html';
+               const filePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.component.tsx';
                componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
                    callback();
                });
@@ -111,7 +116,7 @@ export class ReactService {
            // Generate Footer Component
            this.htmlContent = '';
            this.createHtmlfromNestedObject([gjsElement], (res) => {
-               const filePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.html';
+               const filePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.tsx';
                Common.createFolders(templateGenerationPath + Constant.FOOTER_FOLDERNAME);
                componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
                    this.htmlContent = '';
@@ -152,6 +157,60 @@ export class ReactService {
                 callback(this.htmlContent);
             }
         });
+    }
+    /**
+     * Set Attributes
+     * @param item 
+     */
+    setAttributes(item) {
+        if (item.hasOwnProperty('attributes')) {
+            // this.htmlContent += `id="${item.attributes.id}" `;
+            const keys = Object.keys(item.attributes);
+            keys.forEach((key) => {
+                // Replacing "href to [routerLink]", "[routerlink] to [routerLink]" in <a> tag
+                if(item.attributes[key] !== '#') {
+                    this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['${item.attributes[key]}']" ` : this.htmlContent = key === '[routerlink]' ? this.htmlContent + `[routerLink]="${item.attributes[key]}" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
+                } else {
+                    this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['/']" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
+                }
+            });
+        }
+    }
+    /**
+     * Set Classes
+     * @param item 
+     * @param tagName 
+     */
+    setClasses(item, tagName) {
+        let classess = '';
+        if (item.hasOwnProperty('classes')) {
+            item.classes.forEach((element, index) => {
+                if (index + 1 === item.classes.length) {
+                    classess += element.name;
+                } else {
+                    classess += element.name + ' ';
+                }
+            });
+        }
+        this.htmlContent = tagName !== 'img' && tagName !== 'input' ? this.htmlContent + `class="${classess}">\n` : this.htmlContent + `class="${classess}"/>\n`;
+    }
+    /**
+     * Set Content
+     * @param item 
+     */
+    setContent(item) {
+        if (item.hasOwnProperty('content') && item.content) {
+            this.htmlContent += item.content;
+        }
+    }
+    /**
+     * Set close tag
+     * @param tagName 
+     */
+    setCloseTag(tagName) {
+        if (tagName !== 'img' && tagName !== 'input') {
+            this.htmlContent += `</${tagName}>\n`;
+        }
     }
 
 

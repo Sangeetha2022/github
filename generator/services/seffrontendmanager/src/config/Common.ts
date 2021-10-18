@@ -4,7 +4,7 @@ export class Common {
     public static createFolders(path) {
         try {
             if (!fs.existsSync(path)) {
-                fs.mkdirSync(path)
+                fs.mkdirSync(path, { recursive: true })
             }
         } catch (err) {
             console.log('error for createing into -----  ', err);
