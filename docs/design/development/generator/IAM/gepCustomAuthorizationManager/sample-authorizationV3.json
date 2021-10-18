@@ -52,15 +52,15 @@
     "components" :[
         "login", {
            "id": "878979",
-           "roles": ["guest"]
+           "roles": ["admin","user","guest"]
          },
         "search", {
            "id": "135979",
-           "roles": ["admin"]
+           "roles": ["admin","user","guest"]
          },
          "catalog", {
            "id": "343979",
-           "roles": ["guest"]
+           "roles": ["admin","user","guest"]
          }
         ] 
    }
