@@ -462,7 +462,7 @@ export class AngularTemplateService {
                     this.generateTopNavTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
-                }else if (templateName.toLowerCase() === 'geppetto-template') {
+                }else if (templateName.toLowerCase() === 'newgeppetto-template') {
                     this.generateSideNavTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
