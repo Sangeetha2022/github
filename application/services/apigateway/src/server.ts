@@ -44,6 +44,7 @@ import {
     ModifierManagerController,
     DefaultServicesController,
     GepFileManagerController,
+    ReactTemplateController,
 } from './apicontroller';
 
 import { WinstonLogger } from './config/WinstonLogger';
@@ -88,6 +89,7 @@ let apisController = [
     new CloneController(),
     new SwaggerController(),
     new ReactController(),
+    new ReactTemplateController(),
     new ExternalfeatureController(),
     new ModifierManagerController(),
     new DefaultServicesController(),
