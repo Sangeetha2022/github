@@ -13,7 +13,6 @@ import { Common } from '../config/Common';
 import { AuthProxyWorker } from '../worker/authProxyWorker'
 import { resolve } from 'dns';
 import * as ncp from 'ncp';
-import { ProjectManagerService } from '../apiservices/ProjectManagerService';
 
 
 export class AuthService {
@@ -43,7 +42,6 @@ export class AuthService {
     private workernode = new ScreenWorker();
     private modelworker = new ModelWorker();
     private authProxyConfig = new AuthProxyWorker();
-    private projectmanagerservice=new ProjectManagerService();
     private projectName = '';
     private sourcePath: any;
     private ports = {
@@ -66,18 +64,6 @@ export class AuthService {
 
     public async auth(req: Request, callback) {
    
-        this.projectmanagerservice.getProjectById(req.query.projectID, (projectResponse) => {
-            var json = JSON.parse(projectResponse);
-            if (json.body.clientframework.label == 'Angular 12') {
-                console.log("inside if condition Angular 12");
-                
-                // this.authGenFiles.pathFile = req.query.authPath+'/AngularV12';
-                // this.authGenFiles.securityPath = `${this.authGenFiles.pathFile}/${this.SECURITY_FOLDERNAME}`;
-                // this.authGenFiles.authProxyPath = `${this.authGenFiles.pathFile}/${this.AUTH_PROXY_FOLDERNAME}`;
-                // this.authGenFiles.camundaPath = `${this.authGenFiles.pathFile}/${this.CAMUNDA_FOLDERNAME}`;
-                // this.authGenFiles.systemCredsManagerPath = `${this.authGenFiles.pathFile}/${this.SYSTEM_CREDENTIAL_MANAGER}`;
-            }
-        })
 
         this.sourcePath = this.authGenFiles.projectpath = req.query.projectPath;
         this.authGenFiles.templatepath = req.query.authTemplate;

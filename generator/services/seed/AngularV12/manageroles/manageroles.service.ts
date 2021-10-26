@@ -15,11 +15,11 @@ export class ManageRolesService {
     return this.http.get(this.sharedService.DESKTOP_API + '/getallroles');
   }
 
-  GpSaveRoles(payload): Observable<any> {
+  GpSaveRoles(payload:any): Observable<any> {
     return this.http.post(this.sharedService.DESKTOP_API + '/saveroles', payload);
   }
 
-  GpDeleteRoles(id): Observable<any> {
+  GpDeleteRoles(id:any): Observable<any> {
     return this.http.delete(this.sharedService.DESKTOP_API + '/deleteroles/' + id);
   }
 }

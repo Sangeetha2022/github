@@ -18,13 +18,14 @@ export class UserComponent implements OnInit {
 
   }
 
-  public rowData;
-  public columnDefs;
-  public gridApi;
-  public gridColumnApi;
-  public Userdetails;
+ 
+  public rowData:any;
+  public columnDefs:any;
+  public gridApi:any;
+  public gridColumnApi:any;
+  public Userdetails:any;
 
-  defaultColDef: { editable: boolean; sortable: boolean; filter: boolean; };
+  defaultColDef!: { editable: boolean; sortable: boolean; filter: boolean; };
   frameworkComponents: { buttonRenderer: any; };
 
   ngOnInit() {
@@ -90,13 +91,13 @@ export class UserComponent implements OnInit {
     this.Users();
   }
 
-  onGridReady(params) {
+  onGridReady(params:any) {
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
     this.gridColumnApi = params.columnApi;
   }
 
-  Editaction(e) {
+  Editaction(e:any) {
     const rows = e.rowData;
     // console.log('selectedrow------->>>', rows);
     this.route.navigate(['profile'], { queryParams: { id: rows._id } });
