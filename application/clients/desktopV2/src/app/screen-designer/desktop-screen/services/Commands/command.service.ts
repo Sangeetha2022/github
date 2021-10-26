@@ -197,7 +197,11 @@ export class CommandService {
   updateComponentName($this:any) {
     // it called when we update the component traits name
     $this.editor.on(`component:update:name`, function (model:any) {
+      console.log("model",model);
+      
       if (model._previousAttributes.name === '') {
+        console.log("model._previousAttributes.name",model._previousAttributes.name);
+        
         $this.ElementNameArray.push(model.attributes.name);
       } else {
         const elementNameIndex = $this.ElementNameArray.findIndex((x: any) => x === model.attributes.name);

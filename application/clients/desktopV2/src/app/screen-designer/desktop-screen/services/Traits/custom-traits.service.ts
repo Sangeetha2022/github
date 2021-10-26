@@ -17,7 +17,10 @@ export class CustomTraitsService {
                 /* this condition is used to get the entity info of the screen to bind the entity field upon 
                 selecting the html element in grapesjs for details refer #381 in github developer is Kishan 19May2020 */
                 if ($this.existScreenDetail !== undefined && $this.existScreenDetail !== null) {
+                    console.log("existScreenDetail==>trait",$this.existScreenDetail);
+                    
                     this.entityinfo = $this.existScreenDetail[0]["entity_info"];
+                    console.log("entityinfo==>trait",this.entityinfo);
                     matchentity = this.entityinfo.find((x: { htmlId: any; }) => x.htmlId == this.target.attributes.attributes.id);
                 }
                 // previously the enity was bind using this way this.target.changed['entity'];

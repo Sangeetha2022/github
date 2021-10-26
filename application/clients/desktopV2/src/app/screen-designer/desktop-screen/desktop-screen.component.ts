@@ -141,6 +141,8 @@ export class DesktopScreenComponent implements OnInit {
       if (this.screenType === 'mobile') {
         plugins.push('mobile-plugin');
       }
+      console.log("temp name",this.templateName);
+      
       
       //  addStyles.push(`./assets/css/template/${this.templateName.replace(/ +/g, "")}.css`);
       addStyles.push(`./assets/css/template/${this.templateName.replace(/ +/g, "")}.css`);
@@ -250,9 +252,7 @@ export class DesktopScreenComponent implements OnInit {
     let temp = null;
     if (this.cssGuidelines) {
       console.log("cssGuidelines",this.cssGuidelines);
-      
       temp = this.cssGuidelines.find(x => x.tagName === tagName);
-      console.log("temp vv",temp);
     }
     console.log(
       'set element css ar e----  ',
@@ -449,13 +449,17 @@ export class DesktopScreenComponent implements OnInit {
     );
   }
   setDefaultType(EntityBinding:any) {
+   console.log("EntityBinding==>",EntityBinding);
    
     EntityBinding.forEach((entitylist: { type: string; }) => {
+      console.log("EntityBinding foreach==>",entitylist);
       if (entitylist.type === 'secondary') {
         this.selectentityarray.push(entitylist);
 
       }
       console.log('-----selectEntityarray-----', this.selectentityarray);
+      console.log('-----this.traitsName-----', this.traitsName);
+      console.log('-----EntityBinding-----', EntityBinding);
     });
     this.customTraitService.entityFieldButton(this);
         // input traits

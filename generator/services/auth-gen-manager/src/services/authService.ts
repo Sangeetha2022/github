@@ -13,6 +13,8 @@ import { Common } from '../config/Common';
 import { AuthProxyWorker } from '../worker/authProxyWorker'
 import { resolve } from 'dns';
 import * as ncp from 'ncp';
+import { ProjectManagerService } from '../apiservices/ProjectManagerService';
+
 
 export class AuthService {
 
@@ -41,6 +43,7 @@ export class AuthService {
     private workernode = new ScreenWorker();
     private modelworker = new ModelWorker();
     private authProxyConfig = new AuthProxyWorker();
+    private projectmanagerservice=new ProjectManagerService();
     private projectName = '';
     private sourcePath: any;
     private ports = {
@@ -62,10 +65,23 @@ export class AuthService {
     private SYSTEM_CREDENTIAL_MANAGER = 'systemcredentialmanager'
 
     public async auth(req: Request, callback) {
-        // console.log('path ---- >>>', req.query.projectName);
+   
+        this.projectmanagerservice.getProjectById(req.query.projectID, (projectResponse) => {
+            var json = JSON.parse(projectResponse);
+            if (json.body.clientframework.label == 'Angular 12') {
+                console.log("inside if condition Angular 12");
+                
+                // this.authGenFiles.pathFile = req.query.authPath+'/AngularV12';
+                // this.authGenFiles.securityPath = `${this.authGenFiles.pathFile}/${this.SECURITY_FOLDERNAME}`;
+                // this.authGenFiles.authProxyPath = `${this.authGenFiles.pathFile}/${this.AUTH_PROXY_FOLDERNAME}`;
+                // this.authGenFiles.camundaPath = `${this.authGenFiles.pathFile}/${this.CAMUNDA_FOLDERNAME}`;
+                // this.authGenFiles.systemCredsManagerPath = `${this.authGenFiles.pathFile}/${this.SYSTEM_CREDENTIAL_MANAGER}`;
+            }
+        })
+
         this.sourcePath = this.authGenFiles.projectpath = req.query.projectPath;
         this.authGenFiles.templatepath = req.query.authTemplate;
-        this.authGenFiles.pathFile = req.query.authPath;
+         this.authGenFiles.pathFile = req.query.authPath;
         this.authGenFiles.projectId = req.query.projectID;
         if (req.query.projectName) {
             (req.query.projectName as string).split(" ").forEach((element, index) => {
@@ -93,6 +109,14 @@ export class AuthService {
         this.authGenFiles.proxyFolder = this.sourcePath + `/authproxy`;
         this.authGenFiles.camundaFolder = this.sourcePath + `/${this.CAMUNDA_FOLDERNAME}`;
         this.authGenFiles.systemCredsManagerFolder = this.sourcePath + `/${this.SYSTEM_CREDENTIAL_MANAGER}`
+
+        console.log(" this.authGenFiles.pathFile", this.authGenFiles.pathFile);
+        console.log(" this.authGenFiles.authProxyPath", this.authGenFiles.authProxyPath);
+        console.log(" this.authGenFiles.securityPath", this.authGenFiles.securityPath);
+        console.log(" this.authGenFiles.pathFile", this.authGenFiles.pathFile);
+        console.log(" this.authGenFiles.camundaPath", this.authGenFiles.camundaPath);
+        console.log("  this.authGenFiles.systemCredsManagerPath",  this.authGenFiles.systemCredsManagerPath);
+     
 
         if (this.authGenFiles) {
 
