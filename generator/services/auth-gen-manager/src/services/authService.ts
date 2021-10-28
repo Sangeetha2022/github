@@ -14,6 +14,7 @@ import { AuthProxyWorker } from '../worker/authProxyWorker'
 import { resolve } from 'dns';
 import * as ncp from 'ncp';
 
+
 export class AuthService {
 
     private authGenFiles: any = {
@@ -62,10 +63,11 @@ export class AuthService {
     private SYSTEM_CREDENTIAL_MANAGER = 'systemcredentialmanager'
 
     public async auth(req: Request, callback) {
-        // console.log('path ---- >>>', req.query.projectName);
+   
+
         this.sourcePath = this.authGenFiles.projectpath = req.query.projectPath;
         this.authGenFiles.templatepath = req.query.authTemplate;
-        this.authGenFiles.pathFile = req.query.authPath;
+         this.authGenFiles.pathFile = req.query.authPath;
         this.authGenFiles.projectId = req.query.projectID;
         if (req.query.projectName) {
             (req.query.projectName as string).split(" ").forEach((element, index) => {
@@ -93,6 +95,14 @@ export class AuthService {
         this.authGenFiles.proxyFolder = this.sourcePath + `/authproxy`;
         this.authGenFiles.camundaFolder = this.sourcePath + `/${this.CAMUNDA_FOLDERNAME}`;
         this.authGenFiles.systemCredsManagerFolder = this.sourcePath + `/${this.SYSTEM_CREDENTIAL_MANAGER}`
+
+        console.log(" this.authGenFiles.pathFile", this.authGenFiles.pathFile);
+        console.log(" this.authGenFiles.authProxyPath", this.authGenFiles.authProxyPath);
+        console.log(" this.authGenFiles.securityPath", this.authGenFiles.securityPath);
+        console.log(" this.authGenFiles.pathFile", this.authGenFiles.pathFile);
+        console.log(" this.authGenFiles.camundaPath", this.authGenFiles.camundaPath);
+        console.log("  this.authGenFiles.systemCredsManagerPath",  this.authGenFiles.systemCredsManagerPath);
+     
 
         if (this.authGenFiles) {
 

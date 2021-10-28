@@ -397,9 +397,15 @@ export class AngularTemplateService {
                     }
                 }
                 const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.html';
+                console.log("filePath header",filePath);
+                
                 const data = responseArray.join('\n') + ConfimModalPopup.htmlTag[0];
+                console.log("data header",data);
+                
                 Common.createFolders(templateGenerationPath + Constant.HEADER_FOLDERNAME);
                 componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), (res) => {
+                    console.log("res header==>",res);
+                    
                     callback();
                 });
                 // Generate Header SCSS File

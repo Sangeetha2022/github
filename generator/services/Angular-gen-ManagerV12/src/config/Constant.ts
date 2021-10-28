@@ -160,7 +160,7 @@ export class Constant {
         `"angular-validation-message": "^1.1.0",`,
         `"i18next": "^14.0.1",`,
         `"i18next-browser-languagedetector": "^2.2.4",`,
-        `"i18next-sprintf-postprocessor": "^0.2.2",`,
+        `"@types/i18next-sprintf-postprocessor": "^0.2.0",`,
         ` "i18next-xhr-backend": "^1.5.1",`,
         `"angular-6-social-login": "^1.1.1",`,
         `"@ng-select/ng-select": "~1.6.3",`,

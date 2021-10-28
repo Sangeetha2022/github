@@ -64,8 +64,8 @@ export class FrontendTemplateService {
                 if (templateResponse) {
                     const tempFrontend = {
                         templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
-                        seedTemplatePath: details.seedTemplatePath +'/AngularV12',
-                       // seedTemplatePath: details.seedTemplatePath,
+                     //  seedTemplatePath: details.seedTemplatePath +'/AngularV12',
+                        seedTemplatePath: details.seedTemplatePath,
                         authTemplatePath: details.authTemplatePath,
                         adminTemplatePath: details.project.templateLocation.frontendTemplate,
                         screenMenus: templateObj.menuBuilder,
@@ -90,6 +90,7 @@ export class FrontendTemplateService {
 
             }
             if (details.project.clientFramework.label.includes('Angular') && details.project.clientFramework.label != 'Angular 12') {
+                console.log("inside angular 10 templatemanager frontend");
                 const templateResponse = await this.generateAngularTemplate(templateObj);
                 console.log('after calling angular template ---  ', templateResponse);
                 if (templateResponse) {

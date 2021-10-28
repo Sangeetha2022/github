@@ -13,7 +13,7 @@ export class ManagerolesComponent implements OnInit {
   role = '';
   queryId: any;
   default_role = ["Admin", "User", "Guest"];
-  custom_role = [];
+  custom_role:any[] = [];
   enablebutton: boolean = true;
   rolelist: any;
 
@@ -35,7 +35,7 @@ export class ManagerolesComponent implements OnInit {
     this.name = '';
   }
 
-  remove(role) {
+  remove(role:any) {
     this.manageRolesService.GpDeleteRoles(role._id).subscribe((data) => {
       this.getRoles();
     }, (error) => {
@@ -43,7 +43,7 @@ export class ManagerolesComponent implements OnInit {
     });
   }
 
-  getInputValue(e) {
+  getInputValue(e: any) {
     var event = e;
     if (event.length > 0) {
       this.enablebutton = false;

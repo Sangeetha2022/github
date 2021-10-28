@@ -13,7 +13,7 @@ export class ManageusersComponent implements OnInit {
   rolelist: any;
   user: any;
   roles: any;
-  selectedoption
+  selectedoption:any;
   role_id: any;
 
   constructor(private manageUserService: ManageUserService, private constants: Constants) { }
@@ -40,9 +40,9 @@ export class ManageusersComponent implements OnInit {
     });
   }
 
-  save(user) {
+  save(user:any) {
     let selected_role = user.role.role;
-    this.rolelist.forEach(element => {
+    this.rolelist.forEach((element:any) => {
       if (element.role == selected_role) {
         console.log("elemnt.role", element.role)
         this.role_id = element._id

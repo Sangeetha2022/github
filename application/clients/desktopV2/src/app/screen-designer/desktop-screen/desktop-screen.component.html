@@ -32,3 +32,28 @@
         </div>
     </div>
 </div>
+<!-- entity and its field div popup model -->
+<div *ngIf="isFieldPopupModal" id="modalDiv" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-sm" role="dialog">
+        <div class="modal-content">
+            <div class="container">
+                <form class="m-3">
+                    <button type="button" class="close" (click)="onCloseModel()" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                    <div class="form-group">
+                        <label>fields</label>
+                        <select class="form-control" id="fields" name="entityFields" [(ngModel)]="entityFields.entityfieldname" (ngModelChange)="onChangeentityfield()">
+                    <option *ngFor="let field of fields " [value]="field.name" selected>{{ field.name }}</option>
+                  </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group fieldpopbtn">
+                    <button type="button" class="btn button-close" (click)="onCloseModel()">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
