@@ -1552,7 +1552,8 @@ export class DesktopScreenComponent implements OnInit {
         type: 'entityFieldButton',
         label: 'Field',
         name: 'Field'
-      });
+      }
+      );
     console.log('--------selectentity----->>>>', this.editor.DomComponents);
     // select traits
     this.editor.DomComponents.getType(

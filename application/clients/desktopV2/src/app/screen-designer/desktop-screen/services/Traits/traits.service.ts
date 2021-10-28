@@ -40,8 +40,9 @@ export class TraitsService {
               options: [],
               changeProp: 1
             },
-          ],
+          ],       
         }
+        
       },
 
       // Define the View

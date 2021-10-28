@@ -54,7 +54,9 @@ export class CommandService {
   }
 
   componentSelected($this:any) {
+  
     $this.editor.on('component:selected', function (component:any) {
+     
       const entityTrait = component.getTrait('entity');
       console.log("entityTrait is",entityTrait);
       
@@ -70,12 +72,12 @@ export class CommandService {
           {
             type: 'entityFieldButton',
             label: 'Field',
-            name: 'Field'
+            name: 'Field',
           }
         );
       }
-      if (component.attributes.tagName === 'input') {
-        //alert("inside component selected input trait")
+      if (component.attributes.tagName === 'INPUT') {
+       // alert("inside component selected input trait")
         component.get('traits').set([
           { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
           { name: 'placeholder', label: 'Placeholder' },
@@ -97,11 +99,14 @@ export class CommandService {
           {
             type: 'entityFieldButton',
             label: 'Field',
-            name: 'Field'
+            name: 'Field',
           }
         ]);
+       
       }
+     
     });
+    
   }
   toggle($this:any) {
     // it worked well if we inject the buttons close to the input fields
@@ -249,7 +254,11 @@ export class CommandService {
   updateTraits($this:any) {
     // select entity if triats values changed then its called
     $this.editor.on(`component:update:entity`, function (model:any) {
+      console.log("mm",model);
+      
       $this.selectedEntityModel = model.changed['entity'];
+      console.log(" $this.selectedEntityModel ", $this.selectedEntityModel );
+      
       $this.selectedHtmlElement.htmlId = model.ccid;
       $this.selectedHtmlElement.componentId = model.cid;
       $this.selectedHtmlElement.elementName = model.attributes.name;
