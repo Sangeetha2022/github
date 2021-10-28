@@ -13,6 +13,7 @@ import { Common } from '../config/Common';
 import { AuthProxyWorker } from '../worker/authProxyWorker'
 import { resolve } from 'dns';
 import * as ncp from 'ncp';
+import { GcamWorker } from '../worker/GcamWorker';
 
 export class AuthService {
 
@@ -24,8 +25,10 @@ export class AuthService {
         templatepath: '',
         proxyFolder: '',
         camundaFolder: '',
+        gcamFolder:'',
         securityPath: '',
         authProxyPath: '',
+        gcamPath:'',
         systemCredsManagerPath: '',
         systemCredsManagerFolder: '',
         camundaPath: '',
@@ -37,6 +40,7 @@ export class AuthService {
     private menubuilder = new MenuBuilderService();
     private entityservice = new EntityMicroService();
     private camundaworker = new CamundaWorker();
+    private gcamworker = new GcamWorker();
     private dmnworker = new DmnWorkerFile();
     private workernode = new ScreenWorker();
     private modelworker = new ModelWorker();
@@ -47,7 +51,8 @@ export class AuthService {
         security: 8003,
         camunda: 8002,
         authProxy: 8001,
-        system_credential: 8005
+        system_credential: 8005,
+        gcam: 8004,
     }
     // templateName
     private SERVER_TEMPLATENAME = 'server_file';
@@ -59,27 +64,32 @@ export class AuthService {
     private CAMUNDA_FOLDERNAME = 'camunda';
     private AUTH_PROXY_FOLDERNAME = 'Auth-Proxy';
     private SECURITY_FOLDERNAME = 'securitymanager';
-    private SYSTEM_CREDENTIAL_MANAGER = 'systemcredentialmanager'
+    private SYSTEM_CREDENTIAL_MANAGER = 'systemcredentialmanager';
+    private GCAM_FOLDERNAME = 'gcam';
 
     public async auth(req: Request, callback) {
-        // console.log('path ---- >>>', req.query.projectName);
+         console.log('path ---- >>>', req.query.projectName);
         this.sourcePath = this.authGenFiles.projectpath = req.query.projectPath;
         this.authGenFiles.templatepath = req.query.authTemplate;
         this.authGenFiles.pathFile = req.query.authPath;
         this.authGenFiles.projectId = req.query.projectID;
         if (req.query.projectName) {
+            console.log("req.query.projectName--->",req.query.projectName);
             (req.query.projectName as string).split(" ").forEach((element, index) => {
                 if (index === 0) {
                     this.projectName = element;
+                    console.log("this.projectName",this.projectName);
                 } else {
                     this.projectName += element.charAt(0).toUpperCase() + element.slice(1);
+                    console.log(" this.projectName ", this.projectName );
                 }
             })
         }
         await Common.createFolders(this.authGenFiles.projectpath);
         if (this.sourcePath) {
+            console.log("this.sourcePath",this.sourcePath);
             if (!fs.existsSync(this.sourcePath)) {
-                console.log('-----coming here for source floder creation---', this.sourcePath);
+                console.log('-----coming here for source folder creation---', this.sourcePath);
                 fs.mkdirSync(this.sourcePath);
             }
         }
@@ -92,7 +102,8 @@ export class AuthService {
         this.authGenFiles.folder = this.sourcePath + `/${this.SECURITY_FOLDERNAME}`;
         this.authGenFiles.proxyFolder = this.sourcePath + `/authproxy`;
         this.authGenFiles.camundaFolder = this.sourcePath + `/${this.CAMUNDA_FOLDERNAME}`;
-        this.authGenFiles.systemCredsManagerFolder = this.sourcePath + `/${this.SYSTEM_CREDENTIAL_MANAGER}`
+        this.authGenFiles.systemCredsManagerFolder = this.sourcePath + `/${this.SYSTEM_CREDENTIAL_MANAGER}`;
+        this.authGenFiles.gcamFolder = this.sourcePath + `/${this.GCAM_FOLDERNAME}`
 
         if (this.authGenFiles) {
 
@@ -112,6 +123,11 @@ export class AuthService {
                 this.createFolder();
                 this.credentialManagerService(callback);
             }
+            if (this.authGenFiles.gcamPath) {
+                this.createFolder();
+                this.camundaService(callback)
+            }
+            
         }
     }
 
@@ -138,6 +154,11 @@ export class AuthService {
         if (this.authGenFiles.systemCredsManagerPath) {
             if (!fs.existsSync(this.authGenFiles.systemCredsManagerFolder)) {
                 fs.mkdirSync(this.authGenFiles.systemCredsManagerFolder);
+            }
+        }
+        if (this.authGenFiles.gcamPath) {
+            if (!fs.existsSync(this.authGenFiles.gcamFolder)) {
+                fs.mkdirSync(this.authGenFiles.gcamFolder);
             }
         }
     }
@@ -501,9 +522,10 @@ export class AuthService {
     public async camundaService(callback) {
 
         const screens = await this.getMenubuilder();
-        // console.log('-----screens-----', screens);
+         console.log('-----screens-----', screens);
+         console.log('ssss-------------');
         this.dmnworker.dmnTable(screens, this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (dmndata => {
-            // callback(dmndata);
+            //  callback(dmndata);
         }));
 
         await fs.readdirSync(`${this.authGenFiles.camundaPath}`).forEach((file) => {
@@ -708,7 +730,7 @@ export class AuthService {
         })
 
         this.workernode.createfile(screens, this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (data => {
-            // console.log('------workerdata----', data);
+             console.log('------workerdata----', data);
             return callback(Routes)
         }));
 
@@ -725,6 +747,40 @@ export class AuthService {
         this.generateServerFile(`${this.authGenFiles.camundaFolder}/src`, this.authGenFiles.templatepath,
             this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
     }
+    public async gcamService(callback) {
+
+        const screens = await this.getMenubuilder();
+         console.log('-----screens-----', screens);
+         console.log('ssss-------------');
+         this.dmnworker.dmnTable(screens, this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (dmndata => {
+            //  callback(dmndata);
+        }));
+        ncp.limit = 16;
+        ncp(this.authGenFiles.gcamPath, this.authGenFiles.gcamFolder, { clobber: false }, async (err) => {
+            if (err) {
+                console.error('---error occured in the ncp of system credential feature----', err);
+            }
+            this.workernode.createfile(screens, this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, (data => {
+             console.log('------workerdata----', data);
+            return callback(Routes)
+        }));
+
+        const camundaServiceFile = await this.gcamConfig();
+
+            const temp = {
+                port: this.ports.gcam,
+                projectName: this.projectName.toLowerCase(),
+                databaseName: this.projectName.toLowerCase(),
+                isDmnFile: true,
+                isSeed: true
+            }
+            console.log('gcam generation folder are ------before authProxyPath---------   ', this.authGenFiles);
+            this.generateServerFile(`${this.authGenFiles.gcamFolder}/src`, this.authGenFiles.templatepath,
+                this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
+            console.log('code added.....');
+        });
+    }
+
 
     async generateServerFile(applicationPath, templatePath, templateName, fileName, information) {
         console.log('generateServerfile are ----- ', applicationPath, ' --templatePath---  ', templatePath, ' --fileName-- ', fileName, ' --information-- ', information)
@@ -766,6 +822,15 @@ export class AuthService {
     }
 
     camundaConfig() {
+        return new Promise(resolve => {
+            this.camundaworker.createConfig(this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, this.projectName, (configdata => {
+                resolve(configdata)
+            }));
+
+        })
+
+    }
+    gcamConfig() {
         return new Promise(resolve => {
             this.camundaworker.createConfig(this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, this.projectName, (configdata => {
                 resolve(configdata)

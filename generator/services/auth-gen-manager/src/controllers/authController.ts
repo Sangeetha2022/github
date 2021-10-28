@@ -7,7 +7,6 @@ let authService = new AuthService ();
 
 
 export class AuthController {
-
     public auth (req:Request , res:Response){
         authService.auth(req, (response) => {
             console.log('controller --response -->>', response)
