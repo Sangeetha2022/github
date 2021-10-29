@@ -132,7 +132,9 @@ export class AngularTemplateService {
         //         break;
         // }
         componentWorker.generateComponent(this.generationPath, this.templateName.toLowerCase(), (response) => {
+            console.log('test a reasponse', response);
             appModuleWorker.importComponentModules(body, (res) => {
+                console.log('import modules complted')
                 callback(response)
             });
         })

@@ -119,20 +119,21 @@ export class FrontendTemplateService {
                 callback('angular template are generated');
             }
             if (details.project.clientFramework.label.includes('React')) {
-                const generationPath = details.projectGenerationPath.split("/application");
-                let response = await this.generateReact(templateObj);
-                const readmepath = details.project.templateLocation.adminManagerTemplatePath + '/readMe';
-                this.generate_readme(generationPath, readmepath)
+                //const generationPath = details.projectGenerationPath.split("/application");
+                //let response = await this.generateReact(templateObj);
+                //const readmepath = details.project.templateLocation.adminManagerTemplatePath + '/readMe';
+                //this.generate_readme(generationPath, readmepath)
                 const templateResponse = await this.generateReactTemplate(templateObj);
                 console.log('after calling angular template ---  ', templateResponse);
                 if (templateResponse) {
                     const tempFrontend = {
                         templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
-                        seedTemplatePath: details.seedTemplatePath,
+                        seedTemplatePath: details.seedTemplatePath + '/reactBase',
                         authTemplatePath: details.authTemplatePath,
                         adminTemplatePath: details.project.templateLocation.frontendTemplate,
                         screenMenus: templateObj.menuBuilder,
-                        project_id: details.projectId
+                        project_id: details.projectId,
+                        clientframework: 'react'
 
                     }
                     let featurevalue = details.feature.body[0];
@@ -147,7 +148,7 @@ export class FrontendTemplateService {
                     console.log('after calling auth gronten component are  ---  ');
                     await this.generateAdminFrontendComponent(tempFrontend);
                 }
-                callback(response);
+                callback('react template are generated');
             }
 
         } catch (err) {

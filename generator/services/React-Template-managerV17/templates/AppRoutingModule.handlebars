@@ -1,25 +1,17 @@
-{{#if isAuthImport }}
-import { AuthGuard } from './auth/auth.guard';
-{{/if}}
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
 {{#each importComponent}}
-import { {{classname}}Component } from './{{foldername}}/{{foldername}}.component';
+import {{classname}} from "./Components/{{classname}}/{{classname}}";
 {{/each}}
 
-const routes: Routes = [
-   	{{#each componentPath}}
-       [
-       { path: '{{path}}', component: {{component}}Component, pathMatch: 'full' {{#if isAuthImport }} canActivate: [AuthGuard] {{/if}}  } 
-       ] 
-    {{/each}}
-];
+var routes: any = [
+  {{#each componentPath}}
+    {
+        path: "{{path}}",
+        name: "{{component}}",
+        component: {{component}},
+        layout: "/auth",
+    },
+  {{/each}}
+]
 
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
-
-
+export default routes;
 

@@ -22,6 +22,7 @@ export class Constant {
 
   // file name
   public static INDEX_FILENAME: String = 'index.scss';
+  public static APP_ROUTES_TSX: String = 'routes.tsx'
   public static APP_ROUTING_FILENAME: String = 'app-routing.module.ts';
   public static SHARED_FILENAME: String = 'shared.service.ts';
   public static PROXY_CONFIG_FILENAME: String = 'proxy.conf.ts';

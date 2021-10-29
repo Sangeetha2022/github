@@ -2,5 +2,5 @@ FROM node:14.11.0-alpine
 COPY . /app
 WORKDIR /app
 RUN npm install 
-CMD ng build  --output-hashing all && concurrently "ng build --watch" "serve dist/{{fileName}}"
+CMD npm run build --output-hashing all && concurrently "npm run build --watch" "serve dist/{{fileName}}"
 EXPOSE 5000

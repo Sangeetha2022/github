@@ -89,7 +89,7 @@ export class ReactTemplateService {
         this.generationPath = this.details.projectGenerationPath;
         Common.createFolders(this.generationPath);
         this.templatePath = this.details.project.templateLocation.frontendTemplate;
-        this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && npx create-react-app ${this.projectName} --template typescript--routing=false --skip-git --style=scss --skip-install`, (error, stdout, stderr) => {
+        this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && npx create-react-app ${this.projectName} --template typescript --routing=false --style=scss --skip-install`, (error, stdout, stderr) => {
             console.log('error exec ----->>>>    ', error);
             console.log('stdout exec ----->>>>    ', stdout);
             console.log('stderr exec ----->>>>    ', stderr);
@@ -99,6 +99,7 @@ export class ReactTemplateService {
                 // console.log('iterateData filter are -----  ', this.iterateData);
                 this.generateReactApp(this.details, (response) => {
                     this.createLandingPage(req.body, (res) => {
+                        console.log('enter into landingpage');
                         const temp = {
                             shared: {
                                 className: this.sharedObj.className,
@@ -106,6 +107,7 @@ export class ReactTemplateService {
                             },
                             applicationPath: this.generationPath
                         }
+                        console.log('data get a landing page', temp);
                         callback(temp);
                         console.log('after done all the workers');
                     });
@@ -132,9 +134,12 @@ export class ReactTemplateService {
         //         break;
         // }
         componentWorker.generateComponent(this.generationPath, this.templateName.toLowerCase(), (response) => {
-            appModuleWorker.importComponentModules(body, (res) => {
-                callback(response)
-            });
+            console.log('response from generate component', response);
+            callback(response);
+            // appModuleWorker.importComponentModules(body, (res) => {
+            //     console.log('response send a data genrate a file', response);
+            //     callback(response)
+            // });
         })
     }
 
@@ -306,15 +311,16 @@ export class ReactTemplateService {
                         }
                     }
                 }
-                const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.html';
+                const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.tsx';
                 const data = responseArray.join('\n') + ConfimModalPopup.htmlTag[0];
+                console.log('header file data', filePath, data);
                 Common.createFolders(templateGenerationPath + Constant.HEADER_FOLDERNAME);
                 componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), (res) => {
                     callback();
                 });
                 // Generate Header SCSS File
                 const cssData = TopTemplateHeader.CSS_DATA;
-                const cssFilePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.scss';
+                const cssFilePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.scss';
                 componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
                 });
             });
@@ -328,13 +334,14 @@ export class ReactTemplateService {
             // Generate Template Component
             this.createHtmlfromNestedObject([gjsElement], (res) => {
                 Common.createFolders(templateGenerationPath + Constant.TEMPLATE_FOLDERNAME);
-                const filePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.component.html';
+                const filePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.tsx';
+                console.log('tempalte file data', filePath);
                 componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
                     callback();
                 });
                 // Generate Template SCSS File
                 const cssData = TopTemplateLanding.CSS_DATA;
-                const cssFilePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.component.scss';
+                const cssFilePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.scss';
                 componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
                 });
             });
@@ -342,15 +349,16 @@ export class ReactTemplateService {
             // Generate Footer Component
             this.htmlContent = '';
             this.createHtmlfromNestedObject([gjsElement], (res) => {
-                const filePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.html';
+                const filePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.tsx';
                 Common.createFolders(templateGenerationPath + Constant.FOOTER_FOLDERNAME);
+                console.log('footer file data', filePath);
                 componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
                     this.htmlContent = '';
                     callback();
                 });
                 // Generate Footer SCSS File
                 const cssData = TopTemplateFooter.CSS_DATA;
-                const cssFilePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.component.scss';
+                const cssFilePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.scss';
                 componentSupportWorker.writeFile(cssFilePath, beautify(cssData, { format: 'css' }), () => {
                 });
             });

@@ -9,6 +9,7 @@ export class FrontendWorker {
     private projectGenerationPath = '';
     private seedPath = '';
     private authTemplatePath = '';
+    private clientframework = '';
     private routingMenus: any = [];
 
     // FOLDER NAME
@@ -27,6 +28,23 @@ export class FrontendWorker {
     private BROADCAST_FOLDERNAME = 'broadcast';
     private VAULT_ADMIN = 'vaultadmin';
     private VAULT_FILE_NAME = 'vault-admin'
+
+    // REACT GENERATION FOLDER NAME
+    private LOGIN_FOLDERNAME_REACT = 'Login';
+    // private SIGNUP_FOLDERNAME = 'signup';
+    // private HOME_FOLDERNAME = 'home';
+    // private USER_FOLDERNAME = 'user';
+    // private CONFIG_FOLDERNAME = 'config'
+    // private AUTHORIZATION_FOLDERNAME = 'authorization';
+    // private MANAGEROLES_FOLDERNAME = 'manageroles';
+    // private MANAGEUSERS_FOLDERNAME = 'manageusers';
+    // private PROFILE_SETTINGS_FOLDERNAME = 'profilesettings';
+    // private BUTTON_RENDERER_FOLDERNAME = 'button-renderer';
+    // private AUTH_FOLDERNAME = 'auth';
+    // private HEADER_FOLDERNAME = 'header';
+    // private BROADCAST_FOLDERNAME = 'broadcast';
+    // private VAULT_ADMIN = 'vaultadmin';
+    // private VAULT_FILE_NAME = 'vault-admin'
 
     // FILE NAME
     private SERVICE_NAME = 'service';
@@ -155,11 +173,22 @@ export class FrontendWorker {
         this.seedPath = details.seedTemplatePath;
         console.log("seedPath ====>",this.seedPath);
         this.authTemplatePath = details.authTemplatePath;
-        const loginApplicationPath = `${this.projectGenerationPath}/src/app/${this.LOGIN_FOLDERNAME}`;
-        this.generateStaticComponent(loginApplicationPath, this.LOGIN_FOLDERNAME, () => {
-            this.generateServiceComponent(details.templateResponse.shared, this.LOGIN_FOLDERNAME,
+        this.clientframework = details.clientframework;
+        let loginApplicationPath = '';
+        let folderChange = '';
+        if(this.clientframework === 'react'){
+            console.log('login react generate', this.clientframework, )
+            loginApplicationPath = `${this.projectGenerationPath}/src/Components/${this.LOGIN_FOLDERNAME_REACT}`;
+            folderChange = this.LOGIN_FOLDERNAME_REACT;
+        }else{
+            loginApplicationPath = `${this.projectGenerationPath}/src/app/${this.LOGIN_FOLDERNAME}`;
+            folderChange = this.LOGIN_FOLDERNAME;
+        }
+        console.log('application path get ', loginApplicationPath);
+        this.generateStaticComponent(loginApplicationPath, this.clientframework, folderChange, () => {
+            this.generateServiceComponent(details.templateResponse.shared, folderChange,
                 this.LOGIN_SERVICE_TEMPLATENAME, loginApplicationPath, () => {
-                    this.generateModule(this.LOGIN_FOLDERNAME, this.MODULE_TEMPLATENAME, loginApplicationPath, () => {
+                    this.generateModule(folderChange, this.MODULE_TEMPLATENAME, loginApplicationPath, () => {
                         callback();
                     });
                 });
@@ -171,7 +200,7 @@ export class FrontendWorker {
         this.seedPath = details.seedTemplatePath;
         this.authTemplatePath = details.authTemplatePath;
         const vaultApplicationPath = `${this.projectGenerationPath}/src/app/${this.VAULT_ADMIN}`;
-        this.generateStaticComponent(vaultApplicationPath, this.VAULT_ADMIN, () => {
+        this.generateStaticComponent(vaultApplicationPath, this.clientframework, this.VAULT_ADMIN, () => {
             this.generateModule(this.VAULT_ADMIN, this.MODULE_TEMPLATENAME, vaultApplicationPath, () => {
                 callback();
             });
@@ -199,7 +228,7 @@ export class FrontendWorker {
     //create config folder from seed files
     async createConfig(callback) {
         const configPath = `${this.projectGenerationPath}/src/app/${this.CONFIG_FOLDERNAME}`;
-        await this.generateStaticComponent(configPath, this.CONFIG_FOLDERNAME, () => {
+        await this.generateStaticComponent(configPath, this.clientframework, this.CONFIG_FOLDERNAME, () => {
             callback();
         });
     }
@@ -207,7 +236,7 @@ export class FrontendWorker {
     // create signup component from seed files
     async createSignupComponent(callback) {
         const signupApplicationPath = `${this.projectGenerationPath}/src/app/${this.SIGNUP_FOLDERNAME}`;
-        this.generateStaticComponent(signupApplicationPath, this.SIGNUP_FOLDERNAME, () => {
+        this.generateStaticComponent(signupApplicationPath, this.clientframework, this.SIGNUP_FOLDERNAME, () => {
             this.generateModule(this.SIGNUP_FOLDERNAME, this.MODULE_TEMPLATENAME, signupApplicationPath, () => {
                 callback();
             });
@@ -217,7 +246,7 @@ export class FrontendWorker {
     // create authorization component from seed files
     async createAuthorizationComponent(callback) {
         const authorizationPath = `${this.projectGenerationPath}/src/app/${this.AUTHORIZATION_FOLDERNAME}`;
-        await this.generateStaticComponent(authorizationPath, this.AUTHORIZATION_FOLDERNAME, () => {
+        await this.generateStaticComponent(authorizationPath, this.clientframework, this.AUTHORIZATION_FOLDERNAME, () => {
           this.generateModule(this.AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, authorizationPath, () => {
             callback();
           });
@@ -227,7 +256,7 @@ export class FrontendWorker {
     // create manageroles component from seed files
     async createManageroleComponent(callback) {
         const managerolesPath = `${this.projectGenerationPath}/src/app/${this.MANAGEROLES_FOLDERNAME}`;
-        await this.generateStaticComponent(managerolesPath, this.MANAGEROLES_FOLDERNAME, () => {
+        await this.generateStaticComponent(managerolesPath, this.clientframework, this.MANAGEROLES_FOLDERNAME, () => {
             this.generateModule(this.MANAGEROLES_FOLDERNAME, this.MODULE_TEMPLATENAME, managerolesPath, () => {
             callback();
             });
@@ -237,7 +266,7 @@ export class FrontendWorker {
     // create manageuser component from seed files
     async createManageuserComponent(callback) {
         const manageuserPath = `${this.projectGenerationPath}/src/app/${this.MANAGEUSERS_FOLDERNAME}`;
-        await this.generateStaticComponent(manageuserPath, this.MANAGEUSERS_FOLDERNAME, () => {
+        await this.generateStaticComponent(manageuserPath, this.clientframework, this.MANAGEUSERS_FOLDERNAME, () => {
             this.generateModule(this.MANAGEUSERS_FOLDERNAME, this.MODULE_TEMPLATENAME, manageuserPath, () => {
             callback();
             });
@@ -247,7 +276,7 @@ export class FrontendWorker {
     // create home component from seed files
     async createHomeComponent(callback) {
         const homeApplicationPath = `${this.projectGenerationPath}/src/app/${this.HOME_FOLDERNAME}`;
-        this.generateStaticComponent(homeApplicationPath, this.HOME_FOLDERNAME, () => {
+        this.generateStaticComponent(homeApplicationPath, this.clientframework, this.HOME_FOLDERNAME, () => {
             this.generateModule(this.HOME_FOLDERNAME, this.MODULE_TEMPLATENAME, homeApplicationPath, () => {
                 callback();
             });
@@ -259,9 +288,9 @@ export class FrontendWorker {
         const userApplicationPath = `${this.projectGenerationPath}/src/app/${this.USER_FOLDERNAME}`;
         const profileApplicationPath = `${userApplicationPath}/${this.PROFILE_SETTINGS_FOLDERNAME}`;
         const buttonRendererApplicationPath = `${userApplicationPath}/${this.BUTTON_RENDERER_FOLDERNAME}`;
-        this.generateStaticComponent(userApplicationPath, this.USER_FOLDERNAME, () => {
-            this.generateStaticComponent(profileApplicationPath, this.PROFILE_SETTINGS_FOLDERNAME, () => {
-                this.generateStaticComponent(buttonRendererApplicationPath, this.BUTTON_RENDERER_FOLDERNAME, () => {
+        this.generateStaticComponent(userApplicationPath, this.clientframework, this.USER_FOLDERNAME, () => {
+            this.generateStaticComponent(profileApplicationPath, this.clientframework, this.PROFILE_SETTINGS_FOLDERNAME, () => {
+                this.generateStaticComponent(buttonRendererApplicationPath, this.clientframework, this.BUTTON_RENDERER_FOLDERNAME, () => {
                     this.generateModule(this.USER_FOLDERNAME, this.MODULE_TEMPLATENAME, userApplicationPath, () => {
                         this.generateModule(this.PROFILE_SETTINGS_FOLDERNAME, this.MODULE_TEMPLATENAME, profileApplicationPath, () => {
                             this.generateModule(this.BUTTON_RENDERER_FOLDERNAME, this.MODULE_TEMPLATENAME, buttonRendererApplicationPath, () => {
@@ -284,7 +313,7 @@ export class FrontendWorker {
         if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`) < 0) {
             this.routingModuleInfo.importDependency.push(`import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`);
         }
-        await this.generateStaticComponent(AuthApplicationPath, this.AUTH_FOLDERNAME, () => {
+        await this.generateStaticComponent(AuthApplicationPath, this.clientframework, this.AUTH_FOLDERNAME, () => {
             this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateName, this.routingMenus, () => {
                 callback();
             });
@@ -322,11 +351,14 @@ export class FrontendWorker {
         });
     }
 
-    async generateStaticComponent(applicationPath, folderName, callback) {
+    async generateStaticComponent(applicationPath, clientframework, folderName, callback) {
         let loginSeedPath;
         if (folderName === 'profilesettings' || folderName === 'button-renderer') {
             loginSeedPath = `${this.seedPath}/user/${folderName}`;
-        } else {
+        } else if(clientframework === 'react') {
+            loginSeedPath = `${this.seedPath}/src/Components/${folderName}`;
+        } 
+        else {
             loginSeedPath = `${this.seedPath}/${folderName}`;
         }
         Common.createFolders(applicationPath);

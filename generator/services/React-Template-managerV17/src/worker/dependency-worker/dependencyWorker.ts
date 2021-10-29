@@ -90,8 +90,8 @@ export class DependencyWorker {
     routing.componentPath.push({ path: '', component: folderName.charAt(0).toUpperCase() + folderName.slice(1).toLowerCase(), isAuthProtected: false });
     // app routing file path
     console.log("App----Routing----->>>>>", routing)
-    const filePath = `${generationPath}/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
-    componentSupportWorker.handleBarsFile(`${templatePath}/AppRoutingModule.handlebars`, routing, filePath, Constant.APP_ROUTING_FILENAME);
+    const filePath = `${generationPath}/${Constant.SRC_FOLDERNAME}`;
+    componentSupportWorker.handleBarsFile(`${templatePath}/AppRoutingModule.handlebars`, routing, filePath, Constant.APP_ROUTES_TSX);
     callback("App Routing Module file generated")
   }
 

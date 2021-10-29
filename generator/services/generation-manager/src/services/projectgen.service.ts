@@ -248,6 +248,13 @@ export class ProjectgenService {
         );
         console.log('project object in generation application --2222---->>>>   ', authPath);
         this.projectObj.templateLocation.authTemplatePath = authPath.value;
+        
+
+        // if( this.projectObj.clientFramework.label == 'react'){
+        //     this.projectObj.templateLocation.authTemplatePath = authPath.value+'/ReactV1702';
+        //     console.log("inside angular 12 auth path==>",this.projectObj.templateLocation.authTemplatePath);
+            
+        // }
 
         // authorization Template location
         const authorizationPath = configInformation.find(x =>

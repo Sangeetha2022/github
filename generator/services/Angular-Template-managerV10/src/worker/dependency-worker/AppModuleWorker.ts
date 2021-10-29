@@ -9,6 +9,7 @@ export class AppModuleWorker {
      * Read the existing app.module.ts file and adding child module imports
      */
     importComponentModules(details, callback) {
+        console.log('enter the import modules');
         details = JSON.parse(JSON.stringify(details));
         const projectGenerationPath = details.projectGenerationPath;
         const projectName = details.project.name;
