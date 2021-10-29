@@ -13,7 +13,7 @@ import { Common } from '../config/Common';
 import { AuthProxyWorker } from '../worker/authProxyWorker'
 import { resolve } from 'dns';
 import * as ncp from 'ncp';
-import { GcamWorker } from '../worker/GcamWorker';
+
 
 export class AuthService {
 
@@ -40,7 +40,6 @@ export class AuthService {
     private menubuilder = new MenuBuilderService();
     private entityservice = new EntityMicroService();
     private camundaworker = new CamundaWorker();
-    private gcamworker = new GcamWorker();
     private dmnworker = new DmnWorkerFile();
     private workernode = new ScreenWorker();
     private modelworker = new ModelWorker();
