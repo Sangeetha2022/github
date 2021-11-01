@@ -54,9 +54,7 @@ export class CommandService {
   }
 
   componentSelected($this:any) {
-  
     $this.editor.on('component:selected', function (component:any) {
-     
       const entityTrait = component.getTrait('entity');
       console.log("entityTrait is",entityTrait);
       
@@ -76,8 +74,7 @@ export class CommandService {
           }
         );
       }
-      if (component.attributes.tagName === 'INPUT') {
-       // alert("inside component selected input trait")
+      if (component.attributes.tagName === 'input') {
         component.get('traits').set([
           { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
           { name: 'placeholder', label: 'Placeholder' },
@@ -103,6 +100,48 @@ export class CommandService {
           }
         ]);
        
+      }
+      
+      else if (component.attributes.tagName === 'BUTTON') {
+        component.get('traits').set([
+          {
+            label: 'Name',
+            name: 'name',
+            type: 'text',
+            changeProp: 1
+          },
+          {
+            type: 'content',
+            label: 'contentName',
+            name: 'contentname',
+            changeProp: 1
+          },
+          {
+            type: 'select',
+            label: 'verb',
+            name: 'verbs',
+            changeProp: 1,
+            options: $this.verbOptions
+          },
+          // {
+          //   name: 'actionButton',
+          //   label: 'Action',
+          //   type: 'actionButton'
+          // },
+          // {
+          //   type: 'select',
+          //   label: 'modifiers',
+          //   name: 'modifiers',
+          //   changeProp: 1,
+          //   options: $this.filterModifiers // Modifier binding
+          // },
+          // {
+          //   name: 'valueButton',
+          //   label: 'Modify By',
+          //   type: 'valueButton'
+          // }
+          ]
+        );
       }
      
     });
@@ -254,8 +293,6 @@ export class CommandService {
   updateTraits($this:any) {
     // select entity if triats values changed then its called
     $this.editor.on(`component:update:entity`, function (model:any) {
-      console.log("mm",model);
-      
       $this.selectedEntityModel = model.changed['entity'];
       console.log(" $this.selectedEntityModel ", $this.selectedEntityModel );
       
@@ -284,17 +321,14 @@ export class CommandService {
       console.log('model drag and drop are ----- ', model);
       const allInputModels = model.find('[data-gjs-type="input"]');
       const allFormModels = model.find('form');
-      console.log("form-----",allFormModels);
-      
-
       const allButtonModels = model.find('button');
+      const allOptionModels = model.find('select');
       const allImageBlockModels = model.find('.gpd-image-block');
       const allImageModels = model.find('.gjs-plh-image');
       const allLabelModels = model.find('[data-gjs-type="label"]');
-      console.log('allInputModels ---  ', allInputModels);
-      console.log('allButtonModels ---  ', allButtonModels);
-      console.log('alllabelModels ---  ', allLabelModels);
-      console.log('formall models are ------- ', allFormModels);
+
+      console.log("allButtonModels",allButtonModels);
+      
       if (allInputModels.length === 0 && model.attributes.tagName === 'input') {
         allInputModels.push(model);
       }
@@ -330,6 +364,11 @@ export class CommandService {
         allImageBlockModels.forEach((element:any) => {
           element.attributes.traits.target.set('name', `image_${element.ccid}`);
         });
+         // input options
+      allOptionModels.forEach((element:any) => {
+        $this.setElementCSS(element, 'select', null);
+        element.attributes.traits.target.set('name', `select_${element.ccid}`);
+      });
            // images
       allImageModels.forEach((element:any) => {
         element.attributes.traits.target.set('name', `image_${element.ccid}`);

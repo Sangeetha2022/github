@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 declare var ClassicEditor: any;
+declare var Highcharts: any;
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class TraitsService {
 
   public entitylist: any[] = [];
@@ -24,7 +26,7 @@ export class TraitsService {
     console.log("defaultModel",defaultModel);
     
     comps.addType('input', {
-      isComponent: (el: { tagName: string; }) => el.tagName === 'INPUT',
+      isComponent: (el: { tagName: string; }) => el.tagName === 'input',
       model: {
         defaults: {
           draggable: '*',
@@ -207,12 +209,17 @@ export class TraitsService {
           },
           {
             isComponent:  (el: { tagName: string; })=> {
+              console.log("tagName is",el.tagName);
+              
               if (el.tagName === 'BUTTON') {
                 return {
                   type: 'button'
                 };
               }
-              return null;
+              else{
+                return null;
+              }
+             
             }
           }
         ),
@@ -262,6 +269,147 @@ export class TraitsService {
       ),
 
       // Define the View
+      view: defaultType.view
+    });
+  }
+  addHighChartTraits(editor:any, buttonName:any) {
+    const comps = editor.DomComponents;
+    const $this = this;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    const dType = comps.getType(buttonName);
+    const dView = defaultType.view;
+    const chartType = 'bar';
+    const chartTitle='Food Used';
+    const chartInverted='true';
+    comps.addType(buttonName, {
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            charttype: chartType,
+            charttitle:chartTitle,
+            chartinverted:chartInverted,
+            script: function () {
+              const initHighChart = function () {
+                const myChart = Highcharts.chart('highchart4', {
+                  chart: {
+                    type: '{[ charttype ]}',
+                  
+                    inverted: '{[ chartinverted ]}'     
+                  },
+                  title: {
+                    text: '{[ charttitle ]}'
+                  },
+                  xAxis: {
+                    categories: ['Apples', 'Bananas', 'Oranges']
+                  },
+                  yAxis: {
+                    title: {
+                      text: 'Fruit eaten'
+                    }
+                  },
+                  series: [
+                    {
+                      name: 'Jane',
+                      data: [1, 50, 100]
+                    },
+                    {
+                      name: 'John',
+                      data: [5, 30, 3]
+                    }
+                  ]
+                });
+              };
+              let exists = false;
+              const url = 'https://code.highcharts.com/highcharts.js';
+              const scripts = document.getElementsByTagName('script');
+              for (let i = scripts.length; i--;) {
+                if (scripts[i].src === url) {
+                  exists = true;
+                }
+              }
+              if (!exists) {
+                const script = document.createElement('script');
+                script.onload = initHighChart;
+                script.src = url;
+                document.body.appendChild(script);
+              } else {
+                initHighChart();
+              }
+            },
+            traits: [
+              {
+                label: 'Type',
+                type: 'select',
+                name: 'charttype',
+                options: [
+                  { value: 'bar', name: 'bar' },
+                  { value: 'line', name: 'line' },
+                  { value: 'column', name: 'column' },
+                  { value: 'area', name: 'area' }
+                ],
+                changeProp: 1
+              },
+              {
+                label: 'Convertion',
+                type: 'select',
+                name: 'chartinverted',
+                options: [
+                  { value: true, name: 'true' },
+                  { value: false, name: 'false' },
+                ],
+                changeProp: 1
+              },
+              {
+                label:'Title',
+                type:'text',
+                name:'charttitle',
+                changeProp: 1
+              },
+            ]
+          }),
+          init() {
+            this.listenTo(this, 'change:charttype', this.chartType);
+            this.listenTo(this,'change:charttitle',this.chartTitle);
+            this.listenTo(this,'change:chartinverted',this.chartInverted);
+           
+          },
+          chartType() { 
+            const view = this.getView(); 
+            view && view.render();
+            
+         },
+         chartTitle(){
+          // console.log(myChart);
+           
+         //  console.log(Category_values);
+         
+             const view = this.getView(); 
+           view && view.render();
+ 
+         },
+        
+         chartInverted(){
+           const view = this.getView(); 
+           console.log("view is",view);
+           
+           view && view.render();
+         },
+        },
+        {
+          isComponent:  (el:any)=> {
+            if (el.tagName === buttonName) {
+              return {
+                type: buttonName
+              };
+            }
+            else return
+          }
+        }
+      ),
+
       view: defaultType.view
     });
   }

@@ -33,6 +33,9 @@ export class DesktopScreenComponent implements OnInit {
     entityfieldname: '',
     entityId: ''
   };
+  public verbOptions: any[] = [
+    { key: 'click', value: 'onClick' },
+  ];
   logId: any = sessionStorage.getItem('LogId');
   screenEntityModel: any[] = [];
   dataBindingTypes: any[] = [];
@@ -48,12 +51,11 @@ export class DesktopScreenComponent implements OnInit {
     componentId: '',
     elementName: ''
   };
-  // ElementNameArray: any[] = [];
-  // screenEntityModel: any[] = [];
-  // screenFlows: any[] = [];
-  // routeFlows: any[] = [];
-  // specialEvents: any[] = [];
-  // linkArray: any[] = [];
+  ElementNameArray: any[] = [];
+  screenFlows: any[] = [];
+  routeFlows: any[] = [];
+  specialEvents: any[] = [];
+  linkArray: any[] = [];
   projectTemplateId:any;
   public featurelist: any;
   existScreenDetail: any;
@@ -71,7 +73,8 @@ export class DesktopScreenComponent implements OnInit {
   };
 
   screenNameExist: Boolean = false;
-  screenName: any;
+  screenName: string='';
+  screenOption: String = 'normal';
   RemoteStorage:any;
   saveTemplateURL:any;
   updateTemplateURL:any;
@@ -145,26 +148,11 @@ export class DesktopScreenComponent implements OnInit {
           'devices-c',
           'set-device-mobile'
         );
-        console.log('desktop button plugin adding ----- ', desktopButton);
-        console.log('tabletButton button plugin adding ----- ', tabletButton);
-        console.log('mobileButton button plugin adding ----- ', mobileButton);
-        console.log(
-          'mobileButton button plugin adding ---22-- ',
-          editor.Panels.getPanelsEl()
-        );
-        console.log(
-          'mobileButton button plugin adding ---33-- ',
-          editor.Panels.getPanel('devices-c')
-        );
         mobileButton.set('active', 1);
       });
       if (this.screenType === 'mobile') {
         plugins.push('mobile-plugin');
       }
-      console.log("temp name",this.templateName);
-      
-      
-      //  addStyles.push(`./assets/css/template/${this.templateName.replace(/ +/g, "")}.css`);
       addStyles.push(`./assets/css/template/${this.templateName.replace(/ +/g, "")}.css`);
     console.log('--------template css file location--------', addStyles);
       this.editor = grapesjs.init({
@@ -179,18 +167,11 @@ export class DesktopScreenComponent implements OnInit {
         allowScripts: 1,
         plugins: plugins,
         pluginsOpts: {
-          'grapesjs-preset-webpage': {
-            
-          },
-          'grapesjs-custom-code': {
-            
-          }
+          'grapesjs-preset-webpage': {},
+          'grapesjs-custom-code': {}
         },
         assetManager: {
-          assets: [
-           
-          ],
-          uploadText: 'Drop files here or click to upload',
+          assets: [ ],
         },
         canvas: {
           styles: addStyles,
@@ -227,8 +208,6 @@ export class DesktopScreenComponent implements OnInit {
         list[nextId] = model;
         return nextId;
       };
-      // this.getEntity();
-  
       // Need to set generated id while component creation
       this.editor.on('component:create', (component: { setId: (arg0: any) => void; getId: () => any; }) => {
         component.setId(component.getId());
@@ -247,13 +226,12 @@ export class DesktopScreenComponent implements OnInit {
       this.updateTemplateURL = `${this.sharedService.Apigateway}${Constants.updateScreen}`;
       this.modifyTemplateUrl = `${this.sharedService.Apigateway}${Constants.updateProjectTemplate}`;
   }
- 
   //To add Custom Blocks
   addCustomBlocks() {
     this.blockservice.addHeadingTag(this.editor);
     this.blockservice.addCKeditor5(this.editor);
+    this.blockservice.addSpecialCharts(this.editor);
   }
-
   //Function Contains custom buttons in panels
   panelManager() {
     this.panelService.addSaveButton(this.editor);
@@ -264,7 +242,7 @@ export class DesktopScreenComponent implements OnInit {
     this.commandService.componentSelected(this);
     this.commandService.toggle(this);
     //this.commandService.removeComponent(this);
-   // this.commandService.updateComponentName(this);
+    this.commandService.updateComponentName(this);
     this.commandService.updateTraits(this);
     this.commandService.dragAndDrop(this);
   }
@@ -355,8 +333,8 @@ export class DesktopScreenComponent implements OnInit {
               const entityArray: { name: string; value: string; type?: string; }[] = [];
               entityArray.push({ name: 'none', value: 'none' });
               this.EntityField = this.entityData;
-              featureObject.entities.forEach((entity: { entityId: any; entityType: string; }) => {
-                this.entityData.forEach((entityElement: { _id: string; name: string; }) => {
+              featureObject.entities.filter((entity: { entityId: any; entityType: string; }) => {
+                this.entityData.filter((entityElement: { _id: string; name: string; }) => {
                   if(entity.entityId === entityElement._id) {
                     const object = {
                       name: '',
@@ -398,8 +376,7 @@ export class DesktopScreenComponent implements OnInit {
               const entityArray: { name: string; value: string; type?: string; }[] = [];
               entityArray.push({ name: 'none', value: 'none' });
               this.EntityField = allEntityData;
-              allEntityData.forEach((entityElement: { name: string; _id: string; entity_type: string; }) => {
-                // const data = JSON.parse(entityElement);
+              allEntityData.filter((entityElement: { name: string; _id: string; entity_type: string; }) => {
                 const object = {
                   name: '',
                   value: '',
@@ -427,7 +404,7 @@ export class DesktopScreenComponent implements OnInit {
     this.projectComponentService.getAllEntityType(this.logId).subscribe(
       data => {
         if (data.body) {
-          data.body.forEach((element: { typename: string; }) => {
+          data.body.filter((element: { typename: string; }) => {
             const object = {
               name: '',
               value: ''
@@ -460,14 +437,14 @@ export class DesktopScreenComponent implements OnInit {
     );
   }
   setDefaultType(EntityBinding:any) {
-    EntityBinding.forEach((entitylist: { type: string; }) => {
+    EntityBinding.filter((entitylist: { type: string; }) => {
       console.log("EntityBinding foreach==>",entitylist);
       if (entitylist.type === 'secondary') {
         this.selectentityarray.push(entitylist);
       }
     });
     this.customTraitService.entityFieldButton(this);
-    // this.customTraitService.content(this);
+     this.customTraitService.content(this);
     // // custom traits for flows action button
     // this.customTraitService.flowsActionButton(this);
     // // custom traits for page flow action button
@@ -494,6 +471,7 @@ export class DesktopScreenComponent implements OnInit {
           }
           );
         console.log('--------selectentity----->>>>', this.editor.DomComponents);
+          console.log("this.selectentityarray==>",this.selectentityarray)
         // select traits
         this.editor.DomComponents.getType(
           'select'
@@ -510,6 +488,23 @@ export class DesktopScreenComponent implements OnInit {
             name: 'Field',
           }
         );
+          // button traits
+          this.editor.DomComponents.getType(
+            'button'
+          ).model.prototype.defaults.traits.push(
+            {
+              type: 'select',
+              label: 'verb',
+              name: 'verbs',
+              changeProp: 1,
+              options: this.verbOptions
+            },
+            // {
+            //   name: 'actionButton',
+            //   label: 'Action',
+            //   type: 'actionButton'
+            //}
+          );
             // add traits at the state of initialization
     this.editor.DomComponents.getWrapper()
     .get('traits')
@@ -603,7 +598,9 @@ export class DesktopScreenComponent implements OnInit {
           screenName: this.screenName,
           project: this.project_id,
           feature: this.feature_id,
-          screenType: this.screenType
+          screenType: this.screenType,
+          entity_info: this.screenEntityModel,
+          screenOption: this.screenOption,
         });
       }
     }
@@ -614,10 +611,6 @@ export class DesktopScreenComponent implements OnInit {
       saveButton.set('active', 0);
     }
     getScreenById() {
-      console.log('get screen by id are ------   ', this.screen_id);
-      console.log('==========screenName=========', this.screenName);
-      console.log('------------ remote', this.editor.StorageManager.get('remote'));
-      console.log('+++++++++', this.updateTemplateURL);
       if (this.screen_id) {
         this.spinner.show();
         this.editor.StorageManager.get('remote').set({
@@ -643,8 +636,8 @@ export class DesktopScreenComponent implements OnInit {
                 //   'is_grid_present'
                 // ];
                 // this.agGridObject = this.existScreenDetail[0]['grid_fields'];
-                //  this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
-                //  this.screenFlows = this.existScreenDetail[0]['flows_info'];
+                  this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
+                  this.screenFlows = this.existScreenDetail[0]['flows_info'];
                 //  this.routeFlows = this.existScreenDetail[0]['route_info'];
                 // this.componentLifeCycle = this.existScreenDetail[0][
                 //   'component-lifecycle'
@@ -687,40 +680,25 @@ export class DesktopScreenComponent implements OnInit {
         });
       }
     }
-    updatescreen(){
+    updateScreeName() {
       const $this = this;
-      const ArratData = []
       if (this.isTemplateEdit) {
         this.saveRemoteStorage(this.templateObj);
-        // this.flowManagerService.saveModifyierUsage(this.modifiersDetails, this.logId).subscribe(respo => {
-        
-        // })
-        //this.closeScreeName();
+        this.closeScreeName();
         this.spinner.show();
         this.editor.store((data:any) => {
           this.getProjectTemplate(this.projectTemplateId);
         });
-        this.getScreenById();
       } else {
         this.saveRemoteStorage();
-        // this.flowManagerService.saveModifyierUsage(this.modifiersDetails, this.logId).subscribe(respo => {
-        
-        // })
+        this.getScreenById();
         //this.createFeatureIfNotExist();
-        //this.closeScreeName();
-        // this.editor.on('storage:load', function (e:any) {
-        //   console.log('storage id are -------------    ', e);
-        //   $this.screen_id = e.body._id;
-        //  $this.getScreenById();
-        // });
-        $this.getScreenById();
-        this.editor.store((data:any) => {
-         
-          console.log('storage id are -------------    ', data);
-          $this.screen_id = data.body._id;
-        });
-        $this.getScreenById();
         this.closeScreeName();
+        this.editor.store((data:any) => {
+          console.log('storage id are -------------    ', data);
+          this.screen_id = data.body._id;
+          this.getScreenById();
+        });
       }
     }
     onCloseModel() {
@@ -773,7 +751,7 @@ export class DesktopScreenComponent implements OnInit {
         obj.fields.typeName = this.selectedentityfield.type_name;
         obj.fields.dataType = this.selectedentityfield.data_type;
         /* This method is done to remove duplicate value which is pushed in the screenEntity Model
-        for details refer #381 in github developer is Kishan 19May2020 */
+        for details  */
         const duplicatefieldrm = this.screenEntityModel.findIndex(y => y.elementName === obj.elementName);
         if (duplicatefieldrm > -1) {
           this.screenEntityModel[duplicatefieldrm] = obj;

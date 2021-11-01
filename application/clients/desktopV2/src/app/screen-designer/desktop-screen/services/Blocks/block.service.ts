@@ -46,4 +46,21 @@ export class BlockService {
     });
     this.traitService.addCKEditorTraits(editor, 'ckeditor5');
   }
+  addSpecialCharts(editor:any) {
+    editor.BlockManager.add('highcharts', {
+      id: 'highcharts',
+      // tslint:disable-next-line:max-line-length
+      label: ` <div class="gjs-block-label"> high charts </div>`,
+      category: 'Extra',
+      content: `<div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
+      <div id="highchart4" data-gjs-type="highcharts-type" style="width:100%; height:400px;"></div>
+      </div>`,
+      draggable: true,
+      removable: true,
+      attributes:{
+        class:'fa fa-bar-chart'
+      }
+    });
+    this.traitService.addHighChartTraits(editor, 'highcharts-type');
+  }
 }

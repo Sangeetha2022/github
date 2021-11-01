@@ -27,23 +27,23 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary">Close</button>
-                <button type="button" class="btn btn-primary" (click)="updatescreen()">Update</button>
+                <button type="button" class="btn btn-primary" (click)="updateScreeName()">Update</button>
             </div>
         </div>
     </div>
 </div>
-<!-- entity and its field div popup model -->
+<!-- entity and its field div popup model-->
 <div *ngIf="isFieldPopupModal" id="modalDiv" class="modal" tabindex="-1" role="dialog" style="display: block">
     <div class="modal-dialog modal-sm" role="dialog">
         <div class="modal-content">
             <div class="container">
-                <form class="m-3">
-                    <button type="button" class="close" (click)="onCloseModel()" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                <form class="m-3 p-2">
+                    <button type="button" class="btn-close pull-right" aria-label="Close" (click)="onCloseModel()"></button>
                     <div class="form-group">
-                        <label>fields</label>
-                        <select class="form-control" id="fields" name="entityFields" [(ngModel)]="entityFields.entityfieldname" (ngModelChange)="onChangeentityfield()">
+                        <label id="fields_heading">Fields</label>
+                        <br>
+                        <br>
+                        <select class="form-select" id="dropdown_style" name="entityFields" [(ngModel)]="entityFields.entityfieldname" (ngModelChange)="onChangeentityfield()">
                     <option *ngFor="let field of fields " [value]="field.name" selected>{{ field.name }}</option>
                   </select>
                     </div>
@@ -51,7 +51,7 @@
             </div>
             <div class="modal-footer">
                 <div class="form-group fieldpopbtn">
-                    <button type="button" class="btn button-close" (click)="onCloseModel()">Ok</button>
+                    <button type="button" class="btn btn-primary" (click)="onCloseModel()">Ok</button>
                 </div>
             </div>
         </div>
