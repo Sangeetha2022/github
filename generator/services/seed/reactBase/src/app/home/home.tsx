@@ -3,8 +3,8 @@ import BestSeller from "../BestSeller/BestSeller";
 import ElectricBikeCard from "../ElectricBikeCard/ElectricBikeCard";
 import ElectricBikeTypes from "../ElectricBikeTypes/ElectricBikeTypes";
 import { LowPriceBike } from "../LowPriceBike/LowPriceBike";
-// import Footer from '../Footer/Footer'
-import "./Home.scss";
+// import footer from '../footer/footer'
+import "./home.scss";
 
 const Home = () => {
   return (

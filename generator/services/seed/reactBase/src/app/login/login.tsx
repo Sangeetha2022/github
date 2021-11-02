@@ -1,47 +1,22 @@
-
 import React from "react";
-import "./SignUp.scss";
+import "./login.scss";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 
-const SignUp = (props:any) => {
+const Login = (props:any) => {
   return (
     <div className="login-Wrappe text-left ">
-      <h3 className="login-title">Please Register</h3>
+      <h3 className="login-title">Please login</h3>
       <div className="text-align-left">
         <Form>
           <FormGroup>
             <Label className="login-label" for="exampleEmail">
-              First Name
+              Email
             </Label>
             <Input
               className="login-input"
               type="text"
               name="email"
               id="exampleEmail"
-              placeholder="First Name"
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label className="login-label" for="examplePassword">
-              Last Name
-            </Label>
-            <Input
-              className="login-input"
-              type="text"
-              name="password"
-              id="examplePassword"
-              placeholder="Last Name"
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label className="login-label" for="examplePassword">
-              Email
-            </Label>
-            <Input
-              className="login-input"
-              type="text"
-              name="password"
-              id="examplePassword"
               placeholder="Email"
             />
           </FormGroup>
@@ -62,8 +37,8 @@ const SignUp = (props:any) => {
           </div>
         </Form>
       </div>
-      <span className="signup-text-color">Already Registered? <span className="span-text-link" onClick={()=>props.history.push("/auth/login")}>Login Here</span></span>
+      <span className="signup-text-color">Please Login or <span className="span-text-link" onClick={()=>props.history.push("/auth/signup")}>Login</span></span>
     </div>
   );
 };
-export default SignUp;
+export default Login;

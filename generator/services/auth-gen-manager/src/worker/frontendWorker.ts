@@ -29,23 +29,6 @@ export class FrontendWorker {
     private VAULT_ADMIN = 'vaultadmin';
     private VAULT_FILE_NAME = 'vault-admin'
 
-    // REACT GENERATION FOLDER NAME
-    private LOGIN_FOLDERNAME_REACT = 'Login';
-    // private SIGNUP_FOLDERNAME = 'signup';
-    // private HOME_FOLDERNAME = 'home';
-    // private USER_FOLDERNAME = 'user';
-    // private CONFIG_FOLDERNAME = 'config'
-    // private AUTHORIZATION_FOLDERNAME = 'authorization';
-    // private MANAGEROLES_FOLDERNAME = 'manageroles';
-    // private MANAGEUSERS_FOLDERNAME = 'manageusers';
-    // private PROFILE_SETTINGS_FOLDERNAME = 'profilesettings';
-    // private BUTTON_RENDERER_FOLDERNAME = 'button-renderer';
-    // private AUTH_FOLDERNAME = 'auth';
-    // private HEADER_FOLDERNAME = 'header';
-    // private BROADCAST_FOLDERNAME = 'broadcast';
-    // private VAULT_ADMIN = 'vaultadmin';
-    // private VAULT_FILE_NAME = 'vault-admin'
-
     // FILE NAME
     private SERVICE_NAME = 'service';
     private MODULE_NAME = 'module';
@@ -175,20 +158,17 @@ export class FrontendWorker {
         this.authTemplatePath = details.authTemplatePath;
         this.clientframework = details.clientframework;
         let loginApplicationPath = '';
-        let folderChange = '';
         if(this.clientframework === 'react'){
             console.log('login react generate', this.clientframework, )
-            loginApplicationPath = `${this.projectGenerationPath}/src/Components/${this.LOGIN_FOLDERNAME_REACT}`;
-            folderChange = this.LOGIN_FOLDERNAME_REACT;
+            loginApplicationPath = `${this.projectGenerationPath}/src/app/${this.LOGIN_FOLDERNAME}`;
         }else{
             loginApplicationPath = `${this.projectGenerationPath}/src/app/${this.LOGIN_FOLDERNAME}`;
-            folderChange = this.LOGIN_FOLDERNAME;
         }
         console.log('application path get ', loginApplicationPath);
-        this.generateStaticComponent(loginApplicationPath, this.clientframework, folderChange, () => {
-            this.generateServiceComponent(details.templateResponse.shared, folderChange,
+        this.generateStaticComponent(loginApplicationPath, this.clientframework, this.LOGIN_FOLDERNAME, () => {
+            this.generateServiceComponent(details.templateResponse.shared, this.LOGIN_FOLDERNAME,
                 this.LOGIN_SERVICE_TEMPLATENAME, loginApplicationPath, () => {
-                    this.generateModule(folderChange, this.MODULE_TEMPLATENAME, loginApplicationPath, () => {
+                    this.generateModule(this.LOGIN_FOLDERNAME, this.MODULE_TEMPLATENAME, loginApplicationPath, () => {
                         callback();
                     });
                 });
@@ -355,8 +335,8 @@ export class FrontendWorker {
         let loginSeedPath;
         if (folderName === 'profilesettings' || folderName === 'button-renderer') {
             loginSeedPath = `${this.seedPath}/user/${folderName}`;
-        } else if(clientframework === 'react') {
-            loginSeedPath = `${this.seedPath}/src/Components/${folderName}`;
+        } else if (clientframework === 'react') {
+            loginSeedPath = `${this.seedPath}/src/app/${folderName}`;
         } 
         else {
             loginSeedPath = `${this.seedPath}/${folderName}`;

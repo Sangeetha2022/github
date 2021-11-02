@@ -112,10 +112,10 @@ export class DependencyWorker {
     // Modify the envoriments file
     let env = `${generationPath}/${Constant.ENV_FOLDERNAME}`
     let env_file_name = Constant.ENV_FILENAME
-    this.modifyenvoriments(env, env_file_name);
+    //this.modifyenvoriments(env, env_file_name);
     //  Modify the prod envoriments file
     let env_file_name_prod = Constant.ENV_PROD_FILENAME
-    this.modifyenvoriments_prod(env, env_file_name_prod);
+    //this.modifyenvoriments_prod(env, env_file_name_prod);
   }
 
   generateProxyFile(generationPath, templatePath, details, callback) {

@@ -13,7 +13,8 @@ import { AppModuleWorker } from '../worker/dependency-worker/AppModuleWorker';
 import { ComponentSupportWorker } from '../supportworker/componentSupportWorker';
 import * as asyncLoop from 'node-async-loop';
 import { GeppettoSideNav } from '../strategy/HTML/geppetto_template/GeppettoSideNav';
-import { ConfimModalPopup } from '../assets/headerComponent';
+import { ConfimModalPopup, HeaderComponent } from '../assets/headerComponent';
+import { FooterComponent, TemplateComponent } from '../assets/Component';
 import * as beautify from 'beautify';
 import { GeppettoHeader } from '../strategy/HTML/geppetto_template/GeppettoHeader';
 import { GeppettoLanding } from '../strategy/HTML/geppetto_template/GeppettoLanding';
@@ -89,7 +90,7 @@ export class ReactTemplateService {
         this.generationPath = this.details.projectGenerationPath;
         Common.createFolders(this.generationPath);
         this.templatePath = this.details.project.templateLocation.frontendTemplate;
-        this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && npx create-react-app ${this.projectName} --template typescript --routing=false --style=scss --skip-install`, (error, stdout, stderr) => {
+        this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && npx create-react-app ${this.projectName} --template typescript --routing=false --style=scss --skip-install && cd ${this.projectName} && rm -rf node_modules package_lock.json`, (error, stdout, stderr) => {
             console.log('error exec ----->>>>    ', error);
             console.log('stdout exec ----->>>>    ', stdout);
             console.log('stderr exec ----->>>>    ', stderr);
@@ -301,6 +302,9 @@ export class ReactTemplateService {
             this.createHtmlfromNestedObject([gjsElement], (res) => {
                 const menuList = body.menuBuilder.filter(x => x.language.toLowerCase() === body.project.defaultHumanLanguage.toLowerCase());
                 let responseArray = [];
+                console.log('test a component react', responseArray);
+                responseArray + HeaderComponent.htmlImport[0];
+                console.log('test a code ', responseArray);
                 if (res.includes(`<div id="MainMenu" class="">`)) {
                     const sideNavHtml = TemplateTopNav.generateTopNav(menuList);
                     responseArray = res.split('\n');
@@ -312,7 +316,8 @@ export class ReactTemplateService {
                     }
                 }
                 const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.tsx';
-                const data = responseArray.join('\n') + ConfimModalPopup.htmlTag[0];
+                console.log('step 1 data ', responseArray);
+                const data = HeaderComponent.htmlImport[0] + responseArray.join('\n') + ConfimModalPopup.htmlTag[0] + HeaderComponent.htmlEnd[0];
                 console.log('header file data', filePath, data);
                 Common.createFolders(templateGenerationPath + Constant.HEADER_FOLDERNAME);
                 componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), (res) => {
@@ -335,8 +340,9 @@ export class ReactTemplateService {
             this.createHtmlfromNestedObject([gjsElement], (res) => {
                 Common.createFolders(templateGenerationPath + Constant.TEMPLATE_FOLDERNAME);
                 const filePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.tsx';
-                console.log('tempalte file data', filePath);
-                componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
+                console.log('template file data', filePath);
+                const data = TemplateComponent.htmlImport[0] + res + TemplateComponent.htmlEnd[0];
+                componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), () => {
                     callback();
                 });
                 // Generate Template SCSS File
@@ -352,7 +358,8 @@ export class ReactTemplateService {
                 const filePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.tsx';
                 Common.createFolders(templateGenerationPath + Constant.FOOTER_FOLDERNAME);
                 console.log('footer file data', filePath);
-                componentSupportWorker.writeFile(filePath, beautify(res, { format: 'html' }), () => {
+                const data = FooterComponent.htmlImport[0] + res + FooterComponent.htmlEnd[0];
+                componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), () => {
                     this.htmlContent = '';
                     callback();
                 });

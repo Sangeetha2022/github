@@ -8,7 +8,11 @@ var routes: any = [
         path: "{{path}}",
         name: "{{component}}",
         component: {{component}},
-        layout: "/auth",
+        {{#if isAuthImport }} 
+            layout: "/auth",
+        {{else}}
+            layout: "/user",
+        {{/if}}
     },
   {{/each}}
 ]

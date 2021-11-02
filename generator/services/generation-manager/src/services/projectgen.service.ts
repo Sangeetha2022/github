@@ -250,10 +250,9 @@ export class ProjectgenService {
         this.projectObj.templateLocation.authTemplatePath = authPath.value;
         
 
-        // if( this.projectObj.clientFramework.label == 'react'){
-        //     this.projectObj.templateLocation.authTemplatePath = authPath.value+'/ReactV1702';
-        //     console.log("inside angular 12 auth path==>",this.projectObj.templateLocation.authTemplatePath);
-            
+        // if( this.projectObj.clientFramework.label.includes('React')){
+        //     this.projectObj.templateLocation.authTemplatePath = authPath.value + '/reactBase';
+        //     console.log("inside react 17.0.2 auth path==>",this.projectObj.templateLocation.authTemplatePath);
         // }
 
         // authorization Template location

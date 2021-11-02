@@ -22,37 +22,37 @@ export class AuthFrontendService {
         const clientframework = details.clientframework;
         console.log("seedTemplatePath====>",seedTemplatePath);
         
-        //await this.readImagesAssets(seedTemplatePath, applicationPath);
-        //this.frontendWorker.createReadMeFile(details, (response) => {
-            //this.frontendWorker.createErrorReadMeFile(details, (response) => {
+        await this.readImagesAssets(seedTemplatePath, applicationPath);
+        this.frontendWorker.createReadMeFile(details, (response) => {
+            this.frontendWorker.createErrorReadMeFile(details, (response) => {
                 this.frontendWorker.createLoginComponent(details, (response) => {
                     this.frontendWorker.createSignupComponent((response) => {
                         this.frontendWorker.createHomeComponent((response) => {
-                            this.frontendWorker.createAuthorizationComponent((response) => {
-                                this.frontendWorker.createManageroleComponent((response) => {
-                                    this.frontendWorker.createManageuserComponent((response) => {
-                                        this.frontendWorker.createConfig((response) => {
-                                            this.frontendWorker.createUserComponent((response) => {
-                                                this.frontendWorker.createVaultAdminComponent(details, (response) => {
-                                                    this.frontendWorker.createAuthComponent(menus, (response) => {
+                            //this.frontendWorker.createAuthorizationComponent((response) => {
+                                //this.frontendWorker.createManageroleComponent((response) => {
+                                    //this.frontendWorker.createManageuserComponent((response) => {
+                                        //this.frontendWorker.createConfig((response) => {
+                                            //this.frontendWorker.createUserComponent((response) => {
+                                                //this.frontendWorker.createVaultAdminComponent(details, (response) => {
+                                                    //this.frontendWorker.createAuthComponent(menus, (response) => {
                                                         this.frontendWorker.generateAppFile((response) => {
                                                             this.frontendWorker.modifyFiles(() => {
                                                                 const date = new Date();
                                                                 callback();
                                                             });
                                                         })
-                                                    })
-                                                })
-                                            })
-                                        })
-                                    })
-                                })
-                            })
+                                                    //})
+                                                //})
+                                            //})
+                                        //})
+                                    //})
+                                //})
+                            //})
                         })
                     })
                 })
-            //})
-        //});
+            })
+        });
     }
 
     async readImagesAssets(templatePath, generationPath) {
