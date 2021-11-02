@@ -63,5 +63,29 @@
            "roles": ["admin","user","guest"]
          }
         ] 
+   },
+   {
+    "resource-name": "new-feat-screen",
+    "resource-type": "screen",
+    "roles": ["admin", "user"],
+    "components" :[
+        "label-textbox", {
+           "id": "878979",
+           "roles": ["admin","user"]
+         },
+        "textbox", {
+           "id": "135979",
+           "roles": ["admin","user"]
+         },
+         "label-for-dropdown", {
+           "id": "343979",
+           "roles": ["admin","user"]
+         },
+         "dropdown", {
+          "id": "343979",
+          "roles": ["admin"]
+        }
+
+        ] 
    }
 ]
