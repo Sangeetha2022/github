@@ -3,8 +3,7 @@ export const FooterComponent = {
       `import React from "react";
       import "./footer.scss";
       const Footer = () => {
-          return
-              (
+          return (
       `
     ],
     htmlEnd: [
@@ -22,8 +21,7 @@ export const TemplateComponent = {
     `import React from "react";
     import "./template.scss";
     const Template = () => {
-      return 
-          (
+      return (
     `
   ],
   htmlEnd: [

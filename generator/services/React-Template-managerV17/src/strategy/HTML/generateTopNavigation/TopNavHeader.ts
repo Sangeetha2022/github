@@ -4,19 +4,19 @@ import * as path from 'path';
 
 export class TopTemplateHeader {
     public static HTML_TAG = `
-    <nav data-gjs="navs" id="i011z1" class="menu">
+    <nav data-gjs="navs" id="i011z1" className="menu">
         <div id='MainMenu'>
         </div>
   </nav>
 
-  <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display': confirmLangChangeModal}">
-    <div class="modal-dialog modal-sm" role="dialog">
-      <div class="modal-content">
-        <div class="modal-body">
+  <div className="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display': confirmLangChangeModal}">
+    <div className="modal-dialog modal-sm" role="dialog">
+      <div className="modal-content">
+        <div className="modal-body">
           <p>language change cause you to re-login</p>
         </div>
-        <div class="modal-footer" style="padding: 5px">
-          <button type="button" (click)="confirmLangChange()" class="btn btn-default">Confirm</button>
+        <div className="modal-footer" style="padding: 5px">
+          <button type="button" (click)="confirmLangChange()" className="btn btn-default">Confirm</button>
           <button type="button" (click)="onCloseHandled()" class="btn btn-default">Cancel</button>
         </div>
       </div>

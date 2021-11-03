@@ -1,9 +1,9 @@
 export class TopTemplateFooter {
 
   public static HTML_TAG = `<footer id='template-i0wmf'>
-    <div class='container' id='template-inmrf'>
-      <div class='row' id='template-izddy'>
-        <div class='footer-col col-md-4' id='template-izxyk'>
+    <div className='container' id='template-inmrf'>
+      <div className='row' id='template-izddy'>
+        <div className='footer-col col-md-4' id='template-izxyk'>
           <h3 id='template-iv2y9'>Location</h3>
           <p id='template-itgmk'>
           Maitland, FL 32751-5515
@@ -11,7 +11,7 @@ export class TopTemplateFooter {
           <b>Email</b>: info@geppettosoftware.com
           </p>
         </div>
-        <div class='footer-col col-md-8' id='template-is0vg'>
+        <div className='footer-col col-md-8' id='template-is0vg'>
           <h3 id='template-i8zah'>About Geppetto</h3>
           <p id='template-inb4l'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum incidunt reprehenderit
             placeat,
@@ -20,9 +20,9 @@ export class TopTemplateFooter {
         </div>
       </div>
     </div>
-    <div class='container' id='template-iw89d'>
-      <div class='row' id='template-i90bn'>
-        <div class='col-lg-12' id='template-itzip'>Copyright © GEPPETTO 2021 </div>
+    <div className='container' id='template-iw89d'>
+      <div className='row' id='template-i90bn'>
+        <div className='col-lg-12' id='template-itzip'>Copyright © GEPPETTO 2021 </div>
       </div>
     </div>
   </footer>`
