@@ -17,15 +17,18 @@ export class CustomTraitsService {
             if (!this.inputEl) {
                 const input = document.createElement('textarea');
                 input.value = this.target.get('content');
-                this.inputEl = input;  
+                this.inputEl = input;
             }
             return this.inputEl;
         },
         onValueChange: function () {
-            this.target.set('content', this.model.get('value')); 
+            console.log("this.model.get('type')",this.model.get('type'));
+             console.log("value",this.model);
+         this.target.set('content', this.model.get('value'));
+         alert( this.model.get('value'))
         }
-
     });
+  
 }
 
   entityFieldButton(screen_designer:any) {

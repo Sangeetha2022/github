@@ -26,7 +26,7 @@ export class TraitsService {
     console.log("defaultModel",defaultModel);
     
     comps.addType('input', {
-      isComponent: (el: { tagName: string; }) => el.tagName === 'input',
+      isComponent: (el: { tagName: string; }) => {console.log("el is",el.tagName); el.tagName === 'INPUT'},
       model: {
         defaults: {
           draggable: '*',
@@ -56,7 +56,6 @@ export class TraitsService {
     initializeLabelMethod(screenGlobalVariable:any) {
       const comps = screenGlobalVariable.editor.DomComponents;
       console.log("comps==>",comps);
-      
       const defaultType = comps.getType('default');
       console.log("defaultType==>",defaultType);
       const defaultModel = defaultType.model;
@@ -79,12 +78,20 @@ export class TraitsService {
                   label: 'contentName',
                   name: 'contentname',
                   changeProp: 1
-                }
+                },
+                // {
+                //   type: 'text',
+                //   label: 'contentName',
+                //   name: 'contentname',
+                //   changeProp: 1
+                // },
+               
               ],
-             tagName: 'label',
             }),
             init() {
+             // this.listenTo(this,'change:contentname',this.chartTitle);
             },
+           
           },
           {
             isComponent:  (el: { tagName: string; })=> {
@@ -93,12 +100,12 @@ export class TraitsService {
                   type: 'label'
                 };
               }
-              return null;
             }
           }
         ),
   
         // Define the View
+      
         view: defaultType.view
       });
     }
@@ -382,10 +389,6 @@ export class TraitsService {
             
          },
          chartTitle(){
-          // console.log(myChart);
-           
-         //  console.log(Category_values);
-         
              const view = this.getView(); 
            view && view.render();
  

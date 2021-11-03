@@ -54,7 +54,10 @@ export class CommandService {
   }
 
   componentSelected($this:any) {
+   
     $this.editor.on('component:selected', function (component:any) {
+      console.log("component.attributes.tagName",component.attributes.tagName);
+      
       const entityTrait = component.getTrait('entity');
       console.log("entityTrait is",entityTrait);
       
@@ -75,6 +78,8 @@ export class CommandService {
         );
       }
       if (component.attributes.tagName === 'input') {
+        console.log("$this.EntityBinding",$this.selectentityarray);
+        
         component.get('traits').set([
           { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
           { name: 'placeholder', label: 'Placeholder' },
@@ -101,7 +106,6 @@ export class CommandService {
         ]);
        
       }
-      
       else if (component.attributes.tagName === 'BUTTON') {
         component.get('traits').set([
           {
@@ -341,11 +345,13 @@ export class CommandService {
       if (allLabelModels.length === 0 && model.attributes.tagName === 'label') {
         allLabelModels.push(model);
       }
+      console.log('after set inputmodels vlaue ---- ', allLabelModels);
          // label
          allLabelModels.forEach((element:any) => {
           $this.setElementCSS(element, 'label', null);
           //element.attributes.traits.target.set('name', `label_${element.ccid}`);
         });
+
          // input
          allInputModels.forEach((element:any) => {
           $this.setElementCSS(element, 'input', null);

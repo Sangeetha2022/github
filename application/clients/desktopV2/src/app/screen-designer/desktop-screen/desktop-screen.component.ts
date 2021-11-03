@@ -167,7 +167,9 @@ export class DesktopScreenComponent implements OnInit {
         allowScripts: 1,
         plugins: plugins,
         pluginsOpts: {
-          'grapesjs-preset-webpage': {},
+          'grapesjs-preset-webpage': {
+           
+          },
           'grapesjs-custom-code': {}
         },
         assetManager: {
@@ -222,6 +224,7 @@ export class DesktopScreenComponent implements OnInit {
       const nanoid = customAlphabet('1234567890', 6)
       this.screenName = `screen${nanoid()}`;
       this.RemoteStorage = this.editor.StorageManager.get('remote');
+      this.saveRemoteStorage();
       this.saveTemplateURL = `${this.sharedService.Apigateway}${Constants.addScreen}`;
       this.updateTemplateURL = `${this.sharedService.Apigateway}${Constants.updateScreen}`;
       this.modifyTemplateUrl = `${this.sharedService.Apigateway}${Constants.updateProjectTemplate}`;
@@ -452,7 +455,8 @@ export class DesktopScreenComponent implements OnInit {
     // this.customTraitService.flowsModifierValueButton(this);
     // // custom traits for popup modal button
     // this.customTraitService.popupModalButton(this);
-       
+    
+
         // input traits
         this.editor.DomComponents.getType(
           'input'
