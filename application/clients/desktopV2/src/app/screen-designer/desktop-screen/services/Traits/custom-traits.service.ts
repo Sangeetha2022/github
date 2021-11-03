@@ -25,7 +25,7 @@ export class CustomTraitsService {
             console.log("this.model.get('type')",this.model.get('type'));
              console.log("value",this.model);
          this.target.set('content', this.model.get('value'));
-         alert( this.model.get('value'))
+        // alert( this.model.get('value'))
         }
     });
   
