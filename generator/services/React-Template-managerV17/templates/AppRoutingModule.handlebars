@@ -2,20 +2,13 @@
 import {{classname}} from "./Components/{{classname}}/{{classname}}";
 {{/each}}
 
-var routes: any = [
-  {{#each componentPath}}
-    {
-        path: "{{path}}",
-        name: "{{component}}",
-        component: {{component}},
-        {{#if isAuthImport }} 
-            layout: "/auth",
-        {{else}}
-            layout: "/user",
-        {{/if}}
-    },
-  {{/each}}
-]
-
-export default routes;
-
+const Routes = () => {
+    return (
+      <Switch>
+        {{#each componentPath}}
+          <Route exact path="{{path}}", component: {{component}} />
+        {{/each}}
+      </Switch>
+    )
+}
+export default Routes;
