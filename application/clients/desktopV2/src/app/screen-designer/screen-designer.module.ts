@@ -5,6 +5,7 @@ import { DesktopScreenComponent } from './desktop-screen/desktop-screen.componen
  import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
  import { NgxSpinnerModule } from 'ngx-spinner';
 import { ScreenDesignerRoutingModule } from './screen-designer-routing.module';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [DesktopScreenComponent],
@@ -14,7 +15,8 @@ import { ScreenDesignerRoutingModule } from './screen-designer-routing.module';
      CKEditorModule,
      ReactiveFormsModule,
      NgxSpinnerModule,
-     ScreenDesignerRoutingModule
+     ScreenDesignerRoutingModule,
+     AgGridModule.withComponents([]),
   ]
 })
 export class ScreenDesignerModule { }

@@ -22,10 +22,8 @@ export class CustomTraitsService {
             return this.inputEl;
         },
         onValueChange: function () {
-            console.log("this.model.get('type')",this.model.get('type'));
-             console.log("value",this.model);
-         this.target.set('content', this.model.get('value'));
-        // alert( this.model.get('value'))
+            //alert(this.model.get('value'))
+            this.target.set('content', this.model.get('value'));
         }
     });
   
@@ -86,4 +84,28 @@ export class CustomTraitsService {
         }
     });
 }
+    flowsActionButton(screen_designer:any) {
+        let rows: any;
+        screen_designer.editor.TraitManager.addType('actionButton', {
+            getInputEl() {
+                let button = document.createElement('button');
+                button.id = 'fieldButton';
+                button.style.width = '100%';
+                button.style.backgroundColor = '#4CAF50';
+                button.style.border = 'none';
+                button.style.color = 'white';
+                button.style.backgroundColor = '#008CBA';
+                button.style.fontSize = '12px !important';
+                button.style.cursor = 'pointer';
+                button.appendChild(document.createTextNode('Flow'));
+                button.onclick=()=>{
+                    console.log('---------action button clicked here-------');
+                    const element = screen_designer.screenFlows.filter((x:any) => x.elementName === this.target.attributes.name);
+                    const eventPopupModel = document.getElementById('EventPopup');
+                    eventPopupModel!.style.display = 'block';
+                }
+                return button;
+            },
+        });
+    }
 }

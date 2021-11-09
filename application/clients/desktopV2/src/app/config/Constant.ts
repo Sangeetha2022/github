@@ -119,5 +119,7 @@ export class Constants {
                 return `\`|\\~|\\!|\\@|\\#|\\$|\\%|\\^|\\&|\\*|\\(|\\)|
                 \\+|\\=|\\[|\\{|\\]|\\}|\\||\\\\|\\'|\\<|\\,|\\.|\\>|\\?|\\/|\\""|\\"|\\;|\\:|\\s`;
             }
+       
+            public static get desktopscreen(): String { return this.DESKTOP_ROUTER + '/desktopscreen'; }      
   
 }

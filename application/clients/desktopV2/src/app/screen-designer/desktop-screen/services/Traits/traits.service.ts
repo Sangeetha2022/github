@@ -218,7 +218,7 @@ export class TraitsService {
             isComponent:  (el: { tagName: string; })=> {
               console.log("tagName is",el.tagName);
               
-              if (el.tagName === 'BUTTON') {
+              if (el.tagName === 'button') {
                 return {
                   type: 'button'
                 };

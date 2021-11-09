@@ -79,6 +79,7 @@ export class CommandService {
       }
       if (component.attributes.tagName === 'input') {
         console.log("$this.EntityBinding",$this.selectentityarray);
+        console.log("entitydetails",$this.dataBindingTypes);
         
         component.get('traits').set([
           { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
@@ -106,7 +107,7 @@ export class CommandService {
         ]);
        
       }
-      else if (component.attributes.tagName === 'BUTTON') {
+      else if (component.attributes.tagName === 'button') {
         component.get('traits').set([
           {
             label: 'Name',
@@ -127,11 +128,11 @@ export class CommandService {
             changeProp: 1,
             options: $this.verbOptions
           },
-          // {
-          //   name: 'actionButton',
-          //   label: 'Action',
-          //   type: 'actionButton'
-          // },
+          {
+            name: 'actionButton',
+            label: 'Action',
+            type: 'actionButton'
+          },
           // {
           //   type: 'select',
           //   label: 'modifiers',

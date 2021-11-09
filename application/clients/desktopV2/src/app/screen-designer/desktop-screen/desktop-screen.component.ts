@@ -15,6 +15,7 @@ import { PanelService } from './services/Panels/panel.service';
 import { TraitsService } from './services/Traits/traits.service';
 import { Constants } from 'src/app/config/Constant';
 import { CustomTraitsService } from './services/Traits/custom-traits.service';
+import { Aggrid } from '../Variables';
 @Component({
   selector: 'app-desktop-screen',
   templateUrl: './desktop-screen.component.html',
@@ -51,6 +52,16 @@ export class DesktopScreenComponent implements OnInit {
     componentId: '',
     elementName: ''
   };
+  public selectedFlowObj: any = null;
+  public Aggrid: Aggrid = {
+    gridApi: '',
+    gridColumnApi:'',
+    defaultColDef:'',
+    columnDefs:'',
+    rowSelection:''
+};
+ 
+  selectedFlow: any;
   ElementNameArray: any[] = [];
   screenFlows: any[] = [];
   routeFlows: any[] = [];
@@ -82,7 +93,28 @@ export class DesktopScreenComponent implements OnInit {
   constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,private panelService:PanelService,
     private projectComponentService:ProjectComponentService,private traitService:TraitsService,private commandService:CommandService,
     private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,private sharedService:SharedService,
-    private customTraitService:CustomTraitsService, private ref: ChangeDetectorRef,) { }
+    private customTraitService:CustomTraitsService, private ref: ChangeDetectorRef,) {
+      this.Aggrid.columnDefs= [
+        {
+          headerName: 'Name',
+          field: 'name',
+          filter: 'agTextColumnFilter',
+          checkboxSelection: true
+        },
+        { headerName: 'Label', field: 'label', filter: 'agTextColumnFilter' },
+        {
+          headerName: 'Action',
+          field: 'actionOnData',
+          filter: 'agTextColumnFilter',
+          width: 230
+        }
+      ];
+      this.Aggrid.rowSelection = 'single',
+       this.Aggrid.defaultColDef = {
+        sortable: true,
+        filter: true
+      };
+     }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -111,9 +143,6 @@ export class DesktopScreenComponent implements OnInit {
     const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code'];
     let addStyles:any = [];
     let addScripts:any = [];
-    const updateParams = {
-      method: 'PATCH'
-    };
     if (this.stylesheets) {
       addStyles = this.stylesheets;
     }
@@ -249,6 +278,17 @@ export class DesktopScreenComponent implements OnInit {
     this.commandService.updateTraits(this);
     this.commandService.dragAndDrop(this);
   }
+  onGridReady(params:any) {
+    
+    this.Aggrid.gridApi = params.api;
+    this.Aggrid.gridApi.sizeColumnsToFit();
+    this.Aggrid.gridColumnApi = params.columnApi;
+  }
+  onSelectionChanged(event:any) {
+    this.selectedFlow =  this.Aggrid.gridApi.getSelectedRows();
+    console.log(" this.selectedFlow ", this.selectedFlow );
+    
+}
   // set component element css based on cssGuideLines
   setElementCSS(element:any, tagName:any, removeTagClassName:any) {
     const gepStyle = JSON.parse(localStorage.getItem('templateparser')|| '{}');
@@ -448,6 +488,7 @@ export class DesktopScreenComponent implements OnInit {
     });
     this.customTraitService.entityFieldButton(this);
      this.customTraitService.content(this);
+     this.customTraitService.flowsActionButton(this);
     // // custom traits for flows action button
     // this.customTraitService.flowsActionButton(this);
     // // custom traits for page flow action button
@@ -503,11 +544,11 @@ export class DesktopScreenComponent implements OnInit {
               changeProp: 1,
               options: this.verbOptions
             },
-            // {
-            //   name: 'actionButton',
-            //   label: 'Action',
-            //   type: 'actionButton'
-            //}
+            {
+              name: 'actionButton',
+              label: 'Action',
+              type: 'actionButton'
+            }
           );
             // add traits at the state of initialization
     this.editor.DomComponents.getWrapper()
@@ -685,7 +726,6 @@ export class DesktopScreenComponent implements OnInit {
       }
     }
     updateScreeName() {
-      const $this = this;
       if (this.isTemplateEdit) {
         this.saveRemoteStorage(this.templateObj);
         this.closeScreeName();

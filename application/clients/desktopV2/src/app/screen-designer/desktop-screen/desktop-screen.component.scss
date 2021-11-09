@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:500,700");
 .mainDiv {
     height: auto;
     position: absolute;
@@ -19,4 +20,22 @@
 #dropdown_style {
     height: 50px;
     border-color: black
+}
+
+#create_btn {
+    background-color: #5DB18C;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    color: #ffffff;
+    border-radius: 5px 5px 5px 5px;
+    padding: 10px 20px 10px 20px;
+}
+
+#cancel_btn {
+    background-color: #9297A7;
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+    color: #ffffff;
+    border-radius: 5px 5px 5px 5px;
+    padding: 10px 20px 10px 20px;
 }
