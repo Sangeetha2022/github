@@ -54,7 +54,6 @@ export class CommandService {
   }
 
   componentSelected($this:any) {
-   
     $this.editor.on('component:selected', function (component:any) {
       console.log("component.attributes.tagName",component.attributes.tagName);
       

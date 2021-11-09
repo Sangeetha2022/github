@@ -196,19 +196,36 @@ export class GenerateHtmlWorker {
         let classess = '';
         if(item.hasOwnProperty('classes')) {
             console.log("inside set class");
+            // item.classes.forEach((element, index) => {
+            //     console.log("element===>",element);
+            //     if((index + 1 === item.classes.length)) {
+            //         console.log("item",item);
+            //         console.log("item class",item.classes);
+            //         console.log("item class length",item.classes);
+            //             classess += element.name;
+            //             console.log("classess +=",classess);
+                        
+            //             if(!element.name){
+            //                 console.log("inside not name");
+                            
+            //                 classess = '';
+            //                 for (const class_value of item.classes) {
+            //                     console.log("val",class_value);
+            //                     classess +=  class_value + ' ';
+            //                 }
+            //                 console.log("classess 1",classess);
+            //             }
+            //             console.log("classess",classess);
+            //     }
+            // });
             item.classes.forEach((element, index) => {
-                console.log("element===>",element);
-                if((index + 1 === item.classes.length)) {
-                        classess += element.name;
-                        if(!element.name){
-                            classess = '';
-                            for (const class_value of item.classes) {
-                                console.log("val",class_value);
-                                classess +=  class_value + ' ';
-                            }
-                        }
-                        console.log("classess",classess);
+                if(index + 1 === item.classes.length) {
+                    console.log("set class element",element);
+                    classess += element.name;
+                } else {
+                    classess += element.name + ' ';
                 }
+                console.log("classess",classess);
             });
         }
         this.htmlContent = tagName !== 'img' && tagName !== 'input' ? this.htmlContent + `class="${classess}">\n` : this.htmlContent + `class="${classess}"/>\n`;

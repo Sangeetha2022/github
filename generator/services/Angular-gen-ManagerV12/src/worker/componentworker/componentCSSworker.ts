@@ -31,6 +31,8 @@ export class ComponentCSSworker {
             let className = await this.setClassNameCss(desktopElement["gjs-css"]);
             let gjsStyles = JSON.parse(desktopElement['gjs-styles']);
             console.log("gjs styles angular 12",gjsStyles);
+            //For grapesjs version v0.17.29
+            /*
             gjsStyles.forEach(element => {
                 if (Object.keys(element).includes('style') && Object.keys(element).includes('selectors')) {
                     element.selectors.forEach((selector, index) => {
@@ -41,6 +43,31 @@ export class ComponentCSSworker {
                         else if(!selector.name){
                             cssData += '#' + selector.split('#')[1];
                         }
+                        if (element.selectors.length - 1 === index) {
+                            cssData += ' {';
+                            const styleArray: string[] = Object.keys(element.style);
+                            styleArray.forEach(style => {
+                                cssData += style + ':' + element.style[style] + ';\n'
+                            });
+                        }
+                    });
+                    cssData += '}';
+                }
+            });
+            */
+           //For grapesjs version v0.16.27
+            gjsStyles.forEach(element => {
+                if (Object.keys(element).includes('style') && Object.keys(element).includes('selectors')) {
+                    element.selectors.forEach((selector, index) => {
+                        console.log("inside foreach gjsStyles selector===>",selector);
+                        
+                        if((selector.name).includes('template')){
+                            cssData += '#' + selector.name;
+                        }
+                        else{
+                            cssData += '.' + selector.name;
+                        }
+               
                         if (element.selectors.length - 1 === index) {
                             cssData += ' {';
                             const styleArray: string[] = Object.keys(element.style);

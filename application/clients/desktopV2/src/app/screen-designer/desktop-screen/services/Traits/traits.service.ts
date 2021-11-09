@@ -192,13 +192,16 @@ export class TraitsService {
               ]
             }),
             init() {
+              //alert('inside init');
               this.listenTo(this, 'change:verbs', this.verb);
               this.listenTo(this, 'change:modifiers', this.modifier);
             },
             verb() {
               const verbObj = screenGlobalVariable.verbOptions.find(
-                (                x: { value: any; }) => x.value === this.changed['verbs']
+                (x: { value: any; }) => x.value === this.changed['verbs']
               );
+              console.log("verb is",verbObj);
+              
               if (verbObj) {
                 screenGlobalVariable.buttonVerb = verbObj.key;
               }
@@ -223,10 +226,6 @@ export class TraitsService {
                   type: 'button'
                 };
               }
-              else{
-                return null;
-              }
-             
             }
           }
         ),
