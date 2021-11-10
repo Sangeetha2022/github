@@ -520,6 +520,7 @@ export class ReactTemplateService {
             if (err) {
                 callback('');
             } else {
+                console.log('html element to adding ', this.htmlContent);
                 callback(this.htmlContent);
             }
         });
@@ -532,14 +533,14 @@ export class ReactTemplateService {
         if (item.hasOwnProperty('attributes')) {
             // this.htmlContent += `id="${item.attributes.id}" `;
             const keys = Object.keys(item.attributes);
-            keys.forEach((key) => {
-                // Replacing "href to [routerLink]", "[routerlink] to [routerLink]" in <a> tag
-                if(item.attributes[key] !== '#') {
-                    this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['${item.attributes[key]}']" ` : this.htmlContent = key === '[routerlink]' ? this.htmlContent + `[routerLink]="${item.attributes[key]}" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
-                } else {
-                    this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['/']" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
-                }
-            });
+            // keys.forEach((key) => {
+            //     // Replacing "href to [routerLink]", "[routerlink] to [routerLink]" in <a> tag
+            //     if(item.attributes[key] !== '#') {
+            //         this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['${item.attributes[key]}']" ` : this.htmlContent = key === '[routerlink]' ? this.htmlContent + `[routerLink]="${item.attributes[key]}" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
+            //     } else {
+            //         this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['/']" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
+            //     }
+            // });
         }
     }
     /**

@@ -38,13 +38,14 @@ export class ComponentWorker {
       }
     }
     const footerModule = Constant.FooterModule
-    this.generateComponentTsFile(`${templatePath}/${Constant.COMPONENT_TS_HANDELBARS}`, fileData, applicationPath, Constant.FOOTER_TS_FILENAME, (res) => {
-      this.generateComponentSpcFile(`${templatePath}/${Constant.COMPONENT_SPEC_HANDELBARS}`, fileData, applicationPath, Constant.FOOTER_SPEC_FILENAME, (res) => {
-        componentModuleWorker.generateComponentModuleFile(`${templatePath}/${Constant.COMPONENT_MODULE_HANDELBARS}`, footerModule, applicationPath, Constant.FOOTER_MODULE_FILENAME, (res) => {
-          callback("Footer component generated")
-        })
-      })
-    })
+    // this.generateComponentTsFile(`${templatePath}/${Constant.COMPONENT_TS_HANDELBARS}`, fileData, applicationPath, Constant.FOOTER_TS_FILENAME, (res) => {
+    //   this.generateComponentSpcFile(`${templatePath}/${Constant.COMPONENT_SPEC_HANDELBARS}`, fileData, applicationPath, Constant.FOOTER_SPEC_FILENAME, (res) => {
+    //     componentModuleWorker.generateComponentModuleFile(`${templatePath}/${Constant.COMPONENT_MODULE_HANDELBARS}`, footerModule, applicationPath, Constant.FOOTER_MODULE_FILENAME, (res) => {
+    //       callback("Footer component generated")
+    //     })
+    //   })
+    // })
+    callback("Footer component generated")
   }
 
   public templateComponetGeneration(generationPath, callback) {
@@ -68,13 +69,14 @@ export class ComponentWorker {
       }
     }
     const templateModule = Constant.TemplateModule;
-    this.generateComponentTsFile(`${templatePath}/ComponentTs.handlebars`, tsFileData, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.component.ts`, (res) => {
-      this.generateComponentSpcFile(`${templatePath}/ComponentSpec.handlebars`, fileData, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.component.spec.ts`, (res) => {
-        componentModuleWorker.generateComponentModuleFile(`${templatePath}/ComponentModule.handlebars`, templateModule, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.module.ts`, (res) => {
-          callback("template component generated");
-        })
-      })
-    })
+    // this.generateComponentTsFile(`${templatePath}/ComponentTs.handlebars`, tsFileData, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.component.ts`, (res) => {
+    //   this.generateComponentSpcFile(`${templatePath}/ComponentSpec.handlebars`, fileData, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.component.spec.ts`, (res) => {
+    //     componentModuleWorker.generateComponentModuleFile(`${templatePath}/ComponentModule.handlebars`, templateModule, applicationPath, `${Constant.TEMPLATE_FOLDERNAME}.module.ts`, (res) => {
+    //       callback("template component generated");
+    //     })
+    //   })
+    // })
+    callback("template component generated");
   }
 
   //Generate component Ts file
@@ -105,12 +107,13 @@ export class ComponentWorker {
         const fileName = `${Constant.HEADER_FOLDERNAME}.component.ts`;
         tsFileData.GpCodeToAdd.lifecycle_info.push({ data: `this.userId = sessionStorage.getItem('Id');` });
         const moduleFileData = Constant.HeaderModule
-        this.generateComponentTsFile(templatePath + '/ComponentTs.handlebars', tsFileData, templateGenerationPath, `${Constant.HEADER_FOLDERNAME}.component.ts`, (res) => {
-            this.generateComponentSpcFile(templatePath + '/ComponentSpec.handlebars', specFileData, templateGenerationPath, `${Constant.HEADER_FOLDERNAME}.component.spec.ts`, (res) => {
-                componentModuleWorker.generateComponentModuleFile(`${templatePath}/ComponentModule.handlebars`, moduleFileData, templateGenerationPath, `${Constant.HEADER_FOLDERNAME}.module.ts`, (res) => {
-                    callback("Header Component Generated");
-                });
-            });
-        });
+        // this.generateComponentTsFile(templatePath + '/ComponentTs.handlebars', tsFileData, templateGenerationPath, `${Constant.HEADER_FOLDERNAME}.component.ts`, (res) => {
+        //     this.generateComponentSpcFile(templatePath + '/ComponentSpec.handlebars', specFileData, templateGenerationPath, `${Constant.HEADER_FOLDERNAME}.component.spec.ts`, (res) => {
+        //         componentModuleWorker.generateComponentModuleFile(`${templatePath}/ComponentModule.handlebars`, moduleFileData, templateGenerationPath, `${Constant.HEADER_FOLDERNAME}.module.ts`, (res) => {
+        //             callback("Header Component Generated");
+        //         });
+        //     });
+        // });
+        callback("Header Component Generated");
     }
 }
