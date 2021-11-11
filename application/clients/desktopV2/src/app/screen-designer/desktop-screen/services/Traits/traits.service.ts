@@ -189,6 +189,7 @@ export class TraitsService {
                     { key: 'blur', value: 'onBlur' }
                   ]
                 },
+                
               ]
             }),
             init() {

@@ -132,18 +132,18 @@ export class CommandService {
             label: 'Action',
             type: 'actionButton'
           },
-          // {
-          //   type: 'select',
-          //   label: 'modifiers',
-          //   name: 'modifiers',
-          //   changeProp: 1,
-          //   options: $this.filterModifiers // Modifier binding
-          // },
-          // {
-          //   name: 'valueButton',
-          //   label: 'Modify By',
-          //   type: 'valueButton'
-          // }
+          {
+            type: 'select',
+            label: 'modifiers',
+            name: 'modifiers',
+            changeProp: 1,
+            //options: $this.filterModifiers // Modifier binding
+          },
+          {
+            name: 'valueButton',
+            label: 'Modify By',
+            type: 'valueButton'
+          }
           ]
         );
       }

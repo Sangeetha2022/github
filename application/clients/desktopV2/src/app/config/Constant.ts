@@ -10,6 +10,14 @@ export class Constants {
         public static get Consent(): string { return this.DESKTOP_ROUTER + '/consent'; }
         public static get Logout(): string { return this.DESKTOP_ROUTER + '/logout'; }
 
+          // modifier apis
+        public static get saveModifier(): string { return this.DESKTOP_ROUTER + '/modifier/save'; }
+        public static get saveModifierUsage(): string { return this.DESKTOP_ROUTER + '/modifier/usage/save'; }
+        public static get updateModifier(): string { return this.DESKTOP_ROUTER + '/modifier/update'; }
+        public static get getAllDefaultModifier(): String { return this.DESKTOP_ROUTER + '/modifier/default/getall'; }
+        public static get getFlowModifiers(): String { return this.DESKTOP_ROUTER + '/modifier/flow/get'; }
+        public static get deleteModifier(): string { return this.DESKTOP_ROUTER + '/modifier/delete'; }
+
         // project apis
         public static get saveProject(): string { return this.DESKTOP_ROUTER + '/projects/add'; }
         public static get getProjectByUserId(): string { return this.DESKTOP_ROUTER + '/projects/getbyuserid'; }

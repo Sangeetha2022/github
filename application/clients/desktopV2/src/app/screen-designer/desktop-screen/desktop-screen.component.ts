@@ -15,7 +15,7 @@ import { PanelService } from './services/Panels/panel.service';
 import { TraitsService } from './services/Traits/traits.service';
 import { Constants } from 'src/app/config/Constant';
 import { CustomTraitsService } from './services/Traits/custom-traits.service';
-import { Aggrid } from '../Variables';
+import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 @Component({
   selector: 'app-desktop-screen',
   templateUrl: './desktop-screen.component.html',
@@ -30,6 +30,9 @@ export class DesktopScreenComponent implements OnInit {
   traitsName: String='';
   isTemplateEdit:boolean=false;
   isFieldPopupModal:boolean=false;
+  isLifeCycleRow: boolean=false;
+  isCustomPopup:boolean = false;
+  public componentLifeCycle: any[] = [];
   entityFields: any = {
     entityfieldname: '',
     entityId: ''
@@ -52,21 +55,40 @@ export class DesktopScreenComponent implements OnInit {
     componentId: '',
     elementName: ''
   };
+  public eventObj = {
+    htmlId: '',
+    componentId: '',
+    elementName: '',
+    selected_event: ''
+  };
   public selectedFlowObj: any = null;
-  public Aggrid: Aggrid = {
-    gridApi: '',
-    gridColumnApi:'',
-    defaultColDef:'',
-    columnDefs:'',
-    rowSelection:''
+  public gridApi:any;
+  public gridColumnApi: any;
+  rowSelection: any;
+  defaultColDef:any;
+  columnDefs:any;
+public customPopupModal: any = {
+  name: '',
+  title: '',
+  dropdownLabelName: '',
+  typeLabelName: '',
+  entity: null
 };
  
   selectedFlow: any;
   ElementNameArray: any[] = [];
   screenFlows: any[] = [];
   routeFlows: any[] = [];
+  // default Names
+  public GPROUTE_FLOWNAME = 'gproute';
+  public buttonVerb: String = 'click';
+  public componentVerb: String = 'onload';
   specialEvents: any[] = [];
   linkArray: any[] = [];
+  public allModifierList: any = [];
+  public filterModifiers: any;
+  modifierUsageObject: any;
+ 
   projectTemplateId:any;
   public featurelist: any;
   existScreenDetail: any;
@@ -90,11 +112,13 @@ export class DesktopScreenComponent implements OnInit {
   saveTemplateURL:any;
   updateTemplateURL:any;
   modifyTemplateUrl:any;
-  constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,private panelService:PanelService,
+    
+  
+    constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,private panelService:PanelService,
     private projectComponentService:ProjectComponentService,private traitService:TraitsService,private commandService:CommandService,
     private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,private sharedService:SharedService,
-    private customTraitService:CustomTraitsService, private ref: ChangeDetectorRef,) {
-      this.Aggrid.columnDefs= [
+    private customTraitService:CustomTraitsService, private ref: ChangeDetectorRef,private flowManagerService:FlowManagerService) {
+      this.columnDefs= [
         {
           headerName: 'Name',
           field: 'name',
@@ -109,8 +133,8 @@ export class DesktopScreenComponent implements OnInit {
           width: 230
         }
       ];
-      this.Aggrid.rowSelection = 'single',
-       this.Aggrid.defaultColDef = {
+      this.rowSelection = 'single',
+       this.defaultColDef = {
         sortable: true,
         filter: true
       };
@@ -280,14 +304,12 @@ export class DesktopScreenComponent implements OnInit {
   }
   onGridReady(params:any) {
     
-    this.Aggrid.gridApi = params.api;
-    this.Aggrid.gridApi.sizeColumnsToFit();
-    this.Aggrid.gridColumnApi = params.columnApi;
+    this.gridApi = params.api;
+    this.gridApi.sizeColumnsToFit();
+    this.gridColumnApi = params.columnApi;
   }
   onSelectionChanged(event:any) {
-    this.selectedFlow =  this.Aggrid.gridApi.getSelectedRows();
-    console.log(" this.selectedFlow ", this.selectedFlow );
-    
+     this.selectedFlow =  this.gridApi.getSelectedRows();  
 }
   // set component element css based on cssGuideLines
   setElementCSS(element:any, tagName:any, removeTagClassName:any) {
@@ -489,6 +511,7 @@ export class DesktopScreenComponent implements OnInit {
     this.customTraitService.entityFieldButton(this);
      this.customTraitService.content(this);
      this.customTraitService.flowsActionButton(this);
+     this.customTraitService.flowsModifierValueButton(this);
     // // custom traits for flows action button
     // this.customTraitService.flowsActionButton(this);
     // // custom traits for page flow action button
@@ -548,7 +571,8 @@ export class DesktopScreenComponent implements OnInit {
               name: 'actionButton',
               label: 'Action',
               type: 'actionButton'
-            }
+            },
+          
           );
             // add traits at the state of initialization
     this.editor.DomComponents.getWrapper()
@@ -751,6 +775,139 @@ export class DesktopScreenComponent implements OnInit {
       this.isFieldPopupModal = false;
       this.ref.detectChanges();
     }
+    closeEventPopup() {
+      const eventPopupModel = <HTMLElement>document.querySelector('#EventPopup');
+      eventPopupModel.style.display = 'none';
+    }
+  //     // save event flows
+  saveEvent() {
+    let temp = null;
+    if (this.isLifeCycleRow) {
+      //this.saveLifeCycleFlows();
+    } 
+    else if (
+      this.selectedFlow &&
+      this.selectedFlow[0].name.toLowerCase() === this.GPROUTE_FLOWNAME || this.selectedFlow[0].name === 'GpSearchForUpdate'
+    ) {
+      this.customPopupModal.name = this.GPROUTE_FLOWNAME;
+      this.customPopupModal.title = 'Routes';
+      this.customPopupModal.dropdownLabelName = 'Screen';
+      this.customPopupModal.typeLabelName = 'Type';
+      this.customPopupModal.entity = null;
+      this.isCustomPopup = true;
+    } else {
+      if (this.buttonVerb) {
+        temp = this.buttonVerb;
+      }
+      this.saveFlowDetails(temp);
+    }
+    this.closeEventPopup();
+  }
+  //   // save flow details
+    async saveFlowDetails(verbInfo:any) {
+      this.filterModifiers = [];
+      this.modifierUsageObject = {};
+      const flowObj = {
+        htmlId: '',
+        componentId: '',
+        elementName: '',
+        verb: '',
+        event: '',
+        flow: '',
+        flowName: ''
+      };
+      flowObj.htmlId = this.editor.getSelected().ccid;
+      flowObj.componentId = this.editor.getSelected().cid;
+      flowObj.elementName = this.editor.getSelected().attributes.name;
+      if (verbInfo) {
+        flowObj.verb = verbInfo;
+      }
+      if (this.editor.getSelected().attributes.type === 'dynamicdropdown-type') {
+        flowObj.event = this.eventObj.selected_event;
+      }
+      flowObj.flow = this.selectedFlow[0]._id;
+      flowObj.flowName = this.selectedFlow[0].name;
+      this.modifierUsageObject.modify_target_type_id = flowObj.flow;
+      this.modifierUsageObject.modify_target_type_name = flowObj.flowName;
+      // remove flows if it present without elementName
+      let flowIndex:any='';
+       flowIndex = this.checkIfFlowExist(flowObj.flow, '');
+      if (flowIndex > -1 ) {
+        this.screenFlows.splice(flowIndex!, 1);
+      }
+      // remove flows if the elementName is already present
+      let isFlowExist:any='';
+      isFlowExist = this.checkIfFlowExist(
+        null,
+        this.editor.getSelected().attributes.name
+      );
+      if (isFlowExist > -1) {
+        this.screenFlows.splice(isFlowExist, 1);
+      }
+      let selectedFlowModifiers = this.selectedFlow[0].modifiers;
+      this.filterModifiers = await this.getFilteredModifiers(this.logId, selectedFlowModifiers);
+      this.editor.getSelected().getTrait('modifiers').set('options', this.filterModifiers);
+      console.log('-------grid flowobject------', flowObj);
+      this.screenFlows.push(flowObj);
+      this.saveRemoteStorage();
+    }
+    getFilteredModifiers(logId:any, selectedFlowModifiers:any) {
+      return new Promise((resolve) => {
+        this.flowManagerService.getFlowModifiers(selectedFlowModifiers, this.logId).subscribe((response:any) => {
+          let filterModifiers:any[] = [];
+          response.body.forEach(async (data:any, index:any) => {
+            //modifier displaying only for gpsearch flow
+            if(this.selectedFlow[0].name === 'GpSearch'){
+              filterModifiers.push({key: data._id, value: data.modifier_name});
+            }
+            resolve(filterModifiers);
+          })
+        })
+      })
+    }
+  // saveLifeCycleFlows() {
+  //   const lifeCycleIndex = this.componentLifeCycle.findIndex(
+  //     x => x.flowId === this.selectedFlow[0]._id
+  //   );
+  //   if (lifeCycleIndex > -1) {
+  //     this.componentLifeCycle.splice(lifeCycleIndex, 1);
+  //   }
+  //   console.log('save lifecyle flows are -----  ', this.selectedFlow);
+  //   const temp = {
+  //     flowId: this.selectedFlow[0]._id,
+  //     flowName: this.selectedFlow[0].name,
+  //     verb: this.componentVerb
+  //   };
+  //   this.componentLifeCycle.push(temp);
+  //   const flowIndex = this.checkIfFlowExist(temp.flowId, null);
+  //   if (flowIndex !< 0) {
+  //     const flowTemp = {
+  //       htmlId: '',
+  //       componentId: '',
+  //       elementName: '',
+  //       verb: '',
+  //       flow: '',
+  //       flowName: ''
+  //     };
+  //     flowTemp.flow = temp.flowId;
+  //     flowTemp.flowName = temp.flowName;
+  //     console.log('----Kishan---flow------', flowTemp);
+  //     this.screenFlows.push(flowTemp);
+  //   }
+  //   this.saveRemoteStorage();
+  // }
+
+  checkIfFlowExist(flowId:any, elementName:any) {
+    if (flowId != null && elementName != null) {
+      return this.screenFlows.findIndex(
+        x => x.flow === flowId && x.elementName === elementName
+      );
+    } else if (flowId != null && elementName == null) {
+      return this.screenFlows.findIndex(x => x.flow === flowId);
+    } else if (flowId == null && elementName != null) {
+      return this.screenFlows.findIndex(x => x.elementName === elementName);
+    }
+  }
     onChangeentityfield() {
       let entitydetails: any;
       const checkedIndex = this.screenEntityModel.findIndex(
