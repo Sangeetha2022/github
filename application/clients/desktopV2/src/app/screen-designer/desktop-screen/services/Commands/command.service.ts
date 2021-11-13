@@ -331,7 +331,7 @@ export class CommandService {
       const allImageModels = model.find('.gjs-plh-image');
       const allLabelModels = model.find('[data-gjs-type="label"]');
 
-      console.log("allButtonModels",allButtonModels);
+      console.log("allFormModels",allFormModels);
       
       if (allInputModels.length === 0 && model.attributes.tagName === 'input') {
         allInputModels.push(model);

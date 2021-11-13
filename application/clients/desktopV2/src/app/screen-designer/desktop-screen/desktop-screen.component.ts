@@ -67,6 +67,11 @@ export class DesktopScreenComponent implements OnInit {
   rowSelection: any;
   defaultColDef:any;
   columnDefs:any;
+  TablecolumnDefs:any;
+  tableRowData: any = [];
+  public selectedModifierValue:any;
+public gridApi_modifier:any;
+public grid_columnApi_modifier:any;
 public customPopupModal: any = {
   name: '',
   title: '',
@@ -86,9 +91,10 @@ public customPopupModal: any = {
   specialEvents: any[] = [];
   linkArray: any[] = [];
   public allModifierList: any = [];
+  allEntityByProject: Array<object> = [];
   public filterModifiers: any;
   modifierUsageObject: any;
- 
+  modifiersDetails: any = [];
   projectTemplateId:any;
   public featurelist: any;
   existScreenDetail: any;
@@ -133,13 +139,22 @@ public customPopupModal: any = {
           width: 230
         }
       ];
+      this.TablecolumnDefs = [
+        {
+          headerName: 'Name',
+          field: 'name',
+          filter: 'agTextColumnFilter',
+          checkboxSelection: true
+        },
+        { headerName: 'Type', field: 'type_name', filter: 'agTextColumnFilter' },
+        { headerName: 'Description', field: 'description', filter: 'agTextColumnFilter' }
+      ];
       this.rowSelection = 'single',
        this.defaultColDef = {
         sortable: true,
         filter: true
       };
      }
-
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       if (params.featureId !== undefined && params.featureId !== null) {
@@ -308,8 +323,32 @@ public customPopupModal: any = {
     this.gridApi.sizeColumnsToFit();
     this.gridColumnApi = params.columnApi;
   }
+  onTableGridReady(params:any) {
+    this.gridApi_modifier = params.api;
+    this.gridApi_modifier.sizeColumnsToFit();
+    this.grid_columnApi_modifier = params.columnApi;
+  }
   onSelectionChanged(event:any) {
-     this.selectedFlow =  this.gridApi.getSelectedRows();  
+    let rows: any;
+    rows = event.api.getCellRendererInstances();
+    this.selectedFlow = this.gridApi.getSelectedRows();
+    Object.keys(rows).forEach(k => {
+      if (this.selectedFlow.length > 0) {
+        if (rows[k].params.node.selected === true) {
+          rows[k].params.eGridCell.children[0].checked = true;
+        } else {
+          rows[k].params.eGridCell.children[0].checked = false;
+        }
+      }
+    });
+    // this.selectedFlow =  this.gridApi.getSelectedRows();  
+}
+
+tableOnSelectionChanged(event:any) {
+  let rows: any;
+  rows = event.api.getCellRendererInstances();
+  this.selectedModifierValue = this.gridApi_modifier.getSelectedRows();
+  console.log('this.selectedModifierValue[0]', this.selectedModifierValue[0]);
 }
   // set component element css based on cssGuideLines
   setElementCSS(element:any, tagName:any, removeTagClassName:any) {
@@ -598,6 +637,19 @@ public customPopupModal: any = {
       }
     ]);
   }
+    // get screens by project id
+    getScreenByProjectId() {
+      this.screenDesignerService.getScreenByProjectId(this.project_id, this.logId).subscribe(
+        projectData => {
+          if (projectData.body) {
+            this.screenArrayByProjectId = projectData.body.filter(
+              (x: { screenName: string; }) => x.screenName !== this.screenName
+            );
+          }
+        },
+        error => { }
+      );
+    }
   getFeatureById() {
     if (this.feature_id) {
       this.projectComponentService.getFeatureById(this.feature_id, this.logId).subscribe(
@@ -667,6 +719,7 @@ public customPopupModal: any = {
           screenName: this.screenName,
           project: this.project_id,
           feature: this.feature_id,
+          flows_info: this.screenFlows,
           screenType: this.screenType,
           entity_info: this.screenEntityModel,
           screenOption: this.screenOption,
@@ -775,9 +828,15 @@ public customPopupModal: any = {
       this.isFieldPopupModal = false;
       this.ref.detectChanges();
     }
-    closeEventPopup() {
-      const eventPopupModel = <HTMLElement>document.querySelector('#EventPopup');
-      eventPopupModel.style.display = 'none';
+    closeEventPopup(modifier_status:boolean) {
+      if(!modifier_status){
+        const eventPopupModel = <HTMLElement>document.querySelector('#EventPopup');
+        eventPopupModel.style.display = 'none';
+      }
+      else{
+        const eventPopupModel = <HTMLElement>document.querySelector('#ProjectEventPopup');
+        eventPopupModel.style.display = 'none';
+      }
     }
   //     // save event flows
   saveEvent() {
@@ -801,7 +860,7 @@ public customPopupModal: any = {
       }
       this.saveFlowDetails(temp);
     }
-    this.closeEventPopup();
+    this.closeEventPopup(false);
   }
   //   // save flow details
     async saveFlowDetails(verbInfo:any) {
@@ -864,6 +923,20 @@ public customPopupModal: any = {
           })
         })
       })
+    }
+    async saveModifierValue() {
+      if(this.selectedFlow[0].name === 'GpSearch'){
+        this.modifierUsageObject.modify_by_value = this.selectedModifierValue[0].name;
+        this.modifierUsageObject.project_id = this.project_id;
+        this.modifierUsageObject.feature_id = this.feature_id;
+        this.modifiersDetails.push(this.modifierUsageObject);
+        this.closeEventPopup(true);
+        console.log('this.modifiersDetails', this.modifiersDetails);
+      }
+      else{
+        this.closeEventPopup(true);
+        console.log("modifiers only applicable to gpsearch flow");
+      }
     }
   // saveLifeCycleFlows() {
   //   const lifeCycleIndex = this.componentLifeCycle.findIndex(

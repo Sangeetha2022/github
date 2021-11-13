@@ -26,7 +26,7 @@ export class TraitsService {
     console.log("defaultModel",defaultModel);
     
     comps.addType('input', {
-      isComponent: (el: { tagName: string; }) => {console.log("el is",el.tagName); el.tagName === 'INPUT'},
+      isComponent: (el: { tagName: string; }) => { el.tagName === 'INPUT'},
       model: {
         defaults: {
           draggable: '*',

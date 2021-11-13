@@ -105,19 +105,17 @@ export class CustomTraitsService {
                     if (element && element.length > 0) {
                         screen_designer.selectedFlowObj = screen_designer.listOfFLows.filter((x:any) => x._id === element[0].flow);
                         console.log('-------selectedflowobj------', screen_designer.selectedFlowObj);
-                        /*Here we match the which of the flow is already been added in the screen flow info and make the checkbox 
-                        checked for that row in ag-grid. For more details refer issue #381 in github developer is Kishan 21May2020 */
                         rows = screen_designer.gridApi.getCellRendererInstances();
-                        // Object.keys(rows).forEach(k => {
-                        //      /** The below condition is for show the flow action for selected attribute in the screen designer.
-                        //       *  For more details check issue #401 in github developer Kishan 29Jun2020 */
-                        //     // tslint:disable-next-line: triple-equals
-                        //     if (screen_designer.selectedFlowObj[0].name == rows[k].params.data.name) {
-                        //         rows[k].params.eGridCell.children[0].checked = true;
-                        //     } else {
-                        //         rows[k].params.eGridCell.children[0].checked = false;
-                        //     }
-                        // });
+                        Object.keys(rows).forEach(k => {
+                            /** The below condition is for show the flow action for selected attribute in the screen designer.
+                             *  For more details check issue #401 in github developer Kishan 29Jun2020 */
+                           // tslint:disable-next-line: triple-equals
+                           if (screen_designer.selectedFlowObj[0].name == rows[k].params.data.name) {
+                               rows[k].params.eGridCell.children[0].checked = true;
+                           } else {
+                               rows[k].params.eGridCell.children[0].checked = false;
+                           }
+                       });
                     } else {
                         screen_designer.selectedFlowObj = null;
                     }
@@ -172,24 +170,14 @@ export class CustomTraitsService {
                         console.log('-------selectedflowobj------', $this.selectedFlowObj);
                         /*Here we match the which of the flow is already been added in the screen flow info and make the checkbox 
                         checked for that row in ag-grid. For more details refer issue #381 in github developer is Kishan 21May2020 */
-                        rows = $this.gridApi1.getCellRendererInstances();
-                        Object.keys(rows).forEach(k => {
-                            /** The below condition is for show the flow action for selected attribute in the screen designer.
-                             *  For more details check issue #401 in github developer Kishan 29Jun2020 */
-                           // tslint:disable-next-line: triple-equals
-                           if ($this.selectedModifierValue[0].name == rows[k].params.data.name) {
-                               rows[k].params.eGridCell.children[0].checked = true;
-                           } else {
-                               rows[k].params.eGridCell.children[0].checked = false;
-                           }
-                       });
+                        rows = $this.gridApi_modifier.getCellRendererInstances();
                     } else {
                         $this.selectedFlowObj = null;
                     }
                     // $this.rowSelection = 'single';
                     $this.isLifeCycleRow = false;
                     eventPopupModel!.style.display = 'block';
-                    $this.gridApi.deselectAll();
+                    $this.gridApi_modifier.deselectAll();
                     $this.ref.detectChanges();
                 }
                 return button;

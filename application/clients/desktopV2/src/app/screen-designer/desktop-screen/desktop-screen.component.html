@@ -20,9 +20,6 @@
                         <small *ngIf="screenNameExist" style="font-style: italic;
                color: red;">This screen Name is Exist.</small>
                     </div>
-                    <!-- <div *ngIf="isTemplateEdit" class="col-sm-8">
-                        <input type="text" id="template" name="template" class="form-control" [(ngModel)]="templateObj.template_name" disabled="true" />
-                    </div> -->
                 </div>
             </div>
             <div class="modal-footer">
@@ -62,7 +59,7 @@
     <div class="modal-dialog modal-lg" role="dialog">
         <div class="modal-content">
             <div class="modal-header" style="display: block;">
-                <button type="button" class="btn-close pull-right" (click)="closeEventPopup()" aria-label="Close"></button>
+                <button type="button" class="btn-close pull-right" (click)="closeEventPopup(false)" aria-label="Close"></button>
                 <h3 id="fields_heading">Choose an Flow</h3>
             </div>
             <div class="modal-body">
@@ -73,11 +70,6 @@
                         </div>
                         <br>
                     </div>
-                    <!-- <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
-              [columnDefs]="columnDefs" [rowSelection]="rowSelection" [rowData]="rowData" [animateRows]="true"
-              [defaultColDef]="defaultColDef" domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10"
-              [floatingFilter]="true" (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
-            </ag-grid-angular> -->
 
                     <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-material" [columnDefs]="columnDefs" [rowData]="rowData" [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10"
                         [suppressRowClickSelection]="true" (selectionChanged)="onSelectionChanged($event)" [rowSelection]="rowSelection" [floatingFilter]="true" (gridReady)="onGridReady($event)">
@@ -90,7 +82,41 @@
                         <button id="create_btn" class="btn btn-default" (click)="saveEvent()">Ok</button>
                     </div>
                     <div class="p-2">
-                        <button id="cancel_btn" type="button" (click)="closeEventPopup()" class="btn btn-default">Cancel</button>
+                        <button id="cancel_btn" type="button" (click)="closeEventPopup(false)" class="btn btn-default">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modifier value action popup model -->
+<div id="ProjectEventPopup" class="modal" tabindex="-1" role="dialog" style="display: none">
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="display: block;">
+                <button type="button" class="btn-close pull-right" (click)="closeEventPopup(true)" aria-label="Close"></button>
+                <h3 id="fields_heading">Choose an Modify By Value</h3>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row" *ngIf="selectedFlowObj && selectedFlowObj.length > 0">
+                        <div class="col-md-6 col-sm-8 col-xs-6">
+                        </div>
+                        <br>
+                    </div>
+                    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="mytableGrid" class="ag-theme-material" [columnDefs]="TablecolumnDefs" [rowData]="tableRowData" [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight' [pagination]="true"
+                        [paginationPageSize]="10" [suppressRowClickSelection]="true" (selectionChanged)="tableOnSelectionChanged($event)" [rowSelection]="rowSelection" [floatingFilter]="true" (gridReady)="onTableGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2">
+                        <button id="create_btn" class="btn btn-default" (click)="saveModifierValue()">Ok</button>
+                    </div>
+                    <div class="p-2">
+                        <button id="cancel_btn" type="button" (click)="closeEventPopup(true)" class="btn btn-default">Cancel</button>
                     </div>
                 </div>
             </div>
