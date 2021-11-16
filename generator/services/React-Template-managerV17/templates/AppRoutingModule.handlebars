@@ -1,16 +1,11 @@
 {{#each importComponent}}
-import {{classname}} from "./Components/{{classname}}/{{classname}}";
+import {{classname}} from "./app/{{foldername}}/{{foldername}}";
 {{/each}}
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
 
-const Routes = () => {
-    return (
-      <Switch>
+let routes: any = [
         {{#each componentPath}}
-          <Route exact path="{{path}}", component={{component}} />
+          {  path: "{{path}}",  component: {{component}} },
         {{/each}}
-      </Switch>
-    )
-}
-export default Routes;
+]
+
+export default routes;

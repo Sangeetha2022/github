@@ -34,6 +34,7 @@ export class FrontendWorker {
     private MODULE_NAME = 'module';
     private APP_MODULE_FILENAME = `app.module.ts`;
     private APP_ROUTING_MODULE_FILENAME = `app-routing.module.ts`;
+    private REACT_ROUTING_FILENAME = `routes.tsx`;
     private PACKAGE_FILENAME = 'package.json';
     private AUTH_GUARD_FILENAME = `${this.AUTH_FOLDERNAME.charAt(0).toUpperCase() + this.AUTH_FOLDERNAME.slice(1)}Guard`;
 
@@ -42,6 +43,7 @@ export class FrontendWorker {
     private MODULE_TEMPLATENAME = 'component_module';
     private MODIFY_APP_MODULE_TEMPLATENAME = `modify_app_module`;
     private MODIFY_APP_ROUTNG_TEMPLATENAME = `modify_app_routing`;
+    private REACT_MODIFY_ROUTING_TEMPLATENAME = `react_modify_routing`;
     private VAULT_SERVICE_TEMPLATENAME = 'vault_service'
 
     // Methods
@@ -98,6 +100,34 @@ export class FrontendWorker {
         `   "moment": "^2.26.0",`,
     ]
 
+    private reactAuthPackageDependency = [
+      `  "i18next-sprintf-postprocessor": "^0.2.2",`,
+      `  "i18next-xhr-backend": "^3.1.2",`,
+      `  "jwt-auth-react": "4.1.2",`,
+      `  "@types/jest": "^26.0.15",`,
+      `  "@types/node": "^12.0.0",`,
+      `  "@types/react": "^17.0.0",`,
+      `  "@types/react-dom": "^17.0.0",`,
+      `  "axios": "^0.20.0",`,
+      `  "react-router-dom": "^5.3.0",`,
+      `  "react-i18next": "^7.0.0",`,
+      `  "react-moment": "1.1.1",`,
+      `  "reactstrap": "^8.10.0",`,
+      `  "react-social-login": "3.4.14",`,
+      `  "rxjs": "~6.3.3",`,
+      `  "rxjs-compat": "6.5.2",`,
+      `  "tslib": "^1.9.0",`,
+      `  "zone.js": "~0.8.26",`,
+      `  "@testing-library/jest-dom": "^5.11.4",`,
+      `  "@testing-library/react": "^11.1.0",`,
+      `  "@testing-library/user-event": "^12.1.10",`,
+      `  "bootstrap": "^5.1.1",`,
+      `  "react-bootstrap": "^2.0.2",`,
+      `  "node-sass": "^4.14.1",`,
+      `  "typescript": "^4.1.2",`,
+      `  "web-vitals": "^1.0.1",`,
+    ]
+
     private appModuleInfo: any = {
         importDependency: [],
         imports: [],
@@ -132,6 +162,11 @@ export class FrontendWorker {
         path: []
     }
 
+    private reactRoutingModuleInfo = {
+        importDependency: [],
+        path: []
+    }
+
     initializeData() {
         this.appModuleInfo = {
             importDependency: [],
@@ -147,6 +182,11 @@ export class FrontendWorker {
             importDependency: [],
             path: []
         }
+
+        this.reactRoutingModuleInfo = {
+            importDependency: [],
+            path: []
+        }
     }
 
     // create login component from seed files
@@ -159,19 +199,25 @@ export class FrontendWorker {
         this.clientframework = details.clientframework;
         let loginApplicationPath = '';
         if(this.clientframework === 'react'){
-            console.log('login react generate', this.clientframework, )
+            console.log('login react generate', this.clientframework);
             loginApplicationPath = `${this.projectGenerationPath}/src/app/${this.LOGIN_FOLDERNAME}`;
-        }else{
+        } else if(this.clientframework !== 'react'){
             loginApplicationPath = `${this.projectGenerationPath}/src/app/${this.LOGIN_FOLDERNAME}`;
         }
         console.log('application path get ', loginApplicationPath);
         this.generateStaticComponent(loginApplicationPath, this.clientframework, this.LOGIN_FOLDERNAME, () => {
-            this.generateServiceComponent(details.templateResponse.shared, this.LOGIN_FOLDERNAME,
-                this.LOGIN_SERVICE_TEMPLATENAME, loginApplicationPath, () => {
-                    this.generateModule(this.LOGIN_FOLDERNAME, this.MODULE_TEMPLATENAME, loginApplicationPath, () => {
-                        callback();
-                    });
+            if(this.clientframework === 'react'){
+                this.generateImportComponent(this.LOGIN_FOLDERNAME, this.MODULE_TEMPLATENAME, loginApplicationPath, () => {
+                    callback();
                 });
+            } else if(this.clientframework !== 'react'){
+                this.generateServiceComponent(details.templateResponse.shared, this.LOGIN_FOLDERNAME,
+                    this.LOGIN_SERVICE_TEMPLATENAME, loginApplicationPath, () => {
+                        this.generateModule(this.LOGIN_FOLDERNAME, this.MODULE_TEMPLATENAME, loginApplicationPath, () => {
+                            callback();
+                        });
+                    });
+            }
         });
     }
     
@@ -217,9 +263,15 @@ export class FrontendWorker {
     async createSignupComponent(callback) {
         const signupApplicationPath = `${this.projectGenerationPath}/src/app/${this.SIGNUP_FOLDERNAME}`;
         this.generateStaticComponent(signupApplicationPath, this.clientframework, this.SIGNUP_FOLDERNAME, () => {
-            this.generateModule(this.SIGNUP_FOLDERNAME, this.MODULE_TEMPLATENAME, signupApplicationPath, () => {
-                callback();
-            });
+            if(this.clientframework === 'react'){
+                this.generateImportComponent(this.SIGNUP_FOLDERNAME, this.MODULE_TEMPLATENAME, signupApplicationPath, () => {
+                    callback();
+                });
+            } else if(this.clientframework !== 'react'){
+                this.generateModule(this.SIGNUP_FOLDERNAME, this.MODULE_TEMPLATENAME, signupApplicationPath, () => {
+                    callback();
+                });
+            }
         });
     }
 
@@ -257,9 +309,15 @@ export class FrontendWorker {
     async createHomeComponent(callback) {
         const homeApplicationPath = `${this.projectGenerationPath}/src/app/${this.HOME_FOLDERNAME}`;
         this.generateStaticComponent(homeApplicationPath, this.clientframework, this.HOME_FOLDERNAME, () => {
-            this.generateModule(this.HOME_FOLDERNAME, this.MODULE_TEMPLATENAME, homeApplicationPath, () => {
-                callback();
-            });
+            if(this.clientframework === 'react') {
+                this.generateImportComponent(this.HOME_FOLDERNAME, this.MODULE_TEMPLATENAME, homeApplicationPath, () => {
+                    callback();
+                });
+            } else if(this.clientframework !== 'react'){
+                this.generateModule(this.HOME_FOLDERNAME, this.MODULE_TEMPLATENAME, homeApplicationPath, () => {
+                    callback();
+                });
+            }
         });
     }
 
@@ -503,8 +561,14 @@ export class FrontendWorker {
     }
 
     async modifyFiles(callback) {
-        const appModulePath = `${this.projectGenerationPath}/src/app`;
-        this.modifyAppModuleFile(appModulePath);
+        let appModulePath;
+        if(this.clientframework === 'react'){
+            console.log('react routing modulepath--', this.clientframework)
+            appModulePath = `${this.projectGenerationPath}/src/`;
+        } else if(this.clientframework !== 'react'){
+            appModulePath = `${this.projectGenerationPath}/src/app`;
+            this.modifyAppModuleFile(appModulePath);
+        }
         this.modifyAppRoutingModuleFile(appModulePath);
         this.modifyPackageJsonFile(() => {
             // modify app module
@@ -524,11 +588,19 @@ export class FrontendWorker {
             this.appModuleInfo.imports.push(this.SefScreenModule.imports);
             console.log('final app module importing ----- ', this.appModuleInfo);
             console.log('final routing modules importing ----- ', this.routingModuleInfo);
+            console.log('final React routing importing ----- ', this.reactRoutingModuleInfo);
             this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath, this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo, () => {
-                // modify app routing file
-                this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath, this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo, () => {
-                    callback();
-                });
+                if(this.clientframework !== 'react'){
+                    // modify app routing file
+                    this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath, this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo, () => {
+                        callback();
+                    });
+                } else if(this.clientframework === 'react'){
+                    // modify a react app routing file
+                    this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath, this.REACT_ROUTING_FILENAME, this.REACT_MODIFY_ROUTING_TEMPLATENAME, this.reactRoutingModuleInfo, () => {
+                        callback();
+                    });
+                }
             });
         });
         // console.log('modifyu files values are -------  ', this.appModuleInfo);
@@ -720,41 +792,83 @@ export class FrontendWorker {
     }
 
     modifyAppRoutingModuleFile(appRoutingModulePath) {
-        appRoutingModulePath += `/${this.APP_ROUTING_MODULE_FILENAME}`;
-        fs.readFileSync(appRoutingModulePath).toString().split("\n").forEach((appElement) => {
-            console.log('app routing each one are -------  ', appElement);
-            if (appElement.includes('import') && appElement.includes('from')) {
-                if (this.routingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
-                    if (appElement.includes('.component')) {
-                        this.routingModuleInfo.importDependency.push(appElement);
-                    } else {
-                        this.routingModuleInfo.importDependency.unshift(appElement);
+        if(this.clientframework === 'react') {
+            console.log('react routing file generating')
+            appRoutingModulePath += `/${this.REACT_ROUTING_FILENAME}`;
+            fs.readFileSync(appRoutingModulePath).toString().split("\n").forEach((appElement) => {
+                console.log('app routing each one are -------  ', appElement);
+                if (appElement.includes('import') && appElement.includes('from')) {
+                    if (this.reactRoutingModuleInfo.importDependency.findIndex(x => x == appElement) <= 0) {
+                        //if (appElement.includes('.component')) {
+                            this.reactRoutingModuleInfo.importDependency.push(appElement);
+                        // } else {
+                        //     this.routingModuleInfo.importDependency.unshift(appElement);
+                        // }
                     }
+
                 }
+                if(appElement.includes('routes: any')){
+                    this.isRoutingModule.path = true;
+                }
+                if (appElement.includes(']')) {
+                    this.isRoutingModule.path = false;
 
-            }
-            if (appElement.includes('routes: Routes')) {
-                this.isRoutingModule.path = true;
-            }
-            if (appElement.includes(']')) {
-                this.isRoutingModule.path = false;
-
-            }
-            if (this.isRoutingModule.path) {
-                console.log('is appElement.includes( path matched  ', appElement);
-                if (!appElement.includes('[') && !appElement.includes(']')) {
-                    if (this.routingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
-                        if (appElement.includes(`redirectTo: ''`)) {
-                            this.routingModuleInfo.path.unshift(appElement.replace('},', '}'));
-                        } else if (appElement.includes(`component: TemplateComponent`)) {
-                            this.routingModuleInfo.path.push(appElement.replace(`{ path: \'\', component: TemplateComponent },`, `{ path: \'\', component: TemplateComponent , pathMatch: \'full\' },`));
-                        } else {
-                            this.routingModuleInfo.path.push(appElement.replace('},', `, canActivate: [${this.AUTH_GUARD_FILENAME}] }`));
+                }
+                if (this.isRoutingModule.path) {
+                    console.log('is appElement.includes( path matched  ', appElement);
+                    if (!appElement.includes('[') && !appElement.includes(']')) {
+                        console.log('reactrouting file', this.reactRoutingModuleInfo);
+                        if (this.reactRoutingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
+                            if (appElement.includes(`redirectTo: ''`)) {
+                                this.reactRoutingModuleInfo.path.unshift(appElement.replace('},', '}'));
+                            } else if (appElement.includes(`component: Template`)) {
+                                console.log('appelement template test', appElement, 'data from db', appElement.includes(`{  path: \"\",  component: Template },`))
+                                this.reactRoutingModuleInfo.path.push(appElement.replace(`{  path: \"\",  component: Template },`, `{ path: \"/\", component: Template, },`));
+                            } else {
+                                this.reactRoutingModuleInfo.path.push(appElement.replace('},', `, canActivate: [${this.AUTH_GUARD_FILENAME}] }`));
+                            }
                         }
                     }
                 }
-            }
-        })
+            });
+        } 
+        else if(this.clientframework !== 'react') {
+            appRoutingModulePath += `/${this.APP_ROUTING_MODULE_FILENAME}`;
+            fs.readFileSync(appRoutingModulePath).toString().split("\n").forEach((appElement) => {
+                console.log('app routing each one are -------  ', appElement);
+                if (appElement.includes('import') && appElement.includes('from')) {
+                    if (this.routingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
+                        if (appElement.includes('.component')) {
+                            this.routingModuleInfo.importDependency.push(appElement);
+                        } else {
+                            this.routingModuleInfo.importDependency.unshift(appElement);
+                        }
+                    }
+
+                }
+                if (appElement.includes('routes: Routes')) {
+                    this.isRoutingModule.path = true;
+                }
+                if (appElement.includes(']')) {
+                    this.isRoutingModule.path = false;
+
+                }
+                if (this.isRoutingModule.path) {
+                    console.log('is appElement.includes( path matched  ', appElement);
+                    if (!appElement.includes('[') && !appElement.includes(']')) {
+                        if (this.routingModuleInfo.importDependency.findIndex(x => x == appElement) < 0) {
+                            if (appElement.includes(`redirectTo: ''`)) {
+                                this.routingModuleInfo.path.unshift(appElement.replace('},', '}'));
+                            } else if (appElement.includes(`component: TemplateComponent`)) {
+                                this.routingModuleInfo.path.push(appElement.replace(`{ path: \'\', component: TemplateComponent },`, `{ path: \'\', component: TemplateComponent , pathMatch: \'full\' },`));
+                            } else {
+                                this.routingModuleInfo.path.push(appElement.replace('},', `, canActivate: [${this.AUTH_GUARD_FILENAME}] }`));
+                            }
+                        }
+                    }
+                }
+            })
+        }
     }
 
     async modifyPackageJsonFile(callback) {
@@ -765,15 +879,152 @@ export class FrontendWorker {
         const index = packageInfo.findIndex(x => x === '  "dependencies": {');
         console.log('package index rae -------  ', index);
         if (index > -1) {
-            this.authPackageDependency.forEach(packageElement => {
-                if (packageInfo.findIndex(item => item === packageElement) < 0) {
-                    packageInfo.splice(index + 10, 0, packageElement);
-                }
-            })
+            if(this.clientframework === 'react') {
+                this.reactAuthPackageDependency.forEach(packageElement => {
+                    if (packageInfo.findIndex(item => item === packageElement) < 0) {
+                        packageInfo.splice(index + 3, 0, packageElement);
+                    }
+                })
+            } else if(this.clientframework !== 'react') {
+                this.authPackageDependency.forEach(packageElement => {
+                    if (packageInfo.findIndex(item => item === packageElement) < 0) {
+                        packageInfo.splice(index + 10, 0, packageElement);
+                    }
+                })
+            }
         this.frontendSupportWorker.writeStaticFile(this.projectGenerationPath, this.PACKAGE_FILENAME, packageInfo, () => {
             callback();
         });
         }
         console.log('after added values in package are -------  ', packageInfo);
     }
+
+    //React file import file adding on particular routing array
+    async generateImportComponent(folderName, templateName, applicationPath, callback) {
+        let fileName;
+        if (folderName !== 'button-renderer') {
+            if (folderName !== 'profilesettings') {
+                fileName = `${folderName}.${this.MODULE_NAME}.ts`;
+            }
+        }
+        const tempImports = [];
+        const tempDeclarations = [];
+        const tempEntryComponents = [];
+
+        // app module dependency
+        // this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
+        // this.appModuleInfo.imports.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)}`);
+            // if (folderName !== 'profilesettings') {
+            //     if (folderName !== 'button-renderer') {
+            //         if (this.appModuleInfo.importDependency.findIndex(x => x == `import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`) < 0) {
+            //             this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
+            //             this.appModuleInfo.imports.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)}`);
+            //             console.log('-----------------inside if appmodule with folder-----------------', this.appModuleInfo, folderName)
+            //         }
+
+            //     }
+            // }
+
+        // if (folderName === 'authorization') {
+        //     this.appModuleInfo.importDependency.push(`import { AuthorizationComponent } from './${folderName}/${folderName}.component';`);
+        //     this.appModuleInfo.declarations.push(`AuthorizationComponent`);
+        // }
+
+        // if (folderName === 'manageroles') {
+        //     this.appModuleInfo.importDependency.push(`import { ManagerolesComponent } from './${folderName}/${folderName}.component';`);
+        //     this.appModuleInfo.declarations.push(`ManagerolesComponent`);
+        // }
+
+        // if (folderName === 'manageusers') {
+        //     this.appModuleInfo.importDependency.push(`import { ManageusersComponent } from './${folderName}/${folderName}.component';`);
+        //     this.appModuleInfo.declarations.push(`ManageusersComponent`);
+        // }
+
+            const temp = {
+                importDependency: [],
+                imports: null,
+                declarations: null,
+                entryComponents: null,
+                className: folderName.charAt(0).toUpperCase() + folderName.slice(1)
+            }
+            // if (folderName !== 'profilesettings') {
+            //     if (folderName !== 'button-renderer') {
+            //         temp.importDependency.push({ dependencyname: 'NgModule', dependencyPath: '@angular/core' });
+            //         temp.importDependency.push({ dependencyname: 'CommonModule', dependencyPath: '@angular/common' });
+            //         temp.importDependency.push({ dependencyname: 'FormsModule, ReactiveFormsModule', dependencyPath: '@angular/forms' });
+            //         temp.importDependency.push({ dependencyname: 'RouterModule', dependencyPath: '@angular/router' });
+            //         temp.importDependency.push({ dependencyname: 'I18NextModule', dependencyPath: 'angular-i18next' });
+
+            //         temp.importDependency.push({ dependencyname: `${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component`, dependencyPath: `./${folderName}.component` });
+
+            //         if (folderName === 'user') {
+            //             temp.importDependency.push({ dependencyname: 'AgGridModule', dependencyPath: 'ag-grid-angular' });
+            //             temp.importDependency.push({ dependencyname: `ProfilesettingsComponent`, dependencyPath: `./profilesettings/profilesettings.component` });
+            //             temp.importDependency.push({ dependencyname: `ButtonRendererComponent`, dependencyPath: `./button-renderer/button-renderer.component` });
+
+            //             tempImports.push(`AgGridModule.withComponents([])`);
+            //             tempDeclarations.push(`ProfilesettingsComponent`);
+            //             tempDeclarations.push(`ButtonRendererComponent`);
+            //             tempEntryComponents.push(`ButtonRendererComponent`)
+            //         }
+            //         tempImports.push(`CommonModule`);
+            //         tempImports.push(`FormsModule`);
+            //         tempImports.push(`ReactiveFormsModule`);
+            //         tempImports.push(`RouterModule`);
+            //         tempImports.push(`I18NextModule.forRoot()`);
+
+            //         tempDeclarations.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component`);
+
+            //         temp.imports = tempImports.join(',\n');
+            //         temp.declarations = tempDeclarations.join(',\n');
+            //         temp.entryComponents = tempEntryComponents.join(',\n');
+            //     }
+            // }
+        // app routing module
+        if (folderName !== 'button-renderer') {
+            if (this.reactRoutingModuleInfo.importDependency.findIndex(x => x == `import  ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}  from './app/${folderName}/${folderName}';`) < 0) {
+                // if (folderName == this.LOGIN_FOLDERNAME) {
+                //     this.reactRoutingModuleInfo.path.push(`{ path: '', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, pathMatch: 'full' }`);
+                // }
+                if (folderName === 'profilesettings') {
+                    this.reactRoutingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './user/${folderName}/${folderName}.component';`);
+                } else {
+                    this.reactRoutingModuleInfo.importDependency.push(`import  ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}  from './app/${folderName}/${folderName}';`);
+                }
+                if (folderName === 'profilesettings') {
+                    let pathName = folderName.split('settings')[0]
+                    this.reactRoutingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                } else if (folderName === 'user') {
+                    let pathName = `${folderName}management`
+                    this.reactRoutingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                } else if (folderName === 'home' || folderName === 'authorization' || folderName === 'manageroles' || folderName === 'manageusers') {
+                    this.reactRoutingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)} }`);
+                } else {
+                    this.reactRoutingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)} }`);
+                    console.log('test the sefscreen', this.reactRoutingModuleInfo.path);
+                }
+                // const pushSefData = this.reactRoutingModuleInfo.path.includes(`{ path: 'sefscreen', component: Sefscreen, canActivate: [AuthGuard] }`);
+                // const pushSefDepend = this.reactRoutingModuleInfo.importDependency.includes(`import { Sefscreen } from './app/sefscreen/sefscreen';`);
+                // if(!pushSefData && !pushSefDepend){
+                //     folderName = 'sefscreen';
+                //     this.reactRoutingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                //     this.reactRoutingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`);
+                //     console.log('test the sefscreen', this.reactRoutingModuleInfo.path, this.reactRoutingModuleInfo.importDependency);
+                    
+                // }    
+            }
+        }
+        if (folderName !== 'button-renderer') {
+            if (folderName !== 'profilesettings') {
+                this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp, () => {
+                    callback();
+                });
+            } else {
+                callback();
+            }
+        } else {
+            callback();
+        }
+    }
 }
+

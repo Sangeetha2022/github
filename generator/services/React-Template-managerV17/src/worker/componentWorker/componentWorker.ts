@@ -20,10 +20,11 @@ export class ComponentWorker {
   }
 
   async generateAppComponentTsHtml(generationPath, callback) {
-    const applicationPath = generationPath + `/${Constant.SRC_FOLDERNAME}/${Constant.APP_FOLDERNAME}`;
+    const applicationPath = generationPath + `/${Constant.SRC_FOLDERNAME}`;
     const templatePath = path.resolve(__dirname, '../../../templates');
-    componentSupportWorker.handleBarsFile(templatePath + '/' + Constant.APP_COMPONENT_TS_HANDLEBARS, {}, applicationPath, Constant.APP_COMPONENT_TS).then(tsData => {
-      componentSupportWorker.handleBarsFile(templatePath + '/' + Constant.APP_COMPONENT_HTML_HANDLEBARS, {}, applicationPath, Constant.APP_COMPONENT_HTML).then(htmlData => {
+    console.log('template path to write a file', templatePath);
+    componentSupportWorker.handleBarsFile(templatePath + '/' + Constant.APP_COMPONENT_TS_HANDLEBARS, {}, applicationPath, Constant.APP_TS).then(tsData => {
+      componentSupportWorker.handleBarsFile(templatePath + '/' + Constant.APP_COMPONENT_HTML_HANDLEBARS, {}, applicationPath, Constant.INDEX_TS).then(htmlData => {
         callback();
       });
     });

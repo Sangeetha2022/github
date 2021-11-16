@@ -1,19 +1,19 @@
 export const sideBar = {
-  htmlTag: [`<div class="wrapper">
-  <nav id="sidebar" class="active">
-      <div class="sidebar-header">
-          <div class="marginClass">
+  htmlTag: [`<div className="wrapper">
+  <nav id="sidebar" className="active">
+      <div className="sidebar-header">
+          <div className="marginClass">
             <h4>changename</h4>
           </div>
-          <div class="marginClass">
-            <a class="close" id="closeIcon"></a>
+          <div className="marginClass">
+            <a className="close" id="closeIcon"></a>
           </div>
       </div>
-      <ul class="list-unstyled components">
+      <ul className="list-unstyled components">
   loadnav
       </ul>
   </nav>
-  <div id="content" class="active">
+  <div id="content" className="active">
       <a id="nav-toggle"><span></span></a>
   </div>
 </div>`],
@@ -528,15 +528,15 @@ export const templateScreen = [
 
 export const ConfimModalPopup = {
   htmlTag: [
-    `<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display': confirmLangChangeModal}">
-  <div class="modal-dialog modal-sm" role="dialog">
-    <div class="modal-content">
-      <div class="modal-body">
+    `<div className="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display': confirmLangChangeModal}">
+  <div className="modal-dialog modal-sm" role="dialog">
+    <div className="modal-content">
+      <div className="modal-body">
         <p>language change cause you to re-login</p>
       </div>
-      <div class="modal-footer" style="padding: 5px">
-        <button type="button" (click)="confirmLangChange()" class="btn btn-default">Confirm</button>
-        <button type="button" (click)="onCloseHandled()" class="btn btn-default">Cancel</button>
+      <div className="modal-footer" style="padding: 5px">
+        <button type="button" (click)="confirmLangChange()" className="btn btn-default">Confirm</button>
+        <button type="button" (click)="onCloseHandled()" className="btn btn-default">Cancel</button>
       </div>
     </div>
 

@@ -22,10 +22,12 @@ export const TemplateComponent = {
     import "./template.scss";
     const Template = () => {
       return (
+        <>
     `
   ],
   htmlEnd: [
-    `  );
+    ` </>
+     );
   };
   
   export default Template;

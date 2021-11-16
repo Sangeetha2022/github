@@ -17,7 +17,7 @@ export class TopTemplateHeader {
         </div>
         <div className="modal-footer" style="padding: 5px">
           <button type="button" (click)="confirmLangChange()" className="btn btn-default">Confirm</button>
-          <button type="button" (click)="onCloseHandled()" class="btn btn-default">Cancel</button>
+          <button type="button" (click)="onCloseHandled()" className="btn btn-default">Cancel</button>
         </div>
       </div>
     </div>

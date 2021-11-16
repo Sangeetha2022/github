@@ -1,5 +1,6 @@
 import { Request, response } from 'express';
 import { Common } from '../config/Common';
+import * as util from 'util';
 import * as childProcess from 'child_process';
 import { ComponentWorker } from '../worker/componentWorker/componentWorker';
 import { DependencyWorker } from '../worker/dependency-worker/dependencyWorker';
@@ -68,6 +69,7 @@ export class ReactTemplateService {
 
     public createReactTemplate(req: Request, callback: CallableFunction) {
         this.details = req.body;
+        console.log('req from template manager', util.inspect(JSON.stringify(this.details), { showHidden: true, depth: null }));
         const data = this.details.template['gjs-components'][0];
         this.grapesjsComponent = this.details.template['gjs-components'][0];
         this.grapesjsCSS = this.details.template['gjs-css'];
@@ -299,12 +301,10 @@ export class ReactTemplateService {
         if (tagName === 'nav') {
             // Generating Header Component
             this.htmlContent = '';
-            this.createHtmlfromNestedObject([gjsElement], (res) => {
+            this.createHtmlfromNestedObject([gjsElement], async (res) => {
                 const menuList = body.menuBuilder.filter(x => x.language.toLowerCase() === body.project.defaultHumanLanguage.toLowerCase());
                 let responseArray = [];
-                console.log('test a component react', responseArray);
                 responseArray + HeaderComponent.htmlImport[0];
-                console.log('test a code ', responseArray);
                 if (res.includes(`<div id="MainMenu" class="">`)) {
                     const sideNavHtml = TemplateTopNav.generateTopNav(menuList);
                     responseArray = res.split('\n');
@@ -316,9 +316,12 @@ export class ReactTemplateService {
                     }
                 }
                 const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.tsx';
-                console.log('step 1 data ', responseArray);
-                const data = HeaderComponent.htmlImport[0] + responseArray.join('\n') + ConfimModalPopup.htmlTag[0] + HeaderComponent.htmlEnd[0];
-                console.log('header file data', filePath, data);
+                await responseArray.forEach((item, index) => {
+                    responseArray[index] = item.replace('class', 'className');
+                });
+                // once language complete + ConfimModalPopup.htmlTag[0] add this method below command
+                const data = HeaderComponent.htmlImport[0] + responseArray.join('\n')  + HeaderComponent.htmlEnd[0];
+                console.log('response array', responseArray);
                 Common.createFolders(templateGenerationPath + Constant.HEADER_FOLDERNAME);
                 componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), (res) => {
                     callback();
@@ -337,11 +340,16 @@ export class ReactTemplateService {
             });
         } else if (tagName === 'section') {
             // Generate Template Component
-            this.createHtmlfromNestedObject([gjsElement], (res) => {
+            this.createHtmlfromNestedObject([gjsElement], async (res) => {
+                let templateArray = [];
                 Common.createFolders(templateGenerationPath + Constant.TEMPLATE_FOLDERNAME);
                 const filePath = templateGenerationPath + Constant.TEMPLATE_FOLDERNAME + '/template.tsx';
                 console.log('template file data', filePath);
-                const data = TemplateComponent.htmlImport[0] + res + TemplateComponent.htmlEnd[0];
+                templateArray = res.split('\n');
+                await templateArray.forEach((item, index) => {
+                    templateArray[index] = item.replace('class', 'className');
+                });
+                const data = TemplateComponent.htmlImport[0] + templateArray.join('\n') + TemplateComponent.htmlEnd[0];
                 componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), () => {
                     callback();
                 });
@@ -354,11 +362,16 @@ export class ReactTemplateService {
         } else if (tagName === 'footer') {
             // Generate Footer Component
             this.htmlContent = '';
-            this.createHtmlfromNestedObject([gjsElement], (res) => {
+            let footerArray = [];
+            this.createHtmlfromNestedObject([gjsElement], async (res) => {
                 const filePath = templateGenerationPath + Constant.FOOTER_FOLDERNAME + '/footer.tsx';
                 Common.createFolders(templateGenerationPath + Constant.FOOTER_FOLDERNAME);
-                console.log('footer file data', filePath);
-                const data = FooterComponent.htmlImport[0] + res + FooterComponent.htmlEnd[0];
+                footerArray = res.split('\n');
+                await footerArray.forEach((item, index) => {
+                    footerArray[index] = item.replace('class', 'className');
+                });
+                console.log('footer file data', typeof res);
+                const data = FooterComponent.htmlImport[0] + footerArray.join('\n') + FooterComponent.htmlEnd[0];
                 componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), () => {
                     this.htmlContent = '';
                     callback();
@@ -520,7 +533,6 @@ export class ReactTemplateService {
             if (err) {
                 callback('');
             } else {
-                console.log('html element to adding ', this.htmlContent);
                 callback(this.htmlContent);
             }
         });
@@ -533,14 +545,14 @@ export class ReactTemplateService {
         if (item.hasOwnProperty('attributes')) {
             // this.htmlContent += `id="${item.attributes.id}" `;
             const keys = Object.keys(item.attributes);
-            // keys.forEach((key) => {
-            //     // Replacing "href to [routerLink]", "[routerlink] to [routerLink]" in <a> tag
-            //     if(item.attributes[key] !== '#') {
-            //         this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['${item.attributes[key]}']" ` : this.htmlContent = key === '[routerlink]' ? this.htmlContent + `[routerLink]="${item.attributes[key]}" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
-            //     } else {
-            //         this.htmlContent = key === 'href' ? this.htmlContent + `[routerLink]="['/']" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
-            //     }
-            // });
+            keys.forEach((key) => {
+                // Replacing "href to [routerLink]", "[routerlink] to [routerLink]" in <a> tag
+                if(item.attributes[key] !== '#') {
+                    this.htmlContent = key === 'href' ? this.htmlContent + `href="${item.attributes[key]}" ` : this.htmlContent = key === '[routerlink]' ? this.htmlContent + `[routerLink]="${item.attributes[key]}" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
+                } else {
+                    this.htmlContent = key === 'href' ? this.htmlContent + `href="/" ` : this.htmlContent + `${key}="${item.attributes[key]}" `;
+                }
+            });
         }
     }
     /**

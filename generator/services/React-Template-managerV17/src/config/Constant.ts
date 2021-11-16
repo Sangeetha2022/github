@@ -56,8 +56,8 @@ export class Constant {
   public static COMPONENT_MODULE_HANDELBARS: string = "ComponentModule.handlebars"
   public static APP_COMPONENT_TS_HANDLEBARS: string = "AppComponentTs.handlebars"
   public static APP_COMPONENT_HTML_HANDLEBARS: string = "AppComponentHtml.handlebars"
-  public static APP_COMPONENT_TS: string = 'app.component.ts';
-  public static APP_COMPONENT_HTML: string = 'app.component.html';
+  public static APP_TS: string = 'App.tsx';
+  public static INDEX_TS: string = 'index.tsx';
 
   // nginx conf data
   public static proxyDesktop = {
