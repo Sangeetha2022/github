@@ -104,12 +104,8 @@ export class CustomTraitsService {
                     const eventPopupModel = document.getElementById('EventPopup');
                     if (element && element.length > 0) {
                         screen_designer.selectedFlowObj = screen_designer.listOfFLows.filter((x:any) => x._id === element[0].flow);
-                        console.log('-------selectedflowobj------', screen_designer.selectedFlowObj);
                         rows = screen_designer.gridApi.getCellRendererInstances();
                         Object.keys(rows).forEach(k => {
-                            /** The below condition is for show the flow action for selected attribute in the screen designer.
-                             *  For more details check issue #401 in github developer Kishan 29Jun2020 */
-                           // tslint:disable-next-line: triple-equals
                            if (screen_designer.selectedFlowObj[0].name == rows[k].params.data.name) {
                                rows[k].params.eGridCell.children[0].checked = true;
                            } else {
@@ -129,10 +125,10 @@ export class CustomTraitsService {
         });
     }
 
-    async flowsModifierValueButton($this:any) {
+    async flowsModifierValueButton(screen_designer:any) {
         let rows: any;
         // action button add
-        $this.editor.TraitManager.addType('valueButton', {
+        screen_designer.editor.TraitManager.addType('valueButton', {
          
             getInputEl() {
                 // tslint:disable-next-line:prefer-const
@@ -148,43 +144,43 @@ export class CustomTraitsService {
                 button.appendChild(document.createTextNode('Modifier Value'));
                 button.onclick=async ()=>{
                     console.log('---------action button clicked here-------');
-                    const oldElement = $this.screenFlows.filter((x:any) => x.elementName === this.target.attributes.name);
-                    let element: any = await this.getEntityDetails($this);
+                    const oldElement = screen_designer.screenFlows.filter((x:any) => x.elementName === this.target.attributes.name);
+                    let element: any = await this.getEntityDetails(screen_designer);
                     if (element && element.length > 0) {
                         element.forEach((entity: any) => {
                           if (entity.is_default === true) {
                             entity.field.forEach((data:any) => {
-                              $this.allEntityByProject.push(data);
+                                screen_designer.allEntityByProject.push(data);
                             });
-                          } else if (entity.feature_id === $this.feature_id){
+                          } else if (entity.feature_id === screen_designer.feature_id){
                             entity.field.forEach((data:any) => {
-                              $this.allEntityByProject.push(data);
+                                screen_designer.allEntityByProject.push(data);
                             });
                           }
                         });
                     }
-                    $this.tableRowData = $this.allEntityByProject;
+                    screen_designer.tableRowData = screen_designer.allEntityByProject;
                     const eventPopupModel = document.getElementById('ProjectEventPopup');
                     if (element && element.length > 0) {
                         // $this.selectedFlowObj = $this.listOfFLows.filter(x => x._id === element[0].flow);
-                        console.log('-------selectedflowobj------', $this.selectedFlowObj);
+                        console.log('-------selectedflowobj------', screen_designer.selectedFlowObj);
                         /*Here we match the which of the flow is already been added in the screen flow info and make the checkbox 
                         checked for that row in ag-grid. For more details refer issue #381 in github developer is Kishan 21May2020 */
-                        rows = $this.gridApi_modifier.getCellRendererInstances();
+                        rows = screen_designer.gridApi_modifier.getCellRendererInstances();
                     } else {
-                        $this.selectedFlowObj = null;
+                        screen_designer.selectedFlowObj = null;
                     }
                     // $this.rowSelection = 'single';
-                    $this.isLifeCycleRow = false;
+                    screen_designer.isLifeCycleRow = false;
                     eventPopupModel!.style.display = 'block';
-                    $this.gridApi_modifier.deselectAll();
-                    $this.ref.detectChanges();
+                    screen_designer.gridApi_modifier.deselectAll();
+                    screen_designer.ref.detectChanges();
                 }
                 return button;
             },
-            getEntityDetails($this:any) {
+            getEntityDetails(screen_designer:any) {
                 return new Promise(resolve => {
-                    $this.projectComponentService.getEntityByProjectId($this.project_id, $this.logId).subscribe((response:any) => {
+                    screen_designer.projectComponentService.getEntityByProjectId(screen_designer.project_id, screen_designer.logId).subscribe((response:any) => {
                         resolve(response.body);
                     });
                 })

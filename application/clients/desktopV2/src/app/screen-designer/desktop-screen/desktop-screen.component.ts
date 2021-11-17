@@ -16,6 +16,7 @@ import { TraitsService } from './services/Traits/traits.service';
 import { Constants } from 'src/app/config/Constant';
 import { CustomTraitsService } from './services/Traits/custom-traits.service';
 import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
+import { Dataservice } from 'src/app/broadcast.service';
 @Component({
   selector: 'app-desktop-screen',
   templateUrl: './desktop-screen.component.html',
@@ -118,12 +119,13 @@ public customPopupModal: any = {
   saveTemplateURL:any;
   updateTemplateURL:any;
   modifyTemplateUrl:any;
+  specific_attribute_Event: any[] = [];
     
   
     constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,private panelService:PanelService,
     private projectComponentService:ProjectComponentService,private traitService:TraitsService,private commandService:CommandService,
     private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,private sharedService:SharedService,
-    private customTraitService:CustomTraitsService, private ref: ChangeDetectorRef,private flowManagerService:FlowManagerService) {
+    private customTraitService:CustomTraitsService, private ref: ChangeDetectorRef,private flowManagerService:FlowManagerService, public broadcast: Dataservice,) {
       this.columnDefs= [
         {
           headerName: 'Name',
@@ -154,6 +156,12 @@ public customPopupModal: any = {
         sortable: true,
         filter: true
       };
+      this.broadcast.data.subscribe(eventchange => {
+        console.log('eventchange value trigger value-----------', typeof eventchange);
+        if (Object.keys(eventchange).length !== 0) {
+          this.saveEventdetails(eventchange);
+        }
+      });
      }
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -302,6 +310,8 @@ public customPopupModal: any = {
     this.blockservice.addHeadingTag(this.editor);
     this.blockservice.addCKeditor5(this.editor);
     this.blockservice.addSpecialCharts(this.editor);
+    this.blockservice.dynamicDropdown(this.editor);
+   
   }
   //Function Contains custom buttons in panels
   panelManager() {
@@ -595,6 +605,23 @@ tableOnSelectionChanged(event:any) {
             name: 'Field',
           }
         );
+
+        console.log('--------dynamicdropdown----->>>>', this.editor.DomComponents.getType('dynamicdropdown-type').model.prototype
+        .defaults.traits);
+  
+      // dynamic dropdown
+      this.editor.DomComponents.getType(
+        'dynamicdropdown-type'
+      ).model.prototype.defaults.traits.push(
+        {
+          type: 'select',
+          label: this.traitsName,
+          name: this.traitsName,
+          options: EntityBinding,
+          changeProp: 1
+        },
+      );
+
           // button traits
           this.editor.DomComponents.getType(
             'button'
@@ -723,6 +750,7 @@ tableOnSelectionChanged(event:any) {
           screenType: this.screenType,
           entity_info: this.screenEntityModel,
           screenOption: this.screenOption,
+          specific_attribute_Event: this.specific_attribute_Event
         });
       }
     }
@@ -731,6 +759,24 @@ tableOnSelectionChanged(event:any) {
       model!.style.display = 'none';
       const saveButton = this.editor.Panels.getButton('options', 'save-page');
       saveButton.set('active', 0);
+    }
+    saveEventdetails(value:any) {
+
+
+      if (value.event.type === 'dynamicdropdown-type') {
+        const traitsvalue = value.event.traits;
+        this.eventObj.htmlId = value.event.htmlId;
+        this.eventObj.componentId = value.event.componentId;
+        this.eventObj.elementName = value.event.elementname;
+        this.eventObj.selected_event = value.event.value;
+        this.specific_attribute_Event.push(this.eventObj);
+        this.saveRemoteStorage();
+      }
+  
+      // if (value.event.type === 'grid-type') {
+      //   console.log('---------grid event-------', value.event);
+      //   this.agGridObject.event = value.event.value;
+      // }
     }
     getScreenById() {
       if (this.screen_id) {
@@ -765,7 +811,7 @@ tableOnSelectionChanged(event:any) {
                 //   'component-lifecycle'
                 // ];
                //  this.specialEvents = this.existScreenDetail[0]['special-events'];
-                // this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
+                 this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
                //  this.linkArray = this.existScreenDetail[0]['link_info'];
                 // this.addGridBlocks();
   
@@ -904,8 +950,13 @@ tableOnSelectionChanged(event:any) {
         this.screenFlows.splice(isFlowExist, 1);
       }
       let selectedFlowModifiers = this.selectedFlow[0].modifiers;
-      this.filterModifiers = await this.getFilteredModifiers(this.logId, selectedFlowModifiers);
-      this.editor.getSelected().getTrait('modifiers').set('options', this.filterModifiers);
+      //this.filterModifiers = await this.getFilteredModifiers(this.logId, selectedFlowModifiers);
+      console.log("this.editor.getSelected().attributes.type",this.editor.getSelected().attributes.type);
+      
+      if (this.editor.getSelected().attributes.type === 'text' || this.editor.getSelected().attributes.type === 'grid-type') {
+        this.filterModifiers = await this.getFilteredModifiers(this.logId, selectedFlowModifiers);
+        this.editor.getSelected().getTrait('modifiers').set('options', this.filterModifiers);
+      }
       console.log('-------grid flowobject------', flowObj);
       this.screenFlows.push(flowObj);
       this.saveRemoteStorage();

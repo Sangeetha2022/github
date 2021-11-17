@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { IEntity } from 'src/app/project-component/interface/Entity';
+import { Dataservice } from '../../../../broadcast.service';
 declare var ClassicEditor: any;
 declare var Highcharts: any;
 
@@ -9,7 +11,9 @@ declare var Highcharts: any;
 export class TraitsService {
 
   public entitylist: any[] = [];
-  constructor() { }
+  public entityOptions: any[] = [];
+  public allEntity: IEntity[] = [];
+  constructor(private broadcastservice: Dataservice) { }
   initMethod(screenGlobalVariable:any) {
     this.initializeInputMethod(screenGlobalVariable);
     this.initializeSelectMethod(screenGlobalVariable);
@@ -79,13 +83,6 @@ export class TraitsService {
                   name: 'contentname',
                   changeProp: 1
                 },
-                // {
-                //   type: 'text',
-                //   label: 'contentName',
-                //   name: 'contentname',
-                //   changeProp: 1
-                // },
-               
               ],
             }),
             init() {
@@ -220,7 +217,7 @@ export class TraitsService {
           },
           {
             isComponent:  (el: { tagName: string; })=> {
-              console.log("tagName is",el.tagName);
+              //console.log("tagName is",el.tagName);
               
               if (el.tagName === 'button') {
                 return {
@@ -416,4 +413,85 @@ export class TraitsService {
       view: defaultType.view
     });
   }
+
+  dynamicDropdownTraits(editor:any, buttonName:any) {
+    const comps = editor.DomComponents;
+    const $this = this;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    console.log('----------this.entityoptions', this.entityOptions);
+    comps.addType(buttonName, {
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              {
+                label: 'name',
+                name: 'name',
+                type: 'text',
+                changeProp: 1
+              },
+              {
+                type: 'select',
+                label: 'FieldType',
+                name: 'entity',
+                changeProp: 1,
+                options: this.entityOptions
+              },
+              {
+                type: 'select',
+                label: 'Event',
+                name: 'events',
+                changeProp: 1,
+                options: [
+                  { key: 'Load', value: 'OnLoad' },
+                  { key: 'AfterLoad', value: 'AfterLoad' },
+                  { key: 'Rowclick', value: 'Rowclick' },
+                  { key: 'Rowclick | Load', value: 'Rowclick | OnLoad'}
+                ]
+              }
+            ]
+          }),
+          init() {
+            this.listenTo(this, 'change:events', this.handlechangetype);
+          },
+          handlechangetype() {
+            // tslint:disable-next-line:max-line-length
+            console.log('Input type changed to : ', editor.getSelected().attributes.type, editor.getSelected().ccid, editor.getSelected().cid);
+            const dynamicDropdownTraits = this.get('traits').where({
+              name: 'events'
+            })[0];
+            console.log("dynamicDropdownTraits",dynamicDropdownTraits);
+            
+            const changedValue = this.changed['events'];
+            const eventchangetrigger = {
+              type: editor.getSelected().attributes.type,
+              elementname: editor.getSelected().attributes.name,
+              componentId: editor.getSelected().cid,
+              htmlId: editor.getSelected().ccid,
+              traits: dynamicDropdownTraits,
+              value: changedValue
+            };
+            $this.broadcastservice.updateDataselection({ 'event': eventchangetrigger });
+            console.log('--------changed event-----', eventchangetrigger);
+            editor.TraitManager.getTraitsViewer().render();
+          },
+        },
+        {
+          isComponent: function (el:any) {
+            if (el.tagName === buttonName) {
+              return {
+                type: buttonName
+              };
+            }
+          }
+        }
+      ),
+
+      view: defaultType.view
+    });
+  }
+ 
 }

@@ -66,6 +66,7 @@ export class CommandService {
       removeTriatName.forEach((name, index) => {
         component.removeTrait(name);
       });
+      console.log("component.attributes.type ",component.attributes.type );
       if (entityTrait && component.attributes.type !== 'grid-type') {
         entityTrait.set('options', $this.dataBindingTypes);
         component.get('traits').add(
@@ -145,6 +146,15 @@ export class CommandService {
             type: 'valueButton'
           }
           ]
+        );
+      }
+      if (component.attributes.type === 'dynamicdropdown-type') {
+        component.get('traits').add(
+          {
+            name: 'actionButton',
+            label: 'Action',
+            type: 'actionButton'
+          }
         );
       }
      
@@ -379,7 +389,15 @@ export class CommandService {
       allImageModels.forEach((element:any) => {
         element.attributes.traits.target.set('name', `image_${element.ccid}`);
       });
+      const dynamicdropdownType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="dynamicdropdown-type"]');
+      if (dynamicdropdownType.length > 0) {
+        dynamicdropdownType.forEach((element:any) => {
+          element.attributes.traits.target.set('name', `dynamicdropdown_${element.ccid}`);
+        });
+      }
     })
+   
   }
+  
 
 }
