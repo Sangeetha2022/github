@@ -114,6 +114,108 @@
 
     ],
 
+    "configuration": {
+        "admin-ui-entry-point": "/xxx/yyy/zzz",
+        "admin-backend-services": [
+            {
+                "service-name": "xxxxx",
+                "apis":[
+                    {
+                        "name": "api one",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "get",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api two",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "post",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api N",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "PUT",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    }
+
+                ]
+
+            },
+            {
+                "service-name": "yyyyy",
+                "apis":[
+                    {
+                        "name": "api one",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "get",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api two",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "post",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api N",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "PUT",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    }
+
+                ]
+            },
+            {
+                "service-name": "zzzz",
+                "apis":[
+                    {
+                        "name": "api one",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "get",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api two",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "post",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api N",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "PUT",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    }
+
+                ]
+            }
+
+
+
+        ]
+
+
+    },
+
     "entry-point": {
         "default-entry": "client",
         "entry-point-access": "/xxx/yyy/ddd",
@@ -123,11 +225,11 @@
 
     "server-properties":{
         "runtime": "nodejs",
-        "runtime-version": "14.0.0",
+        "runtime-version": "16.0.0",
         "dev-framework": "express",
         "dev-framework-version": "4.7.1",
         "datastore": "mongo",
-        "datastore-version": "4.1.1",
+        "datastore-version": "5.0",
         "flows":[
             {
                 "name": "gepFileUpload",
