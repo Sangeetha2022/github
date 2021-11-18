@@ -1,12 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Header from './app/header/header';
+import Footer from './app/footer/footer';
+
+
+
 
 ReactDOM.render(
   <React.StrictMode>
+     {
+      window.location.pathname!=='/login' && window.location.pathname!=='/signup' ? <Header/>:null
+     }
+
     <App />
+
+    {
+      window.location.pathname!=='/login' && window.location.pathname!=='/signup' ? <Footer/>:null
+     }
   </React.StrictMode>,
   document.getElementById('root')
 );

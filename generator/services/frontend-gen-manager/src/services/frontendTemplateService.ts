@@ -66,8 +66,8 @@ export class FrontendTemplateService {
                 if (templateResponse) {
                     const tempFrontend = {
                         templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
-                        seedTemplatePath: details.seedTemplatePath +'/AngularV12',
-                       // seedTemplatePath: details.seedTemplatePath,
+                     //  seedTemplatePath: details.seedTemplatePath +'/AngularV12',
+                        seedTemplatePath: details.seedTemplatePath,
                         authTemplatePath: details.authTemplatePath,
                         adminTemplatePath: details.project.templateLocation.frontendTemplate,
                         screenMenus: templateObj.menuBuilder,
@@ -92,6 +92,7 @@ export class FrontendTemplateService {
 
             }
             if (details.project.clientFramework.label.includes('Angular') && details.project.clientFramework.label != 'Angular 12') {
+                console.log("inside angular 10 templatemanager frontend");
                 const templateResponse = await this.generateAngularTemplate(templateObj);
                 console.log('after calling angular template ---  ', templateResponse);
                 if (templateResponse) {
@@ -124,7 +125,7 @@ export class FrontendTemplateService {
                 //const readmepath = details.project.templateLocation.adminManagerTemplatePath + '/readMe';
                 //this.generate_readme(generationPath, readmepath)
                 const templateResponse = await this.generateReactTemplate(templateObj);
-                console.log('after calling angular template ---  ', templateResponse);
+                console.log('after calling react template ---  ', templateResponse);
                 if (templateResponse) {
                     const tempFrontend = {
                         templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
@@ -152,8 +153,8 @@ export class FrontendTemplateService {
             }
 
         } catch (err) {
-            console.log('err in generating the angualr template')
-            callback('cannot able to generate the angular template');
+            console.log('err in generating the react template')
+            callback('cannot able to generate the react template');
         }
 
     }

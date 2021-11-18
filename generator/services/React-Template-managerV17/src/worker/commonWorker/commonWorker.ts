@@ -37,21 +37,21 @@ export class CommonWorker {
         })
     }
 
-    generateMainFile(generationPath,  details, sharedObj, projectName, callback) {
-        return dependencyWorker.generateSharedFile(generationPath, templatePath, sharedObj, (response) => {
+    generateMainFile(generationPath, details, sharedObj, projectName, callback) {
+        //return dependencyWorker.generateSharedFile(generationPath, templatePath, sharedObj, (response) => {
             return dependencyWorker.generateNginxFile(generationPath, templatePath, details, (res) => {
                 return dependencyWorker.generateProxyFile(generationPath, templatePath, details, (res) => {
                     return dependencyWorker.generateDockerFile(generationPath, templatePath, details, (res) => {
-                        return dependencyWorker.generateTranslatorModuleFile(generationPath, templatePath, details, (res) => {
+                        //return dependencyWorker.generateTranslatorModuleFile(generationPath, templatePath, details, (res) => {
                             return dependencyWorker.generateTranslatorJsonFile(generationPath, templatePath, details, (res) => {
                                 dependencyWorker.modifyTsConfig(generationPath, (tsConfigRes, tsConfigErr) => {
                                     callback('main files are generated');
                                 });
                             })
-                        })
+                        //})
                     })
                 })
             })
-        });
+        //});
     }
 }

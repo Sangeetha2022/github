@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './login.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { BroadcastService } from './../auth/broadcast.service';
+import { BroadcastService } from '../auth/broadcast.service';
 
 @Component({
   selector: 'app-login',

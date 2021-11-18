@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
   public challenge: any;
   public loginChallenge: any;
   public login: any;
-  public loginform: FormGroup;
+  public loginform:any;
   public user = {
     email: '',
     password: '',
@@ -31,9 +31,9 @@ export class LoginComponent implements OnInit {
   public accessLevel: any;
   public socialLogin: Boolean = false;
   public permission: any[] = [];
-  public signup: boolean;
+  public signup: boolean=false;
   public newUser: any = [];
-  public isChecked: boolean;
+  public isChecked: boolean=false;
   public displayModel: String = 'none';
   public show: boolean;
   public openId: String = 'openid';
@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
     this.isChecked = false;
   }
 
-  newuser(value) {
+  newuser(value:any) {
     if (value.checked) {
       this.signup = true;
       this.displayModel = 'block';

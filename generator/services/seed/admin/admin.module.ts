@@ -9,7 +9,9 @@ import { I18NextModule } from 'angular-i18next';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule,
+    RouterModule.forChild([
+      { path: '', component: AdminComponent },
+  ]),
     I18NextModule.forRoot()
   ],
   declarations: [

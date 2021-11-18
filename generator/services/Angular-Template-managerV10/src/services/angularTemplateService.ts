@@ -388,7 +388,11 @@ export class AngularTemplateService {
                     }
                 }
                 const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.html';
+                console.log("filePath header==>",filePath);
+                
                 const data = responseArray.join('\n') + ConfimModalPopup.htmlTag[0];
+                console.log("data header==>",data);
+                
                 Common.createFolders(templateGenerationPath + Constant.HEADER_FOLDERNAME);
                 componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), (res) => {
                     callback();
@@ -467,7 +471,7 @@ export class AngularTemplateService {
                     this.generateTopNavTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });
-                }else if (templateName.toLowerCase() === 'geppetto-template') {
+                }else if (templateName.toLowerCase() === 'newgeppetto-template') {
                     this.generateSideNavTemplate(gjsElement, body, tagName, (res) => {
                         next();
                     });

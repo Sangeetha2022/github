@@ -1,0 +1,95 @@
+{
+    "resources": [
+        {
+            "id": 9080800,
+            "name": "inventoryCreateScreen",
+            "resource-type": "screen",
+            "description" : "ssafasdfdafasdfasf",
+            "least-previlage": "unauth-user",
+            "components" :[
+             "label_1425", {
+                "id": "878979",
+                "least-previlage": "admin"
+              },
+             "textbox_6272", {
+                "id": "135979",
+                "least-previlage": "auth-user"
+              },
+              "label_2437", {
+                "id": "343979",
+                "least-previlage": "admin"
+              },
+             "dropdown_73821", {
+                "id": "738291",
+                "least-previlage": "auth-user"
+             }
+             ]    
+        },
+        {
+            "id": 9080800,
+            "name": "itemTagManger",
+            "resource-type": "API",
+            "description" : "ssafasdfdafasdfasf",
+            "least-previlage": "unauth-user",
+            "components" :[
+             "GET", {
+                "id": "878979",
+                "least-previlage": "admin"
+              },
+             "POST", {
+                "id": "135979",
+                "least-previlage": "auth-user"
+              },
+              "GpUpdate", {
+                "id": "343979",
+                "least-previlage": "admin"
+              },
+             "GpSearch", {
+                "id": "738291",
+                "least-previlage": "auth-user"
+             },
+             "GpGetAll", {
+                "id": "738291",
+                "least-previlage": "auth-user"
+             }
+             ]    
+        },
+        {
+            "id": 9080800,
+            "name": "itemTagManger",
+            "resource-type": "API",
+            "description" : "ssafasdfdafasdfasf",
+            "least-previlage": "unauth-user",
+            "components" :[
+             "GET", {
+                "id": "878979",
+                "least-previlage": "admin"
+              },
+             "POST", {
+                "id": "135979",
+                "least-previlage": "auth-user"
+              },
+              "GpUpdate", {
+                "id": "343979",
+                "least-previlage": "admin"
+              },
+             "GpSearch", {
+                "id": "738291",
+                "least-previlage": "auth-user"
+             },
+             "GpGetAll", {
+                "id": "738291",
+                "least-previlage": "auth-user"
+             }
+             ]    
+        }
+    ]
+
+
+
+
+
+ 
+   
+     
+}

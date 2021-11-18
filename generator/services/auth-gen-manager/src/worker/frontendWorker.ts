@@ -7,7 +7,7 @@ import { FrontendSupportWorker } from '../Supportworker/frontendSupportWorker';
 export class FrontendWorker {
     private frontendSupportWorker = new FrontendSupportWorker();
     private projectGenerationPath = '';
-    private seedPath = '';
+    private seedPath:any = '';
     private authTemplatePath = '';
     private clientframework = '';
     private routingMenus: any = [];
@@ -48,6 +48,7 @@ export class FrontendWorker {
 
     // Methods
     private logoutMethod = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\tthis.userId = sessionStorage.getItem('Id');\n\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
+    private logoutMethodV12 = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\tthis.userId = sessionStorage.getItem('Id') || '{}';\n\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
     private broadcastMethod = `\tthis.broadcastService.currentUserName.subscribe(headerPermission => {
         this.authArray = [];
         if (headerPermission !== undefined) {
@@ -74,10 +75,18 @@ export class FrontendWorker {
 			return this.authArray.filter(routename => routename == value).length > 0;
 		}
     }`;
+    private isApplicableMethodV12 = `isApplicable(value:any) {
+		if (this.authArray !== undefined) {
+			return this.authArray.filter((routename: any) => routename == value).length > 0;
+		}
+        return false;
+    }`;
     private confirmLangModel = `confirmLangModel(lang) {\n\t\tthis.userId= sessionStorage.getItem('Id');\n\t\tif (this.userId !== null) {\n\t\tthis.confirmLangChangeModal = 'block';\n\t\tthis.currentLanguage = lang;\n\t\t} else {\n\t\tthis.changeLanguage(lang);\n\t\tthis.onCloseHandled();\n\t\t}\n\t\t}`;
+    private confirmLangModelV12 = `confirmLangModel(lang:any) {\n\t\tthis.userId= sessionStorage.getItem('Id') || '{}';\n\t\tif (this.userId !== null) {\n\t\tthis.confirmLangChangeModal = 'block';\n\t\tthis.currentLanguage = lang;\n\t\t} else {\n\t\tthis.changeLanguage(lang);\n\t\tthis.onCloseHandled();\n\t\t}\n\t\t}`;
     private confirmLangChange = `confirmLangChange() {\n\t\tthis.changeLanguage(this.currentLanguage);\n\t\tthis.onCloseHandled();\n\t\t}`;
     private onCloseHandled = `onCloseHandled() {\n\t\tthis.confirmLangChangeModal = 'none';\n\t\t}`;
     private changeLanguage = `changeLanguage(lang) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t});\n\t\t}\n\t\tthis.userId = sessionStorage.getItem('Id');\n\t\tif (this.userId !== null) {\n\t\tthis.logout();\n\t\t} else {\n\t\tdocument.location.reload();\n\t\t}\n\t\t}`;
+    private changeLanguageV12 = `changeLanguage(lang:any) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t});\n\t\t}\n\t\tthis.userId = sessionStorage.getItem('Id') || '{}';\n\t\tif (this.userId !== null) {\n\t\tthis.logout();\n\t\t} else {\n\t\tdocument.location.reload();\n\t\t}\n\t\t}`;
     private updateLangChange = `private updateState(lang: string) {\n\t\tthis.language = lang;\n\t\t}`;
     private isAppModule = {
         declaration: false,
@@ -279,9 +288,15 @@ export class FrontendWorker {
     async createAuthorizationComponent(callback) {
         const authorizationPath = `${this.projectGenerationPath}/src/app/${this.AUTHORIZATION_FOLDERNAME}`;
         await this.generateStaticComponent(authorizationPath, this.clientframework, this.AUTHORIZATION_FOLDERNAME, () => {
-          this.generateModule(this.AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, authorizationPath, () => {
-            callback();
-          });
+          if(this.clientframework === 'react'){
+            this.generateImportComponent(this.AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, authorizationPath, () => {
+                callback();
+              });
+          } else if(this.clientframework !== 'react'){
+            this.generateModule(this.AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, authorizationPath, () => {
+                callback();
+              });
+          }  
         });
     }
 
@@ -289,9 +304,15 @@ export class FrontendWorker {
     async createManageroleComponent(callback) {
         const managerolesPath = `${this.projectGenerationPath}/src/app/${this.MANAGEROLES_FOLDERNAME}`;
         await this.generateStaticComponent(managerolesPath, this.clientframework, this.MANAGEROLES_FOLDERNAME, () => {
-            this.generateModule(this.MANAGEROLES_FOLDERNAME, this.MODULE_TEMPLATENAME, managerolesPath, () => {
-            callback();
-            });
+            if(this.clientframework === 'react'){
+                this.generateImportComponent(this.MANAGEROLES_FOLDERNAME, this.MODULE_TEMPLATENAME, managerolesPath, () => {
+                    callback();
+                });
+            } else if(this.clientframework !== 'react'){
+                this.generateModule(this.MANAGEROLES_FOLDERNAME, this.MODULE_TEMPLATENAME, managerolesPath, () => {
+                    callback();
+                });
+            }
         });
     }
 
@@ -299,9 +320,15 @@ export class FrontendWorker {
     async createManageuserComponent(callback) {
         const manageuserPath = `${this.projectGenerationPath}/src/app/${this.MANAGEUSERS_FOLDERNAME}`;
         await this.generateStaticComponent(manageuserPath, this.clientframework, this.MANAGEUSERS_FOLDERNAME, () => {
-            this.generateModule(this.MANAGEUSERS_FOLDERNAME, this.MODULE_TEMPLATENAME, manageuserPath, () => {
-            callback();
-            });
+            if(this.clientframework === 'react'){
+                this.generateImportComponent(this.MANAGEUSERS_FOLDERNAME, this.MODULE_TEMPLATENAME, manageuserPath, () => {
+                    callback();
+                });
+            } else if(this.clientframework !== 'react'){
+                this.generateModule(this.MANAGEUSERS_FOLDERNAME, this.MODULE_TEMPLATENAME, manageuserPath, () => {
+                    callback();
+                });
+            }
         });
     }
 
@@ -329,13 +356,23 @@ export class FrontendWorker {
         this.generateStaticComponent(userApplicationPath, this.clientframework, this.USER_FOLDERNAME, () => {
             this.generateStaticComponent(profileApplicationPath, this.clientframework, this.PROFILE_SETTINGS_FOLDERNAME, () => {
                 this.generateStaticComponent(buttonRendererApplicationPath, this.clientframework, this.BUTTON_RENDERER_FOLDERNAME, () => {
-                    this.generateModule(this.USER_FOLDERNAME, this.MODULE_TEMPLATENAME, userApplicationPath, () => {
-                        this.generateModule(this.PROFILE_SETTINGS_FOLDERNAME, this.MODULE_TEMPLATENAME, profileApplicationPath, () => {
-                            this.generateModule(this.BUTTON_RENDERER_FOLDERNAME, this.MODULE_TEMPLATENAME, buttonRendererApplicationPath, () => {
-                                callback();
+                    if(this.clientframework === 'react'){
+                        this.generateImportComponent(this.USER_FOLDERNAME, this.MODULE_TEMPLATENAME, userApplicationPath, () => {
+                            this.generateImportComponent(this.PROFILE_SETTINGS_FOLDERNAME, this.MODULE_TEMPLATENAME, profileApplicationPath, () => {
+                                this.generateImportComponent(this.BUTTON_RENDERER_FOLDERNAME, this.MODULE_TEMPLATENAME, buttonRendererApplicationPath, () => {
+                                    callback();
+                                });
                             });
                         });
-                    });
+                    } else if(this.clientframework !== 'react'){
+                        this.generateModule(this.USER_FOLDERNAME, this.MODULE_TEMPLATENAME, userApplicationPath, () => {
+                            this.generateModule(this.PROFILE_SETTINGS_FOLDERNAME, this.MODULE_TEMPLATENAME, profileApplicationPath, () => {
+                                this.generateModule(this.BUTTON_RENDERER_FOLDERNAME, this.MODULE_TEMPLATENAME, buttonRendererApplicationPath, () => {
+                                    callback();
+                                });
+                            });
+                        });
+                    }
                 });
             });
         });
@@ -343,18 +380,27 @@ export class FrontendWorker {
 
 
     // create auth component from seed files
-    async createAuthComponent(menus, callback) {
+    async createAuthComponent(menus, seedTemplatePath, callback) {
         this.allMenus(menus);
+        console.log('sterst', menus);
         const templateName = `/authguard`;
+        const templateNamev12 = `/authguardv12`;
         const fileName = `/auth.guard.ts`
         const AuthApplicationPath = `${this.projectGenerationPath}/src/app/${this.AUTH_FOLDERNAME}`;
         if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`) < 0) {
             this.routingModuleInfo.importDependency.push(`import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`);
         }
         await this.generateStaticComponent(AuthApplicationPath, this.clientframework, this.AUTH_FOLDERNAME, () => {
-            this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateName, this.routingMenus, () => {
-                callback();
-            });
+            let label = seedTemplatePath.split('/');
+            if(label.includes('AngularV7')) {
+                this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateName, this.routingMenus, () => {
+                    callback();
+                });
+            }else if(label.includes('AngularV12')) {
+                this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateNamev12, this.routingMenus, () => {
+                    callback();
+                });
+            }
         });
     }
 
@@ -526,21 +572,21 @@ export class FrontendWorker {
                 }
                 if (folderName === 'profilesettings') {
                     let pathName = folderName.split('settings')[0]
-                    this.routingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                    this.routingModuleInfo.path.push(`{ path: '/${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
                 } else if (folderName === 'user') {
                     let pathName = `${folderName}management`
-                    this.routingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                    this.routingModuleInfo.path.push(`{ path: '/${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
                 } else if (folderName === 'home' || folderName === 'authorization' || folderName === 'manageroles' || folderName === 'manageusers') {
-                    this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                    this.routingModuleInfo.path.push(`{ path: '/${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
                 } else {
-                    this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);
+                    this.routingModuleInfo.path.push(`{ path: '/${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);
                     console.log('test the sefscreen', this.routingModuleInfo.path);
                 }
-                const pushSefData = this.routingModuleInfo.path.includes(`{ path: 'sefscreen', component: SefscreenComponent, canActivate: [AuthGuard] }`);
+                const pushSefData = this.routingModuleInfo.path.includes(`{ path: '/sefscreen', component: SefscreenComponent, canActivate: [AuthGuard] }`);
                 const pushSefDepend = this.routingModuleInfo.importDependency.includes(`import { SefscreenComponent } from './sefscreen/sefscreen.component';`);
                 if(!pushSefData && !pushSefDepend){
                     folderName = 'sefscreen';
-                    this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                    this.routingModuleInfo.path.push(`{ path: '/${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
                     this.routingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`);
                     console.log('test the sefscreen', this.routingModuleInfo.path, this.routingModuleInfo.importDependency);
                     
@@ -564,7 +610,7 @@ export class FrontendWorker {
         let appModulePath;
         if(this.clientframework === 'react'){
             console.log('react routing modulepath--', this.clientframework)
-            appModulePath = `${this.projectGenerationPath}/src/`;
+            appModulePath = `${this.projectGenerationPath}/src`;
         } else if(this.clientframework !== 'react'){
             appModulePath = `${this.projectGenerationPath}/src/app`;
             this.modifyAppModuleFile(appModulePath);
@@ -589,19 +635,19 @@ export class FrontendWorker {
             console.log('final app module importing ----- ', this.appModuleInfo);
             console.log('final routing modules importing ----- ', this.routingModuleInfo);
             console.log('final React routing importing ----- ', this.reactRoutingModuleInfo);
-            this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath, this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo, () => {
-                if(this.clientframework !== 'react'){
+            if(this.clientframework !== 'react'){
+                this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath, this.APP_MODULE_FILENAME, this.MODIFY_APP_MODULE_TEMPLATENAME, this.appModuleInfo, () => {
                     // modify app routing file
                     this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath, this.APP_ROUTING_MODULE_FILENAME, this.MODIFY_APP_ROUTNG_TEMPLATENAME, this.routingModuleInfo, () => {
                         callback();
                     });
-                } else if(this.clientframework === 'react'){
-                    // modify a react app routing file
-                    this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath, this.REACT_ROUTING_FILENAME, this.REACT_MODIFY_ROUTING_TEMPLATENAME, this.reactRoutingModuleInfo, () => {
-                        callback();
-                    });
-                }
-            });
+                });
+            } else if(this.clientframework === 'react'){
+                // modify a react app routing file
+                this.frontendSupportWorker.generateFile(appModulePath, this.authTemplatePath, this.REACT_ROUTING_FILENAME, this.REACT_MODIFY_ROUTING_TEMPLATENAME, this.reactRoutingModuleInfo, () => {
+                    callback();
+                });
+            }
         });
         // console.log('modifyu files values are -------  ', this.appModuleInfo);
         // console.log('modifyu files values are -app routing files a------  ', this.routingModuleInfo);
@@ -642,8 +688,8 @@ export class FrontendWorker {
                 `public isAdminUser = false`,
                 `mysubscription: any`,
                 `public authArray: any`,
-                `public userId: string`,
-                `public currentLanguage: String`,
+                `public userId: string=''`,
+                `public currentLanguage: String=''`,
                 `public confirmLangChangeModal: String = 'none'`,
                 `public language = 'en'`,
                 `public languages = ['en', 'ta', 'es']`
@@ -672,13 +718,24 @@ export class FrontendWorker {
             }
         })
         if (methodCount > -1) {
-            modifyFile.splice(methodCount, 0, this.logoutMethod);
-            modifyFile.splice(methodCount, 0, this.isApplicableMethod);
-            modifyFile.splice(methodCount, 0, this.confirmLangModel);
-            modifyFile.splice(methodCount, 0, this.confirmLangChange);
-            modifyFile.splice(methodCount, 0, this.onCloseHandled);
-            modifyFile.splice(methodCount, 0, this.changeLanguage);
-            modifyFile.splice(methodCount, 0, this.updateLangChange);
+            let label = this.seedPath.split('/');
+            if(label.includes('AngularV7')) {
+                modifyFile.splice(methodCount, 0, this.logoutMethod);
+                modifyFile.splice(methodCount, 0, this.isApplicableMethod);
+                modifyFile.splice(methodCount, 0, this.confirmLangModel);
+                modifyFile.splice(methodCount, 0, this.confirmLangChange);
+                modifyFile.splice(methodCount, 0, this.onCloseHandled);
+                modifyFile.splice(methodCount, 0, this.changeLanguage);
+                modifyFile.splice(methodCount, 0, this.updateLangChange);
+            }else  {
+                modifyFile.splice(methodCount, 0, this.logoutMethodV12);
+                modifyFile.splice(methodCount, 0, this.isApplicableMethodV12);
+                modifyFile.splice(methodCount, 0, this.confirmLangModelV12);
+                modifyFile.splice(methodCount, 0, this.confirmLangChange);
+                modifyFile.splice(methodCount, 0, this.onCloseHandled);
+                modifyFile.splice(methodCount, 0, this.changeLanguageV12);
+                modifyFile.splice(methodCount, 0, this.updateLangChange);
+            }
         }
         // let count = modifyFile.length - 1;
         // const methodCount = 0;
@@ -904,7 +961,7 @@ export class FrontendWorker {
         let fileName;
         if (folderName !== 'button-renderer') {
             if (folderName !== 'profilesettings') {
-                fileName = `${folderName}.${this.MODULE_NAME}.ts`;
+                fileName = `${folderName}.${this.MODULE_NAME}.tsx`;
             }
         }
         const tempImports = [];
@@ -993,14 +1050,14 @@ export class FrontendWorker {
                 }
                 if (folderName === 'profilesettings') {
                     let pathName = folderName.split('settings')[0]
-                    this.reactRoutingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                    this.reactRoutingModuleInfo.path.push(`{ path: '/${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
                 } else if (folderName === 'user') {
                     let pathName = `${folderName}management`
-                    this.reactRoutingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                    this.reactRoutingModuleInfo.path.push(`{ path: '/${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
                 } else if (folderName === 'home' || folderName === 'authorization' || folderName === 'manageroles' || folderName === 'manageusers') {
-                    this.reactRoutingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)} }`);
+                    this.reactRoutingModuleInfo.path.push(`{ path: '/${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)} }`);
                 } else {
-                    this.reactRoutingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)} }`);
+                    this.reactRoutingModuleInfo.path.push(`{ path: '/${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)} }`);
                     console.log('test the sefscreen', this.reactRoutingModuleInfo.path);
                 }
                 // const pushSefData = this.reactRoutingModuleInfo.path.includes(`{ path: 'sefscreen', component: Sefscreen, canActivate: [AuthGuard] }`);
@@ -1013,18 +1070,19 @@ export class FrontendWorker {
                     
                 // }    
             }
-        }
-        if (folderName !== 'button-renderer') {
-            if (folderName !== 'profilesettings') {
-                this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp, () => {
-                    callback();
-                });
-            } else {
-                callback();
-            }
-        } else {
             callback();
         }
+        // if (folderName !== 'button-renderer') {
+        //     if (folderName !== 'profilesettings') {
+        //         // this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp, () => {
+        //         //     callback();
+        //         // });
+        //     } else {
+        //         callback();
+        //     }
+        // } else {
+        //     callback();
+        // }
     }
 }
 

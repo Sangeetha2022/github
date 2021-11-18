@@ -1,21 +1,19 @@
-import CreateScreen from "./app/createscreen/createscreen";
-import Home from "./app/home/home";
+import Template from "./app/template/template";
 import Login from "./app/login/login";
-import SignUp from "./app/signup/signup";
+import Signup from "./app/signup/signup";
+import Home from "./app/home/home";
+import Admin from "./app/admin/admin";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-var routes: any = [
-    {
-        path: "/login", name: "Login", component: Login, layout: "/auth",
-    },
-    {
-        path: "/signup", name: "SignUp", component: SignUp, layout: "/auth",
-    },
-    {
-        path: "/home", name: "Home", component: Home, layout: "/user",
-    },
-    {
-        path: "/createscreen", name: "Createscreen", component: CreateScreen, layout: "/user",
-    },
+
+let routes: any = [
+    {  path: "/home",  component: Home },
+    {  path: "/", component: Template },
+    {  path: "/login",  component: Login },
+    {  path: "/signup",  component: Signup },
+    {  path: "/admin",  component: Admin },
 ]
 
 export default routes;
+

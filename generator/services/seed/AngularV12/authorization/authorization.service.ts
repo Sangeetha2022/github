@@ -19,11 +19,11 @@ export class AuthorizationService {
     return this.http.get(this.sharedService.DESKTOP_API + '/getallscreens');
   }
 
-  DmnGenerate(payload): Observable<any> {
+  DmnGenerate(payload:any): Observable<any> {
     return this.http.post(this.sharedService.DESKTOP_API + '/dmngenerate', payload);
   }
 
-  SaveScreen(payload): Observable<any> {
+  SaveScreen(payload:any): Observable<any> {
     return this.http.post(this.sharedService.DESKTOP_API + '/savescreen', payload);
   }
 

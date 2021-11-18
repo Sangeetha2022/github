@@ -528,6 +528,10 @@ export class ReactTemplateService {
             if(tagName !== 'hr' && tagName !== 'br') {
                 this.setCloseTag(tagName);
             }
+            if(tagName === 'br'){
+                console.log('break the tag close', tagName, tagName === 'br')
+                this.setCloseTag(tagName);
+            }
             next();
         }, (err) => {
             if (err) {
@@ -588,6 +592,9 @@ export class ReactTemplateService {
      */
     setCloseTag(tagName) {
         if (tagName !== 'img' && tagName !== 'input') {
+            this.htmlContent += `</${tagName}>\n`;
+        }
+        if(tagName === 'input'){
             this.htmlContent += `</${tagName}>\n`;
         }
     }

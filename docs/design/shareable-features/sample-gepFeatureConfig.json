@@ -1,19 +1,29 @@
 {
     "feature-name": "gepFileManager",
+    "sharing-visibility-status": "admin",
     "type": "external-QUESTION: what are other types?",
-    "version": "1.0.0",
+    "last-modified-date": "10-16-2021",
     "description": "\"Generic file uploads/downloads/management\"",
-    "author": "gepinfo.@gmail.com",
+    "author": "gepinfo@gmail.com",
     "icon-location": "/xx/ff/ggg/file-manager.png",
     "repo":{
         "type": "github",
         "location": "https://github.com/dan-castillo/gepFileManager.git",
-        "branch" : "main"
-
+        "branch" : "main",
+        "release-version-tag": "xx.xx.xx"
     },
     "security":{
         "verification-status": "not verified",
         "verification-id": ""
+    },
+    "quality":{
+        "quality-status": "not reviewed",
+        "quality-id": ""
+
+    },
+    "geppetto-framework":{
+        "generator-version": "",
+        "generator-build-id": ""
     },
     "license":{
         "type": "OSS", 
@@ -22,19 +32,44 @@
         "term": "",
         "comments": "best effort support"
     },
+    "primary-entity": "attachment",
+    "secondary-entities":[
+        "entity-two",
+        "entity-three"
+    ],
     "entities":[
         {
-            "name": "entity-one",
+            "name": "attachment",
             "fields":[
                 {
-                    "name": "field-one",
-                    "description": "description one",
+                    "name": "fileUrl",
+                    "description": "xxxx description one",
                     "type": "text"
                 },
                 {
-                    "name": "field-two",
-                    "description": "description two",
-                    "type": "number"
+                    "name": "fileKey",
+                    "description": "xxxxx description two",
+                    "type": "text"
+                },
+                {
+                    "name": "fileData",
+                    "description": "xxxxx description three",
+                    "type": "Object"
+                },
+                {
+                    "name": "resources",
+                    "description": "xxxxx description four",
+                    "type": "text"
+                },
+                {
+                    "name": "createdOn",
+                    "description": "xxxxx description five",
+                    "type": "Date"
+                },
+                {
+                    "name": "updatedOn",
+                    "description": "xxxxx description six",
+                    "type": "Date"
                 }
 
             ]
@@ -56,10 +91,130 @@
 
             ]
 
+        },
+        {
+            "name": "entity-three",
+            "fields":[
+                {
+                    "name": "field-one",
+                    "description": "description one",
+                    "type": "text"
+                },
+                {
+                    "name": "field-two",
+                    "description": "description two",
+                    "type": "number"
+                }
+
+            ]
+
         }
+
         
 
     ],
+
+    "configuration": {
+        "admin-ui-entry-point": "/xxx/yyy/zzz",
+        "admin-backend-services": [
+            {
+                "service-name": "xxxxx",
+                "apis":[
+                    {
+                        "name": "api one",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "get",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api two",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "post",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api N",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "PUT",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    }
+
+                ]
+
+            },
+            {
+                "service-name": "yyyyy",
+                "apis":[
+                    {
+                        "name": "api one",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "get",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api two",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "post",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api N",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "PUT",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    }
+
+                ]
+            },
+            {
+                "service-name": "zzzz",
+                "apis":[
+                    {
+                        "name": "api one",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "get",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api two",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "post",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api N",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "PUT",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    }
+
+                ]
+            }
+
+
+
+        ]
+
+
+    },
 
     "entry-point": {
         "default-entry": "client",
@@ -70,11 +225,11 @@
 
     "server-properties":{
         "runtime": "nodejs",
-        "runtime-version": "14.0.0",
+        "runtime-version": "16.0.0",
         "dev-framework": "express",
         "dev-framework-version": "4.7.1",
         "datastore": "mongo",
-        "datastore-version": "4.1.1",
+        "datastore-version": "5.0",
         "flows":[
             {
                 "name": "gepFileUpload",

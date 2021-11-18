@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./signup.scss";
 import axios from 'axios';
 import { Button, Form, FormGroup, Label, Input, FormText,  } from "reactstrap";
-import { register } from '../login/login.services';
+import { register } from './signup.services';
 import logo from '../../assets/img/Group2704.png';
 
 const Signup = (props:any) => {
@@ -53,6 +53,7 @@ const Signup = (props:any) => {
                           type="text"
                           name="firstName"
                           value={firstName}
+                          minLength={1}
                           id="firstname"
                           placeholder="First Name"
                           onChange={e => onChange(e)}

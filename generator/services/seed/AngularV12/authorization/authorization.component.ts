@@ -11,14 +11,14 @@ import { Router } from '@angular/router';
 export class AuthorizationComponent implements OnInit {
 
   title = 'Authorization';
-  public storedpages = [];
-  public camundapage = [];
-  angularroutes = [];
-  existingpages = [];
-  newpages = [];
-  pages = [];
-  pageTitles = [];
-  rolepages = [];
+  public storedpages:any[] = [];
+  public camundapage:any[] = [];
+  angularroutes:any[] = [];
+  existingpages:any[] = [];
+  newpages:any[] = [];
+  pages:any[] = [];
+  pageTitles:any[] = [];
+  rolepages:any[] = [];
   rolelist: any;
 
   constructor(private authService: AuthorizationService, private router: Router, private constants: Constants) {
@@ -37,7 +37,7 @@ export class AuthorizationComponent implements OnInit {
   getQuoteOMaticPages() {
     this.authService.GpGetAllScreen().subscribe((screendata) => {
       this.storedpages = screendata;
-      screendata.forEach(element => {
+      screendata.forEach((element:any) => {
         this.camundapage = element.resources;
       });
       this.rolepages = screendata;

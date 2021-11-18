@@ -562,6 +562,7 @@ export const HeaderComponent = {
         DropdownItem,
         NavbarText
     } from 'reactstrap';
+    import "./header.scss";
 
     const Header = () => {
         const [isOpen, setIsOpen] = useState(false);

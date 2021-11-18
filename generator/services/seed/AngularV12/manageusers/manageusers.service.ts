@@ -20,7 +20,7 @@ export class ManageUserService {
     return this.http.get(this.sharedService.DESKTOP_API + '/getallusers');
   }
 
-  GpUpdateUsers(payload): Observable<any> {
+  GpUpdateUsers(payload:any): Observable<any> {
     return this.http.put(this.sharedService.DESKTOP_API + '/updateuser', payload);
   }
 

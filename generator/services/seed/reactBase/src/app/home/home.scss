@@ -1,34 +1,11 @@
-.homepage-title {
-    font-size: 28px;
-    font-weight: bold;
-    padding: 3rem;
-}
-.preview-wrapper {
-    padding:3rem 0px 3rem 0px; ;
-}
-.preview-wrapper-title {
-    font-family: Montserrat,sans-serif;
-    font-weight: 700;
-    font-size: 27px;
-    padding: 10px 10px 7px;
-    width: 100%;
-}
-.preview-wrapper-sub-title{
-    font-weight: 700;
-    font-size: 16px;
-    color: #949494;
-    padding: 0 10px 10px;
-}
-.preview-wrapper-brand-preview{
-    padding: 2rem 0 2rem 0;
-}
-
-.electric-bike-title{
-    font-weight: bold;
-    font-size: 25px;
-    text-align: center;
+.flex-container {
     display: flex;
-    align-items: center;
     justify-content: center;
-    text-transform: capitalize;
-}
+    height: 100vh;
+    background-color: #499FE8;
+    align-items: center;
+  }
+  .welcome {
+    color: antiquewhite;
+    font-size: 2em;
+  }

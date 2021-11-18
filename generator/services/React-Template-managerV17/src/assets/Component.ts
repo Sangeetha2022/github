@@ -18,19 +18,24 @@ export const FooterComponent = {
 
 export const TemplateComponent = {
   htmlImport : [
-    `import React from "react";
+    `
+    import React from "react";
     import "./template.scss";
-    const Template = () => {
-      return (
-        <>
+
+
+    class Template extends React.Component {
+      render (){
+        return(
+          <>
     `
   ],
   htmlEnd: [
-    ` </>
-     );
-  };
-  
-  export default Template;
+    ` 
+            </>
+          );
+        } 
+      };
+      export default Template;
     `
   ]
 

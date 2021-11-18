@@ -9,18 +9,18 @@ import { ICellRendererAngularComp } from 'ag-grid-angular';
     <button [disabled]="isDisabled" class="removeRow" style="color:white;background-color: red;
     border: none;" type="button" (click)="onClick($event)">{{label}}</button>
     `,
-  styles: [
-    'removeRow: { color:white }'
-  ]
+  // styles: [
+  //   'removeRow: { color:white }'
+  // ]
 })
 
 export class ButtonRendererComponent implements ICellRendererAngularComp {
 
-  params;
-  label: String;
+  params:any;
+  label: String='';
   isDisabled: Boolean = false;
 
-  agInit(params): void {
+  agInit(params:any): void {
     this.params = params;
     console.log('agInit for button ---- ', params);
     if (this.params.data.is_default) {
@@ -34,7 +34,7 @@ export class ButtonRendererComponent implements ICellRendererAngularComp {
     return true;
   }
 
-  onClick($event) {
+  onClick($event:any) {
     if (this.params.onClick instanceof Function) {
       // put anything into params u want pass into parents component
       const params = {
