@@ -1,0 +1,278 @@
+{
+    "feature-name": "gepItemTagsManager",
+    "sharing-visibility-status": "admin",
+    "type": "external-QUESTION: what are other types?",
+    "last-modified-date": "10-18-2021",
+    "description": "provides the ability to add tags/reference data to a Geppetto based project",
+    "author": "gepinfo@gmail.com",
+    "icon-location": "/xx/ff/ggg/file-manager.png",
+    "repo":{
+        "type": "github",
+        "location": "https://github.com/dan-castillo/gepItemTagsManager",
+        "branch" : "gepItemTagManager",
+        "release-version-tag": "xx.xx.xx"
+    },
+    "security":{
+        "verification-status": "not verified",
+        "verification-id": ""
+    },
+    "quality":{
+        "quality-status": "not reviewed",
+        "quality-id": ""
+
+    },
+    "geppetto-framework":{
+        "generator-version": "",
+        "generator-build-id": ""
+    },
+    "license":{
+        "type": "OSS", 
+        "name": "Apache 2",
+        "price": "0",
+        "term": "",
+        "comments": "best effort support"
+    },
+    "primary-entity": "ItemTags",
+    "secondary-entities":[],
+    "entities":[
+        {
+            "name": "ItemTags",
+            "fields":[
+                {
+                    "name": "created_date",
+                    "description": "xxxxxxx",
+                    "type": "date"
+                },
+                {
+                    "name": "created_by",
+                    "description": "xxxxxx",
+                    "type": "text"
+                },
+                {
+                    "name": "last_modified_by",
+                    "description": "xxxxx",
+                    "type": "text"
+                },
+                {
+                    "name": "last_modified_date",
+                    "description": "xxxxx",
+                    "type": "date"
+                },
+                {
+                    "name": "name",
+                    "description": "name of tag",
+                    "type": "text"
+                },
+                {
+                    "name": "description",
+                    "description": "xxxxxxx",
+                    "type": "text"
+                },
+                {
+                    "itemtag": [
+                        {
+                            "name": "NOTE- this needs a discussion as the itemtag array are the values added at run time",
+                            "description": "NOTE- the issue is that we don't want the data just the structure so that we can imported into Entity Manager"
+                        }
+                    ]
+                }
+
+            ]
+
+        }
+    ],
+
+    "configuration": {
+        "admin-ui-entry-point": "/xxx/yyy/zzz",
+        "admin-backend-services": [
+            {
+                "service-name": "xxxxx",
+                "apis":[
+                    {
+                        "name": "api one",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "get",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api two",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "post",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api N",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "PUT",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    }
+
+                ]
+
+            },
+            {
+                "service-name": "yyyyy",
+                "apis":[
+                    {
+                        "name": "api one",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "get",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api two",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "post",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api N",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "PUT",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    }
+
+                ]
+            },
+            {
+                "service-name": "zzzz",
+                "apis":[
+                    {
+                        "name": "api one",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "get",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api two",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "post",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    },
+                    {
+                        "name": "api N",
+                        "route": "/hdhd/rrr/fff",
+                        "api-method": "PUT",
+                        "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                        "output": "see question on input"
+
+                    }
+
+                ]
+            }
+
+
+
+        ]
+
+
+    },
+
+    "entry-point": {
+        "default-entry": "client",
+        "entry-point-access": "/xxx/yyy/ddd",
+        "alternate-entry": "server",
+        "alternate-entry-point-access": "/ddd/fff/www"
+    },
+
+    "server-properties":{
+        "runtime": "nodejs",
+        "runtime-version": "16.0.0",
+        "dev-framework": "express",
+        "dev-framework-version": "4.7.1",
+        "datastore": "mongo",
+        "datastore-version": "5.0",
+        "flows":[
+            {
+                "name": "gepFileUpload",
+                "api": "/eeee/xxxx/",
+                "api-method": "post",
+                "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT?",
+                "output": "see question on input - this need to return an ID"
+            },
+            {
+                "name": "gepFileDownload",
+                "api": "/eeee/xxxx/",
+                "api-method": "get",
+                "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT? - this needs to be sent an ID",
+                "output": "see question on input"
+
+            },
+            {
+                "name":"gepFileGetAvailable",
+                "api":"/eeee/xxxx/",
+                "api-method":"get",
+                "input": "QUESTION: SHOULD THIS BE AN OBJECT COMBINING INPUT AND OUTPUT?",
+                "output": "see question on input"
+
+            }
+
+        ]
+    },
+    "web-client-properties":{
+      "framework": "angular",
+      "framework-version": "12.0.0",
+      "screens":[
+        {
+            "name": "upload-screen",
+            "route": "/hkkjhk/hkhkk",
+            "component-name": "upload-screen",
+            "meta-data": 
+            {
+                "type": "GJS",
+                "location": "/dhdhd/hdhdh.xxx"
+
+            }
+
+
+        },
+        {
+            "name": "down-screen",
+            "route": "/hkkjhk/hkhkk",
+            "component-name": "download-screen",
+            "meta-data": 
+            {
+                "type": "GJS",
+                "location": "/dhdhd/hdhdh.xxx"
+
+            }
+
+
+        }
+      ],
+      "flows":[
+        {
+            "name": "gepFileUpload",
+            "route": "/hkkjhk/hkhkk",
+            "component-name": "upload-screen"
+
+        },
+        {
+            "name": "gepFileDownload",
+            "route": "/hkkjhk/hkhkk",
+            "component-name": "download-screen"
+
+
+        }
+
+    ]
+
+    }
+  }
+  
