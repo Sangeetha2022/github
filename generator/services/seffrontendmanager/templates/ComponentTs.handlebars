@@ -44,10 +44,10 @@ export class {{ GpOptions.className }} implements OnInit {
     public url: any = '';
     public firstName = '';
     public lastName = '';
-    public Id;
-    public changeName;
-    public open;
-    public close;
+    public Id: any;
+    public changeName: any;
+    public open: any;
+    public close: any;
 {{/ifCond}}
 
     constructor (
@@ -59,7 +59,7 @@ export class {{ GpOptions.className }} implements OnInit {
     ngOnInit() {
         {{#if GpOptions.entities}}
         {{#each GpOptions.entities}}
-        this.{{ name }}.created_by = sessionStorage.getItem('email'); 
+        this.{{ name }}.created_by = sessionStorage.getItem('email') || '{}'; 
         {{/each}}
         {{/if}}
         {{#ifCond GpOptions.featureName '===' 'systementry'}}

@@ -67,29 +67,43 @@ export class AngularTemplateService {
 
     public createAngularTemplate(req: Request, callback: CallableFunction) {
         this.details = req.body;
+        console.log("details==>",this.details);
         const data = this.details.template['gjs-components'][0];
         this.grapesjsComponent = this.details.template['gjs-components'][0];
         this.grapesjsCSS = this.details.template['gjs-css'];
         this.templateName = this.details.template.template_name;
         this.projectName = this.details.project.name
+        
         if (this.details.menuBuilder.length > 0) {
             this.menuList = [];
             const primaryLanguageMenuList = this.details.menuBuilder.filter(x => x.language.toLowerCase() == this.details.project.defaultHumanLanguage.toLowerCase())
             this.menuList = primaryLanguageMenuList;
+            console.log("this.menuList",this.menuList);
         }
         this.apigatewayPortNumber = this.details.apigatewayPortNumber;
         this.sharedObj.port = this.apigatewayPortNumber;
+        console.log("this.sharedObj.port===>",this.sharedObj.port);
         this.details.project.name.split(" ").forEach((element, index) => {
             if (index === 0) {
                 this.projectName = element;
+                console.log("index======0 this.projectName is" ,this.projectName);
+                
             } else {
                 this.projectName += element.charAt(0).toUpperCase() + element.slice(1);
+                console.log("else part this.projectName is" ,this.projectName);
             }
         })
         this.generationPath = this.details.projectGenerationPath;
+        console.log("this.generationPath=======>",this.generationPath);
+        
         Common.createFolders(this.generationPath);
         this.templatePath = this.details.project.templateLocation.frontendTemplate;
+        console.log(" this.templatePath", this.templatePath);
+        
         this.exec(`cd ${this.generationPath.replace(/\s+/g, '\\ ')} && ng new ${this.projectName} --routing=false --skip-git --style=scss --skip-install`, (error, stdout, stderr) => {
+             console.log('error exec ----->>>>    ', error);
+            console.log('stdout exec ----->>>>    ', stdout);
+            console.log('stderr exec ----->>>>    ', stderr);
             if (stdout || stderr) {
                 const stringparsing = JSON.stringify(this.grapesjsComponent);
                 this.iterateData = JSON.parse(stringparsing);
@@ -383,9 +397,15 @@ export class AngularTemplateService {
                     }
                 }
                 const filePath = templateGenerationPath + Constant.HEADER_FOLDERNAME + '/header.component.html';
+                console.log("filePath header",filePath);
+                
                 const data = responseArray.join('\n') + ConfimModalPopup.htmlTag[0];
+                console.log("data header",data);
+                
                 Common.createFolders(templateGenerationPath + Constant.HEADER_FOLDERNAME);
                 componentSupportWorker.writeFile(filePath, beautify(data, { format: 'html' }), (res) => {
+                    console.log("res header==>",res);
+                    
                     callback();
                 });
                 // Generate Header SCSS File

@@ -30,10 +30,17 @@ export class ComponentCSSworker {
             let cssPayload = this.constructPayLoad()
             let className = await this.setClassNameCss(desktopElement["gjs-css"]);
             let gjsStyles = JSON.parse(desktopElement['gjs-styles']);
+            console.log("gjs styles angular 12",gjsStyles);
             gjsStyles.forEach(element => {
                 if (Object.keys(element).includes('style') && Object.keys(element).includes('selectors')) {
                     element.selectors.forEach((selector, index) => {
-                        cssData += '.' + selector.name;
+                        console.log("inside foreach gjsStyles selector===>",selector);
+                        if(selector.name){
+                            cssData += '.' + selector.name;
+                        }
+                        else if(!selector.name){
+                            cssData += '#' + selector.split('#')[1];
+                        }
                         if (element.selectors.length - 1 === index) {
                             cssData += ' {';
                             const styleArray: string[] = Object.keys(element.style);

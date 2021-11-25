@@ -1,6 +1,6 @@
 /*
  * Template group apicontroller
- * Compiled on Fri Oct 09 2020 21:26:11 GMT+0530 (India Standard Time)
+ * Compiled on Thu Nov 25 2021 13:30:10 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -548,6 +548,350 @@ r = function(w, rc) {
     }
     w.write("\n");
     w.write("}");
+    w.write("\n");
+    if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 98, column: 11 }), "gcam", { file: gFile, line: 98, column: 22 }), "login", { file: gFile, line: 98, column: 27 }))) {
+    
+        w.write("\n");
+        w.pushIndentation("  ");
+        w.write("public ");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 99, column: 17 }), "gcam", { file: gFile, line: 99, column: 28 }), "login", { file: gFile, line: 99, column: 33 }), "methodName", { file: gFile, line: 99, column: 39 }));
+        w.write("(req: Request, res: Response) {");
+        w.write("\n");
+        w.pushIndentation("                  ");
+        w.write("new CustomLogger().showLogger('info', 'Enter into ");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 100, column: 76 }));
+        w.write("Controller.ts: ");
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 100, column: 109 }), "gcam", { file: gFile, line: 100, column: 120 }), "login", { file: gFile, line: 100, column: 125 }), "methodName", { file: gFile, line: 100, column: 131 }));
+        w.write("');");
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write("new ApiAdaptar().");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 101, column: 33 }), "gcam", { file: gFile, line: 101, column: 44 }), "login", { file: gFile, line: 101, column: 49 }), "apiAction", { file: gFile, line: 101, column: 55 }));
+        w.write("(");
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 101, column: 74 }), "gcam", { file: gFile, line: 101, column: 85 }), "login", { file: gFile, line: 101, column: 90 }), "constantName", { file: gFile, line: 101, column: 96 }));
+        w.write(".");
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 101, column: 118 }), "gcam", { file: gFile, line: 101, column: 129 }), "login", { file: gFile, line: 101, column: 134 }), "nodeName", { file: gFile, line: 101, column: 140 }));
+        w.write(" + `");
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 101, column: 161 }), "gcam", { file: gFile, line: 101, column: 172 }), "login", { file: gFile, line: 101, column: 177 }), "methodUrl", { file: gFile, line: 101, column: 183 }));
+        w.write("` ");
+        if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 101, column: 206 }), "gcam", { file: gFile, line: 101, column: 217 }), "login", { file: gFile, line: 101, column: 222 }), "requestParameter", { file: gFile, line: 101, column: 228 }))) {
+        
+            w.write(", ");
+            st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 101, column: 256 }), "gcam", { file: gFile, line: 101, column: 267 }), "login", { file: gFile, line: 101, column: 272 }), "requestParameter", { file: gFile, line: 101, column: 278 }));
+        
+        
+        }
+        w.write(")");
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write(".then((res: any) => res.response.json())");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write(".then(async (");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 103, column: 29 }), "gcam", { file: gFile, line: 103, column: 40 }), "login", { file: gFile, line: 103, column: 45 }), "responseParameter", { file: gFile, line: 103, column: 51 }));
+        w.write(") => {");
+        w.write("\n");
+        w.pushIndentation("            ");
+        w.write("// @ts-ignore");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("            ");
+        w.write("const token = ");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 105, column: 34 }), "gcam", { file: gFile, line: 105, column: 45 }), "login", { file: gFile, line: 105, column: 50 }), "responseParameter", { file: gFile, line: 105, column: 56 }));
+        w.write(".Idtoken;");
+        w.write("\n");
+        w.pushIndentation("            ");
+        w.write("// @ts-ignore");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("            ");
+        w.write("if (");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 107, column: 24 }), "gcam", { file: gFile, line: 107, column: 35 }), "login", { file: gFile, line: 107, column: 40 }), "responseParameter", { file: gFile, line: 107, column: 46 }));
+        w.write(".Idtoken === null || ");
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 107, column: 93 }), "gcam", { file: gFile, line: 107, column: 104 }), "login", { file: gFile, line: 107, column: 109 }), "responseParameter", { file: gFile, line: 107, column: 115 }));
+        w.write(".Idtoken === '' || ");
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 107, column: 160 }), "gcam", { file: gFile, line: 107, column: 171 }), "login", { file: gFile, line: 107, column: 176 }), "responseParameter", { file: gFile, line: 107, column: 182 }));
+        w.write(".Idtoken === undefined) {");
+        w.write("\n");
+        w.pushIndentation("                ");
+        w.write("req.baseUrl === '/mobile' ? res.send({\"Userdetails\": ");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 108, column: 77 }), "gcam", { file: gFile, line: 108, column: 88 }), "login", { file: gFile, line: 108, column: 93 }), "responseParameter", { file: gFile, line: 108, column: 99 }));
+        w.write("}) :");
+        w.write("\n");
+        w.pushIndentation("                    ");
+        w.write("req.baseUrl === '/desktop' ? res.send({\"Userdetails\": ");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 109, column: 82 }), "gcam", { file: gFile, line: 109, column: 93 }), "login", { file: gFile, line: 109, column: 98 }), "responseParameter", { file: gFile, line: 109, column: 104 }));
+        w.write("}) : res.send(null)");
+        w.write("\n");
+        w.pushIndentation("            ");
+        w.write("} else {");
+        w.popIndentation();
+        w.write("\n");
+        w.write("                          ");
+        if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 111, column: 37 }), "gcam", { file: gFile, line: 111, column: 48 }), "isVerify", { file: gFile, line: 111, column: 53 }))) {
+        
+            w.write("\n");
+            w.pushIndentation("            ");
+            w.write("jwt.verify(token, 'geppettosecret', (err, decoded) => {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("if (err) {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write("res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("} else {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write("new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded)");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write(".then((res: any) => res.response.json()).then((response) => {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                        ");
+            w.write("const temp = {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                            ");
+            w.write("\"Access\": JSON.parse(JSON.stringify(response)),");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                            ");
+            w.write("\"Userdetails\": result");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                        ");
+            w.write("}");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("req.baseUrl === '/mobile' ? res.send(temp) :");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("req.baseUrl === '/desktop' ? res.send(temp) : res.send(null)");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                  ");
+            w.write("new CustomLogger().showLogger('info', 'Exit from ");
+            w.popIndentation();
+            st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 124, column: 75 }));
+            w.write("Controller.ts: ");
+            st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 124, column: 108 }), "gcam", { file: gFile, line: 124, column: 119 }), "login", { file: gFile, line: 124, column: 124 }), "methodName", { file: gFile, line: 124, column: 130 }));
+            w.write("');");
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write("})");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("}");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("            ");
+            w.write("})");
+            w.popIndentation();
+            w.write("\n");
+        
+        
+        }
+        w.write("\n");
+        w.pushIndentation("            ");
+        w.write("}");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write("}).catch(err => {");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("            ");
+        w.write("res.send(err);");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write("});");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("    ");
+        w.write("}");
+        w.popIndentation();
+        w.write("\n");
+    
+    
+    }
+    w.write("\n");
+    w.write("\n");
+    if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 136, column: 11 }), "gcam", { file: gFile, line: 136, column: 22 }), "consent", { file: gFile, line: 136, column: 27 }))) {
+    
+        w.write("\n");
+        w.pushIndentation("   ");
+        w.write("public ");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 137, column: 18 }), "gcam", { file: gFile, line: 137, column: 29 }), "consent", { file: gFile, line: 137, column: 34 }), "methodName", { file: gFile, line: 137, column: 42 }));
+        w.write("(req: Request, res: Response) {");
+        w.write("\n");
+        w.pushIndentation("                         ");
+        w.write("new CustomLogger().showLogger('info', 'Enter into ");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 138, column: 83 }));
+        w.write("Controller.ts: ");
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 138, column: 116 }), "gcam", { file: gFile, line: 138, column: 127 }), "consent", { file: gFile, line: 138, column: 132 }), "methodName", { file: gFile, line: 138, column: 140 }));
+        w.write("');");
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write("new ApiAdaptar().");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 139, column: 33 }), "gcam", { file: gFile, line: 139, column: 44 }), "consent", { file: gFile, line: 139, column: 49 }), "apiAction", { file: gFile, line: 139, column: 57 }));
+        w.write("(");
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 139, column: 76 }), "gcam", { file: gFile, line: 139, column: 87 }), "consent", { file: gFile, line: 139, column: 92 }), "constantName", { file: gFile, line: 139, column: 100 }));
+        w.write(".");
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 139, column: 122 }), "gcam", { file: gFile, line: 139, column: 133 }), "consent", { file: gFile, line: 139, column: 138 }), "nodeName", { file: gFile, line: 139, column: 146 }));
+        w.write(" + `");
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 139, column: 167 }), "gcam", { file: gFile, line: 139, column: 178 }), "consent", { file: gFile, line: 139, column: 183 }), "methodUrl", { file: gFile, line: 139, column: 191 }));
+        w.write("` ");
+        if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 139, column: 214 }), "gcam", { file: gFile, line: 139, column: 225 }), "consent", { file: gFile, line: 139, column: 230 }), "requestParameter", { file: gFile, line: 139, column: 238 }))) {
+        
+            w.write(", ");
+            st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 139, column: 266 }), "gcam", { file: gFile, line: 139, column: 277 }), "consent", { file: gFile, line: 139, column: 282 }), "requestParameter", { file: gFile, line: 139, column: 290 }));
+        
+        
+        }
+        w.write(")");
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write(".then((res: any) => res.response.json())");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write(".then(async (");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 141, column: 29 }), "gcam", { file: gFile, line: 141, column: 40 }), "consent", { file: gFile, line: 141, column: 45 }), "responseParameter", { file: gFile, line: 141, column: 53 }));
+        w.write(") => {");
+        w.write("\n");
+        w.pushIndentation("            ");
+        w.write("// @ts-ignore");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("            ");
+        w.write("const token = ");
+        w.popIndentation();
+        st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 143, column: 34 }), "gcam", { file: gFile, line: 143, column: 45 }), "consent", { file: gFile, line: 143, column: 50 }), "responseParameter", { file: gFile, line: 143, column: 58 }));
+        w.write(".Idtoken;");
+        w.write("\n");
+        w.write("            ");
+        if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 144, column: 23 }), "gcam", { file: gFile, line: 144, column: 34 }), "isVerify", { file: gFile, line: 144, column: 39 }))) {
+        
+            w.write("\n");
+            w.pushIndentation("            ");
+            w.write("jwt.verify(token, 'geppettosecret', (err, decoded) => {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("if (err) {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write("res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("} else {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write("new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded)");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write(".then((res: any) => res.response.json()).then((response) => {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                        ");
+            w.write("const temp = {");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                            ");
+            w.write("\"Access\": JSON.parse(JSON.stringify(response)),");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                            ");
+            w.write("\"Userdetails\": result");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                        ");
+            w.write("}");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("req.baseUrl === '/mobile' ? res.send(temp) :");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("req.baseUrl === '/desktop' ? res.send(temp) :");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                         ");
+            w.write("new CustomLogger().showLogger('info', 'Exit from ");
+            w.popIndentation();
+            st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "className", { file: gFile, line: 157, column: 82 }));
+            w.write("Controller.ts: ");
+            st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 157, column: 115 }), "gcam", { file: gFile, line: 157, column: 126 }), "consent", { file: gFile, line: 157, column: 131 }), "methodName", { file: gFile, line: 157, column: 139 }));
+            w.write("');");
+            w.write("\n");
+            w.pushIndentation("                    ");
+            w.write("})");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("                ");
+            w.write("}");
+            w.popIndentation();
+            w.write("\n");
+            w.pushIndentation("            ");
+            w.write("})");
+            w.popIndentation();
+            w.write("\n");
+        
+        
+        }
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write("}).catch(err => {");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("            ");
+        w.write("res.send(err);");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write("});");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("    ");
+        w.write("}");
+        w.popIndentation();
+        w.write("\n");
+    
+    
+    }
+    w.write("\n");
+    w.write("}");
+    w.write("\n");
     w.write("\n");
 };
 r.args = [

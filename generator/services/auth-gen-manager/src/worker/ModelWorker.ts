@@ -1,3 +1,4 @@
+import { Console } from 'console';
 import * as util from 'util';
 import { ModelSupportWorker } from '../Supportworker/ModelSupportWorker';
 
@@ -6,6 +7,7 @@ export class ModelWorker {
     modelsupport = new ModelSupportWorker();
     createfile(models, generationpath,templatepath, callback) {
         let Modeldetails = this.Modelfile(models.field);
+        console.log("eee-->",models.fields);
         this.modelsupport.createUserModel(models.name, Modeldetails, generationpath, templatepath, (response) => {
             callback(response);
         });

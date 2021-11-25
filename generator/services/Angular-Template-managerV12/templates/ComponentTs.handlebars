@@ -15,7 +15,7 @@ import * as {{importName}} from '{{ importPath }}';
 })
 
 export class {{ GpOptions.className }} implements OnInit {
-    private jwtToken: String;
+    private jwtToken: String='';
 {{#if GpOptions.variables}}
 {{#each GpOptions.variables}}
     {{name}}: {{dataType}}{{#ifCond value '!=' null}} = {{ value }}{{/ifCond}};

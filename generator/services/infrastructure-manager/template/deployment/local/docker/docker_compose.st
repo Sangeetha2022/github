@@ -2,7 +2,7 @@ docker_compose(projectdetails,uuid) ::= <<
 version: "3.8"
 services:
   mongo:
-    image: geppettotest/mongo-local:april2020
+    image: geppettotest/mongo-local:sept2021
     container_name: mongo-$uuid$
     restart: unless-stopped
     environment:

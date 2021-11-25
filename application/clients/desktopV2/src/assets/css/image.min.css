@@ -1,0 +1,60 @@
+/*!* DM Team - Generic Image Component v1.9 */.dmc-image,.dmc-image *{box-sizing:border-box}
+.dmc-image{width:100%;margin-bottom:20px}
+.dmc-image.compact{margin-bottom:0}
+.dmc-image img{margin:0;padding:0;width:100%}
+.dmc-image .cq-image-placeholder{height:73px}
+.dmc-image .lightbox-link{position:relative}
+.dmc-image img.image-link-icon{top:1.2%;right:1.2%;height:50px;width:50px;margin-bottom:-20px;display:block;position:absolute;float:right}
+.dmc-image .caption{padding:0 20px;margin-top:10px}
+.dmc-image.image img{display:block}
+.dmc-image.no-image .dm-img,.dmc-image.no-image .image-link-icon,.dmc-image.no-image .caption{display:none}
+.dmc-image.image{overflow:hidden}
+.cdc-transform .container.grid .col .dmc-image.base-blowout{width:calc(100% - -32px)}
+.cdc-transform .container.grid .col .base-blowout .dmc-image.base-blowout,.fwt-satellite .container.grid .col .base-blowout .dmc-image.base-blowout{width:100%}
+.cdc-transform .container.grid .col .dmc-focus-carousel .dmc-image.base-blowout{margin-left:0;margin-right:0;width:100%}
+.cdc-transform .dmc-focus-carousel[data-nav='true'] .dmc-image.base-blowout{padding-left:10px;padding-right:10px}
+.row.full.limited-blowout.image-gallery,.image-gallery .row.halves.limited-blowout{box-shadow:none}
+.container.grid .row.full.image-gallery{margin:0 20px 30px}
+.container.grid .row.full.image-gallery.compact{margin-bottom:0}
+.dmc-blade.image-gallery .blade-header{padding:0}
+.row.full.image-gallery .row.halves .col.half{margin:0}
+.row.full.image-gallery .row.halves .col.half .col.half:first-child{margin-right:1px}
+.row.full.image-gallery .row.halves .col.half .col.half:last-child{margin-left:1px}
+.image-gallery .row.halves .col.half .row.halves{clear:both;display:inline-block;width:100%}
+.image-gallery .row.halves .col.half .row.halves .col.half{float:left;width:calc(50% - 1px)}
+.container.grid .image-gallery .dmc-image{margin-bottom:2px;overflow:hidden}
+.container.grid .image-gallery .dmc-image img{display:block;-webkit-transform:scale(1);-moz-transform:scale(1);transform:scale(1);-webkit-transition:.5s ease-in-out;-moz-transition:.5s ease-in-out;transition:.5s ease-in-out}
+.no-touch .container.grid .image-gallery .dmc-image:hover{overflow:hidden}
+.no-touch .container.grid .image-gallery .dmc-image:hover img{-webkit-transform:scale(1.05);-moz-transform:scale(1.05);transform:scale(1.05)}
+.container.grid .image-gallery .dmc-image img.image-link-icon{bottom:5px;height:36px;margin-bottom:0;right:5px;top:auto;transition:none;width:36px}
+.no-touch .container.grid .image-gallery .dmc-image:hover img.image-link-icon{-webkit-transform:scale(1);-moz-transform:scale(1);transform:scale(1)}
+.cdc-transform .container.grid .row.full.image-gallery{padding:0}
+.cdc-transform .container.grid .row.full.image-gallery .col{margin:0;width:100%}
+.cdc-transform .container.grid .image-gallery .col .dmc-image.base-blowout{margin-right:0;margin-left:0;width:100%}
+.ie .grid.container .image-gallery .col{display:block}
+.ie .image-gallery .row.halves .col.half .row.halves{display:block}
+html[dir='rtl'] .dmc-image img.image-link-icon{left:1.2%;right:auto;float:left}
+html[dir='rtl'] .container.grid .image-gallery .dmc-image img.image-link-icon{left:5px;right:auto}
+html[dir='rtl'] .image-gallery .row.halves .col.half .row.halves .col.half{float:right}
+html[dir='rtl'] #fw-content .row.full.image-gallery .row.halves .col.half .col.half:first-child{margin-left:1px;margin-right:0}
+html[dir='rtl'] #fw-content .row.full.image-gallery .row.halves .col.half .col.half:last-child{margin-right:1px;margin-left:0}
+@media only screen and (min-width:37.5em){.dmc-image.image img,.dmc-image.no-image .dm-img,.dmc-image.no-image .image-link-icon,.dmc-image.no-image .caption{display:block}
+.cdc-transform .container.grid .col .dmc-image.base-blowout{width:100%}
+.cdc-transform .dmc-focus-carousel[data-nav='true'] .dmc-image.base-blowout{padding-left:0;padding-right:0}
+.dmc-blade.image-gallery .blade-header{padding:0 20px}
+.row.full.limited-blowout.image-gallery{margin:0}
+.row.full.image-gallery .row.halves .col.half:last-child{margin-left:2px}
+.container.grid .row.full.image-gallery{margin:0 auto 50px}
+html[dir='rtl'] .container.grid .row.full.image-gallery .row.halves .col.half:first-child{margin:0}
+html[dir='rtl'] .container.grid .row.full.image-gallery .row.halves .col.half:last-child{margin-left:0;margin-right:2px}
+}
+@media only screen and (min-width:48em){.dmc-image .caption{margin-top:16px}
+.container.grid .row.full.image-gallery{margin:0 auto 60px}
+html[dir='rtl'] .cdc-transform #fw-content.container.grid .row.full.image-gallery .row.halves>.col.half:first-child{margin:0}
+html[dir='rtl'] .cdc-transform #fw-content.container.grid .row.full.image-gallery .row.halves>.col.half:last-child{margin-left:0;margin-right:2px}
+}
+@media only screen and (min-width:64em){.cdc-transform #fw-content .row.full.image-gallery .row.halves .col.half:first-child{margin:0 1px 0 0}
+.cdc-transform #fw-content .row.full.image-gallery .row.halves .col.half:last-child{margin:0 0 0 1px}
+html[dir="rtl"] .cdc-transform #fw-content .row.full.image-gallery .row.halves .col.half:first-child{margin:0 0 0 1px}
+html[dir="rtl"] .cdc-transform #fw-content .row.full.image-gallery .row.halves .col.half:last-child{margin:0 1px 0 0}
+}

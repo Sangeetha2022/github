@@ -195,8 +195,10 @@ export class GenerateHtmlWorker {
     setClasses(item, tagName) {
         let classess = '';
         if(item.hasOwnProperty('classes')) {
+            console.log("set class");
             item.classes.forEach((element, index) => {
                 if(index + 1 === item.classes.length) {
+                    console.log("set class element",element);
                     classess += element.name;
                 } else {
                     classess += element.name + ' ';
@@ -418,6 +420,7 @@ export class GenerateHtmlWorker {
         });
     }
     async generateHtml(gjsComponentMetadata, screensData, details) {
+        console.log("gjsComponentMetadata===",gjsComponentMetadata);
         console.log('DETAILS---->>>>', JSON.stringify(details));
         this.htmlContent = '';
         const templatePath = path.resolve(__dirname, '../../templates');

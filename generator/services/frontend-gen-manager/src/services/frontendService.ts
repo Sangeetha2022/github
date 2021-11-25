@@ -203,7 +203,14 @@ export class FrontendService {
                     console.log('flow iteration completed %%%%%%%%%%%%% ----- ', util.inspect(feature, { showHidden: true, depth: null }));
                     let angularDesktopResponse = null;
                     if (desktopJSON.length > 0) {
-                        if(feature.clientFramework.label.includes('Angular')) {
+                        if (feature.clientFramework.label == 'Angular 12') {
+                            console.log("inside angular 12 angulargenmanager frontend");
+                            feature.desktop = desktopJSON;
+                            angularDesktopResponse = await this.generateAngularV12(feature);
+                            console.log('final angular desktop response values are for version 12 -----  ', angularDesktopResponse);
+            
+                        }
+                        if(feature.clientFramework.label.includes('Angular') && feature.clientFramework.label != 'Angular 12') {
                             feature.desktop = desktopJSON;
                             angularDesktopResponse = await this.generateAngular(feature);
                             console.log('final angular desktop response values are -----  ', angularDesktopResponse);
@@ -241,6 +248,14 @@ export class FrontendService {
         return new Promise(resolve => {
             console.log('angular generate manager ang gen', details);
             this.angularGenManagerService.generateAngular(details, (data) => {
+                resolve(data);
+            })
+        })
+    }
+    generateAngularV12(details) {
+        return new Promise(resolve => {
+            console.log('angular generate manager ang gen for version 12', details);
+            this.angularGenManagerService.generateAngularV12(details, (data) => {
                 resolve(data);
             })
         })

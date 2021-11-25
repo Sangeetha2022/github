@@ -14,7 +14,7 @@ export class AngularService {
 
         const details = req.body;
         //console.log('details ===================+>>>>', details);
-        if(details.featureName == 'SystemEntry'){
+        if(details.featureName == 'systementry'){
             console.log('details ===================+>>>>', details);
                 // return new Promise(resolve => {
                     const featureName = details.featureName.toLowerCase();
@@ -24,6 +24,8 @@ export class AngularService {
                     })
                 // })
         } else {
+            console.log("entering else part",details);
+            
             const primaryScreens = details.desktop.filter(x => x.route_info.length > 0 || x["special-events"].length > 0);
             const secondaryScreens = details.desktop.filter(x => x.route_info.length == 0 && x["special-events"].length == 0);
             this.iterateScreens(primaryScreens, details, (response) => {

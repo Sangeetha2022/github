@@ -8,6 +8,7 @@ export class MenuBuilderService {
         console.log('------projectid-----', projectId);
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/menu/getbyprojectid/${projectId}`).then
             (data => {
+                console.log('SharedService.apiGatewayURL',`${SharedService.apiGatewayURL}/desktop/menu/getbyprojectid/${projectId}`)
                 console.log('----data---', data);
                 callback(data);
             }).catch(error => {

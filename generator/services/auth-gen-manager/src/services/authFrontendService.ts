@@ -19,6 +19,8 @@ export class AuthFrontendService {
         const menus = req.body.screenMenus
         const applicationPath = details.templateResponse.applicationPath;
         const seedTemplatePath = details.seedTemplatePath;
+        console.log("seedTemplatePath====>",seedTemplatePath);
+        
         await this.readImagesAssets(seedTemplatePath, applicationPath);
         this.frontendWorker.createReadMeFile(details, (response) => {
             this.frontendWorker.createErrorReadMeFile(details, (response) => {
@@ -31,7 +33,7 @@ export class AuthFrontendService {
                                         this.frontendWorker.createConfig((response) => {
                                             this.frontendWorker.createUserComponent((response) => {
                                                 this.frontendWorker.createVaultAdminComponent(details, (response) => {
-                                                    this.frontendWorker.createAuthComponent(menus, (response) => {
+                                                    this.frontendWorker.createAuthComponent(menus, seedTemplatePath, (response) => {
                                                         this.frontendWorker.generateAppFile((response) => {
                                                             this.frontendWorker.modifyFiles(() => {
                                                                 const date = new Date();

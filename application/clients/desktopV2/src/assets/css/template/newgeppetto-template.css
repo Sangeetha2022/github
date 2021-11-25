@@ -1,0 +1,95 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    font-family: "Open Sans", sans-serif;
+    background-image: initial;
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    background-repeat: initial;
+    background-repeat: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: rgb(255, 255, 255);
+}
+
+.row {
+    display: table;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.div {
+    background-color: "black";
+}
+
+.input-textarea {
+    padding: 8px;
+    border: ridge;
+    width: 100%;
+    border-color: #c5c5f7;
+}
+
+.ag-grid {
+    background-color: #f1f1f1;
+    border: ridge;
+    border-color: #5e9cd3;
+}
+
+.label {
+    color: black;
+}
+
+.form {
+    background-color: #ececec;
+    color: brown;
+}
+
+.h1 {
+    color: "green"
+}
+
+.h2 {
+    color: "red"
+}
+
+.h3 {
+    color: "blue"
+}
+
+.h4 {
+    color: "yellow"
+}
+
+.h6 {
+    color: "black"
+}
+
+.h2 {
+    color: "red"
+}
+
+.h2 {
+    color: "red"
+}
+
+.table {
+    color: "green";
+    width: "10%";
+    background-color: "grey";
+}
+
+.hr {
+    background-color: "red"
+}

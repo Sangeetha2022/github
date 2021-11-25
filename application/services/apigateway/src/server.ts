@@ -44,11 +44,11 @@ import {
     ModifierManagerController,
     DefaultServicesController,
     GepFileManagerController,
+    AngularControllerV12,
+    AngularTemplateControllerV12,
 } from './apicontroller';
 
 import { WinstonLogger } from './config/WinstonLogger';
-import { AngularControllerV12 } from './apicontroller/generator/angularV12.controller';
-import { AngularTemplateControllerV12 } from './apicontroller/generator/angularTemplateV12.controller';
 
 const PORT = 3000;
 

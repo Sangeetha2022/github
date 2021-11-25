@@ -247,14 +247,35 @@ export class ProjectgenService {
             x.name.toString().toLowerCase() === 'authgenerationdirectory'
         );
         console.log('project object in generation application --2222---->>>>   ', authPath);
-        this.projectObj.templateLocation.authTemplatePath = authPath.value;
+        
+        if( this.projectObj.clientFramework.label == 'Angular 12'){
+            this.projectObj.templateLocation.authTemplatePath = authPath.value+'/AngularV12';
+            console.log("inside angular 12 auth path==>",this.projectObj.templateLocation.authTemplatePath);
+            
+        }
+        if( this.projectObj.clientFramework.label == 'Angular 10'){
+            this.projectObj.templateLocation.authTemplatePath = authPath.value+'/AngularV7';
+            console.log("inside angular 10 auth path==>",this.projectObj.templateLocation.authTemplatePath);
+        }
+        console.log('project object in generation application --2222---->>>>   after', this.projectObj.templateLocation.authTemplatePath);
+        //this.projectObj.templateLocation.authTemplatePath = authPath.value;
 
         // authorization Template location
         const authorizationPath = configInformation.find(x =>
             x.name.toString().toLowerCase() === 'authorizationdirectory'
         );
         console.log('project object in generation application --677787---->>>>   ', authorizationPath);
-        this.projectObj.templateLocation.authorizationTempPath = authorizationPath.value;
+        // if( this.projectObj.clientFramework.label == 'Angular 12'){
+        //     this.projectObj.templateLocation.authorizationTempPath = authorizationPath.value+'/AngularV12';
+        //     console.log("inside angular 12 authorization==>",this.projectObj.templateLocation.authorizationTempPath);
+            
+        // }
+        // if( this.projectObj.clientFramework.label == 'Angular 10'){
+        //     this.projectObj.templateLocation.authorizationTempPath = authorizationPath.value+'/AngularV7';
+        //     console.log("inside angular 10 authorization==>",this.projectObj.templateLocation.authorizationTempPath);
+            
+        // }
+         this.projectObj.templateLocation.authorizationTempPath = authorizationPath.value;
         console.log('project object in generation application --99999999999---->>>>   ', authPath);
         console.log('project object in generation application --3333---->>>>   ', this.projectObj);
 
@@ -263,7 +284,18 @@ export class ProjectgenService {
             x.name.toString().toLowerCase() === 'adminmanagerseeddirectory'
         );
         console.log('project object in admin application --kishan---->>>>   ', adminManagerSeedPath);
-        this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value;
+        if( this.projectObj.clientFramework.label == 'Angular 12'){
+            this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value+'/AngularV12';
+            console.log("inside angular 12 admin==>",this.projectObj.templateLocation.adminManagerTemplatePath);
+            
+        }
+        if( this.projectObj.clientFramework.label == 'Angular 10'){
+            this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value+'/AngularV7';
+            console.log("inside angular 10 admin==>",this.projectObj.templateLocation.adminManagerTemplatePath);
+            
+        }
+       // this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value;
+       
         // const frontendSourcePath = configInfo.find(x =>
         //     x.name.toString().toLowerCase() === 'frontendtemplatelocation'
         // );

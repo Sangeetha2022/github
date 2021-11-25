@@ -88,11 +88,11 @@ export class Constants {
                 Constants.nodeGenUrl = process.env.nodegenmanager + ":5012";
                 Constants.frontendGenUrl = process.env.frontgenmanager + ":5013";
                 Constants.angularGenUrl = process.env.angulargenmanager + ":5014";
-                Constants.angularGenUrlV12 = process.env.angulargenmanagerV12 + ":6014";
+                Constants.angularGenUrlV12 = process.env.angulargenmanagerV12 + ":5028";
                 Constants.defaultServicesUrl = process.env.seffrontendmanager + ":5023";
                 Constants.sefnodeGenUrl = process.env.sefnodegenmanager + ":5024";
                 Constants.angularTemplateGenUrl = process.env.angtemplatemanager + ":5015";
-                Constants.angularTemplateGenUrlV12 = process.env.angtemplatemanagerV12 + ":6015";
+                Constants.angularTemplateGenUrlV12 = process.env.angtemplatemanagerV12 + ":5029";
                 Constants.githubUrl = process.env.githubmanager + ":5016";
                 Constants.privateGithubUrl = process.env.privategithubmanager + ":5022";
                 Constants.authgenUrl = process.env.authgenmanager + ":5017";
@@ -134,10 +134,10 @@ export class Constants {
                 Constants.nodeGenUrl = Constants.generationUrl + ":5012";
                 Constants.frontendGenUrl = Constants.generationUrl + ":5013";
                 Constants.angularGenUrl = Constants.generationUrl + ":5014";
-                Constants.angularGenUrlV12 =  Constants.generationUrl + ":6014";
+                Constants.angularGenUrlV12 =  Constants.generationUrl + ":5028";
                 Constants.defaultServicesUrl = Constants.generationUrl + ":5023";
                 Constants.angularTemplateGenUrl = Constants.generationUrl + ":5015";
-                Constants.angularTemplateGenUrlV12 = Constants.generationUrl + ":6015";
+                Constants.angularTemplateGenUrlV12 = Constants.generationUrl + ":5029";
                 Constants.githubUrl = Constants.generationUrl + ":5016";
                 Constants.privateGithubUrl = Constants.generationUrl + ":5022";
                 Constants.authgenUrl = Constants.generationUrl + ":5017";

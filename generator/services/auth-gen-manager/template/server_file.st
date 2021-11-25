@@ -21,7 +21,9 @@ class App {
         this.routerPrv.routes(this.app);
         this.mongoSetup();
         $if(object.isSeed)$this.mongoSeedData();$endif$
+         $if(object.isSeed)$this.SeedData();$endif$
         $if(object.isDmnFile)$this.DeployDMNfile();$endif$
+       
     }
 
     private config(): void {
@@ -43,6 +45,13 @@ $if(object.isSeed)$
         seedData.create();
     }
 $endif$
+ $if(object.isSeed)$
+    private SeedData(): void {
+        let seedData = new SeedService();
+        seedData.post();
+    }
+$endif$
+
 
 $if(object.isDmnFile)$
     private DeployDMNfile(): void {

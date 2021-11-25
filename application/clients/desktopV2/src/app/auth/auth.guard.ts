@@ -25,6 +25,8 @@ export class AuthGuard implements CanActivate {
       console.log('--------AuthValue is-----', authgaurdvalue);
       // @ts-ignore
       this.accessroutes = authgaurdvalue.Access;
+      console.log(" this.accessroutes", this.accessroutes);
+      
     });
     this.router.events.pipe(filter((value: any) => value instanceof GuardsCheckEnd)).subscribe((value: GuardsCheckEnd) => {
       console.log('--------Route Value----', value.url);

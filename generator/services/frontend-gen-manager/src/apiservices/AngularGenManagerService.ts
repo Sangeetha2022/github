@@ -12,4 +12,13 @@ export class AngularGenManagerService {
             callback(error);
         })
     }
+    generateAngularV12(details, callback) {
+        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/angularv12/project`, details).then(
+            data => {
+                callback(data);
+            }
+        ).catch(error => {
+            callback(error);
+        })
+    }
 }

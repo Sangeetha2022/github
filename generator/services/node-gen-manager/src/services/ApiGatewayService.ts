@@ -132,6 +132,7 @@ export class ApiGatewayService {
 
                 this.constantObj.constantArray.push(temp);
                 if (element.flowAction !== undefined) {
+                    console.log("ee-->", element.flowAction);
                     asyncLoop(element.flowAction, (routingElement, next2) => {
                         const controllerDetails = {
                             methodName: '',
@@ -170,6 +171,7 @@ export class ApiGatewayService {
                             if (routingElement.routeUrl === this.CAMUNDA_LOGIN_URL ||
                                 routingElement.routeUrl === this.CAMUNDA_CONSENT_URL) {
                                 this.setRoutingDetails(routingElement, controllerDetails);
+                                console.log("eee--->",routingElement, controllerDetails);
                                 controllerObj.additional.camunda.isVerify = true;
                                 if (routingElement.routeUrl === this.CAMUNDA_LOGIN_URL) {
                                     controllerObj.additional.camunda.login = controllerDetails;

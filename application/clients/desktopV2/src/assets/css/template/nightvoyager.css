@@ -1,0 +1,386 @@
+* {
+     box-sizing: border-box;
+}
+ body {
+    margin: 0;
+}
+body{
+    color:#ccc;
+    font-family:Helvetica, serif;
+    background-color:#212528;
+}
+*{
+    box-sizing:border-box;
+}
+body{
+    margin:0;
+}
+#ieed{
+    font-weight:200;
+    padding:50px 0;
+    color:#eee;
+    background-image:url(assets/img/tpl-img-overlay-gray.png), url(assets/img/tpl-img-dark-cliff.jpg);
+    background-repeat:repeat, no-repeat;
+    background-position:left top, center center;
+    background-attachment:scroll, scroll;
+    background-size:auto, cover;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    text-align:center;
+}
+#ivcy{
+    padding:25px 0;
+}
+#idc4{
+    white-space:initial;
+}
+#iil47{
+    font-size:5.5rem;
+    margin:15px 0 10px 0;
+    color:#3bacdc;
+    font-weight:100;
+    letter-spacing:17px;
+}
+#iv8vf{
+    line-height:1.75rem;
+    margin-bottom:50px;
+    margin:0 0 0 0;
+    text-transform:uppercase;
+    color:rgba(238, 238, 238, 0.55);
+    letter-spacing:4px;
+}
+#il0kw{
+    padding:25px 0;
+}
+#i7x4f{
+    margin-bottom:30px;
+    margin:0 0 0 0;
+}
+#isfy5{
+    background-image:url('assets/img/tpl-img-cold-lake.jpg');
+    background-size:cover;
+    background-position:center center;
+    background-attachment:scroll;
+    background-repeat:no-repeat;
+    background-color:#cccccc;
+    height:200px;
+    width:auto;
+}
+.gpd-feature-card{
+    margin-top:10px;
+    margin-right:10px;
+    margin-bottom:10px;
+    margin-left:10px;
+    background-color:rgb(255, 255, 255);
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
+    border-bottom-right-radius:3px;
+    border-bottom-left-radius:3px;
+    box-shadow:rgba(0, 0, 0, 0.15) 0px 2px 5px 0px;
+}
+.gpd-feature-card__header{
+    height:200px;
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
+    border-bottom-right-radius:0px;
+    border-bottom-left-radius:0px;
+}
+.gpd-feature-card__body{
+    padding-top:15px;
+    padding-right:20px;
+    padding-bottom:15px;
+    padding-left:20px;
+}
+.gpd-feature-card__title{
+    margin-top:0px;
+    margin-right:0px;
+    margin-bottom:5px;
+    margin-left:0px;
+    font-weight:500;
+}
+.gpd-feature-card__subtitle{
+    margin-top:0px;
+    margin-right:0px;
+    margin-bottom:20px;
+    margin-left:0px;
+    font-weight:400;
+    color:rgba(68, 68, 68, 0.7);
+}
+.gpd-feature-card__text{
+    line-height:1.5rem;
+}
+.gpd-feature-section{
+    font-family:Helvetica, serif;
+    padding-top:75px;
+    padding-right:0px;
+    padding-bottom:75px;
+    padding-left:0px;
+    font-weight:200;
+    color:rgb(85, 85, 85);
+}
+#i62n7{
+    background-color:#f2f2f2;
+    padding:50px 0;
+}
+#i88pf{
+    margin:0 0 10px 0;
+    font-size:13px;
+    letter-spacing:5px;
+    color:rgba(68, 68, 68, 0.47);
+}
+#i05ql{
+    margin:0 0 30px 0;
+    font-weight:100;
+}
+#i857i{
+    text-align:left;
+}
+#i5pbk{
+    text-align:center;
+    padding:20px 20px 20px 20px;
+}
+.button3{
+    display:inline-block;
+    padding-top:15px;
+    padding-right:30px;
+    padding-bottom:15px;
+    padding-left:30px;
+    text-decoration-line:none;
+    text-decoration-style:initial;
+    text-decoration-color:initial;
+    text-align:center;
+    opacity:1;
+    transition-duration:0.25s, 0.25s;
+    transition-timing-function:initial, initial;
+    transition-delay:initial, initial;
+    transition-property:color, opacity;
+    border-top-left-radius:3px;
+    border-top-right-radius:3px;
+    border-bottom-right-radius:3px;
+    border-bottom-left-radius:3px;
+    border-top-width:2px;
+    border-right-width:2px;
+    border-bottom-width:2px;
+    border-left-width:2px;
+    border-top-style:solid;
+    border-right-style:solid;
+    border-bottom-style:solid;
+    border-left-style:solid;
+    border-top-color:rgb(220, 101, 155);
+    border-right-color:rgb(220, 101, 155);
+    border-bottom-color:rgb(220, 101, 155);
+    border-left-color:rgb(220, 101, 155);
+    border-image-source:initial;
+    border-image-slice:initial;
+    border-image-width:initial;
+    border-image-outset:initial;
+    border-image-repeat:initial;
+    color:#3bacdc;
+    border:2px solid #3bacdc;
+    padding:10px 30px 10px 30px;
+    margin:30px 0 0 0;
+}
+.button3:hover{
+    opacity:0.85;
+}
+.button3:active{
+    opacity:0.95;
+}
+#ie10h{
+    background-image:url('assets/img/tpl-img-hot-lake.jpg');
+    background-size:cover;
+    background-position:center center;
+    background-attachment:scroll;
+    background-repeat:no-repeat;
+    background-color:#cccccc;
+    height:200px;
+    width:auto;
+}
+#ic9tf{
+    text-align:center;
+    padding:20px 20px 20px 20px;
+}
+#id2zr{
+    margin:0 0 10px 0;
+    font-size:13px;
+    letter-spacing:5px;
+    color:rgba(68, 68, 68, 0.47);
+}
+#in05q{
+    margin:0 0 30px 0;
+    font-weight:100;
+}
+#iorai{
+    text-align:left;
+}
+.gpd-heading--dark-bg{
+    padding-top:50px;
+    padding-right:0px;
+    padding-bottom:50px;
+    padding-left:0px;
+    background-color:rgb(46, 49, 55);
+    text-align:center;
+    color:rgb(204, 204, 204);
+    font-family:Helvetica, serif;
+    font-weight:100;
+}
+#i1t4n{
+    text-transform:uppercase;
+    font-weight:100;
+    letter-spacing:10px;
+    font-size:1rem;
+    margin-top:0px;
+    margin-right:0px;
+    margin-bottom:0px;
+    margin-left:0px;
+    margin:0 0 10px 0;
+    color:rgba(204, 204, 204, 0.75);
+}
+#ikwuu{
+    text-transform:uppercase;
+    letter-spacing:5px;
+    color:#3bacdc;
+    font-weight:100;
+    margin-top:0px;
+    margin-right:0px;
+    margin-bottom:10px;
+    margin-left:0px;
+    margin:0 0 0 0;
+}
+#iwa75{
+    background-image:url(assets/img/tpl-img-overlay-gray.png), url(assets/img/tpl-img-green-night.jpg);
+    background-repeat-x:repeat, repeat;
+    background-repeat-y:repeat, repeat;
+    background-position-x:left, center;
+    background-position-y:top, center;
+    background-attachment:scroll, fixed;
+    background-size:auto, cover;
+}
+#ia5qf{
+    padding:0;
+}
+#i0ruh{
+    background-color:#f2f2f2;
+    color:#333;
+    text-align:center;
+}
+.footer4{
+    font-size:0.85rem;
+    font-weight:200;
+    padding-top:70px;
+    padding-bottom:50px;
+}
+.footer-socials{
+    text-align:center;
+}
+.footer-copyright{
+    letter-spacing:3px;
+    font-weight:100;
+}
+#ip8pi{
+    font-weight:100;
+    margin:0 0 10px 0;
+}
+#it1ng{
+    height:291px;
+    padding:10px 10px 0 10px;
+}
+#i68ag{
+    font-weight:100;
+    letter-spacing:5px;
+    margin:0 0 55px 0;
+}
+#iziqe{
+    padding:0 0 25px 0;
+}
+#ihbsz{
+    background-image:url(assets/img/tpl-img-green-lake.jpg);
+    background-attachment:scroll;
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center center;
+    flex-basis:66.8%;
+}
+#irhz4{
+    background-image:url(assets/img/tpl-img-plane-ruin.jpg);
+    background-attachment:scroll;
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center center;
+}
+#iv5re{
+    height:291px;
+    padding:0 10px 10px 10px;
+}
+#iwvoi{
+    background-image:url(assets/img/tpl-img-green-lake2.jpg);
+    background-attachment:scroll;
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center center;
+    flex-basis:66.8%;
+}
+#ivyng{
+    background-image:url(assets/img/tpl-img-inside-ice.jpg);
+    background-attachment:scroll;
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center center;
+}
+#ilkpz{
+    text-align:center;
+}
+.footer-link-icon{
+    width:45px;
+    height:45px;
+    opacity:0.7;
+    margin:0 25px 0 0;
+    transition:all 0.3s ease;
+}
+.footer-link-icon:hover{
+    color:#3bacdc;
+}
+@media (max-width: 768px){
+    #iil47{
+        font-size:59px;
+    }
+    #it1ng{
+        height:430px;
+    }
+    #iv5re{
+        height:551px;
+    }
+}
+@media (max-width: 375px){
+    #iv8vf{
+        font-size:0.7rem;
+    }
+    #iil47{
+        font-size:45px;
+    }
+    #ikwuu{
+        font-size:19px;
+    }
+    #i1t4n{
+        font-size:0.7rem;
+    }
+    #it1ng{
+        height:300px;
+    }
+    #iv5re{
+        height:300px;
+    }
+    #i88pf{
+        font-size:0.7rem;
+    }
+    #id2zr{
+        font-size:0.7rem;
+    }
+    #i68ag{
+        font-size:0.7rem;
+    }
+    .footer-copyright{
+        font-size:0.7rem;
+    }
+}
