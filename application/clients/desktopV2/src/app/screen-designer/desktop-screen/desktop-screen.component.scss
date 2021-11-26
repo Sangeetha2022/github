@@ -9,9 +9,18 @@
 }
 
 #fields_heading {
-    font-size: 20px;
+    font-size: 24px;
     font-family: Montserrat, sans-serif;
     font-weight: 700;
+    margin: 5px 0 5px 0;
+    color: #302C5E;
+    white-space: nowrap;
+}
+
+#column_heading {
+    font-size: 20px;
+    font-family: Montserrat, sans-serif;
+    font-weight: 550;
     margin: 5px 0 5px 0;
     color: #302C5E;
     white-space: nowrap;

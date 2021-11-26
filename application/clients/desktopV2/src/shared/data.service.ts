@@ -15,12 +15,20 @@ export class DataService {
       private allEntitySource = new BehaviorSubject<IEntity[]>([]);
       currentAllEntityInfo = this.allEntitySource.asObservable();
 
-   // set project details
-   setProjectInfo(details: any) {
-   this.projectInfoSource.next(details);
-  }
+      // screen agGrid Field binding info
+      private agGridInfoSource = new BehaviorSubject<any[]>([]);
+      currentAgGridInfoSource = this.agGridInfoSource.asObservable();
+
+      // set project details
+      setProjectInfo(details: any) {
+      this.projectInfoSource.next(details);
+      }
      // set all entity details
      setAllEntity(entities: IEntity[]) {
       this.allEntitySource.next(entities);
+  }
+     // screen agGrid Field binding info
+     setAgGridValue(agGrid: any[]) {
+      this.agGridInfoSource.next(agGrid);
   }
 }

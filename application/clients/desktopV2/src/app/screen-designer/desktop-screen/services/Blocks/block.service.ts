@@ -72,7 +72,6 @@ export class BlockService {
     this.traitService.dynamicDropdownTraits(editor, 'dynamicdropdown-type');
 
   }
-
   addSpecialCharts(editor:any) {
     editor.BlockManager.add('highcharts', {
       id: 'highcharts',
@@ -89,5 +88,22 @@ export class BlockService {
       }
     });
     this.traitService.addHighChartTraits(editor, 'highcharts-type');
+  }
+  addAgGrid($this:any) {
+    // editor ag-grid custom blocks added
+    $this.editor.BlockManager.add('agGrid', {
+      id: 'agGrid',
+      label: 'agGrid',
+      category: 'Basic',
+      attributes: {
+        class: 'fa fa-table'
+      },
+      content: `<div data-gjs-type="grid-type" style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
+      <div id="myGrid" style="width: auto; height: 25%" class="ag-theme-material"></div>
+  </div>`,
+      draggable: true,
+      removable: true
+    });
+    this.traitService.addGridTraits($this, 'grid-type');
   }
 }

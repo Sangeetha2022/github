@@ -34,6 +34,7 @@
         "grapesjs": "^0.16.27",
         "grapesjs-custom-code": "^0.1.3",
         "grapesjs-plugin-ckeditor": "^0.0.10",
+        "grapesjs-plugin-forms": "^2.0.1",
         "grapesjs-preset-webpage": "^0.1.11",
         "nanoid": "^3.1.23",
         "nanoid-dictionary": "^4.3.0",

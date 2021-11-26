@@ -107,6 +107,7 @@ export class CommandService {
         ]);
        
       }
+    
       else if (component.attributes.tagName === 'button') {
         component.get('traits').set([
           {
@@ -148,6 +149,23 @@ export class CommandService {
           ]
         );
       }
+      else if (component.attributes.tagName === 'label') {
+        component.get('traits').set([
+          {
+            label: 'Name',
+            name: 'name',
+            type: 'text',
+            changeProp: 1
+          },
+          {
+            type: 'content',
+            label: 'contentName',
+            name: 'contentname',
+            changeProp: 1
+          },
+          ]
+        );
+      }
       if (component.attributes.type === 'dynamicdropdown-type') {
         component.get('traits').add(
           {
@@ -156,6 +174,30 @@ export class CommandService {
             type: 'actionButton'
           }
         );
+      }
+      if (component.attributes.type === 'grid-type') {
+        // entity remove traits
+        component.removeTrait('entity');
+        component.get('traits').add([
+          {
+            type: 'select',
+            label: 'entity',
+            name: 'entity',
+            changeProp: 1,
+            options: $this.entitydetails // Entity binding
+          },
+          {
+            name: 'fieldButton',
+            label: 'bind',
+            type: 'fieldGridButton'
+          },
+        ]);
+      }
+      if (component.attributes.type === 'grid-type') {
+        $this.agGridObject.htmlId = component.ccid;
+        $this.agGridObject.componentId = component.cid;
+        $this.is_grid_present = true;
+        $this.is_bootStrapTable_present = component.attributes.bootStrapTableCheckBox;
       }
      
     });
@@ -337,12 +379,14 @@ export class CommandService {
       const allFormModels = model.find('form');
       const allButtonModels = model.find('button');
       const allOptionModels = model.find('select');
+       const allRadioModels = model.find('input[type="radio"i]');
+       const allCheckBoxModels = model.find('input[type="checkbox"i]');
       const allImageBlockModels = model.find('.gpd-image-block');
       const allImageModels = model.find('.gjs-plh-image');
       const allLabelModels = model.find('[data-gjs-type="label"]');
 
       console.log("allFormModels",allFormModels);
-      
+      console.log('allRadioModels are ------- ', allRadioModels);
       if (allInputModels.length === 0 && model.attributes.tagName === 'input') {
         allInputModels.push(model);
       }
@@ -369,6 +413,17 @@ export class CommandService {
           
           element.attributes.traits.target.set('name', `input_${element.ccid}`);
         });
+        allRadioModels.forEach((element:any) => {
+          if (element) {
+            $this.setElementCSS(element, 'radio', 'input');
+          }
+          element.attributes.traits.target.set('name', `radio_${element.ccid}`);
+        });
+          // checkbox
+      allCheckBoxModels.forEach((element:any) => {
+        $this.setElementCSS(element, 'checkbox', 'input');
+        element.attributes.traits.target.set('name', `checkbox_${element.ccid}`);
+      });
               // button
       allButtonModels.forEach((element:any) => {
         // set default verbs for button
@@ -389,7 +444,17 @@ export class CommandService {
       allImageModels.forEach((element:any) => {
         element.attributes.traits.target.set('name', `image_${element.ccid}`);
       });
+
+      const wrapperType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="grid-type"]');
       const dynamicdropdownType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="dynamicdropdown-type"]');
+      if (wrapperType.length > 0) {
+        $this.is_grid_present = true;
+        $this.saveRemoteStorage();
+        wrapperType.forEach((element:any) => {
+          $this.setElementCSS(element, 'grid', null);
+          element.attributes.traits.target.set('name', `grid_${element.ccid}`);
+        });
+      }
       if (dynamicdropdownType.length > 0) {
         dynamicdropdownType.forEach((element:any) => {
           element.attributes.traits.target.set('name', `dynamicdropdown_${element.ccid}`);

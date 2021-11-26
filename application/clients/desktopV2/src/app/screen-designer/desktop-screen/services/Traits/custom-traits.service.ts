@@ -16,6 +16,7 @@ export class CustomTraitsService {
         getInputEl: function () {
             if (!this.inputEl) {
                 const input = document.createElement('textarea');
+               
                 input.value = this.target.get('content');
                 this.inputEl = input;
             }
@@ -51,12 +52,19 @@ export class CustomTraitsService {
                upon  selecting the html element in grapesjs*/
                 if (screen_designer.existScreenDetail !== undefined && screen_designer.existScreenDetail !== null) {
                     this.entityinfo = screen_designer.existScreenDetail[0]["entity_info"];
+                    console.log(" this.entityinfo", this.entityinfo);
                     matchentity = this.entityinfo.find((x:any) => x.htmlId == this.target.attributes.attributes.id);
+                    console.log("matchentity",matchentity);
+                    
                 }
                 // previously the enity was bind using this way this.target.changed['entity'];
                 const traitEntity = this.target.attributes.entity;
+                console.log("traitEntity",traitEntity);
+                
                 if (traitEntity !== undefined
                     && traitEntity !== 'none') {
+                        console.log("inside field");
+                        
                         screen_designer.isFieldPopupModal = true;
                         screen_designer.EntityField.forEach((entityElement:any) => {
                         if (entityElement._id === traitEntity) {
@@ -185,6 +193,42 @@ export class CustomTraitsService {
                     });
                 })
             }
+        });
+    }
+
+    gridFieldButton(screen_designer:any) {
+        screen_designer.editor.TraitManager.addType('fieldGridButton', {
+            getInputEl() {
+                const button = <HTMLElement>document.createElement('button');
+                button.id = 'fieldButton';
+                button.style.width = '100%';
+                button.style.backgroundColor = '#4CAF50';
+                button.style.border = 'none';
+                button.style.color = 'white';
+                button.style.backgroundColor = '#008CBA';
+                button.style.fontSize = '12px !important';
+                button.style.cursor = 'pointer';
+                button.appendChild(document.createTextNode('Field'));
+                button.onclick=()=>{
+                          // trigger when btn is clicked
+                          let entityId:any = null;
+                          if (this.target.changed['entity']) {
+                              entityId = this.target.changed['entity'];
+                          } else if (this.target.attributes.entity !== 'none') {
+                              entityId = this.target.attributes.entity;
+                          }
+                          const entityFound = screen_designer.EntityField.find((x:any) => x._id === entityId);
+                          if (entityFound) {
+                            screen_designer.agGridObject.entityId = entityId;
+                            screen_designer.selectedEntity = entityFound;
+                            screen_designer.allEntityField = entityFound.field;
+                            screen_designer.defaultColumn = this.target.view.el.gridOptions.columnDefs;
+                            screen_designer.isGridPopup = true;
+                            screen_designer.ref.detectChanges();
+                          }
+                }
+                return button;
+            },
         });
     }
 }

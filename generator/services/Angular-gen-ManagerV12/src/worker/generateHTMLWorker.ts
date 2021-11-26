@@ -227,9 +227,12 @@ export class GenerateHtmlWorker {
             */
             
             //For grapesjs version v0.16.27
+            console.log("item is",item);
+            
             item.classes.forEach((element, index) => {
                 if(index + 1 === item.classes.length) {
                     console.log("set class element",element);
+                    console.log("set class element name",element.name);
                     classess += element.name;
                 } else {
                     classess += element.name + ' ';

@@ -17,10 +17,36 @@ import { Constants } from 'src/app/config/Constant';
 import { CustomTraitsService } from './services/Traits/custom-traits.service';
 import { FlowManagerService } from 'src/app/flow-manager/flow-manager.service';
 import { Dataservice } from 'src/app/broadcast.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DataService } from 'src/shared/data.service';
+import {trigger,state,style,transition,animate} from '@angular/animations';
+  
 @Component({
   selector: 'app-desktop-screen',
   templateUrl: './desktop-screen.component.html',
-  styleUrls: ['./desktop-screen.component.scss']
+  styleUrls: ['./desktop-screen.component.scss'],
+  animations: [
+    trigger('openCloseMapping', [
+      state(
+        'openGrid',
+        style({
+          height: '*',
+          opacity: '1'
+        })
+      ),
+      state(
+        'closeGrid',
+        style({
+          height: '0px',
+          opacity: '0',
+          display: 'none'
+        })
+      ),
+      transition('openGrid => closeGrid', [animate('100ms ease-in')]),
+      transition('closeGrid => openGrid', [animate('100ms ease-out')])
+    ])
+  ]
+  
 })
 export class DesktopScreenComponent implements OnInit {
   editor: any;
@@ -50,6 +76,8 @@ export class DesktopScreenComponent implements OnInit {
   cssGuidelines: any[] = [];
   selectedEntityModel: any;
   selectedentityfield: any;
+  selectedEntity: any;
+  isMappingGrid: Boolean = false;
   fields: any[] = [];
   selectedHtmlElement: any = {
     htmlId: '',
@@ -80,7 +108,7 @@ public customPopupModal: any = {
   typeLabelName: '',
   entity: null
 };
- 
+defaultColumn: any;
   selectedFlow: any;
   ElementNameArray: any[] = [];
   screenFlows: any[] = [];
@@ -96,6 +124,28 @@ public customPopupModal: any = {
   public filterModifiers: any;
   modifierUsageObject: any;
   modifiersDetails: any = [];
+  is_grid_present: Boolean=false;
+  is_bootStrapTable_present: Boolean=false;
+  isGridPopup:boolean=false;
+  agGridFields!: FormGroup;
+  agGridObject: any = {
+    htmlId: '',
+    componentId: '',
+    entityId: '',
+    custom_field: [],
+    default_field: [],
+    event: ''
+  };
+  agGridArray: any[] = [];
+  allEntityField:any[]=[];
+  public columnOptions = [
+    { value: 'col1_id', name: 'a' },
+    { value: 'col2_id', name: 'b' },
+    { value: 'col3_id', name: 'c' },
+    { value: 'col4_id', name: 'd' },
+    { value: 'col5_id', name: 'e' }
+  ];
+  public selectedcolumn: any;
   projectTemplateId:any;
   public featurelist: any;
   existScreenDetail: any;
@@ -125,7 +175,8 @@ public customPopupModal: any = {
     constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,private panelService:PanelService,
     private projectComponentService:ProjectComponentService,private traitService:TraitsService,private commandService:CommandService,
     private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,private sharedService:SharedService,
-    private customTraitService:CustomTraitsService, private ref: ChangeDetectorRef,private flowManagerService:FlowManagerService, public broadcast: Dataservice,) {
+    private customTraitService:CustomTraitsService, private ref: ChangeDetectorRef,private flowManagerService:FlowManagerService, 
+    public broadcast: Dataservice,private formBuilder: FormBuilder,private dataService: DataService,) {
       this.columnDefs= [
         {
           headerName: 'Name',
@@ -187,7 +238,8 @@ public customPopupModal: any = {
     this.scripts = JSON.parse(localStorage.getItem('scripts')|| '{}');
     this.cssGuidelines = JSON.parse(localStorage.getItem('css_guidelines')|| '{}');
     this.templateName=localStorage.getItem('templateName')?.toLocaleLowerCase().replace(' ','') || '{}';
-    const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code'];
+    const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms'];
+
     let addStyles:any = [];
     let addScripts:any = [];
     if (this.stylesheets) {
@@ -199,8 +251,6 @@ public customPopupModal: any = {
    
        // desktop plugins
        grapesjs.plugins.add('desktop-plugin', function (editor:any, options:any) {
-        console.log('desktop plugins editor are --11-- ', editor);
-        console.log('desktop plugins options are --22-- ', options);
         editor.getConfig().deviceManager.devices = [
           { name: 'Desktop', width: '' },
           { name: 'Tablet', width: '768px', widthMedia: '992px' },
@@ -210,16 +260,6 @@ public customPopupModal: any = {
       });
       // mobile plugin
       grapesjs.plugins.add('mobile-plugin', function (editor:any, options:any) {
-        console.log('mobile plugins editor are --11-- ', editor);
-        console.log('mobile plugins options are --22-- ', options);
-        const desktopButton = editor.Panels.removeButton(
-          'devices-c',
-          'set-device-desktop'
-        );
-        const tabletButton = editor.Panels.removeButton(
-          'devices-c',
-          'set-device-tablet'
-        );
         const mobileButton = editor.Panels.getButton(
           'devices-c',
           'set-device-mobile'
@@ -246,7 +286,8 @@ public customPopupModal: any = {
           'grapesjs-preset-webpage': {
            
           },
-          'grapesjs-custom-code': {}
+          'grapesjs-custom-code': {},
+          'grapesjs-plugin-forms':{}
         },
         assetManager: {
           assets: [ ],
@@ -304,6 +345,14 @@ public customPopupModal: any = {
       this.saveTemplateURL = `${this.sharedService.Apigateway}${Constants.addScreen}`;
       this.updateTemplateURL = `${this.sharedService.Apigateway}${Constants.updateScreen}`;
       this.modifyTemplateUrl = `${this.sharedService.Apigateway}${Constants.updateProjectTemplate}`;
+      this.agGridFields = this.formBuilder.group({
+        selectColumn: ['', Validators.required],
+        selectEntity: ['', Validators.required],
+        selectField: ['', Validators.required]
+      });
+  }
+  addGridBlocks() {
+    this.blockservice.addAgGrid(this);
   }
   //To add Custom Blocks
   addCustomBlocks() {
@@ -311,7 +360,7 @@ public customPopupModal: any = {
     this.blockservice.addCKeditor5(this.editor);
     this.blockservice.addSpecialCharts(this.editor);
     this.blockservice.dynamicDropdown(this.editor);
-   
+    this.addGridBlocks();
   }
   //Function Contains custom buttons in panels
   panelManager() {
@@ -320,15 +369,14 @@ public customPopupModal: any = {
   }
   editorCommands() {
     console.log('-------draganddrop-----this', this);
-    this.commandService.componentSelected(this);
-    this.commandService.toggle(this);
-    //this.commandService.removeComponent(this);
-    this.commandService.updateComponentName(this);
-    this.commandService.updateTraits(this);
-    this.commandService.dragAndDrop(this);
+     this.commandService.componentSelected(this);
+     this.commandService.toggle(this);
+     //this.commandService.removeComponent(this);
+     this.commandService.updateComponentName(this);
+     this.commandService.updateTraits(this);
+     this.commandService.dragAndDrop(this);
   }
   onGridReady(params:any) {
-    
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
     this.gridColumnApi = params.columnApi;
@@ -358,7 +406,58 @@ tableOnSelectionChanged(event:any) {
   let rows: any;
   rows = event.api.getCellRendererInstances();
   this.selectedModifierValue = this.gridApi_modifier.getSelectedRows();
-  console.log('this.selectedModifierValue[0]', this.selectedModifierValue[0]);
+}
+
+/*This method is used to bind the entity field for the ag-grid component so based on the column selected we will
+  show the entity field if that column has entity field mapped to it.*/
+onColumnChange(event:any) {
+  this.selectedcolumn = event;
+  const customfields = this.agGridObject.custom_field;
+  const selectedentityfield = customfields.find((x:any) => x.columnname === this.selectedcolumn.name);
+  if(!customfields.length && selectedentityfield !== undefined){
+  this.agGridFields.controls['selectField'].setValue(selectedentityfield.entityfield);
+  }
+  
+}
+onFieldOptions(event:any) {
+  const agGridObject = {
+    columnid: '',
+    columnname: '',
+    entity: '',
+    entityfield: ''
+  };
+  if (
+    this.agGridFields.value.selectColumn !== '' &&
+    this.agGridFields.value.selectField !== ''
+  ) {
+    const isColExist = this.agGridArray.findIndex(
+      x => x.columnid === this.agGridFields.value.selectColumn.value
+    );
+    if (isColExist > -1) {
+      this.agGridArray.splice(isColExist, 1);
+    }
+    agGridObject.columnid = this.agGridFields.value.selectColumn.value;
+    agGridObject.columnname = this.agGridFields.value.selectColumn.name;
+    agGridObject.entity = this.selectedEntity.name;
+    agGridObject.entityfield = this.agGridFields.value.selectField;
+    this.agGridArray.push(agGridObject);
+    console.log('added gridarray value are ------  ', this.agGridArray);
+    this.ref.detectChanges();
+  }
+}
+
+saveGridField() {
+  this.dataService.setAgGridValue(this.agGridArray);
+  this.agGridObject.custom_field = this.agGridArray;
+  this.agGridObject.default_field = this.defaultColumn;
+  this.saveRemoteStorage();
+  this.onCloseHandled();
+}
+onCloseHandled() {
+  this.isGridPopup = false;
+  this.allEntityField = [];
+  this.isMappingGrid = false;
+  this.ref.detectChanges();
 }
   // set component element css based on cssGuideLines
   setElementCSS(element:any, tagName:any, removeTagClassName:any) {
@@ -438,11 +537,8 @@ tableOnSelectionChanged(event:any) {
         .subscribe(
           response => {
             this.entityData = response.body.body;
-            if (
-              this.entityData !== null &&
-              this.entityData !== undefined &&
-              this.entityData.length > 0
-            ) {
+            if (this.entityData.length > 0)
+             {
               console.log('entityData details using Feature id --------  ', this.entityData);
               const entityArray: { name: string; value: string; type?: string; }[] = [];
               entityArray.push({ name: 'none', value: 'none' });
@@ -472,7 +568,6 @@ tableOnSelectionChanged(event:any) {
               this.setDefaultType(this.dataBindingTypes);
             }
           },
-          error => { }
         );
     } else {
       console.log('---------------else coming first---');
@@ -481,11 +576,7 @@ tableOnSelectionChanged(event:any) {
         .subscribe(
           response => {
             const allEntityData = response.body;
-            if (
-              allEntityData !== null &&
-              allEntityData !== undefined &&
-              allEntityData.length > 0
-            ) {
+            if(allEntityData.length > 0) {
               console.log('entityData details using Project id --------  ', this.entityData);
               const entityArray: { name: string; value: string; type?: string; }[] = [];
               entityArray.push({ name: 'none', value: 'none' });
@@ -510,7 +601,6 @@ tableOnSelectionChanged(event:any) {
               this.setDefaultType(this.dataBindingTypes);
             }
           },
-          error => { }
         );
     }
   }
@@ -598,6 +688,7 @@ tableOnSelectionChanged(event:any) {
             label: this.traitsName,
             name: this.traitsName,
             options: this.selectentityarray,
+            changeProp: 1
           },
           {
             type: 'entityFieldButton',
@@ -621,6 +712,24 @@ tableOnSelectionChanged(event:any) {
           changeProp: 1
         },
       );
+          // radio traits
+    this.editor.DomComponents.getType(
+      'radio'
+    ).model.prototype.defaults.traits.push(
+      {
+        type: 'select',
+        label: this.traitsName,
+        name: this.traitsName,
+        options: EntityBinding,
+        changeProp: 1
+      },
+      {
+        type: 'entityFieldButton',
+        label: 'Field',
+        name: 'Field'
+      }
+    );
+
 
           // button traits
           this.editor.DomComponents.getType(
@@ -663,7 +772,40 @@ tableOnSelectionChanged(event:any) {
         changeProp: 1
       }
     ]);
+    this.setGridDefaultType(EntityBinding);
   }
+  setGridDefaultType(EntityBinding:any) {
+    console.log('-----------aggrid-entity--------', EntityBinding);
+    this.agGridArray = [];
+    // add rows trits
+   // this.customTraitService.addGridRowButton(this);
+    // remove rows triats
+ //   this.customTraitService.removeGridRowButton(this);
+    // add field binding button
+    this.customTraitService.gridFieldButton(this);
+    // custom traits for grid action buttons
+ //   this.customTraitService.RouteActionButton(this);
+    this.editor.DomComponents.getType(
+      'grid-type'
+    ).model.prototype.defaults.traits.push(
+      {
+        type: 'select',
+        label: this.traitsName,
+        name: this.traitsName,
+        changeProp: 1,
+        options: EntityBinding
+      },
+      {
+        name: 'fieldButton',
+        label: 'bind',
+        type: 'fieldGridButton'
+      },
+    );
+    // updating traits entties
+    console.log('---------grid--traits------------', this);
+    this.commandService.updateTraits(this);
+  }
+  
     // get screens by project id
     getScreenByProjectId() {
       this.screenDesignerService.getScreenByProjectId(this.project_id, this.logId).subscribe(
@@ -749,6 +891,9 @@ tableOnSelectionChanged(event:any) {
           flows_info: this.screenFlows,
           screenType: this.screenType,
           entity_info: this.screenEntityModel,
+          grid_fields: this.agGridObject,
+          is_grid_present: this.is_grid_present,
+          is_bootStrapTable_present: this.is_bootStrapTable_present,
           screenOption: this.screenOption,
           specific_attribute_Event: this.specific_attribute_Event
         });
@@ -760,9 +905,11 @@ tableOnSelectionChanged(event:any) {
       const saveButton = this.editor.Panels.getButton('options', 'save-page');
       saveButton.set('active', 0);
     }
+    toggleMapping() {
+      this.isMappingGrid = !this.isMappingGrid;
+      this.ref.detectChanges();
+    }
     saveEventdetails(value:any) {
-
-
       if (value.event.type === 'dynamicdropdown-type') {
         const traitsvalue = value.event.traits;
         this.eventObj.htmlId = value.event.htmlId;
@@ -772,11 +919,10 @@ tableOnSelectionChanged(event:any) {
         this.specific_attribute_Event.push(this.eventObj);
         this.saveRemoteStorage();
       }
-  
-      // if (value.event.type === 'grid-type') {
-      //   console.log('---------grid event-------', value.event);
-      //   this.agGridObject.event = value.event.value;
-      // }
+      if (value.event.type === 'grid-type') {
+        console.log('---------grid event-------', value.event);
+        this.agGridObject.event = value.event.value;
+      }
     }
     getScreenById() {
       if (this.screen_id) {
@@ -800,10 +946,10 @@ tableOnSelectionChanged(event:any) {
                 this.feature_id = this.existScreenDetail[0]['feature'];
                 this.project_id = this.existScreenDetail[0]['project'];
                 this.screenName = this.existScreenDetail[0]['screenName'];
-                // this.is_grid_present = this.existScreenDetail[0][
-                //   'is_grid_present'
-                // ];
-                // this.agGridObject = this.existScreenDetail[0]['grid_fields'];
+                this.is_grid_present = this.existScreenDetail[0][
+                  'is_grid_present'
+                ];
+                this.agGridObject = this.existScreenDetail[0]['grid_fields'];
                   this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
                   this.screenFlows = this.existScreenDetail[0]['flows_info'];
                 //  this.routeFlows = this.existScreenDetail[0]['route_info'];
@@ -813,20 +959,20 @@ tableOnSelectionChanged(event:any) {
                //  this.specialEvents = this.existScreenDetail[0]['special-events'];
                  this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
                //  this.linkArray = this.existScreenDetail[0]['link_info'];
-                // this.addGridBlocks();
+                 this.addGridBlocks();
   
                // // change colname array
-                // if (this.agGridObject && this.agGridObject.custom_field.length > 0)
-                //  {
-                //   this.columnOptions = [];
-                //   this.agGridObject.custom_field.forEach(customField => {
-                //     const temp = { value: '', name: '' };
-                //     temp.value = customField.columnid;
-                //     temp.name = customField.columnname;
-                //     this.columnOptions.push(temp);
-                //   });
-                //   console.log(' gjs component------------ value -------', this.agGridObject);
-                // }
+                if (this.agGridObject && this.agGridObject.custom_field.length > 0)
+                 {
+                  this.columnOptions = [];
+                  this.agGridObject.custom_field.forEach((customField:any) => {
+                    const temp = { value: '', name: '' };
+                    temp.value = customField.columnid;
+                    temp.name = customField.columnname;
+                    this.columnOptions.push(temp);
+                  });
+                  console.log(' gjs component------------ value -------', this.agGridObject);
+                }
                 this.editor.setComponents(
                   JSON.parse(this.existScreenDetail[0]['gjs-components'])
                 );
@@ -859,7 +1005,7 @@ tableOnSelectionChanged(event:any) {
       } else {
         this.saveRemoteStorage();
         this.getScreenById();
-        //this.createFeatureIfNotExist();
+       // this.createFeatureIfNotExist();
         this.closeScreeName();
         this.editor.store((data:any) => {
           console.log('storage id are -------------    ', data);

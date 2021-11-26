@@ -3,22 +3,26 @@ import { IEntity } from 'src/app/project-component/interface/Entity';
 import { Dataservice } from '../../../../broadcast.service';
 declare var ClassicEditor: any;
 declare var Highcharts: any;
+declare var agGrid: any;
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class TraitsService {
-
+  //public gridOptions: GridOptions;
   public entitylist: any[] = [];
   public entityOptions: any[] = [];
   public allEntity: IEntity[] = [];
-  constructor(private broadcastservice: Dataservice) { }
+  constructor(private broadcastservice: Dataservice) { 
+
+  }
   initMethod(screenGlobalVariable:any) {
     this.initializeInputMethod(screenGlobalVariable);
     this.initializeSelectMethod(screenGlobalVariable);
+     this.initializeRadio_CheckBoxMethod(screenGlobalVariable);
     this.initializeButtonMethod(screenGlobalVariable);
-    this.initializeLabelMethod(screenGlobalVariable);
+   this.initializeLabelMethod(screenGlobalVariable);
   }
 
   initializeInputMethod(screenGlobalVariable:any) {
@@ -55,7 +59,6 @@ export class TraitsService {
       view: defaultType.view
     });
   }
-
     // label traits
     initializeLabelMethod(screenGlobalVariable:any) {
       const comps = screenGlobalVariable.editor.DomComponents;
@@ -88,7 +91,6 @@ export class TraitsService {
             init() {
              // this.listenTo(this,'change:contentname',this.chartTitle);
             },
-           
           },
           {
             isComponent:  (el: { tagName: string; })=> {
@@ -135,13 +137,12 @@ export class TraitsService {
           })
         },
         {
-          isComponent:  (el: { tagName: string; })=> {
+          isComponent: function (el: { tagName: string; }) {
             if (el.tagName === 'SELECT') {
               return {
                 type: 'select'
               };
             }
-            return null;
           }
         }
       ),
@@ -162,6 +163,7 @@ export class TraitsService {
             defaults: Object.assign({}, defaultModel.prototype.defaults, {
               draggable: '*',
               droppable: false,
+            //  editable:true,
               traits: [
                 {
                   label: 'Name',
@@ -190,7 +192,6 @@ export class TraitsService {
               ]
             }),
             init() {
-              //alert('inside init');
               this.listenTo(this, 'change:verbs', this.verb);
               this.listenTo(this, 'change:modifiers', this.modifier);
             },
@@ -217,7 +218,7 @@ export class TraitsService {
           },
           {
             isComponent:  (el: { tagName: string; })=> {
-              //console.log("tagName is",el.tagName);
+              console.log("tagName is",el.tagName);
               
               if (el.tagName === 'button') {
                 return {
@@ -232,6 +233,47 @@ export class TraitsService {
         view: defaultType.view
       });
     }
+      // Radio and checkbox values values are ---
+  initializeRadio_CheckBoxMethod(screenGlobalVariable:any) {
+    const $this = this;
+    const comps = screenGlobalVariable.editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    comps.addType('radio', {
+      isComponent: (el: { tagName: string; }) => { el.tagName === 'INPUT'},
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              { name: 'id', label: 'ID' },
+              { name: 'name', label: 'Name', changeProp: 1 },
+              { name: 'value', label: 'Value' },
+              { type: 'checkbox', name: 'required', label: 'Required' },
+              {
+                label: 'Checked',
+                type: 'checkbox',
+                name: 'checked',
+                changeProp: 1
+              },
+              {
+                type: 'select',
+                label: 'entity',
+                name: 'entity',
+                options: [],
+                changeProp: 1
+              }
+            ]
+          })
+        },
+      ),
+
+      // Define the View
+      view: defaultType.view
+    });
+  }
   addCKEditorTraits(editor:any, buttonName:any) {
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
@@ -491,6 +533,242 @@ export class TraitsService {
       ),
 
       view: defaultType.view
+    });
+  }
+  
+  addGridTraits(screensVariable:any, buttonName:any) {
+    const $this = this;
+    const comps = screensVariable.editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    let selectedEntityName = '';
+    let selectedEntity;
+    let selectedColumnId = 'col1_id';
+    const gridOptionsInString:any= JSON.stringify(screensVariable.agGridObject);
+    const secGridString = JSON.stringify(screensVariable.agGridObject.custom_field);
+    comps.addType(buttonName, {
+      model: defaultModel.extend({
+        defaults: Object.assign({}, defaultModel.prototype.defaults, {
+          draggable: '*',
+          droppable: false,
+          'bootStrapTableCheckBox': true,
+          gridOptions: gridOptionsInString,
+          secGrid: secGridString,
+          script: function () {
+             const gridOptions= JSON.parse('{[ gridOptions ]}');
+            const initAgGrid = () => {
+              let columnDefs:any = [];
+              let rowData:any = [];
+              if (this.gridOptions &&
+                gridOptions.custom_field &&
+                gridOptions.custom_field.length > 0) {
+                    //alert('aggrid contain values');
+                    columnDefs = [];
+                    for (const key of gridOptions.custom_field) {
+                      for (let i = 0; i < 10; i++) {
+                        const newObject = gridOptions.custom_field.reduce((o:any, objectKey:any) =>
+                          Object.assign(o, { [objectKey.columnname]: `${objectKey.columnname}${Math.floor(Math.random() * 10000)}` }), {});
+                        rowData.push(newObject);
+                      }
+                      const temp = {
+                        headerName: '',
+                        field: '',
+                        sortable: true,
+                        colId: ''
+                      };
+                      temp.headerName = key.columnname;
+                      temp.field = key.columnname;
+                      temp.colId = key.columnid;
+                      columnDefs.push(temp);
+                    }
+                }
+                else{
+                  //alert('aggrid default values');
+                  columnDefs = [
+                    {
+                      headerName: 'A',
+                      field: 'a',
+                      sortable: true,
+                      colId: 'col1_id',
+                      cellStyle: {border: '1px solid '},
+                      filter:true
+                    },
+                    {
+                      headerName: 'B',
+                      field: 'b',
+                      sortable: true,
+                      colId: 'col2_id',
+                      cellStyle: {border: '1px solid '},
+                      filter:true
+                    },
+                    {
+                      headerName: 'C',
+                      field: 'c',
+                      sortable: true,
+                      colId: 'col3_id',
+                      cellStyle: {border: '1px solid '},
+                      filter:true
+                    },
+                    {
+                      headerName: 'D',
+                      field: 'd',
+                      sortable: true,
+                      colId: 'col4_id',
+                      cellStyle: {border: '1px solid '},
+                      filter:true
+                    },
+                    {
+                      headerName: 'E',
+                      field: 'e',
+                      sortable: true,
+                      colId: 'col5_id',
+                      cellStyle: {border: '1px solid '},
+                      filter:true
+                    }
+                  ];
+                  rowData = createRowData();
+                }
+                function createRowData() {
+                  const tempData = [];
+                  for (let i = 0; i < 10; i++) {
+                    // create sample row item
+                    const rowItem = {
+                      // is is simple
+                      a: 'aa' + Math.floor(Math.random() * 10000),
+                      b: 'bb' + Math.floor(Math.random() * 10000),
+                      c: 'cc' + Math.floor(Math.random() * 10000),
+                      d: 'dd' + Math.floor(Math.random() * 10000),
+                      e: 'ee' + Math.floor(Math.random() * 10000)
+                    };
+                    tempData.push(rowItem);
+                  }
+                  return tempData;
+                }
+                this.gridOptions = {
+                  defaultColDef: {
+                    editable: true
+                  },
+                  columnDefs: columnDefs,
+                  rowData: rowData,
+                  components: {
+                    boldRenderer: function (params:any) {
+                      return '<b>' + params.value.name + '</b>';
+                    }
+                  },
+                  onGridReady: function (params:any) {
+                    console.log('rendering params', params.api);
+                    params.api.sizeColumnsToFit();
+  
+                    window.addEventListener('resize', function () {
+                      setTimeout(function () {
+                        params.api.sizeColumnsToFit();
+                      });
+                    });
+                  },
+                  paginationPageSize: 5,
+                  pagination: true,
+                };
+                const gridDiv = document.querySelector('#myGrid');
+                // tslint:disable-next-line:no-unused-expression
+                new agGrid.Grid(gridDiv, this.gridOptions);
+                this.gridOptions.cacheQuickFilter = false;
+                console.log('grid function api', gridOptions.api);
+                gridOptions.api.sizeColumnsToFit();
+              
+              };
+              let exists = false;
+              const url = 'https://unpkg.com/ag-grid-community@26.2.0/dist/ag-grid-community.min.js';
+              const scripts = document.getElementsByTagName('script');
+              console.log("scripts",scripts);
+              
+              for (let i = scripts.length; i--;) {
+                if (scripts[i].src === url) {
+                  exists = true;
+                }
+              }
+              if (exists) {
+                initAgGrid();
+              } else {
+                const script = document.createElement('script');
+                script.onload = initAgGrid;
+                script.src = url;
+                document.body.appendChild(script);
+              }
+          },
+          traits: [{
+            label: 'Name',
+            name: 'name',
+            changeProp: 1,
+            type: 'text'
+          }, {
+            type: 'select',
+            label: 'columns',
+            name: 'columns',
+            changeProp: 1,
+            options: screensVariable.columnOptions,
+          }, {
+            type: 'text',
+            label: 'colName',
+            name: 'colname',
+            changeProp: 1
+          },
+          { type: 'checkbox', name: 'bootStrapTableCheckBox', label: 'Bootstrap Table', changeProp: 1 }
+          ],
+
+        }),
+        init() {
+          this.listenTo(this, 'change:bootStrapTableCheckBox', this.checkbox);
+          this.listenTo(this, 'change:colname', this.columnName);
+          this.listenTo(this, 'change:columns', this.gridColumns);
+        },
+        checkbox() {
+          screensVariable.is_bootStrapTable_present = this.attributes.bootStrapTableCheckBox;
+        },
+        columnName() {
+          const enteredColName = this.changed['colname'];
+          const selectedColumns = this.view.el.gridOptions.api.getColumnDef(selectedColumnId);
+          selectedColumns.headerName = enteredColName;
+          this.view.el.gridOptions.api.refreshHeader();
+          const indexFound = screensVariable.agGridArray.findIndex((x:any) => x.columnid === selectedColumns.colId);
+          if (indexFound > -1) {
+            screensVariable.agGridArray[indexFound].columnname = enteredColName;
+          }
+          screensVariable.columnOptions.forEach((columnElement:any) => {
+            if (columnElement.value === selectedColumnId) {
+              columnElement.name = enteredColName;
+              const customField = screensVariable.agGridObject.custom_field.find((x:any) => x.columnid === selectedColumnId);
+              if (customField) {
+                customField.columnname = enteredColName;
+              }
+              screensVariable.saveRemoteStorage();
+            }
+          });
+          const component = screensVariable.editor.getSelected();
+          component.removeTrait('columns');
+          component.addTrait({
+            type: 'select',
+            label: 'columns',
+            name: 'columns',
+            changeProp: 1,
+            options: screensVariable.columnOptions,
+          }, { at: 1 });
+        },
+        gridColumns() {
+          selectedColumnId = this.changed['columns'];
+        }
+      },
+        {
+          isComponent: function (el:any) {
+            if (el.tagName === buttonName) {
+              return {
+                type: buttonName
+              };
+            }
+          },
+        }),
+
+      // Define the View
+      view: defaultType.view,
     });
   }
  
