@@ -1,7 +1,7 @@
 {
     "feature-name": "gepItemTagsManager",
     "sharing-visibility-status": "admin",
-    "type": "external-QUESTION: what are other types?",
+    "type": "internal",
     "last-modified-date": "10-18-2021",
     "description": "provides the ability to add tags/reference data to a Geppetto based project",
     "author": "gepinfo@gmail.com",
