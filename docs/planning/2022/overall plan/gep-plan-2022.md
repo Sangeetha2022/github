@@ -16,8 +16,11 @@ Need to go live with what you have:
 
 ### Shareable features
 
-- architecture that allows for the addition of features to the generator
-- gepTagManager, gepFileManager, gepForums, gepInventory, gepShoppingCart
+- architecture that allows for the addition of features library to the generator
+  - gepTagManager, gepFileManager, gepForums, gepInventory, gepShoppingCart
+- Connector Library
+  - SalesForce
+  - Keka
 
 ### Government data as features
 
