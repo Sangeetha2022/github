@@ -41,8 +41,7 @@ export const resourcetypes = [
     "resource_name": "manageusers",
     "resource_type": "screen",
     "roles": [
-      "admin",
-      "user"
+      "admin"
     ],
     "components": [{
       "label_1425":
@@ -80,8 +79,7 @@ export const resourcetypes = [
     "resource_name": "admin",
     "resource_type": "screen",
     "roles": [
-      "admin",
-      "user"
+      "admin"
     ],
     "components": [{
       "label_1425":
@@ -116,7 +114,7 @@ export const resourcetypes = [
     ]
   },
   {
-    "resource_name": "sef screen",
+    "resource_name": "sefscreen",
     "resource_type": "screen",
     "roles": [
       "admin","user"

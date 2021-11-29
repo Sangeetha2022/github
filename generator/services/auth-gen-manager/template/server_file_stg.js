@@ -1,6 +1,6 @@
 /*
  * Template group server_file
- * Compiled on Fri Nov 19 2021 15:50:04 GMT+0530 (India Standard Time)
+ * Compiled on Fri Nov 26 2021 16:59:48 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -35,7 +35,7 @@ r = function(w, rc) {
     w.write("\n");
     w.write("import mongoose = require('mongoose');");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "isSeed", { file: gFile, line: 8, column: 11 }))) {
+    if (st.test(st.test(st.prop(s, g, rc, s.object, "isSeed", { file: gFile, line: 8, column: 11 })) || st.test(st.prop(s, g, rc, s.object, "GCAM", { file: gFile, line: 8, column: 28 })))) {
     
         w.write("import { SeedService } from './seed';");
     
@@ -99,7 +99,7 @@ r = function(w, rc) {
     }
     w.write("\n");
     w.write("         ");
-    if (st.test(st.prop(s, g, rc, s.object, "isSeed", { file: gFile, line: 24, column: 20 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "GCAM", { file: gFile, line: 24, column: 20 }))) {
     
         w.write("this.SeedData();");
     
@@ -188,12 +188,15 @@ r = function(w, rc) {
     
     }
     w.write("\n");
-    w.write(" ");
-    if (st.test(st.prop(s, g, rc, s.object, "isSeed", { file: gFile, line: 48, column: 12 }))) {
+    w.write("\n");
+    if (st.test(st.prop(s, g, rc, s.object, "GCAM", { file: gFile, line: 49, column: 11 }))) {
     
+        w.write(" ");
         w.write("\n");
-        w.pushIndentation("    ");
         w.write("private SeedData(): void {");
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write("console.log('route a file into seed create');");
         w.popIndentation();
         w.write("\n");
         w.pushIndentation("        ");
@@ -213,8 +216,7 @@ r = function(w, rc) {
     }
     w.write("\n");
     w.write("\n");
-    w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "isDmnFile", { file: gFile, line: 56, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "isDmnFile", { file: gFile, line: 57, column: 11 }))) {
     
         w.write("\n");
         w.pushIndentation("    ");
@@ -236,6 +238,8 @@ r = function(w, rc) {
     
     
     }
+    w.write("\n");
+    w.write("\n");
     w.write("\n");
     w.write("\n");
     w.write("}");

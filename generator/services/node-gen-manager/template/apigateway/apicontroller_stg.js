@@ -1,6 +1,6 @@
 /*
  * Template group apicontroller
- * Compiled on Thu Nov 25 2021 13:30:10 GMT+0530 (India Standard Time)
+ * Compiled on Fri Nov 26 2021 12:33:33 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -547,7 +547,6 @@ r = function(w, rc) {
     
     }
     w.write("\n");
-    w.write("}");
     w.write("\n");
     if (st.test(st.prop(s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "additional", { file: gFile, line: 98, column: 11 }), "gcam", { file: gFile, line: 98, column: 22 }), "login", { file: gFile, line: 98, column: 27 }))) {
     

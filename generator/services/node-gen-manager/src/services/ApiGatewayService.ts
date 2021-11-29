@@ -16,9 +16,9 @@ export class ApiGatewayService {
     private projectName = '';
     private packageObj: any[] = [];
     private controllerArray = [];
-    private CAMUNDA_LOGIN_URL = '/login';
-    private CAMUNDA_CONSENT_URL = '/consent';
-    private CAMUNDA_AUTH_PROXY_URL = '/proxy';
+    private GCAM_LOGIN_URL = '/login';
+    private GCAM_CONSENT_URL = '/consent';
+    private GCAM_AUTH_PROXY_URL = '/proxy';
     private URL_NAME = 'URL';
     private HTTP_NAME = 'http';
     private LOCALHOST_NAME = 'localhost';
@@ -49,6 +49,7 @@ export class ApiGatewayService {
         // generate docker file
         commonWorker.generateDockerFile(apiGatewayGenerationPath, apiGatewayTemplatePath, this.APIGATEWAY_FOLDERNAME);
         asyncLoop(req.body.nodeResponse, (element, next1) => {
+            console.log("element",element);
             const controllerObj = {
                 className: '',
                 implementName: '',
@@ -56,7 +57,7 @@ export class ApiGatewayService {
                 router: [],
                 methods: [],
                 additional: {
-                    camunda: {
+                    gcam: {
                         login: null,
                         consent: null,
                         isVerify: false
@@ -168,16 +169,16 @@ export class ApiGatewayService {
                             this.controllerImport(controllerObj, element);
 
                             // check camunda login and constent method to generate in apigateway
-                            if (routingElement.routeUrl === this.CAMUNDA_LOGIN_URL ||
-                                routingElement.routeUrl === this.CAMUNDA_CONSENT_URL) {
+                            if (routingElement.routeUrl === this. GCAM_LOGIN_URL ||
+                                routingElement.routeUrl === this.GCAM_CONSENT_URL) {
                                 this.setRoutingDetails(routingElement, controllerDetails);
                                 console.log("eee--->",routingElement, controllerDetails);
-                                controllerObj.additional.camunda.isVerify = true;
-                                if (routingElement.routeUrl === this.CAMUNDA_LOGIN_URL) {
-                                    controllerObj.additional.camunda.login = controllerDetails;
+                                controllerObj.additional.gcam.isVerify = true;
+                                if (routingElement.routeUrl === this.GCAM_LOGIN_URL) {
+                                    controllerObj.additional.gcam.login = controllerDetails;
                                 }
-                                if (routingElement.routeUrl === this.CAMUNDA_CONSENT_URL) {
-                                    controllerObj.additional.camunda.consent = controllerDetails;
+                                if (routingElement.routeUrl === this.GCAM_CONSENT_URL) {
+                                    controllerObj.additional.gcam.consent = controllerDetails;
                                 }
                             } else {
                                 this.setRoutingDetails(routingElement, controllerDetails);

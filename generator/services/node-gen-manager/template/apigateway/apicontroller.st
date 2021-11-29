@@ -94,7 +94,7 @@ $endif$
         });
     }
 $endif$
-}
+
 $if(object.additional.gcam.login)$
   public $object.additional.gcam.login.methodName$(req: Request, res: Response) {
                   new CustomLogger().showLogger('info', 'Enter into $object.className$Controller.ts: $object.additional.gcam.login.methodName$');

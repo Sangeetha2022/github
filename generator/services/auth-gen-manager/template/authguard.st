@@ -15,6 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthGuard implements CanActivate {
 
+ 
   @Output() getPermission = new EventEmitter();
   public jwtToken: any;
   public accessRoutes: any;
@@ -27,6 +28,7 @@ export class AuthGuard implements CanActivate {
   public samplescreen: any;
   public adminscreen: any;
   public userscreen: any;
+  public sefscreen: any;
   public userId: any;
   public permissions: any[] = [];
   public user_scr_permissions: any[] = [];
@@ -54,12 +56,10 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean  {
      console.log('------loggedvalue----', state.url);
      
-    return this.checkLoogedIn1(state.url);
+     return this.checkLoogedIn1(state.url);
   }
-  catalogscreen:any;
-  searchscreen:any;
+  sefscreen:any;
   checkLoogedIn1(url: String ) {
-    const json1=global_lang_json;
     this.routeName = url.split('/');
     console.log('checkLoogedIn', url);
     
@@ -75,57 +75,49 @@ export class AuthGuard implements CanActivate {
       console.log('this.userRole', this.userRole);
       this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '{}');
       console.log('this.accessRoutes', this.accessRoutes);
-      console.log('this.json ', json1.access);
-
+    
+    
       this.accessRoutes[0].access.forEach((element:any) => {
         if (this.userRole === 'User' && element['user']) {
           const User = element['user'];
           const useraccess = User['value'];
           console.log("useraccess",useraccess);
-          const catalog_screen = useraccess['catalog screen'];
-          const search_screen = useraccess['search screen'];
-          catalog_screen.forEach((access: { access: { value: any; }; components: any; }) => {
-            this.catalogscreen={
+          const sef_screen = useraccess['sefscreen'];
+          
+          sef_screen.forEach((access: { access: { value: any; }; components: any; }) => {
+            this.sefscreen={
                'Components': access.components
             };
           });
-          search_screen.forEach((access: { access: { value: any; }; components: any; }) => {
-            this.searchscreen={
-               'Components': access.components
-            };
-          });
+          
           for(let i = 0; i < User['screens'].length; i++) {
             this.user_scr_permissions.push(User['screens'][i].screenname);
             this.user_scr_permissions = this.user_scr_permissions.filter((item, index) => this.user_scr_permissions.indexOf(item) === index);
           }
-           this.broadcastService.sendMessage({ 'catalog_screen': this.catalogscreen, 'search_screen': this.searchscreen,'screens': this.user_scr_permissions });
+           this.broadcastService.sendMessage({ 'sef_screen': this.sefscreen, 'screens': this.user_scr_permissions });
         }
         if (this.userRole === 'Admin' && element['admin']) {
           const Admin = element['admin'];
           const adminaccess = Admin['value'];
           console.log("useraccess",adminaccess);
-          const catalog_screen = adminaccess['catalog screen'];
-          const search_screen = adminaccess['search screen'];
-          catalog_screen.forEach((access: { access: { value: any; }; components: any; }) => {
-            this.catalogscreen={
+          const sef_screen = adminaccess['sefscreen'];
+          
+          sef_screen.forEach((access: { access: { value: any; }; components: any; }) => {
+            this.sefscreen={
               'Components': access.components
             };
           });
-          search_screen.forEach((access: { access: { value: any; }; components: any; }) => {
-            this.searchscreen={
-              'Components': access.components
-            };
-          });
+          
           for(let i = 0; i < Admin['screens'].length; i++) {
             this.admin_scr_permissions.push(Admin['screens'][i].screenname);
             this.admin_scr_permissions = this.admin_scr_permissions.filter((item, index) => this.admin_scr_permissions.indexOf(item) === index);
           }
-          this.broadcastService.sendMessage({ 'catalog_screen': this.catalogscreen, 'search_screen': this.searchscreen,'screens': this.admin_scr_permissions });
+          this.broadcastService.sendMessage({ 'sef_screen': this.sefscreen,'screens': this.admin_scr_permissions });
         }
     
-
+    
        
-      });
+       });
 
       
       return true;
@@ -137,9 +129,9 @@ export class AuthGuard implements CanActivate {
         this.accessRoutes.forEach((route: any) => {
           console.log("kk",route);
           
-        })
+          })
         
-      }
+        }
     }
 
     return false;

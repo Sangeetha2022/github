@@ -95,6 +95,18 @@
             }]
         },
         {
+            "featureName": "gcam",
+            "entityModelName": "gcam",
+            "entityFileName": "gcam",
+            "nodePortNumber": "8007",
+            "flowAction": [{
+                "routeUrl": "/accesslevel",
+                "apiAction": "post",
+                "methodName": "gcam",
+                "variableName": "User"
+            }]
+        },
+        {
             "featureName": "Admin",
             "entityModelName": "Admin",
             "entityFileName": "Admin",
