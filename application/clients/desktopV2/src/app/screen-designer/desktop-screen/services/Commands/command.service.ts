@@ -191,6 +191,46 @@ export class CommandService {
             label: 'bind',
             type: 'fieldGridButton'
           },
+          {
+            type: 'select',
+            label: 'verb',
+            name: 'verbs',
+            changeProp: 1,
+            options: [
+              { key: 'click', value: 'onClick' },
+              { key: 'focus', value: 'onFocus' },
+              { key: 'blur', value: 'onBlur' }
+            ]
+          },
+          {
+            type: 'select',
+            label: 'event',
+            name: 'events',
+            changeProp: 1,
+            options: [
+              { key: 'Load', value: 'OnLoad' },
+              { key: 'AfterLoad', value: 'AfterLoad' },
+              { key: 'Rowclick', value: 'Rowclick' },
+              { key: 'Rowclick | Load', value: 'Rowclick | OnLoad' }
+            ]
+          },
+          {
+            name: 'actionButton',
+            label: 'Action',
+            type: 'actionButton'
+          },
+          {
+            type: 'select',
+            label: 'modifiers',
+            name: 'modifiers',
+            changeProp: 1,
+            options: $this.filterModifiers // Modifier binding
+          },
+          {
+            name: 'valueButton',
+            label: 'Modify By',
+            type: 'valueButton'
+          },
         ]);
       }
       if (component.attributes.type === 'grid-type') {

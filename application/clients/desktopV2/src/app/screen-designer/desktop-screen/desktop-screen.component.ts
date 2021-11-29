@@ -800,6 +800,13 @@ onCloseHandled() {
         label: 'bind',
         type: 'fieldGridButton'
       },
+      {
+        type: 'select',
+        label: 'verb',
+        name: 'verbs',
+        changeProp: 1,
+        options: this.verbOptions
+      },
     );
     // updating traits entties
     console.log('---------grid--traits------------', this);
