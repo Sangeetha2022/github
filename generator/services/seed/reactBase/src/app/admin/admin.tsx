@@ -7,7 +7,7 @@ class Admin extends React.Component{
             <div id="iuzatd" className="gpd-container gpd-cnt">
                 <div id="iz6vo" className="gdp-row gpd-grid">
                     <div id="iqtvt" className="cell gpd-clm">
-                        <div id="ighf" className="gdp-row gpd-grid sticky">
+                        <div id="ighfd" className="gdp-row gpd-grid sticky">
                             <div id="ik48" className="cell gpd-clm">
                                 <div id="icu6h" className="gpd-text">Admin Dashboard
                                 </div>

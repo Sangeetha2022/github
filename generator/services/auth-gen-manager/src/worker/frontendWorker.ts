@@ -230,16 +230,21 @@ export class FrontendWorker {
         });
     }
     
+    //createVaultAdminFile
     async createVaultAdminComponent(details, callback) {
-        this.projectGenerationPath = details.templateResponse.applicationPath;
-        this.seedPath = details.seedTemplatePath;
-        this.authTemplatePath = details.authTemplatePath;
-        const vaultApplicationPath = `${this.projectGenerationPath}/src/app/${this.VAULT_ADMIN}`;
-        this.generateStaticComponent(vaultApplicationPath, this.clientframework, this.VAULT_ADMIN, () => {
-            this.generateModule(this.VAULT_ADMIN, this.MODULE_TEMPLATENAME, vaultApplicationPath, () => {
-                callback();
+        if(this.clientframework !== 'react'){
+            this.projectGenerationPath = details.templateResponse.applicationPath;
+            this.seedPath = details.seedTemplatePath;
+            this.authTemplatePath = details.authTemplatePath;
+            const vaultApplicationPath = `${this.projectGenerationPath}/src/app/${this.VAULT_ADMIN}`;
+            this.generateStaticComponent(vaultApplicationPath, this.clientframework, this.VAULT_ADMIN, () => {
+                this.generateModule(this.VAULT_ADMIN, this.MODULE_TEMPLATENAME, vaultApplicationPath, () => {
+                    callback();
+                });
             });
-        });
+        } else {
+            callback();
+        }
     }
 
     //createReadmeFile 
@@ -262,10 +267,16 @@ export class FrontendWorker {
 
     //create config folder from seed files
     async createConfig(callback) {
-        const configPath = `${this.projectGenerationPath}/src/app/${this.CONFIG_FOLDERNAME}`;
-        await this.generateStaticComponent(configPath, this.clientframework, this.CONFIG_FOLDERNAME, () => {
+        console.log('enter into the config file');
+        if(this.clientframework !== 'react'){
+            const configPath = `${this.projectGenerationPath}/src/app/${this.CONFIG_FOLDERNAME}`;
+            await this.generateStaticComponent(configPath, this.clientframework, this.CONFIG_FOLDERNAME, () => {
+                callback();
+            });
+        } else {
+            console.log('back');
             callback();
-        });
+        }
     }
 
     // create signup component from seed files
@@ -350,6 +361,7 @@ export class FrontendWorker {
 
     // create user component from seed files
     async createUserComponent(callback) {
+        if(this.clientframework !== 'react'){
         const userApplicationPath = `${this.projectGenerationPath}/src/app/${this.USER_FOLDERNAME}`;
         const profileApplicationPath = `${userApplicationPath}/${this.PROFILE_SETTINGS_FOLDERNAME}`;
         const buttonRendererApplicationPath = `${userApplicationPath}/${this.BUTTON_RENDERER_FOLDERNAME}`;
@@ -376,32 +388,41 @@ export class FrontendWorker {
                 });
             });
         });
+        } else {
+            callback();
+        }
     }
 
 
     // create auth component from seed files
     async createAuthComponent(menus, seedTemplatePath, callback) {
-        this.allMenus(menus);
-        console.log('sterst', menus);
-        const templateName = `/authguard`;
-        const templateNamev12 = `/authguardv12`;
-        const fileName = `/auth.guard.ts`
-        const AuthApplicationPath = `${this.projectGenerationPath}/src/app/${this.AUTH_FOLDERNAME}`;
-        if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`) < 0) {
-            this.routingModuleInfo.importDependency.push(`import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`);
-        }
-        await this.generateStaticComponent(AuthApplicationPath, this.clientframework, this.AUTH_FOLDERNAME, () => {
-            let label = seedTemplatePath.split('/');
-            if(label.includes('AngularV7')) {
-                this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateName, this.routingMenus, () => {
-                    callback();
-                });
-            }else if(label.includes('AngularV12')) {
-                this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateNamev12, this.routingMenus, () => {
-                    callback();
-                });
+        console.log('auth back');
+        if(this.clientframework !== 'react'){
+            this.allMenus(menus);
+            console.log('sterst', menus);
+            const templateName = `/authguard`;
+            const templateNamev12 = `/authguardv12`;
+            const fileName = `/auth.guard.ts`
+            const AuthApplicationPath = `${this.projectGenerationPath}/src/app/${this.AUTH_FOLDERNAME}`;
+            if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`) < 0) {
+                this.routingModuleInfo.importDependency.push(`import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`);
             }
-        });
+            await this.generateStaticComponent(AuthApplicationPath, this.clientframework, this.AUTH_FOLDERNAME, () => {
+                let label = seedTemplatePath.split('/');
+                if(label.includes('AngularV7')) {
+                    this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateName, this.routingMenus, () => {
+                        callback();
+                    });
+                }else if(label.includes('AngularV12')) {
+                    this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateNamev12, this.routingMenus, () => {
+                        callback();
+                    });
+                }
+            });
+        } else {
+            console.log('back');
+            callback();
+        }
     }
 
 
@@ -429,10 +450,16 @@ export class FrontendWorker {
 
     // add method in header component
     async generateAppFile(callback) {
-        const headerComponentPath = `${this.projectGenerationPath}/src/app`;
-        this.modifyAppFile(headerComponentPath, this.HEADER_FOLDERNAME, () => {
+        console.log('generateapp back');
+        if(this.clientframework !== 'react'){
+            const headerComponentPath = `${this.projectGenerationPath}/src/app`;
+            this.modifyAppFile(headerComponentPath, this.HEADER_FOLDERNAME, () => {
+                callback();
+            });
+        } else {
+            console.log('back');
             callback();
-        });
+        }
     }
 
     async generateStaticComponent(applicationPath, clientframework, folderName, callback) {
@@ -441,8 +468,7 @@ export class FrontendWorker {
             loginSeedPath = `${this.seedPath}/user/${folderName}`;
         } else if (clientframework === 'react') {
             loginSeedPath = `${this.seedPath}/src/app/${folderName}`;
-        } 
-        else {
+        } else {
             loginSeedPath = `${this.seedPath}/${folderName}`;
         }
         Common.createFolders(applicationPath);

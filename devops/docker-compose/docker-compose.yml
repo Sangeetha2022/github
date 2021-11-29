@@ -465,7 +465,7 @@ services:
       - apigateway    
 
   reactgenmanager:
-    build: ../../generator/services/reactv16-gen-manager
+    build: ../../generator/services/react-gen-managerV1702
     image: reactgenmanager
     container_name: reactgenmanager
     volumes:
@@ -477,7 +477,7 @@ services:
       - apigateway
 
   reacttemplatemanager:
-    build: ../../generator/services/React-Template-managerV17
+    build: ../../generator/services/React-Template-managerV1702
     image: reacttemplatemanager
     container_name: reacttemplatemanager
     volumes:

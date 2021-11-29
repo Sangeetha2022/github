@@ -1,0 +1,12 @@
+  {{#each GpHeaders}}
+  import { {{importName}} } from '{{ importPath }}';
+  {{/each}}
+
+  let routes: any = [
+  {{#each Gproutes}}
+  { path: '/{{ path }}', component: {{ component }} },
+  {{/each}}
+
+  ];
+
+
