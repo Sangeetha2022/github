@@ -146,7 +146,7 @@ services:
     image: templatemanager
     container_name: templatemanager
     ports:
-      - "3017:3012"
+      - "3012:3012"
     env_file: ../../.env
     depends_on:
       - mongo
