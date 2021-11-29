@@ -20,10 +20,13 @@ export class DmnWorkerFile {
     let roledmnarray = [];
 
     let listofscreens = this.ScreenName(screens);
+    console.log("listofscreens--->",listofscreens);
     let saveItems = this.SaveItems(listofscreens);
+    console.log("saveItems----->",saveItems)
     let templatepath = camundaService.TEMPLATE_PATH;
+    console.log("templatepath------->",templatepath);
     let generationpath = camundaService.GENERATION_PATH;
-
+    console.log("generationpath----->",generationpath);
     this.rolesarray.forEach(elements => {
       let dmnrole = {
         role: '',
@@ -55,7 +58,10 @@ export class DmnWorkerFile {
         output[element.resources] = [];
         let role = element.role
         asyncloop(this.rolesarray, (element, next) => {
+          console.log("element--->",this.rolesarray);
           if (role === element) {
+            console.log("role--->",role);
+            console.log("element--->",element);
             role_key[element] = {
               value: true
             }

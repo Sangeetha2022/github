@@ -94,6 +94,77 @@ $endif$
         });
     }
 $endif$
+
+$if(object.additional.gcam.login)$
+  public $object.additional.gcam.login.methodName$(req: Request, res: Response) {
+                  new CustomLogger().showLogger('info', 'Enter into $object.className$Controller.ts: $object.additional.gcam.login.methodName$');
+        new ApiAdaptar().$object.additional.gcam.login.apiAction$($object.additional.gcam.login.constantName$.$object.additional.gcam.login.nodeName$ + `$object.additional.gcam.login.methodUrl$` $if(object.additional.gcam.login.requestParameter)$, $object.additional.gcam.login.requestParameter$$endif$)
+        .then((res: any) => res.response.json())
+        .then(async ($object.additional.gcam.login.responseParameter$) => {
+            // @ts-ignore
+            const token = $object.additional.gcam.login.responseParameter$.Idtoken;
+            // @ts-ignore
+            if ($object.additional.gcam.login.responseParameter$.Idtoken === null || $object.additional.gcam.login.responseParameter$.Idtoken === '' || $object.additional.gcam.login.responseParameter$.Idtoken === undefined) {
+                req.baseUrl === '/mobile' ? res.send({"Userdetails": $object.additional.gcam.login.responseParameter$}) :
+                    req.baseUrl === '/desktop' ? res.send({"Userdetails": $object.additional.gcam.login.responseParameter$}) : res.send(null)
+            } else {
+                          $if(object.additional.gcam.isVerify)$
+            jwt.verify(token, 'geppettosecret', (err, decoded) => {
+                if (err) {
+                    res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
+                } else {
+                    new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded)
+                    .then((res: any) => res.response.json()).then((response) => {
+                        const temp = {
+                            "Access": JSON.parse(JSON.stringify(response)),
+                            "Userdetails": result
+                        }
+                req.baseUrl === '/mobile' ? res.send(temp) :
+                req.baseUrl === '/desktop' ? res.send(temp) : res.send(null)
+                  new CustomLogger().showLogger('info', 'Exit from $object.className$Controller.ts: $object.additional.gcam.login.methodName$');
+                    })
+                }
+            })
+$endif$
+            }
+        }).catch(err => {
+            res.send(err);
+        });
+    }
+$endif$
+
+$if(object.additional.gcam.consent)$
+   public $object.additional.gcam.consent.methodName$(req: Request, res: Response) {
+                         new CustomLogger().showLogger('info', 'Enter into $object.className$Controller.ts: $object.additional.gcam.consent.methodName$');
+        new ApiAdaptar().$object.additional.gcam.consent.apiAction$($object.additional.gcam.consent.constantName$.$object.additional.gcam.consent.nodeName$ + `$object.additional.gcam.consent.methodUrl$` $if(object.additional.gcam.consent.requestParameter)$, $object.additional.gcam.consent.requestParameter$$endif$)
+        .then((res: any) => res.response.json())
+        .then(async ($object.additional.gcam.consent.responseParameter$) => {
+            // @ts-ignore
+            const token = $object.additional.gcam.consent.responseParameter$.Idtoken;
+            $if(object.additional.gcam.isVerify)$
+            jwt.verify(token, 'geppettosecret', (err, decoded) => {
+                if (err) {
+                    res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
+                } else {
+                    new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded)
+                    .then((res: any) => res.response.json()).then((response) => {
+                        const temp = {
+                            "Access": JSON.parse(JSON.stringify(response)),
+                            "Userdetails": result
+                        }
+                req.baseUrl === '/mobile' ? res.send(temp) :
+                req.baseUrl === '/desktop' ? res.send(temp) :
+                         new CustomLogger().showLogger('info', 'Exit from $object.className$Controller.ts: $object.additional.gcam.consent.methodName$');
+                    })
+                }
+            })
+$endif$
+        }).catch(err => {
+            res.send(err);
+        });
+    }
+$endif$
 }
+
 
 >>

@@ -44,6 +44,7 @@ services:
     env_file: .env
     depends_on:
       - mongo
+      - gcam
       - camunda
 
   securitymanager:
@@ -79,6 +80,18 @@ services:
       - mongo
       - camunda
       - securitymanager
+
+  gcam:
+    build: ../../../application/services/default_services/gcam
+    image: gcam-$uuid$
+    container_name: gcam-$uuid$
+    ports:
+      - "8007:8007"
+    env_file: .env
+    depends_on:
+      - mongo
+      - vault
+     
 
   apigateway:
     build: ../../../application/services/custom_services/apigateway

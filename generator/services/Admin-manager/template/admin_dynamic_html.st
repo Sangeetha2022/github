@@ -1,61 +1,61 @@
 admin_dynamic_html(dynamic_html) ::= <<
-<div id="icu6h" class="container-fluid">
-    Admin Dashboard
-    <div id="ig75jo" class="card">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 id="i4a9sf">System Administration</h2>
-                <div class="row">
-                    <div class="col-lg-4">
-                         <div class="card"> 
-                            <div id="i0mp2f" class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <img src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/8c3c80b2b8bf47fe891dc0fef071b903_group_2885.png" (click)="navigate()" alt="">
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <h4>User</h4>
-                                        <h6>
-                                            Management
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                         </div>
+<div id="iuzatd" class="gpd-container gpd-cnt">
+    <div id="iz6vo" class="gdp-row gpd-grid">
+        <div id="iqtvt" class="cell gpd-clm">
+            <div id="ighf" class="gdp-row gpd-grid sticky">
+                <div id="ik48" class="cell gpd-clm">
+                    <div id="icu6h" class="gpd-text">Admin Dashboard
                     </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div id="i0mp2f" class="card-body">
-
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <img src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/59864fc5225d4dbd98f7ff895e715fb6_vaul.png" alt="">
-
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <h4>Vault</h4>
-                                        <h6>
-                                            administration
-                                        </h6>
-                                    </div>
-                                </div>
+                </div>
+               
+            </div>
+            <div id="i937yi" class="gdp-row gpd-grid">
+                <div id="i5wn7j" class="cell gpd-clm">
+                    <div id="i8zcvg" class="gdp-row gpd-grid">
+                        <div id="il2xxf" class="cell gpd-clm">
+                            <div id="i4a9sf" class="gpd-text">System Administration
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div id="i0mp2f" class="card-body">
-
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <img src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/fdcfc34e5c3d49b3bc609b3b1b0cd842_sec.png" alt="">
-
+                        <div class="cell gpd-clm">
+                            <div id="ig75jo" class="gdp-row gpd-grid">
+                                <div id="i0mp2f" class="cell gpd-clm">
+                                    <div id="i652ij" class="gdp-row gpd-grid">
+                                       
+                                        <div id="iojftr" class="cell gpd-clm"><img (click)="navigate()"
+                                                src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/8c3c80b2b8bf47fe891dc0fef071b903_group_2885.png" 
+                                                id="il96fe" /> </div>
+                                        <div id="ivdiuk" class="cell gpd-clm">
+                                            <div id="ic8nue" class="gpd-text">User
+                                            </div>
+                                            <div id="ifdjor" class="gpd-text">Management
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-lg-10">
-                                        <h4>Security</h4>
-                                        <h6>
-                                            Manager
-                                        </h6>
+                                </div>
+                                <div id="ic1ccr" class="cell gpd-clm">
+                                    <div id="iemrh7" class="gdp-row gpd-grid">
+                                        <div id="i7trrs" class="cell gpd-clm"><img
+                                                src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/59864fc5225d4dbd98f7ff895e715fb6_vaul.png"
+                                                id="iu3vly" /></div>
+                                        <div id="ivt7k8" class="cell gpd-clm">
+                                            <div id="ifs5g7" class="gpd-text">Vault
+                                            </div>
+                                            <div id="iiq5zm" class="gpd-text">administration
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="i77jpi" class="cell gpd-clm">
+                                    <div id="i12mn9" class="gdp-row gpd-grid">
+                                        <div id="i7j9ef" class="cell gpd-clm"><img
+                                                src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/fdcfc34e5c3d49b3bc609b3b1b0cd842_sec.png"
+                                                id="icw9hz" /></div>
+                                        <div id="i23znz" class="cell gpd-clm">
+                                            <div id="i8c31a" class="gpd-text">Security
+                                            </div>
+                                            <div id="ilhgzk" class="gpd-text">Manager
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -63,204 +63,7 @@ admin_dynamic_html(dynamic_html) ::= <<
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div id="ig75jo" class="card">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 id="i4a9sf">Feature administration</h2>
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div id="i0mp2f" class="card-body">
-
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <img src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/7639d52e93874abf9134109140091210_group_17154.png" alt="">
-
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <h4>Notifications</h4>
-                                        <h6>
-                                            Gep
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div id="i0mp2f" class="card-body">
-
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <img src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/4557519f339b463d983033762fd913fd_file.png" alt="">
-
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <h4>FileManager</h4>
-                                        <h6>
-                                            Gep
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div id="i0mp2f" class="card-body">
-
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <img src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/225eff0564f649b8ab600e86f7867401_wp.png" alt="">
-
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <h4>WCMX-WordPress</h4>
-                                        <h6>
-                                            Administration
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div id="i0mp2f" class="card-body">
-
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <img src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/d66c8697dbd84f30812afc3a0f27e8ea_gjs.png" alt="">
-
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <h4>
-                                            WCMX-grapejs</h4>
-                                        <h6>
-                                            Administration
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div id="i0mp2f" class="card-body">
-
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <img src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/a7bcddb1e0614719b26b22738e15264b_defaulticon.png" alt="">
-
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <h4>Default Icon</h4>
-                                        <h6>
-                                            Feature
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div id="i0mp2f" class="card-body">
-
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <img src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/a7bcddb1e0614719b26b22738e15264b_defaulticon.png" alt="">
-
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <h4>
-                                            Default Icon</h4>
-                                        <h6>
-                                            Feature
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="ig75jo" class="card">
-        <div class="row">
-            <div class="col-lg-12">
-                <h2 id="i4a9sf">Connector Administration</h2>
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div id="i0mp2f" class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <img src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/908e7d8abb554932b0b03abc94101258_mls.png" alt="">
-
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <h4>MLS Grid</h4>
-                                        <h6>
-                                            Connector
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div id="i0mp2f" class="card-body">
-
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <img src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/96928eccb4194200973e4e09b5f6c555_sn.png" alt="">
-
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <h4>Service now</h4>
-                                        <h6>
-                                            Connector
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <div id="i0mp2f" class="card-body">
-
-                                <div class="row">
-                                    <div class="col-lg-2">
-                                        <img src="https://cdn.grapedrop.com/uf9ef8595751c4d1f87c91168f5d51a8c/0f83507d8c434ab4a3a98aba0e1eacab_defcon.png" alt="">
-
-                                    </div>
-                                    <div class="col-lg-10">
-                                        <h4>
-                                            Default Icon</h4>
-                                        <h6>
-                                            Connector
-                                        </h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 >>
