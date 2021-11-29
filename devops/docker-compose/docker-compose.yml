@@ -10,7 +10,7 @@ services:
     volumes:
       - geppetto-volume:/data/db
     ports:
-      - "27013:27017"
+      - "27017:27017"
     healthcheck:
       test: echo 'db.runCommand({serverStatus:1}).ok' | mongo admin -u root -p root --quiet | grep 1
       interval: 10s

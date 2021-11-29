@@ -7,7 +7,6 @@ export class EntityMicroService {
     Entityservice(projectid, callback) {
         console.log("projectid--->",projectid);
         const projectId = projectid;
-         console.log('------entityprojectid-----', projectId);
         new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/entity/get/?projectId=${projectId}`).then(
             data => {
                 console.log('${SharedService.apiGatewayURL}',`${SharedService.apiGatewayURL}/desktop/entity/get/?projectId=${projectId}`)
