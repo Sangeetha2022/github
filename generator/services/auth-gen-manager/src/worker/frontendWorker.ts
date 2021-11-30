@@ -48,6 +48,7 @@ export class FrontendWorker {
 
     // Methods
     private logoutMethod = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\tthis.userId = sessionStorage.getItem('Id');\n\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
+    private logoutMethodV13 = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\tthis.userId = sessionStorage.getItem('Id') || '{}';\n\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
     private logoutMethodV12 = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\tthis.userId = sessionStorage.getItem('Id') || '{}';\n\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
     private broadcastMethod = `\tthis.broadcastService.currentUserName.subscribe(headerPermission => {
         this.authArray = [];
@@ -81,11 +82,19 @@ export class FrontendWorker {
 		}
         return false;
     }`;
+    private isApplicableMethodV13 = `isApplicable(value:any) {
+		if (this.authArray !== undefined) {
+			return this.authArray.filter((routename: any) => routename == value).length > 0;
+		}
+        return false;
+    }`;
     private confirmLangModel = `confirmLangModel(lang) {\n\t\tthis.userId= sessionStorage.getItem('Id');\n\t\tif (this.userId !== null) {\n\t\tthis.confirmLangChangeModal = 'block';\n\t\tthis.currentLanguage = lang;\n\t\t} else {\n\t\tthis.changeLanguage(lang);\n\t\tthis.onCloseHandled();\n\t\t}\n\t\t}`;
+    private confirmLangModelV13 = `confirmLangModel(lang:any) {\n\t\tthis.userId= sessionStorage.getItem('Id') || '{}';\n\t\tif (this.userId !== null) {\n\t\tthis.confirmLangChangeModal = 'block';\n\t\tthis.currentLanguage = lang;\n\t\t} else {\n\t\tthis.changeLanguage(lang);\n\t\tthis.onCloseHandled();\n\t\t}\n\t\t}`;
     private confirmLangModelV12 = `confirmLangModel(lang:any) {\n\t\tthis.userId= sessionStorage.getItem('Id') || '{}';\n\t\tif (this.userId !== null) {\n\t\tthis.confirmLangChangeModal = 'block';\n\t\tthis.currentLanguage = lang;\n\t\t} else {\n\t\tthis.changeLanguage(lang);\n\t\tthis.onCloseHandled();\n\t\t}\n\t\t}`;
     private confirmLangChange = `confirmLangChange() {\n\t\tthis.changeLanguage(this.currentLanguage);\n\t\tthis.onCloseHandled();\n\t\t}`;
     private onCloseHandled = `onCloseHandled() {\n\t\tthis.confirmLangChangeModal = 'none';\n\t\t}`;
     private changeLanguage = `changeLanguage(lang) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t});\n\t\t}\n\t\tthis.userId = sessionStorage.getItem('Id');\n\t\tif (this.userId !== null) {\n\t\tthis.logout();\n\t\t} else {\n\t\tdocument.location.reload();\n\t\t}\n\t\t}`;
+    private changeLanguageV13 = `changeLanguage(lang:any) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t});\n\t\t}\n\t\tthis.userId = sessionStorage.getItem('Id') || '{}';\n\t\tif (this.userId !== null) {\n\t\tthis.logout();\n\t\t} else {\n\t\tdocument.location.reload();\n\t\t}\n\t\t}`;
     private changeLanguageV12 = `changeLanguage(lang:any) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t});\n\t\t}\n\t\tthis.userId = sessionStorage.getItem('Id') || '{}';\n\t\tif (this.userId !== null) {\n\t\tthis.logout();\n\t\t} else {\n\t\tdocument.location.reload();\n\t\t}\n\t\t}`;
     private updateLangChange = `private updateState(lang: string) {\n\t\tthis.language = lang;\n\t\t}`;
     private isAppModule = {
@@ -402,6 +411,7 @@ export class FrontendWorker {
             console.log('sterst', menus);
             const templateName = `/authguard`;
             const templateNamev12 = `/authguardv12`;
+            const templateNamev13 = `/authguardv13`;
             const fileName = `/auth.guard.ts`
             const AuthApplicationPath = `${this.projectGenerationPath}/src/app/${this.AUTH_FOLDERNAME}`;
             if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`) < 0) {
@@ -413,8 +423,12 @@ export class FrontendWorker {
                     this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateName, this.routingMenus, () => {
                         callback();
                     });
-                }else if(label.includes('AngularV12')) {
+                } else if(label.includes('AngularV12')) {
                     this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateNamev12, this.routingMenus, () => {
+                        callback();
+                    });
+                } else if(label.includes('AngularV13')) {
+                    this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateNamev13, this.routingMenus, () => {
                         callback();
                     });
                 }
@@ -753,13 +767,29 @@ export class FrontendWorker {
                 modifyFile.splice(methodCount, 0, this.onCloseHandled);
                 modifyFile.splice(methodCount, 0, this.changeLanguage);
                 modifyFile.splice(methodCount, 0, this.updateLangChange);
-            }else  {
+            } else if(label.includes('AngularV12')) {
                 modifyFile.splice(methodCount, 0, this.logoutMethodV12);
                 modifyFile.splice(methodCount, 0, this.isApplicableMethodV12);
                 modifyFile.splice(methodCount, 0, this.confirmLangModelV12);
                 modifyFile.splice(methodCount, 0, this.confirmLangChange);
                 modifyFile.splice(methodCount, 0, this.onCloseHandled);
                 modifyFile.splice(methodCount, 0, this.changeLanguageV12);
+                modifyFile.splice(methodCount, 0, this.updateLangChange);
+            } else if(label.includes('AngularV13')) {
+                modifyFile.splice(methodCount, 0, this.logoutMethodV13);
+                modifyFile.splice(methodCount, 0, this.isApplicableMethodV13);
+                modifyFile.splice(methodCount, 0, this.confirmLangModelV13);
+                modifyFile.splice(methodCount, 0, this.confirmLangChange);
+                modifyFile.splice(methodCount, 0, this.onCloseHandled);
+                modifyFile.splice(methodCount, 0, this.changeLanguageV13);
+                modifyFile.splice(methodCount, 0, this.updateLangChange);
+            } else {
+                modifyFile.splice(methodCount, 0, this.logoutMethod);
+                modifyFile.splice(methodCount, 0, this.isApplicableMethod);
+                modifyFile.splice(methodCount, 0, this.confirmLangModel);
+                modifyFile.splice(methodCount, 0, this.confirmLangChange);
+                modifyFile.splice(methodCount, 0, this.onCloseHandled);
+                modifyFile.splice(methodCount, 0, this.changeLanguage);
                 modifyFile.splice(methodCount, 0, this.updateLangChange);
             }
         }

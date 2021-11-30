@@ -2344,6 +2344,14 @@
             "sub_type": null
         },
         {
+            "name": "angular 13",
+            "label": "Angular 13",
+            "description": null,
+            "value": null,
+            "type": "GpClientDevFramework",
+            "sub_type": null
+        },
+        {
             "name": "react 17.0.2",
             "label": "React 17.0.2",
             "description": null,

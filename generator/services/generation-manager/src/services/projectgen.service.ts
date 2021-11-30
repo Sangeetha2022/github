@@ -251,7 +251,9 @@ export class ProjectgenService {
         if( this.projectObj.clientFramework.label == 'Angular 12'){
             this.projectObj.templateLocation.authTemplatePath = authPath.value+'/AngularV12';
             console.log("inside angular 12 auth path==>",this.projectObj.templateLocation.authTemplatePath);
-            
+        } else if( this.projectObj.clientFramework.label == 'Angular 13'){
+            this.projectObj.templateLocation.authTemplatePath = authPath.value+'/AngularV13';
+            console.log("inside angular 13 auth path==>",this.projectObj.templateLocation.authTemplatePath);
         } else if( this.projectObj.clientFramework.label == 'Angular 10'){
             this.projectObj.templateLocation.authTemplatePath = authPath.value+'/AngularV7';
             console.log("inside angular 10 auth path==>",this.projectObj.templateLocation.authTemplatePath);
@@ -299,7 +301,18 @@ export class ProjectgenService {
             this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value+'/AngularV7';
             console.log("inside angular 10 admin==>",this.projectObj.templateLocation.adminManagerTemplatePath);
             
-        } else {
+        } 
+        if( this.projectObj.clientFramework.label == 'Angular 13'){
+            this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value+'/AngularV13';
+            console.log("inside angular 13 admin==>",this.projectObj.templateLocation.adminManagerTemplatePath);
+            
+        }
+        // if( this.projectObj.clientFramework.label == 'React 17.0.2'){
+        //     this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value+'/AngularV7';
+        //     console.log("inside angular 10 admin==>",this.projectObj.templateLocation.adminManagerTemplatePath);
+            
+        // }
+         else {
             this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value;
             console.log("inside admin==>",this.projectObj.templateLocation.adminManagerTemplatePath);
         }
