@@ -92,9 +92,9 @@ export class FrontendTemplateService {
 
             }
             if (details.project.clientFramework.label == 'Angular 13') {
-                console.log("inside angular 12 templatemanager frontend");
+                console.log("inside angular 13 templatemanager frontend");
                 const templateResponse = await this.generateAngularTemplateV13(templateObj);
-                console.log('after calling angular template for version 12 ---  ', templateResponse);
+                console.log('after calling angular template for version 13 ---  ', templateResponse);
                 if (templateResponse) {
                     const tempFrontend = {
                         templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
@@ -119,7 +119,7 @@ export class FrontendTemplateService {
                     console.log('after calling auth gronten component are  ---  ');
                     await this.generateAdminFrontendComponent(tempFrontend);
                 }
-                callback('angular template are generated');
+                callback('angular 13 template are generated');
 
             }
             if (details.project.clientFramework.label.includes('Angular') && details.project.clientFramework.label != 'Angular 12') {

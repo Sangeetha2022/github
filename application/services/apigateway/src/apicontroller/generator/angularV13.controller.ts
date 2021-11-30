@@ -18,7 +18,7 @@ export class AngularControllerV13 implements Controller {
     public async createProject(req: Request, res: Response) {
         try {
             let response = await Promise.resolve(new ApiAdaptar().post(
-                `${Constants.angularGenUrlV12}/angularv13/project`, req.body));
+                `${Constants.angularGenUrlV13}/angularv13/project`, req.body));
             res.send(response);
         } catch (err) {
             res.send(err);

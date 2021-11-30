@@ -273,7 +273,7 @@ export class FrontendService {
 
     generateAngularV13(details) {
         return new Promise(resolve => {
-            console.log('angular generate manager ang gen for version 12', details);
+            console.log('angular generate manager ang gen for version 13', details);
             this.angularGenManagerService.generateAngularV13(details, (data) => {
                 resolve(data);
             })

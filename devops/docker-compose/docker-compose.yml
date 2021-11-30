@@ -427,7 +427,7 @@ services:
 
   angulargenmanagerv13:
     build: ../../generator/services/Angular-gen-ManagerV13
-    image: angulargenmanagerv12
+    image: angulargenmanagerv13
     container_name: angulargenmanagerv13
     volumes:
       - generated-code:/geppetto/
