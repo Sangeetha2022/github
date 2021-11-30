@@ -1,15 +1,15 @@
 {
-    "feature-name": "gepFileManager",
+    "feature-name": "gepItemTagsManager",
     "sharing-visibility-status": "admin",
-    "type": "external-QUESTION: what are other types? - default is internal",
-    "last-modified-date": "10-16-2021",
-    "description": "\"Generic file uploads/downloads/management\"",
+    "type": "internal",
+    "last-modified-date": "10-18-2021",
+    "description": "provides the ability to add tags/reference data to a Geppetto based project",
     "author": "gepinfo@gmail.com",
     "icon-location": "/xx/ff/ggg/file-manager.png",
     "repo":{
         "type": "github",
-        "location": "https://github.com/dan-castillo/gepFileManager.git",
-        "branch" : "main",
+        "location": "https://github.com/dan-castillo/gepItemTagsManager",
+        "branch" : "gepItemTagManager",
         "release-version-tag": "xx.xx.xx"
     },
     "security":{
@@ -32,86 +32,54 @@
         "term": "",
         "comments": "best effort support"
     },
-    "primary-entity": "attachment",
-    "secondary-entities":[
-        "entity-two",
-        "entity-three"
-    ],
+    "primary-entity": "ItemTags",
+    "secondary-entities":[],
     "entities":[
         {
-            "name": "attachment",
+            "name": "ItemTags",
             "fields":[
                 {
-                    "name": "fileUrl",
-                    "description": "xxxx description one",
+                    "name": "created_date",
+                    "description": "xxxxxxx",
+                    "type": "date"
+                },
+                {
+                    "name": "created_by",
+                    "description": "xxxxxx",
                     "type": "text"
                 },
                 {
-                    "name": "fileKey",
-                    "description": "xxxxx description two",
+                    "name": "last_modified_by",
+                    "description": "xxxxx",
                     "type": "text"
                 },
                 {
-                    "name": "fileData",
-                    "description": "xxxxx description three",
-                    "type": "Object"
+                    "name": "last_modified_date",
+                    "description": "xxxxx",
+                    "type": "date"
                 },
                 {
-                    "name": "resources",
-                    "description": "xxxxx description four",
+                    "name": "name",
+                    "description": "name of tag",
                     "type": "text"
                 },
                 {
-                    "name": "createdOn",
-                    "description": "xxxxx description five",
-                    "type": "Date"
-                },
-                {
-                    "name": "updatedOn",
-                    "description": "xxxxx description six",
-                    "type": "Date"
-                }
-
-            ]
-
-        },
-        {
-            "name": "entity-two",
-            "fields":[
-                {
-                    "name": "field-one",
-                    "description": "description one",
+                    "name": "description",
+                    "description": "xxxxxxx",
                     "type": "text"
                 },
                 {
-                    "name": "field-two",
-                    "description": "description two",
-                    "type": "number"
-                }
-
-            ]
-
-        },
-        {
-            "name": "entity-three",
-            "fields":[
-                {
-                    "name": "field-one",
-                    "description": "description one",
-                    "type": "text"
-                },
-                {
-                    "name": "field-two",
-                    "description": "description two",
-                    "type": "number"
+                    "itemtag": [
+                        {
+                            "name": "NOTE- this needs a discussion as the itemtag array are the values added at run time",
+                            "description": "NOTE- the issue is that we don't want the data just the structure so that we can imported into Entity Manager"
+                        }
+                    ]
                 }
 
             ]
 
         }
-
-        
-
     ],
 
     "configuration": {
