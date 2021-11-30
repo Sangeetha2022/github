@@ -45,4 +45,3 @@ export * from './generator/swagger.controller';
 export * from './generator/react.controller';
 export * from './generator/defaultServices.controller';
 export * from './generator/sefnode.controller';
-export * from './generator/reactTemplate.controller';

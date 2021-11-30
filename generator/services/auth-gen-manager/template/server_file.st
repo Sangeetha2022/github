@@ -5,7 +5,7 @@ import * as cors from 'cors';
 import { WinstonLogger } from './config/Winstonlogger';
 import { Routes } from './routes/routes'
 import mongoose = require('mongoose');
-$if(object.isSeed)$import { SeedService } from './seed';$endif$
+$if(object.isSeed || object.GCAM)$import { SeedService } from './seed';$endif$
 $if(object.isDmnFile)$import { DmnFile } from './dmnDeploye/dmnFile';$endif$
 const PORT = $object.port$;
 
@@ -21,7 +21,9 @@ class App {
         this.routerPrv.routes(this.app);
         this.mongoSetup();
         $if(object.isSeed)$this.mongoSeedData();$endif$
+         $if(object.GCAM)$this.SeedData();$endif$
         $if(object.isDmnFile)$this.DeployDMNfile();$endif$
+       
     }
 
     private config(): void {
@@ -44,12 +46,22 @@ $if(object.isSeed)$
     }
 $endif$
 
+$if(object.GCAM)$ 
+private SeedData(): void {
+        console.log('route a file into seed create');
+        let seedData = new SeedService();
+        seedData.post();
+    }
+$endif$
+
 $if(object.isDmnFile)$
     private DeployDMNfile(): void {
         let dmnfile = new DmnFile();
         dmnfile.dmnFileDeploye();
     }
 $endif$
+
+
 
 }
 

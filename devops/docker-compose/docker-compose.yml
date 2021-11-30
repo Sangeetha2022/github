@@ -488,10 +488,10 @@ services:
     env_file: ../../.env
     depends_on:
       - mongo
-      - apigateway
+      - apigateway 
 
   reactgenmanager:
-    build: ../../generator/services/react-gen-managerV1702
+    build: ../../generator/services/reactv16-gen-manager
     image: reactgenmanager
     container_name: reactgenmanager
     volumes:
@@ -502,19 +502,6 @@ services:
     depends_on:
       - apigateway
 
-  reacttemplatemanager:
-    build: ../../generator/services/React-Template-managerV1702
-    image: reacttemplatemanager
-    container_name: reacttemplatemanager
-    volumes:
-      - generated-code:/geppetto/
-    ports:
-      - "5046:5046"
-    env_file: ../../.env
-    depends_on:
-      - mongo
-      - apigateway
-      
   configmanager:
     build: ../../generator/services/configurationmanager
     image: configmanager

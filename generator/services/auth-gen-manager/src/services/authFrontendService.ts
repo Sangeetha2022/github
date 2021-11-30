@@ -18,11 +18,7 @@ export class AuthFrontendService {
         const details = req.body;
         const menus = req.body.screenMenus
         const applicationPath = details.templateResponse.applicationPath;
-        let seedTemplatePath = details.seedTemplatePath
-        if(details.clientframework === 'react'){
-            seedTemplatePath = details.seedTemplatePath  + '/src/'; 
-        }
-        const clientframework = details.clientframework;
+        const seedTemplatePath = details.seedTemplatePath;
         console.log("seedTemplatePath====>",seedTemplatePath);
         
         await this.readImagesAssets(seedTemplatePath, applicationPath);
