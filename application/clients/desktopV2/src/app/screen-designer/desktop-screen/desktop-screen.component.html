@@ -217,3 +217,148 @@
         </div>
     </div>
 </div>
+
+<!-- Route popup model -->
+<div *ngIf="isCustomPopup" id="agGridModal" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-md" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="fields_heading">{{customPopupModal.title}}</h3>
+                <button type="button" class="btn-close pull-right" (click)="onCloseHandled()" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <form class="m-3">
+                    <div class="form-group row">
+                        <h4 for="Screen">{{customPopupModal.dropdownLabelName}}</h4>
+                        <select name="dropdown_style" id="dropdown_style" class="form-select" [(ngModel)]="routeDetails.screen" (ngModelChange)="customModelChanged($event)">
+                            <option value="" selected>none</option>
+                            <ng-container *ngFor="let screenObj of screenArrayByProjectId">
+                              <ng-container *ngIf="customPopupModal.entity; else routes">
+                                <option
+                                  *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption == 'popupmodal'"
+                                  [ngValue]="screenObj">
+                                  <span>{{ screenObj.screenName }}</span>
+                                </option>
+                              </ng-container>
+                              <ng-template #routes>
+                                <option
+                                  *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption != 'popupmodal'"
+                                  [ngValue]="screenObj">
+                                  <span>{{ screenObj.screenName }}</span>
+                                </option>
+                              </ng-template>
+                            </ng-container>
+                        </select>
+                        <small id="emailHelp" class="form-text text-muted">Please Select your screenName <span
+                            *ngIf="customPopupModal.entity; else routes">as Popup Modal</span>
+                          <ng-template #routes>for Routes</ng-template>
+                        </small>
+                    </div>
+                    <div class="row" *ngIf="customPopupModal.entity && routeDetails.screen">
+                        <br>
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h4 style="text-align: center">{{routeDetails.screen.screenName}} Entity</h4>
+                            <small class="popupEntityHint" *ngIf="!routeDetails.modalInfo.entity">*Hint: this screen does not have any
+                            entities to map</small>
+                            <br>
+                            <span><b>Entity Name</b></span>:&nbsp;&nbsp;
+                            <span *ngIf="routeDetails.modalInfo.entity && routeDetails.modalInfo?.entity?.name; else noEntity">{{routeDetails.modalInfo?.entity?.name}}</span>
+                            <ng-template #noEntity>----</ng-template>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="customPopupModal.entity && routeDetails.screen">
+                        <div class="form-group  col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <b for="entityField">{{customPopupModal.entity.fieldLabelName}}</b>
+                            <select [disabled]="!routeDetails.modalInfo.entity || routeDetails.modalInfo.entity === 'null'" class="form-control" name="entityField" [(ngModel)]="routeDetails.modalInfo.fields" id="entityField">
+                            <option value="null" selected>none</option>
+                            <ng-container *ngFor="let fields of customEntityFields">
+                              <option [ngValue]="fields">
+                                <span>{{ fields.name }}</span>
+                              </option>
+                            </ng-container>
+                          </select>
+                            <small class="form-text text-muted">Please Select your entity fields</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <b for="componentName">{{customPopupModal.entity.componentLabelName}}</b>
+                            <select [disabled]="!routeDetails.modalInfo.entity || routeDetails.modalInfo.entity === 'null'" class="form-control" name="componentName" [(ngModel)]="routeDetails.modalInfo.component" (ngModelChange)="customModelChanged($event, 'components')" id="componentName">
+                            <option value="null" selected>none</option>
+                            <ng-container *ngFor="let component of modalDroppedElements">
+                              <option [ngValue]="component">
+                                <span>{{ component.name }}</span>
+                              </option>
+                            </ng-container>
+                          </select>
+                            <small class="form-text text-muted">Please Select your component name</small>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="routeDetails.modalInfo?.modalBindInfo?.length > 0  && routeDetails.screen && routeDetails.modalInfo.entity">
+                        <span class="showMapping" (click)='toggleMapping()'>
+                          <span *ngIf="!isMappingGrid; else hide">Show</span>
+                        <ng-template #hide>Hide</ng-template>
+                        Mapped Fields
+                        </span>
+                        <div class="mapperTable col-md-12 col-sm-12 col-lg-12 col-xs-12" [@openCloseMapping]="isMappingGrid ? 'openGrid': 'closeGrid'">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">{{routeDetails.modalInfo?.entity?.name}} Fields</th>
+                                        <th scope="col">Component Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let bindedInfo of routeDetails.modalInfo.modalBindInfo; let i=index">
+                                        <tr>
+                                            <th scope="row">{{i+1}}</th>
+                                            <td>{{bindedInfo.fieldName}}</td>
+                                            <td>{{bindedInfo.componentName}}</td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- flow screens -->
+                    <br>
+                    <div class="form-group row" *ngIf="routeDetails.screen._id && customPopupModal.typeLabelName">
+                        <h4 for="flowScreens">{{routeDetails.screen.screenName}} flowList</h4>
+                        <select class="form-select" name="screenFlow" [(ngModel)]="routeDetails.screenFlow" id="dropdown_style">
+              <option value="" selected>none</option>
+              <ng-container *ngFor="let flowObj of routeDetails.screen.flows_info">
+                <option [ngValue]="flowObj">{{flowObj.flowName}}</option>
+              </ng-container>
+            </select>
+                    </div>
+                    <br>
+                    <div class="row" *ngIf="customPopupModal.typeLabelName">
+                        <b>{{customPopupModal.typeLabelName}}</b>
+                    </div>
+                    <div class="row" *ngIf="customPopupModal.typeLabelName">
+                        <div class="col-lg-4">
+                            <label class="radio-inline"><input type="radio" value="none" [(ngModel)]="routeDetails.type"
+                            name="routeOption" disabled>None</label>
+                        </div>
+                        <div class="col-lg-8">
+                            <label class="radio-inline"><input type="radio" value="queryParameter" [(ngModel)]="routeDetails.type"
+        name="routeOption">Query Parameter</label>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2">
+                        <button id="create_btn" class="btn btn-default">Ok</button>
+                    </div>
+                    <div class="p-2">
+                        <button id="cancel_btn" type="button" class="btn btn-default" (click)="closeCustomPopup()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

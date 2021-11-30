@@ -108,6 +108,8 @@ public customPopupModal: any = {
   typeLabelName: '',
   entity: null
 };
+public modalDroppedElements: any[] = [];
+public customEntityFields: any[] = [];
 defaultColumn: any;
   selectedFlow: any;
   ElementNameArray: any[] = [];
@@ -145,6 +147,18 @@ defaultColumn: any;
     { value: 'col4_id', name: 'd' },
     { value: 'col5_id', name: 'e' }
   ];
+  public routeDetails: any = {
+    screen: '',
+    verb: 'click',
+    type: 'queryParameter',
+    screenFlow: '',
+    modalInfo: {
+      entity: null,
+      component: null,
+      fields: null,
+      modalBindInfo: []
+    }
+  };
   public selectedcolumn: any;
   projectTemplateId:any;
   public featurelist: any;
@@ -332,6 +346,7 @@ defaultColumn: any;
         component.setId(component.getId());
       });
       this.getScreenById();
+      this.getScreenByProjectId();
       this.getFeatureById();
       this.getEntityType();
       this.addCustomBlocks();
@@ -784,7 +799,7 @@ onCloseHandled() {
     // add field binding button
     this.customTraitService.gridFieldButton(this);
     // custom traits for grid action buttons
- //   this.customTraitService.RouteActionButton(this);
+    this.customTraitService.RouteActionButton(this);
     this.editor.DomComponents.getType(
       'grid-type'
     ).model.prototype.defaults.traits.push(
@@ -806,6 +821,11 @@ onCloseHandled() {
         name: 'verbs',
         changeProp: 1,
         options: this.verbOptions
+      },
+      {
+        name: 'routeButton',
+        label: 'Route',
+        type: 'routeButton'
       },
     );
     // updating traits entties
@@ -959,7 +979,7 @@ onCloseHandled() {
                 this.agGridObject = this.existScreenDetail[0]['grid_fields'];
                   this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
                   this.screenFlows = this.existScreenDetail[0]['flows_info'];
-                //  this.routeFlows = this.existScreenDetail[0]['route_info'];
+                  this.routeFlows = this.existScreenDetail[0]['route_info'];
                 // this.componentLifeCycle = this.existScreenDetail[0][
                 //   'component-lifecycle'
                 // ];
@@ -1025,6 +1045,11 @@ onCloseHandled() {
       this.entityFields['entityfieldname'] = {};
       this.entityFields['entityId'] = {};
       this.isFieldPopupModal = false;
+      this.ref.detectChanges();
+    }
+    closeCustomPopup() {
+      this.isCustomPopup = false;
+      this.isMappingGrid = false;
       this.ref.detectChanges();
     }
     closeEventPopup(modifier_status:boolean) {
@@ -1235,10 +1260,59 @@ onCloseHandled() {
           this.screenEntityModel[duplicatefieldrm] = obj;
         } else {
           this.screenEntityModel.push(obj);
-  
         }
-  
       }
       this.saveRemoteStorage();
+    }
+    
+    findEntity(screenInfo:any, event:any) {
+      let findEntity = null;
+      if (screenInfo.entity_info.length > 0) {
+        findEntity = this.entityData.find(
+          (x:any) => x._id === screenInfo.entity_info[0].entityId
+        );
+      } else if (
+        screenInfo.entity_info.length === 0 &&
+        screenInfo.grid_fields.entityId &&
+        screenInfo.is_grid_present
+      ) {
+        findEntity = this.entityData.find(
+          (x:any) => x._id === screenInfo.grid_fields.entityId
+        );
+      }
+      if (findEntity) {
+        this.customEntityFields = findEntity.field;
+        return findEntity;
+      } else {
+        this.customEntityFields = [];
+        return null;
+      }
+    }
+  
+    customModelChanged(event:any,action?:any) {
+      if (this.routeDetails.screen && this.routeDetails.screen !== 'null') {
+        this.routeDetails.modalInfo.entity = this.findEntity(this.routeDetails.screen,'custom');
+      }
+      const bindFields = {
+        fieldId: '',
+        fieldName: '',
+        componentName: '',
+        componentType: ''
+      };
+      if (action === 'components' && this.routeDetails.modalInfo.component.name) {
+        const index = this.routeDetails.modalInfo.modalBindInfo.findIndex(
+          (x:any) => x.componentName === this.routeDetails.modalInfo.component.name
+        );
+        bindFields.fieldId = this.routeDetails.modalInfo.fields._id;
+        bindFields.fieldName = this.routeDetails.modalInfo.fields.name;
+        bindFields.componentName = this.routeDetails.modalInfo.component.name;
+        bindFields.componentType = this.routeDetails.modalInfo.component.type;
+        this.routeDetails.modalInfo.modalBindInfo.push(bindFields);
+      }
+      if (this.routeDetails.modalInfo.entity === 'null') {
+        this.routeDetails.modalInfo.componentId = null;
+        this.routeDetails.modalInfo.fields = null;
+      }
+      this.ref.detectChanges();
     }
 }

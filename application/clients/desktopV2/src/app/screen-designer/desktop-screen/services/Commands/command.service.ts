@@ -231,6 +231,11 @@ export class CommandService {
             label: 'Modify By',
             type: 'valueButton'
           },
+          {
+            name: 'routeButton',
+            label: 'Route',
+            type: 'routeButton'
+          },
         ]);
       }
       if (component.attributes.type === 'grid-type') {

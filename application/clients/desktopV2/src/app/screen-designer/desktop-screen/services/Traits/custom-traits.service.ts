@@ -231,4 +231,32 @@ export class CustomTraitsService {
             },
         });
     }
+
+    RouteActionButton(screen_designer:any) {
+        // action button add
+        screen_designer.editor.TraitManager.addType('routeButton', {
+            getInputEl() {
+                // tslint:disable-next-line:prefer-const
+                let button = <HTMLElement>document.createElement('button');
+                button.id = 'fieldButton';
+                button.style.width = '100%';
+                button.style.backgroundColor = '#4CAF50';
+                button.style.border = 'none';
+                button.style.color = 'white';
+                button.style.backgroundColor = '#008CBA';
+                button.style.fontSize = '12px !important';
+                button.style.cursor = 'pointer';
+                button.appendChild(document.createTextNode('Screens'));
+                button.onclick=()=>{
+                    screen_designer.customPopupModal.name = screen_designer.GPROUTE_FLOWNAME;
+                    screen_designer.customPopupModal.title = 'Routes';
+                    screen_designer.customPopupModal.dropdownLabelName = 'Screen';
+                    screen_designer.customPopupModal.typeLabelName = 'Type';
+                    screen_designer.isCustomPopup = true;
+                    screen_designer.ref.detectChanges();
+                }
+                return button;
+            },
+        });
+    }
 }
