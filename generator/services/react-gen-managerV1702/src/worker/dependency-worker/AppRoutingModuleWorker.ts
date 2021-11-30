@@ -12,6 +12,7 @@ export class AppRoutingModuleWorker {
     const projectGenerationPath = details.projectGenerationPath;
     const applicationPath = `${projectGenerationPath}/${Constant.SRC_APP}/${Constant.APP_ROUTING_FILENAME}`
     componentSupportWorker.readFile(applicationPath, (res, err) => {
+      console.log('data read a routes file', res);
       if (res) {
         const fileArray: Array<string> = res.split('\n');
         details.desktop.forEach(async (desktopElement: any) => {
@@ -19,7 +20,7 @@ export class AppRoutingModuleWorker {
           const firstElement = screenName.charAt(0).toUpperCase();
           const otherElements = screenName.substring(1, screenName.length);
           const moduleClassName = firstElement + otherElements ;
-          const importRoute = `{ path : '${screenName}', loadChildren: () => import('./${screenName}/${screenName}.module').then(m => m.${moduleClassName}), canActivate: [AuthGuard] } ,`
+          const importRoute = `{ path : '/${screenName.toLowerCase()}', component: ${screenName} },`;
           const ngModuleIndex = fileArray.indexOf('@NgModule({');
 
           fileArray.forEach((element, index) => {
@@ -32,7 +33,7 @@ export class AppRoutingModuleWorker {
           });
         });
         componentSupportWorker.writeFile(applicationPath, fileArray.join('\n'), (res) => {
-          callback('Lazy loading Imported Successfully');
+          callback('react Imported Successfully');
         });
       }
     });

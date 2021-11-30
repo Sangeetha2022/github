@@ -1,5 +1,5 @@
 
-export class grapesjsGjscomponents{
+export class GrapesjsComponents{
     public cssData:string='';
     //For grapesjs version v0.16.27
     grapesjs_V01627(gjsStyles){

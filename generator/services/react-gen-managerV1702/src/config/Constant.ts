@@ -152,7 +152,7 @@ export class Constant {
     public static SHARED_SERVICE = 'this.sharedService.DESKTOP_API';
 
     // App Path
-    public static SRC_APP = '/src/app';
+    public static SRC_APP = '/src';
 
     // package module
     public static PACKAGE_MODULE = [

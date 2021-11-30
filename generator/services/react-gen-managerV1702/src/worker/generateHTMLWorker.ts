@@ -255,6 +255,7 @@ export class GenerateHtmlWorker {
         this.setAttributes(gjsElementComponents);
         this.htmlContent += `name="${gjsElementComponents.name || ''}" `;
         //this.htmlContent += `[searchable]="true" [virtualScroll]="true" `;
+        this.htmlContent += `class="form-select"`;
         console.log('gjselement dynamicdropdown data3', this.htmlContent);
         if (gjsElement.components && gjsElement.components.length > 0) {
             gjsElement.components.forEach(component => {
@@ -329,7 +330,7 @@ export class GenerateHtmlWorker {
     generateAgGrid(gjsElement, screensData) {
         console.log('aggrid data', screensData);
         this.htmlContent += `<div `;
-        this.htmlContent += `name="${gjsElement.name}" `;
+        //this.htmlContent += `name="${gjsElement.name}" `;
         this.setAttributes(gjsElement);
         if (gjsElement.components !== undefined) {
             screensData.flows_info.forEach(element => {
@@ -341,7 +342,7 @@ export class GenerateHtmlWorker {
                 }
             });
         }
-        this.htmlContent += `className="ag-theme-material" style={{height: '500px', width: '100%'}} >`;
+        this.htmlContent += `class="ag-theme-material" style={{height: '500px', width: '100%'}} >`;
         console.log('gjselement data close', this.htmlContent);
         const findAgGridDependencies = componentDependency.component.find(x => x.name == Constant.AGGRID_TAGNAME);
         if (gjsElement.components !== undefined) {
@@ -466,7 +467,7 @@ export class GenerateHtmlWorker {
                 screenName : screenName,
                 className : className
             }
-            const data = componentSupportWorker.handleBarsFile(filePath, fileData, screenGenerationPath, 'template.tsx');
+            const data = componentSupportWorker.handleBarsFile(filePath, fileData, screenGenerationPath, `${screenName}.tsx`);
             console.log('response data from data ', data,'-----------', fileData);
         });
     }

@@ -4,8 +4,10 @@ import * as beautify from 'beautify';
 
 import { Constant } from '../../config/Constant'
 import { ComponentSupportWorker } from '../../supportworker/componentsupportworker/componentsupportworker';
+import { GrapesjsComponents } from './grapesjs';
 
 const componentSupportWorker = new ComponentSupportWorker();
+const grapesjsComponents = new GrapesjsComponents();
 
 export class ComponentCSSworker {
     public bootstrap_css = Constant.bootstrap_css;
@@ -30,21 +32,22 @@ export class ComponentCSSworker {
             let cssPayload = this.constructPayLoad()
             let className = await this.setClassNameCss(desktopElement["gjs-css"]);
             let gjsStyles = JSON.parse(desktopElement['gjs-styles']);
-            gjsStyles.forEach(element => {
-                if (Object.keys(element).includes('style') && Object.keys(element).includes('selectors')) {
-                    element.selectors.forEach((selector, index) => {
-                        cssData += '.' + selector.name;
-                        if (element.selectors.length - 1 === index) {
-                            cssData += ' {';
-                            const styleArray: string[] = Object.keys(element.style);
-                            styleArray.forEach(style => {
-                                cssData += style + ':' + element.style[style] + ';\n'
-                            });
-                        }
-                    });
-                    cssData += '}';
-                }
-            });
+            // gjsStyles.forEach(element => {
+            //     if (Object.keys(element).includes('style') && Object.keys(element).includes('selectors')) {
+            //         element.selectors.forEach((selector, index) => {
+            //             cssData += '.' + selector.name;
+            //             if (element.selectors.length - 1 === index) {
+            //                 cssData += ' {';
+            //                 const styleArray: string[] = Object.keys(element.style);
+            //                 styleArray.forEach(style => {
+            //                     cssData += style + ':' + element.style[style] + ';\n'
+            //                 });
+            //             }
+            //         });
+            //         cssData += '}';
+            //     }
+            // });
+            grapesjsComponents.grapesjs_V01622(gjsStyles);
             details.desktop.forEach(element => {
                 if (element.is_grid_present == true && element.is_bootStrapTable_present == true) {
                     cssData += this.bootstrap_css[0];
