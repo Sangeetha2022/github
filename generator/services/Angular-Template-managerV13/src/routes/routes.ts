@@ -13,6 +13,6 @@ export class Routes {
                 status: 'up'
             })
         })
-        app.route('/template/angularv12').post(this.angularTemplateController.createAngularTemplate);
+        app.route('/template/angularv13').post(this.angularTemplateController.createAngularTemplate);
     }
 }

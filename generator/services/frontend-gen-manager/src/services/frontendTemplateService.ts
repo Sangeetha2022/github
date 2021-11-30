@@ -91,6 +91,37 @@ export class FrontendTemplateService {
                 callback('angular template are generated');
 
             }
+            if (details.project.clientFramework.label == 'Angular 13') {
+                console.log("inside angular 12 templatemanager frontend");
+                const templateResponse = await this.generateAngularTemplateV13(templateObj);
+                console.log('after calling angular template for version 12 ---  ', templateResponse);
+                if (templateResponse) {
+                    const tempFrontend = {
+                        templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
+                        seedTemplatePath: details.seedTemplatePath,
+                        authTemplatePath: details.authTemplatePath,
+                        adminTemplatePath: details.project.templateLocation.frontendTemplate,
+                        screenMenus: templateObj.menuBuilder,
+                        project_id: details.projectId
+
+                    }
+                    console.log("tempFrontend===",tempFrontend);
+                    
+                    let featurevalue = details.feature.body[0];
+                    console.log('------feature-----', featurevalue);
+                    if (featurevalue) {
+                        if (featurevalue.type === 'external') {
+                            tempFrontend['externalfeature'] = featurevalue;
+                        }
+                    }
+                    console.log('-----external feature value-----', tempFrontend);
+                    await this.generateAuthFrontendComponent(tempFrontend);
+                    console.log('after calling auth gronten component are  ---  ');
+                    await this.generateAdminFrontendComponent(tempFrontend);
+                }
+                callback('angular template are generated');
+
+            }
             if (details.project.clientFramework.label.includes('Angular') && details.project.clientFramework.label != 'Angular 12') {
                 console.log("inside angular 10 templatemanager frontend");
                 const templateResponse = await this.generateAngularTemplate(templateObj);
@@ -195,9 +226,18 @@ export class FrontendTemplateService {
             });
         })
     }
+
     generateAngularTemplateV12(details) {
         return new Promise(resolve => {
             this.angularTemplateManagerService.generateAngularTemplateV12(details, (data) => {
+                resolve(data);
+            });
+        })
+    }
+
+    generateAngularTemplateV13(details) {
+        return new Promise(resolve => {
+            this.angularTemplateManagerService.generateAngularTemplateV13(details, (data) => {
                 resolve(data);
             });
         })

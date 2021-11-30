@@ -11,9 +11,9 @@ export class Routes {
         app.route('/health/entity-service').get((req: Request, res: Response) => {
             res.status(200).send({
                 status: 'up',
-                version: 'v12'
+                version: 'v13'
             })
         })
-        app.route('/angularv12/project').post(this.angularController.createAngularProject);
+        app.route('/angularv13/project').post(this.angularController.createAngularProject);
     }
 }
