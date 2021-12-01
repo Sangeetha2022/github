@@ -12,4 +12,7 @@ export class FlowManagerService {
   getFlowModifiers(projectFlowsId:string, logId:string): Observable<any> {
     return this.api.post(`${this.restapi.Apigateway}${Constants.getFlowModifiers}` + `?log_id=${logId}`, projectFlowsId);
   }
+  getAllFlows(logId:string): Observable<any> {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFlow}?log_id=${logId}`);
+  }
 }

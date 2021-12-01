@@ -119,6 +119,9 @@ defaultColumn: any;
   public GPROUTE_FLOWNAME = 'gproute';
   public buttonVerb: String = 'click';
   public componentVerb: String = 'onload';
+  public ROUTE_METHODNAME = 'GpRoute';
+  public GPMODAL_FLOWNAME = 'gpmodal';
+  public allflowlist: any;
   specialEvents: any[] = [];
   linkArray: any[] = [];
   public allModifierList: any = [];
@@ -349,6 +352,7 @@ defaultColumn: any;
       this.getScreenByProjectId();
       this.getFeatureById();
       this.getEntityType();
+      this.getAllFlows();
       this.addCustomBlocks();
       this.panelManager();
       this.traitService.initMethod(this);
@@ -916,6 +920,7 @@ onCloseHandled() {
           project: this.project_id,
           feature: this.feature_id,
           flows_info: this.screenFlows,
+          route_info: this.routeFlows,
           screenType: this.screenType,
           entity_info: this.screenEntityModel,
           grid_fields: this.agGridObject,
@@ -1167,6 +1172,14 @@ onCloseHandled() {
         console.log("modifiers only applicable to gpsearch flow");
       }
     }
+    getAllFlows() {
+      this.flowManagerService.getAllFlows(this.logId).subscribe((flowData:any) => {
+        this.allflowlist = flowData.body;
+        console.log('allflowlist =================>>>', this.allflowlist);
+      }, (error:any) => {
+        console.log('cannot get flows in screen designer ', error);
+      });
+    }
   // saveLifeCycleFlows() {
   //   const lifeCycleIndex = this.componentLifeCycle.findIndex(
   //     x => x.flowId === this.selectedFlow[0]._id
@@ -1314,5 +1327,164 @@ onCloseHandled() {
         this.routeDetails.modalInfo.fields = null;
       }
       this.ref.detectChanges();
+    }
+    saveCustomPopupInfo(flowName:any) {
+      console.log(
+        'save custom popup info ----  ',
+        flowName,
+        ' --routeDetails--  ',
+        this.routeDetails
+      );
+      if (flowName === this.GPROUTE_FLOWNAME) {
+        this.saveRouteDetails();
+      } else if (flowName === this.GPMODAL_FLOWNAME) {
+        //this.saveModalDetails();
+      }
+      this.isCustomPopup = false;
+      this.ref.detectChanges();
+    }
+    saveRouteDetails() {
+      const GetByIdFlowObj = this.listOfFLows.find(
+        x => x.name === 'GpGetNounById'
+      );
+      const tempIndex = this.routeFlows.findIndex(
+        x => x.elementName === this.editor.getSelected().attributes.name
+      );
+      console.log('save route details tempIndex are ------   ', tempIndex);
+      if (tempIndex > -1) {
+        this.routeFlows.splice(tempIndex, 1);
+      }
+      const routeObj = {
+        htmlId: '',
+        componentId: '',
+        elementName: '',
+        screenId: '',
+        screenName: '',
+        routeType: '',
+        methodName: '',
+        screenFlow: '',
+        screenFlowName: ''
+      };
+      routeObj.htmlId = this.editor.getSelected().ccid;
+      routeObj.componentId = this.editor.getSelected().cid;
+      routeObj.elementName = this.editor.getSelected().attributes.name;
+      routeObj.screenId = this.routeDetails.screen._id;
+      routeObj.screenName = this.routeDetails.screen.screenName;
+      routeObj.routeType = this.routeDetails.type;
+  
+      // update the screen with getnounbyid flow
+      if (routeObj.screenId) {
+        this.getscreendetailsbyid(routeObj.screenId);
+      }
+      // add the routing method name
+      routeObj.methodName = this.ROUTE_METHODNAME;
+      // add the screensflow
+      if (this.routeDetails.screenFlow) {
+        console.log('------------flow details---------', this.routeDetails.screenFlow);
+        routeObj.screenFlow = this.routeDetails.screenFlow.flow;
+        routeObj.screenFlowName = this.routeDetails.screenFlow.flowName;
+      }
+      this.routeFlows.push(routeObj);
+      this.saveRemoteStorage();
+      this.isCustomPopup = false;
+    }
+    getscreendetailsbyid(screenid:any) {
+
+      let GetByIdFlowObj: any;
+  
+      if(this.listOfFLows.find(x => x.name === 'GpGetNounById')) {
+        GetByIdFlowObj = this.listOfFLows.find(
+          x => x.name === 'GpGetNounById'
+        );
+      } else {
+        GetByIdFlowObj = this.allflowlist.find(
+          (x:any) => x.name === 'GpGetNounById'
+        );
+      }
+  
+      const flowObj = {
+        htmlId: '',
+        componentId: '',
+        elementName: '',
+        verb: '',
+        event: '',
+        flow: '',
+        flowName: ''
+      };
+  
+      console.log('--------GetByIdFlowobj-------', GetByIdFlowObj);
+  
+      const projectflow_arr:any = [];
+  
+      projectflow_arr.push(GetByIdFlowObj);
+  
+      flowObj.flowName = GetByIdFlowObj.name;
+      flowObj.flow = GetByIdFlowObj._id;
+      flowObj.event = 'OnLoad';
+      this.screenDesignerService.getScreenById(screenid, this.logId).subscribe(
+        response => {
+          if (response.body) {
+            const screendetails = response.body[0];
+            const flowsarray = screendetails['flows_info'];
+            if (flowsarray.find((x:any) => x.flowName === GetByIdFlowObj.name)) {
+              console.log('-------for gpserachforupdateflow process-----', flowsarray);
+            } else {
+              screendetails['flows_info'].push(flowObj);
+              console.log('--------screenid----', screendetails);
+              // console.log('------update done--', this.editor.StorageManager.get('remote'));
+              this.projectComponentService.getallProjectFlow(this.logId).subscribe(
+                projectflowlist => {
+                  if (projectflowlist.body) {
+  
+                    const projectflowexsists = projectflowlist.body.findIndex((x:any) => x._id == GetByIdFlowObj._id);
+                    const featureflowexsists = this.featurelist.flows.findIndex((x:any) => x == GetByIdFlowObj._id);
+                    console.log('---------projectflowlist-------', projectflowexsists, featureflowexsists);
+  
+                    if (projectflowexsists > -1 && featureflowexsists == -1) {
+                      this.featurelist.flows = this.featurelist.flows.concat(GetByIdFlowObj._id);
+                      this.projectComponentService.updateFeature(this.featurelist, this.logId).subscribe(
+                        featureresponse => {
+                          console.log('save in flow ---in feature -->>', featureresponse);
+                        },
+                        error => {
+                          console.log('cannot able to update the many projectfeature');
+                        });
+  
+                    }
+                    if (projectflowexsists == -1 && featureflowexsists == -1) {
+                      this.projectComponentService.saveManyProjectFlow(projectflow_arr, this.logId).subscribe(
+                        projectflow => {
+                          if (projectflow.body) {
+                            console.log('save many project flows----->>', projectflow);
+                            const projectFlowsId = projectflow.body.map(({ _id }:any) => _id);
+                            this.featurelist.flows = this.featurelist.flows.concat(projectFlowsId);
+                            this.projectComponentService.updateFeature(this.featurelist, this.logId).subscribe(
+                              featureresponse => {
+                                console.log('save in flow --in feature -->>', response);
+                              },
+                              error => {
+                                console.log('cannot able to update the many projectfeature');
+                              });
+                          }
+                        },
+                        error => {
+                          console.log('cannot able to save the many projectFlows');
+                        });
+                    }
+  
+                  }
+                });
+  
+  
+              this.screenDesignerService.updateScreen(screenid, screendetails, this.logId).subscribe(
+                screenresponse => {
+                  console.log('------update done--', screenresponse);
+                }
+              );
+            }
+  
+          }
+        });
+  
     }
 }

@@ -224,7 +224,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="fields_heading">{{customPopupModal.title}}</h3>
-                <button type="button" class="btn-close pull-right" (click)="onCloseHandled()" aria-label="Close"></button>
+                <button type="button" class="btn-close pull-right" (click)="closeCustomPopup()" aria-label="Close"></button>
             </div>
             <div class="container">
                 <form class="m-3">
@@ -350,7 +350,7 @@
             <div class="row">
                 <div class="d-flex justify-content-center">
                     <div class="p-2">
-                        <button id="create_btn" class="btn btn-default">Ok</button>
+                        <button id="create_btn" class="btn btn-default" (click)="saveCustomPopupInfo(customPopupModal.name)">Ok</button>
                     </div>
                     <div class="p-2">
                         <button id="cancel_btn" type="button" class="btn btn-default" (click)="closeCustomPopup()">Cancel</button>
@@ -360,4 +360,3 @@
         </div>
     </div>
 </div>
-<!-- sample changes -->
