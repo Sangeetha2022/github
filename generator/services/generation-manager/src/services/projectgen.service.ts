@@ -290,7 +290,11 @@ export class ProjectgenService {
         console.log('project object in admin application --kishan---->>>>   ', adminManagerSeedPath);
         if( this.projectObj.clientFramework.label == 'Angular 12'){
             this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value+'/AngularV12';
-            console.log("inside angular 12 admin==>",this.projectObj.templateLocation.adminManagerTemplatePath);
+            console.log("inside angular 12 admin==>",this.projectObj.templateLocation.adminManagerTemplatePath);   
+        }
+        if( this.projectObj.clientFramework.label == 'Angular 13'){
+            this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value+'/AngularV13';
+            console.log("inside angular 13 admin==>",this.projectObj.templateLocation.adminManagerTemplatePath);
             
         }
         if( this.projectObj.clientFramework.label == 'Angular 10'){

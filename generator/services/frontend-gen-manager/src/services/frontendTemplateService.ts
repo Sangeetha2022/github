@@ -121,7 +121,9 @@ export class FrontendTemplateService {
                 callback('angular template are generated');
 
             }
-            if (details.project.clientFramework.label.includes('Angular') && details.project.clientFramework.label != 'Angular 12') {
+            if (details.project.clientFramework.label.includes('Angular') && 
+                details.project.clientFramework.label != 'Angular 12' && 
+                details.project.clientFramework.label !== 'Angular 13') {
                 console.log("inside angular 10 templatemanager frontend");
                 const templateResponse = await this.generateAngularTemplate(templateObj);
                 console.log('after calling angular template ---  ', templateResponse);

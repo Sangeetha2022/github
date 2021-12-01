@@ -215,7 +215,9 @@ export class FrontendService {
                             angularDesktopResponse = await this.generateAngularV13(feature);
                             console.log('final angular desktop response values are for version 13 -----  ', angularDesktopResponse);
                         }
-                        if(feature.clientFramework.label.includes('Angular') && feature.clientFramework.label != 'Angular 12') {
+                        if(feature.clientFramework.label.includes('Angular') && 
+                            feature.clientFramework.label != 'Angular 12' && 
+                            feature.clientFramework.label !== 'Angular 13') {
                             feature.desktop = desktopJSON;
                             angularDesktopResponse = await this.generateAngular(feature);
                             console.log('final angular desktop response values are -----  ', angularDesktopResponse);

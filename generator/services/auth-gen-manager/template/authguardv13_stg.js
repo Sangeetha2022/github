@@ -1,6 +1,6 @@
 /*
  * Template group authguardv13
- * Compiled on Tue Nov 30 2021 19:58:42 GMT+0530 (India Standard Time)
+ * Compiled on Wed Dec 01 2021 15:57:10 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -339,7 +339,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("if (this.routeName[1] == 'home') {");
+    w.write("if (this.routeName[1] == 'sefscreen') {");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("          ");
@@ -366,7 +366,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("this.route.navigate(['/home']);");
+    w.write("this.route.navigate(['/sefscreen']);");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");

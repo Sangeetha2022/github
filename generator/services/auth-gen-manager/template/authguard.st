@@ -173,7 +173,7 @@ export class AuthGuard implements CanActivate {
             }
           }
         });
-        if (this.routeName[1] == 'home') {
+        if (this.routeName[1] == 'sefscreen') {
           return true
         }
         return this.routearray.filter(routevalue => routevalue === this.routeName[1]).length > 0;
@@ -196,7 +196,7 @@ export class AuthGuard implements CanActivate {
         return this.routearray.filter(routevalue => routevalue === this.routeName[1]).length > 0;
       }
       else {
-        this.route.navigate(['/home']);
+        this.route.navigate(['/sefscreen']);
         return false;
       }
     }
