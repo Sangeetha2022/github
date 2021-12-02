@@ -299,6 +299,9 @@ defaultColumn: any;
         exportWrapper: 1,
         allowScripts: 1,
         plugins: plugins,
+        selectorManager: {
+          componentFirst: true,
+        },
         pluginsOpts: {
           'grapesjs-preset-webpage': {
            

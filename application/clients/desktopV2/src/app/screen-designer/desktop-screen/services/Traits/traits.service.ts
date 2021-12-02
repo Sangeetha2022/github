@@ -590,7 +590,7 @@ export class TraitsService {
                       field: 'a',
                       sortable: true,
                       colId: 'col1_id',
-                      cellStyle: {border: '1px solid '},
+                    //  cellStyle: {border: '1px solid '},
                       filter:true
                     },
                     {
@@ -598,7 +598,7 @@ export class TraitsService {
                       field: 'b',
                       sortable: true,
                       colId: 'col2_id',
-                      cellStyle: {border: '1px solid '},
+                   //   cellStyle: {border: '1px solid '},
                       filter:true
                     },
                     {
@@ -606,7 +606,7 @@ export class TraitsService {
                       field: 'c',
                       sortable: true,
                       colId: 'col3_id',
-                      cellStyle: {border: '1px solid '},
+                    //  cellStyle: {border: '1px solid '},
                       filter:true
                     },
                     {
@@ -614,7 +614,7 @@ export class TraitsService {
                       field: 'd',
                       sortable: true,
                       colId: 'col4_id',
-                      cellStyle: {border: '1px solid '},
+                   //   cellStyle: {border: '1px solid '},
                       filter:true
                     },
                     {
@@ -622,7 +622,7 @@ export class TraitsService {
                       field: 'e',
                       sortable: true,
                       colId: 'col5_id',
-                      cellStyle: {border: '1px solid '},
+                   //   cellStyle: {border: '1px solid '},
                       filter:true
                     }
                   ];
