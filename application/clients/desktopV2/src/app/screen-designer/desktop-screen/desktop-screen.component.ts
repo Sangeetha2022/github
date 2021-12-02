@@ -797,9 +797,9 @@ onCloseHandled() {
     console.log('-----------aggrid-entity--------', EntityBinding);
     this.agGridArray = [];
     // add rows trits
-   // this.customTraitService.addGridRowButton(this);
+    this.customTraitService.addGridRowButton(this);
     // remove rows triats
- //   this.customTraitService.removeGridRowButton(this);
+ //  this.customTraitService.removeGridRowButton(this);
     // add field binding button
     this.customTraitService.gridFieldButton(this);
     // custom traits for grid action buttons

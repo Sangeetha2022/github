@@ -259,4 +259,60 @@ export class CustomTraitsService {
             },
         });
     }
+
+    addGridRowButton(screen_designer:any) {
+        // add button
+        screen_designer.editor.TraitManager.addType('addButton', {
+            getInputEl() {
+                const button = <HTMLElement>document.createElement('button');
+                button.id = 'addButton';
+                button.style.width = '100%';
+                button.style.backgroundColor = '#4CAF50';
+                button.style.border = 'none';
+                button.style.color = 'white';
+                button.style.backgroundColor = '#008CBA';
+                button.style.fontSize = '16px';
+                button.style.cursor = 'pointer';
+                button.appendChild(document.createTextNode('+'));
+                button.onclick=()=>{
+                 alert("column added clicked");
+                  
+                }
+                return button;
+            },
+        });
+    }
+
+    removeGridRowButton($this:any) {
+        // remove button
+        $this.editor.TraitManager.addType('removeButton', {
+    
+            getInputEl() {
+                const button = <HTMLElement>document.createElement('button');
+                button.id = 'removeButton';
+                button.style.width = '100%';
+                button.style.backgroundColor = 'rgba(186, 43, 0, 0.73)';
+                button.style.border = 'none';
+                button.style.color = 'white';
+                button.style.fontSize = '16px';
+                button.style.cursor = 'pointer';
+                button.appendChild(document.createTextNode('-'));
+                button.onclick=()=>{
+                    const columnDefs = this.target.view.el.gridOptions.columnDefs;
+                    const component = $this.editor.getSelected();
+                    columnDefs.pop();
+                    this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
+                    this.target.view.el.gridOptions.api.sizeColumnsToFit();
+                    $this.columnOptions.pop();
+                    $this.agGridObject.default_field.pop();
+                    $this.agGridObject.custom_field.pop();
+                    $this.saveRemoteStorage();
+                    component.getTrait('columns').set('options', [
+                        ...$this.columnOptions
+                    ]);
+                }
+                return button;
+            },
+        });
+    }
 }

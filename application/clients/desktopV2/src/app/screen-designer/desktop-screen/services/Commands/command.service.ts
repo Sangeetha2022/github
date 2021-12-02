@@ -236,6 +236,16 @@ export class CommandService {
             label: 'Route',
             type: 'routeButton'
           },
+          {
+            name: 'addButton',
+            label: 'Add',
+            type: 'addButton'
+          },
+          // {
+          //   name: 'removeButton',
+          //   label: `Remove`,
+          //   type: 'removeButton'
+          // }
         ]);
       }
       if (component.attributes.type === 'grid-type') {

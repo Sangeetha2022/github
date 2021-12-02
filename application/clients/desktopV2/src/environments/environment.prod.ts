@@ -1,8 +1,8 @@
 import { NgxLoggerLevel } from 'ngx-logger';
 export const environment = {
   production: true,
-  Port: ":3000",
-  BaseHost: 'http://' + window.location.hostname,
+  Port: "",
+  BaseHost: 'https://stage-v2api.geppettosoftware.com',
   logging:{
     level: NgxLoggerLevel.TRACE,
    serverLogLevel: NgxLoggerLevel.ERROR,
