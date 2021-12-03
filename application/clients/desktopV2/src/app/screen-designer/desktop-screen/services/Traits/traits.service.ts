@@ -218,8 +218,6 @@ export class TraitsService {
           },
           {
             isComponent:  (el: { tagName: string; })=> {
-              console.log("tagName is",el.tagName);
-              
               if (el.tagName === 'button') {
                 return {
                   type: 'button'
@@ -535,7 +533,6 @@ export class TraitsService {
       view: defaultType.view
     });
   }
-  
   addGridTraits(screensVariable:any, buttonName:any) {
     const $this = this;
     const comps = screensVariable.editor.DomComponents;
@@ -562,7 +559,6 @@ export class TraitsService {
               if (this.gridOptions &&
                 gridOptions.custom_field &&
                 gridOptions.custom_field.length > 0) {
-                    //alert('aggrid contain values');
                     columnDefs = [];
                     for (const key of gridOptions.custom_field) {
                       for (let i = 0; i < 10; i++) {
@@ -583,14 +579,12 @@ export class TraitsService {
                     }
                 }
                 else{
-                  //alert('aggrid default values');
                   columnDefs = [
                     {
                       headerName: 'A',
                       field: 'a',
                       sortable: true,
                       colId: 'col1_id',
-                    //  cellStyle: {border: '1px solid '},
                       filter:true
                     },
                     {
@@ -598,7 +592,6 @@ export class TraitsService {
                       field: 'b',
                       sortable: true,
                       colId: 'col2_id',
-                   //   cellStyle: {border: '1px solid '},
                       filter:true
                     },
                     {
@@ -606,7 +599,6 @@ export class TraitsService {
                       field: 'c',
                       sortable: true,
                       colId: 'col3_id',
-                    //  cellStyle: {border: '1px solid '},
                       filter:true
                     },
                     {
@@ -614,7 +606,6 @@ export class TraitsService {
                       field: 'd',
                       sortable: true,
                       colId: 'col4_id',
-                   //   cellStyle: {border: '1px solid '},
                       filter:true
                     },
                     {
@@ -622,7 +613,6 @@ export class TraitsService {
                       field: 'e',
                       sortable: true,
                       colId: 'col5_id',
-                   //   cellStyle: {border: '1px solid '},
                       filter:true
                     }
                   ];
@@ -672,8 +662,8 @@ export class TraitsService {
                 // tslint:disable-next-line:no-unused-expression
                 new agGrid.Grid(gridDiv, this.gridOptions);
                 this.gridOptions.cacheQuickFilter = false;
-                console.log('grid function api', gridOptions.api);
-                gridOptions.api.sizeColumnsToFit();
+                console.log('grid function api', this.gridOptions.api);
+                this.gridOptions.api.sizeColumnsToFit();
               
               };
               let exists = false;
@@ -717,12 +707,55 @@ export class TraitsService {
 
         }),
         init() {
+          // this.listenTo(this, 'change:bootStrapTableCheckBox', this.checkbox);
+          // this.listenTo(this, 'change:colname', this.columnName);
+          // this.listenTo(this, 'change:columns', this.gridColumns);
           this.listenTo(this, 'change:bootStrapTableCheckBox', this.checkbox);
-          this.listenTo(this, 'change:colname', this.columnName);
+          this.listenTo(this, 'change:name', this.ElementName);
+          this.listenTo(this, 'change:entities', this.entities); // listen for active event
           this.listenTo(this, 'change:columns', this.gridColumns);
+          this.listenTo(this, 'change:colname', this.columnName);
+          this.listenTo(this, 'change:verbs', this.verb);
+          this.listenTo(this, 'change:events', this.handlechangetype);
+          this.listenTo(this, 'change:modifiers', this.modifier);
         },
+        ElementName() { },
         checkbox() {
           screensVariable.is_bootStrapTable_present = this.attributes.bootStrapTableCheckBox;
+        },
+        handlechangetype() {
+          // tslint:disable-next-line:max-line-length
+          const gridevent = this.get('traits').where({
+            name: 'events'
+          })[0];
+          const changedValue = this.changed['events'];
+          screensVariable.agGridObject['selectedevent'] = this.changed['events'];
+          // tslint:disable-next-line:max-line-length
+          console.log('Input type changed to : ', screensVariable.editor.getSelected().attributes.type, screensVariable.editor.getSelected().ccid, screensVariable.editor.getSelected().cid);
+          const eventchangetrigger = {
+            type: screensVariable.editor.getSelected().attributes.type,
+            value: changedValue
+          };
+          $this.broadcastservice.updateDataselection({ 'event': eventchangetrigger });
+          console.log('--------changed event-----', changedValue , screensVariable);
+          // screensVariable.editor.TraitManager.getTraitsViewer().render();
+        },
+        verb() {
+          const verbObj = screensVariable.verbOptions.find((x:any) => x.value === this.changed['verbs']);
+          if (verbObj) {
+            screensVariable.routeDetails.verb = verbObj.key;
+          }
+        },
+        entities() {
+          selectedEntity = undefined;
+          selectedEntityName = this.changed['entities'];
+          $this.allEntity.forEach(entityElement => {
+            if (entityElement.name === selectedEntityName) {
+              if (selectedEntityName !== 'none') {
+                selectedEntity = entityElement;
+              }
+            }
+          });
         },
         columnName() {
           const enteredColName = this.changed['colname'];
@@ -752,6 +785,16 @@ export class TraitsService {
             changeProp: 1,
             options: screensVariable.columnOptions,
           }, { at: 1 });
+        },
+        modifier() {
+          const modifierObj = screensVariable.filterModifiers.find(
+            (x:any) => x.value === this.changed['modifiers']
+          );
+          if (modifierObj) {
+            screensVariable.modifierUsageObject.modifier_id = modifierObj.key;
+            screensVariable.modifierUsageObject.modifier_name = modifierObj.value;
+            screensVariable.modifierUsageObject.modify_target_type = 'flow';
+          }
         },
         gridColumns() {
           selectedColumnId = this.changed['columns'];

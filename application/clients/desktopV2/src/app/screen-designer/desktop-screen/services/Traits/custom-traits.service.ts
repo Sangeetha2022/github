@@ -275,7 +275,38 @@ export class CustomTraitsService {
                 button.style.cursor = 'pointer';
                 button.appendChild(document.createTextNode('+'));
                 button.onclick=()=>{
-                 alert("column added clicked");
+                    const component = screen_designer.editor.getSelected();
+                    console.log("component",component);
+                    
+                    const agGridObject = {
+                        columnid: '',
+                        columnname: '',
+                        entity: '',
+                        entityfield: ''
+                    };
+                    const count = this.target.view.el.gridOptions.columnDefs.length+1;
+                    console.log("count",count);
+                    const columnDefs = this.target.view.el.gridOptions.columnDefs;
+                    console.log("columnDefs",columnDefs);
+                    agGridObject.columnid = `col${count}_id`;
+                    agGridObject.columnname = `column_${count}`;
+                    columnDefs.push({
+                        headerName: agGridObject.columnname,
+                        field: screen_designer.columnOptions[0].name,
+                        sortable: true,
+                        colId: agGridObject.columnid,
+                    });
+                    console.log(" columnDefs.push", columnDefs)
+                    screen_designer.agGridObject.default_field.push(agGridObject);
+                    screen_designer.agGridObject.custom_field.push(agGridObject);
+                    this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
+                    this.target.view.el.gridOptions.api.sizeColumnsToFit();
+                    screen_designer.columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
+                    const colTraits = this.target.get('traits').where({ name: 'columns' })[0];
+                    screen_designer.saveRemoteStorage();
+                    component.getTrait('columns').set('options', [
+                        ...screen_designer.columnOptions
+                    ]);
                   
                 }
                 return button;
