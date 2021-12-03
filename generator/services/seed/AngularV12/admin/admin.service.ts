@@ -12,6 +12,6 @@ export class AdminService {
   constructor(private http: HttpClient, private router: Router, private sharedService: SharedService) { }
 
   Getallusers(): Observable<any> {
-    return this.http.get(this.sharedService.DESKTOP_API + '/admin/getusers');
+    return this.http.get(this.sharedService.DESKTOP_API + '/getallusers');
   }
 }

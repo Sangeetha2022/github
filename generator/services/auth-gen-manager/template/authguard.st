@@ -73,7 +73,7 @@ export class AuthGuard implements CanActivate {
       console.log('decodedToken', decodedToken);
       this.userRole = decodedToken.role;
       console.log('this.userRole', this.userRole);
-      this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '{}');
+      this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '');
       console.log('this.accessRoutes', this.accessRoutes);
     
     
@@ -149,7 +149,7 @@ export class AuthGuard implements CanActivate {
       console.log('decodedToken', decodedToken);
       this.userRole = decodedToken.role;
       console.log('this.userRole', this.userRole);
-      this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '{}');
+      this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '');
       console.log('this.accessRoutes', this.accessRoutes);
       if (this.accessRoutes) {
         if (this.routeName && this.routeName[1].includes('?')) {

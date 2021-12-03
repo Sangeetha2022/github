@@ -19,6 +19,7 @@ export class TemplateSideNav {
                                 // <a href="#${menuElement.featuremenu[0].name.feature.replace(' ', '')}" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu">${menuElement.featuremenu[0].name.feature} <i class="fa fa-caret-down"></i></a>
                                 // <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">`);
                                 menuElement.screenmenu[0].name.screen.forEach((screenElement, screenIndex) => {
+                                    console.log('custom screen ----------------------', screenElement, '--------', screenIndex)
                                     if (screenIndex === 0) {
                                         mainNav.push(`<div id="icrvgp" class="cell gpd-clm"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
                                                         <div id="i6vd27" class="gdp-row gpd-grid"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">

@@ -1,6 +1,6 @@
 /*
  * Template group authguardv13
- * Compiled on Wed Dec 01 2021 15:57:10 GMT+0530 (India Standard Time)
+ * Compiled on Fri Dec 03 2021 11:37:45 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -222,7 +222,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '{}');");
+    w.write("this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || null);");
     w.popIndentation();
     w.write("\n");
     w.write("\n");

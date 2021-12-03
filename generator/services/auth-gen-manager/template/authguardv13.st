@@ -58,7 +58,7 @@ export class AuthGuard implements CanActivate {
       const helper = new JwtHelperService();
       const decodedToken = helper.decodeToken(this.jwtToken);
       this.userRole = decodedToken.role;
-      this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '{}');
+      this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || null);
 
       if (this.accessRoutes) {
         if (this.routeName && this.routeName[1].includes('?')) {
