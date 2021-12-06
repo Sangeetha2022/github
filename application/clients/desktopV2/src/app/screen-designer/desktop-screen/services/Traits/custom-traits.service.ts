@@ -314,9 +314,9 @@ export class CustomTraitsService {
         });
     }
 
-    removeGridRowButton($this:any) {
+    removeGridRowButton(screen_designer:any) {
         // remove button
-        $this.editor.TraitManager.addType('removeButton', {
+        screen_designer.editor.TraitManager.addType('removeButton', {
     
             getInputEl() {
                 const button = <HTMLElement>document.createElement('button');
@@ -330,17 +330,11 @@ export class CustomTraitsService {
                 button.appendChild(document.createTextNode('-'));
                 button.onclick=()=>{
                     const columnDefs = this.target.view.el.gridOptions.columnDefs;
-                    const component = $this.editor.getSelected();
-                    columnDefs.pop();
-                    this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
-                    this.target.view.el.gridOptions.api.sizeColumnsToFit();
-                    $this.columnOptions.pop();
-                    $this.agGridObject.default_field.pop();
-                    $this.agGridObject.custom_field.pop();
-                    $this.saveRemoteStorage();
-                    component.getTrait('columns').set('options', [
-                        ...$this.columnOptions
-                    ]);
+                    const component = screen_designer.editor.getSelected();
+                    if(columnDefs.length > 1){
+                       
+                    }
+               
                 }
                 return button;
             },

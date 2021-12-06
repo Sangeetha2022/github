@@ -241,11 +241,11 @@ export class CommandService {
             label: 'Add',
             type: 'addButton'
           },
-          // {
-          //   name: 'removeButton',
-          //   label: `Remove`,
-          //   type: 'removeButton'
-          // }
+          {
+            name: 'removeButton',
+            label: `Remove`,
+            type: 'removeButton'
+          }
         ]);
       }
       if (component.attributes.type === 'grid-type') {

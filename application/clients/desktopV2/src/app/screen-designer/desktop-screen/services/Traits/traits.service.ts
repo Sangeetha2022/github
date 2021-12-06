@@ -541,7 +541,7 @@ export class TraitsService {
     let selectedEntityName = '';
     let selectedEntity;
     let selectedColumnId = 'col1_id';
-    const gridOptionsInString:any= JSON.stringify(screensVariable.agGridObject);
+    const gridOptionsInString:any = JSON.stringify(screensVariable.agGridObject);
     const secGridString = JSON.stringify(screensVariable.agGridObject.custom_field);
     comps.addType(buttonName, {
       model: defaultModel.extend({
@@ -552,138 +552,130 @@ export class TraitsService {
           gridOptions: gridOptionsInString,
           secGrid: secGridString,
           script: function () {
-             const gridOptions= JSON.parse('{[ gridOptions ]}');
+            const gridOptions = JSON.parse('{[ gridOptions ]}');
             const initAgGrid = () => {
               let columnDefs:any = [];
               let rowData:any = [];
-              if (this.gridOptions &&
+              if (gridOptions &&
                 gridOptions.custom_field &&
                 gridOptions.custom_field.length > 0) {
-                    columnDefs = [];
-                    for (const key of gridOptions.custom_field) {
-                      for (let i = 0; i < 10; i++) {
-                        const newObject = gridOptions.custom_field.reduce((o:any, objectKey:any) =>
-                          Object.assign(o, { [objectKey.columnname]: `${objectKey.columnname}${Math.floor(Math.random() * 10000)}` }), {});
-                        rowData.push(newObject);
-                      }
-                      const temp = {
-                        headerName: '',
-                        field: '',
-                        sortable: true,
-                        colId: ''
-                      };
-                      temp.headerName = key.columnname;
-                      temp.field = key.columnname;
-                      temp.colId = key.columnid;
-                      columnDefs.push(temp);
-                    }
-                }
-                else{
-                  columnDefs = [
-                    {
-                      headerName: 'A',
-                      field: 'a',
-                      sortable: true,
-                      colId: 'col1_id',
-                      filter:true
-                    },
-                    {
-                      headerName: 'B',
-                      field: 'b',
-                      sortable: true,
-                      colId: 'col2_id',
-                      filter:true
-                    },
-                    {
-                      headerName: 'C',
-                      field: 'c',
-                      sortable: true,
-                      colId: 'col3_id',
-                      filter:true
-                    },
-                    {
-                      headerName: 'D',
-                      field: 'd',
-                      sortable: true,
-                      colId: 'col4_id',
-                      filter:true
-                    },
-                    {
-                      headerName: 'E',
-                      field: 'e',
-                      sortable: true,
-                      colId: 'col5_id',
-                      filter:true
-                    }
-                  ];
-                  rowData = createRowData();
-                }
-                function createRowData() {
-                  const tempData = [];
+                columnDefs = [];
+                for (const key of gridOptions.custom_field) {
                   for (let i = 0; i < 10; i++) {
-                    // create sample row item
-                    const rowItem = {
-                      // is is simple
-                      a: 'aa' + Math.floor(Math.random() * 10000),
-                      b: 'bb' + Math.floor(Math.random() * 10000),
-                      c: 'cc' + Math.floor(Math.random() * 10000),
-                      d: 'dd' + Math.floor(Math.random() * 10000),
-                      e: 'ee' + Math.floor(Math.random() * 10000)
-                    };
-                    tempData.push(rowItem);
+                    const newObject = gridOptions.custom_field.reduce((o:any, objectKey:any) =>
+                      Object.assign(o, { [objectKey.columnname]: `${objectKey.columnname}${Math.floor(Math.random() * 10000)}` }), {});
+                    rowData.push(newObject);
                   }
-                  return tempData;
+                  const temp = {
+                    headerName: '',
+                    field: '',
+                    sortable: true,
+                    colId: ''
+                  };
+                  temp.headerName = key.columnname;
+                  temp.field = key.columnname;
+                  temp.colId = key.columnid;
+                  columnDefs.push(temp);
                 }
-                this.gridOptions = {
-                  defaultColDef: {
-                    editable: true
-                  },
-                  columnDefs: columnDefs,
-                  rowData: rowData,
-                  components: {
-                    boldRenderer: function (params:any) {
-                      return '<b>' + params.value.name + '</b>';
-                    }
-                  },
-                  onGridReady: function (params:any) {
-                    console.log('rendering params', params.api);
-                    params.api.sizeColumnsToFit();
-  
-                    window.addEventListener('resize', function () {
-                      setTimeout(function () {
-                        params.api.sizeColumnsToFit();
-                      });
-                    });
-                  },
-                  paginationPageSize: 5,
-                  pagination: true,
-                };
-                const gridDiv = document.querySelector('#myGrid');
-                // tslint:disable-next-line:no-unused-expression
-                new agGrid.Grid(gridDiv, this.gridOptions);
-                this.gridOptions.cacheQuickFilter = false;
-                console.log('grid function api', this.gridOptions.api);
-                this.gridOptions.api.sizeColumnsToFit();
-              
-              };
-              let exists = false;
-              const url = 'https://unpkg.com/ag-grid-community@26.2.0/dist/ag-grid-community.min.js';
-              const scripts = document.getElementsByTagName('script');
-              console.log("scripts",scripts);
-              
-              for (let i = scripts.length; i--;) {
-                if (scripts[i].src === url) {
-                  exists = true;
-                }
-              }
-              if (exists) {
-                initAgGrid();
               } else {
-                const script = document.createElement('script');
-                script.onload = initAgGrid;
-                script.src = url;
-                document.body.appendChild(script);
+                columnDefs = [
+                  {
+                    headerName: 'A',
+                    field: 'a',
+                    sortable: true,
+                    colId: 'col1_id',
+                  },
+                  {
+                    headerName: 'B',
+                    field: 'b',
+                    sortable: true,
+                    colId: 'col2_id',
+                  },
+                  {
+                    headerName: 'C',
+                    field: 'c',
+                    sortable: true,
+                    colId: 'col3_id',
+                  },
+                  {
+                    headerName: 'D',
+                    field: 'd',
+                    sortable: true,
+                    colId: 'col4_id',
+                  },
+                  {
+                    headerName: 'E',
+                    field: 'e',
+                    sortable: true,
+                    colId: 'col5_id',
+                  }
+                ];
+                rowData = createRowData();
               }
+
+              function createRowData() {
+                const tempData = [];
+                for (let i = 0; i < 10; i++) {
+                  // create sample row item
+                  const rowItem = {
+                    // is is simple
+                    a: 'aa' + Math.floor(Math.random() * 10000),
+                    b: 'bb' + Math.floor(Math.random() * 10000),
+                    c: 'cc' + Math.floor(Math.random() * 10000),
+                    d: 'dd' + Math.floor(Math.random() * 10000),
+                    e: 'ee' + Math.floor(Math.random() * 10000)
+                  };
+                  tempData.push(rowItem);
+                }
+                return tempData;
+              }
+              this.gridOptions = {
+                defaultColDef: {
+                  editable: true
+                },
+                columnDefs: columnDefs,
+                rowData: rowData,
+                components: {
+                  boldRenderer: function (params:any) {
+                    return '<b>' + params.value.name + '</b>';
+                  }
+                },
+                onGridReady: function (params:any) {
+                  console.log('rendering params', params.api);
+                  params.api.sizeColumnsToFit();
+
+                  window.addEventListener('resize', function () {
+                    setTimeout(function () {
+                      params.api.sizeColumnsToFit();
+                    });
+                  });
+                },
+                paginationPageSize: 5,
+                pagination: true,
+              };
+              const gridDiv = document.querySelector('#myGrid');
+              // tslint:disable-next-line:no-unused-expression
+              new agGrid.Grid(gridDiv, this.gridOptions);
+              this.gridOptions.cacheQuickFilter = false;
+              console.log('grid function api', this.gridOptions.api);
+              this.gridOptions.api.sizeColumnsToFit();
+            };
+            let exists = false;
+            const url = 'https://unpkg.com/ag-grid-community@26.2.0/dist/ag-grid-community.min.js';
+            const scripts = document.getElementsByTagName('script');
+            for (let i = scripts.length; i--;) {
+              if (scripts[i].src === url) {
+                exists = true;
+              }
+            }
+            if (exists) {
+              initAgGrid();
+            } else {
+              const script = document.createElement('script');
+              script.onload = initAgGrid;
+              script.src = url;
+              document.body.appendChild(script);
+            }
           },
           traits: [{
             label: 'Name',
@@ -707,9 +699,6 @@ export class TraitsService {
 
         }),
         init() {
-          // this.listenTo(this, 'change:bootStrapTableCheckBox', this.checkbox);
-          // this.listenTo(this, 'change:colname', this.columnName);
-          // this.listenTo(this, 'change:columns', this.gridColumns);
           this.listenTo(this, 'change:bootStrapTableCheckBox', this.checkbox);
           this.listenTo(this, 'change:name', this.ElementName);
           this.listenTo(this, 'change:entities', this.entities); // listen for active event
@@ -718,10 +707,6 @@ export class TraitsService {
           this.listenTo(this, 'change:verbs', this.verb);
           this.listenTo(this, 'change:events', this.handlechangetype);
           this.listenTo(this, 'change:modifiers', this.modifier);
-        },
-        ElementName() { },
-        checkbox() {
-          screensVariable.is_bootStrapTable_present = this.attributes.bootStrapTableCheckBox;
         },
         handlechangetype() {
           // tslint:disable-next-line:max-line-length
@@ -740,22 +725,25 @@ export class TraitsService {
           console.log('--------changed event-----', changedValue , screensVariable);
           // screensVariable.editor.TraitManager.getTraitsViewer().render();
         },
+        modifier() {
+          const modifierObj = screensVariable.filterModifiers.find(
+            (x:any) => x.value === this.changed['modifiers']
+          );
+          if (modifierObj) {
+            screensVariable.modifierUsageObject.modifier_id = modifierObj.key;
+            screensVariable.modifierUsageObject.modifier_name = modifierObj.value;
+            screensVariable.modifierUsageObject.modify_target_type = 'flow';
+          }
+        },
+        ElementName() { },
+        checkbox() {
+          screensVariable.is_bootStrapTable_present = this.attributes.bootStrapTableCheckBox;
+        },
         verb() {
           const verbObj = screensVariable.verbOptions.find((x:any) => x.value === this.changed['verbs']);
           if (verbObj) {
             screensVariable.routeDetails.verb = verbObj.key;
           }
-        },
-        entities() {
-          selectedEntity = undefined;
-          selectedEntityName = this.changed['entities'];
-          $this.allEntity.forEach(entityElement => {
-            if (entityElement.name === selectedEntityName) {
-              if (selectedEntityName !== 'none') {
-                selectedEntity = entityElement;
-              }
-            }
-          });
         },
         columnName() {
           const enteredColName = this.changed['colname'];
@@ -786,15 +774,16 @@ export class TraitsService {
             options: screensVariable.columnOptions,
           }, { at: 1 });
         },
-        modifier() {
-          const modifierObj = screensVariable.filterModifiers.find(
-            (x:any) => x.value === this.changed['modifiers']
-          );
-          if (modifierObj) {
-            screensVariable.modifierUsageObject.modifier_id = modifierObj.key;
-            screensVariable.modifierUsageObject.modifier_name = modifierObj.value;
-            screensVariable.modifierUsageObject.modify_target_type = 'flow';
-          }
+        entities() {
+          selectedEntity = undefined;
+          selectedEntityName = this.changed['entities'];
+          $this.allEntity.forEach(entityElement => {
+            if (entityElement.name === selectedEntityName) {
+              if (selectedEntityName !== 'none') {
+                selectedEntity = entityElement;
+              }
+            }
+          });
         },
         gridColumns() {
           selectedColumnId = this.changed['columns'];

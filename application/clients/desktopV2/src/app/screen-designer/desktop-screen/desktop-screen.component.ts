@@ -255,7 +255,7 @@ defaultColumn: any;
     this.scripts = JSON.parse(localStorage.getItem('scripts')|| '{}');
     this.cssGuidelines = JSON.parse(localStorage.getItem('css_guidelines')|| '{}');
     this.templateName=localStorage.getItem('templateName')?.toLocaleLowerCase().replace(' ','') || '{}';
-    const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms'];
+    const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms','grapesjs-tui-image-editor'];
 
     let addStyles:any = [];
     let addScripts:any = [];
@@ -307,7 +307,14 @@ defaultColumn: any;
            
           },
           'grapesjs-custom-code': {},
-          'grapesjs-plugin-forms':{}
+          'grapesjs-plugin-forms':{},
+          'grapesjs-tui-image-editor': {
+            config: {
+              includeUI: {
+                initMenu: 'filter',
+              },
+            },
+          }
         },
         assetManager: {
           assets: [ ],
@@ -802,7 +809,7 @@ onCloseHandled() {
     // add rows trits
     this.customTraitService.addGridRowButton(this);
     // remove rows triats
-  // this.customTraitService.removeGridRowButton(this);
+   this.customTraitService.removeGridRowButton(this);
     // add field binding button
     this.customTraitService.gridFieldButton(this);
     // custom traits for grid action buttons
@@ -834,6 +841,16 @@ onCloseHandled() {
         label: 'Route',
         type: 'routeButton'
       },
+      {
+        name: 'addButton',
+        label: 'Add',
+        type: 'addButton'
+      },
+      // {
+      //   name: 'removeButton',
+      //   label: `Remove`,
+      //   type: 'removeButton'
+      // }
     );
     // updating traits entties
     console.log('---------grid--traits------------', this);

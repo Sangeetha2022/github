@@ -15,6 +15,10 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es5",
+    "typeRoots": [
+      "node_modules/@types",
+      "webpack"
+    ],
     "module": "es2020",
     "lib": [
       "es2018",

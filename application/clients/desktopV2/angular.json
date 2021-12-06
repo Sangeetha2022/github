@@ -46,6 +46,7 @@
                             "node_modules/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js",
                             "node_modules/grapesjs-plugin-forms/dist/grapesjs-plugin-forms.min.js",
                             "node_modules/grapesjs-custom-code/dist/grapesjs-custom-code.min.js",
+                            "node_modules/grapesjs-tui-image-editor/dist/grapesjs-tui-image-editor.min.js",
                             "node_modules/grapesjs-plugin-ckeditor/dist/grapesjs-plugin-ckeditor.min.js",
                             "src/assets/js/customjs/unsplash.js",
                             "src/assets/js/customjs/assetIcons.js"

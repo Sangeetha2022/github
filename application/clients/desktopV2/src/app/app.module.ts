@@ -31,7 +31,7 @@ import {TranslateLoader,TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {MissingTranslationHandler,MissingTranslationHandlerParams} from '@ngx-translate/core';
 import { ProjectComponentModule } from './project-component/project-component.module';
-import {  AgGridAngular, AgGridModule } from 'ag-grid-angular';
+import {   AgGridModule } from 'ag-grid-angular';
 import { ConnectorManagerModule } from './techarchitecture-manager/techarchitecture-manager.module';
 import { FlowManagerComponent } from './flow-manager/flow-manager.component';
 export class MyMissingTranslationHandler implements MissingTranslationHandler {
