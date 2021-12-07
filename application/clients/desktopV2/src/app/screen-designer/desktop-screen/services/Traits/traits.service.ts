@@ -560,23 +560,47 @@ export class TraitsService {
                 gridOptions.custom_field &&
                 gridOptions.custom_field.length > 0) {
                 columnDefs = [];
-                for (const key of gridOptions.custom_field) {
-                  for (let i = 0; i < 10; i++) {
+                  gridOptions.custom_field.forEach((element:any) => {
+                    console.log("element",element);
+                                 for (let i = 0; i < 10; i++) {
                     const newObject = gridOptions.custom_field.reduce((o:any, objectKey:any) =>
+                    
                       Object.assign(o, { [objectKey.columnname]: `${objectKey.columnname}${Math.floor(Math.random() * 10000)}` }), {});
+                      console.log("newObject",newObject);
+                      
                     rowData.push(newObject);
                   }
-                  const temp = {
+                        const temp = {
                     headerName: '',
                     field: '',
                     sortable: true,
                     colId: ''
                   };
-                  temp.headerName = key.columnname;
-                  temp.field = key.columnname;
-                  temp.colId = key.columnid;
+                  temp.headerName = element.columnname;
+                  temp.field = element.columnname;
+                  temp.colId = element.columnid;
                   columnDefs.push(temp);
-                }
+                  });
+                // for (const key of gridOptions.custom_field) {
+                //   for (let i = 0; i < 10; i++) {
+                //     const newObject = gridOptions.custom_field.reduce((o:any, objectKey:any) =>
+                    
+                //       Object.assign(o, { [objectKey.columnname]: `${objectKey.columnname}${Math.floor(Math.random() * 10000)}` }), {});
+                //       console.log("newObject",newObject);
+                      
+                //     rowData.push(newObject);
+                //   }
+                //   const temp = {
+                //     headerName: '',
+                //     field: '',
+                //     sortable: true,
+                //     colId: ''
+                //   };
+                //   temp.headerName = key.columnname;
+                //   temp.field = key.columnname;
+                //   temp.colId = key.columnid;
+                //   columnDefs.push(temp);
+                // }
               } else {
                 columnDefs = [
                   {
@@ -694,31 +718,7 @@ export class TraitsService {
             name: 'colname',
             changeProp: 1
           },
-          { type: 'checkbox', name: 'bootStrapTableCheckBox', label: 'Bootstrap Table', changeProp: 1 },
-          // {
-          //   type: 'select',
-          //   label: 'event',
-          //   name: 'events',
-          //   changeProp: 1,
-          //   options: [
-          //     { key: 'Load', value: 'OnLoad' },
-          //     { key: 'AfterLoad', value: 'AfterLoad' },
-          //     { key: 'Rowclick', value: 'Rowclick' },
-          //     { key: 'Rowclick | Load', value: 'Rowclick | OnLoad' }
-          //   ]
-          // },
-          // {
-          //   type: 'select',
-          //   label: 'modifiers',
-          //   name: 'modifiers',
-          //   changeProp: 1,
-          //   options: [] // Modifier binding
-          // },
-          // {
-          //   name: 'valueButton',
-          //   label: 'Modify By',
-          //   type: 'valueButton'
-          // },
+          { type: 'checkbox', name: 'bootStrapTableCheckBox', label: 'Bootstrap Table', changeProp: 1 }
           ],
 
         }),
