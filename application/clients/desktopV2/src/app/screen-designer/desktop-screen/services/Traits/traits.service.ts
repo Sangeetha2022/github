@@ -694,7 +694,31 @@ export class TraitsService {
             name: 'colname',
             changeProp: 1
           },
-          { type: 'checkbox', name: 'bootStrapTableCheckBox', label: 'Bootstrap Table', changeProp: 1 }
+          { type: 'checkbox', name: 'bootStrapTableCheckBox', label: 'Bootstrap Table', changeProp: 1 },
+          // {
+          //   type: 'select',
+          //   label: 'event',
+          //   name: 'events',
+          //   changeProp: 1,
+          //   options: [
+          //     { key: 'Load', value: 'OnLoad' },
+          //     { key: 'AfterLoad', value: 'AfterLoad' },
+          //     { key: 'Rowclick', value: 'Rowclick' },
+          //     { key: 'Rowclick | Load', value: 'Rowclick | OnLoad' }
+          //   ]
+          // },
+          // {
+          //   type: 'select',
+          //   label: 'modifiers',
+          //   name: 'modifiers',
+          //   changeProp: 1,
+          //   options: [] // Modifier binding
+          // },
+          // {
+          //   name: 'valueButton',
+          //   label: 'Modify By',
+          //   type: 'valueButton'
+          // },
           ],
 
         }),

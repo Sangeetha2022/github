@@ -332,9 +332,52 @@ export class CustomTraitsService {
                     const columnDefs = this.target.view.el.gridOptions.columnDefs;
                     const component = screen_designer.editor.getSelected();
                     if(columnDefs.length > 1){
-                       
+                       columnDefs.pop();
+                       this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
+                       this.target.view.el.gridOptions.api.sizeColumnsToFit();
+                       screen_designer.columnOptions.pop();
+                       screen_designer.agGridObject.default_field.pop();
+                       screen_designer.agGridObject.custom_field.pop();
+                       screen_designer.saveRemoteStorage();
+                       component.getTrait('columns').set('options', [
+                           ...screen_designer.columnOptions
+                       ]);
                     }
                
+                }
+                return button;
+            },
+        });
+    }
+
+    MultiflowsActionButton(screen_designer:any) {
+        // action button add
+        screen_designer.editor.TraitManager.addType('multiflowButton', {
+            getInputEl() {
+                // tslint:disable-next-line:prefer-const
+                let button = <HTMLElement>document.createElement('button');
+                button.id = 'fieldButton';
+                button.style.width = '100%';
+                button.style.backgroundColor = '#4CAF50';
+                button.style.border = 'none';
+                button.style.color = 'white';
+                button.style.backgroundColor = '#008CBA';
+                button.style.fontSize = '12px !important';
+                button.style.cursor = 'pointer';
+                button.appendChild(document.createTextNode('Flow'));
+                button.onclick=()=>{
+                    const element = screen_designer.screenFlows.filter((x:any) => x.elementName === this.target.attributes.name);
+                    const eventPopupModel = document.getElementById('EventPopup');
+                    if (element && element.length > 0) {
+                        screen_designer.selectedFlowObj = screen_designer.listOfFLows.filter((x:any) => x._id === element[0].flow);
+                    } else {
+                        screen_designer.selectedFlowObj = null;
+                    }
+                    // $this.rowSelection = 'multiple';
+                    screen_designer.isLifeCycleRow = true;
+                    eventPopupModel!.style.display = 'block';
+                    screen_designer.gridApi.deselectAll();
+                    screen_designer.ref.detectChanges();
                 }
                 return button;
             },

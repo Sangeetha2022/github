@@ -67,6 +67,11 @@ export class DesktopScreenComponent implements OnInit {
   public verbOptions: any[] = [
     { key: 'click', value: 'onClick' },
   ];
+  public componentVerbList: any[] = [
+    { key: 'onload', value: 'onLoad' },
+    { key: 'onchange', value: 'onChange' },
+    { key: 'afterload', value: 'afterLoad' }
+  ];
   logId: any = sessionStorage.getItem('LogId');
   screenEntityModel: any[] = [];
   dataBindingTypes: any[] = [];
@@ -683,7 +688,7 @@ onCloseHandled() {
     // // custom traits for flows action button
     // this.customTraitService.flowsActionButton(this);
     // // custom traits for page flow action button
-    // this.customTraitService.MultiflowsActionButton(this);
+    this.customTraitService.MultiflowsActionButton(this);
     // this.customTraitService.flowsModifierValueButton(this);
     // // custom traits for popup modal button
     // this.customTraitService.popupModalButton(this);
@@ -787,7 +792,7 @@ onCloseHandled() {
         label: 'verb',
         name: 'componentVerb',
         changeProp: 1,
-        options: []
+        options: this.componentVerbList
       },
       {
         name: 'multiflowButton',
@@ -846,11 +851,11 @@ onCloseHandled() {
         label: 'Add',
         type: 'addButton'
       },
-      // {
-      //   name: 'removeButton',
-      //   label: `Remove`,
-      //   type: 'removeButton'
-      // }
+      {
+        name: 'removeButton',
+        label: `Remove`,
+        type: 'removeButton'
+      }
     );
     // updating traits entties
     console.log('---------grid--traits------------', this);
@@ -936,6 +941,7 @@ onCloseHandled() {
         });
       } else {
         this.RemoteStorage.set('params', {
+          'component-lifecycle': this.componentLifeCycle,
           screenName: this.screenName,
           project: this.project_id,
           feature: this.feature_id,
@@ -1005,9 +1011,9 @@ onCloseHandled() {
                   this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
                   this.screenFlows = this.existScreenDetail[0]['flows_info'];
                   this.routeFlows = this.existScreenDetail[0]['route_info'];
-                // this.componentLifeCycle = this.existScreenDetail[0][
-                //   'component-lifecycle'
-                // ];
+                this.componentLifeCycle = this.existScreenDetail[0][
+                  'component-lifecycle'
+                ];
                //  this.specialEvents = this.existScreenDetail[0]['special-events'];
                  this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
                //  this.linkArray = this.existScreenDetail[0]['link_info'];
@@ -1091,7 +1097,7 @@ onCloseHandled() {
   saveEvent() {
     let temp = null;
     if (this.isLifeCycleRow) {
-      //this.saveLifeCycleFlows();
+      this.saveLifeCycleFlows();
     } 
     else if (
       this.selectedFlow &&
@@ -1200,37 +1206,37 @@ onCloseHandled() {
         console.log('cannot get flows in screen designer ', error);
       });
     }
-  // saveLifeCycleFlows() {
-  //   const lifeCycleIndex = this.componentLifeCycle.findIndex(
-  //     x => x.flowId === this.selectedFlow[0]._id
-  //   );
-  //   if (lifeCycleIndex > -1) {
-  //     this.componentLifeCycle.splice(lifeCycleIndex, 1);
-  //   }
-  //   console.log('save lifecyle flows are -----  ', this.selectedFlow);
-  //   const temp = {
-  //     flowId: this.selectedFlow[0]._id,
-  //     flowName: this.selectedFlow[0].name,
-  //     verb: this.componentVerb
-  //   };
-  //   this.componentLifeCycle.push(temp);
-  //   const flowIndex = this.checkIfFlowExist(temp.flowId, null);
-  //   if (flowIndex !< 0) {
-  //     const flowTemp = {
-  //       htmlId: '',
-  //       componentId: '',
-  //       elementName: '',
-  //       verb: '',
-  //       flow: '',
-  //       flowName: ''
-  //     };
-  //     flowTemp.flow = temp.flowId;
-  //     flowTemp.flowName = temp.flowName;
-  //     console.log('----Kishan---flow------', flowTemp);
-  //     this.screenFlows.push(flowTemp);
-  //   }
-  //   this.saveRemoteStorage();
-  // }
+  saveLifeCycleFlows() {
+    const lifeCycleIndex = this.componentLifeCycle.findIndex(
+      x => x.flowId === this.selectedFlow[0]._id
+    );
+    if (lifeCycleIndex > -1) {
+      this.componentLifeCycle.splice(lifeCycleIndex, 1);
+    }
+    console.log('save lifecyle flows are -----  ', this.selectedFlow);
+    const temp = {
+      flowId: this.selectedFlow[0]._id,
+      flowName: this.selectedFlow[0].name,
+      verb: this.componentVerb
+    };
+    this.componentLifeCycle.push(temp);
+    const flowIndex = this.checkIfFlowExist(temp.flowId, null);
+    if (flowIndex !< 0) {
+      const flowTemp = {
+        htmlId: '',
+        componentId: '',
+        elementName: '',
+        verb: '',
+        flow: '',
+        flowName: ''
+      };
+      flowTemp.flow = temp.flowId;
+      flowTemp.flowName = temp.flowName;
+      console.log('----flowTemp-------', flowTemp);
+      this.screenFlows.push(flowTemp);
+    }
+    this.saveRemoteStorage();
+  }
 
   checkIfFlowExist(flowId:any, elementName:any) {
     if (flowId != null && elementName != null) {
@@ -1494,17 +1500,13 @@ onCloseHandled() {
   
                   }
                 });
-  
-  
               this.screenDesignerService.updateScreen(screenid, screendetails, this.logId).subscribe(
                 screenresponse => {
                   console.log('------update done--', screenresponse);
                 }
               );
             }
-  
           }
         });
-  
     }
 }
