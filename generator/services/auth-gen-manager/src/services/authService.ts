@@ -7,7 +7,7 @@ import { MenuBuilderService, EntityMicroService } from '../apiservices/index';
 import { ScreenWorker } from '../worker/ScreenWorker';
 import { ModelWorker } from '../worker/ModelWorker';
 import { CamundaWorker } from '../worker/CamundaWorker';
-// import { GcamWorker } from '../worker/gcamWorker';
+import { GcamWorker } from '../worker/gcamWorker';
 import { DmnWorkerFile } from '../worker/DMNWorker';
 import { Routes } from '../../template/route.json';
 import { Common } from '../config/Common';
@@ -40,7 +40,7 @@ export class AuthService {
     private menubuilder = new MenuBuilderService();
     private entityservice = new EntityMicroService();
     private camundaworker = new CamundaWorker();
-    // private gcamworker = new GcamWorker();
+    private gcamworker = new GcamWorker();
     private dmnworker = new DmnWorkerFile();
     private workernode = new ScreenWorker();
     private modelworker = new ModelWorker();
@@ -134,7 +134,6 @@ export class AuthService {
             }
             if (this.authGenFiles.gcamPath) {
                 this.createFolder();
-                console.log("----------->",this.gcamService);
                 this.gcamService(callback)
             }
             
@@ -762,16 +761,25 @@ export class AuthService {
             this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
     }
     public async gcamService(callback) {
+        const screens = await this.getMenubuilder();
+        console.log('-----screens-----', screens);
+
         ncp.limit = 16;
         console.log("gcamService--->",this.authGenFiles. gcamPath)
         console.log("gcamService--->",this.authGenFiles. gcamFolder)
-       ncp(this.authGenFiles.gcamPath, this.authGenFiles.gcamFolder, { clobber: false }, (err) => {
+        ncp(this.authGenFiles.gcamPath, this.authGenFiles.gcamFolder, { clobber: false }, (err) => {
             console.log("gcam-->",this.authGenFiles. gcamPath);
             console.log("gcam-->",this.authGenFiles.gcamFolder);
             if (err) {
                 console.error('---error occured in the ncp of gcam----', err);
             }
-            // const gcamServiceFile =  this.gcamConfig();
+
+            this.workernode.createfile(screens, this.authGenFiles.gcamFolder, this.authGenFiles.templatepath, (data => {
+                console.log('------workerdata----', data);
+               //return callback(Routes)
+            }));
+
+            const gcamServiceFile =  this.gcamConfig();
             
             const temp = {
                 port: this.ports.gcam,
@@ -834,14 +842,14 @@ export class AuthService {
         })
 
     }
-//    gcamConfig() {
-//         return new Promise(resolve => {
-//             this.gcamworker.createConfig(this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, this.projectName, (configdata => {
-//                 resolve(configdata)
-//             }));
+   gcamConfig() {
+        return new Promise(resolve => {
+            this.gcamworker.createConfig(this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, this.projectName, (configdata => {
+                resolve(configdata)
+            }));
 
-//         })
+        })
 
-//     }
+    }
     
 }

@@ -592,8 +592,8 @@ export class FrontendWorker {
                 `public isAdminUser = false`,
                 `mysubscription: any`,
                 `public authArray: any`,
-                `public userId: string=''`,
-                `public currentLanguage: String=''`,
+                `public userId: string | null = ''`,
+                `public currentLanguage: String = ''`,
                 `public confirmLangChangeModal: String = 'none'`,
                 `public language = 'en'`,
                 `public languages = ['en', 'ta', 'es']`
