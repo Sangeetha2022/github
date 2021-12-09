@@ -9,6 +9,7 @@ import { ModelWorker } from '../worker/ModelWorker';
 import { CamundaWorker } from '../worker/CamundaWorker';
 import { GcamWorker } from '../worker/gcamWorker';
 import { DmnWorkerFile } from '../worker/DMNWorker';
+import { GCAMWorkerFile } from '../worker/GCAMScreenWorker';
 import { Routes } from '../../template/route.json';
 import { Common } from '../config/Common';
 import { AuthProxyWorker } from '../worker/authProxyWorker'
@@ -42,6 +43,7 @@ export class AuthService {
     private camundaworker = new CamundaWorker();
     private gcamworker = new GcamWorker();
     private dmnworker = new DmnWorkerFile();
+    private gcamworkerfile = new GCAMWorkerFile();
     private workernode = new ScreenWorker();
     private modelworker = new ModelWorker();
     private authProxyConfig = new AuthProxyWorker();
@@ -763,11 +765,11 @@ export class AuthService {
     public async gcamService(callback) {
         const screens = await this.getMenubuilder();
         console.log('-----screens-----', screens);
-
+        
         ncp.limit = 16;
         console.log("gcamService--->",this.authGenFiles. gcamPath)
         console.log("gcamService--->",this.authGenFiles. gcamFolder)
-        ncp(this.authGenFiles.gcamPath, this.authGenFiles.gcamFolder, { clobber: false }, (err) => {
+        await ncp(this.authGenFiles.gcamPath, this.authGenFiles.gcamFolder, { clobber: false }, async (err) => {
             console.log("gcam-->",this.authGenFiles. gcamPath);
             console.log("gcam-->",this.authGenFiles.gcamFolder);
             if (err) {
@@ -788,6 +790,10 @@ export class AuthService {
                 isDmnFile: false,
                 isSeed: true
             }
+            await this.gcamworkerfile.GcamScreenJson(screens, this.authGenFiles.gcamFolder, this.authGenFiles.templatepath, Gcamscreen => {
+                // console.log('gcam screen file modify');
+            });
+    
             console.log('gcam generation folder are ------before authProxyPath---------   ', this.authGenFiles);
              this.generateServerFile(`${this.authGenFiles.gcamFolder}/src`, this.authGenFiles.templatepath,
                  this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
