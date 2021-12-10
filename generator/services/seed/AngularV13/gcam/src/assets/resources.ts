@@ -1,4 +1,4 @@
-export const resourcetypes = [
+export const resource_types = [
   {
     "resource_name": "manageroles",
     "resource_type": "screen",

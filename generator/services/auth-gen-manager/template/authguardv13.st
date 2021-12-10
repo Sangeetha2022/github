@@ -68,21 +68,25 @@ export class AuthGuard implements CanActivate {
         this.accessRoutes.forEach((element:any) => {
           this.permissions = [];
           if (this.userRole) {
-            const permissionlevel = JSON.parse(element[this.userRole].value);
+            this.userRole=this.userRole.toLowerCase();
+            //const permissionlevel = JSON.parse(element[this.userRole].value);
+            const permissionlevel = element.access[0];
             for (let key in permissionlevel) {
-              const accessvalue = permissionlevel[key];
-              for (let role in accessvalue[0]) {
+              //const accessvalue = permissionlevel[key];
+              const accessvalue = Object.keys(permissionlevel);
+              for (let role of accessvalue) {
                 if (role == this.userRole) {
-                  if (accessvalue[0][role].value == 'true') {
+                  //if (accessvalue[0][role].value == 'true') {
                     for (let i = 0; i < this.route.config.length; i++) {
-                      this.viewPermission = accessvalue[0][role].value;
-                      this.permissions.push(key);
-                      this.routearray.push(key);
+                      var screen = Object.keys(permissionlevel[this.userRole].value);
+                      //this.viewPermission = accessvalue[0][role].value;
+                      this.permissions.push(screen[i]);
+                      this.routearray.push(screen[i]);
                       this.routearray = this.routearray.filter((item, index) => this.routearray.indexOf(item) === index)
                       this.permissions = this.permissions.filter((item, index) => this.permissions.indexOf(item) === index)
                     }
                     this.broadcastService.sendMessage({ role: this.permissions });
-                  }
+                  //}
                 }
               }
             }

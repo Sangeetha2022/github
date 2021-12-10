@@ -23,6 +23,7 @@
         "express-winston": "^3.0.1",
         "find": "^0.3.0",
         "findit": "^2.0.0",
+        "handlebars": "^4.7.6",
         "jsonwebtoken": "^8.5.1",
         "make-dir": "^3.0.0",
         "mkdirp": "^0.5.1",

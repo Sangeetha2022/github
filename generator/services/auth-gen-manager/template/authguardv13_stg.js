@@ -1,6 +1,6 @@
 /*
  * Template group authguardv13
- * Compiled on Fri Dec 03 2021 11:37:45 GMT+0530 (India Standard Time)
+ * Compiled on Thu Dec 09 2021 19:29:17 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -222,7 +222,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || null);");
+    w.write("this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '');");
     w.popIndentation();
     w.write("\n");
     w.write("\n");
@@ -259,7 +259,15 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("            ");
-    w.write("const permissionlevel = JSON.parse(element[this.userRole].value);");
+    w.write("this.userRole=this.userRole.toLowerCase();");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("            ");
+    w.write("//const permissionlevel = JSON.parse(element[this.userRole].value);");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("            ");
+    w.write("const permissionlevel = element.access[0];");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("            ");
@@ -267,11 +275,15 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("              ");
-    w.write("const accessvalue = permissionlevel[key];");
+    w.write("//const accessvalue = permissionlevel[key];");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("              ");
-    w.write("for (let role in accessvalue[0]) {");
+    w.write("const accessvalue = Object.keys(permissionlevel);");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("              ");
+    w.write("for (let role of accessvalue) {");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                ");
@@ -279,7 +291,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                  ");
-    w.write("if (accessvalue[0][role].value == 'true') {");
+    w.write("//if (accessvalue[0][role].value == 'true') {");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                    ");
@@ -287,15 +299,19 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                      ");
-    w.write("this.viewPermission = accessvalue[0][role].value;");
+    w.write("var screen = Object.keys(permissionlevel[this.userRole].value);");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                      ");
-    w.write("this.permissions.push(key);");
+    w.write("//this.viewPermission = accessvalue[0][role].value;");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                      ");
-    w.write("this.routearray.push(key);");
+    w.write("this.permissions.push(screen[i]);");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("                      ");
+    w.write("this.routearray.push(screen[i]);");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                      ");
@@ -315,7 +331,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                  ");
-    w.write("}");
+    w.write("//}");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("                ");
