@@ -44,22 +44,22 @@ export class TemplateTopNav {
                                                             
                                                         </a>`);
                                             break;
-                                        case 'authorization':
-                                            bottomNav.push(`<a id="izdchj" class="menu-link nav-item"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId" [routerLink]="['/${screenElement.toLowerCase()}']">
-                                                                {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
+                                        // case 'authorization':
+                                        //     bottomNav.push(`<a id="izdchj" class="menu-link nav-item"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId" [routerLink]="['/${screenElement.toLowerCase()}']">
+                                        //                         {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
                                                                 
-                                                            </a>`);
-                                            break;
-                                        case 'manageroles':
-                                            bottomNav.push(`<a id="izdchj" class="menu-link nav-item" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId" [routerLink]="['/${screenElement.toLowerCase()}']">
-                                                                {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
-                                                            </a>`);
-                                            break;
-                                        case 'manageusers':
-                                            bottomNav.push(`<a id="izdchj" class="menu-link nav-item" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId" [routerLink]="['/${screenElement.toLowerCase()}']">
-                                                                {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
-                                                            </a>`);
-                                            break;
+                                        //                     </a>`);
+                                        //     break;
+                                        // case 'manageroles':
+                                        //     bottomNav.push(`<a id="izdchj" class="menu-link nav-item" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId" [routerLink]="['/${screenElement.toLowerCase()}']">
+                                        //                         {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
+                                        //                     </a>`);
+                                        //     break;
+                                        // case 'manageusers':
+                                        //     bottomNav.push(`<a id="izdchj" class="menu-link nav-item" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId" [routerLink]="['/${screenElement.toLowerCase()}']">
+                                        //                         {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
+                                        //                     </a>`);
+                                        //     break;
                                         case 'admin':
                                             mainNav.push(`<a id="izdchj" class="menu-link nav-item" *ngIf='isAdminUser' [routerLink]="['/${screenElement.toLowerCase()}']">
                                                             {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
