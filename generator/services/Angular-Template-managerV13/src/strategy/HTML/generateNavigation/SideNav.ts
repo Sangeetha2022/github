@@ -31,7 +31,7 @@ export class TemplateSideNav {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}">
+                                                    <div class="collapse" id="${menuElement.featuremenu[0].name.feature.replace(' ', '')}" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
                                                         <div id="icrvgp" class="cell gpd-clm">
                                                             <div id="i6vd27" class="gdp-row gpd-grid">
                                                                 <div id="iytw4t" class="cell gpd-clm">`);
