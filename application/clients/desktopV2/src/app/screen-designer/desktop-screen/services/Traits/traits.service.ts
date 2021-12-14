@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IEntity } from 'src/app/project-component/interface/Entity';
 import { Dataservice } from '../../../../broadcast.service';
+import { CustomTraitsService } from './custom-traits.service';
 declare var ClassicEditor: any;
 declare var Highcharts: any;
 declare var agGrid: any;
@@ -14,7 +15,7 @@ export class TraitsService {
   public entitylist: any[] = [];
   public entityOptions: any[] = [];
   public allEntity: IEntity[] = [];
-  constructor(private broadcastservice: Dataservice) { 
+  constructor(private broadcastservice: Dataservice,private customTraitService: CustomTraitsService) { 
 
   }
   initMethod(screenGlobalVariable:any) {
@@ -22,6 +23,8 @@ export class TraitsService {
     this.initializeSelectMethod(screenGlobalVariable);
      this.initializeRadio_CheckBoxMethod(screenGlobalVariable);
     this.initializeButtonMethod(screenGlobalVariable);
+    this.initializeTextAreaMethod(screenGlobalVariable);
+    this.initializeLinkMethod(screenGlobalVariable);
    this.initializeLabelMethod(screenGlobalVariable);
   }
 
@@ -89,6 +92,7 @@ export class TraitsService {
               ],
             }),
             init() {
+              
              // this.listenTo(this,'change:contentname',this.chartTitle);
             },
           },
@@ -104,8 +108,7 @@ export class TraitsService {
         ),
   
         // Define the View
-      
-        view: defaultType.view
+         view: defaultType.view
       });
     }
 
@@ -272,6 +275,56 @@ export class TraitsService {
       view: defaultType.view
     });
   }
+  initializeTextAreaMethod(screenGlobalVariable:any) {
+
+    const $this = this;
+    const comps = screenGlobalVariable.editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+
+    comps.addType('textarea', {
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              { name: 'name', label: 'Name', changeProp: 1 },
+              { name: 'placeholder', label: 'Placeholder' },
+              { type: 'checkbox', name: 'required', label: 'Required' },
+              {
+                type: 'select',
+                label: 'FieldType',
+                name: 'entity',
+                changeProp: 1,
+                options: this.entityOptions
+              },
+              {
+                type: 'select',
+                label: 'FieldType',
+                name: 'entity',
+                options: [],
+                changeProp: 1
+              }
+            ]
+          })
+        },
+        {
+          isComponent: function (el:any) {
+            if (el.tagName === 'TEXTAREA' && el.type === 'textarea') {
+              return {
+                type: 'textarea'
+              };
+            }
+          }
+        }
+      ),
+
+      // Define the View
+      view: defaultType.view
+    });
+  }
   addCKEditorTraits(editor:any, buttonName:any) {
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
@@ -287,6 +340,12 @@ export class TraitsService {
                 ClassicEditor.create(
                   document.querySelector('#ckeditortextarea')
                 )
+                  .then((obj:any) => {
+                    console.log(obj);
+                  })
+                  .catch((error:any) => {
+                    console.error(error);
+                  });
               };
               if (typeof ClassicEditor === 'undefined') {
                 const script = document.createElement('script');
@@ -298,16 +357,30 @@ export class TraitsService {
                 initCKeditor();
               }
             },
+            traits: [
+              {
+                label: 'name',
+                name: 'name',
+                changeProp: 1,
+                type: 'text'
+              },
+              {
+                type: 'select',
+                label: 'entity',
+                name: 'entity',
+                options: [],
+                changeProp: 1
+              }
+            ]
           })
         },
         {
-          isComponent: (el:any)=>{
+          isComponent: function (el:any) {
             if (el.tagName === buttonName) {
               return {
                 type: buttonName
               };
             }
-            else{return null}
           }
         }
       ),
@@ -561,13 +634,9 @@ export class TraitsService {
                 gridOptions.custom_field.length > 0) {
                 columnDefs = [];
                   gridOptions.custom_field.forEach((element:any) => {
-                    console.log("element",element);
                                  for (let i = 0; i < 10; i++) {
                     const newObject = gridOptions.custom_field.reduce((o:any, objectKey:any) =>
-                    
                       Object.assign(o, { [objectKey.columnname]: `${objectKey.columnname}${Math.floor(Math.random() * 10000)}` }), {});
-                      console.log("newObject",newObject);
-                      
                     rowData.push(newObject);
                   }
                         const temp = {
@@ -581,26 +650,6 @@ export class TraitsService {
                   temp.colId = element.columnid;
                   columnDefs.push(temp);
                   });
-                // for (const key of gridOptions.custom_field) {
-                //   for (let i = 0; i < 10; i++) {
-                //     const newObject = gridOptions.custom_field.reduce((o:any, objectKey:any) =>
-                    
-                //       Object.assign(o, { [objectKey.columnname]: `${objectKey.columnname}${Math.floor(Math.random() * 10000)}` }), {});
-                //       console.log("newObject",newObject);
-                      
-                //     rowData.push(newObject);
-                //   }
-                //   const temp = {
-                //     headerName: '',
-                //     field: '',
-                //     sortable: true,
-                //     colId: ''
-                //   };
-                //   temp.headerName = key.columnname;
-                //   temp.field = key.columnname;
-                //   temp.colId = key.columnid;
-                //   columnDefs.push(temp);
-                // }
               } else {
                 columnDefs = [
                   {
@@ -827,5 +876,177 @@ export class TraitsService {
       view: defaultType.view,
     });
   }
+
+    // link traits
+    initializeLinkMethod(screenGlobalVariable:any) {
+      this.customTraitService.popupLinkButton(screenGlobalVariable);
+      const comps = screenGlobalVariable.editor.DomComponents;
+      const defaultType = comps.getType('default');
+      const defaultModel = defaultType.model;
+      const entityArray = [
+        {
+          key: 'none',
+          value: 'none'
+        }
+      ];
+      let fieldArray = [
+        {
+          key: 'none',
+          value: 'none'
+        }
+      ];
+  
+      comps.addType('link', {
+        model: defaultModel.extend(
+          {
+            defaults: Object.assign({}, defaultModel.prototype.defaults, {
+              draggable: '*',
+              resizable: false,
+              editable: true,
+              badgable: true,
+              highlightable: true,
+              droppable: false,
+              traits: [
+                {
+                  label: 'Name',
+                  name: 'name',
+                  type: 'text',
+                  changeProp: 1
+                },
+                {
+                  type: 'content',
+                  label: 'contentName',
+                  name: 'contentname',
+                  changeProp: 1
+                },
+                {
+                  type: 'checkbox',
+                  label: 'isDynamic',
+                  name: 'linkCheckboxModal',
+                  changeProp: 1
+                },
+                {
+                  type: 'linkButton',
+                  label: 'Link',
+                  name: 'linkButton'
+                }
+              ]
+            }),
+            init() {
+              this.listenTo(this, 'change:linkCheckboxModal', this.dynamicModal);
+              this.listenTo(this, 'change:entity', this.entity);
+              this.listenTo(this, 'change:field', this.field);
+            },
+            dynamicModal() {
+              screenGlobalVariable.pageLinkObj.isDynamic = this.changed[
+                'linkCheckboxModal'
+              ];
+              screenGlobalVariable.entityData.forEach((element:any) => {
+                const tempObj = {
+                  key: '',
+                  value: ''
+                };
+                if (!entityArray.find(x => x.key === element._id)) {
+                  tempObj.key = element._id;
+                  tempObj.value = element.name;
+                  entityArray.push(tempObj);
+                }
+              });
+              if (this.changed['linkCheckboxModal']) {
+                // entity dropdown
+                this.get('traits').add(
+                  {
+                    label: 'entity',
+                    name: 'entity',
+                    type: 'select',
+                    options: entityArray,
+                    changeProp: 1
+                  },
+                  { at: 3 }
+                );
+                // entity field dropdown
+                this.get('traits').add(
+                  {
+                    label: 'field',
+                    name: 'field',
+                    type: 'select',
+                    options: fieldArray,
+                    changeProp: 1
+                  },
+                  { at: 4 }
+                );
+                screenGlobalVariable.editor.TraitManager.getTraitsViewer().render();
+              } else {
+                screenGlobalVariable.removeLinkEntityTraits();
+              }
+            },
+            entity() {
+              let temp:any='';
+               temp = entityArray.find(
+                x => x.value === this.changed['entity']
+              );
+              const entityObj = screenGlobalVariable.entityData.find(
+                (x:any) => x._id === temp.key
+              );
+              fieldArray = [
+                {
+                  key: 'none',
+                  value: 'none'
+                }
+              ];
+              if (entityObj) {
+                screenGlobalVariable.pageLinkObj.selectedEntity = entityObj;
+                entityObj.field.forEach((element:any) => {
+                  const tempObj = {
+                    key: '',
+                    value: ''
+                  };
+                  if (!fieldArray.find(x => x.key === element._id)) {
+                    tempObj.key = element._id;
+                    tempObj.value = element.name;
+                    fieldArray.push(tempObj);
+                  }
+                });
+              } else {
+                screenGlobalVariable.pageLinkObj.selectedEntity = null;
+              }
+              this.get('traits')
+                .where({ name: 'field' })[0]
+                .set('options', fieldArray);
+              screenGlobalVariable.editor.TraitManager.getTraitsViewer().render();
+            },
+            field() {
+              let fieldTemp:any='';
+               fieldTemp = fieldArray.find(
+                x => x.value === this.changed['field']
+              );
+              const fieldObj = screenGlobalVariable.pageLinkObj.selectedEntity.field.find(
+                (x:any) => x._id === fieldTemp.key
+              );
+              if (fieldObj) {
+                screenGlobalVariable.pageLinkObj.selectedField = fieldObj;
+              } else {
+                screenGlobalVariable.pageLinkObj.selectedField = null;
+              }
+            },
+            toHTML: function () {
+              return `<a id="${this.ccid}" ${
+                this.get('name') ? `name="${this.get('name')}"` : ''
+                }>${this.get('content')}</a>`;
+            }
+          },
+          {
+            isComponent: function (el:any) {
+              if (el.tagName === 'A') {
+                return { type: 'link' };
+              }
+            }
+          }
+        ),
+  
+        // Define the View
+        view: defaultType.view
+      });
+    }
  
 }

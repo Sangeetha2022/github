@@ -56,6 +56,7 @@ export class CommandService {
   componentSelected($this:any) {
     $this.editor.on('component:selected', function (component:any) {
       console.log("component.attributes.tagName",component.attributes.tagName);
+      console.log("component",component);
       
       const entityTrait = component.getTrait('entity');
       console.log("entityTrait is",entityTrait);
@@ -80,6 +81,36 @@ export class CommandService {
       if (component.attributes.tagName === 'input') {
         console.log("$this.EntityBinding",$this.selectentityarray);
         console.log("entitydetails",$this.dataBindingTypes);
+        component.get('traits').set([
+          { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
+          { name: 'placeholder', label: 'Placeholder' },
+          { type: 'checkbox', name: 'required', label: 'Required' },
+          {
+              type: 'select',
+              label: 'FieldType',
+              name: 'entity',
+              options: [],
+              changeProp: 1
+          },
+          {
+            type: 'select',
+            label: 'entity',
+            name: 'entity',
+            changeProp: 1,
+            options: $this.entitydetails
+          },
+          {
+            type: 'entityFieldButton',
+            label: 'Field',
+            name: 'Field',
+          }
+        ]);
+       
+      }
+     else if (component.attributes.tagName === 'textarea') {
+        console.log("$this.EntityBinding",$this.selectentityarray);
+        console.log("entitydetails",$this.dataBindingTypes);
+        console.log("$this.entitydetails",$this.entitydetails);
         
         component.get('traits').set([
           { name: 'name', label: 'Name', changeProp: 1, type: 'text' },
@@ -435,8 +466,13 @@ export class CommandService {
       const allImageBlockModels = model.find('.gpd-image-block');
       const allImageModels = model.find('.gjs-plh-image');
       const allLabelModels = model.find('[data-gjs-type="label"]');
+      const allTextAreaModels = model.find('textarea');
+      const ckeditorspan = model.find('#ckeditorspan');
+      const ckeditorTextAreaModels = model.find('span #ckeditortextarea');
+
 
       console.log("allFormModels",allFormModels);
+      console.log('allLabelModels ---  ', allLabelModels);
       console.log('allRadioModels are ------- ', allRadioModels);
       if (allInputModels.length === 0 && model.attributes.tagName === 'input') {
         allInputModels.push(model);
@@ -445,9 +481,11 @@ export class CommandService {
         $this.setElementCSS(model, 'form', null);
       }
       if (allButtonModels.length === 0 && model.attributes.tagName === 'button') {
+        model.set({editable: false});
         allButtonModels.push(model);
       }
       if (allLabelModels.length === 0 && model.attributes.tagName === 'label') {
+        model.set({editable: false});
         allLabelModels.push(model);
       }
       console.log('after set inputmodels vlaue ---- ', allLabelModels);
@@ -464,6 +502,11 @@ export class CommandService {
           
           element.attributes.traits.target.set('name', `input_${element.ccid}`);
         });
+          // TextArea
+      allTextAreaModels.forEach((element:any) => {
+        $this.setElementCSS(element, 'textarea', null);
+        element.attributes.traits.target.set('name', `textbox_${element.ccid}`);
+      });
         allRadioModels.forEach((element:any) => {
           if (element) {
             $this.setElementCSS(element, 'radio', 'input');
@@ -496,14 +539,31 @@ export class CommandService {
         element.attributes.traits.target.set('name', `image_${element.ccid}`);
       });
 
+          // ckeditor
+      // set dynamic name in ckeditor span
+      ckeditorspan.forEach((element:any) => {
+        element.attributes.traits.target.set('name', `ckeditor_${element.ccid}`);
+      });
+      // remove unwanted classes and add the classname if available
+      ckeditorTextAreaModels.forEach((element:any) => {
+        $this.setElementCSS(element, 'ckeditor', 'textarea');
+        element.attributes.traits.target.set('name', `ckeditor_${element.ccid}`);
+      });
       const wrapperType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="grid-type"]');
+      const linkType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="link"]');
       const dynamicdropdownType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="dynamicdropdown-type"]');
+      
       if (wrapperType.length > 0) {
         $this.is_grid_present = true;
         $this.saveRemoteStorage();
         wrapperType.forEach((element:any) => {
           $this.setElementCSS(element, 'grid', null);
           element.attributes.traits.target.set('name', `grid_${element.ccid}`);
+        });
+      }
+      if (linkType.length > 0) {
+        linkType.forEach((element:any) => {
+          element.attributes.traits.target.set('name', `link_${element.ccid}`);
         });
       }
       if (dynamicdropdownType.length > 0) {

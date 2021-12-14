@@ -8,7 +8,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Screen</h5>
-                <button type="button" class="close" aria-label="Close">
+                <button type="button" class="close" (click)="closeScreeName()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
             </div>
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary">Close</button>
+                <button type="button" class="btn btn-secondary" (click)="closeScreeName()">Close</button>
                 <button type="button" class="btn btn-primary" (click)="updateScreeName()">Update</button>
             </div>
         </div>
@@ -354,6 +354,117 @@
                     </div>
                     <div class="p-2">
                         <button id="cancel_btn" type="button" class="btn btn-default" (click)="closeCustomPopup()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- link popup modal -->
+<div *ngIf="isLinkPopup" id="LinkPopup" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-md" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="display: block;">
+                <h3 id="fields_heading">Link Details</h3>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="m-3">
+                        <h4 class="TitleText">URL Binding</h4>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <b for="Screen">Link Type</b>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="radio-inline"><input type="radio" value="internal" (ngModelChange)="changeLinkDetails('internal')" [(ngModel)]="pageLinkObj.linkType"
+                                        name="routeOption">Internal</label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="radio-inline"><input type="radio" (ngModelChange)="changeLinkDetails('external')" value="external" [(ngModel)]="pageLinkObj.linkType"
+                                        name="routeOption">External</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="external">
+                            <br>
+                            <label class="BoldText" for="externalURL">External URL</label>
+                            <input type="text" class="form-control" name="externalURL" id="externalURL" [(ngModel)]="pageLinkObj.externalURL" placeholder="Enter your external link url">
+                        </div>
+                        <div class="form-group row" *ngIf="internal">
+                            <br>
+                            <label class="BoldText" for="internal">Internal Page</label>
+                            <select class="form-select" name="iternalOptions" id="dropdown_style" [(ngModel)]="pageLinkObj.internalURL" (ngModelChange)="changeLinkDetails('internalPage')">
+                  <option value="null" selected>none</option>
+                  <ng-container *ngFor="let screenObj of screenArrayByProjectId">
+                    <option
+                      *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption != 'popupmodal'"
+                      [ngValue]="screenObj">
+                      <span>{{ screenObj.screenName }}</span>
+                    </option>
+                  </ng-container>
+                </select>
+                        </div>
+                        <div class="form-group row" *ngIf="internal && pageLinkObj.isDynamic">
+                            <ng-container *ngIf="!pageLinkObj.paramEntity && pageLinkObj.selectedEntity && pageLinkObj.selectedEntity.name; else selectParamEntity">
+                                <span><b>Entity Name : </b> {{pageLinkObj.selectedEntity.name}}</span>
+                            </ng-container>
+                            <ng-template #selectParamEntity>
+                                <label for="paramEntity">Entity</label>
+                                <select class="form-select" id="dropdown_style" name="paramEntity" [(ngModel)]="pageLinkObj.paramEntity" (ngModelChange)="changeLinkDetails('paramEntity')">
+                    <option value="null" selected>none</option>
+                    <ng-container *ngFor="let entityElement of entityData">
+                      <option [ngValue]="entityElement">
+                        <span>{{ entityElement.name }}</span>
+                      </option>
+                    </ng-container>
+                  </select>
+                            </ng-template>
+                        </div>
+                        <div class="row mt-4" *ngIf="pageLinkObj.internalURL && 
+              ((pageLinkObj.selectedEntity && pageLinkObj.selectedEntity._id) || pageLinkObj.paramEntity || !pageLinkObj.isDynamic)">
+                            <button class="btn btn-primary" (click)="addLinkParams()">Add Query Params</button>
+                        </div>
+                        <br>
+                        <div class="parentScroll">
+                            <div class="row paramsDiv" *ngFor="let element of pageLinkObj.paramArray; let i=index">
+                                <div class="col-md-5">
+                                    <label for="paramName">Param Name</label>
+                                    <input type="text" class="form-control" id="dropdown_style" name="paramName{{i}}" [(ngModel)]="element.name">
+                                </div>
+                                <div class="col-md-5">
+                                    <label for="entityfield">Param Value</label>
+                                    <ng-container *ngIf="!pageLinkObj.isDynamic; else dynamic">
+                                        <input type="text" class="form-control" id="dropdown_style" name="entityfield{{i}}" [(ngModel)]="element.fieldName">
+                                    </ng-container>
+                                    <ng-template #dynamic>
+                                        <select class="form-select" id="dropdown_style" name="entityfield{{i}}" [(ngModel)]="element.fieldName">
+                        <option value="null" selected>none</option>
+                        <ng-container *ngFor="let entityElement of pageLinkObj.entityField">
+                          <option [ngValue]="entityElement.name">
+                            <span>{{ entityElement.name }}</span>
+                          </option>
+                        </ng-container>
+                      </select>
+                                    </ng-template>
+                                </div>
+                                <div class="col-md-2 trashDiv" style="top: 31px; position: relative;">
+
+                                    <i class="fa fa-trash fa-2x trash" aria-hidden="true" (click)="removeLinkParams(i)"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2">
+                        <button id="create_btn" class="btn btn-default" (click)="saveLinkDetails()">Ok</button>
+                    </div>
+                    <div class="p-2">
+                        <button id="cancel_btn" type="button" class="btn btn-default" (click)="onCloseLink()">Cancel</button>
                     </div>
                 </div>
             </div>

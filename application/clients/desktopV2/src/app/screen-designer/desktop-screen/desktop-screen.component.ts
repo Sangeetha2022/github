@@ -191,6 +191,23 @@ defaultColumn: any;
   saveTemplateURL:any;
   updateTemplateURL:any;
   modifyTemplateUrl:any;
+  public pageLinkObj:any = {
+    linkType: '',
+    isDynamic: false,
+    externalURL: '',
+    internalURL: null,
+    flowList: [],
+    flowObj: {},
+    selectedEntity: undefined,
+    paramEntity: null,
+    entityField: [],
+    selectedField: null,
+    isParamMapping: false,
+    paramArray: [],
+    htmlId: '',
+    componentId: '',
+    elementName: ''
+  };
   specific_attribute_Event: any[] = [];
     
   
@@ -260,7 +277,8 @@ defaultColumn: any;
     this.scripts = JSON.parse(localStorage.getItem('scripts')|| '{}');
     this.cssGuidelines = JSON.parse(localStorage.getItem('css_guidelines')|| '{}');
     this.templateName=localStorage.getItem('templateName')?.toLocaleLowerCase().replace(' ','') || '{}';
-    const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms','grapesjs-tui-image-editor'];
+    // const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms','grapesjs-tui-image-editor','grapesjs-tooltip','grapesjs-typed','grapesjs-style-bg'];
+    const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms'];
 
     let addStyles:any = [];
     let addScripts:any = [];
@@ -304,22 +322,20 @@ defaultColumn: any;
         exportWrapper: 1,
         allowScripts: 1,
         plugins: plugins,
-        selectorManager: {
-          componentFirst: true,
-        },
         pluginsOpts: {
-          'grapesjs-preset-webpage': {
-           
-          },
+          'grapesjs-preset-webpage': {},
           'grapesjs-custom-code': {},
           'grapesjs-plugin-forms':{},
-          'grapesjs-tui-image-editor': {
-            config: {
-              includeUI: {
-                initMenu: 'filter',
-              },
-            },
-          }
+          // 'grapesjs-tooltip':{},
+          // 'grapesjs-typed':{},
+          // 'grapesjs-style-bg':{},
+          // 'grapesjs-tui-image-editor': {
+          //   config: {
+          //     includeUI: {
+          //       initMenu: 'filter',
+          //     },
+          //   },
+          // }
         },
         assetManager: {
           assets: [ ],
@@ -405,7 +421,6 @@ defaultColumn: any;
     console.log('-------draganddrop-----this', this);
      this.commandService.componentSelected(this);
      this.commandService.toggle(this);
-     //this.commandService.removeComponent(this);
      this.commandService.updateComponentName(this);
      this.commandService.updateTraits(this);
      this.commandService.dragAndDrop(this);
@@ -559,6 +574,7 @@ onCloseHandled() {
     });
   }
   public entityData:any;
+  public isLinkPopup = false;
   EntityField: any[] = [];
   entitydetails:any;
   public selectentityarray: any[] = [];
@@ -783,6 +799,40 @@ onCloseHandled() {
             },
           
           );
+             // ckeditor traits
+    this.editor.DomComponents.getType(
+      'ckeditor5'
+    ).model.prototype.defaults.traits.push(
+      {
+        type: 'select',
+        label: this.traitsName,
+        name: this.traitsName,
+        options: EntityBinding,
+        changeProp: 1
+      },
+      {
+        type: 'entityFieldButton',
+        label: 'Field',
+        name: 'Field'
+      }
+    );
+        // textarea traits
+        this.editor.DomComponents.getType(
+          'textarea'
+        ).model.prototype.defaults.traits.push(
+          {
+            type: 'select',
+            label: this.traitsName,
+            name: this.traitsName,
+            options: EntityBinding,
+            changeProp: 1
+          },
+          {
+            type: 'entityFieldButton',
+            label: 'Field',
+            name: 'Field'
+          }
+        );
             // add traits at the state of initialization
     this.editor.DomComponents.getWrapper()
     .get('traits')
@@ -947,6 +997,7 @@ onCloseHandled() {
           feature: this.feature_id,
           flows_info: this.screenFlows,
           route_info: this.routeFlows,
+          link_info: this.linkArray,
           screenType: this.screenType,
           entity_info: this.screenEntityModel,
           grid_fields: this.agGridObject,
@@ -1016,7 +1067,7 @@ onCloseHandled() {
                 ];
                //  this.specialEvents = this.existScreenDetail[0]['special-events'];
                  this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
-               //  this.linkArray = this.existScreenDetail[0]['link_info'];
+                 this.linkArray = this.existScreenDetail[0]['link_info'];
                  this.addGridBlocks();
   
                // // change colname array
@@ -1508,5 +1559,220 @@ onCloseHandled() {
             }
           }
         });
+    }
+
+    addLinkParams() {
+      this.pageLinkObj.paramArray.push({
+        name: null,
+        fieldName: null
+      });
+      console.log('add link params value are --- ', this.pageLinkObj.paramArray);
+      this.ref.detectChanges();
+    }
+    removeLinkParams(index:any) {
+      this.pageLinkObj.paramArray.splice(index, 1);
+      this.ref.detectChanges();
+    }
+    internal:boolean=false;external:boolean=false;
+    resetLinkDetails(type:any) {
+      switch (type) {
+        case 'internal':
+          this.internal=true;
+          this.external=false;
+          this.pageLinkObj.externalURL = null;
+          this.pageLinkObj.paramArray = [];
+          break;
+        case 'external':
+          this.internal=false;
+          this.external=true;
+          this.pageLinkObj.internalURL = null;
+          this.pageLinkObj.paramArray = [];
+          this.pageLinkObj.paramEntity = null;
+          break;
+        default:
+          this.pageLinkObj.internalURL = null;
+          this.pageLinkObj.externalURL = '';
+          this.pageLinkObj.paramArray = [];
+          break;
+      }
+    }
+    onCloseLink() {
+      this.isLinkPopup = false;
+      this.ref.detectChanges();
+    }
+    changeLinkDetails(event:any) {
+      console.log("pageLinkObj.linkType",this.pageLinkObj.linkType);
+      
+      console.log('change link details rae ---- ', event);
+      if (event === 'none' || event === 'internal' || event === 'external') {
+        this.resetLinkDetails(event);
+      } else if (event === 'flow') {
+        console.log(
+          'change link details flow entiteu fare --111- ',
+          this.findEntity(this.pageLinkObj.internalURL, null)
+        );
+        console.log(
+          'change link details flow entiteu fare --222---customEntityFields- ',
+          this.customEntityFields
+        );
+      } else if (event.toLowerCase() === 'paramentity') {
+        this.pageLinkObj.entityField = this.pageLinkObj.paramEntity.field;
+      }
+      if (event.toLowerCase() === 'internalpage') {
+        // console.log('change link details internalpage are----  ', this.pageLinkObj.internalURL._id);
+        // console.log('change link details linkInformation are----  ', this.linkInformation);
+        // if (this.pageLinkObj.internalURL._id) {
+        //     this.linkInformation.internalURL.screenId = this.pageLinkObj.internalURL._id;
+        //     this.linkInformation.internalURL.screenName = this.pageLinkObj.internalURL.screenName;
+        // } else {
+        //     this.linkInformation.internalURL.screenId = '';
+        //     this.linkInformation.internalURL.screenName = '';
+        // }
+        // console.log('after set internalURLs are --- ', this.linkInformation);
+      } else {
+      }
+      //  else if (event.toLowerCase() === 'selectedentity') {
+      //     console.log('selected entity are ----- ', this.pageLinkObj.selectedEntity);
+      //     this.pageLinkObj.entityField = this.pageLinkObj.selectedEntity.field;
+      //     this.pageLinkObj.selectedField = null;
+      //     if (this.pageLinkObj.selectedEntity) {
+      //         this.linkInformation.entity.id = this.pageLinkObj.selectedEntity._id;
+      //         this.linkInformation.entity.name = this.pageLinkObj.selectedEntity.name;
+      //     } else {
+      //         this.linkInformation.entity.id = null;
+      //         this.linkInformation.entity.name = null;
+      //     }
+      //     console.log('selected entity fields are ----- ', this.pageLinkObj.entityField);
+      // } else if (event.toLowerCase() === 'entityfield') {
+      //     console.log('selected entity filed are -----2222--selectedField----   ', this.pageLinkObj.selectedField);
+      //     if (this.pageLinkObj.selectedField) {
+      //         this.linkInformation.entity.fieldId = this.pageLinkObj.selectedField._id;
+      //         this.linkInformation.entity.fieldName = this.pageLinkObj.selectedField.name;
+      //     } else {
+      //         this.linkInformation.entity.fieldId = null;
+      //         this.linkInformation.entity.fieldName = null;
+      //     }
+      // } else if (event.toLowerCase() === '') {
+  
+      // }
+      this.ref.detectChanges();
+    }
+    saveLinkDetails() {
+      const linkInformation: any = {
+        linkType: '',
+        isDynamic: false,
+        externalURL: null,
+        internalURL: {
+          screenId: '',
+          screenName: ''
+        },
+        entity: {
+          id: '',
+          name: '',
+          fieldId: '',
+          fieldName: ''
+        },
+        paramArray: [],
+        htmlId: '',
+        componentId: '',
+        elementName: '',
+        paramType: 'queryParameter'
+      };
+      console.log('save linkd details arear --pageLinkObj--- ', this.pageLinkObj);
+      console.log(
+        'save linkd details arear --linkInformation--- ',
+        linkInformation
+      );
+      console.log(
+        'save linkd details arear --this.editor.getSelected()--- ',
+        this.editor.getSelected()
+      );
+      console.log(
+        'save linkd details arear --this.editor.getSelected() traits--- ',
+        this.editor.getSelected().get('traits')
+      );
+      console.log(
+        'save linkd details arear --linkInformation--- ',
+        linkInformation
+      );
+      // this.resetLinkDetails(this.pageLinkObj.linkType);
+      const findIndex = this.linkArray.findIndex(
+        x => x.elementName === this.editor.getSelected().attributes.name
+      );
+      if (findIndex > -1) {
+        this.linkArray.splice(findIndex, 1);
+      }
+      linkInformation.htmlId = this.editor.getSelected().ccid;
+      linkInformation.componentId = this.editor.getSelected().cid;
+      linkInformation.elementName = this.editor.getSelected().attributes.name;
+      linkInformation.linkType = this.pageLinkObj.linkType;
+      linkInformation.isDynamic = this.pageLinkObj.isDynamic;
+      linkInformation.externalURL = this.pageLinkObj.externalURL;
+      if (this.pageLinkObj.internalURL) {
+        linkInformation.internalURL.screenId = this.pageLinkObj.internalURL._id;
+        linkInformation.internalURL.screenName = this.pageLinkObj.internalURL.screenName;
+      }
+      if (this.pageLinkObj.selectedEntity) {
+        linkInformation.entity.id = this.pageLinkObj.selectedEntity._id;
+        linkInformation.entity.name = this.pageLinkObj.selectedEntity.name;
+      } else if (this.pageLinkObj.paramEntity) {
+        linkInformation.entity.id = this.pageLinkObj.paramEntity._id;
+        linkInformation.entity.name = this.pageLinkObj.paramEntity.name;
+      }
+      if (this.pageLinkObj.selectedField) {
+        linkInformation.entity.fieldId = this.pageLinkObj.selectedField._id;
+        linkInformation.entity.fieldName = this.pageLinkObj.selectedField.name;
+      }
+      if (this.pageLinkObj.paramArray.length > 0) {
+        linkInformation.paramArray = this.pageLinkObj.paramArray;
+      }
+  
+      this.linkArray.push(linkInformation);
+      console.log('after set linkArrays are --- ', this.linkArray);
+      this.removeLinkEntityTraits();
+      this.isLinkPopup = false;
+      this.pageLinkObj = {
+        linkType: '',
+        isDynamic: false,
+        externalURL: '',
+        internalURL: null,
+        flowList: [],
+        flowObj: {},
+        selectedEntity: undefined,
+        paramEntity: null,
+        entityField: [],
+        selectedField: null,
+        isParamMapping: false,
+        paramArray: [],
+        htmlId: '',
+        componentId: '',
+        elementName: ''
+      };
+  
+      this.saveRemoteStorage();
+      this.ref.detectChanges();
+    }
+    removeLinkEntityTraits() {
+      const temp = this.editor
+        .getSelected()
+        .get('traits')
+        .filter((trait:any) => {
+          if (
+            trait.attributes.name === 'entity' ||
+            trait.attributes.name === 'field'
+          ) {
+            return true;
+          }
+        });
+      console.log('after set temp values are- -- ', temp);
+      if (temp && temp.length > 0) {
+        temp.forEach((element:any) => {
+          this.editor
+            .getSelected()
+            .get('traits')
+            .remove(element);
+        });
+      }
+      this.editor.TraitManager.getTraitsViewer().render();
     }
 }

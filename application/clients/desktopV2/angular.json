@@ -47,6 +47,11 @@
                             "node_modules/grapesjs-plugin-forms/dist/grapesjs-plugin-forms.min.js",
                             "node_modules/grapesjs-custom-code/dist/grapesjs-custom-code.min.js",
                             "node_modules/grapesjs-tui-image-editor/dist/grapesjs-tui-image-editor.min.js",
+                            "node_modules/grapesjs-blocks-flexbox/dist/grapesjs-blocks-flexbox.min.js",
+                            "node_modules/grapesjs-tooltip/dist/grapesjs-tooltip.min.js",
+                            "node_modules/grapesjs-style-bg/dist/grapesjs-style-bg.min.js",
+                            "node_modules/grapesjs-tabs/dist/grapesjs-tabs.min.js",
+                            "node_modules/grapesjs-typed/dist/grapesjs-typed.min.js",
                             "node_modules/grapesjs-plugin-ckeditor/dist/grapesjs-plugin-ckeditor.min.js",
                             "src/assets/js/customjs/unsplash.js",
                             "src/assets/js/customjs/assetIcons.js"
