@@ -36,7 +36,7 @@ export class GCAMWorkerFile {
             if(screen.resources !== 'admin' && screen.resources !== 'authorization' 
             && screen.resources !== 'manageroles' && screen.resources !== 'home' 
             && screen.resources !== 'manageusers' && screen.resources !== 'sefscreen' && screen.resources !== 'login'
-            && screen.resources !== 'logout'){
+            && screen.resources !== 'logout' && screen.resources !== 'managecontrol'){
                 this.screenarray.push({ resources: `${screen.resources}`, role: `${screen.role}` },);
             }
         });

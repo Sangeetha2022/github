@@ -20,6 +20,7 @@ export class FrontendWorker {
     private AUTHORIZATION_FOLDERNAME = 'authorization';
     private MANAGEROLES_FOLDERNAME = 'manageroles';
     private MANAGEUSERS_FOLDERNAME = 'manageusers';
+    private MANAGECONTROL_FOLDERNAME = 'managecontrol';
     private PROFILE_SETTINGS_FOLDERNAME = 'profilesettings';
     private BUTTON_RENDERER_FOLDERNAME = 'button-renderer';
     private AUTH_FOLDERNAME = 'auth';
@@ -265,6 +266,16 @@ export class FrontendWorker {
         });
     }
 
+    // create managecontrol component from seed files
+    async createManagecontrolComponent(callback) {
+        const manageuserPath = `${this.projectGenerationPath}/src/app/${this.MANAGECONTROL_FOLDERNAME}`;
+        await this.generateStaticComponent(manageuserPath, this.MANAGECONTROL_FOLDERNAME, () => {
+            this.generateModule(this.MANAGECONTROL_FOLDERNAME, this.MODULE_TEMPLATENAME, manageuserPath, () => {
+            callback();
+            });
+        });
+    }
+
     // create home component from seed files
     async createHomeComponent(callback) {
         const homeApplicationPath = `${this.projectGenerationPath}/src/app/${this.HOME_FOLDERNAME}`;
@@ -495,7 +506,7 @@ export class FrontendWorker {
                 } else if (folderName === 'user') {
                     let pathName = `${folderName}management`
                     this.routingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
-                } else if (folderName === 'home' || folderName === 'authorization' || folderName === 'manageroles' || folderName === 'manageusers') {
+                } else if (folderName === 'home' || folderName === 'authorization' || folderName === 'manageroles' || folderName === 'manageusers' || folderName === 'managecontrol') {
                     this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
                 } else {
                     this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);
