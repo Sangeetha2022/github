@@ -20,12 +20,12 @@ export class TraitsService {
   }
   initMethod(screenGlobalVariable:any) {
     this.initializeInputMethod(screenGlobalVariable);
+    this.initializeRadio_CheckBoxMethod(screenGlobalVariable);
     this.initializeSelectMethod(screenGlobalVariable);
-     this.initializeRadio_CheckBoxMethod(screenGlobalVariable);
     this.initializeButtonMethod(screenGlobalVariable);
     this.initializeTextAreaMethod(screenGlobalVariable);
     this.initializeLinkMethod(screenGlobalVariable);
-   this.initializeLabelMethod(screenGlobalVariable);
+     this.initializeLabelMethod(screenGlobalVariable);
   }
 
   initializeInputMethod(screenGlobalVariable:any) {
@@ -234,6 +234,105 @@ export class TraitsService {
         view: defaultType.view
       });
     }
+       // Radio values are ---
+  initializeRadioMethod(screenGlobalVariable:any) {
+    const $this = this;
+    const comps = screenGlobalVariable.editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    comps.addType('radio', {
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              { name: 'id', label: 'ID' },
+              { name: 'name', label: 'Name', changeProp: 1 },
+              { name: 'value', label: 'Value' },
+              { type: 'checkbox', name: 'required', label: 'Required' },
+              {
+                label: 'Checked',
+                type: 'checkbox',
+                name: 'checked',
+                changeProp: 1
+              },
+              {
+                type: 'select',
+                label: 'entity',
+                name: 'entity',
+                options: [],
+                changeProp: 1
+              }
+            ]
+          })
+        },
+        {
+          isComponent: function (el:any) {
+            if (el.tagName === 'INPUT' && el.type === 'radio') {
+              return {
+                type: 'radio'
+              };
+            }
+          }
+        }
+      ),
+
+      // Define the View
+      view: defaultType.view
+    });
+  }
+
+  // checkbox values are ---
+  initializeCheckboxMethod(screenGlobalVariable:any) {
+    const $this = this;
+    const comps = screenGlobalVariable.editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+
+    comps.addType('checkbox', {
+      model: defaultModel.extend(
+        {
+          defaults: Object.assign({}, defaultModel.prototype.defaults, {
+            draggable: '*',
+            droppable: false,
+            traits: [
+              { name: 'id', label: 'ID' },
+              { name: 'name', label: 'Name', changeProp: 1 },
+              { name: 'value', label: 'Value' },
+              { type: 'checkbox', name: 'required', label: 'Required' },
+              {
+                label: 'Checked',
+                type: 'checkbox',
+                name: 'checked',
+                changeProp: 1
+              },
+              {
+                type: 'select',
+                label: 'entity',
+                name: 'entity',
+                options: [],
+                changeProp: 1
+              }
+            ]
+          })
+        },
+        {
+          isComponent: function (el:any) {
+            if (el.tagName === 'INPUT' && el.type === 'checkbox') {
+              return {
+                type: 'checkbox'
+              };
+            }
+          }
+        }
+      ),
+
+      // Define the View
+      view: defaultType.view
+    });
+  }
       // Radio and checkbox values values are ---
   initializeRadio_CheckBoxMethod(screenGlobalVariable:any) {
     const $this = this;

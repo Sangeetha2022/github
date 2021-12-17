@@ -277,8 +277,8 @@ defaultColumn: any;
     this.scripts = JSON.parse(localStorage.getItem('scripts')|| '{}');
     this.cssGuidelines = JSON.parse(localStorage.getItem('css_guidelines')|| '{}');
     this.templateName=localStorage.getItem('templateName')?.toLocaleLowerCase().replace(' ','') || '{}';
-    // const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms','grapesjs-tui-image-editor','grapesjs-tooltip','grapesjs-typed','grapesjs-style-bg'];
-    const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms'];
+   //  const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms','grapesjs-tui-image-editor','grapesjs-tooltip','grapesjs-typed','grapesjs-style-bg'];
+    const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms','grapesjs-tui-image-editor','grapesjs-lory-slider','grapesjs-accordion'];
 
     let addStyles:any = [];
     let addScripts:any = [];
@@ -326,16 +326,24 @@ defaultColumn: any;
           'grapesjs-preset-webpage': {},
           'grapesjs-custom-code': {},
           'grapesjs-plugin-forms':{},
+          'grapesjs-lory-slider': {
+            slideEls:'<div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div>',
+            prevEl:'<span class="glyphicon glyphicon-circle-arrow-left" style="font-size:50px"></span>',
+            nextEl:'<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:50px"></span>',
+          },
+          "grapesjs-accordion": {
+            /* options */
+          },
           // 'grapesjs-tooltip':{},
           // 'grapesjs-typed':{},
-          // 'grapesjs-style-bg':{},
-          // 'grapesjs-tui-image-editor': {
-          //   config: {
-          //     includeUI: {
-          //       initMenu: 'filter',
-          //     },
-          //   },
-          // }
+         
+          'grapesjs-tui-image-editor': {
+            config: {
+              includeUI: {
+                initMenu: 'filter',
+              },
+            },
+          }
         },
         assetManager: {
           assets: [ ],
@@ -356,6 +364,9 @@ defaultColumn: any;
           storeStyles: true,
           contentTypeJson: true,
           urlStore: ''
+        },
+        selectorManager: {
+          componentFirst: true,
         },
       });
       const comps = this.editor.DomComponents;
@@ -406,11 +417,11 @@ defaultColumn: any;
   }
   //To add Custom Blocks
   addCustomBlocks() {
-    this.blockservice.addHeadingTag(this.editor);
-    this.blockservice.addCKeditor5(this.editor);
-    this.blockservice.addSpecialCharts(this.editor);
-    this.blockservice.dynamicDropdown(this.editor);
-    this.addGridBlocks();
+   this.blockservice.addHeadingTag(this.editor);
+   this.blockservice.addCKeditor5(this.editor);
+   this.blockservice.addSpecialCharts(this.editor);
+   this.blockservice.dynamicDropdown(this.editor);
+   this.addGridBlocks();
   }
   //Function Contains custom buttons in panels
   panelManager() {
@@ -423,7 +434,7 @@ defaultColumn: any;
      this.commandService.toggle(this);
      this.commandService.updateComponentName(this);
      this.commandService.updateTraits(this);
-     this.commandService.dragAndDrop(this);
+    this.commandService.dragAndDrop(this);
   }
   onGridReady(params:any) {
     this.gridApi = params.api;
@@ -701,15 +712,7 @@ onCloseHandled() {
      this.customTraitService.content(this);
      this.customTraitService.flowsActionButton(this);
      this.customTraitService.flowsModifierValueButton(this);
-    // // custom traits for flows action button
-    // this.customTraitService.flowsActionButton(this);
-    // // custom traits for page flow action button
     this.customTraitService.MultiflowsActionButton(this);
-    // this.customTraitService.flowsModifierValueButton(this);
-    // // custom traits for popup modal button
-    // this.customTraitService.popupModalButton(this);
-    
-
         // input traits
         this.editor.DomComponents.getType(
           'input'

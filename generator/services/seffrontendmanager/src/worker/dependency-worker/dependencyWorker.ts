@@ -59,6 +59,8 @@ export class DependencyWorker {
         //     this.configAppModule.push(`    "module": "esnext",`);
         //     console.log(`package json -------`, this.packageModule)
         packageJsonFileWorker.modifyPackageFile(packagePath, Constant.PACKAGE_MODULE);
+        console.log("packageJsonFileWorker",Constant.PACKAGE_MODULE);
+        
         appRoutingModuleWorker.importRoutingModules(details, (res, err) => {
 
         })

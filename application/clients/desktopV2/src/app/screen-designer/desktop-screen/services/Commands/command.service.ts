@@ -472,7 +472,7 @@ export class CommandService {
 
 
       console.log("allFormModels",allFormModels);
-      console.log('allLabelModels ---  ', allLabelModels);
+     // console.log('allLabelModels ---  ', allLabelModels);
       console.log('allRadioModels are ------- ', allRadioModels);
       if (allInputModels.length === 0 && model.attributes.tagName === 'input') {
         allInputModels.push(model);
@@ -488,8 +488,8 @@ export class CommandService {
         model.set({editable: false});
         allLabelModels.push(model);
       }
-      console.log('after set inputmodels vlaue ---- ', allLabelModels);
-         // label
+     console.log('after set inputmodels vlaue ---- ', allLabelModels);
+         //label
          allLabelModels.forEach((element:any) => {
           $this.setElementCSS(element, 'label', null);
           //element.attributes.traits.target.set('name', `label_${element.ccid}`);

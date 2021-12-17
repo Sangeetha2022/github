@@ -20,7 +20,7 @@ export class {{ GpOptions.className }} implements OnInit {
     {{name}}: {{dataType}} = [{{#each value}}{ {{key1}}: '{{value1}}', {{key2}}: '{{value2}}'  },{{/each}}];
 {{/each}}
 {{#each GpOptions.entities}}
-    public {{ name }} = {
+    public {{ name }}:any = {
         created_date: '',
         created_by: '',
         last_modified_by: '',

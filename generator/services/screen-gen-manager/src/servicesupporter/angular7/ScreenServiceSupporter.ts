@@ -266,7 +266,7 @@ export class ScreenServiceSupporter {
   phonenumber: '+919092311111'
 }]`);
 
-      this.componentObj.componentMethod.push(`onGridReady(params) {
+      this.componentObj.componentMethod.push(`onGridReady(params:any) {
   this.gridApi = params.api;
   this.gridApi.sizeColumnsToFit();
   this.gridColumnApi = params.columnApi;
