@@ -1,6 +1,6 @@
 /*
  * Template group server_file
- * Compiled on Wed Sep 16 2020 20:35:50 GMT+0530 (India Standard Time)
+ * Compiled on Fri Nov 26 2021 16:59:48 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -35,7 +35,7 @@ r = function(w, rc) {
     w.write("\n");
     w.write("import mongoose = require('mongoose');");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "isSeed", { file: gFile, line: 8, column: 11 }))) {
+    if (st.test(st.test(st.prop(s, g, rc, s.object, "isSeed", { file: gFile, line: 8, column: 11 })) || st.test(st.prop(s, g, rc, s.object, "GCAM", { file: gFile, line: 8, column: 28 })))) {
     
         w.write("import { SeedService } from './seed';");
     
@@ -98,14 +98,25 @@ r = function(w, rc) {
     
     }
     w.write("\n");
+    w.write("         ");
+    if (st.test(st.prop(s, g, rc, s.object, "GCAM", { file: gFile, line: 24, column: 20 }))) {
+    
+        w.write("this.SeedData();");
+    
+    
+    }
+    w.write("\n");
     w.write("        ");
-    if (st.test(st.prop(s, g, rc, s.object, "isDmnFile", { file: gFile, line: 24, column: 19 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "isDmnFile", { file: gFile, line: 25, column: 19 }))) {
     
         w.write("this.DeployDMNfile();");
     
     
     }
     w.write("\n");
+    w.pushIndentation("       ");
+    w.write("\n");
+    w.popIndentation();
     w.pushIndentation("    ");
     w.write("}");
     w.popIndentation();
@@ -154,7 +165,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "isSeed", { file: gFile, line: 40, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "isSeed", { file: gFile, line: 42, column: 11 }))) {
     
         w.write("\n");
         w.pushIndentation("    ");
@@ -178,7 +189,34 @@ r = function(w, rc) {
     }
     w.write("\n");
     w.write("\n");
-    if (st.test(st.prop(s, g, rc, s.object, "isDmnFile", { file: gFile, line: 47, column: 11 }))) {
+    if (st.test(st.prop(s, g, rc, s.object, "GCAM", { file: gFile, line: 49, column: 11 }))) {
+    
+        w.write(" ");
+        w.write("\n");
+        w.write("private SeedData(): void {");
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write("console.log('route a file into seed create');");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write("let seedData = new SeedService();");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("        ");
+        w.write("seedData.post();");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("    ");
+        w.write("}");
+        w.popIndentation();
+        w.write("\n");
+    
+    
+    }
+    w.write("\n");
+    w.write("\n");
+    if (st.test(st.prop(s, g, rc, s.object, "isDmnFile", { file: gFile, line: 57, column: 11 }))) {
     
         w.write("\n");
         w.pushIndentation("    ");
@@ -200,6 +238,8 @@ r = function(w, rc) {
     
     
     }
+    w.write("\n");
+    w.write("\n");
     w.write("\n");
     w.write("\n");
     w.write("}");

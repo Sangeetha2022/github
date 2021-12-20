@@ -1,3 +1,3 @@
 constants() ::= <<
-export const camundaUrl = process.env.CAMUNDAURL;
+export const gcamUrl = process.env.GCAMURL;
 >>

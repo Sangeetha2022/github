@@ -590,6 +590,9 @@ export class GenerateHtmlWorker {
                 firstEle.type != 'grid-row' && firstEle.type != 'grid-item' &&
                 (firstEle.type == 'specialdropdown-type' || firstEle.type == 'label' || firstEle.type == 'section' || firstEle.type == 'input' || firstEle.type == 'grid-type')
             ) {
+                console.log("inside if css");
+                console.log("inside if css 1",firstEle.type);
+                
                 tagName = firstEle.type;
             } else if (firstEle.type == 'tab' || firstEle.type == 'link') {
                 tagName = 'a';

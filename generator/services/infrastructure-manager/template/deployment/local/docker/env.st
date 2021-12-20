@@ -4,6 +4,7 @@ SECURITYURL=http://securitymanager-$uuid$:8003
 AUTHPROXYURL=http://authproxy-$uuid$:8001
 ADMINURL=http://adminmanager-$uuid$:8004
 CAMUNDAURL=http://camundasvc-$uuid$:8002
+GCAMURL=http://gcam-$uuid$:8007
 APIGATEWAY=http://apigateway-$uuid$:8000
 VAULT_URL=http://vault-$uuid$:8200
 VAULT_TOKEN=vault-geppetto-2021

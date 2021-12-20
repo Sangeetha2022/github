@@ -27,6 +27,7 @@ export class ApiGatewaySupportWorker {
     generateApiAdapter(configPath, apiGatewayTemplatePath) {
         let generateApiGateway = st.loadGroup(require(apiGatewayTemplatePath + '/apiadapter_stg'));
         let apigatewayFile = generateApiGateway.render("apiadapter");
+        console.log('data generate fle shown', apigatewayFile);
         fs.writeFile(configPath + `/apiAdapter.ts`, apigatewayFile, (err) => {
             if (err) throw err;
             this.generateWinstonLoggerFile(configPath, apiGatewayTemplatePath);

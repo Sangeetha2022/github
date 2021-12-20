@@ -96,7 +96,7 @@ export class Footer {
         });
         let templatePath = path.resolve(__dirname, './template');
         let screenPath = generationPath + `/${Constant.SRC_FOLDERNAME}` + `/${Constant.FOOTER_FOLDERNAME}`
-        let filePath = templatePath + `/Template.Footer.handlebars`;
+        let filePath = templatePath + `/Template.Footer`;
         await componentSupportWorker.handleBarsFile(filePath, footerData, screenPath, "footer.component.html");
         callback("Footer Html file generated")
     }

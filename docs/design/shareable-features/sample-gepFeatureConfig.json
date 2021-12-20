@@ -1,7 +1,7 @@
 {
     "feature-name": "gepFileManager",
     "sharing-visibility-status": "admin",
-    "type": "external-QUESTION: what are other types?",
+    "type": "external-QUESTION: what are other types? - default is internal",
     "last-modified-date": "10-16-2021",
     "description": "\"Generic file uploads/downloads/management\"",
     "author": "gepinfo@gmail.com",

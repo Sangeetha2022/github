@@ -5,9 +5,9 @@ export class ScreenWorker {
     screensupportfile = new ScreenSupportWorker();
 
     createfile(menuobject, generationpath, templatepath, callback) {
-        console.log('createfile ----->>  ', menuobject);
+        // console.log('createfile ----->>  ', menuobject);
         let listofscreens = this.ScreenName(menuobject);
-        console.log('------screenname----', listofscreens);
+        // console.log('------screenname----', listofscreens);
         this.screensupportfile.screenfilegenerate(listofscreens, generationpath, templatepath, (response) => {
             callback(response);
         })
@@ -28,7 +28,7 @@ export class ScreenWorker {
                             const screendescription = element3.name;
                             screendescription.screen.forEach(element4 => {
                                 // console.log('-------screen----', typeof element4); 
-                                if (element4 !== 'login' && element4 !== 'logout' && element4 !== 'authorization' && element4 !== 'manageroles' && element4 !== 'manageusers'){
+                                if (element4 !== 'login' && element4 !== 'logout' && element4 !== 'authorization' && element4 !== 'manageroles' && element4 !== 'manageusers' && element4 !== 'managecontrol'){
                                     screensname.push(element4);
                                     console.log('------screensname----', screensname);
                                 }

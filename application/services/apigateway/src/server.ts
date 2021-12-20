@@ -46,6 +46,8 @@ import {
     GepFileManagerController,
     AngularControllerV12,
     AngularTemplateControllerV12,
+    AngularControllerV13,
+    AngularTemplateControllerV13,
 } from './apicontroller';
 
 import { WinstonLogger } from './config/WinstonLogger';
@@ -71,6 +73,7 @@ let apisController = [
     new SefNodeController(),
     new AngularController(),
     new AngularControllerV12(),
+    new AngularControllerV13(),
     new ConfigurationController(),
     new MenubuilderController(),
     new ScreenController(),
@@ -80,6 +83,7 @@ let apisController = [
     new Authgencontroller(),
     new AngularTemplateController(),
     new AngularTemplateControllerV12(),
+    new AngularTemplateControllerV13(),
     new AdminController(),
     new TemplateController(),
     new customConnectors(),
