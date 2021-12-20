@@ -20,12 +20,12 @@ export class TraitsService {
   }
   initMethod(screenGlobalVariable:any) {
     this.initializeInputMethod(screenGlobalVariable);
-    this.initializeRadio_CheckBoxMethod(screenGlobalVariable);
+ //   this.initializeRadio_CheckBoxMethod(screenGlobalVariable);
     this.initializeSelectMethod(screenGlobalVariable);
     this.initializeButtonMethod(screenGlobalVariable);
     this.initializeTextAreaMethod(screenGlobalVariable);
     this.initializeLinkMethod(screenGlobalVariable);
-     this.initializeLabelMethod(screenGlobalVariable);
+   //  this.initializeLabelMethod(screenGlobalVariable);
   }
 
   initializeInputMethod(screenGlobalVariable:any) {
@@ -172,12 +172,6 @@ export class TraitsService {
                   label: 'Name',
                   name: 'name',
                   type: 'text',
-                  changeProp: 1
-                },
-                {
-                  type: 'content',
-                  label: 'contentName',
-                  name: 'contentname',
                   changeProp: 1
                 },
                 {

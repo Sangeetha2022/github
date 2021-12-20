@@ -33,10 +33,15 @@ export class grapesjsGjscomponents{
             if (Object.keys(element).includes('style') && Object.keys(element).includes('selectors')) {
                 element.selectors.forEach((selector, index) => {
                     if(selector.name){
+                        console.log("inside selector -->");
+                        
                         this.cssData += '.' + selector.name;
+                        console.log("inside selector --> css data",this.cssData);
+                        
                     }
                     else if(!selector.name){
                         this.cssData += '#' + selector.split('#')[1];
+                        console.log("inside selector not name --> css data",this.cssData);
                     }
                     if (element.selectors.length - 1 === index) {
                         this.cssData += ' {';

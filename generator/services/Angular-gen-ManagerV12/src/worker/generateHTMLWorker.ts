@@ -201,7 +201,7 @@ export class GenerateHtmlWorker {
         let classess = '';
         if(item.hasOwnProperty('classes')) {
             //For grapesjs version v0.17.29
-            /*
+            
             item.classes.forEach((element, index) => {
                 console.log("element===>",element);
                 if((index + 1 === item.classes.length)) {
@@ -224,9 +224,10 @@ export class GenerateHtmlWorker {
                         console.log("classess",classess);
                 }
             });
-            */
+            
             
             //For grapesjs version v0.16.27
+            /*
             console.log("item is",item);
             
             item.classes.forEach((element, index) => {
@@ -239,6 +240,7 @@ export class GenerateHtmlWorker {
                 }
                 console.log("classess",classess);
             });
+            */
        }
         this.htmlContent = tagName !== 'img' && tagName !== 'input' ? this.htmlContent + `class="${classess}">\n` : this.htmlContent + `class="${classess}"/>\n`;
     } 

@@ -34,10 +34,10 @@ export class ComponentCSSworker {
             let gjsStyles = JSON.parse(desktopElement['gjs-styles']);
             console.log("gjs styles angular 12",gjsStyles);
             //For grapesjs version v0.17.29
-        //    await GrapesjsGjscomponents.grapesjs_cssData_V01729(gjsStyles);
+            await GrapesjsGjscomponents.grapesjs_V01729(gjsStyles);
 
            //For grapesjs version v0.16.27
-           await GrapesjsGjscomponents.grapesjs_V01627(gjsStyles);
+        //   await GrapesjsGjscomponents.grapesjs_V01627(gjsStyles);
            cssData=GrapesjsGjscomponents.cssData;
             details.desktop.forEach(element => {
                 if (element.is_grid_present == true && element.is_bootStrapTable_present == true) {

@@ -31,7 +31,7 @@
         "ag-grid-community": "^26.2.0",
         "angular-material": "^1.2.3",
         "bootstrap": "^5.0.2",
-        "grapesjs": "^0.16.27",
+        "grapesjs": "^0.17.29",
         "grapesjs-accordion": "^1.0.10",
         "grapesjs-blocks-flexbox": "^0.1.1",
         "grapesjs-custom-code": "^0.1.3",

@@ -148,12 +148,6 @@ export class CommandService {
             changeProp: 1
           },
           {
-            type: 'content',
-            label: 'contentName',
-            name: 'contentname',
-            changeProp: 1
-          },
-          {
             type: 'select',
             label: 'verb',
             name: 'verbs',
@@ -180,23 +174,23 @@ export class CommandService {
           ]
         );
       }
-      else if (component.attributes.tagName === 'label') {
-        component.get('traits').set([
-          {
-            label: 'Name',
-            name: 'name',
-            type: 'text',
-            changeProp: 1
-          },
-          {
-            type: 'content',
-            label: 'contentName',
-            name: 'contentname',
-            changeProp: 1
-          },
-          ]
-        );
-      }
+      // else if (component.attributes.tagName === 'label') {
+      //   component.get('traits').set([
+      //     {
+      //       label: 'Name',
+      //       name: 'name',
+      //       type: 'text',
+      //       changeProp: 1
+      //     },
+      //     {
+      //       type: 'content',
+      //       label: 'contentName',
+      //       name: 'contentname',
+      //       changeProp: 1
+      //     },
+      //     ]
+      //   );
+      // }
       if (component.attributes.type === 'dynamicdropdown-type') {
         component.get('traits').add(
           {
@@ -465,7 +459,7 @@ export class CommandService {
        const allCheckBoxModels = model.find('input[type="checkbox"i]');
       const allImageBlockModels = model.find('.gpd-image-block');
       const allImageModels = model.find('.gjs-plh-image');
-      const allLabelModels = model.find('[data-gjs-type="label"]');
+   //   const allLabelModels = model.find('[data-gjs-type="label"]');
       const allTextAreaModels = model.find('textarea');
       const ckeditorspan = model.find('#ckeditorspan');
       const ckeditorTextAreaModels = model.find('span #ckeditortextarea');
@@ -481,19 +475,19 @@ export class CommandService {
         $this.setElementCSS(model, 'form', null);
       }
       if (allButtonModels.length === 0 && model.attributes.tagName === 'button') {
-        model.set({editable: false});
+        //model.set({editable: false});
         allButtonModels.push(model);
       }
-      if (allLabelModels.length === 0 && model.attributes.tagName === 'label') {
-        model.set({editable: false});
-        allLabelModels.push(model);
-      }
-     console.log('after set inputmodels vlaue ---- ', allLabelModels);
-         //label
-         allLabelModels.forEach((element:any) => {
-          $this.setElementCSS(element, 'label', null);
-          //element.attributes.traits.target.set('name', `label_${element.ccid}`);
-        });
+    //   if (allLabelModels.length === 0 && model.attributes.tagName === 'label') {
+    //     model.set({editable: false});
+    //     allLabelModels.push(model);
+    //   }
+    //  console.log('after set inputmodels vlaue ---- ', allLabelModels);
+    //      //label
+    //      allLabelModels.forEach((element:any) => {
+    //       $this.setElementCSS(element, 'label', null);
+    //       //element.attributes.traits.target.set('name', `label_${element.ccid}`);
+    //     });
 
          // input
          allInputModels.forEach((element:any) => {
