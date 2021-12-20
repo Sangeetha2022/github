@@ -89,7 +89,41 @@ export class FrontendTemplateService {
                 callback('angular template are generated');
 
             }
-            if (details.project.clientFramework.label.includes('Angular') && details.project.clientFramework.label != 'Angular 12') {
+            if (details.project.clientFramework.label == 'Angular 13') {
+                console.log("inside angular 12 templatemanager frontend");
+                const templateResponse = await this.generateAngularTemplateV13(templateObj);
+                console.log('after calling angular template for version 13 ---  ', templateResponse);
+                if (templateResponse) {
+                    const tempFrontend = {
+                        templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
+                     //  seedTemplatePath: details.seedTemplatePath +'/AngularV13',
+                        seedTemplatePath: details.seedTemplatePath,
+                        authTemplatePath: details.authTemplatePath,
+                        adminTemplatePath: details.project.templateLocation.frontendTemplate,
+                        screenMenus: templateObj.menuBuilder,
+                        project_id: details.projectId
+
+                    }
+                    console.log("tempFrontend===",tempFrontend);
+                    
+                    let featurevalue = details.feature.body[0];
+                    console.log('------feature-----', featurevalue);
+                    if (featurevalue) {
+                        if (featurevalue.type === 'external') {
+                            tempFrontend['externalfeature'] = featurevalue;
+                        }
+                    }
+                    console.log('-----external feature value-----', tempFrontend);
+                    await this.generateAuthFrontendComponent(tempFrontend);
+                    console.log('after calling auth gronten component are  ---  ');
+                    await this.generateAdminFrontendComponent(tempFrontend);
+                }
+                callback('angular template are generated');
+
+            }
+            if (details.project.clientFramework.label.includes('Angular') && 
+                details.project.clientFramework.label != 'Angular 12' && 
+                details.project.clientFramework.label !== 'Angular 13') {
                 console.log("inside angular 10 templatemanager frontend");
                 const templateResponse = await this.generateAngularTemplate(templateObj);
                 console.log('after calling angular template ---  ', templateResponse);
@@ -168,6 +202,15 @@ export class FrontendTemplateService {
             });
         })
     }
+
+    generateAngularTemplateV13(details) {
+        return new Promise(resolve => {
+            this.angularTemplateManagerService.generateAngularTemplateV13(details, (data) => {
+                resolve(data);
+            });
+        })
+    }
+
     generateAngularTemplateV12(details) {
         return new Promise(resolve => {
             this.angularTemplateManagerService.generateAngularTemplateV12(details, (data) => {

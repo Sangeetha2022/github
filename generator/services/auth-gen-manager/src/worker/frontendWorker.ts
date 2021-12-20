@@ -20,6 +20,7 @@ export class FrontendWorker {
     private AUTHORIZATION_FOLDERNAME = 'authorization';
     private MANAGEROLES_FOLDERNAME = 'manageroles';
     private MANAGEUSERS_FOLDERNAME = 'manageusers';
+    private MANAGECONTROL_FOLDERNAME = 'managecontrol';
     private PROFILE_SETTINGS_FOLDERNAME = 'profilesettings';
     private BUTTON_RENDERER_FOLDERNAME = 'button-renderer';
     private AUTH_FOLDERNAME = 'auth';
@@ -45,6 +46,7 @@ export class FrontendWorker {
 
     // Methods
     private logoutMethod = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\tthis.userId = sessionStorage.getItem('Id');\n\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
+    private logoutMethodV13 = ` logout() {\n\t\tthis.authArray = [];\n\t\t\t \n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\tthis.userId = sessionStorage.getItem('Id') || null;\n\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
     private logoutMethodV12 = ` logout() {\n\t\tconst temp = {\n\t\t\t id: sessionStorage.getItem('Id')\n\t\t};\n\t\tthis.loginService.Logout(temp).subscribe(data => {\n\t\t\tsessionStorage.clear();\n\t\tthis.userId = sessionStorage.getItem('Id') || '{}';\n\t\tthis.router.navigate(['']);\n\t\t}, error => {\n\t\t\tconsole.error('error:', error);\n\t\t});\n\t\t}`;
     private broadcastMethod = `\tthis.broadcastService.currentUserName.subscribe(headerPermission => {
         this.authArray = [];
@@ -61,6 +63,7 @@ export class FrontendWorker {
     private routeMethod = `\tthis.router.routeReuseStrategy.shouldReuseRoute = function () {
         return false;
     }`;
+    private isAdminUser = `\t this.authArray.find((access:any) => access === 'admin' ? this.isAdminUser = true : false);`
     private secondconstruct = `\tthis.mysubscription = this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
             this.router.navigated = false;
@@ -72,6 +75,12 @@ export class FrontendWorker {
 			return this.authArray.filter(routename => routename == value).length > 0;
 		}
     }`;
+    private isApplicableMethodV13 = `isApplicable(value:any) {
+		if (this.authArray !== undefined) {
+			return this.authArray.filter((routename: any) => routename == value).length > 0;
+		}
+        return false;
+    }`;
     private isApplicableMethodV12 = `isApplicable(value:any) {
 		if (this.authArray !== undefined) {
 			return this.authArray.filter((routename: any) => routename == value).length > 0;
@@ -79,10 +88,12 @@ export class FrontendWorker {
         return false;
     }`;
     private confirmLangModel = `confirmLangModel(lang) {\n\t\tthis.userId= sessionStorage.getItem('Id');\n\t\tif (this.userId !== null) {\n\t\tthis.confirmLangChangeModal = 'block';\n\t\tthis.currentLanguage = lang;\n\t\t} else {\n\t\tthis.changeLanguage(lang);\n\t\tthis.onCloseHandled();\n\t\t}\n\t\t}`;
+    private confirmLangModelV13 = `confirmLangModel(lang:any) {\n\t\tthis.userId= sessionStorage.getItem('Id') || null;\n\t\tif (this.userId !== null) {\n\t\tthis.confirmLangChangeModal = 'block';\n\t\tthis.currentLanguage = lang;\n\t\t} else {\n\t\tthis.changeLanguage(lang);\n\t\tthis.onCloseHandled();\n\t\t}\n\t\t}`;
     private confirmLangModelV12 = `confirmLangModel(lang:any) {\n\t\tthis.userId= sessionStorage.getItem('Id') || '{}';\n\t\tif (this.userId !== null) {\n\t\tthis.confirmLangChangeModal = 'block';\n\t\tthis.currentLanguage = lang;\n\t\t} else {\n\t\tthis.changeLanguage(lang);\n\t\tthis.onCloseHandled();\n\t\t}\n\t\t}`;
     private confirmLangChange = `confirmLangChange() {\n\t\tthis.changeLanguage(this.currentLanguage);\n\t\tthis.onCloseHandled();\n\t\t}`;
     private onCloseHandled = `onCloseHandled() {\n\t\tthis.confirmLangChangeModal = 'none';\n\t\t}`;
     private changeLanguage = `changeLanguage(lang) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t});\n\t\t}\n\t\tthis.userId = sessionStorage.getItem('Id');\n\t\tif (this.userId !== null) {\n\t\tthis.logout();\n\t\t} else {\n\t\tdocument.location.reload();\n\t\t}\n\t\t}`;
+    private changeLanguageV13 = `changeLanguage(lang:any) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t});\n\t\t}\n\t\tthis.userId = sessionStorage.getItem('Id') || null;\n\t\tif (this.userId !== null) {\n\t\tthis.logout();\n\t\t} else {\n\t\tdocument.location.reload();\n\t\t}\n\t\t}`;
     private changeLanguageV12 = `changeLanguage(lang:any) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t});\n\t\t}\n\t\tthis.userId = sessionStorage.getItem('Id') || '{}';\n\t\tif (this.userId !== null) {\n\t\tthis.logout();\n\t\t} else {\n\t\tdocument.location.reload();\n\t\t}\n\t\t}`;
     private updateLangChange = `private updateState(lang: string) {\n\t\tthis.language = lang;\n\t\t}`;
     private isAppModule = {
@@ -255,6 +266,16 @@ export class FrontendWorker {
         });
     }
 
+    // create managecontrol component from seed files
+    async createManagecontrolComponent(callback) {
+        const manageuserPath = `${this.projectGenerationPath}/src/app/${this.MANAGECONTROL_FOLDERNAME}`;
+        await this.generateStaticComponent(manageuserPath, this.MANAGECONTROL_FOLDERNAME, () => {
+            this.generateModule(this.MANAGECONTROL_FOLDERNAME, this.MODULE_TEMPLATENAME, manageuserPath, () => {
+            callback();
+            });
+        });
+    }
+
     // create home component from seed files
     async createHomeComponent(callback) {
         const homeApplicationPath = `${this.projectGenerationPath}/src/app/${this.HOME_FOLDERNAME}`;
@@ -292,6 +313,7 @@ export class FrontendWorker {
         console.log('sterst', menus);
         const templateName = `/authguard`;
         const templateNamev12 = `/authguardv12`;
+        const templateNamev13 = `/authguardv13`;
         const fileName = `/auth.guard.ts`
         const AuthApplicationPath = `${this.projectGenerationPath}/src/app/${this.AUTH_FOLDERNAME}`;
         if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${this.AUTH_GUARD_FILENAME} } from './${this.AUTH_FOLDERNAME}/${this.AUTH_FOLDERNAME}.guard';`) < 0) {
@@ -303,8 +325,12 @@ export class FrontendWorker {
                 this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateName, this.routingMenus, () => {
                     callback();
                 });
-            }else if(label.includes('AngularV12')) {
+            } else if(label.includes('AngularV12')) {
                 this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateNamev12, this.routingMenus, () => {
+                    callback();
+                });
+            } else if(label.includes('AngularV13')) {
+                this.frontendSupportWorker.generateFile(AuthApplicationPath, this.authTemplatePath, fileName, templateNamev13, this.routingMenus, () => {
                     callback();
                 });
             }
@@ -480,7 +506,7 @@ export class FrontendWorker {
                 } else if (folderName === 'user') {
                     let pathName = `${folderName}management`
                     this.routingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
-                } else if (folderName === 'home' || folderName === 'authorization' || folderName === 'manageroles' || folderName === 'manageusers') {
+                } else if (folderName === 'home' || folderName === 'authorization' || folderName === 'manageroles' || folderName === 'manageusers' || folderName === 'managecontrol') {
                     this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
                 } else {
                     this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component }`);
@@ -578,8 +604,8 @@ export class FrontendWorker {
                 `public isAdminUser = false`,
                 `mysubscription: any`,
                 `public authArray: any`,
-                `public userId: string=''`,
-                `public currentLanguage: String=''`,
+                `public userId: string | null = ''`,
+                `public currentLanguage: String = ''`,
                 `public confirmLangChangeModal: String = 'none'`,
                 `public language = 'en'`,
                 `public languages = ['en', 'ta', 'es']`
@@ -593,6 +619,7 @@ export class FrontendWorker {
                 this.broadcastMethod,
                 this.secondconstruct,
                 this.routeMethod,
+                this.isAdminUser,
                 `}`
             ]
             // let temp = `) }`;
@@ -617,13 +644,29 @@ export class FrontendWorker {
                 modifyFile.splice(methodCount, 0, this.onCloseHandled);
                 modifyFile.splice(methodCount, 0, this.changeLanguage);
                 modifyFile.splice(methodCount, 0, this.updateLangChange);
-            }else  {
+            } else if(label.includes('AngularV12')) {
                 modifyFile.splice(methodCount, 0, this.logoutMethodV12);
                 modifyFile.splice(methodCount, 0, this.isApplicableMethodV12);
                 modifyFile.splice(methodCount, 0, this.confirmLangModelV12);
                 modifyFile.splice(methodCount, 0, this.confirmLangChange);
                 modifyFile.splice(methodCount, 0, this.onCloseHandled);
                 modifyFile.splice(methodCount, 0, this.changeLanguageV12);
+                modifyFile.splice(methodCount, 0, this.updateLangChange);
+            } else if(label.includes('AngularV13')) {
+                modifyFile.splice(methodCount, 0, this.logoutMethodV13);
+                modifyFile.splice(methodCount, 0, this.isApplicableMethodV13);
+                modifyFile.splice(methodCount, 0, this.confirmLangModelV13);
+                modifyFile.splice(methodCount, 0, this.confirmLangChange);
+                modifyFile.splice(methodCount, 0, this.onCloseHandled);
+                modifyFile.splice(methodCount, 0, this.changeLanguageV13);
+                modifyFile.splice(methodCount, 0, this.updateLangChange);
+            } else {
+                modifyFile.splice(methodCount, 0, this.logoutMethod);
+                modifyFile.splice(methodCount, 0, this.isApplicableMethod);
+                modifyFile.splice(methodCount, 0, this.confirmLangModel);
+                modifyFile.splice(methodCount, 0, this.confirmLangChange);
+                modifyFile.splice(methodCount, 0, this.onCloseHandled);
+                modifyFile.splice(methodCount, 0, this.changeLanguage);
                 modifyFile.splice(methodCount, 0, this.updateLangChange);
             }
         }

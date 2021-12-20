@@ -73,7 +73,7 @@ export class AuthGuard implements CanActivate {
       console.log('decodedToken', decodedToken);
       this.userRole = decodedToken.role;
       console.log('this.userRole', this.userRole);
-      this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '{}');
+      this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '');
       console.log('this.accessRoutes', this.accessRoutes);
     
     
@@ -149,7 +149,7 @@ export class AuthGuard implements CanActivate {
       console.log('decodedToken', decodedToken);
       this.userRole = decodedToken.role;
       console.log('this.userRole', this.userRole);
-      this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '{}');
+      this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '');
       console.log('this.accessRoutes', this.accessRoutes);
       if (this.accessRoutes) {
         if (this.routeName && this.routeName[1].includes('?')) {
@@ -173,7 +173,7 @@ export class AuthGuard implements CanActivate {
             }
           }
         });
-        if (this.routeName[1] == 'home') {
+        if (this.routeName[1] == 'sefscreen') {
           return true
         }
         return this.routearray.filter(routevalue => routevalue === this.routeName[1]).length > 0;
@@ -196,7 +196,7 @@ export class AuthGuard implements CanActivate {
         return this.routearray.filter(routevalue => routevalue === this.routeName[1]).length > 0;
       }
       else {
-        this.route.navigate(['/home']);
+        this.route.navigate(['/sefscreen']);
         return false;
       }
     }

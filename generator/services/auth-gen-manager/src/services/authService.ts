@@ -7,8 +7,9 @@ import { MenuBuilderService, EntityMicroService } from '../apiservices/index';
 import { ScreenWorker } from '../worker/ScreenWorker';
 import { ModelWorker } from '../worker/ModelWorker';
 import { CamundaWorker } from '../worker/CamundaWorker';
-// import { GcamWorker } from '../worker/gcamWorker';
+import { GcamWorker } from '../worker/gcamWorker';
 import { DmnWorkerFile } from '../worker/DMNWorker';
+import { GCAMWorkerFile } from '../worker/GCAMScreenWorker';
 import { Routes } from '../../template/route.json';
 import { Common } from '../config/Common';
 import { AuthProxyWorker } from '../worker/authProxyWorker'
@@ -40,8 +41,9 @@ export class AuthService {
     private menubuilder = new MenuBuilderService();
     private entityservice = new EntityMicroService();
     private camundaworker = new CamundaWorker();
-    // private gcamworker = new GcamWorker();
+    private gcamworker = new GcamWorker();
     private dmnworker = new DmnWorkerFile();
+    private gcamworkerfile = new GCAMWorkerFile();
     private workernode = new ScreenWorker();
     private modelworker = new ModelWorker();
     private authProxyConfig = new AuthProxyWorker();
@@ -134,7 +136,6 @@ export class AuthService {
             }
             if (this.authGenFiles.gcamPath) {
                 this.createFolder();
-                console.log("----------->",this.gcamService);
                 this.gcamService(callback)
             }
             
@@ -762,16 +763,25 @@ export class AuthService {
             this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
     }
     public async gcamService(callback) {
+        const screens = await this.getMenubuilder();
+        console.log('-----screens-----', screens);
+        
         ncp.limit = 16;
         console.log("gcamService--->",this.authGenFiles. gcamPath)
         console.log("gcamService--->",this.authGenFiles. gcamFolder)
-       ncp(this.authGenFiles.gcamPath, this.authGenFiles.gcamFolder, { clobber: false }, (err) => {
+        await ncp(this.authGenFiles.gcamPath, this.authGenFiles.gcamFolder, { clobber: false }, async (err) => {
             console.log("gcam-->",this.authGenFiles. gcamPath);
             console.log("gcam-->",this.authGenFiles.gcamFolder);
             if (err) {
                 console.error('---error occured in the ncp of gcam----', err);
             }
-            // const gcamServiceFile =  this.gcamConfig();
+
+            this.workernode.createfile(screens, this.authGenFiles.gcamFolder, this.authGenFiles.templatepath, (data => {
+                console.log('------workerdata----', data);
+               //return callback(Routes)
+            }));
+
+            const gcamServiceFile =  this.gcamConfig();
             
             const temp = {
                 port: this.ports.gcam,
@@ -780,6 +790,10 @@ export class AuthService {
                 isDmnFile: false,
                 isSeed: true
             }
+            await this.gcamworkerfile.GcamScreenJson(screens, this.authGenFiles.gcamFolder, this.authGenFiles.templatepath, Gcamscreen => {
+                // console.log('gcam screen file modify');
+            });
+    
             console.log('gcam generation folder are ------before authProxyPath---------   ', this.authGenFiles);
              this.generateServerFile(`${this.authGenFiles.gcamFolder}/src`, this.authGenFiles.templatepath,
                  this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
@@ -834,14 +848,14 @@ export class AuthService {
         })
 
     }
-//    gcamConfig() {
-//         return new Promise(resolve => {
-//             this.gcamworker.createConfig(this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, this.projectName, (configdata => {
-//                 resolve(configdata)
-//             }));
+   gcamConfig() {
+        return new Promise(resolve => {
+            this.gcamworker.createConfig(this.authGenFiles.camundaFolder, this.authGenFiles.templatepath, this.projectName, (configdata => {
+                resolve(configdata)
+            }));
 
-//         })
+        })
 
-//     }
+    }
     
 }

@@ -1,6 +1,6 @@
 /*
  * Template group authguard
- * Compiled on Fri Nov 26 2021 20:10:07 GMT+0530 (India Standard Time)
+ * Compiled on Fri Dec 03 2021 18:05:14 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -282,7 +282,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '{}');");
+    w.write("this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '');");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
@@ -566,7 +566,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
-    w.write("this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '{}');");
+    w.write("this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '');");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("      ");
@@ -662,7 +662,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("if (this.routeName[1] == 'home') {");
+    w.write("if (this.routeName[1] == 'sefscreen') {");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("          ");
@@ -754,7 +754,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
-    w.write("this.route.navigate(['/home']);");
+    w.write("this.route.navigate(['/sefscreen']);");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");

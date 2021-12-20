@@ -424,6 +424,19 @@ services:
     depends_on:
       - mongo
       - apigateway
+
+  angulargenmanagerv13:
+    build: ../../generator/services/Angular-gen-ManagerV13
+    image: angulargenmanagerv13
+    container_name: angulargenmanagerv13
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5030:5030"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway
   
   seffrontendmanager:
     build: ../../generator/services/seffrontendmanager
@@ -463,6 +476,19 @@ services:
     depends_on:
       - mongo
       - apigateway    
+
+  angtemplatemanagerv13:
+    build: ../../generator/services/Angular-Template-managerV13
+    image: angtemplatemanagerv13
+    container_name: angtemplatemanagerv13
+    volumes:
+      - generated-code:/geppetto/
+    ports:
+      - "5031:5031"
+    env_file: ../../.env
+    depends_on:
+      - mongo
+      - apigateway 
 
   reactgenmanager:
     build: ../../generator/services/reactv16-gen-manager

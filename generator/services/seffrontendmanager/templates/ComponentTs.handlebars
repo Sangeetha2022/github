@@ -6,8 +6,11 @@ import { {{importName}} } from '{{ importPath }}';
 import * as {{importName}} from '{{ importPath }}';
 {{/each}}
 {{#ifCond GpOptions.featureName '===' 'systementry'}}
+// @ts-ignore
 import grapesjs from 'grapesjs';
+// @ts-ignore
 import * as  Highcharts from 'highcharts';
+// @ts-ignore
 import faker from 'faker';
 {{/ifCond}}
 
@@ -59,7 +62,7 @@ export class {{ GpOptions.className }} implements OnInit {
     ngOnInit() {
         {{#if GpOptions.entities}}
         {{#each GpOptions.entities}}
-        this.{{ name }}.created_by = sessionStorage.getItem('email') || '{}'; 
+        this.{{ name }}.created_by = sessionStorage.getItem('email') || ''; 
         {{/each}}
         {{/if}}
         {{#ifCond GpOptions.featureName '===' 'systementry'}}

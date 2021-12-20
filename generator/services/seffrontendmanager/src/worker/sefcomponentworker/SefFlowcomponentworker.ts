@@ -42,57 +42,6 @@ export class SefFlowComponentWorker {
                                 this.close = getCharts.data2;
                                 console.log(this.close);
 
-                                Highcharts.chart('container', {
-                                    chart: {
-                                    type: 'column'
-                                    },
-                                    plotOptions: {
-                                    column: {
-                                        colors
-                                    }
-                                    },
-                                    colors,
-                                    title: {
-                                    text: 'Progress Chart'
-                                    },
-                                    xAxis: {
-                                    categories: ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
-                                    labels: {
-                                        style: {
-                                        color: '#0000FF',
-                                        fontWeight: 'bold',
-                                        fontSize: '18px'
-                                        }
-                                    }
-                                    },
-                                    credits: {
-                                    enabled: false
-                                    },
-                                    series: [{
-                                    name: 'OPEN',
-                                    data: this.open,
-                                    dataLabels: {
-                                        enabled: true,
-                                        color: '#000000',
-                                        align: 'right',
-                                        x: -10,
-                                        y: 20
-                                    },
-                                    type: undefined,
-                                    },
-                                    {
-                                    name: 'CLOSED',
-                                    data: this.close,
-                                    dataLabels: {
-                                        enabled: true,
-                                        color: '#000000',
-                                        align: 'right',
-                                        x: -10,
-                                        y: 20
-                                    },
-                                    type: undefined,
-                                    }]
-                                });
                                 `);
                             } 
                             desktopElement.entity_info.forEach(entity => {
