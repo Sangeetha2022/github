@@ -225,7 +225,7 @@ export const onSelectionChangedBody_bootstrap = [
     'this.GpRoute(values._id);'
 ];
 export const gpSearchBody = [
-    'const temp = [];',
+    'const temp:any = [];',
     'const objectKeyPair = Object.entries(paramName);',
     'objectKeyPair.forEach((element, index) => {',
     'if (element[1]) {',

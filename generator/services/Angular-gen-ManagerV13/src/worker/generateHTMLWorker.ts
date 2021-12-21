@@ -251,6 +251,8 @@ export class GenerateHtmlWorker {
         this.setAttributes(gjsElement);
         this.setClasses(gjsElement, tagName);
         const gjsElementComponents = gjsElement.components[0];
+        console.log("fibnally gjsElementComponents",gjsElementComponents);
+        
         this.htmlContent += `<ng-select `;
         this.setAttributes(gjsElementComponents);
         this.htmlContent += `name="${gjsElementComponents.name || ''}" `;
