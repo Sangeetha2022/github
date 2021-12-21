@@ -62,10 +62,14 @@ It must be noted that the developer of the ***gepItemTagsManager*** must also fo
 
 ![gepItemTagsManager Directory Structure](./images/gepItemTagsManager-directory-structure.png 'Feature Directory Structure')
 
+___
+
 ### The Geppetto Feature Config (***GFC***) File
 
 The ***GFC*** file captures the meta data for the component being shared. An example of the ***GFC*** can be found [here](./sample-gepFeatureConfig.json)
 It is imperative that the ***GFC*** for a shared component be placed in the root directory of the component. Using ***gepItemTagsManager***  as our example its ***GFC*** would be placed in the folder named "gepItemTagsManager". For a complete description of the components that make up the ***GFC*** [see: Geppetto Feature Config Details](./gfc-file-details.md)
+
+___
 
 ### Shared Features Manager
 
@@ -80,11 +84,22 @@ All the high level information and functions of the Shared Feature Manager are:
   - getall - returns information contained in ***GFC*** DB for all Features with pagination
   - getOne - returns information for one ***GFC*** file in the DB
 
+___
 
-### Features UI
+### Sharable Features UI
+
+The UI for the Shared Features Manager can be seen in the images below - The idea is to have a "library" if ready made features that the user would simply select to add to their project
+
+### Feature Library Picker
+
+![Feature Library](./images/feature-library-picker.png)
+
+### Feature Admin in Generated Applications
+
+It is expected that each sharable feature will probably need a certain amount of configuration that can only be done by the admin of the generated apps. The picture below shows a sample of the admin screen in a generated application with sample sharable features
+
+![Feature Library](./images/feature-admin.png)
 
 ### Shared Features Generation Manager
-
-Microservice name: SharedFeatGenManager
 
 
