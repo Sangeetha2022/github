@@ -92,7 +92,7 @@ export const component = [
         componentDependedMethod: [
             {
                 name: 'gridReady',
-                method: `onGridReady(params) {\nthis.gridApi = params.api;\nthis.gridApi.sizeColumnsToFit();\nthis.gridColumnApi = params.columnApi;\n}`
+                method: `onGridReady(params:any) {\nthis.gridApi = params.api;\nthis.gridApi.sizeColumnsToFit();\nthis.gridColumnApi = params.columnApi;\n}`
             },
             {
                 name: 'textSearch',

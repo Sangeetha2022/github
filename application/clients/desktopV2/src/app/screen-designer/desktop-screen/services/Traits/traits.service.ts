@@ -26,6 +26,8 @@ export class TraitsService {
     this.initializeTextAreaMethod(screenGlobalVariable);
     this.initializeLinkMethod(screenGlobalVariable);
    //  this.initializeLabelMethod(screenGlobalVariable);
+   this.initializeRadioMethod(screenGlobalVariable);
+   this.initializeCheckboxMethod(screenGlobalVariable);
   }
 
   initializeInputMethod(screenGlobalVariable:any) {
