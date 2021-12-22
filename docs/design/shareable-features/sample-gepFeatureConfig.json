@@ -1,10 +1,12 @@
 {
     "feature-name": "gepFileManager",
     "sharing-visibility-status": "admin",
-    "type": "external-QUESTION: what are other types? - default is internal",
+    "type": "external-QUESTION: what are other types?",
     "last-modified-date": "10-16-2021",
     "description": "\"Generic file uploads/downloads/management\"",
-    "author": "gepinfo@gmail.com",
+    "author-email": "gepinfo@gmail.com",
+    "author-name": "Kishan Ravindra",
+    "organization": "com.geppettosoftware.0001",
     "icon-location": "/xx/ff/ggg/file-manager.png",
     "repo":{
         "type": "github",
