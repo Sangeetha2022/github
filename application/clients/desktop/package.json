@@ -16,6 +16,7 @@
     },
     "private": true,
     "dependencies": {
+        "node-sass": "~4.14.1",
         "@angular-devkit/build-angular": "^0.12.4",
         "@angular/animations": "^7.1.4",
         "@angular/cdk": "^7.3.1",
@@ -79,7 +80,7 @@
         "karma-jasmine-html-reporter": "^0.2.2",
         "nanoid-dictionary": "^2.0.0",
         "ng-packagr": "^4.2.0",
-        "node-sass": "^4.14.1",
+        "node-sass": "~4.14.1",
         "protractor": "~5.4.0",
         "ts-node": "~7.0.0",
         "tsickle": ">=0.29.0",
