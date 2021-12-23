@@ -546,6 +546,7 @@ export class CommandService {
       const wrapperType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="grid-type"]');
       const linkType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="link"]');
       const dynamicdropdownType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="dynamicdropdown-type"]');
+      const tagManager = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="tagmanager"]');
       
       if (wrapperType.length > 0) {
         $this.is_grid_present = true;
@@ -563,6 +564,13 @@ export class CommandService {
       if (dynamicdropdownType.length > 0) {
         dynamicdropdownType.forEach((element:any) => {
           element.attributes.traits.target.set('name', `dynamicdropdown_${element.ccid}`);
+        });
+      }
+
+      if (tagManager.length > 0) {
+        alert("Add tagmanager in feature!");
+        tagManager.forEach((element:any) => {
+          element.attributes.traits.target.set('name', `tagmanager_${element.ccid}`);
         });
       }
     })

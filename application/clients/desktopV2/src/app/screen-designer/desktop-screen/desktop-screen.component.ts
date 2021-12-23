@@ -149,12 +149,18 @@ defaultColumn: any;
   agGridArray: any[] = [];
   allEntityField:any[]=[];
   public columnOptions = [
-    { value: 'col1_id', name: 'a' },
-    { value: 'col2_id', name: 'b' },
-    { value: 'col3_id', name: 'c' },
-    { value: 'col4_id', name: 'd' },
-    { value: 'col5_id', name: 'e' }
+    { value: 'col1_id', name: 'A' },
+    { value: 'col2_id', name: 'B' },
+    { value: 'col3_id', name: 'C' },
+    { value: 'col4_id', name: 'D' },
+    { value: 'col5_id', name: 'E' }
   ];
+  public selectedColumnId = '';
+  public newColumnOptions=[{value:'col1_id',name:'A'},{value:'col2_id',name:'B'},{value:'col3_id',name:'C'},
+                           {value:'col4_id',name:'D'},{value:'col5_id',name:'E'}];
+  public newColumnDefs=[{headerName:'A',field:'a',colId:'col1_id'},{headerName:'B',field:'b',colId:'col2_id'},
+                        {headerName:'C',field:'c',colId:'col3_id'},{headerName:'D',field:'d',colId:'col4_id'},
+                        {headerName:'E',field:'e',colId:'col5_id'}];
   public routeDetails: any = {
     screen: '',
     verb: 'click',
@@ -421,6 +427,7 @@ defaultColumn: any;
    this.blockservice.addCKeditor5(this.editor);
    this.blockservice.addSpecialCharts(this.editor);
    this.blockservice.dynamicDropdown(this.editor);
+   this.blockservice.tagManager(this.editor);
    this.addGridBlocks();
   }
   //Function Contains custom buttons in panels

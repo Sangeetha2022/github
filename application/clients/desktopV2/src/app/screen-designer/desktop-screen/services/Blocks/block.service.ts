@@ -72,6 +72,32 @@ export class BlockService {
     this.traitService.dynamicDropdownTraits(editor, 'dynamicdropdown-type');
 
   }
+
+  tagManager(editor:any) {
+
+    editor.BlockManager.add('tagmanager', {
+      id: 'tagmanager',
+      label: `\n  <svg class="gjs-block-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\n
+      <path class="gjs-block-svg-path" d="M22,9 C22,8.4 21.5,8 20.75,8 L3.25,8 C2.5,8 2,8.4 2,9 L2,15 C2,15.6 2.5,
+      16 3.25,16 L20.75,16 C21.5,16 22,15.6 22,15 L22,9 Z M21,15 L3,15 L3,9 L21,9 L21,15 Z" fill-rule="nonzero">
+      </path> \n
+      <polygon class="gjs-block-svg-path" transform="translate(18.500000,12.000000) scale(1, -1) translate(-18.500000, -12.000000)"
+      points = "18.5 11 20 13 17 13"> </polygon>\n
+      <rect class="gjs-block-svg-path" x="4" y="11.5" width ="11" height="1"></rect>\n
+         </svg>\n  <div class="gjs-block-label"> Tag Manager </div>`,
+      category: 'special',
+      // tslint:disable-next-line:max-line-length
+      content: `<div  style="padding-top:0px; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
+      <select data-gjs-type="tagmanager">
+      <option value="1">1</option>
+      </select>
+      </div>`,
+      draggable: true,
+      removable: true
+    });
+    //this.traitService.dynamicDropdownTraits(editor, 'dynamicdropdown-type');
+
+  }
   addSpecialCharts(editor:any) {
     editor.BlockManager.add('highcharts', {
       id: 'highcharts',

@@ -284,9 +284,9 @@ export class CustomTraitsService {
                         entity: '',
                         entityfield: ''
                     };
-                    const count = this.target.view.el.gridOptions.columnDefs.length+1;
+                    const count = screen_designer.newColumnDefs.length+1;
                     console.log("count",count);
-                    const columnDefs = this.target.view.el.gridOptions.columnDefs;
+                    const columnDefs = screen_designer.newColumnDefs;
                     console.log("columnDefs",columnDefs);
                     agGridObject.columnid = `col${count}_id`;
                     agGridObject.columnname = `column_${count}`;
@@ -301,13 +301,28 @@ export class CustomTraitsService {
                     screen_designer.agGridObject.custom_field.push(agGridObject);
                     this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                     this.target.view.el.gridOptions.api.sizeColumnsToFit();
-                    screen_designer.columnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
+                    screen_designer.newColumnOptions.push({ value: `col${count}_id`, name: `column_${count}` });
+                    console.log("screen_designer.newColumnOptions:",screen_designer.newColumnOptions); 
+                    screen_designer.newColumnOptions.forEach((columnElement:any) =>
+                                          {
+                                              columnDefs.forEach((columnEl:any)=>
+                                              {
+                                                if(columnElement.value===columnEl.colId)
+                                                {
+                                                      columnEl.headerName=columnElement.name;
+                                                }
+                                              });
+                                          }); 
                     const colTraits = this.target.get('traits').where({ name: 'columns' })[0];
                     screen_designer.saveRemoteStorage();
-                    component.getTrait('columns').set('options', [
-                        ...screen_designer.columnOptions
-                    ]);
-                  
+                    component.removeTrait('columns');
+                                      component.addTrait({
+                                                            type: 'select',
+                                                            label: 'Columns',
+                                                            name: 'columns',
+                                                            changeProp: 1,
+                                                            options: screen_designer.newColumnOptions,
+                                                         }, { at: 1 });                      
                 }
                 return button;
             },
@@ -329,19 +344,46 @@ export class CustomTraitsService {
                 button.style.cursor = 'pointer';
                 button.appendChild(document.createTextNode('-'));
                 button.onclick=()=>{
-                    const columnDefs = this.target.view.el.gridOptions.columnDefs;
                     const component = screen_designer.editor.getSelected();
-                    if(columnDefs.length > 1){
-                       columnDefs.pop();
+                    const columnDefs = screen_designer.newColumnDefs;
+                                 if(screen_designer.selectedColumnId==='')
+                                 {
+                                   alert("Select a column to remove!");
+                                 }
+
+                                 if(columnDefs.length >=1 && screen_designer.selectedColumnId!='')
+                                 {
+                                      console.log("ColumnId to remove:",screen_designer.selectedColumnId);
+                                      columnDefs.forEach((element: { colId: any; },index: any)=>
+                                                        {
+                                                          if(element.colId===screen_designer.selectedColumnId)
+                                                          {
+                                                            columnDefs.splice(index,1);
+                                                          }
+                                                        });
                        this.target.view.el.gridOptions.api.setColumnDefs(columnDefs);
                        this.target.view.el.gridOptions.api.sizeColumnsToFit();
-                       screen_designer.columnOptions.pop();
+                       console.log("ColumnDefs after Delete:",screen_designer.newColumnDefs);
+                       screen_designer.newColumnOptions.forEach((element: { value: any; },index: any)=>
+                                      {
+                                        if(element.value===screen_designer.selectedColumnId)
+                                        {
+                                            screen_designer.newColumnOptions.splice(index,1);
+                                        }
+                                      });
+                                      console.log("screen_designer.columnOptions:",screen_designer.newColumnOptions);
                        screen_designer.agGridObject.default_field.pop();
                        screen_designer.agGridObject.custom_field.pop();
                        screen_designer.saveRemoteStorage();
-                       component.getTrait('columns').set('options', [
-                           ...screen_designer.columnOptions
-                       ]);
+                       component.removeTrait('columns');
+                                      component.addTrait({
+                                                            type: 'select',
+                                                            label: 'Columns',
+                                                            name: 'columns',
+                                                            changeProp: 1,
+                                                            options: screen_designer.newColumnOptions,
+                                                         }, { at: 1 });    
+                                                         screen_designer.selectedColumnId='';
                     }
                
                 }
