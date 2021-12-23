@@ -11,7 +11,7 @@ export class ThirdPartyWorker {
             microflowObject.GpOptions['grid_components'] = agGridComponents.join('\n \t');
             const flowObject = {
                 flowName: 'onGridReady',
-                parameterName: 'params',
+                parameterName: 'params:any',
                 body: onGridReady
             };
             microflowObject.GpCodeToAdd['route_info'].push(flowObject);

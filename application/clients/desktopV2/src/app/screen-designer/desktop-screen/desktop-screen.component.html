@@ -8,7 +8,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Screen</h5>
-                <button type="button" class="close" aria-label="Close">
+                <button type="button" class="close" (click)="closeScreeName()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
             </div>
@@ -20,30 +20,27 @@
                         <small *ngIf="screenNameExist" style="font-style: italic;
                color: red;">This screen Name is Exist.</small>
                     </div>
-                    <!-- <div *ngIf="isTemplateEdit" class="col-sm-8">
-                        <input type="text" id="template" name="template" class="form-control" [(ngModel)]="templateObj.template_name" disabled="true" />
-                    </div> -->
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary">Close</button>
-                <button type="button" class="btn btn-primary" (click)="updatescreen()">Update</button>
+                <button type="button" class="btn btn-secondary" (click)="closeScreeName()">Close</button>
+                <button type="button" class="btn btn-primary" (click)="updateScreeName()">Update</button>
             </div>
         </div>
     </div>
 </div>
-<!-- entity and its field div popup model -->
+<!-- entity and its field div popup model-->
 <div *ngIf="isFieldPopupModal" id="modalDiv" class="modal" tabindex="-1" role="dialog" style="display: block">
     <div class="modal-dialog modal-sm" role="dialog">
         <div class="modal-content">
             <div class="container">
-                <form class="m-3">
-                    <button type="button" class="close" (click)="onCloseModel()" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+                <form class="m-3 p-2">
+                    <button type="button" class="btn-close pull-right" aria-label="Close" (click)="onCloseModel()"></button>
                     <div class="form-group">
-                        <label>fields</label>
-                        <select class="form-control" id="fields" name="entityFields" [(ngModel)]="entityFields.entityfieldname" (ngModelChange)="onChangeentityfield()">
+                        <label id="fields_heading">Fields</label>
+                        <br>
+                        <br>
+                        <select class="form-select" id="dropdown_style" name="entityFields" [(ngModel)]="entityFields.entityfieldname" (ngModelChange)="onChangeentityfield()">
                     <option *ngFor="let field of fields " [value]="field.name" selected>{{ field.name }}</option>
                   </select>
                     </div>
@@ -51,7 +48,424 @@
             </div>
             <div class="modal-footer">
                 <div class="form-group fieldpopbtn">
-                    <button type="button" class="btn button-close" (click)="onCloseModel()">Ok</button>
+                    <button type="button" class="btn btn-primary" (click)="onCloseModel()">Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- events action popup model -->
+<div id="EventPopup" class="modal" tabindex="-1" role="dialog" style="display: none">
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="display: block;">
+                <button type="button" class="btn-close pull-right" (click)="closeEventPopup(false)" aria-label="Close"></button>
+                <h3 id="fields_heading">Choose an Flow</h3>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row" *ngIf="selectedFlowObj && selectedFlowObj.length > 0">
+                        <div class="col-md-6 col-sm-8 col-xs-6">
+                            <b>Selected Flow Action</b>: &nbsp;&nbsp; {{selectedFlowObj[0].actionOnData}}
+                        </div>
+                        <br>
+                    </div>
+
+                    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-material" [columnDefs]="columnDefs" [rowData]="rowData" [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10"
+                        [suppressRowClickSelection]="true" (selectionChanged)="onSelectionChanged($event)" [rowSelection]="rowSelection" [floatingFilter]="true" (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2">
+                        <button id="create_btn" class="btn btn-default" (click)="saveEvent()">Ok</button>
+                    </div>
+                    <div class="p-2">
+                        <button id="cancel_btn" type="button" (click)="closeEventPopup(false)" class="btn btn-default">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modifier value action popup model -->
+<div id="ProjectEventPopup" class="modal" tabindex="-1" role="dialog" style="display: none">
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="display: block;">
+                <button type="button" class="btn-close pull-right" (click)="closeEventPopup(true)" aria-label="Close"></button>
+                <h3 id="fields_heading">Choose an Modify By Value</h3>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row" *ngIf="selectedFlowObj && selectedFlowObj.length > 0">
+                        <div class="col-md-6 col-sm-8 col-xs-6">
+                        </div>
+                        <br>
+                    </div>
+                    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="mytableGrid" class="ag-theme-material" [columnDefs]="TablecolumnDefs" [rowData]="tableRowData" [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight' [pagination]="true"
+                        [paginationPageSize]="10" [suppressRowClickSelection]="true" (selectionChanged)="tableOnSelectionChanged($event)" [rowSelection]="rowSelection" [floatingFilter]="true" (gridReady)="onTableGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2">
+                        <button id="create_btn" class="btn btn-default" (click)="saveModifierValue()">Ok</button>
+                    </div>
+                    <div class="p-2">
+                        <button id="cancel_btn" type="button" (click)="closeEventPopup(true)" class="btn btn-default">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- grid popup model -->
+<div *ngIf="isGridPopup" id="agGridModal" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-md" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="fields_heading">Grid</h3>
+                <button type="button" class="btn-close pull-right" (click)="onCloseHandled()" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <form [formGroup]="agGridFields">
+                    <div class="row mt-3">
+                        <div class="col-lg-6">
+                            <label id="column_heading" for="">Column</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <select name="" id="dropdown_style" formControlName="selectColumn" class="form-select" (ngModelChange)='onColumnChange($event)'>
+                                <option *ngFor="let col of columnOptions" [ngValue]="col">{{ col.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-6">
+                            <label id="column_heading" for="">Fields</label>
+                        </div>
+                        <div class="col-lg-6">
+                            <select id="dropdown_style" formControlName="selectField" class="form-select" (ngModelChange)='onFieldOptions($event)'>
+                                <option *ngFor="let field of allEntityField" [value]="field.name">{{ field.name }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2" *ngIf="agGridArray.length > 0">
+                        <div class="col-lg-12">
+                            <button class="btn btn-outline-primary" (click)='toggleMapping()'>
+                                <span  *ngIf="!isMappingGrid; else hide">Show</span>
+                                <ng-template #hide>Hide</ng-template>
+                                Mapped Fields
+                            </button>
+                            <div [@openCloseMapping]="isMappingGrid ? 'openGrid': 'closeGrid'">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">columnName</th>
+                                            <th scope="col">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        Entity
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">Name</div>
+                                                    <div class="col-md-6">Field</div>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-container *ngFor="let gridInfo of agGridArray; let i=index">
+                                            <tr>
+                                                <th scope="row">{{i+1}}</th>
+                                                <td>{{gridInfo.columnname}}</td>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            {{gridInfo.entity}}
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            {{gridInfo.entityfield}}
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2">
+                        <button id="create_btn" class="btn btn-default" (click)="saveGridField()">Ok</button>
+                    </div>
+                    <div class="p-2">
+                        <button id="cancel_btn" type="button" class="btn btn-default" (click)="onCloseHandled()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Route popup model -->
+<div *ngIf="isCustomPopup" id="agGridModal" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-md" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="fields_heading">{{customPopupModal.title}}</h3>
+                <button type="button" class="btn-close pull-right" (click)="closeCustomPopup()" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <form class="m-3">
+                    <div class="form-group row">
+                        <h4 for="Screen">{{customPopupModal.dropdownLabelName}}</h4>
+                        <select name="dropdown_style" id="dropdown_style" class="form-select" [(ngModel)]="routeDetails.screen" (ngModelChange)="customModelChanged($event)">
+                            <option value="" selected>none</option>
+                            <ng-container *ngFor="let screenObj of screenArrayByProjectId">
+                              <ng-container *ngIf="customPopupModal.entity; else routes">
+                                <option
+                                  *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption == 'popupmodal'"
+                                  [ngValue]="screenObj">
+                                  <span>{{ screenObj.screenName }}</span>
+                                </option>
+                              </ng-container>
+                              <ng-template #routes>
+                                <option
+                                  *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption != 'popupmodal'"
+                                  [ngValue]="screenObj">
+                                  <span>{{ screenObj.screenName }}</span>
+                                </option>
+                              </ng-template>
+                            </ng-container>
+                        </select>
+                        <small id="emailHelp" class="form-text text-muted">Please Select your screenName <span
+                            *ngIf="customPopupModal.entity; else routes">as Popup Modal</span>
+                          <ng-template #routes>for Routes</ng-template>
+                        </small>
+                    </div>
+                    <div class="row" *ngIf="customPopupModal.entity && routeDetails.screen">
+                        <br>
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <h4 style="text-align: center">{{routeDetails.screen.screenName}} Entity</h4>
+                            <small class="popupEntityHint" *ngIf="!routeDetails.modalInfo.entity">*Hint: this screen does not have any
+                            entities to map</small>
+                            <br>
+                            <span><b>Entity Name</b></span>:&nbsp;&nbsp;
+                            <span *ngIf="routeDetails.modalInfo.entity && routeDetails.modalInfo?.entity?.name; else noEntity">{{routeDetails.modalInfo?.entity?.name}}</span>
+                            <ng-template #noEntity>----</ng-template>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="customPopupModal.entity && routeDetails.screen">
+                        <div class="form-group  col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <b for="entityField">{{customPopupModal.entity.fieldLabelName}}</b>
+                            <select [disabled]="!routeDetails.modalInfo.entity || routeDetails.modalInfo.entity === 'null'" class="form-control" name="entityField" [(ngModel)]="routeDetails.modalInfo.fields" id="entityField">
+                            <option value="null" selected>none</option>
+                            <ng-container *ngFor="let fields of customEntityFields">
+                              <option [ngValue]="fields">
+                                <span>{{ fields.name }}</span>
+                              </option>
+                            </ng-container>
+                          </select>
+                            <small class="form-text text-muted">Please Select your entity fields</small>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <b for="componentName">{{customPopupModal.entity.componentLabelName}}</b>
+                            <select [disabled]="!routeDetails.modalInfo.entity || routeDetails.modalInfo.entity === 'null'" class="form-control" name="componentName" [(ngModel)]="routeDetails.modalInfo.component" (ngModelChange)="customModelChanged($event, 'components')" id="componentName">
+                            <option value="null" selected>none</option>
+                            <ng-container *ngFor="let component of modalDroppedElements">
+                              <option [ngValue]="component">
+                                <span>{{ component.name }}</span>
+                              </option>
+                            </ng-container>
+                          </select>
+                            <small class="form-text text-muted">Please Select your component name</small>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="routeDetails.modalInfo?.modalBindInfo?.length > 0  && routeDetails.screen && routeDetails.modalInfo.entity">
+                        <span class="showMapping" (click)='toggleMapping()'>
+                          <span *ngIf="!isMappingGrid; else hide">Show</span>
+                        <ng-template #hide>Hide</ng-template>
+                        Mapped Fields
+                        </span>
+                        <div class="mapperTable col-md-12 col-sm-12 col-lg-12 col-xs-12" [@openCloseMapping]="isMappingGrid ? 'openGrid': 'closeGrid'">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">{{routeDetails.modalInfo?.entity?.name}} Fields</th>
+                                        <th scope="col">Component Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let bindedInfo of routeDetails.modalInfo.modalBindInfo; let i=index">
+                                        <tr>
+                                            <th scope="row">{{i+1}}</th>
+                                            <td>{{bindedInfo.fieldName}}</td>
+                                            <td>{{bindedInfo.componentName}}</td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- flow screens -->
+                    <br>
+                    <div class="form-group row" *ngIf="routeDetails.screen._id && customPopupModal.typeLabelName">
+                        <h4 for="flowScreens">{{routeDetails.screen.screenName}} flowList</h4>
+                        <select class="form-select" name="screenFlow" [(ngModel)]="routeDetails.screenFlow" id="dropdown_style">
+              <option value="" selected>none</option>
+              <ng-container *ngFor="let flowObj of routeDetails.screen.flows_info">
+                <option [ngValue]="flowObj">{{flowObj.flowName}}</option>
+              </ng-container>
+            </select>
+                    </div>
+                    <br>
+                    <div class="row" *ngIf="customPopupModal.typeLabelName">
+                        <b>{{customPopupModal.typeLabelName}}</b>
+                    </div>
+                    <div class="row" *ngIf="customPopupModal.typeLabelName">
+                        <div class="col-lg-4">
+                            <label class="radio-inline"><input type="radio" value="none" [(ngModel)]="routeDetails.type"
+                            name="routeOption" disabled>None</label>
+                        </div>
+                        <div class="col-lg-8">
+                            <label class="radio-inline"><input type="radio" value="queryParameter" [(ngModel)]="routeDetails.type"
+        name="routeOption">Query Parameter</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2">
+                        <button id="create_btn" class="btn btn-default" (click)="saveCustomPopupInfo(customPopupModal.name)">Ok</button>
+                    </div>
+                    <div class="p-2">
+                        <button id="cancel_btn" type="button" class="btn btn-default" (click)="closeCustomPopup()">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- link popup modal -->
+<div *ngIf="isLinkPopup" id="LinkPopup" class="modal" tabindex="-1" role="dialog" style="display: block">
+    <div class="modal-dialog modal-md" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="display: block;">
+                <h3 id="fields_heading">Link Details</h3>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="m-3">
+                        <h4 class="TitleText">URL Binding</h4>
+                        <div class="form-group row">
+                            <div class="col-md-3">
+                                <b for="Screen">Link Type</b>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label class="radio-inline"><input type="radio" value="internal" (ngModelChange)="changeLinkDetails('internal')" [(ngModel)]="pageLinkObj.linkType"
+                                        name="routeOption">Internal</label>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label class="radio-inline"><input type="radio" (ngModelChange)="changeLinkDetails('external')" value="external" [(ngModel)]="pageLinkObj.linkType"
+                                        name="routeOption">External</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row" *ngIf="external">
+                            <br>
+                            <label class="BoldText" for="externalURL">External URL</label>
+                            <input type="text" class="form-control" name="externalURL" id="externalURL" [(ngModel)]="pageLinkObj.externalURL" placeholder="Enter your external link url">
+                        </div>
+                        <div class="form-group row" *ngIf="internal">
+                            <br>
+                            <label class="BoldText" for="internal">Internal Page</label>
+                            <select class="form-select" name="iternalOptions" id="dropdown_style" [(ngModel)]="pageLinkObj.internalURL" (ngModelChange)="changeLinkDetails('internalPage')">
+                  <option value="null" selected>none</option>
+                  <ng-container *ngFor="let screenObj of screenArrayByProjectId">
+                    <option
+                      *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption != 'popupmodal'"
+                      [ngValue]="screenObj">
+                      <span>{{ screenObj.screenName }}</span>
+                    </option>
+                  </ng-container>
+                </select>
+                        </div>
+                        <div class="form-group row" *ngIf="internal && pageLinkObj.isDynamic">
+                            <ng-container *ngIf="!pageLinkObj.paramEntity && pageLinkObj.selectedEntity && pageLinkObj.selectedEntity.name; else selectParamEntity">
+                                <span><b>Entity Name : </b> {{pageLinkObj.selectedEntity.name}}</span>
+                            </ng-container>
+                            <ng-template #selectParamEntity>
+                                <label for="paramEntity">Entity</label>
+                                <select class="form-select" id="dropdown_style" name="paramEntity" [(ngModel)]="pageLinkObj.paramEntity" (ngModelChange)="changeLinkDetails('paramEntity')">
+                    <option value="null" selected>none</option>
+                    <ng-container *ngFor="let entityElement of entityData">
+                      <option [ngValue]="entityElement">
+                        <span>{{ entityElement.name }}</span>
+                      </option>
+                    </ng-container>
+                  </select>
+                            </ng-template>
+                        </div>
+                        <div class="row mt-4" *ngIf="pageLinkObj.internalURL && 
+              ((pageLinkObj.selectedEntity && pageLinkObj.selectedEntity._id) || pageLinkObj.paramEntity || !pageLinkObj.isDynamic)">
+                            <button class="btn btn-primary" (click)="addLinkParams()">Add Query Params</button>
+                        </div>
+                        <br>
+                        <div class="parentScroll">
+                            <div class="row paramsDiv" *ngFor="let element of pageLinkObj.paramArray; let i=index">
+                                <div class="col-md-5">
+                                    <label for="paramName">Param Name</label>
+                                    <input type="text" class="form-control" id="dropdown_style" name="paramName{{i}}" [(ngModel)]="element.name">
+                                </div>
+                                <div class="col-md-5">
+                                    <label for="entityfield">Param Value</label>
+                                    <ng-container *ngIf="!pageLinkObj.isDynamic; else dynamic">
+                                        <input type="text" class="form-control" id="dropdown_style" name="entityfield{{i}}" [(ngModel)]="element.fieldName">
+                                    </ng-container>
+                                    <ng-template #dynamic>
+                                        <select class="form-select" id="dropdown_style" name="entityfield{{i}}" [(ngModel)]="element.fieldName">
+                        <option value="null" selected>none</option>
+                        <ng-container *ngFor="let entityElement of pageLinkObj.entityField">
+                          <option [ngValue]="entityElement.name">
+                            <span>{{ entityElement.name }}</span>
+                          </option>
+                        </ng-container>
+                      </select>
+                                    </ng-template>
+                                </div>
+                                <div class="col-md-2 trashDiv" style="top: 31px; position: relative;">
+
+                                    <i class="fa fa-trash fa-2x trash" aria-hidden="true" (click)="removeLinkParams(i)"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2">
+                        <button id="create_btn" class="btn btn-default" (click)="saveLinkDetails()">Ok</button>
+                    </div>
+                    <div class="p-2">
+                        <button id="cancel_btn" type="button" class="btn btn-default" (click)="onCloseLink()">Cancel</button>
+                    </div>
                 </div>
             </div>
         </div>

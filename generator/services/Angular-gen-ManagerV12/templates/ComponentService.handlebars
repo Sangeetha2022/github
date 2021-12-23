@@ -17,7 +17,7 @@ export class {{ GpOptions.className }} {
     ) { }
 
   {{#each GpCodeToAdd.flows_info }}
-    {{ methodName }}({{ paramName }}): Observable<any> {
+    {{ methodName }}({{#if paramName }}{{ paramName }}:any{{/if}}): Observable<any> {
         {{{ body }}}
     }
   {{/each}}

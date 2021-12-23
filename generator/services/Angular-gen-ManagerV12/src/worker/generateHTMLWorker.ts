@@ -34,6 +34,11 @@ import { response } from 'express';
 import { ComponentSpecWorker } from './componentworker/ComponentSpecWorker';
 import * as componentDependency from '../config/componentDependency';
 
+import {grapesjsGjscomponents} from './componentworker/grapesjs';
+
+
+const GrapesjsGjscomponents =new grapesjsGjscomponents();
+
 
 
 let forms = new Forms();
@@ -195,22 +200,48 @@ export class GenerateHtmlWorker {
     setClasses(item, tagName) {
         let classess = '';
         if(item.hasOwnProperty('classes')) {
-            console.log("inside set class");
+            //For grapesjs version v0.17.29
+            
             item.classes.forEach((element, index) => {
                 console.log("element===>",element);
                 if((index + 1 === item.classes.length)) {
+                    console.log("item",item);
+                    console.log("item class",item.classes);
+                    console.log("item class length",item.classes);
                         classess += element.name;
+                        console.log("classess +=",classess);
+                        
                         if(!element.name){
+                            console.log("inside not name");
+                            
                             classess = '';
                             for (const class_value of item.classes) {
                                 console.log("val",class_value);
                                 classess +=  class_value + ' ';
                             }
+                            console.log("classess 1",classess);
                         }
                         console.log("classess",classess);
                 }
             });
-        }
+            
+            
+            //For grapesjs version v0.16.27
+            /*
+            console.log("item is",item);
+            
+            item.classes.forEach((element, index) => {
+                if(index + 1 === item.classes.length) {
+                    console.log("set class element",element);
+                    console.log("set class element name",element.name);
+                    classess += element.name;
+                } else {
+                    classess += element.name + ' ';
+                }
+                console.log("classess",classess);
+            });
+            */
+       }
         this.htmlContent = tagName !== 'img' && tagName !== 'input' ? this.htmlContent + `class="${classess}">\n` : this.htmlContent + `class="${classess}"/>\n`;
     } 
     /**
@@ -559,6 +590,9 @@ export class GenerateHtmlWorker {
                 firstEle.type != 'grid-row' && firstEle.type != 'grid-item' &&
                 (firstEle.type == 'specialdropdown-type' || firstEle.type == 'label' || firstEle.type == 'section' || firstEle.type == 'input' || firstEle.type == 'grid-type')
             ) {
+                console.log("inside if css");
+                console.log("inside if css 1",firstEle.type);
+                
                 tagName = firstEle.type;
             } else if (firstEle.type == 'tab' || firstEle.type == 'link') {
                 tagName = 'a';

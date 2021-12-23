@@ -157,8 +157,8 @@
     cursor: pointer;
     // border-radius: 3em;
     color: #fff;
-    background-image: linear-gradient(to right, #52daff 0%, #079dfa 100%);
-    border: 0;
+    // background-image: linear-gradient(to right, #52daff 0%, #079dfa 100%);
+    border: 2px solid #333;
     font-family: 'Ubuntu', sans-serif;
     font-size: 23px;
     padding: 15px 33px;
@@ -172,8 +172,8 @@
 }
 
 #lang_dropdown:hover {
-    background-image: none;
-    background-color: #1b2534;
+    background: #249bfb;
+    transition: all .35s;
 }
 
 #ifpp3 {
@@ -223,8 +223,8 @@ img {
         cursor: pointer;
         // border-radius: 3em;
         color: #fff;
-        background-image: linear-gradient(to right, #52daff 0%, #079dfa 100%);
-        border: 0;
+        //  background-image: linear-gradient(to right, #52daff 0%, #079dfa 100%);
+        border: 2px solid #333;
         font-family: 'Ubuntu', sans-serif;
         font-size: 23px;
         padding: 10px 28px;
@@ -529,4 +529,51 @@ img {
     #i4dcs {
         width: 95%;
     }
+}
+
+.wrapper {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#a_style {
+    display: block;
+    width: 200px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 23px;
+    font-family: sans-serif;
+    text-decoration: none;
+    color: white;
+    border: 2px solid #333;
+    letter-spacing: 2px;
+    text-align: center;
+    position: relative;
+    transition: all .35s;
+}
+
+#a_style span {
+    position: relative;
+    z-index: 2;
+}
+
+#a_style:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: #249bfb;
+    transition: all .35s;
+}
+
+#a_style:hover {
+    color: #fff;
+}
+
+#a_style:hover:after {
+    width: 100%;
 }

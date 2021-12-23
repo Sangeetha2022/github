@@ -28,6 +28,9 @@ export class ScreenDesignerService {
   getScreenByFeatureId(featureId:any, logId:any): Observable<any> {
     return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByFeatureId}/${featureId}?log_id=${logId}`);
   }
+  getScreenByProjectId(projectId:any, logId:any): Observable<any> {
+    return this.http.get(`${this.sharedService.Apigateway}${Constants.getScreenByProjectId}/${projectId}?log_id=${logId}`);
+  }
   deleteScreenById(screenId:any, logId:any): Observable<any> {
     return this.http.delete(`${this.sharedService.Apigateway}${Constants.deleteScreenById}/${screenId}?log_id=${logId}`);
   }

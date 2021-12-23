@@ -32,6 +32,9 @@ export class ProjectComponentService {
   getProjectFeatureFlows(projectFlowsId:any, logId:any): Observable<any> {
     return this.api.post(`${this.restapi.Apigateway}${Constants.getProjectFeatureFlows}` + `?log_id=${logId}`, projectFlowsId);
   }
+  getallProjectFlow(logId:any): Observable<any>  {
+    return this.api.get(`${this.restapi.Apigateway}${Constants.getallProjectFlow}` + `?log_id=${logId}`);
+  }
   getAllFlows(logId:any): Observable<any> {
     return this.api.get(`${this.restapi.Apigateway}${Constants.getAllFlow}?log_id=${logId}`);
   }

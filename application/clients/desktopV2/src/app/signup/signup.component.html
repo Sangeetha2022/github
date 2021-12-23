@@ -34,7 +34,8 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-12">
-                                <input type="password" formControlName="password" id="password_input" placeholder="{{'SIGNUP.PASSWORD' | translate}}" class="form-control my-4 p-3">
+                                <input type="password" formControlName="password" id="password_input" placeholder="{{'SIGNUP.PASSWORD' | translate}}" class="form-control my-4 p-3" [type]="hide ? 'password' : 'text'">
+                                <mat-icon class="fa fa-eye-slash" id="eye_icon" (click)="password_hide()">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                                 <span *ngIf="!registerform.get('registerdata.password').valid && registerform.get('registerdata.password').touched || !registerform.get('registerdata.password').valid && submitted" class="invalid-feedback ">
                                     {{'SIGNUP.PASSWORD_ERROR' | translate}}
                                 </span>

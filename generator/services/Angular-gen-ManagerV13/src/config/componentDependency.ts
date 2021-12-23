@@ -92,7 +92,7 @@ export const component = [
         componentDependedMethod: [
             {
                 name: 'gridReady',
-                method: `onGridReady(params) {\nthis.gridApi = params.api;\nthis.gridApi.sizeColumnsToFit();\nthis.gridColumnApi = params.columnApi;\n}`
+                method: `onGridReady(params:any) {\nthis.gridApi = params.api;\nthis.gridApi.sizeColumnsToFit();\nthis.gridColumnApi = params.columnApi;\n}`
             },
             {
                 name: 'textSearch',
@@ -225,7 +225,7 @@ export const onSelectionChangedBody_bootstrap = [
     'this.GpRoute(values._id);'
 ];
 export const gpSearchBody = [
-    'const temp = [];',
+    'const temp:any = [];',
     'const objectKeyPair = Object.entries(paramName);',
     'objectKeyPair.forEach((element, index) => {',
     'if (element[1]) {',

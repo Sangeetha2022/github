@@ -10,14 +10,14 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             </ul>
             <div id="i1t03" class="gdp-row gpd-grid">
-                <button type="button" *ngIf="!hideElement" routerLink="/homepage" class="btn btn-primary me-4 py-2 mr-2" id="iwghy">{{'HEADER.HOME' | translate}}</button>
+                <button type="button" *ngIf="!hideElement" routerLink="/homepage" class="btn btn-default"><a routerLink="/homepage" id="a_style"><span>{{'HEADER.HOME' | translate}}</span></a></button>
                 <div class="cell gpd-clm" id="imllt">
                     <select #langselect (change)="onChange(langselect.value)" class="btn btn-outline-dark me-4 py-2" id="lang_dropdown">
-                        <option *ngFor="let lang of display_langs"   [value]="lang">{{ lang  }}</option>
+                        <option style="background-color:darkblue;"  *ngFor="let lang of display_langs"   [value]="lang">{{ lang  }}</option>
                       </select>
-                    <button type="button" class="btn btn-primary me-4 py-2" (click)="showAbout()" id="iwghy">{{'HOME.ABOUT' | translate}}</button>
-                    <button type="button" *ngIf="hideElement" routerLink="/login" class="btn btn-primary me-4 py-2" id="iwghy">{{'HEADER.SIGNIN' | translate}}</button>
-                    <button type="button" *ngIf="!hideElement" (click)="Logout()" class="btn btn-primary me-4 py-2" id="iwghy">{{'HEADER.LOGOUT' | translate}}</button>
+                    <button type="button" class="btn btn-default" (click)="showAbout()"><a id="a_style" (click)="showAbout()"><span>{{'HOME.ABOUT' | translate}}</span></a></button>
+                    <button type="button" *ngIf="hideElement" routerLink="/login" class="btn btn-default"><a id="a_style" routerLink="/login"><span>{{'HEADER.SIGNIN' | translate}}</span></a></button>
+                    <button type="button" *ngIf="!hideElement" (click)="Logout()" class="btn btn-default"><a id="a_style" (click)="Logout()"><span>{{'HEADER.LOGOUT' | translate}}</span></a></button>
                 </div>
             </div>
         </div>

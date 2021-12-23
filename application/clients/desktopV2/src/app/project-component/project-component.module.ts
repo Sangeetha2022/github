@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { EntitypopUpComponent } from './entitypop-up/entitypop-up.component';
 import { FeatureDetailsComponent } from './feature-details/feature-details.component';
 import { EntityFieldComponent } from './entity-field/entity-field.component';
- import {  AgGridAngular, AgGridModule } from 'ag-grid-angular';
+ import {   AgGridModule } from 'ag-grid-angular';
 import { FieldPopupModalComponent } from './entity-field/field-popup-modal/field-popup-modal.component';
 import {MatSelectModule} from '@angular/material/select';
 import { ConnectorManagerModule } from '../techarchitecture-manager/techarchitecture-manager.module';

@@ -1,5 +1,6 @@
 import { Component,OnInit} from '@angular/core';
 import { Router,NavigationEnd } from '@angular/router';
+import { Constants } from 'src/app/config/Constant';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,7 +14,7 @@ export class AppComponent implements OnInit {
     .subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const temp = event.url.split('?');
-        this.Footer = (temp[0] !== '/desktopscreen');
+        this.Footer = (temp[0] !== Constants.desktopscreen);
       }
     });
   }
