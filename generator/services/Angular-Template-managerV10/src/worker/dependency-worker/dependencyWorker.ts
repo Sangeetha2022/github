@@ -168,6 +168,7 @@ export class DependencyWorker {
       let temp = '';
       temp += `${environment[serveIndex]}`;
       temp += `\n  DESKTOP_API: 'http://'+window.location.hostname+':8000/desktop',`;
+      temp += `\n  UPLOAD_API: 'http://'+window.location.hostname+':3015',`;
       temp += `\n  MOBILE_API: '/api/mobile',`;
       environment.splice(serveIndex, 1, temp);
       dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {
@@ -185,6 +186,7 @@ export class DependencyWorker {
       let temp = '';
       temp += `${environment[serveIndex]}`;
       temp += `\n  DESKTOP_API: 'http://<Your Domain Name or Live IP address>',`;
+      temp += `\n  UPLOAD_API: 'http://<Your Domain Name or Live IP address>'`,
       temp += `\n  MOBILE_API: 'http://<Your Domain Name or Live IP address>',`;
       environment.splice(serveIndex, 1, temp);
       dependencySupportWorker.writeStaticFile(applicationPath, fileName, environment.join('\n'), (response) => {

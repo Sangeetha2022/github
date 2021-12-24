@@ -1,10 +1,10 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import * as Constants from '../config/Constants';
 
 export class SwaggerGenManagerService {
 
     createSwaggerFile(details, callback) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${Constants.APIGATEWAYURL}/desktop/swagger/create`, details
         ).then(
             data => {

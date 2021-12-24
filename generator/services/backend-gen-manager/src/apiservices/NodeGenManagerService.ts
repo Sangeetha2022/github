@@ -1,10 +1,10 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 export class NodeGenManagerService {
 
     generateNode(details, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/node/project`, details).then(
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/node/project`, details).then(
             data => {
                 callback(data);
             }
@@ -14,7 +14,7 @@ export class NodeGenManagerService {
     }
 
     generateApiGateway(details, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/node/apigateway/project`, details).then(
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/node/apigateway/project`, details).then(
             data => {
                 callback(data);
             }

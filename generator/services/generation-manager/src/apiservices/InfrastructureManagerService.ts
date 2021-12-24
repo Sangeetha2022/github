@@ -1,10 +1,10 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 export class InfraStructureManagerService {
 
     generateInfrastructure(projectId, details, callback) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${SharedService.infrastructureURL}/generate/infrastructure/local/${projectId}`, details
         ).then(
             data => {

@@ -1,10 +1,13 @@
-export const resourcetypes = [
+    
+    export const resourcetypes = [
     {"resources":"home", "role":"Guest"}
     ,
 {"resources":"admin", "role":"Guest"}
     ,
-{"resources":"createscreen", "role":"Guest"}
+{"resources":"sefscreen", "role":"Guest"}
     ,
-{"resources":"inventorysearch", "role":"Guest"}
+{"resources":"angtest1", "role":"Guest"}
+    ,
+{"resources":"angtest2", "role":"Guest"}
     
 ]

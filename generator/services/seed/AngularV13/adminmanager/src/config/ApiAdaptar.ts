@@ -1,6 +1,6 @@
 import * as request from "request-promise-native";
 
-export class ApiAdaptar {
+export class ApiAdapter {
 
     post = (url, body) => {
         return new Promise((resolve, reject) => {

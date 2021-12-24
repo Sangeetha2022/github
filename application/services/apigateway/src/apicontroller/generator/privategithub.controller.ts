@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../../interfaces/controller.interface";
-import { ApiAdaptar } from '../../config/apiAdaptar';
+import { ApiAdapter } from '../../config/apiAdapter';
 import  {Constants} from '../../config/Constants';
 
 export class PrivateGithubController implements Controller {
@@ -19,7 +19,7 @@ export class PrivateGithubController implements Controller {
 
 
     pushProjectToPrivateRepo(req: Request, res: Response) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${Constants.privateGithubUrl}/github/private/deploy/project/${req.params.proj_id}`,
             req.body
         ).then((response) => {

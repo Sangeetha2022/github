@@ -1,6 +1,6 @@
 /*
  * Template group apiadapter
- * Compiled on Thu Oct 08 2020 23:18:18 GMT+0530 (India Standard Time)
+ * Compiled on Thu Dec 23 2021 14:18:51 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -26,7 +26,7 @@ r = function(w, rc) {
     w.write("import * as fetch from 'node-fetch';");
     w.write("\n");
     w.write("\n");
-    w.write("export class ApiAdaptar {");
+    w.write("export class ApiAdapter {");
     w.write("\n");
     w.write("\n");
     w.pushIndentation("    ");

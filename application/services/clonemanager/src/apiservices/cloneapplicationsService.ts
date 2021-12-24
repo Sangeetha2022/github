@@ -1,4 +1,4 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { CloneService } from '../config/CloneService';
 // import { ProjectSchema } from '../../../projectmanager/src/models/project.model'
 import * as YAML from 'yamljs'
@@ -23,8 +23,8 @@ export class CloneApplicationsService {
         let projectMenubuilder = menubuilderData;
 
         projectDetails.UserId = userId;
-        // new ApiAdaptar().get(`${CloneService.apiGatewayURL}/desktop/projects/getbyuserid/${ProjectData.User_Id}`).then(
-        await new ApiAdaptar().get(`${CloneService.apiGatewayURL}/desktop/projects/getbyuserid/${projectDetails.UserId}?log_id=${request.query.log_id}`).then(
+        // new ApiAdapter().get(`${CloneService.apiGatewayURL}/desktop/projects/getbyuserid/${ProjectData.User_Id}`).then(
+        await new ApiAdapter().get(`${CloneService.apiGatewayURL}/desktop/projects/getbyuserid/${projectDetails.UserId}?log_id=${request.query.log_id}`).then(
             async (data: any) => {
                 let projectsAll = JSON.parse(data)
                 let projects;
@@ -39,7 +39,7 @@ export class CloneApplicationsService {
                     let newProjectName = projectDetails.name;
                     delete projectDetails.name;
                     projectDetails.name = `${newProjectName}${Math.floor((Math.random() * 100) + 1)}`;
-                    await new ApiAdaptar().post(`${CloneService.apiGatewayURL}/desktop/projects/add?log_id=${request.query.log_id}`, projectDetails)
+                    await new ApiAdapter().post(`${CloneService.apiGatewayURL}/desktop/projects/add?log_id=${request.query.log_id}`, projectDetails)
                     .then(
                         async (data: any) => {
                             let ProjectId = data.body._id;
@@ -50,7 +50,7 @@ export class CloneApplicationsService {
                             projectTemplate.project_id = ProjectId;
 
                             //Project using Application Template Created
-                            await new ApiAdaptar().post(`${CloneService.apiGatewayURL}/desktop/project/template/save`, projectTemplate).then(
+                            await new ApiAdapter().post(`${CloneService.apiGatewayURL}/desktop/project/template/save`, projectTemplate).then(
                                 async (data: any) => {
                                     projectTemplate = {};
                                     // callback("projectTemplate Created: ",data.body);
@@ -67,7 +67,7 @@ export class CloneApplicationsService {
                                     console.log("screenname else loop",listScreen[resScreen].screenName);
                                     delete listScreen[resScreen].project;
                                     listScreen[resScreen].project = ProjectId
-                                    await new ApiAdaptar().post(`${CloneService.apiGatewayURL}/desktop/screen/save`, listScreen[resScreen]).then(
+                                    await new ApiAdapter().post(`${CloneService.apiGatewayURL}/desktop/screen/save`, listScreen[resScreen]).then(
                                         async (data: any) => {
                                             listScreen[resScreen] = {};
                                             listScreen[resScreen]._id = data.body._id;
@@ -116,7 +116,7 @@ export class CloneApplicationsService {
     async postMenuBuilder(req, ProjectId, menuBuilderData, callback) {
         for(var i=0; i<menuBuilderData.length; i++){
             menuBuilderData[i].project = ProjectId;
-            await new ApiAdaptar().post(`${CloneService.apiGatewayURL}/desktop/menu/save`, menuBuilderData[i]).then(
+            await new ApiAdapter().post(`${CloneService.apiGatewayURL}/desktop/menu/save`, menuBuilderData[i]).then(
                 async (data: any) => {
                     menuBuilderData[i] = {};
                     callback(data);
@@ -130,7 +130,7 @@ export class CloneApplicationsService {
 
         //Create flows_Project, Flows_component, microflows
         for(var i=0; i<featureData.length;i++){
-            await new ApiAdaptar().get(`${CloneService.apiGatewayURL}/desktop/flow/getprojectflowbyid/${featureData[i]}`).then(
+            await new ApiAdapter().get(`${CloneService.apiGatewayURL}/desktop/flow/getprojectflowbyid/${featureData[i]}`).then(
                 async (data:any) => {
 
                 let flowcomponents:any = JSON.parse(data);
@@ -146,7 +146,7 @@ export class CloneApplicationsService {
                 delete flowscomponents.components;
                 flowscomponents.components = flowdata;
                 console.log("flowcomponents new data: ",flowscomponents.components);
-                await new ApiAdaptar().post(`${CloneService.apiGatewayURL}/desktop/flow/project/save`,flowscomponents).then(
+                await new ApiAdapter().post(`${CloneService.apiGatewayURL}/desktop/flow/project/save`,flowscomponents).then(
                     async (data:any) => {
                         let newIdData = data.body._id;
                         newFlowsId.push(newIdData);
@@ -161,13 +161,13 @@ export class CloneApplicationsService {
         // console.log("flowcomponent data: ", flowcomponentData.length);
         var flowdataId = [];
         for(var i=0;i<flowcomponentData.length;i++){
-            await new ApiAdaptar().get(`${CloneService.apiGatewayURL}/desktop/flowcomponent/project/getbyid/${flowcomponentData[i]}`).then(
+            await new ApiAdapter().get(`${CloneService.apiGatewayURL}/desktop/flowcomponent/project/getbyid/${flowcomponentData[i]}`).then(
                 async (data:any) => {
                 let microflow:any = JSON.parse(data);
                 let microflows:any = microflow.body[0];
 
                 delete microflows._id;
-                await new ApiAdaptar().post(`${CloneService.apiGatewayURL}/desktop/flowcomponent/project/save`,microflows).then(
+                await new ApiAdapter().post(`${CloneService.apiGatewayURL}/desktop/flowcomponent/project/save`,microflows).then(
                     async (data:any) => {
                         let datas = data.body._id;
                         flowdataId.push(datas);
@@ -199,7 +199,7 @@ export class CloneApplicationsService {
                     featuredata.project = ProjectId;
                     featuredata.flows = newFlowsIdData;
                     console.log("new data of feature flows id :",featuredata);
-                    await new ApiAdaptar().post(`${CloneService.apiGatewayURL}/desktop/feature/save?log_id=${req.query.log_id}`,featuredata).then(
+                    await new ApiAdapter().post(`${CloneService.apiGatewayURL}/desktop/feature/save?log_id=${req.query.log_id}`,featuredata).then(
                         async (data: any) => {
                             featuredata = {};
                             featuredata._id = data.body._id;
@@ -231,7 +231,7 @@ export class CloneApplicationsService {
                     delete entity.is_default;
                     entity.is_default = 'true';
                 }
-                await new ApiAdaptar().post(`${CloneService.apiGatewayURL}/desktop/entity/save?log_id=${req.query.log_id}`, entity).then(
+                await new ApiAdapter().post(`${CloneService.apiGatewayURL}/desktop/entity/save?log_id=${req.query.log_id}`, entity).then(
                     async (data: any) => {
                         entity = {};
                         entity._id = data.body._id;
@@ -260,7 +260,7 @@ export class CloneApplicationsService {
                 delete screenData[i].feature;
                 screenData[i].project = ProjectId
                 screenData[i].feature = featureNewId;
-                await new ApiAdaptar().post(`${CloneService.apiGatewayURL}/desktop/screen/save`, screenData[i]).then(
+                await new ApiAdapter().post(`${CloneService.apiGatewayURL}/desktop/screen/save`, screenData[i]).then(
                    async(data: any) => {
                         screenData[i] = {};
                         screenData[i]._id = data.body._id;
@@ -278,7 +278,7 @@ export class CloneApplicationsService {
 //get data from project, entites, features, screen from DB
     async getEntityByProject(req, projectId, callback) {
         console.log("entity"+projectId);
-        await new ApiAdaptar().get(`${CloneService.apiGatewayURL}/desktop/entity/getbyproject/${projectId}?log_id=${req.query.log_id}`).then(
+        await new ApiAdapter().get(`${CloneService.apiGatewayURL}/desktop/entity/getbyproject/${projectId}?log_id=${req.query.log_id}`).then(
             async data => {
                 callback(data);
             }
@@ -289,7 +289,7 @@ export class CloneApplicationsService {
 
     async getMenubuilderByProject(req, projectId, callback) {
         console.log("entity"+projectId);
-        await new ApiAdaptar().get(`${CloneService.apiGatewayURL}/desktop/menu/getbyprojectid/${projectId}?log_id=${req.query.log_id}`).then(
+        await new ApiAdapter().get(`${CloneService.apiGatewayURL}/desktop/menu/getbyprojectid/${projectId}?log_id=${req.query.log_id}`).then(
             async data => {
                 callback(data);
             }
@@ -300,7 +300,7 @@ export class CloneApplicationsService {
 
     async getByProjectId(req, projectId, callback) {
         console.log("project:"+projectId);
-        await new ApiAdaptar().get(`${CloneService.apiGatewayURL}/desktop/projects/getbyid/${projectId}?log_id=${req.query.log_id}`).then(
+        await new ApiAdapter().get(`${CloneService.apiGatewayURL}/desktop/projects/getbyid/${projectId}?log_id=${req.query.log_id}`).then(
             async data => {
                 callback(data);
             }
@@ -310,7 +310,7 @@ export class CloneApplicationsService {
     }
 
     async getProjectTemplatebyId(req, projectId, callback){
-        await new ApiAdaptar().get(`${CloneService.apiGatewayURL}/desktop/project/template/${projectId}?log_id=${req.query.log_id}`).then(
+        await new ApiAdapter().get(`${CloneService.apiGatewayURL}/desktop/project/template/${projectId}?log_id=${req.query.log_id}`).then(
             async (data) => {
                 callback(data);
             }
@@ -320,7 +320,7 @@ export class CloneApplicationsService {
     }
     async getFeatureByProject(req, projectId, callback) {
         console.log("feature"+projectId);
-        await new ApiAdaptar().get(`${CloneService.apiGatewayURL}/desktop/feature/project/get?projectId=${projectId}&log_id=${req.query.log_id}`).then(
+        await new ApiAdapter().get(`${CloneService.apiGatewayURL}/desktop/feature/project/get?projectId=${projectId}&log_id=${req.query.log_id}`).then(
             async data => {
                 callback(data);
             }
@@ -331,7 +331,7 @@ export class CloneApplicationsService {
 
     async getScreenByProject(req, projectId, callback) {
         console.log("feature"+projectId);
-        await new ApiAdaptar().get(`${CloneService.apiGatewayURL}/desktop/screen/getbyprojectid/${projectId}`).then(
+        await new ApiAdapter().get(`${CloneService.apiGatewayURL}/desktop/screen/getbyprojectid/${projectId}`).then(
             async data => {
                 callback(data);
             }
@@ -341,7 +341,7 @@ export class CloneApplicationsService {
     }
 
     async getFlowsbyProject(req, flowdata, callback){
-        await new ApiAdaptar().get(`${CloneService.apiGatewayURL}/desktop/flow/getprojectflowbyid/${flowdata}`).then(
+        await new ApiAdapter().get(`${CloneService.apiGatewayURL}/desktop/flow/getprojectflowbyid/${flowdata}`).then(
             async (data:any) => {
                 callback(data);
             }
@@ -351,7 +351,7 @@ export class CloneApplicationsService {
     }
 
     async getFlowsComponents(req, flowcomponents, callback){
-        await new ApiAdaptar().get(`${CloneService.apiGatewayURL}/desktop/flowcomponent/project/getbyid/${flowcomponents}`).then(
+        await new ApiAdapter().get(`${CloneService.apiGatewayURL}/desktop/flowcomponent/project/getbyid/${flowcomponents}`).then(
             async (data:any) => {
                 callback(data);
             }

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { SharedService } from '../config/SharedService';
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { AdminManagerService } from '../apiservices/AdminManagerService';
 import * as ncp from 'ncp';
 import * as fs from 'fs';
@@ -9,7 +9,7 @@ import * as fs from 'fs';
 export class BackendAdminService {
 
     adminmanagerservice = new AdminManagerService();
-    apiAdapter = new ApiAdaptar();
+    apiAdapter = new ApiAdapter();
     sharedService = new SharedService();
 
     getAdminManager(req:Request, callback: CallableFunction) {

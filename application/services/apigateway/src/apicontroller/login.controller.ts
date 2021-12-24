@@ -2,7 +2,7 @@ import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from '../interfaces/controller.interface';
 import { Constants } from '../config/Constants';
-import { ApiAdaptar } from '../config/apiAdaptar';
+import { ApiAdapter } from '../config/apiAdapter';
 import * as jwt from 'jsonwebtoken';
 import * as request from 'request';
 import { constants } from 'crypto';
@@ -36,7 +36,7 @@ export class Logincontroller implements Controller {
 
         console.log('----ccominghere----');
         try {
-            let user = await Promise.resolve(new ApiAdaptar().post(`${Constants.loginUrl}/signup`, req.body));
+            let user = await Promise.resolve(new ApiAdapter().post(`${Constants.loginUrl}/signup`, req.body));
             // @ts-ignore
             const Userdetails = user;
             // @ts-ignore
@@ -54,7 +54,7 @@ export class Logincontroller implements Controller {
 
     public async Getallusers(req: Request, res: Response) {
         try {
-            let user = await Promise.resolve(new ApiAdaptar().get(`${Constants.loginUrl}/getallusers`));
+            let user = await Promise.resolve(new ApiAdapter().get(`${Constants.loginUrl}/getallusers`));
             const usersdetails = user;
             res.send(usersdetails);
         } catch (err) {
@@ -64,7 +64,7 @@ export class Logincontroller implements Controller {
 
     public async Getallroles(req: Request, res: Response) {
         try {
-            let role = await Promise.resolve(new ApiAdaptar().get(`${Constants.loginUrl}/getallroles`));
+            let role = await Promise.resolve(new ApiAdapter().get(`${Constants.loginUrl}/getallroles`));
             res.send(role);
         } catch (err) {
             res.send(err);
@@ -73,7 +73,7 @@ export class Logincontroller implements Controller {
 
     public async Getuserbyid(req: Request, res: Response) {
         try {
-            let user = await Promise.resolve(new ApiAdaptar().get(`${Constants.loginUrl}/getuser/${req.params.id}`));
+            let user = await Promise.resolve(new ApiAdapter().get(`${Constants.loginUrl}/getuser/${req.params.id}`));
             res.send(user);
         } catch (err) {
             res.send(err);
@@ -87,7 +87,7 @@ export class Logincontroller implements Controller {
         // logger.info('calling the securitymanager microservice');
 
         try {
-            let user = await Promise.resolve(new ApiAdaptar().post(`${Constants.loginUrl}/login`, req.body));
+            let user = await Promise.resolve(new ApiAdapter().post(`${Constants.loginUrl}/login`, req.body));
             // @ts-ignore
             const Userdetails = user;
             // @ts-ignore
@@ -125,7 +125,7 @@ export class Logincontroller implements Controller {
 
     public Consent(req: Request, res: Response) {
         // logger.info('login.controller.ts : Consent');
-        new ApiAdaptar().put(`${Constants.loginUrl}/consent`, req.body).then((consentresponse) => {
+        new ApiAdapter().put(`${Constants.loginUrl}/consent`, req.body).then((consentresponse) => {
             // @ts-ignore
             var token = consentresponse.body.Idtoken;
             console.log('---------token---->>>', token);
@@ -154,7 +154,7 @@ export class Logincontroller implements Controller {
 
     public async Logout(req: Request, res: Response) {
         try {
-            let response = await Promise.resolve(new ApiAdaptar().post(`${Constants.loginUrl}/logout`, req.body));
+            let response = await Promise.resolve(new ApiAdapter().post(`${Constants.loginUrl}/logout`, req.body));
             res.send(response);
         } catch (err) {
             res.send(err);
@@ -163,7 +163,7 @@ export class Logincontroller implements Controller {
 
     public async AddConfiguration(req: Request, res: Response) {
         try {
-            let response = await Promise.resolve(new ApiAdaptar().post(`${Constants.loginUrl}/addConfigurations`, req.body));
+            let response = await Promise.resolve(new ApiAdapter().post(`${Constants.loginUrl}/addConfigurations`, req.body));
             res.send(response);
         } catch (err) {
             res.send(err);
@@ -172,7 +172,7 @@ export class Logincontroller implements Controller {
 
     public async getConfigurations(req: Request, res: Response) {
         try {
-            let user = await Promise.resolve(new ApiAdaptar().get(`${Constants.loginUrl}/getConfigurations`));
+            let user = await Promise.resolve(new ApiAdapter().get(`${Constants.loginUrl}/getConfigurations`));
             res.send(user);
         } catch (err) {
             res.send(err);
@@ -183,7 +183,7 @@ export class Logincontroller implements Controller {
     public async googlelogin(req: Request, res: Response) {
 
         try {
-            let googleuser = await Promise.resolve(new ApiAdaptar().post(`${Constants.loginUrl}/googlesignin`, req.body));
+            let googleuser = await Promise.resolve(new ApiAdapter().post(`${Constants.loginUrl}/googlesignin`, req.body));
             const Userdetails = googleuser;
             // @ts-ignore
             var token = Userdetails.body.Idtoken;
@@ -221,7 +221,7 @@ export class Logincontroller implements Controller {
     public async fbLogIn(req: Request, res: Response) {
 
         try {
-            let fbResponse = await Promise.resolve(new ApiAdaptar().post(`${Constants.loginUrl}/fblogin`, req.body));
+            let fbResponse = await Promise.resolve(new ApiAdapter().post(`${Constants.loginUrl}/fblogin`, req.body));
             const Userdetails = fbResponse;
             // @ts-ignore
             var token = Userdetails.body.Idtoken;
@@ -259,7 +259,7 @@ export class Logincontroller implements Controller {
 
     public async Updateuser(req: Request, res: Response) {
         try {
-            let updateduser = await Promise.resolve(new ApiAdaptar().put(`${Constants.loginUrl}/updateuser`, req.body));
+            let updateduser = await Promise.resolve(new ApiAdapter().put(`${Constants.loginUrl}/updateuser`, req.body));
             const Updateduser = updateduser;
             res.send(Updateduser);
         } catch (err) {

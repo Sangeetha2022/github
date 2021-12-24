@@ -111,4 +111,16 @@ export class Signinservice {
 
         })
     }
+
+    public updateUserservice(req: Request, callback) {
+        new CustomLogger().showLogger('info', 'Enter into Signinservice.ts: updateuserservice');
+
+        const userdetails = req.body;
+
+        signindao.updateUserdao(userdetails, (response) => {
+            new CustomLogger().showLogger('info', 'Exit from Signinservice.ts: updateuserservice');
+            callback(response);
+
+        })
+    }
 }

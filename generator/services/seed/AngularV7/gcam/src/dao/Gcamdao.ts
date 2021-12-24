@@ -1,7 +1,10 @@
 import mongoose = require('mongoose');
 import { Resourceschema } from '../model/resource';
 import { CustomLogger } from '../config/Logger';
+import { GCAMWorkerFile } from '../worker/GCAMScreenWorker';
 const resourceschema = mongoose.model('resources', Resourceschema);
+
+let gcamresources = new GCAMWorkerFile();
 
 
 export class Gcamdao {
@@ -87,5 +90,108 @@ export class Gcamdao {
         return components;
        
     }
+
+    public getallscreen(callback) {
+        resourceschema.find().then((getscreen) => {
+            callback(getscreen);
+        }).catch(error => {
+            callback(error);
+        })
+    }
+
+    // public getByIdData(Id, callback) {
+    //     resourceschema.findById(Id).populate({
+    //         path: 'role', model: rolemodel
+    //     }).then(result => {
+    //         new CustomLogger().showLogger('info', 'Exit from SigninDao.ts: getbyiduserdao');
+    //         callback(result);
+
+    //     }).catch((error => {
+    //         callback(error);
+    //     }))
+    // }
     
+    public gcamgenerate(resources, callback) {
+        new CustomLogger().showLogger('info', 'Enter into Gcamdao.ts:  getResourceAuthorizationGenerate');
+        let generationpath = '../assets';
+        let templatepath = '../../template';
+        gcamresources.GcamScreenJson(resources, generationpath, templatepath, (response) => {
+            console.log(typeof response, response, response.resource_name);
+                // let userArray:any[] = [];
+                // let valueroles = resources.roles
+                // console.log(valueroles); 
+                // resourceschema.find({resource_name: `${response.resource_name}`},
+                //  {new: true}, (err, data) => {
+                //      console.log('recheck data create', data);
+                //     if (data === null){
+                        let screenroute = new resourceschema(response);
+                        console.log('data a save', screenroute);
+                        screenroute.save();
+                //     }
+                // })
+        });
+    }
+
+    public async GCAMDelete(GCAMId, callback) {
+        new CustomLogger().showLogger(
+          "info",
+          "Enter into ItemTagsDao.ts: GCAMDelete"
+        );
+    
+        resourceschema.findByIdAndRemove(GCAMId)
+          .then((result) => {
+            new CustomLogger().showLogger(
+              "info",
+              "Exit from ItemTagsDao.ts: GCAMDelete"
+            );
+    
+            callback(result);
+          })
+          .catch((error) => {
+            callback(error);
+          });
+    }
+
+    public async gcamGetNounById(Id, callback) {
+        new CustomLogger().showLogger(
+          "info",
+          "Enter into GcamDao.ts: GpGetNounById"
+        );
+    
+        resourceschema.findById(Id)
+          .then((result) => {
+            new CustomLogger().showLogger(
+              "info",
+              "Exit from GcamDao.ts: GpGetNounById"
+            );
+    
+            callback(result);
+          })
+          .catch((error) => {
+            callback(error);
+          });
+    }
+  
+    public async GpUpdate(GcamUpdateData, callback) {
+      new CustomLogger().showLogger(
+        "info",
+        "Enter into GcamupdateDao.ts: GpUpdate"
+      );
+  
+      resourceschema.findOneAndUpdate({ _id: GcamUpdateData._id }, GcamUpdateData, {
+        new: true,
+      })
+        .then((result) => {
+          new CustomLogger().showLogger(
+            "info",
+            "Exit from GcamUpdateDao.ts: GpUpdate"
+          );
+  
+          callback(result);
+        })
+        .catch((error) => {
+          callback(error);
+        });
+    }
+
 }

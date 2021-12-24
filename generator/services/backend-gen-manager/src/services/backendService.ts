@@ -7,7 +7,7 @@ This issue is addressed in brief on the github card number #386 created by Kisha
 import { Request } from 'express';
 import * as fs from 'fs';
 import { SharedService } from '../config/SharedService';
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { MicroFlowManagerService } from '../apiservices/MicroFlowManagerService';
 import { NodeGenManagerService } from '../apiservices/NodeGenManagerService';
 import { SefNodeGenManagerService } from '../apiservices/SefNodeGenManagerService';
@@ -24,7 +24,7 @@ export class BackendService {
     sefNodeService = new SefNodeGenManagerService();
     microFlowService = new MicroFlowManagerService();
     dataStoreService = new DataStoreManagerService();
-    apiAdapter = new ApiAdaptar();
+    apiAdapter = new ApiAdapter();
     flowConnectors = new FlowConnectorManagerService();
     backend: String;
 

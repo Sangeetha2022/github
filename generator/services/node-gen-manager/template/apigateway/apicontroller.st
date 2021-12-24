@@ -15,7 +15,7 @@ export class $object.className$Controller $if(object.implementName)$implements $
 
 $if(object.methods)$$object.methods:{methods |  public $methods.methodName$(req: Request, res: Response) {
             new CustomLogger().showLogger('info', 'Enter into $object.className$Controller.ts: $methods.methodName$');
-        new ApiAdaptar().$methods.apiAction$($methods.constantName$.$methods.nodeName$ + `$methods.methodUrl$` $if(methods.requestParameter)$, $methods.requestParameter$$endif$)
+        new ApiAdapter().$methods.apiAction$($methods.constantName$.$methods.nodeName$ + `$methods.methodUrl$` $if(methods.requestParameter)$, $methods.requestParameter$$endif$)
         .then((res: any) => res.response.json()).then($methods.responseParameter$ => {
               req.baseUrl === '/mobile' ? res.send($methods.responseParameter$) :
               req.baseUrl === '/desktop' ? res.send($methods.responseParameter$) : res.send(null)
@@ -28,7 +28,7 @@ $if(object.methods)$$object.methods:{methods |  public $methods.methodName$(req:
 $if(object.additional.camunda.login)$
   public $object.additional.camunda.login.methodName$(req: Request, res: Response) {
                   new CustomLogger().showLogger('info', 'Enter into $object.className$Controller.ts: $object.additional.camunda.login.methodName$');
-        new ApiAdaptar().$object.additional.camunda.login.apiAction$($object.additional.camunda.login.constantName$.$object.additional.camunda.login.nodeName$ + `$object.additional.camunda.login.methodUrl$` $if(object.additional.camunda.login.requestParameter)$, $object.additional.camunda.login.requestParameter$$endif$)
+        new ApiAdapter().$object.additional.camunda.login.apiAction$($object.additional.camunda.login.constantName$.$object.additional.camunda.login.nodeName$ + `$object.additional.camunda.login.methodUrl$` $if(object.additional.camunda.login.requestParameter)$, $object.additional.camunda.login.requestParameter$$endif$)
         .then((res: any) => res.response.json())
         .then(async ($object.additional.camunda.login.responseParameter$) => {
             // @ts-ignore
@@ -43,7 +43,7 @@ $if(object.additional.camunda.login)$
                 if (err) {
                     res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
                 } else {
-                    new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded)
+                    new ApiAdapter().post(Constant.AUTHPROXYURL + `/proxy`, decoded)
                     .then((res: any) => res.response.json()).then((response) => {
                         const temp = {
                             "Access": JSON.parse(JSON.stringify(response)),
@@ -66,7 +66,7 @@ $endif$
 $if(object.additional.camunda.consent)$
    public $object.additional.camunda.consent.methodName$(req: Request, res: Response) {
                          new CustomLogger().showLogger('info', 'Enter into $object.className$Controller.ts: $object.additional.camunda.consent.methodName$');
-        new ApiAdaptar().$object.additional.camunda.consent.apiAction$($object.additional.camunda.consent.constantName$.$object.additional.camunda.consent.nodeName$ + `$object.additional.camunda.consent.methodUrl$` $if(object.additional.camunda.consent.requestParameter)$, $object.additional.camunda.consent.requestParameter$$endif$)
+        new ApiAdapter().$object.additional.camunda.consent.apiAction$($object.additional.camunda.consent.constantName$.$object.additional.camunda.consent.nodeName$ + `$object.additional.camunda.consent.methodUrl$` $if(object.additional.camunda.consent.requestParameter)$, $object.additional.camunda.consent.requestParameter$$endif$)
         .then((res: any) => res.response.json())
         .then(async ($object.additional.camunda.consent.responseParameter$) => {
             // @ts-ignore
@@ -76,7 +76,7 @@ $if(object.additional.camunda.consent)$
                 if (err) {
                     res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
                 } else {
-                    new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded)
+                    new ApiAdapter().post(Constant.AUTHPROXYURL + `/proxy`, decoded)
                     .then((res: any) => res.response.json()).then((response) => {
                         const temp = {
                             "Access": JSON.parse(JSON.stringify(response)),
@@ -98,7 +98,7 @@ $endif$
 $if(object.additional.gcam.login)$
   public $object.additional.gcam.login.methodName$(req: Request, res: Response) {
                   new CustomLogger().showLogger('info', 'Enter into $object.className$Controller.ts: $object.additional.gcam.login.methodName$');
-        new ApiAdaptar().$object.additional.gcam.login.apiAction$($object.additional.gcam.login.constantName$.$object.additional.gcam.login.nodeName$ + `$object.additional.gcam.login.methodUrl$` $if(object.additional.gcam.login.requestParameter)$, $object.additional.gcam.login.requestParameter$$endif$)
+        new ApiAdapter().$object.additional.gcam.login.apiAction$($object.additional.gcam.login.constantName$.$object.additional.gcam.login.nodeName$ + `$object.additional.gcam.login.methodUrl$` $if(object.additional.gcam.login.requestParameter)$, $object.additional.gcam.login.requestParameter$$endif$)
         .then((res: any) => res.response.json())
         .then(async ($object.additional.gcam.login.responseParameter$) => {
             // @ts-ignore
@@ -113,7 +113,7 @@ $if(object.additional.gcam.login)$
                 if (err) {
                     res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
                 } else {
-                    new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded)
+                    new ApiAdapter().post(Constant.AUTHPROXYURL + `/proxy`, decoded)
                     .then((res: any) => res.response.json()).then((response) => {
                         const temp = {
                             "Access": JSON.parse(JSON.stringify(response)),
@@ -136,7 +136,7 @@ $endif$
 $if(object.additional.gcam.consent)$
    public $object.additional.gcam.consent.methodName$(req: Request, res: Response) {
                          new CustomLogger().showLogger('info', 'Enter into $object.className$Controller.ts: $object.additional.gcam.consent.methodName$');
-        new ApiAdaptar().$object.additional.gcam.consent.apiAction$($object.additional.gcam.consent.constantName$.$object.additional.gcam.consent.nodeName$ + `$object.additional.gcam.consent.methodUrl$` $if(object.additional.gcam.consent.requestParameter)$, $object.additional.gcam.consent.requestParameter$$endif$)
+        new ApiAdapter().$object.additional.gcam.consent.apiAction$($object.additional.gcam.consent.constantName$.$object.additional.gcam.consent.nodeName$ + `$object.additional.gcam.consent.methodUrl$` $if(object.additional.gcam.consent.requestParameter)$, $object.additional.gcam.consent.requestParameter$$endif$)
         .then((res: any) => res.response.json())
         .then(async ($object.additional.gcam.consent.responseParameter$) => {
             // @ts-ignore
@@ -146,7 +146,7 @@ $if(object.additional.gcam.consent)$
                 if (err) {
                     res.send ({ 'status': 'Unauthorized', 'error': err, 'Userdetails': result });
                 } else {
-                    new ApiAdaptar().post(Constant.AUTHPROXYURL + `/proxy`, decoded)
+                    new ApiAdapter().post(Constant.AUTHPROXYURL + `/proxy`, decoded)
                     .then((res: any) => res.response.json()).then((response) => {
                         const temp = {
                             "Access": JSON.parse(JSON.stringify(response)),

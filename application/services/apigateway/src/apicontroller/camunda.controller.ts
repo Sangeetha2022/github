@@ -2,7 +2,7 @@ import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from '../interfaces/controller.interface';
 import  {Constants} from '../config/Constants';
-import { ApiAdaptar } from '../config/apiAdaptar';
+import { ApiAdapter } from '../config/apiAdapter';
 
 export class Camundacontroller implements Controller {
 
@@ -19,7 +19,7 @@ export class Camundacontroller implements Controller {
 
     public async Camunda(req: Request, res: Response) {
         try {
-            let response = await Promise.resolve(new ApiAdaptar().post(`${Constants.camundaUrl}/accesslevel`, req.body));
+            let response = await Promise.resolve(new ApiAdapter().post(`${Constants.camundaUrl}/accesslevel`, req.body));
             res.send(response);
         } catch (err) {
             res.send(err);

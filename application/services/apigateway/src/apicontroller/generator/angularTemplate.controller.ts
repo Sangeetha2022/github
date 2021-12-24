@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../../interfaces/controller.interface";
-import { ApiAdaptar } from '../../config/apiAdaptar';
+import { ApiAdapter } from '../../config/apiAdapter';
 import  {Constants} from '../../config/Constants';
 
 export class AngularTemplateController implements Controller {
@@ -18,7 +18,7 @@ export class AngularTemplateController implements Controller {
     public async createAngularTemplate(req: Request, res: Response) {
         try {
             console.log('create angular template in apigateway -----  ');
-            let response = await Promise.resolve(new ApiAdaptar().post(
+            let response = await Promise.resolve(new ApiAdapter().post(
                 `${Constants.angularTemplateGenUrl}/template/angular`, req.body));
             res.send(response);
         } catch (err) {

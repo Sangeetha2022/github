@@ -1,10 +1,10 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 export class ScreenManagerService {
 
     getScreenByFeatureId(featureId, callback) {
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/screen/getbyfeatureid/${featureId}`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/screen/getbyfeatureid/${featureId}`).then(
             data => {
                 callback(data);
             }
@@ -14,7 +14,7 @@ export class ScreenManagerService {
     }
 
     getScreenByProjectId(projectId, callback) {
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/screen/getbyprojectid/${projectId}`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/screen/getbyprojectid/${projectId}`).then(
             data => {
                 callback(data);
             }
@@ -25,7 +25,7 @@ export class ScreenManagerService {
 
     getTemplateByProjectId(projectId, callback) {
         console.log('template project id are ----  ', projectId);
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/screen/template?projectId=${projectId}`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/screen/template?projectId=${projectId}`).then(
             data => {
                 callback(data);
             }

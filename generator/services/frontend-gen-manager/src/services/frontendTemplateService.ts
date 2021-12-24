@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import * as fs from 'fs';
 import { SharedService } from '../config/SharedService';
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import * as util from 'util';
 import { ScreenManagerService } from '../apiservices/ScreenManagerService';
 import { Common } from '../config/Common';
@@ -22,7 +22,7 @@ export class FrontendTemplateService {
     authGenManagerService = new AuthGenManagerService();
     adminGenManagerService = new AdminGenManagerService();
     reactgenManagerService = new ReactGenManagerService();
-    apiAdapter = new ApiAdaptar()
+    apiAdapter = new ApiAdapter()
     backend: String;
 
     public async frontendTemplateProject(req: Request, callback: CallableFunction) {

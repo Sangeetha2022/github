@@ -1,4 +1,4 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/Sharedservice';
 import { CustomLogger } from '../config/Logger'
 
@@ -6,7 +6,7 @@ export class Loginmanagerservice {
 
     getallUser(callback) {
         new CustomLogger().showLogger('info', 'Enter into loginmanager.ts: getallUser');
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/getallusers`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/getallusers`).then(
             data => {
                 callback(data);
         new CustomLogger().showLogger('info', 'Exit from loginmanager.ts: getallUser');
@@ -19,7 +19,7 @@ export class Loginmanagerservice {
 
     getuserbyid(id,callback) {
         new CustomLogger().showLogger('info', 'Enter into loginmanager.ts: getuserbyid');
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/getuser/${id}`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/getuser/${id}`).then(
             data => {
                 callback(data);
         new CustomLogger().showLogger('info', 'Exit from loginmanager.ts: getuserbyid');
@@ -33,7 +33,7 @@ export class Loginmanagerservice {
 
     getallroles(callback) {
         new CustomLogger().showLogger('info', 'Enter into loginmanager.ts: getallroles');
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/getallroles`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/getallroles`).then(
             data => {
                 callback(data);
         new CustomLogger().showLogger('info', 'Exit from loginmanager.ts: getallroles');
@@ -46,7 +46,7 @@ export class Loginmanagerservice {
 
     Updateuser(body,callback) {
         new CustomLogger().showLogger('info', 'Enter into loginmanager.ts: Updateuser');
-        new ApiAdaptar().put(`${SharedService.apiGatewayURL}/desktop/updateuser`,body).then(
+        new ApiAdapter().put(`${SharedService.apiGatewayURL}/desktop/updateuser`,body).then(
             data => {
                 callback(data);
         new CustomLogger().showLogger('info', 'Exit from loginmanager.ts: Updateuser');

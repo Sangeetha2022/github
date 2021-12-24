@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../../interfaces/controller.interface";
-import { ApiAdaptar } from '../../config/apiAdaptar';
+import { ApiAdapter } from '../../config/apiAdapter';
 import  {Constants} from '../../config/Constants';
 
 export class DataStoreController implements Controller {
@@ -16,7 +16,7 @@ export class DataStoreController implements Controller {
     }
 
     createProject(req: Request, res: Response) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${Constants.datastoreGenUrl}/datastore/project`,
             req.body
         ).then((response) => {

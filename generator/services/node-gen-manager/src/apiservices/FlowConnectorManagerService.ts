@@ -1,11 +1,11 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import * as Constants from '../config/Constants';
 import { SharedService } from '../config/SharedService'
 
 export class FlowConnectorManagerService {
 
     getConnectorByProjectId(projectId, callback) {
-        new ApiAdaptar().get(
+        new ApiAdapter().get(
             `${Constants.APIGATEWAYURL}/desktop/projects/getbyid/${projectId}`,
         ).then(
             data => {
@@ -17,7 +17,7 @@ export class FlowConnectorManagerService {
     }
 
     getConnectorByIds(connectorIds, callback) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${Constants.APIGATEWAYURL}/desktop/get/connectorsbyids`, connectorIds).then(
             data => {
                 callback(data);
@@ -28,7 +28,7 @@ export class FlowConnectorManagerService {
     }
 
     getFileByIds(fileIds, callback) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${Constants.APIGATEWAYURL}/desktop/getattachment`, fileIds).then(
             data => {
                 callback(data);

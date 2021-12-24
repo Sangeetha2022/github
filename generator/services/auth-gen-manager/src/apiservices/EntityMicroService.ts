@@ -1,4 +1,4 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 let entitydetails: any;
@@ -7,7 +7,7 @@ export class EntityMicroService {
     Entityservice(projectid, callback) {
         console.log("projectid--->",projectid);
         const projectId = projectid;
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/entity/get/?projectId=${projectId}`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/entity/get/?projectId=${projectId}`).then(
             data => {
                 console.log('${SharedService.apiGatewayURL}',`${SharedService.apiGatewayURL}/desktop/entity/get/?projectId=${projectId}`)
                 console.log("data--->",data);

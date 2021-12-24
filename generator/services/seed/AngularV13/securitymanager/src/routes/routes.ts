@@ -22,6 +22,7 @@ export class Routes {
         app.route('/saveroles').post(this.signincontroller.saveroles);
         app.route('/deleteroles/:id').delete(this.signincontroller.deleteroles);
         app.route('/updateuser').put(this.signincontroller.updateuser);
+        app.route('/updateuserimg').put(this.signincontroller.updateUser);
     
     }
 }

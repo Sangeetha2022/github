@@ -1,10 +1,10 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 export class FeatureManagerService {
 
     getFeatureByProjectId(projectId, callback) {
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/feature/project/get?projectId=${projectId}`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/feature/project/get?projectId=${projectId}`).then(
             data => {
                 callback(data);
             }
@@ -14,7 +14,7 @@ export class FeatureManagerService {
     }
 
     // getDetailByFeatureId(featureId, callback) {
-    //     new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/feature/details/getbyfeatureid/${featureId}`).then(
+    //     new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/feature/details/getbyfeatureid/${featureId}`).then(
     //         data => {
     //             console.log('i am the data u r expecting======', data);
     //             callback(data);
@@ -25,7 +25,7 @@ export class FeatureManagerService {
     // }
 
     // getAllFeatureFlowByFeatureId(featureId, callback) {
-    //     new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/feature-flow/getbyfeatureid/${featureId}`).then(
+    //     new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/feature-flow/getbyfeatureid/${featureId}`).then(
     //         data => {
     //             console.log('i am the data u r expecting======', data);
     //             callback(data);

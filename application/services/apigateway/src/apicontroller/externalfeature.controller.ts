@@ -1,7 +1,7 @@
 import * as express from "express";
 import { Request, Response } from 'express';
 import {Constants} from '../config/Constants';
-import { ApiAdaptar } from '../config/apiAdaptar';
+import { ApiAdapter } from '../config/apiAdapter';
 import Controller from '../interfaces/controller.interface';
 
 
@@ -22,7 +22,7 @@ class ExternalfeatureController implements Controller {
 
     public async Externalfeature(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.externalfeature}/externalfeature/get/${req.params.id}` + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().get(`${Constants.externalfeature}/externalfeature/get/${req.params.id}` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {

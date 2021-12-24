@@ -1,10 +1,10 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 export class MicroFlowManagerService {
 
     getMicroFlowByName(microflowName, callback) {
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/microflow/getbycomp/${microflowName}`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/microflow/getbycomp/${microflowName}`).then(
             data => {
                 callback(data);
             }

@@ -2,7 +2,7 @@
 import * as express from "express";
 import { Request, Response } from 'express';
 import { Constants } from '../config/Constants';
-import { ApiAdaptar } from '../config/apiAdaptar';
+import { ApiAdapter } from '../config/apiAdapter';
 import Controller from '../interfaces/controller.interface';
 
 
@@ -33,7 +33,7 @@ export class TemplateController implements Controller {
 
     public async addTemplate(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().post(Constants.templateUrl + '/template/save' + `?log_id=${req.query.log_id}`, req.body));
+            let result = await Promise.resolve(new ApiAdapter().post(Constants.templateUrl + '/template/save' + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -44,7 +44,7 @@ export class TemplateController implements Controller {
 
     public async addProjectTemplate(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().post(Constants.templateUrl + '/project/template/save' + `?log_id=${req.query.log_id}`, req.body));
+            let result = await Promise.resolve(new ApiAdapter().post(Constants.templateUrl + '/project/template/save' + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -55,7 +55,7 @@ export class TemplateController implements Controller {
 
     public getProjectTemplate = async (req: Request, res: Response) => {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/project/template/' + req.params.projectid + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().get(Constants.templateUrl + '/project/template/' + req.params.projectid + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -66,7 +66,7 @@ export class TemplateController implements Controller {
 
     public async updateTemplate(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().put(Constants.templateUrl + '/template/update/' + req.params.id + `?log_id=${req.query.log_id}`, req.body));
+            let result = await Promise.resolve(new ApiAdapter().put(Constants.templateUrl + '/template/update/' + req.params.id + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -77,7 +77,7 @@ export class TemplateController implements Controller {
 
     public async updateProjectTemplate(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().post(Constants.templateUrl + '/project/template/update/' + req.params.id + `?log_id=${req.query.log_id}`, req.body));
+            let result = await Promise.resolve(new ApiAdapter().post(Constants.templateUrl + '/project/template/update/' + req.params.id + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -88,7 +88,7 @@ export class TemplateController implements Controller {
 
     public async deleteTemplate(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.templateUrl + '/template/delete/' + req.params.id + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().delete(Constants.templateUrl + '/template/delete/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -99,7 +99,7 @@ export class TemplateController implements Controller {
 
     public async getAllTemplates(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/template/getall' + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().get(Constants.templateUrl + '/template/getall' + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -112,7 +112,7 @@ export class TemplateController implements Controller {
     public getTemplateByName = async (req:Request, res: Response) => {
         try {
             // console.log('----------------kishan-----------',req);
-            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/template/gettemplatename?template_name='+ req.query.template_name + `&log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().get(Constants.templateUrl + '/template/gettemplatename?template_name='+ req.query.template_name + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -124,7 +124,7 @@ export class TemplateController implements Controller {
 
     public getTemplateByID = async (req: Request, res: Response) => {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/template/get/' + req.params.id + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().get(Constants.templateUrl + '/template/get/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -135,7 +135,7 @@ export class TemplateController implements Controller {
 
     public getProjectTemplateByID = async (req: Request, res: Response) => {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/project/template/get/' + req.params.id + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().get(Constants.templateUrl + '/project/template/get/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -146,7 +146,7 @@ export class TemplateController implements Controller {
 
     public getProjectTemplateByProjectID = async (req: Request, res: Response) => {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/template/project/' + req.params.id + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().get(Constants.templateUrl + '/template/project/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -157,7 +157,7 @@ export class TemplateController implements Controller {
 
     public getAllTemplateByProject = async (req: Request, res: Response) => {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/template/get/project/' + req.params.projectid + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().get(Constants.templateUrl + '/template/get/project/' + req.params.projectid + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -168,7 +168,7 @@ export class TemplateController implements Controller {
 
     public getTemplateParser = async (req: Request, res: Response) => {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(Constants.templateUrl + '/templateparser/get' + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().get(Constants.templateUrl + '/templateparser/get' + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -179,7 +179,7 @@ export class TemplateController implements Controller {
 
     public async deleteProjectTemplate(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.templateUrl + '/project/template/delete/' + req.params.id + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().delete(Constants.templateUrl + '/project/template/delete/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {

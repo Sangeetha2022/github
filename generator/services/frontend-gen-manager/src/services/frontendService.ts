@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import * as fs from 'fs';
 import { SharedService } from '../config/SharedService';
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { MicroFlowManagerService } from '../apiservices/MicroFlowManagerService';
 import { AngularGenManagerService } from '../apiservices/AngularGenManagerService';
 import { ReactGenManagerService } from '../apiservices/ReactGenManagerService'
@@ -24,7 +24,7 @@ export class FrontendService {
     screenManagerService = new ScreenManagerService();
     templateManagerService = new TemplateManagerService();
     reactgenManagerService = new ReactGenManagerService ();
-    apiAdapter = new ApiAdaptar()
+    apiAdapter = new ApiAdapter()
     backend: String;
 
     public async frontendProject(req: Request, callback: CallableFunction) {

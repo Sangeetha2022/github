@@ -203,8 +203,8 @@ export class AdminServcie {
                             })
                         })
 
-                        fs.readFile(`${srcFile}/${x}/ApiAdaptar.ts`, 'utf8', (err, ApiAdaptarFile) => {
-                            fs.writeFile(config + `/ApiAdaptar.ts`, ApiAdaptarFile, (err) => {
+                        fs.readFile(`${srcFile}/${x}/ApiAdapter.ts`, 'utf8', (err, ApiAdapterFile) => {
+                            fs.writeFile(config + `/ApiAdapter.ts`, ApiAdapterFile, (err) => {
                                 if (err) {
                                     return (err)
                                 }

@@ -44,6 +44,15 @@ export class TemplateTopNav {
                                                             
                                                         </a>`);
                                             break;
+                                        case 'authorization':
+                                            bottomNav.push(``);
+                                            break;
+                                        case 'manageroles':
+                                            bottomNav.push(``);
+                                            break;
+                                        case 'manageusers':
+                                            bottomNav.push(``);
+                                            break;
                                         // case 'authorization':
                                         //     bottomNav.push(`<a id="izdchj" class="menu-link nav-item"  *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId" [routerLink]="['/${screenElement.toLowerCase()}']">
                                         //                         {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}

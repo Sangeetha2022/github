@@ -13,6 +13,7 @@ export class FrontendWorker {
 
     // FOLDER NAME
     private LOGIN_FOLDERNAME = 'login';
+    private SHARED_FOLDER = 'shared';
     private SIGNUP_FOLDERNAME = 'signup';
     private HOME_FOLDERNAME = 'home';
     private USER_FOLDERNAME = 'user';
@@ -23,6 +24,8 @@ export class FrontendWorker {
     private MANAGECONTROL_FOLDERNAME = 'managecontrol';
     private PROFILE_SETTINGS_FOLDERNAME = 'profilesettings';
     private BUTTON_RENDERER_FOLDERNAME = 'button-renderer';
+    private UPDATE_AUTHORIZATION_FOLDERNAME = 'updateauthorization';
+    private BUTTON_RENDERED_FOLDERNAME = 'button-rendered';
     private AUTH_FOLDERNAME = 'auth';
     private HEADER_FOLDERNAME = 'header';
     private BROADCAST_FOLDERNAME = 'broadcast';
@@ -96,6 +99,38 @@ export class FrontendWorker {
     private changeLanguageV13 = `changeLanguage(lang:any) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t});\n\t\t}\n\t\tthis.userId = sessionStorage.getItem('Id') || null;\n\t\tif (this.userId !== null) {\n\t\tthis.logout();\n\t\t} else {\n\t\tdocument.location.reload();\n\t\t}\n\t\t}`;
     private changeLanguageV12 = `changeLanguage(lang:any) {\n\t\tif (lang !== this.i18NextService.language) {\n\t\tthis.i18NextService.changeLanguage(lang).then(x => {\n\t\tthis.updateState(lang);\n\t\t});\n\t\t}\n\t\tthis.userId = sessionStorage.getItem('Id') || '{}';\n\t\tif (this.userId !== null) {\n\t\tthis.logout();\n\t\t} else {\n\t\tdocument.location.reload();\n\t\t}\n\t\t}`;
     private updateLangChange = `private updateState(lang: string) {\n\t\tthis.language = lang;\n\t\t}`;
+    private profileImageChange = `onSelectFile(event:any) {
+		\n\t\tlet image = event.target.files[0];
+		\n\t\tif (event.target.files && event.target.files[0]) {
+			\n\t\tlet formData = new FormData();
+			\n\t\tvar reader = new FileReader();
+			\n\t\treader.readAsDataURL(event.target.files[0]); // read file as data url
+			\n\t\treader.onload = (event:any) => { // called once readAsDataURL is completed
+				\n\t\tthis.url = event.target.result;
+                \n\t\t}
+                \n\t\t}
+                \n\t\tif(image){
+                    \n\t\talert('* confirm u can upload click ok');
+                    \n\t\tconst endpoint = this.loginService.uploadImgFile();
+                    \n\t\tconst formData: FormData = new FormData();
+                    \n\t\tformData.append('fileKey', image, image.name);
+                    \n\t\tfetch(endpoint, {
+                        \n\t\tmethod: 'POST',
+                        \n\t\tbody: formData
+                        \n\t\t}).then( res => res.json() ).then((resultData:any) => {
+                            \n\t\tlet userImage = \`\${this.sharedService.UPLOAD_API}/\${resultData}\`;
+                            \n\t\tvar imgJson = {
+                                \n\t\tavatar: userImage,
+                                \n\t\tid: sessionStorage.getItem('Id')
+                                \n\t\t}
+                                \n\t\tthis.userService.UpdateUserImg(imgJson).subscribe((response) => {
+                                    \n\t\tsessionStorage.removeItem('Image');
+                                    \n\t\tsessionStorage.setItem('Image', response.avatar); 
+                                    \n\t\tthis.ngOnInit();
+                                    \n\t\t})
+                                    \n\t\t})
+                                    \n\t\t}
+                                    \n\t\t}`;
     private isAppModule = {
         declaration: false,
         imports: false,
@@ -105,8 +140,8 @@ export class FrontendWorker {
     private authPackageDependency = [
         `   "rxjs-compat": "6.5.2",`,
         `   "@auth0/angular-jwt": "2.1.2",`,
-        `   "ag-grid-angular": "^20.0.0",`,
-        `   "ag-grid-community": "^20.0.0",`,
+        `   "ag-grid-angular": "^26.0.0",`,
+        `   "ag-grid-community": "^26.0.0",`,
         `   "angular-i18next": "^7.0.0",`,
         `   "angular-validation-message-i18next": "^1.2.0",`,
         `   "i18next": "^17.0.14",`,
@@ -239,10 +274,20 @@ export class FrontendWorker {
     // create authorization component from seed files
     async createAuthorizationComponent(callback) {
         const authorizationPath = `${this.projectGenerationPath}/src/app/${this.AUTHORIZATION_FOLDERNAME}`;
-        await this.generateStaticComponent(authorizationPath, this.AUTHORIZATION_FOLDERNAME, () => {
-          this.generateModule(this.AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, authorizationPath, () => {
-            callback();
-          });
+        const updateauthorizationPath = `${authorizationPath}/${this.UPDATE_AUTHORIZATION_FOLDERNAME}`;
+        const buttonRenderedApplicationPath = `${authorizationPath}/${this.BUTTON_RENDERED_FOLDERNAME}`;
+        await this.generateStaticComponent(authorizationPath, this.AUTHORIZATION_FOLDERNAME, async () => {
+            await this.generateStaticComponent(updateauthorizationPath, this.UPDATE_AUTHORIZATION_FOLDERNAME, async () => {
+                await this.generateStaticComponent(buttonRenderedApplicationPath, this.BUTTON_RENDERED_FOLDERNAME, () => {
+                    this.generateModule(this.AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, authorizationPath, () => {
+                        this.generateModule(this.UPDATE_AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, updateauthorizationPath, () => {
+                            this.generateModule(this.BUTTON_RENDERED_FOLDERNAME, this.MODULE_TEMPLATENAME, buttonRenderedApplicationPath, () => {
+                                callback();
+                            });
+                        });
+                    });
+                });
+            });
         });
     }
 
@@ -372,6 +417,8 @@ export class FrontendWorker {
         let loginSeedPath;
         if (folderName === 'profilesettings' || folderName === 'button-renderer') {
             loginSeedPath = `${this.seedPath}/user/${folderName}`;
+        } else if (folderName === 'updateauthorization' || folderName === 'button-rendered') {
+            loginSeedPath = `${this.seedPath}/authorization/${folderName}`;
         } else {
             loginSeedPath = `${this.seedPath}/${folderName}`;
         }
@@ -411,8 +458,8 @@ export class FrontendWorker {
 
     async generateModule(folderName, templateName, applicationPath, callback) {
         let fileName;
-        if (folderName !== 'button-renderer') {
-            if (folderName !== 'profilesettings') {
+        if (folderName !== 'button-renderer' && folderName !== 'button-rendered') {
+            if (folderName !== 'profilesettings' && folderName !== 'updateauthorization') {
                 fileName = `${folderName}.${this.MODULE_NAME}.ts`;
             }
         }
@@ -423,8 +470,8 @@ export class FrontendWorker {
         // app module dependency
         // this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
         // this.appModuleInfo.imports.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)}`);
-        if (folderName !== 'profilesettings') {
-            if (folderName !== 'button-renderer') {
+        if (folderName !== 'profilesettings' && folderName !== 'updateauthorization') {
+            if (folderName !== 'button-renderer' && folderName !== 'button-rendered') {
                 if (this.appModuleInfo.importDependency.findIndex(x => x == `import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`) < 0) {
                     this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
                     this.appModuleInfo.imports.push(`${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)}`);
@@ -456,8 +503,8 @@ export class FrontendWorker {
             entryComponents: null,
             className: folderName.charAt(0).toUpperCase() + folderName.slice(1)
         }
-        if (folderName !== 'profilesettings') {
-            if (folderName !== 'button-renderer') {
+        if (folderName !== 'profilesettings' && folderName !== 'updateauthorization') {
+            if (folderName !== 'button-renderer' && folderName !== 'button-rendered') {
                 temp.importDependency.push({ dependencyname: 'NgModule', dependencyPath: '@angular/core' });
                 temp.importDependency.push({ dependencyname: 'CommonModule', dependencyPath: '@angular/common' });
                 temp.importDependency.push({ dependencyname: 'FormsModule, ReactiveFormsModule', dependencyPath: '@angular/forms' });
@@ -476,6 +523,11 @@ export class FrontendWorker {
                     tempDeclarations.push(`ButtonRendererComponent`);
                     tempEntryComponents.push(`ButtonRendererComponent`)
                 }
+                if (folderName === 'authorization') {
+                    temp.importDependency.push({ dependencyname: `UpdateauthorizationComponent`, dependencyPath: `./authorization/updateauthorization/updateauthorization.component` });
+
+                    tempDeclarations.push(`UpdateauthorizationComponent`);
+                }
                 tempImports.push(`CommonModule`);
                 tempImports.push(`FormsModule`);
                 tempImports.push(`ReactiveFormsModule`);
@@ -490,19 +542,24 @@ export class FrontendWorker {
             }
         }
         // app routing module
-        if (folderName !== 'button-renderer') {
+        if (folderName !== 'button-renderer' && folderName !== 'button-rendered' ) {
             if (this.routingModuleInfo.importDependency.findIndex(x => x == `import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`) < 0) {
                 // if (folderName == this.LOGIN_FOLDERNAME) {
                 //     this.routingModuleInfo.path.push(`{ path: '', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, pathMatch: 'full' }`);
                 // }
                 if (folderName === 'profilesettings') {
                     this.routingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './user/${folderName}/${folderName}.component';`);
-                } else {
+                } else if(folderName !== 'updateauthorization'){
                     this.routingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './${folderName}/${folderName}.component';`);
+                }
+                if (folderName === 'updateauthorization') {
+                    this.routingModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component } from './authorization/${folderName}/${folderName}.component';`);
                 }
                 if (folderName === 'profilesettings') {
                     let pathName = folderName.split('settings')[0]
                     this.routingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
+                } else if (folderName === 'updateauthorization') {
+                    this.routingModuleInfo.path.push(`{ path: '${folderName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
                 } else if (folderName === 'user') {
                     let pathName = `${folderName}management`
                     this.routingModuleInfo.path.push(`{ path: '${pathName}', component: ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}Component, canActivate: [${this.AUTH_GUARD_FILENAME}] }`);
@@ -523,8 +580,8 @@ export class FrontendWorker {
                 }    
             }
         }
-        if (folderName !== 'button-renderer') {
-            if (folderName !== 'profilesettings') {
+        if (folderName !== 'button-renderer' && folderName !== 'button-rendered') {
+            if (folderName !== 'profilesettings' && folderName !== 'updateauthorization') {
                 this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp, () => {
                     callback();
                 });
@@ -587,6 +644,8 @@ export class FrontendWorker {
             modifyFile.splice(importIndex + 1, 0, `import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';`)
             modifyFile.splice(importIndex + 2, 0, `import { ${this.LOGIN_FOLDERNAME.charAt(0).toUpperCase() + this.LOGIN_FOLDERNAME.slice(1).toLowerCase()}Service } from '../${this.LOGIN_FOLDERNAME.toLowerCase()}/${this.LOGIN_FOLDERNAME.toLowerCase()}.service';`)
             modifyFile.splice(importIndex + 3, 0, `import { ${this.BROADCAST_FOLDERNAME.charAt(0).toUpperCase() + this.BROADCAST_FOLDERNAME.slice(1).toLowerCase()}Service } from '../${this.AUTH_FOLDERNAME.toLowerCase()}/${this.BROADCAST_FOLDERNAME.toLowerCase()}.service';`)
+            modifyFile.splice(importIndex + 2, 0, `import { ${this.SHARED_FOLDER.charAt(0).toUpperCase() + this.SHARED_FOLDER.slice(1).toLowerCase()}Service } from '../../${this.SHARED_FOLDER.toLowerCase()}/${this.SHARED_FOLDER.toLowerCase()}.service';`)
+            modifyFile.splice(importIndex + 3, 0, `import { ${this.USER_FOLDERNAME.charAt(0).toUpperCase() + this.USER_FOLDERNAME.slice(1).toLowerCase()}Service } from '../${this.USER_FOLDERNAME.toLowerCase()}/${this.USER_FOLDERNAME.toLowerCase()}.service';`)
         }
         let constructorIndex = modifyFile.findIndex(x => /constructor.*/.test(x));
         if (constructorIndex > -1) {
@@ -595,13 +654,18 @@ export class FrontendWorker {
                 `@Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService`,
                 `private router: Router`,
                 `private ${this.LOGIN_FOLDERNAME.toLowerCase()}Service: ${this.LOGIN_FOLDERNAME.charAt(0).toUpperCase() + this.LOGIN_FOLDERNAME.slice(1).toLowerCase()}Service`,
-                `public ${this.BROADCAST_FOLDERNAME.toLowerCase()}Service: ${this.BROADCAST_FOLDERNAME.charAt(0).toUpperCase() + this.BROADCAST_FOLDERNAME.slice(1).toLowerCase()}Service`
+                `public ${this.BROADCAST_FOLDERNAME.toLowerCase()}Service: ${this.BROADCAST_FOLDERNAME.charAt(0).toUpperCase() + this.BROADCAST_FOLDERNAME.slice(1).toLowerCase()}Service`,
+                `private ${this.SHARED_FOLDER.toLowerCase()}Service: ${this.SHARED_FOLDER.charAt(0).toUpperCase() + this.SHARED_FOLDER.slice(1).toLowerCase()}Service`,
+                `public ${this.USER_FOLDERNAME.toLowerCase()}Service: ${this.USER_FOLDERNAME.charAt(0).toUpperCase() + this.USER_FOLDERNAME.slice(1).toLowerCase()}Service`
             ];
             modifyFile.splice(constructorIndex + 1, 0, temp.join(',\n'));
 
             // variable declarations
             const tempVariable = [
                 `public isAdminUser = false`,
+                `public UserName:any = ''`,
+                `public images:any`,
+                `public url:any = ''`,
                 `mysubscription: any`,
                 `public authArray: any`,
                 `public userId: string | null = ''`,
@@ -644,6 +708,7 @@ export class FrontendWorker {
                 modifyFile.splice(methodCount, 0, this.onCloseHandled);
                 modifyFile.splice(methodCount, 0, this.changeLanguage);
                 modifyFile.splice(methodCount, 0, this.updateLangChange);
+                modifyFile.splice(methodCount, 0, this.profileImageChange);
             } else if(label.includes('AngularV12')) {
                 modifyFile.splice(methodCount, 0, this.logoutMethodV12);
                 modifyFile.splice(methodCount, 0, this.isApplicableMethodV12);
@@ -652,6 +717,7 @@ export class FrontendWorker {
                 modifyFile.splice(methodCount, 0, this.onCloseHandled);
                 modifyFile.splice(methodCount, 0, this.changeLanguageV12);
                 modifyFile.splice(methodCount, 0, this.updateLangChange);
+                modifyFile.splice(methodCount, 0, this.profileImageChange);
             } else if(label.includes('AngularV13')) {
                 modifyFile.splice(methodCount, 0, this.logoutMethodV13);
                 modifyFile.splice(methodCount, 0, this.isApplicableMethodV13);
@@ -660,6 +726,7 @@ export class FrontendWorker {
                 modifyFile.splice(methodCount, 0, this.onCloseHandled);
                 modifyFile.splice(methodCount, 0, this.changeLanguageV13);
                 modifyFile.splice(methodCount, 0, this.updateLangChange);
+                modifyFile.splice(methodCount, 0, this.profileImageChange);
             } else {
                 modifyFile.splice(methodCount, 0, this.logoutMethod);
                 modifyFile.splice(methodCount, 0, this.isApplicableMethod);
@@ -668,6 +735,7 @@ export class FrontendWorker {
                 modifyFile.splice(methodCount, 0, this.onCloseHandled);
                 modifyFile.splice(methodCount, 0, this.changeLanguage);
                 modifyFile.splice(methodCount, 0, this.updateLangChange);
+                modifyFile.splice(methodCount, 0, this.profileImageChange);
             }
         }
         // let count = modifyFile.length - 1;

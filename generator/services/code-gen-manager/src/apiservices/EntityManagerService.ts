@@ -1,11 +1,11 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 export class EntityManagerService {
 
     getEntityById(entityId, callback) {
         console.log('getEntity by id ----- ', entityId);
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/entity/get/${entityId}`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/entity/get/${entityId}`).then(
             data => {
                 callback(data);
             }

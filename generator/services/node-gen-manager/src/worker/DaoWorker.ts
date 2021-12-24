@@ -30,7 +30,7 @@ export class DaoWorker {
             path: 'node-fetch'
         },
         {
-            name: '{ ApiAdaptar }',
+            name: '{ ApiAdapter }',
             path: '../config/apiAdapter'
         },
         {
@@ -332,7 +332,7 @@ export class DaoWorker {
                 name: '',
                 path: ''
             }
-            tempImport.name = `{ ApiAdaptar }`;
+            tempImport.name = `{ ApiAdapter }`;
             tempImport.path = `../config/apiAdapter`;
             this.tempDao.GpStart.dependencies.push(tempImport);
         }
