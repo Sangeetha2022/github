@@ -1,5 +1,5 @@
 authguard(object) ::= <<
- import { Injectable, Output, EventEmitter, Input, ElementRef } from '@angular/core';
+ import { Injectable, Output, EventEmitter, Input } from '@angular/core';
 import {
   CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, GuardsCheckStart, GuardsCheckEnd
 } from '@angular/router';
@@ -7,15 +7,13 @@ import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { BroadcastService } from './broadcast.service';
 import { filter } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-
+//import 'rxjs/add/operator/filter';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
 
- 
   @Output() getPermission = new EventEmitter();
   public jwtToken: any;
   public accessRoutes: any;
@@ -25,14 +23,8 @@ export class AuthGuard implements CanActivate {
   public checkAdmin: any;
   public landingPageObject: any;
   public projectScreen: any;
-  public samplescreen: any;
-  public adminscreen: any;
-  public userscreen: any;
-  public sefscreen: any;
   public userId: any;
   public permissions: any[] = [];
-  public user_scr_permissions: any[] = [];
-  public admin_scr_permissions: any[] = [];
   public adminpermission: any = [];
   public userpermission: any = [];
   public devpermission: any = [];
@@ -46,130 +38,57 @@ export class AuthGuard implements CanActivate {
     this.broadcastService.currentUserName.subscribe(authGuardValue => {
       // @ts-ignore
       this.accessRoutes = authGuardValue.Access;
-      console.log('access routes', this.accessRoutes);
     });
+
     this.route.events.pipe(filter((value: any) => value instanceof GuardsCheckStart)).subscribe((value: GuardsCheckStart) => {
       this.routeName = value.url.split('/');
     });
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean  {
-     console.log('------loggedvalue----', state.url);
-     
-     return this.checkLoogedIn1(state.url);
-  }
-  sefscreen:any;
-  checkLoogedIn1(url: String ) {
-    this.routeName = url.split('/');
-    console.log('checkLoogedIn', url);
-    
-    console.log('this.routeName checkLoogedIn', this.routeName);
-    this.userId = sessionStorage.getItem('Id');
-    if (this.userId !== null) {
-      console.log("inside if user id");
-      this.jwtToken = sessionStorage.getItem('JwtToken');
-      const helper = new JwtHelperService();
-      const decodedToken = helper.decodeToken(this.jwtToken);
-      console.log('decodedToken', decodedToken);
-      this.userRole = decodedToken.role;
-      console.log('this.userRole', this.userRole);
-      this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '');
-      console.log('this.accessRoutes', this.accessRoutes);
-    
-    
-      this.accessRoutes[0].access.forEach((element:any) => {
-        if (this.userRole === 'User' && element['user']) {
-          const User = element['user'];
-          const useraccess = User['value'];
-          console.log("useraccess",useraccess);
-          const sef_screen = useraccess['sefscreen'];
-          
-          sef_screen.forEach((access: { access: { value: any; }; components: any; }) => {
-            this.sefscreen={
-               'Components': access.components
-            };
-          });
-          
-          for(let i = 0; i < User['screens'].length; i++) {
-            this.user_scr_permissions.push(User['screens'][i].screenname);
-            this.user_scr_permissions = this.user_scr_permissions.filter((item, index) => this.user_scr_permissions.indexOf(item) === index);
-          }
-           this.broadcastService.sendMessage({ 'sef_screen': this.sefscreen, 'screens': this.user_scr_permissions });
-        }
-        if (this.userRole === 'Admin' && element['admin']) {
-          const Admin = element['admin'];
-          const adminaccess = Admin['value'];
-          console.log("useraccess",adminaccess);
-          const sef_screen = adminaccess['sefscreen'];
-          
-          sef_screen.forEach((access: { access: { value: any; }; components: any; }) => {
-            this.sefscreen={
-              'Components': access.components
-            };
-          });
-          
-          for(let i = 0; i < Admin['screens'].length; i++) {
-            this.admin_scr_permissions.push(Admin['screens'][i].screenname);
-            this.admin_scr_permissions = this.admin_scr_permissions.filter((item, index) => this.admin_scr_permissions.indexOf(item) === index);
-          }
-          this.broadcastService.sendMessage({ 'sef_screen': this.sefscreen,'screens': this.admin_scr_permissions });
-        }
-    
-    
-       
-       });
 
-      
-      return true;
-    }
-    
-    else{
-      if(this.accessRoutes) {
-        this.permissions = []
-        this.accessRoutes.forEach((route: any) => {
-          console.log("kk",route);
-          
-          })
-        
-        }
-    }
-
-    return false;
-  
+ canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    // console.log('------loggedvalue----', state.url);
+    return this.checkLoogedIn(state.url);
   }
-  checkLoogedIn(url: String ) {
+  checkLoogedIn(url: String) {
     this.routeName = url.split('/');
-    console.log('checkLoogedIn', url);
-    console.log('this.routeName checkLoogedIn', this.routeName);
     this.userId = sessionStorage.getItem('Id');
     if (this.userId !== null) {
       this.jwtToken = sessionStorage.getItem('JwtToken');
       const helper = new JwtHelperService();
       const decodedToken = helper.decodeToken(this.jwtToken);
-      console.log('decodedToken', decodedToken);
       this.userRole = decodedToken.role;
-      console.log('this.userRole', this.userRole);
       this.accessRoutes = JSON.parse(sessionStorage.getItem('Access') || '');
-      console.log('this.accessRoutes', this.accessRoutes);
+
       if (this.accessRoutes) {
         if (this.routeName && this.routeName[1].includes('?')) {
           this.routeName = this.routeName[1].split('?');
           this.routeName[1] = this.routeName[0];
         }
-        this.accessRoutes.forEach((element: any) => {
+        this.accessRoutes.forEach((element:any) => {
           this.permissions = [];
           if (this.userRole) {
-            console.log('this.userRole', this.userRole);
-            console.log('element', element);
-            if(element.role === this.userRole) {
-              console.log('You are login with role', this.userRole);
-              for(let i = 0; i < element.screens.length; i++) {
-                this.permissions.push(element.screens[i].screenname);
-                this.routearray.push(element.screens[i].screenname);
-                this.routearray = this.routearray.filter((item, index) => this.routearray.indexOf(item) === index)
-                this.permissions = this.permissions.filter((item, index) => this.permissions.indexOf(item) === index)
+            this.userRole=this.userRole.toLowerCase();
+            //const permissionlevel = JSON.parse(element[this.userRole].value);
+            const permissionlevel = element.access[0];
+            for (let key in permissionlevel) {
+              //const accessvalue = permissionlevel[key];
+              const accessvalue = Object.keys(permissionlevel);
+              for (let role of accessvalue) {
+                if (role == this.userRole) {
+                  //if (accessvalue[0][role].value == 'true') {
+                    for (let i = 0; i < this.route.config.length; i++) {
+                      var screen = Object.keys(permissionlevel[this.userRole].value);
+                      //this.viewPermission = accessvalue[0][role].value;
+                      this.permissions.push(screen[i]);
+                      this.routearray.push(screen[i]);
+                      this.routearray = this.routearray.filter((item, index) => this.routearray.indexOf(item) === index)
+                      this.permissions = this.permissions.filter((item, index) => this.permissions.indexOf(item) === index)
+                    }
+                    this.broadcastService.sendMessage({ role: this.permissions });
+                  //}
+                }
               }
-              this.broadcastService.sendMessage({ role: this.permissions })
             }
           }
         });
@@ -178,31 +97,12 @@ export class AuthGuard implements CanActivate {
         }
         return this.routearray.filter(routevalue => routevalue === this.routeName[1]).length > 0;
       }
+      
     } else {
-      if(this.accessRoutes) {
-        this.permissions = []
-        this.accessRoutes.forEach((route: any) => {
-          if(route.role === 'Guest') {
-            for(let i = 0; i < route.screens.length; i++) {
-              this.permissions.push(route.screens[i].screenname);
-              this.routearray.push(route.screens[i].screenname);
-              this.routearray = this.routearray.filter((item, index) => this.routearray.indexOf(item) === index)
-              this.permissions = this.permissions.filter((item, index) => this.permissions.indexOf(item) === index)
-            }
-            this.broadcastService.sendMessage({ role: this.permissions })
-          }
-        })
-        console.log('this.routeName', this.routeName);
-        return this.routearray.filter(routevalue => routevalue === this.routeName[1]).length > 0;
-      }
-      else {
-        this.route.navigate(['/sefscreen']);
-        return false;
-      }
+      this.route.navigate(['/sefscreen']);
+      return false;
     }
     return false;
   }
 }
-
-
 >>

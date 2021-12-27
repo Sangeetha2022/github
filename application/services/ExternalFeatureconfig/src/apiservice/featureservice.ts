@@ -1,11 +1,11 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/Sharedservice';
 
 export class FeatureManagerservice {
 
     Createfeature(body,callback) {
 
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/feature/save`, body).then(
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/feature/save`, body).then(
             data => {
                 callback(data);
             }

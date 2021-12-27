@@ -2,7 +2,7 @@
 import * as express from "express";
 import { Request, Response } from 'express';
 import  {Constants} from '../config/Constants';
-import { ApiAdaptar } from '../config/apiAdaptar';
+import { ApiAdapter } from '../config/apiAdapter';
 import Controller from '../interfaces/controller.interface';
 import { EntityController } from './entity.controller';
 
@@ -37,7 +37,7 @@ class FeatureController implements Controller {
 
     public async saveFeature(req: Request, res: Response) {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().post(`${Constants.featureUrl}/feature/save` + `?log_id=${req.query.log_id}`, req.body));
+            let feature = await Promise.resolve(new ApiAdapter().post(`${Constants.featureUrl}/feature/save` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         } catch (err) {
@@ -48,7 +48,7 @@ class FeatureController implements Controller {
 
     public async saveDefaultFeature(req: Request, res: Response) {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/default/save?projectId=${req.query.projectId}` + `&log_id=${req.query.log_id}`));
+            let feature = await Promise.resolve(new ApiAdapter().get(`${Constants.featureUrl}/feature/default/save?projectId=${req.query.projectId}` + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         } catch (err) {
@@ -59,7 +59,7 @@ class FeatureController implements Controller {
 
     public async updateFeature(req: Request, res: Response) {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().put(`${Constants.featureUrl}/feature/update` + `?log_id=${req.query.log_id}`, req.body));
+            let feature = await Promise.resolve(new ApiAdapter().put(`${Constants.featureUrl}/feature/update` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         } catch (err) {
@@ -70,7 +70,7 @@ class FeatureController implements Controller {
 
     public async getAllFeature(req: Request, res: Response) {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/getall` + `?log_id=${req.query.log_id}`));
+            let feature = await Promise.resolve(new ApiAdapter().get(`${Constants.featureUrl}/feature/getall` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         } catch(err) {
@@ -82,7 +82,7 @@ class FeatureController implements Controller {
 
     public getFeatureById = async (req: Request, res: Response) => {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/get?featureId=${req.query.featureId}` + `&log_id=${req.query.log_id}`));
+            let feature = await Promise.resolve(new ApiAdapter().get(`${Constants.featureUrl}/feature/get?featureId=${req.query.featureId}` + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         } catch(err) {
@@ -94,7 +94,7 @@ class FeatureController implements Controller {
 
     public async deleteFeature(req: Request, res: Response) {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().delete(`${Constants.featureUrl}/feature/delete?featureId=${req.query.featureId}` + `&log_id=${req.query.log_id}`));
+            let feature = await Promise.resolve(new ApiAdapter().delete(`${Constants.featureUrl}/feature/delete?featureId=${req.query.featureId}` + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         } catch(err) {
@@ -105,7 +105,7 @@ class FeatureController implements Controller {
 
     public async deleteProjectFeature(req: Request, res: Response) {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().delete(`${Constants.featureUrl}/feature/deletebyproject/${req.params.id}`+ `?log_id=${req.query.log_id}`));
+            let feature = await Promise.resolve(new ApiAdapter().delete(`${Constants.featureUrl}/feature/deletebyproject/${req.params.id}`+ `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         } catch(err) {
@@ -117,7 +117,7 @@ class FeatureController implements Controller {
 
     public async getFeatureByProjectId(req: Request, res: Response) {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/project/get?projectId=${req.query.projectId}` + `&log_id=${req.query.log_id}`));
+            let feature = await Promise.resolve(new ApiAdapter().get(`${Constants.featureUrl}/feature/project/get?projectId=${req.query.projectId}` + `&log_id=${req.query.log_id}`));
             res.send(feature);
         } catch(err) {
             req.baseUrl === '/mobile' ? res.send(err) :
@@ -128,7 +128,7 @@ class FeatureController implements Controller {
 
     public async featureUpdateEntity(req: Request, res: Response) {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().put(`${Constants.featureUrl}/feature/updateEntity/${req.params.featureId}` + `?log_id=${req.query.log_id}`, req.body));
+            let feature = await Promise.resolve(new ApiAdapter().put(`${Constants.featureUrl}/feature/updateEntity/${req.params.featureId}` + `?log_id=${req.query.log_id}`, req.body));
             res.send(feature);
         } catch (err) {
             req.baseUrl === '/mobile' ? res.send(err) :
@@ -139,7 +139,7 @@ class FeatureController implements Controller {
 
     public async featuredeleteEntity(req: Request, res: Response) {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().delete(`${Constants.featureUrl}/feature/deleteentity/${req.params.featureId}/${req.params.entityid}` + `?log_id=${req.query.log_id}`));
+            let feature = await Promise.resolve(new ApiAdapter().delete(`${Constants.featureUrl}/feature/deleteentity/${req.params.featureId}/${req.params.entityid}` + `?log_id=${req.query.log_id}`));
             res.send(feature);
         } catch(err) {
             req.baseUrl === '/mobile' ? res.send(err) :
@@ -149,7 +149,7 @@ class FeatureController implements Controller {
 
     public async flowcopy(req: Request, res: Response) {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().post(`${Constants.featureUrl}/feature/copyFlows` + `?log_id=${req.query.log_id}`, req.body));
+            let feature = await Promise.resolve(new ApiAdapter().post(`${Constants.featureUrl}/feature/copyFlows` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         } catch (err) {
@@ -160,7 +160,7 @@ class FeatureController implements Controller {
 
     public async updateFeatureEntity(req: Request, res: Response) {
         try {
-            let feature = await Promise.resolve(new ApiAdaptar().put(`${Constants.featureUrl}/feature/update/entity?featureId=${req.query.featureId}` + `&log_id=${req.query.log_id}`, req.body));
+            let feature = await Promise.resolve(new ApiAdapter().put(`${Constants.featureUrl}/feature/update/entity?featureId=${req.query.featureId}` + `&log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(feature) :
                 req.baseUrl === '/desktop' ? res.send(feature) : res.send(null);
         } catch (err) {
@@ -171,7 +171,7 @@ class FeatureController implements Controller {
 
     public async getallcopyflow(req: Request, res: Response) {
         try {
-            let copyflowlist = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/getallcopyflow` + `?log_id=${req.query.log_id}`));
+            let copyflowlist = await Promise.resolve(new ApiAdapter().get(`${Constants.featureUrl}/feature/getallcopyflow` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(copyflowlist) :
                 req.baseUrl === '/desktop' ? res.send(copyflowlist) : res.send(null);
         } catch(err){
@@ -182,7 +182,7 @@ class FeatureController implements Controller {
 
     public async getAllEntityByFeatureID(req: Request , res: Response) {
         try {
-            let entityList = await Promise.resolve(new ApiAdaptar().get(`${Constants.featureUrl}/feature/${req.params.id}/entity` + `?log_id=${req.query.log_id}`));
+            let entityList = await Promise.resolve(new ApiAdapter().get(`${Constants.featureUrl}/feature/${req.params.id}/entity` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(entityList) :
                 req.baseUrl === '/desktop' ? res.send(entityList) : res.send(null);
         } catch(err){

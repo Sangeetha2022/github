@@ -33,6 +33,8 @@ export class AuthService {
          gcamPath:'',
          systemCredsManagerPath: '',
          systemCredsManagerFolder: '',
+         gepFileManagerPath: '',
+         gepFileManagerFolder: '',
         camundaPath: '',
         apigatewaypath: '',
         FrontendLogin: '',
@@ -55,6 +57,7 @@ export class AuthService {
         authProxy: 8001,
         system_credential: 8005,
         gcam: 8007,
+        gepfilemanager: 3015
     }
     // templateName
     private SERVER_TEMPLATENAME = 'server_file';
@@ -68,9 +71,10 @@ export class AuthService {
     private SECURITY_FOLDERNAME = 'securitymanager';
     private SYSTEM_CREDENTIAL_MANAGER = 'systemcredentialmanager';
     private GCAM_FOLDERNAME = 'gcam';
+    private GEP_FILE_MANAGER = 'gepfilemanager';
 
     public async auth(req: Request, callback) {
-         console.log('path ---- >>>', req.query.projectName);
+         console.log('path ---- >>>', req.query.projectName, req);
         this.sourcePath = this.authGenFiles.projectpath = req.query.projectPath;
         this.authGenFiles.templatepath = req.query.authTemplate;
          this.authGenFiles.pathFile = req.query.authPath;
@@ -105,7 +109,9 @@ export class AuthService {
         this.authGenFiles.proxyFolder = this.sourcePath + `/authproxy`;
         this.authGenFiles.camundaFolder = this.sourcePath + `/${this.CAMUNDA_FOLDERNAME}`;
         this.authGenFiles.systemCredsManagerFolder = this.sourcePath + `/${this.SYSTEM_CREDENTIAL_MANAGER}`;
-        this.authGenFiles.gcamFolder = this.sourcePath + `/${this.GCAM_FOLDERNAME}`
+        this.authGenFiles.gcamFolder = this.sourcePath + `/${this.GCAM_FOLDERNAME}`;
+        this.authGenFiles.gepFileManagerPath = `${this.authGenFiles.pathFile}/${this.GEP_FILE_MANAGER}`;
+        this.authGenFiles.gepFileManagerFolder = this.sourcePath + `/${this.GEP_FILE_MANAGER}`;
 
         console.log(" this.authGenFiles.pathFile", this.authGenFiles.pathFile);
         console.log(" this.authGenFiles.authProxyPath", this.authGenFiles.authProxyPath);
@@ -133,6 +139,11 @@ export class AuthService {
                 this.createFolder();
                 console.log("----->",this.credentialManagerService);
                 this.credentialManagerService(callback);
+            }
+            if(this.authGenFiles.gepFileManagerPath) {
+                this.createFolder();
+                console.log("----->",this.gepfileManagerService);
+                this.gepfileManagerService(callback);
             }
             if (this.authGenFiles.gcamPath) {
                 this.createFolder();
@@ -167,6 +178,11 @@ export class AuthService {
                 fs.mkdirSync(this.authGenFiles.systemCredsManagerFolder);
             }
         }
+        if (this.authGenFiles.gepFileManagerPath) {
+            if (!fs.existsSync(this.authGenFiles.gepFileManagerFolder)) {
+                fs.mkdirSync(this.authGenFiles.gepFileManagerFolder);
+            }
+        }
         if (this.authGenFiles.gcamPath) {
             if (!fs.existsSync(this.authGenFiles.gcamFolder)) {
                 fs.mkdirSync(this.authGenFiles.gcamFolder);
@@ -194,6 +210,31 @@ export class AuthService {
             }
             console.log('system credential generation folder are ------before authProxyPath---------   ', this.authGenFiles);
             this.generateServerFile(`${this.authGenFiles.systemCredsManagerFolder}/src`, this.authGenFiles.templatepath,
+                this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
+            console.log('code added.....');
+        });
+    }
+
+    // GEPFile Manager
+    public async gepfileManagerService(callback) {
+        console.log("scm",this.authGenFiles.gepFileManagerPath);
+        console.log("scm",this.authGenFiles.gepFileManagerFolder);
+        ncp.limit = 16;
+        ncp(this.authGenFiles.gepFileManagerPath, this.authGenFiles.gepFileManagerFolder, { clobber: false }, (err) => {
+            console.log("path---->",this.authGenFiles.gepFileManagerPath);
+            console.log("path---->",this.authGenFiles.gepFileManagerFolder);
+            if (err) {
+                console.error('---error occured in the ncp of system credential feature----', err);
+            }
+            const temp = {
+                port: this.ports.system_credential,
+                projectName: this.projectName.toLowerCase(),
+                databaseName: this.projectName.toLowerCase(),
+                isDmnFile: false,
+                isSeed: false
+            }
+            console.log('system credential generation folder are ------before authProxyPath---------   ', this.authGenFiles);
+            this.generateServerFile(`${this.authGenFiles.gepFileManagerFolder}/src`, this.authGenFiles.templatepath,
                 this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
             console.log('code added.....');
         });

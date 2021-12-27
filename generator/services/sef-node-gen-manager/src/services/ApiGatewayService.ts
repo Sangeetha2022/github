@@ -265,7 +265,7 @@ export class ApiGatewayService {
         controllerObj.import.push({ name: '* as express', path: 'express' });
         controllerObj.import.push({ name: '{ Request, Response }', path: 'express' });
         controllerObj.import.push({ name: `* as ${this.constantObj.className}`, path: `../config/${this.constantObj.className}` });
-        controllerObj.import.push({ name: '{ ApiAdaptar } ', path: '../config/apiAdapter' });
+        controllerObj.import.push({ name: '{ ApiAdapter } ', path: '../config/apiAdapter' });
         controllerObj.import.push({ name: 'Controller', path: '../interface/controller.interface' });
 
         if (element.hasOwnProperty('import') &&

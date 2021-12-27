@@ -4,7 +4,7 @@ import { GepFileManagerService } from '../apiservices/GepFileManagerService';
 import { EntityManagerService } from '../apiservices/EntityManagerService';
 import { FeatureManagerService } from '../apiservices/FeatureManagerService'
 const newman = require('newman');
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import * as asyncLoop from 'node-async-loop';
 
 const quickConnectorsDao = new QuickConnectorsDao();

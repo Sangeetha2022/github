@@ -1,10 +1,10 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 export class MenuBuilderManagerService {
 
     getMenuByProjectId(projectId, callback) {
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/menu/getbyprojectid/${projectId}`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/menu/getbyprojectid/${projectId}`).then(
             data => {
                 callback(data);
             }

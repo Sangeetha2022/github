@@ -1,4 +1,4 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 // import * as Constants from '../config/Constants';
 
@@ -6,7 +6,7 @@ export class SefNodeGenManagerService {
 
     generateSefNode(details, callback) {
         console.log('details------------', details, `${SharedService.apiGatewayURL}/desktop/sefnode/project`);
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/sefnode/project`, details).then(
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/sefnode/project`, details).then(
             data => {
                 console.log('node response from sef', data);
                 callback(data);
@@ -18,7 +18,7 @@ export class SefNodeGenManagerService {
     }
 
     generateApiGateway(details, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/sefnode/apigateway/project`, details).then(
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/sefnode/apigateway/project`, details).then(
             data => {
                 callback(data);
             }

@@ -1,10 +1,10 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/Sharedservice';
 
 export class Loginmanagerservice {
 
     getallUser(callback) {
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/getallusers`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/getallusers`).then(
             data => {
                 callback(data);
             }
@@ -14,7 +14,7 @@ export class Loginmanagerservice {
     }
 
     getuserbyid(id,callback) {
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/getuser/${id}`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/getuser/${id}`).then(
             data => {
                 callback(data);
             }
@@ -25,7 +25,7 @@ export class Loginmanagerservice {
     }
 
     getallroles(callback) {
-        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/getallroles`).then(
+        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/getallroles`).then(
             data => {
                 callback(data);
             }
@@ -35,7 +35,7 @@ export class Loginmanagerservice {
     }
 
     Updateuser(body,callback) {
-        new ApiAdaptar().put(`${SharedService.apiGatewayURL}/desktop/updateuser`,body).then(
+        new ApiAdapter().put(`${SharedService.apiGatewayURL}/desktop/updateuser`,body).then(
             data => {
                 callback(data);
             }

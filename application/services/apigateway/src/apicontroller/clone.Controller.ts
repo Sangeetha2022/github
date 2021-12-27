@@ -2,7 +2,7 @@ import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../interfaces/controller.interface";
 import { Constants } from '../config/Constants';
-import { ApiAdaptar } from '../config/apiAdaptar';
+import { ApiAdapter } from '../config/apiAdapter';
 
 const fs = require("fs");
 const multiparty = require("multiparty");
@@ -21,7 +21,7 @@ class CloneController implements Controller {
 
     public async getCloneByProjectId(req: Request, res: Response) {
         try {
-            let response = await Promise.resolve(new ApiAdaptar().get(`${Constants.cloneUrl}/clone/getbyproject/` + req.params.id + `/user/`+ req.params.userid));
+            let response = await Promise.resolve(new ApiAdapter().get(`${Constants.cloneUrl}/clone/getbyproject/` + req.params.id + `/user/`+ req.params.userid));
             console.log("hit url in apigateway----------",response);
             req.baseUrl === '/mobile' ? res.send(response) :
                 req.baseUrl === '/desktop' ? res.send(response) : res.send(null);

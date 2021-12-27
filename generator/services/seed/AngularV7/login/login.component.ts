@@ -106,6 +106,13 @@ export class LoginComponent implements OnInit {
       password: this.loginform.value.logindata.password
     };
     this.loginservice.Login(logininfo).subscribe(logindetails => {
+      sessionStorage.setItem('Name', logindetails.Userdetails.firstname+" "+logindetails.Userdetails.lastname);
+      if(logindetails.Userdetails.avatar !== null){
+        sessionStorage.setItem('Image', logindetails.Userdetails.avatar);
+      }else {
+        let image = `../../assets/profile/${logindetails.Userdetails.firstname.length}.png`;
+        sessionStorage.setItem('Image', image);
+      }
       if (logindetails.Access !== undefined) {
         this.accessLevel = logindetails.Access[0];
         this.permission.push(this.accessLevel);

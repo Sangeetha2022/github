@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../../interfaces/controller.interface";
-import { ApiAdaptar } from '../../config/apiAdaptar';
+import { ApiAdapter } from '../../config/apiAdapter';
 import  {Constants} from '../../config/Constants';
 
 export class FrontendController implements Controller {
@@ -18,7 +18,7 @@ export class FrontendController implements Controller {
     }
 
     frontendProject(req: Request, res: Response) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${Constants.frontendGenUrl}/frontend/project`,
             req.body
         ).then((response) => {
@@ -29,7 +29,7 @@ export class FrontendController implements Controller {
     }
 
     frontendTemplateProject(req: Request, res: Response) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${Constants.frontendGenUrl}/frontend/template/project`,
             req.body
         ).then((response) => {
@@ -40,7 +40,7 @@ export class FrontendController implements Controller {
     }
 
     frontendIonicTemplateProject(req: Request, res: Response) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${Constants.frontendGenUrl}/frontend/template/ionic`,
             req.body
         ).then((response) => {

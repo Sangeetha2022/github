@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../../interfaces/controller.interface";
-import { ApiAdaptar } from '../../config/apiAdaptar';
+import { ApiAdapter } from '../../config/apiAdapter';
 import { Constants } from '../../config/Constants';
 
 export class ReactController implements Controller {
@@ -17,7 +17,7 @@ export class ReactController implements Controller {
 
     public async createProject(req: Request, res: Response) {
         try {
-            let response = await Promise.resolve(new ApiAdaptar().post(
+            let response = await Promise.resolve(new ApiAdapter().post(
                 `${Constants.reactgenUrl}/react/project`, req.body));
             res.send(response);
         } catch (err) {

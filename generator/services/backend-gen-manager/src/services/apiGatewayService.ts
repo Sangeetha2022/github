@@ -2,7 +2,7 @@ import { Request } from 'express';
 import * as fs from 'fs';
 import * as ncp from 'ncp';
 import { SharedService } from '../config/SharedService';
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { MicroFlowManagerService } from '../apiservices/MicroFlowManagerService';
 import { NodeGenManagerService } from '../apiservices/NodeGenManagerService';
 
@@ -10,7 +10,7 @@ export class ApiGatewayService {
     sharedService = new SharedService();
     nodeService = new NodeGenManagerService();
     microFlowService = new MicroFlowManagerService();
-    apiAdapter = new ApiAdaptar()
+    apiAdapter = new ApiAdapter()
     backend: String;
 
 

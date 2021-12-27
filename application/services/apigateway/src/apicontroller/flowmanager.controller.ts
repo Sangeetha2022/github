@@ -2,7 +2,7 @@
 import * as express from "express";
 import { Request, Response } from 'express';
 import  {Constants} from '../config/Constants';
-import { ApiAdaptar } from '../config/apiAdaptar';
+import { ApiAdapter } from '../config/apiAdapter';
 import Controller from '../interfaces/controller.interface';
 import { constants } from "crypto";
 
@@ -57,7 +57,7 @@ class FlowManagerController implements Controller {
 
     public async saveFlow(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flow/save` + `?log_id=${req.query.log_id}`, req.body));
+            let flow = await Promise.resolve(new ApiAdapter().post(`${Constants.flowUrl}/flow/save` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(flow) :
                     req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -68,7 +68,7 @@ class FlowManagerController implements Controller {
 
     public async updateFlow(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().put(`${Constants.flowUrl}/flow/update` + `?log_id=${req.query.log_id}`, req.body));
+            let flow = await Promise.resolve(new ApiAdapter().put(`${Constants.flowUrl}/flow/update` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -79,7 +79,7 @@ class FlowManagerController implements Controller {
 
     public async getAllFlow(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flow/getall` + `?log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().get(`${Constants.flowUrl}/flow/getall` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -90,7 +90,7 @@ class FlowManagerController implements Controller {
 
     public async getFlowById(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flow/get?flowId=${req.query.flowId}` + `&log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().get(`${Constants.flowUrl}/flow/get?flowId=${req.query.flowId}` + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -101,7 +101,7 @@ class FlowManagerController implements Controller {
 
     public async getProjectFlowById(req: Request, res: Response) {
         try {
-            let flow = await  Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flow/getprojectflowbyid/${req.params.id}` + `?log_id=${req.query.log_id}`));
+            let flow = await  Promise.resolve(new ApiAdapter().get(`${Constants.flowUrl}/flow/getprojectflowbyid/${req.params.id}` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -113,7 +113,7 @@ class FlowManagerController implements Controller {
 
     public async getFeatureFlows(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flow/feature/get` + `?log_id=${req.query.log_id}`, req.body));
+            let flow = await Promise.resolve(new ApiAdapter().post(`${Constants.flowUrl}/flow/feature/get` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -125,7 +125,7 @@ class FlowManagerController implements Controller {
 
     public async getFeatureFlowsByLanguage(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flow/feature/language/get?language=${req.query.language}` + `&log_id=${req.query.log_id}`, req.body));
+            let flow = await Promise.resolve(new ApiAdapter().post(`${Constants.flowUrl}/flow/feature/language/get?language=${req.query.language}` + `&log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -136,7 +136,7 @@ class FlowManagerController implements Controller {
 
     public async getFlowByProjectId(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flow/project/get?projectId=${req.query.projectId}` + `&log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().get(`${Constants.flowUrl}/flow/project/get?projectId=${req.query.projectId}` + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -147,7 +147,7 @@ class FlowManagerController implements Controller {
 
     public async deleteFlow(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().delete(`${Constants.flowUrl}/flow/delete?flowId=${req.query.flowId}` + `&log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().delete(`${Constants.flowUrl}/flow/delete?flowId=${req.query.flowId}` + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -160,7 +160,7 @@ class FlowManagerController implements Controller {
 
     public async createProjectFlow(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flow/project/save` + `?log_id=${req.query.log_id}`, req.body));
+            let flow = await Promise.resolve(new ApiAdapter().post(`${Constants.flowUrl}/flow/project/save` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -171,7 +171,7 @@ class FlowManagerController implements Controller {
 
     public async ProjectFlow(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flow/project/bulksave` + `?log_id=${req.query.log_id}`, req.body));
+            let flow = await Promise.resolve(new ApiAdapter().post(`${Constants.flowUrl}/flow/project/bulksave` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -182,7 +182,7 @@ class FlowManagerController implements Controller {
 
     public async getAllProjectFlow(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flow/project/getall` + `?log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().get(`${Constants.flowUrl}/flow/project/getall` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -193,7 +193,7 @@ class FlowManagerController implements Controller {
 
     public async getProjectFeatureFlows(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flow/projectfeature/get` + `?log_id=${req.query.log_id}`, req.body));
+            let flow = await Promise.resolve(new ApiAdapter().post(`${Constants.flowUrl}/flow/projectfeature/get` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -204,7 +204,7 @@ class FlowManagerController implements Controller {
 
     public async updateFlowComponents(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().put(`${Constants.flowUrl}/flow/project/updatecomponent?projectFlowId=${req.query.projectFlowId}` + `&log_id=${req.query.log_id}`, req.body));
+            let flow = await Promise.resolve(new ApiAdapter().put(`${Constants.flowUrl}/flow/project/updatecomponent?projectFlowId=${req.query.projectFlowId}` + `&log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -217,7 +217,7 @@ class FlowManagerController implements Controller {
     public async deleteProjectFlow(req: Request, res: Response) {
         try {
 
-            let flow = await Promise.resolve(new ApiAdaptar().delete(`${Constants.flowUrl}/flow/project/delete?projectFlowId=${req.query.projectFlowId}` + `&log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().delete(`${Constants.flowUrl}/flow/project/delete?projectFlowId=${req.query.projectFlowId}` + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -229,7 +229,7 @@ class FlowManagerController implements Controller {
     //project flow components--
     public async saveProjectFlowComponent(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/flowcomponent/project/save` + `?log_id=${req.query.log_id}`, req.body));
+            let flow = await Promise.resolve(new ApiAdapter().post(`${Constants.flowUrl}/flowcomponent/project/save` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -240,7 +240,7 @@ class FlowManagerController implements Controller {
 
     public async getProjectFlowComponent(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flowcomponent/project/getall` + `?log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().get(`${Constants.flowUrl}/flowcomponent/project/getall` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -251,7 +251,7 @@ class FlowManagerController implements Controller {
 
     public async getProjectFlowComponentByID(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/flowcomponent/project/getbyid/${req.params.id}`+`?log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().get(`${Constants.flowUrl}/flowcomponent/project/getbyid/${req.params.id}`+`?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -262,7 +262,7 @@ class FlowManagerController implements Controller {
 
     public async deleteProjectFlowComponent(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().delete(`${Constants.flowUrl}/flowcomponent/project/delete?projectFlowCompId=${req.query.projectFlowCompId}` + `&log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().delete(`${Constants.flowUrl}/flowcomponent/project/delete?projectFlowCompId=${req.query.projectFlowCompId}` + `&log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -274,7 +274,7 @@ class FlowManagerController implements Controller {
     public async updateProjectFlowComponent(req: Request, res: Response) {
         try {
             console.log('api--gateway-->>', req.body);
-            let flow = await Promise.resolve(new ApiAdaptar().put(`${Constants.flowUrl}/flowcomponent/project/updateconnector` + `?log_id=${req.query.log_id}`, req.body));
+            let flow = await Promise.resolve(new ApiAdapter().put(`${Constants.flowUrl}/flowcomponent/project/updateconnector` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -287,7 +287,7 @@ class FlowManagerController implements Controller {
 
     public async saveConnectors(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/save/quickConnectors` + `?log_id=${req.query.log_id}`, req.body));
+            let flow = await Promise.resolve(new ApiAdapter().post(`${Constants.flowUrl}/save/quickConnectors` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -300,7 +300,7 @@ class FlowManagerController implements Controller {
 
     public async getConnectorByEntity(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/get/quickConnectorbyentity/${req.params.entityid}` + `?log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().get(`${Constants.flowUrl}/get/quickConnectorbyentity/${req.params.entityid}` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -311,7 +311,7 @@ class FlowManagerController implements Controller {
 
     public async getConnectorById(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/get/quickConnectorbyid/${req.params.id}` + `?log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().get(`${Constants.flowUrl}/get/quickConnectorbyid/${req.params.id}` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -322,7 +322,7 @@ class FlowManagerController implements Controller {
 
     public async getConnectorsByIds(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().post(`${Constants.flowUrl}/get/connectorsbyids` + `?log_id=${req.query.log_id}`, req.body));
+            let flow = await Promise.resolve(new ApiAdapter().post(`${Constants.flowUrl}/get/connectorsbyids` + `?log_id=${req.query.log_id}`, req.body));
             console.log('flow ==============>>>>', flow);
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
@@ -334,7 +334,7 @@ class FlowManagerController implements Controller {
 
     public async getConnectors(req: Request , res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().get(`${Constants.flowUrl}/getConnectors` + `?log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().get(`${Constants.flowUrl}/getConnectors` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch(err) {
@@ -349,7 +349,7 @@ class FlowManagerController implements Controller {
 
     public async deleteConnectorById(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().delete(`${Constants.flowUrl}/delete/quickConnectorbyid/${req.params.id}` + `?log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().delete(`${Constants.flowUrl}/delete/quickConnectorbyid/${req.params.id}` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -361,7 +361,7 @@ class FlowManagerController implements Controller {
 
     public async deleteConnectorByEntityId(req: Request, res: Response) {
         try {
-            let flow = await Promise.resolve(new ApiAdaptar().delete(`${Constants.flowUrl}/delete/quickConnectorbyentityid/${req.params.entityid}` + `?log_id=${req.query.log_id}`));
+            let flow = await Promise.resolve(new ApiAdapter().delete(`${Constants.flowUrl}/delete/quickConnectorbyentityid/${req.params.entityid}` + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(flow) :
                 req.baseUrl === '/desktop' ? res.send(flow) : res.send(null);
         } catch (err) {
@@ -373,7 +373,7 @@ class FlowManagerController implements Controller {
 
     public async updateQuickConnectorsById(req:Request , res: Response){
         try {
-            let response = await Promise.resolve(new ApiAdaptar().put(`${Constants.flowUrl}/quickUpdateConnectorsById/${req.body._id}` +`?log_id=${req.query.log_id}`, req.body));
+            let response = await Promise.resolve(new ApiAdapter().put(`${Constants.flowUrl}/quickUpdateConnectorsById/${req.body._id}` +`?log_id=${req.query.log_id}`, req.body));
             res.send(response);
         } catch (err) {
             res.send(err);

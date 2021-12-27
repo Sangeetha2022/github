@@ -1,10 +1,10 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 export class ConnectorService {
 
     getConnectorByProjectId(projectId, callback) {
-        new ApiAdaptar().get(
+        new ApiAdapter().get(
             `${SharedService.apiGatewayURL}/desktop/projects/getbyid/${projectId}`,
         ).then(
             data => {
@@ -16,7 +16,7 @@ export class ConnectorService {
     }
 
     getConnectorByIds(connectorIds, callback) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${SharedService.apiGatewayURL}/desktop/get/connectorsbyids`, connectorIds).then(
             data => {
                 callback(data);
@@ -27,7 +27,7 @@ export class ConnectorService {
     }
 
     getFileByIds(fileIds, callback) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${SharedService.apiGatewayURL}/desktop/getattachment`, fileIds).then(
             data => {
                 callback(data);

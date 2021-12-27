@@ -2,7 +2,7 @@
 import * as express from "express";
 import { Request, Response } from 'express';
 import  {Constants} from '../config/Constants';
-import { ApiAdaptar } from '../config/apiAdaptar';
+import { ApiAdapter } from '../config/apiAdapter';
 import Controller from '../interfaces/controller.interface';
 
 
@@ -28,7 +28,7 @@ class DeleteManagerController implements Controller {
 
     public async deleteProject(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.deleteUrl + '/delete/project/' + req.params.id + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().delete(Constants.deleteUrl + '/delete/project/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -39,7 +39,7 @@ class DeleteManagerController implements Controller {
 
     public async deleteEntity(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.deleteUrl + '/delete/entity/' + req.params.id + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().delete(Constants.deleteUrl + '/delete/entity/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -50,7 +50,7 @@ class DeleteManagerController implements Controller {
 
     public async deleteFeature(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.deleteUrl + '/delete/feature/' + req.params.id + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().delete(Constants.deleteUrl + '/delete/feature/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -61,7 +61,7 @@ class DeleteManagerController implements Controller {
 
     public async deleteMenu(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.deleteUrl + '/delete/menu/' + req.params.id + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().delete(Constants.deleteUrl + '/delete/menu/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -72,7 +72,7 @@ class DeleteManagerController implements Controller {
 
     public async deleteScreen(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.deleteUrl + '/delete/screen/' + req.params.id + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().delete(Constants.deleteUrl + '/delete/screen/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch(err) {
@@ -83,7 +83,7 @@ class DeleteManagerController implements Controller {
 
     public async deleteFlow(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().delete(Constants.deleteUrl + '/delete/flow/' + req.params.id + `?log_id=${req.query.log_id}`));
+            let result = await Promise.resolve(new ApiAdapter().delete(Constants.deleteUrl + '/delete/flow/' + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {

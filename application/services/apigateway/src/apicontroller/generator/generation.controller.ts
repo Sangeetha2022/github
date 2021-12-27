@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../../interfaces/controller.interface";
-import { ApiAdaptar } from '../../config/apiAdaptar';
+import { ApiAdapter } from '../../config/apiAdapter';
 import  {Constants} from '../../config/Constants';
 
 export class GenerationController implements Controller {
@@ -19,7 +19,7 @@ export class GenerationController implements Controller {
     }
 
     project(req: Request, res: Response) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${Constants.projectGenUrl}/generate/${req.params.projectId}`, req.body
         ).then((result) => {
             req.baseUrl === '/mobile' ? res.send(result) :
@@ -31,7 +31,7 @@ export class GenerationController implements Controller {
     }
 
     generateProject(req: Request, res: Response) {
-        new ApiAdaptar().get(
+        new ApiAdapter().get(
             `${Constants.projectGenUrl}/projectgen/project/${req.params.id}/get`,
         ).then((result) => {
             req.baseUrl === '/mobile' ? res.send(result) :
@@ -43,7 +43,7 @@ export class GenerationController implements Controller {
     }
 
     getAllNotifyProject(req: Request, res: Response) {
-        new ApiAdaptar().get(
+        new ApiAdapter().get(
             `${Constants.projectGenUrl}/projectgen/project/${req.params.projectId}`,
         ).then((result) => {
             req.baseUrl === '/mobile' ? res.send(result) :
@@ -55,7 +55,7 @@ export class GenerationController implements Controller {
     }
 
     getAllUserNotify(req: Request, res: Response) {
-        new ApiAdaptar().get(
+        new ApiAdapter().get(
             `${Constants.projectGenUrl}/projectgen/user/${req.params.userId}`,
         ).then((result) => {
             req.baseUrl === '/mobile' ? res.send(result) :

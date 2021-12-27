@@ -13,6 +13,10 @@ export class $object.className$Service {
 
   constructor(private http: HttpClient, private $object.shared.objectName$: $object.shared.className$) { }
 
+  uploadImgFile(){
+    return `${this.sharedService.UPLOAD_API + '/addAttachment'}`;
+  }
+  
   signup(user: any): Observable<any> {
     return this.http.post(this.$object.shared.objectName$.$object.shared.variableName$ + '/signup', user);
   }

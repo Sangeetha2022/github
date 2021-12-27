@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import { ProjectSchema } from '../models/project.model';
 import { Request } from 'express';
 import { gpConfigSchema } from '../models/configuration.model';
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 import * as generate from 'nanoid/generate';
 import * as dictionary from 'nanoid-dictionary';
@@ -37,7 +37,7 @@ export class ProjectDao {
                 project.forEach(function (details) {
                     getAllProjects.push(new Promise((resolve, reject) => {
                         if (details.app_ui_template_img == null) {
-                            new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/template/get/${details.app_ui_template_name}`)
+                            new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/template/get/${details.app_ui_template_name}`)
                                 .then(
                                     (data: any) => {
                                         let result = JSON.parse(data)
@@ -111,7 +111,7 @@ export class ProjectDao {
             project.forEach(function (details) {
                 Projects.push(new Promise((resolve, reject) => {
                     if (details.app_ui_template_img == null) {
-                        new ApiAdaptar().get(`${SharedService.apiGatewayURL}/desktop/template/get/${details.app_ui_template_name}`)
+                        new ApiAdapter().get(`${SharedService.apiGatewayURL}/desktop/template/get/${details.app_ui_template_name}`)
                             .then(
                                 (data: any) => {
                                     let result = JSON.parse(data)

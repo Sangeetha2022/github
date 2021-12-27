@@ -1,10 +1,10 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 export class IonicManagerService {
 
     generateIonicTemplate(details, callback) {
-        new ApiAdaptar().post(`${SharedService.ionicURL}/generate/ionic`, details).then(
+        new ApiAdapter().post(`${SharedService.ionicURL}/generate/ionic`, details).then(
             data => {
                 callback(data);
             }

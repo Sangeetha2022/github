@@ -1,11 +1,11 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 export class GepFileManagerService {
 
 
     getFileDataByIds(fileIDs, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/getattachment`, fileIDs).then(
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/getattachment`, fileIDs).then(
             data => {
                 callback(data);
             }

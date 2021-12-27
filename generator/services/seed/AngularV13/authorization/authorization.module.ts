@@ -1,22 +1,31 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { I18NextModule } from 'angular-i18next';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthorizationComponent } from './authorization.component';
+import { AgGridModule } from 'ag-grid-angular';
+import { ButtonRendererComponent } from '../user/button-renderer/button-renderer.component';
+import { UpdateauthorizationComponent } from './updateauthorization/updateauthorization.component';
 
 @NgModule({
-  imports: [
-CommonModule,
-FormsModule,
-ReactiveFormsModule,
-RouterModule,
-I18NextModule.forRoot()
-],
-  declarations: [
-AuthorizationComponent
-]
-  
-  
+    imports: [
+        CommonModule,
+        RouterModule,
+        NgSelectModule,
+        AgGridModule.withComponents([]),
+        FormsModule, ReactiveFormsModule,
+        RouterModule.forChild([
+            { path: '', component: AuthorizationComponent },
+        ])
+    ],
+    declarations: [
+        AuthorizationComponent,
+        UpdateauthorizationComponent,
+    ],
+    // entryComponents: [
+    //     ButtonRendererComponent
+    // ]
+    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AuthorizationModule { }

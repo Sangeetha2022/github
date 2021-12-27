@@ -62,7 +62,7 @@ export class {{ GpOptions.className }} implements OnInit {
     ngOnInit() {
         {{#if GpOptions.entities}}
         {{#each GpOptions.entities}}
-        this.{{ name }}.created_by = sessionStorage.getItem('email') || null; 
+        this.{{ name }}.created_by = sessionStorage.getItem('email') || ''; 
         {{/each}}
         {{/if}}
         {{#ifCond GpOptions.featureName '===' 'systementry'}}

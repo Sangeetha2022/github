@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../../interfaces/controller.interface";
-import { ApiAdaptar } from '../../config/apiAdaptar';
+import { ApiAdapter } from '../../config/apiAdapter';
 import  {Constants} from '../../config/Constants';
 
 export class ConfigurationController implements Controller {
@@ -24,7 +24,7 @@ export class ConfigurationController implements Controller {
 
     async addGenerationFlow(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().post(`${Constants.configUrl}/generation_flow/add`, req.body));
+            let result = await Promise.resolve(new ApiAdapter().post(`${Constants.configUrl}/generation_flow/add`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -35,7 +35,7 @@ export class ConfigurationController implements Controller {
 
     async updateGenerationFlow(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().put(`${Constants.configUrl}/generation_flow/update/${req.params.id}`, req.body));
+            let result = await Promise.resolve(new ApiAdapter().put(`${Constants.configUrl}/generation_flow/update/${req.params.id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -46,7 +46,7 @@ export class ConfigurationController implements Controller {
 
     async getAllGenerationFlow(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.configUrl}/generation_flow/getall`));
+            let result = await Promise.resolve(new ApiAdapter().get(`${Constants.configUrl}/generation_flow/getall`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -57,7 +57,7 @@ export class ConfigurationController implements Controller {
 
     async getGenerationFlowByID(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.configUrl}/generation_flow/getbyid/${req.params.id}`));
+            let result = await Promise.resolve(new ApiAdapter().get(`${Constants.configUrl}/generation_flow/getbyid/${req.params.id}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -68,7 +68,7 @@ export class ConfigurationController implements Controller {
 
     async getGenerationFlowByName(req: Request, res: Response) {
         try {
-            let result = await Promise.resolve(new ApiAdaptar().get(`${Constants.configUrl}/generation_flow/getbyname/${req.params.name}`));
+            let result = await Promise.resolve(new ApiAdapter().get(`${Constants.configUrl}/generation_flow/getbyname/${req.params.name}`));
             req.baseUrl === '/mobile' ? res.send(result) :
                 req.baseUrl === '/desktop' ? res.send(result) : res.send(null);
         } catch (err) {
@@ -78,7 +78,7 @@ export class ConfigurationController implements Controller {
     }
 
     deleteGenerationFlow(req: Request, res: Response) {
-        new ApiAdaptar().delete(
+        new ApiAdapter().delete(
             `${Constants.configUrl}/generation_flow/delete/${req.params.id}`
         ).then((result) => {
             req.baseUrl === '/mobile' ? res.send(result) :
@@ -90,7 +90,7 @@ export class ConfigurationController implements Controller {
     }
 
     getTechPropertyFlow(req: Request, res: Response) {
-        new ApiAdaptar().get(
+        new ApiAdapter().get(
             `${Constants.configUrl}/generation_flow/getproperties`
         ).then((result) => {
             req.baseUrl === '/mobile' ? res.send(result) :

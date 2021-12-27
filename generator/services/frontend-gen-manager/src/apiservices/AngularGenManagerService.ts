@@ -1,10 +1,10 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 export class AngularGenManagerService {
 
     generateAngular(details, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/angular/project`, details).then(
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/angular/project`, details).then(
             data => {
                 callback(data);
             }
@@ -13,7 +13,7 @@ export class AngularGenManagerService {
         })
     }
     generateAngularV12(details, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/angularv12/project`, details).then(
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/angularv12/project`, details).then(
             data => {
                 callback(data);
             }
@@ -22,7 +22,7 @@ export class AngularGenManagerService {
         })
     }
     generateAngularV13(details, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/angularv13/project`, details).then(
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/angularv13/project`, details).then(
             data => {
                 callback(data);
             }

@@ -91,6 +91,15 @@ export class TemplateSideNav {
                                                                 </div>
                                                             </li>`);
                                             break;
+                                        case 'authorization':
+                                            bottomNav.push(``);
+                                            break;
+                                        case 'manageroles':
+                                            bottomNav.push(``);
+                                            break;
+                                        case 'manageusers':
+                                            bottomNav.push(``);
+                                            break;
                                         // case 'authorization':
                                         //     bottomNav.push(` <div id="icrvgp" class="cell gpd-clm" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">
                                         //                         <div id="i6vd27" class="gdp-row gpd-grid" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId">

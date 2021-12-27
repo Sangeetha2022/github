@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../../interfaces/controller.interface";
-import { ApiAdaptar } from '../../config/apiAdaptar';
+import { ApiAdapter } from '../../config/apiAdapter';
 import  {Constants} from '../../config/Constants';
 
 export class BackendController implements Controller {
@@ -18,7 +18,7 @@ export class BackendController implements Controller {
 
     public async createProject(req: Request, res: Response) {
         try {
-            let response = await Promise.resolve(new ApiAdaptar().post(
+            let response = await Promise.resolve(new ApiAdapter().post(
                 `${Constants.backendGenUrl}/backend/project`, req.body));
             res.send(response);
         } catch (err) {
@@ -30,7 +30,7 @@ export class BackendController implements Controller {
     public async generateApiGateway(req: Request, res: Response) {
         try {
             console.log('backend services apigateway -----   ');
-            let response = await Promise.resolve(new ApiAdaptar().post(
+            let response = await Promise.resolve(new ApiAdapter().post(
                 `${Constants.backendGenUrl}/backend/apigateway/project`, req.body));
             res.send(response);
         } catch (err) {

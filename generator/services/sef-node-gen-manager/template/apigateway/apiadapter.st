@@ -1,7 +1,7 @@
 apiadapter() ::= <<
 import * as fetch from 'node-fetch';
 
-export class ApiAdaptar {
+export class ApiAdapter {
 
     post = (url, data) => {
         return new Promise((resolve, reject) => {

@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../../interfaces/controller.interface";
-import { ApiAdaptar } from '../../config/apiAdaptar';
+import { ApiAdapter } from '../../config/apiAdapter';
 import  {Constants} from '../../config/Constants';
 
 export class SwaggerController implements Controller {
@@ -17,7 +17,7 @@ export class SwaggerController implements Controller {
 
     createSwagger(req: Request, res: Response) {
         console.log(`swagger url---------------->>>> ${Constants.swaggerGenUrl}/swagger/create`);
-        new ApiAdaptar().post(`${Constants.swaggerGenUrl}/swagger/create`,
+        new ApiAdapter().post(`${Constants.swaggerGenUrl}/swagger/create`,
             req.body
         ).then((response) => {
             res.send(response);

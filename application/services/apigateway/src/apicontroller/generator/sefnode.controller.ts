@@ -1,7 +1,7 @@
 import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../../interfaces/controller.interface";
-import { ApiAdaptar } from '../../config/apiAdaptar';
+import { ApiAdapter } from '../../config/apiAdapter';
 import  {Constants} from '../../config/Constants';
 
 export class SefNodeController implements Controller {
@@ -17,7 +17,7 @@ export class SefNodeController implements Controller {
     }
 
     createProjectSefNode(req: Request, res: Response) {
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${Constants.sefnodeGenUrl}/sefnode/project`,
             req.body
         ).then((response) => {
@@ -29,7 +29,7 @@ export class SefNodeController implements Controller {
 
     generateApiGateway(req: Request, res: Response) {
         console.log('node services apigateway -----   ');
-        new ApiAdaptar().post(
+        new ApiAdapter().post(
             `${Constants.sefnodeGenUrl}/sefnode/apigateway/project`,
             req.body
         ).then((response) => {

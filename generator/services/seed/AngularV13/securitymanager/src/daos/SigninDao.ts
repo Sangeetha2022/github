@@ -266,4 +266,16 @@ export class SigninDao {
 
         })
     }
+
+    public updateUserdao(updateuser, callback) {
+        new CustomLogger().showLogger('info', 'Enter into SigninDao.ts: updateuserdao');
+        signinmodel.findByIdAndUpdate(updateuser.id, { $set: { avatar: updateuser.avatar }},{multi:true},(err, response) => {
+            if (err) {
+                callback(err);
+            }
+            new CustomLogger().showLogger('info', 'Exit from SigninDao.ts: updateuserdao');
+            callback(response);
+
+        })
+    }
 }

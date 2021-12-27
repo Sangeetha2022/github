@@ -1,7 +1,7 @@
 import mongoose = require('mongoose');
 import { Resourceschema } from './model/resource';
- import { resourcetypes } from './assets/resources';
- import {screentypes } from './assets/screen';
+ import { resource_types } from './assets/resources';
+ import { resourcetypes } from './assets/screen';
 import { Screenschema } from './model/screen';
 
 const resourcemodel = mongoose.model('Resource', Resourceschema);
@@ -12,7 +12,7 @@ export class SeedService {
     constructor() { }
 
     public create(): void {
-        resourcetypes.map(something =>{
+        resource_types.map(something =>{
             console.log('enter into seed resurce name', something);
              resourcemodel.findOneAndUpdate({resource_name: something['resource_name']},
              something, {new: true}, (err, data)=>{
@@ -26,7 +26,7 @@ export class SeedService {
          })
     }
     public post(): void {
-        screentypes.map(something =>{
+        resourcetypes.map(something =>{
             console.log('enter into seed resurce name', something);
              screenmodel.findOneAndUpdate({resources: something['resources']},
               something, {new: true}, (err, data)=>{

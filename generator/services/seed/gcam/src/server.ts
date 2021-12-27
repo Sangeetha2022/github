@@ -5,14 +5,14 @@ import { WinstonLogger } from './config/Winstonlogger';
 import { Routes } from './routes/routes'
 import mongoose = require('mongoose');
 import { SeedService } from './seed';
-// import { DmnFile } from './dmnDeploye/dmnFile';
-const PORT = 8050;
+
+const PORT = 8007;
 
 class App {
     public app = express();
     public routerPrv: Routes = new Routes();
     public logger: WinstonLogger = new WinstonLogger();
-    public mongoUrl: string = process.env.MONGO_DB_URL ;
+    public mongoUrl: string = process.env.MONGO_DB_URL;
 
 
     constructor() {
@@ -20,9 +20,10 @@ class App {
         this.routerPrv.routes(this.app);
         this.mongoSetup();
         this.mongoSeedData();
-        // this.DeployDMNfile();
-        this.SeedData();
-    }
+         
+        
+       
+       }
 
     private config(): void {
         this.app.use(bodyParser.json());
@@ -39,22 +40,16 @@ class App {
 
 
     private mongoSeedData(): void {
-        console.log('route a file into seed create');
         let seedData = new SeedService();
         seedData.create();
-    }
-    private SeedData(): void {
-        console.log('route a file into seed create');
-        let seedData = new SeedService();
         seedData.post();
     }
 
 
 
-    // private DeployDMNfile(): void {
-    //     let dmnfile = new DmnFile();
-    //     dmnfile.dmnFileDeploye();
-    // }
+
+
+
 
 
 }

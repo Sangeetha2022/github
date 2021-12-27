@@ -2,7 +2,7 @@ import * as express from 'express';
 import { Request, Response } from 'express';
 import Controller from "../interfaces/controller.interface";
 import { Constants } from '../config/Constants';
-import { ApiAdaptar } from '../config/apiAdaptar';
+import { ApiAdapter } from '../config/apiAdapter';
 
 const fs = require("fs");
 const multiparty = require("multiparty");
@@ -23,7 +23,7 @@ class SharedController implements Controller {
 
     public async getSharedByProjectId(req: Request, res: Response) {
         try {
-            let response = await Promise.resolve(new ApiAdaptar().get(`${Constants.sharedUrl}/shared/getbyproject/` + req.params.id + `?log_id=${req.query.log_id}`));
+            let response = await Promise.resolve(new ApiAdapter().get(`${Constants.sharedUrl}/shared/getbyproject/` + req.params.id + `?log_id=${req.query.log_id}`));
             req.baseUrl === '/mobile' ? res.send(response) :
                 req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
         } catch (err) {
@@ -34,7 +34,7 @@ class SharedController implements Controller {
 
     public async create(req: Request, res: Response) {
         try {
-            let response = await Promise.resolve(new ApiAdaptar().post(`${Constants.sharedUrl}/shared/details` + `?log_id=${req.query.log_id}`, req.body));
+            let response = await Promise.resolve(new ApiAdapter().post(`${Constants.sharedUrl}/shared/details` + `?log_id=${req.query.log_id}`, req.body));
             req.baseUrl === '/mobile' ? res.send(response) :
                 req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
         } catch (err) {
@@ -63,7 +63,7 @@ class SharedController implements Controller {
             }
             // console.log("req.headers----apigateway", req.headers);
             try {
-                let response = await Promise.resolve(new ApiAdaptar().FileUploadPost(`${Constants.sharedUrl}/shared/upload/` + req.params.id + `?log_id=${req.query.log_id}`, formData));
+                let response = await Promise.resolve(new ApiAdapter().FileUploadPost(`${Constants.sharedUrl}/shared/upload/` + req.params.id + `?log_id=${req.query.log_id}`, formData));
                 req.baseUrl === '/mobile' ? res.send(response) :
                     req.baseUrl === '/desktop' ? res.send(response) : res.send(null);
             } catch (err) {

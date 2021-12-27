@@ -39,6 +39,15 @@ export class GeppettoSideNav {
                                         case 'login':
                                             bottomNav.push(`<li><a class="list-group-item list-group-item-success text" *ngIf='userId==null' [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a></li>`);
                                             break;
+                                        case 'authorization':
+                                            bottomNav.push(``);
+                                            break;
+                                        case 'manageroles':
+                                            bottomNav.push(``);
+                                            break;
+                                        case 'manageusers':
+                                            bottomNav.push(``);
+                                            break;
                                         // case 'authorization':
                                         //     bottomNav.push(`<div class="list-group panel" *ngIf="isApplicable('${screenElement.toLowerCase()}') && userId"><a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a></div>`);
                                         //     break;

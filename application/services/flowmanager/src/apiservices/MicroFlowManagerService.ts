@@ -1,10 +1,10 @@
-import { ApiAdaptar } from '../config/ApiAdaptar';
+import { ApiAdapter } from '../config/ApiAdapter';
 import { SharedService } from '../config/SharedService';
 
 export class MicroFlowManagerService {
 
     getMicroFlows(microFlowIDs, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/microflow/component/get`, microFlowIDs).then(
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/microflow/component/get`, microFlowIDs).then(
             data => {
                 callback(data);
             }
@@ -14,7 +14,7 @@ export class MicroFlowManagerService {
     }
 
     getProjectMicroFlows(microFlowIDs, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/microflow/project/component/get`, microFlowIDs).then(
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/microflow/project/component/get`, microFlowIDs).then(
             data => {
                 callback(data);
             }
@@ -24,7 +24,7 @@ export class MicroFlowManagerService {
     }
 
     saveBulkMicroFlows(microFlowArray, callback) {
-        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/microflow/project/save`, microFlowArray).then(
+        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/microflow/project/save`, microFlowArray).then(
             data => {
                 callback(data);
             }
@@ -34,7 +34,7 @@ export class MicroFlowManagerService {
     }
 
     updateProjectMicroFlow(microFlowArray, callback) {
-        new ApiAdaptar().put(`${SharedService.apiGatewayURL}/desktop/microflow/project/update`, microFlowArray).then(
+        new ApiAdapter().put(`${SharedService.apiGatewayURL}/desktop/microflow/project/update`, microFlowArray).then(
             data => {
                 callback(data);
             }

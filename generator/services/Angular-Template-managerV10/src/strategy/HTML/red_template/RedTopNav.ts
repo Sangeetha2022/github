@@ -50,14 +50,23 @@ export class RedTopNav {
     </li>`;
                                             break;
                                         case 'authorization':
-                                            link += `<li class="nav-item" *ngIf="isApplicable('${menuname.toLowerCase()}') && userId">
-<a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
-</li>`;
+                                            link += ``
                                             break;
                                         case 'manageroles':
-                                            link += `<li class="nav-item" *ngIf="isApplicable('${menuname.toLowerCase()}') && userId">
-<a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
-</li>`;
+                                            link += ``
+                                            break;
+                                        case 'manageusers':
+                                            link += ``
+                                            break;
+//                                         case 'authorization':
+//                                             link += `<li class="nav-item" *ngIf="isApplicable('${menuname.toLowerCase()}') && userId">
+// <a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
+// </li>`;
+//                                             break;
+//                                         case 'manageroles':
+//                                             link += `<li class="nav-item" *ngIf="isApplicable('${menuname.toLowerCase()}') && userId">
+// <a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
+// </li>`;
                                             break;
                                         case 'logout':
                                             //                                         link += `<li class="nav-item" *ngIf="userId!=null">

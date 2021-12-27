@@ -1,30 +1,39 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { SharedService } from '../../shared/shared.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
+
 export class AuthorizationService {
+    constructor(
+        private sharedService: SharedService,
+        private http: HttpClient,
+    ) { }
 
-  constructor(private http: HttpClient,
-    private sharedService: SharedService) { }
+    GpCreate(resources:any): Observable<any> {
+        let jwt_token = sessionStorage.getItem('JwtToken');
+        console.log('rowdata from data', resources);
+        return this.http.post(this.sharedService.DESKTOP_API + '/gcamgenerate' + `?jwt_token=${jwt_token}`, resources);
+    }
 
-  GpGetAllRoles(): Observable<any> {
-    return this.http.get(this.sharedService.DESKTOP_API + '/getallroles');
-  }
+    GpGetAllValues(): Observable<any> {
+        return this.http.get(this.sharedService.DESKTOP_API + '/gcamallscreens');
+    }
 
-  GpGetAllScreen(): Observable<any> {
-    return this.http.get(this.sharedService.DESKTOP_API + '/getallscreens');
-  }
+    GpGetNounById(tagsId:any): Observable<any> {
+        return this.http.get(this.sharedService.DESKTOP_API + '/gcambyid/' + tagsId);
+    }
 
-  DmnGenerate(payload): Observable<any> {
-    return this.http.post(this.sharedService.DESKTOP_API + '/dmngenerate', payload);
-  }
+    GpUpdate(gcamData:any): Observable<any> {
+        console.log(gcamData);
+        return this.http.put(this.sharedService.DESKTOP_API + '/gcamupdate', gcamData);
+    }
 
-  SaveScreen(payload): Observable<any> {
-    return this.http.post(this.sharedService.DESKTOP_API + '/savescreen', payload);
-  }
-
+    GpDelete(Id:any): Observable<any> {
+        console.log('delete a item', Id);
+        return this.http.delete(this.sharedService.DESKTOP_API + '/gcamdeletebyid/' + Id);
+    }
 }
