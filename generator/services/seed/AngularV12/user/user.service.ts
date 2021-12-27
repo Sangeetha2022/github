@@ -23,4 +23,8 @@ export class UserService {
   Updateuser(userobject: any): Observable<any> {
     return this.http.put(this.sharedService.DESKTOP_API + '/admin/updateuser', userobject);
   }
+
+  UpdateUserImg(userobject: any): Observable<any> {
+    return this.http.put(this.sharedService.DESKTOP_API + '/updateuserimg', userobject);
+  }
 }

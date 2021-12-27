@@ -140,6 +140,7 @@ export class FrontendWorker {
     private authPackageDependency = [
         `   "rxjs-compat": "6.5.2",`,
         `   "@auth0/angular-jwt": "2.1.2",`,
+        `   "@types/i18next-sprintf-postprocessor": "^0.2.0",`,
         `   "ag-grid-angular": "^26.0.0",`,
         `   "ag-grid-community": "^26.0.0",`,
         `   "angular-i18next": "^7.0.0",`,
@@ -524,7 +525,7 @@ export class FrontendWorker {
                     tempEntryComponents.push(`ButtonRendererComponent`)
                 }
                 if (folderName === 'authorization') {
-                    temp.importDependency.push({ dependencyname: `UpdateauthorizationComponent`, dependencyPath: `./authorization/updateauthorization/updateauthorization.component` });
+                    temp.importDependency.push({ dependencyname: `UpdateauthorizationComponent`, dependencyPath: `./updateauthorization/updateauthorization.component` });
 
                     tempDeclarations.push(`UpdateauthorizationComponent`);
                 }
