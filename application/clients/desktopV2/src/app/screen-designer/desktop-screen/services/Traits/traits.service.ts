@@ -420,6 +420,66 @@ export class TraitsService {
       view: defaultType.view
     });
   }
+
+  addDownload(editor:any, buttonName:any)
+  {
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    comps.addType(buttonName,
+    {
+      model: defaultModel.extend(
+      {
+          defaults: Object.assign({}, defaultModel.prototype.defaults,
+          {
+            draggable: '*',
+            droppable: false,
+            traits:
+            []
+          })
+        },
+        {
+          isComponent: function (el:any)
+          {
+            if (el.tagName === buttonName)
+            {
+              return {type: buttonName};
+            }
+          }
+        })
+    });
+  }
+
+  // download triats
+  addUpload(editor:any, buttonName:any)
+  {
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    comps.addType(buttonName,
+    {
+      model: defaultModel.extend(
+      {
+          defaults: Object.assign({}, defaultModel.prototype.defaults,
+          {
+            draggable: '*',
+            droppable: false,
+            traits:
+            []
+          })
+        },
+        {
+          isComponent: function (el:any)
+          {
+            if (el.tagName === buttonName)
+            {
+              return {type: buttonName};
+            }
+          }
+        })
+    });
+  }
+
   addCKEditorTraits(editor:any, buttonName:any) {
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');

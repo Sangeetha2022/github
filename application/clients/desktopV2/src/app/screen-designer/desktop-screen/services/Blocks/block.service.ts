@@ -132,4 +132,48 @@ export class BlockService {
     });
     this.traitService.addGridTraits($this, 'grid-type');
   }
+
+  addUpload(editor:any)
+  {
+    // editor upload custom blocks added
+    editor.BlockManager.add('upload',
+    {
+      id: 'upload',
+      label: 'upload',
+      category: 'Basic',
+      attributes:
+      {
+        class: 'fa fa-paperclip'
+      },
+      content: `<div style="color:#d983a6;display:inline-block;vertical-align:top;padding:10px;max-width:100%;">
+                <button data-gjs-type="upload"><i class="fa fa-paperclip" aria-hidden="true"></i>
+                </button>
+                </div>`,
+      draggable: true,
+      removable: true
+    });
+    this.traitService.addUpload(editor, 'upload');
+  }
+
+  addDownload(editor:any)
+  {
+    // editor upload custom blocks added
+    editor.BlockManager.add('download',
+    {
+      id: 'download',
+      label: 'download',
+      category: 'Basic',
+      attributes:
+      {
+        class: 'fa fa-download'
+      },
+      content: `<div style="color:#d983a6;display:inline-block;vertical-align:top;padding:10px;max-width:100%;">
+                <button data-gjs-type="download"><i class="fa fa-download" aria-hidden="true"></i>
+                </button>
+                </div>`,
+      draggable: true,
+      removable: true
+    });
+    this.traitService.addDownload(editor, 'download');
+  }
 }

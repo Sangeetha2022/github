@@ -418,12 +418,16 @@ defaultColumn: any;
         selectField: ['', Validators.required]
       });
   }
-  addGridBlocks() {
+  addGridBlocks()
+  {
     this.blockservice.addAgGrid(this);
   }
   //To add Custom Blocks
-  addCustomBlocks() {
+  addCustomBlocks()
+  {
    this.blockservice.addHeadingTag(this.editor);
+   this.blockservice.addUpload(this.editor);
+   this.blockservice.addDownload(this.editor);
    this.blockservice.addCKeditor5(this.editor);
    this.blockservice.addSpecialCharts(this.editor);
    this.blockservice.dynamicDropdown(this.editor);
