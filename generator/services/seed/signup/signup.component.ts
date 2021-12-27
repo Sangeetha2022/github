@@ -48,8 +48,8 @@ export class SignupComponent implements OnInit {
       return;
     }
     const singupinfo = {
-      firstName: this.signupform.value.signupdata.firstname,
-      lastName: this.signupform.value.signupdata.lastname,
+      firstname: this.signupform.value.signupdata.firstname,
+      lastname: this.signupform.value.signupdata.lastname,
       email: this.signupform.value.signupdata.email,
       password: this.signupform.value.signupdata.password
     };

@@ -43,14 +43,8 @@ $if(object.isSeed)$
     private mongoSeedData(): void {
         let seedData = new SeedService();
         seedData.create();
-    }
-$endif$
-
-$if(object.GCAM)$ 
-private SeedData(): void {
-        console.log('route a file into seed create');
-        let seedData = new SeedService();
-        seedData.post();
+        $if(object.GCAM)$ 
+         seedData.post();
     }
 $endif$
 

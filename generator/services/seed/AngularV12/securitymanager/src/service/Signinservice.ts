@@ -123,4 +123,14 @@ export class Signinservice {
 
         })
     }
+
+    public deleteuserservice(req: Request, callback) {
+        new CustomLogger().showLogger('info', 'Enter into Signinservice.ts: deleteuserservice');
+        const userDetails = req.params.id;
+        signindao.deleteuserdao(userDetails, (response) => {
+            new CustomLogger().showLogger('info', 'Exit from Signinservice.ts: deleteuserservice');
+            callback(response);
+
+        })
+    }
 }

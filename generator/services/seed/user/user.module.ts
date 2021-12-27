@@ -10,7 +10,7 @@ import { ButtonRendererComponent } from './button-renderer/button-renderer.compo
 
 @NgModule({
   imports: [
-AgGridModule.withComponents([]),
+AgGridModule.withComponents(),
 CommonModule,
 FormsModule,
 ReactiveFormsModule,
@@ -22,11 +22,14 @@ I18NextModule.forRoot()
   declarations: [
 ProfilesettingsComponent,
 ButtonRendererComponent,
-UserComponent
-],
+UserComponent,
+  ],
   
   entryComponents: [
 ButtonRendererComponent
 ],
 })
 export class UserModule { }
+
+
+
