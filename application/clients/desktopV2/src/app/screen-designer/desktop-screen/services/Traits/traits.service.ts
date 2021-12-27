@@ -420,6 +420,66 @@ export class TraitsService {
       view: defaultType.view
     });
   }
+
+  addDownload(editor:any, buttonName:any)
+  {
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    comps.addType(buttonName,
+    {
+      model: defaultModel.extend(
+      {
+          defaults: Object.assign({}, defaultModel.prototype.defaults,
+          {
+            draggable: '*',
+            droppable: false,
+            traits:
+            []
+          })
+        },
+        {
+          isComponent: function (el:any)
+          {
+            if (el.tagName === buttonName)
+            {
+              return {type: buttonName};
+            }
+          }
+        })
+    });
+  }
+
+  // download triats
+  addUpload(editor:any, buttonName:any)
+  {
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    comps.addType(buttonName,
+    {
+      model: defaultModel.extend(
+      {
+          defaults: Object.assign({}, defaultModel.prototype.defaults,
+          {
+            draggable: '*',
+            droppable: false,
+            traits:
+            []
+          })
+        },
+        {
+          isComponent: function (el:any)
+          {
+            if (el.tagName === buttonName)
+            {
+              return {type: buttonName};
+            }
+          }
+        })
+    });
+  }
+
   addCKEditorTraits(editor:any, buttonName:any) {
     const comps = editor.DomComponents;
     const defaultType = comps.getType('default');
@@ -708,7 +768,6 @@ export class TraitsService {
     const defaultModel = defaultType.model;
     let selectedEntityName = '';
     let selectedEntity;
-    let selectedColumnId = 'col1_id';
     const gridOptionsInString:any = JSON.stringify(screensVariable.agGridObject);
     const secGridString = JSON.stringify(screensVariable.agGridObject.custom_field);
     comps.addType(buttonName, {
@@ -915,23 +974,42 @@ export class TraitsService {
         },
         columnName() {
           const enteredColName = this.changed['colname'];
-          const selectedColumns = this.view.el.gridOptions.api.getColumnDef(selectedColumnId);
+          const selectedColumns = this.view.el.gridOptions.api.getColumnDef(screensVariable.selectedColumnId);
+          console.log("selectedColumnId",screensVariable.selectedColumnId);
+          console.log("Selected Column:",selectedColumns);
           selectedColumns.headerName = enteredColName;
           this.view.el.gridOptions.api.refreshHeader();
-          const indexFound = screensVariable.agGridArray.findIndex((x:any) => x.columnid === selectedColumns.colId);
-          if (indexFound > -1) {
-            screensVariable.agGridArray[indexFound].columnname = enteredColName;
-          }
-          screensVariable.columnOptions.forEach((columnElement:any) => {
-            if (columnElement.value === selectedColumnId) {
-              columnElement.name = enteredColName;
-              const customField = screensVariable.agGridObject.custom_field.find((x:any) => x.columnid === selectedColumnId);
-              if (customField) {
-                customField.columnname = enteredColName;
-              }
-              screensVariable.saveRemoteStorage();
-            }
-          });
+          // const indexFound = screensVariable.agGridArray.findIndex((x:any) => x.columnid === selectedColumns.colId);
+          // if (indexFound > -1) {
+          //   screensVariable.agGridArray[indexFound].columnname = enteredColName;
+          // }
+          // screensVariable.columnOptions.forEach((columnElement:any) => {
+          //   if (columnElement.value === selectedColumnId) {
+          //     columnElement.name = enteredColName;
+          //     const customField = screensVariable.agGridObject.custom_field.find((x:any) => x.columnid === selectedColumnId);
+          //     if (customField) {
+          //       customField.columnname = enteredColName;
+          //     }
+          //     screensVariable.saveRemoteStorage();
+          //   }
+          // });
+          screensVariable.newColumnDefs.forEach((columnEl:any)=>
+                                 {
+                                    if(columnEl.colId===screensVariable.selectedColumnId)
+                                    {
+                                       columnEl.headerName=enteredColName;
+                                    }   
+                                 });
+               console.log("ColumnDefs after:",screensVariable.newColumnDefs);                  
+               screensVariable.newColumnOptions.forEach((columnElement:any) =>
+                                           {
+                                              if (columnElement.value === screensVariable.selectedColumnId)
+                                              {
+                                                  columnElement.name = enteredColName;
+                                              }
+                                           });
+
+               console.log("gjsthis.columnOptions:",screensVariable.newColumnOptions);
           const component = screensVariable.editor.getSelected();
           component.removeTrait('columns');
           component.addTrait({
@@ -939,8 +1017,9 @@ export class TraitsService {
             label: 'columns',
             name: 'columns',
             changeProp: 1,
-            options: screensVariable.columnOptions,
+            options: screensVariable.newColumnOptions,
           }, { at: 1 });
+          screensVariable.selectedColumnId='';
         },
         entities() {
           selectedEntity = undefined;
@@ -954,7 +1033,7 @@ export class TraitsService {
           });
         },
         gridColumns() {
-          selectedColumnId = this.changed['columns'];
+          screensVariable.selectedColumnId = this.changed['columns'];
         }
       },
         {
