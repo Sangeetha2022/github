@@ -47,6 +47,9 @@ export class TemplateTopNav {
                                         case 'authorization':
                                             bottomNav.push(``);
                                             break;
+                                        case 'managecontrol':
+                                            bottomNav.push(``);
+                                            break;
                                         case 'manageroles':
                                             bottomNav.push(``);
                                             break;

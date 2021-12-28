@@ -21,6 +21,7 @@ db.roles.find(
         "password": "gepUser@123",
         "email": "gepUser@gmail.com",
         "role": i._id,
+        "avatar" : null,
         "Idtoken": "",
         "org": '@ibm.com"',
         "org_country": 'US',
@@ -37,6 +38,7 @@ db.roles.find(
         temp.password = "gepAdmin@123";
         temp.email = "gepAdmin@gmail.com";
         temp.role = i._id;
+        temp.avatar = null;
         temp.Idtoken = "";
         temp.org = "@10decoders.in";
         temp.org_country = "Ind";

@@ -1,6 +1,6 @@
 /*
  * Template group mongoscript
- * Compiled on Fri Feb 19 2021 18:36:47 GMT+0530 (India Standard Time)
+ * Compiled on Tue Dec 28 2021 15:42:58 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -110,6 +110,10 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");
+    w.write("\"avatar\" : null,");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("        ");
     w.write("\"Idtoken\": \"\",");
     w.popIndentation();
     w.write("\n");
@@ -171,6 +175,10 @@ r = function(w, rc) {
     w.write("\n");
     w.pushIndentation("        ");
     w.write("temp.role = i._id;");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("        ");
+    w.write("temp.avatar = null;");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");

@@ -10,6 +10,9 @@ export class AuthFrontendService {
     private frontendSupportWorker = new FrontendSupportWorker();
     private IMAGE_FOLDERNAME = 'assets/img';
     private IMAGE_GENERATION_FOLDERNAME = 'img';
+    private IMAGE_PROFILE_FOLDERNAME = 'assets/profile';
+    private IMAGE_PROFILE_GENERATION_FOLDERNAME = 'profile';
+
 
 
     public async authfrontendservice(req: Request, callback) {
@@ -22,6 +25,7 @@ export class AuthFrontendService {
         console.log("seedTemplatePath====>",seedTemplatePath);
         
         await this.readImagesAssets(seedTemplatePath, applicationPath);
+        await this.readImagesProfile(seedTemplatePath, applicationPath);
         this.frontendWorker.createReadMeFile(details, (response) => {
             this.frontendWorker.createErrorReadMeFile(details, (response) => {
                 this.frontendWorker.createLoginComponent(details, (response) => {
@@ -66,6 +70,20 @@ export class AuthFrontendService {
         templatePath = path.resolve(__dirname, templatePath);
         templatePath += `/${this.IMAGE_FOLDERNAME}`;
         generationPath = `${generationPath}/src/assets/${this.IMAGE_GENERATION_FOLDERNAME}`;
+        await Common.createFolders(generationPath);
+        await this.frontendSupportWorker.writeAssetsImageFile(generationPath, templatePath, imageElement);
+    }
+
+    async readImagesProfile(templatePath, generationPath) {
+        await fs.readdirSync(`${templatePath}/${this.IMAGE_PROFILE_FOLDERNAME}`).forEach(async imageElement => {
+            await this.generateAssetSubFile(generationPath, templatePath, imageElement);
+        });
+    }
+
+    private async generateAssetSubFile(generationPath, templatePath, imageElement) {
+        templatePath = path.resolve(__dirname, templatePath);
+        templatePath += `/${this.IMAGE_PROFILE_FOLDERNAME}`;
+        generationPath = `${generationPath}/src/assets/${this.IMAGE_PROFILE_GENERATION_FOLDERNAME}`;
         await Common.createFolders(generationPath);
         await this.frontendSupportWorker.writeAssetsImageFile(generationPath, templatePath, imageElement);
     }

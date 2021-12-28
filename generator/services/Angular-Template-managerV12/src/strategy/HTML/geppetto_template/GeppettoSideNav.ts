@@ -45,6 +45,9 @@ export class GeppettoSideNav {
                                         case 'manageroles':
                                             bottomNav.push(``);
                                             break;
+                                        case 'managecontrol':
+                                            bottomNav.push(``);
+                                            break;
                                         case 'manageusers':
                                             bottomNav.push(``);
                                             break;

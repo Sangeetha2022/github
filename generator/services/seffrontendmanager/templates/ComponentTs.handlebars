@@ -48,6 +48,7 @@ export class {{ GpOptions.className }} implements OnInit {
     public firstName = '';
     public lastName = '';
     public Id: any;
+    public Image: any;
     public changeName: any;
     public open: any;
     public close: any;
@@ -67,6 +68,7 @@ export class {{ GpOptions.className }} implements OnInit {
         {{/if}}
         {{#ifCond GpOptions.featureName '===' 'systementry'}}
             this.Id = sessionStorage.getItem('Id');
+            this.Image = sessionStorage.getItem('Image');
             {{#each GpCodeToAdd.flows_info }}
 
                     this.{{ ../GpOptions.screenName }}Service.{{ flowName }}(this.Id).subscribe(logindetails => {

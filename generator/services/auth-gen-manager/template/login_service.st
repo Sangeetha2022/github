@@ -14,7 +14,7 @@ export class $object.className$Service {
   constructor(private http: HttpClient, private $object.shared.objectName$: $object.shared.className$) { }
 
   uploadImgFile(){
-    return `${this.sharedService.UPLOAD_API + '/addAttachment'}`;
+    return `$object.shared.variableUploadName$ + '/addAttachment'}`;
   }
   
   signup(user: any): Observable<any> {

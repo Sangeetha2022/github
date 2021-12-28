@@ -93,6 +93,9 @@ export class TemplateSideNav {
                                         case 'authorization':
                                             bottomNav.push(``);
                                             break;
+                                        case 'managecontrol':
+                                            bottomNav.push(``);
+                                            break;
                                         case 'manageroles':
                                             bottomNav.push(``);
                                             break;
