@@ -449,7 +449,8 @@ export class FrontendWorker {
             shared: {
                 className: `${sharedObj.className}${this.SERVICE_NAME.charAt(0).toUpperCase() + this.SERVICE_NAME.slice(1)}`,
                 objectName: `${sharedObj.className.charAt(0).toLowerCase() + sharedObj.className.slice(1)}${this.SERVICE_NAME.charAt(0).toUpperCase() + this.SERVICE_NAME.slice(1)}`,
-                variableName: sharedObj.variableName
+                variableName: sharedObj.variableName,
+                variableUploadName: `\${this.sharedService.UPLOAD_API `
             }
         }
         this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp, () => {
@@ -467,6 +468,7 @@ export class FrontendWorker {
         const tempImports = [];
         const tempDeclarations = [];
         const tempEntryComponents = [];
+        const tempSchemas = [];
 
         // app module dependency
         // this.appModuleInfo.importDependency.push(`import { ${folderName.charAt(0).toUpperCase() + folderName.slice(1)}${this.MODULE_NAME.charAt(0).toUpperCase() + this.MODULE_NAME.slice(1)} } from './${folderName}/${folderName}.module';`);
@@ -502,6 +504,7 @@ export class FrontendWorker {
             imports: null,
             declarations: null,
             entryComponents: null,
+            schemas: null,
             className: folderName.charAt(0).toUpperCase() + folderName.slice(1)
         }
         if (folderName !== 'profilesettings' && folderName !== 'updateauthorization') {
@@ -526,8 +529,13 @@ export class FrontendWorker {
                 }
                 if (folderName === 'authorization') {
                     temp.importDependency.push({ dependencyname: `UpdateauthorizationComponent`, dependencyPath: `./updateauthorization/updateauthorization.component` });
+                    temp.importDependency.push({ dependencyname: 'AgGridModule', dependencyPath: 'ag-grid-angular' });
+                    temp.importDependency.push({ dependencyname: 'NgSelectModule', dependencyPath: '@ng-select/ng-select' })
 
+                    tempImports.push(`AgGridModule.withComponents([])`);
+                    tempImports.push(`NgSelectModule`);
                     tempDeclarations.push(`UpdateauthorizationComponent`);
+                    tempSchemas.push(`CUSTOM_ELEMENTS_SCHEMA`)
                 }
                 tempImports.push(`CommonModule`);
                 tempImports.push(`FormsModule`);
@@ -540,6 +548,7 @@ export class FrontendWorker {
                 temp.imports = tempImports.join(',\n');
                 temp.declarations = tempDeclarations.join(',\n');
                 temp.entryComponents = tempEntryComponents.join(',\n');
+                temp.schemas = tempSchemas.join(',\n');
             }
         }
         // app routing module
