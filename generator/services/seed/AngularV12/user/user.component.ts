@@ -181,7 +181,7 @@ export class UserComponent implements OnInit {
     this.route.navigate(['profile'], { queryParams: { id: rows._id ,data:rows.firstname,datas:rows.lastname,value:rows.email,values:rows.role.role,image:rows.image} });
   }
   onDeleteButtonClick(e:any){
-    if (confirm('Are you sure you want to delete this?')) {
+     alert('Are you sure you want to delete this?')
       const rows = e.rowData;
       console.log("datas",rows);
       console.log("da",rows._id);
@@ -192,7 +192,7 @@ export class UserComponent implements OnInit {
     });
     location.reload();
     }
-    }
+    
     onFileSelected(event:any) {
       this.selectedFiles = event.target.files;
       this.currentFileUpload = this.selectedFiles.item(0);

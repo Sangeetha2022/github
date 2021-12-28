@@ -30,8 +30,8 @@ export class SigninDao {
             })
 
             this.userDetails = {
-                'firstname': userData.firstName,
-                'lastname': userData.lastName,
+                'firstname': userData.firstname,
+                'lastname': userData.lastname,
                 'password': userData.password,
                 'email': userData.email,
                 'username': userData.email,

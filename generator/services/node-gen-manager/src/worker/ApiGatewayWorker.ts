@@ -38,6 +38,7 @@ export class ApiGatewayWorker {
     }
 
     createControllerIndex(generationPath, templatePath, controllerDetails) {
+        console.log("data--->",controllerDetails,templatePath,generationPath);
         const srcPath = `${generationPath}/src`;
         Common.createFolders(srcPath);
         apiGatewaySupportWorker.generateControllerIndex(srcPath, templatePath, controllerDetails, (response) => {
