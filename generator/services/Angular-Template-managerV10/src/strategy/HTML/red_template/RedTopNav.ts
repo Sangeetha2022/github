@@ -55,6 +55,9 @@ export class RedTopNav {
                                         case 'manageroles':
                                             link += ``
                                             break;
+                                        case 'managecontrol':
+                                            link += ``
+                                            break;                                        
                                         case 'manageusers':
                                             link += ``
                                             break;

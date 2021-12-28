@@ -74,7 +74,6 @@ export class TemplateHeader {
             padding-left: 8px;
           }
         
-        // --------------------------------------------------------------------
         #icrvgp {
             padding: 5px 0 5px 10px;
             height: 50px;
@@ -193,7 +192,6 @@ export class TemplateHeader {
             margin: 0 0 0 0;
         }
         
-        //-------------------------------------------------------
         .cell, .cell-gut, .gdp-cell, .gdp-cell-gut {
             flex-grow: 1;
             flex-basis: 100%;
@@ -268,5 +266,54 @@ export class TemplateHeader {
         
         .gpd-link {
             color: #d983a6
+        }
+        
+        #jn87dj {
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+        }
+        
+        .hoverable {
+            position: relative;
+            cursor: pointer;
+            height: 50px;
+            width: 50px;
+            border: 5px solid rgb(218, 214, 214);
+            border-radius: 50%;
+        }
+        
+        .hoverable .hover-text {
+            position: absolute;
+            display: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+        
+        .hoverable .background {
+            position: absolute;
+            display: none;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .hoverable:hover .hover-text {
+            display: block;
+        }
+        
+        .hoverable:hover .background {
+            display: block;
+        }
+        
+        #fileInput {
+            display: none;
         }`;
 }

@@ -1,6 +1,6 @@
 /*
  * Template group login_service
- * Compiled on Tue Sep 24 2019 19:14:30 GMT+0530 (India Standard Time)
+ * Compiled on Tue Dec 28 2021 14:43:16 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -62,15 +62,32 @@ r = function(w, rc) {
     w.write("\n");
     w.write("\n");
     w.pushIndentation("  ");
+    w.write("uploadImgFile(){");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("    ");
+    w.write("return `");
+    w.popIndentation();
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 17, column: 20 }), "variableUploadName", { file: gFile, line: 17, column: 27 }));
+    w.write(" + '/addAttachment'}`;");
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("}");
+    w.popIndentation();
+    w.write("\n");
+    w.pushIndentation("  ");
+    w.write("\n");
+    w.popIndentation();
+    w.pushIndentation("  ");
     w.write("signup(user: any): Observable<any> {");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
     w.write("return this.http.post(this.");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 17, column: 39 }), "objectName", { file: gFile, line: 17, column: 46 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 21, column: 39 }), "objectName", { file: gFile, line: 21, column: 46 }));
     w.write(".");
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 17, column: 66 }), "variableName", { file: gFile, line: 17, column: 73 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 21, column: 66 }), "variableName", { file: gFile, line: 21, column: 73 }));
     w.write(" + '/signup', user);");
     w.write("\n");
     w.pushIndentation("  ");
@@ -85,9 +102,9 @@ r = function(w, rc) {
     w.pushIndentation("    ");
     w.write("return this.http.post(this.");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 21, column: 39 }), "objectName", { file: gFile, line: 21, column: 46 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 25, column: 39 }), "objectName", { file: gFile, line: 25, column: 46 }));
     w.write(".");
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 21, column: 66 }), "variableName", { file: gFile, line: 21, column: 73 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 25, column: 66 }), "variableName", { file: gFile, line: 25, column: 73 }));
     w.write(" + '/googlesignin', user);");
     w.write("\n");
     w.pushIndentation("  ");
@@ -101,9 +118,9 @@ r = function(w, rc) {
     w.pushIndentation("    ");
     w.write("return this.http.post(this.");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 24, column: 39 }), "objectName", { file: gFile, line: 24, column: 46 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 28, column: 39 }), "objectName", { file: gFile, line: 28, column: 46 }));
     w.write(".");
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 24, column: 66 }), "variableName", { file: gFile, line: 24, column: 73 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 28, column: 66 }), "variableName", { file: gFile, line: 28, column: 73 }));
     w.write(" + '/login', user);");
     w.write("\n");
     w.pushIndentation("  ");
@@ -118,9 +135,9 @@ r = function(w, rc) {
     w.pushIndentation("    ");
     w.write("return this.http.put(this.");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 28, column: 38 }), "objectName", { file: gFile, line: 28, column: 45 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 32, column: 38 }), "objectName", { file: gFile, line: 32, column: 45 }));
     w.write(".");
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 28, column: 65 }), "variableName", { file: gFile, line: 28, column: 72 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 32, column: 65 }), "variableName", { file: gFile, line: 32, column: 72 }));
     w.write(" + '/logout', user);");
     w.write("\n");
     w.pushIndentation("  ");
@@ -135,9 +152,9 @@ r = function(w, rc) {
     w.pushIndentation("    ");
     w.write("return this.http.put(this.");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 32, column: 38 }), "objectName", { file: gFile, line: 32, column: 45 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 36, column: 38 }), "objectName", { file: gFile, line: 36, column: 45 }));
     w.write(".");
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 32, column: 65 }), "variableName", { file: gFile, line: 32, column: 72 }));
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 36, column: 65 }), "variableName", { file: gFile, line: 36, column: 72 }));
     w.write(" + '/consent', consent);");
     w.write("\n");
     w.pushIndentation("  ");
