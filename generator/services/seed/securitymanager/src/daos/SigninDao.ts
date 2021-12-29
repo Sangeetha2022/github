@@ -278,4 +278,16 @@ export class SigninDao {
 
         })
     }
+
+    public deleteuserdao(userdetails, callback) {
+        new CustomLogger().showLogger('info', 'Enter into SigninDao.ts: deleteuserdao');
+        signinmodel.findByIdAndRemove(userdetails ).then(result => {
+            console.log('result--->',result);
+            new CustomLogger().showLogger('info', 'Exit from SigninDao.ts: deleteuserdao');
+            callback(result);
+        }).catch((error) => {
+            callback(error);
+        });
+
+    }
 }

@@ -832,6 +832,7 @@ export class AuthService {
                 isSeed: true
             }
             await this.gcamworkerfile.GcamScreenJson(screens, this.authGenFiles.gcamFolder, this.authGenFiles.templatepath, Gcamscreen => {
+                
                 // console.log('gcam screen file modify');
             });
     
