@@ -69,6 +69,12 @@
                     "variableName": "User"
                 },
                 {
+                    "routeUrl": "/updateuserimg",
+                    "apiAction": "put",
+                    "methodName": "updateuserimg",
+                    "variableName": "User"
+                },
+                {
                     "routeUrl": "/saveroles",
                     "apiAction": "post",
                     "methodName": "saveRoles",
@@ -100,11 +106,42 @@
             "entityFileName": "gcam",
             "nodePortNumber": "8007",
             "flowAction": [{
-                "routeUrl": "/accesslevel",
-                "apiAction": "post",
-                "methodName": "gcam",
-                "variableName": "User"
-            }]
+                    "routeUrl": "/accesslevel",
+                    "apiAction": "post",
+                    "methodName": "gcam",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/gcamgenerate",
+                    "apiAction": "post",
+                    "methodName": "gcamGenerate",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/gcamallscreens",
+                    "apiAction": "get",
+                    "methodName": "gcamscreens",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/gcamdeletebyid/:id",
+                    "apiAction": "delete",
+                    "methodName": "gcamdeletebyId",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/gcambyid/:id",
+                    "apiAction": "get",
+                    "methodName": "gcamGetById",
+                    "variableName": "User"
+                },
+                {
+                    "routeUrl": "/gcamupdate",
+                    "apiAction": "put",
+                    "methodName": "gcamupdatebyId",
+                    "variableName": "User"
+                }
+            ]
         },
         {
             "featureName": "Admin",
