@@ -58,20 +58,15 @@ export class UserComponent implements OnInit {
 
   Users() {
     this.adminservice.Getallusers().subscribe(data => {
-      console.log("data",data);
       this.rowData = data;
       this.Userdetails = data;
       // this.agImg = data.;
       // console.log("agImg--->",this.agImg)
-       console.log("eee--->",this.Userdetails);
     }, error => {
-      console.error('error:', error);
+      console.log("error",error);
     });
   }
- 
-
   agGridInitialization() {
-
     this.columnDefs = [
       {
         headerName: 'Firstname',
@@ -145,7 +140,6 @@ export class UserComponent implements OnInit {
   // }
 
   adduser(){
-    console.log("this-->",this.Userobject);
     const dataToSave = {
       'firstname': this.Userobject.firstname,
       'lastname': this.Userobject.lastname,
@@ -156,15 +150,12 @@ export class UserComponent implements OnInit {
       'username': this.Userobject.username,
       'avatar': this.img
     }
-    console.log("USER-->",dataToSave);
     this.loginservice.signup(dataToSave).subscribe(response => {
-      console.log("data",response);
         window.location.reload();
     }, error => {
       console.error('error:', error);
     });
      this.ngOnInit()
-  
 }
   
   onGridReady(params:any) {
@@ -175,18 +166,12 @@ export class UserComponent implements OnInit {
 
   Editaction(e:any) {
     const rows = e.rowData;
-    console.log("rows===================",rows);
-    console.log('selectedrow------->>>',{ queryParams: { id: rows._id ,data:rows.firstname,datas:rows.lastname,value:rows.email,values:rows.role.role,image:rows.image} });
-   // this.route.navigate(['profile'], { queryParams: { id: rows._id } });
     this.route.navigate(['profile'], { queryParams: { id: rows._id ,data:rows.firstname,datas:rows.lastname,value:rows.email,values:rows.role.role,image:rows.image} });
   }
   onDeleteButtonClick(e:any){
     if (confirm('Are you sure you want to delete this?')) {
       const rows = e.rowData;
-      console.log("datas",rows);
-      console.log("da",rows._id);
-    this.userService.deleteUser(rows._id).subscribe(response => {
-      console.log("data",response);
+      this.userService.deleteUser(rows._id).subscribe(response => {
     }, error => {
       console.error('error:', error);
     });
@@ -196,7 +181,6 @@ export class UserComponent implements OnInit {
     onFileSelected(event:any) {
       this.selectedFiles = event.target.files;
       this.currentFileUpload = this.selectedFiles.item(0);
-      console.log("currentFileUpload",this.currentFileUpload);
       this.gepfileToUpload(this.currentFileUpload);
     }
     
@@ -206,15 +190,11 @@ export class UserComponent implements OnInit {
     const endpoint = this.loginservice.uploadImgFile();
     const formData: FormData = new FormData();
     formData.append('fileKey', fileToUpload, fileToUpload.name);
-    console.log('fileToUpload +++', formData);
     fetch(endpoint, {
         method: 'POST',
         body: formData
     }).then( res => res.json()
-    
     ).then((resultData) => {
-      console.log("resultData--->",resultData);
-       console.log("resp",`${this.sharedService.UPLOAD_API}/${resultData}`);
         let dynamic_Ipdata = `${this.sharedService.UPLOAD_API}/${resultData}`;
         this.img = dynamic_Ipdata;
     })

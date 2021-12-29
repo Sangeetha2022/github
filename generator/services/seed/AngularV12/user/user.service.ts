@@ -13,8 +13,6 @@ export class UserService {
 
 
   Getuser(userid: any): Observable<any> {
-    console.log("userobject");
-    console.log("this.sharedService.DESKTOP_API ",this.sharedService.DESKTOP_API + '/getuser/${userid}' );
     return this.http.get(this.sharedService.DESKTOP_API + `/getuser/${userid}`);
   }
 
@@ -23,8 +21,6 @@ export class UserService {
   }
 
   Updateuser(userobject: any): Observable<any> {
-    console.log("userobject",userobject);
-    console.log("this.sharedService.DESKTOP_API ",this.sharedService.DESKTOP_API + 'updateuser' );
     return this.http.put(this.sharedService.DESKTOP_API + '/updateuser/', userobject);
   }
   deleteUser(id: any): Observable<any> {
