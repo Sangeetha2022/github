@@ -465,8 +465,9 @@ export class DesktopScreenComponent implements OnInit
    this.blockservice.addDownload(this.editor);
    this.blockservice.addCKeditor5(this.editor);
    this.blockservice.addSpecialCharts(this.editor);
-   this.blockservice.dynamicDropdown(this.editor);
-   this.blockservice.tagManager(this.editor);
+   this.blockservice.addDynamicDropdown(this.editor);
+   this.blockservice.addTagManager(this.editor);
+   this.blockservice.addMultiSelectDropdown(this.editor);
    this.addGridBlocks();
   }
   //Function Contains custom buttons in panels
@@ -801,7 +802,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
      this.customTraitService.flowsActionButton(this);
      this.customTraitService.flowsModifierValueButton(this);
      this.customTraitService.MultiflowsActionButton(this);
-        // input traits
+     // input traits
      this.editor.DomComponents.getType('input').model.prototype.defaults.traits.push
      ({
             type: 'select',

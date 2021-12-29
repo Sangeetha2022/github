@@ -50,7 +50,7 @@ export class BlockService
     this.traitService.addCKEditorTraits(editor, 'ckeditor5');
   }
 
-  dynamicDropdown(editor:any) 
+  addDynamicDropdown(editor:any) 
   {
     editor.BlockManager.add('dynamicDropdown', 
     {
@@ -62,7 +62,7 @@ export class BlockService
              <polygon class="gjs-block-svg-path" transform="translate(18.500000,12.000000) scale(1, -1) translate(-18.500000, -12.000000)"
               points = "18.5 11 20 13 17 13"> </polygon>\n
              </svg>\n  <div class="gjs-block-label"> Dynamic Dropdown </div>`,
-      category: 'special',
+      category: 'Special',
       content: `<div  style="padding-top:0px; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
                    <select data-gjs-type="dynamicdropdown-type">
                      <option value="1">1</option>
@@ -74,7 +74,7 @@ export class BlockService
     this.traitService.dynamicDropdownTraits(editor, 'dynamicdropdown-type');
   }
 
-  tagManager(editor:any) 
+  addTagManager(editor:any) 
   {
     editor.BlockManager.add('tagmanager', 
     {
@@ -86,12 +86,31 @@ export class BlockService
               <polygon class="gjs-block-svg-path" transform="translate(18.500000,12.000000) scale(1, -1) translate(-18.500000, -12.000000)"
                points = "18.5 11 20 13 17 13"> </polygon>\n
               <rect class="gjs-block-svg-path" x="4" y="11.5" width ="11" height="1"></rect>\n
-              </svg>\n  <div class="gjs-block-label"> Tag Manager </div>`,
-      category: 'special',
+              </svg>\n  
+              <div class="gjs-block-label"> Tag Manager </div>`,
+      category: 'Special',
       content: `<div  style="padding-top:0px; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
                   <select data-gjs-type="tagmanager">
                     <option value="1">1</option>
                   </select>
+                </div>`,
+      draggable: true,
+      removable: true
+    });
+  }
+
+  addMultiSelectDropdown(editor:any) 
+  {
+    editor.BlockManager.add('multiselect', 
+    {
+      id: 'multiselect',
+      label: `<div>
+                <img src="./assets/images/multiselect.svg" style="background-color:white"/>
+                <div class="gjs-block-label">Multi-select Dropdown</div>
+              </div>`, 
+      category: 'Special',
+      content: `<div data-gjs-type="grid-type" style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
+                   <div id="myGrid" style="width: auto; height: 25%" class="ag-theme-alpine"></div>
                 </div>`,
       draggable: true,
       removable: true
@@ -124,7 +143,7 @@ export class BlockService
     ds.editor.BlockManager.add('agGrid', 
     {
       id: 'agGrid',
-      label: 'agGrid',
+      label: 'AgGrid',
       category: 'Basic',
       attributes: 
       {
