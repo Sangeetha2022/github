@@ -85,6 +85,12 @@
                     "apiAction": "delete",
                     "methodName": "deleteRoles",
                     "variableName": "User"
+                },
+                {
+                    "routeUrl": "/deleteuser/:id",
+                    "apiAction": "delete",
+                    "methodName": "deleteUser",
+                    "variableName": "User"
                 }
             ]
         },
