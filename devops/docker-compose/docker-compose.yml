@@ -10,7 +10,7 @@ services:
     volumes:
       - geppetto-volume:/data/db
     ports:
-      - "27018:27017"
+      - "27017:27017"
     healthcheck:
       test: echo 'db.runCommand({serverStatus:1}).ok' | mongo admin -u root -p root --quiet | grep 1
       interval: 10s
@@ -365,7 +365,7 @@ services:
     volumes:
       - generated-code:/geppetto/
     ports:
-      - "5027:5021"
+      - "5021:5021"
     env_file: ../../.env
 
   frontgenmanager:
