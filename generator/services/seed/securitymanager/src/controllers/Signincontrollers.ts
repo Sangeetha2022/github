@@ -112,6 +112,15 @@ export class Signincontroller {
 
         })
     }
+    public deleteuser(req: Request, res: Response) {
+        new CustomLogger().showLogger('info', 'Enter into Signincontrollers.ts: deleteuser');
+        signinservice.deleteuserservice(req, (response) => {
+            res.status(200);
+            res.json(response);
+            new CustomLogger().showLogger('info', 'Exit from Signincontrollers.ts: deleteuser');
+
+        });
+    }
 
     public updateUser(req: Request, res: Response) {
         new CustomLogger().showLogger('info', 'Enter into Signincontrollers.ts: updateuser');

@@ -4,23 +4,26 @@ import { Roleschema } from '../models/Role';
 import * as jwt from 'jsonwebtoken';
 import * as asyncLoop from 'node-async-loop';
 var jwtDecode = require('jwt-decode');
-import { CustomLogger } from '../config/Logger'
-
+import { CustomLogger } from '../config/Logger';
 const signinmodel = mongoose.model('User', UserSchema);
 const rolemodel = mongoose.model('role', Roleschema);
 export class SigninDao {
-
+    private data:any
     private userrole: any;
     private rolevalue: any;
     private signuprole: any;
     private userDetails: any;
     private mailboolean: boolean;
+    private Idtoken:any;
+    
     public signindao(userData, callback) {
         new CustomLogger().showLogger('info', 'Enter into SigninDao.ts: signindao');
-        rolemodel.find().then(result => {
+        rolemodel.find().then(async result => {
             asyncLoop(result, (roles, next) => {
                 if (roles.role === 'User') {
-                    this.signuprole = roles._id;
+                console.log(roles.role === 'User');
+                this.signuprole = roles._id;
+                console.log(this.signuprole);
                 }
                 next();
             }, (err) => {
@@ -28,7 +31,6 @@ export class SigninDao {
                     return err;
                 }
             })
-
             this.userDetails = {
                 'firstname': userData.firstname,
                 'lastname': userData.lastname,
@@ -37,8 +39,10 @@ export class SigninDao {
                 'username': userData.email,
                 'role': this.signuprole,
                 'Idtoken': '',
-                'installrToken': userData.installrToken
+                'avatar':userData.avatar
+                
             };
+            console.log("this.userdetails--->",this.userDetails);
             signinmodel.find().then(data => {
                 if (data.length !== 0) {
                     asyncLoop(data, (users, next) => {
@@ -60,6 +64,7 @@ export class SigninDao {
                     } else {
                         let logincreds = new signinmodel(this.userDetails);
                         logincreds.save().then((result) => {
+                            console.log("result--->",result);
                             new CustomLogger().showLogger('info', 'Exit from SigninDao.ts: signindao');
                             callback(result);
                         }).catch((error) => {
@@ -69,6 +74,7 @@ export class SigninDao {
                 } else {
                     let logincreds = new signinmodel(this.userDetails);
                     logincreds.save().then((result) => {
+                        console.log("result--->",result);
                         new CustomLogger().showLogger('info', 'Exit from SigninDao.ts: signindao');
                         callback(result);
 
@@ -85,10 +91,13 @@ export class SigninDao {
     public logindao(logindetails, callback) {
         new CustomLogger().showLogger('info', 'Enter into SigninDao.ts: logindao');
         signinmodel.findOneAndUpdate({ email: logindetails.email, password: logindetails.password }, { $set: { loggedinDate: new Date() } }, function (err, response) {
+            // console.log("signinmodel",signinmodel);
             if (err) {
+                console.log("err--->",err);
                 callback(err);
             }
             if (response === null) {
+                console.log("res----->");
                 response = 'Incorrect Username or Password';
                 new CustomLogger().showLogger('info', 'Exit from SigninDao.ts: logindao');
                 callback(response);
@@ -173,6 +182,7 @@ export class SigninDao {
         signinmodel.find().populate({
             path: 'role', model: rolemodel
         }).then(result => {
+            console.log("result--->",result);
             new CustomLogger().showLogger('info', 'Exit from SigninDao.ts: getalluserdao');
             callback(result);
 
@@ -230,24 +240,47 @@ export class SigninDao {
         });
     }
 
-    public updateuserdao(updateuser, callback) {
+    public async updateuserdao(updateuser, callback) {
+        
         new CustomLogger().showLogger('info', 'Enter into SigninDao.ts: updateuserdao');
-
-
+        console.log("updateuser---->",updateuser);
         var payload = {
             username: updateuser.email,
             firstname: updateuser.firstname,
             lastname: updateuser.lastname,
             email: updateuser.email,
+            role:updateuser.role,
             id: updateuser.id,
-            role: updateuser.role.role,
-            installrToken: updateuser.installrToken
+            image:updateuser.image,
+          
+             
         }
-        var idtoken = jwt.sign(payload, 'geppettosecret', {
-            expiresIn: 86400
-        });
+        console.log("payload",payload);
+        await rolemodel.find().then(result => {
+            console.log("result--->",result);
+            asyncLoop(result, (roles, next) => {
+                console.log("sss--->",updateuser.role,roles.role);
+                console.log("roles.role-->",roles.role === updateuser.role);
+               if (roles.role === updateuser.role) {
+                    console.log("roles.role-->",roles.role ===  updateuser.role);
+                    console.log(roles._id);
+                   this.data = roles._id;
+                   console.log("this.data--->",this.data);
+                }next();
+            }, (err) => {
+                if (err) {
+                    return err;
+                }
+            })
+       
+        
+        // var idtoken = jwt.sign(payload, 'geppettosecret', {
+        //     expiresIn: 86400
+        // });
 
-        signinmodel.findByIdAndUpdate(updateuser.id, { $set: { username: updateuser.username, firstname: updateuser.firstname, lastname: updateuser.lastname, email: updateuser.email, role: updateuser.role._id, Idtoken: idtoken, installrToken: updateuser.installrToken } }, (err, response) => {
+        signinmodel.findByIdAndUpdate(updateuser.id, { $set: { username: updateuser.username, firstname: updateuser.firstname, lastname: updateuser.lastname, email: updateuser.email, role:this.data ,Idtoken:null} }, (err, response) => {
+            console.log("role-->",this.data)
+            console.log("Idtoken--->",this.Idtoken);
             if (err) {
                 callback(err);
             }
@@ -257,16 +290,26 @@ export class SigninDao {
                 lastname: updateuser.lastname,
                 email: updateuser.email,
                 id: updateuser.id,
-                role: updateuser.role._id,
-                Idtoken: idtoken,
-                installrToken: updateuser.installrToken
+                role:this.data,
+                image:updateuser.image,
+                idtoken: this.Idtoken
             }
+            console.log("updateresponse",response);
             new CustomLogger().showLogger('info', 'Exit from SigninDao.ts: updateuserdao');
             callback(updaterespone);
-
+            });
         })
     }
-
+    public deleteuserdao(userdetails, callback) {
+        new CustomLogger().showLogger('info', 'Enter into SigninDao.ts: deleteuserdao');
+        signinmodel.findByIdAndRemove(userdetails ).then(result => {
+            console.log('result--->',result);
+            new CustomLogger().showLogger('info', 'Exit from SigninDao.ts: deleteuserdao');
+            callback(result);
+        }).catch((error) => {
+            callback(error);
+        });
+    }
     public updateUserdao(updateuser, callback) {
         new CustomLogger().showLogger('info', 'Enter into SigninDao.ts: updateuserdao');
         signinmodel.findByIdAndUpdate(updateuser.id, { $set: { avatar: updateuser.avatar }},{multi:true},(err, response) => {
@@ -278,4 +321,6 @@ export class SigninDao {
 
         })
     }
+
+    
 }

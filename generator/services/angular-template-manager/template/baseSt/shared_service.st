@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 export class $object.className$Service {
 
     public DESKTOP_API = environment.DESKTOP_API;
+    public UPLOAD_API = environment.UPLOAD_API;
     public MOBILE_API = environment.MOBILE_API;
 }
 $endif$

@@ -168,7 +168,7 @@ export class ApiGatewayService {
                             // import controller component dependencies
                             this.controllerImport(controllerObj, element);
 
-                            // check camunda login and constent method to generate in apigateway
+                            // check gcam login and constent method to generate in apigateway
                             if (routingElement.routeUrl === this. GCAM_LOGIN_URL ||
                                 routingElement.routeUrl === this.GCAM_CONSENT_URL) {
                                 this.setRoutingDetails(routingElement, controllerDetails);

@@ -13,15 +13,18 @@ export class UserService {
 
 
   Getuser(userid: any): Observable<any> {
-    return this.http.get(this.sharedService.DESKTOP_API + `/admin/getuser/${userid}`);
+    return this.http.get(this.sharedService.DESKTOP_API + `/getuser/${userid}`);
   }
 
   Getroles(): Observable<any> {
-    return this.http.get(this.sharedService.DESKTOP_API + '/admin/getallroles');
+    return this.http.get(this.sharedService.DESKTOP_API + '/getallroles');
   }
 
   Updateuser(userobject: any): Observable<any> {
-    return this.http.put(this.sharedService.DESKTOP_API + '/admin/updateuser', userobject);
+    return this.http.put(this.sharedService.DESKTOP_API + '/updateuser/', userobject);
+  }
+  deleteUser(id: any): Observable<any> {
+    return this.http.delete(this.sharedService.DESKTOP_API + '/deleteuser/' + id);
   }
 
   UpdateUserImg(userobject: any): Observable<any> {
