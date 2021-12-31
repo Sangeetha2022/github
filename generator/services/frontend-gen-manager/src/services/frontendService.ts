@@ -15,7 +15,7 @@ import { Constant } from '../config/Constant';
 import { ConsoleTransportOptions } from 'winston/lib/winston/transports';
 
 export class FrontendService {
-    private desktopScreenName = 'desktop';
+    private desktopScreenName = 'web';
     private mobileScreenName = 'mobile';
     private angular7Name = 'angular7';
     sharedService = new SharedService();
