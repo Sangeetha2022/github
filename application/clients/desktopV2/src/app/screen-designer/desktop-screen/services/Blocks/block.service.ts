@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { discardPeriodicTasks } from '@angular/core/testing';
 import { TraitsService } from '../Traits/traits.service';
 
 @Injectable
@@ -17,14 +18,14 @@ export class BlockService
       label:'Heading',
       category: 'Basic',
       content: `<div>
-                  <h1>Heading Tag<h2>
+                  <h1>Heading Tag</h1>
                 </div>`,
       draggable: true,
       removable: true,
       attributes: 
       {
         class:'fa fa-header'
-      },
+      }
     });
   }
 
@@ -104,16 +105,14 @@ export class BlockService
     editor.BlockManager.add('multiselect', 
     {
       id: 'multiselect',
-      label: `<div>
-                <img src="./assets/images/multiselect.svg" style="background-color:white"/>
-                <div class="gjs-block-label">Multi-select Dropdown</div>
-              </div>`, 
+      label:'Multi-select Dropdown',
       category: 'Special',
-      content: `<div data-gjs-type="grid-type" style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
-                   <div id="myGrid" style="width: auto; height: 25%" class="ag-theme-alpine"></div>
+      content: `<div data-gjs-type="multiselect" style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
+                     <div id="mySelect" style="width: auto; height: 25%"></div>
                 </div>`,
       draggable: true,
-      removable: true
+      removable: true,
+      attributes:{class:'fa fa-tasks'}
     });
   }
 
@@ -122,7 +121,7 @@ export class BlockService
     editor.BlockManager.add('highcharts', 
     {
       id: 'highcharts',
-      label: ` <div class="gjs-block-label"> high charts </div>`,
+      label: ` <div class="gjs-block-label"> High charts </div>`,
       category: 'Extra',
       content: `<div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
                   <div id="highchart4" data-gjs-type="highcharts-type" style="width:100%; height:400px;"></div>
