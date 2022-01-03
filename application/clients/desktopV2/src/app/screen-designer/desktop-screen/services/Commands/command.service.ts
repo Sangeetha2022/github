@@ -485,8 +485,8 @@ export class CommandService
   }
   dragAndDrop($this:any) 
   {
-     $this.editor.on('block:drag:stop', function (model:any) 
-     {
+    $this.editor.on('block:drag:stop', function (model:any) 
+    {
       console.log('model drag and drop are ----- ', model);
       const allInputModels = model.find('[data-gjs-type="input"]');
       const allFormModels = model.find('form');
@@ -533,7 +533,7 @@ export class CommandService
             $this.setElementCSS(element, 'radio', 'input');
           }
           element.attributes.traits.target.set('name', `radio_${element.ccid}`);
-        });
+      });
       // checkbox
       allCheckBoxModels.forEach((element:any) => 
       {
@@ -581,6 +581,8 @@ export class CommandService
       const dynamicdropdownType = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="dynamicdropdown-type"]');
       const tagManager = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="tagmanager"]');
       const multiSelectDropdown=$this.editor.DomComponents.getWrapper().find('[data-gjs-type="multiselect"]');
+      const highChart=$this.editor.DomComponents.getWrapper().find('[data-gjs-type="highcharts-type"]');
+
       if (wrapperType.length > 0) 
       {
         $this.is_grid_present = true;
@@ -616,11 +618,32 @@ export class CommandService
       {
         multiSelectDropdown.forEach((element:any) => 
         {
+          const run=()=>
+          {
+             const eventPopupModel = document.getElementById('warnModal');
+             eventPopupModel!.style.display = 'block';
+          }
+          run();
           element.attributes.traits.target.set('name', `multiselectdropdown_${element.ccid}`);
         });
-      }
-    })   
-  }
-  
+      }  
 
-}
+      if (highChart.length > 0) 
+      {
+        highChart.forEach((element:any) => 
+        {
+          const run=()=>
+          {
+             const eventPopupModel = document.getElementById('warnModal');
+             eventPopupModel!.style.display = 'block';
+          }
+          run();
+          element.attributes.traits.target.set('name', `highChart_${element.ccid}`);
+        });
+      }
+    })
+  }
+}  
+
+
+

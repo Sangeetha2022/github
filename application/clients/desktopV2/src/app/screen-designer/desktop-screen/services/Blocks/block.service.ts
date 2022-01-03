@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { discardPeriodicTasks } from '@angular/core/testing';
 import { TraitsService } from '../Traits/traits.service';
 
 @Injectable
@@ -107,8 +106,12 @@ export class BlockService
       id: 'multiselect',
       label:'Multi-select Dropdown',
       category: 'Special',
-      content: `<div data-gjs-type="multiselect" style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
-                     <div id="mySelect" style="width: auto; height: 25%"></div>
+      content: `<div  style="padding-top:0px; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
+                     <select data-gjs-type="multiselect">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                     </select>
                 </div>`,
       draggable: true,
       removable: true,
@@ -126,8 +129,6 @@ export class BlockService
       content: `<div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
                   <div id="highchart4" data-gjs-type="highcharts-type" style="width:100%; height:400px;"></div>
                 </div>`,
-      draggable: true,
-      removable: true,
       attributes:
       {
         class:'fa fa-bar-chart'

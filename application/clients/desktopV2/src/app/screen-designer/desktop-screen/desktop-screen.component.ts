@@ -1088,6 +1088,13 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
       const saveButton = this.editor.Panels.getButton('options', 'save-page');
       saveButton.set('active', 0);
   }
+
+  closeWarn() 
+  {
+      const model = document.getElementById('warnModal');
+      model!.style.display = 'none';
+  }
+
   toggleMapping() 
   {
       this.isMappingGrid = !this.isMappingGrid;

@@ -9,16 +9,15 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Screen</h5>
                 <button type="button" class="close" (click)="closeScreeName()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="form-group row">
                     <label for="screen-name" class="col-sm-4 col-form-label">Screen Name</label>
                     <div class="col-sm-8">
                         <input type="text" [(ngModel)]="screenName" (ngModelChange)="isScreenNameExist()" class="form-control" (keypress)="omit_special_char($event)">
-                        <small *ngIf="screenNameExist" style="font-style: italic;
-               color: red;">This screen Name is Exist.</small>
+                        <small *ngIf="screenNameExist" style="font-style: italic;color: red;">This screen Name is Exist.</small>
                     </div>
                 </div>
             </div>
@@ -29,6 +28,27 @@
         </div>
     </div>
 </div>
+
+<div class="modal" id="warnModal" tabindex="-1" role="dialog" style="display: none">
+    <div class="modal-dialog modal-md" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" style="color:red">Apologies!</h5>
+                <button type="button" class="close" (click)="closeWarn()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Component is still under generation...</p>
+                <p>Some features may not work!</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" (click)="closeWarn()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- entity and its field div popup model-->
 <div *ngIf="isFieldPopupModal" id="modalDiv" class="modal" tabindex="-1" role="dialog" style="display: block">
     <div class="modal-dialog modal-sm" role="dialog">
@@ -41,8 +61,8 @@
                         <br>
                         <br>
                         <select class="form-select" id="dropdown_style" name="entityFields" [(ngModel)]="entityFields.entityfieldname" (ngModelChange)="onChangeentityfield()">
-                    <option *ngFor="let field of fields " [value]="field.name" selected>{{ field.name }}</option>
-                  </select>
+                             <option *ngFor="let field of fields " [value]="field.name" selected>{{ field.name }}</option>
+                        </select>
                     </div>
                 </form>
             </div>
@@ -233,24 +253,20 @@
                         <select name="dropdown_style" id="dropdown_style" class="form-select" [(ngModel)]="routeDetails.screen" (ngModelChange)="customModelChanged($event)">
                             <option value="" selected>none</option>
                             <ng-container *ngFor="let screenObj of screenArrayByProjectId">
-                              <ng-container *ngIf="customPopupModal.entity; else routes">
-                                <option
-                                  *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption == 'popupmodal'"
-                                  [ngValue]="screenObj">
+                             <ng-container *ngIf="customPopupModal.entity; else routes">
+                                <option *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption == 'popupmodal'" [ngValue]="screenObj">
                                   <span>{{ screenObj.screenName }}</span>
                                 </option>
-                              </ng-container>
-                              <ng-template #routes>
+                             </ng-container>
+                             <ng-template #routes>
                                 <option
-                                  *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption != 'popupmodal'"
-                                  [ngValue]="screenObj">
+                                  *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption != 'popupmodal'" [ngValue]="screenObj">
                                   <span>{{ screenObj.screenName }}</span>
                                 </option>
-                              </ng-template>
+                             </ng-template>
                             </ng-container>
                         </select>
-                        <small id="emailHelp" class="form-text text-muted">Please Select your screenName <span
-                            *ngIf="customPopupModal.entity; else routes">as Popup Modal</span>
+                        <small id="emailHelp" class="form-text text-muted">Please Select your screenName <span *ngIf="customPopupModal.entity; else routes">as Popup Modal</span>
                           <ng-template #routes>for Routes</ng-template>
                         </small>
                     </div>
@@ -258,8 +274,7 @@
                         <br>
                         <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <h4 style="text-align: center">{{routeDetails.screen.screenName}} Entity</h4>
-                            <small class="popupEntityHint" *ngIf="!routeDetails.modalInfo.entity">*Hint: this screen does not have any
-                            entities to map</small>
+                            <small class="popupEntityHint" *ngIf="!routeDetails.modalInfo.entity">*Hint: this screen does not have any entities to map</small>
                             <br>
                             <span><b>Entity Name</b></span>:&nbsp;&nbsp;
                             <span *ngIf="routeDetails.modalInfo.entity && routeDetails.modalInfo?.entity?.name; else noEntity">{{routeDetails.modalInfo?.entity?.name}}</span>
@@ -325,11 +340,11 @@
                     <div class="form-group row" *ngIf="routeDetails.screen._id && customPopupModal.typeLabelName">
                         <h4 for="flowScreens">{{routeDetails.screen.screenName}} flowList</h4>
                         <select class="form-select" name="screenFlow" [(ngModel)]="routeDetails.screenFlow" id="dropdown_style">
-              <option value="" selected>none</option>
-              <ng-container *ngFor="let flowObj of routeDetails.screen.flows_info">
-                <option [ngValue]="flowObj">{{flowObj.flowName}}</option>
-              </ng-container>
-            </select>
+                            <option value="" selected>none</option>
+                           <ng-container *ngFor="let flowObj of routeDetails.screen.flows_info">
+                              <option [ngValue]="flowObj">{{flowObj.flowName}}</option>
+                           </ng-container>
+                        </select>
                     </div>
                     <br>
                     <div class="row" *ngIf="customPopupModal.typeLabelName">
@@ -337,12 +352,10 @@
                     </div>
                     <div class="row" *ngIf="customPopupModal.typeLabelName">
                         <div class="col-lg-4">
-                            <label class="radio-inline"><input type="radio" value="none" [(ngModel)]="routeDetails.type"
-                            name="routeOption" disabled>None</label>
+                            <label class="radio-inline"><input type="radio" value="none" [(ngModel)]="routeDetails.type" name="routeOption" disabled>None</label>
                         </div>
                         <div class="col-lg-8">
-                            <label class="radio-inline"><input type="radio" value="queryParameter" [(ngModel)]="routeDetails.type"
-        name="routeOption">Query Parameter</label>
+                            <label class="radio-inline"><input type="radio" value="queryParameter" [(ngModel)]="routeDetails.type" name="routeOption">Query Parameter</label>
                         </div>
                     </div>
                 </form>
@@ -378,12 +391,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <label class="radio-inline"><input type="radio" value="internal" (ngModelChange)="changeLinkDetails('internal')" [(ngModel)]="pageLinkObj.linkType"
-                                        name="routeOption">Internal</label>
+                                    <label class="radio-inline"><input type="radio" value="internal" (ngModelChange)="changeLinkDetails('internal')" [(ngModel)]="pageLinkObj.linkType" name="routeOption">Internal</label>
                                 </div>
                                 <div class="col-lg-6">
-                                    <label class="radio-inline"><input type="radio" (ngModelChange)="changeLinkDetails('external')" value="external" [(ngModel)]="pageLinkObj.linkType"
-                                        name="routeOption">External</label>
+                                    <label class="radio-inline"><input type="radio" (ngModelChange)="changeLinkDetails('external')" value="external" [(ngModel)]="pageLinkObj.linkType" name="routeOption">External</label>
                                 </div>
                             </div>
                         </div>
@@ -396,15 +407,13 @@
                             <br>
                             <label class="BoldText" for="internal">Internal Page</label>
                             <select class="form-select" name="iternalOptions" id="dropdown_style" [(ngModel)]="pageLinkObj.internalURL" (ngModelChange)="changeLinkDetails('internalPage')">
-                  <option value="null" selected>none</option>
-                  <ng-container *ngFor="let screenObj of screenArrayByProjectId">
-                    <option
-                      *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption != 'popupmodal'"
-                      [ngValue]="screenObj">
-                      <span>{{ screenObj.screenName }}</span>
-                    </option>
-                  </ng-container>
-                </select>
+                                <option value="null" selected>none</option>
+                                <ng-container *ngFor="let screenObj of screenArrayByProjectId">
+                                  <option *ngIf="!screenObj.isTemplate && screenObj._id != screen_id && screenObj.screenOption != 'popupmodal'" [ngValue]="screenObj">
+                                    <span>{{ screenObj.screenName }}</span>
+                                  </option>
+                               </ng-container>
+                            </select>
                         </div>
                         <div class="form-group row" *ngIf="internal && pageLinkObj.isDynamic">
                             <ng-container *ngIf="!pageLinkObj.paramEntity && pageLinkObj.selectedEntity && pageLinkObj.selectedEntity.name; else selectParamEntity">
@@ -413,17 +422,16 @@
                             <ng-template #selectParamEntity>
                                 <label for="paramEntity">Entity</label>
                                 <select class="form-select" id="dropdown_style" name="paramEntity" [(ngModel)]="pageLinkObj.paramEntity" (ngModelChange)="changeLinkDetails('paramEntity')">
-                    <option value="null" selected>none</option>
-                    <ng-container *ngFor="let entityElement of entityData">
-                      <option [ngValue]="entityElement">
-                        <span>{{ entityElement.name }}</span>
-                      </option>
-                    </ng-container>
-                  </select>
+                                   <option value="null" selected>none</option>
+                                    <ng-container *ngFor="let entityElement of entityData">
+                                         <option [ngValue]="entityElement">
+                                            <span>{{ entityElement.name }}</span>
+                                         </option>
+                                    </ng-container>
+                                </select>
                             </ng-template>
                         </div>
-                        <div class="row mt-4" *ngIf="pageLinkObj.internalURL && 
-              ((pageLinkObj.selectedEntity && pageLinkObj.selectedEntity._id) || pageLinkObj.paramEntity || !pageLinkObj.isDynamic)">
+                        <div class="row mt-4" *ngIf="pageLinkObj.internalURL && ((pageLinkObj.selectedEntity && pageLinkObj.selectedEntity._id) || pageLinkObj.paramEntity || !pageLinkObj.isDynamic)">
                             <button class="btn btn-primary" (click)="addLinkParams()">Add Query Params</button>
                         </div>
                         <br>
@@ -440,17 +448,16 @@
                                     </ng-container>
                                     <ng-template #dynamic>
                                         <select class="form-select" id="dropdown_style" name="entityfield{{i}}" [(ngModel)]="element.fieldName">
-                        <option value="null" selected>none</option>
-                        <ng-container *ngFor="let entityElement of pageLinkObj.entityField">
-                          <option [ngValue]="entityElement.name">
-                            <span>{{ entityElement.name }}</span>
-                          </option>
-                        </ng-container>
-                      </select>
+                                           <option value="null" selected>none</option>
+                                           <ng-container *ngFor="let entityElement of pageLinkObj.entityField">
+                                              <option [ngValue]="entityElement.name">
+                                                   <span>{{ entityElement.name }}</span>
+                                              </option>
+                                         </ng-container>
+                                        </select>
                                     </ng-template>
                                 </div>
                                 <div class="col-md-2 trashDiv" style="top: 31px; position: relative;">
-
                                     <i class="fa fa-trash fa-2x trash" aria-hidden="true" (click)="removeLinkParams(i)"></i>
                                 </div>
                             </div>
