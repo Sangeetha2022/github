@@ -1,6 +1,6 @@
 /*
  * Template group shared_service
- * Compiled on Mon Dec 28 2020 17:58:09 GMT+0530 (India Standard Time)
+ * Compiled on Mon Jan 03 2022 20:11:55 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -45,7 +45,11 @@ r = function(w, rc) {
         w.write("\n");
         w.write("\n");
         w.pushIndentation("    ");
-        w.write("public DESKTOP_API = environment.DESKTOP_API;");
+        w.write("public WEB_API = environment.WEB_API;");
+        w.popIndentation();
+        w.write("\n");
+        w.pushIndentation("    ");
+        w.write("public UPLOAD_API = environment.UPLOAD_API;");
         w.popIndentation();
         w.write("\n");
         w.pushIndentation("    ");

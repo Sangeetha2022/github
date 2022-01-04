@@ -24,7 +24,7 @@ export const SEFSCREEN =
 	"is_bootStrapTable_present" : false,
 	"project" : "55d96790-2444-11ec-8281-7f00d4e844c8",
 	"feature" : "5673f9e0-2444-11ec-bcc8-1380ecf4c35f",
-	"screenType" : "desktop",
+	"screenType" : "web",
 	"screenOption" : "normal",
 	"isTemplate" : false,
 	"stylesheets" : [ ],

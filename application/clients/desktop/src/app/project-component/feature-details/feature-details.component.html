@@ -1,48 +1,45 @@
 <div class="container component_top">
-  <br />
-  <h1 style="text-align: center;">Feature Details</h1>
-  <br />
-  <br />
-  <div>
-    <ngx-spinner bdColor = "rgba(231,220,220,0.33)" size = "small" color = "#b2acac" [fullScreen] = "true">
-      <img class = "loading-image" src='../../assets/img/loading-animation.gif' />
-    </ngx-spinner>
-    Selected Feature : {{selectedFeatureName}}
-    <mat-accordion>
-      <mat-expansion-panel [expanded]="true">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Entities </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div style="margin-left: 64rem;">
-          <button class="createEntityButton btn_color" mat-raised-button color="primary" (click)="saveEntityModel()">Add
+    <br />
+    <h1 style="text-align: center;">Feature Details</h1>
+    <br />
+    <br />
+    <div>
+        <ngx-spinner bdColor="rgba(231,220,220,0.33)" size="small" color="#b2acac" [fullScreen]="true">
+            <img class="loading-image" src='../../assets/img/loading-animation.gif' />
+        </ngx-spinner>
+        Selected Feature : {{selectedFeatureName}}
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="true">
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Entities </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div style="margin-left: 64rem;">
+                    <button class="createEntityButton btn_color" mat-raised-button color="primary" (click)="saveEntityModel()">Add
             Entity</button>
-        </div>
-        <div class="row" style="margin: 0px;" *ngIf="featureEntityDetails.length> 0">
-          <div class="col-md-4" *ngFor="let entity of featureEntityDetails; let i = index">
+                </div>
+                <div class="row" style="margin: 0px;" *ngIf="featureEntityDetails.length> 0">
+                    <div class="col-md-4" *ngFor="let entity of featureEntityDetails; let i = index">
 
-            <div class="row bottom_padding">
-              <div class="col-md-3">
-                <img class="img_size" *ngIf="!entity.is_default" style="float: right; cursor: pointer;"
-                  (click)="editEntity(entity)" src="../../assets/img/entity3.png">
-              </div>
-              <div class="col-md-7">
-                <h5> {{entity.name}}</h5>
-                <p>{{entity.description}}</p>
-                <button class="btn-space" mat-raised-button color="primary"
-                  (click)="editEntityField(entity)">Edit</button>
-                <button mat-raised-button color="warn" [disabled]="entity.is_default"
-                  (click)="openDeleteModel(entity)">Delete</button>
-              </div>
-            </div>
-          </div>
+                        <div class="row bottom_padding">
+                            <div class="col-md-3">
+                                <img class="img_size" *ngIf="!entity.is_default" style="float: right; cursor: pointer;" (click)="editEntity(entity)" src="../../assets/img/entity3.png">
+                            </div>
+                            <div class="col-md-7">
+                                <h5> {{entity.name}}</h5>
+                                <p>{{entity.description}}</p>
+                                <button class="btn-space" mat-raised-button color="primary" (click)="editEntityField(entity)">Edit</button>
+                                <button mat-raised-button color="warn" [disabled]="entity.is_default" (click)="openDeleteModel(entity)">Delete</button>
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="col-md-4" class="col-md-4" *ngIf="featureEntityDetails.length === 0">
-            No Feature Available.
-          </div>
-        </div>
+                    <div class="col-md-4" class="col-md-4" *ngIf="featureEntityDetails.length === 0">
+                        No Feature Available.
+                    </div>
+                </div>
 
 
-        <!-- <div class="row" style="margin: 0px;">
+                <!-- <div class="row" style="margin: 0px;">
           <div class="col-md-4" *ngFor="let entity of featureEntityDetails; let i = index">
             <div class="card mt-sm-3">
               <div class="card-header">
@@ -64,10 +61,10 @@
             No Entity Available.
           </div>
         </div> -->
-        <!-- <div class="float-right">
+                <!-- <div class="float-right">
           <button class="btn btn-primary" (click)="openScreenModal()">Add Screens</button>
         </div> -->
-        <!-- <div class="row" style="margin: 0px;">
+                <!-- <div class="row" style="margin: 0px;">
           <div class="col-md-4" *ngFor="let screen of screens">
             <div class="card">
               <div class="card-header">
@@ -83,61 +80,57 @@
           </div>
         </div> -->
 
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title> Feature Flows </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="row">
-          <div class="col-md-6"></div>
-          <div class="col-md-6">
-            <button class="btn btn-info ml-sm-3 float-right btn_color" (click)="openFeatureFlowDialog(feature_id)">Add
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Feature Flows </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <button class="btn btn-info ml-sm-3 float-right btn_color" (click)="openFeatureFlowDialog(feature_id)">Add
               Flows</button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="flowTable container mt-sm-3" *ngIf="flowInFeatureRowData.length>0">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="flowTable container mt-sm-3" *ngIf="flowInFeatureRowData.length>0">
 
-            <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
-              [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData" [animateRows]="true"
-              [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10"
-              [suppressRowClickSelection]="true" [suppressRowClickSelection]="true"
-              [frameworkComponents]="frameworkComponents" [floatingFilter]="true"
-              (gridReady)="onFeatureFlowGridReady($event)">
-            </ag-grid-angular>
-          </div>
-        </div>
+                        <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="flowInFeatureColumn" [rowData]="flowInFeatureRowData" [animateRows]="true" [defaultColDef]="flowInFeatureColDef" domLayout='autoHeight' [pagination]="true"
+                            [paginationPageSize]="10" [suppressRowClickSelection]="true" [suppressRowClickSelection]="true" [frameworkComponents]="frameworkComponents" [floatingFilter]="true" (gridReady)="onFeatureFlowGridReady($event)">
+                        </ag-grid-angular>
+                    </div>
+                </div>
 
 
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title> Screens </mat-panel-title>
-        </mat-expansion-panel-header>
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Screens </mat-panel-title>
+                </mat-expansion-panel-header>
 
-        <mat-card-content>
+                <mat-card-content>
 
-          <button class="btn btn-success float-right btn_color" mat-raised-button (click)="GoToDesigner()">Add
+                    <button class="btn btn-success float-right btn_color" mat-raised-button (click)="GoToDesigner()">Add
             Screen</button>
-        </mat-card-content>
+                </mat-card-content>
 
-        <div class="row" style="margin: 0px;padding-bottom: 20px;">
-          <div class="col-md-3 bottom_padding" *ngFor="let screen of screenDetails; let i = index">
-            <span class="screen_text">{{screen?.screenName}}</span>
-            <img src="../../assets/img/desktop.png" *ngIf="screen.screenType === 'desktop'" class="image" alt="Desktop">
-            <img src="../../assets/img/mobile.png" *ngIf="screen.screenType === 'mobile'" class="image" alt="Mobile">
-            <span (click)="editScreen(screen._id, screen.screenType)"><img class="editicon" src="../../../assets/img/edit.svg"/></span>
-            <span (click)="deleteScreen(screen._id)" ><img class="trashicon" src="../../../assets/img/trash.svg" /></span>
-          </div>
+                <div class="row" style="margin: 0px;padding-bottom: 20px;">
+                    <div class="col-md-3 bottom_padding" *ngFor="let screen of screenDetails; let i = index">
+                        <span class="screen_text">{{screen?.screenName}}</span>
+                        <img src="../../assets/img/desktop.png" *ngIf="screen.screenType === 'web'" class="image" alt="Desktop">
+                        <img src="../../assets/img/mobile.png" *ngIf="screen.screenType === 'mobile'" class="image" alt="Mobile">
+                        <span (click)="editScreen(screen._id, screen.screenType)"><img class="editicon" src="../../../assets/img/edit.svg"/></span>
+                        <span (click)="deleteScreen(screen._id)"><img class="trashicon" src="../../../assets/img/trash.svg" /></span>
+                    </div>
 
-          <div class="col-md-4" *ngIf="screenDetails.length === 0">
-            No Screen Available.
-          </div>
-        </div>
+                    <div class="col-md-4" *ngIf="screenDetails.length === 0">
+                        No Screen Available.
+                    </div>
+                </div>
 
 
 
-        <!-- <div class="row" style="margin: 0px;">
+                <!-- <div class="row" style="margin: 0px;">
           <div class="col-md-4" *ngFor="let screen of screenDetails; let i = index">
             <div class="card">
               <div class="card-header">
@@ -159,33 +152,29 @@
           No Screen Available.
         </div> -->
 
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
 
 </div>
 
 
-<div id="EventPopup" class="modal" tabindex="-1" role="dialog"
-  [ngStyle]="{'top': '100px','display':displayFeatureFlowModal}">
-  <div class="modal-dialog modal-lg flow_popup" role="dialog">
-    <div class="modal-content">
-      <!-- <div class="modal-header">
+<div id="EventPopup" class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':displayFeatureFlowModal}">
+    <div class="modal-dialog modal-lg flow_popup" role="dialog">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
                 <h3>Select Flow for Feature</h3>
                 <button type="button" class="close" (click)="closeFeatureFlowModal()" data-dismiss="modal"
                     aria-hidden="true">x</button>
             </div> -->
-      <div class="modal-body">
+            <div class="modal-body">
 
-        <div class="container">
-          <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham"
-            [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData"
-            [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef" domLayout='autoHeight'
-            [pagination]="true" [paginationPageSize]="10" [floatingFilter]="true"
-            (selectionChanged)="onRowSelectionChanged($event)" (gridReady)="onGridReady($event)">
-          </ag-grid-angular>
+                <div class="container">
+                    <ag-grid-angular #agGrid style="width: 100%; height: 100%;" id="myGrid" class="ag-theme-balham" [columnDefs]="columnFlow" [rowSelection]="rowSelectionFlow" [rowData]="rowData" [rowMultiSelectWithClick]="true" [animateRows]="true" [defaultColDef]="defaultColDef"
+                        domLayout='autoHeight' [pagination]="true" [paginationPageSize]="10" [floatingFilter]="true" (selectionChanged)="onRowSelectionChanged($event)" (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
 
-          <!-- <form class="m-3" [formGroup]="eventFlows">
+                    <!-- <form class="m-3" [formGroup]="eventFlows">
     <div class="form-group row">
     <label for="column">Choose an Event</label>
     <select class="form-control" id="column" formControlName="selectEvent" [ngClass]="{ 'is-invalid': submitted && form_control.selectColumn.errors }">
@@ -198,55 +187,53 @@
     </div>
     </div>
     </form> -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" (click)="createProjectFlow()">Save</button>
+                    <button type="button" class="btn btn-danger" (click)="closeFeatureFlowModal()">cancel</button>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <div class="form-group">
-          <button type="button" class="btn btn-primary" (click)="createProjectFlow()">Save</button>
-          <button type="button" class="btn btn-danger" (click)="closeFeatureFlowModal()">cancel</button>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deletePopup}">
-  <div class="modal-dialog modal-sm" role="dialog">
-    <div class="modal-content">
-      <!-- <div class="modal-header">
+    <div class="modal-dialog modal-sm" role="dialog">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
   <h6 class="modal-title">Delete</h6>
   <button type="button" class="close">&times;</button>
   </div> -->
-      <div class="delete modal-body">
-        <p>Please click confirm to delete this project ? </p>
-      </div>
-      <div class="modal-footer" style="padding: 5px">
-        <button type="button" class="btn btn-default" (click)="deleteEntityById()">Confirm</button>
-        &nbsp;
-        <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
-      </div>
+            <div class="delete modal-body">
+                <p>Please click confirm to delete this project ? </p>
+            </div>
+            <div class="modal-footer" style="padding: 5px">
+                <button type="button" class="btn btn-default" (click)="deleteEntityById()">Confirm</button> &nbsp;
+                <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deletescreenPopup}">
-  <div class="modal-dialog modal-sm" role="dialog">
-    <div class="modal-content">
-      <!-- <div class="modal-header">
+    <div class="modal-dialog modal-sm" role="dialog">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
   <h6 class="modal-title">Delete</h6>
   <button type="button" class="close">&times;</button>
   </div> -->
-      <div class="delete modal-body">
-        <p>Please click confirm to delete this screen ? </p>
-      </div>
-      <div class="modal-footer" style="padding: 5px">
-        <button type="button" class="btn btn-default" (click)="deleteScreenByIdPopup()">Confirm</button>
-        &nbsp;
-        <button type="button" class="btn btn-default" (click)="closedeleteScreenPopup()">Cancel</button>
-      </div>
+            <div class="delete modal-body">
+                <p>Please click confirm to delete this screen ? </p>
+            </div>
+            <div class="modal-footer" style="padding: 5px">
+                <button type="button" class="btn btn-default" (click)="deleteScreenByIdPopup()">Confirm</button> &nbsp;
+                <button type="button" class="btn btn-default" (click)="closedeleteScreenPopup()">Cancel</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- <div class="modal" tabindex="-1" role="dialog"> -->
@@ -269,107 +256,97 @@
   </div>
 </div> -->
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'top': '100px','display':deleteConnectorPopup}">
-  <div class="modal-dialog modal-sm" role="dialog">
-    <div class="modal-content">
-      <!-- <div class="modal-header">
+    <div class="modal-dialog modal-sm" role="dialog">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
     <h6 class="modal-title">Delete</h6>
     <button type="button" class="close">&times;</button>
     </div> -->
-      <div class="delete modal-body">
-        <p>Please click confirm to delete this connector Flow ? </p>
-      </div>
-      <div class="modal-footer" style="padding: 5px">
-        <button type="button" class="btn btn-default" (click)="deleteConnector()">Confirm</button>
-        &nbsp;
-        <button type="button" class="btn btn-default" (click)="closedeleteConntorPopUp()">Cancel</button>
-      </div>
+            <div class="delete modal-body">
+                <p>Please click confirm to delete this connector Flow ? </p>
+            </div>
+            <div class="modal-footer" style="padding: 5px">
+                <button type="button" class="btn btn-default" (click)="deleteConnector()">Confirm</button> &nbsp;
+                <button type="button" class="btn btn-default" (click)="closedeleteConntorPopUp()">Cancel</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModel}">
-  <div class="modal-dialog modal-lg" role="dialog">
-    <div class="modal-content">
-      <div class="container">
-        <form class="m-3">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowName"
-                  name="flowName">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="label">Label</label>
-                <input type="text" class="form-control" id="label" [readonly]="!isReadOnly"
-                  [(ngModel)]="modifyFlows.flowLable" name="flowLable">
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" rows="1" id="description" [readonly]="!isReadOnly"
-                  [(ngModel)]="modifyFlows.flowDescription" name="flowDescription"></textarea>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="action">Action</label>
-                <input type="text" class="form-control" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowAction"
-                  name="flowAction">
-              </div>
-            </div>
-          </div>
-          <button type="button" class="btn button-create ok_btn" id="AddConnector" (click)="addExternalConnector()">Add
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+            <div class="container">
+                <form class="m-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowName" name="flowName">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="label">Label</label>
+                                <input type="text" class="form-control" id="label" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowLable" name="flowLable">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" rows="1" id="description" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowDescription" name="flowDescription"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="action">Action</label>
+                                <input type="text" class="form-control" [readonly]="!isReadOnly" [(ngModel)]="modifyFlows.flowAction" name="flowAction">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn button-create ok_btn" id="AddConnector" (click)="addExternalConnector()">Add
             External connector</button>
-        </form>
-      </div>
-      <div *ngIf="customConnector">
-        <div class="modal-body" style="min-height: 200px; max-height: 327px;overflow-y: auto;">
-          <div class="m-3">
-            <form [formGroup]="connectorsForm" (ngSubmit)="onSubmit()">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label>Name</label>
-                    <input type="text" formControlName="firstName" class="form-control" placeholder="Enter name"
-                      [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" [(ngModel)]="quickConnectors.name"
-                      name="name" />
-                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
-                      <div *ngIf="f.firstName.errors.required">Name is required</div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label>Upload Collection File :</label>
-                    <input type="file" formControlName="endPoint" class="form-control" placeholder="Enter EndPoint URL" id="file" (change)='selectFile($event)'
-                      [(ngModel)]="quickConnectors.endPointUrl" name="endPoint"
-                      [ngClass]="{ 'is-invalid': submitted && f.endPoint.errors }" />
-                      <br>
-                      <button mat-raised-button color="primary" type = "button" id="fileupload" (click)="uploadFile()">Send</button> 
-                      <p *ngIf= "filesave" style="color:green; display:inline-block !important;text-indent: 25px;">FILE UPLOADED</p>
-                    <div *ngIf="submitted && f.endPoint.errors" class="invalid-feedback">
-                      <div *ngIf="f.endPoint.errors.required">File is required</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea rows="5" type="text" class="form-control" placeholder="Enter Description"
-                      formControlName="description" class="form-control" [(ngModel)]="quickConnectors.description"
-                      name="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
-                    <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                      <div *ngIf="f.description.errors.required"> Description is required</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
-            <!-- <div class="cantainer">
+                </form>
+            </div>
+            <div *ngIf="customConnector">
+                <div class="modal-body" style="min-height: 200px; max-height: 327px;overflow-y: auto;">
+                    <div class="m-3">
+                        <form [formGroup]="connectorsForm" (ngSubmit)="onSubmit()">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input type="text" formControlName="firstName" class="form-control" placeholder="Enter name" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" [(ngModel)]="quickConnectors.name" name="name" />
+                                        <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                                            <div *ngIf="f.firstName.errors.required">Name is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Upload Collection File :</label>
+                                        <input type="file" formControlName="endPoint" class="form-control" placeholder="Enter EndPoint URL" id="file" (change)='selectFile($event)' [(ngModel)]="quickConnectors.endPointUrl" name="endPoint" [ngClass]="{ 'is-invalid': submitted && f.endPoint.errors }"
+                                        />
+                                        <br>
+                                        <button mat-raised-button color="primary" type="button" id="fileupload" (click)="uploadFile()">Send</button>
+                                        <p *ngIf="filesave" style="color:green; display:inline-block !important;text-indent: 25px;">FILE UPLOADED</p>
+                                        <div *ngIf="submitted && f.endPoint.errors" class="invalid-feedback">
+                                            <div *ngIf="f.endPoint.errors.required">File is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <textarea rows="5" type="text" class="form-control" placeholder="Enter Description" formControlName="description" class="form-control" [(ngModel)]="quickConnectors.description" name="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+                                        <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                            <div *ngIf="f.description.errors.required"> Description is required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- <div class="cantainer">
               <div class="row">
                   <mat-radio-group aria-label="Select an option"
                   [(ngModel)]="quickConnectors.isQueryParams" name="isQueryParams" (click)="queryParamsMethod()">
@@ -379,7 +356,7 @@
                 </mat-radio-group>
               </div>
             </div> -->
-            <!-- <div class="cantainer" *ngIf="isAddConnector">
+                        <!-- <div class="cantainer" *ngIf="isAddConnector">
               <div class="row">
                 <div class="col-md-6">
                   <label>ApiKey</label>
@@ -399,7 +376,7 @@
                 </div>
               </div>
             </div> -->
-            <!-- <div class="row" *ngIf="isAddConnector">
+                        <!-- <div class="row" *ngIf="isAddConnector">
               <div class="col-md-12">
                 <button class="btn btn-primary" type="button" (click)="addProperties()">Add Connector
                   Properties</button>
@@ -479,24 +456,23 @@
                 </div>
               </div>
             </div> -->
-            <!-- <button type="button" class="btn button-close delete_btn" id="update" (click)="quickTest()">Quick
+                        <!-- <button type="button" class="btn button-close delete_btn" id="update" (click)="quickTest()">Quick
               Test</button> -->
-            <div>
-              <br>
-              <div>
-                <h3>Services</h3>
-              </div>
-              <mat-radio-group aria-label="Select an option" [(ngModel)]="quickConnectors.service" name="service" (click)="connectorServices()">
-                <mat-radio-button value="backEnd" >&nbsp;
-                BackEnd  </mat-radio-button>&nbsp;
-                <mat-radio-button value="frontEnd">
-                 FrontEnd </mat-radio-button>
-              </mat-radio-group>
-            </div>
-            <!-- <div>
+                        <div>
+                            <br>
+                            <div>
+                                <h3>Services</h3>
+                            </div>
+                            <mat-radio-group aria-label="Select an option" [(ngModel)]="quickConnectors.service" name="service" (click)="connectorServices()">
+                                <mat-radio-button value="backEnd">&nbsp; BackEnd </mat-radio-button>&nbsp;
+                                <mat-radio-button value="frontEnd">
+                                    FrontEnd </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <!-- <div>
               <h3>Connector Types</h3>
             </div> -->
-            <!-- <div class="row">
+                        <!-- <div class="row">
               <mat-radio-group aria-label="Select an option" [(ngModel)]="quickConnectors.connectorsType" name="connectorsType" >
                 <mat-radio-button value="quickConnectors">Quick
                   connectors</mat-radio-button>&nbsp;
@@ -506,30 +482,29 @@
                   Custom Connector</mat-radio-button>
               </mat-radio-group>
             </div> -->
-          </div>
+                    </div>
+                </div>
+                <div class="modal-footer" *ngIf="!modifyConnectorsId">
+                    <button type="button" class="btn button-create ok_btn" id="update" (click)="onSubmit()">Save</button>
+                    <button type="button" class="btn button-close delete_btn" id="update" (click)="flowCancel()">Cancel</button>
+                </div>
+                <div class="modal-footer" *ngIf="modifyConnectorsId">
+                    <button type="button" class="btn button-create ok_btn" id="update" (click)="updateModifyConnectors()">Update</button>
+                    <button type="button" class="btn button-close delete_btn" id="update" (click)="flowCancel()">Cancel</button>
+                </div>
+            </div>
         </div>
-        <div class="modal-footer" *ngIf="!modifyConnectorsId">
-          <button type="button" class="btn button-create ok_btn" id="update" (click)="onSubmit()">Save</button>
-          <button type="button" class="btn button-close delete_btn" id="update" (click)="flowCancel()">Cancel</button>
-        </div>
-        <div class="modal-footer" *ngIf="modifyConnectorsId">
-          <button type="button" class="btn button-create ok_btn" id="update"
-            (click)="updateModifyConnectors()">Update</button>
-          <button type="button" class="btn button-close delete_btn" id="update" (click)="flowCancel()">Cancel</button>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayModelTree}" *ngIf="showTreePopup">
-  <div class="modal-dialog modal-lg" role="dialog">
-    <div class="modal-content">
-      <div class="container">
-        <app-flow-tree></app-flow-tree>
-      </div>
+    <div class="modal-dialog modal-lg" role="dialog">
+        <div class="modal-content">
+            <div class="container">
+                <app-flow-tree></app-flow-tree>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <!-- </div> -->
 <!-- <div class="row" style="margin: 0px;">
