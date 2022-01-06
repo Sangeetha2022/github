@@ -161,13 +161,13 @@ export class DependencyWorker {
 
   modifyenvoriments(applicationPath, fileName) {
     const environment = dependencySupportWorker.readFile(applicationPath, fileName);
-    if (environment[5].replace(/\s/g, '') == "DESKTOP_API:'http://'+window.location.hostname+':8000/desktop',") {
+    if (environment[5].replace(/\s/g, '') == "WEB_API:'http://'+window.location.hostname+':8000/web',") {
       console.log("Already envoriments is upto date")
     } else {
       const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
       let temp = '';
       temp += `${environment[serveIndex]}`;
-      temp += `\n  DESKTOP_API: 'http://'+window.location.hostname+':8000/desktop',`;
+      temp += `\n  WEB_API: 'http://'+window.location.hostname+':8000/web',`;
       temp += `\n  UPLOAD_API: 'http://'+window.location.hostname+':3015',`;
       temp += `\n  MOBILE_API: '/api/mobile',`;
       environment.splice(serveIndex, 1, temp);

@@ -7,7 +7,7 @@ const PROXY_CONFIG = {
         target: `http://\${BACKEND_URL}:\${BACKEND_PORT}`,
         secure: true,
         pathRewrite: {
-            '^/api/desktop': '/desktop',
+            '^/api/web': '/web',
             '^/api/mobile': '/mobile'
         },
         changeOrigin: true,
