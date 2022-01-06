@@ -1,4 +1,12 @@
-# Azure Container Instances (ACI) high level design
+# Azure Container Apps high level design
+
+[Container Apps Home](https://azure.microsoft.com/en-us/services/container-apps/)
+
+
+## Azure Container Instances (ACI)
+
+note: Container Apps has replaced Azure Container Instances - for Geppetto we will focus on Container Apps
+
 
 here are two articles that describe how to attache storage to ACI - this is specifically for the MongoDB
 
