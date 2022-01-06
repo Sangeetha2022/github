@@ -7,11 +7,12 @@ import { ScreenManagerService } from '../apiservices/ScreenManagerService';
 import { Common } from '../config/Common';
 import { MenuBuilderManagerService } from '../apiservices/MenuBuilderManagerService';
 import { AngularTemplateManagerService } from '../apiservices/AngularTemplateManagerService';
+import { ReactTemplateManagerService } from '../apiservices/ReactTemplateManagerService';
 import { Constant } from '../config/Constant';
 import { AuthGenManagerService } from '../apiservices/AuthGenManagerService';
 import { AdminGenManagerService } from '../apiservices/AdminGenManagerService';
 import { TemplateManagerService } from '../apiservices/TemplateManagerService';
-import { ReactGenManagerService } from '../apiservices/ReactGenManagerService'
+import { ReactGenManagerService } from '../apiservices/ReactGenManagerService';
 
 export class FrontendTemplateService {
     sharedService = new SharedService();
@@ -19,6 +20,7 @@ export class FrontendTemplateService {
     templateManagerService = new TemplateManagerService();
     menuBuilderManagerService = new MenuBuilderManagerService();
     angularTemplateManagerService = new AngularTemplateManagerService();
+    reactTemplateManagerService = new ReactTemplateManagerService();
     authGenManagerService = new AuthGenManagerService();
     adminGenManagerService = new AdminGenManagerService();
     reactgenManagerService = new ReactGenManagerService();
@@ -123,7 +125,8 @@ export class FrontendTemplateService {
             }
             if (details.project.clientFramework.label.includes('Angular') && 
                 details.project.clientFramework.label != 'Angular 12' && 
-                details.project.clientFramework.label !== 'Angular 13') {
+                details.project.clientFramework.label !== 'Angular 13' && 
+                details.project.clientFramework.label !== 'React 17.0.2') {
                 console.log("inside angular 10 templatemanager frontend");
                 const templateResponse = await this.generateAngularTemplate(templateObj);
                 console.log('after calling angular template ---  ', templateResponse);
@@ -152,16 +155,41 @@ export class FrontendTemplateService {
                 callback('angular template are generated');
             }
             if (details.project.clientFramework.label.includes('React')) {
-                const generationPath = details.projectGenerationPath.split("/application");
-                const readmepath = details.project.templateLocation.adminManagerTemplatePath + '/readMe'
-                let response = await this.generateReact(templateObj);
-                this.generate_readme(generationPath, readmepath)
-                callback(response);
+                //const generationPath = details.projectGenerationPath.split("/application");
+                //let response = await this.generateReact(templateObj);
+                //const readmepath = details.project.templateLocation.adminManagerTemplatePath + '/readMe';
+                //this.generate_readme(generationPath, readmepath)
+                const templateResponse = await this.generateReactTemplate(templateObj);
+                console.log('after calling react template ---  ', templateResponse);
+                if (templateResponse) {
+                    const tempFrontend = {
+                        templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
+                        seedTemplatePath: details.seedTemplatePath + '/reactBase',
+                        authTemplatePath: details.authTemplatePath,
+                        adminTemplatePath: details.project.templateLocation.frontendTemplate,
+                        screenMenus: templateObj.menuBuilder,
+                        project_id: details.projectId,
+                        clientframework: 'react'
+
+                    }
+                    let featurevalue = details.feature.body[0];
+                    console.log('------feature-----', featurevalue);
+                    if (featurevalue) {
+                        if (featurevalue.type === 'external') {
+                            tempFrontend['externalfeature'] = featurevalue;
+                        }
+                    }
+                    console.log('-----external feature value-----', tempFrontend);
+                    await this.generateAuthFrontendComponent(tempFrontend);
+                    console.log('after calling auth gronten component are  ---  ');
+                    await this.generateAdminFrontendComponent(tempFrontend);
+                }
+                callback('react template are generated');
             }
 
         } catch (err) {
-            console.log('err in generating the angualr template')
-            callback('cannot able to generate the angular template');
+            console.log('err in generating the clientframework template')
+            callback('cannot able to generate the clientframework template');
         }
 
     }
@@ -214,6 +242,14 @@ export class FrontendTemplateService {
     generateAngularTemplateV12(details) {
         return new Promise(resolve => {
             this.angularTemplateManagerService.generateAngularTemplateV12(details, (data) => {
+                resolve(data);
+            });
+        })
+    }
+
+    generateReactTemplate(details) {
+        return new Promise(resolve => {
+            this.reactTemplateManagerService.generateReactTemplate(details, (data) => {
                 resolve(data);
             });
         })

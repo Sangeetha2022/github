@@ -261,6 +261,10 @@ export class ProjectgenService {
             this.projectObj.templateLocation.authTemplatePath = authPath.value+'/AngularV7';
             console.log("inside angular 10 auth path==>",this.projectObj.templateLocation.authTemplatePath);
         }
+        // if( this.projectObj.clientFramework.label.includes('React')){
+        //     this.projectObj.templateLocation.authTemplatePath = authPath.value + '/reactBase';
+        //     console.log("inside react 17.0.2 auth path==>",this.projectObj.templateLocation.authTemplatePath);
+        // }
         console.log('project object in generation application --2222---->>>>   after', this.projectObj.templateLocation.authTemplatePath);
         //this.projectObj.templateLocation.authTemplatePath = authPath.value;
 

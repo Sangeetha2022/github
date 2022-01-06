@@ -1,0 +1,11 @@
+{{#each importComponent}}
+import {{classname}} from "./app/{{foldername}}/{{foldername}}";
+{{/each}}
+
+let routes: any = [
+        {{#each componentPath}}
+          {  path: "{{path}}",  component: {{component}} },
+        {{/each}}
+]
+
+export default routes;

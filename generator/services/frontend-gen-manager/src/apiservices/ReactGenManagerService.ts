@@ -1,10 +1,10 @@
-import { ApiAdapter } from '../config/ApiAdapter';
+import { ApiAdaptar } from '../config/ApiAdaptar';
 import { SharedService } from '../config/SharedService';
 
 export class ReactGenManagerService {
 
     generateReact(details, callback) {
-        new ApiAdapter().post(`${SharedService.apiGatewayURL}/desktop/react/project`, details).then(
+        new ApiAdaptar().post(`${SharedService.apiGatewayURL}/desktop/react/project`, details).then(
             data => {
                 callback(data);
             }

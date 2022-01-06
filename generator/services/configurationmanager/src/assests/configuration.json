@@ -2352,8 +2352,8 @@
             "sub_type": null
         },
         {
-            "name": "react 16.x(alpha)",
-            "label": "React 16.x(alpha)",
+            "name": "react 17.0.2",
+            "label": "React 17.0.2",
             "description": null,
             "value": null,
             "type": "GpClientDevFramework",
