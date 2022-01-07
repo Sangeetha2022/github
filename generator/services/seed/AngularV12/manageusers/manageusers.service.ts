@@ -13,15 +13,15 @@ export class ManageUserService {
     private http: HttpClient) { }
 
   GpGetAllRoles(): Observable<any> {
-    return this.http.get(this.sharedService.DESKTOP_API + '/getallroles');
+    return this.http.get(this.sharedService.WEB_API + '/getallroles');
   }
 
   GpGetAllUsers(): Observable<any> {
-    return this.http.get(this.sharedService.DESKTOP_API + '/getallusers');
+    return this.http.get(this.sharedService.WEB_API + '/getallusers');
   }
 
   GpUpdateUsers(payload:any): Observable<any> {
-    return this.http.put(this.sharedService.DESKTOP_API + '/updateuser', payload);
+    return this.http.put(this.sharedService.WEB_API + '/updateuser', payload);
   }
 
 }

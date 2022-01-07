@@ -82,7 +82,7 @@
                     <div class="row">
                         <div class="col-md-3" *ngFor="let screen of screenDetails; let i = index">
                             <p id="Entry_text_heading">{{screen?.screenName}}</p>
-                            <img id="desk_img" src="/assets/images/project_components/desktop.png" *ngIf="screen.screenType === 'desktop'" alt="Desktop">
+                            <img id="desk_img" src="/assets/images/project_components/desktop.png" *ngIf="screen.screenType === 'web'" alt="Desktop">
                             <img id="mobile_img" src="/assets/images/project_components/mobile.png" *ngIf="screen.screenType === 'mobile'" alt="Mobile">
                             <div class="row">
                                 <div class="col-lg-6">

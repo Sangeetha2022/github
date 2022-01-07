@@ -24,9 +24,9 @@ export class SefFlowServiceWorker {
                             if (e.methodName === Constant.GP_SEF_FLOW) {
 
                                 e['body'] = `let jwt_token = sessionStorage.getItem('JwtToken');
-                                \n \t \treturn this.http.${e.apiAction}(this.sharedService.DESKTOP_API + \`${e.routeUrl}\` + ${Constant.JWT_TOKEN}, ${e['paramName']});}
+                                \n \t \treturn this.http.${e.apiAction}(this.sharedService.WEB_API + \`${e.routeUrl}\` + ${Constant.JWT_TOKEN}, ${e['paramName']});}
                                 getChartData(Id:any): Observable<any> {
-                                    return this.http.get(this.sharedService.DESKTOP_API + \`/systemEntryFeature/chart/\${Id}\`);`;
+                                    return this.http.get(this.sharedService.WEB_API + \`/systemEntryFeature/chart/\${Id}\`);`;
                                 flows.push(e);
                             }
                         }

@@ -80,6 +80,16 @@ services:
       - mongo
       - camunda
       - securitymanager
+  
+  gepfilemanager:
+    build: ../../../application/services/default_services/gepfilemanager
+    image: gepfilemanager-$uuid$
+    container_name: gepfilemanager-$uuid$
+    ports:
+      - "3015:3015"
+    env_file: .env
+    depends_on:
+      - mongo
 
   gcam:
     build: ../../../application/services/default_services/gcam

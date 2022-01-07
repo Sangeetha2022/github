@@ -166,17 +166,17 @@ jobs:
       - name: Installing angular/cli
         run: npm install -g @angular/cli
       - name: Installing the node modules
-        working-directory: ./application/client/desktop/{{project_name}}
+        working-directory: ./application/client/web/{{project_name}}
         run: |
           npm install
           npm i @ng-select/ng-select
       - name: Link the backend apigateway
-        working-directory: ./application/client/desktop/{{project_name}}/src/environments
+        working-directory: ./application/client/web/{{project_name}}/src/environments
         run: |
           rm -rf environment.ts
-          echo 'export const environment = { DESKTOP_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:8000/desktop`, MOBILE_API: `/api/mobile`, production: false };' >> environment.ts
+          echo 'export const environment = { WEB_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:8000/web`, MOBILE_API: `/api/mobile`, production: false };' >> environment.ts
       - name: Production build
-        working-directory: ./application/client/desktop/{{project_name}}
+        working-directory: ./application/client/web/{{project_name}}
         run: ng build
       - uses: jakejarvis/s3-sync-action@v0.5.1
         with:
@@ -186,7 +186,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{#surroundWithCurlyBraces ' env.AWS_ACCESS_KEY_ID '}}{{/surroundWithCurlyBraces}}
           AWS_SECRET_ACCESS_KEY: ${{#surroundWithCurlyBraces ' env.AWS_SECRET_ACCESS_KEY '}}{{/surroundWithCurlyBraces}}
           AWS_REGION: ${{#surroundWithCurlyBraces ' env.AWS_REGION '}}{{/surroundWithCurlyBraces}}
-          SOURCE_DIR: "application/client/desktop/{{project_name}}/dist/{{project_name}}"
+          SOURCE_DIR: "application/client/web/{{project_name}}/dist/{{project_name}}"
       - name: Enable the static webhosting
         run: |
           aws s3 website s3://${{#surroundWithCurlyBraces  'env.AWS_S3_BUCKET_NAME' }}{{/surroundWithCurlyBraces}}/ --index-document index.html --error-document error.html

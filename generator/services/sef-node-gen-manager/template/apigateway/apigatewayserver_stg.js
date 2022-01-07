@@ -1,6 +1,6 @@
 /*
  * Template group apigatewayserver
- * Compiled on Mon Jun 17 2019 13:30:06 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jan 07 2022 14:03:25 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -203,7 +203,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("            ");
-    w.write("this.app.use('/desktop', controller.router);");
+    w.write("this.app.use('/web', controller.router);");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("        ");

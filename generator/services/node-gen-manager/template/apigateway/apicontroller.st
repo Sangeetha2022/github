@@ -18,7 +18,7 @@ $if(object.methods)$$object.methods:{methods |  public $methods.methodName$(req:
         new ApiAdapter().$methods.apiAction$($methods.constantName$.$methods.nodeName$ + `$methods.methodUrl$` $if(methods.requestParameter)$, $methods.requestParameter$$endif$)
         .then((res: any) => res.response.json()).then($methods.responseParameter$ => {
               req.baseUrl === '/mobile' ? res.send($methods.responseParameter$) :
-              req.baseUrl === '/desktop' ? res.send($methods.responseParameter$) : res.send(null)
+              req.baseUrl === '/web' ? res.send($methods.responseParameter$) : res.send(null)
             new CustomLogger().showLogger('info', 'Exit from $object.className$Controller.ts: $methods.methodName$');
         \}).catch(err => {
             res.send(err);
@@ -36,7 +36,7 @@ $if(object.additional.camunda.login)$
             // @ts-ignore
             if ($object.additional.camunda.login.responseParameter$.Idtoken === null || $object.additional.camunda.login.responseParameter$.Idtoken === '' || $object.additional.camunda.login.responseParameter$.Idtoken === undefined) {
                 req.baseUrl === '/mobile' ? res.send({"Userdetails": $object.additional.camunda.login.responseParameter$}) :
-                    req.baseUrl === '/desktop' ? res.send({"Userdetails": $object.additional.camunda.login.responseParameter$}) : res.send(null)
+                    req.baseUrl === '/web' ? res.send({"Userdetails": $object.additional.camunda.login.responseParameter$}) : res.send(null)
             } else {
                           $if(object.additional.camunda.isVerify)$
             jwt.verify(token, 'geppettosecret', (err, decoded) => {
@@ -50,7 +50,7 @@ $if(object.additional.camunda.login)$
                             "Userdetails": result
                         }
                 req.baseUrl === '/mobile' ? res.send(temp) :
-                req.baseUrl === '/desktop' ? res.send(temp) : res.send(null)
+                req.baseUrl === '/web' ? res.send(temp) : res.send(null)
                   new CustomLogger().showLogger('info', 'Exit from $object.className$Controller.ts: $object.additional.camunda.login.methodName$');
                     })
                 }
@@ -83,7 +83,7 @@ $if(object.additional.camunda.consent)$
                             "Userdetails": result
                         }
                 req.baseUrl === '/mobile' ? res.send(temp) :
-                req.baseUrl === '/desktop' ? res.send(temp) :
+                req.baseUrl === '/web' ? res.send(temp) :
                          new CustomLogger().showLogger('info', 'Exit from $object.className$Controller.ts: $object.additional.camunda.consent.methodName$');
                     })
                 }
@@ -106,7 +106,7 @@ $if(object.additional.gcam.login)$
             // @ts-ignore
             if ($object.additional.gcam.login.responseParameter$.Idtoken === null || $object.additional.gcam.login.responseParameter$.Idtoken === '' || $object.additional.gcam.login.responseParameter$.Idtoken === undefined) {
                 req.baseUrl === '/mobile' ? res.send({"Userdetails": $object.additional.gcam.login.responseParameter$}) :
-                    req.baseUrl === '/desktop' ? res.send({"Userdetails": $object.additional.gcam.login.responseParameter$}) : res.send(null)
+                    req.baseUrl === '/web' ? res.send({"Userdetails": $object.additional.gcam.login.responseParameter$}) : res.send(null)
             } else {
                           $if(object.additional.gcam.isVerify)$
             jwt.verify(token, 'geppettosecret', (err, decoded) => {
@@ -120,7 +120,7 @@ $if(object.additional.gcam.login)$
                             "Userdetails": result
                         }
                 req.baseUrl === '/mobile' ? res.send(temp) :
-                req.baseUrl === '/desktop' ? res.send(temp) : res.send(null)
+                req.baseUrl === '/web' ? res.send(temp) : res.send(null)
                   new CustomLogger().showLogger('info', 'Exit from $object.className$Controller.ts: $object.additional.gcam.login.methodName$');
                     })
                 }
@@ -153,7 +153,7 @@ $if(object.additional.gcam.consent)$
                             "Userdetails": result
                         }
                 req.baseUrl === '/mobile' ? res.send(temp) :
-                req.baseUrl === '/desktop' ? res.send(temp) :
+                req.baseUrl === '/web' ? res.send(temp) :
                          new CustomLogger().showLogger('info', 'Exit from $object.className$Controller.ts: $object.additional.gcam.consent.methodName$');
                     })
                 }

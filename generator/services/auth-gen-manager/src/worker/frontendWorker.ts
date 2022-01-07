@@ -450,7 +450,7 @@ export class FrontendWorker {
                 className: `${sharedObj.className}${this.SERVICE_NAME.charAt(0).toUpperCase() + this.SERVICE_NAME.slice(1)}`,
                 objectName: `${sharedObj.className.charAt(0).toLowerCase() + sharedObj.className.slice(1)}${this.SERVICE_NAME.charAt(0).toUpperCase() + this.SERVICE_NAME.slice(1)}`,
                 variableName: sharedObj.variableName,
-                variableUploadName: `\${this.sharedService.UPLOAD_API `
+                variableUploadName: `UPLOAD_API `
             }
         }
         this.frontendSupportWorker.generateFile(applicationPath, this.authTemplatePath, fileName, templateName, temp, () => {

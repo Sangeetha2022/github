@@ -73,7 +73,7 @@ export class TemplateTopNav {
                                         //                     </a>`);
                                         //     break;
                                         case 'admin':
-                                            mainNav.push(`<a id="izdchj" class="menu-link nav-item" *ngIf='isAdminUser' [routerLink]="['/${screenElement.toLowerCase()}']">
+                                            mainNav.push(`<a id="izdchj" class="menu-link nav-item" *ngIf='isAdminUser && userId!=null' [routerLink]="['/${screenElement.toLowerCase()}']">
                                                             {{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}
                                                          </a>`);
                                             break;

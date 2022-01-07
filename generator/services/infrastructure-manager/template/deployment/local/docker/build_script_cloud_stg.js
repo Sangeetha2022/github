@@ -1,6 +1,6 @@
 /*
  * Template group build_script_cloud
- * Compiled on Fri Aug 30 2019 17:07:39 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jan 07 2022 14:15:14 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -37,13 +37,13 @@ r = function(w, rc) {
     w.write("HELMPATH='../devops/cloud'");
     w.write("\n");
     w.write("\n");
-    w.write("DESKTOPCODE='../../../application/client/desktop/");
+    w.write("WEBCODE='../../../application/client/web/");
     st.write(w, s, g, rc, s.project_name);
     w.write("'");
     w.write("\n");
-    w.write("DESKTOPIMAGENAME='geppettotest/");
+    w.write("WEBIMAGENAME='geppettotest/");
     st.write(w, s, g, rc, s.project_name);
-    w.write("-desktop:1.0'");
+    w.write("-web:1.0'");
     w.write("\n");
     w.write("\n");
     w.write("echo \"Started to build docker images for pod....\"");
@@ -53,7 +53,7 @@ r = function(w, rc) {
     w.write("build_appbuilder_image () {");
     w.write("\n");
     w.write("\n");
-    w.write("cd $DESKTOPCODE");
+    w.write("cd $WEBCODE");
     w.write("\n");
     w.write("npm install");
     w.write("\n");
@@ -69,22 +69,22 @@ r = function(w, rc) {
     w.write("\n");
     w.write("ng build");
     w.write("\n");
-    w.write("docker build -t $DESKTOPIMAGENAME .");
+    w.write("docker build -t $WEBIMAGENAME .");
     w.write("\n");
     w.write("if [ $? -eq 0 ]; then");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("docker push $DESKTOPIMAGENAME");
+    w.write("docker push $WEBIMAGENAME");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"$DESKTOPIMAGENAME is successfully pushed\"");
+    w.write("echo \"$WEBIMAGENAME is successfully pushed\"");
     w.popIndentation();
     w.write("\n");
     w.write("else");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"Image $DESKTOPIMAGENAME-desktop:1.0 build failed\"");
+    w.write("echo \"Image $WEBIMAGENAME-web:1.0 build failed\"");
     w.popIndentation();
     w.write("\n");
     w.write("fi");
@@ -178,7 +178,7 @@ r = function(w, rc) {
     w.write("clean_images(){");
     w.write("\n");
     w.write("\n");
-    w.write("docker rmi -f $DESKTOPIMAGENAME");
+    w.write("docker rmi -f $WEBIMAGENAME");
     w.write("\n");
     w.write("\n");
     w.write("for d in * ; do");

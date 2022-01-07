@@ -34,7 +34,7 @@ class App {
                 })
             })
             this.app.use('/mobile', controller.router);
-            this.app.use('/desktop', controller.router);
+            this.app.use('/web', controller.router);
         });
     }
 
