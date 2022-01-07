@@ -46,11 +46,11 @@ export class Constant {
     public static FOOTER_FOLDERNAME = 'footer';
 
     // nginx conf data
-   public static proxyDesktop = {
-        locationUrl: '/api/desktop',
+   public static proxyWeb = {
+        locationUrl: '/api/web',
         projectName: '',
         portNumber: '3000',
-        additionalUrl: '/desktop'
+        additionalUrl: '/web'
     }
    public static proxyMobile = {
         locationUrl: '/api/mobile',

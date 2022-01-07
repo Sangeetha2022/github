@@ -174,7 +174,7 @@ jobs:
         working-directory: ./application/client/web/{{project_name}}/src/environments
         run: |
           rm -rf environment.ts
-          echo 'export const environment = { WEB_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:8000/desktop`, MOBILE_API: `/api/mobile`, production: false };' >> environment.ts
+          echo 'export const environment = { WEB_API: `http://${{#surroundWithCurlyBraces ' needs.Deploy_backend.outputs.public_ip '}}{{/surroundWithCurlyBraces}}:8000/web`, MOBILE_API: `/api/mobile`, production: false };' >> environment.ts
       - name: Production build
         working-directory: ./application/client/web/{{project_name}}
         run: ng build

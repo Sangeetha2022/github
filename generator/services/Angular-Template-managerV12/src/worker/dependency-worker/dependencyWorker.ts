@@ -98,7 +98,7 @@ export class DependencyWorker {
   generateNginxFile(generationPath, templatePath, details, callback) {
     // shared file path
     const filePath = `${generationPath}/${Constant.NGINX_FOLDERNAME}`;
-    const proxyArray = [{ ...Constant.proxyDesktop }, { ...Constant.proxyMobile }];
+    const proxyArray = [{ ...Constant.proxyWeb }, { ...Constant.proxyMobile }];
     console.log('proxyArray for nginx are --- ', proxyArray);
     const temp = {
       proxy: {
@@ -179,13 +179,13 @@ export class DependencyWorker {
 
   modifyenvoriments_prod(applicationPath, fileName) {
     const environment = dependencySupportWorker.readFile(applicationPath, fileName);
-    if (environment[1].replace(/\s/g, '') == "DESKTOP_API:'http://<YourDomainNameorLiveIPaddress>',") {
+    if (environment[1].replace(/\s/g, '') == "WEB_API:'http://<YourDomainNameorLiveIPaddress>',") {
       console.log("Already prods envoriments is upto date")
     } else {
       const serveIndex = environment.findIndex(x => /export const environment = {/.test(x));
       let temp = '';
       temp += `${environment[serveIndex]}`;
-      temp += `\n  DESKTOP_API: 'http://<Your Domain Name or Live IP address>',`;
+      temp += `\n  WEB_API: 'http://<Your Domain Name or Live IP address>',`;
       temp += `\n  UPLOAD_API: 'http://<Your Domain Name or Live IP address>',`,
       temp += `\n  MOBILE_API: 'http://<Your Domain Name or Live IP address>',`;
       environment.splice(serveIndex, 1, temp);
