@@ -135,6 +135,7 @@ export class DesktopScreenComponent implements OnInit
   public filterModifiers: any;
   modifierUsageObject: any;
   modifiersDetails: any = [];
+  public multiOptions:any=[];
   is_grid_present: Boolean=false;
   is_bootStrapTable_present: Boolean=false;
   isGridPopup:boolean=false;
@@ -305,7 +306,7 @@ export class DesktopScreenComponent implements OnInit
     this.cssGuidelines = JSON.parse(localStorage.getItem('css_guidelines')|| '{}');
     this.templateName=localStorage.getItem('templateName')?.toLocaleLowerCase().replace(' ','') || '{}';
     const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms',
-                    'grapesjs-tui-image-editor','grapesjs-lory-slider','grapesjs-accordion'];
+                     'grapesjs-tui-image-editor','grapesjs-lory-slider','grapesjs-accordion'];
     let addStyles:any = [];
     let addScripts:any = [];
     if (this.stylesheets) 
@@ -1095,6 +1096,12 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
       model!.style.display = 'none';
   }
 
+  closeStatusCode() 
+  {
+      const model = document.getElementById('statusCodeModal');
+      model!.style.display = 'none';
+  }
+
   toggleMapping() 
   {
       this.isMappingGrid = !this.isMappingGrid;
@@ -1120,6 +1127,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
   }
   getScreenById() 
   {
+      console.log("Screen_id:",this.screen_id);
       if (this.screen_id) 
       {
         this.spinner.show();
@@ -1192,6 +1200,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
   }
   updateScreeName() 
   {
+      console.log("TemplateEdit:",this.isTemplateEdit);
       if (this.isTemplateEdit) 
       {
         this.saveRemoteStorage(this.templateObj);
@@ -1210,6 +1219,16 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
         this.editor.store((data:any) => 
         {
           console.log('storage id are -------------    ', data);
+          if(data.body.code==='ERR_OUT_OF_RANGE')
+          {
+               const run=()=>
+              {
+                const eventPopupModel = document.getElementById('statusCodeModal');
+                eventPopupModel!.style.display = 'block';
+              }
+              run();
+          }    
+          console.log("Response code:",data.code);
           this.screen_id = data.body._id;
           this.getScreenById();
         });

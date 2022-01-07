@@ -5,6 +5,7 @@ import { CustomTraitsService } from './custom-traits.service';
 declare var ClassicEditor: any;
 declare var Highcharts: any;
 declare var agGrid: any;
+declare var multi:any;
 
 @Injectable
 ({
@@ -16,7 +17,7 @@ export class TraitsService
   public entitylist: any[] = [];
   public entityOptions: any[] = [];
   public allEntity: IEntity[] = [];
-
+  
   constructor(private broadcastservice: Dataservice,private customTraitService: CustomTraitsService) { }
 
   initMethod(screenGlobalVariable:any)
@@ -641,6 +642,64 @@ export class TraitsService
     });
   }
 
+  addMultiSelectTraits(editor:any,buttonName:any)
+  {
+    const comps = editor.DomComponents;
+    const defaultType = comps.getType('default');
+    const defaultModel = defaultType.model;
+    comps.addType(buttonName,
+    {
+      model: defaultModel.extend
+      ({
+        defaults: Object.assign({}, defaultModel.prototype.defaults,
+        { 
+          multiOptions:editor.multiOptions,
+          script:function()
+          {
+            const initMultiSelect=()=>
+            {
+              console.log("Multi-select dropdown worked!");
+              let data:any=[];
+              let settings:any=[];
+              data=
+              [
+                { item_id: 1, item_text: 'New Delhi' },
+                { item_id: 2, item_text: 'Mumbai' },
+                { item_id: 3, item_text: 'Bangalore' },
+                { item_id: 4, item_text: 'Pune' },
+                { item_id: 5, item_text: 'Chennai' },
+                { item_id: 6, item_text: 'Navsari' }
+              ];
+              settings = 
+              {
+                idField: 'item_id',
+                textField: 'item_text',
+              };
+              this.multiOptions={data:data,settings:settings};
+              const multiDiv=document.querySelector('#multiselectdropdown');
+              new multi.Dropdown(multiDiv,this.multiOptions);
+            };
+            const url='https://unpkg.com/ng-multiselect-dropdown@0.3.7/fesm2015/ng-multiselect-dropdown.js';
+            const script=document.createElement('script');
+            script.src=url;
+            script.onload=initMultiSelect;
+            document.body.appendChild(script);
+          }
+        }),
+       },
+       {
+        isComponent: function (el:any) 
+        {
+          if (el.tagName === buttonName) 
+          {
+            return {type: buttonName};
+          }
+        }
+       }),
+       view: defaultType.view
+    });
+  }        
+
   dynamicDropdownTraits(editor:any, buttonName:any) 
   {
     const comps = editor.DomComponents;
@@ -710,8 +769,8 @@ export class TraitsService
             console.log('--------changed event-----', eventchangetrigger);
             editor.TraitManager.getTraitsViewer().render();
           },
-        },
-        {
+      },
+      {
           isComponent: function (el:any) 
           {
             if (el.tagName === buttonName) 
@@ -719,7 +778,7 @@ export class TraitsService
               return {type: buttonName};
             }
           }
-        }),
+      }),
         view: defaultType.view
     });
   }
@@ -1125,7 +1184,7 @@ export class TraitsService
                     type: 'select',
                     options: entityArray,
                     changeProp: 1
-                  },{ at: 3 });
+                 },{ at: 3 });
                 // entity field dropdown
                 this.get('traits').add
                 ({
