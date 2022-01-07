@@ -195,15 +195,7 @@
 
 body {
     margin: 0;
-    font-family: var(--bs-body-font-family);
-    font-size: var(--bs-body-font-size);
-    font-weight: var(--bs-body-font-weight);
-    line-height: var(--bs-body-line-height);
-    color: var(--bs-body-color);
-    text-align: var(--bs-body-text-align);
-    background-color: var(--bs-body-bg);
-    -webkit-text-size-adjust: 100%;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    background-image: url('../../assets/img/logo.png');
 }
 
 hr {
@@ -379,11 +371,10 @@ sup {
     top: -0.5em;
 }
 
-a {
-    color: #2a5555;
-    text-decoration: underline;
-}
-
+// a {
+//     color: #2a5555;
+//     text-decoration: underline;
+// }
 a:hover {
     color: #224444;
 }
@@ -8355,7 +8346,7 @@ fieldset:disabled .btn {
 }
 
 .lh-1 {
-    line-height: 1 !important;
+    line-height: 1.5 !important;
 }
 
 .lh-sm {
@@ -8472,7 +8463,6 @@ fieldset:disabled .btn {
 
 .text-white {
     --bs-text-opacity: 1;
-    color: rgba(var(--bs-white-rgb), var(--bs-text-opacity)) !important;
 }
 
 .text-body {
@@ -11233,7 +11223,6 @@ body:before {
     left: 0;
     height: 100%;
     width: 100%;
-    background-color: #2a5555;
     opacity: 0.7;
     z-index: 1;
 }
@@ -11248,16 +11237,6 @@ video.bg-video {
     height: auto;
     transform: translateX(-50%) translateY(-50%);
     z-index: 0;
-}
-
-@media (pointer: coarse) and (hover: none) {
-    body {
-        background: url("../assets/img/bg-mobile-fallback.jpg") #2a5555 no-repeat center center scroll;
-        background-size: cover;
-    }
-    body video {
-        display: none;
-    }
 }
 
 .masthead {
@@ -11321,7 +11300,8 @@ video.bg-video {
         height: 100%;
         width: 75vw;
         min-height: 0;
-        padding-bottom: 0;
+        padding-bottom: 50px;
+        padding-top: 80px;
     }
     .masthead:before {
         transform: skewX(-9deg);
