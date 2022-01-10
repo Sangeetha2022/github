@@ -71,6 +71,17 @@ export const UserEntity = {
         list_value: null,
         entity_id: null,
     }, {
+        name: "avatar",
+        type_name: "Text",
+        data_type: "String",
+        description: "user profile avatar",
+        is_default: true,
+        is_entity_type: false,
+        is_list_type: false,
+        list_type: null,
+        list_value: null,
+        entity_id: null,
+    }, {
         name: "Idtoken",
         type_name: "Text",
         data_type: "String",
