@@ -14,6 +14,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
 import {FooterComponent} from './footer/footer.component';
@@ -77,6 +78,7 @@ export function httpLoaderfactory(http:HttpClient){
     MatCardModule,
     MatExpansionModule,
     NgxSpinnerModule,
+    NgMultiSelectDropDownModule.forRoot(),
     ToastrModule.forRoot({ preventDuplicates: true }),
     CKEditorModule,
     LoggerModule.forRoot(environment.logging),

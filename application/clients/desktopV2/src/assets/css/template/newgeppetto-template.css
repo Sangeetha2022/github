@@ -49,6 +49,7 @@ body {
 
 .label {
     color: black;
+    font-size: 16px;
 }
 
 .form {
@@ -87,14 +88,6 @@ body {
 
 .h6 {
     color: "black"
-}
-
-.h2 {
-    color: "red"
-}
-
-.h2 {
-    color: "red"
 }
 
 .table {
