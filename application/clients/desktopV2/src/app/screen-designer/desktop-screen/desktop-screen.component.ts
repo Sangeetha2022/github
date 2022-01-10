@@ -1096,9 +1096,9 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
       model!.style.display = 'none';
   }
 
-  closeStatusCode() 
+  closeImageCode()
   {
-      const model = document.getElementById('statusCodeModal');
+    const model = document.getElementById('imageSizeModal');
       model!.style.display = 'none';
   }
 
@@ -1133,7 +1133,7 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
         this.spinner.show();
         this.editor.StorageManager.get('remote').set
         ({
-          urlStore: `${this.updateTemplateURL}${this.screen_id}`,
+          urlStore: `${this.updateTemplateURL}${this.screen_id}`
         });  
         this.screenDesignerService.getScreenById(this.screen_id, this.logId).subscribe(response => 
         {
@@ -1200,7 +1200,6 @@ setElementCSS(element:any, tagName:any, removeTagClassName:any)
   }
   updateScreeName() 
   {
-      console.log("TemplateEdit:",this.isTemplateEdit);
       if (this.isTemplateEdit) 
       {
         this.saveRemoteStorage(this.templateObj);

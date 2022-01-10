@@ -8,21 +8,21 @@ CUSTOMSERVICEPATH='../../../services/custom_services'
 HELMPATH='../devops/local'
 
 
-DESKTOPCODE='../../../application/client/desktop/$object.application_name$'
-DESKTOPIMAGENAME='geppettotest/$object.application_name$-desktop:1.0'
+WEBCODE='../../../application/client/web/$object.application_name$'
+WEBIMAGENAME='geppettotest/$object.application_name$-web:1.0'
 
 echo "Started to build docker images for pod...."
 
 
 build_appbuilder_image () {
 
-cd \$DESKTOPCODE
-docker build -t \$DESKTOPIMAGENAME .
+cd \$WEBCODE
+docker build -t \$WEBIMAGENAME .
 if [ \$? -eq 0 ]; then
-    kind load docker-image \$DESKTOPIMAGENAME
-    echo "\$DESKTOPIMAGENAME is successfully pushed"
+    kind load docker-image \$WEBIMAGENAME
+    echo "\$WEBIMAGENAME is successfully pushed"
 else
-    echo "Image \$DESKTOPIMAGENAME-desktop:1.0 build failed"
+    echo "Image \$WEBIMAGENAME-web:1.0 build failed"
 fi
 
 }
@@ -59,7 +59,7 @@ for d in * ; do
 
 clean_images(){
 
-docker rmi -f \$DESKTOPIMAGENAME
+docker rmi -f \$WEBIMAGENAME
 
 for d in * ; do
     docker rmi -f geppettotest\$APPLICATION-\$d:1.0

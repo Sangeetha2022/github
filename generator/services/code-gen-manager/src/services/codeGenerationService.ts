@@ -32,7 +32,7 @@ export class CodeGenerationService {
   private SERVICE_FOLDERNAME = 'services';
   private DEFAULT_SERVICE_FOLDERNAME = 'default_services';
   private CUSTOM_SERVICE_FOLDERNAME = 'custom_services';
-  // private DESKTOP_FOLDERNAME = 'desktop';
+  // private DESKTOP_FOLDERNAME = 'web';
   // private MOBILE_FOLDERNAME = 'mobile';
 
 

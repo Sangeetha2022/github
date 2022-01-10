@@ -76,7 +76,16 @@ export class CommandService
     $this.editor.on('component:selected', function (component:any) 
     {
       console.log("component.attributes.tagName",component.attributes.tagName);
-      console.log("component",component);      
+      console.log("component",component);    
+      if(component.attributes.tagName==="img")
+      {
+        const run=()=>
+        {
+           const eventPopupModel = document.getElementById('imageSizeModal');
+           eventPopupModel!.style.display = 'block';
+        }
+        run();
+      }  
       const entityTrait = component.getTrait('entity');
       console.log("entityTrait is",entityTrait);      
       const removeTriatName = 
@@ -582,6 +591,15 @@ export class CommandService
       const tagManager = $this.editor.DomComponents.getWrapper().find('[data-gjs-type="tagmanager"]');
       const multiSelectDropdown=$this.editor.DomComponents.getWrapper().find('[data-gjs-type="multiselect"]');
       const highChart=$this.editor.DomComponents.getWrapper().find('[data-gjs-type="highcharts-type"]');
+      const image=$this.editor.DomComponents.getWrapper().find('[data-gjs-type="image"]');
+
+      if (image.length > 0) 
+      {
+        image.forEach((element:any) => 
+        {
+          element.attributes.traits.target.set('name', `image_${element.ccid}`);
+        });
+      }
 
       if (wrapperType.length > 0) 
       {

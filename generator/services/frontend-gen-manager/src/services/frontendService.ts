@@ -15,7 +15,7 @@ import { Constant } from '../config/Constant';
 import { ConsoleTransportOptions } from 'winston/lib/winston/transports';
 
 export class FrontendService {
-    private desktopScreenName = 'desktop';
+    private webScreenName = 'web';
     private mobileScreenName = 'mobile';
     private angular7Name = 'angular7';
     sharedService = new SharedService();
@@ -32,7 +32,7 @@ export class FrontendService {
         let screenFlows = [];
         // Common.createFolders();
         // const projectGenerationPath = `${details.project.projectGenerationPath}/${details.project.name}/frontend`;
-        let projectGenerationPath = `${details.projectGenerationPath}/${Constant.DESKTOP_FOLDERNAME}`;
+        let projectGenerationPath = `${details.projectGenerationPath}/${Constant.WEB_FOLDERNAME}`;
         Common.createFolders(projectGenerationPath);
         projectGenerationPath += `/${details.project.name}`
         const feature = {
@@ -67,7 +67,7 @@ export class FrontendService {
         }
         console.log('screen json values are ----#$#$#$#$#$#$$$$-------- ', screenJSON);
         const desktopJSON = screenJSON.body.filter((data) => {
-            return data.screenType === this.desktopScreenName;
+            return data.screenType === this.webScreenName;
         })
         const mobileJSON = screenJSON.body.filter((data) => {
             return data.screenType === this.mobileScreenName;

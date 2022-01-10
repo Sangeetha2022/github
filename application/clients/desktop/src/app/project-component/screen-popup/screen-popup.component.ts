@@ -17,7 +17,7 @@ export class ScreenPopupComponent {
         @Inject(MAT_DIALOG_DATA) public data: any) {
         this.image1 = true;
         this.image2 = false;
-        this.screen.name = 'desktop';
+        this.screen.name = 'web';
     }
 
     type(name) {

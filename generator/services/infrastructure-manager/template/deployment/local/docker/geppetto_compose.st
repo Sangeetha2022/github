@@ -1,7 +1,7 @@
 geppetto_compose(projectdetails,uuid) ::= <<
 #!bin/bash
 
-DESKTOPCODE='../../../application/client/desktop/$projectdetails.project_name$'
+WEBCODE='../../../application/client/web/$projectdetails.project_name$'
 
 COMPOSEPATH='../../../../devops/local/docker/'
 
@@ -13,7 +13,7 @@ do
     case "\$option" in
     c)  
          echo "Creating new docker images and containers"
-         cd \$DESKTOPCODE
+         cd \$WEBCODE
          docker build -t $projectdetails.project_name$ui-$uuid$ .
          docker run --name $projectdetails.project_name$ui-$uuid$ --restart=unless-stopped -d -p 5055:5000 $projectdetails.project_name$ui-$uuid$
          sleep 15

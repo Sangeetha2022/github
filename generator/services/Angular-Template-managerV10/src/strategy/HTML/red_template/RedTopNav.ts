@@ -45,7 +45,7 @@ export class RedTopNav {
                                             // </li>`;
                                             break;
                                         case 'admin':
-                                            link += `<li class="nav-item" *ngIf='isAdminUser'>
+                                            link += `<li class="nav-item" *ngIf='isAdminUser && userId!=null'>
         <a class="nav-link" [routerLink]="['/${menuname.toLowerCase()}']">{{'source.${menuname}' | i18next}}</a>
     </li>`;
                                             break;
