@@ -1,136 +1,158 @@
 import { Injectable } from '@angular/core';
 import { TraitsService } from '../Traits/traits.service';
 
-@Injectable({
+@Injectable
+({
   providedIn: 'root'
 })
-export class BlockService {
-
+export class BlockService 
+{
   constructor(private traitService:TraitsService) { }
-  addHeadingTag(editor:any) {
-    editor.BlockManager.add('heading', {
+
+  addHeadingTag(editor:any) 
+  {
+    editor.BlockManager.add('heading', 
+    {
       id:'Heading',
       label:'Heading',
       category: 'Basic',
-      content: `
-      <div>
-      <h1>Heading Tag<h2>
-      </div>
-      `,
+      content: `<div>
+                  <h1>Heading Tag</h1>
+                </div>`,
       draggable: true,
       removable: true,
-      attributes: {
+      attributes: 
+      {
         class:'fa fa-header'
-      },
+      }
     });
   }
 
-  addCKeditor5(editor:any) {
+  addCKeditor5(editor:any) 
+  {
     // working fine
-    editor.BlockManager.add('ckeditor', {
+    editor.BlockManager.add('ckeditor', 
+    {
       id: 'ckeditor',
       label: `<div>
-      <img src="./assets/images/ckeditor.svg"/>
-      <div class="my-label-block mt-1">CkEditor</div>
-    </div>`,
+                <img src="./assets/images/ckeditor.svg"/>
+                   <div class="my-label-block mt-1">CkEditor</div>
+              </div>`,
       category: 'Basic',
-      content: `
-      <div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
-      <span id="ckeditorspan" style="display: unset;" data-gjs-type="ckeditor5">
-      <textarea name="content" id="ckeditortextarea">This is some sample content.</textarea>
-      </span>
-      </div>
-      `,
+      content: `<div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
+                  <span id="ckeditorspan" style="display: unset;" data-gjs-type="ckeditor5">
+                     <textarea name="content" id="ckeditortextarea">This is some sample content.</textarea>
+                  </span>
+                </div>`,
       draggable: true,
       removable: true
     });
     this.traitService.addCKEditorTraits(editor, 'ckeditor5');
   }
 
-  dynamicDropdown(editor:any) {
-
-    editor.BlockManager.add('dynamicDropdown', {
+  addDynamicDropdown(editor:any) 
+  {
+    editor.BlockManager.add('dynamicDropdown', 
+    {
       id: 'dynamicDropdown',
       label: `\n  <svg class="gjs-block-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\n
-      <path class="gjs-block-svg-path" d="M22,9 C22,8.4 21.5,8 20.75,8 L3.25,8 C2.5,8 2,8.4 2,9 L2,15 C2,15.6 2.5,
-      16 3.25,16 L20.75,16 C21.5,16 22,15.6 22,15 L22,9 Z M21,15 L3,15 L3,9 L21,9 L21,15 Z" fill-rule="nonzero">
-      </path> \n
-      <polygon class="gjs-block-svg-path" transform="translate(18.500000,12.000000) scale(1, -1) translate(-18.500000, -12.000000)"
-      points = "18.5 11 20 13 17 13"> </polygon>\n
-      <rect class="gjs-block-svg-path" x="4" y="11.5" width ="11" height="1"></rect>\n
-         </svg>\n  <div class="gjs-block-label"> Dynamic Dropdown </div>`,
-      category: 'special',
-      // tslint:disable-next-line:max-line-length
+             <path class="gjs-block-svg-path" d="M22,9 C22,8.4 21.5,8 20.75,8 L3.25,8 C2.5,8 2,8.4 2,9 L2,15 C2,15.6 2.5,
+              16 3.25,16 L20.75,16 C21.5,16 22,15.6 22,15 L22,9 Z M21,15 L3,15 L3,9 L21,9 L21,15 Z" fill-rule="nonzero">
+             </path> \n
+             <polygon class="gjs-block-svg-path" transform="translate(18.500000,12.000000) scale(1, -1) translate(-18.500000, -12.000000)"
+              points = "18.5 11 20 13 17 13"> </polygon>\n
+             </svg>\n  <div class="gjs-block-label"> Dynamic Dropdown </div>`,
+      category: 'Special',
       content: `<div  style="padding-top:0px; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
-      <select data-gjs-type="dynamicdropdown-type">
-      <option value="1">1</option>
-      </select>
-      </div>`,
+                   <select data-gjs-type="dynamicdropdown-type">
+                     <option value="1">1</option>
+                   </select>
+                </div>`,
       draggable: true,
       removable: true
     });
     this.traitService.dynamicDropdownTraits(editor, 'dynamicdropdown-type');
-
   }
 
-  tagManager(editor:any) {
-
-    editor.BlockManager.add('tagmanager', {
+  addTagManager(editor:any) 
+  {
+    editor.BlockManager.add('tagmanager', 
+    {
       id: 'tagmanager',
       label: `\n  <svg class="gjs-block-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">\n
-      <path class="gjs-block-svg-path" d="M22,9 C22,8.4 21.5,8 20.75,8 L3.25,8 C2.5,8 2,8.4 2,9 L2,15 C2,15.6 2.5,
-      16 3.25,16 L20.75,16 C21.5,16 22,15.6 22,15 L22,9 Z M21,15 L3,15 L3,9 L21,9 L21,15 Z" fill-rule="nonzero">
-      </path> \n
-      <polygon class="gjs-block-svg-path" transform="translate(18.500000,12.000000) scale(1, -1) translate(-18.500000, -12.000000)"
-      points = "18.5 11 20 13 17 13"> </polygon>\n
-      <rect class="gjs-block-svg-path" x="4" y="11.5" width ="11" height="1"></rect>\n
-         </svg>\n  <div class="gjs-block-label"> Tag Manager </div>`,
-      category: 'special',
-      // tslint:disable-next-line:max-line-length
+              <path class="gjs-block-svg-path" d="M22,9 C22,8.4 21.5,8 20.75,8 L3.25,8 C2.5,8 2,8.4 2,9 L2,15 C2,15.6 2.5,
+               16 3.25,16 L20.75,16 C21.5,16 22,15.6 22,15 L22,9 Z M21,15 L3,15 L3,9 L21,9 L21,15 Z" fill-rule="nonzero">
+              </path> \n
+              <polygon class="gjs-block-svg-path" transform="translate(18.500000,12.000000) scale(1, -1) translate(-18.500000, -12.000000)"
+               points = "18.5 11 20 13 17 13"> </polygon>\n
+              <rect class="gjs-block-svg-path" x="4" y="11.5" width ="11" height="1"></rect>\n
+              </svg>\n  
+              <div class="gjs-block-label"> Tag Manager </div>`,
+      category: 'Special',
       content: `<div  style="padding-top:0px; padding-right: 0px; padding-left: 0px; padding-bottom: 0px">
-      <select data-gjs-type="tagmanager">
-      <option value="1">1</option>
-      </select>
-      </div>`,
+                  <select data-gjs-type="tagmanager">
+                    <option value="1">1</option>
+                  </select>
+                </div>`,
       draggable: true,
       removable: true
     });
-    //this.traitService.dynamicDropdownTraits(editor, 'dynamicdropdown-type');
-
   }
-  addSpecialCharts(editor:any) {
-    editor.BlockManager.add('highcharts', {
-      id: 'highcharts',
-      // tslint:disable-next-line:max-line-length
-      label: ` <div class="gjs-block-label"> high charts </div>`,
-      category: 'Extra',
+
+  addMultiSelectDropdown(editor:any) 
+  {
+    editor.BlockManager.add('multiselect', 
+    {
+      id: 'multiselect',
+      label:'Multi-select Dropdown',
+      category: 'Special',
       content: `<div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
-      <div id="highchart4" data-gjs-type="highcharts-type" style="width:100%; height:400px;"></div>
-      </div>`,
+                   <div id="multiselectdropdown" data-gjs-type="multiselect-type" style="width:100%"></div>
+                </div>`,
       draggable: true,
       removable: true,
-      attributes:{
+      attributes:{class:'fa fa-tasks'}
+    });
+    this.traitService.addMultiSelectTraits(editor, 'multiselect-type');
+  }
+
+  addSpecialCharts(editor:any) 
+  {
+    editor.BlockManager.add('highcharts', 
+    {
+      id: 'highcharts',
+      label: ` <div class="gjs-block-label"> High charts </div>`,
+      category: 'Extra',
+      content: `<div style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
+                  <div id="highchart4" data-gjs-type="highcharts-type" style="width:100%; height:400px;"></div>
+                </div>`,
+      attributes:
+      {
         class:'fa fa-bar-chart'
       }
     });
     this.traitService.addHighChartTraits(editor, 'highcharts-type');
   }
-  addAgGrid($this:any) {
+
+  addAgGrid(ds:any) 
+  {
     // editor ag-grid custom blocks added
-    $this.editor.BlockManager.add('agGrid', {
+    ds.editor.BlockManager.add('agGrid', 
+    {
       id: 'agGrid',
-      label: 'agGrid',
+      label: 'AgGrid',
       category: 'Basic',
-      attributes: {
+      attributes: 
+      {
         class: 'fa fa-table'
       },
       content: `<div data-gjs-type="grid-type" style="padding-top: 10px;padding-right: 2px;padding-left: 2px;padding-bottom: 10px">
-      <div id="myGrid" style="width: auto; height: 25%" class="ag-theme-alpine"></div>
-  </div>`,
+                   <div id="myGrid" style="width: auto; height: 25%" class="ag-theme-alpine"></div>
+                </div>`,
       draggable: true,
       removable: true
     });
-    this.traitService.addGridTraits($this, 'grid-type');
+    this.traitService.addGridTraits(ds, 'grid-type');
   }
 
   addUpload(editor:any)

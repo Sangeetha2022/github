@@ -1,9 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { nanoid } from 'nanoid';
 import { customAlphabet } from 'nanoid'
 import { NgxSpinnerService } from 'ngx-spinner';
-
 // @ts-ignore
 import grapesjs from 'node_modules/grapesjs';
 import { ProjectComponentService } from 'src/app/project-component/project-component.service';
@@ -21,34 +19,34 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DataService } from 'src/shared/data.service';
 import {trigger,state,style,transition,animate} from '@angular/animations';
   
-@Component({
+@Component
+({
   selector: 'app-desktop-screen',
   templateUrl: './desktop-screen.component.html',
   styleUrls: ['./desktop-screen.component.scss'],
-  animations: [
-    trigger('openCloseMapping', [
-      state(
-        'openGrid',
-        style({
+  animations:
+  [
+    trigger('openCloseMapping', 
+    [
+      state('openGrid',style
+      ({
           height: '*',
           opacity: '1'
-        })
-      ),
-      state(
-        'closeGrid',
-        style({
+      })),
+      state('closeGrid',style
+      ({
           height: '0px',
           opacity: '0',
           display: 'none'
-        })
-      ),
+      })),
       transition('openGrid => closeGrid', [animate('100ms ease-in')]),
       transition('closeGrid => openGrid', [animate('100ms ease-out')])
     ])
-  ]
-  
+  ]  
 })
-export class DesktopScreenComponent implements OnInit {
+
+export class DesktopScreenComponent implements OnInit
+{
   editor: any;
   screenType: String='';
   feature_id: String='';
@@ -60,14 +58,14 @@ export class DesktopScreenComponent implements OnInit {
   isLifeCycleRow: boolean=false;
   isCustomPopup:boolean = false;
   public componentLifeCycle: any[] = [];
-  entityFields: any = {
+  entityFields: any = 
+  {
     entityfieldname: '',
     entityId: ''
   };
-  public verbOptions: any[] = [
-    { key: 'click', value: 'onClick' },
-  ];
-  public componentVerbList: any[] = [
+  public verbOptions: any[] = [{ key: 'click', value: 'onClick' }];
+  public componentVerbList: any[] = 
+  [
     { key: 'onload', value: 'onLoad' },
     { key: 'onchange', value: 'onChange' },
     { key: 'afterload', value: 'afterLoad' }
@@ -84,12 +82,14 @@ export class DesktopScreenComponent implements OnInit {
   selectedEntity: any;
   isMappingGrid: Boolean = false;
   fields: any[] = [];
-  selectedHtmlElement: any = {
+  selectedHtmlElement: any = 
+  {
     htmlId: '',
     componentId: '',
     elementName: ''
   };
-  public eventObj = {
+  public eventObj = 
+  {
     htmlId: '',
     componentId: '',
     elementName: '',
@@ -104,18 +104,19 @@ export class DesktopScreenComponent implements OnInit {
   TablecolumnDefs:any;
   tableRowData: any = [];
   public selectedModifierValue:any;
-public gridApi_modifier:any;
-public grid_columnApi_modifier:any;
-public customPopupModal: any = {
-  name: '',
-  title: '',
-  dropdownLabelName: '',
-  typeLabelName: '',
-  entity: null
-};
-public modalDroppedElements: any[] = [];
-public customEntityFields: any[] = [];
-defaultColumn: any;
+  public gridApi_modifier:any;
+  public grid_columnApi_modifier:any;
+  public customPopupModal: any = 
+  {
+    name: '',
+    title: '',
+    dropdownLabelName: '',
+    typeLabelName: '',
+    entity: null
+  };
+  public modalDroppedElements: any[] = [];
+  public customEntityFields: any[] = [];
+  defaultColumn: any;
   selectedFlow: any;
   ElementNameArray: any[] = [];
   screenFlows: any[] = [];
@@ -134,11 +135,13 @@ defaultColumn: any;
   public filterModifiers: any;
   modifierUsageObject: any;
   modifiersDetails: any = [];
+  public multiOptions:any=[];
   is_grid_present: Boolean=false;
   is_bootStrapTable_present: Boolean=false;
   isGridPopup:boolean=false;
   agGridFields!: FormGroup;
-  agGridObject: any = {
+  agGridObject: any = 
+  {
     htmlId: '',
     componentId: '',
     entityId: '',
@@ -148,7 +151,8 @@ defaultColumn: any;
   };
   agGridArray: any[] = [];
   allEntityField:any[]=[];
-  public columnOptions = [
+  public columnOptions = 
+  [
     { value: 'col1_id', name: 'A' },
     { value: 'col2_id', name: 'B' },
     { value: 'col3_id', name: 'C' },
@@ -161,12 +165,14 @@ defaultColumn: any;
   public newColumnDefs=[{headerName:'A',field:'a',colId:'col1_id'},{headerName:'B',field:'b',colId:'col2_id'},
                         {headerName:'C',field:'c',colId:'col3_id'},{headerName:'D',field:'d',colId:'col4_id'},
                         {headerName:'E',field:'e',colId:'col5_id'}];
-  public routeDetails: any = {
+  public routeDetails: any = 
+  {
     screen: '',
     verb: 'click',
     type: 'queryParameter',
     screenFlow: '',
-    modalInfo: {
+    modalInfo: 
+    {
       entity: null,
       component: null,
       fields: null,
@@ -178,7 +184,8 @@ defaultColumn: any;
   public featurelist: any;
   existScreenDetail: any;
   screenArrayByProjectId: any;
-  templateObj:any= {
+  templateObj:any= 
+  {
     _id: '',
     stylesheets: '',
     scripts: '',
@@ -189,7 +196,6 @@ defaultColumn: any;
     date: '',
     __v: 0
   };
-
   screenNameExist: Boolean = false;
   screenName: string='';
   screenOption: String = 'normal';
@@ -197,7 +203,8 @@ defaultColumn: any;
   saveTemplateURL:any;
   updateTemplateURL:any;
   modifyTemplateUrl:any;
-  public pageLinkObj:any = {
+  public pageLinkObj:any = 
+  {
     linkType: '',
     isDynamic: false,
     externalURL: '',
@@ -214,15 +221,18 @@ defaultColumn: any;
     componentId: '',
     elementName: ''
   };
-  specific_attribute_Event: any[] = [];
-    
+  specific_attribute_Event: any[] = [];    
   
-    constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,private panelService:PanelService,
-    private projectComponentService:ProjectComponentService,private traitService:TraitsService,private commandService:CommandService,
-    private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,private sharedService:SharedService,
-    private customTraitService:CustomTraitsService, private ref: ChangeDetectorRef,private flowManagerService:FlowManagerService, 
-    public broadcast: Dataservice,private formBuilder: FormBuilder,private dataService: DataService,) {
-      this.columnDefs= [
+  constructor(private activatedRoute:ActivatedRoute,private blockservice:BlockService,
+              private panelService:PanelService,private projectComponentService:ProjectComponentService,
+              private traitService:TraitsService,private commandService:CommandService,
+              private spinner:NgxSpinnerService, private screenDesignerService: ScreenDesignerService,
+              private sharedService:SharedService,private customTraitService:CustomTraitsService, 
+              private ref: ChangeDetectorRef,private flowManagerService:FlowManagerService, 
+              public broadcast: Dataservice,private formBuilder: FormBuilder,private dataService: DataService) 
+  {
+      this.columnDefs= 
+      [
         {
           headerName: 'Name',
           field: 'name',
@@ -237,7 +247,8 @@ defaultColumn: any;
           width: 230
         }
       ];
-      this.TablecolumnDefs = [
+      this.TablecolumnDefs = 
+      [
         {
           headerName: 'Name',
           field: 'name',
@@ -248,32 +259,43 @@ defaultColumn: any;
         { headerName: 'Description', field: 'description', filter: 'agTextColumnFilter' }
       ];
       this.rowSelection = 'single',
-       this.defaultColDef = {
+      this.defaultColDef = 
+      {
         sortable: true,
         filter: true
       };
-      this.broadcast.data.subscribe(eventchange => {
+      this.broadcast.data.subscribe(eventchange => 
+      {
         console.log('eventchange value trigger value-----------', typeof eventchange);
-        if (Object.keys(eventchange).length !== 0) {
+        if (Object.keys(eventchange).length !== 0) 
+        {
           this.saveEventdetails(eventchange);
         }
       });
-     }
-  ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      if (params.featureId !== undefined && params.featureId !== null) {
+  }
+
+  ngOnInit(): void 
+  {
+    this.activatedRoute.queryParams.subscribe(params => 
+    {
+      if (params.featureId !== undefined && params.featureId !== null) 
+      {
         this.feature_id = params.featureId;
       }
-      if (params.projectId !== undefined && params.projectId !== null) {
+      if (params.projectId !== undefined && params.projectId !== null) 
+      {
         this.project_id = params.projectId;
       }
-      if (params.screenId !== undefined && params.screenId !== null) {
+      if (params.screenId !== undefined && params.screenId !== null) 
+      {
         this.screen_id = params.screenId;
       }
-      if (params.screenType !== undefined && params.screenType !== null) {
+      if (params.screenType !== undefined && params.screenType !== null) 
+      {
         this.screenType = params.screenType;
       }
-      if (params['project-template-id']) {
+      if (params['project-template-id']) 
+      {
         this.isTemplateEdit = true;
         this.projectTemplateId = params['project-template-id'];
         this.getProjectTemplate(this.projectTemplateId);
@@ -283,41 +305,43 @@ defaultColumn: any;
     this.scripts = JSON.parse(localStorage.getItem('scripts')|| '{}');
     this.cssGuidelines = JSON.parse(localStorage.getItem('css_guidelines')|| '{}');
     this.templateName=localStorage.getItem('templateName')?.toLocaleLowerCase().replace(' ','') || '{}';
-   //  const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms','grapesjs-tui-image-editor','grapesjs-tooltip','grapesjs-typed','grapesjs-style-bg'];
-    const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms','grapesjs-tui-image-editor','grapesjs-lory-slider','grapesjs-accordion'];
-
+    const plugins = ['grapesjs-preset-webpage','gjs-plugin-ckeditor','grapesjs-custom-code','grapesjs-plugin-forms',
+                     'grapesjs-tui-image-editor','grapesjs-lory-slider','grapesjs-accordion'];
     let addStyles:any = [];
     let addScripts:any = [];
-    if (this.stylesheets) {
+    if (this.stylesheets) 
+    {
       addStyles = this.stylesheets;
     }
-    if (this.scripts) {
+    if (this.scripts) 
+    {
       addScripts = this.scripts;
-    }
-   
-       // desktop plugins
-       grapesjs.plugins.add('desktop-plugin', function (editor:any, options:any) {
-        editor.getConfig().deviceManager.devices = [
+    }   
+    // desktop plugins
+    grapesjs.plugins.add('desktop-plugin', function (editor:any, options:any) 
+    {
+      editor.getConfig().deviceManager.devices = 
+      [
           { name: 'Desktop', width: '' },
           { name: 'Tablet', width: '768px', widthMedia: '992px' },
           { name: 'Mobile landscape', width: '568px', widthMedia: '768px' },
           { name: 'Mobile portrait', width: '320px', widthMedia: '480px' }
-        ];
-      });
-      // mobile plugin
-      grapesjs.plugins.add('mobile-plugin', function (editor:any, options:any) {
-        const mobileButton = editor.Panels.getButton(
-          'devices-c',
-          'set-device-mobile'
-        );
-        mobileButton.set('active', 1);
-      });
-      if (this.screenType === 'mobile') {
+      ];
+    });
+    // mobile plugin
+    grapesjs.plugins.add('mobile-plugin', function (editor:any, options:any) 
+    {
+      const mobileButton = editor.Panels.getButton('devices-c','set-device-mobile');
+      mobileButton.set('active', 1);
+    });
+      if (this.screenType === 'mobile')
+      {
         plugins.push('mobile-plugin');
       }
       addStyles.push(`./assets/css/template/${this.templateName.replace(/ +/g, "")}.css`);
-    console.log('--------template css file location--------', addStyles);
-      this.editor = grapesjs.init({
+      console.log('--------template css file location--------', addStyles);
+      this.editor = grapesjs.init
+      ({
         container: '#editor-c',
         height: '110%',
         showDevices: 0,
@@ -328,41 +352,48 @@ defaultColumn: any;
         exportWrapper: 1,
         allowScripts: 1,
         plugins: plugins,
-        pluginsOpts: {
+        pluginsOpts: 
+        {
           'grapesjs-preset-webpage': {},
           'grapesjs-custom-code': {},
           'grapesjs-plugin-forms':{},
-          'grapesjs-lory-slider': {
-            slideEls:'<div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div>',
-            prevEl:'<span class="glyphicon glyphicon-circle-arrow-left" style="font-size:50px"></span>',
-            nextEl:'<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:50px"></span>',
-          },
-          "grapesjs-accordion": {
+          'grapesjs-lory-slider': 
+           {
+             slideEls:'<div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div><div class="gjs-lory-slide"></div>',
+             prevEl:'<span class="glyphicon glyphicon-circle-arrow-left" style="font-size:50px"></span>',
+             nextEl:'<span class="glyphicon glyphicon-circle-arrow-right" style="font-size:50px"></span>',
+           },
+          "grapesjs-accordion":
+           {
             /* options */
-          },
-          // 'grapesjs-tooltip':{},
-          // 'grapesjs-typed':{},
-         
-          'grapesjs-tui-image-editor': {
-            config: {
-              includeUI: {
+           },
+          'grapesjs-tui-image-editor':
+           {
+            config:
+            {
+              includeUI:
+              {
                 initMenu: 'filter',
               },
             },
-          }
+           }
         },
-        assetManager: {
+        assetManager:
+        {
           assets: [ ],
         },
-        canvas: {
+        canvas: 
+        {
           styles: addStyles,
           scripts: addScripts
         },
-        styleManager: {
+        styleManager: 
+        {
           //To avoid duplicate stylemanager values
           clearProperties: true,
         },
-        storageManager: {
+        storageManager: 
+        {
           type: 'remote',
           autosave: false,
           autoload: false,
@@ -371,29 +402,33 @@ defaultColumn: any;
           contentTypeJson: true,
           urlStore: ''
         },
-        selectorManager: {
+        selectorManager: 
+        {
           componentFirst: true,
         },
       });
       const comps = this.editor.DomComponents;
-      this.editor.DomComponents.Component.createId = function (model:any) {
+      this.editor.DomComponents.Component.createId = function (model:any) 
+      {
         const list = comps.Component.getList(model);
         const { id } = model.get('attributes');
-        let nextId;
-  
-        if (id) {
+        let nextId;  
+        if (id) 
+        {
           // only commented this line, to keep the original id.
           nextId = id;
           model.setId(nextId);
-        } else {
+        } 
+        else 
+        {
           nextId = 'template-' + comps.Component.getNewId(list);
-        }
-  
+        }  
         list[nextId] = model;
         return nextId;
       };
       // Need to set generated id while component creation
-      this.editor.on('component:create', (component: { setId: (arg0: any) => void; getId: () => any; }) => {
+      this.editor.on('component:create', (component: { setId: (arg0: any) => void; getId: () => any; }) => 
+      {
         component.setId(component.getId());
       });
       this.getScreenById();
@@ -412,7 +447,8 @@ defaultColumn: any;
       this.saveTemplateURL = `${this.sharedService.Apigateway}${Constants.addScreen}`;
       this.updateTemplateURL = `${this.sharedService.Apigateway}${Constants.updateScreen}`;
       this.modifyTemplateUrl = `${this.sharedService.Apigateway}${Constants.updateProjectTemplate}`;
-      this.agGridFields = this.formBuilder.group({
+      this.agGridFields = this.formBuilder.group
+      ({
         selectColumn: ['', Validators.required],
         selectEntity: ['', Validators.required],
         selectField: ['', Validators.required]
@@ -430,50 +466,61 @@ defaultColumn: any;
    this.blockservice.addDownload(this.editor);
    this.blockservice.addCKeditor5(this.editor);
    this.blockservice.addSpecialCharts(this.editor);
-   this.blockservice.dynamicDropdown(this.editor);
-   this.blockservice.tagManager(this.editor);
+   this.blockservice.addDynamicDropdown(this.editor);
+   this.blockservice.addTagManager(this.editor);
+   this.blockservice.addMultiSelectDropdown(this.editor);
    this.addGridBlocks();
   }
   //Function Contains custom buttons in panels
-  panelManager() {
+  panelManager() 
+  {
     this.panelService.addSaveButton(this.editor);
     this.panelService.addCancelButton(this.editor);
   }
-  editorCommands() {
-    console.log('-------draganddrop-----this', this);
+  editorCommands() 
+  {
+     console.log('-------draganddrop-----this', this);
      this.commandService.componentSelected(this);
      this.commandService.toggle(this);
      this.commandService.updateComponentName(this);
      this.commandService.updateTraits(this);
-    this.commandService.dragAndDrop(this);
+     this.commandService.dragAndDrop(this);
   }
-  onGridReady(params:any) {
+  onGridReady(params:any) 
+  {
     this.gridApi = params.api;
     this.gridApi.sizeColumnsToFit();
     this.gridColumnApi = params.columnApi;
   }
-  onTableGridReady(params:any) {
+  onTableGridReady(params:any) 
+  {
     this.gridApi_modifier = params.api;
     this.gridApi_modifier.sizeColumnsToFit();
     this.grid_columnApi_modifier = params.columnApi;
   }
-  onSelectionChanged(event:any) {
+  onSelectionChanged(event:any) 
+  {
     let rows: any;
     rows = event.api.getCellRendererInstances();
     this.selectedFlow = this.gridApi.getSelectedRows();
-    Object.keys(rows).forEach(k => {
-      if (this.selectedFlow.length > 0) {
-        if (rows[k].params.node.selected === true) {
+    Object.keys(rows).forEach(k => 
+    {
+      if (this.selectedFlow.length > 0) 
+      {
+        if (rows[k].params.node.selected === true) 
+        {
           rows[k].params.eGridCell.children[0].checked = true;
-        } else {
+        } 
+        else 
+        {
           rows[k].params.eGridCell.children[0].checked = false;
         }
       }
     });
-    // this.selectedFlow =  this.gridApi.getSelectedRows();  
-}
+  }
 
-tableOnSelectionChanged(event:any) {
+tableOnSelectionChanged(event:any) 
+{
   let rows: any;
   rows = event.api.getCellRendererInstances();
   this.selectedModifierValue = this.gridApi_modifier.getSelectedRows();
@@ -481,32 +528,32 @@ tableOnSelectionChanged(event:any) {
 
 /*This method is used to bind the entity field for the ag-grid component so based on the column selected we will
   show the entity field if that column has entity field mapped to it.*/
-onColumnChange(event:any) {
+onColumnChange(event:any) 
+{
   this.selectedcolumn = event;
   const customfields = this.agGridObject.custom_field;
   const selectedentityfield = customfields.find((x:any) => x.columnname === this.selectedcolumn.name);
-  if(!customfields.length && selectedentityfield !== undefined){
-  this.agGridFields.controls['selectField'].setValue(selectedentityfield.entityfield);
-  }
-  
+  if(!customfields.length && selectedentityfield !== undefined)
+  {
+     this.agGridFields.controls['selectField'].setValue(selectedentityfield.entityfield);
+  }  
 }
-onFieldOptions(event:any) {
-  const agGridObject = {
+onFieldOptions(event:any)
+{
+  const agGridObject = 
+  {
     columnid: '',
     columnname: '',
     entity: '',
     entityfield: ''
   };
-  if (
-    this.agGridFields.value.selectColumn !== '' &&
-    this.agGridFields.value.selectField !== ''
-  ) {
-    const isColExist = this.agGridArray.findIndex(
-      x => x.columnid === this.agGridFields.value.selectColumn.value
-    );
-    if (isColExist > -1) {
+  if (this.agGridFields.value.selectColumn !== '' && this.agGridFields.value.selectField !== '') 
+  {
+     const isColExist = this.agGridArray.findIndex(x => x.columnid === this.agGridFields.value.selectColumn.value);
+     if (isColExist > -1) 
+     {
       this.agGridArray.splice(isColExist, 1);
-    }
+     }
     agGridObject.columnid = this.agGridFields.value.selectColumn.value;
     agGridObject.columnname = this.agGridFields.value.selectColumn.name;
     agGridObject.entity = this.selectedEntity.name;
@@ -517,57 +564,70 @@ onFieldOptions(event:any) {
   }
 }
 
-saveGridField() {
+saveGridField() 
+{
   this.dataService.setAgGridValue(this.agGridArray);
   this.agGridObject.custom_field = this.agGridArray;
   this.agGridObject.default_field = this.defaultColumn;
   this.saveRemoteStorage();
   this.onCloseHandled();
 }
-onCloseHandled() {
+onCloseHandled() 
+{
   this.isGridPopup = false;
   this.allEntityField = [];
   this.isMappingGrid = false;
   this.ref.detectChanges();
 }
-  // set component element css based on cssGuideLines
-  setElementCSS(element:any, tagName:any, removeTagClassName:any) {
+// set component element css based on cssGuideLines
+setElementCSS(element:any, tagName:any, removeTagClassName:any) 
+{
     const gepStyle = JSON.parse(localStorage.getItem('templateparser')|| '{}');
     console.log('gep default styles are -----  ', gepStyle, ' cssguideines are ---  ', this.cssGuidelines, '  tagname  ', tagName);
     let temp = null;
-    if (this.cssGuidelines) {
+    if (this.cssGuidelines) 
+    {
       console.log("cssGuidelines",this.cssGuidelines);
       temp = this.cssGuidelines.find(x => x.tagName === tagName);
     }
-    if (temp) {
+    if (temp) 
+    {
       element.addClass(temp.className);
-    } else if (gepStyle && gepStyle.length > 0) {
-      gepStyle.forEach((gepEle: { css: { [x: string]: any; }; }) => {
+    } 
+    else if (gepStyle && gepStyle.length > 0) 
+    {
+      gepStyle.forEach((gepEle: { css: { [x: string]: any; }; }) => 
+      {
         const tempCSS = gepEle.css[tagName];
-        if (tempCSS) {
+        if (tempCSS) 
+        {
           element.addClass(tempCSS.className);
         }
       });
     }
-    if (removeTagClassName) {
-      const removeTemp = this.cssGuidelines.find(
-        x => x.tagName === removeTagClassName
-      );
+    if (removeTagClassName) 
+    {
+      const removeTemp = this.cssGuidelines.find(x => x.tagName === removeTagClassName);
       console.log('removeTagClassName parts  ----   ', removeTemp);
-      if (removeTemp) {
+      if (removeTemp) 
+      {
         element.removeClass(removeTemp.className);
       }
     }
   }
   //To get Project Template this function called when modify template clicked
-  getProjectTemplate(id:any) {
+  getProjectTemplate(id:any) 
+  {
     this.spinner.show();
-    this.screenDesignerService.getProjectTemplate(id, this.logId).subscribe((response: any) => {
+    this.screenDesignerService.getProjectTemplate(id, this.logId).subscribe((response: any) => 
+    {
       this.spinner.hide();
       console.log('TEMPLATE RESPONSE---->>>>', response);
-      if(response && response.body && response.body.length > 0) {
+      if(response && response.body && response.body.length > 0) 
+      {
         const body = response.body[0];
-        this.templateObj = {
+        this.templateObj = 
+        {
           _id: body._id,
           stylesheets: body.stylesheets,
           scripts: body.scripts,
@@ -581,15 +641,18 @@ onCloseHandled() {
         let gjsComponents = body['gjs-components'][0] || null;
         let gjsStyles = body['gjs-styles'][0] || null;
         const gjsCss = body['gjs-css'] || null;
-        if (gjsComponents) {
+        if (gjsComponents) 
+        {
           gjsComponents = JSON.parse(gjsComponents);
           this.editor.setComponents(gjsComponents);
         }
-        if (gjsStyles) {
+        if (gjsStyles) 
+        {
           gjsStyles = JSON.parse(gjsStyles);
           this.editor.setStyle(gjsStyles);
         }
-        if (gjsCss) {
+        if (gjsCss) 
+        {
           this.editor.setStyle(gjsCss);
         }
       }
@@ -602,23 +665,27 @@ onCloseHandled() {
   public selectentityarray: any[] = [];
   listOfFLows: any[] = [];
   rowData: any;
-  getEntity(featureObject:any) {
-    if (this.project_id !== undefined && this.feature_id !== undefined) {
-      this.projectComponentService
-        .getAllEntityByFeatureId(this.feature_id, this.logId)
-        .subscribe(
-          response => {
+  getEntity(featureObject:any) 
+  {
+    if (this.project_id !== undefined && this.feature_id !== undefined) 
+    {
+      this.projectComponentService.getAllEntityByFeatureId(this.feature_id, this.logId).subscribe(response => 
+      {
             this.entityData = response.body.body;
             if (this.entityData.length > 0)
-             {
+            {
               console.log('entityData details using Feature id --------  ', this.entityData);
               const entityArray: { name: string; value: string; type?: string; }[] = [];
               entityArray.push({ name: 'none', value: 'none' });
               this.EntityField = this.entityData;
-              featureObject.entities.filter((entity: { entityId: any; entityType: string; }) => {
-                this.entityData.filter((entityElement: { _id: string; name: string; }) => {
-                  if(entity.entityId === entityElement._id) {
-                    const object = {
+              featureObject.entities.filter((entity: { entityId: any; entityType: string; }) => 
+              {
+                this.entityData.filter((entityElement: { _id: string; name: string; }) => 
+                {
+                  if(entity.entityId === entityElement._id) 
+                  {
+                    const object = 
+                    {
                       name: '',
                       value: '',
                       type: ''
@@ -634,27 +701,31 @@ onCloseHandled() {
               })
               this.traitsName = 'entity';
               this.setDefaultType(entityArray);
-            } else {
+            } 
+            else 
+            {
               console.log('----------coming in feature entity else part-------');
               this.traitsName = 'dataBinding';
               this.setDefaultType(this.dataBindingTypes);
             }
-          },
-        );
-    } else {
+      });
+    }
+    else
+    {
       console.log('---------------else coming first---');
-      this.projectComponentService
-        .getEntityByProjectId(this.project_id, this.logId)
-        .subscribe(
-          response => {
+      this.projectComponentService.getEntityByProjectId(this.project_id, this.logId).subscribe(response => 
+      {
             const allEntityData = response.body;
-            if(allEntityData.length > 0) {
+            if(allEntityData.length > 0) 
+            {
               console.log('entityData details using Project id --------  ', this.entityData);
               const entityArray: { name: string; value: string; type?: string; }[] = [];
               entityArray.push({ name: 'none', value: 'none' });
               this.EntityField = allEntityData;
-              allEntityData.filter((entityElement: { name: string; _id: string; entity_type: string; }) => {
-                const object = {
+              allEntityData.filter((entityElement: { name: string; _id: string; entity_type: string; }) => 
+              {
+                const object = 
+                {
                   name: '',
                   value: '',
                   type: ''
@@ -667,226 +738,205 @@ onCloseHandled() {
               });
               this.traitsName = 'entity';
               this.setDefaultType(entityArray);
-            } else {
+            } 
+            else 
+            {
               console.log('----------coming in entity else part-------');
               this.traitsName = 'dataBinding';
               this.setDefaultType(this.dataBindingTypes);
             }
-          },
-        );
+      });
     }
   }
-  getEntityType() {
-    this.projectComponentService.getAllEntityType(this.logId).subscribe(
-      data => {
-        if (data.body) {
-          data.body.filter((element: { typename: string; }) => {
-            const object = {
+  getEntityType() 
+  {
+    this.projectComponentService.getAllEntityType(this.logId).subscribe(data => 
+    {
+        if (data.body) 
+        {
+          data.body.filter((element: { typename: string; }) => 
+          {
+            const object = 
+            {
               name: '',
               value: ''
             };
-            if (
-              element.typename === 'Number' ||
-              element.typename === 'Decimal'
-            ) {
+            if (element.typename === 'Number' || element.typename === 'Decimal') 
+            {
               object.name = element.typename;
               object.value = 'Number';
-            } else if (element.typename === 'Date') {
+            } 
+            else if (element.typename === 'Date') 
+            {
               object.name = element.typename;
               object.value = 'Date';
-            } else if (element.typename === 'Boolean') {
+            } 
+            else if (element.typename === 'Boolean') 
+            {
               object.name = element.typename;
               object.value = 'Boolean';
-            } else {
+            } 
+            else 
+            {
               object.name = element.typename;
               object.value = 'String';
             }
             this.dataBindingTypes.push(object);
           });
         }
-        console.log(
-          'after build databinding types are --- ',
-          this.dataBindingTypes
-        );
-      },
-      error => { }
-    );
+        console.log('after build databinding types are --- ',this.dataBindingTypes);
+    },
+    error => { });
   }
-  setDefaultType(EntityBinding:any) {
-    EntityBinding.filter((entitylist: { type: string; }) => {
-      console.log("EntityBinding foreach==>",entitylist);
-      if (entitylist.type === 'secondary') {
-        this.selectentityarray.push(entitylist);
-      }
-    });
-    this.customTraitService.entityFieldButton(this);
+  setDefaultType(EntityBinding:any) 
+  {
+     EntityBinding.filter((entitylist: { type: string; }) => 
+     {
+        console.log("EntityBinding foreach==>",entitylist);
+        if (entitylist.type === 'secondary') 
+        {
+          this.selectentityarray.push(entitylist);
+        }
+     });
+     this.customTraitService.entityFieldButton(this);
      this.customTraitService.content(this);
      this.customTraitService.flowsActionButton(this);
      this.customTraitService.flowsModifierValueButton(this);
-    this.customTraitService.MultiflowsActionButton(this);
-        // input traits
-        this.editor.DomComponents.getType(
-          'input'
-        ).model.prototype.defaults.traits.push(
-          {
+     this.customTraitService.MultiflowsActionButton(this);
+     // input traits
+     this.editor.DomComponents.getType('input').model.prototype.defaults.traits.push
+     ({
             type: 'select',
             label: this.traitsName,
             name: this.traitsName,
             options: EntityBinding,
             changeProp: 1
-          },
-          {
+      },
+      {
             type: 'entityFieldButton',
             label: 'Field',
             name: 'Field',
-          }
-          );
-        console.log('--------selectentity----->>>>', this.editor.DomComponents);
-          console.log("this.selectentityarray==>",this.selectentityarray)
-        // select traits
-        this.editor.DomComponents.getType(
-          'select'
-        ).model.prototype.defaults.traits.push(
-          {
+      });
+      console.log('--------selectentity----->>>>', this.editor.DomComponents);
+      console.log("this.selectentityarray==>",this.selectentityarray)
+      // select traits
+      this.editor.DomComponents.getType('select').model.prototype.defaults.traits.push
+      ({
             type: 'select',
             label: this.traitsName,
             name: this.traitsName,
             options: this.selectentityarray,
             changeProp: 1
-          },
-          {
+       },
+       {
             type: 'entityFieldButton',
             label: 'Field',
             name: 'Field',
-          }
-        );
-
-        console.log('--------dynamicdropdown----->>>>', this.editor.DomComponents.getType('dynamicdropdown-type').model.prototype
-        .defaults.traits);
-  
+       });
+       console.log('--------dynamicdropdown----->>>>', this.editor.DomComponents.getType('dynamicdropdown-type').model.prototype.defaults.traits);
       // dynamic dropdown
-      this.editor.DomComponents.getType(
-        'dynamicdropdown-type'
-      ).model.prototype.defaults.traits.push(
-        {
+      this.editor.DomComponents.getType('dynamicdropdown-type').model.prototype.defaults.traits.push
+      ({
+          type: 'select',
+          label: this.traitsName,
+          name: this.traitsName,
+          options: EntityBinding,
+          changeProp: 1
+       });
+       // radio traits
+       this.editor.DomComponents.getType('radio').model.prototype.defaults.traits.push
+       ({
           type: 'select',
           label: this.traitsName,
           name: this.traitsName,
           options: EntityBinding,
           changeProp: 1
         },
-      );
-          // radio traits
-    this.editor.DomComponents.getType(
-      'radio'
-    ).model.prototype.defaults.traits.push(
-      {
-        type: 'select',
-        label: this.traitsName,
-        name: this.traitsName,
-        options: EntityBinding,
-        changeProp: 1
-      },
-      {
-        type: 'entityFieldButton',
-        label: 'Field',
-        name: 'Field'
-      }
-    );
-
-
-          // button traits
-          this.editor.DomComponents.getType(
-            'button'
-          ).model.prototype.defaults.traits.push(
-            {
+        {
+           type: 'entityFieldButton',
+           label: 'Field',
+           name: 'Field'
+        });
+        // button traits
+        this.editor.DomComponents.getType('button').model.prototype.defaults.traits.push
+        ({
               type: 'select',
               label: 'verb',
               name: 'verbs',
               changeProp: 1,
               options: this.verbOptions
-            },
-            {
+          },
+          {
               name: 'actionButton',
               label: 'Action',
               type: 'actionButton'
-            },
-          
-          );
-             // ckeditor traits
-    this.editor.DomComponents.getType(
-      'ckeditor5'
-    ).model.prototype.defaults.traits.push(
-      {
-        type: 'select',
-        label: this.traitsName,
-        name: this.traitsName,
-        options: EntityBinding,
-        changeProp: 1
-      },
-      {
-        type: 'entityFieldButton',
-        label: 'Field',
-        name: 'Field'
-      }
-    );
-        // textarea traits
-        this.editor.DomComponents.getType(
-          'textarea'
-        ).model.prototype.defaults.traits.push(
+          });
+          // ckeditor traits
+          this.editor.DomComponents.getType('ckeditor5').model.prototype.defaults.traits.push
+          ({
+              type: 'select',
+              label: this.traitsName,
+              name: this.traitsName,
+              options: EntityBinding,
+              changeProp: 1
+           },
           {
+              type: 'entityFieldButton',
+              label: 'Field',
+              name: 'Field'
+          });
+          // textarea traits
+          this.editor.DomComponents.getType('textarea').model.prototype.defaults.traits.push
+          ({
             type: 'select',
             label: this.traitsName,
             name: this.traitsName,
             options: EntityBinding,
             changeProp: 1
-          },
-          {
+           },
+           {
             type: 'entityFieldButton',
             label: 'Field',
             name: 'Field'
-          }
-        );
-            // add traits at the state of initialization
-    this.editor.DomComponents.getWrapper()
-    .get('traits')
-    .add([
-      {
-        type: 'select',
-        label: 'verb',
-        name: 'componentVerb',
-        changeProp: 1,
-        options: this.componentVerbList
-      },
-      {
-        name: 'multiflowButton',
-        label: 'Action',
-        type: 'multiflowButton'
-      },
-      {
-        type: 'checkbox',
-        label: 'isPopup',
-        name: 'popupmodal',
-        changeProp: 1
-      }
-    ]);
-    this.setGridDefaultType(EntityBinding);
+           });
+          // add traits at the state of initialization
+          this.editor.DomComponents.getWrapper().get('traits').add
+          ([
+             {
+                type: 'select',
+                label: 'verb',
+                name: 'componentVerb',
+                changeProp: 1,
+                options: this.componentVerbList
+             },
+             {
+                name: 'multiflowButton',
+                label: 'Action',
+                type: 'multiflowButton'
+             },
+             {
+                type: 'checkbox',
+                label: 'isPopup',
+                name: 'popupmodal',
+                changeProp: 1
+             }
+          ]);
+         this.setGridDefaultType(EntityBinding);
   }
-  setGridDefaultType(EntityBinding:any) {
+  setGridDefaultType(EntityBinding:any) 
+  {
     console.log('-----------aggrid-entity--------', EntityBinding);
     this.agGridArray = [];
     // add rows trits
     this.customTraitService.addGridRowButton(this);
     // remove rows triats
-   this.customTraitService.removeGridRowButton(this);
+    this.customTraitService.removeGridRowButton(this);
     // add field binding button
     this.customTraitService.gridFieldButton(this);
     // custom traits for grid action buttons
     this.customTraitService.RouteActionButton(this);
-    this.editor.DomComponents.getType(
-      'grid-type'
-    ).model.prototype.defaults.traits.push(
-      {
+    this.editor.DomComponents.getType('grid-type').model.prototype.defaults.traits.push
+    ({
         type: 'select',
         label: this.traitsName,
         name: this.traitsName,
@@ -919,92 +969,102 @@ onCloseHandled() {
         name: 'removeButton',
         label: `Remove`,
         type: 'removeButton'
-      }
-    );
-    // updating traits entties
-    console.log('---------grid--traits------------', this);
-    this.commandService.updateTraits(this);
-  }
-  
-    // get screens by project id
-    getScreenByProjectId() {
-      this.screenDesignerService.getScreenByProjectId(this.project_id, this.logId).subscribe(
-        projectData => {
-          if (projectData.body) {
-            this.screenArrayByProjectId = projectData.body.filter(
-              (x: { screenName: string; }) => x.screenName !== this.screenName
-            );
+      });
+      // updating traits entties
+      console.log('---------grid--traits------------', this);
+      this.commandService.updateTraits(this);
+  }  
+  // get screens by project id
+  getScreenByProjectId() 
+  {
+      this.screenDesignerService.getScreenByProjectId(this.project_id, this.logId).subscribe(projectData => 
+      {
+          if (projectData.body) 
+          {
+            this.screenArrayByProjectId = projectData.body.filter((x: { screenName: string; }) => x.screenName !== this.screenName);
           }
-        },
-        error => { }
-      );
-    }
-  getFeatureById() {
-    if (this.feature_id) {
-      this.projectComponentService.getFeatureById(this.feature_id, this.logId).subscribe(
-        featureData => {
-          if (featureData.body) {
+      },
+      error => { });
+  }
+  getFeatureById() 
+  {
+    if (this.feature_id) 
+    {
+      this.projectComponentService.getFeatureById(this.feature_id, this.logId).subscribe(featureData => 
+      {
+          if (featureData.body) 
+          {
             this.featurelist = featureData.body;
             let featureObject = featureData.body;
             this.getEntity(featureObject);
             this.getProjectFeatureFlows(featureData.body.flows);
           }
-        },
-        error => {
+      },
+      error =>
+      {
           console.error('cannot able to get the feature data');
-        }
-      );
+      });
     }
   }
-  getProjectFeatureFlows(projectFlowsID:any) {
+  getProjectFeatureFlows(projectFlowsID:any) 
+  {
     console.log('projectFlowsID ==============>>>', projectFlowsID)
-    this.projectComponentService
-      .getProjectFeatureFlows(projectFlowsID, this.logId)
-      .subscribe(
-        data => {
+    this.projectComponentService.getProjectFeatureFlows(projectFlowsID, this.logId).subscribe(data => 
+    {
           this.listOfFLows = data.body;
           console.log('this.listOfFLows =============>>', this.listOfFLows);
-          if (this.listOfFLows) {
-            if (this.feature_id !== undefined && this.feature_id != null) {
+          if (this.listOfFLows) 
+          {
+            if (this.feature_id !== undefined && this.feature_id != null) 
+            {
               this.rowData = this.listOfFLows;
-            } else {
-              const createFlow = this.listOfFLows.find(
-                x => x.name === 'GpCreate'
-              );
+            } 
+            else 
+            {
+              const createFlow = this.listOfFLows.find(x => x.name === 'GpCreate');
               this.rowData = [createFlow];
             }
           }
         },
-        error => {
+        error => 
+        {
           console.error('cannot able to get the projectFeatureFlows');
-        }
-      );
+        });
   }
-    //To omit special characters in input field
-    omit_special_char(event:any)
-    {   
+  //To omit special characters in input field
+  omit_special_char(event:any)
+  {   
       var k;  
       k = event.charCode;  //         k = event.keyCode;  (Both can be used)
       return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
-    }
-    isScreenNameExist() {
-      const index = this.screenArrayByProjectId.findIndex(
-        (        x: { screenName: any; _id: String; }) => x.screenName === this.screenName && x._id !== this.screen_id
-      );
-      if (index > -1) {
+  }
+  isScreenNameExist() 
+  {
+      const index = this.screenArrayByProjectId.findIndex
+      ((x: { screenName: any; _id: String; }) => x.screenName === this.screenName && x._id !== this.screen_id);
+      if (index > -1) 
+      {
         this.screenNameExist = true;
-      } else {
+      } 
+      else 
+      {
         this.screenNameExist = false;
       }
-    }
-    saveRemoteStorage(params = {}) {
-      if (Object.keys(params).length > 0) {
+  }
+  saveRemoteStorage(params = {}) 
+  {
+      if (Object.keys(params).length > 0) 
+      {
         this.RemoteStorage.set('params', params);
-        this.editor.StorageManager.get('remote').set({
+        this.editor.StorageManager.get('remote').set
+        ({
           urlStore: `${this.modifyTemplateUrl}/${this.templateObj._id}?log_id=${this.logId}`,
         });
-      } else {
-        this.RemoteStorage.set('params', {
+      } 
+      else 
+      {
+        this.RemoteStorage.set('params', 
+        {
           'component-lifecycle': this.componentLifeCycle,
           screenName: this.screenName,
           project: this.project_id,
@@ -1021,19 +1081,36 @@ onCloseHandled() {
           specific_attribute_Event: this.specific_attribute_Event
         });
       }
-    }
-    closeScreeName() {
+  }
+  closeScreeName() 
+  {
       const model = document.getElementById('myModal');
       model!.style.display = 'none';
       const saveButton = this.editor.Panels.getButton('options', 'save-page');
       saveButton.set('active', 0);
-    }
-    toggleMapping() {
+  }
+
+  closeWarn() 
+  {
+      const model = document.getElementById('warnModal');
+      model!.style.display = 'none';
+  }
+
+  closeImageCode()
+  {
+    const model = document.getElementById('imageSizeModal');
+      model!.style.display = 'none';
+  }
+
+  toggleMapping() 
+  {
       this.isMappingGrid = !this.isMappingGrid;
       this.ref.detectChanges();
-    }
-    saveEventdetails(value:any) {
-      if (value.event.type === 'dynamicdropdown-type') {
+  }
+  saveEventdetails(value:any) 
+  {
+      if (value.event.type === 'dynamicdropdown-type') 
+      {
         const traitsvalue = value.event.traits;
         this.eventObj.htmlId = value.event.htmlId;
         this.eventObj.componentId = value.event.componentId;
@@ -1042,53 +1119,55 @@ onCloseHandled() {
         this.specific_attribute_Event.push(this.eventObj);
         this.saveRemoteStorage();
       }
-      if (value.event.type === 'grid-type') {
+      if (value.event.type === 'grid-type') 
+      {
         console.log('---------grid event-------', value.event);
         this.agGridObject.event = value.event.value;
       }
-    }
-    getScreenById() {
-      if (this.screen_id) {
+  }
+  getScreenById() 
+  {
+      console.log("Screen_id:",this.screen_id);
+      if (this.screen_id) 
+      {
         this.spinner.show();
-        this.editor.StorageManager.get('remote').set({
-          urlStore: `${this.updateTemplateURL}${this.screen_id}`,
-        });
-  
-        this.screenDesignerService.getScreenById(this.screen_id, this.logId).subscribe(
-          response => {
+        this.editor.StorageManager.get('remote').set
+        ({
+          urlStore: `${this.updateTemplateURL}${this.screen_id}`
+        });  
+        this.screenDesignerService.getScreenById(this.screen_id, this.logId).subscribe(response => 
+        {
             console.log('response ================ for screen data =========+>>>', response);
-            if (response.body) {
+            if (response.body) 
+            {
               this.spinner.hide();
               this.existScreenDetail = response.body;
               console.log('------screen response-----', this.existScreenDetail);
-              if (this.existScreenDetail[0]['entity_info']) {
+              if (this.existScreenDetail[0]['entity_info']) 
+              {
                 const entityinfo = this.existScreenDetail[0]['entity_info'];
                 console.log('----from screen---entityinfo-----', entityinfo, this.entitydetails);
               }
-              if (this.existScreenDetail[0]['gjs-components']) {
+              if (this.existScreenDetail[0]['gjs-components']) 
+              {
                 this.feature_id = this.existScreenDetail[0]['feature'];
                 this.project_id = this.existScreenDetail[0]['project'];
                 this.screenName = this.existScreenDetail[0]['screenName'];
-                this.is_grid_present = this.existScreenDetail[0][
-                  'is_grid_present'
-                ];
+                this.is_grid_present = this.existScreenDetail[0]['is_grid_present'];
                 this.agGridObject = this.existScreenDetail[0]['grid_fields'];
-                  this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
-                  this.screenFlows = this.existScreenDetail[0]['flows_info'];
-                  this.routeFlows = this.existScreenDetail[0]['route_info'];
-                this.componentLifeCycle = this.existScreenDetail[0][
-                  'component-lifecycle'
-                ];
-               //  this.specialEvents = this.existScreenDetail[0]['special-events'];
-                 this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
-                 this.linkArray = this.existScreenDetail[0]['link_info'];
-                 this.addGridBlocks();
-  
-               // // change colname array
+                this.screenEntityModel = this.existScreenDetail[0]['entity_info'];
+                this.screenFlows = this.existScreenDetail[0]['flows_info'];
+                this.routeFlows = this.existScreenDetail[0]['route_info'];
+                this.componentLifeCycle = this.existScreenDetail[0]['component-lifecycle'];
+                this.specific_attribute_Event = this.existScreenDetail[0]['specific_attribute_Event'];
+                this.linkArray = this.existScreenDetail[0]['link_info'];
+                this.addGridBlocks();
+                // change colname array
                 if (this.agGridObject && this.agGridObject.custom_field.length > 0)
-                 {
+                {
                   this.columnOptions = [];
-                  this.agGridObject.custom_field.forEach((customField:any) => {
+                  this.agGridObject.custom_field.forEach((customField:any) => 
+                  {
                     const temp = { value: '', name: '' };
                     temp.value = customField.columnid;
                     temp.name = customField.columnname;
@@ -1096,97 +1175,124 @@ onCloseHandled() {
                   });
                   console.log(' gjs component------------ value -------', this.agGridObject);
                 }
-                this.editor.setComponents(
-                  JSON.parse(this.existScreenDetail[0]['gjs-components'])
-                );
+                this.editor.setComponents(JSON.parse(this.existScreenDetail[0]['gjs-components']));
                 this.editor.setStyle(JSON.parse(this.existScreenDetail[0]['gjs-styles'][0]) || this.existScreenDetail[0]['gjs-css']);
                 console.log('------get grapesjs css-------', this.editor.getStyle());
-                //   this.editor.render();
               }
-            } else {
+            } 
+            else 
+            {
               console.log('------empty response coming for screen api');
             }
-          },
-          error => {
+        },
+        error => 
+        {
             console.log('screenId error are ---- ', error);
-          }
-        );
-      } else {
-        this.editor.StorageManager.get('remote').set({
+        });
+      } 
+      else 
+      {
+        this.editor.StorageManager.get('remote').set
+        ({
           urlStore: this.saveTemplateURL
         });
       }
-    }
-    updateScreeName() {
-      if (this.isTemplateEdit) {
+  }
+  updateScreeName() 
+  {
+      if (this.isTemplateEdit) 
+      {
         this.saveRemoteStorage(this.templateObj);
         this.closeScreeName();
         this.spinner.show();
-        this.editor.store((data:any) => {
+        this.editor.store((data:any) => 
+        {
           this.getProjectTemplate(this.projectTemplateId);
         });
-      } else {
+      } 
+      else 
+      {
         this.saveRemoteStorage();
         this.getScreenById();
-       // this.createFeatureIfNotExist();
         this.closeScreeName();
-        this.editor.store((data:any) => {
+        this.editor.store((data:any) => 
+        {
           console.log('storage id are -------------    ', data);
+          if(data.body.code==='ERR_OUT_OF_RANGE')
+          {
+               const run=()=>
+              {
+                const eventPopupModel = document.getElementById('statusCodeModal');
+                eventPopupModel!.style.display = 'block';
+              }
+              run();
+          }    
+          console.log("Response code:",data.code);
           this.screen_id = data.body._id;
           this.getScreenById();
         });
       }
-    }
-    onCloseModel() {
+  }
+  onCloseModel() 
+  {
       this.entityFields['entityfieldname'] = {};
       this.entityFields['entityId'] = {};
       this.isFieldPopupModal = false;
       this.ref.detectChanges();
-    }
-    closeCustomPopup() {
+  }
+  closeCustomPopup() 
+  {
       this.isCustomPopup = false;
       this.isMappingGrid = false;
       this.ref.detectChanges();
-    }
-    closeEventPopup(modifier_status:boolean) {
-      if(!modifier_status){
+  }
+  closeEventPopup(modifier_status:boolean) 
+  {
+      if(!modifier_status)
+      {
         const eventPopupModel = <HTMLElement>document.querySelector('#EventPopup');
         eventPopupModel.style.display = 'none';
       }
-      else{
+      else
+      {
         const eventPopupModel = <HTMLElement>document.querySelector('#ProjectEventPopup');
         eventPopupModel.style.display = 'none';
       }
-    }
-  //     // save event flows
-  saveEvent() {
+  }
+  // save event flows
+  saveEvent() 
+  {
     let temp = null;
-    if (this.isLifeCycleRow) {
+    if (this.isLifeCycleRow) 
+    {
       this.saveLifeCycleFlows();
     } 
-    else if (
-      this.selectedFlow &&
-      this.selectedFlow[0].name.toLowerCase() === this.GPROUTE_FLOWNAME || this.selectedFlow[0].name === 'GpSearchForUpdate'
-    ) {
+    else if (this.selectedFlow && this.selectedFlow[0].name.toLowerCase() === this.GPROUTE_FLOWNAME || this.selectedFlow[0].name === 'GpSearchForUpdate') 
+    {
       this.customPopupModal.name = this.GPROUTE_FLOWNAME;
       this.customPopupModal.title = 'Routes';
       this.customPopupModal.dropdownLabelName = 'Screen';
       this.customPopupModal.typeLabelName = 'Type';
       this.customPopupModal.entity = null;
       this.isCustomPopup = true;
-    } else {
-      if (this.buttonVerb) {
+    } 
+    else 
+    {
+      if (this.buttonVerb) 
+      {
         temp = this.buttonVerb;
       }
       this.saveFlowDetails(temp);
     }
     this.closeEventPopup(false);
   }
-  //   // save flow details
-    async saveFlowDetails(verbInfo:any) {
+  // save flow details
+  async saveFlowDetails(verbInfo:any) 
+  {
       this.filterModifiers = [];
       this.modifierUsageObject = {};
-      const flowObj = {
+      const flowObj = 
+      {
         htmlId: '',
         componentId: '',
         elementName: '',
@@ -1198,10 +1304,12 @@ onCloseHandled() {
       flowObj.htmlId = this.editor.getSelected().ccid;
       flowObj.componentId = this.editor.getSelected().cid;
       flowObj.elementName = this.editor.getSelected().attributes.name;
-      if (verbInfo) {
+      if (verbInfo) 
+      {
         flowObj.verb = verbInfo;
       }
-      if (this.editor.getSelected().attributes.type === 'dynamicdropdown-type') {
+      if (this.editor.getSelected().attributes.type === 'dynamicdropdown-type') 
+      {
         flowObj.event = this.eventObj.selected_event;
       }
       flowObj.flow = this.selectedFlow[0]._id;
@@ -1211,46 +1319,51 @@ onCloseHandled() {
       // remove flows if it present without elementName
       let flowIndex:any='';
        flowIndex = this.checkIfFlowExist(flowObj.flow, '');
-      if (flowIndex > -1 ) {
+      if (flowIndex > -1 ) 
+      {
         this.screenFlows.splice(flowIndex!, 1);
       }
       // remove flows if the elementName is already present
       let isFlowExist:any='';
-      isFlowExist = this.checkIfFlowExist(
-        null,
-        this.editor.getSelected().attributes.name
-      );
-      if (isFlowExist > -1) {
+      isFlowExist = this.checkIfFlowExist(null,this.editor.getSelected().attributes.name);
+      if (isFlowExist > -1) 
+      {
         this.screenFlows.splice(isFlowExist, 1);
       }
       let selectedFlowModifiers = this.selectedFlow[0].modifiers;
-      //this.filterModifiers = await this.getFilteredModifiers(this.logId, selectedFlowModifiers);
-      console.log("this.editor.getSelected().attributes.type",this.editor.getSelected().attributes.type);
-      
-      if (this.editor.getSelected().attributes.type === 'text' || this.editor.getSelected().attributes.type === 'grid-type') {
+      console.log("this.editor.getSelected().attributes.type",this.editor.getSelected().attributes.type);      
+      if (this.editor.getSelected().attributes.type === 'text' || this.editor.getSelected().attributes.type === 'grid-type') 
+      {
         this.filterModifiers = await this.getFilteredModifiers(this.logId, selectedFlowModifiers);
         this.editor.getSelected().getTrait('modifiers').set('options', this.filterModifiers);
       }
       console.log('-------grid flowobject------', flowObj);
       this.screenFlows.push(flowObj);
       this.saveRemoteStorage();
-    }
-    getFilteredModifiers(logId:any, selectedFlowModifiers:any) {
-      return new Promise((resolve) => {
-        this.flowManagerService.getFlowModifiers(selectedFlowModifiers, this.logId).subscribe((response:any) => {
-          let filterModifiers:any[] = [];
-          response.body.forEach(async (data:any, index:any) => {
-            //modifier displaying only for gpsearch flow
-            if(this.selectedFlow[0].name === 'GpSearch'){
-              filterModifiers.push({key: data._id, value: data.modifier_name});
-            }
-            resolve(filterModifiers);
+  }
+  getFilteredModifiers(logId:any, selectedFlowModifiers:any) 
+  {
+      return new Promise((resolve) => 
+      {
+          this.flowManagerService.getFlowModifiers(selectedFlowModifiers, this.logId).subscribe((response:any) => 
+          {
+             let filterModifiers:any[] = [];
+             response.body.forEach(async (data:any, index:any) => 
+             {
+                //modifier displaying only for gpsearch flow
+                if(this.selectedFlow[0].name === 'GpSearch')
+                {
+                   filterModifiers.push({key: data._id, value: data.modifier_name});
+                }
+                resolve(filterModifiers);
+             })
           })
-        })
       })
-    }
-    async saveModifierValue() {
-      if(this.selectedFlow[0].name === 'GpSearch'){
+  }
+  async saveModifierValue() 
+  {
+      if(this.selectedFlow[0].name === 'GpSearch')
+      {
         this.modifierUsageObject.modify_by_value = this.selectedModifierValue[0].name;
         this.modifierUsageObject.project_id = this.project_id;
         this.modifierUsageObject.feature_id = this.feature_id;
@@ -1258,36 +1371,44 @@ onCloseHandled() {
         this.closeEventPopup(true);
         console.log('this.modifiersDetails', this.modifiersDetails);
       }
-      else{
+      else
+      {
         this.closeEventPopup(true);
         console.log("modifiers only applicable to gpsearch flow");
       }
-    }
-    getAllFlows() {
-      this.flowManagerService.getAllFlows(this.logId).subscribe((flowData:any) => {
+  }
+  getAllFlows() 
+  {
+      this.flowManagerService.getAllFlows(this.logId).subscribe((flowData:any) => 
+      {
         this.allflowlist = flowData.body;
         console.log('allflowlist =================>>>', this.allflowlist);
-      }, (error:any) => {
+      }, 
+      (error:any) => 
+      {
         console.log('cannot get flows in screen designer ', error);
       });
-    }
-  saveLifeCycleFlows() {
-    const lifeCycleIndex = this.componentLifeCycle.findIndex(
-      x => x.flowId === this.selectedFlow[0]._id
-    );
-    if (lifeCycleIndex > -1) {
+  }
+  saveLifeCycleFlows() 
+  {
+    const lifeCycleIndex = this.componentLifeCycle.findIndex(x => x.flowId === this.selectedFlow[0]._id);
+    if (lifeCycleIndex > -1) 
+    {
       this.componentLifeCycle.splice(lifeCycleIndex, 1);
     }
     console.log('save lifecyle flows are -----  ', this.selectedFlow);
-    const temp = {
+    const temp = 
+    {
       flowId: this.selectedFlow[0]._id,
       flowName: this.selectedFlow[0].name,
       verb: this.componentVerb
     };
     this.componentLifeCycle.push(temp);
     const flowIndex = this.checkIfFlowExist(temp.flowId, null);
-    if (flowIndex !< 0) {
-      const flowTemp = {
+    if (flowIndex !< 0) 
+    {
+      const flowTemp = 
+      {
         htmlId: '',
         componentId: '',
         elementName: '',
@@ -1303,38 +1424,41 @@ onCloseHandled() {
     this.saveRemoteStorage();
   }
 
-  checkIfFlowExist(flowId:any, elementName:any) {
-    if (flowId != null && elementName != null) {
-      return this.screenFlows.findIndex(
-        x => x.flow === flowId && x.elementName === elementName
-      );
-    } else if (flowId != null && elementName == null) {
+  checkIfFlowExist(flowId:any, elementName:any) 
+  {
+    if (flowId != null && elementName != null) 
+    {
+      return this.screenFlows.findIndex(x => x.flow === flowId && x.elementName === elementName);
+    } 
+    else if (flowId != null && elementName == null) 
+    {
       return this.screenFlows.findIndex(x => x.flow === flowId);
-    } else if (flowId == null && elementName != null) {
+    } 
+    else if (flowId == null && elementName != null) 
+    {
       return this.screenFlows.findIndex(x => x.elementName === elementName);
     }
   }
-    onChangeentityfield() {
+  onChangeentityfield() 
+  {
       let entitydetails: any;
-      const checkedIndex = this.screenEntityModel.findIndex(
-        x =>
+      const checkedIndex = this.screenEntityModel.findIndex(x =>
           x.htmlId === this.editor.getSelected().ccid &&
-          x.componentId === this.editor.getSelected().cid
-      );
-      if (checkedIndex > -1) {
+          x.componentId === this.editor.getSelected().cid);
+      if (checkedIndex > -1) 
+      {
         this.screenEntityModel.splice(checkedIndex, 1);
       }
-      if (
-        this.entityFields !== '' &&
-        this.entityFields !== undefined &&
-        this.traitsName === 'entity'
-      ) {
-        const obj = {
+      if (this.entityFields !== '' && this.entityFields !== undefined && this.traitsName === 'entity') 
+      {
+        const obj = 
+        {
           htmlId: '',
           componentId: '',
           elementName: '',
           entityId: '',
-          fields: {
+          fields: 
+          {
             fieldId: '',
             name: '',
             description: '',
@@ -1346,9 +1470,12 @@ onCloseHandled() {
         this.selectedentityfield = entitydetails.field.find((field: { name: any; }) => field.name === this.entityFields.entityfieldname);
         obj.htmlId = this.editor.getSelected().ccid;
         obj.componentId = this.editor.getSelected().cid;
-        if (this.editor.getSelected().attributes.type === 'select') {
+        if (this.editor.getSelected().attributes.type === 'select') 
+        {
           obj.elementName = 'select_' + this.editor.getSelected().ccid;
-        } else {
+        } 
+        else 
+        {
           obj.elementName = this.editor.getSelected().attributes.name;
         }
         obj.entityId = this.editor.getSelected().attributes.entity;
@@ -1360,92 +1487,93 @@ onCloseHandled() {
         /* This method is done to remove duplicate value which is pushed in the screenEntity Model
         for details  */
         const duplicatefieldrm = this.screenEntityModel.findIndex(y => y.elementName === obj.elementName);
-        if (duplicatefieldrm > -1) {
+        if (duplicatefieldrm > -1) 
+        {
           this.screenEntityModel[duplicatefieldrm] = obj;
-        } else {
+        } 
+        else 
+        {        
           this.screenEntityModel.push(obj);
         }
       }
       this.saveRemoteStorage();
-    }
+  }
     
-    findEntity(screenInfo:any, event:any) {
+  findEntity(screenInfo:any, event:any) 
+  {
       let findEntity = null;
-      if (screenInfo.entity_info.length > 0) {
-        findEntity = this.entityData.find(
-          (x:any) => x._id === screenInfo.entity_info[0].entityId
-        );
-      } else if (
-        screenInfo.entity_info.length === 0 &&
-        screenInfo.grid_fields.entityId &&
-        screenInfo.is_grid_present
-      ) {
-        findEntity = this.entityData.find(
-          (x:any) => x._id === screenInfo.grid_fields.entityId
-        );
+      if (screenInfo.entity_info.length > 0) 
+      {
+        findEntity = this.entityData.find((x:any) => x._id === screenInfo.entity_info[0].entityId);
+      } 
+      else if (screenInfo.entity_info.length === 0 && screenInfo.grid_fields.entityId && screenInfo.is_grid_present) 
+      {
+        findEntity = this.entityData.find((x:any) => x._id === screenInfo.grid_fields.entityId);
       }
-      if (findEntity) {
+      if (findEntity) 
+      {
         this.customEntityFields = findEntity.field;
         return findEntity;
-      } else {
+      } 
+      else 
+      {
         this.customEntityFields = [];
         return null;
       }
     }
   
-    customModelChanged(event:any,action?:any) {
-      if (this.routeDetails.screen && this.routeDetails.screen !== 'null') {
+    customModelChanged(event:any,action?:any) 
+    {
+      if (this.routeDetails.screen && this.routeDetails.screen !== 'null') 
+      {
         this.routeDetails.modalInfo.entity = this.findEntity(this.routeDetails.screen,'custom');
       }
-      const bindFields = {
+      const bindFields = 
+      {
         fieldId: '',
         fieldName: '',
         componentName: '',
         componentType: ''
       };
-      if (action === 'components' && this.routeDetails.modalInfo.component.name) {
-        const index = this.routeDetails.modalInfo.modalBindInfo.findIndex(
-          (x:any) => x.componentName === this.routeDetails.modalInfo.component.name
-        );
+      if (action === 'components' && this.routeDetails.modalInfo.component.name) 
+      {
+        const index = this.routeDetails.modalInfo.modalBindInfo.findIndex
+        ((x:any) => x.componentName === this.routeDetails.modalInfo.component.name);
         bindFields.fieldId = this.routeDetails.modalInfo.fields._id;
         bindFields.fieldName = this.routeDetails.modalInfo.fields.name;
         bindFields.componentName = this.routeDetails.modalInfo.component.name;
         bindFields.componentType = this.routeDetails.modalInfo.component.type;
         this.routeDetails.modalInfo.modalBindInfo.push(bindFields);
       }
-      if (this.routeDetails.modalInfo.entity === 'null') {
+      if (this.routeDetails.modalInfo.entity === 'null') 
+      {
         this.routeDetails.modalInfo.componentId = null;
         this.routeDetails.modalInfo.fields = null;
       }
       this.ref.detectChanges();
     }
-    saveCustomPopupInfo(flowName:any) {
-      console.log(
-        'save custom popup info ----  ',
-        flowName,
-        ' --routeDetails--  ',
-        this.routeDetails
-      );
-      if (flowName === this.GPROUTE_FLOWNAME) {
+    saveCustomPopupInfo(flowName:any) 
+    {
+      console.log('save custom popup info ----  ',flowName,' --routeDetails--  ',this.routeDetails);
+      if (flowName === this.GPROUTE_FLOWNAME) 
+      {
         this.saveRouteDetails();
-      } else if (flowName === this.GPMODAL_FLOWNAME) {
-        //this.saveModalDetails();
-      }
+      } 
       this.isCustomPopup = false;
       this.ref.detectChanges();
     }
-    saveRouteDetails() {
-      const GetByIdFlowObj = this.listOfFLows.find(
-        x => x.name === 'GpGetNounById'
-      );
-      const tempIndex = this.routeFlows.findIndex(
-        x => x.elementName === this.editor.getSelected().attributes.name
-      );
+    saveRouteDetails() 
+    {
+      const GetByIdFlowObj = this.listOfFLows.find(x => x.name === 'GpGetNounById');
+      const tempIndex = this.routeFlows.findIndex
+      (x => x.elementName === this.editor.getSelected().attributes.name);
       console.log('save route details tempIndex are ------   ', tempIndex);
-      if (tempIndex > -1) {
+      if (tempIndex > -1) 
+      {
         this.routeFlows.splice(tempIndex, 1);
       }
-      const routeObj = {
+      const routeObj = 
+      {
         htmlId: '',
         componentId: '',
         elementName: '',
@@ -1464,13 +1592,15 @@ onCloseHandled() {
       routeObj.routeType = this.routeDetails.type;
   
       // update the screen with getnounbyid flow
-      if (routeObj.screenId) {
+      if (routeObj.screenId) 
+      {
         this.getscreendetailsbyid(routeObj.screenId);
       }
       // add the routing method name
       routeObj.methodName = this.ROUTE_METHODNAME;
       // add the screensflow
-      if (this.routeDetails.screenFlow) {
+      if (this.routeDetails.screenFlow) 
+      {
         console.log('------------flow details---------', this.routeDetails.screenFlow);
         routeObj.screenFlow = this.routeDetails.screenFlow.flow;
         routeObj.screenFlowName = this.routeDetails.screenFlow.flowName;
@@ -1479,21 +1609,19 @@ onCloseHandled() {
       this.saveRemoteStorage();
       this.isCustomPopup = false;
     }
-    getscreendetailsbyid(screenid:any) {
-
-      let GetByIdFlowObj: any;
-  
-      if(this.listOfFLows.find(x => x.name === 'GpGetNounById')) {
-        GetByIdFlowObj = this.listOfFLows.find(
-          x => x.name === 'GpGetNounById'
-        );
-      } else {
-        GetByIdFlowObj = this.allflowlist.find(
-          (x:any) => x.name === 'GpGetNounById'
-        );
-      }
-  
-      const flowObj = {
+    getscreendetailsbyid(screenid:any) 
+    {
+      let GetByIdFlowObj: any;  
+      if(this.listOfFLows.find(x => x.name === 'GpGetNounById')) 
+      {
+        GetByIdFlowObj = this.listOfFLows.find(x => x.name === 'GpGetNounById');
+      } 
+      else 
+      {
+        GetByIdFlowObj = this.allflowlist.find((x:any) => x.name === 'GpGetNounById');
+      }  
+      const flowObj = 
+      {
         htmlId: '',
         componentId: '',
         elementName: '',
@@ -1501,75 +1629,76 @@ onCloseHandled() {
         event: '',
         flow: '',
         flowName: ''
-      };
-  
-      console.log('--------GetByIdFlowobj-------', GetByIdFlowObj);
-  
-      const projectflow_arr:any = [];
-  
-      projectflow_arr.push(GetByIdFlowObj);
-  
+      };  
+      console.log('--------GetByIdFlowobj-------', GetByIdFlowObj);  
+      const projectflow_arr:any = [];  
+      projectflow_arr.push(GetByIdFlowObj);  
       flowObj.flowName = GetByIdFlowObj.name;
       flowObj.flow = GetByIdFlowObj._id;
       flowObj.event = 'OnLoad';
-      this.screenDesignerService.getScreenById(screenid, this.logId).subscribe(
-        response => {
-          if (response.body) {
+      this.screenDesignerService.getScreenById(screenid, this.logId).subscribe(response => 
+      {
+          if (response.body) 
+          {
             const screendetails = response.body[0];
             const flowsarray = screendetails['flows_info'];
-            if (flowsarray.find((x:any) => x.flowName === GetByIdFlowObj.name)) {
+            if (flowsarray.find((x:any) => x.flowName === GetByIdFlowObj.name)) 
+            {
               console.log('-------for gpserachforupdateflow process-----', flowsarray);
-            } else {
+            } 
+            else 
+            {
               screendetails['flows_info'].push(flowObj);
               console.log('--------screenid----', screendetails);
-              // console.log('------update done--', this.editor.StorageManager.get('remote'));
-              this.projectComponentService.getallProjectFlow(this.logId).subscribe(
-                projectflowlist => {
-                  if (projectflowlist.body) {
-  
+              this.projectComponentService.getallProjectFlow(this.logId).subscribe(projectflowlist => 
+              {
+                  if (projectflowlist.body) 
+                  {
                     const projectflowexsists = projectflowlist.body.findIndex((x:any) => x._id == GetByIdFlowObj._id);
                     const featureflowexsists = this.featurelist.flows.findIndex((x:any) => x == GetByIdFlowObj._id);
-                    console.log('---------projectflowlist-------', projectflowexsists, featureflowexsists);
-  
-                    if (projectflowexsists > -1 && featureflowexsists == -1) {
+                    console.log('---------projectflowlist-------', projectflowexsists, featureflowexsists);  
+                    if (projectflowexsists > -1 && featureflowexsists == -1) 
+                    {
                       this.featurelist.flows = this.featurelist.flows.concat(GetByIdFlowObj._id);
-                      this.projectComponentService.updateFeature(this.featurelist, this.logId).subscribe(
-                        featureresponse => {
+                      this.projectComponentService.updateFeature(this.featurelist, this.logId).subscribe(featureresponse => 
+                      {
                           console.log('save in flow ---in feature -->>', featureresponse);
-                        },
-                        error => {
+                      },
+                      error => 
+                      {
                           console.log('cannot able to update the many projectfeature');
-                        });
-  
+                      });  
                     }
-                    if (projectflowexsists == -1 && featureflowexsists == -1) {
-                      this.projectComponentService.saveManyProjectFlow(projectflow_arr, this.logId).subscribe(
-                        projectflow => {
-                          if (projectflow.body) {
+                    if (projectflowexsists == -1 && featureflowexsists == -1) 
+                    {
+                      this.projectComponentService.saveManyProjectFlow(projectflow_arr, this.logId).subscribe(projectflow => 
+                      {
+                          if (projectflow.body) 
+                          {
                             console.log('save many project flows----->>', projectflow);
                             const projectFlowsId = projectflow.body.map(({ _id }:any) => _id);
                             this.featurelist.flows = this.featurelist.flows.concat(projectFlowsId);
-                            this.projectComponentService.updateFeature(this.featurelist, this.logId).subscribe(
-                              featureresponse => {
+                            this.projectComponentService.updateFeature(this.featurelist, this.logId).subscribe(featureresponse => 
+                            {
                                 console.log('save in flow --in feature -->>', response);
-                              },
-                              error => {
+                            },
+                            error => 
+                            {
                                 console.log('cannot able to update the many projectfeature');
-                              });
+                            });
                           }
                         },
-                        error => {
+                        error => 
+                        {
                           console.log('cannot able to save the many projectFlows');
                         });
-                    }
-  
+                    }  
                   }
-                });
-              this.screenDesignerService.updateScreen(screenid, screendetails, this.logId).subscribe(
-                screenresponse => {
+              });
+              this.screenDesignerService.updateScreen(screenid, screendetails, this.logId).subscribe(screenresponse => 
+              {
                   console.log('------update done--', screenresponse);
-                }
-              );
+              });
             }
           }
         });
@@ -1610,77 +1739,44 @@ onCloseHandled() {
           break;
       }
     }
-    onCloseLink() {
+    onCloseLink() 
+    {
       this.isLinkPopup = false;
       this.ref.detectChanges();
     }
-    changeLinkDetails(event:any) {
-      console.log("pageLinkObj.linkType",this.pageLinkObj.linkType);
-      
+    changeLinkDetails(event:any) 
+    {
+      console.log("pageLinkObj.linkType",this.pageLinkObj.linkType);      
       console.log('change link details rae ---- ', event);
-      if (event === 'none' || event === 'internal' || event === 'external') {
+      if (event === 'none' || event === 'internal' || event === 'external') 
+      {
         this.resetLinkDetails(event);
-      } else if (event === 'flow') {
-        console.log(
-          'change link details flow entiteu fare --111- ',
-          this.findEntity(this.pageLinkObj.internalURL, null)
-        );
-        console.log(
-          'change link details flow entiteu fare --222---customEntityFields- ',
-          this.customEntityFields
-        );
-      } else if (event.toLowerCase() === 'paramentity') {
+      } 
+      else if (event === 'flow') 
+      {
+        console.log('change link details flow entiteu fare --111- ',this.findEntity(this.pageLinkObj.internalURL, null));
+        console.log('change link details flow entiteu fare --222---customEntityFields- ',this.customEntityFields);
+      } 
+      else if (event.toLowerCase() === 'paramentity') 
+      {
         this.pageLinkObj.entityField = this.pageLinkObj.paramEntity.field;
       }
-      if (event.toLowerCase() === 'internalpage') {
-        // console.log('change link details internalpage are----  ', this.pageLinkObj.internalURL._id);
-        // console.log('change link details linkInformation are----  ', this.linkInformation);
-        // if (this.pageLinkObj.internalURL._id) {
-        //     this.linkInformation.internalURL.screenId = this.pageLinkObj.internalURL._id;
-        //     this.linkInformation.internalURL.screenName = this.pageLinkObj.internalURL.screenName;
-        // } else {
-        //     this.linkInformation.internalURL.screenId = '';
-        //     this.linkInformation.internalURL.screenName = '';
-        // }
-        // console.log('after set internalURLs are --- ', this.linkInformation);
-      } else {
-      }
-      //  else if (event.toLowerCase() === 'selectedentity') {
-      //     console.log('selected entity are ----- ', this.pageLinkObj.selectedEntity);
-      //     this.pageLinkObj.entityField = this.pageLinkObj.selectedEntity.field;
-      //     this.pageLinkObj.selectedField = null;
-      //     if (this.pageLinkObj.selectedEntity) {
-      //         this.linkInformation.entity.id = this.pageLinkObj.selectedEntity._id;
-      //         this.linkInformation.entity.name = this.pageLinkObj.selectedEntity.name;
-      //     } else {
-      //         this.linkInformation.entity.id = null;
-      //         this.linkInformation.entity.name = null;
-      //     }
-      //     console.log('selected entity fields are ----- ', this.pageLinkObj.entityField);
-      // } else if (event.toLowerCase() === 'entityfield') {
-      //     console.log('selected entity filed are -----2222--selectedField----   ', this.pageLinkObj.selectedField);
-      //     if (this.pageLinkObj.selectedField) {
-      //         this.linkInformation.entity.fieldId = this.pageLinkObj.selectedField._id;
-      //         this.linkInformation.entity.fieldName = this.pageLinkObj.selectedField.name;
-      //     } else {
-      //         this.linkInformation.entity.fieldId = null;
-      //         this.linkInformation.entity.fieldName = null;
-      //     }
-      // } else if (event.toLowerCase() === '') {
-  
-      // }
       this.ref.detectChanges();
     }
-    saveLinkDetails() {
-      const linkInformation: any = {
+    saveLinkDetails() 
+    {
+      const linkInformation: any = 
+      {
         linkType: '',
         isDynamic: false,
         externalURL: null,
-        internalURL: {
+        internalURL: 
+        {
           screenId: '',
           screenName: ''
         },
-        entity: {
+        entity: 
+        {
           id: '',
           name: '',
           fieldId: '',
@@ -1693,27 +1789,13 @@ onCloseHandled() {
         paramType: 'queryParameter'
       };
       console.log('save linkd details arear --pageLinkObj--- ', this.pageLinkObj);
-      console.log(
-        'save linkd details arear --linkInformation--- ',
-        linkInformation
-      );
-      console.log(
-        'save linkd details arear --this.editor.getSelected()--- ',
-        this.editor.getSelected()
-      );
-      console.log(
-        'save linkd details arear --this.editor.getSelected() traits--- ',
-        this.editor.getSelected().get('traits')
-      );
-      console.log(
-        'save linkd details arear --linkInformation--- ',
-        linkInformation
-      );
-      // this.resetLinkDetails(this.pageLinkObj.linkType);
-      const findIndex = this.linkArray.findIndex(
-        x => x.elementName === this.editor.getSelected().attributes.name
-      );
-      if (findIndex > -1) {
+      console.log('save linkd details arear --linkInformation--- ',linkInformation);
+      console.log('save linkd details arear --this.editor.getSelected()--- ',this.editor.getSelected());
+      console.log('save linkd details arear --this.editor.getSelected() traits--- ',this.editor.getSelected().get('traits'));
+      console.log('save linkd details arear --linkInformation--- ',linkInformation);
+      const findIndex = this.linkArray.findIndex(x => x.elementName === this.editor.getSelected().attributes.name);
+      if (findIndex > -1) 
+      {
         this.linkArray.splice(findIndex, 1);
       }
       linkInformation.htmlId = this.editor.getSelected().ccid;
@@ -1722,30 +1804,36 @@ onCloseHandled() {
       linkInformation.linkType = this.pageLinkObj.linkType;
       linkInformation.isDynamic = this.pageLinkObj.isDynamic;
       linkInformation.externalURL = this.pageLinkObj.externalURL;
-      if (this.pageLinkObj.internalURL) {
+      if (this.pageLinkObj.internalURL) 
+      {
         linkInformation.internalURL.screenId = this.pageLinkObj.internalURL._id;
         linkInformation.internalURL.screenName = this.pageLinkObj.internalURL.screenName;
       }
-      if (this.pageLinkObj.selectedEntity) {
+      if (this.pageLinkObj.selectedEntity) 
+      {
         linkInformation.entity.id = this.pageLinkObj.selectedEntity._id;
         linkInformation.entity.name = this.pageLinkObj.selectedEntity.name;
-      } else if (this.pageLinkObj.paramEntity) {
+      } 
+      else if (this.pageLinkObj.paramEntity) 
+      {
         linkInformation.entity.id = this.pageLinkObj.paramEntity._id;
         linkInformation.entity.name = this.pageLinkObj.paramEntity.name;
       }
-      if (this.pageLinkObj.selectedField) {
+      if (this.pageLinkObj.selectedField) 
+      {
         linkInformation.entity.fieldId = this.pageLinkObj.selectedField._id;
         linkInformation.entity.fieldName = this.pageLinkObj.selectedField.name;
       }
-      if (this.pageLinkObj.paramArray.length > 0) {
+      if (this.pageLinkObj.paramArray.length > 0) 
+      {
         linkInformation.paramArray = this.pageLinkObj.paramArray;
-      }
-  
+      }  
       this.linkArray.push(linkInformation);
       console.log('after set linkArrays are --- ', this.linkArray);
       this.removeLinkEntityTraits();
       this.isLinkPopup = false;
-      this.pageLinkObj = {
+      this.pageLinkObj = 
+      {
         linkType: '',
         isDynamic: false,
         externalURL: '',
@@ -1761,30 +1849,25 @@ onCloseHandled() {
         htmlId: '',
         componentId: '',
         elementName: ''
-      };
-  
+      };  
       this.saveRemoteStorage();
       this.ref.detectChanges();
     }
-    removeLinkEntityTraits() {
-      const temp = this.editor
-        .getSelected()
-        .get('traits')
-        .filter((trait:any) => {
-          if (
-            trait.attributes.name === 'entity' ||
-            trait.attributes.name === 'field'
-          ) {
+    removeLinkEntityTraits() 
+    {
+      const temp = this.editor.getSelected().get('traits').filter((trait:any) => 
+      {
+          if (trait.attributes.name === 'entity' || trait.attributes.name === 'field') 
+          {
             return true;
           }
-        });
+      });
       console.log('after set temp values are- -- ', temp);
-      if (temp && temp.length > 0) {
-        temp.forEach((element:any) => {
-          this.editor
-            .getSelected()
-            .get('traits')
-            .remove(element);
+      if (temp && temp.length > 0) 
+      {
+        temp.forEach((element:any) => 
+        {
+          this.editor.getSelected().get('traits').remove(element);
         });
       }
       this.editor.TraitManager.getTraitsViewer().render();
