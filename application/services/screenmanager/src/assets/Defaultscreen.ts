@@ -14,5 +14,5 @@ export const default_screen = {
     is_grid_present: false,
     is_bootStrapTable_present: false,
     entity_info: [],
-    screenType: "desktop"
+    screenType: "web"
 }

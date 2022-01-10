@@ -91,44 +91,56 @@ export class TemplateSideNav {
                                                             </li>`);
                                             break;
                                         case 'authorization':
-                                            bottomNav.push(` <div id="icrvgp" className="cell gpd-clm" >
-                                                                <div id="i6vd27" className="gdp-row gpd-grid" >
-                                                                    <div id="inlo1l" className="cell gpd-clm" >
-                                                                        <i id="iyxitk" className="fa fa-shield" aria-hidden="true"></i>
-                                                                    </div>
-                                                                    <div id="iytw4t" className="cell gpd-clm" >
-                                                                        <a id="i9imej" className="gpd-text"
-                                                                        href='/${screenElement.toLowerCase()}'>${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>`);
+                                            bottomNav.push(``);
+                                            break;
+                                        case 'managecontrol':
+                                            bottomNav.push(``);
                                             break;
                                         case 'manageroles':
-                                            bottomNav.push(`<div id="icrvgp" className="cell gpd-clm" >
-                                                                <div id="i6vd27" className="gdp-row gpd-grid" >
-                                                                    <div id="inlo1l" className="cell gpd-clm" >
-                                                                        <i id="iyxitk" className="fa fa-user-plus" aria-hidden="true"></i>
-                                                                    </div>
-                                                                    <div id="iytw4t" className="cell gpd-clm" >
-                                                                        <a id="i9imej" className="gpd-text"
-                                                                        href='/${screenElement.toLowerCase()}'>${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>`);
+                                            bottomNav.push(``);
                                             break;
                                         case 'manageusers':
-                                            bottomNav.push(`<div id="icrvgp" className="cell gpd-clm" >
-                                                                <div id="i6vd27" className="gdp-row gpd-grid" >
-                                                                    <div id="inlo1l" className="cell gpd-clm" >
-                                                                        <i id="iyxitk" className="fa fa-users" aria-hidden="true"></i>
-                                                                    </div>
-                                                                    <div id="iytw4t" className="cell gpd-clm" >
-                                                                        <a id="i9imej" className="gpd-text"
-                                                                        href='/${screenElement.toLowerCase()}'>${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>`);
+                                            bottomNav.push(``);
                                             break;
+                                        // case 'authorization':
+                                        //     bottomNav.push(` <div id="icrvgp" className="cell gpd-clm" >
+                                        //                         <div id="i6vd27" className="gdp-row gpd-grid" >
+                                        //                             <div id="inlo1l" className="cell gpd-clm" >
+                                        //                                 <i id="iyxitk" className="fa fa-shield" aria-hidden="true"></i>
+                                        //                             </div>
+                                        //                             <div id="iytw4t" className="cell gpd-clm" >
+                                        //                                 <a id="i9imej" className="gpd-text"
+                                        //                                 href='/${screenElement.toLowerCase()}'>${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                        //                             </div>
+                                        //                         </div>
+                                        //                     </div>`);
+                                        //     break;
+                                        // case 'manageroles':
+                                        //     bottomNav.push(`<div id="icrvgp" className="cell gpd-clm" >
+                                        //                         <div id="i6vd27" className="gdp-row gpd-grid" >
+                                        //                             <div id="inlo1l" className="cell gpd-clm" >
+                                        //                                 <i id="iyxitk" className="fa fa-user-plus" aria-hidden="true"></i>
+                                        //                             </div>
+                                        //                             <div id="iytw4t" className="cell gpd-clm" >
+                                        //                                 <a id="i9imej" className="gpd-text"
+                                        //                                 href='/${screenElement.toLowerCase()}'>${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                        //                             </div>
+                                        //                         </div>
+                                        //                     </div>`);
+                                        //     break;
+                                        // case 'manageusers':
+                                        //     bottomNav.push(`<div id="icrvgp" className="cell gpd-clm" >
+                                        //                         <div id="i6vd27" className="gdp-row gpd-grid" >
+                                        //                             <div id="inlo1l" className="cell gpd-clm" >
+                                        //                                 <i id="iyxitk" className="fa fa-users" aria-hidden="true"></i>
+                                        //                             </div>
+                                        //                             <div id="iytw4t" className="cell gpd-clm" >
+                                        //                                 <a id="i9imej" className="gpd-text"
+                                        //                                 href='/${screenElement.toLowerCase()}'>${menuElement.screenmenu[0].description.screen[screenIndex]}</a>
+                                        //                             </div>
+                                        //                         </div>
+                                        //                     </div>`);
+                                        //     break;
                                         case 'admin':
                                             mainNav.push(`<div id="icrvgp" className="cell gpd-clm" >
                                                             <div id="i6vd27" className="gdp-row gpd-grid" >

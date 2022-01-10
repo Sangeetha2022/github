@@ -1,6 +1,6 @@
 /*
  * Template group geppetto_compose
- * Compiled on Fri Jan 22 2021 17:48:03 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jan 07 2022 13:23:41 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -26,8 +26,8 @@ r = function(w, rc) {
     w.write("#!bin/bash");
     w.write("\n");
     w.write("\n");
-    w.write("DESKTOPCODE='../../../application/client/desktop/");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 4, column: 65 }));
+    w.write("WEBCODE='../../../application/client/web/");
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.projectdetails, "project_name", { file: gFile, line: 4, column: 57 }));
     w.write("'");
     w.write("\n");
     w.write("\n");
@@ -55,7 +55,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");
-    w.write("cd $DESKTOPCODE");
+    w.write("cd $WEBCODE");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("         ");

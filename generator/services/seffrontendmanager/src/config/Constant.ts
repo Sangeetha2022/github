@@ -38,7 +38,7 @@ export class Constant {
     public static AVAILABLE_CONNECTOR_NAME = `available`;
 
     // routes
-    public static DESKTOP_ROUTE = `desktop`;
+    public static WEB_ROUTE = `web`;
 
     // screen special events
     public static MODAL_SPECIALEVENT_NAME = `modal`;
@@ -113,7 +113,7 @@ export class Constant {
     public static POPUP_DATA_VARIABLENAME = 'data';
 
     // object name
-    public static DESKTOP_APINAME = 'DESKTOP_API';
+    public static WEB_APINAME = 'WEB_API';
     public static PROXY_CONFIG_VARIABLENAME = 'PROXY_CONFIG';
     public static NGINX_
 
@@ -150,7 +150,7 @@ export class Constant {
 
     // Shared Service Variable Name
 
-    public static SHARED_SERVICE = 'this.sharedService.DESKTOP_API';
+    public static SHARED_SERVICE = 'this.sharedService.WEB_API';
 
     // App Path
     public static SRC_APP = '/src/app';

@@ -137,7 +137,7 @@ export class FlowServiceWorker {
         if (tempMethod && tempMethod.serviceMethodVariable) {
             temp += `\n ${tempMethod.serviceMethodVariable}`
         }
-        temp += `\n return this.${this.httpObject.object}.${actionElement.apiAction}(this.${this.sharedObject.object}.${Constant.DESKTOP_APINAME} + ${this.checkApiParams(actionElement)});`;
+        temp += `\n return this.${this.httpObject.object}.${actionElement.apiAction}(this.${this.sharedObject.object}.${Constant.WEB_APINAME} + ${this.checkApiParams(actionElement)});`;
         temp += `\n}`;
         this.serviceFileDetails.serviceMethod.push(temp)
         // })

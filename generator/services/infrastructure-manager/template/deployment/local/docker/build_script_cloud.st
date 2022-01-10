@@ -7,15 +7,15 @@ CUSTOMSERVICEPATH='../../../services/custom_services'
 
 HELMPATH='../devops/cloud'
 
-DESKTOPCODE='../../../application/client/desktop/$project_name$'
-DESKTOPIMAGENAME='geppettotest/$project_name$-desktop:1.0'
+WEBCODE='../../../application/client/web/$project_name$'
+WEBIMAGENAME='geppettotest/$project_name$-web:1.0'
 
 echo "Started to build docker images for pod...."
 
 
 build_appbuilder_image () {
 
-cd \$DESKTOPCODE
+cd \$WEBCODE
 npm install
 npm rebuild node-sass
 npm uninstall @angular-devkit/build-angular
@@ -23,12 +23,12 @@ npm install @angular-devkit/build-angular
 # if directory is exist
 [ -d "\$(pwd)/dist" ] && rm -rf dist
 ng build
-docker build -t \$DESKTOPIMAGENAME .
+docker build -t \$WEBIMAGENAME .
 if [ \$? -eq 0 ]; then
-    docker push \$DESKTOPIMAGENAME
-    echo "\$DESKTOPIMAGENAME is successfully pushed"
+    docker push \$WEBIMAGENAME
+    echo "\$WEBIMAGENAME is successfully pushed"
 else
-    echo "Image \$DESKTOPIMAGENAME-desktop:1.0 build failed"
+    echo "Image \$WEBIMAGENAME-web:1.0 build failed"
 fi
 
 }
@@ -63,7 +63,7 @@ done
 
 clean_images(){
 
-docker rmi -f \$DESKTOPIMAGENAME
+docker rmi -f \$WEBIMAGENAME
 
 for d in * ; do
     docker rmi -f geppettotest\$APPLICATION-\$d:1.0

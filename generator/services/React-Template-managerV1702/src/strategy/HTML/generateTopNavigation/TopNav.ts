@@ -46,23 +46,35 @@ export class TemplateTopNav {
                                                         </NavItem>`);
                                             break;
                                         case 'authorization':
-                                            bottomNav.push(`<NavItem>
-                                                            <NavLink id="izdchj" className="menu-link nav-item" href="/${screenElement.toLowerCase()}" >
-                                                            ${menuElement.screenmenu[0].description.screen[screenIndex]}</NavLink>
-                                                        </NavItem>`);
+                                            bottomNav.push(``);
+                                            break;
+                                        case 'managecontrol':
+                                            bottomNav.push(``);
                                             break;
                                         case 'manageroles':
-                                            bottomNav.push(`<NavItem>
-                                                            <NavLink id="izdchj" className="menu-link nav-item" href="/${screenElement.toLowerCase()}" >
-                                                            ${menuElement.screenmenu[0].description.screen[screenIndex]}</NavLink>
-                                                        </NavItem>`);
+                                            bottomNav.push(``);
                                             break;
                                         case 'manageusers':
-                                            bottomNav.push(`<NavItem>
-                                                            <NavLink id="izdchj" className="menu-link nav-item" href="/${screenElement.toLowerCase()}" >
-                                                            ${menuElement.screenmenu[0].description.screen[screenIndex]}</NavLink>
-                                                        </NavItem>`);
+                                            bottomNav.push(``);
                                             break;
+                                        // case 'authorization':
+                                        //     bottomNav.push(`<NavItem>
+                                        //                     <NavLink id="izdchj" className="menu-link nav-item" href="/${screenElement.toLowerCase()}" >
+                                        //                     ${menuElement.screenmenu[0].description.screen[screenIndex]}</NavLink>
+                                        //                 </NavItem>`);
+                                        //     break;
+                                        // case 'manageroles':
+                                        //     bottomNav.push(`<NavItem>
+                                        //                     <NavLink id="izdchj" className="menu-link nav-item" href="/${screenElement.toLowerCase()}" >
+                                        //                     ${menuElement.screenmenu[0].description.screen[screenIndex]}</NavLink>
+                                        //                 </NavItem>`);
+                                        //     break;
+                                        // case 'manageusers':
+                                        //     bottomNav.push(`<NavItem>
+                                        //                     <NavLink id="izdchj" className="menu-link nav-item" href="/${screenElement.toLowerCase()}" >
+                                        //                     ${menuElement.screenmenu[0].description.screen[screenIndex]}</NavLink>
+                                        //                 </NavItem>`);
+                                        //     break;
                                         case 'admin':
                                             mainNav.push(`<NavItem>
                                                             <NavLink id="izdchj" className="menu-link nav-item" href="/${screenElement.toLowerCase()}" >

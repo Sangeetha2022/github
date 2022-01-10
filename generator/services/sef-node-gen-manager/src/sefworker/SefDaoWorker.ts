@@ -306,7 +306,7 @@ export class DaoWorker {
                 this.tempDao.function.parameter = `${this.entitySchema.fileName}FeatureId, callback`;
                 if (isDefault) {
                     this.tempDao.function.variable = ``;
-                    this.tempDao.function.verbs = `fetch(\`\${SystemEntryService.apiGatewayURL}/desktop/getuser/\${${this.entitySchema.fileName}FeatureId}\`)`;
+                    this.tempDao.function.verbs = `fetch(\`\${SystemEntryService.apiGatewayURL}/web/getuser/\${${this.entitySchema.fileName}FeatureId}\`)`;
                     this.tempDao.function.isJsonFormat = false;
                     this.tempDao.function.connectorEntityName = null;
                 }

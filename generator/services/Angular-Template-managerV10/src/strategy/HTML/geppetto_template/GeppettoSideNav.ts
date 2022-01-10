@@ -63,7 +63,7 @@ export class GeppettoSideNav {
                                         //     </div>`);
                                         //     break;
                                         case 'admin':
-                                            mainNav.push(`<div class="list-group panel" *ngIf='isAdminUser'><a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a></div>`);
+                                            mainNav.push(`<div class="list-group panel" *ngIf='isAdminUser && userId!=null'><a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a></div>`);
                                             break;
                                         case 'logout':
                                             bottomNav.push(`<div class="list-group panel"><a class="list-group-item list-group-item-success" *ngIf='userId!=null' (click)="logout()">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a></div>`);

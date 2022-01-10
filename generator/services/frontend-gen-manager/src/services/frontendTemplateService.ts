@@ -32,7 +32,7 @@ export class FrontendTemplateService {
         console.log("frontendTemplateProject details==>",details);
         
         Common.createFolders(details.projectGenerationPath);
-        const projectGenerationPath = `${details.projectGenerationPath}/${Constant.DESKTOP_FOLDERNAME}`;
+        const projectGenerationPath = `${details.projectGenerationPath}/${Constant.WEB_FOLDERNAME}`;
         // console.log('create project template vluae are -----------   ', details);
         const templateObj = {
             projectId: details.projectId,

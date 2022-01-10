@@ -227,15 +227,15 @@ export class AuthService {
                 console.error('---error occured in the ncp of system credential feature----', err);
             }
             const temp = {
-                port: this.ports.system_credential,
+                port: this.ports.gepfilemanager,
                 projectName: this.projectName.toLowerCase(),
                 databaseName: this.projectName.toLowerCase(),
                 isDmnFile: false,
                 isSeed: false
             }
             console.log('system credential generation folder are ------before authProxyPath---------   ', this.authGenFiles);
-            this.generateServerFile(`${this.authGenFiles.gepFileManagerFolder}/src`, this.authGenFiles.templatepath,
-                this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
+            // this.generateServerFile(`${this.authGenFiles.gepFileManagerFolder}/src`, this.authGenFiles.templatepath,
+            //     this.SERVER_TEMPLATENAME, this.SERVER_FILENAME, temp);
             console.log('code added.....');
         });
     }

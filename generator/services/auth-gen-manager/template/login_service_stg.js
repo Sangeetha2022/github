@@ -1,6 +1,6 @@
 /*
  * Template group login_service
- * Compiled on Tue Dec 28 2021 14:43:16 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jan 07 2022 19:43:48 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -66,10 +66,12 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("return `");
+    w.write("return this.");
     w.popIndentation();
-    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 17, column: 20 }), "variableUploadName", { file: gFile, line: 17, column: 27 }));
-    w.write(" + '/addAttachment'}`;");
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 17, column: 24 }), "objectName", { file: gFile, line: 17, column: 31 }));
+    w.write(".");
+    st.write(w, s, g, rc, st.prop(s, g, rc, st.prop(s, g, rc, s.object, "shared", { file: gFile, line: 17, column: 51 }), "variableUploadName", { file: gFile, line: 17, column: 58 }));
+    w.write(" + '/addAttachment';");
     w.write("\n");
     w.pushIndentation("  ");
     w.write("}");

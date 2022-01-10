@@ -20,8 +20,7 @@
                 </mat-expansion-panel-header>
 
                 <div style="padding-right: 20px;">
-                    <button class="btn btn-primary float-right btn_color" color="primary"
-                        (click)="openFeatureDialog()">Add
+                    <button class="btn btn-primary float-right btn_color" color="primary" (click)="openFeatureDialog()">Add
                         Features</button>
                 </div>
                 <div class="row" style="margin: 0px;" *ngIf="projectFeatureData.length> 0">
@@ -68,8 +67,7 @@
                     <mat-panel-title> Entities </mat-panel-title>
                 </mat-expansion-panel-header>
                 <div style="padding-right: 20px;">
-                    <button class="createEntityButton btn_color" mat-raised-button color="primary"
-                        (click)="saveEntityModel()">Add
+                    <button class="createEntityButton btn_color" mat-raised-button color="primary" (click)="saveEntityModel()">Add
                         Entity</button>
                 </div>
                 <div class="row" style="margin: 0px;">
@@ -84,11 +82,8 @@
                                 <h5> {{entity.name}}</h5>
                                 <p>{{entity.description}}</p>
                                 <div class="row">
-                                    <button mat-raised-button color="primary"
-                                        (click)="editEntityField(entity)">Edit</button>
-                                    &nbsp;
-                                    <button mat-raised-button color="warn" [disabled]="entity.is_default"
-                                        (click)="openDeleteModel(entity)">Delete</button>
+                                    <button mat-raised-button color="primary" (click)="editEntityField(entity)">Edit</button> &nbsp;
+                                    <button mat-raised-button color="warn" [disabled]="entity.is_default" (click)="openDeleteModel(entity)">Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -159,7 +154,7 @@
                     <div class="row" style="margin: 0px;padding-bottom: 20px;">
                         <div class="col-md-3 bottom_padding" *ngFor="let screen of screenDetails; let i = index">
                             <span class="screen_text">{{screen?.screenName}}</span>
-                            <img src="../../assets/img/desktop.png" *ngIf="screen.screenType === 'desktop'"
+                            <img src="../../assets/img/desktop.png" *ngIf="screen.screenType === 'web'"
                                 class="image" alt="Desktop">
                             <img src="../../assets/img/mobile.png" *ngIf="screen.screenType === 'mobile'" class="image"
                                 alt="Mobile">
@@ -172,7 +167,7 @@
                         </div>
                     </div>
                 </mat-card-content> -->
-                <!-- <div class="row" style="margin: 0px;" *ngIf="selecteddefaultEntity && selecteddefaultEntity.length > 0">
+            <!-- <div class="row" style="margin: 0px;" *ngIf="selecteddefaultEntity && selecteddefaultEntity.length > 0">
     <div class="col-md-4" *ngFor="let defaultEntity of selecteddefaultEntity; let i = index">
     <div class="card">
     <div class="card-header">
@@ -206,8 +201,7 @@
                 <p>Please confirm to delete this entity ? </p>
             </div>
             <div class="modal-footer" style="padding: 5px">
-                <button type="button" class="btn btn-default" (click)="deleteEntityById()">Confirm</button>
-                &nbsp;
+                <button type="button" class="btn btn-default" (click)="deleteEntityById()">Confirm</button> &nbsp;
                 <button type="button" class="btn btn-default" (click)="closeDeleteModel()">Cancel</button>
             </div>
         </div>
@@ -227,8 +221,7 @@
                 <p>Please click confirm to delete this Feature ? </p>
             </div>
             <div class="modal-footer" style="padding: 5px">
-                <button type="button" class="btn btn-default" (click)="deleteFeature()">Confirm</button>
-                &nbsp;
+                <button type="button" class="btn btn-default" (click)="deleteFeature()">Confirm</button> &nbsp;
                 <button type="button" class="btn btn-default" (click)="closeDeleteFModel()">Cancel</button>
             </div>
         </div>
@@ -237,8 +230,7 @@
 </div>
 
 
-<div class="modal" tabindex="-1" data-keyboard="true" aria-hidden="true" data-backdrop="true" role="dialog"
-    [ngStyle]="{'top': '100px','display':displayFeatureModel}">
+<div class="modal" tabindex="-1" data-keyboard="true" aria-hidden="true" data-backdrop="true" role="dialog" [ngStyle]="{'top': '100px','display':displayFeatureModel}">
     <div class="modal-dialog modal-lg" role="dialog">
         <div class="feature modal-content">
             <div class="modal-body">
@@ -246,8 +238,7 @@
                     <h1>Add Feature</h1>
                     <div class="row">
                         <mat-radio-group layout="row" [(ngModel)]="selectedOption">
-                            <mat-radio-button class="example-radio-button" *ngFor="let option of options"
-                                [value]="option" (change)="radioChange($event)">
+                            <mat-radio-button class="example-radio-button" *ngFor="let option of options" [value]="option" (change)="radioChange($event)">
                                 {{option}}
                             </mat-radio-button>
                         </mat-radio-group>
@@ -271,8 +262,7 @@
                         mb-sm-2">
                         <div class="form-group">
                             <label for="sel1">Import Existing Feature:</label>
-                            <select class="form-control" [(ngModel)]="featureDetails.name"
-                                (change)="onChange($event.target.value)">
+                            <select class="form-control" [(ngModel)]="featureDetails.name" (change)="onChange($event.target.value)">
                                 <option value="" selected>Select Feature</option>
                                 <!-- <option value="" selected>wcmx/acoustic</option> -->
                              <!-- <option *ngFor="let feature of featureData" value="{{feature.name}}"
@@ -284,17 +274,15 @@
                         <div class="form-group" *ngIf="showAddFeature || showImportFeature">
                             <!-- feature name -->
                             <label for="name">Name</label>
-                            <input type="text" class="form-control" name="name" [(ngModel)]="featureInfo.name"
-                                (ngModelChange)="onFeatureChange($event)" #name="ngModel" [ngClass]="{ 'is-invalid':
+                            <input type="text" class="form-control" name="name" [(ngModel)]="featureInfo.name" (ngModelChange)="onFeatureChange($event)" #name="ngModel" [ngClass]="{ 'is-invalid':
                                 featurForm.submitted && name.invalid }" required />
                             <div *ngIf="isFeatureExist" style="color: red">Feature name already exist</div>
-                            <div *ngIf="invalidName" style="color: red">name must starts
-                                with alphapet,special charaters not allowed</div>
-                            <div *ngIf="isReserveWord" style="color: red">name must not be reserve
-                                word</div>
+                            <div *ngIf="invalidName" style="color: red">name must starts with alphapet,special charaters not allowed</div>
+                            <div *ngIf="isReserveWord" style="color: red">name must not be reserve word
+                            </div>
                             <div *ngIf="featurForm.submitted && name.invalid" class="invalid-feedback">
-                                <div *ngIf="name.errors.required">Name is
-                                    required</div>
+                                <div *ngIf="name.errors.required">Name is required
+                                </div>
                             </div>
                         </div>
 
@@ -310,13 +298,13 @@
                             </div>
                             <div class="mb-sm-2">
                                 <label for="file">ExternalFeatureConfig YAML</label><br />
-                                <input #apiGatewayFile  type="file" ng2FileSelect [uploader]="uploader"/>
+                                <input #apiGatewayFile type="file" ng2FileSelect [uploader]="uploader" />
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-success btn-s"  (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                                <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
                                     Upload YAML
                                 </button>
-                                <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>    
+                                <button type="button" class="btn btn-default" (click)="closeFeatureExistingModel()">Cancel</button>
                             </div>
                             <!-- <input type="file" class="form-control" name="upload" (change)="handleFileInput($event.target.files)" accept=".yaml,.yml"/> -->
                         </div>
@@ -328,8 +316,7 @@
                         <!-- feature descritpion -->
                         <div class="form-group" *ngIf="showAddFeature || showImportFeature">
                             <label for="description">Description</label>
-                            <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)"
-                                [(ngModel)]="featureInfo.description"></ckeditor>
+                            <ckeditor [editor]="Editor" name="description" id="editor" (ready)="onReady($event)" [(ngModel)]="featureInfo.description"></ckeditor>
                             <!-- use this inside ckeditor tag for image upload replace your api with uploadUrl [config]="{ ckfinder :{uploadUrl: 'https://your-organization-id.cke-cs.com/easyimage/upload/'}}" -->
                         </div>
                     </form>

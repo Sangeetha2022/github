@@ -44,7 +44,7 @@ export class SideNav {
 </li>`);
                                             break;
                                         case 'admin':
-                                            mainNav.push(`<div class="list-group panel" *ngIf='isAdminUser'>
+                                            mainNav.push(`<div class="list-group panel" *ngIf='isAdminUser && userId!=null'>
     <a class="list-group-item list-group-item-success" [routerLink]="['/${screenElement.toLowerCase()}']">{{'source.${menuElement.screenmenu[0].description.screen[screenIndex]}' | i18next}}</a>
 </div>`);
                                             break;

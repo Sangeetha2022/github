@@ -1,6 +1,6 @@
 /*
  * Template group proxy_config
- * Compiled on Sat Oct 03 2020 17:26:57 GMT+0530 (India Standard Time)
+ * Compiled on Thu Jan 06 2022 17:54:32 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -47,7 +47,7 @@ r = function(w, rc) {
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("            ");
-    w.write("'^/api/desktop': '/desktop',");
+    w.write("'^/api/web': '/web',");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("            ");

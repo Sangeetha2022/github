@@ -1,7 +1,7 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "cli": {
-      "analytics": "4e020c8c-d4a5-41dc-91b0-ffe79040501a"
+        "analytics": "4e020c8c-d4a5-41dc-91b0-ffe79040501a"
     },
     "version": 1,
     "newProjectRoot": "projects",
@@ -41,7 +41,8 @@
                             "node_modules/ag-grid-community/dist/styles/ag-theme-fresh.css",
                             "node_modules/ag-grid-community/dist/styles/ag-theme-material.css",
                             "node_modules/ag-grid-community/dist/styles/ag-theme-bootstrap.css",
-                            "node_modules/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css"
+                            "node_modules/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css",
+                            "node_modules/ng-multiselect-dropdown/themes/ng-multiselect-dropdown.theme.scss"
                         ],
                         "scripts": [
                             "node_modules/bootstrap/dist/js/bootstrap.min.js",
@@ -51,7 +52,6 @@
                             "node_modules/grapesjs-custom-code/dist/grapesjs-custom-code.min.js",
                             "node_modules/grapesjs-tui-image-editor/dist/grapesjs-tui-image-editor.min.js",
                             "node_modules/grapesjs-blocks-flexbox/dist/grapesjs-blocks-flexbox.min.js",
-                            "node_modules/grapesjs-tooltip/dist/grapesjs-tooltip.min.js",
                             "node_modules/grapesjs-lory-slider/dist/grapesjs-lory-slider.min.js",
                             "node_modules/grapesjs-accordion/dist/grapesjs-accordion.min.js",
                             "node_modules/grapesjs-style-bg/dist/grapesjs-style-bg.min.js",

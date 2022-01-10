@@ -1,6 +1,6 @@
 /*
  * Template group build_script
- * Compiled on Fri Dec 11 2020 11:32:50 GMT+0530 (India Standard Time)
+ * Compiled on Fri Jan 07 2022 13:26:53 GMT+0530 (India Standard Time)
  */
 var path = require("path");
 var base = path.dirname(module.filename);
@@ -38,13 +38,13 @@ r = function(w, rc) {
     w.write("\n");
     w.write("\n");
     w.write("\n");
-    w.write("DESKTOPCODE='../../../application/client/desktop/");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "application_name", { file: gFile, line: 11, column: 57 }));
+    w.write("WEBCODE='../../../application/client/web/");
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "application_name", { file: gFile, line: 11, column: 49 }));
     w.write("'");
     w.write("\n");
-    w.write("DESKTOPIMAGENAME='geppettotest/");
-    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "application_name", { file: gFile, line: 12, column: 39 }));
-    w.write("-desktop:1.0'");
+    w.write("WEBIMAGENAME='geppettotest/");
+    st.write(w, s, g, rc, st.prop(s, g, rc, s.object, "application_name", { file: gFile, line: 12, column: 35 }));
+    w.write("-web:1.0'");
     w.write("\n");
     w.write("\n");
     w.write("echo \"Started to build docker images for pod....\"");
@@ -54,24 +54,24 @@ r = function(w, rc) {
     w.write("build_appbuilder_image () {");
     w.write("\n");
     w.write("\n");
-    w.write("cd $DESKTOPCODE");
+    w.write("cd $WEBCODE");
     w.write("\n");
-    w.write("docker build -t $DESKTOPIMAGENAME .");
+    w.write("docker build -t $WEBIMAGENAME .");
     w.write("\n");
     w.write("if [ $? -eq 0 ]; then");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("kind load docker-image $DESKTOPIMAGENAME");
+    w.write("kind load docker-image $WEBIMAGENAME");
     w.popIndentation();
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"$DESKTOPIMAGENAME is successfully pushed\"");
+    w.write("echo \"$WEBIMAGENAME is successfully pushed\"");
     w.popIndentation();
     w.write("\n");
     w.write("else");
     w.write("\n");
     w.pushIndentation("    ");
-    w.write("echo \"Image $DESKTOPIMAGENAME-desktop:1.0 build failed\"");
+    w.write("echo \"Image $WEBIMAGENAME-web:1.0 build failed\"");
     w.popIndentation();
     w.write("\n");
     w.write("fi");
@@ -175,7 +175,7 @@ r = function(w, rc) {
     w.write("clean_images(){");
     w.write("\n");
     w.write("\n");
-    w.write("docker rmi -f $DESKTOPIMAGENAME");
+    w.write("docker rmi -f $WEBIMAGENAME");
     w.write("\n");
     w.write("\n");
     w.write("for d in * ; do");
