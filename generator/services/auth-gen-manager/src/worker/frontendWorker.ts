@@ -344,28 +344,32 @@ export class FrontendWorker {
 
     // create authorization component from seed files
     async createAuthorizationComponent(callback) {
-        const authorizationPath = `${this.projectGenerationPath}/src/app/${this.AUTHORIZATION_FOLDERNAME}`;
-        const updateauthorizationPath = `${authorizationPath}/${this.UPDATE_AUTHORIZATION_FOLDERNAME}`;
-        const buttonRenderedApplicationPath = `${authorizationPath}/${this.BUTTON_RENDERED_FOLDERNAME}`;
-        await this.generateStaticComponent(authorizationPath, this.clientframework, this.AUTHORIZATION_FOLDERNAME, async () => {
-            await this.generateStaticComponent(updateauthorizationPath, this.clientframework, this.UPDATE_AUTHORIZATION_FOLDERNAME, async () => {
-                await this.generateStaticComponent(buttonRenderedApplicationPath, this.clientframework, this.BUTTON_RENDERED_FOLDERNAME, () => {
-                    if(this.clientframework === 'react'){
-                        this.generateImportComponent(this.AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, authorizationPath, () => {
-                            callback();
-                          });
-                    } else if(this.clientframework !== 'react'){
-                        this.generateModule(this.AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, authorizationPath, () => {
-                            this.generateModule(this.UPDATE_AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, updateauthorizationPath, () => {
-                                this.generateModule(this.BUTTON_RENDERED_FOLDERNAME, this.MODULE_TEMPLATENAME, buttonRenderedApplicationPath, () => {
-                                    callback();
+        if(this.clientframework !== 'react'){
+            const authorizationPath = `${this.projectGenerationPath}/src/app/${this.AUTHORIZATION_FOLDERNAME}`;
+            const updateauthorizationPath = `${authorizationPath}/${this.UPDATE_AUTHORIZATION_FOLDERNAME}`;
+            const buttonRenderedApplicationPath = `${authorizationPath}/${this.BUTTON_RENDERED_FOLDERNAME}`;
+            await this.generateStaticComponent(authorizationPath, this.clientframework, this.AUTHORIZATION_FOLDERNAME, async () => {
+                await this.generateStaticComponent(updateauthorizationPath, this.clientframework, this.UPDATE_AUTHORIZATION_FOLDERNAME, async () => {
+                    await this.generateStaticComponent(buttonRenderedApplicationPath, this.clientframework, this.BUTTON_RENDERED_FOLDERNAME, () => {
+                        if(this.clientframework === 'react'){
+                            this.generateImportComponent(this.AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, authorizationPath, () => {
+                                callback();
+                            });
+                        } else if(this.clientframework !== 'react'){
+                            this.generateModule(this.AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, authorizationPath, () => {
+                                this.generateModule(this.UPDATE_AUTHORIZATION_FOLDERNAME, this.MODULE_TEMPLATENAME, updateauthorizationPath, () => {
+                                    this.generateModule(this.BUTTON_RENDERED_FOLDERNAME, this.MODULE_TEMPLATENAME, buttonRenderedApplicationPath, () => {
+                                        callback();
+                                    });
                                 });
                             });
-                        });
-                    }
+                        }
+                    });
                 });
             });
-        });
+        } else {
+            callback();
+        }
     }
 
     // create manageroles component from seed files
@@ -402,18 +406,22 @@ export class FrontendWorker {
 
     // create managecontrol component from seed files
     async createManagecontrolComponent(callback) {
-        const manageuserPath = `${this.projectGenerationPath}/src/app/${this.MANAGECONTROL_FOLDERNAME}`;
-        await this.generateStaticComponent(manageuserPath, this.clientframework, this.MANAGECONTROL_FOLDERNAME, () => {
-            if(this.clientframework === 'react') {
-                this.generateImportComponent(this.MANAGECONTROL_FOLDERNAME, this.MODULE_TEMPLATENAME, manageuserPath, () => {
-                    callback();
-                });
-            } else if(this.clientframework !== 'react'){
-                this.generateModule(this.MANAGECONTROL_FOLDERNAME, this.MODULE_TEMPLATENAME, manageuserPath, () => {
-                    callback();
-                });
-            }
-        });
+        if(this.clientframework !== 'react'){
+            const manageuserPath = `${this.projectGenerationPath}/src/app/${this.MANAGECONTROL_FOLDERNAME}`;
+            await this.generateStaticComponent(manageuserPath, this.clientframework, this.MANAGECONTROL_FOLDERNAME, () => {
+                if(this.clientframework === 'react') {
+                    this.generateImportComponent(this.MANAGECONTROL_FOLDERNAME, this.MODULE_TEMPLATENAME, manageuserPath, () => {
+                        callback();
+                    });
+                } else if(this.clientframework !== 'react'){
+                    this.generateModule(this.MANAGECONTROL_FOLDERNAME, this.MODULE_TEMPLATENAME, manageuserPath, () => {
+                        callback();
+                    });
+                }
+            });
+        } else {
+            callback();
+        }
     }
 
     // create home component from seed files

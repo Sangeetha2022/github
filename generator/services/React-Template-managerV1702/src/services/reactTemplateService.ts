@@ -59,7 +59,7 @@ export class ReactTemplateService {
     private apigatewayPortNumber = 0;
     private sharedObj = {
         className: 'Shared',
-        variableName: 'DESKTOP_API',
+        variableName: 'WEB_API',
         protocol: 'http',
         link: 'localhost',
         port: 0
@@ -663,7 +663,7 @@ export class ReactTemplateService {
     // }
 
     public generateReactApp(details, callback) {
-        // projectgeneration path: /geppetto/generated-code/{{projectuniquename}}/application/client/desktop/{{projectname}}
+        // projectgeneration path: /geppetto/generated-code/{{projectuniquename}}/application/client/web/{{projectname}}
         const generationPath = details.projectGenerationPath + '/' + this.projectName;
         console.log('generation path', generationPath);
         dependencyWorker.generateIndexHtml(generationPath, this.projectName, this.templateName, this.grapesjsComponent, (res) => {

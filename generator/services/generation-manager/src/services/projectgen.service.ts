@@ -261,10 +261,10 @@ export class ProjectgenService {
             this.projectObj.templateLocation.authTemplatePath = authPath.value+'/AngularV7';
             console.log("inside angular 10 auth path==>",this.projectObj.templateLocation.authTemplatePath);
         }
-        // if( this.projectObj.clientFramework.label.includes('React')){
-        //     this.projectObj.templateLocation.authTemplatePath = authPath.value + '/reactBase';
-        //     console.log("inside react 17.0.2 auth path==>",this.projectObj.templateLocation.authTemplatePath);
-        // }
+        if( this.projectObj.clientFramework.label.includes('React')){
+            this.projectObj.templateLocation.authTemplatePath = authPath.value + '/ReactV1702';
+            console.log("inside react 17.0.2 auth path==>",this.projectObj.templateLocation.authTemplatePath);
+        }
         console.log('project object in generation application --2222---->>>>   after', this.projectObj.templateLocation.authTemplatePath);
         //this.projectObj.templateLocation.authTemplatePath = authPath.value;
 
@@ -306,7 +306,12 @@ export class ProjectgenService {
             console.log("inside angular 10 admin==>",this.projectObj.templateLocation.adminManagerTemplatePath);
             
         }
-       // this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value;
+        if( this.projectObj.clientFramework.label == 'React 17.0.2'){
+            this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value+'/ReactV1702';
+            console.log("inside React 17.0.2 admin==>",this.projectObj.templateLocation.adminManagerTemplatePath);
+            
+        }
+        this.projectObj.templateLocation.adminManagerTemplatePath = adminManagerSeedPath.value;
        
         // const frontendSourcePath = configInfo.find(x =>
         //     x.name.toString().toLowerCase() === 'frontendtemplatelocation'

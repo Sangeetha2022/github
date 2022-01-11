@@ -164,7 +164,7 @@ export class FrontendTemplateService {
                 if (templateResponse) {
                     const tempFrontend = {
                         templateResponse: JSON.parse(JSON.stringify(templateResponse)).body,
-                        seedTemplatePath: details.seedTemplatePath + '/reactBase',
+                        seedTemplatePath: details.seedTemplatePath,
                         authTemplatePath: details.authTemplatePath,
                         adminTemplatePath: details.project.templateLocation.frontendTemplate,
                         screenMenus: templateObj.menuBuilder,

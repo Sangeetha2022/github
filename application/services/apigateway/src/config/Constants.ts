@@ -47,6 +47,7 @@ export class Constants {
     public static authgenUrl: String;
     public static swaggerGenUrl: String;
     public static reactgenUrl: String;
+    public static reactTemplateGenUrl: String;
     // public static apiGatewayURL: String;
 
     constructor() {
@@ -102,6 +103,7 @@ export class Constants {
                 Constants.authgenUrl = process.env.authgenmanager + ":5017";
                 Constants.swaggerGenUrl = process.env.swaggergenmanager + ":5020";
                 Constants.reactgenUrl = process.env.reactgenmanager + ":5045";
+                Constants.reactTemplateGenUrl = process.env.reacttemplatemanager + ":5046";
 
                 break;
 
@@ -149,6 +151,7 @@ export class Constants {
                 Constants.authgenUrl = Constants.generationUrl + ":5017";
                 Constants.swaggerGenUrl = Constants.generationUrl + ":5020";
                 Constants.reactgenUrl = Constants.generationUrl + ":5045";
+                Constants.reactTemplateGenUrl = Constants.generationUrl + ":5046";
 
                 break;
         }
